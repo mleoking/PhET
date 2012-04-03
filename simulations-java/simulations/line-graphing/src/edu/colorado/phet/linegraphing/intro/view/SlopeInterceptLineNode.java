@@ -43,19 +43,19 @@ public class SlopeInterceptLineNode extends PComposite {
 
         double tailX, tailY, tipX, tipY;
 
-        if ( line.rise == 0 ) {
-            // y = b
-            tailX = graph.minX - LINE_EXTENT;
-            tailY = line.intercept;
-            tipX = graph.maxY + LINE_EXTENT;
-            tipY = line.intercept;
-        }
-        else if ( line.run == 0 ) {
+        if ( line.run == 0 ) {
             // x = 0
             tailX = 0;
             tailY = graph.maxY + LINE_EXTENT;
             tipX = 0;
             tipY = graph.minY - LINE_EXTENT;
+        }
+        else if ( line.rise == 0 ) {
+            // y = b
+            tailX = graph.minX - LINE_EXTENT;
+            tailY = line.intercept;
+            tipX = graph.maxY + LINE_EXTENT;
+            tipY = line.intercept;
         }
         else {
 

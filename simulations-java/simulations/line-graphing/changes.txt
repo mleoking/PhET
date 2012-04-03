@@ -1,3 +1,4 @@
+4/2/12 check for run==0 before rise==0
 4/2/12 show reduced equations on lines
 4/2/12 show unreduced equations on lines
 4/2/12 add equations (placeholder) to lines
