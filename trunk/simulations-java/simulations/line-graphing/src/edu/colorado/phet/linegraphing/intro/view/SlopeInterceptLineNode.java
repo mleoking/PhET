@@ -10,6 +10,8 @@ import edu.colorado.phet.common.piccolophet.event.HighlightHandler.FunctionHighl
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.linegraphing.intro.model.LineGraph;
 import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -25,6 +27,7 @@ public class SlopeInterceptLineNode extends PComposite {
     private static final double LINE_EXTENT = 0.75; // how far the line extends past the grid, in model units
 
     private final DoubleArrowNode arrowNode;
+    private final PText equationNode;
 
     // This constructor adds highlighting on mouseOver.
     public SlopeInterceptLineNode( SlopeInterceptLine line, LineGraph graph, ModelViewTransform mvt, final Color color, final Color highlightColor ) {
@@ -50,9 +53,9 @@ public class SlopeInterceptLineNode extends PComposite {
         else if ( line.run == 0 ) {
             // x = 0
             tailX = 0;
-            tailY = graph.minY - LINE_EXTENT;
+            tailY = graph.maxY + LINE_EXTENT;
             tipX = 0;
-            tipY = graph.maxY + LINE_EXTENT;
+            tipY = graph.minY - LINE_EXTENT;
         }
         else {
 
@@ -88,9 +91,21 @@ public class SlopeInterceptLineNode extends PComposite {
         arrowNode.setPaint( color );
         arrowNode.setStroke( null ); // DoubleArrowNode is a shape that we fill, no need to stroke
         addChild( arrowNode );
+
+        // equation
+        PNode equationParentNode = new PNode();
+        addChild( equationParentNode );
+        equationParentNode.setOffset( tipLocation );
+        equationParentNode.setRotation( line.run == 0 ? Math.PI / 2 : -Math.atan( line.rise / line.run ) );
+        equationNode = new PText( "y = mx + b" );
+        equationNode.setTextPaint( color );
+        equationParentNode.addChild( equationNode );
+        equationNode.setOffset( -equationNode.getFullBoundsReference().getWidth() - 10,
+                                -equationNode.getFullBoundsReference().getHeight() - 5 );
     }
 
     protected void updateColor( Color color ) {
         arrowNode.setPaint( color );
+        equationNode.setTextPaint( color );
     }
 }
