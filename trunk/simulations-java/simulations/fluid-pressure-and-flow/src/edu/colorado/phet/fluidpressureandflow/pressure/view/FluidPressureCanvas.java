@@ -7,7 +7,9 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
@@ -90,6 +92,11 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
 
         //Add an image for a sense of scale
         addChild( new PImage( POTTED_PLANT ) {{
+            model.pool.valueEquals( model.squarePool ).addObserver( new VoidFunction1<Boolean>() {
+                @Override public void apply( final Boolean v ) {
+                    setVisible( v );
+                }
+            } );
             double height = Math.abs( transform.modelToViewDeltaY( 3 / Units.FEET_PER_METER ) );
             double currentHeight = getFullBounds().getHeight();
             scale( height / currentHeight );
@@ -154,6 +161,17 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
 
         }};
         addChild( faucetAndWater );
+
+        final PNode massesNode = new PNode() {{
+            model.pool.valueEquals( model.chamberPool ).addObserver( new VoidFunction1<Boolean>() {
+                @Override public void apply( final Boolean visible ) {
+                    setVisible( visible );
+                }
+            } );
+            setOffset( new Point2D.Double( 54.01477104874449, 343.01329394387 ) );//Sampled from a drag listener
+            addChild( new PhetPText( "Masses", new PhetFont( 18 ) ) );
+        }};
+        addChild( massesNode );
 
         //Add the sensor toolbox node, which also adds the velocity and pressure sensors
         //Doing this later on ensures that the draggable sensors will appear in front of everything else
