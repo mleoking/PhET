@@ -15,7 +15,6 @@ DESIGN
 
 HIGH
 - drag handlers for slope and intercept manipulators
-- show equations on lines
 
 MEDIUM
 - enable Save Line button immediately when Erase Lines has been pressed
