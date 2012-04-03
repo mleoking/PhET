@@ -1,3 +1,4 @@
+4/2/12 make "Reset All" button white until we decide on colors
 4/2/12 add rise/run icon
 4/2/12 replace MinimizeMaximizeButtonNode with ToggleButtonNode
 4/2/12 load common images statically in LGResources
