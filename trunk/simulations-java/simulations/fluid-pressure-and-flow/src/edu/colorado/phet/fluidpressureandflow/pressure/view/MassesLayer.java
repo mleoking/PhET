@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -52,7 +53,11 @@ public class MassesLayer extends PNode {
                     final Dimension2D modelDelta = transform.viewToModelDelta( event.getDelta() );
                     masses.set( masses.get().map( new Function1<Mass, Mass>() {
                         @Override public Mass apply( final Mass mass ) {
-                            return mass.dragging ? mass.translate( modelDelta ) : mass;
+                            Mass translatedMass = mass.translate( modelDelta );
+                            if ( translatedMass.shape.getBounds2D().getMinY() < 0 ) {
+                                translatedMass = translatedMass.translate( new Dimension2DDouble( 0, -translatedMass.shape.getBounds2D().getMinY() ) );
+                            }
+                            return mass.dragging ? translatedMass : mass;
                         }
                     } ) );
                 }
