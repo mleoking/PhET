@@ -5,6 +5,7 @@ import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
@@ -235,5 +236,15 @@ public class ChamberPool implements IPool {
     public Shape getRightOpeningWaterShape() {
         double openingY = 0 - height + CHAMBER_HEIGHT;
         return new Rectangle2D.Double( rightChamber().getBounds2D().getCenterX() - rightOpeningWidth / 2, openingY, rightOpeningWidth, rightWaterHeightAboveChamber.get() );
+    }
+
+    public ArrayList<Mass> getStackedMasses() {
+        ArrayList<Mass> m = new ArrayList<Mass>();
+        for ( Mass mass : masses.get() ) {
+            if ( mass.getMinY() < 0 && !mass.dragging ) {
+                m.add( mass );
+            }
+        }
+        return m;
     }
 }

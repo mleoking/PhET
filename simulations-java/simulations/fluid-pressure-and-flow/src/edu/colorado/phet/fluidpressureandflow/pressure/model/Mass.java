@@ -46,4 +46,8 @@ public class Mass {
     public Mass withCenterX( final double centerX ) {
         return translate( new Dimension2DDouble( centerX - shape.getBounds2D().getCenterX(), 0 ) );
     }
+
+    public double getMaxY() {
+        return shape.getBounds2D().getMaxY();
+    }
 }

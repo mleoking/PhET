@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
@@ -108,9 +109,14 @@ public class MassesLayer extends PNode {
     }
 
     private static Shape getDottedLineShape( final ChamberPool pool, final Mass dragging ) {
-        Shape shape = pool.getLeftOpeningWaterShape();
-        Rectangle2D bounds = shape.getBounds2D();
+        ArrayList<Mass> stackedMasses = pool.getStackedMasses();
+        Rectangle2D bounds = pool.getLeftOpeningWaterShape().getBounds2D();
         double maxY = bounds.getMaxY();
+        for ( Mass stackedMass : stackedMasses ) {
+            if ( stackedMass.getMaxY() > maxY ) {
+                maxY = stackedMass.getMaxY();
+            }
+        }
         return dragging.withCenterX( bounds.getCenterX() ).withMinY( maxY ).shape;
     }
 }
