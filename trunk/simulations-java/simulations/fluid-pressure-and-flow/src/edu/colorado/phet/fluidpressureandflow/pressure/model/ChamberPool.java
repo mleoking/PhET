@@ -47,17 +47,11 @@ public class ChamberPool implements IPool {
 
     public ChamberPool( Property<Double> gravity ) {
         this.gravity = gravity;
+
+        //just keep the bottom part that is occupied by water
         this.waterShape = new CompositeProperty<Shape>( new Function0<Shape>() {
             @Override public Shape apply() {
-                final Shape containerShape = getContainerShape();
-                double height = getWaterHeight();
-                Rectangle2D whole = containerShape.getBounds2D();
-
-                //just keep the bottom part that is occupied by water
-                final Rectangle2D part = new Rectangle2D.Double( whole.getX(), whole.getY(), whole.getWidth(), height );
-                return new Area( containerShape ) {{
-                    intersect( new Area( part ) );
-                }};
+                return createWaterShape( getContainerShape() );
             }
         }, waterVolume );
         faucetEnabled = new CompositeBooleanProperty( new Function0<Boolean>() {
@@ -65,6 +59,17 @@ public class ChamberPool implements IPool {
                 return getWaterHeight() < height;
             }
         }, waterVolume );
+    }
+
+    private Shape createWaterShape( Shape shape ) {
+        final Shape containerShape = getContainerShape();
+        double height = getWaterHeight();
+        Rectangle2D whole = containerShape.getBounds2D();
+
+        final Rectangle2D part = new Rectangle2D.Double( whole.getX(), whole.getY(), whole.getWidth(), height );
+        return new Area( shape ) {{
+            intersect( new Area( part ) );
+        }};
     }
 
     //Find out how high the water will rise given a volume of water.
@@ -181,5 +186,10 @@ public class ChamberPool implements IPool {
     public void reset() {
         flowRatePercentage.reset();
         waterVolume.reset();
+    }
+
+    public Shape getLeftOpeningWaterShape() {
+        //Assumes non-empty
+        return createWaterShape( leftOpening() );
     }
 }
