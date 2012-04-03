@@ -24,6 +24,7 @@ MEDIUM
 
 LOW
 - improve look of title + show/hide button in equation control panel
+- improve icons, generate programmatically to match colors?
 
 SIM-SHARING
 
