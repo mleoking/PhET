@@ -202,6 +202,8 @@ public class ChamberPool implements IPool {
                     return mass.withMinY( Math.max( newPosition, 0.0 ) ).withVelocity( newVelocity );
                 }
                 else if ( mass.getMinY() < 0 && !mass.dragging ) {
+
+                    //use newton’s laws to equalize pressure/force at interface
                     final double h = getRightOpeningWaterShape().getBounds2D().getMaxY() - mass.getMinY();
                     final Double rho = fluidDensity.get();
                     final double gravityForce = -m * g;
