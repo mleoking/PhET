@@ -35,23 +35,23 @@ public class MassesLayer extends PNode {
                     addChild( new DottedLineDropRegion( pool, dragging, transform ) );
                 }
                 for ( Mass mass : masses ) {
-                    addChild( new MassNode( massesProperty, mass, transform ) );
+                    addChild( new MassNode( pool, massesProperty, mass, transform ) );
                 }
-            }
-
-            private Mass findDragging( ObservableList<Mass> masses ) {
-                for ( Mass mass : masses ) {
-                    if ( mass.dragging ) {
-                        return mass;
-                    }
-                }
-                return null;
             }
         } );
     }
 
+    private static Mass findDragging( ObservableList<Mass> masses ) {
+        for ( Mass mass : masses ) {
+            if ( mass.dragging ) {
+                return mass;
+            }
+        }
+        return null;
+    }
+
     private static class MassNode extends PNode {
-        public MassNode( final Property<ObservableList<Mass>> masses, final Mass mass, final ModelViewTransform transform ) {
+        public MassNode( final ChamberPool pool, final Property<ObservableList<Mass>> masses, final Mass mass, final ModelViewTransform transform ) {
             addChild( new PhetPPath( transform.modelToView( mass.shape ), Color.gray, new BasicStroke( 2 ), Color.black ) );
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
@@ -78,9 +78,22 @@ public class MassesLayer extends PNode {
                 }
 
                 @Override public void mouseReleased( final PInputEvent event ) {
+
+                    //Turn off the "dragging" flag
                     masses.set( masses.get().map( new Function1<Mass, Mass>() {
-                        @Override public Mass apply( final Mass m ) {
-                            return m.withDragging( false );
+                        @Override public Mass apply( Mass m ) {
+                            //Snap to the dotted line or above ground
+                            if ( m.dragging ) {
+                                final Shape dottedLineShape = getDottedLineShape( pool, m );
+                                if ( m.shape.intersects( dottedLineShape.getBounds2D() ) ) {
+                                    m = m.withMinY( dottedLineShape.getBounds2D().getMinY() ).withCenterX( dottedLineShape.getBounds2D().getCenterX() );
+                                }
+                                else if ( m.getMinY() < 0 ) {
+                                    m = m.withMinY( 0.0 );
+                                }
+                            }
+                            m = m.withDragging( false );
+                            return m;
                         }
                     } ) );
                 }
@@ -90,11 +103,14 @@ public class MassesLayer extends PNode {
 
     private class DottedLineDropRegion extends PNode {
         public DottedLineDropRegion( ChamberPool pool, final Mass dragging, ModelViewTransform transform ) {
-            Shape shape = pool.getLeftOpeningWaterShape();
-            Rectangle2D bounds = shape.getBounds2D();
-            double maxY = bounds.getMaxY();
-            Mass m = dragging.withCenterX( bounds.getCenterX() ).withMinY( maxY );
-            addChild( new PhetPPath( transform.modelToView( m.shape ), new Color( 255, 220, 240 ), new BasicStroke( 2, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1, new float[] { 8, 6 }, 0 ), Color.black ) );
+            addChild( new PhetPPath( transform.modelToView( getDottedLineShape( pool, dragging ) ), new Color( 255, 220, 240 ), new BasicStroke( 2, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 1, new float[] { 8, 6 }, 0 ), Color.black ) );
         }
+    }
+
+    private static Shape getDottedLineShape( final ChamberPool pool, final Mass dragging ) {
+        Shape shape = pool.getLeftOpeningWaterShape();
+        Rectangle2D bounds = shape.getBounds2D();
+        double maxY = bounds.getMaxY();
+        return dragging.withCenterX( bounds.getCenterX() ).withMinY( maxY ).shape;
     }
 }
