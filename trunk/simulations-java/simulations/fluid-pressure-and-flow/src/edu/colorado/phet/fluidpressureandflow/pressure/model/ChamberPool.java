@@ -36,9 +36,9 @@ public class ChamberPool implements IPool {
 
     public final Property<ObservableList<Mass>> masses = new Property<ObservableList<Mass>>( new ObservableList<Mass>() {{
         double massOffset = -4.9;
-        add( new Mass( new Rectangle2D.Double( massOffset + 0, 0, passageHeight, passageHeight ), false, 0.0, 250 ) );
-        add( new Mass( new Rectangle2D.Double( massOffset + passageHeight, 0, passageHeight, passageHeight / 2 ), false, 0.0, 100 ) );
-        add( new Mass( new Rectangle2D.Double( massOffset + passageHeight * 2, 0, passageHeight, passageHeight / 2 ), false, 0.0, 100 ) );
+        add( new Mass( new Rectangle2D.Double( massOffset + 0, 0, passageHeight, passageHeight ), false, 0.0, 1000 ) );
+        add( new Mass( new Rectangle2D.Double( massOffset + passageHeight, 0, passageHeight, passageHeight / 2 ), false, 0.0, 500 ) );
+        add( new Mass( new Rectangle2D.Double( massOffset + passageHeight * 2, 0, passageHeight, passageHeight / 2 ), false, 0.0, 500 ) );
     }} );
     private final Property<Double> gravity;
     private final Property<Double> fluidDensity;
@@ -209,7 +209,8 @@ public class ChamberPool implements IPool {
 //                    System.out.println( "rightWaterHeightAboveChamber = " + rightWaterHeightAboveChamber + ", h = " + h + ", pressure force = " + pressureForce );
                     double force = gravityForce + pressureForce;
                     double acceleration = force / m;
-                    double newVelocity = ( mass.velocity + acceleration * dt ) * 0.8;
+                    final double frictionCoefficient = 0.98;
+                    double newVelocity = ( mass.velocity + acceleration * dt ) * frictionCoefficient;
                     double newPosition = mass.getMinY() + newVelocity * dt;
                     return mass.withMinY( newPosition ).withVelocity( newVelocity );
                 }
