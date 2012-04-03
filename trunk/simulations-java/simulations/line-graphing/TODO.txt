@@ -23,7 +23,6 @@ MEDIUM
 - implement a nicer looking interactive equation
 
 LOW
-- tiny close buttons on tip ends of lines?
 - improve look of title + show/hide button in equation control panel
 - create check box icons
 
