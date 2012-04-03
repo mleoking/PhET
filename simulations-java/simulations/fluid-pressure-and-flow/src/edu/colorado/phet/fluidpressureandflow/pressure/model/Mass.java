@@ -6,6 +6,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 
 /**
+ * Immutable model object for a single mass.
+ *
  * @author Sam Reid
  */
 public class Mass {
