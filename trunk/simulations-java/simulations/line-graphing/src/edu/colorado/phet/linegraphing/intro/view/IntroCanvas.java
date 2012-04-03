@@ -39,7 +39,7 @@ public class IntroCanvas extends LGCanvas implements Resettable {
                                                                IntroModel.RISE_RANGE, IntroModel.RUN_RANGE, IntroModel.INTERCEPT_RANGE );
         PNode visibilityControls = new VisibilityControls( linesVisible, lineGraphNode.riseOverRunVisible, lineGraphNode.yEqualsXVisible, lineGraphNode.yEqualsNegativeXVisible,
                                                            lineGraphNode.pointToolVisible );
-        PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.ORANGE ) {{
+        PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, Color.WHITE ) {{
             setConfirmationEnabled( false );
         }};
         PNode buttonsParent = new PNode();
