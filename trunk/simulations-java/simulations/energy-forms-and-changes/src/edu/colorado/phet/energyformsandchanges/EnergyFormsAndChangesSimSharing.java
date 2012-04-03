@@ -20,7 +20,7 @@ public class EnergyFormsAndChangesSimSharing {
     public static enum UserComponents implements IUserComponent {
 
         // Tabs
-        introTab
+        introTab, energySystemsTab
     }
 
     public static enum ModelComponents implements IUserComponent, IModelComponent {

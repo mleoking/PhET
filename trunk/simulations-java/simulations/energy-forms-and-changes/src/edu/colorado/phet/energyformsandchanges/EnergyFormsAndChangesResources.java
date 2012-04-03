@@ -15,6 +15,7 @@ public class EnergyFormsAndChangesResources {
 
     //Strings
     public static class Strings {
+        public static final String ENERGY_SYSTEMS = RESOURCES.getLocalizedString( "energySystems" );
         public static final String INTRO = RESOURCES.getLocalizedString( "intro" );
     }
 
