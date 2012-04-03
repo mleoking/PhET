@@ -686,4 +686,23 @@ public class MathUtil {
     public static long daysToMilliseconds( long days ) {
         return days * 24 * 60 * 60 * 1000; // days * hours/day * minutes/hour * sec/minute * ms/sec
     }
+
+    /**
+     * Rounds to the nearest neighbor. This is the method that most of us were taught in grammar school.
+     */
+    public static int round( double d ) {
+        return (int)( d + ( ( d >= 0 ) ? 0.5 : - 0.5 ) );
+    }
+
+    /*
+     * Euclid's algorithm for computing the greatest common divisor (GCD) of two integers
+     */
+    public static int getGreatestCommonDivisor( int a, int b ) {
+        if ( b == 0 ) {
+            return a;
+        }
+        else {
+            return getGreatestCommonDivisor( b, a % b );
+        }
+    }
 }
