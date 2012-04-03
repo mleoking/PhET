@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -27,19 +27,28 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * @author Sam Reid
  */
 public class MassesLayer extends PNode {
-    public MassesLayer( final ChamberPool pool, final Property<ObservableList<Mass>> massesProperty, final ModelViewTransform transform ) {
-        massesProperty.addObserver( new VoidFunction1<ObservableList<Mass>>() {
-            @Override public void apply( final ObservableList<Mass> masses ) {
+    public MassesLayer( final ChamberPool pool, final ModelViewTransform transform ) {
+        final Property<ObservableList<Mass>> massesProperty = pool.masses;
+        final SimpleObserver observer = new SimpleObserver() {
+            @Override public void update() {
+                final ObservableList<Mass> masses = massesProperty.get();
                 removeAllChildren();
                 Mass dragging = findDragging( masses );
-                if ( dragging != null ) {
+
+                //Show a dotted line where the user can drop the block.
+                //But don’t show dotted line while water equalizing--it looks too much like there is something on it when the user removes a block
+                if ( dragging != null && pool.showDropRegion() ) {
                     addChild( new DottedLineDropRegion( pool, dragging, transform ) );
                 }
                 for ( Mass mass : masses ) {
                     addChild( new MassNode( pool, massesProperty, mass, transform ) );
                 }
             }
-        } );
+        };
+        massesProperty.addObserver( observer );
+
+        //Update when equalization changes since we are using that to determine when to show the dotted line drop region
+        pool.leftWaterHeightAboveChamber.addObserver( observer );
     }
 
     private static Mass findDragging( ObservableList<Mass> masses ) {

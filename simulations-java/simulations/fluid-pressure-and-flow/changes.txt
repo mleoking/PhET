@@ -1,3 +1,4 @@
+Pressure tab: Chamber scene: Don't show dotted line while water equalizing--it looks too much like there is something on it when the user removes a block
 Pressure tab: Chamber scene: Masses should stack and increase net mass
 Pressure tab: Chamber scene: Fixed: Water should equalize after mass removed
 Pressure tab: Chamber scene: Weights push down the water
