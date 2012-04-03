@@ -4,6 +4,7 @@ package edu.colorado.phet.energyformsandchanges;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.energyformsandchanges.energysystems.EnergySystemsModule;
 import edu.colorado.phet.energyformsandchanges.intro.IntroModule;
 
 /**
@@ -19,6 +20,7 @@ public class EnergyFormsAndChangesApplication extends PiccoloPhetApplication {
 
         // Create the modules
         addModule( new IntroModule() );
+        addModule( new EnergySystemsModule() );
     }
 
     public static void main( String[] args ) {
