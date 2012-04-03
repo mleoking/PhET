@@ -13,22 +13,38 @@ import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
  * @author Sam Reid
  */
 public class Mass {
+
+    //For resetting
+    public final Shape initialShape;
+
+    //Shape of the mass
     public final Shape shape;
+
+    //True if the user is dragging it
     public final boolean dragging;
+
+    //Velocity for animated falling
     public final double velocity;
+
+    //How heavy in KG
     public final double mass;
 
     public Mass( final Shape shape, final boolean dragging, final double velocity, final double mass ) {
+        this( shape, shape, dragging, velocity, mass );
+    }
+
+    public Mass( final Shape initialShape, final Shape shape, final boolean dragging, final double velocity, final double mass ) {
+        this.initialShape = initialShape;
         this.shape = shape;
         this.dragging = dragging;
         this.velocity = velocity;
         this.mass = mass;
     }
 
-    public Mass withDragging( final boolean b ) { return new Mass( shape, b, velocity, mass ); }
+    public Mass withDragging( final boolean b ) { return new Mass( initialShape, shape, b, velocity, mass ); }
 
     public Mass translate( Dimension2D dim ) {
-        return new Mass( AffineTransform.getTranslateInstance( dim.getWidth(), dim.getHeight() ).createTransformedShape( shape ), dragging, velocity, mass );
+        return new Mass( initialShape, AffineTransform.getTranslateInstance( dim.getWidth(), dim.getHeight() ).createTransformedShape( shape ), dragging, velocity, mass );
     }
 
     public double getMinY() {
@@ -40,7 +56,7 @@ public class Mass {
     }
 
     public Mass withVelocity( final double newVelocity ) {
-        return new Mass( shape, dragging, newVelocity, mass );
+        return new Mass( initialShape, shape, dragging, newVelocity, mass );
     }
 
     public Mass withCenterX( final double centerX ) {
@@ -49,5 +65,9 @@ public class Mass {
 
     public double getMaxY() {
         return shape.getBounds2D().getMaxY();
+    }
+
+    public Mass withShape( final Shape initialShape ) {
+        return new Mass( this.initialShape, initialShape, dragging, velocity, mass );
     }
 }
