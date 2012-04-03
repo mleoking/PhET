@@ -15,6 +15,7 @@ lightBulbMask.png source=PhET notes=masked version of lightBulbGlass.png
 measuringTape.gif source=PhET
 measuringTape.png source=PhET notes=NP
 speedometer_point.png source=PhET notes=SR
+squeezer_background.png source=PhET notes=NP
 velocity_left.png author=phet notes=NP
 velocity_center.png author=phet notes=NP
 velocity_right.png author=phet notes=NP
