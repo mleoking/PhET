@@ -22,5 +22,6 @@ public class EnergyFormsAndChangesResources {
     //Images
     public static class Images {
         public static final BufferedImage FIRST_TAB_DRAWING = RESOURCES.getImage( "first-tab-drawing.png" );
+        public static final BufferedImage SECOND_TAB_DRAWING = RESOURCES.getImage( "second-tab-drawing.png" );
     }
 }
