@@ -97,7 +97,7 @@ public class SlopeInterceptLineNode extends PComposite {
         addChild( equationParentNode );
         equationParentNode.setOffset( tipLocation );
         equationParentNode.setRotation( line.run == 0 ? Math.PI / 2 : -Math.atan( line.rise / line.run ) );
-        equationNode = new PText( line.getEquation() );
+        equationNode = new PText( line.getReducedEquation() );
         equationNode.setTextPaint( color );
         equationParentNode.addChild( equationNode );
         equationNode.setOffset( -equationNode.getFullBoundsReference().getWidth() - 12,
