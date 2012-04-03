@@ -143,9 +143,9 @@ public class ChamberPool implements IPool {
     }
 
     public void stepInTime( final double dt ) {
-        int nsteps = 10;
-        for ( int i = 0; i < nsteps; i++ ) {
-            masses.set( updateMasses( masses.get(), dt / nsteps ) );
+        int numberSteps = 10;
+        for ( int i = 0; i < numberSteps; i++ ) {
+            masses.set( updateMasses( masses.get(), dt / numberSteps ) );
         }
 
         //how far have the masses pushed down the water
