@@ -3,6 +3,7 @@ package edu.colorado.phet.fluidpressureandflow.pressure.model;
 
 import java.awt.Shape;
 import java.awt.geom.Area;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.CompositeBooleanProperty;
@@ -149,6 +150,10 @@ public class ChamberPool implements IPool {
     @Override public void addPressureChangeObserver( final SimpleObserver updatePressure ) {
         waterShape.addObserver( updatePressure );
         masses.addObserver( updatePressure );
+    }
+
+    @Override public Point2D clampSensorPosition( final Point2D pt ) {
+        return pt;
     }
 
     private ObservableList<Mass> updateMasses( final ObservableList<Mass> masses, final double dt ) {

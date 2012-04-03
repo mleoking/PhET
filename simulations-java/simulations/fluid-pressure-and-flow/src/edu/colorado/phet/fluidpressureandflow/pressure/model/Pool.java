@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
@@ -52,6 +53,14 @@ public class Pool implements IPool {
     }
 
     @Override public void addPressureChangeObserver( final SimpleObserver updatePressure ) {
+    }
+
+    @Override public Point2D clampSensorPosition( Point2D point2D ) {
+        point2D = new Point2D.Double( point2D.getX(), Math.max( point2D.getY(), getMinY() ) );
+        if ( point2D.getY() < 0 ) {
+            point2D.setLocation( MathUtil.clamp( getMinX(), point2D.getX(), getMaxX() ), point2D.getY() );
+        }
+        return point2D;
     }
 
     //TODO: This should be a function of gravity too

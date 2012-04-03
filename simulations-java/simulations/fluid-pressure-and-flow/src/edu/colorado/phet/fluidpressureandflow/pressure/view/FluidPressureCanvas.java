@@ -177,7 +177,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
 
         //Add the sensor toolbox node, which also adds the velocity and pressure sensors
         //Doing this later on ensures that the draggable sensors will appear in front of everything else
-        addSensorToolboxNode( model, controlPanelNode );
+        addSensorToolboxNode( model, controlPanelNode, model.pool );
 
         FluidPressureRadioButtonStripControlPanelNode fluidPressureRadioButtonStrip = new FluidPressureRadioButtonStripControlPanelNode( this, model ) {{
             setOffset( INSET, INSET );
