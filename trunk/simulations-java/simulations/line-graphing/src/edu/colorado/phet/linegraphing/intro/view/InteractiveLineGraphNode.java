@@ -3,18 +3,26 @@ package edu.colorado.phet.linegraphing.intro.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.linegraphing.LGColors;
+import edu.colorado.phet.linegraphing.LGSimSharing;
+import edu.colorado.phet.linegraphing.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.intro.model.LineGraph;
 import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
 import edu.colorado.phet.linegraphing.intro.view.BracketLabelNode.Direction;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -81,11 +89,13 @@ public class InteractiveLineGraphNode extends LineGraphNode {
             }
         } );
 
+        // interactivity for slope manipulator
         slopeManipulatorNode.addInputEventListener( new CursorHandler() );
-        //TODO drag handler for slope
+        slopeManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite, slopeManipulatorNode, mvt, interactiveLine ) );
 
+        // interactivity for intercept manipulator
         interceptManipulatorNode.addInputEventListener( new CursorHandler() );
-        //TODO drag handler for intercept
+        interceptManipulatorNode.addInputEventListener( new InterceptDragHandler( UserComponents.interceptManipulator, UserComponentTypes.sprite, interceptManipulatorNode, mvt, interactiveLine ) );
     }
 
     @Override public void reset() {
@@ -107,14 +117,14 @@ public class InteractiveLineGraphNode extends LineGraphNode {
 
             // run bracket
             final Direction runDirection = line.rise >= 0 ? Direction.UP : Direction.DOWN;
-            final BracketLabelNode runBracketNode = new BracketLabelNode( runDirection, mvt.modelToViewDeltaX( line.run ), String.valueOf( line.run ) );
+            final BracketLabelNode runBracketNode = new BracketLabelNode( runDirection, mvt.modelToViewDeltaX( line.run ), String.valueOf( (int)line.run ) );
             bracketsParentNode.addChild( runBracketNode );
             runBracketNode.setOffset( mvt.modelToViewDeltaX( 0 ), mvt.modelToViewDeltaY( line.intercept ) );
 
             // rise bracket
             if ( line.rise != 0 ) {
                 final Direction riseDirection = line.run > 0 ? Direction.LEFT : Direction.RIGHT;
-                final BracketLabelNode riseBracket = new BracketLabelNode( riseDirection, mvt.modelToViewDeltaX( line.rise ), String.valueOf( line.rise ) );
+                final BracketLabelNode riseBracket = new BracketLabelNode( riseDirection, mvt.modelToViewDeltaX( line.rise ), String.valueOf( (int)line.rise ) );
                 bracketsParentNode.addChild( riseBracket );
                 riseBracket.setOffset( mvt.modelToViewDeltaX( line.run ), mvt.modelToViewDeltaY( line.intercept ) );
             }
@@ -149,6 +159,81 @@ public class InteractiveLineGraphNode extends LineGraphNode {
 
         if ( bracketsParentNode != null ) {
             bracketsParentNode.setVisible( riseOverRunVisible.get() && linesVisible.get() );
+        }
+    }
+
+    // Drag handler for the slope manipulator
+    private static class SlopeDragHandler extends SimSharingDragHandler {
+
+        private final PNode dragNode;
+        private final ModelViewTransform mvt;
+        private final Property<SlopeInterceptLine> line;
+        private double clickXOffset, clickYOffset; // offset of mouse click from dragNode's origin, in parent's coordinate frame
+
+        public SlopeDragHandler( IUserComponent userComponent, IUserComponentType componentType, PNode dragNode, ModelViewTransform mvt, Property<SlopeInterceptLine> line ) {
+            super( userComponent, componentType, true /* sendDragMessage */ );
+            this.dragNode = dragNode;
+            this.mvt = mvt;
+            this.line = line;
+        }
+
+        @Override protected void startDrag( PInputEvent event ) {
+            super.startDrag( event );
+            Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
+            clickXOffset = pMouse.getX() - mvt.modelToViewDeltaX( line.get().run );
+            clickYOffset = pMouse.getY() - mvt.modelToViewDeltaY( line.get().rise + line.get().intercept );
+        }
+
+        @Override protected void drag( PInputEvent event ) {
+            super.drag( event );
+            Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
+            double run = mvt.viewToModelDeltaX( pMouse.getX() - clickXOffset );
+            double rise = mvt.viewToModelDeltaY( pMouse.getY() - clickYOffset ) - line.get().intercept;
+            line.set( new SlopeInterceptLine( rise, run, line.get().intercept ) );
+        }
+
+        // When dragging ends, snap to grid and modify the line.
+        @Override protected void endDrag( PInputEvent event ) {
+            super.endDrag( event );
+            int run = (int)( line.get().run + ( ( line.get().run >= 0 ) ? 0.5 : - 0.5 ) );
+            int rise = (int)( line.get().rise + ( ( line.get().rise >= 0 ) ? 0.5 : - 0.5 ) );
+            line.set( new SlopeInterceptLine( rise, run, line.get().intercept ) );
+        }
+    }
+
+    // Drag handler for the intercept manipulator
+    private static class InterceptDragHandler extends SimSharingDragHandler {
+
+        private final PNode dragNode;
+        private final ModelViewTransform mvt;
+        private final Property<SlopeInterceptLine> line;
+        private double clickYOffset; // offset of mouse click from dragNode's origin, in parent's coordinate frame
+
+        public InterceptDragHandler( IUserComponent userComponent, IUserComponentType componentType, PNode dragNode, ModelViewTransform mvt, Property<SlopeInterceptLine> line ) {
+            super( userComponent, componentType, true /* sendDragMessage */ );
+            this.dragNode = dragNode;
+            this.mvt = mvt;
+            this.line = line;
+        }
+
+        @Override protected void startDrag( PInputEvent event ) {
+            super.startDrag( event );
+            Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
+            clickYOffset = pMouse.getY() - mvt.modelToViewDeltaY( line.get().intercept );
+        }
+
+        @Override protected void drag( PInputEvent event ) {
+            super.drag( event );
+            Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
+            double intercept = mvt.viewToModelDeltaY( pMouse.getY() - clickYOffset );
+            line.set( new SlopeInterceptLine( line.get().rise, line.get().run, intercept ) );
+        }
+
+        // When dragging ends, snap to grid and modify the line.
+        @Override protected void endDrag( PInputEvent event ) {
+            super.endDrag( event );
+            int intercept = (int)( line.get().intercept + ( ( line.get().intercept >= 0 ) ? 0.5 : - 0.5 ) );
+            line.set( new SlopeInterceptLine( line.get().rise, line.get().run, intercept ) );
         }
     }
 }

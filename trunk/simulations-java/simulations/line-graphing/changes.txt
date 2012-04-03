@@ -1,3 +1,4 @@
+4/3/12 first pass at drag handlers for line manipulators (glitchy, behavior doesn't match requirements)
 4/3/12 use white for all piccolo buttons until we work out more important color-coding issues
 4/3/12 3D look for line manipulators
 4/2/12 check for run==0 before rise==0

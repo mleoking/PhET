@@ -39,8 +39,8 @@ public class BracketLabelNode extends PComposite {
     private static final double TEXT_SPACING = 2;
 
     // Constructor that uses default look
-    public BracketLabelNode( Direction direction, double length, String label ) {
-        this( direction, length, BRACKET_COLOR, BRACKET_STROKE, label, LABEL_FONT, LABEL_COLOR );
+    public BracketLabelNode( Direction direction, double length, String text ) {
+        this( direction, length, BRACKET_COLOR, BRACKET_STROKE, text, LABEL_FONT, LABEL_COLOR );
     }
 
     public BracketLabelNode( Direction direction, double length, Color bracketColor, Stroke bracketStroke, String text, PhetFont font, Color textColor ) {
