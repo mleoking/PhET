@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -61,6 +62,10 @@ public class Pool implements IPool {
             point2D.setLocation( MathUtil.clamp( getMinX(), point2D.getX(), getMaxX() ), point2D.getY() );
         }
         return point2D;
+    }
+
+    @Override public boolean isAbbreviatedUnits( final ImmutableVector2D sensorPosition, final double value ) {
+        return sensorPosition.getY() < 0;
     }
 
     //TODO: This should be a function of gravity too

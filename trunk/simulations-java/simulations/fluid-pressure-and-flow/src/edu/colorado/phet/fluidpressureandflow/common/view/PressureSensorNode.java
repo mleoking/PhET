@@ -32,6 +32,8 @@ import static java.text.MessageFormat.format;
  * @author Sam Reid
  */
 public class PressureSensorNode extends SensorNode {
+    private final Property<IPool> pool;
+
     public PressureSensorNode( final ModelViewTransform transform, final PressureSensor sensor, final Property<UnitSet> units,
 
                                //the area to constrain the node within or null if no constraints
@@ -39,6 +41,7 @@ public class PressureSensorNode extends SensorNode {
 
                                final Function0<ImmutableRectangle2D> visibleModelRect ) {
         super( transform, sensor, getPressureUnit( units ) );
+        this.pool = pool;
 
         addChild( new PNode() {{
 
@@ -85,7 +88,7 @@ public class PressureSensorNode extends SensorNode {
         String pattern = VALUE_WITH_UNITS_PATTERN;
         String value = QUESTION_MARK;
         if ( !Double.isNaN( v ) ) {
-            final DecimalFormat format = sensor.location.get().getY() > 0 ? new DecimalFormat( "0.0000" ) : new DecimalFormat( "0.00" );
+            final DecimalFormat format = ( pool != null && pool.get().isAbbreviatedUnits( sensor.location.get(), v ) ) ? new DecimalFormat( "0.00" ) : new DecimalFormat( "0.0000" );
             value = format.format( unit.siToUnit( v ) );
         }
         return format( pattern, value, unit.getAbbreviation() );
