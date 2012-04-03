@@ -11,8 +11,8 @@ import java.awt.Color;
 public class LGColors {
 
     public static final Color INTERACTIVE_LINE = Color.RED;
-    public static final Color SAVED_LINE_HIGHLIGHT = Color.GREEN;
-    public static final Color SAVED_LINE_NORMAL = SAVED_LINE_HIGHLIGHT.darker();
+    public static final Color SAVED_LINE_NORMAL = Color.GREEN.darker().darker();
+    public static final Color SAVED_LINE_HIGHLIGHT = Color.GREEN.darker();
     public static final Color Y_EQUALS_X = Color.BLUE;
     public static final Color Y_EQUALS_NEGATIVE_X = Color.CYAN;
     public static final Color SLOPE_COLOR = Color.ORANGE;
