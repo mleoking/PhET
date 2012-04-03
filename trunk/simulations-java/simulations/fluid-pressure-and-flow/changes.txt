@@ -1,3 +1,4 @@
+Pressure tab: Chamber scene: Fixed: Water should equalize after mass removed
 Pressure tab: Chamber scene: Weights push down the water
 Pressure tab: Chamber scene: Snap to drop site
 Pressure tab: Chamber scene: Show a dotted line where masses can be dropped

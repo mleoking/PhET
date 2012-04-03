@@ -43,7 +43,12 @@ public class ChamberPool implements IPool {
     private final Property<Double> gravity;
     private final Property<Double> fluidDensity;
     private final Property<Double> leftWaterHeightAboveChamber = new Property<Double>( 1.0 );
-    private final Property<Double> rightWaterHeightAboveChamber = new Property<Double>( 1.0 );
+    private final CompositeProperty<Double> rightWaterHeightAboveChamber = new CompositeProperty<Double>( new Function0<Double>() {
+        @Override public Double apply() {
+            double leftDisplacement = Math.abs( 1.0 - leftWaterHeightAboveChamber.get() );
+            return 1.0 + leftDisplacement / 5.0;
+        }
+    }, leftWaterHeightAboveChamber );
     private final double CHAMBER_HEIGHT = 1.5;
 
     public ChamberPool( Property<Double> gravity, Property<Double> fluidDensity ) {
@@ -153,11 +158,17 @@ public class ChamberPool implements IPool {
         if ( minY != null ) {
             double equilibriumY = -height + CHAMBER_HEIGHT + 1.0;
             double leftDisplacement = Math.abs( equilibriumY - minY );
-            double rightDisplacement = leftDisplacement / 5;
             leftWaterHeightAboveChamber.set( 1.0 - leftDisplacement );
-            rightWaterHeightAboveChamber.set( 1.0 + rightDisplacement );
 
             this.waterShape.notifyIfChanged();
+        }
+
+        //Water should equalize after mass removed
+        else {
+            double leftDisplacement = Math.abs( 1.0 - leftWaterHeightAboveChamber.get() );
+            //move back toward zero displacement
+            double delta = leftDisplacement;
+            leftWaterHeightAboveChamber.set( leftWaterHeightAboveChamber.get() + delta / 10 );
         }
     }
 
@@ -213,7 +224,6 @@ public class ChamberPool implements IPool {
         waterVolume.reset();
         masses.reset();
         leftWaterHeightAboveChamber.reset();
-        rightWaterHeightAboveChamber.reset();
     }
 
     public Shape getLeftOpeningWaterShape() {
