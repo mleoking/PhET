@@ -41,12 +41,12 @@ public class KnobNode extends PNode {
     private final BooleanProperty pressed = new BooleanProperty( false );
     private final Or focused = entered.or( pressed );
 
-    //Store the cursor handler and moused-over component so the cursor can be changed from a hand to an arrow when the ArrowButtonNode becomes disabled
+    //Store the cursor handler and moused-over component so the cursor can be changed from a hand to an arrow when the KnobNode becomes disabled
     private final CursorHandler cursorHandler = new CursorHandler();
     private PComponent component;
 
     /**
-     * Color scheme for the ArrowButtonNode.  Tri-color gradients are used for each state.
+     * Color scheme for the KnobNode.  Tri-color gradients are used for each state.
      */
     public static class ColorScheme {
         public final Color upInner;
@@ -222,7 +222,7 @@ public class KnobNode extends PNode {
     }
 
     /**
-     * Sets whether the ArrowButtonNode is enabled.  Disabling grays it out and makes it ignore mouse interaction.
+     * Sets whether the KnobNode is enabled.  Disabling grays it out and makes it ignore mouse interaction.
      *
      * @param enabled
      */
@@ -258,7 +258,8 @@ public class KnobNode extends PNode {
             setOffset( 10, 10 );
         }} );
 
-        // Add a node that is typical as of 4/3/2012.
+        // Add a node that is typical as of 4/3/2012.  This was taken from
+        // the VSliderNode class as it looked at the time of this writing.
         canvas.addWorldChild( new KnobNode( new KnobNode.ColorScheme( new Color( 115, 217, 255 ) ) ) {{
             setOffset( 10, 50 );
         }} );
