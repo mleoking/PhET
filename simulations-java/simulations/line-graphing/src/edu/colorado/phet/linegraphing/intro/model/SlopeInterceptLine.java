@@ -3,7 +3,7 @@ package edu.colorado.phet.linegraphing.intro.model;
 
 import java.text.MessageFormat;
 
-import edu.colorado.phet.linegraphing.LGResources;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.linegraphing.LGResources.Strings;
 
 /**
@@ -111,23 +111,13 @@ public class SlopeInterceptLine {
             return String.valueOf( (int) ( rise / run ) );
         }
         else {
-            int gcd = getGreatestCommonDivisor( (int) Math.abs( rise ), (int) Math.abs( run ) );
+            int gcd = MathUtil.getGreatestCommonDivisor( (int) Math.abs( rise ), (int) Math.abs( run ) );
             if ( rise * run > 0 ) {
                 return MessageFormat.format( "({0}/{1})", (int) Math.abs( rise / gcd ), (int) Math.abs( run / gcd ) );
             }
             else {
                 return MessageFormat.format( "-({0}/{1})", (int) Math.abs( rise / gcd ), (int) Math.abs( run / gcd ) );
             }
-        }
-    }
-
-    // Euclid's algorithm for computing the greatest common divisor (GCD) of two integers
-    private static int getGreatestCommonDivisor( int a, int b ) {
-        if ( b == 0 ) {
-            return a;
-        }
-        else {
-            return getGreatestCommonDivisor( b, a % b );
         }
     }
 }
