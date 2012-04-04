@@ -28,8 +28,8 @@ public class LGResources {
         public static final String SAVE_LINE = RESOURCES.getLocalizedString( "saveLine" );
         public static final String SHOW = RESOURCES.getLocalizedString( "show" );
 
-        public static final String SYMBOL_HORIZONTAL_AXIS = RESOURCES.getLocalizedString( "symbol.horizontalAxis" );
-        public static final String SYMBOL_VERTICAL_AXIS = RESOURCES.getLocalizedString( "symbol.verticalAxis" );
+        public static final String SYMBOL_X = RESOURCES.getLocalizedString( "symbol.x" );
+        public static final String SYMBOL_Y = RESOURCES.getLocalizedString( "symbol.y" );
         public static final String SYMBOL_SLOPE = RESOURCES.getLocalizedString( "symbol.slope" );
         public static final String SYMBOL_INTERCEPT = RESOURCES.getLocalizedString( "symbol.intercept" );
 

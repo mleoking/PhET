@@ -120,7 +120,7 @@ class GraphNode extends PhetPNode {
             xAxisNode.addChild( lineNode );
 
             // label at positive end
-            PText labelNode = new PText( Strings.SYMBOL_HORIZONTAL_AXIS );
+            PText labelNode = new PText( Strings.SYMBOL_X );
             labelNode.setFont( AXIS_LABEL_FONT );
             xAxisNode.addChild( labelNode );
             labelNode.setOffset( lineNode.getFullBoundsReference().getMaxX() + AXIS_LABEL_SPACING,
@@ -170,7 +170,7 @@ class GraphNode extends PhetPNode {
             yAxisNode.addChild( lineNode );
 
             // label at positive end
-            PText labelNode = new PText( Strings.SYMBOL_VERTICAL_AXIS );
+            PText labelNode = new PText( Strings.SYMBOL_Y );
             labelNode.setFont( AXIS_LABEL_FONT );
             yAxisNode.addChild( labelNode );
             labelNode.setOffset( lineNode.getFullBoundsReference().getCenterX() - ( labelNode.getFullBoundsReference().getWidth() / 2 ),

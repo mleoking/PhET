@@ -63,8 +63,8 @@ public class SlopeInterceptLine {
     //TODO move this to view
     // Gets the equation as it was entered by the user.
     public String getEquation() {
-        final String x = Strings.SYMBOL_HORIZONTAL_AXIS;
-        final String y = Strings.SYMBOL_VERTICAL_AXIS;
+        final String x = Strings.SYMBOL_X;
+        final String y = Strings.SYMBOL_Y;
         if ( run == 0 ) {
             return x + " = 0";
         }
@@ -85,8 +85,8 @@ public class SlopeInterceptLine {
     //TODO move this to view
     // Gets the equation with slope in reduced form.
     public String getReducedEquation() {
-        final String x = Strings.SYMBOL_HORIZONTAL_AXIS;
-        final String y = Strings.SYMBOL_VERTICAL_AXIS;
+        final String x = Strings.SYMBOL_X;
+        final String y = Strings.SYMBOL_Y;
         if ( run == 0 ) {
             return x + " = 0";
         }
