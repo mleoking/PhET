@@ -71,13 +71,6 @@ public class TrapezoidPool implements IPool {
         }};
     }
 
-    //In meters squared, determine the area of the cross section the user can see.
-    //This is used for filling up the container at a constant volumetric rate
-//    public double getArea( double height ) {
-//        return widthAtTop + widthAtBottom;
-//        return 0.0;
-//    }
-
     public Shape fromLines( final ImmutableVector2D... pts ) {
         if ( pts.length == 0 ) { return new Rectangle2D.Double( 0, 0, 0, 0 ); }
         return new DoubleGeneralPath( pts[0] ) {{
@@ -89,7 +82,7 @@ public class TrapezoidPool implements IPool {
 
     private Shape passage() {
         final double passageHeight = 0.25;
-        return new Rectangle2D.Double( centerAtLeftChamberOpening, -height + passageHeight, separation, passageHeight );
+        return new Rectangle2D.Double( centerAtLeftChamberOpening, -height, separation, passageHeight );
     }
 
     private Shape leftChamber() {
