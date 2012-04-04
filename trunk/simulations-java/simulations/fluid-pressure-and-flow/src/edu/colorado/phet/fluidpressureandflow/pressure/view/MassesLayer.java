@@ -43,7 +43,7 @@ public class MassesLayer extends PNode {
         massesProperty.addObserver( observer );
 
         //Update when equalization changes since we are using that to determine when to show the dotted line drop region
-        pool.leftWaterHeightAboveChamber.addObserver( observer );
+        pool.leftWaterHeight.addObserver( observer );
     }
 
     private static Mass findDragging( ObservableList<Mass> masses ) {

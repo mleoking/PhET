@@ -1,3 +1,4 @@
+Pressure tab: Chamber scene: Fixed: There is a quirk in the water level when adding a second block, may be leading to incorrect pressure values
 Pressure tab: Added a ruler icon
 Pressure tab: Intro scene: Fixed grid lines width
 Pressure tab: Intro scene: Moved grid check box to the left side of pool
