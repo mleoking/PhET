@@ -6,10 +6,12 @@ import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyformsandchanges.intro.model.Shelf;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * Representation of a shelf in the view.
@@ -28,6 +30,45 @@ public class ShelfNode extends PNode {
     private static final boolean SHOW_WIRE_FRAME = true;
 
     public ShelfNode( final Shelf shelf, final ModelViewTransform mvt ) {
+
+        // Set up some variable that will be used in several calculations.
+        double edgeHeight = shelf.getForeshortenedHeight();
+        double edgeWidth = shelf.getForeshortenedHeight() * Math.sin( shelf.getPerspectiveAngle() );
+        ImmutableVector2D surfaceCenterLeftEdge = new ImmutableVector2D( shelf.getPosition() );
+        ImmutableVector2D surfaceLowerLeftCorner = surfaceCenterLeftEdge.getAddedInstance( -edgeWidth / 2, -edgeHeight / 2 );
+        ImmutableVector2D surfaceUpperLeftCorner = surfaceLowerLeftCorner.getAddedInstance( edgeWidth, edgeHeight );
+        ImmutableVector2D surfaceUpperRightCorner = surfaceUpperLeftCorner.getAddedInstance( shelf.getWidth(), 0 );
+        ImmutableVector2D surfaceLowerRightCorner = surfaceUpperRightCorner.getAddedInstance( -edgeWidth, -edgeHeight );
+
+        // Define the shape of the faux 3D surface.
+        DoubleGeneralPath surfacePath = new DoubleGeneralPath();
+        surfacePath.moveTo( mvt.modelToView( surfaceLowerLeftCorner ) );
+        surfacePath.lineTo( mvt.modelToView( surfaceUpperLeftCorner ) );
+        surfacePath.lineTo( mvt.modelToView( surfaceUpperRightCorner ) );
+        surfacePath.lineTo( mvt.modelToView( surfaceLowerRightCorner ) );
+        surfacePath.lineTo( mvt.modelToView( surfaceLowerLeftCorner ) );
+
+        double desiredImageWidth = surfacePath.getGeneralPath().getBounds2D().getWidth();
+        double desiredImageHeight = surfacePath.getGeneralPath().getBounds2D().getHeight() + mvt.modelToViewDeltaY( -shelf.getThickness() );
+        double imageScaleFactorX = desiredImageWidth / shelf.getImage().getWidth();
+        double imageScaleFactorY = desiredImageHeight / shelf.getImage().getHeight();
+
+        // Warn if the scale factors appear to be way off.
+        if ( imageScaleFactorX < 0.5 || imageScaleFactorX > 2 ) {
+            System.out.println( getClass().getName() + " - Warning: Image does not suit shelf size well, X scale factor = " + imageScaleFactorX );
+        }
+        if ( imageScaleFactorY < 0.5 || imageScaleFactorY > 2 ) {
+            System.out.println( getClass().getName() + " - Warning: Image does not suit shelf size well, Y scale factor = " + imageScaleFactorY );
+        }
+
+        // Scale the image and create the image node.
+        PImage shelfImageNode = new PImage( BufferedImageUtils.rescaleFractional( shelf.getImage(), imageScaleFactorX, imageScaleFactorY ) );
+
+        // Position and add the image.
+        shelfImageNode.setOffset( mvt.modelToView( shelf.getPosition().getX() - edgeWidth / 2, shelf.getPosition().getY() + shelf.getForeshortenedHeight() / 2 ) );
+//        shelfImageNode.setOffset( mvt.modelToView( shelf.getPosition().getX(), shelf.getPosition().getY() + shelf.getForeshortenedHeight() / 2) );
+        addChild( shelfImageNode );
+
         if ( SHOW_2D_LOCATION ) {
             // Draw a line that represents the horizontal line where objects
             // can be placed.
@@ -37,21 +78,8 @@ public class ShelfNode extends PNode {
             addChild( new PhetPPath( surface2DPath.getGeneralPath(), new BasicStroke( 3 ), Color.RED ) );
         }
         if ( SHOW_WIRE_FRAME ) {
-            // Draw top surface.
-            DoubleGeneralPath surfacePath = new DoubleGeneralPath();
-            double edgeHeight = shelf.getForeshortenedHeight();
-            double edgeWidth = shelf.getForeshortenedHeight() * Math.sin( shelf.getPerspectiveAngle() );
-            ImmutableVector2D surfaceCenterLeftEdge = new ImmutableVector2D( shelf.getPosition() );
-            ImmutableVector2D surfaceLowerLeftCorner = surfaceCenterLeftEdge.getAddedInstance( -edgeWidth / 2, -edgeHeight / 2 );
-            surfacePath.moveTo( mvt.modelToView( surfaceLowerLeftCorner ) );
-            ImmutableVector2D surfaceUpperLeftCorner = surfaceLowerLeftCorner.getAddedInstance( edgeWidth, edgeHeight );
-            surfacePath.lineTo( mvt.modelToView( surfaceUpperLeftCorner ) );
-            ImmutableVector2D surfaceUpperRightCorner = surfaceUpperLeftCorner.getAddedInstance( shelf.getWidth(), 0 );
-            surfacePath.lineTo( mvt.modelToView( surfaceUpperRightCorner ) );
-            ImmutableVector2D surfaceLowerRightCorner = surfaceUpperRightCorner.getAddedInstance( -edgeWidth, -edgeHeight );
-            surfacePath.lineTo( mvt.modelToView( surfaceLowerRightCorner ) );
-            surfacePath.lineTo( mvt.modelToView( surfaceLowerLeftCorner ) );
 
+            // Add an outline of the surface.
             addChild( new PhetPPath( surfacePath.getGeneralPath(), new BasicStroke( 1 ), Color.BLUE ) );
 
             // Draw front edge.
@@ -65,7 +93,7 @@ public class ShelfNode extends PNode {
 
             addChild( new PhetPPath( frontEdgePath.getGeneralPath(), new BasicStroke( 1 ), Color.BLUE ) );
 
+            // Doesn't draw the side edge, add it here if needed.
         }
-
     }
 }
