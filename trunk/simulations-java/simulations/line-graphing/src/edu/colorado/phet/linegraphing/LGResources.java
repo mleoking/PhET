@@ -42,7 +42,6 @@ public class LGResources {
 
         public static final Image Y_EQUALS_X_ICON = RESOURCES.getImage( "y_equals_x_icon.png" );
         public static final Image Y_EQUALS_NEGATIVE_X_ICON = RESOURCES.getImage( "y_equals_negative_x_icon.png" );
-        public static final Image RISE_OVER_RUN_ICON = RESOURCES.getImage( "rise_run_icon.png" );
         public static final Image LINES_ICON = RESOURCES.getImage( "lines_icon.png" );
         public static final Image POINT_TOOL = RESOURCES.getImage( "point-tool.png" );
 

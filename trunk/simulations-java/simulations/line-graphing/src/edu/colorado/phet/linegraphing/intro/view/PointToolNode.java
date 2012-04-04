@@ -6,6 +6,9 @@ import java.awt.geom.Point2D;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -128,9 +131,10 @@ public class PointToolNode extends PhetPNode {
         }
     }
 
-    public static Image createImage( double width ) {
-        PNode toolNode = new PointToolNode( new Property<ImmutableVector2D>( new ImmutableVector2D( 1,2 ) ), new Property<Boolean>( true ), ModelViewTransform.createIdentity(), new LineGraph( -1, 1, -1, 1 ));
-        toolNode.scale( width / toolNode.getFullBoundsReference().getWidth() );
-        return toolNode.toImage();
+    // Return an icon that represents this feature.
+    public static Icon createIcon( double width ) {
+        PNode node = new PointToolNode( new Property<ImmutableVector2D>( new ImmutableVector2D( 1,2 ) ), new Property<Boolean>( true ), ModelViewTransform.createIdentity(), new LineGraph( -1, 1, -1, 1 ));
+        node.scale( width / node.getFullBoundsReference().getWidth() );
+        return new ImageIcon( node.toImage() );
     }
 }

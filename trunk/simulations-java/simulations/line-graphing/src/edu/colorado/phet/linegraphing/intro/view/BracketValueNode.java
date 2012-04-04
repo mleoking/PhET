@@ -11,6 +11,9 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.RoundRectangle2D;
 import java.text.NumberFormat;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -144,5 +147,12 @@ public class BracketValueNode extends PComposite {
             path.quadTo( (float) width, (float)BRACKET_END_HEIGHT, (float) width, BRACKET_END_Y_OFFSET );
             setPathTo( path );
         }
+    }
+
+    // Return an icon that represents this feature.
+    public static Icon createIcon( double width ) {
+        PNode node = new BracketValueNode( Direction.LEFT, 40, BRACKET_COLOR, new BasicStroke( 1f ), 2, new PhetFont( Font.BOLD,18 ), LABEL_COLOR, LABEL_BACKGROUND_COLOR );
+        node.scale( width / node.getFullBoundsReference().getWidth() );
+        return new ImageIcon( node.toImage() );
     }
 }
