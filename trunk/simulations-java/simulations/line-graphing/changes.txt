@@ -1,3 +1,4 @@
+4/3/12 drag handler base class for line manipulators
 4/3/12 add rise/run/intercept parameters to sim-sharing messages for line manipulators
 4/3/12 misc cleanup
 4/3/12 scale bracket tip with when bracket width is < a threshold
