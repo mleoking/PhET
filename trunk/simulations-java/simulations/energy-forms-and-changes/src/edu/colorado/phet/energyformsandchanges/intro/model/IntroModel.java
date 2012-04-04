@@ -23,7 +23,7 @@ public class IntroModel {
     private final List<Shelf> shelfList = new ArrayList<Shelf>();
 
     public IntroModel() {
-        shelfList.add( new Shelf( new Point2D.Double( 0, 0 ), 1, "blah", 0.02, 0.1, Math.PI / 2 ) );
+        shelfList.add( new Shelf( new Point2D.Double( 0, 0 ), 0.5, "blah", 0.02, 0.1, -Math.PI / 2 ) );
     }
 
     public List<Shelf> getShelfList() {
