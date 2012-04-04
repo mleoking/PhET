@@ -17,7 +17,6 @@ DESIGN
 HIGH
 - avoid int casts
 - slope and intercept manipulators jump around
-- prevent BracketNode assertion while manipulating line, disable brackets or program to support asserted condition
 
 MEDIUM
 - enable Save Line button immediately when Erase Lines has been pressed
