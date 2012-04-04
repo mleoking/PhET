@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
@@ -38,7 +37,7 @@ public class IntroCanvas extends LGCanvas implements Resettable {
         final TextButtonNode eraseLinesButton = new TextButtonNode( Strings.ERASE_LINES, LGConstants.CONTROL_FONT, LGColors.ERASE_LINES_BUTTON ) {{
             setEnabled( false );
         }};
-        PNode equationControlPanel = new EquationControlPanel( model.interactiveLine, lineGraphNode, eraseLinesButton,
+        PNode equationControls = new EquationControls( model.interactiveLine, lineGraphNode, eraseLinesButton,
                                                                IntroModel.RISE_RANGE, IntroModel.RUN_RANGE, IntroModel.INTERCEPT_RANGE );
         PNode visibilityControls = new VisibilityControls( linesVisible, lineGraphNode.riseOverRunVisible, lineGraphNode.yEqualsXVisible, lineGraphNode.yEqualsNegativeXVisible,
                                                            lineGraphNode.pointToolVisible );
@@ -50,7 +49,7 @@ public class IntroCanvas extends LGCanvas implements Resettable {
         // rendering order
         {
             addChild( graphNode );
-            addChild( equationControlPanel );
+            addChild( equationControls );
             addChild( visibilityControls );
             addChild( buttonsParent );
             buttonsParent.addChild( eraseLinesButton );
@@ -65,11 +64,11 @@ public class IntroCanvas extends LGCanvas implements Resettable {
             graphNode.setOffset( xMargin, yMargin );
 
             // upper-right of graph
-            equationControlPanel.setOffset( graphNode.getFullBoundsReference().getMaxX() + 20,
-                                            50 );
+            equationControls.setOffset( graphNode.getFullBoundsReference().getMaxX() + 20,
+                                        50 );
             // centered below equation
-            visibilityControls.setOffset( equationControlPanel.getFullBoundsReference().getCenterX() - ( visibilityControls.getFullBoundsReference().getWidth() / 2 ),
-                                          equationControlPanel.getFullBoundsReference().getMaxY() + 50 );
+            visibilityControls.setOffset( equationControls.getFullBoundsReference().getCenterX() - ( visibilityControls.getFullBoundsReference().getWidth() / 2 ),
+                                          equationControls.getFullBoundsReference().getMaxY() + 50 );
             // buttons centered below control panel
             eraseLinesButton.setOffset( 0, 0 );
             resetAllButtonNode.setOffset( eraseLinesButton.getFullBoundsReference().getWidth() + 10, 0 );

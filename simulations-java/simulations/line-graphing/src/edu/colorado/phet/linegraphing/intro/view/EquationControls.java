@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.MessageFormat;
@@ -34,7 +35,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class EquationControlPanel extends PhetPNode {
+class EquationControls extends PhetPNode {
 
     // y = mx + b
     private static String TITLE = MessageFormat.format( "{0} = {1}{2} + {3}", // eg, y = mx + b,
@@ -43,8 +44,8 @@ class EquationControlPanel extends PhetPNode {
                                                            Strings.SYMBOL_X,
                                                            Strings.SYMBOL_INTERCEPT );
 
-    public EquationControlPanel( final Property<SlopeInterceptLine> interactiveLine, final LineGraphNode lineGraphNode, final TextButtonNode eraseLinesButton,
-                                 IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange ) {
+    public EquationControls( final Property<SlopeInterceptLine> interactiveLine, final LineGraphNode lineGraphNode, final TextButtonNode eraseLinesButton,
+                             IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange ) {
 
         final Property<Boolean> maximized = new Property<Boolean>( true );
 
@@ -72,6 +73,12 @@ class EquationControlPanel extends PhetPNode {
         parentNode.addChild( titleBackgroundNode );
         titleBackgroundNode.moveInBackOf( titleNode );
 
+        // horizontal separator between title and stuff below it
+        final PNode separatorNode = new PPath( new Line2D.Double( 0, 0, maxWidth, 0 ) ) {{
+            setStrokePaint( new Color( 212, 212, 212 ) );
+        }};
+        parentNode.addChild( separatorNode );
+
         // layout
         {
             strutNode.setOffset( 0, 0 );
@@ -81,8 +88,9 @@ class EquationControlPanel extends PhetPNode {
                                                   titleBackgroundNode.getFullBoundsReference().getCenterY() - ( minimizeMaximizeButtonNode.getFullBoundsReference().getHeight() / 2 ) );
             titleNode.setOffset( minimizeMaximizeButtonNode.getFullBoundsReference().getMaxY() + 8,
                                  titleBackgroundNode.getFullBoundsReference().getCenterY() - ( titleNode.getFullBoundsReference().getHeight() / 2 ) );
+            separatorNode.setOffset( 0, titleBackgroundNode.getFullBoundsReference().getMaxY() + 2 );
             equationNode.setOffset( ( maxWidth / 2 ) - ( equationNode.getFullBoundsReference().getWidth() / 2 ),
-                                    titleNode.getFullBoundsReference().getMaxY() + 15 );
+                                    separatorNode.getFullBoundsReference().getMaxY() + 15 );
             saveLineButton.setOffset( ( maxWidth / 2 ) - ( saveLineButton.getFullBoundsReference().getWidth() / 2 ),
                                       equationNode.getFullBoundsReference().getMaxY() + 15 );
         }
@@ -93,11 +101,12 @@ class EquationControlPanel extends PhetPNode {
         maximized.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean maximized ) {
                 if ( maximized ) {
+                    parentNode.addChild( separatorNode );
                     parentNode.addChild( equationNode );
                     parentNode.addChild( saveLineButton );
                 }
                 else {
-
+                    parentNode.removeChild( separatorNode );
                     parentNode.removeChild( equationNode );
                     parentNode.removeChild( saveLineButton );
                 }

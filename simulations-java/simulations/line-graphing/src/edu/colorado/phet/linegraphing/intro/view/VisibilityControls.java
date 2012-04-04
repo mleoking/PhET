@@ -7,12 +7,14 @@ import java.text.MessageFormat;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JSeparator;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxWithIcon;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
+import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Fill;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.linegraphing.LGResources.Images;
@@ -57,6 +59,9 @@ class VisibilityControls extends PNode {
         panel.setInsets( new Insets( 2, 2, 2, 2 ) );
         panel.setAnchor( Anchor.CENTER ); // centered
         panel.add( title );
+        panel.setFill( Fill.HORIZONTAL );
+        panel.add( new JSeparator() );
+        panel.setFill( Fill.NONE );
         panel.setAnchor( Anchor.WEST ); // left justified
         panel.add( linesCheckBox );
         panel.add( riseOverRunCheckBox );
