@@ -49,6 +49,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/forces-1d/forces-1d.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/forces-1d/forces-1d.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/fourier/fourier.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/fourier/fourier.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/fractions/fractions.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/fractions/fractions.iml" />
+      <module fileurl="file://$PROJECT_DIR$/team/reids/functional-test/functional-test.iml" filepath="$PROJECT_DIR$/team/reids/functional-test/functional-test.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/functionaljava/functionaljava.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/functionaljava/functionaljava.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/games/games.iml" filepath="$PROJECT_DIR$/simulations-java/common/games/games.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/gene-expression-basics/gene-expression-basics.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/gene-expression-basics/gene-expression-basics.iml" />
