@@ -26,9 +26,9 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class SlopeInterceptEquationNode extends PhetPNode {
+class SlopeInterceptEquationNodeOld extends PhetPNode {
 
-    public SlopeInterceptEquationNode( final Property<SlopeInterceptLine> interactiveLine, IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange ) {
+    public SlopeInterceptEquationNodeOld( final Property<SlopeInterceptLine> interactiveLine, IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange ) {
 
         // TODO this is a quick-and-dirty implementation using JSpinners
 
