@@ -1,3 +1,5 @@
+Pressure tab: Intro scene: Fixed grid lines width
+Pressure tab: Intro scene: Moved grid check box to the left side of pool
 Pressure tab: Disabled grid check box for scenes 2-3
 Pressure tab: Fluid density and gravity controls too close together and no insets
 Pressure tab: Chamber scene: Show object weights on the objects in Newtons

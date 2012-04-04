@@ -15,6 +15,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
+import edu.colorado.phet.fluidpressureandflow.pressure.model.Pool;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -45,7 +46,7 @@ public class GridNode extends PropertyVisibleNode {
 
     public static class LineNode extends PNode {
         public LineNode( String label, final double meters, final ModelViewTransform transform ) {
-            final PhetPPath line = new PhetPPath( transform.modelToView( new Line2D.Double( 0, meters, 10, meters ) ), new BasicStroke( 2 ), Color.gray );
+            final PhetPPath line = new PhetPPath( transform.modelToView( new Line2D.Double( 0, meters, Pool.WIDTH, meters ) ), new BasicStroke( 2 ), Color.gray );
             addChild( line );
             PhetPText text = new PhetPText( label, new PhetFont( 16, true ) );
             text.setOffset( line.getFullBounds().getX() - text.getFullBounds().getWidth(), line.getFullBounds().getCenterY() - text.getFullHeight() / 2 );
