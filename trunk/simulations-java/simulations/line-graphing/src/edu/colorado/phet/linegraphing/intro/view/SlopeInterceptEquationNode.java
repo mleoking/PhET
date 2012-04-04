@@ -193,8 +193,8 @@ class SlopeInterceptEquationNode extends PhetPNode {
     // Spinner that is color coded for intercept
     private static class InterceptSpinnerNode extends SpinnerNode {
         public InterceptSpinnerNode( Property<Double> value, IntegerRange range, PhetFont font, NumberFormat format ) {
-            super( Images.SPINNER_UP_YELLOW, Images.SPINNER_UP_PRESSED_YELLOW, Images.SPINNER_UP_GRAY,
-                   Images.SPINNER_DOWN_YELLOW, Images.SPINNER_DOWN_PRESSED_YELLOW, Images.SPINNER_DOWN_GRAY,
+            super( Images.SPINNER_UP_UNPRESSED_YELLOW, Images.SPINNER_UP_PRESSED_YELLOW, Images.SPINNER_UP_GRAY,
+                   Images.SPINNER_DOWN_UNPRESSED_YELLOW, Images.SPINNER_DOWN_PRESSED_YELLOW, Images.SPINNER_DOWN_GRAY,
                    value, range, font, format, true /* abs */ );
         }
     }
@@ -202,8 +202,8 @@ class SlopeInterceptEquationNode extends PhetPNode {
     // Spinner that is color coded for slope
     private static class SlopeSpinnerNode extends SpinnerNode {
         public SlopeSpinnerNode( Property<Double> value, IntegerRange range, PhetFont font, NumberFormat format ) {
-            super( Images.SPINNER_UP_GREEN, Images.SPINNER_UP_PRESSED_GREEN, Images.SPINNER_UP_GRAY,
-                   Images.SPINNER_DOWN_GREEN, Images.SPINNER_DOWN_PRESSED_GREEN, Images.SPINNER_DOWN_GRAY,
+            super( Images.SPINNER_UP_UNPRESSED_GREEN, Images.SPINNER_UP_PRESSED_GREEN, Images.SPINNER_UP_GRAY,
+                   Images.SPINNER_DOWN_UNPRESSED_GREEN, Images.SPINNER_DOWN_PRESSED_GREEN, Images.SPINNER_DOWN_GRAY,
                    value, range, font, format );
         }
     }

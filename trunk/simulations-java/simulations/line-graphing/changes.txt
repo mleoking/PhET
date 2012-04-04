@@ -1,3 +1,4 @@
+4/3/12 rename spinner button images
 4/3/12 tweak font sizes
 4/3/12 delete JSpinner-based equation implementation [63011]
 4/3/12 color code the spinner buttons to match the line manipulators
