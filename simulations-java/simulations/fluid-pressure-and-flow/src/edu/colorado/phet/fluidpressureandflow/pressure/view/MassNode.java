@@ -5,13 +5,16 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Dimension2D;
+import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.ChamberPool;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.Mass;
 import edu.umd.cs.piccolo.PNode;
@@ -27,7 +30,11 @@ import static edu.colorado.phet.fluidpressureandflow.pressure.view.MassesLayer.g
  */
 public class MassNode extends PNode {
     public MassNode( final ChamberPool pool, final Property<ObservableList<Mass>> masses, final Mass mass, final ModelViewTransform transform ) {
-        addChild( new PhetPPath( transform.modelToView( mass.shape ), Color.gray, new BasicStroke( 2 ), Color.black ) );
+        final PhetPPath shapeNode = new PhetPPath( transform.modelToView( mass.shape ), Color.gray, new BasicStroke( 2 ), Color.black );
+        addChild( shapeNode );
+        addChild( new PhetPText( new DecimalFormat( "0" ).format( mass.mass ) + " N", new PhetFont( 13, true ), Color.white ) {{
+            centerBoundsOnPoint( shapeNode.getCenterX(), shapeNode.getCenterY() );
+        }} );
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( final PInputEvent event ) {
