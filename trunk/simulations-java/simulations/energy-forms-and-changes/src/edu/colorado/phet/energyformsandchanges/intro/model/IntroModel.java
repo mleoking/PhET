@@ -47,7 +47,7 @@ public class IntroModel {
                                   THERMOMETER_SHELF_WIDTH,
                                   EnergyFormsAndChangesResources.Images.SHELF_SHORT,
                                   THERMOMETER_SHELF_WIDTH * 0.05,
-                                  THERMOMETER_SHELF_WIDTH * 0.15,
+                                  THERMOMETER_SHELF_WIDTH * 0.20,
                                   Math.PI / 2 ) );
 
     }

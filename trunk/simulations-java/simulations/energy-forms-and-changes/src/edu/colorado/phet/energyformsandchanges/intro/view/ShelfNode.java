@@ -27,7 +27,7 @@ public class ShelfNode extends PNode {
 
     // Flag for controlling whether the 3D wire frame representation of the
     // shelf should be visible.  This is used primarily for debug.
-    private static final boolean SHOW_WIRE_FRAME = true;
+    private static final boolean SHOW_WIRE_FRAME = false;
 
     public ShelfNode( final Shelf shelf, final ModelViewTransform mvt ) {
 
