@@ -2,6 +2,7 @@
 package edu.colorado.phet.linegraphing.intro.view;
 
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.text.NumberFormat;
@@ -43,12 +44,12 @@ class SlopeInterceptEquationNode extends PhetPNode {
         // y = mx + b
         PText yNode = new PhetPText( "y", FONT );
         PText equalsNode = new PhetPText( "=", FONT );
-        PNode riseNode = new UpDownValueNode( this.rise, riseRange, FONT, FORMAT );
+        PNode riseNode = new SlopeSpinnerNode( this.rise, riseRange, FONT, FORMAT );
         final PPath lineNode = new PPath( new Line2D.Double( 0, 0, riseNode.getFullBoundsReference().getWidth(), 0 ) );
-        PNode runNode = new UpDownValueNode( this.run, runRange, FONT, FORMAT );
+        PNode runNode = new SlopeSpinnerNode( this.run, runRange, FONT, FORMAT );
         PText xNode = new PhetPText( "x", FONT );
         final PText interceptSignNode = new PhetPText( "+", FONT );
-        PNode interceptNode = new UpDownValueNode( this.intercept, interceptRange, FONT, FORMAT, true /* abs */ );
+        PNode interceptNode = new InterceptSpinnerNode( this.intercept, interceptRange, FONT, FORMAT );
 
         // rendering order
         {
@@ -114,8 +115,8 @@ class SlopeInterceptEquationNode extends PhetPNode {
 
     // Spinner button for incrementing a value
     private static class UpSpinnerButtonNode extends SpinnerButtonNode {
-        public UpSpinnerButtonNode( final Property<Double> value, double maxValue ) {
-            super( Images.SPINNER_UP, Images.SPINNER_UP_PRESSED, Images.SPINNER_UP_DISABLED,
+        public UpSpinnerButtonNode( final Image unpressedImage, final Image pressedImage, final Image disabledImage, final Property<Double> value, double maxValue ) {
+            super( unpressedImage, pressedImage, disabledImage,
                    new VoidFunction0() {
                        public void apply() {
                            value.set( value.get() + 1 );
@@ -126,8 +127,8 @@ class SlopeInterceptEquationNode extends PhetPNode {
 
     // Spinner button for decrementing a value
     private static class DownSpinnerButtonNode extends SpinnerButtonNode {
-        public DownSpinnerButtonNode( final Property<Double> value, double minValue ) {
-            super( Images.SPINNER_DOWN, Images.SPINNER_DOWN_PRESSED, Images.SPINNER_DOWN_DISABLED,
+        public DownSpinnerButtonNode( final Image unpressedImage, final Image pressedImage, final Image disabledImage, final Property<Double> value, double minValue ) {
+            super( unpressedImage, pressedImage, disabledImage,
                    new VoidFunction0() {
                        public void apply() {
                            value.set( value.get() - 1 );
@@ -136,16 +137,22 @@ class SlopeInterceptEquationNode extends PhetPNode {
         }
     }
 
-    private static class UpDownValueNode extends PNode {
+    // Spinner, value with up and down arrows
+    private static abstract class SpinnerNode extends PNode {
 
-        public UpDownValueNode( final Property<Double> value, IntegerRange range, PhetFont font, final NumberFormat format ) {
-            this( value, range, font, format, false /* abs */ );
+        public SpinnerNode( final Image upUnpressedImage, final Image upPressedImage, final Image upDisabledImage,
+                            final Image downUnpressedImage, final Image downPressedImage, final Image downDisabledImage,
+                            final Property<Double> value, IntegerRange range, PhetFont font, final NumberFormat format ) {
+            this( upUnpressedImage, upPressedImage, upDisabledImage, downUnpressedImage, downPressedImage, downDisabledImage,
+                  value, range, font, format, false /* abs */ );
         }
 
-        public UpDownValueNode( final Property<Double> value, IntegerRange range, PhetFont font, final NumberFormat format, final boolean abs ) {
+        public SpinnerNode( final Image upUnpressedImage, final Image upPressedImage, final Image upDisabledImage,
+                            final Image downUnpressedImage, final Image downPressedImage, final Image downDisabledImage,
+                            final Property<Double> value, IntegerRange range, PhetFont font, final NumberFormat format, final boolean abs ) {
 
-            UpSpinnerButtonNode upButton = new UpSpinnerButtonNode( value, range.getMax() );
-            DownSpinnerButtonNode downButton = new DownSpinnerButtonNode( value, range.getMin() );
+            UpSpinnerButtonNode upButton = new UpSpinnerButtonNode( upUnpressedImage, upPressedImage, upDisabledImage, value, range.getMax() );
+            DownSpinnerButtonNode downButton = new DownSpinnerButtonNode( downUnpressedImage, downPressedImage, downDisabledImage, value, range.getMin() );
             final PText textNode = new PhetPText( font );
             textNode.setPickable( false );
 
@@ -180,6 +187,24 @@ class SlopeInterceptEquationNode extends PhetPNode {
                     textNode.setOffset( maxWidth - textNode.getFullBoundsReference().getWidth(), textNode.getYOffset() );
                 }
             } );
+        }
+    }
+
+    // Spinner that is color coded for intercept
+    private static class InterceptSpinnerNode extends SpinnerNode {
+        public InterceptSpinnerNode( Property<Double> value, IntegerRange range, PhetFont font, NumberFormat format ) {
+            super( Images.SPINNER_UP_YELLOW, Images.SPINNER_UP_PRESSED_YELLOW, Images.SPINNER_UP_GRAY,
+                   Images.SPINNER_DOWN_YELLOW, Images.SPINNER_DOWN_PRESSED_YELLOW, Images.SPINNER_DOWN_GRAY,
+                   value, range, font, format, true /* abs */ );
+        }
+    }
+
+    // Spinner that is color coded for slope
+    private static class SlopeSpinnerNode extends SpinnerNode {
+        public SlopeSpinnerNode( Property<Double> value, IntegerRange range, PhetFont font, NumberFormat format ) {
+            super( Images.SPINNER_UP_GREEN, Images.SPINNER_UP_PRESSED_GREEN, Images.SPINNER_UP_GRAY,
+                   Images.SPINNER_DOWN_GREEN, Images.SPINNER_DOWN_PRESSED_GREEN, Images.SPINNER_DOWN_GRAY,
+                   value, range, font, format );
         }
     }
 }
