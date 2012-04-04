@@ -66,7 +66,7 @@ public class BufferedImageUtils {
     }
 
     /**
-     * Rescale an image based on scale factors for with width and height.
+     * Rescale an image based on scale factors for width and height.
      *
      * @param in - original buffered image.
      * @param dx - multiplier for the width (x direction)
