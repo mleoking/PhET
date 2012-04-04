@@ -34,7 +34,7 @@ public class Shelf {
     // coordinated with the image of the shelf that is used.
     private final double thickness; // In meters.
     private final double foreshortenedHeight; // In meters.
-    private final double perspectiveAngle; // In radians.
+    private final double perspectiveAngle; // In radians, relative to horizontal position line, positive is counterclockwise.
 
     //-------------------------------------------------------------------------
     // Constructor(s)
