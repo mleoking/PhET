@@ -1,8 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.intro.view;
 
-import java.awt.Color;
-
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -20,21 +18,20 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 class LineGraphNode extends GraphNode implements Resettable {
 
+    public final Property<Boolean> linesVisible = new Property<Boolean>( true );
     public final Property<Boolean> yEqualsXVisible = new Property<Boolean>( false );
     public final Property<Boolean> yEqualsNegativeXVisible = new Property<Boolean>( false );
 
     private final LineGraph graph;
     private final ModelViewTransform mvt;
-    private final Property<Boolean> linesVisible;
     private final SlopeInterceptLineNode yEqualsXLineNode, yEqualsNegativeXLineNode;
     private PNode savedLinesParentNode, standardLinesParentNode; // intermediate nodes, for consistent rendering order
 
-    public LineGraphNode( final LineGraph graph, final ModelViewTransform mvt, SlopeInterceptLine yEqualsXLine, SlopeInterceptLine yEqualsNegativeXLine, Property<Boolean> linesVisible ) {
+    public LineGraphNode( final LineGraph graph, final ModelViewTransform mvt, SlopeInterceptLine yEqualsXLine, SlopeInterceptLine yEqualsNegativeXLine ) {
         super( graph, mvt );
 
         this.graph = graph;
         this.mvt = mvt;
-        this.linesVisible = linesVisible;
 
         // Standard lines
         standardLinesParentNode = new PComposite();
@@ -69,9 +66,9 @@ class LineGraphNode extends GraphNode implements Resettable {
     }
 
     public void reset() {
+        linesVisible.reset();
         yEqualsXVisible.reset();
         yEqualsNegativeXVisible.reset();
-        linesVisible.reset();
         eraseLines();
     }
 
