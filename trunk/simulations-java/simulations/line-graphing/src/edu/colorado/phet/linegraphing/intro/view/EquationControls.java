@@ -82,11 +82,15 @@ class EquationControls extends PhetPNode {
         parentNode.addChild( titleBackgroundNode );
         titleBackgroundNode.moveInBackOf( titleNode );
 
-        // horizontal separator between title and stuff below it
-        final PNode separatorNode = new PPath( new Line2D.Double( 0, 0, maxWidth, 0 ) ) {{
+        // horizontal separators
+        final PNode titleSeparator = new PPath( new Line2D.Double( 0, 0, maxWidth, 0 ) ) {{
             setStrokePaint( new Color( 212, 212, 212 ) );
         }};
-        parentNode.addChild( separatorNode );
+         final PNode buttonsSeparator = new PPath( new Line2D.Double( 0, 0, maxWidth, 0 ) ) {{
+            setStrokePaint( new Color( 212, 212, 212 ) );
+        }};
+        parentNode.addChild( titleSeparator );
+        parentNode.addChild( buttonsSeparator );
 
         // layout
         {
@@ -97,13 +101,14 @@ class EquationControls extends PhetPNode {
                                                   titleBackgroundNode.getFullBoundsReference().getCenterY() - ( minimizeMaximizeButtonNode.getFullBoundsReference().getHeight() / 2 ) );
             titleNode.setOffset( minimizeMaximizeButtonNode.getFullBoundsReference().getMaxY() + 8,
                                  titleBackgroundNode.getFullBoundsReference().getCenterY() - ( titleNode.getFullBoundsReference().getHeight() / 2 ) );
-            separatorNode.setOffset( 0, titleBackgroundNode.getFullBoundsReference().getMaxY() + 2 );
+            titleSeparator.setOffset( 0, titleBackgroundNode.getFullBoundsReference().getMaxY() + 2 );
             equationNode.setOffset( ( maxWidth / 2 ) - ( equationNode.getFullBoundsReference().getWidth() / 2 ),
-                                    separatorNode.getFullBoundsReference().getMaxY() + 15 );
+                                    titleSeparator.getFullBoundsReference().getMaxY() + 15 );
             xEqualsZeroNode.setOffset( equationNode.getXOffset(),
                                        equationNode.getFullBoundsReference().getCenterY() - ( xEqualsZeroNode.getFullBoundsReference().getHeight() / 2 ) );
+            buttonsSeparator.setOffset( 0, equationNode.getFullBoundsReference().getMaxY() + 15 );
             saveLineButton.setOffset( ( maxWidth / 2 ) - saveLineButton.getFullBoundsReference().getWidth() - 3,
-                                      equationNode.getFullBoundsReference().getMaxY() + 15 );
+                                      buttonsSeparator.getFullBoundsReference().getMaxY() + 8 );
             eraseLinesButton.setOffset( ( maxWidth / 2 ) + 3, saveLineButton.getYOffset() );
         }
 
@@ -114,14 +119,16 @@ class EquationControls extends PhetPNode {
             public void apply( Boolean maximized ) {
                 if ( maximized ) {
                     //TODO put all of these things under a common parent, so visibility can be changed with 1 call
-                    parentNode.addChild( separatorNode );
+                    parentNode.addChild( titleSeparator );
+                    parentNode.addChild( buttonsSeparator );
                     parentNode.addChild( equationNode );
                     parentNode.addChild( saveLineButton );
                     parentNode.addChild( eraseLinesButton );
                     parentNode.addChild( xEqualsZeroNode );
                 }
                 else {
-                    parentNode.removeChild( separatorNode );
+                    parentNode.removeChild( titleSeparator );
+                    parentNode.removeChild( buttonsSeparator );
                     parentNode.removeChild( equationNode );
                     parentNode.removeChild( saveLineButton );
                     parentNode.removeChild( eraseLinesButton );
