@@ -4,6 +4,7 @@ package edu.colorado.phet.linegraphing.intro.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
@@ -36,7 +37,7 @@ public class BracketValueNode extends PComposite {
     private static final double BRACKET_TIP_HEIGHT = 6;
 
     // label
-    private static final PhetFont LABEL_FONT = new PhetFont( 12 );
+    private static final PhetFont LABEL_FONT = new PhetFont( Font.BOLD, 16 );
     private static final Color LABEL_COLOR = Color.BLACK;
     private static final NumberFormat LABEL_FORMAT = new DefaultDecimalFormat( "0" );
     private final double MINUS_SIGN_WIDTH = new PhetPText( "-", LABEL_FONT ).getFullBoundsReference().getWidth();
