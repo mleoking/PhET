@@ -1,3 +1,4 @@
+4/3/12 replace JSpinners with SpinnerButtonNode from fractions project
 4/3/12 drag handler base class for line manipulators
 4/3/12 add rise/run/intercept parameters to sim-sharing messages for line manipulators
 4/3/12 misc cleanup

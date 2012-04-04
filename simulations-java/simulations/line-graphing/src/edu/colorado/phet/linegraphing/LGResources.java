@@ -7,6 +7,7 @@ import javax.annotation.Resources;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 
 /**
  * Resources for the line-graphing project.
@@ -47,5 +48,13 @@ public class LGResources {
 
         public static final Image MINIMIZE_BUTTON = PhetCommonResources.getImage( "buttons/minimizeButton.png" );
         public static final Image MAXIMIZE_BUTTON = PhetCommonResources.getImage( "buttons/maximizeButton.png" );
+
+        private static final int SPINNER_BUTTON_HEIGHT = 22;
+        public static final Image SPINNER_DOWN = BufferedImageUtils.multiScaleToHeight( RESOURCES.getImage( "spinner_down.png" ), SPINNER_BUTTON_HEIGHT );
+        public static final Image SPINNER_DOWN_DISABLED = BufferedImageUtils.multiScaleToHeight( RESOURCES.getImage( "spinner_down_disabled.png" ), SPINNER_BUTTON_HEIGHT );
+        public static final Image SPINNER_DOWN_PRESSED = BufferedImageUtils.multiScaleToHeight( RESOURCES.getImage( "spinner_down_pressed.png" ), SPINNER_BUTTON_HEIGHT );
+        public static final Image SPINNER_UP = BufferedImageUtils.multiScaleToHeight( RESOURCES.getImage( "spinner_up.png" ), SPINNER_BUTTON_HEIGHT );
+        public static final Image SPINNER_UP_DISABLED = BufferedImageUtils.multiScaleToHeight( RESOURCES.getImage( "spinner_up_disabled.png" ), SPINNER_BUTTON_HEIGHT );
+        public static final Image SPINNER_UP_PRESSED = BufferedImageUtils.multiScaleToHeight( RESOURCES.getImage( "spinner_up_pressed.png" ), SPINNER_BUTTON_HEIGHT );
     }
 }

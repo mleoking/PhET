@@ -13,17 +13,15 @@ DESIGN
 - when should point tool light up? when it's on the interactive line? when it's on any line?
 - color scheme
 - if user saves 2 lines with the same reduced form, they will see only 1 saved line (actually 2 identical lines on top of each other)
+- layout problem with interactive equation, generally looks too spaced out, but needs to accommodate "-10"
 
 HIGH
 - avoid int casts
-- slope and intercept manipulators jump around
 
 MEDIUM
 - enable Save Line button immediately when Erase Lines has been pressed
 - Save Line button is enabled when interactive equation changes, but the reduced form of the line may be the same
 - disable Save Line button when "Lines" is unchecked
-- reuse spinner buttons from fractions, see SpinnerButtonNode
-- implement a nicer looking interactive equation
 - move static string methods from model (SlopeInterceptLine) to view
 
 LOW
@@ -33,4 +31,4 @@ LOW
 SIM-SHARING
 
 MIGRATE TO COMMON
-- SpinnerButtonNode in fractions
+- SpinnerButtonNode, copied from fractions
