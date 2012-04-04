@@ -31,7 +31,8 @@ public class BracketValueNode extends PComposite {
     // bracket
     private static final Stroke BRACKET_STROKE = new BasicStroke( 0.5f );
     private static final Color BRACKET_COLOR = Color.BLACK;
-    private static final double BRACKET_END_HEIGHT = 10;
+    private static final double BRACKET_END_Y_OFFSET = 3;
+    private static final double BRACKET_END_HEIGHT = 15;
     private static final double BRACKET_CORNER_RADIUS = 0.5 * BRACKET_END_HEIGHT;
     private static final double BRACKET_TIP_WIDTH = 6;
     private static final double BRACKET_TIP_HEIGHT = 6;
@@ -116,13 +117,13 @@ public class BracketValueNode extends PComposite {
 
             final double bracketTipWidth = Math.min( BRACKET_TIP_WIDTH, 0.5 * width );
             GeneralPath path = new GeneralPath();
-            path.moveTo( 0, 0 );
+            path.moveTo( 0, BRACKET_END_Y_OFFSET );
             path.quadTo( 0, (float) BRACKET_END_HEIGHT, (float) BRACKET_CORNER_RADIUS, (float) BRACKET_END_HEIGHT );
             path.lineTo( (float) ( ( width - bracketTipWidth ) / 2 ), (float) BRACKET_END_HEIGHT );
             path.lineTo( (float) ( width / 2 ), (float) ( BRACKET_END_HEIGHT + BRACKET_TIP_HEIGHT ) );
             path.lineTo( (float) ( ( width + bracketTipWidth ) / 2 ), (float) BRACKET_END_HEIGHT );
             path.lineTo( (float) ( width - BRACKET_CORNER_RADIUS ), (float) BRACKET_END_HEIGHT );
-            path.quadTo( (float) width, (float)BRACKET_END_HEIGHT, (float) width, 0 );
+            path.quadTo( (float) width, (float)BRACKET_END_HEIGHT, (float) width, BRACKET_END_Y_OFFSET );
             setPathTo( path );
         }
     }
