@@ -41,18 +41,30 @@ public class ShelfNode extends PNode {
             DoubleGeneralPath surfacePath = new DoubleGeneralPath();
             double edgeHeight = shelf.getForeshortenedHeight();
             double edgeWidth = shelf.getForeshortenedHeight() * Math.sin( shelf.getPerspectiveAngle() );
-            ImmutableVector2D centerLeftEdge = new ImmutableVector2D( shelf.getPosition() );
-            ImmutableVector2D lowerLeftCorner = centerLeftEdge.getAddedInstance( -edgeWidth / 2, -edgeHeight / 2 );
-            surfacePath.moveTo( mvt.modelToView( lowerLeftCorner ) );
-            ImmutableVector2D upperLeftCorner = lowerLeftCorner.getAddedInstance( edgeWidth, edgeHeight );
-            surfacePath.lineTo( mvt.modelToView( upperLeftCorner ) );
-            ImmutableVector2D upperRightCorner = upperLeftCorner.getAddedInstance( shelf.getWidth(), 0 );
-            surfacePath.lineTo( mvt.modelToView( upperRightCorner ) );
-            ImmutableVector2D lowerRightCorner = upperRightCorner.getAddedInstance( -edgeWidth, -edgeHeight );
-            surfacePath.lineTo( mvt.modelToView( lowerRightCorner ) );
-            surfacePath.lineTo( mvt.modelToView( lowerLeftCorner ) );
+            ImmutableVector2D surfaceCenterLeftEdge = new ImmutableVector2D( shelf.getPosition() );
+            ImmutableVector2D surfaceLowerLeftCorner = surfaceCenterLeftEdge.getAddedInstance( -edgeWidth / 2, -edgeHeight / 2 );
+            surfacePath.moveTo( mvt.modelToView( surfaceLowerLeftCorner ) );
+            ImmutableVector2D surfaceUpperLeftCorner = surfaceLowerLeftCorner.getAddedInstance( edgeWidth, edgeHeight );
+            surfacePath.lineTo( mvt.modelToView( surfaceUpperLeftCorner ) );
+            ImmutableVector2D surfaceUpperRightCorner = surfaceUpperLeftCorner.getAddedInstance( shelf.getWidth(), 0 );
+            surfacePath.lineTo( mvt.modelToView( surfaceUpperRightCorner ) );
+            ImmutableVector2D surfaceLowerRightCorner = surfaceUpperRightCorner.getAddedInstance( -edgeWidth, -edgeHeight );
+            surfacePath.lineTo( mvt.modelToView( surfaceLowerRightCorner ) );
+            surfacePath.lineTo( mvt.modelToView( surfaceLowerLeftCorner ) );
 
             addChild( new PhetPPath( surfacePath.getGeneralPath(), new BasicStroke( 1 ), Color.BLUE ) );
+
+            // Draw front edge.
+            DoubleGeneralPath frontEdgePath = new DoubleGeneralPath();
+            frontEdgePath.moveTo( mvt.modelToView( surfaceLowerLeftCorner ) );
+            ImmutableVector2D frontEdgeLowerLeftCorner = surfaceLowerLeftCorner.getAddedInstance( 0, -shelf.getThickness() );
+            frontEdgePath.lineTo( mvt.modelToView( frontEdgeLowerLeftCorner ) );
+            ImmutableVector2D frontEdgeLowerRightCorner = frontEdgeLowerLeftCorner.getAddedInstance( shelf.getWidth(), 0 );
+            frontEdgePath.lineTo( mvt.modelToView( frontEdgeLowerRightCorner ) );
+            frontEdgePath.lineTo( mvt.modelToView( surfaceLowerRightCorner ) );
+
+            addChild( new PhetPPath( frontEdgePath.getGeneralPath(), new BasicStroke( 1 ), Color.BLUE ) );
+
         }
 
     }
