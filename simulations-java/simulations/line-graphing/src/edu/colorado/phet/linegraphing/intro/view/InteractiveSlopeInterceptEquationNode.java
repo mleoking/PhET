@@ -31,25 +31,25 @@ import edu.umd.cs.piccolo.nodes.PText;
 class InteractiveSlopeInterceptEquationNode extends PhetPNode {
 
     private static final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
-    private static final PhetFont FONT = new PhetFont( Font.BOLD, 38 );
 
     private final Property<Double> rise, run, intercept;
 
-    public InteractiveSlopeInterceptEquationNode( final Property<SlopeInterceptLine> interactiveLine, IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange ) {
+    public InteractiveSlopeInterceptEquationNode( final Property<SlopeInterceptLine> interactiveLine,
+                                                  IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange, PhetFont font ) {
 
         this.rise = new Property<Double>( interactiveLine.get().rise );
         this.run = new Property<Double>( interactiveLine.get().run );
         this.intercept = new Property<Double>( interactiveLine.get().intercept );
 
         // y = mx + b
-        PText yNode = new PhetPText( "y", FONT );
-        PText equalsNode = new PhetPText( "=", FONT );
-        PNode riseNode = new SlopeSpinnerNode( this.rise, riseRange, FONT, FORMAT );
+        PText yNode = new PhetPText( "y", font );
+        PText equalsNode = new PhetPText( "=", font );
+        PNode riseNode = new SlopeSpinnerNode( this.rise, riseRange, font, FORMAT );
         final PPath lineNode = new PPath( new Line2D.Double( 0, 0, riseNode.getFullBoundsReference().getWidth(), 0 ) );
-        PNode runNode = new SlopeSpinnerNode( this.run, runRange, FONT, FORMAT );
-        PText xNode = new PhetPText( "x", FONT );
-        final PText interceptSignNode = new PhetPText( "+", FONT );
-        PNode interceptNode = new InterceptSpinnerNode( this.intercept, interceptRange, FONT, FORMAT );
+        PNode runNode = new SlopeSpinnerNode( this.run, runRange, font, FORMAT );
+        PText xNode = new PhetPText( "x", font );
+        final PText interceptSignNode = new PhetPText( "+", font );
+        PNode interceptNode = new InterceptSpinnerNode( this.intercept, interceptRange, font, FORMAT );
 
         // rendering order
         {
