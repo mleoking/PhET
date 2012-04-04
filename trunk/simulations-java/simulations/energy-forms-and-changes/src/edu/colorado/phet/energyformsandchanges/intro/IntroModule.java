@@ -25,7 +25,6 @@ public class IntroModule extends SimSharingPiccoloModule {
     private IntroModule( IntroModel model ) {
         super( EnergyFormsAndChangesSimSharing.UserComponents.introTab, EnergyFormsAndChangesResources.Strings.INTRO, model.getClock() );
         this.model = model;
-        setLogoPanel( null ); // Turn off the "logo panel", which is the control panel on right side.
         setClockControlPanel( new PiccoloClockControlPanel( model.getClock() ) );
         setSimulationPanel( new IntroCanvas( model ) );
         reset();
