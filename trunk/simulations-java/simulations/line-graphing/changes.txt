@@ -1,3 +1,4 @@
+4/3/12 constrain drag range of line manipulators to match equation constraints
 4/3/12 use nearest-neighbor rounding instead of truncation when computing reduced form of equation
 4/3/12 rename spinner button images
 4/3/12 tweak font sizes

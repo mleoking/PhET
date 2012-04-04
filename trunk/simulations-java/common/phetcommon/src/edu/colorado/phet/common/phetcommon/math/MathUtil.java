@@ -8,6 +8,7 @@ import java.awt.geom.Point2D;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
 /**
  * A class of static general purpose math utilities.
@@ -470,6 +471,10 @@ public class MathUtil {
     }
 
     public static double clamp( double value, DoubleRange range ) {
+        return clamp( range.getMin(), value, range.getMax() );
+    }
+
+    public static double clamp( double value, IntegerRange range ) {
         return clamp( range.getMin(), value, range.getMax() );
     }
 
