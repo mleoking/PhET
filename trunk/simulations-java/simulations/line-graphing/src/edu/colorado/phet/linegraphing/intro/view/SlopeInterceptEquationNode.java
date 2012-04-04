@@ -27,14 +27,14 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class SlopeInterceptEquationNode2 extends PhetPNode {
+class SlopeInterceptEquationNode extends PhetPNode {
 
     private static final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
     private static final PhetFont FONT = new PhetFont( Font.BOLD, 38 );
 
     private final Property<Double> rise, run, intercept;
 
-    public SlopeInterceptEquationNode2( final Property<SlopeInterceptLine> interactiveLine, IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange ) {
+    public SlopeInterceptEquationNode( final Property<SlopeInterceptLine> interactiveLine, IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange ) {
 
         this.rise = new Property<Double>( interactiveLine.get().rise );
         this.run = new Property<Double>( interactiveLine.get().run );
