@@ -6,9 +6,9 @@ DESIGN
 - same or different colors for saved lines? if different, how to choose colors?
 - does the origin need to be labeled (0,0)? if so, how?
 - "Lines" check box state affects other controls (standard lines, rise/run, Save Line, Erase Lines)
-- limit range of rise, run and intercept to 1/2 of grid range?
+- slope manipulator can be off the grid. limit range of rise, run and intercept to 1/2 of grid range?
 - change range to 0-20?
-- constrain to quadrants 1 & 4, so that numerator is positive?
+- constrain to quadrants 1 & 4, so that minus sign is in the numerator?
 - what should point tool display while it's being dragged? nothing? closest grid point?
 - when should point tool light up? when it's on the interactive line? when it's on any line?
 - color scheme
@@ -16,6 +16,9 @@ DESIGN
 - layout problem with interactive equation, generally looks too spaced out, but needs to accommodate "-10"
 - when you press "Save Line", you can't see your saved line
 - will constraints on dragging manipulators be confusing? Eg, with b=-2, m can't be dragged higher than y=8
+- interactive equation is ugly
+- is integer-based manipulation of the line acceptable?
+- does common shape and color coding of manipulators and spinner buttons help make a connection?
 
 HIGH
 
