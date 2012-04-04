@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.intro.view;
 
+import java.awt.BasicStroke;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.geom.Line2D;
@@ -45,7 +46,9 @@ class InteractiveSlopeInterceptEquationNode extends PhetPNode {
         PText yNode = new PhetPText( "y", font );
         PText equalsNode = new PhetPText( "=", font );
         PNode riseNode = new SlopeSpinnerNode( this.rise, riseRange, font, FORMAT );
-        final PPath lineNode = new PPath( new Line2D.Double( 0, 0, riseNode.getFullBoundsReference().getWidth(), 0 ) );
+        final PPath lineNode = new PPath( new Line2D.Double( 0, 0, riseNode.getFullBoundsReference().getWidth(), 0 ) ) {{
+            setStroke( new BasicStroke( 2f ) );
+        }};
         PNode runNode = new SlopeSpinnerNode( this.run, runRange, font, FORMAT );
         PText xNode = new PhetPText( "x", font );
         final PText interceptSignNode = new PhetPText( "+", font );
