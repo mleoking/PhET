@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 public class LGColors {
 
     public static final Color INTERACTIVE_LINE = PhetColorScheme.RED_COLORBLIND;
-    public static final Color SAVED_LINE_NORMAL = new Color( 0, 124, 0 );
+    public static final Color SAVED_LINE_NORMAL = Color.GRAY;
     public static final Color SAVED_LINE_HIGHLIGHT = new Color( 0, 190, 0 );
     public static final Color Y_EQUALS_X = Color.BLUE;
     public static final Color Y_EQUALS_NEGATIVE_X = new Color( 0, 178, 178 );

@@ -1,3 +1,4 @@
+4/4/12 use gray for saved lines, green for highlight on mouseOver
 4/4/12 tweak font for equations shown on lines
 4/4/12 tweak color scheme
 4/4/12 used colorblind-friendly version of red for interactive line
