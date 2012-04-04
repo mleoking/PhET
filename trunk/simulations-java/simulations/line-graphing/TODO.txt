@@ -4,14 +4,14 @@ DEADLINES
 
 DESIGN
 - same or different colors for saved lines? if different, how to choose colors?
-- does the origin need to be labeled (0,0)? if so, how?
-- "Lines" check box state affects other controls (standard lines, rise/run, Save Line, Erase Lines)
+- should the graph's origin be labeled? if so, using what convention?
+- when "Lines" is unchecked, should controls related to graph lines be disabled? (rise/run, y=x, y=-x, Save Line, Erase Lines)
 - slope manipulator can be off the grid. limit range of rise, run and intercept to 1/2 of grid range?
 - change range to 0-20?
 - constrain to quadrants 1 & 4, so that minus sign is in the numerator?
 - what should point tool display while it's being dragged? nothing? closest grid point?
 - when should point tool light up? when it's on the interactive line? when it's on any line?
-- color scheme
+- overall color scheme
 - if user saves 2 lines with the same reduced form, they will see only 1 saved line (actually 2 identical lines on top of each other)
 - layout problem with interactive equation, generally looks too spaced out, but needs to accommodate "-10"
 - when you press "Save Line", you can't see your saved line
@@ -26,13 +26,11 @@ HIGH
 MEDIUM
 - enable Save Line button immediately when Erase Lines has been pressed
 - Save Line button is enabled when interactive equation changes, but the reduced form of the line may be the same
-- disable Save Line button when "Lines" is unchecked
 - manipulate a "ghost" line that doesn't affect the equation until released?
 
 LOW
 - add data-collection to spinners
 - create spinner buttons programmatically to match colors, or investigate imageop to adjust hue
-- improve look of title + show/hide button in equation control panel
 - improve icons, generate programmatically to match colors?
 
 SIM-SHARING
