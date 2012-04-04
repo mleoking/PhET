@@ -57,7 +57,7 @@ public class InteractiveLineGraphNode extends LineGraphNode {
         interactiveLineParentNode.setVisible( linesVisible.get() );
 
         // Manipulators
-        final double manipulatorDiameter = mvt.modelToViewDeltaX( 0.65 );
+        final double manipulatorDiameter = mvt.modelToViewDeltaX( 0.75 );
         slopeManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.SLOPE_COLOR );
         interceptManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.INTERCEPT_COLOR );
 
