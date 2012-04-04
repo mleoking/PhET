@@ -24,7 +24,6 @@ public class EnergySystemsModule extends SimSharingPiccoloModule {
     private EnergySystemsModule( EnergySystemsModel model ) {
         super( EnergyFormsAndChangesSimSharing.UserComponents.energySystemsTab, EnergyFormsAndChangesResources.Strings.ENERGY_SYSTEMS, model.getClock() );
         this.model = model;
-        setLogoPanel( null ); // Turn off the "logo panel", which is the control panel on right side.
         setClockControlPanel( null );
         setSimulationPanel( new EnergySystemsCanvas( model ) );
         reset();
