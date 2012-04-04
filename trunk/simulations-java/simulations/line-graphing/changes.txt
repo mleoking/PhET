@@ -1,3 +1,4 @@
+4/4/12 tweak color scheme
 4/4/12 used colorblind-friendly version of red for interactive line
 4/4/12 change "Show" panel to "Graph", rename and simplify constructor
 4/4/12 tweak brackets so they don't get lost behind manipulators, and they look nicer where they meet
