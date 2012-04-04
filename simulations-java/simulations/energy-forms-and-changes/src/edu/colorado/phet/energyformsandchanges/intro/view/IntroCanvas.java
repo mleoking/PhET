@@ -7,10 +7,9 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.intro.model.IntroModel;
+import edu.colorado.phet.energyformsandchanges.intro.model.Shelf;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEFAULT_STAGE_SIZE;
 
@@ -35,7 +34,7 @@ public class IntroCanvas extends PhetPCanvas {
         ModelViewTransform mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
                 new Point( (int) Math.round( DEFAULT_STAGE_SIZE.getWidth() * 0.5 ), (int) Math.round( DEFAULT_STAGE_SIZE.getHeight() * 0.5 ) ),
-                1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
+                1000 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         setBackground( new Color( 245, 246, 247 ) );
 
@@ -43,10 +42,9 @@ public class IntroCanvas extends PhetPCanvas {
         final PNode rootNode = new PNode();
         addWorldChild( rootNode );
 
-        // TODO: Temp - Drawing of the design of the tab.
-        PImage drawing = new PImage( EnergyFormsAndChangesResources.Images.FIRST_TAB_DRAWING );
-        drawing.setOffset( 0, 0 );
-        drawing.setScale( DEFAULT_STAGE_SIZE.getWidth() / drawing.getFullBoundsReference().getWidth() );
-        rootNode.addChild( drawing );
+        // Add the shelves.
+        for ( Shelf shelf : model.getShelfList() ) {
+            rootNode.addChild( new ShelfNode( shelf, mvt ) );
+        }
     }
 }
