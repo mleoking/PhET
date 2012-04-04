@@ -8,11 +8,14 @@ import java.awt.Font;
 import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.RoundRectangle2D;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
+import edu.colorado.phet.linegraphing.LGColors;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -40,16 +43,18 @@ public class BracketValueNode extends PComposite {
     // label
     private static final PhetFont LABEL_FONT = new PhetFont( Font.BOLD, 16 );
     private static final Color LABEL_COLOR = Color.BLACK;
+    private static final Color LABEL_BACKGROUND_COLOR = ColorUtils.createColor( LGColors.SLOPE_COLOR, 120 );
     private static final NumberFormat LABEL_FORMAT = new DefaultDecimalFormat( "0" );
     private final double MINUS_SIGN_WIDTH = new PhetPText( "-", LABEL_FONT ).getFullBoundsReference().getWidth();
     private static final double LABEL_SPACING = 2;
+    private static final double LABEL_BACKGROUND_MARGIN = 3;
 
     // Constructor that uses default look
     public BracketValueNode( Direction direction, double length, double value ) {
-        this( direction, length, BRACKET_COLOR, BRACKET_STROKE, value, LABEL_FONT, LABEL_COLOR );
+        this( direction, length, BRACKET_COLOR, BRACKET_STROKE, value, LABEL_FONT, LABEL_COLOR, LABEL_BACKGROUND_COLOR );
     }
 
-    public BracketValueNode( Direction direction, double length, Color bracketColor, Stroke bracketStroke, double value, PhetFont font, Color textColor ) {
+    public BracketValueNode( Direction direction, double length, Color bracketColor, Stroke bracketStroke, double value, PhetFont font, Color textColor, Color backgroundColor ) {
 
         PNode bracketNode = new BracketNode( Math.abs( length ), bracketColor, bracketStroke );
         addChild( bracketNode );
@@ -58,6 +63,15 @@ public class BracketValueNode extends PComposite {
         labelNode.setFont( font );
         labelNode.setTextPaint( textColor );
         addChild( labelNode );
+
+        PPath backgroundNode = new PPath( new RoundRectangle2D.Double( 0, 0,
+                                                                  labelNode.getFullBoundsReference().getWidth() + ( 2 * LABEL_BACKGROUND_MARGIN ),
+                                                                  labelNode.getFullBoundsReference().getHeight() + ( 2 * LABEL_BACKGROUND_MARGIN ),
+                                                                  5, 5 ) );
+        backgroundNode.setPaint( backgroundColor );
+        backgroundNode.setStroke( null );
+        addChild( backgroundNode );
+        backgroundNode.moveInBackOf( labelNode );
 
         // layout
         {
@@ -103,6 +117,10 @@ public class BracketValueNode extends PComposite {
             else {
                 throw new UnsupportedOperationException( "unsupported direction: " + direction );
             }
+
+            // background behind label
+            backgroundNode.setOffset( labelNode.getFullBoundsReference().getMinX() - LABEL_BACKGROUND_MARGIN,
+                                      labelNode.getFullBoundsReference().getMinY() - LABEL_BACKGROUND_MARGIN );
         }
     }
 
