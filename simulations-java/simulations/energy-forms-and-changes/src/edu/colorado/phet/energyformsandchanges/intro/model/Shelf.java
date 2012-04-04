@@ -11,6 +11,15 @@ import java.awt.geom.Point2D;
  * @author John Blanco
  */
 public class Shelf {
+
+    //-------------------------------------------------------------------------
+    // Class Data
+    //-------------------------------------------------------------------------
+
+    //-------------------------------------------------------------------------
+    // Instance Data
+    //-------------------------------------------------------------------------
+
     // Position of the left edge of the shelf in model coordinates.
     private final Point2D position;
 
@@ -26,6 +35,10 @@ public class Shelf {
     private final double thickness; // In meters.
     private final double foreshortenedHeight; // In meters.
     private final double perspectiveAngle; // In radians.
+
+    //-------------------------------------------------------------------------
+    // Constructor(s)
+    //-------------------------------------------------------------------------
 
     /**
      * Constructor.
@@ -44,5 +57,33 @@ public class Shelf {
         this.thickness = thickness;
         this.foreshortenedHeight = foreshortenedHeight;
         this.perspectiveAngle = perspectiveAngle;
+    }
+
+    //-------------------------------------------------------------------------
+    // Methods
+    //-------------------------------------------------------------------------
+
+    public Point2D getPosition() {
+        return position;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public String getImageFileName() {
+        return imageFileName;
+    }
+
+    public double getThickness() {
+        return thickness;
+    }
+
+    public double getForeshortenedHeight() {
+        return foreshortenedHeight;
+    }
+
+    public double getPerspectiveAngle() {
+        return perspectiveAngle;
     }
 }
