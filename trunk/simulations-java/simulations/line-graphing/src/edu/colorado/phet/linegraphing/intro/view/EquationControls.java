@@ -23,12 +23,14 @@ import edu.colorado.phet.common.piccolophet.nodes.ToggleButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.linegraphing.LGColors;
 import edu.colorado.phet.linegraphing.LGConstants;
+import edu.colorado.phet.linegraphing.LGResources;
 import edu.colorado.phet.linegraphing.LGResources.Images;
 import edu.colorado.phet.linegraphing.LGResources.Strings;
 import edu.colorado.phet.linegraphing.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Control panel for interacting with the line equation.
@@ -37,6 +39,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 class EquationControls extends PhetPNode {
 
+    private static final PhetFont EQUATION_FONT = new PhetFont( Font.BOLD, 38 );
     // y = mx + b
     private static String TITLE = MessageFormat.format( "{0} = {1}{2} + {3}", // eg, y = mx + b,
                                                            Strings.SYMBOL_Y,
@@ -51,12 +54,13 @@ class EquationControls extends PhetPNode {
 
         PNode titleNode = new PhetPText( TITLE, new PhetFont( Font.BOLD, 18 ) );
         PNode minimizeMaximizeButtonNode = new ToggleButtonNode( UserComponents.equationMinimizeMaximizeButton, maximized, Images.MINIMIZE_BUTTON, Images.MAXIMIZE_BUTTON );
-        final PNode equationNode = new ZeroOffsetNode( new InteractiveSlopeInterceptEquationNode( interactiveLine, riseRange, runRange, interceptRange ) );
+        final PNode equationNode = new ZeroOffsetNode( new InteractiveSlopeInterceptEquationNode( interactiveLine, riseRange, runRange, interceptRange, EQUATION_FONT ) );
         PNode strutNode = new PPath( new Rectangle2D.Double( 0, 0, getFullBoundsReference().getWidth(), 1 ) );
         final TextButtonNode saveLineButton = new TextButtonNode( Strings.SAVE_LINE, LGConstants.CONTROL_FONT, LGColors.SAVE_LINE_BUTTON );
         final TextButtonNode eraseLinesButton = new TextButtonNode( Strings.ERASE_LINES, LGConstants.CONTROL_FONT, LGColors.ERASE_LINES_BUTTON ) {{
             setEnabled( false );
         }};
+        final PText xEqualsZeroNode = new PhetPText( MessageFormat.format( "{0} = 0", Strings.SYMBOL_X ), EQUATION_FONT );
 
         final PNode parentNode = new PNode();
         parentNode.addChild( titleNode );
@@ -65,6 +69,7 @@ class EquationControls extends PhetPNode {
         parentNode.addChild( strutNode );
         parentNode.addChild( saveLineButton );
         parentNode.addChild( eraseLinesButton );
+        parentNode.addChild( xEqualsZeroNode );
 
         double maxWidth = parentNode.getFullBoundsReference().getWidth();
 
@@ -95,6 +100,8 @@ class EquationControls extends PhetPNode {
             separatorNode.setOffset( 0, titleBackgroundNode.getFullBoundsReference().getMaxY() + 2 );
             equationNode.setOffset( ( maxWidth / 2 ) - ( equationNode.getFullBoundsReference().getWidth() / 2 ),
                                     separatorNode.getFullBoundsReference().getMaxY() + 15 );
+            xEqualsZeroNode.setOffset( equationNode.getXOffset(),
+                                       equationNode.getFullBoundsReference().getCenterY() - ( xEqualsZeroNode.getFullBoundsReference().getHeight() / 2 ) );
             saveLineButton.setOffset( ( maxWidth / 2 ) - saveLineButton.getFullBoundsReference().getWidth() - 3,
                                       equationNode.getFullBoundsReference().getMaxY() + 15 );
             eraseLinesButton.setOffset( ( maxWidth / 2 ) + 3, saveLineButton.getYOffset() );
@@ -111,12 +118,14 @@ class EquationControls extends PhetPNode {
                     parentNode.addChild( equationNode );
                     parentNode.addChild( saveLineButton );
                     parentNode.addChild( eraseLinesButton );
+                    parentNode.addChild( xEqualsZeroNode );
                 }
                 else {
                     parentNode.removeChild( separatorNode );
                     parentNode.removeChild( equationNode );
                     parentNode.removeChild( saveLineButton );
                     parentNode.removeChild( eraseLinesButton );
+                    parentNode.removeChild( xEqualsZeroNode );
                 }
             }
         } );
@@ -139,9 +148,11 @@ class EquationControls extends PhetPNode {
             }
         } );
 
-        // When the interactive line has been changed, enabled the "Save" button.
-        interactiveLine.addObserver( new SimpleObserver() {
-            public void update() {
+        // When the interactive line changes...
+        interactiveLine.addObserver( new VoidFunction1<SlopeInterceptLine>() {
+            public void apply( SlopeInterceptLine line ) {
+                equationNode.setVisible( line.isDefined() );
+                xEqualsZeroNode.setVisible( !line.isDefined() );
                 saveLineButton.setEnabled( true );
             }
         } );
