@@ -38,9 +38,9 @@ class EquationControlPanel extends PhetPNode {
 
     // y = mx + b
     private static String TITLE = MessageFormat.format( "{0} = {1}{2} + {3}", // eg, y = mx + b,
-                                                           Strings.SYMBOL_VERTICAL_AXIS,
+                                                           Strings.SYMBOL_Y,
                                                            Strings.SYMBOL_SLOPE,
-                                                           Strings.SYMBOL_HORIZONTAL_AXIS,
+                                                           Strings.SYMBOL_X,
                                                            Strings.SYMBOL_INTERCEPT );
 
     public EquationControlPanel( final Property<SlopeInterceptLine> interactiveLine, final LineGraphNode lineGraphNode, final TextButtonNode eraseLinesButton,

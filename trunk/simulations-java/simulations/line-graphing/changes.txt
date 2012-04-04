@@ -1,3 +1,4 @@
+4/3/12 misc cleanup
 4/3/12 scale bracket tip with when bracket width is < a threshold
 4/3/12 first pass at drag handlers for line manipulators (glitchy, behavior doesn't match requirements)
 4/3/12 use white for all piccolo buttons until we work out more important color-coding issues

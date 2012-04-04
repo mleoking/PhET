@@ -31,11 +31,11 @@ class VisibilityControls extends PNode {
     private static final PhetFont CONTROL_FONT = new PhetFont( Font.PLAIN, 14 );
 
     private static final String Y_EQUALS_X = MessageFormat.format( "{0} = +1{1}",
-                                                                   Strings.SYMBOL_VERTICAL_AXIS,
-                                                                   Strings.SYMBOL_HORIZONTAL_AXIS );
+                                                                   Strings.SYMBOL_Y,
+                                                                   Strings.SYMBOL_X );
     private static final String Y_EQUALS_NEGATIVE_X = MessageFormat.format( "{0} = -1{1}",
-                                                                            Strings.SYMBOL_VERTICAL_AXIS,
-                                                                            Strings.SYMBOL_HORIZONTAL_AXIS );
+                                                                            Strings.SYMBOL_Y,
+                                                                            Strings.SYMBOL_X );
 
     public VisibilityControls( Property<Boolean> linesVisible, Property<Boolean> riseOverRunVisible,
                                Property<Boolean> yEqualsXVisible, Property<Boolean> yEqualsNegativeXVisible,
@@ -45,7 +45,7 @@ class VisibilityControls extends PNode {
         JComponent title = new JLabel( Strings.SHOW ) {{
             setFont( TITLE_FONT );
         }};
-        JComponent linesCheckBox = new PropertyCheckBoxWithIcon( UserComponents.graphLinesCheckBox, Strings.LINES, CONTROL_FONT, Images.LINES_ICON, linesVisible );
+        JComponent linesCheckBox = new PropertyCheckBoxWithIcon( UserComponents.linesCheckBox, Strings.LINES, CONTROL_FONT, Images.LINES_ICON, linesVisible );
         final JComponent riseOverRunCheckBox = new PropertyCheckBoxWithIcon( UserComponents.riseOverRunCheckBox, Strings.RISE_OVER_RUN, CONTROL_FONT, Images.RISE_OVER_RUN_ICON, riseOverRunVisible );
         final JComponent positiveCheckBox = new PropertyCheckBoxWithIcon( UserComponents.yEqualsXCheckBox, Y_EQUALS_X, CONTROL_FONT, Images.Y_EQUALS_X_ICON, yEqualsXVisible );
         final JComponent negativeCheckBox = new PropertyCheckBoxWithIcon( UserComponents.yEqualsNegativeXCheckBox, Y_EQUALS_NEGATIVE_X, CONTROL_FONT, Images.Y_EQUALS_NEGATIVE_X_ICON, yEqualsNegativeXVisible );

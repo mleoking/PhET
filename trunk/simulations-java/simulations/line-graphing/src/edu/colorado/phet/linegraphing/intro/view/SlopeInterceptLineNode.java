@@ -17,6 +17,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Visual representation of a line in slope-intercept form (y = mx + b), with arrows on both ends.
+ * The line's equation (in reduced form) is positioned towards the tip, parallel with the line.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
