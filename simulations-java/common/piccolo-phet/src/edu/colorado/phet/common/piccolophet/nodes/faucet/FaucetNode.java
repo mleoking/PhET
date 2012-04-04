@@ -55,7 +55,7 @@ public class FaucetNode extends PNode {
 
     // Faucet handle in the image file.
     private static final Point2D HANDLE_CENTER = new Point2D.Double( 46, 8 );
-    private static final Dimension2D HANDLE_SIZE = new Dimension2DDouble( 85, 16 );
+    public static final Dimension2D HANDLE_SIZE = new Dimension2DDouble( 85, 16 );
 
     private final PImage faucetNode;
     private final FaucetSliderNode sliderNode;
