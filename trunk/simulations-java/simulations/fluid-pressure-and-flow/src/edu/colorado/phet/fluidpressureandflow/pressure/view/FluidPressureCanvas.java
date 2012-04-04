@@ -141,8 +141,9 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
 
         double maxControlWidth = Math.max( gravityControl.getMaximumSize().getWidth(), fluidDensityControl.getMaximumSize().getWidth() );
 
-        gravityControlPanelNode.setOffset( STAGE_SIZE.getWidth() - maxControlWidth - INSET, STAGE_SIZE.getHeight() - gravityControl.getMaximumSize().getHeight() - INSET );
-        fluidDensityControlNode.setOffset( STAGE_SIZE.getWidth() - maxControlWidth - INSET, gravityControlPanelNode.getFullBounds().getY() - fluidDensityControl.getMaximumSize().getHeight() - INSET );
+        //I'm not sure why the factor of 2 is needed in these insets, but without it no insets appear
+        gravityControlPanelNode.setOffset( STAGE_SIZE.getWidth() - maxControlWidth - INSET * 2, STAGE_SIZE.getHeight() - gravityControl.getMaximumSize().getHeight() - INSET * 2 );
+        fluidDensityControlNode.setOffset( STAGE_SIZE.getWidth() - maxControlWidth - INSET * 2, gravityControlPanelNode.getFullBounds().getY() - fluidDensityControl.getMaximumSize().getHeight() - INSET * 2 );
 
         addChild( gravityControlPanelNode );
         addChild( fluidDensityControlNode );

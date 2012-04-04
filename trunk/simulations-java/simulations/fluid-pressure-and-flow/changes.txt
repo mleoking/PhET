@@ -1,3 +1,4 @@
+Pressure tab: Fluid density and gravity controls too close together and no insets
 Pressure tab: Chamber scene: Show object weights on the objects in Newtons
 Pressure tab: Trapezoid scene: Fixed: drain water doesn't flow very far--you can see it cut off if you change the screen aspect ratio
 Pressure tab: Trapezoid scene: Added a drain faucet
