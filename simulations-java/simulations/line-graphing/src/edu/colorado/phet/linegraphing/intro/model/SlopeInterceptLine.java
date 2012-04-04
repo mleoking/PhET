@@ -115,6 +115,7 @@ public class SlopeInterceptLine {
         }
         else {
             int gcd = MathUtil.getGreatestCommonDivisor( (int) Math.abs( rise ), (int) Math.abs( run ) );
+            System.out.println( "gcd = " + gcd );//XXX
             if ( rise * run > 0 ) {
                 return MessageFormat.format( "({0}/{1})", (int) Math.abs( rise / gcd ), (int) Math.abs( run / gcd ) );
             }
