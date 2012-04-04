@@ -24,6 +24,7 @@ MEDIUM
 - disable Save Line button when "Lines" is unchecked
 - reuse spinner buttons from fractions, see SpinnerButtonNode
 - implement a nicer looking interactive equation
+- move static string methods from model (SlopeInterceptLine) to view
 
 LOW
 - improve look of title + show/hide button in equation control panel

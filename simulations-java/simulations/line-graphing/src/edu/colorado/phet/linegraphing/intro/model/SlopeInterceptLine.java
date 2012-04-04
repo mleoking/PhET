@@ -60,6 +60,7 @@ public class SlopeInterceptLine {
         return ( y - b ) / m;
     }
 
+    //TODO move this to view
     // Gets the equation as it was entered by the user.
     public String getEquation() {
         final String x = Strings.SYMBOL_HORIZONTAL_AXIS;
@@ -81,6 +82,7 @@ public class SlopeInterceptLine {
         }
     }
 
+    //TODO move this to view
     // Gets the equation with slope in reduced form.
     public String getReducedEquation() {
         final String x = Strings.SYMBOL_HORIZONTAL_AXIS;
@@ -102,6 +104,7 @@ public class SlopeInterceptLine {
         }
     }
 
+    //TODO move this to view, add "double getReducedRise" and "double getReducedRun" methods
     // Gets the slope as an integer or reduced fraction.
     private String getReducedSlope() {
         if ( rise == run ) {
