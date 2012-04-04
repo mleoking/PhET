@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeBooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
@@ -30,11 +31,13 @@ public class TrapezoidPool implements IPool {
 
     private final double yAtTop = 0;
     public final double height = 3;
-    public final Property<Double> flowRatePercentage = new Property<Double>( 0.0 );
-    public final ObservableProperty<Boolean> faucetEnabled;
+    public final Property<Double> inputFlowRatePercentage = new Property<Double>( 0.0 );
+    public final ObservableProperty<Boolean> inputFaucetEnabled;
 
     private final CompositeProperty<Shape> waterShape;
     public final Property<Double> waterVolume = new Property<Double>( 0.0 );
+    public final ObservableProperty<Boolean> drainFaucetEnabled;
+    public final Property<Double> drainFlowRate = new Property<Double>( 0.0 );
 
     public TrapezoidPool() {
         this.waterShape = new CompositeProperty<Shape>( new Function0<Shape>() {
@@ -50,9 +53,14 @@ public class TrapezoidPool implements IPool {
                 }};
             }
         }, waterVolume );
-        faucetEnabled = new CompositeBooleanProperty( new Function0<Boolean>() {
+        inputFaucetEnabled = new CompositeBooleanProperty( new Function0<Boolean>() {
             @Override public Boolean apply() {
                 return getWaterHeight() < height;
+            }
+        }, waterVolume );
+        drainFaucetEnabled = new CompositeBooleanProperty( new Function0<Boolean>() {
+            @Override public Boolean apply() {
+                return waterVolume.get() > 0.0;
             }
         }, waterVolume );
     }
@@ -80,7 +88,7 @@ public class TrapezoidPool implements IPool {
         }}.getGeneralPath();
     }
 
-    private Shape passage() {
+    public Shape passage() {
         final double passageHeight = 0.25;
         return new Rectangle2D.Double( centerAtLeftChamberOpening, -height, separation, passageHeight );
     }
@@ -144,7 +152,7 @@ public class TrapezoidPool implements IPool {
     }
 
     public void stepInTime( final double dt ) {
-        waterVolume.set( waterVolume.get() + flowRatePercentage.get() * dt );
+        waterVolume.set( MathUtil.clamp( 0, waterVolume.get() + inputFlowRatePercentage.get() * dt - drainFlowRate.get() * dt, height ) );
     }
 
     @Override public void addPressureChangeObserver( final SimpleObserver updatePressure ) {
@@ -160,7 +168,7 @@ public class TrapezoidPool implements IPool {
     }
 
     public void reset() {
-        flowRatePercentage.reset();
+        inputFlowRatePercentage.reset();
         waterVolume.reset();
     }
 }

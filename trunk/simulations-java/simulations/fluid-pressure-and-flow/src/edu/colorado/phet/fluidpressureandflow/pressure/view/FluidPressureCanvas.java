@@ -4,14 +4,20 @@ package edu.colorado.phet.fluidpressureandflow.pressure.view;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
+import edu.colorado.phet.common.piccolophet.nodes.faucet.FaucetNode;
+import edu.colorado.phet.common.piccolophet.nodes.faucet.FaucetSliderNode;
+import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishRuler;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidDensityControl;
@@ -27,7 +33,7 @@ import edu.colorado.phet.fluidpressureandflow.pressure.model.Pool;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.POTTED_PLANT;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.*;
 
 /**
  * Canvas for the "pressure" tab in Fluid Pressure and Flow.
@@ -142,25 +148,60 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
         addChild( fluidDensityControlNode );
 
         //Create the faucet for the trapezoidal mode
-        final PNode faucetAndWater = new PNode() {{
+        final PNode inputFaucetAndWater = new PNode() {{
             model.pool.valueEquals( model.trapezoidPool ).addObserver( new VoidFunction1<Boolean>() {
                 @Override public void apply( final Boolean visible ) {
                     setVisible( visible );
                 }
             } );
 
-            final FluidPressureFaucetNode faucetNode = new FluidPressureFaucetNode( model.trapezoidPool.flowRatePercentage, model.trapezoidPool.faucetEnabled ) {{
+            final FluidPressureFaucetNode faucetNode = new FluidPressureFaucetNode( model.trapezoidPool.inputFlowRatePercentage, model.trapezoidPool.inputFaucetEnabled ) {{
 
                 //Center the faucet over the left opening, values sampled from a drag listener
                 setOffset( new Point2D.Double( 109.2584933530281, 157.19350073855244 ) );
             }};
 
             //Show the water coming out of the faucet
-            addChild( new FlowingWaterNode( model.trapezoidPool, model.trapezoidPool.flowRatePercentage, transform, model.liquidDensity, model.trapezoidPool.faucetEnabled ) );
+            addChild( new InputFlowingWaterNode( model.trapezoidPool, model.trapezoidPool.inputFlowRatePercentage, transform, model.liquidDensity, model.trapezoidPool.inputFaucetEnabled ) );
             addChild( faucetNode );
 
         }};
-        addChild( faucetAndWater );
+        addChild( inputFaucetAndWater );
+
+        //Create the faucet for the trapezoidal mode
+        final PNode outputFaucetAndWater = new PNode() {{
+            model.pool.valueEquals( model.trapezoidPool ).addObserver( new VoidFunction1<Boolean>() {
+                @Override public void apply( final Boolean visible ) {
+                    setVisible( visible );
+                }
+            } );
+
+            final double offsetX = 8;
+            final PImage faucetNode = new PImage( BufferedImageUtils.multiScaleToHeight( OUTPUT_DRAIN, (int) ( OUTPUT_DRAIN.getHeight() * 1.2 ) ) ) {{
+
+                //Center the faucet over the left opening, values sampled from a drag listener
+                setOffset( new Point2D.Double( 432.685376661743 - offsetX, 644.3426883308715 ) );
+            }};
+
+            final PImage drainKnob = new PImage( BufferedImageUtils.multiScaleToHeight( DRAIN_KNOB_TOP, (int) ( LOWER_DRAIN_KNOB.getHeight() * 1.2 ) ) ) {{
+
+                //Center the faucet over the left opening, values sampled from a drag listener
+                setOffset( new Point2D.Double( 419.6277695716396 - offsetX, 592.1122599704579 ) );
+
+                FaucetSliderNode sliderNode = new FaucetSliderNode( UserComponentChain.chain( FPAFSimSharing.UserComponents.drainFaucet, UserComponents.slider ), model.trapezoidPool.drainFaucetEnabled, 1, model.trapezoidPool.drainFlowRate, true ) {{
+                    setOffset( 4, 2.5 ); //TODO #3199, change offsets when the faucet images are revised, make these constants
+                    scale( FaucetNode.HANDLE_SIZE.getWidth() / getFullBounds().getWidth() * 1.2 ); //scale to fit into the handle portion of the faucet image
+                }};
+                addChild( sliderNode );
+            }};
+
+            //Show the water coming out of the faucet
+            addChild( new OutputFlowingWaterNode( model.trapezoidPool, model.trapezoidPool.drainFlowRate, transform, model.liquidDensity, model.trapezoidPool.drainFaucetEnabled ) );
+            addChild( faucetNode );
+            addChild( drainKnob );
+
+        }};
+        addChild( outputFaucetAndWater );
 
         final PNode massesNode = new PNode() {{
             model.pool.valueEquals( model.chamberPool ).addObserver( new VoidFunction1<Boolean>() {

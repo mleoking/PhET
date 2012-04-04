@@ -14,6 +14,6 @@ public class FPAFSimSharing {
         waterTowerFaucet, fluidDensitySlider, flowRateMetricSlider, gravitySlider, flowRateEnglishSlider,
         fluidPressureFaucet,
         slowMotionRadioButton,
-        normalSpeedRadioButton,
+        normalSpeedRadioButton, drainFaucet,
     }
 }

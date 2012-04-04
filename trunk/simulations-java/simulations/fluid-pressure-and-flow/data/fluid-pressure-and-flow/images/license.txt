@@ -4,6 +4,7 @@ handle.png source=PhET notes=drawn by NP
 handle_T.png source=PhET notes=drawn by NP
 knob.png source=PhET notes=drawn by NP
 nozzle.png source=PhET notes=created by SR based on work by NP
+output_drain source=PhET notes=created by SR based on work by NP
 panel.png source=PhET notes = created by SR
 pipe-left-back.png source=created by ON
 pipe-left-front.png source=created by ON
