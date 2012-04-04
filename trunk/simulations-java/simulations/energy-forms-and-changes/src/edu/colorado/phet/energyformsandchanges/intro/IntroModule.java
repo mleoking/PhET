@@ -2,6 +2,7 @@
 package edu.colorado.phet.energyformsandchanges.intro;
 
 import edu.colorado.phet.common.piccolophet.SimSharingPiccoloModule;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.intro.model.IntroModel;
@@ -25,7 +26,7 @@ public class IntroModule extends SimSharingPiccoloModule {
         super( EnergyFormsAndChangesSimSharing.UserComponents.introTab, EnergyFormsAndChangesResources.Strings.INTRO, model.getClock() );
         this.model = model;
         setLogoPanel( null ); // Turn off the "logo panel", which is the control panel on right side.
-        setClockControlPanel( null );
+        setClockControlPanel( new PiccoloClockControlPanel( model.getClock() ) );
         setSimulationPanel( new IntroCanvas( model ) );
         reset();
     }
