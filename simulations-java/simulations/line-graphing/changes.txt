@@ -1,3 +1,4 @@
+4/3/12 use nearest-neighbor rounding instead of truncation when computing reduced form of equation
 4/3/12 rename spinner button images
 4/3/12 tweak font sizes
 4/3/12 delete JSpinner-based equation implementation [63011]
