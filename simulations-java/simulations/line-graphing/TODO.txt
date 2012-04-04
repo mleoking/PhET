@@ -31,8 +31,6 @@ LOW
 - add data-collection to spinners
 - create spinner buttons programmatically to match colors, or investigate imageop to adjust hue
 - improve icons, generate programmatically to match colors?
-- one end of each bracket is a bit lost behind the manipulators
-- brackets look a little odd where they meet
 
 SIM-SHARING
 
