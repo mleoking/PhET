@@ -23,7 +23,6 @@ MEDIUM
 - enable Save Line button immediately when Erase Lines has been pressed
 - Save Line button is enabled when interactive equation changes, but the reduced form of the line may be the same
 - disable Save Line button when "Lines" is unchecked
-- move static string methods from model (SlopeInterceptLine) to view
 
 LOW
 - add data-collection to SpinnerNode
