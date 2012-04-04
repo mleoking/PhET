@@ -1,3 +1,4 @@
+Fixed an issue where the biomolecules could end up moving outside of their motion bounds when attaching to a base pair on the DNA molecule.
 # 0.00.19 (62767) Mar 23, 2012
 3/23/12 Deploying to dev for review
 Made changes to motion strategies and bounds in order to make the rate of transcription a little higher on the 2nd tab.
