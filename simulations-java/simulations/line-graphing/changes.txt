@@ -1,3 +1,4 @@
+4/4/12 put "Erase Lines" button next to "Save Line" button
 4/4/12 don't disable any controls when "Lines" is unchecked (for discussion)
 4/4/12 add horizontal separators for titles in control panels
 4/3/12 move formatting of equation in reduced form from model to view
