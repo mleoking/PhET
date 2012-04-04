@@ -19,7 +19,6 @@ DESIGN
 - interactive equation is ugly
 - is integer-based manipulation of the line acceptable?
 - does common shape and color coding of manipulators and spinner buttons help make a connection?
-- "Erase Lines" button feels like it should be next to "Save Line" button
 
 HIGH
 

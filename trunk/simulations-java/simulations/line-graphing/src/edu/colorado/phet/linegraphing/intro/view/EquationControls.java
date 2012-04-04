@@ -44,7 +44,7 @@ class EquationControls extends PhetPNode {
                                                            Strings.SYMBOL_X,
                                                            Strings.SYMBOL_INTERCEPT );
 
-    public EquationControls( final Property<SlopeInterceptLine> interactiveLine, final LineGraphNode lineGraphNode, final TextButtonNode eraseLinesButton,
+    public EquationControls( final Property<SlopeInterceptLine> interactiveLine, final LineGraphNode lineGraphNode,
                              IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange ) {
 
         final Property<Boolean> maximized = new Property<Boolean>( true );
@@ -54,6 +54,9 @@ class EquationControls extends PhetPNode {
         final PNode equationNode = new ZeroOffsetNode( new InteractiveSlopeInterceptEquationNode( interactiveLine, riseRange, runRange, interceptRange ) );
         PNode strutNode = new PPath( new Rectangle2D.Double( 0, 0, getFullBoundsReference().getWidth(), 1 ) );
         final TextButtonNode saveLineButton = new TextButtonNode( Strings.SAVE_LINE, LGConstants.CONTROL_FONT, LGColors.SAVE_LINE_BUTTON );
+        final TextButtonNode eraseLinesButton = new TextButtonNode( Strings.ERASE_LINES, LGConstants.CONTROL_FONT, LGColors.ERASE_LINES_BUTTON ) {{
+            setEnabled( false );
+        }};
 
         final PNode parentNode = new PNode();
         parentNode.addChild( titleNode );
@@ -61,6 +64,7 @@ class EquationControls extends PhetPNode {
         parentNode.addChild( equationNode );
         parentNode.addChild( strutNode );
         parentNode.addChild( saveLineButton );
+        parentNode.addChild( eraseLinesButton );
 
         double maxWidth = parentNode.getFullBoundsReference().getWidth();
 
@@ -91,8 +95,9 @@ class EquationControls extends PhetPNode {
             separatorNode.setOffset( 0, titleBackgroundNode.getFullBoundsReference().getMaxY() + 2 );
             equationNode.setOffset( ( maxWidth / 2 ) - ( equationNode.getFullBoundsReference().getWidth() / 2 ),
                                     separatorNode.getFullBoundsReference().getMaxY() + 15 );
-            saveLineButton.setOffset( ( maxWidth / 2 ) - ( saveLineButton.getFullBoundsReference().getWidth() / 2 ),
+            saveLineButton.setOffset( ( maxWidth / 2 ) - saveLineButton.getFullBoundsReference().getWidth() - 3,
                                       equationNode.getFullBoundsReference().getMaxY() + 15 );
+            eraseLinesButton.setOffset( ( maxWidth / 2 ) + 3, saveLineButton.getYOffset() );
         }
 
         addChild( new ControlPanelNode( parentNode ) );
@@ -101,14 +106,17 @@ class EquationControls extends PhetPNode {
         maximized.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean maximized ) {
                 if ( maximized ) {
+                    //TODO put all of these things under a common parent, so visibility can be changed with 1 call
                     parentNode.addChild( separatorNode );
                     parentNode.addChild( equationNode );
                     parentNode.addChild( saveLineButton );
+                    parentNode.addChild( eraseLinesButton );
                 }
                 else {
                     parentNode.removeChild( separatorNode );
                     parentNode.removeChild( equationNode );
                     parentNode.removeChild( saveLineButton );
+                    parentNode.removeChild( eraseLinesButton );
                 }
             }
         } );
@@ -119,6 +127,15 @@ class EquationControls extends PhetPNode {
                 eraseLinesButton.setEnabled( true );
                 saveLineButton.setEnabled( false );
                 lineGraphNode.saveLine( interactiveLine.get() );
+            }
+        } );
+
+        // Erase all lines that have been saved.
+        eraseLinesButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                eraseLinesButton.setEnabled( false );
+                saveLineButton.setEnabled( true );
+                lineGraphNode.eraseLines();
             }
         } );
 
