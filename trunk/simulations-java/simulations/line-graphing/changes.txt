@@ -1,4 +1,4 @@
-4/3/12 delete JSpinner-based equation implementation
+4/3/12 delete JSpinner-based equation implementation [63011]
 4/3/12 color code the spinner buttons to match the line manipulators
 4/3/12 replace JSpinners with SpinnerButtonNode from fractions project
 4/3/12 drag handler base class for line manipulators
