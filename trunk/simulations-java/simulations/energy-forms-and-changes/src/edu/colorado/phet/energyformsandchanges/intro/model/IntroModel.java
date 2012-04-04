@@ -28,7 +28,7 @@ public class IntroModel {
     private final List<Shelf> shelfList = new ArrayList<Shelf>();
 
     public IntroModel() {
-        shelfList.add( new Shelf( new Point2D.Double( -LAB_TABLE_WIDTH / 2, 0 ),
+        shelfList.add( new Shelf( new Point2D.Double( -LAB_TABLE_WIDTH / 2, -0.115 ),
                                   LAB_TABLE_WIDTH,
                                   EnergyFormsAndChangesResources.Images.SHELF_LONG,
                                   LAB_TABLE_WIDTH * 0.015,
