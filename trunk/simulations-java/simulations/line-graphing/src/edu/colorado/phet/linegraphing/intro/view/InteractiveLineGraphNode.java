@@ -8,12 +8,14 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.linegraphing.LGColors;
+import edu.colorado.phet.linegraphing.LGSimSharing.ParameterKeys;
 import edu.colorado.phet.linegraphing.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.intro.model.LineGraph;
 import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
@@ -193,6 +195,14 @@ public class InteractiveLineGraphNode extends LineGraphNode {
             // snap to grid
             line.set( new SlopeInterceptLine( MathUtil.round( line.get().rise ), MathUtil.round( line.get().run ), line.get().intercept ) );
         }
+
+        @Override protected ParameterSet getParametersForAllEvents( PInputEvent event ) {
+            return new ParameterSet().
+                    with( ParameterKeys.rise, line.get().rise ).
+                    with( ParameterKeys.run, line.get().run ).
+                    with( ParameterKeys.intercept, line.get().intercept ).
+                    with( super.getParametersForAllEvents( event ) );
+        }
     }
 
     // Drag handler for the intercept manipulator
@@ -227,6 +237,14 @@ public class InteractiveLineGraphNode extends LineGraphNode {
             super.endDrag( event );
             // snap to grid
             line.set( new SlopeInterceptLine( line.get().rise, line.get().run, MathUtil.round( line.get().intercept ) ) );
+        }
+
+        @Override protected ParameterSet getParametersForAllEvents( PInputEvent event ) {
+            return new ParameterSet().
+                    with( ParameterKeys.rise, line.get().rise ).
+                    with( ParameterKeys.run, line.get().run ).
+                    with( ParameterKeys.intercept, line.get().intercept ).
+                    with( super.getParametersForAllEvents( event ) );
         }
     }
 }

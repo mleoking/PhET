@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing;
 
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 
 /**
@@ -17,5 +18,9 @@ public class LGSimSharing {
         equationMinimizeMaximizeButton,
         pointTool,
         interceptManipulator, slopeManipulator
+    }
+
+    public static enum ParameterKeys implements IParameterKey {
+        rise, run, intercept
     }
 }
