@@ -1,3 +1,4 @@
+4/4/12 improved icon for rise/run check box
 4/4/12 increase stroke width of rise/run divisor line
 4/4/12 change color of point tool, it was clashing with interactive line color
 4/4/12 put a translucent background behind values on rise/run brackets, so they are visible when on top of other things, color code to slope
