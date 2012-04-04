@@ -52,6 +52,8 @@ public class ShelfNode extends PNode {
         double desiredImageHeight = surfacePath.getGeneralPath().getBounds2D().getHeight() + mvt.modelToViewDeltaY( -shelf.getThickness() );
         double imageScaleFactorX = desiredImageWidth / shelf.getImage().getWidth();
         double imageScaleFactorY = desiredImageHeight / shelf.getImage().getHeight();
+        System.out.println( "imageScaleFactorX = " + imageScaleFactorX );
+        System.out.println( "imageScaleFactorY = " + imageScaleFactorY );
 
         // Warn if the scale factors appear to be way off.
         if ( imageScaleFactorX < 0.5 || imageScaleFactorX > 2 ) {
@@ -66,7 +68,6 @@ public class ShelfNode extends PNode {
 
         // Position and add the image.
         shelfImageNode.setOffset( mvt.modelToView( shelf.getPosition().getX() - edgeWidth / 2, shelf.getPosition().getY() + shelf.getForeshortenedHeight() / 2 ) );
-//        shelfImageNode.setOffset( mvt.modelToView( shelf.getPosition().getX(), shelf.getPosition().getY() + shelf.getForeshortenedHeight() / 2) );
         addChild( shelfImageNode );
 
         if ( SHOW_2D_LOCATION ) {

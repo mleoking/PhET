@@ -17,6 +17,10 @@ import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
  */
 public class IntroModel {
 
+    // size of the lab table top.
+    private static final double LAB_TABLE_WIDTH = 0.5; // In meters.
+
+
     // Main model clock.
     protected final ConstantDtClock clock = new ConstantDtClock( 30.0 );
 
@@ -24,7 +28,12 @@ public class IntroModel {
     private final List<Shelf> shelfList = new ArrayList<Shelf>();
 
     public IntroModel() {
-        shelfList.add( new Shelf( new Point2D.Double( 0, 0 ), 0.5, EnergyFormsAndChangesResources.Images.SHELF_LONG, 0.02, 0.1, Math.PI / 2 ) );
+        shelfList.add( new Shelf( new Point2D.Double( -LAB_TABLE_WIDTH / 2, 0 ),
+                                  LAB_TABLE_WIDTH,
+                                  EnergyFormsAndChangesResources.Images.SHELF_LONG,
+                                  LAB_TABLE_WIDTH * 0.015,
+                                  LAB_TABLE_WIDTH * 0.05,
+                                  Math.PI / 2 ) );
     }
 
     public List<Shelf> getShelfList() {
