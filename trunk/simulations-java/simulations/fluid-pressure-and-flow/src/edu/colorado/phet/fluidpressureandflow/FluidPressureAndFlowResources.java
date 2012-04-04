@@ -65,7 +65,6 @@ public class FluidPressureAndFlowResources {
         public static final BufferedImage DRAIN_KNOB_TOP = RESOURCES.getImage( "drain_knob_top.png" );
         public static final BufferedImage HANDLE = RESOURCES.getImage( "handle.png" );
         public static final BufferedImage KNOB = RESOURCES.getImage( "knob.png" );
-        public static final BufferedImage LOWER_DRAIN_KNOB = RESOURCES.getImage( "lower_drain_knob.png" );
         public static final BufferedImage NOZZLE = RESOURCES.getImage( "nozzle.png" );
         public static final BufferedImage OUTPUT_DRAIN = RESOURCES.getImage( "output_drain.png" );
         public static final BufferedImage PANEL = RESOURCES.getImage( "panel.png" );
