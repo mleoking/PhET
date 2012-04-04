@@ -61,46 +61,24 @@ public class SlopeInterceptLine {
     }
 
     //TODO move this to view
-    // Gets the equation as it was entered by the user.
-    public String getEquation() {
-        final String x = Strings.SYMBOL_X;
-        final String y = Strings.SYMBOL_Y;
-        if ( run == 0 ) {
-            return x + " = 0";
-        }
-        else if ( rise == 0 ) {
-            return y + " = " + (int) intercept;
-        }
-        else if ( intercept == 0 ) {
-            return y + " = (" + (int) rise + "/" + (int) run + ")" + x;
-        }
-        else if ( intercept < 0 ) {
-            return y + " = (" + (int) rise + "/" + (int) run + ")" + x + " - " + (int) Math.abs( intercept );
-        }
-        else {
-            return y + " = (" + (int) rise + "/" + (int) run + ")" + x + " + " + (int) Math.abs( intercept );
-        }
-    }
-
-    //TODO move this to view
     // Gets the equation with slope in reduced form.
     public String getReducedEquation() {
         final String x = Strings.SYMBOL_X;
         final String y = Strings.SYMBOL_Y;
-        if ( run == 0 ) {
+        if ( MathUtil.round( run ) == 0 ) {
             return x + " = 0";
         }
-        else if ( rise == 0 ) {
+        else if ( MathUtil.round( rise ) == 0 ) {
             return y + " = " + (int) intercept;
         }
-        else if ( intercept == 0 ) {
+        else if ( MathUtil.round( intercept ) == 0 ) {
             return y + " = " + getReducedSlope() + x;
         }
         else if ( intercept < 0 ) {
-            return y + " = " + getReducedSlope() + x + " - " + (int) Math.abs( intercept );
+            return y + " = " + getReducedSlope() + x + " - " + MathUtil.round( Math.abs( intercept ) );
         }
         else {
-            return y + " = " + getReducedSlope() + x + " + " + (int) Math.abs( intercept );
+            return y + " = " + getReducedSlope() + x + " + " + MathUtil.round( Math.abs( intercept ) );
         }
     }
 
@@ -114,13 +92,12 @@ public class SlopeInterceptLine {
             return String.valueOf( (int) ( rise / run ) );
         }
         else {
-            int gcd = MathUtil.getGreatestCommonDivisor( (int) Math.abs( rise ), (int) Math.abs( run ) );
-            System.out.println( "gcd = " + gcd );//XXX
+            int gcd = MathUtil.getGreatestCommonDivisor( MathUtil.round( Math.abs( rise ) ), MathUtil.round( Math.abs( run ) ) );
             if ( rise * run > 0 ) {
-                return MessageFormat.format( "({0}/{1})", (int) Math.abs( rise / gcd ), (int) Math.abs( run / gcd ) );
+                return MessageFormat.format( "({0}/{1})", MathUtil.round( Math.abs( rise / gcd ) ), MathUtil.round( Math.abs( run / gcd ) ) );
             }
             else {
-                return MessageFormat.format( "-({0}/{1})", (int) Math.abs( rise / gcd ), (int) Math.abs( run / gcd ) );
+                return MessageFormat.format( "-({0}/{1})", MathUtil.round( Math.abs( rise / gcd ) ), MathUtil.round( Math.abs( run / gcd ) ) );
             }
         }
     }
