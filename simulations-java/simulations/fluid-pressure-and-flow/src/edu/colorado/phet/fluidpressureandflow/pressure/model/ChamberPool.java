@@ -41,6 +41,9 @@ public class ChamberPool implements IPool {
     //Width of the left opening to the air
     private double leftOpeningWidth = 0.5;
 
+    private double lengthRatio = rightOpeningWidth / leftOpeningWidth;
+    private double areaRatio = lengthRatio * lengthRatio;
+
     public final Property<ObservableList<Mass>> masses = new Property<ObservableList<Mass>>( new ObservableList<Mass>() {{
         double massOffset = -4.9;
         add( new Mass( new Rectangle2D.Double( massOffset + 0, 0, passageSize, passageSize ), false, 0.0, 1000 ) );
@@ -49,12 +52,14 @@ public class ChamberPool implements IPool {
     }} );
     private final Property<Double> gravity;
     private final Property<Double> fluidDensity;
-    public final Property<Double> leftWaterHeightAboveChamber = new Property<Double>( 1.0 );
-    private final CompositeProperty<Double> rightWaterHeightAboveChamber = new CompositeProperty<Double>( new Function0<Double>() {
+
+    //These heights are as measured above the lower chamber
+    public final Property<Double> leftWaterHeight = new Property<Double>( 1.0 );
+    private final CompositeProperty<Double> rightWaterHeight = new CompositeProperty<Double>( new Function0<Double>() {
         @Override public Double apply() {
-            return 1.0 + getLeftDisplacement() / 5.0;
+            return 1.0 + getLeftDisplacement() / lengthRatio;
         }
-    }, leftWaterHeightAboveChamber );
+    }, leftWaterHeight );
     private final double CHAMBER_HEIGHT = 1.5;
 
     public ChamberPool( Property<Double> gravity, Property<Double> fluidDensity ) {
@@ -66,10 +71,10 @@ public class ChamberPool implements IPool {
             @Override public Shape apply() {
                 return createWaterShape();
             }
-        }, masses, leftWaterHeightAboveChamber, rightWaterHeightAboveChamber );
+        }, masses, leftWaterHeight, rightWaterHeight );
     }
 
-    private double getLeftDisplacement() {return Math.abs( 1.0 - leftWaterHeightAboveChamber.get() );}
+    private double getLeftDisplacement() {return Math.abs( 1.0 - leftWaterHeight.get() );}
 
     private Shape createWaterShape() {
         return new Area( getLeftOpeningWaterShape() ) {{
@@ -154,13 +159,17 @@ public class ChamberPool implements IPool {
         Double minY = null;
         for ( Mass mass : masses.get() ) {
             if ( !mass.dragging && mass.getMinY() < 0 ) {
-                minY = mass.getMinY();
+                if ( minY == null ) {
+                    minY = mass.getMinY();
+                }
+                else {
+                    minY = Math.min( minY, mass.getMinY() );
+                }
             }
         }
         if ( minY != null ) {
-            double equilibriumY = -height + CHAMBER_HEIGHT + 1.0;
-            double leftDisplacement = Math.abs( equilibriumY - minY );
-            leftWaterHeightAboveChamber.set( 1.0 - leftDisplacement );
+            double leftDisplacement = Math.abs( -height + CHAMBER_HEIGHT + 1.0 - minY );
+            leftWaterHeight.set( 1.0 - leftDisplacement );
 
             this.waterShape.notifyIfChanged();
         }
@@ -169,15 +178,15 @@ public class ChamberPool implements IPool {
         else {
             //move back toward zero displacement.  Note, this does not use correct newtonian dynamics, just a simple heuristic
             double delta = getLeftDisplacement() / 10;
-            leftWaterHeightAboveChamber.set( leftWaterHeightAboveChamber.get() + delta );
+            leftWaterHeight.set( leftWaterHeight.get() + delta );
         }
     }
 
     @Override public void addPressureChangeObserver( final SimpleObserver updatePressure ) {
         waterShape.addObserver( updatePressure );
         masses.addObserver( updatePressure );
-        leftWaterHeightAboveChamber.addObserver( updatePressure );
-        rightWaterHeightAboveChamber.addObserver( updatePressure );
+        leftWaterHeight.addObserver( updatePressure );
+        rightWaterHeight.addObserver( updatePressure );
     }
 
     //Sensor can travel anywhere in this scene
@@ -249,17 +258,17 @@ public class ChamberPool implements IPool {
 
     public void reset() {
         masses.reset();
-        leftWaterHeightAboveChamber.reset();
+        leftWaterHeight.reset();
     }
 
     public Shape getLeftOpeningWaterShape() {
         double openingY = 0 - height + CHAMBER_HEIGHT;
-        return new Rectangle2D.Double( leftChamber().getBounds2D().getCenterX() - passageSize / 2, openingY, passageSize, leftWaterHeightAboveChamber.get() );
+        return new Rectangle2D.Double( leftChamber().getBounds2D().getCenterX() - passageSize / 2, openingY, passageSize, leftWaterHeight.get() );
     }
 
     public Shape getRightOpeningWaterShape() {
         double openingY = 0 - height + CHAMBER_HEIGHT;
-        return new Rectangle2D.Double( rightChamber().getBounds2D().getCenterX() - rightOpeningWidth / 2, openingY, rightOpeningWidth, rightWaterHeightAboveChamber.get() );
+        return new Rectangle2D.Double( rightChamber().getBounds2D().getCenterX() - rightOpeningWidth / 2, openingY, rightOpeningWidth, rightWaterHeight.get() );
     }
 
     public ArrayList<Mass> getStackedMasses() {
