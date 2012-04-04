@@ -21,6 +21,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+//TODO delete this after we're sure that we're not going to use JSpinners
 /**
  * Interface for manipulating the source-intercept equation.
  *
