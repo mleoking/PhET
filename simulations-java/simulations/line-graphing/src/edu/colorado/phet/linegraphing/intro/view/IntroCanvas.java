@@ -4,7 +4,6 @@ package edu.colorado.phet.linegraphing.intro.view;
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.linegraphing.LGColors;
@@ -20,19 +19,16 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class IntroCanvas extends LGCanvas implements Resettable {
 
-    public final Property<Boolean> linesVisible = new Property<Boolean>( true ); //TODO this property is problematic...
-
     private final InteractiveLineGraphNode lineGraphNode;
 
     public IntroCanvas( final IntroModel model ) {
 
         lineGraphNode = new InteractiveLineGraphNode( model.graph, model.mvt, model.interactiveLine,
                                                       IntroModel.RISE_RANGE, IntroModel.RUN_RANGE, IntroModel.INTERCEPT_RANGE,
-                                                      model.yEqualsXLine, model.yEqualsNegativeXLine, linesVisible, model.pointToolLocation );
+                                                      model.yEqualsXLine, model.yEqualsNegativeXLine, model.pointToolLocation );
         PNode graphNode = new ZeroOffsetNode( lineGraphNode );
         PNode equationControls = new EquationControls( model.interactiveLine, lineGraphNode, IntroModel.RISE_RANGE, IntroModel.RUN_RANGE, IntroModel.INTERCEPT_RANGE );
-        PNode visibilityControls = new VisibilityControls( linesVisible, lineGraphNode.riseOverRunVisible, lineGraphNode.yEqualsXVisible, lineGraphNode.yEqualsNegativeXVisible,
-                                                           lineGraphNode.pointToolVisible );
+        PNode visibilityControls = new GraphControls( lineGraphNode );
         PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, LGColors.RESET_ALL_BUTTON ) {{
             setConfirmationEnabled( false );
         }};

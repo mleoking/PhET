@@ -1,24 +1,14 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.intro.view;
 
-import java.awt.Cursor;
-import java.awt.geom.Point2D;
-
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
-import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.linegraphing.LGColors;
-import edu.colorado.phet.linegraphing.LGSimSharing.ParameterKeys;
 import edu.colorado.phet.linegraphing.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.intro.model.LineGraph;
 import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
@@ -26,7 +16,6 @@ import edu.colorado.phet.linegraphing.intro.view.BracketValueNode.Direction;
 import edu.colorado.phet.linegraphing.intro.view.LineManipulatorDragHandler.InterceptDragHandler;
 import edu.colorado.phet.linegraphing.intro.view.LineManipulatorDragHandler.SlopeDragHandler;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -39,7 +28,6 @@ public class InteractiveLineGraphNode extends LineGraphNode {
     public final Property<Boolean> riseOverRunVisible = new Property<Boolean>( true );
     public final Property<Boolean> pointToolVisible = new Property<Boolean>( false );
 
-    private final Property<Boolean> linesVisible;
     private PNode interactiveLineParentNode, bracketsParentNode;
     private PNode slopeManipulatorNode, interceptManipulatorNode;
 
@@ -47,10 +35,8 @@ public class InteractiveLineGraphNode extends LineGraphNode {
                                      Property<SlopeInterceptLine> interactiveLine,
                                      IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange,
                                      SlopeInterceptLine yEqualsXLine, SlopeInterceptLine yEqualsNegativeXLine,
-                                     Property<Boolean> linesVisible, Property<ImmutableVector2D> pointToolLocation ) {
-        super( graph, mvt, yEqualsXLine, yEqualsNegativeXLine, linesVisible );
-
-        this.linesVisible = linesVisible;
+                                     Property<ImmutableVector2D> pointToolLocation ) {
+        super( graph, mvt, yEqualsXLine, yEqualsNegativeXLine );
 
         // Interactive line
         interactiveLineParentNode = new PComposite();
