@@ -108,17 +108,18 @@ public class BracketValueNode extends PComposite {
     private static class BracketNode extends PPath {
 
         public BracketNode( double width, Paint paint, Stroke stroke ) {
-            assert ( width > 0 && width > BRACKET_TIP_WIDTH );
+            assert ( width > 0 );
 
             setStroke( stroke );
             setStrokePaint( paint );
 
+            final double bracketTipWidth = Math.min( BRACKET_TIP_WIDTH, 0.5 * width );
             GeneralPath path = new GeneralPath();
             path.moveTo( 0, 0 );
             path.quadTo( 0, (float) BRACKET_END_HEIGHT, (float) BRACKET_CORNER_RADIUS, (float) BRACKET_END_HEIGHT );
-            path.lineTo( (float) ( ( width - BRACKET_TIP_WIDTH ) / 2 ), (float) BRACKET_END_HEIGHT );
+            path.lineTo( (float) ( ( width - bracketTipWidth ) / 2 ), (float) BRACKET_END_HEIGHT );
             path.lineTo( (float) ( width / 2 ), (float) ( BRACKET_END_HEIGHT + BRACKET_TIP_HEIGHT ) );
-            path.lineTo( (float) ( ( width + BRACKET_TIP_WIDTH ) / 2 ), (float) BRACKET_END_HEIGHT );
+            path.lineTo( (float) ( ( width + bracketTipWidth ) / 2 ), (float) BRACKET_END_HEIGHT );
             path.lineTo( (float) ( width - BRACKET_CORNER_RADIUS ), (float) BRACKET_END_HEIGHT );
             path.quadTo( (float) width, (float)BRACKET_END_HEIGHT, (float) width, 0 );
             setPathTo( path );
