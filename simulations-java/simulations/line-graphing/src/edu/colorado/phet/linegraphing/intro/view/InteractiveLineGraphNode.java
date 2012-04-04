@@ -11,6 +11,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -42,7 +44,9 @@ public class InteractiveLineGraphNode extends LineGraphNode {
     private PNode slopeManipulatorNode, interceptManipulatorNode;
 
     public InteractiveLineGraphNode( final LineGraph graph, final ModelViewTransform mvt,
-                                     Property<SlopeInterceptLine> interactiveLine, SlopeInterceptLine yEqualsXLine, SlopeInterceptLine yEqualsNegativeXLine,
+                                     Property<SlopeInterceptLine> interactiveLine,
+                                     IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange,
+                                     SlopeInterceptLine yEqualsXLine, SlopeInterceptLine yEqualsNegativeXLine,
                                      Property<Boolean> linesVisible, Property<ImmutableVector2D> pointToolLocation ) {
         super( graph, mvt, yEqualsXLine, yEqualsNegativeXLine, linesVisible );
 
@@ -93,11 +97,13 @@ public class InteractiveLineGraphNode extends LineGraphNode {
 
         // interactivity for slope manipulator
         slopeManipulatorNode.addInputEventListener( new CursorHandler() );
-        slopeManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite, slopeManipulatorNode, mvt, interactiveLine ) );
+        slopeManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
+                                                                          slopeManipulatorNode, mvt, interactiveLine, riseRange, runRange ) );
 
         // interactivity for intercept manipulator
         interceptManipulatorNode.addInputEventListener( new CursorHandler() );
-        interceptManipulatorNode.addInputEventListener( new InterceptDragHandler( UserComponents.interceptManipulator, UserComponentTypes.sprite, interceptManipulatorNode, mvt, interactiveLine ) );
+        interceptManipulatorNode.addInputEventListener( new InterceptDragHandler( UserComponents.interceptManipulator, UserComponentTypes.sprite,
+                                                                                  interceptManipulatorNode, mvt, interactiveLine, interceptRange ) );
     }
 
     @Override public void reset() {
