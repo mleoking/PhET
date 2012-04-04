@@ -23,6 +23,7 @@ DESIGN
 - when interacting with equation and run is set to zero, it feels odd/confusing to replace the equation with "x=0"
 
 HIGH
+- set rise=0, then set run=0. Equation changes to x=0, and slope manipulator isn't visible; you're stuck
 
 MEDIUM
 - manipulate a "ghost" line that doesn't affect the equation until released?
