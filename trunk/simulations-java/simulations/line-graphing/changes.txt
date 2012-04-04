@@ -1,3 +1,4 @@
+4/4/12 group all line-related check boxes together
 4/4/12 improve icons using workaround for #558 (image returned by PPath.toImage is clipped on right and bottom edges)
 4/4/12 improved icon for rise/run check box
 4/4/12 increase stroke width of rise/run divisor line

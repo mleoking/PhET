@@ -60,9 +60,9 @@ class GraphControls extends PNode {
         panel.setFill( Fill.NONE );
         panel.setAnchor( Anchor.WEST ); // left justified
         panel.add( linesCheckBox );
-        panel.add( riseOverRunCheckBox );
         panel.add( positiveCheckBox );
         panel.add( negativeCheckBox );
+        panel.add( riseOverRunCheckBox );
         panel.add( pointToolCheckBox );
 
         // wrap Swing in a Piccolo control panel
