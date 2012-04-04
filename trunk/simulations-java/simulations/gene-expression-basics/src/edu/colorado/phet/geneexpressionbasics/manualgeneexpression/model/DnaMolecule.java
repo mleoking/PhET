@@ -475,6 +475,10 @@ public class DnaMolecule {
             }
         }
 
+        // Eliminate sites where attaching would cause the biomolecule to move
+        // out of its motion bounds.
+        eliminateOutOfBoundsAttachmentSites( transcriptionFactor, potentialAttachmentSites );
+
         // Eliminate any attachment site where attaching would cause overlap
         // with other biomolecules that are already on the DNA strand.
         eliminateOverlappedAttachmentSites( transcriptionFactor, potentialAttachmentSites );
@@ -540,6 +544,10 @@ public class DnaMolecule {
             }
         }
 
+        // Eliminate any attachment site where attaching would cause the
+        // biomolecule to go out of bounds.
+        eliminateOutOfBoundsAttachmentSites( rnaPolymerase, potentialAttachmentSites );
+
         // Eliminate any attachment site where attaching would cause overlap
         // with other biomolecules that are already on the DNA strand.
         eliminateOverlappedAttachmentSites( rnaPolymerase, potentialAttachmentSites );
@@ -578,6 +586,29 @@ public class DnaMolecule {
                     potentialAttachmentSites.remove( potentialAttachmentSite );
                     break;
                 }
+            }
+        }
+    }
+
+    /**
+     * Take a list of attachment sites and eliminate any of them that, if the
+     * given molecule attaches, it would end up with some portion of it outside
+     * of its motion bounds.
+     *
+     * @param biomolecule              The biomolecule that is potentially going to
+     *                                 attach to the provided list of attachment sites.
+     * @param potentialAttachmentSites Attachment sites where the given
+     *                                 biomolecule could attach.
+     */
+    private void eliminateOutOfBoundsAttachmentSites( MobileBiomolecule biomolecule, List<AttachmentSite> potentialAttachmentSites ) {
+        for ( AttachmentSite potentialAttachmentSite : new ArrayList<AttachmentSite>( potentialAttachmentSites ) ) {
+            ImmutableVector2D translationVector = new ImmutableVector2D( biomolecule.getPosition(), potentialAttachmentSite.locationProperty.get() );
+            AffineTransform transform = AffineTransform.getTranslateInstance( translationVector.getX(), translationVector.getY() );
+            Shape translatedShape = transform.createTransformedShape( biomolecule.getShape() );
+            if ( !biomolecule.motionBoundsProperty.get().inBounds( translatedShape ) ) {
+                // This attachment site would put the biomolecule out of its
+                // motion bounds, so eliminate it.
+                potentialAttachmentSites.remove( potentialAttachmentSite );
             }
         }
     }
@@ -633,6 +664,10 @@ public class DnaMolecule {
             }
         }
 
+        // Eliminate any attachment site where attaching would cause the
+        // biomolecule to go out of bounds.
+        eliminateOutOfBoundsAttachmentSites( transcriptionFactor, attachmentSites );
+
         // Eliminate any sites that, if attached to, would cause overlapping
         // biomolecules on the same strand.
         eliminateOverlappedAttachmentSites( transcriptionFactor, attachmentSites );
@@ -664,6 +699,10 @@ public class DnaMolecule {
                 attachmentSites.add( potentialSite );
             }
         }
+
+        // Eliminate any attachment site where attaching would cause the
+        // biomolecule to go out of bounds.
+        eliminateOutOfBoundsAttachmentSites( rnaPolymerase, attachmentSites );
 
         // Eliminate any sites that, if attached to, would cause overlapping
         // biomolecules on the same strand.
