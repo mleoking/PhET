@@ -2,10 +2,12 @@
 package edu.colorado.phet.linegraphing.intro.view;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.HighlightHandler.FunctionHighlightHandler;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.linegraphing.intro.model.LineGraph;
@@ -24,8 +26,9 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class SlopeInterceptLineNode extends PComposite {
 
     private static final PDimension ARROW_HEAD_SIZE = new PDimension( 10, 10 );
-    private static final double LINE_THICKNESS = 2;
+    private static final double LINE_THICKNESS = 3;
     private static final double LINE_EXTENT = 0.75; // how far the line extends past the grid, in model units
+    private static final PhetFont EQUATION_FONT = new PhetFont( Font.BOLD, 14 );
 
     private final DoubleArrowNode arrowNode;
     private final PText equationNode;
@@ -98,7 +101,7 @@ public class SlopeInterceptLineNode extends PComposite {
         addChild( equationParentNode );
         equationParentNode.setOffset( tipLocation );
         equationParentNode.setRotation( line.run == 0 ? Math.PI / 2 : -Math.atan( line.rise / line.run ) );
-        equationNode = new ReducedSlopeInterceptEquationNode( line, color );
+        equationNode = new ReducedSlopeInterceptEquationNode( line, color, EQUATION_FONT );
         equationParentNode.addChild( equationNode );
         equationNode.setOffset( -equationNode.getFullBoundsReference().getWidth() - 12,
                                 -equationNode.getFullBoundsReference().getHeight() - 12 );

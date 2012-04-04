@@ -1,3 +1,4 @@
+4/4/12 tweak font for equations shown on lines
 4/4/12 tweak color scheme
 4/4/12 used colorblind-friendly version of red for interactive line
 4/4/12 change "Show" panel to "Graph", rename and simplify constructor

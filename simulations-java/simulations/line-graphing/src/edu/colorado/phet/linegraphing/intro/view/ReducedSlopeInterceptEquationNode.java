@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.linegraphing.LGResources.Strings;
 import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -16,9 +17,10 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 class ReducedSlopeInterceptEquationNode extends PText {
 
-    public ReducedSlopeInterceptEquationNode( SlopeInterceptLine line, Color color ) {
+    public ReducedSlopeInterceptEquationNode( SlopeInterceptLine line, Color color, PhetFont font ) {
         setText( getReducedEquation( line ) );
         setTextPaint( color );
+        setFont( font );
         setPickable( false );
     }
 
