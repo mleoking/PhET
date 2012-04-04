@@ -19,12 +19,11 @@ DESIGN
 - interactive equation is ugly
 - is integer-based manipulation of the line acceptable?
 - does common shape and color coding of manipulators and spinner buttons help make a connection?
+- Save Line button is enabled when interactive equation changes, but the reduced form of the line may be the same
 
 HIGH
 
 MEDIUM
-- enable Save Line button immediately when Erase Lines has been pressed
-- Save Line button is enabled when interactive equation changes, but the reduced form of the line may be the same
 - manipulate a "ghost" line that doesn't affect the equation until released?
 
 LOW
