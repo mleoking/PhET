@@ -95,21 +95,6 @@ public class JavaSimulationPanel extends JPanel {
 
         JButton testButton = new JButton( "Test" );
         testPanel.add( testButton );
-
-        //Add a button that allows the user to generate resources
-//        controlPanel.add( new JButton( "Generate Resources" ) {{
-//            addActionListener( new ActionListener() {
-//                public void actionPerformed( ActionEvent e ) {
-//                    try {
-//                        new ResourceGenerator( trunk ).generateResources( "simulations-java/simulations/" + simulationList.getSelectedValue() );
-//                    }
-//                    catch ( IOException ioException ) {
-//                        ioException.printStackTrace();
-//                    }
-//                }
-//            } );
-//        }} );
-
         controlPanel.add( testPanel );
 
         JPanel deployDevPanel = new VerticalLayoutPanel();
