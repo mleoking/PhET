@@ -10,7 +10,6 @@ import javax.swing.JLabel;
 import javax.swing.JSeparator;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxWithIcon;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
@@ -71,13 +70,5 @@ class VisibilityControls extends PNode {
 
         // wrap Swing in a Piccolo control panel
         addChild( new ControlPanelNode( panel ) );
-
-        linesVisible.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean visible ) {
-                riseOverRunCheckBox.setEnabled( visible );
-                positiveCheckBox.setEnabled( visible );
-                negativeCheckBox.setEnabled( visible );
-            }
-        } );
     }
 }
