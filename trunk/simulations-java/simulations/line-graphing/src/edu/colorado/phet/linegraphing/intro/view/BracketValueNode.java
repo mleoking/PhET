@@ -22,6 +22,8 @@ import edu.colorado.phet.linegraphing.LGColors;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -151,7 +153,13 @@ public class BracketValueNode extends PComposite {
 
     // Return an icon that represents this feature.
     public static Icon createIcon( double width ) {
-        PNode node = new BracketValueNode( Direction.LEFT, 40, BRACKET_COLOR, new BasicStroke( 1f ), 2, new PhetFont( Font.BOLD,18 ), LABEL_COLOR, LABEL_BACKGROUND_COLOR );
+        PNode node = new BracketValueNode( Direction.LEFT, 40, BRACKET_COLOR, new BasicStroke( 1f ), 2, new PhetFont( Font.BOLD,18 ), LABEL_COLOR, LABEL_BACKGROUND_COLOR ) {
+            // WORKAROUND for #558 (image returned by PPath.toImage is clipped on right and bottom edges)
+            @Override public PBounds getFullBoundsReference() {
+                PBounds b = super.getFullBoundsReference();
+                return new PBounds( b.getX(), b.getY(), b.getWidth() + 2, b.getHeight() + 2 );
+            }
+        };
         node.scale( width / node.getFullBoundsReference().getWidth() );
         return new ImageIcon( node.toImage() );
     }
