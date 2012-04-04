@@ -183,10 +183,10 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
                 setOffset( new Point2D.Double( 432.685376661743 - offsetX, 644.3426883308715 ) );
             }};
 
-            final PImage drainKnob = new PImage( BufferedImageUtils.multiScaleToHeight( DRAIN_KNOB_TOP, (int) ( LOWER_DRAIN_KNOB.getHeight() * 1.2 ) ) ) {{
+            final PImage drainKnob = new PImage( BufferedImageUtils.multiScaleToHeight( DRAIN_KNOB_TOP, (int) ( DRAIN_KNOB_TOP.getHeight() * 1.2 ) ) ) {{
 
                 //Center the faucet over the left opening, values sampled from a drag listener
-                setOffset( new Point2D.Double( 419.6277695716396 - offsetX, 592.1122599704579 ) );
+                setOffset( new Point2D.Double( 417 - offsetX, 590 ) );
 
                 FaucetSliderNode sliderNode = new FaucetSliderNode( UserComponentChain.chain( FPAFSimSharing.UserComponents.drainFaucet, UserComponents.slider ), model.trapezoidPool.drainFaucetEnabled, 1, model.trapezoidPool.drainFlowRate, true ) {{
                     setOffset( 4, 2.5 ); //TODO #3199, change offsets when the faucet images are revised, make these constants
