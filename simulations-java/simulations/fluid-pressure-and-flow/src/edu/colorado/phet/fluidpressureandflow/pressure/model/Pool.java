@@ -25,7 +25,7 @@ public class Pool implements IPool {
     //10 foot deep pool, a customary depth for the deep end in the United States
     public static final double DEFAULT_HEIGHT = new Units().feetToMeters( 10 );
     private static final double HEIGHT = DEFAULT_HEIGHT;
-    private static final double WIDTH = 4;
+    public static final double WIDTH = 4;
     private final Property<Shape> waterShape = new Property<Shape>( getContainerShape() );
 
     public Pool() {

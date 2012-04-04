@@ -129,7 +129,6 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
             }
         } );
 
-
         addChild( new PNode() {{
             model.pool.valueEquals( model.squarePool ).addObserver( new VoidFunction1<Boolean>() {
                 @Override public void apply( final Boolean v ) {
