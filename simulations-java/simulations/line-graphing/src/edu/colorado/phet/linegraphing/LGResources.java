@@ -50,11 +50,15 @@ public class LGResources {
         public static final Image MAXIMIZE_BUTTON = PhetCommonResources.getImage( "buttons/maximizeButton.png" );
 
         private static final int SPINNER_BUTTON_HEIGHT = 22;
-        public static final Image SPINNER_DOWN = BufferedImageUtils.multiScaleToHeight( RESOURCES.getImage( "spinner_down.png" ), SPINNER_BUTTON_HEIGHT );
-        public static final Image SPINNER_DOWN_DISABLED = BufferedImageUtils.multiScaleToHeight( RESOURCES.getImage( "spinner_down_disabled.png" ), SPINNER_BUTTON_HEIGHT );
-        public static final Image SPINNER_DOWN_PRESSED = BufferedImageUtils.multiScaleToHeight( RESOURCES.getImage( "spinner_down_pressed.png" ), SPINNER_BUTTON_HEIGHT );
-        public static final Image SPINNER_UP = BufferedImageUtils.multiScaleToHeight( RESOURCES.getImage( "spinner_up.png" ), SPINNER_BUTTON_HEIGHT );
-        public static final Image SPINNER_UP_DISABLED = BufferedImageUtils.multiScaleToHeight( RESOURCES.getImage( "spinner_up_disabled.png" ), SPINNER_BUTTON_HEIGHT );
-        public static final Image SPINNER_UP_PRESSED = BufferedImageUtils.multiScaleToHeight( RESOURCES.getImage( "spinner_up_pressed.png" ), SPINNER_BUTTON_HEIGHT );
+        public static final Image SPINNER_DOWN_YELLOW = BufferedImageUtils.multiScaleToHeight( RESOURCES.getImage( "spinner_down_yellow.png" ), SPINNER_BUTTON_HEIGHT );
+        public static final Image SPINNER_DOWN_GREEN = BufferedImageUtils.multiScaleToHeight( RESOURCES.getImage( "spinner_down_green.png" ), SPINNER_BUTTON_HEIGHT );
+        public static final Image SPINNER_DOWN_GRAY = BufferedImageUtils.multiScaleToHeight( RESOURCES.getImage( "spinner_down_gray.png" ), SPINNER_BUTTON_HEIGHT );
+        public static final Image SPINNER_DOWN_PRESSED_YELLOW = BufferedImageUtils.multiScaleToHeight( RESOURCES.getImage( "spinner_down_pressed_yellow.png" ), SPINNER_BUTTON_HEIGHT );
+        public static final Image SPINNER_DOWN_PRESSED_GREEN = BufferedImageUtils.multiScaleToHeight( RESOURCES.getImage( "spinner_down_pressed_green.png" ), SPINNER_BUTTON_HEIGHT );
+        public static final Image SPINNER_UP_YELLOW = BufferedImageUtils.multiScaleToHeight( RESOURCES.getImage( "spinner_up_yellow.png" ), SPINNER_BUTTON_HEIGHT );
+        public static final Image SPINNER_UP_GREEN = BufferedImageUtils.multiScaleToHeight( RESOURCES.getImage( "spinner_up_green.png" ), SPINNER_BUTTON_HEIGHT );
+        public static final Image SPINNER_UP_GRAY = BufferedImageUtils.multiScaleToHeight( RESOURCES.getImage( "spinner_up_gray.png" ), SPINNER_BUTTON_HEIGHT );
+        public static final Image SPINNER_UP_PRESSED_YELLOW = BufferedImageUtils.multiScaleToHeight( RESOURCES.getImage( "spinner_up_pressed_yellow.png" ), SPINNER_BUTTON_HEIGHT );
+        public static final Image SPINNER_UP_PRESSED_GREEN = BufferedImageUtils.multiScaleToHeight( RESOURCES.getImage( "spinner_up_pressed_green.png" ), SPINNER_BUTTON_HEIGHT );
     }
 }
