@@ -4,6 +4,7 @@ package edu.colorado.phet.fluidpressureandflow.common;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.And;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.ValueEquals;
@@ -22,7 +23,7 @@ public class FluidPressureAndFlowModule<T extends FluidPressureAndFlowModel> ext
     public final Property<Boolean> fluidDensityControlVisible = new Property<Boolean>( false );
     public final Property<Boolean> gravityControlVisible = new Property<Boolean>( false );
     public final Property<Boolean> rulerVisible = new Property<Boolean>( false );
-    public final Property<Boolean> gridVisible = new Property<Boolean>( false );
+    public final BooleanProperty gridVisible = new BooleanProperty( false );
     public final ObservableProperty<Boolean> meterStickVisible;
     public final ObservableProperty<Boolean> yardStickVisible;
 
