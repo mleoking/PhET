@@ -1,3 +1,5 @@
+4/4/12 change color of point tool, it was clashing with interactive line color
+4/4/12 put a translucent background behind values on rise/run brackets, so they are visible when on top of other things, color code to slope
 4/4/12 use gray for saved lines, green for highlight on mouseOver
 4/4/12 tweak font for equations shown on lines
 4/4/12 tweak color scheme
