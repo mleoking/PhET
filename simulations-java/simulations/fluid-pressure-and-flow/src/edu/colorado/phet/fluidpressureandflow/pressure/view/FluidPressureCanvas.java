@@ -18,8 +18,10 @@ import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNo
 import edu.colorado.phet.common.piccolophet.nodes.faucet.FaucetNode;
 import edu.colorado.phet.common.piccolophet.nodes.faucet.FaucetSliderNode;
 import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing;
+import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishRuler;
+import edu.colorado.phet.fluidpressureandflow.common.view.FPAFCheckBox;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidDensityControl;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowCanvas;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowControlPanelNode;
@@ -32,6 +34,7 @@ import edu.colorado.phet.fluidpressureandflow.pressure.model.IPool;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.Pool;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.*;
 
@@ -126,7 +129,21 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
             }
         } );
 
-        addChild( new GridNode( module.gridVisible, transform, model.units ) {{
+
+        addChild( new PNode() {{
+            model.pool.valueEquals( model.squarePool ).addObserver( new VoidFunction1<Boolean>() {
+                @Override public void apply( final Boolean v ) {
+                    setVisible( v );
+                }
+            } );
+            addChild( new PSwing( new FPAFCheckBox( Strings.GRID, module.gridVisible ) {{
+                setBackground( new Color( 0, 0, 0, 0 ) );
+                setOpaque( true );
+            }} ) );
+            //Sampled from a drag handler
+            setOffset( 178.56425406203843, 481.6248153618907 );
+        }} );
+        addChild( new GridNode( module.gridVisible.and( model.pool.valueEquals( model.squarePool ) ), transform, model.units ) {{
             translate( -transform.modelToViewDeltaX( model.squarePool.getWidth() / 2 ), 0 );
         }} );
 
