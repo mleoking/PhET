@@ -97,8 +97,8 @@ public class InteractiveLineGraphNode extends LineGraphNode {
 
     @Override public void reset() {
         super.reset();
-        pointToolVisible.reset();
         riseOverRunVisible.reset();
+        pointToolVisible.reset();
     }
 
     // Updates the line and its associated decorations
