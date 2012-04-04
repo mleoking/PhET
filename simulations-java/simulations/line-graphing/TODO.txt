@@ -14,9 +14,9 @@ DESIGN
 - color scheme
 - if user saves 2 lines with the same reduced form, they will see only 1 saved line (actually 2 identical lines on top of each other)
 - layout problem with interactive equation, generally looks too spaced out, but needs to accommodate "-10"
+- when you press "Save Line", you can't see your saved line
 
 HIGH
-- avoid int casts
 
 MEDIUM
 - enable Save Line button immediately when Erase Lines has been pressed
