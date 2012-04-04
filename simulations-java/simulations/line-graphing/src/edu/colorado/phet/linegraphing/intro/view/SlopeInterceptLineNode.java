@@ -23,7 +23,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class SlopeInterceptLineNode extends PComposite {
 
-    private static final PDimension ARROW_HEAD_SIZE = new PDimension( 8, 8 );
+    private static final PDimension ARROW_HEAD_SIZE = new PDimension( 10, 10 );
     private static final double LINE_THICKNESS = 2;
     private static final double LINE_EXTENT = 0.75; // how far the line extends past the grid, in model units
 

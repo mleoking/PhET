@@ -50,7 +50,7 @@ class GraphNode extends PhetPNode {
     private final double MAJOR_TICK_LENGTH = 6; // how far a major tick extends from the axis
     private final Stroke MAJOR_TICK_STROKE = new BasicStroke( 1f );
     private final Color MAJOR_TICK_COLOR = Color.BLACK;
-    private final PhetFont MAJOR_TICK_FONT = new PhetFont( Font.PLAIN, 12 );
+    private final PhetFont MAJOR_TICK_FONT = new PhetFont( Font.PLAIN, 16 );
     private final double TICK_LABEL_SPACING = 2;
     private final double MINUS_SIGN_WIDTH = new PhetPText( "-", MAJOR_TICK_FONT ).getFullBoundsReference().getWidth();
 
