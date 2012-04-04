@@ -25,7 +25,7 @@ public class OutputFlowingWaterNode extends PNode {
             new RichSimpleObserver() {
                 @Override public void update() {
                     double width = 0.6 * flowRate.get() * ( faucetEnabled.get() ? 1 : 0 );//meters wide of the fluid flow
-                    double height = 1;
+                    double height = 100;
                     final Rectangle2D.Double shape = new Rectangle2D.Double( pool.passage().getBounds2D().getCenterX() - width / 2 + 0.55, -pool.height - height - 0.2, width, height );
                     final Shape viewShape = transform.modelToView( shape );
                     setPathTo( viewShape );
