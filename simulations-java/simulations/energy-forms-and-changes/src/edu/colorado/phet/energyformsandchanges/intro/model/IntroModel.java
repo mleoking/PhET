@@ -17,8 +17,11 @@ import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
  */
 public class IntroModel {
 
-    // size of the lab table top.
+    // Size of the lab table top.
     private static final double LAB_TABLE_WIDTH = 0.5; // In meters.
+
+    // Size of the thermometer shelf.
+    private static final double THERMOMETER_SHELF_WIDTH = 0.1; // In meters.
 
 
     // Main model clock.
@@ -28,12 +31,25 @@ public class IntroModel {
     private final List<Shelf> shelfList = new ArrayList<Shelf>();
 
     public IntroModel() {
+
+        // Add the main lab bench shelf.  The position is tweaked such that it
+        // sits at the bottom of the play area.  The various parameters are
+        // set so that the image works well with the model representation.
         shelfList.add( new Shelf( new Point2D.Double( -LAB_TABLE_WIDTH / 2, -0.115 ),
                                   LAB_TABLE_WIDTH,
                                   EnergyFormsAndChangesResources.Images.SHELF_LONG,
                                   LAB_TABLE_WIDTH * 0.015,
                                   LAB_TABLE_WIDTH * 0.05,
                                   Math.PI / 2 ) );
+
+        // Add the thermometer shelf.
+        shelfList.add( new Shelf( new Point2D.Double( -0.2, 0.05 ),
+                                  THERMOMETER_SHELF_WIDTH,
+                                  EnergyFormsAndChangesResources.Images.SHELF_SHORT,
+                                  THERMOMETER_SHELF_WIDTH * 0.05,
+                                  THERMOMETER_SHELF_WIDTH * 0.15,
+                                  Math.PI / 2 ) );
+
     }
 
     public List<Shelf> getShelfList() {
