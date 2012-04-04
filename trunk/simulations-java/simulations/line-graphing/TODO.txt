@@ -25,6 +25,7 @@ MEDIUM
 - move static string methods from model (SlopeInterceptLine) to view
 
 LOW
+- add data-collection to SpinnerNode
 - create spinner buttons programmatically to match colors, or investigate imageop to adjust hue
 - improve look of title + show/hide button in equation control panel
 - improve icons, generate programmatically to match colors?
