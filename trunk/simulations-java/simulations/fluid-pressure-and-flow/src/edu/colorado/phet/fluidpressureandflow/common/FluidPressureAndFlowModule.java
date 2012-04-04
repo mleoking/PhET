@@ -22,7 +22,7 @@ public class FluidPressureAndFlowModule<T extends FluidPressureAndFlowModel> ext
     //User settings
     public final Property<Boolean> fluidDensityControlVisible = new Property<Boolean>( false );
     public final Property<Boolean> gravityControlVisible = new Property<Boolean>( false );
-    public final Property<Boolean> rulerVisible = new Property<Boolean>( false );
+    public final BooleanProperty rulerVisible = new BooleanProperty( false );
     public final BooleanProperty gridVisible = new BooleanProperty( false );
     public final ObservableProperty<Boolean> meterStickVisible;
     public final ObservableProperty<Boolean> yardStickVisible;

@@ -2,13 +2,20 @@
 package edu.colorado.phet.fluidpressureandflow.pressure.view;
 
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishMetricControlPanel;
@@ -31,7 +38,21 @@ public class FluidPressureControlPanel extends VerticalLayoutPanel {
         super();
 
         //Checkbox to show/hide ruler
-        add( new FPAFCheckBox( RULER, module.rulerVisible ) );
+        add( new JPanel() {{
+            final FPAFCheckBox checkBox = new FPAFCheckBox( RULER, module.rulerVisible );
+            add( checkBox );
+
+            final RulerNode englishRuler = new RulerNode( 35, 5, 25, new String[] { "0", "1", "2" }, new PhetFont( 8 ), "", new PhetFont( 8 ), 4, 6, 3 );
+            final Image image = englishRuler.toImage();
+//            add( new JLabel( new ImageIcon( BufferedImageUtils.multiScaleToHeight( BufferedImageUtils.toBufferedImage( image ), (int) checkBox.getPreferredSize().getHeight() ) ) ) );
+            add( new JLabel( new ImageIcon( image ) ) {{
+                addMouseListener( new MouseAdapter() {
+                    @Override public void mousePressed( final MouseEvent e ) {
+                        module.rulerVisible.toggle();
+                    }
+                } );
+            }} );
+        }} );
 
         //Add Atmosphere on/off control panel.  So it's nice to be able to turn it off and just focus on the water.
         add( new PhetTitledPanel( "Atmosphere" ) {{

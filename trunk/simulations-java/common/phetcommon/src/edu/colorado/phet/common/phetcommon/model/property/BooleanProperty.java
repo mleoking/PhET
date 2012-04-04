@@ -18,4 +18,9 @@ public class BooleanProperty extends Property<Boolean> {
     public Or or( ObservableProperty<Boolean> p ) {
         return new Or( this, p );
     }
+
+    //Negates the value, thus toggling it
+    public void toggle() {
+        set( !get() );
+    }
 }
