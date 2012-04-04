@@ -15,6 +15,7 @@ DESIGN
 - if user saves 2 lines with the same reduced form, they will see only 1 saved line (actually 2 identical lines on top of each other)
 - layout problem with interactive equation, generally looks too spaced out, but needs to accommodate "-10"
 - when you press "Save Line", you can't see your saved line
+- will constraints on dragging manipulators be confusing? Eg, with b=-2, m can't be dragged higher than y=8
 
 HIGH
 
