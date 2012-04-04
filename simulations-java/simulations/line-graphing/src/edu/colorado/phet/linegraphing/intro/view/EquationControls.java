@@ -40,8 +40,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 class EquationControls extends PhetPNode {
 
     private static final PhetFont EQUATION_FONT = new PhetFont( Font.BOLD, 38 );
-    // y = mx + b
-    private static String TITLE = MessageFormat.format( "{0} = {1}{2} + {3}", // eg, y = mx + b,
+
+    private static String TITLE = MessageFormat.format( "{0} = {1}{2} + {3}", // y = mx + b,
                                                            Strings.SYMBOL_Y,
                                                            Strings.SYMBOL_SLOPE,
                                                            Strings.SYMBOL_X,

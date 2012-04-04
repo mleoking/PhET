@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-//TODO copied from fractions, generalize and migrate to phetcommon
+//TODO copied from fractions, add sim-sharing, generalize and migrate to phetcommon
 /**
  * Button with nice up or down images provided by NP.  This library uses phetcommon's function library instead of
  * functionaljava in case we don't have to put functionaljava as a  required dependency for phetcommon.

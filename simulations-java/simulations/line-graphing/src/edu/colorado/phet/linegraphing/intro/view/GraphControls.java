@@ -29,13 +29,8 @@ class GraphControls extends PNode {
 
     private static final PhetFont TITLE_FONT = new PhetFont( Font.BOLD, 16 );
     private static final PhetFont CONTROL_FONT = new PhetFont( Font.PLAIN, 14 );
-
-    private static final String Y_EQUALS_X = MessageFormat.format( "{0} = +1{1}",
-                                                                   Strings.SYMBOL_Y,
-                                                                   Strings.SYMBOL_X );
-    private static final String Y_EQUALS_NEGATIVE_X = MessageFormat.format( "{0} = -1{1}",
-                                                                            Strings.SYMBOL_Y,
-                                                                            Strings.SYMBOL_X );
+    private static final String Y_EQUALS_X = MessageFormat.format( "{0} = +1{1}", Strings.SYMBOL_Y, Strings.SYMBOL_X );
+    private static final String Y_EQUALS_NEGATIVE_X = MessageFormat.format( "{0} = -1{1}", Strings.SYMBOL_Y, Strings.SYMBOL_X );
 
     public GraphControls( InteractiveLineGraphNode graphNode ) {
 

@@ -56,7 +56,7 @@ public class PointToolNode extends PhetPNode {
         addChild( bodyNode );
         addChild( coordinatesNode );
 
-        scale( 0.75 );
+        scale( 0.75 ); //TODO resize image file, or use BufferedImage.multiScale
 
         // location and display
         point.addObserver( new VoidFunction1<ImmutableVector2D>() {

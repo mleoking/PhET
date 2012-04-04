@@ -28,8 +28,8 @@ public class InteractiveLineGraphNode extends LineGraphNode {
     public final Property<Boolean> riseOverRunVisible = new Property<Boolean>( true );
     public final Property<Boolean> pointToolVisible = new Property<Boolean>( false );
 
-    private PNode interactiveLineParentNode, bracketsParentNode;
-    private PNode slopeManipulatorNode, interceptManipulatorNode;
+    private final PNode interactiveLineParentNode, bracketsParentNode;
+    private final PNode slopeManipulatorNode, interceptManipulatorNode;
 
     public InteractiveLineGraphNode( final LineGraph graph, final ModelViewTransform mvt,
                                      Property<SlopeInterceptLine> interactiveLine,
