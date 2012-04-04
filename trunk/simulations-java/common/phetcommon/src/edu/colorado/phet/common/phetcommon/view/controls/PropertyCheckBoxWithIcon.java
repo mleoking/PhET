@@ -3,6 +3,7 @@ package edu.colorado.phet.common.phetcommon.view.controls;
 
 import java.awt.Image;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
@@ -23,24 +24,28 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  */
 public class PropertyCheckBoxWithIcon extends JPanel {
 
-    private final JComponent checkBox, icon;
+    private final JComponent checkBox, iconLabel;
 
     public PropertyCheckBoxWithIcon( IUserComponent userComponent, final String text, final PhetFont font, Image image, final SettableProperty<Boolean> property ) {
+        this(userComponent, text, font, new ImageIcon( image ), property );
+    }
+
+    public PropertyCheckBoxWithIcon( IUserComponent userComponent, final String text, final PhetFont font, Icon icon, final SettableProperty<Boolean> property ) {
         checkBox = new PropertyCheckBox( userComponent, text, property ) {{
             setFont( font );
         }};
-        icon = new SimSharingIcon( UserComponentChain.chain( userComponent, "icon" ), new ImageIcon( image ), new VoidFunction0() {
+        iconLabel = new SimSharingIcon( UserComponentChain.chain( userComponent, "icon" ), icon, new VoidFunction0() {
             public void apply() {
                 property.set( !property.get() );
             }
         } );
         add( checkBox );
-        add( icon );
+        add( iconLabel );
     }
 
     @Override public void setEnabled( boolean enabled ) {
         super.setEnabled( enabled );
         checkBox.setEnabled( enabled );
-        icon.setEnabled( enabled );
+        iconLabel.setEnabled( enabled );
     }
 }
