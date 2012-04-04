@@ -17,7 +17,8 @@ public class LGSimSharing {
         riseSpinner, runSpinner, interceptSpinner,
         equationMinimizeMaximizeButton,
         pointTool,
-        interceptManipulator, slopeManipulator
+        interceptManipulator, slopeManipulator,
+        riseIncrementButton, riseDecrementButton, runIncrementButton, runDecrementButton, interceptIncrementButton, interceptDecrementButton
     }
 
     public static enum ParameterKeys implements IParameterKey {
