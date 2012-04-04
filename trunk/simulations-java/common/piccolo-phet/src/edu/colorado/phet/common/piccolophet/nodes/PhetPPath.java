@@ -135,4 +135,12 @@ public class PhetPPath extends PPath {
     public void centerFullBoundsOnPoint( Point2D point ) {
         super.centerFullBoundsOnPoint( point.getX(), point.getY() );
     }
+
+    public double getCenterX() {
+        return getFullBounds().getCenterX();
+    }
+
+    public double getCenterY() {
+        return getFullBounds().getCenterY();
+    }
 }
