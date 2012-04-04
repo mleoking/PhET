@@ -7,6 +7,7 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 
 /**
  * Primary model class for the "Intro" tab of the Energy Forms and Changes
@@ -23,7 +24,7 @@ public class IntroModel {
     private final List<Shelf> shelfList = new ArrayList<Shelf>();
 
     public IntroModel() {
-        shelfList.add( new Shelf( new Point2D.Double( 0, 0 ), 0.5, "blah", 0.02, 0.1, -Math.PI / 2 ) );
+        shelfList.add( new Shelf( new Point2D.Double( 0, 0 ), 0.5, EnergyFormsAndChangesResources.Images.SHELF_LONG, 0.02, 0.1, Math.PI / 2 ) );
     }
 
     public List<Shelf> getShelfList() {

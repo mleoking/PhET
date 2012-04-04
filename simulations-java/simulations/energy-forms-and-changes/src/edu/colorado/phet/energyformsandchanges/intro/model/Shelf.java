@@ -2,6 +2,7 @@
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 
 /**
  * A horizontal surface on which objects within the model can be placed or
@@ -27,7 +28,7 @@ public class Shelf {
     private final double width;
 
     // Name of the image file that should be used to represent the shelf.
-    private final String imageFileName;
+    private final BufferedImage image;
 
     // In the view, the shelf is portrayed as having a 3D appearance.  These
     // variables are used to define how this is done.  Note that these must be
@@ -45,15 +46,15 @@ public class Shelf {
      *
      * @param position
      * @param width
-     * @param imageFileName
+     * @param image
      * @param thickness
      * @param foreshortenedHeight
      * @param perspectiveAngle
      */
-    public Shelf( Point2D position, double width, String imageFileName, double thickness, double foreshortenedHeight, double perspectiveAngle ) {
+    public Shelf( Point2D position, double width, BufferedImage image, double thickness, double foreshortenedHeight, double perspectiveAngle ) {
         this.position = position;
         this.width = width;
-        this.imageFileName = imageFileName;
+        this.image = image;
         this.thickness = thickness;
         this.foreshortenedHeight = foreshortenedHeight;
         this.perspectiveAngle = perspectiveAngle;
@@ -71,8 +72,8 @@ public class Shelf {
         return width;
     }
 
-    public String getImageFileName() {
-        return imageFileName;
+    public BufferedImage getImage() {
+        return image;
     }
 
     public double getThickness() {

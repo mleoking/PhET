@@ -23,5 +23,7 @@ public class EnergyFormsAndChangesResources {
     public static class Images {
         public static final BufferedImage FIRST_TAB_DRAWING = RESOURCES.getImage( "first-tab-drawing.png" );
         public static final BufferedImage SECOND_TAB_DRAWING = RESOURCES.getImage( "second-tab-drawing.png" );
+        public static final BufferedImage SHELF_LONG = RESOURCES.getImage( "shelf_long.png" );
+        public static final BufferedImage SHELF_SHORT = RESOURCES.getImage( "shelf_short.png" );
     }
 }
