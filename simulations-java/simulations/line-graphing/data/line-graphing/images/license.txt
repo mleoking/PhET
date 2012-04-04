@@ -1,11 +1,15 @@
 lines_icon.png author=PhET
 point-tool.png author=PhET notes=hacked together using piccolo-phet/*/velocity*.png
 rise_run_icon.png author=PhET
-spinner_down.png author=PhET notes=copied from fractions
-spinner_down_disabled.png author=PhET notes=copied from fractions
-spinner_down_pressed.png author=PhET notes=copied from fractions
-spinner_up.png author=PhET notes=copied from fractions
-spinner_up_disabled.png author=PhET notes=copied from fractions
-spinner_up_pressed.png author=PhET notes=copied from fractions
+spinner_down_gray.png author=PhET notes=copied from fractions
+spinner_down_pressed_green.png author=PhET notes=copied from fractions
+spinner_down_pressed_yellow.png author=PhET notes=copied from fractions
+spinner_down_unpressed_green.png author=PhET notes=copied from fractions
+spinner_down_unpressed_yellow.png author=PhET notes=copied from fractions
+spinner_up_gray.png author=PhET notes=copied from fractions
+spinner_up_pressed_green.png author=PhET notes=copied from fractions
+spinner_up_pressed_yellow.png author=PhET notes=copied from fractions
+spinner_up_unpressed_green.png author=PhET notes=copied from fractions
+spinner_up_unpressed_yellow.png author=PhET notes=copied from fractions
 y_equals_x_icon.png author=PhET
 y_equals_negative_x_icon.png author=PhET
