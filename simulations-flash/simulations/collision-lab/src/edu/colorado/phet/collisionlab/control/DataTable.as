@@ -1,4 +1,5 @@
 package edu.colorado.phet.collisionlab.control {
+import edu.colorado.phet.collisionlab.CollisionLab;
 import edu.colorado.phet.collisionlab.constants.CLConstants;
 import edu.colorado.phet.collisionlab.model.Model;
 import edu.colorado.phet.collisionlab.util.Util;
@@ -216,6 +217,9 @@ public class DataTable extends Sprite {
     }
 
     public function get nbrColumns(): int {
+        if ( CollisionLab.isStudyVersion ) {
+            return 4; // never has advanced tab
+        }
         return myModel.isIntro ? 5 : 8;
     }
 
@@ -290,13 +294,19 @@ public class DataTable extends Sprite {
             text_arr[0][massColumnNbr].text = SimStrings.get( "DataTable.mass", "Mass" );
             text_arr[0][xColumnNbr].text = SimStrings.get( "DataTable.position", "Position" );
             text_arr[0][vxColumnNbr].text = SimStrings.get( "DataTable.velocity", "Velocity" );
-            text_arr[0][pxColumnNbr].text = SimStrings.get( "DataTable.momentum", "Momentum" );
+
+            if ( !CollisionLab.isStudyVersion ) {
+                text_arr[0][pxColumnNbr].text = SimStrings.get( "DataTable.momentum", "Momentum" );
+            }
 
             text_arr[1][ballColumnNbr].text = "";
             text_arr[1][massColumnNbr].text = SimStrings.get( "DataTable.units.kilograms", "kg" );
             text_arr[1][xColumnNbr].text = SimStrings.get( "DataTable.units.meters", "m" );
             text_arr[1][vxColumnNbr].text = SimStrings.get( "DataTable.units.metersPerSecond", "m/s" );
-            text_arr[1][pxColumnNbr].text = SimStrings.get( "DataTable.units.kilogramMetersPerSecond", "kg m/s" );
+
+            if ( !CollisionLab.isStudyVersion ) {
+                text_arr[1][pxColumnNbr].text = SimStrings.get( "DataTable.units.kilogramMetersPerSecond", "kg m/s" );
+            }
         }
         else {
             // advanced-only headers
@@ -338,11 +348,15 @@ public class DataTable extends Sprite {
         TextFieldUtils.resizeText( text_arr[headerRowNbr][massColumnNbr], TextFieldAutoSize.CENTER );
         TextFieldUtils.resizeText( text_arr[headerRowNbr][xColumnNbr], TextFieldAutoSize.CENTER );
         TextFieldUtils.resizeText( text_arr[headerRowNbr][vxColumnNbr], TextFieldAutoSize.CENTER );
-        TextFieldUtils.resizeText( text_arr[headerRowNbr][pxColumnNbr], TextFieldAutoSize.CENTER );
+        if ( !CollisionLab.isStudyVersion ) {
+            TextFieldUtils.resizeText( text_arr[headerRowNbr][pxColumnNbr], TextFieldAutoSize.CENTER );
+        }
         if ( myModel.isIntro ) {
             TextFieldUtils.resizeText( text_arr[0][xColumnNbr], TextFieldAutoSize.CENTER );
             TextFieldUtils.resizeText( text_arr[0][vxColumnNbr], TextFieldAutoSize.CENTER );
-            TextFieldUtils.resizeText( text_arr[0][pxColumnNbr], TextFieldAutoSize.CENTER );
+            if ( !CollisionLab.isStudyVersion ) {
+                TextFieldUtils.resizeText( text_arr[0][pxColumnNbr], TextFieldAutoSize.CENTER );
+            }
         }
         else {
             TextFieldUtils.resizeText( text_arr[headerRowNbr][yColumnNbr], TextFieldAutoSize.CENTER );
@@ -646,16 +660,18 @@ public class DataTable extends Sprite {
         }
 
         //update Momenta fields regardless of whether user is manually updating other fields
-        for ( row = headerOffset; row < maxRows; row++ ) {  //skip header row
-            mass = myModel.ball_arr[ballNbr( row )].getMass();
-            xVel = myModel.ball_arr[ballNbr( row )].velocity.getX();
-            yVel = myModel.ball_arr[ballNbr( row )].velocity.getY();
+        if ( !CollisionLab.isStudyVersion ) {
+            for ( row = headerOffset; row < maxRows; row++ ) {  //skip header row
+                mass = myModel.ball_arr[ballNbr( row )].getMass();
+                xVel = myModel.ball_arr[ballNbr( row )].velocity.getX();
+                yVel = myModel.ball_arr[ballNbr( row )].velocity.getY();
 
-            var xMom: Number = mass * xVel;
-            text_arr[row][pxColumnNbr].text = xMom.toFixed( generalPrecision );
-            if ( !myModel.isIntro ) {
-                var yMom: Number = mass * yVel;
-                text_arr[row][pyColumnNbr].text = yMom.toFixed( generalPrecision ); //round(yMom, nbrPlaces);
+                var xMom: Number = mass * xVel;
+                text_arr[row][pxColumnNbr].text = xMom.toFixed( generalPrecision );
+                if ( !myModel.isIntro ) {
+                    var yMom: Number = mass * yVel;
+                    text_arr[row][pyColumnNbr].text = yMom.toFixed( generalPrecision ); //round(yMom, nbrPlaces);
+                }
             }
         }
     }

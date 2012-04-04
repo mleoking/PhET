@@ -16,10 +16,13 @@ import flash.events.Event;
 import flash.geom.Rectangle;
 
 public class CollisionLab extends Sprite {  //should the main class extend MovieClip or Sprite?
+
+    public static var isStudyVersion: Boolean = true;
+
     private var stageW: Number;
     private var stageH: Number;
     private var introModule: IntroModule = new IntroModule();
-    private var advancedModule: AdvancedModule = new AdvancedModule();
+    private var advancedModule: AdvancedModule;
     private var common: FlashCommonCS4;
     private var tabBar: TabBar;
     private var phetIcon: PhetIcon;
@@ -35,15 +38,20 @@ public class CollisionLab extends Sprite {  //should the main class extend Movie
         addChild( introHolder );
         introModule.attach( introHolder );
 
-        var advancedHolder: Sprite = new Sprite();
-        addChild( advancedHolder );
-        advancedModule.attach( advancedHolder );
-        advancedHolder.visible = false;
-
         var introTab: Tab = new Tab( SimStrings.get( "introductionTab", "Introduction" ), tabBar );
         tabBar.addTab( introTab );
-        var advancedTab: Tab = new Tab( SimStrings.get( "advancedTab", "Advanced" ), tabBar );
-        tabBar.addTab( advancedTab );
+        var advancedTab: Tab;
+        if ( !isStudyVersion ) {
+            advancedModule = new AdvancedModule();
+
+            var advancedHolder: Sprite = new Sprite();
+            addChild( advancedHolder );
+            advancedModule.attach( advancedHolder );
+            advancedHolder.visible = false;
+
+            advancedTab = new Tab( SimStrings.get( "advancedTab", "Advanced" ), tabBar )
+            tabBar.addTab( advancedTab );
+        }
         tabBar.selectedTab = introTab;
         tabBar.addListener( function(): void {
             if ( tabBar.selectedTab == introTab ) {
@@ -78,22 +86,22 @@ public class CollisionLab extends Sprite {  //should the main class extend Movie
         stage.addEventListener( Event.RESIZE, function( evt: Event ): void {
             positionButtons();
         } );
-        addEventListener(Event.ENTER_FRAME, function( evt: Event ): void {
+        addEventListener( Event.ENTER_FRAME, function( evt: Event ): void {
             positionButtons();
         } );
         positionButtons();
     }
 
     protected function positionButtons(): void {
-        var dimensions:Rectangle = stageDimensions( this );
+        var dimensions: Rectangle = stageDimensions( this );
         if ( common.commonButtons != null ) {
-            var height:int = common.commonButtons.getPreferredHeight();
-            const x:Number = phetIcon.x - common.commonButtons.width - 20;
-            const y:Number = 1 + dimensions.top;
+            var height: int = common.commonButtons.getPreferredHeight();
+            const x: Number = phetIcon.x - common.commonButtons.width - 20;
+            const y: Number = 1 + dimensions.top;
             common.commonButtons.setLocationXY( x, y );
         }
         phetIcon.y = dimensions.top;
-        if( tabBar != null && stage != null ) {
+        if ( tabBar != null && stage != null ) {
             tabBar.y = dimensions.top;
         }
     }

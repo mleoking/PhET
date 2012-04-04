@@ -1,6 +1,7 @@
 //The Model for Collision Lab
 package edu.colorado.phet.collisionlab.model {
 
+import edu.colorado.phet.collisionlab.CollisionLab;
 import edu.colorado.phet.collisionlab.constants.CLConstants;
 import edu.colorado.phet.collisionlab.util.TwoVector;
 
@@ -55,6 +56,9 @@ public class Model {
         this.borderWidth = CLConstants.BORDER_WIDTH;	//units are meters
         this.borderHeight = CLConstants.BORDER_HEIGHT_2D; // TODO: better behavior through setup
         this.e = 1;				//set elasticity of collisions, 1 = perfectly elastic
+        if( CollisionLab.isStudyVersion ) {
+            this.e = 0;
+        }
         this.massBall1 = 0.5;
         this.massBall2 = 1.5;
         this.oneDMode = false;
@@ -73,6 +77,9 @@ public class Model {
         msTimer.addEventListener( TimerEvent.TIMER, stepForward );
         this.stopMotion();
         this.e = 1;				//set elasticity of collisions, 1 = perfectly elastic
+        if( CollisionLab.isStudyVersion ) {
+            this.e = 0;
+        }
         //this.realTimer = new Timer(1000);  //argument 1000 is irrelevant
         this.view_arr = new Array( 0 );
         this.nbrViews = 0;
@@ -210,6 +217,9 @@ public class Model {
         this.ball_arr[1].setMass( this.massBall2 );
         this.nbrBalls = 2;
         this.e = 1;			//set elasticity of collisions, 1 = perfectly elastic
+        if( CollisionLab.isStudyVersion ) {
+            this.e = 0;
+        }
         this.timeRate = 0.5;
         this.nbrBallsChanged = true;
         this.separateAllBalls();

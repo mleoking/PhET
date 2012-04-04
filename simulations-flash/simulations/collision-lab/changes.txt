@@ -1,3 +1,4 @@
+Created "study" version changes
 # 1.00.17 (60458) Jan 18, 2012
 Paths disabled while dragging a ball
 CM off by default for 2nd tab
