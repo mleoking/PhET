@@ -25,7 +25,7 @@ class LineGraphNode extends GraphNode implements Resettable {
     private final LineGraph graph;
     private final ModelViewTransform mvt;
     private final SlopeInterceptLineNode yEqualsXLineNode, yEqualsNegativeXLineNode;
-    private PNode savedLinesParentNode, standardLinesParentNode; // intermediate nodes, for consistent rendering order
+    private final PNode savedLinesParentNode, standardLinesParentNode; // intermediate nodes, for consistent rendering order
 
     public LineGraphNode( final LineGraph graph, final ModelViewTransform mvt, SlopeInterceptLine yEqualsXLine, SlopeInterceptLine yEqualsNegativeXLine ) {
         super( graph, mvt );
