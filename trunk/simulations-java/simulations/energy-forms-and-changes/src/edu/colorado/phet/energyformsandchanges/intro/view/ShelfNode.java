@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -25,7 +26,7 @@ public class ShelfNode extends PNode {
                 lineTo( mvt.modelToViewX( shelf.getPosition().getX() ) + mvt.modelToViewDeltaX( shelf.getWidth() ),
                         mvt.modelToViewY( shelf.getPosition().getY() ) );
             }};
-            addChild( new PhetPPath( surfacePath.getGeneralPath(), Color.RED ) );
+            addChild( new PhetPPath( surfacePath.getGeneralPath(), new BasicStroke( 3 ), Color.RED ) );
         }
     }
 }
