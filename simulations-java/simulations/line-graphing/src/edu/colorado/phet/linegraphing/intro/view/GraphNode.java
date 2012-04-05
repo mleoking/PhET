@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -29,6 +30,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 class GraphNode extends PhetPNode {
 
     // grid
+    private static final Color GRID_BACKGROUND = Color.WHITE;
     private static final Stroke MINOR_GRID_LINE_STROKE = new BasicStroke( 0.25f );
     private static final Color MINOR_GRID_LINE_COLOR = Color.LIGHT_GRAY;
     private static final Stroke MAJOR_GRID_LINE_STROKE = new BasicStroke( 0.5f );
@@ -57,6 +59,12 @@ class GraphNode extends PhetPNode {
     public GraphNode( LineGraph graph, ModelViewTransform mvt ) {
 
         //TODO review duplication for horizontal vs vertical grid, axis, etc.
+
+        // Background
+        PPath backgroundNode = new PPath( new Rectangle2D.Double( mvt.modelToViewDeltaX( graph.minX ), mvt.modelToViewDeltaY( graph.maxY ), mvt.modelToViewDeltaX( graph.getWidth() ), mvt.modelToViewDeltaX( graph.getHeight() ) ) );
+        backgroundNode.setPaint( GRID_BACKGROUND );
+        backgroundNode.setStroke( null );
+        addChild( backgroundNode );
 
         // Horizontal grid lines
         PNode horizontalGridLinesNode = new PNode();
