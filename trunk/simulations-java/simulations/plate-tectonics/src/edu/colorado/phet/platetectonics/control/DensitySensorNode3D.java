@@ -6,6 +6,7 @@ import java.awt.Cursor;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PointSensor;
 import edu.colorado.phet.common.piccolophet.nodes.SpeedometerSensorNode;
@@ -115,7 +116,11 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
          *                     model-view-transform size changes.
          */
         public DensitySensorNode2D( float kmToViewUnit, PlateTectonicsTab tab ) {
-            super( ModelViewTransform.createIdentity(), new PointSensor<Double>( 0, 0 ), "Density", 3500 );
+            super( ModelViewTransform.createIdentity(), new PointSensor<Double>( 0, 0 ) {{
+
+                //Start by showing needle at 0.0 instead of hiding it
+                value.set( new Some<Double>( 0.0 ) );
+            }}, "Density", 3500 );
 
             // scale it so that we achieve adherence to the model scale
             scale( ThermometerNode3D.PICCOLO_PIXELS_TO_VIEW_UNIT * kmToViewUnit / ThermometerNode3D.PIXEL_SCALE );
