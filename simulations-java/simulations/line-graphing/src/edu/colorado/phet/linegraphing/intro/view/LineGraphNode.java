@@ -88,5 +88,4 @@ class LineGraphNode extends GraphNode implements Resettable {
     public void eraseLines() {
         savedLinesParentNode.removeAllChildren();
     }
-
 }

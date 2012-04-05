@@ -1,4 +1,3 @@
-lines_icon.png author=PhET
 point-tool.png author=PhET notes=hacked together using piccolo-phet/*/velocity*.png
 spinner_down_gray.png author=PhET notes=copied from fractions
 spinner_down_pressed_green.png author=PhET notes=copied from fractions
@@ -10,5 +9,3 @@ spinner_up_pressed_green.png author=PhET notes=copied from fractions
 spinner_up_pressed_yellow.png author=PhET notes=copied from fractions
 spinner_up_unpressed_green.png author=PhET notes=copied from fractions
 spinner_up_unpressed_yellow.png author=PhET notes=copied from fractions
-y_equals_x_icon.png author=PhET
-y_equals_negative_x_icon.png author=PhET

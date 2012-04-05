@@ -49,10 +49,10 @@ public class IntroCanvas extends LGCanvas implements Resettable {
             graphNode.setOffset( xMargin, yMargin );
 
             // upper-right of graph
-            equationControls.setOffset( graphNode.getFullBoundsReference().getMaxX() + 20, 50 );
+            equationControls.setOffset( graphNode.getFullBoundsReference().getMaxX() + 20, 35 );
             // centered below equation
             visibilityControls.setOffset( equationControls.getFullBoundsReference().getCenterX() - ( visibilityControls.getFullBoundsReference().getWidth() / 2 ),
-                                          equationControls.getFullBoundsReference().getMaxY() + 35 );
+                                          equationControls.getFullBoundsReference().getMaxY() + 25 );
             // buttons centered below control panel
             resetAllButtonNode.setOffset( visibilityControls.getFullBoundsReference().getCenterX() - ( resetAllButtonNode.getFullBoundsReference().getWidth() / 2 ),
                                      getStageSize().getHeight() - yMargin - resetAllButtonNode.getFullBoundsReference().getHeight() );
