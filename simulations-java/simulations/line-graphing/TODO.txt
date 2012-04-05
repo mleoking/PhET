@@ -27,7 +27,6 @@ HIGH
 - grid node gets bigger when IntroModel.GRID_MODEL_UNITS gets smaller, size should remain constant
 
 MEDIUM
-- sim-sharing: indicate whether minimizing or maximizing when pressing minimize/maximize button in equation control panel
 - hide equation on interactive line when equation control panel in minimized
 - manipulate a "ghost" line that doesn't affect the equation until released?
 
