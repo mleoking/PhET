@@ -1,3 +1,4 @@
+4/5/12 remove y=+x and y=-x lines from the model
 4/5/12 specify line extents in view units
 4/5/12 fix model-view transforms used in grid creation
 4/5/12 constants to make model easier to adjust
