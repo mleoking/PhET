@@ -13,8 +13,6 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
 
-import static java.lang.Math.abs;
-
 /**
  * The pool is the region of water in which the sensors can be submerged.
  *
@@ -40,13 +38,34 @@ public class Pool implements IPool {
     }
 
     @Override public double getPressure( final double x, final double y, boolean atmosphere, double standardAirPressure, double liquidDensity, double gravity ) {
-
-        //TODO: Account for gravity on air pressure
-        if ( y < 0 ) {
-            return ( atmosphere ? standardAirPressure : 0.0 ) + liquidDensity * gravity * abs( -y );
+        if ( y >= 0 ) {
+            return Pool.getPressureAboveGround( y, atmosphere, standardAirPressure, gravity );
         }
         else {
-            return getPressureAboveGround( y, atmosphere, standardAirPressure, gravity );
+            //Under the ground
+            final Shape containerShape = getContainerShape();
+            final Shape waterShape = getWaterShape().get();
+
+            //In the ground, return 0.0 (no reading)
+            if ( !containerShape.contains( x, y ) ) {
+                return 0.0;
+            }
+
+            //in the container but not the water
+            else if ( containerShape.contains( x, y ) && !waterShape.contains( x, y ) ) {
+                return Pool.getPressureAboveGround( y, atmosphere, standardAirPressure, gravity );
+            }
+
+            //In the water, but the container may not be completely full
+            else {// if ( containerShape.contains( x, y ) && waterShape.contains( x, y ) ) {
+
+                //Y value at the top of the water to compute the air pressure there
+                final double waterHeight = HEIGHT;
+                double y0 = -HEIGHT + waterHeight;
+                double p0 = Pool.getPressureAboveGround( y0, atmosphere, standardAirPressure, gravity );
+                double distanceBelowWater = Math.abs( -y + y0 );
+                return p0 + liquidDensity * gravity * distanceBelowWater;
+            }
         }
     }
 
