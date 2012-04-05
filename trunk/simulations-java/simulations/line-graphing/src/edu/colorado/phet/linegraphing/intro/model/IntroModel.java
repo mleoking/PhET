@@ -23,9 +23,9 @@ public class IntroModel implements Resettable {
     private static final IntegerRange Y_RANGE = X_RANGE;
     private static final double MVT_SCALE = GRID_VIEW_UNITS / Math.max( X_RANGE.getLength(), Y_RANGE.getLength() ); // view units / model units
 
-    public static final IntegerRange RISE_RANGE = new IntegerRange( -10, 10 );
-    public static final IntegerRange RUN_RANGE = new IntegerRange( -10, 10 );
-    public static final IntegerRange INTERCEPT_RANGE = new IntegerRange( -10, 10 );
+    public static final IntegerRange RISE_RANGE = new IntegerRange( -10, 10, 5 );
+    public static final IntegerRange RUN_RANGE = new IntegerRange( -10, 10, 5 );
+    public static final IntegerRange INTERCEPT_RANGE = new IntegerRange( -10, 10, 2 );
 
     public final ModelViewTransform mvt;
     public final Property<SlopeInterceptLine> interactiveLine;
@@ -36,7 +36,7 @@ public class IntroModel implements Resettable {
     public IntroModel() {
 
         mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), MVT_SCALE, -MVT_SCALE ); // y is inverted
-        interactiveLine = new Property<SlopeInterceptLine>( new SlopeInterceptLine( 5, 5, 2 ) );
+        interactiveLine = new Property<SlopeInterceptLine>( new SlopeInterceptLine( RISE_RANGE.getDefault(), RUN_RANGE.getDefault(), INTERCEPT_RANGE.getDefault() ) );
         yEqualsXLine = new SlopeInterceptLine( 1, 1, 0 );
         yEqualsNegativeXLine = new SlopeInterceptLine( 1, -1, 0 );
         graph = new LineGraph( X_RANGE.getMin(), X_RANGE.getMax(), Y_RANGE.getMin(), Y_RANGE.getMax() );
