@@ -11,7 +11,7 @@ import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
  */
 public class Brick extends Cube {
     @Override public Color getColor() {
-        return Color.RED;
+        return new Color( 200, 22, 11 );
     }
 
     @Override public String getLabel() {
