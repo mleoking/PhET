@@ -1,3 +1,4 @@
+4/4/12 clean up visibility of interactive line
 4/4/12 set rise/run feature off by default
 4/4/12 generate graph-related icons programmatically, to facilitate changing colors
 4/4/12 add slope manipulator after intercept, so that slope can be changed when x=0

@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -31,6 +32,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class InteractiveLineGraphNode extends LineGraphNode {
 
+    private final Property<Boolean> interactiveLineVisible = new Property<Boolean>( true );
     public final Property<Boolean> riseOverRunVisible = new Property<Boolean>( false );
     public final Property<Boolean> pointToolVisible = new Property<Boolean>( false );
 
@@ -73,19 +75,13 @@ public class InteractiveLineGraphNode extends LineGraphNode {
             }
         } );
 
-        // Visibility of rise and run brackets
-        riseOverRunVisible.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean visible ) {
+        // Visibility
+        RichSimpleObserver visibilityObserver = new RichSimpleObserver() {
+            @Override public void update() {
                 updateLinesVisibility();
             }
-        } );
-
-        // Hide the rise and run brackets when lines aren't visible
-        linesVisible.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean visible ) {
-                updateLinesVisibility();
-            }
-        } );
+        };
+        visibilityObserver.observe( interactiveLineVisible, riseOverRunVisible, linesVisible );
 
         // interactivity for slope manipulator
         slopeManipulatorNode.addInputEventListener( new CursorHandler() );
@@ -151,13 +147,13 @@ public class InteractiveLineGraphNode extends LineGraphNode {
         super.updateLinesVisibility();
 
         if ( interactiveLineParentNode != null ) {
-            interactiveLineParentNode.setVisible( linesVisible.get() );
-            slopeManipulatorNode.setVisible( linesVisible.get() );
-            interceptManipulatorNode.setVisible( linesVisible.get() );
+            interactiveLineParentNode.setVisible( linesVisible.get() && interactiveLineVisible.get() );
+            slopeManipulatorNode.setVisible( linesVisible.get() && interactiveLineVisible.get() );
+            interceptManipulatorNode.setVisible( linesVisible.get() && interactiveLineVisible.get() );
         }
 
         if ( bracketsParentNode != null ) {
-            bracketsParentNode.setVisible( riseOverRunVisible.get() && linesVisible.get() );
+            bracketsParentNode.setVisible( riseOverRunVisible.get() && linesVisible.get() && interactiveLineVisible.get() );
         }
     }
 
@@ -197,9 +193,7 @@ public class InteractiveLineGraphNode extends LineGraphNode {
         graphNode.pointToolVisible.set( false );
         graphNode.yEqualsXVisible.set( yEqualsXVisible );
         graphNode.yEqualsNegativeXVisible.set( yEqualsNegativeXVisible );
-        graphNode.interactiveLineParentNode.setVisible( interactiveLineVisible );
-        graphNode.slopeManipulatorNode.setVisible( interactiveLineVisible );
-        graphNode.interceptManipulatorNode.setVisible( interactiveLineVisible );
+        graphNode.interactiveLineVisible.set( interactiveLineVisible );
         if ( savedLineVisible ) {
             graphNode.saveLine( new SlopeInterceptLine( -1, 2, -1 ) );
         }
