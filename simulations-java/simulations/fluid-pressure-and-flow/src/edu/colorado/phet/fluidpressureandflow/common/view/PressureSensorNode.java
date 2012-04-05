@@ -26,6 +26,7 @@ import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Unit;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
+import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.IPool;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -51,7 +52,9 @@ public class PressureSensorNode extends SensorNode {
         this.pool = pool;
 
         final PointSensor<Double> pointSensor = new PointSensor<Double>( 0, 0 );
-        final ZeroOffsetNode speedometerNode = new ZeroOffsetNode( new SpeedometerSensorNode( transform, pointSensor, "pressure", 131146 ) ) {{
+
+        //Made top-center be 1.0 atm for the pressure sensor
+        final ZeroOffsetNode speedometerNode = new ZeroOffsetNode( new SpeedometerSensorNode( transform, pointSensor, "pressure", Units.ATMOSPHERE.toSI( 1.0 ) * 2 ) ) {{
 
             //make the hot spot at the bottom center
             translate( -getFullWidth() / 2, -getFullBounds().getHeight() );
