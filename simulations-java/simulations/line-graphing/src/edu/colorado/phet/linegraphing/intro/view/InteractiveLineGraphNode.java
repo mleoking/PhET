@@ -56,8 +56,8 @@ public class InteractiveLineGraphNode extends LineGraphNode {
         // rendering order
         addChild( interactiveLineParentNode );
         addChild( bracketsParentNode );
-        addChild( slopeManipulatorNode );
         addChild( interceptManipulatorNode );
+        addChild( slopeManipulatorNode ); // add slope after intercept, so that slope can be changed when x=0
         addChild( pointTool );
 
         // When the interactive line changes, update the graph.
