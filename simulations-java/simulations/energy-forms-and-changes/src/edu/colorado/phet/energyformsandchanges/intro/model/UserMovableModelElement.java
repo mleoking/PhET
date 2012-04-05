@@ -15,9 +15,9 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentTyp
  */
 public abstract class UserMovableModelElement {
 
-    public static final BooleanProperty userControlled = new BooleanProperty( false );
+    public final BooleanProperty userControlled = new BooleanProperty( false );
 
-    public static final Property<Point2D> position = new Property<Point2D>( new Point2D.Double( 0, 0 ) );
+    public final Property<Point2D> position = new Property<Point2D>( new Point2D.Double( 0, 0 ) );
 
     /**
      * Get the "user component" identifier.  This supports the sim sharing

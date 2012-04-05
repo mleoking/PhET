@@ -3,7 +3,6 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 
 import java.awt.Color;
 import java.awt.Shape;
-import java.awt.geom.Path2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -22,7 +21,6 @@ public abstract class Cube extends UserMovableModelElement {
     // Flattened size of the top and visible side.
     private static final double EDGE_AND_TOP_SIZE = FACE_SIZE * 0.33;
 
-
     public abstract Color getColor();
 
     public abstract String getLabel();
@@ -40,7 +38,7 @@ public abstract class Cube extends UserMovableModelElement {
      * @return
      */
     public static Shape getRawShape() {
-        DoubleGeneralPath path = new DoubleGeneralPath( new Path2D.Double( 0, 0 ) );
+        DoubleGeneralPath path = new DoubleGeneralPath( new Point2D.Double( 0, 0 ) );
         // Set up variables that will be used throughout the drawing process.
         ImmutableVector2D upperLeftCornerOfFace = new ImmutableVector2D( 0, FACE_SIZE );
         ImmutableVector2D upperRightCornerOfFace = new ImmutableVector2D( FACE_SIZE, FACE_SIZE );
