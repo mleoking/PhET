@@ -7,6 +7,7 @@ import java.awt.Image;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -44,7 +45,7 @@ public class ToggleButtonNode extends PNode {
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
                 if ( enabledProperty.get() ) {
-                    SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.button, UserActions.pressed );
+                    SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.button, UserActions.pressed, getParameterSet() );
                     onProperty.set( !onProperty.get() );
                 }
             }
@@ -75,5 +76,10 @@ public class ToggleButtonNode extends PNode {
         } );
 
         addInputEventListener( cursorHandler );
+    }
+
+    // Override this to add parameters
+    protected ParameterSet getParameterSet() {
+        return new ParameterSet();
     }
 }
