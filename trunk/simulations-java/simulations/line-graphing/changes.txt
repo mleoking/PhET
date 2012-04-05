@@ -1,3 +1,4 @@
+4/4/12 add data-collection to SpinnerButtonNode
 4/4/12 add colors for canvas and grid background
 4/4/12 clean up visibility of interactive line
 4/4/12 set rise/run feature off by default

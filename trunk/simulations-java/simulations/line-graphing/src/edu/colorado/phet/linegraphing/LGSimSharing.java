@@ -14,9 +14,7 @@ public class LGSimSharing {
     public static enum UserComponents implements IUserComponent {
         introTab, gameTab,
         equationMinimizeMaximizeButton,
-        riseIncrementButton, riseDecrementButton,
-        runIncrementButton, runDecrementButton,
-        interceptIncrementButton, interceptDecrementButton,
+        riseSpinner, runSpinner, interceptSpinner,
         linesCheckBox, riseOverRunCheckBox, yEqualsXCheckBox, yEqualsNegativeXCheckBox, pointToolCheckBox,
         interceptManipulator, slopeManipulator, pointTool
     }
