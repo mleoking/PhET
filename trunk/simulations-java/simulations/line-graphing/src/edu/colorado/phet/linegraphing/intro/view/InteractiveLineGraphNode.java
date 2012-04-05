@@ -31,7 +31,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class InteractiveLineGraphNode extends LineGraphNode {
 
-    public final Property<Boolean> riseOverRunVisible = new Property<Boolean>( true );
+    public final Property<Boolean> riseOverRunVisible = new Property<Boolean>( false );
     public final Property<Boolean> pointToolVisible = new Property<Boolean>( false );
 
     private final PNode interactiveLineParentNode, bracketsParentNode;
