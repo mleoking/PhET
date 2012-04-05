@@ -1,3 +1,5 @@
+4/4/12 repackage sim-specific spinner classes
+4/4/12 change SpinnerButtonNode interface, use generics, add specializations for incrementing and decrementing Double values
 4/4/12 add data-collection to SpinnerButtonNode
 4/4/12 add colors for canvas and grid background
 4/4/12 clean up visibility of interactive line

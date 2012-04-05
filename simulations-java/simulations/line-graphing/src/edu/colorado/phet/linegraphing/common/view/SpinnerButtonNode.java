@@ -10,9 +10,13 @@ import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.GreaterThan;
+import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.LessThan;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
@@ -31,88 +35,91 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * @author Sam Reid
  * @author Chris Malley
  */
-public class SpinnerButtonNode extends PNode {
+public class SpinnerButtonNode<T> extends PNode {
 
-    private final PImage imageNode;
-    private final DynamicCursorHandler listener = new DynamicCursorHandler();
-
-    private final ObservableProperty<Boolean> enabled;
     private final BooleanProperty pressed = new BooleanProperty( false );
-    private final BooleanProperty entered = new BooleanProperty( true );
-
-    private final Timer timer;
+    private boolean entered = false;
     private boolean spinContinuously = false;
 
     // Spinner button that is always enabled.
-    public SpinnerButtonNode( IUserComponent userComponent, Function0<ParameterSet> parameterSet,
-                              final Image unpressedImage, final Image pressedImage, final Image disabledImage,
-                              final VoidFunction0 callback ) {
-        this( userComponent, parameterSet, unpressedImage, pressedImage, disabledImage, callback, new BooleanProperty( true ) );
+    public SpinnerButtonNode( IUserComponent userComponent,
+                              Image unpressedImage, Image pressedImage, Image disabledImage,
+                              Property<T> value, Function0<T> newValueFunction ) {
+        this( userComponent, unpressedImage, pressedImage, disabledImage, value, newValueFunction, new BooleanProperty( true ) );
     }
 
     /**
      * Constructor
      * @param userComponent component identifier for user data-collection message
-     * @param parameterSet parameter set for user data-collection message
      * @param unpressedImage
      * @param pressedImage
      * @param disabledImage
-     * @param callback called when the button fires
+     * @param newValueFunction function that computes the new value when the button fires
      * @param enabled property that controls whether the button is enabled
      */
-    public SpinnerButtonNode( final IUserComponent userComponent, final Function0<ParameterSet> parameterSet,
+    public SpinnerButtonNode( final IUserComponent userComponent,
                               final Image unpressedImage, final Image pressedImage, final Image disabledImage,
-                              final VoidFunction0 callback, ObservableProperty<Boolean> enabled ) {
+                              final Property<T> value, final Function0<T> newValueFunction,
+                              final ObservableProperty<Boolean> enabled ) {
 
-        this.enabled = enabled;
+        final DynamicCursorHandler listener = new DynamicCursorHandler();
+        final PImage imageNode = new PImage();
+        addChild( imageNode );
 
-        final VoidFunction0 sendUserMessage = new VoidFunction0() {
+        // Called whenever the button fires
+        final VoidFunction0 buttonFired = new VoidFunction0() {
             public void apply() {
+                T newValue = newValueFunction.apply();
                 SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.button, UserActions.pressed,
-                                                   parameterSet.apply().with( new ParameterKey( "spinContinuously" ), spinContinuously ) );
+                                                   ParameterSet.parameterSet( ParameterKeys.value, newValue.toString() ).with( new ParameterKey( "spinContinuously" ), spinContinuously ) );
+                value.set( newValue );
             }
         };
 
         // If holding down the button, then spin continuously.
-        this.timer = new Timer( 200, new ActionListener() {
+        final Timer timer = new Timer( 200, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if ( SpinnerButtonNode.this.enabled.get() ) {
+                if ( enabled.get() ) {
                     spinContinuously = true;
-                    sendUserMessage.apply();
-                    callback.apply();
+                    buttonFired.apply();
                 }
             }
         } ) {{
             setInitialDelay( 500 );
         }};
 
-        imageNode = new PImage();
-        addChild( imageNode );
-
+        // Manage the cursor
         new RichSimpleObserver() {
             @Override public void update() {
 
                 //Show a cursor hand but only if enabled
-                listener.setCursor( SpinnerButtonNode.this.enabled.get() ? Cursor.HAND_CURSOR : Cursor.DEFAULT_CURSOR );
+                listener.setCursor( enabled.get() ? Cursor.HAND_CURSOR : Cursor.DEFAULT_CURSOR );
 
                 imageNode.setImage( new Function0<Image>() {
                     public Image apply() {
-                        if ( SpinnerButtonNode.this.enabled.get() && !pressed.get() ) { return unpressedImage; }
-                        else if ( SpinnerButtonNode.this.enabled.get() && pressed.get() ) { return pressedImage; }
+                        if ( enabled.get() && !pressed.get() ) { return unpressedImage; }
+                        else if ( enabled.get() && pressed.get() ) { return pressedImage; }
                         else { return disabledImage; }
                     }
                 }.apply() );
             }
-        }.observe( this.enabled, pressed );
+        }.observe( enabled, pressed );
 
-
+        // Handle mouse events
         imageNode.addInputEventListener( new PBasicInputEventHandler() {
+
+            @Override public void mousePressed( PInputEvent event ) {
+                if ( enabled.get() && entered ) {
+                    pressed.set( true );
+                    timer.start();
+                }
+            }
+
             @Override public void mouseReleased( PInputEvent event ) {
-                if ( SpinnerButtonNode.this.enabled.get() && entered.get() && pressed.get() ) {
-                    //Only fire the release event if the user didn't hold it down long enough to start autospin
+                if ( enabled.get() && entered && pressed.get() ) {
+                    // Only fire if the user didn't hold down long enough to start spinning continuously.
                     if ( !spinContinuously ) {
-                        sendUserMessage.apply();
-                        callback.apply();
+                        buttonFired.apply();
                     }
                     pressed.set( false );
                     spinContinuously = false;
@@ -121,21 +128,48 @@ public class SpinnerButtonNode extends PNode {
             }
 
             @Override public void mouseEntered( PInputEvent event ) {
-                entered.set( true );
+                entered = true;
             }
 
             @Override public void mouseExited( PInputEvent event ) {
-                entered.set( false );
-            }
-
-            @Override public void mousePressed( PInputEvent event ) {
-                if ( SpinnerButtonNode.this.enabled.get() && entered.get() ) {
-                    pressed.set( true );
-                    timer.start();
-                }
+                entered = false;
             }
         } );
 
         addInputEventListener( listener );
+    }
+
+    // Spinner button for incrementing a Double value
+    public static class IncrementDoubleSpinnerButtonNode extends SpinnerButtonNode {
+        public IncrementDoubleSpinnerButtonNode( IUserComponent userComponent,
+                                                 final Image unpressedImage, final Image pressedImage, final Image disabledImage,
+                                                 final Property<Double> value, double maxValue ) {
+            super( userComponent,
+                   unpressedImage, pressedImage, disabledImage,
+                   value,
+                   new Function0<Double>() {
+                       public Double apply() {
+                           return value.get() + 1;
+                       }
+                   },
+                   new LessThan( value, maxValue ) );
+        }
+    }
+
+    // Spinner button for decrementing a Double value
+    public static class DecrementDoubleSpinnerButtonNode extends SpinnerButtonNode {
+        public DecrementDoubleSpinnerButtonNode( IUserComponent userComponent,
+                                                 final Image unpressedImage, final Image pressedImage, final Image disabledImage,
+                                                 final Property<Double> value, double minValue ) {
+            super( userComponent,
+                   unpressedImage, pressedImage, disabledImage,
+                   value,
+                   new Function0<Double>() {
+                       public Double apply() {
+                           return value.get() - 1;
+                       }
+                   },
+                   new GreaterThan( value, minValue ) );
+        }
     }
 }

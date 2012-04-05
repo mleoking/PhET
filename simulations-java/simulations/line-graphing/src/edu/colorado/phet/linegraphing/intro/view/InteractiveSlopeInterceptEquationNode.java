@@ -2,30 +2,20 @@
 package edu.colorado.phet.linegraphing.intro.view;
 
 import java.awt.BasicStroke;
-import java.awt.Image;
 import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.GreaterThan;
-import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.LessThan;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.common.phetcommon.util.function.Function0;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
-import edu.colorado.phet.linegraphing.LGResources.Images;
 import edu.colorado.phet.linegraphing.LGSimSharing.UserComponents;
-import edu.colorado.phet.linegraphing.common.view.SpinnerButtonNode;
 import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
+import edu.colorado.phet.linegraphing.intro.view.DoubleSpinnerNode.InterceptSpinnerNode;
+import edu.colorado.phet.linegraphing.intro.view.DoubleSpinnerNode.SlopeSpinnerNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -120,120 +110,5 @@ class InteractiveSlopeInterceptEquationNode extends PhetPNode {
                 intercept.set( line.intercept );
             }
         } );
-    }
-
-    // Spinner button for incrementing a value
-    private static class UpSpinnerButtonNode extends SpinnerButtonNode {
-        public UpSpinnerButtonNode( IUserComponent userComponent,
-                                    final Image unpressedImage, final Image pressedImage, final Image disabledImage,
-                                    final Property<Double> value, double maxValue ) {
-            super( userComponent,
-                   new Function0<ParameterSet>() {
-                       public ParameterSet apply() {
-                           return ParameterSet.parameterSet( ParameterKeys.value, value.get() );
-                       }
-                   },
-                   unpressedImage, pressedImage, disabledImage,
-                   new VoidFunction0() {
-                       public void apply() {
-                           value.set( value.get() + 1 );
-                       }
-                   }, new LessThan( value, maxValue ) );
-        }
-    }
-
-    // Spinner button for decrementing a value
-    private static class DownSpinnerButtonNode extends SpinnerButtonNode {
-        public DownSpinnerButtonNode( IUserComponent userComponent,
-                                      final Image unpressedImage, final Image pressedImage, final Image disabledImage,
-                                      final Property<Double> value, double minValue ) {
-            super( userComponent,
-                   new Function0<ParameterSet>() {
-                       public ParameterSet apply() {
-                           return ParameterSet.parameterSet( ParameterKeys.value, value.get() );
-                       }
-                   },
-                   unpressedImage, pressedImage, disabledImage,
-                   new VoidFunction0() {
-                       public void apply() {
-                           value.set( value.get() - 1 );
-                       }
-                   }, new GreaterThan( value, minValue ) );
-        }
-    }
-
-    // Spinner, value with up and down arrows
-    private static abstract class SpinnerNode extends PNode {
-
-        public SpinnerNode( IUserComponent userComponent,
-                            Image upUnpressedImage, Image upPressedImage, Image upDisabledImage,
-                            Image downUnpressedImage, Image downPressedImage, Image downDisabledImage,
-                            Property<Double> value, IntegerRange range, PhetFont font, NumberFormat format ) {
-            this( userComponent, upUnpressedImage, upPressedImage, upDisabledImage, downUnpressedImage, downPressedImage, downDisabledImage,
-                  value, range, font, format, false /* abs */ );
-        }
-
-        public SpinnerNode( IUserComponent userComponent,
-                            final Image upUnpressedImage, final Image upPressedImage, final Image upDisabledImage,
-                            final Image downUnpressedImage, final Image downPressedImage, final Image downDisabledImage,
-                            final Property<Double> value, IntegerRange range, PhetFont font, final NumberFormat format, final boolean abs ) {
-
-            UpSpinnerButtonNode upButton = new UpSpinnerButtonNode( UserComponentChain.chain( userComponent, "up" ), upUnpressedImage, upPressedImage, upDisabledImage, value, range.getMax() );
-            DownSpinnerButtonNode downButton = new DownSpinnerButtonNode( UserComponentChain.chain( userComponent, "down" ), downUnpressedImage, downPressedImage, downDisabledImage, value, range.getMin() );
-            final PText textNode = new PhetPText( font );
-            textNode.setPickable( false );
-
-            // compute max text width
-            textNode.setText( format.format( abs ? Math.abs( range.getMin() ) : range.getMin() ) );
-            double minValueWidth = textNode.getFullBoundsReference().getWidth();
-            textNode.setText( format.format( abs ? Math.abs( range.getMax() ) : range.getMax() ) );
-            double maxValueWidth = textNode.getFullBoundsReference().getWidth();
-            final double maxWidth = Math.max( minValueWidth, maxValueWidth );
-            PPath horizontalStrutNode = new PPath( new Rectangle2D.Double( 0, 0, maxWidth, 1 ) ) {{
-                setStroke( null );
-                setPickable( false );
-            }};
-
-            // rendering order
-            addChild( horizontalStrutNode );
-            addChild( upButton );
-            addChild( downButton );
-            addChild( textNode );
-
-            // layout
-            horizontalStrutNode.setOffset( 0, 0 );
-            textNode.setOffset( maxWidth - textNode.getFullBoundsReference().getWidth(), 0 );
-            upButton.setOffset( textNode.getFullBoundsReference().getMaxX() + 3,
-                                textNode.getFullBoundsReference().getCenterY() - upButton.getFullBoundsReference().getHeight() - 1 );
-            downButton.setOffset( upButton.getXOffset(),
-                                  textNode.getFullBoundsReference().getCenterY() + 1 );
-
-            value.addObserver( new VoidFunction1<Double>() {
-                public void apply( Double value ) {
-                    textNode.setText( format.format( abs ? Math.abs( value ) : value ) );
-                    textNode.setOffset( maxWidth - textNode.getFullBoundsReference().getWidth(), textNode.getYOffset() );
-                }
-            } );
-        }
-    }
-
-    // Spinner that is color coded for intercept
-    private static class InterceptSpinnerNode extends SpinnerNode {
-        public InterceptSpinnerNode( IUserComponent userComponent, Property<Double> value, IntegerRange range, PhetFont font, NumberFormat format ) {
-            super( userComponent,
-                   Images.SPINNER_UP_UNPRESSED_YELLOW, Images.SPINNER_UP_PRESSED_YELLOW, Images.SPINNER_UP_GRAY,
-                   Images.SPINNER_DOWN_UNPRESSED_YELLOW, Images.SPINNER_DOWN_PRESSED_YELLOW, Images.SPINNER_DOWN_GRAY,
-                   value, range, font, format, true /* abs */ );
-        }
-    }
-
-    // Spinner that is color coded for slope
-    private static class SlopeSpinnerNode extends SpinnerNode {
-        public SlopeSpinnerNode( IUserComponent userComponent, Property<Double> value, IntegerRange range, PhetFont font, NumberFormat format ) {
-            super( userComponent,
-                   Images.SPINNER_UP_UNPRESSED_GREEN, Images.SPINNER_UP_PRESSED_GREEN, Images.SPINNER_UP_GRAY,
-                   Images.SPINNER_DOWN_UNPRESSED_GREEN, Images.SPINNER_DOWN_PRESSED_GREEN, Images.SPINNER_DOWN_GRAY,
-                   value, range, font, format );
-        }
     }
 }
