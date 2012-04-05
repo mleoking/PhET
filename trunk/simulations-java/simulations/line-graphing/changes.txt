@@ -1,3 +1,4 @@
+4/4/12 set up credits.txt
 4/4/12 set up build.properties
 4/4/12 data-collection instrumentation for Point Tool
 4/4/12 data-collection instrumentation for Save Line and Erase Lines buttons
