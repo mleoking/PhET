@@ -49,5 +49,6 @@ public class IntroCanvas extends PhetPCanvas {
 
         // Add the movable objects.
         rootNode.addChild( new CubeNode( model.getBrick(), mvt ) );
+        rootNode.addChild( new CubeNode( model.getLeadBlock(), mvt ) );
     }
 }
