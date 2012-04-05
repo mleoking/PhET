@@ -38,7 +38,7 @@ class InteractiveSlopeInterceptEquationNode extends PhetPNode {
         this.run = new Property<Double>( interactiveLine.get().run );
         this.intercept = new Property<Double>( interactiveLine.get().intercept );
 
-        // determine the max width of the rise and run spinners
+        // determine the max width of the rise and run spinners, based on the extents of their range
         double maxSlopeWidth;
         {
             PNode maxRiseNode = new SlopeSpinnerNode( UserComponents.riseSpinner, new Property<Double>( (double) riseRange.getMax() ), riseRange, font, FORMAT );
