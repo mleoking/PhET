@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 public class IntroModel implements Resettable {
 
     private static final IntegerRange X_RANGE = new IntegerRange( -10, 10 );
-    private static final IntegerRange Y_RANGE = new IntegerRange( -10, 10 );
+    private static final IntegerRange Y_RANGE = X_RANGE;
     public static final IntegerRange RISE_RANGE = new IntegerRange( -10, 10 );
     public static final IntegerRange RUN_RANGE = new IntegerRange( -10, 10 );
     public static final IntegerRange INTERCEPT_RANGE = new IntegerRange( -10, 10 );
