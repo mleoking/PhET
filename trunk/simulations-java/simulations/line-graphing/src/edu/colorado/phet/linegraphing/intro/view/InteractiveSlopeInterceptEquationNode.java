@@ -38,14 +38,27 @@ class InteractiveSlopeInterceptEquationNode extends PhetPNode {
         this.run = new Property<Double>( interactiveLine.get().run );
         this.intercept = new Property<Double>( interactiveLine.get().intercept );
 
+        // determine the max width of the rise and run spinners
+        double maxSlopeWidth;
+        {
+            PNode maxRiseNode = new SlopeSpinnerNode( UserComponents.riseSpinner, new Property<Double>( (double) riseRange.getMax() ), riseRange, font, FORMAT );
+            PNode minRiseNode = new SlopeSpinnerNode( UserComponents.riseSpinner, new Property<Double>( (double) riseRange.getMin() ), riseRange, font, FORMAT );
+            double maxRiseWidth = Math.max( maxRiseNode.getFullBoundsReference().getWidth(), minRiseNode.getFullBoundsReference().getWidth() );
+            PNode maxRunNode = new SlopeSpinnerNode( UserComponents.riseSpinner, new Property<Double>( (double) runRange.getMax() ), runRange, font, FORMAT );
+            PNode minRunNode = new SlopeSpinnerNode( UserComponents.riseSpinner, new Property<Double>( (double) runRange.getMin() ), runRange, font, FORMAT );
+            PNode runNode = new SlopeSpinnerNode( UserComponents.runSpinner, this.run, runRange, font, FORMAT );
+            double maxRunWidth = Math.max( maxRunNode.getFullBoundsReference().getWidth(), minRunNode.getFullBoundsReference().getWidth() );
+            maxSlopeWidth = Math.max( maxRiseWidth, maxRunWidth );
+        }
+
         // y = mx + b
         PText yNode = new PhetPText( "y", font );
         PText equalsNode = new PhetPText( "=", font );
         PNode riseNode = new SlopeSpinnerNode( UserComponents.riseSpinner, this.rise, riseRange, font, FORMAT );
-        final PPath lineNode = new PPath( new Line2D.Double( 0, 0, riseNode.getFullBoundsReference().getWidth(), 0 ) ) {{
+        PNode runNode = new SlopeSpinnerNode( UserComponents.runSpinner, this.run, runRange, font, FORMAT );
+        final PPath lineNode = new PPath( new Line2D.Double( 0, 0, maxSlopeWidth, 0 ) ) {{
             setStroke( new BasicStroke( 2f ) );
         }};
-        PNode runNode = new SlopeSpinnerNode( UserComponents.runSpinner, this.run, runRange, font, FORMAT );
         PText xNode = new PhetPText( "x", font );
         final PText interceptSignNode = new PhetPText( "+", font );
         PNode interceptNode = new InterceptSpinnerNode( UserComponents.interceptSpinner, this.intercept, interceptRange, font, FORMAT );
@@ -69,13 +82,12 @@ class InteractiveSlopeInterceptEquationNode extends PhetPNode {
             yNode.setOffset( 0, 0 );
             equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + xSpacing,
                                   yNode.getYOffset() );
-            final double centerY = equalsNode.getFullBoundsReference().getCenterY();
-            riseNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + xSpacing,
-                                centerY - riseNode.getFullBoundsReference().getHeight() - ySpacing );
-            lineNode.setOffset( riseNode.getXOffset(),
-                                centerY );
-            runNode.setOffset( riseNode.getXOffset(),
-                               centerY + ySpacing );
+            lineNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + xSpacing,
+                                equalsNode.getFullBoundsReference().getCenterY() );
+            riseNode.setOffset( lineNode.getFullBoundsReference().getMaxX() - riseNode.getFullBoundsReference().getWidth(),
+                                lineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - ySpacing );
+            runNode.setOffset( lineNode.getFullBoundsReference().getMaxX() - runNode.getFullBoundsReference().getWidth(),
+                               lineNode.getFullBoundsReference().getMinY() + ySpacing );
             xNode.setOffset( lineNode.getFullBoundsReference().getMaxX() + xSpacing,
                              yNode.getYOffset() );
             interceptSignNode.setOffset( xNode.getFullBoundsReference().getMaxX() + xSpacing,
