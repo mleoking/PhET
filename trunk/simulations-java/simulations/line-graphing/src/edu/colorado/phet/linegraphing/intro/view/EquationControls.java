@@ -7,12 +7,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -23,10 +21,8 @@ import edu.colorado.phet.common.piccolophet.nodes.ToggleButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.linegraphing.LGColors;
 import edu.colorado.phet.linegraphing.LGConstants;
-import edu.colorado.phet.linegraphing.LGResources;
 import edu.colorado.phet.linegraphing.LGResources.Images;
 import edu.colorado.phet.linegraphing.LGResources.Strings;
-import edu.colorado.phet.linegraphing.LGSimSharing;
 import edu.colorado.phet.linegraphing.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
 import edu.umd.cs.piccolo.PNode;
@@ -65,31 +61,34 @@ class EquationControls extends PhetPNode {
         }};
         final PText xEqualsZeroNode = new PhetPText( MessageFormat.format( "{0} = 0", Strings.SYMBOL_X ), EQUATION_FONT );
 
-        final PNode parentNode = new PNode();
-        parentNode.addChild( titleNode );
-        parentNode.addChild( minimizeMaximizeButtonNode );
-        parentNode.addChild( equationNode );
-        parentNode.addChild( saveLineButton );
-        parentNode.addChild( eraseLinesButton );
-        parentNode.addChild( xEqualsZeroNode );
+        final PNode panelNode = new PNode();
+        panelNode.addChild( titleNode );
+        panelNode.addChild( minimizeMaximizeButtonNode );
 
-        // Horizontal strut, to prevent control panel from resizing when minimized.
-        PPath strutNode = new PPath( new Rectangle2D.Double( 0, 0, parentNode.getFullBoundsReference().getWidth(), 1 ) );
-        strutNode.setStroke( null );
-        parentNode.addChild( strutNode );
-        strutNode.moveToBack();
-
-        double maxWidth = parentNode.getFullBoundsReference().getWidth();
+        // Stuff that is hidden when minimized must be attached to this node.
+        final PNode subPanelNode = new PNode();
+        panelNode.addChild( subPanelNode );
+        subPanelNode.addChild( equationNode );
+        subPanelNode.addChild( saveLineButton );
+        subPanelNode.addChild( eraseLinesButton );
+        subPanelNode.addChild( xEqualsZeroNode );
 
         // horizontal separators
+        double maxWidth = panelNode.getFullBoundsReference().getWidth();
         final PNode titleSeparator = new PPath( new Line2D.Double( 0, 0, maxWidth, 0 ) ) {{
             setStrokePaint( new Color( 212, 212, 212 ) );
         }};
          final PNode buttonsSeparator = new PPath( new Line2D.Double( 0, 0, maxWidth, 0 ) ) {{
             setStrokePaint( new Color( 212, 212, 212 ) );
         }};
-        parentNode.addChild( titleSeparator );
-        parentNode.addChild( buttonsSeparator );
+        subPanelNode.addChild( titleSeparator );
+        subPanelNode.addChild( buttonsSeparator );
+
+        // Horizontal strut, to prevent control panel from resizing when minimized.
+        PPath strutNode = new PPath( new Rectangle2D.Double( 0, 0, panelNode.getFullBoundsReference().getWidth() + 4, 1 ) );
+        strutNode.setStroke( null );
+        panelNode.addChild( strutNode );
+        strutNode.moveToBack();
 
         // layout
         {
@@ -110,27 +109,17 @@ class EquationControls extends PhetPNode {
             eraseLinesButton.setOffset( ( maxWidth / 2 ) + 3, saveLineButton.getYOffset() );
         }
 
-        addChild( new ControlPanelNode( parentNode ) );
+        // Wrap everything in a Piccolo control panel
+        addChild( new ControlPanelNode( panelNode ) );
 
         // Minimize/maximize the control panel
         maximized.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean maximized ) {
                 if ( maximized ) {
-                    //TODO put all of these things under a common parent, so visibility can be changed with 1 call
-                    parentNode.addChild( titleSeparator );
-                    parentNode.addChild( buttonsSeparator );
-                    parentNode.addChild( equationNode );
-                    parentNode.addChild( saveLineButton );
-                    parentNode.addChild( eraseLinesButton );
-                    parentNode.addChild( xEqualsZeroNode );
+                    panelNode.addChild( subPanelNode );
                 }
                 else {
-                    parentNode.removeChild( titleSeparator );
-                    parentNode.removeChild( buttonsSeparator );
-                    parentNode.removeChild( equationNode );
-                    parentNode.removeChild( saveLineButton );
-                    parentNode.removeChild( eraseLinesButton );
-                    parentNode.removeChild( xEqualsZeroNode );
+                    panelNode.removeChild( subPanelNode );
                 }
             }
         } );
