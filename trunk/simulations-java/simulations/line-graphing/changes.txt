@@ -1,3 +1,4 @@
+4/5/12 constants to make model easier to adjust
 4/5/12 fix layout of equation so that rise and run spinners are always right justified
 # 0.00.01 (63099) Apr 4, 2012
 4/4/12 center x=0
