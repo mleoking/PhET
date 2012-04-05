@@ -1,3 +1,4 @@
+4/5/12 increase icons size for standard lines, change labels to "y=x" and "y=-x"
 4/5/12 change "Rise/Run" check box to "Slope"
 4/5/12 remove title from graph control panel
 4/5/12 use larger font for equations in graph
