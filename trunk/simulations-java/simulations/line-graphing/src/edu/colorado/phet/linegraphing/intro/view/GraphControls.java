@@ -6,8 +6,6 @@ import java.awt.Insets;
 import java.text.MessageFormat;
 
 import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JSeparator;
 
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxWithIcon;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
@@ -26,7 +24,6 @@ import edu.umd.cs.piccolo.PNode;
  */
 class GraphControls extends PNode {
 
-    private static final PhetFont TITLE_FONT = new PhetFont( Font.BOLD, 16 );
     private static final PhetFont CONTROL_FONT = new PhetFont( Font.PLAIN, 14 );
     private static final String Y_EQUALS_X = MessageFormat.format( "{0} = +1{1}", Strings.SYMBOL_Y, Strings.SYMBOL_X );
     private static final String Y_EQUALS_NEGATIVE_X = MessageFormat.format( "{0} = -1{1}", Strings.SYMBOL_Y, Strings.SYMBOL_X );
@@ -34,9 +31,6 @@ class GraphControls extends PNode {
     public GraphControls( InteractiveLineGraphNode graphNode ) {
 
         // components
-        JComponent title = new JLabel( Strings.GRAPH ) {{
-            setFont( TITLE_FONT );
-        }};
         JComponent linesCheckBox = new PropertyCheckBoxWithIcon( UserComponents.linesCheckBox, Strings.LINES, CONTROL_FONT, InteractiveLineGraphNode.createLinesIcons( 40 ), graphNode.linesVisible );
         final JComponent riseOverRunCheckBox = new PropertyCheckBoxWithIcon( UserComponents.riseOverRunCheckBox, Strings.RISE_OVER_RUN, CONTROL_FONT, BracketValueNode.createIcon( 30 ), graphNode.riseOverRunVisible );
         final JComponent positiveCheckBox = new PropertyCheckBoxWithIcon( UserComponents.yEqualsXCheckBox, Y_EQUALS_X, CONTROL_FONT, InteractiveLineGraphNode.createYEqualsXIcon( 40 ), graphNode.yEqualsXVisible );
@@ -48,9 +42,6 @@ class GraphControls extends PNode {
         panel.setGridX( 0 ); // vertical
         panel.setInsets( new Insets( 2, 2, 2, 2 ) );
         panel.setAnchor( Anchor.CENTER ); // centered
-        panel.add( title );
-        panel.setFill( Fill.HORIZONTAL );
-        panel.add( new JSeparator() );
         panel.setFill( Fill.NONE );
         panel.setAnchor( Anchor.WEST ); // left justified
         panel.add( linesCheckBox );
