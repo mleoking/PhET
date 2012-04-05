@@ -17,18 +17,32 @@ import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
  */
 public class IntroModel {
 
+    //-------------------------------------------------------------------------
+    // Class Data
+    //-------------------------------------------------------------------------
+
     // Size of the lab table top.
     private static final double LAB_TABLE_WIDTH = 0.5; // In meters.
 
     // Size of the thermometer shelf.
     private static final double THERMOMETER_SHELF_WIDTH = 0.1; // In meters.
 
+    //-------------------------------------------------------------------------
+    // Instance Data
+    //-------------------------------------------------------------------------
 
     // Main model clock.
     protected final ConstantDtClock clock = new ConstantDtClock( 30.0 );
 
     // List of all shelves in the model.
     private final List<Shelf> shelfList = new ArrayList<Shelf>();
+
+    // Movable model objects.
+    private final Brick brick;
+
+    //-------------------------------------------------------------------------
+    // Constructor(s)
+    //-------------------------------------------------------------------------
 
     public IntroModel() {
 
@@ -50,7 +64,13 @@ public class IntroModel {
                                   THERMOMETER_SHELF_WIDTH * 0.20,
                                   Math.PI / 2 ) );
 
+        // Add and position the brick.
+        brick = new Brick();
     }
+
+    //-------------------------------------------------------------------------
+    // Methods
+    //-------------------------------------------------------------------------
 
     public List<Shelf> getShelfList() {
         return shelfList;
@@ -62,5 +82,9 @@ public class IntroModel {
 
     public IClock getClock() {
         return clock;
+    }
+
+    public Brick getBrick() {
+        return brick;
     }
 }
