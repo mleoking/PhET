@@ -3,8 +3,6 @@ package edu.colorado.phet.linegraphing;
 
 import java.awt.Image;
 
-import javax.annotation.Resources;
-
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -40,9 +38,6 @@ public class LGResources {
 
     public static class Images {
 
-        public static final Image Y_EQUALS_X_ICON = RESOURCES.getImage( "y_equals_x_icon.png" );
-        public static final Image Y_EQUALS_NEGATIVE_X_ICON = RESOURCES.getImage( "y_equals_negative_x_icon.png" );
-        public static final Image LINES_ICON = RESOURCES.getImage( "lines_icon.png" );
         public static final Image POINT_TOOL = RESOURCES.getImage( "point-tool.png" );
 
         public static final Image MINIMIZE_BUTTON = PhetCommonResources.getImage( "buttons/minimizeButton.png" );
