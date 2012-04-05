@@ -264,7 +264,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
 
     //Determine where to place the pressure sensor in the model (meters) so it will show up in the right place in the toolbox
     private ImmutableVector2D getModelLocationForPressureSensor( EmptyNode pressureSensorArea ) {
-        Point2D globalCenter = new Point2D.Double( pressureSensorArea.getGlobalFullBounds().getX(), pressureSensorArea.getGlobalFullBounds().getCenterY() );
+        Point2D globalCenter = new Point2D.Double( pressureSensorArea.getGlobalFullBounds().getCenterX(), pressureSensorArea.getGlobalFullBounds().getMaxY() );
         Point2D sceneCenter = rootNode.globalToLocal( globalCenter );
         return transform.viewToModel( new ImmutableVector2D( sceneCenter ) );
     }

@@ -34,7 +34,7 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
         chamberPool = new ChamberPool( gravity, liquidDensity );
 
         //Show pressure partly submerged in the water, but at the top of the water
-        addPressureSensor( new PressureSensor( this, 0, 0 ) );
+        addPressureSensor( new PressureSensor( this, -4, 2 ) );
         addPressureSensor( new PressureSensor( this, -4, 2 ) );
         addPressureSensor( new PressureSensor( this, -4, 2 ) );
         addPressureSensor( new PressureSensor( this, -4, 2 ) );
