@@ -46,9 +46,15 @@ public class CubeNode extends PNode {
         // Add the label.
         PNode label = new PText( cube.getLabel() ) {{
             setFont( LABEL_FONT );
+            if ( getFullBoundsReference().width >= mvt.modelToViewDeltaX( Cube.FACE_SIZE * 0.9 ) ) {
+                // Scale the label to fit on the face of the block.
+                double scale = ( mvt.modelToViewDeltaX( Cube.FACE_SIZE * 0.9 ) / getFullBoundsReference().width );
+                setScale( scale );
+            }
             double centerX = mvt.modelToViewDeltaX( Cube.FACE_SIZE / 2 );
             double centerY = mvt.modelToViewDeltaY( Cube.FACE_SIZE * 0.75 );
             centerFullBoundsOnPoint( centerX, centerY );
+
         }};
         addChild( label );
 
