@@ -3,23 +3,30 @@ package edu.colorado.phet.energyformsandchanges.intro.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyformsandchanges.intro.model.Cube;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Piccolo node that represents a cube in the view.  Examples of cubes are
- * bricks, lead blocks, and so forth.
+ * bricks, lead blocks, and so forth.  By convention for this sim, the (0, 0)
+ * point is the lower left corner.
  *
  * @author John Blanco
  */
 public class CubeNode extends PNode {
+
+    private static final Font LABEL_FONT = new PhetFont( 32, false );
+
     public CubeNode( Cube cube, final ModelViewTransform mvt ) {
 
         // Extract the scale transform from the MVT so that we can separate the
@@ -35,6 +42,16 @@ public class CubeNode extends PNode {
                 setOffset( mvt.modelToView( position ) );
             }
         } );
+
+        // Add the label.
+        PNode label = new PText( cube.getLabel() ) {{
+            setFont( LABEL_FONT );
+            double centerX = mvt.modelToViewDeltaX( Cube.FACE_SIZE / 2 );
+            double centerY = mvt.modelToViewDeltaY( Cube.FACE_SIZE * 0.75 );
+            centerFullBoundsOnPoint( centerX, centerY );
+        }};
+        addChild( label );
+
 
         // Add the cursor handler.
         addInputEventListener( new CursorHandler( CursorHandler.HAND ) );
