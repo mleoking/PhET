@@ -3,6 +3,7 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
@@ -34,4 +35,13 @@ public abstract class UserMovableModelElement {
      * @return
      */
     public abstract IUserComponentType getUserComponentType();
+
+    /**
+     * Translate, a.k.a. move, the model element by the indicated amount.
+     *
+     * @param modelDelta Vector that describes the desired motion.
+     */
+    public void translate( ImmutableVector2D modelDelta ) {
+        position.set( new Point2D.Double( position.get().getX() + modelDelta.getX(), position.get().getY() + modelDelta.getY() ) );
+    }
 }
