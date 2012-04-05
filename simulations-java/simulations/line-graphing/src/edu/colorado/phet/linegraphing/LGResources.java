@@ -23,7 +23,7 @@ public class LGResources {
         public static final String ERASE_LINES = RESOURCES.getLocalizedString( "eraseLines" );
         public static final String LINES = RESOURCES.getLocalizedString( "lines" );
         public static final String POINT_TOOL = RESOURCES.getLocalizedString( "pointTool" );
-        public static final String RISE_OVER_RUN = RESOURCES.getLocalizedString( "riseOverRun" );
+        public static final String SLOPE = RESOURCES.getLocalizedString( "slope" );
         public static final String SAVE_LINE = RESOURCES.getLocalizedString( "saveLine" );
 
         public static final String SYMBOL_X = RESOURCES.getLocalizedString( "symbol.x" );
