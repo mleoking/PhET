@@ -108,7 +108,7 @@ class EquationControls extends PhetPNode {
             titleSeparator.setOffset( 0, titleBackgroundNode.getFullBoundsReference().getMaxY() + 2 );
             equationNode.setOffset( ( maxWidth / 2 ) - ( equationNode.getFullBoundsReference().getWidth() / 2 ),
                                     titleSeparator.getFullBoundsReference().getMaxY() + 15 );
-            xEqualsZeroNode.setOffset( equationNode.getXOffset(),
+            xEqualsZeroNode.setOffset( equationNode.getFullBoundsReference().getCenterX() - ( xEqualsZeroNode.getFullBoundsReference().getWidth() / 2 ),
                                        equationNode.getFullBoundsReference().getCenterY() - ( xEqualsZeroNode.getFullBoundsReference().getHeight() / 2 ) );
             buttonsSeparator.setOffset( 0, equationNode.getFullBoundsReference().getMaxY() + 15 );
             saveLineButton.setOffset( ( maxWidth / 2 ) - saveLineButton.getFullBoundsReference().getWidth() - 3,
