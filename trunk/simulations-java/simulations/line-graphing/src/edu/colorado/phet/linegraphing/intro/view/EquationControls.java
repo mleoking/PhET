@@ -26,6 +26,7 @@ import edu.colorado.phet.linegraphing.LGConstants;
 import edu.colorado.phet.linegraphing.LGResources;
 import edu.colorado.phet.linegraphing.LGResources.Images;
 import edu.colorado.phet.linegraphing.LGResources.Strings;
+import edu.colorado.phet.linegraphing.LGSimSharing;
 import edu.colorado.phet.linegraphing.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
 import edu.umd.cs.piccolo.PNode;
@@ -56,8 +57,11 @@ class EquationControls extends PhetPNode {
         PNode minimizeMaximizeButtonNode = new ToggleButtonNode( UserComponents.equationMinimizeMaximizeButton, maximized, Images.MINIMIZE_BUTTON, Images.MAXIMIZE_BUTTON );
         final PNode equationNode = new ZeroOffsetNode( new InteractiveSlopeInterceptEquationNode( interactiveLine, riseRange, runRange, interceptRange, EQUATION_FONT ) );
         PNode strutNode = new PPath( new Rectangle2D.Double( 0, 0, getFullBoundsReference().getWidth(), 1 ) );
-        final TextButtonNode saveLineButton = new TextButtonNode( Strings.SAVE_LINE, LGConstants.CONTROL_FONT, LGColors.SAVE_LINE_BUTTON );
+        final TextButtonNode saveLineButton = new TextButtonNode( Strings.SAVE_LINE, LGConstants.CONTROL_FONT, LGColors.SAVE_LINE_BUTTON ) {{
+            setUserComponent( UserComponents.saveLineButton );
+        }};
         final TextButtonNode eraseLinesButton = new TextButtonNode( Strings.ERASE_LINES, LGConstants.CONTROL_FONT, LGColors.ERASE_LINES_BUTTON ) {{
+            setUserComponent( UserComponents.eraseLinesButton );
             setEnabled( false );
         }};
         final PText xEqualsZeroNode = new PhetPText( MessageFormat.format( "{0} = 0", Strings.SYMBOL_X ), EQUATION_FONT );

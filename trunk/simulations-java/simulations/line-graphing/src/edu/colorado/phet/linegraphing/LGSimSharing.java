@@ -15,6 +15,7 @@ public class LGSimSharing {
         introTab, gameTab,
         equationMinimizeMaximizeButton,
         riseSpinner, runSpinner, interceptSpinner,
+        saveLineButton, eraseLinesButton,
         linesCheckBox, riseOverRunCheckBox, yEqualsXCheckBox, yEqualsNegativeXCheckBox, pointToolCheckBox,
         interceptManipulator, slopeManipulator, pointTool
     }
