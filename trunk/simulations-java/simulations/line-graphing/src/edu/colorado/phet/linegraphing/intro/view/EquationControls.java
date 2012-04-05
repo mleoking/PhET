@@ -56,7 +56,6 @@ class EquationControls extends PhetPNode {
         PNode titleNode = new PhetPText( TITLE, new PhetFont( Font.BOLD, 18 ) );
         PNode minimizeMaximizeButtonNode = new ToggleButtonNode( UserComponents.equationMinimizeMaximizeButton, maximized, Images.MINIMIZE_BUTTON, Images.MAXIMIZE_BUTTON );
         final PNode equationNode = new ZeroOffsetNode( new InteractiveSlopeInterceptEquationNode( interactiveLine, riseRange, runRange, interceptRange, EQUATION_FONT ) );
-        PNode strutNode = new PPath( new Rectangle2D.Double( 0, 0, getFullBoundsReference().getWidth(), 1 ) );
         final TextButtonNode saveLineButton = new TextButtonNode( Strings.SAVE_LINE, LGConstants.CONTROL_FONT, LGColors.SAVE_LINE_BUTTON ) {{
             setUserComponent( UserComponents.saveLineButton );
         }};
@@ -70,21 +69,17 @@ class EquationControls extends PhetPNode {
         parentNode.addChild( titleNode );
         parentNode.addChild( minimizeMaximizeButtonNode );
         parentNode.addChild( equationNode );
-        parentNode.addChild( strutNode );
         parentNode.addChild( saveLineButton );
         parentNode.addChild( eraseLinesButton );
         parentNode.addChild( xEqualsZeroNode );
 
-        double maxWidth = parentNode.getFullBoundsReference().getWidth();
+        // Horizontal strut, to prevent control panel from resizing when minimized.
+        PPath strutNode = new PPath( new Rectangle2D.Double( 0, 0, parentNode.getFullBoundsReference().getWidth(), 1 ) );
+        strutNode.setStroke( null );
+        parentNode.addChild( strutNode );
+        strutNode.moveToBack();
 
-        // Background behind title, prevents control panel from resizing when minimized
-        final double backgroundHeight = Math.max( titleNode.getFullBoundsReference().getHeight(), minimizeMaximizeButtonNode.getFullBoundsReference().getHeight() ) + 6;
-        PNode titleBackgroundNode = new PPath( new RoundRectangle2D.Double( 0, 0, maxWidth, backgroundHeight, 10, 10 ) ) {{
-            setPaint( new Color( 0, 0, 0, 0 ) );
-            setStroke( null );
-        }};
-        parentNode.addChild( titleBackgroundNode );
-        titleBackgroundNode.moveInBackOf( titleNode );
+        double maxWidth = parentNode.getFullBoundsReference().getWidth();
 
         // horizontal separators
         final PNode titleSeparator = new PPath( new Line2D.Double( 0, 0, maxWidth, 0 ) ) {{
@@ -98,21 +93,20 @@ class EquationControls extends PhetPNode {
 
         // layout
         {
+            final double ySpacing = 10;
+            final double titleHeight = Math.max( titleNode.getFullBoundsReference().getHeight(), minimizeMaximizeButtonNode.getFullBoundsReference().getHeight() );
             strutNode.setOffset( 0, 0 );
-            titleBackgroundNode.setOffset( ( maxWidth / 2 ) - ( titleBackgroundNode.getFullBoundsReference().getWidth() / 2 ),
-                                 strutNode.getFullBoundsReference().getMaxY() + 1 );
-            minimizeMaximizeButtonNode.setOffset( titleBackgroundNode.getFullBoundsReference().getMinY() + 5,
-                                                  titleBackgroundNode.getFullBoundsReference().getCenterY() - ( minimizeMaximizeButtonNode.getFullBoundsReference().getHeight() / 2 ) );
-            titleNode.setOffset( minimizeMaximizeButtonNode.getFullBoundsReference().getMaxY() + 8,
-                                 titleBackgroundNode.getFullBoundsReference().getCenterY() - ( titleNode.getFullBoundsReference().getHeight() / 2 ) );
-            titleSeparator.setOffset( 0, titleBackgroundNode.getFullBoundsReference().getMaxY() + 2 );
+            minimizeMaximizeButtonNode.setOffset( 5, ( titleHeight - minimizeMaximizeButtonNode.getFullBoundsReference().getHeight() ) / 2 );
+            titleNode.setOffset( minimizeMaximizeButtonNode.getFullBoundsReference().getMaxX() + 8,
+                                 ( titleHeight - titleNode.getFullBoundsReference().getHeight() ) / 2 );
+            titleSeparator.setOffset( 0, titleHeight + ySpacing );
             equationNode.setOffset( ( maxWidth / 2 ) - ( equationNode.getFullBoundsReference().getWidth() / 2 ),
-                                    titleSeparator.getFullBoundsReference().getMaxY() + 15 );
+                                    titleSeparator.getFullBoundsReference().getMaxY() + ySpacing );
             xEqualsZeroNode.setOffset( equationNode.getFullBoundsReference().getCenterX() - ( xEqualsZeroNode.getFullBoundsReference().getWidth() / 2 ),
                                        equationNode.getFullBoundsReference().getCenterY() - ( xEqualsZeroNode.getFullBoundsReference().getHeight() / 2 ) );
-            buttonsSeparator.setOffset( 0, equationNode.getFullBoundsReference().getMaxY() + 15 );
+            buttonsSeparator.setOffset( 0, equationNode.getFullBoundsReference().getMaxY() + ySpacing );
             saveLineButton.setOffset( ( maxWidth / 2 ) - saveLineButton.getFullBoundsReference().getWidth() - 3,
-                                      buttonsSeparator.getFullBoundsReference().getMaxY() + 8 );
+                                      buttonsSeparator.getFullBoundsReference().getMaxY() + ySpacing );
             eraseLinesButton.setOffset( ( maxWidth / 2 ) + 3, saveLineButton.getYOffset() );
         }
 
