@@ -29,7 +29,7 @@ public class IntroCanvas extends LGCanvas implements Resettable {
                                                       model.pointToolLocation );
         PNode graphNode = new ZeroOffsetNode( lineGraphNode );
         PNode equationControls = new EquationControls( model.interactiveLine, lineGraphNode, IntroModel.RISE_RANGE, IntroModel.RUN_RANGE, IntroModel.INTERCEPT_RANGE );
-        PNode visibilityControls = new GraphControls( lineGraphNode );
+        PNode graphControls = new GraphControls( lineGraphNode );
         PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, LGColors.RESET_ALL_BUTTON ) {{
             setConfirmationEnabled( false );
         }};
@@ -38,7 +38,7 @@ public class IntroCanvas extends LGCanvas implements Resettable {
         {
             addChild( graphNode );
             addChild( equationControls );
-            addChild( visibilityControls );
+            addChild( graphControls );
             addChild( resetAllButtonNode );
         }
 
@@ -52,10 +52,10 @@ public class IntroCanvas extends LGCanvas implements Resettable {
             // upper-right of graph
             equationControls.setOffset( graphNode.getFullBoundsReference().getMaxX() + 10, 35 );
             // centered below equation
-            visibilityControls.setOffset( equationControls.getFullBoundsReference().getCenterX() - ( visibilityControls.getFullBoundsReference().getWidth() / 2 ),
+            graphControls.setOffset( equationControls.getFullBoundsReference().getCenterX() - ( graphControls.getFullBoundsReference().getWidth() / 2 ),
                                           equationControls.getFullBoundsReference().getMaxY() + 25 );
             // buttons centered below control panel
-            resetAllButtonNode.setOffset( visibilityControls.getFullBoundsReference().getCenterX() - ( resetAllButtonNode.getFullBoundsReference().getWidth() / 2 ),
+            resetAllButtonNode.setOffset( graphControls.getFullBoundsReference().getCenterX() - ( resetAllButtonNode.getFullBoundsReference().getWidth() / 2 ),
                                      getStageSize().getHeight() - yMargin - resetAllButtonNode.getFullBoundsReference().getHeight() );
         }
     }
