@@ -119,9 +119,9 @@ public class PointToolNode extends PhetPNode {
         }
 
         @Override public ParameterSet getParametersForAllEvents( PInputEvent event ) {
-            return super.getParametersForAllEvents( event ).
-                    with( ParameterKeys.x, point.get().getX() ).
-                    with( ParameterKeys.y, point.get().getY() );
+            return ParameterSet.parameterSet( ParameterKeys.x, MathUtil.round( point.get().getX() ) ).
+                    with( ParameterKeys.y, MathUtil.round( point.get().getY() ) ).
+                    with( super.getParametersForAllEvents( event ) );
         }
 
         // Constrains xy coordinates to be within the range of the graph.
