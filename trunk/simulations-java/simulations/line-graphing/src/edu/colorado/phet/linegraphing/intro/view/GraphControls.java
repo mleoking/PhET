@@ -25,16 +25,16 @@ import edu.umd.cs.piccolo.PNode;
 class GraphControls extends PNode {
 
     private static final PhetFont CONTROL_FONT = new PhetFont( Font.PLAIN, 14 );
-    private static final String Y_EQUALS_X = MessageFormat.format( "{0} = +1{1}", Strings.SYMBOL_Y, Strings.SYMBOL_X );
-    private static final String Y_EQUALS_NEGATIVE_X = MessageFormat.format( "{0} = -1{1}", Strings.SYMBOL_Y, Strings.SYMBOL_X );
+    private static final String Y_EQUALS_X = MessageFormat.format( "{0} = {1}", Strings.SYMBOL_Y, Strings.SYMBOL_X );
+    private static final String Y_EQUALS_NEGATIVE_X = MessageFormat.format( "{0} = -{1}", Strings.SYMBOL_Y, Strings.SYMBOL_X );
 
     public GraphControls( InteractiveLineGraphNode graphNode ) {
 
         // components
         JComponent linesCheckBox = new PropertyCheckBoxWithIcon( UserComponents.linesCheckBox, Strings.LINES, CONTROL_FONT, InteractiveLineGraphNode.createLinesIcons( 40 ), graphNode.linesVisible );
         final JComponent slopeCheckBox = new PropertyCheckBoxWithIcon( UserComponents.riseOverRunCheckBox, Strings.SLOPE, CONTROL_FONT, BracketValueNode.createIcon( 30 ), graphNode.riseOverRunVisible );
-        final JComponent positiveCheckBox = new PropertyCheckBoxWithIcon( UserComponents.yEqualsXCheckBox, Y_EQUALS_X, CONTROL_FONT, InteractiveLineGraphNode.createYEqualsXIcon( 40 ), graphNode.yEqualsXVisible );
-        final JComponent negativeCheckBox = new PropertyCheckBoxWithIcon( UserComponents.yEqualsNegativeXCheckBox, Y_EQUALS_NEGATIVE_X, CONTROL_FONT, InteractiveLineGraphNode.createYEqualsNegativeXIcon( 40 ), graphNode.yEqualsNegativeXVisible );
+        final JComponent positiveCheckBox = new PropertyCheckBoxWithIcon( UserComponents.yEqualsXCheckBox, Y_EQUALS_X, CONTROL_FONT, InteractiveLineGraphNode.createYEqualsXIcon( 60 ), graphNode.yEqualsXVisible );
+        final JComponent negativeCheckBox = new PropertyCheckBoxWithIcon( UserComponents.yEqualsNegativeXCheckBox, Y_EQUALS_NEGATIVE_X, CONTROL_FONT, InteractiveLineGraphNode.createYEqualsNegativeXIcon( 60 ), graphNode.yEqualsNegativeXVisible );
         JComponent pointToolCheckBox = new PropertyCheckBoxWithIcon( UserComponents.pointToolCheckBox, Strings.POINT_TOOL, CONTROL_FONT, PointToolNode.createIcon( 45 ), graphNode.pointToolVisible );
 
         // layout
