@@ -27,9 +27,9 @@ import edu.umd.cs.piccolo.nodes.PImage;
  */
 public class SpinnerButtonNode extends PNode {
     private final VoidFunction0 callback;
-    public final ObservableProperty<Boolean> enabled;
-    public final BooleanProperty pressed = new BooleanProperty( false );
-    public final BooleanProperty entered = new BooleanProperty( true );
+    private final ObservableProperty<Boolean> enabled;
+    private final BooleanProperty pressed = new BooleanProperty( false );
+    private final BooleanProperty entered = new BooleanProperty( true );
     private final PImage imageNode;
     private final DynamicCursorHandler listener = new DynamicCursorHandler();
 
