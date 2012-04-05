@@ -21,6 +21,7 @@ DESIGN
 - does common shape and color coding of manipulators and spinner buttons help make a connection?
 - Save Line button is enabled when interactive equation changes, but the reduced form of the line may be the same
 - when interacting with equation and run is set to zero, it feels odd/confusing to replace the equation with "x=0"
+- if interactive line is the same as one of the standard lines, you won't see those standard lines when they are turned on
 
 HIGH
 
