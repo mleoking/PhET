@@ -27,7 +27,7 @@ public class SlopeInterceptLineNode extends PComposite {
 
     private static final PDimension ARROW_HEAD_SIZE = new PDimension( 10, 10 );
     private static final double LINE_THICKNESS = 3;
-    private static final double LINE_EXTENT = 0.75; // how far the line extends past the grid, in model units
+    private static final double LINE_EXTENT = 25; // how far the line extends past the grid
     private static final PhetFont EQUATION_FONT = new PhetFont( Font.BOLD, 14 );
 
     private final DoubleArrowNode arrowNode;
@@ -45,45 +45,48 @@ public class SlopeInterceptLineNode extends PComposite {
 
     public SlopeInterceptLineNode( SlopeInterceptLine line, LineGraph graph, ModelViewTransform mvt, Color color ) {
 
+        final double xExtent = mvt.viewToModelDeltaX( LINE_EXTENT );
+        final double yExtent = Math.abs( mvt.viewToModelDeltaY( LINE_EXTENT ) );
+
         double tailX, tailY, tipX, tipY;
 
         if ( line.run == 0 ) {
             // x = 0
             tailX = 0;
-            tailY = graph.maxY + LINE_EXTENT;
+            tailY = graph.maxY + yExtent;
             tipX = 0;
-            tipY = graph.minY - LINE_EXTENT;
+            tipY = graph.minY - yExtent;
         }
         else if ( line.rise == 0 ) {
             // y = b
-            tailX = graph.minX - LINE_EXTENT;
+            tailX = graph.minX - xExtent;
             tailY = line.intercept;
-            tipX = graph.maxY + LINE_EXTENT;
+            tipX = graph.maxY + yExtent;
             tipY = line.intercept;
         }
         else {
 
             // tail is the left-most end point. Compute x such that the point is inside the grid.
-            tailX = graph.minX - LINE_EXTENT;
+            tailX = graph.minX - xExtent;
             tailY = line.solveY( tailX );
-            if ( tailY < graph.minY - LINE_EXTENT ) {
-                tailX = line.solveX( graph.minY - LINE_EXTENT );
+            if ( tailY < graph.minY - yExtent ) {
+                tailX = line.solveX( graph.minY - yExtent );
                 tailY = line.solveY( tailX );
             }
-            else if ( tailY > graph.maxY + LINE_EXTENT ) {
-                tailX = line.solveX( graph.maxY + LINE_EXTENT );
+            else if ( tailY > graph.maxY + yExtent ) {
+                tailX = line.solveX( graph.maxY + yExtent );
                 tailY = line.solveY( tailX );
             }
 
             // tip is the right-most end point. Compute x such that the point is inside the grid.
-            tipX = graph.maxX + LINE_EXTENT;
+            tipX = graph.maxX + xExtent;
             tipY = line.solveY( tipX );
-            if ( tipY < graph.minY - LINE_EXTENT ) {
-                tipX = line.solveX( graph.minY - LINE_EXTENT );
+            if ( tipY < graph.minY - yExtent ) {
+                tipX = line.solveX( graph.minY - yExtent );
                 tipY = line.solveY( tipX );
             }
-            else if ( tipY > graph.maxY + LINE_EXTENT ) {
-                tipX = line.solveX( graph.maxY + LINE_EXTENT );
+            else if ( tipY > graph.maxY + yExtent ) {
+                tipX = line.solveX( graph.maxY + yExtent );
                 tipY = line.solveY( tipX );
             }
         }
