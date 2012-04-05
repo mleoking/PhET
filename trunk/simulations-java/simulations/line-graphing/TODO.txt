@@ -26,6 +26,7 @@ DESIGN
 HIGH
 
 MEDIUM
+- hide equation on interactive line when equation control panel in minimized
 - manipulate a "ghost" line that doesn't affect the equation until released?
 
 LOW
