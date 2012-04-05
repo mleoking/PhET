@@ -8,6 +8,7 @@ import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -38,15 +39,10 @@ public class SpeedometerSensorNode extends ToolNode {
         this.transform = transform;
         this.pointSensor = pointSensor;
 
-        final Property<Double> speed = new Property<Double>( 0.0 );
+        final Property<Option<Double>> speed = new Property<Option<Double>>( new Some<Double>( 0.0 ) );
         pointSensor.value.addObserver( new VoidFunction1<Option<Double>>() {
             @Override public void apply( final Option<Double> doubles ) {
-                if ( doubles.isSome() ) {
-                    speed.set( doubles.get() );
-                }
-                else {
-                    speed.set( 0.0 );
-                }
+                speed.set( doubles );
             }
         } );
 

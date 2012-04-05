@@ -16,6 +16,8 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
@@ -81,7 +83,7 @@ public abstract class AbstractEnergySkateParkModule extends SimSharingPiccoloMod
     public final Property<Boolean> normalSpeed = new Property<Boolean>( true );
 
     //Observable speed of the 0th skater, should be in the model, but model must be serialized for record/playback, so keep it here
-    private final Property<Double> primarySkaterSpeed = new Property<Double>( 0.0 );
+    private final Property<Option<Double>> primarySkaterSpeed = new Property<Option<Double>>( new Some<Double>( 0.0 ) );
 
     public final Property<Double> mass;
     public final Property<Integer> numberOfSplines = new Property<Integer>( 0 );
@@ -248,7 +250,7 @@ public abstract class AbstractEnergySkateParkModule extends SimSharingPiccoloMod
     }
 
     public void updatePrimarySkaterSpeed() {
-        primarySkaterSpeed.set( energyModel.getNumBodies() > 0 ? ( (Body) energyModel.getBody( 0 ) ).getSpeed() : 0.0 );
+        primarySkaterSpeed.set( new Some<Double>( energyModel.getNumBodies() > 0 ? energyModel.getBody( 0 ).getSpeed() : 0.0 ) );
     }
 
     private void addDefaultBody() {
@@ -383,7 +385,7 @@ public abstract class AbstractEnergySkateParkModule extends SimSharingPiccoloMod
         return energyModel.createBody();
     }
 
-    public ObservableProperty<Double> getPrimarySkaterSpeed() {
+    public ObservableProperty<Option<Double>> getPrimarySkaterSpeed() {
         return primarySkaterSpeed;
     }
 
