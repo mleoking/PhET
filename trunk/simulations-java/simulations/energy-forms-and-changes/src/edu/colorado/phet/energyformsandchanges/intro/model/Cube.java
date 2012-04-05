@@ -19,7 +19,7 @@ public abstract class Cube extends UserMovableModelElement {
     private static final double FACE_SIZE = 0.05; // In meters.
 
     // Flattened size of the top and visible side.
-    private static final double EDGE_AND_TOP_SIZE = FACE_SIZE * 0.33;
+    private static final double EDGE_AND_TOP_SIZE = FACE_SIZE * 0.25;
 
     public abstract Color getColor();
 
