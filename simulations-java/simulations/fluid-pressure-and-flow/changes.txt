@@ -1,3 +1,4 @@
+Pressure tab: Fixed: Sim freezes with using pressure sensor in 2nd tab
 Pressure tab: Added needle pressure gauges
 Pressure tab: Chamber scene: Fixed: There is a quirk in the water level when adding a second block, may be leading to incorrect pressure values
 Pressure tab: Added a ruler icon

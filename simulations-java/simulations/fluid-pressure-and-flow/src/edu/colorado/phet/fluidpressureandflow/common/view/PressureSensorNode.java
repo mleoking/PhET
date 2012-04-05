@@ -9,6 +9,7 @@ import java.text.DecimalFormat;
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
@@ -67,7 +68,8 @@ public class PressureSensorNode extends SensorNode {
 
         sensor.addValueObserver( new SimpleObserver() {
             @Override public void update() {
-                Option<Double> value = new Some<Double>( sensor.getValue() );
+                final Double v = sensor.getValue();
+                Option<Double> value = Double.isNaN( v ) ? new None<Double>() : new Some<Double>( v );
                 pointSensor.value.set( value );
             }
         } );
