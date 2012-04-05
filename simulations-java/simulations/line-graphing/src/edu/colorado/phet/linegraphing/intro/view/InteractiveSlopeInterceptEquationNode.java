@@ -2,7 +2,6 @@
 package edu.colorado.phet.linegraphing.intro.view;
 
 import java.awt.BasicStroke;
-import java.awt.Font;
 import java.awt.Image;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
@@ -12,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.GreaterThan;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.LessThan;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
@@ -25,8 +23,8 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.LGResources.Images;
-import edu.colorado.phet.linegraphing.LGSimSharing;
 import edu.colorado.phet.linegraphing.LGSimSharing.UserComponents;
+import edu.colorado.phet.linegraphing.common.view.SpinnerButtonNode;
 import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
