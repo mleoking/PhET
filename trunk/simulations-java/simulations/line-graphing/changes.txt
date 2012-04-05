@@ -1,3 +1,4 @@
+4/5/12 change "Rise/Run" check box to "Slope"
 4/5/12 remove title from graph control panel
 4/5/12 use larger font for equations in graph
 4/5/12 structure scenegraph of control panel so that it's easier to minimize and maximize
