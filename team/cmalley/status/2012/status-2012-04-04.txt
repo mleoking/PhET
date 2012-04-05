@@ -1,0 +1,59 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: March 22 - April 4, 2011
+
+Line Graphing
+- design meeting
+- discussed design input with AP
+- development of first tab
+- published 0.00.01 (first tab is feature complete)
+  http://www.colorado.edu/physics/phet/dev/line-graphing/0.00.01/
+
+Reactants, Products and Leftovers
+- evaluate list of change requests for KL
+- changed color of boxes to black
+
+Beer's Law Lab
+- special dev version for KL, with only Beer's in all.jar file
+
+Bending Light
+- failed to reproduce crash reported by NP, #3139
+
+Fluid Pressure and Flow
+- discussed redesign of pressure meters with SR
+
+Data Collection
+- fixed delimiter checking, #3620
+- instrumented SpinnerButtonNode, discussed with SR
+
+Common Code
+- developer meeting about Piccolo sliders
+
+Sponsor Prototype
+- discussed Flash implementation options with JO
+
+Administrative
+- status meeting
+- reports
+- postdoc interview and feedback
+
+WHAT'S NEXT:
+
+- Line Graphing sim: design and implementation
+- Beer's Law Lab: waiting for instructions
+- Reactants, Products and Leftovers: add anything needed for study
+- translations missing from English jar files, #3292
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- April 23 - May 12 (bike trip, not working)
+- July 5-11 (CT, working)
+- August 6-19 (vacation, not working)
+- October 10-23 (CT, working)
+
+--
