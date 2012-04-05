@@ -29,6 +29,11 @@ HIGH
 MEDIUM
 - hide equation on interactive line when equation control panel in minimized
 - manipulate a "ghost" line that doesn't affect the equation until released?
+- change slope on graph lines to look like a fraction
+- version with spinner buttons in horizontal layout
+- make point tool drag on/off grid instead of check box
+- delete "Graph" control panel title and separator
+- change "Rise/Run" check box to "Slope", icon shows both rise and run, connect ends of brackets with dashed line
 
 LOW
 - review internal duplication in GraphNode
