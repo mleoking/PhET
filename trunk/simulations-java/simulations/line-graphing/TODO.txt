@@ -30,7 +30,7 @@ MEDIUM
 
 LOW
 - review internal duplication in GraphNode
-- create spinner buttons programmatically to match colors, or investigate imageop to adjust hue
+- create spinner buttons programmatically to match colors
 
 SIM-SHARING
 
