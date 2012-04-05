@@ -39,6 +39,7 @@ public class IntroModel {
 
     // Movable model objects.
     private final Brick brick;
+    private final LeadBlock leadBlock;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -66,6 +67,11 @@ public class IntroModel {
 
         // Add and position the brick.
         brick = new Brick();
+        brick.position.set( new Point2D.Double( -0.2, -0.1 ) );
+
+        // Add and position the lead block.
+        leadBlock = new LeadBlock();
+        leadBlock.position.set( new Point2D.Double( -0.1, -0.1 ) );
     }
 
     //-------------------------------------------------------------------------
@@ -86,5 +92,9 @@ public class IntroModel {
 
     public Brick getBrick() {
         return brick;
+    }
+
+    public LeadBlock getLeadBlock() {
+        return leadBlock;
     }
 }
