@@ -34,7 +34,7 @@ public class SpeedometerSensorNode extends ToolNode {
                                   final PointSensor<Double> pointSensor,
 
                                   //Text to display when the value is None
-                                  String title ) {
+                                  String title, double maxSpeed ) {
         this.transform = transform;
         this.pointSensor = pointSensor;
 
@@ -50,7 +50,7 @@ public class SpeedometerSensorNode extends ToolNode {
             }
         } );
 
-        bodyNode = new SpeedometerNode( "Density", 100, speed, 3500 );
+        bodyNode = new SpeedometerNode( title, 100, speed, maxSpeed );
 
         //Show a triangular tip that points to the hot spot of the sensor, i.e. where the values are read from
         velocityPoint = RESOURCES.getImage( "speedometer_point.png" );
