@@ -22,6 +22,7 @@ public class IntroCanvas extends LGCanvas implements Resettable {
     private final InteractiveLineGraphNode lineGraphNode;
 
     public IntroCanvas( final IntroModel model ) {
+        setBackground( new Color( 255, 255, 225 ) );
 
         lineGraphNode = new InteractiveLineGraphNode( model.graph, model.mvt, model.interactiveLine,
                                                       IntroModel.RISE_RANGE, IntroModel.RUN_RANGE, IntroModel.INTERCEPT_RANGE,
