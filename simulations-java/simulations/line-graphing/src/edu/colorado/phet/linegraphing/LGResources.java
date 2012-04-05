@@ -25,7 +25,6 @@ public class LGResources {
         public static final String POINT_TOOL = RESOURCES.getLocalizedString( "pointTool" );
         public static final String RISE_OVER_RUN = RESOURCES.getLocalizedString( "riseOverRun" );
         public static final String SAVE_LINE = RESOURCES.getLocalizedString( "saveLine" );
-        public static final String GRAPH = RESOURCES.getLocalizedString( "graph" );
 
         public static final String SYMBOL_X = RESOURCES.getLocalizedString( "symbol.x" );
         public static final String SYMBOL_Y = RESOURCES.getLocalizedString( "symbol.y" );
