@@ -1,3 +1,4 @@
+Pressure tab: Intro scene: Fixed: gravity not accounted for in 1st tab physics
 Hide the speedometer needle when NaN
 Made top-center be 1.0 atm for the pressure sensor
 Fixed: There is extra space on the sensor toolbox
