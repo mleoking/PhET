@@ -7,7 +7,7 @@ Line Graphing
 - design meeting
 - discussed design input with AP
 - development of first tab
-- published 0.00.01 (first tab is feature complete)
+- published 0.00.01 (first tab is close to feature complete)
   http://www.colorado.edu/physics/phet/dev/line-graphing/0.00.01/
 
 Reactants, Products and Leftovers
@@ -40,7 +40,7 @@ Administrative
 
 WHAT'S NEXT:
 
-- Line Graphing sim: design and implementation
+- Line Graphing: design and implementation
 - Beer's Law Lab: waiting for instructions
 - Reactants, Products and Leftovers: add anything needed for study
 - translations missing from English jar files, #3292
