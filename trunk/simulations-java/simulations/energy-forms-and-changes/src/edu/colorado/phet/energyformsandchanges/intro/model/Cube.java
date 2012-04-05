@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 public abstract class Cube extends UserMovableModelElement {
 
     // Height and width of the face, which is square.
-    private static final double FACE_SIZE = 0.05; // In meters.
+    public static final double FACE_SIZE = 0.05; // In meters.
 
     // Flattened size of the top and visible side.
     private static final double EDGE_AND_TOP_SIZE = FACE_SIZE * 0.25;
