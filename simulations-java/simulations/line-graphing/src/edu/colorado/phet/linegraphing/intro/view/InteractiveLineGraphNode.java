@@ -193,11 +193,13 @@ public class InteractiveLineGraphNode extends LineGraphNode {
                 return new PBounds( b.getX(), b.getY(), b.getWidth() + 2, b.getHeight() + 2 );
             }
         };
-        graphNode.interactiveLineParentNode.setVisible( interactiveLineVisible );
         graphNode.riseOverRunVisible.set( false );
         graphNode.pointToolVisible.set( false );
         graphNode.yEqualsXVisible.set( yEqualsXVisible );
         graphNode.yEqualsNegativeXVisible.set( yEqualsNegativeXVisible );
+        graphNode.interactiveLineParentNode.setVisible( interactiveLineVisible );
+        graphNode.slopeManipulatorNode.setVisible( interactiveLineVisible );
+        graphNode.interceptManipulatorNode.setVisible( interactiveLineVisible );
         if ( savedLineVisible ) {
             graphNode.saveLine( new SlopeInterceptLine( -1, 2, -1 ) );
         }
