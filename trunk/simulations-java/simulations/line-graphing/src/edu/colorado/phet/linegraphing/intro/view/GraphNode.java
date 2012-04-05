@@ -95,13 +95,13 @@ class GraphNode extends PhetPNode {
         PNode verticalGridLinesNode = new PNode();
         final int numberOfVerticalGridLines = graph.maxX - graph.minX + 1;
         {
-            final double minY = mvt.modelToViewDeltaX( graph.maxY );
-            final double maxY = mvt.modelToViewDeltaX( graph.minY );
+            final double minY = mvt.modelToViewDeltaY( graph.maxY );
+            final double maxY = mvt.modelToViewDeltaY( graph.minY );
             // add one line for each unit of grid spacing
             for ( int i = 0; i < numberOfVerticalGridLines; i++ ) {
                 final double modelX = graph.minX + i;
                 if ( modelX != 0 ) { // skip origin
-                    final double xOffset = mvt.modelToViewDeltaY( modelX );
+                    final double xOffset = mvt.modelToViewDeltaX( modelX );
                     PPath gridLineNode = new PPath( new Line2D.Double( xOffset, minY, xOffset, maxY ) );
                     verticalGridLinesNode.addChild( gridLineNode );
                     if ( Math.abs( modelX ) % MAJOR_TICK_SPACING == 0 ) {
