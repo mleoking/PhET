@@ -21,12 +21,8 @@ import java.awt.image.BufferedImageOp;
 import java.awt.image.ColorModel;
 
 /**
- * Class: ColorFromWavelength
- * Package: edu.colorado.phet.coreadditions
- * Author: Another Guy
- * <p/>
- * This is a BufferedImageOp that creates a duotone image of an input BufferedImage. The color of the duotone is
- * based on a baseColor specified in the ColorFromWavelength constructor.
+ * This is a BufferedImageOp that creates a duotone image of an input BufferedImage.
+ * @author Another Guy
  */
 public class MakeDuotoneImageOp implements BufferedImageOp, ColorFilter {
     private Color baseColor;
