@@ -50,7 +50,7 @@ public class IntroCanvas extends LGCanvas implements Resettable {
             graphNode.setOffset( xMargin, yMargin );
 
             // upper-right of graph
-            equationControls.setOffset( graphNode.getFullBoundsReference().getMaxX() + 20, 35 );
+            equationControls.setOffset( graphNode.getFullBoundsReference().getMaxX() + 10, 35 );
             // centered below equation
             visibilityControls.setOffset( equationControls.getFullBoundsReference().getCenterX() - ( visibilityControls.getFullBoundsReference().getWidth() / 2 ),
                                           equationControls.getFullBoundsReference().getMaxY() + 25 );
