@@ -42,9 +42,8 @@ public class InteractiveLineGraphNode extends LineGraphNode {
     public InteractiveLineGraphNode( final LineGraph graph, final ModelViewTransform mvt,
                                      Property<SlopeInterceptLine> interactiveLine,
                                      IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange,
-                                     SlopeInterceptLine yEqualsXLine, SlopeInterceptLine yEqualsNegativeXLine,
                                      Property<ImmutableVector2D> pointToolLocation ) {
-        super( graph, mvt, yEqualsXLine, yEqualsNegativeXLine );
+        super( graph, mvt );
 
         // Interactive line
         interactiveLineParentNode = new PComposite();
@@ -180,8 +179,6 @@ public class InteractiveLineGraphNode extends LineGraphNode {
                                                      new IntegerRange( -3, 3 ),
                                                      new IntegerRange( -3, 3 ),
                                                      new IntegerRange( -3, 3 ),
-                                                     new SlopeInterceptLine( 1, 1, 0 ),
-                                                     new SlopeInterceptLine( -1, 1, 0 ),
                                                      new Property<ImmutableVector2D>( new ImmutableVector2D( 0,0 ) ) ) {
             // WORKAROUND for #558 (image returned by PPath.toImage is clipped on right and bottom edges)
             @Override public PBounds getFullBoundsReference() {
