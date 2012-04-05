@@ -1,7 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.intro.view;
 
-import java.awt.Image;
 import java.awt.geom.Point2D;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
@@ -12,7 +11,6 @@ import javax.swing.ImageIcon;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
@@ -23,6 +21,8 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.linegraphing.LGResources.Images;
+import edu.colorado.phet.linegraphing.LGSimSharing;
+import edu.colorado.phet.linegraphing.LGSimSharing.ParameterKeys;
 import edu.colorado.phet.linegraphing.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.intro.model.LineGraph;
 import edu.umd.cs.piccolo.PNode;
@@ -119,8 +119,9 @@ public class PointToolNode extends PhetPNode {
         }
 
         @Override public ParameterSet getParametersForAllEvents( PInputEvent event ) {
-            return ParameterSet.parameterSet( ParameterKeys.x, MathUtil.round( point.get().getX() ) ).
-                    with( ParameterKeys.y, MathUtil.round( point.get().getY() ) ).
+            return new ParameterSet().
+                    with( ParameterKeys.x, COORDINATES_FORMAT.format( point.get().getX() ) ).
+                    with( ParameterKeys.y, COORDINATES_FORMAT.format( point.get().getY() ) ).
                     with( super.getParametersForAllEvents( event ) );
         }
 

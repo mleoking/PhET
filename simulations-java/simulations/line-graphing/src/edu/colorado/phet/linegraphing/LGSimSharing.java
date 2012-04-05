@@ -21,6 +21,6 @@ public class LGSimSharing {
     }
 
     public static enum ParameterKeys implements IParameterKey {
-        rise, run, intercept
+        rise, run, intercept, x, y
     }
 }
