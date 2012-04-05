@@ -28,7 +28,7 @@ public class SlopeInterceptLineNode extends PComposite {
     private static final PDimension ARROW_HEAD_SIZE = new PDimension( 10, 10 );
     private static final double LINE_THICKNESS = 3;
     private static final double LINE_EXTENT = 25; // how far the line extends past the grid
-    private static final PhetFont EQUATION_FONT = new PhetFont( Font.BOLD, 14 );
+    private static final PhetFont EQUATION_FONT = new PhetFont( Font.BOLD, 20 );
 
     private final DoubleArrowNode arrowNode;
     private final PText equationNode;
