@@ -11,14 +11,22 @@ import java.text.NumberFormat;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.GreaterThan;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.LessThan;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.LGResources.Images;
+import edu.colorado.phet.linegraphing.LGSimSharing;
+import edu.colorado.phet.linegraphing.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -45,14 +53,14 @@ class InteractiveSlopeInterceptEquationNode extends PhetPNode {
         // y = mx + b
         PText yNode = new PhetPText( "y", font );
         PText equalsNode = new PhetPText( "=", font );
-        PNode riseNode = new SlopeSpinnerNode( this.rise, riseRange, font, FORMAT );
+        PNode riseNode = new SlopeSpinnerNode( UserComponents.riseSpinner, this.rise, riseRange, font, FORMAT );
         final PPath lineNode = new PPath( new Line2D.Double( 0, 0, riseNode.getFullBoundsReference().getWidth(), 0 ) ) {{
             setStroke( new BasicStroke( 2f ) );
         }};
-        PNode runNode = new SlopeSpinnerNode( this.run, runRange, font, FORMAT );
+        PNode runNode = new SlopeSpinnerNode( UserComponents.runSpinner, this.run, runRange, font, FORMAT );
         PText xNode = new PhetPText( "x", font );
         final PText interceptSignNode = new PhetPText( "+", font );
-        PNode interceptNode = new InterceptSpinnerNode( this.intercept, interceptRange, font, FORMAT );
+        PNode interceptNode = new InterceptSpinnerNode( UserComponents.interceptSpinner, this.intercept, interceptRange, font, FORMAT );
 
         // rendering order
         {
@@ -118,8 +126,16 @@ class InteractiveSlopeInterceptEquationNode extends PhetPNode {
 
     // Spinner button for incrementing a value
     private static class UpSpinnerButtonNode extends SpinnerButtonNode {
-        public UpSpinnerButtonNode( final Image unpressedImage, final Image pressedImage, final Image disabledImage, final Property<Double> value, double maxValue ) {
-            super( unpressedImage, pressedImage, disabledImage,
+        public UpSpinnerButtonNode( IUserComponent userComponent,
+                                    final Image unpressedImage, final Image pressedImage, final Image disabledImage,
+                                    final Property<Double> value, double maxValue ) {
+            super( userComponent,
+                   new Function0<ParameterSet>() {
+                       public ParameterSet apply() {
+                           return ParameterSet.parameterSet( ParameterKeys.value, value.get() );
+                       }
+                   },
+                   unpressedImage, pressedImage, disabledImage,
                    new VoidFunction0() {
                        public void apply() {
                            value.set( value.get() + 1 );
@@ -130,8 +146,16 @@ class InteractiveSlopeInterceptEquationNode extends PhetPNode {
 
     // Spinner button for decrementing a value
     private static class DownSpinnerButtonNode extends SpinnerButtonNode {
-        public DownSpinnerButtonNode( final Image unpressedImage, final Image pressedImage, final Image disabledImage, final Property<Double> value, double minValue ) {
-            super( unpressedImage, pressedImage, disabledImage,
+        public DownSpinnerButtonNode( IUserComponent userComponent,
+                                      final Image unpressedImage, final Image pressedImage, final Image disabledImage,
+                                      final Property<Double> value, double minValue ) {
+            super( userComponent,
+                   new Function0<ParameterSet>() {
+                       public ParameterSet apply() {
+                           return ParameterSet.parameterSet( ParameterKeys.value, value.get() );
+                       }
+                   },
+                   unpressedImage, pressedImage, disabledImage,
                    new VoidFunction0() {
                        public void apply() {
                            value.set( value.get() - 1 );
@@ -143,19 +167,21 @@ class InteractiveSlopeInterceptEquationNode extends PhetPNode {
     // Spinner, value with up and down arrows
     private static abstract class SpinnerNode extends PNode {
 
-        public SpinnerNode( final Image upUnpressedImage, final Image upPressedImage, final Image upDisabledImage,
-                            final Image downUnpressedImage, final Image downPressedImage, final Image downDisabledImage,
-                            final Property<Double> value, IntegerRange range, PhetFont font, final NumberFormat format ) {
-            this( upUnpressedImage, upPressedImage, upDisabledImage, downUnpressedImage, downPressedImage, downDisabledImage,
+        public SpinnerNode( IUserComponent userComponent,
+                            Image upUnpressedImage, Image upPressedImage, Image upDisabledImage,
+                            Image downUnpressedImage, Image downPressedImage, Image downDisabledImage,
+                            Property<Double> value, IntegerRange range, PhetFont font, NumberFormat format ) {
+            this( userComponent, upUnpressedImage, upPressedImage, upDisabledImage, downUnpressedImage, downPressedImage, downDisabledImage,
                   value, range, font, format, false /* abs */ );
         }
 
-        public SpinnerNode( final Image upUnpressedImage, final Image upPressedImage, final Image upDisabledImage,
+        public SpinnerNode( IUserComponent userComponent,
+                            final Image upUnpressedImage, final Image upPressedImage, final Image upDisabledImage,
                             final Image downUnpressedImage, final Image downPressedImage, final Image downDisabledImage,
                             final Property<Double> value, IntegerRange range, PhetFont font, final NumberFormat format, final boolean abs ) {
 
-            UpSpinnerButtonNode upButton = new UpSpinnerButtonNode( upUnpressedImage, upPressedImage, upDisabledImage, value, range.getMax() );
-            DownSpinnerButtonNode downButton = new DownSpinnerButtonNode( downUnpressedImage, downPressedImage, downDisabledImage, value, range.getMin() );
+            UpSpinnerButtonNode upButton = new UpSpinnerButtonNode( UserComponentChain.chain( userComponent, "up" ), upUnpressedImage, upPressedImage, upDisabledImage, value, range.getMax() );
+            DownSpinnerButtonNode downButton = new DownSpinnerButtonNode( UserComponentChain.chain( userComponent, "down" ), downUnpressedImage, downPressedImage, downDisabledImage, value, range.getMin() );
             final PText textNode = new PhetPText( font );
             textNode.setPickable( false );
 
@@ -195,8 +221,9 @@ class InteractiveSlopeInterceptEquationNode extends PhetPNode {
 
     // Spinner that is color coded for intercept
     private static class InterceptSpinnerNode extends SpinnerNode {
-        public InterceptSpinnerNode( Property<Double> value, IntegerRange range, PhetFont font, NumberFormat format ) {
-            super( Images.SPINNER_UP_UNPRESSED_YELLOW, Images.SPINNER_UP_PRESSED_YELLOW, Images.SPINNER_UP_GRAY,
+        public InterceptSpinnerNode( IUserComponent userComponent, Property<Double> value, IntegerRange range, PhetFont font, NumberFormat format ) {
+            super( userComponent,
+                   Images.SPINNER_UP_UNPRESSED_YELLOW, Images.SPINNER_UP_PRESSED_YELLOW, Images.SPINNER_UP_GRAY,
                    Images.SPINNER_DOWN_UNPRESSED_YELLOW, Images.SPINNER_DOWN_PRESSED_YELLOW, Images.SPINNER_DOWN_GRAY,
                    value, range, font, format, true /* abs */ );
         }
@@ -204,8 +231,9 @@ class InteractiveSlopeInterceptEquationNode extends PhetPNode {
 
     // Spinner that is color coded for slope
     private static class SlopeSpinnerNode extends SpinnerNode {
-        public SlopeSpinnerNode( Property<Double> value, IntegerRange range, PhetFont font, NumberFormat format ) {
-            super( Images.SPINNER_UP_UNPRESSED_GREEN, Images.SPINNER_UP_PRESSED_GREEN, Images.SPINNER_UP_GRAY,
+        public SlopeSpinnerNode( IUserComponent userComponent, Property<Double> value, IntegerRange range, PhetFont font, NumberFormat format ) {
+            super( userComponent,
+                   Images.SPINNER_UP_UNPRESSED_GREEN, Images.SPINNER_UP_PRESSED_GREEN, Images.SPINNER_UP_GRAY,
                    Images.SPINNER_DOWN_UNPRESSED_GREEN, Images.SPINNER_DOWN_PRESSED_GREEN, Images.SPINNER_DOWN_GRAY,
                    value, range, font, format );
         }

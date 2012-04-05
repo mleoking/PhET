@@ -5,12 +5,17 @@ import java.awt.Cursor;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 
 import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -20,43 +25,67 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-//TODO copied from fractions, add sim-sharing, generalize and migrate to phetcommon
 /**
- * Button with nice up or down images provided by NP.  This library uses phetcommon's function library instead of
- * functionaljava in case we don't have to put functionaljava as a  required dependency for phetcommon.
+ * A button for use in spinner controls, fires continuously if pressed and held.
  *
  * @author Sam Reid
+ * @author Chris Malley
  */
 public class SpinnerButtonNode extends PNode {
 
-    private final VoidFunction0 callback;
     private final PImage imageNode;
     private final DynamicCursorHandler listener = new DynamicCursorHandler();
 
-    public final ObservableProperty<Boolean> enabled;
-    public final BooleanProperty pressed = new BooleanProperty( false );
-    public final BooleanProperty entered = new BooleanProperty( true );
+    private final ObservableProperty<Boolean> enabled;
+    private final BooleanProperty pressed = new BooleanProperty( false );
+    private final BooleanProperty entered = new BooleanProperty( true );
 
-    //If holding down the button, then automatically spin
-    private Timer timer = new Timer( 200, new ActionListener() {
-        public void actionPerformed( ActionEvent e ) {
-            if ( enabled.get() ) {
-                autoSpinning = true;
-                callback.apply();
-            }
-        }
-    } ) {{
-        setInitialDelay( 500 );
-    }};
-    private boolean autoSpinning = false;
+    private final Timer timer;
+    private boolean spinContinuously = false;
 
-    public SpinnerButtonNode( final Image unpressedImage, final Image pressedImage, final Image disabledImage, final VoidFunction0 callback ) {
-        this( unpressedImage, pressedImage, disabledImage, callback, new BooleanProperty( true ) );
+    // Spinner button that is always enabled.
+    public SpinnerButtonNode( IUserComponent userComponent, Function0<ParameterSet> parameterSet,
+                              final Image unpressedImage, final Image pressedImage, final Image disabledImage,
+                              final VoidFunction0 callback ) {
+        this( userComponent, parameterSet, unpressedImage, pressedImage, disabledImage, callback, new BooleanProperty( true ) );
     }
 
-    public SpinnerButtonNode( final Image unpressedImage, final Image pressedImage, final Image disabledImage, final VoidFunction0 callback, ObservableProperty<Boolean> enabled ) {
-        this.callback = callback;
+    /**
+     * Constructor
+     * @param userComponent component identifier for user data-collection message
+     * @param parameterSet parameter set for user data-collection message
+     * @param unpressedImage
+     * @param pressedImage
+     * @param disabledImage
+     * @param callback called when the button fires
+     * @param enabled property that controls whether the button is enabled
+     */
+    public SpinnerButtonNode( final IUserComponent userComponent, final Function0<ParameterSet> parameterSet,
+                              final Image unpressedImage, final Image pressedImage, final Image disabledImage,
+                              final VoidFunction0 callback, ObservableProperty<Boolean> enabled ) {
+
         this.enabled = enabled;
+
+        final VoidFunction0 sendUserMessage = new VoidFunction0() {
+            public void apply() {
+                SimSharingManager.sendUserMessage( userComponent, UserComponentTypes.button, UserActions.pressed,
+                                                   parameterSet.apply().with( new ParameterKey( "spinContinuously" ), spinContinuously ) );
+            }
+        };
+
+        // If holding down the button, then spin continuously.
+        this.timer = new Timer( 200, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                if ( SpinnerButtonNode.this.enabled.get() ) {
+                    spinContinuously = true;
+                    sendUserMessage.apply();
+                    callback.apply();
+                }
+            }
+        } ) {{
+            setInitialDelay( 500 );
+        }};
+
         imageNode = new PImage();
         addChild( imageNode );
 
@@ -80,13 +109,13 @@ public class SpinnerButtonNode extends PNode {
         imageNode.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mouseReleased( PInputEvent event ) {
                 if ( SpinnerButtonNode.this.enabled.get() && entered.get() && pressed.get() ) {
-
                     //Only fire the release event if the user didn't hold it down long enough to start autospin
-                    if ( !autoSpinning ) {
+                    if ( !spinContinuously ) {
+                        sendUserMessage.apply();
                         callback.apply();
                     }
                     pressed.set( false );
-                    autoSpinning = false;
+                    spinContinuously = false;
                 }
                 timer.stop();
             }
