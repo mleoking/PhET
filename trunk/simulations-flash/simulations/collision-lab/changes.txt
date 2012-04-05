@@ -1,3 +1,4 @@
+Layout changes for study version
 # 1.00.18 (63024) Apr 3, 2012
 Created "study" version changes
 # 1.00.17 (60458) Jan 18, 2012
