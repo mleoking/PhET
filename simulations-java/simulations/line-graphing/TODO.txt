@@ -24,6 +24,7 @@ DESIGN
 - if interactive line is the same as one of the standard lines, you won't see those standard lines when they are turned on
 
 HIGH
+- graph is messed up if abs(min) != abs(max) for X_RANGE or Y_RANGE
 
 MEDIUM
 - hide equation on interactive line when equation control panel in minimized
