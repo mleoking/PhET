@@ -36,19 +36,19 @@ public class ChamberPool implements IPool {
     private final double passageSize = 0.5;
 
     //Width of the right opening to the air
-    private double rightOpeningWidth = 3;
+    private double rightOpeningWidth = 2.5;
 
     //Width of the left opening to the air
     private double leftOpeningWidth = 0.5;
 
+    //Use the length ratio instead of area ratio because the quadratic factor makes it too hard to see the water move on the right, and decreases the pressure effect too much to see it
     private double lengthRatio = rightOpeningWidth / leftOpeningWidth;
-    private double areaRatio = lengthRatio * lengthRatio;
 
     public final Property<ObservableList<Mass>> masses = new Property<ObservableList<Mass>>( new ObservableList<Mass>() {{
         double massOffset = -4.9;
-        add( new Mass( new Rectangle2D.Double( massOffset + 0, 0, passageSize, passageSize ), false, 0.0, 1000 ) );
-        add( new Mass( new Rectangle2D.Double( massOffset + passageSize, 0, passageSize, passageSize / 2 ), false, 0.0, 500 ) );
-        add( new Mass( new Rectangle2D.Double( massOffset + passageSize * 2, 0, passageSize, passageSize / 2 ), false, 0.0, 500 ) );
+        add( new Mass( new Rectangle2D.Double( massOffset + 0, 0, passageSize, passageSize ), false, 0.0, 500 ) );
+        add( new Mass( new Rectangle2D.Double( massOffset + passageSize, 0, passageSize, passageSize / 2 ), false, 0.0, 250 ) );
+        add( new Mass( new Rectangle2D.Double( massOffset + passageSize * 2, 0, passageSize, passageSize / 2 ), false, 0.0, 250 ) );
     }} );
     private final Property<Double> gravity;
     private final Property<Double> fluidDensity;
@@ -60,7 +60,9 @@ public class ChamberPool implements IPool {
             return 1.0 + getLeftDisplacement() / lengthRatio;
         }
     }, leftWaterHeight );
-    private final double CHAMBER_HEIGHT = 1.5;
+
+    //Height of each chamber, physics not working properly to vary these independently
+    private final double CHAMBER_HEIGHT = 1.25;
 
     public ChamberPool( Property<Double> gravity, Property<Double> fluidDensity ) {
         this.gravity = gravity;
@@ -95,7 +97,9 @@ public class ChamberPool implements IPool {
     }
 
     private Shape rightOpening() {
-        return new Rectangle2D.Double( rightChamber().getBounds2D().getCenterX() - rightOpeningWidth / 2, -height / 2, rightOpeningWidth, height / 2 );
+        final double openingY = -height + CHAMBER_HEIGHT;
+        final double openingHeight = height - CHAMBER_HEIGHT;
+        return new Rectangle2D.Double( rightChamber().getBounds2D().getCenterX() - rightOpeningWidth / 2, openingY, rightOpeningWidth, openingHeight );
     }
 
     private Shape leftOpening() {
@@ -104,14 +108,14 @@ public class ChamberPool implements IPool {
 
     private Shape horizontalPassage() {
         final double separation = 3.9;
-        return new Rectangle2D.Double( centerAtLeftChamberOpening, -height + passageSize, separation, passageSize );
+        return new Rectangle2D.Double( centerAtLeftChamberOpening, -height + CHAMBER_HEIGHT / 2 - passageSize / 2, separation, passageSize );
     }
 
     private Shape leftChamber() { return new Rectangle2D.Double( -4.5, -3, 3, CHAMBER_HEIGHT ); }
 
-    private Shape rightChamber() { return new Rectangle2D.Double( 0, -3, CHAMBER_HEIGHT, CHAMBER_HEIGHT ); }
+    private Shape rightChamber() { return new Rectangle2D.Double( 0, -height, CHAMBER_HEIGHT, CHAMBER_HEIGHT ); }
 
-    @Override public double getHeight() { return getContainerShape().getBounds2D().getHeight(); }
+    @Override public double getHeight() { return height; }
 
     @Override public ObservableProperty<Shape> getWaterShape() { return waterShape; }
 

@@ -41,6 +41,10 @@ import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResourc
 
 /**
  * Canvas for the "pressure" tab in Fluid Pressure and Flow.
+ * Parameters tweaked to optimize
+ * (a) amount of height the water in the right chamber moves up and
+ * (b) the amount of change of the pressure
+ * Parameters must account for the entire range of allowed density values, and do not allow masses to protrude completely into the lower left chamber.
  *
  * @author Sam Reid
  */
