@@ -12,6 +12,7 @@ import java.text.MessageFormat;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -35,7 +36,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class EquationControls extends PhetPNode {
+class InteractiveLineControls extends PhetPNode {
 
     private static final PhetFont EQUATION_FONT = new PhetFont( Font.BOLD, 38 );
 
@@ -45,10 +46,11 @@ class EquationControls extends PhetPNode {
                                                            Strings.SYMBOL_X,
                                                            Strings.SYMBOL_INTERCEPT );
 
-    public EquationControls( final Property<SlopeInterceptLine> interactiveLine, final LineGraphNode lineGraphNode,
-                             IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange ) {
+    public final Property<Boolean> maximized = new Property<Boolean>( true );
 
-        final Property<Boolean> maximized = new Property<Boolean>( true );
+    public InteractiveLineControls( final Property<SlopeInterceptLine> interactiveLine,
+                                    IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange,
+                                    final VoidFunction1<SlopeInterceptLine> saveLineFunction, final VoidFunction0 eraseLinesFunction ) {
 
         PNode titleNode = new PhetPText( TITLE, new PhetFont( Font.BOLD, 18 ) );
         PNode minimizeMaximizeButtonNode = new ToggleButtonNode( UserComponents.equationMinimizeMaximizeButton, maximized, Images.MINIMIZE_BUTTON, Images.MAXIMIZE_BUTTON ) {
@@ -128,18 +130,18 @@ class EquationControls extends PhetPNode {
         // Save the current state of the interactive line.
         saveLineButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                saveLineFunction.apply( interactiveLine.get() );
                 eraseLinesButton.setEnabled( true );
                 saveLineButton.setEnabled( false );
-                lineGraphNode.saveLine( interactiveLine.get() );
             }
         } );
 
         // Erase all lines that have been saved.
         eraseLinesButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
+                eraseLinesFunction.apply();
                 eraseLinesButton.setEnabled( false );
                 saveLineButton.setEnabled( true );
-                lineGraphNode.eraseLines();
             }
         } );
 
