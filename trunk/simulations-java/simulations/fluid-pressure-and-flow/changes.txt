@@ -1,3 +1,4 @@
+# 0.00.49 (63149) Apr 6, 2012
 Pressure tab: Chamber scene: Fixed: Don't show dotted line on top of the mass if just removed
 Pressure tab: Chamber scene: Added space between the masses
 Pressure tab: Chamber scene: Tweak the masses so they don't protrude into the lower left chamber, while still showing a good variation for pressure and displaced fluid height
