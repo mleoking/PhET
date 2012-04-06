@@ -34,7 +34,7 @@ MEDIUM
 - make point tool light up when the point is on any graphed line
 - put saved line on top of interactive line, but behind manipulators
 - put standard lines on top of interactive line, but behind manipulators (and on top of standard lines?)
-- when "Hide Lines" is unchecked, disable related controls (Slope, y=x, y=-x, Save Line, Erase Lines)
+- when "Hide Lines" is unchecked, disable Save Line and Erase Lines buttons
 - try dynamically changing the rise/run/intercept constraints to keep line manipulators on the grid
 - try rise/run/intercept ranges of -5 to +5 (half grid range)
 - clean up standard line icons (no equation on line, shorter line)
