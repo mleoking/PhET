@@ -27,6 +27,8 @@ HIGH
 - grid node gets bigger when IntroModel.GRID_MODEL_UNITS gets smaller, size should remain constant
 
 MEDIUM
+- keep saved and standard equations in model
+- more sophisticated model of point tool, for highlighting and comparison of point to lines
 - hide equation on interactive line when equation control panel in minimized
 - change slope on graph lines to look like a fraction
 - make point tool draggable on/off grid
