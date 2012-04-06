@@ -55,7 +55,7 @@ public class StoveControlSliderNode extends VSliderNode {
         setTrackFillPaint( new GradientPaint( 0, 0, TOP_SIDE_TRACK_COLOR, 0, (float) trackLength, BOTTOM_SIDE_TRACK_COLOR, false ) );
     }
 
-    // Convenience class for create a tick mark that works for this slider.
+    // Convenience class for creating a tick mark that works for this slider.
     private static class TickMark extends PNode {
         private static final double INDENT = 4;
         private static final double LENGTH = 10;
