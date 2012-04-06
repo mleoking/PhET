@@ -30,7 +30,6 @@ MEDIUM
 - hide equation on interactive line when equation control panel in minimized
 - change slope on graph lines to look like a fraction
 - make point tool draggable on/off grid
-- change "Slope" check box icon to show both rise and run, connect ends of brackets with dashed line
 - improve layout of equation, try spinners in various layouts and locations
 - make point tool light up when the point is on any graphed line
 - put saved line on top of interactive line, but behind manipulators
