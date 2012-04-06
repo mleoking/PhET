@@ -46,9 +46,10 @@ public class ChamberPool implements IPool {
 
     public final Property<ObservableList<Mass>> masses = new Property<ObservableList<Mass>>( new ObservableList<Mass>() {{
         double massOffset = -4.9;
+        double separation = 0.05;
         add( new Mass( new Rectangle2D.Double( massOffset + 0, 0, passageSize, passageSize ), false, 0.0, 500 ) );
-        add( new Mass( new Rectangle2D.Double( massOffset + passageSize, 0, passageSize, passageSize / 2 ), false, 0.0, 250 ) );
-        add( new Mass( new Rectangle2D.Double( massOffset + passageSize * 2, 0, passageSize, passageSize / 2 ), false, 0.0, 250 ) );
+        add( new Mass( new Rectangle2D.Double( massOffset + passageSize + separation, 0, passageSize, passageSize / 2 ), false, 0.0, 250 ) );
+        add( new Mass( new Rectangle2D.Double( massOffset + passageSize * 2 + separation * 2, 0, passageSize, passageSize / 2 ), false, 0.0, 250 ) );
     }} );
     private final Property<Double> gravity;
     private final Property<Double> fluidDensity;
