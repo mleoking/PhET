@@ -1,3 +1,4 @@
+Pressure tab: Fixed: Fluid Density slider has english/metric mixed up
 For pascals, don’t show any decimal places because it already has enough precision
 # 0.00.48 (63126) Apr 5, 2012
 Pressure tab: Intro scene: Fixed: gravity not accounted for in 1st tab physics
