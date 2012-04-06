@@ -4,6 +4,7 @@ package edu.colorado.phet.fluidpressureandflow.pressure.view;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.model.property.ValueEquals;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -18,24 +19,23 @@ import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNo
 import edu.colorado.phet.common.piccolophet.nodes.faucet.FaucetNode;
 import edu.colorado.phet.common.piccolophet.nodes.faucet.FaucetSliderNode;
 import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing;
-import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishRuler;
-import edu.colorado.phet.fluidpressureandflow.common.view.FPAFCheckBox;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidDensityControl;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowCanvas;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowControlPanelNode;
 import edu.colorado.phet.fluidpressureandflow.common.view.GravityControl;
 import edu.colorado.phet.fluidpressureandflow.common.view.MeterStick;
-import edu.colorado.phet.fluidpressureandflow.flow.view.GridNode;
+import edu.colorado.phet.fluidpressureandflow.flow.view.NumberedGridNode;
+import edu.colorado.phet.fluidpressureandflow.flow.view.UnLabeledGridNode;
 import edu.colorado.phet.fluidpressureandflow.pressure.FluidPressureModule;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.FluidPressureModel;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.IPool;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.Pool;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
+import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.*;
 
 /**
@@ -100,8 +100,9 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
         }} );
 
         //Add an image for a sense of scale
+        final ValueEquals<IPool> squarePool = model.pool.valueEquals( model.squarePool );
         addChild( new PImage( POTTED_PLANT ) {{
-            model.pool.valueEquals( model.squarePool ).addObserver( new VoidFunction1<Boolean>() {
+            squarePool.addObserver( new VoidFunction1<Boolean>() {
                 @Override public void apply( final Boolean v ) {
                     setVisible( v );
                 }
@@ -129,22 +130,16 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
             }
         } );
 
-        addChild( new PNode() {{
-            model.pool.valueEquals( model.squarePool ).addObserver( new VoidFunction1<Boolean>() {
-                @Override public void apply( final Boolean v ) {
-                    setVisible( v );
-                }
-            } );
-            addChild( new PSwing( new FPAFCheckBox( Strings.GRID, module.gridVisible ) {{
-                setBackground( new Color( 0, 0, 0, 0 ) );
-                setOpaque( true );
-            }} ) );
-            //Sampled from a drag handler
-            setOffset( 178.56425406203843, 481.6248153618907 );
-        }} );
-        addChild( new GridNode( module.gridVisible.and( model.pool.valueEquals( model.squarePool ) ), transform, model.units ) {{
+        //Grid for scene 1
+        addChild( new NumberedGridNode( module.gridVisible.and( squarePool ), transform, model.units ) {{
             translate( -transform.modelToViewDeltaX( model.squarePool.getWidth() / 2 ), 0 );
         }} );
+
+        //Grid for scene 1
+        addChild( new UnLabeledGridNode( module.gridVisible.and( not( squarePool ) ), transform, model.units ) {{
+            translate( -transform.modelToViewDeltaX( model.squarePool.getWidth() / 2 ), 0 );
+        }} );
+
 
         //Create and show the fluid density and gravity controls
         //TODO: Layout for i18n long strings

@@ -54,6 +54,9 @@ public class FluidPressureControlPanel extends VerticalLayoutPanel {
             }} );
         }} );
 
+        //Checkbox that shows/hides the grid
+        add( new FPAFCheckBox( GRID, module.gridVisible ) );
+
         //Add Atmosphere on/off control panel.  So it's nice to be able to turn it off and just focus on the water.
         add( new PhetTitledPanel( "Atmosphere" ) {{
             add( new JPanel() {{
