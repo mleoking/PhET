@@ -49,6 +49,10 @@ public class IntroCanvas extends PhetPCanvas {
             rootNode.addChild( new ShelfNode( shelf, mvt ) );
         }
 
+        // Add the burners.
+        rootNode.addChild( new BurnerNode( model.getLeftBurner(), mvt ) );
+        rootNode.addChild( new BurnerNode( model.getRightBurner(), mvt ) );
+
         // Add the movable objects.
         rootNode.addChild( new CubeNode( model.getBrick(), mvt ) );
         rootNode.addChild( new CubeNode( model.getLeadBlock(), mvt ) );

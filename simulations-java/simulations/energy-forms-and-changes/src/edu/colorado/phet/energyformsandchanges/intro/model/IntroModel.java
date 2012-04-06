@@ -37,6 +37,10 @@ public class IntroModel {
     // List of all shelves in the model.
     private final List<Shelf> shelfList = new ArrayList<Shelf>();
 
+    // Burners.
+    private final Burner leftBurner;
+    private final Burner rightBurner;
+
     // Movable model objects.
     private final Brick brick;
     private final LeadBlock leadBlock;
@@ -64,6 +68,10 @@ public class IntroModel {
                                   THERMOMETER_SHELF_WIDTH * 0.05,
                                   THERMOMETER_SHELF_WIDTH * 0.20,
                                   Math.PI / 2 ) );
+
+        // Add the burners.
+        leftBurner = new Burner( new Point2D.Double( 0, 0 ) );
+        rightBurner = new Burner( new Point2D.Double( 50, 0 ) );
 
         // Add and position the brick.
         brick = new Brick();
@@ -96,5 +104,13 @@ public class IntroModel {
 
     public LeadBlock getLeadBlock() {
         return leadBlock;
+    }
+
+    public Burner getLeftBurner() {
+        return leftBurner;
+    }
+
+    public Burner getRightBurner() {
+        return rightBurner;
     }
 }
