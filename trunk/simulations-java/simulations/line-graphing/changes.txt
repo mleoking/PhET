@@ -1,3 +1,4 @@
+4/6/12 change "Lines" check box to "Hide Lines", invert semantics of associated property, remove check box icon
 4/5/12 increase icons size for standard lines, change labels to "y=x" and "y=-x"
 4/5/12 change "Rise/Run" check box to "Slope"
 4/5/12 remove title from graph control panel
