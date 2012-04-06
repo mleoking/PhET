@@ -65,6 +65,9 @@ public class ChamberPool implements IPool {
     //Height of each chamber, physics not working properly to vary these independently
     private final double CHAMBER_HEIGHT = 1.25;
 
+    //Keep track of the last value for purposes of determining when at equilibrium, for showing the dotted drag line
+    private double lastLeftDisplacement;
+
     public ChamberPool( Property<Double> gravity, Property<Double> fluidDensity ) {
         this.gravity = gravity;
         this.fluidDensity = fluidDensity;
@@ -153,6 +156,7 @@ public class ChamberPool implements IPool {
     }
 
     public void stepInTime( final double dt ) {
+        lastLeftDisplacement = getLeftDisplacement();
         int numberSteps = 10;
         for ( int i = 0; i < numberSteps; i++ ) {
             masses.set( updateMasses( masses.get(), dt / numberSteps ) );
@@ -286,7 +290,7 @@ public class ChamberPool implements IPool {
         return m;
     }
 
-    public boolean showDropRegion() { return getStackedMasses().size() > 0 || Math.abs( getLeftDisplacement() ) < 1E-2; }
+    public boolean showDropRegion() { return Math.abs( getLeftDisplacement() - lastLeftDisplacement ) < 1E-3; }
 
     public boolean isOverOpening( final Mass m ) { return isOverOpening( m, leftOpening() ) || isOverOpening( m, rightOpening() ); }
 
