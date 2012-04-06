@@ -6,6 +6,7 @@ import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.linegraphing.LGResources;
 import edu.colorado.phet.linegraphing.LGResources.Strings;
 import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -29,7 +30,7 @@ class ReducedSlopeInterceptEquationNode extends PText {
         final String x = Strings.SYMBOL_X;
         final String y = Strings.SYMBOL_Y;
         if ( MathUtil.round( line.run ) == 0 ) {
-            return x + " = 0";
+            return Strings.SLOPE_UNDEFINED;
         }
         else if ( MathUtil.round( line.rise ) == 0 ) {
             return y + " = " + Math.round( line.intercept );

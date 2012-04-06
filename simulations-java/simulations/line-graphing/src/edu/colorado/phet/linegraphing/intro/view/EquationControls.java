@@ -29,7 +29,6 @@ import edu.colorado.phet.linegraphing.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Control panel for interacting with the line equation.
@@ -65,7 +64,6 @@ class EquationControls extends PhetPNode {
             setUserComponent( UserComponents.eraseLinesButton );
             setEnabled( false );
         }};
-        final PText xEqualsZeroNode = new PhetPText( MessageFormat.format( "{0} = 0", Strings.SYMBOL_X ), EQUATION_FONT );
 
         final PNode panelNode = new PNode();
         panelNode.addChild( titleNode );
@@ -77,7 +75,6 @@ class EquationControls extends PhetPNode {
         subPanelNode.addChild( equationNode );
         subPanelNode.addChild( saveLineButton );
         subPanelNode.addChild( eraseLinesButton );
-        subPanelNode.addChild( xEqualsZeroNode );
 
         // horizontal separators
         double maxWidth = panelNode.getFullBoundsReference().getWidth();
@@ -107,8 +104,6 @@ class EquationControls extends PhetPNode {
             titleSeparator.setOffset( 0, titleHeight + ySpacing );
             equationNode.setOffset( ( maxWidth / 2 ) - ( equationNode.getFullBoundsReference().getWidth() / 2 ),
                                     titleSeparator.getFullBoundsReference().getMaxY() + ySpacing );
-            xEqualsZeroNode.setOffset( equationNode.getFullBoundsReference().getCenterX() - ( xEqualsZeroNode.getFullBoundsReference().getWidth() / 2 ),
-                                       equationNode.getFullBoundsReference().getCenterY() - ( xEqualsZeroNode.getFullBoundsReference().getHeight() / 2 ) );
             buttonsSeparator.setOffset( 0, equationNode.getFullBoundsReference().getMaxY() + ySpacing );
             saveLineButton.setOffset( ( maxWidth / 2 ) - saveLineButton.getFullBoundsReference().getWidth() - 3,
                                       buttonsSeparator.getFullBoundsReference().getMaxY() + ySpacing );
@@ -151,8 +146,6 @@ class EquationControls extends PhetPNode {
         // When the interactive line changes...
         interactiveLine.addObserver( new VoidFunction1<SlopeInterceptLine>() {
             public void apply( SlopeInterceptLine line ) {
-                equationNode.setVisible( line.isDefined() );
-                xEqualsZeroNode.setVisible( !line.isDefined() );
                 saveLineButton.setEnabled( true );
             }
         } );
