@@ -55,7 +55,6 @@ class GraphControls extends PNode {
         final JComponent slopeCheckBox = new PropertyCheckBoxWithIcon( riseOverRunCheckBox, Strings.SLOPE, CONTROL_FONT, BracketValueNode.createIcon( 30 ), graphNode.riseOverRunVisible );
         final JComponent positiveCheckBox = new PropertyCheckBoxWithIcon( yEqualsXCheckBox, Y_EQUALS_X, CONTROL_FONT, LineGraphNode.createYEqualsXIcon( 60 ), graphNode.yEqualsXVisible );
         final JComponent negativeCheckBox = new PropertyCheckBoxWithIcon( yEqualsNegativeXCheckBox, Y_EQUALS_NEGATIVE_X, CONTROL_FONT, LineGraphNode.createYEqualsNegativeXIcon( 60 ), graphNode.yEqualsNegativeXVisible );
-        JComponent pointToolCheckBox = new PropertyCheckBoxWithIcon( UserComponents.pointToolCheckBox, Strings.POINT_TOOL, CONTROL_FONT, PointToolNode.createIcon( 45 ), graphNode.pointToolVisible );
 
         // layout
         GridPanel panel = new GridPanel();
@@ -68,7 +67,6 @@ class GraphControls extends PNode {
         panel.add( positiveCheckBox );
         panel.add( negativeCheckBox );
         panel.add( slopeCheckBox );
-        panel.add( pointToolCheckBox );
 
         // wrap Swing in a Piccolo control panel
         addChild( new ControlPanelNode( panel ) );

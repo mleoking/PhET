@@ -34,7 +34,6 @@ public class InteractiveLineGraphNode extends LineGraphNode {
 
     private final Property<Boolean> interactiveLineVisible = new Property<Boolean>( true );
     public final Property<Boolean> riseOverRunVisible = new Property<Boolean>( false );
-    public final Property<Boolean> pointToolVisible = new Property<Boolean>( false );
 
     private final PNode interactiveLineParentNode, bracketsParentNode;
     private final PNode slopeManipulatorNode, interceptManipulatorNode;
@@ -58,7 +57,7 @@ public class InteractiveLineGraphNode extends LineGraphNode {
         bracketsParentNode = new PComposite();
 
         // Point tool
-        PNode pointTool = new PointToolNode( pointToolLocation, pointToolVisible, mvt, graph );
+        PNode pointTool = new PointToolNode( pointToolLocation, mvt, graph );
 
         // rendering order
         addChild( interactiveLineParentNode );
@@ -96,7 +95,6 @@ public class InteractiveLineGraphNode extends LineGraphNode {
     @Override public void reset() {
         super.reset();
         riseOverRunVisible.reset();
-        pointToolVisible.reset();
     }
 
     // Updates the line and its associated decorations
