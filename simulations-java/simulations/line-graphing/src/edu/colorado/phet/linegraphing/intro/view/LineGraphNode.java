@@ -25,7 +25,6 @@ import edu.colorado.phet.linegraphing.intro.view.BracketValueNode.Direction;
 import edu.colorado.phet.linegraphing.intro.view.LineManipulatorDragHandler.InterceptDragHandler;
 import edu.colorado.phet.linegraphing.intro.view.LineManipulatorDragHandler.SlopeDragHandler;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -39,7 +38,7 @@ class LineGraphNode extends GraphNode implements Resettable {
     public final Property<Boolean> yEqualsXVisible = new Property<Boolean>( false );
     public final Property<Boolean> yEqualsNegativeXVisible = new Property<Boolean>( false );
     private final Property<Boolean> interactiveLineVisible = new Property<Boolean>( true );
-    public final Property<Boolean> riseOverRunVisible = new Property<Boolean>( false );
+    public final Property<Boolean> slopeVisible = new Property<Boolean>( true );
     public final Property<Boolean> pointToolVisible = new Property<Boolean>( true );
 
     private final LineGraph graph;
@@ -129,7 +128,7 @@ class LineGraphNode extends GraphNode implements Resettable {
                 updateLinesVisibility();
             }
         };
-        visibilityObserver.observe( interactiveLineVisible, riseOverRunVisible, linesVisible );
+        visibilityObserver.observe( interactiveLineVisible, slopeVisible, linesVisible );
 
         // interactivity for slope manipulator
         slopeManipulatorNode.addInputEventListener( new CursorHandler() );
@@ -146,7 +145,7 @@ class LineGraphNode extends GraphNode implements Resettable {
         linesVisible.reset();
         yEqualsXVisible.reset();
         yEqualsNegativeXVisible.reset();
-        riseOverRunVisible.reset();
+        slopeVisible.reset();
         eraseLines();
     }
 
@@ -175,7 +174,7 @@ class LineGraphNode extends GraphNode implements Resettable {
         }
 
         if ( bracketsParentNode != null ) {
-            bracketsParentNode.setVisible( riseOverRunVisible.get() && linesVisible.get() && interactiveLineVisible.get() );
+            bracketsParentNode.setVisible( slopeVisible.get() && linesVisible.get() && interactiveLineVisible.get() );
         }
     }
 

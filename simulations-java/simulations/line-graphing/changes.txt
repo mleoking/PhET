@@ -1,3 +1,4 @@
+4/6/12 make slope (rise over run) brackets visible by default, since AP feels strongly that they should always be visible
 4/6/12 use SettableNot to invert linesVisible property
 4/6/12 flatten line graph hierarchy, to provide control over rendering order for the different categories of lines
 4/6/12 generalize workaround for toImage clipping, move to piccolo-phet (PadBoundsNode)
