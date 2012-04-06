@@ -3,25 +3,9 @@ TODO list for line-graphing
 DEADLINES
 
 DESIGN
-- same or different colors for saved lines? if different, how to choose colors?
-- should the graph's origin be labeled? if so, using what convention?
-- when "Lines" is unchecked, should controls related to graph lines be disabled? (rise/run, y=x, y=-x, Save Line, Erase Lines)
-- slope manipulator can be off the grid. limit range of rise, run and intercept to 1/2 of grid range?
-- change range to 0-20?
-- constrain to quadrants 1 & 4, so that minus sign is in the numerator?
-- what should point tool display while it's being dragged? nothing? closest grid point?
-- when should point tool light up? when it's on the interactive line? when it's on any line?
-- overall color scheme
 - if user saves 2 lines with the same reduced form, they will see only 1 saved line (actually 2 identical lines on top of each other)
-- layout problem with interactive equation, generally looks too spaced out, but needs to accommodate "-10"
-- when you press "Save Line", you can't see your saved line
 - will constraints on dragging manipulators be confusing? Eg, with b=-2, m can't be dragged higher than y=8
-- interactive equation is ugly
-- is integer-based manipulation of the line acceptable?
-- does common shape and color coding of manipulators and spinner buttons help make a connection?
 - Save Line button is enabled when interactive equation changes, but the reduced form of the line may be the same
-- when interacting with equation and run is set to zero, it feels odd/confusing to replace the equation with "x=0"
-- if interactive line is the same as one of the standard lines, you won't see those standard lines when they are turned on
 
 HIGH
 - grid node gets bigger when IntroModel.GRID_MODEL_UNITS gets smaller, size should remain constant
@@ -42,6 +26,7 @@ MEDIUM
 - clean up standard line icons (no equation on line, shorter line)
 
 LOW
+- should Save Line be grayed out when interactive line matches an existing saved line?
 - review internal duplication in GraphNode
 - create spinner buttons programmatically to match colors
 
