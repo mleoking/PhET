@@ -55,6 +55,9 @@ public class IntroCanvas extends PhetPCanvas {
 
         // Add the heater-cooler nodes.
         // TODO: i18n
-        rootNode.addChild( new HeaterCoolerNode( new Property<Double>( 0.0 ), "Heat", "Cool" ) );
+        rootNode.addChild( new HeaterCoolerNode( new Property<Double>( 0.0 ), "Heat", "Cool" ) {{
+            setScale( 0.65 );
+            setOffset( 650, 510 );
+        }} );
     }
 }
