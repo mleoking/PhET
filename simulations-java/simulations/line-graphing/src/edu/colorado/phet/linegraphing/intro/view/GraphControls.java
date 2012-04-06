@@ -52,9 +52,9 @@ class GraphControls extends PNode {
                                                                    } );
                                                                }} );
         linesCheckBox.setFont( CONTROL_FONT );
-        final JComponent slopeCheckBox = new PropertyCheckBoxWithIcon( riseOverRunCheckBox, Strings.SLOPE, CONTROL_FONT, BracketValueNode.createIcon( 60 ), graphNode.riseOverRunVisible );
         final JComponent positiveCheckBox = new PropertyCheckBoxWithIcon( yEqualsXCheckBox, Y_EQUALS_X, CONTROL_FONT, LineGraphNode.createYEqualsXIcon( 60 ), graphNode.yEqualsXVisible );
         final JComponent negativeCheckBox = new PropertyCheckBoxWithIcon( yEqualsNegativeXCheckBox, Y_EQUALS_NEGATIVE_X, CONTROL_FONT, LineGraphNode.createYEqualsNegativeXIcon( 60 ), graphNode.yEqualsNegativeXVisible );
+        final JComponent slopeCheckBox = new PropertyCheckBoxWithIcon( riseOverRunCheckBox, Strings.SLOPE, CONTROL_FONT, BracketValueNode.createIcon( 60 ), graphNode.riseOverRunVisible );
 
         // layout
         GridPanel panel = new GridPanel();
@@ -70,5 +70,14 @@ class GraphControls extends PNode {
 
         // wrap Swing in a Piccolo control panel
         addChild( new ControlPanelNode( panel ) );
+
+        // when lines are not visible, hide related controls
+        graphNode.linesVisible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean visible ) {
+                slopeCheckBox.setEnabled( visible );
+                positiveCheckBox.setEnabled( visible );
+                negativeCheckBox.setEnabled( visible );
+            }
+        } );
     }
 }
