@@ -32,6 +32,8 @@ public enum UserComponents implements IUserComponent {
 
     conductivityTester, positiveProbe, negativeProbe,
 
+    heaterCoolerSlider,
+
     aboutDialogCloseButton, aboutDialogCreditsButton,
     aboutDialogSoftwareAgreementButton,
     icon
