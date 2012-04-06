@@ -15,6 +15,6 @@ import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.
  */
 public class FluidDensityControl<T extends FluidPressureAndFlowModel> extends UnitSwitchingControl<T> {
     public FluidDensityControl( final FluidPressureAndFlowModule<T> module ) {
-        super( module, new FluidDensityUnitControl<T>( module, METRIC.density ), new FluidDensityUnitControl<T>( module, ENGLISH.density ) );
+        super( module, new FluidDensityUnitControl<T>( module, ENGLISH.density ), new FluidDensityUnitControl<T>( module, METRIC.density ) );
     }
 }
