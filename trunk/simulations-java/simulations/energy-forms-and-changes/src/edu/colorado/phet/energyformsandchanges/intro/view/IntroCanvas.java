@@ -5,8 +5,10 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.HeaterCoolerNode;
 import edu.colorado.phet.energyformsandchanges.intro.model.IntroModel;
 import edu.colorado.phet.energyformsandchanges.intro.model.Shelf;
 import edu.umd.cs.piccolo.PNode;
@@ -50,5 +52,9 @@ public class IntroCanvas extends PhetPCanvas {
         // Add the movable objects.
         rootNode.addChild( new CubeNode( model.getBrick(), mvt ) );
         rootNode.addChild( new CubeNode( model.getLeadBlock(), mvt ) );
+
+        // Add the heater-cooler nodes.
+        // TODO: i18n
+        rootNode.addChild( new HeaterCoolerNode( new Property<Double>( 0.0 ), "Heat", "Cool" ) );
     }
 }
