@@ -5,9 +5,6 @@ import java.awt.geom.Point2D;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -21,7 +18,6 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.linegraphing.LGResources.Images;
-import edu.colorado.phet.linegraphing.LGSimSharing;
 import edu.colorado.phet.linegraphing.LGSimSharing.ParameterKeys;
 import edu.colorado.phet.linegraphing.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.intro.model.LineGraph;
@@ -42,7 +38,7 @@ public class PointToolNode extends PhetPNode {
     private static final NumberFormat COORDINATES_FORMAT = new DefaultDecimalFormat( "0" );
     private static final double COORDINATES_Y_CENTER = 28; // center of the display area, measured from the top of the unscaled image file
 
-    public PointToolNode( Property<ImmutableVector2D> point, Property<Boolean> visible, final ModelViewTransform mvt, LineGraph graph ) {
+    public PointToolNode( Property<ImmutableVector2D> point, final ModelViewTransform mvt, LineGraph graph ) {
 
         // tool body
         final PNode bodyNode = new PImage( Images.POINT_TOOL );
@@ -65,13 +61,6 @@ public class PointToolNode extends PhetPNode {
                 coordinatesNode.setText( MessageFormat.format( COORDINATES_PATTERN, COORDINATES_FORMAT.format( point.getX() ), COORDINATES_FORMAT.format( point.getY() ) ) );
                 coordinatesNode.setOffset( bodyNode.getFullBoundsReference().getCenterX() - ( coordinatesNode.getFullBoundsReference().getWidth() / 2 ),
                                            bodyNode.getFullBoundsReference().getMinY() + COORDINATES_Y_CENTER - ( coordinatesNode.getFullBoundsReference().getHeight() / 2 ) );
-            }
-        } );
-
-        // visibility
-        visible.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean visible ) {
-                setVisible( visible );
             }
         } );
 
@@ -130,12 +119,5 @@ public class PointToolNode extends PhetPNode {
             return new ImmutableVector2D( Math.max( graph.minX, Math.min( graph.maxX, x ) ),
                                           Math.max( graph.minY, Math.min( graph.maxY, y ) ) );
         }
-    }
-
-    // Return an icon that represents this feature.
-    public static Icon createIcon( double width ) {
-        PNode node = new PointToolNode( new Property<ImmutableVector2D>( new ImmutableVector2D( 1,2 ) ), new Property<Boolean>( true ), ModelViewTransform.createIdentity(), new LineGraph( -1, 1, -1, 1 ));
-        node.scale( width / node.getFullBoundsReference().getWidth() );
-        return new ImageIcon( node.toImage() );
     }
 }

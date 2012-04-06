@@ -1,3 +1,4 @@
+4/6/12 delete "Point Tool" check box, make it always visible
 4/6/12 remove dependency between interactive line controls and graph
 4/6/12 when run=0, don't hide interactive equation, show equation as "slope undefined" on graphed line
 4/6/12 change "Lines" check box to "Hide Lines", invert semantics of associated property, remove check box icon
