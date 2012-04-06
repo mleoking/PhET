@@ -8,7 +8,7 @@ import java.text.MessageFormat;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.SettableNot;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxWithIcon;
@@ -37,20 +37,7 @@ class GraphControls extends PNode {
     public GraphControls( final LineGraphNode graphNode ) {
 
         // components
-        final JComponent linesCheckBox = new PropertyCheckBox( UserComponents.linesCheckBox, Strings.HIDE_LINES,
-                                                               // wrapper to map between "visible" and "hidden"
-                                                               new Property<Boolean>( !graphNode.linesVisible.get() ) {{
-                                                                   graphNode.linesVisible.addObserver( new VoidFunction1<Boolean>() {
-                                                                       public void apply( Boolean aBoolean ) {
-
-                                                                       }
-                                                                   } );
-                                                                   addObserver( new VoidFunction1<Boolean>() {
-                                                                       public void apply( Boolean hidden ) {
-                                                                           graphNode.linesVisible.set( !hidden );
-                                                                       }
-                                                                   } );
-                                                               }} );
+        final JComponent linesCheckBox = new PropertyCheckBox( UserComponents.linesCheckBox, Strings.HIDE_LINES, new SettableNot( graphNode.linesVisible ) );
         linesCheckBox.setFont( CONTROL_FONT );
         final JComponent positiveCheckBox = new PropertyCheckBoxWithIcon( yEqualsXCheckBox, Y_EQUALS_X, CONTROL_FONT, LineGraphNode.createYEqualsXIcon( 60 ), graphNode.yEqualsXVisible );
         final JComponent negativeCheckBox = new PropertyCheckBoxWithIcon( yEqualsNegativeXCheckBox, Y_EQUALS_NEGATIVE_X, CONTROL_FONT, LineGraphNode.createYEqualsNegativeXIcon( 60 ), graphNode.yEqualsNegativeXVisible );
