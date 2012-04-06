@@ -9,7 +9,6 @@ import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.NumberFormat;
 
@@ -19,13 +18,12 @@ import javax.swing.ImageIcon;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.PadBoundsNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.LGColors;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -156,37 +154,26 @@ public class BracketValueNode extends PComposite {
     // Return an icon that represents this feature.
     public static Icon createIcon( double width ) {
 
-        PNode parentNode = new PNode();
+        PNode parentNode = new PadBoundsNode();
 
-        // rise
-        PNode riseNode = new BracketValueNode( Direction.LEFT, 40, BRACKET_COLOR, new BasicStroke( 1f ), 2, new PhetFont( Font.BOLD,18 ), LABEL_COLOR, LABEL_BACKGROUND_COLOR ) {
-            // WORKAROUND for #558 (image returned by PPath.toImage is clipped on right and bottom edges)
-            @Override public PBounds getFullBoundsReference() {
-                PBounds b = super.getFullBoundsReference();
-                return new PBounds( b.getX(), b.getY(), b.getWidth() + 2, b.getHeight() + 2 );
-            }
-        };
+        // rise bracket, pointing left
+        PNode riseNode = new BracketValueNode( Direction.LEFT, 40, BRACKET_COLOR, new BasicStroke( 1f ), 2, new PhetFont( Font.BOLD,18 ), LABEL_COLOR, LABEL_BACKGROUND_COLOR );
         parentNode.addChild( riseNode );
         riseNode.setOffset( 0, 0 );
 
-        // run
-        PNode runNode = new BracketValueNode( Direction.UP, 60, BRACKET_COLOR, new BasicStroke( 1f ), 3, new PhetFont( Font.BOLD,18 ), LABEL_COLOR, LABEL_BACKGROUND_COLOR ) {
-            // WORKAROUND for #558 (image returned by PPath.toImage is clipped on right and bottom edges)
-            @Override public PBounds getFullBoundsReference() {
-                PBounds b = super.getFullBoundsReference();
-                return new PBounds( b.getX(), b.getY(), b.getWidth() + 2, b.getHeight() + 2 );
-            }
-        };
+        // run bracket, pointing up
+        PNode runNode = new BracketValueNode( Direction.UP, 60, BRACKET_COLOR, new BasicStroke( 1f ), 3, new PhetFont( Font.BOLD,18 ), LABEL_COLOR, LABEL_BACKGROUND_COLOR );
         parentNode.addChild( runNode );
         runNode.setOffset( riseNode.getFullBoundsReference().getMinX() - runNode.getFullBoundsReference().getWidth() - 2,
                            riseNode.getFullBoundsReference().getMaxY() + 2);
 
-        // line connecting ends of brackets
+        // dashed line connecting ends of brackets
         PPath lineNode = new PPath( new Line2D.Double( runNode.getFullBoundsReference().getMinX(), runNode.getFullBoundsReference().getMinY(),
                                                        riseNode.getFullBoundsReference().getMinX(), riseNode.getFullBoundsReference().getMinY() ) );
         lineNode.setStroke( new BasicStroke( 1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 6, 6 }, 0 ) );
         parentNode.addChild( lineNode );
 
+        // scale and convert to image
         parentNode.scale( width / parentNode.getFullBoundsReference().getWidth() );
         return new ImageIcon( parentNode.toImage() );
     }
