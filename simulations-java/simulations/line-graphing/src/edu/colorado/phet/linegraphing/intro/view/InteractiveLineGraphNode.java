@@ -155,46 +155,4 @@ public class InteractiveLineGraphNode extends LineGraphNode {
             bracketsParentNode.setVisible( riseOverRunVisible.get() && linesVisible.get() && interactiveLineVisible.get() );
         }
     }
-
-    // Creates an icon for the "Lines" feature
-    public static Icon createLinesIcons( double width ) {
-        return createIcon( width, true, true, true, true );
-    }
-
-    // Creates an icon for the "y = +x" feature
-    public static Icon createYEqualsXIcon( double width ) {
-        return createIcon( width, false, false, true, false );
-    }
-
-    // Creates an icon for the "y = -x" feature
-    public static Icon createYEqualsNegativeXIcon( double width ) {
-        return createIcon( width, false, false, false, true );
-    }
-
-    // Icon creation
-    private static Icon createIcon( double width, boolean interactiveLineVisible, boolean savedLineVisible, boolean yEqualsXVisible, boolean yEqualsNegativeXVisible ) {
-        InteractiveLineGraphNode graphNode = new InteractiveLineGraphNode( new LineGraph( -3, 3, -3, 3 ),
-                                                     ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 15, -15 ),
-                                                     new Property<SlopeInterceptLine>( new SlopeInterceptLine( 1, 2, 1 ) ),
-                                                     new IntegerRange( -3, 3 ),
-                                                     new IntegerRange( -3, 3 ),
-                                                     new IntegerRange( -3, 3 ),
-                                                     new Property<ImmutableVector2D>( new ImmutableVector2D( 0,0 ) ) ) {
-            // WORKAROUND for #558 (image returned by PPath.toImage is clipped on right and bottom edges)
-            @Override public PBounds getFullBoundsReference() {
-                PBounds b = super.getFullBoundsReference();
-                return new PBounds( b.getX(), b.getY(), b.getWidth() + 2, b.getHeight() + 2 );
-            }
-        };
-        graphNode.riseOverRunVisible.set( false );
-        graphNode.pointToolVisible.set( false );
-        graphNode.yEqualsXVisible.set( yEqualsXVisible );
-        graphNode.yEqualsNegativeXVisible.set( yEqualsNegativeXVisible );
-        graphNode.interactiveLineVisible.set( interactiveLineVisible );
-        if ( savedLineVisible ) {
-            graphNode.saveLine( new SlopeInterceptLine( -1, 2, -1 ) );
-        }
-        graphNode.scale( width / graphNode.getFullBoundsReference().getWidth() );
-        return new ImageIcon( graphNode.toImage() );
-    }
 }

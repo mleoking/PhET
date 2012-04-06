@@ -28,12 +28,17 @@ HIGH
 
 MEDIUM
 - hide equation on interactive line when equation control panel in minimized
-- manipulate a "ghost" line that doesn't affect the equation until released?
 - change slope on graph lines to look like a fraction
-- version with spinner buttons in horizontal layout
 - make point tool drag on/off grid instead of check box
-- delete "Graph" control panel title and separator
-- change "Rise/Run" check box to "Slope", icon shows both rise and run, connect ends of brackets with dashed line
+- change "Slope" check box icon to show both rise and run, connect ends of brackets with dashed line
+- improve layout of equation, try spinners in various layouts and locations
+- when run=0, don't hide interactive equation, show equation as "slope undefined" on graphed line
+- make point tool light up when the point is on any graphed line
+- put saved line on top of interactive line, but behind manipulators
+- put standard lines on top of interactive line, but behind manipulators (and on top of standard lines?)
+- when "Hide Lines" is unchecked, disable related controls (Slope, y=x, y=-x, Save Line, Erase Lines)
+- try dynamically changing the rise/run/intercept constraints to keep line manipulators on the grid
+- try rise/run/intercept ranges of -5 to +5 (half grid range)
 
 LOW
 - review internal duplication in GraphNode
@@ -43,30 +48,3 @@ SIM-SHARING
 
 MIGRATE TO COMMON
 - SpinnerButtonNode, copied from fractions
-
-4/5/12 design meeting:
-
-- Keeping the slope manipulator inside the grid can only be accomplished by using a grid size that is 2x the range of rise, run, and intercept.
-[try dynamically changing the rise/run/intercept constraints to keep line manipulators on the grid]
-[try rise/run/intercept ranges of -5 to +5]
-
-- Layout problem with interactive equation, generally looks too spaced out, but needs to accommodate "-10"
-[make it prettier, try spinners above?]
-
-- When you set run=0 in the interactive equation, it feels odd/confusing to replace the equation with "x=0"
-[don't hide interactive equation, leave it showing rise/0. show equation as "slope undefined" on line.]
-
-- When should point tool "light up"? When it's on the interactive line? When it's on any line? What does "light up" look like?
-[yes, every line]
-
-- When you press "Save Line", you can't see your saved line until you move the interactive line. This seems confusing.
-[put saved line on top of interactive line]
-
-- When "Lines" is unchecked, should controls related to graph lines be disabled? (rise/run, y=x, y=-x, Save Line, Erase Lines)
-[Change control to "Hide Lines", disable related controls.]
-
-- Look and formatting of reduced equations on the graphed line.
-[make fraction look like a fraction]
-
-- If interactive line is the same as one of the standard lines, you won't see those standard lines when they are turned on.
-[standard lines on top of interactive line]
