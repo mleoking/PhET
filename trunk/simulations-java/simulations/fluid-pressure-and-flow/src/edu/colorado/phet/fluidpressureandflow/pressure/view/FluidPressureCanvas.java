@@ -36,7 +36,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
-import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.*;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.DRAIN_FAUCET_ATTACHED;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.POTTED_PLANT;
 
 /**
  * Canvas for the "pressure" tab in Fluid Pressure and Flow.
@@ -188,20 +189,13 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
                 }
             } );
 
-            final double offsetX = 8;
-            final PImage faucetNode = new PImage( BufferedImageUtils.multiScaleToHeight( OUTPUT_DRAIN, (int) ( OUTPUT_DRAIN.getHeight() * 1.2 ) ) ) {{
+            final PImage drainFaucetImage = new PImage( BufferedImageUtils.multiScaleToHeight( DRAIN_FAUCET_ATTACHED, (int) ( DRAIN_FAUCET_ATTACHED.getHeight() * 1.2 ) ) ) {{
 
                 //Center the faucet over the left opening, values sampled from a drag listener
-                setOffset( new Point2D.Double( 432.685376661743 - offsetX, 644.3426883308715 ) );
-            }};
-
-            final PImage drainKnob = new PImage( BufferedImageUtils.multiScaleToHeight( DRAIN_KNOB_TOP, (int) ( DRAIN_KNOB_TOP.getHeight() * 1.2 ) ) ) {{
-
-                //Center the faucet over the left opening, values sampled from a drag listener
-                setOffset( new Point2D.Double( 417 - offsetX, 590 ) );
+                setOffset( new Point2D.Double( 314.1624815361891 - 3, 644.3426883308715 ) );
 
                 FaucetSliderNode sliderNode = new FaucetSliderNode( UserComponentChain.chain( FPAFSimSharing.UserComponents.drainFaucet, UserComponents.slider ), model.trapezoidPool.drainFaucetEnabled, 1, model.trapezoidPool.drainFlowRate, true ) {{
-                    setOffset( 4, 2.5 ); //TODO #3199, change offsets when the faucet images are revised, make these constants
+                    setOffset( 4, 8 ); //TODO #3199, change offsets when the faucet images are revised, make these constants
                     scale( FaucetNode.HANDLE_SIZE.getWidth() / getFullBounds().getWidth() * 1.2 ); //scale to fit into the handle portion of the faucet image
                 }};
                 addChild( sliderNode );
@@ -209,9 +203,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
 
             //Show the water coming out of the faucet
             addChild( new OutputFlowingWaterNode( model.trapezoidPool, model.trapezoidPool.drainFlowRate, transform, model.liquidDensity, model.trapezoidPool.drainFaucetEnabled ) );
-            addChild( faucetNode );
-            addChild( drainKnob );
-
+            addChild( drainFaucetImage );
         }};
         addChild( outputFaucetAndWater );
 

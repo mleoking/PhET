@@ -1,3 +1,4 @@
+Pressure tab: Trapezoid scene: Improved the drain faucet
 Pressure tab: Added grid for scenes 2-3
 Pressure tab: Fixed: Fluid Density slider has english/metric mixed up
 For pascals, don’t show any decimal places because it already has enough precision
