@@ -16,7 +16,33 @@ there are attachment sites that are open and are close enough. It does this by
 is that each biomolecule has a method called "considerProposalFrom", and the
 type signature specifies the proposer.  If a proposal is accepted, an
 attachment site is returned, and the proposing biomolecule will start moving
-toward that site.
+toward that site.  If the biomolecule that is being stepped is already moving
+towards an attachment, or is already attached, it generally does not seek out
+any new attachments.
+
+The general behavior of each mobile biomolecule can be described by a state
+machine, the states and transitions for which are shown in the diagram below.
+Behavior that is unique to a given biomolecule is added through overriding
+individual states or the default attachment state machine.
+
+                   ----------------------------
+                   | UNATTACHED_AND_AVAILABLE |
+                   ----------------------------
+                   ^                      |  ^
+                   |                      |  |
+                   |                      V  |
+------------------------------          -----------------------------
+| UNATTACHED_BUT_UNAVAILABLE |          | MOVING_TOWARDS_ATTACHMENT |
+------------------------------          -----------------------------
+                      ^                           |
+                      |                           |
+                       -------       -------------
+                              |     |
+                              |     V
+                             ------------
+                             | ATTACHED |
+                             ------------
+
 
 Biomolecules propose attachments to other biomolecules.  If the biomolecule
 that receives the proposal has an attachment site that is close enough and is
