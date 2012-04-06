@@ -32,7 +32,6 @@ MEDIUM
 - make point tool drag on/off grid instead of check box
 - change "Slope" check box icon to show both rise and run, connect ends of brackets with dashed line
 - improve layout of equation, try spinners in various layouts and locations
-- when run=0, don't hide interactive equation, show equation as "slope undefined" on graphed line
 - make point tool light up when the point is on any graphed line
 - put saved line on top of interactive line, but behind manipulators
 - put standard lines on top of interactive line, but behind manipulators (and on top of standard lines?)
