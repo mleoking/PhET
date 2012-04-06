@@ -34,7 +34,7 @@ class GraphControls extends PNode {
     private static final String Y_EQUALS_X = MessageFormat.format( "{0} = {1}", Strings.SYMBOL_Y, Strings.SYMBOL_X );
     private static final String Y_EQUALS_NEGATIVE_X = MessageFormat.format( "{0} = -{1}", Strings.SYMBOL_Y, Strings.SYMBOL_X );
 
-    public GraphControls( final InteractiveLineGraphNode graphNode ) {
+    public GraphControls( final LineGraphNode graphNode ) {
 
         // components
         final JComponent linesCheckBox = new PropertyCheckBox( UserComponents.linesCheckBox, Strings.HIDE_LINES,
