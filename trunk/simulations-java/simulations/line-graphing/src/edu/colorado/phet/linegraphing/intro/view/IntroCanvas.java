@@ -22,14 +22,14 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class IntroCanvas extends LGCanvas implements Resettable {
 
-    private final InteractiveLineGraphNode lineGraphNode;
+    private final LineGraphNode lineGraphNode;
 
     public IntroCanvas( final IntroModel model ) {
         setBackground( new Color( 255, 255, 225 ) );
 
-        lineGraphNode = new InteractiveLineGraphNode( model.graph, model.mvt, model.interactiveLine,
-                                                      IntroModel.RISE_RANGE, IntroModel.RUN_RANGE, IntroModel.INTERCEPT_RANGE,
-                                                      model.pointToolLocation );
+        lineGraphNode = new LineGraphNode( model.graph, model.mvt, model.interactiveLine,
+                                           IntroModel.RISE_RANGE, IntroModel.RUN_RANGE, IntroModel.INTERCEPT_RANGE,
+                                           model.pointToolLocation );
         PNode graphNode = new ZeroOffsetNode( lineGraphNode );
         PNode lineControls = new InteractiveLineControls( model.interactiveLine,
                                                        IntroModel.RISE_RANGE, IntroModel.RUN_RANGE, IntroModel.INTERCEPT_RANGE,
