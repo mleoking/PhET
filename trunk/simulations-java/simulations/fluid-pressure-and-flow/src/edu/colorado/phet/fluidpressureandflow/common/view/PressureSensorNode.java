@@ -53,7 +53,7 @@ public class PressureSensorNode extends SensorNode {
 
         final PointSensor<Double> pointSensor = new PointSensor<Double>( 0, 0 );
 
-        //Made top-center be 1.0 atm for the pressure sensor
+        //Show the speedometer sensor and make top-center be 1.0 atm for the pressure sensor
         final ZeroOffsetNode speedometerNode = new ZeroOffsetNode( new SpeedometerSensorNode( transform, pointSensor, "pressure", Units.ATMOSPHERE.toSI( 1.0 ) * 2 ) ) {{
 
             //make the hot spot at the bottom center
@@ -106,7 +106,11 @@ public class PressureSensorNode extends SensorNode {
         String pattern = VALUE_WITH_UNITS_PATTERN;
         String value = QUESTION_MARK;
         if ( !Double.isNaN( v ) ) {
-            final DecimalFormat format = ( pool != null && pool.get().isAbbreviatedUnits( sensor.location.get(), v ) ) ? new DecimalFormat( "0.00" ) : new DecimalFormat( "0.0000" );
+
+            //For pascals, don’t show any decimal places because it already has enough precision
+            final DecimalFormat format = unit == Units.PASCAL ? new DecimalFormat( "0" ) :
+                                         pool != null && pool.get().isAbbreviatedUnits( sensor.location.get(), v ) ? new DecimalFormat( "0.00" ) :
+                                         new DecimalFormat( "0.0000" );
             value = format.format( unit.siToUnit( v ) );
         }
         return format( pattern, value, unit.getAbbreviation() );
