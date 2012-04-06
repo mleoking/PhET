@@ -43,3 +43,30 @@ SIM-SHARING
 
 MIGRATE TO COMMON
 - SpinnerButtonNode, copied from fractions
+
+4/5/12 design meeting:
+
+- Keeping the slope manipulator inside the grid can only be accomplished by using a grid size that is 2x the range of rise, run, and intercept.
+[try dynamically changing the rise/run/intercept constraints to keep line manipulators on the grid]
+[try rise/run/intercept ranges of -5 to +5]
+
+- Layout problem with interactive equation, generally looks too spaced out, but needs to accommodate "-10"
+[make it prettier, try spinners above?]
+
+- When you set run=0 in the interactive equation, it feels odd/confusing to replace the equation with "x=0"
+[don't hide interactive equation, leave it showing rise/0. show equation as "slope undefined" on line.]
+
+- When should point tool "light up"? When it's on the interactive line? When it's on any line? What does "light up" look like?
+[yes, every line]
+
+- When you press "Save Line", you can't see your saved line until you move the interactive line. This seems confusing.
+[put saved line on top of interactive line]
+
+- When "Lines" is unchecked, should controls related to graph lines be disabled? (rise/run, y=x, y=-x, Save Line, Erase Lines)
+[Change control to "Hide Lines", disable related controls.]
+
+- Look and formatting of reduced equations on the graphed line.
+[make fraction look like a fraction]
+
+- If interactive line is the same as one of the standard lines, you won't see those standard lines when they are turned on.
+[standard lines on top of interactive line]
