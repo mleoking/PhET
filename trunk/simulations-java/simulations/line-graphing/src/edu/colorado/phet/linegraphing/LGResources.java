@@ -24,6 +24,7 @@ public class LGResources {
         public static final String HIDE_LINES = RESOURCES.getLocalizedString( "hideLines" );
         public static final String POINT_TOOL = RESOURCES.getLocalizedString( "pointTool" );
         public static final String SLOPE = RESOURCES.getLocalizedString( "slope" );
+        public static final String SLOPE_UNDEFINED = RESOURCES.getLocalizedString( "slopeUndefined" );
         public static final String SAVE_LINE = RESOURCES.getLocalizedString( "saveLine" );
 
         public static final String SYMBOL_X = RESOURCES.getLocalizedString( "symbol.x" );

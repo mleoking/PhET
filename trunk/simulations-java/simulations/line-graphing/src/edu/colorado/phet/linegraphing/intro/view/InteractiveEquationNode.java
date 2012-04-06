@@ -25,14 +25,14 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class InteractiveSlopeInterceptEquationNode extends PhetPNode {
+class InteractiveEquationNode extends PhetPNode {
 
     private static final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
 
     private final Property<Double> rise, run, intercept;
 
-    public InteractiveSlopeInterceptEquationNode( final Property<SlopeInterceptLine> interactiveLine,
-                                                  IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange, PhetFont font ) {
+    public InteractiveEquationNode( final Property<SlopeInterceptLine> interactiveLine,
+                                    IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange, PhetFont font ) {
 
         this.rise = new Property<Double>( interactiveLine.get().rise );
         this.run = new Property<Double>( interactiveLine.get().run );
@@ -46,7 +46,6 @@ class InteractiveSlopeInterceptEquationNode extends PhetPNode {
             double maxRiseWidth = Math.max( maxRiseNode.getFullBoundsReference().getWidth(), minRiseNode.getFullBoundsReference().getWidth() );
             PNode maxRunNode = new SlopeSpinnerNode( UserComponents.riseSpinner, new Property<Double>( (double) runRange.getMax() ), runRange, font, FORMAT );
             PNode minRunNode = new SlopeSpinnerNode( UserComponents.riseSpinner, new Property<Double>( (double) runRange.getMin() ), runRange, font, FORMAT );
-            PNode runNode = new SlopeSpinnerNode( UserComponents.runSpinner, this.run, runRange, font, FORMAT );
             double maxRunWidth = Math.max( maxRunNode.getFullBoundsReference().getWidth(), minRunNode.getFullBoundsReference().getWidth() );
             maxSlopeWidth = Math.max( maxRiseWidth, maxRunWidth );
         }

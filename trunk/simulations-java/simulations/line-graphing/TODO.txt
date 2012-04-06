@@ -39,6 +39,7 @@ MEDIUM
 - when "Hide Lines" is unchecked, disable related controls (Slope, y=x, y=-x, Save Line, Erase Lines)
 - try dynamically changing the rise/run/intercept constraints to keep line manipulators on the grid
 - try rise/run/intercept ranges of -5 to +5 (half grid range)
+- clean up standard line icons (no equation on line, shorter line)
 
 LOW
 - review internal duplication in GraphNode
