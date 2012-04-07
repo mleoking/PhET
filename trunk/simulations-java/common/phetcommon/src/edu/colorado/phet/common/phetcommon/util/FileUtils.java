@@ -202,24 +202,23 @@ public class FileUtils {
     }
 
     public static String replaceAll( String body, String find, String replacement ) {
-        boolean changed;
-
-        do {
-            changed = false;
-
-            int indexOfFindText = body.indexOf( find );
-
-            if ( indexOfFindText != -1 ) {
-                changed = true;
-
-                String before = body.substring( 0, indexOfFindText );
-                String after = body.substring( indexOfFindText + find.length() );
-
-                body = before + replacement + after;
-            }
-
+        // quick shortcut for identity functions
+        if ( find.equals( replacement ) ) {
+            return body;
         }
-        while ( changed );
+
+        // now we keep track of the index the last replacement occurred at, so that we don't create infinite loops.
+        int previousIndex = -1;
+        int index = body.indexOf( find );
+
+        while ( index > previousIndex ) {
+            String before = body.substring( 0, index );
+            String after = body.substring( index + find.length() );
+            body = before + replacement + after;
+
+            previousIndex = index;
+            index = body.indexOf( find, previousIndex );
+        }
 
         return body;
     }
@@ -403,7 +402,7 @@ public class FileUtils {
     }
 
     public static void main( String[] args ) throws IOException {
-        testUnzip();
+        System.out.println( replaceAll( replaceAll( replaceAll( "@WOW@ This is a @TEST@ with @THINGS@", "@WOW@", "Yay!" ), "@TEST@", "successful test" ), "@THINGS@", "the replaceAll() function." ));
     }
 
     public static void testUnzip() throws IOException {
