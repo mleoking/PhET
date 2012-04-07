@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.functionaltest;
+package edu.colorado.phet.functionaltest.functional;
 
 import fj.F;
 import fj.data.Option;
