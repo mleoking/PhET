@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.functionaltest;
+package edu.colorado.phet.functionaltest.functional;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.functionaltest.functional.model.FunctionalModel;
