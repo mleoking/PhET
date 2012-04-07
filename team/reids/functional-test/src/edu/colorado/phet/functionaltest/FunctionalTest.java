@@ -11,6 +11,8 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 public class FunctionalTest extends PiccoloPhetApplication {
     public FunctionalTest( PhetApplicationConfig config ) {
         super( config );
+        addModule( new FunctionalModule() );
+//        addModule( new ImperativeModule() );
     }
 
     public static void main( String[] args ) {
