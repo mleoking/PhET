@@ -1,3 +1,5 @@
+Removed Momentum readout in "Show Values" overlays
+Changed default velocities to 0.75 and -0.75.
 Removing sim speed slider and time readout (for study, will be reverted)
 # 1.00.19 (63103) Apr 5, 2012
 Layout changes for study version

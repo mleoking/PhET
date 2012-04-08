@@ -209,7 +209,7 @@ public class BallImage extends Sprite {
 
     public function setReadoutsVisible( visible: Boolean ): void {
         velocityReadoutText.visible = visible;
-        momentumReadoutText.visible = visible;
+        momentumReadoutText.visible = false;
     }
 
     public function setShowValues( showValues: Boolean ): void {

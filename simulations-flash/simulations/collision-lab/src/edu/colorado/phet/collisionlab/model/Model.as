@@ -162,8 +162,8 @@ public class Model {
         startingPos[3] = new TwoVector( 2.2, -1.2 );
         startingPos[4] = new TwoVector( 1.2, +0.8 );
         if ( isIntro ) {
-            startingVel[0] = new TwoVector( 1, 0 );
-            startingVel[1] = new TwoVector( 0, 0 );
+            startingVel[0] = new TwoVector( 0.75, 0 );
+            startingVel[1] = new TwoVector( -0.75, 0 );
         }
         else {
             startingVel[0] = new TwoVector( 1, 0.3 );
