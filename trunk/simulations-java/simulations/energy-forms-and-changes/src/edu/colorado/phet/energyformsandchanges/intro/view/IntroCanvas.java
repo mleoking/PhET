@@ -33,7 +33,7 @@ public class IntroCanvas extends PhetPCanvas {
         // ones zoom in).
         ModelViewTransform mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( DEFAULT_STAGE_SIZE.getWidth() * 0.5 ), (int) Math.round( DEFAULT_STAGE_SIZE.getHeight() * 0.5 ) ),
+                new Point( (int) Math.round( DEFAULT_STAGE_SIZE.getWidth() * 0.5 ), (int) Math.round( DEFAULT_STAGE_SIZE.getHeight() * 0.93 ) ),
                 2500 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         setBackground( new Color( 245, 246, 247 ) );
