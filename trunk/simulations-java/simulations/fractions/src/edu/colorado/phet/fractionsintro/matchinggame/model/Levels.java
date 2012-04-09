@@ -1,7 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractionsintro.matchinggame.model;
 
-import fj.Equal;
 import fj.F;
 import fj.data.List;
 import lombok.Data;
@@ -11,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.fractions.util.Cache;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
@@ -276,8 +274,7 @@ public class Levels {
     }
 
     private F<Fraction, ArrayList<RepresentationType>> getRepresentationPool( final int level ) {
-        return level == 1 ? representationFunction( levelOneRepresentations ) :
-               representationFunction( allRepresentations );
+        return level == 1 ? representationFunction( levelOneRepresentations ) : representationFunction( allRepresentations );
     }
 
     private void makeSureNoRepresentationTypeUsedTwiceForTheSameFraction( final List<ResultPair> all ) {
@@ -321,25 +318,6 @@ public class Levels {
         public final Result b;
     }
 
-    /**
-     * Level 1
-     * No mixed numbers
-     * Only “exact” matches will be present.  So for instance if there is a 3/6  and a pie with 6 divisions and 3 shaded slices, there will not be a ½  present .  In other words, the numerical representation on this level will exactly match the virtual manipulative.
-     * Only numbers/representations  ≦ 1 possible on this level
-     * “Easy” shapes on this level (not some of the more abstract representations)
-     */
-
-    final Fraction[] level1Fractions = {
-            new Fraction( 1, 3 ),
-            new Fraction( 2, 3 ),
-            new Fraction( 1, 4 ),
-            new Fraction( 3, 4 ),
-            new Fraction( 1, 2 ),
-            new Fraction( 1, 1 ) };
-    public F<List<Cell>, List<MovableFraction>> Level1 = new F<List<Cell>, List<MovableFraction>>() {
-        @Override public List<MovableFraction> f( List<Cell> cells ) { return createLevel( getRepresentationPool( 1 ), cells, level1Fractions ); }
-    };
-
     //Create the default representations that will be used in all levels
     private static ArrayList<RepresentationType> createRepresentations( final Fraction fraction, List<RepresentationType> allRepresentations ) {
 
@@ -371,6 +349,24 @@ public class Levels {
         }
         return new ArrayList<RepresentationType>( applicableRepresentations.toCollection() );
     }
+
+    /**
+     * Level 1
+     * No mixed numbers
+     * Only “exact” matches will be present.  So for instance if there is a 3/6  and a pie with 6 divisions and 3 shaded slices, there will not be a ½  present .  In other words, the numerical representation on this level will exactly match the virtual manipulative.
+     * Only numbers/representations  ≦ 1 possible on this level
+     * “Easy” shapes on this level (not some of the more abstract representations)
+     */
+    final Fraction[] level1Fractions = {
+            new Fraction( 1, 3 ),
+            new Fraction( 2, 3 ),
+            new Fraction( 1, 4 ),
+            new Fraction( 3, 4 ),
+            new Fraction( 1, 2 ),
+            new Fraction( 1, 1 ) };
+    public F<List<Cell>, List<MovableFraction>> Level1 = new F<List<Cell>, List<MovableFraction>>() {
+        @Override public List<MovableFraction> f( List<Cell> cells ) { return createLevel( getRepresentationPool( 1 ), cells, level1Fractions ); }
+    };
 
     /**
      * Level 2
@@ -444,48 +440,5 @@ public class Levels {
                level == 3 ? Level3 :
                level == 4 ? Level4 :
                Level4;
-    }
-
-    public static void main( String[] args ) {
-        //Make sure no fractions above 2.0
-        for ( Fraction[] fractions : list( Levels.level1Fractions, Levels.level2Fractions, Levels.level3Fractions, Levels.level4Fractions ) ) {
-            for ( Fraction fraction : fractions ) {
-                if ( fraction.toDouble() > 2.0 ) {
-                    System.out.println( "fraction = " + fraction );
-                }
-            }
-        }
-
-        for ( int i = 0; i < 1000; i++ ) {
-            testLevel( 1 );
-        }
-        for ( int i = 0; i < 1000; i++ ) {
-            testLevel( 2 );
-        }
-        for ( int i = 0; i < 1000; i++ ) {
-            testLevel( 3 );
-        }
-        for ( int i = 0; i < 1000; i++ ) {
-            testLevel( 4 );
-        }
-    }
-
-    private static void testLevel( int level ) {
-        Levels levels = Levels;
-        List<MovableFraction> fractions = levels.get( level ).f( range( 1, 7 ).map( new F<Integer, Cell>() {
-            @Override public Cell f( final Integer i ) {
-                return new Cell( new ImmutableRectangle2D( i * 100, i * 100, 100, 100 ), i, i );
-            }
-        } ) );
-
-        //Make sure no two from the same group
-        List<F<Fraction, PNode>> representation = fractions.map( new F<MovableFraction, F<Fraction, PNode>>() {
-            @Override public F<Fraction, PNode> f( final MovableFraction movableFraction ) {
-                return movableFraction.node;
-            }
-        } );
-        for ( F<Fraction, PNode> f : representation ) {
-            List<F<Fraction, PNode>> g = representation.delete( f, Equal.<F<Fraction, PNode>>anyEqual() );
-        }
     }
 }
