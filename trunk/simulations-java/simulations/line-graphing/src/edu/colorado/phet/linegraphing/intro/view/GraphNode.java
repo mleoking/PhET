@@ -58,6 +58,8 @@ class GraphNode extends PhetPNode {
 
     public GraphNode( LineGraph graph, ModelViewTransform mvt ) {
 
+        setOffset( mvt.modelToView( 0, 0 ) );
+
         //TODO review duplication for horizontal vs vertical grid, axis, etc.
 
         // Background
