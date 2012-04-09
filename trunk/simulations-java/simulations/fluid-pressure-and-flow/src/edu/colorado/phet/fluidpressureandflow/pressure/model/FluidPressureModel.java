@@ -50,6 +50,7 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
         super.reset();
         trapezoidPool.reset();
         chamberPool.reset();
+        pool.reset();
     }
 
     @Override public void addPressureChangeObserver( SimpleObserver updatePressure ) {
