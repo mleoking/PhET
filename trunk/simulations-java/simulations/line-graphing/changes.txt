@@ -1,3 +1,4 @@
+4/9/12 first attempt at revising format of equations shown on graphed lines, complicated and buggy while dragging
 4/9/12 keep bounds of point tool node inside bounds of stage
 4/9/12 add convenience constructor to LineGraph
 4/9/12 when point tool is outside grid, don't snap and don't display coordinates
