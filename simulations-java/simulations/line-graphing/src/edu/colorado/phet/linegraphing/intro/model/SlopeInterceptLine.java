@@ -31,7 +31,7 @@ public class SlopeInterceptLine {
     // Gets the slope, m=rise/run.
     private double getSlope() {
         assert ( run != 0 );
-        return ( (double) rise ) / run;
+        return rise / run;
     }
 
     // y = mx + b, returns 0 if there is no unique solution
