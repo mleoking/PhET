@@ -45,7 +45,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
         super( UnitSet.METRIC );
         getClock().addSimulationTimeChangeListener( new VoidFunction1<Double>() {
             @Override public void apply( final Double dt ) {
-                stepInTime( dt );
+                if ( dt > 0 ) { stepInTime( dt ); }
             }
         } );
 

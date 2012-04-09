@@ -41,7 +41,7 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
 
         getClock().addSimulationTimeChangeListener( new VoidFunction1<Double>() {
             @Override public void apply( final Double dt ) {
-                pool.get().stepInTime( dt );
+                if ( dt > 0 ) {pool.get().stepInTime( dt );}
             }
         } );
     }
