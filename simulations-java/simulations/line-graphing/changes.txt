@@ -1,3 +1,4 @@
+4/9/12 convert graph and components to use absolute coordinates instead of deltas for mvt
 4/9/12 separate layout and positioning of graph
 4/9/12 constrain point tool to stage bounds
 4/9/12 separate point tool from graph

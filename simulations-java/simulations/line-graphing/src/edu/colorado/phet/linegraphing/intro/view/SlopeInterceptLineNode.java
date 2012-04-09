@@ -92,8 +92,8 @@ public class SlopeInterceptLineNode extends PComposite {
         }
 
         // double-headed arrow
-        Point2D tailLocation = new Point2D.Double( mvt.modelToViewDeltaX( tailX ), mvt.modelToViewDeltaY( tailY ) );
-        Point2D tipLocation = new Point2D.Double( mvt.modelToViewDeltaX( tipX ), mvt.modelToViewDeltaY( tipY ) );
+        Point2D tailLocation = new Point2D.Double( mvt.modelToViewX( tailX ), mvt.modelToViewY( tailY ) );
+        Point2D tipLocation = new Point2D.Double( mvt.modelToViewX( tipX ), mvt.modelToViewY( tipY ) );
         arrowNode = new DoubleArrowNode( tailLocation, tipLocation, ARROW_HEAD_SIZE.getHeight(), ARROW_HEAD_SIZE.getWidth(), LINE_THICKNESS );
         arrowNode.setPaint( color );
         arrowNode.setStroke( null ); // DoubleArrowNode is a shape that we fill, no need to stroke

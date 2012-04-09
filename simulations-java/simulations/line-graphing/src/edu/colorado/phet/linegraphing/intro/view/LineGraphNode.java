@@ -179,14 +179,14 @@ class LineGraphNode extends GraphNode implements Resettable {
             final Direction runDirection = line.rise >= 0 ? Direction.UP : Direction.DOWN;
             final BracketValueNode runBracketNode = new BracketValueNode( runDirection, mvt.modelToViewDeltaX( line.run ), line.run );
             bracketsParentNode.addChild( runBracketNode );
-            runBracketNode.setOffset( mvt.modelToViewDeltaX( 0 ), mvt.modelToViewDeltaY( line.intercept ) );
+            runBracketNode.setOffset( mvt.modelToViewX( 0 ), mvt.modelToViewY( line.intercept ) );
 
             // rise bracket
             if ( line.rise != 0 ) {
                 final Direction riseDirection = line.run > 0 ? Direction.LEFT : Direction.RIGHT;
                 final BracketValueNode riseBracket = new BracketValueNode( riseDirection, mvt.modelToViewDeltaX( line.rise ), line.rise );
                 bracketsParentNode.addChild( riseBracket );
-                riseBracket.setOffset( mvt.modelToViewDeltaX( line.run ), mvt.modelToViewDeltaY( line.intercept ) );
+                riseBracket.setOffset( mvt.modelToViewX( line.run ), mvt.modelToViewY( line.intercept ) );
             }
         }
 
@@ -202,8 +202,8 @@ class LineGraphNode extends GraphNode implements Resettable {
         else {
             x = line.solveX( y );
         }
-        slopeManipulatorNode.setOffset( mvt.modelToViewDelta( new Point2D.Double( x, y ) ) );
-        interceptManipulatorNode.setOffset( mvt.modelToViewDelta( new Point2D.Double( 0, line.intercept ) ) );
+        slopeManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( x, y ) ) );
+        interceptManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( 0, line.intercept ) ) );
     }
 
     // Creates an icon for the "y = +x" feature
