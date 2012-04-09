@@ -8,6 +8,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.piccolophet.nodes.HeaterCoolerNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyformsandchanges.intro.model.Burner;
 import edu.umd.cs.piccolo.PNode;
@@ -22,8 +23,20 @@ public class BurnerNode extends PNode {
     private static final double perspectiveAngle = Math.PI / 4;
     private static final double edgeLength = 20; // In screen units, which are close to pixels.
 
-    public BurnerNode( Burner burner, ModelViewTransform mvt ) {
+    public BurnerNode( final Burner burner, final ModelViewTransform mvt ) {
         addChild( new PhetPPath( mvt.modelToViewRectangle( burner.getOutlineRect() ), new BasicStroke( 1 ), Color.RED ) );
+
+        // Add the heater-cooler node to the center bottom of the model
+        // representation.
+        // TODO: i18n
+        PNode heaterCoolerNode = new HeaterCoolerNode( burner.heatCoolLevel, "Heat", "Cool" ) {{
+            setScale( mvt.modelToViewDeltaX( burner.getOutlineRect().getWidth() ) * 0.5 / getFullBoundsReference().width );
+            Rectangle2D burnerViewRect = mvt.modelToView( burner.getOutlineRect() ).getBounds2D();
+            setOffset( burnerViewRect.getX() + burnerViewRect.getWidth() / 2 - getFullBoundsReference().width / 2,
+                       burnerViewRect.getMaxY() - getFullBoundsReference().height );
+        }};
+        addChild( heaterCoolerNode );
+
 
         // Create the faux-3D frame for the burner.
         Rectangle2D viewRect = mvt.modelToViewRectangle( burner.getOutlineRect() );
