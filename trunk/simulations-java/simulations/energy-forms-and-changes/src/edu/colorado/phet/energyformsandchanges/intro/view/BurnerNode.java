@@ -43,7 +43,7 @@ public class BurnerNode extends PNode {
         // Add the heater-cooler node to the center bottom.
         // TODO: i18n
         PNode heaterCoolerNode = new HeaterCoolerNode( burner.heatCoolLevel, "Heat", "Cool" ) {{
-            setScale( mvt.modelToViewDeltaX( burner.getOutlineRect().getWidth() ) * 0.5 / getFullBoundsReference().width );
+            setScale( mvt.modelToViewDeltaX( burner.getOutlineRect().getWidth() ) * 0.7 / getFullBoundsReference().width );
             setOffset( burnerViewRect.getX() + burnerViewRect.getWidth() / 2 - getFullBoundsReference().width / 2,
                        burnerViewRect.getMaxY() - getFullBoundsReference().height );
         }};
