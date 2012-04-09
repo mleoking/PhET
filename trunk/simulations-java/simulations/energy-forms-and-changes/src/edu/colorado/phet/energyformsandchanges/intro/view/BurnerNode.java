@@ -28,7 +28,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class BurnerNode extends PNode {
 
-    private static final Stroke BURNER_STAND_STROKE = new BasicStroke( 3 );
+    private static final Stroke BURNER_STAND_STROKE = new BasicStroke( 3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
     private static final Color BURNER_STAND_STROKE_COLOR = Color.BLACK;
     private static final double PERSPECTIVE_ANGLE = Math.PI / 4; // Positive is counterclockwise, a value of 0 produces a non-skewed rectangle.
     private static final double BURNER_EDGE_LENGTH = 30;
