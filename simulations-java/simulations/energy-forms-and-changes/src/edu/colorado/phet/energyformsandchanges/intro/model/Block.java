@@ -30,10 +30,10 @@ public abstract class Block extends UserMovableModelElement {
     }
 
     /**
-     * Get the "raw shape" that should be used for depicting this cube in the
+     * Get the "raw shape" that should be used for depicting this block in the
      * view.  In this context, "raw" means that it is untranslated.  By
-     * convention for this simulation, the point (0, 0) is the lower left
-     * corner of the cube.
+     * convention for this simulation, the point (0, 0) is the bottom center
+     * of the block.
      *
      * @return
      */

@@ -17,9 +17,9 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * Piccolo node that represents a cube in the view.  Examples of cubes are
- * bricks, lead blocks, and so forth.  By convention for this sim, the (0, 0)
- * point is the lower left corner.
+ * Piccolo node that represents a block in the view.  The blocks in the model
+ * are two dimensional, and this class gives them some perspective in order to
+ * make them appear to be three dimensional.
  *
  * @author John Blanco
  */
@@ -27,24 +27,24 @@ public class BlockNode extends PNode {
 
     private static final Font LABEL_FONT = new PhetFont( 32, false );
 
-    public BlockNode( Block cube, final ModelViewTransform mvt ) {
+    public BlockNode( Block block, final ModelViewTransform mvt ) {
 
         // Extract the scale transform from the MVT so that we can separate the
-        // shape from the position of the cube.
+        // shape from the position of the block.
         AffineTransform scaleTransform = AffineTransform.getScaleInstance( mvt.getTransform().getScaleX(), mvt.getTransform().getScaleY() );
 
-        // Add the representation of the cube.
-        addChild( new PhetPPath( scaleTransform.createTransformedShape( Block.getRawShape() ), cube.getColor(), new BasicStroke( 2 ), Color.LIGHT_GRAY ) );
+        // Add the representation of the block.
+        addChild( new PhetPPath( scaleTransform.createTransformedShape( Block.getRawShape() ), block.getColor(), new BasicStroke( 2 ), Color.LIGHT_GRAY ) );
 
         // Update the offset if and when the model position changes.
-        cube.position.addObserver( new VoidFunction1<Point2D>() {
+        block.position.addObserver( new VoidFunction1<Point2D>() {
             public void apply( Point2D position ) {
                 setOffset( mvt.modelToView( position ) );
             }
         } );
 
         // Add the label.
-        PNode label = new PText( cube.getLabel() ) {{
+        PNode label = new PText( block.getLabel() ) {{
             setFont( LABEL_FONT );
             if ( getFullBoundsReference().width >= mvt.modelToViewDeltaX( Block.FACE_SIZE * 0.9 ) ) {
                 // Scale the label to fit on the face of the block.
@@ -63,6 +63,6 @@ public class BlockNode extends PNode {
         addInputEventListener( new CursorHandler( CursorHandler.HAND ) );
 
         // Add the drag handler.
-        addInputEventListener( new MovableElementDragHandler( cube, this, mvt ) );
+        addInputEventListener( new MovableElementDragHandler( block, this, mvt ) );
     }
 }
