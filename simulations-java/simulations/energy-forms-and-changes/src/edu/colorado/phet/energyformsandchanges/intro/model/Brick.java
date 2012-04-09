@@ -9,7 +9,7 @@ import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 /**
  * @author John Blanco
  */
-public class Brick extends Cube {
+public class Brick extends Block {
     @Override public Color getColor() {
         return new Color( 200, 22, 11 );
     }
