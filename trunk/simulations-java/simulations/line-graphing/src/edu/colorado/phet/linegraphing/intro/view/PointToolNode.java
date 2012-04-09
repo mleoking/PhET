@@ -133,10 +133,13 @@ public class PointToolNode extends PhetPNode {
                     with( super.getParametersForAllEvents( event ) );
         }
 
-        // Constrains xy view coordinates to be within some view bounds.
+        /*
+         * Constrains xy view coordinates to be within some view bounds.
+         * Assumes the origin is at the bottom center of the drag node.
+         */
         private ImmutableVector2D constrainToBounds( double x, double y ) {
-            return new ImmutableVector2D( Math.max( dragBounds.getMinX(), Math.min( dragBounds.getMaxX(), x ) ),
-                                          Math.max( dragBounds.getMinY(), Math.min( dragBounds.getMaxY(), y ) ) );
+            return new ImmutableVector2D( Math.max( dragBounds.getMinX() + ( dragNode.getFullBoundsReference().getWidth() / 2 ), Math.min( dragBounds.getMaxX() - ( dragNode.getFullBoundsReference().getWidth() / 2 ), x ) ),
+                                          Math.max( dragBounds.getMinY() + dragNode.getFullBoundsReference().getHeight(), Math.min( dragBounds.getMaxY(), y ) ) );
         }
     }
 }
