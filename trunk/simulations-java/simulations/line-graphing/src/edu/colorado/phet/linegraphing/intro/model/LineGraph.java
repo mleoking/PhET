@@ -2,6 +2,7 @@
 package edu.colorado.phet.linegraphing.intro.model;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
 /**
  * Model of a graph that displays lines.
@@ -13,6 +14,10 @@ public class LineGraph {
     //TODO add more responsibilities to the graph?
 
     public final int minX, maxX, minY, maxY;
+
+    public LineGraph( IntegerRange xRange, IntegerRange yRange ) {
+        this( xRange.getMin(), xRange.getMax(), yRange.getMin(), yRange.getMax() );
+    }
 
     public LineGraph( int minX, int maxX, int minY, int maxY ) {
         assert ( minX < maxX && minY < maxY ); // min is less than max
