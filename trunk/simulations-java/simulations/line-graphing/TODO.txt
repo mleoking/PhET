@@ -25,6 +25,7 @@ MEDIUM
 LOW
 - review internal duplication in GraphNode
 - create spinner buttons programmatically to match colors
+- don't like having int methods in SlopeInterceptLine model
 
 SIM-SHARING
 
