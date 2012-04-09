@@ -39,7 +39,6 @@ class LineGraphNode extends GraphNode implements Resettable {
     public final Property<Boolean> yEqualsNegativeXVisible = new Property<Boolean>( false );
     private final Property<Boolean> interactiveLineVisible = new Property<Boolean>( true );
     public final Property<Boolean> slopeVisible = new Property<Boolean>( true );
-    public final Property<Boolean> pointToolVisible = new Property<Boolean>( true );
 
     private final LineGraph graph;
     private final ModelViewTransform mvt;
@@ -79,9 +78,6 @@ class LineGraphNode extends GraphNode implements Resettable {
         // Rise and run brackets
         bracketsParentNode = new PComposite();
 
-        // Point tool
-        final PNode pointTool = new PointToolNode( pointToolLocation, mvt, graph );
-
         // Rendering order
         addChild( standardLinesParentNode );
         addChild( savedLinesParentNode );
@@ -89,7 +85,6 @@ class LineGraphNode extends GraphNode implements Resettable {
         addChild( bracketsParentNode );
         addChild( interceptManipulatorNode );
         addChild( slopeManipulatorNode ); // add slope after intercept, so that slope can be changed when x=0
-        addChild( pointTool );
 
         // Visibility of lines
         yEqualsXVisible.addObserver( new SimpleObserver() {
@@ -105,13 +100,6 @@ class LineGraphNode extends GraphNode implements Resettable {
         linesVisible.addObserver( new SimpleObserver() {
             public void update() {
                 updateLinesVisibility();
-            }
-        } );
-
-        // Visibility of point tool
-        pointToolVisible.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean visible ) {
-                pointTool.setVisible( visible );
             }
         } );
 
@@ -216,8 +204,8 @@ class LineGraphNode extends GraphNode implements Resettable {
         else {
             x = line.solveX( y );
         }
-        slopeManipulatorNode.setOffset( mvt.modelToView( x, y ) );
-        interceptManipulatorNode.setOffset( mvt.modelToView( 0, line.intercept ) );
+        slopeManipulatorNode.setOffset( mvt.modelToViewDelta( new Point2D.Double( x, y ) ) );
+        interceptManipulatorNode.setOffset( mvt.modelToViewDelta( new Point2D.Double( 0, line.intercept ) ) );
     }
 
     // Creates an icon for the "y = +x" feature
@@ -242,7 +230,6 @@ class LineGraphNode extends GraphNode implements Resettable {
         graphNode.yEqualsXVisible.set( yEqualsXVisible );
         graphNode.yEqualsNegativeXVisible.set( yEqualsNegativeXVisible );
         graphNode.interactiveLineVisible.set( false );
-        graphNode.pointToolVisible.set( false );
         graphNode.scale( width / graphNode.getFullBoundsReference().getWidth() );
         return new ImageIcon( new PadBoundsNode( graphNode ).toImage() );
     }

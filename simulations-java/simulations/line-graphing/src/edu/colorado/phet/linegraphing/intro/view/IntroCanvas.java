@@ -7,7 +7,6 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.linegraphing.LGColors;
 import edu.colorado.phet.linegraphing.LGConstants;
 import edu.colorado.phet.linegraphing.common.view.LGCanvas;
@@ -30,7 +29,7 @@ public class IntroCanvas extends LGCanvas implements Resettable {
         lineGraphNode = new LineGraphNode( model.graph, model.mvt, model.interactiveLine,
                                            IntroModel.RISE_RANGE, IntroModel.RUN_RANGE, IntroModel.INTERCEPT_RANGE,
                                            model.pointToolLocation );
-        PNode graphNode = new ZeroOffsetNode( lineGraphNode );
+        final PNode pointTool = new PointToolNode( model.pointToolLocation, model.mvt, model.graph );
         PNode lineControls = new InteractiveLineControls( model.interactiveLine,
                                                        IntroModel.RISE_RANGE, IntroModel.RUN_RANGE, IntroModel.INTERCEPT_RANGE,
                                                        new VoidFunction1<SlopeInterceptLine>() {
@@ -50,10 +49,11 @@ public class IntroCanvas extends LGCanvas implements Resettable {
 
         // rendering order
         {
-            addChild( graphNode );
+            addChild( lineGraphNode );
             addChild( lineControls );
             addChild( graphControls );
             addChild( resetAllButtonNode );
+            addChild( pointTool );
         }
 
         // layout
@@ -61,10 +61,9 @@ public class IntroCanvas extends LGCanvas implements Resettable {
             // NOTE: Nodes that have corresponding model elements handle their own offsets.
             final double xMargin = 20;
             final double yMargin = 20;
-            graphNode.setOffset( xMargin, yMargin );
 
             // upper-right of graph
-            lineControls.setOffset( graphNode.getFullBoundsReference().getMaxX() + 10, 35 );
+            lineControls.setOffset( getStageSize().getWidth() - lineControls.getFullBoundsReference().getWidth() - xMargin, 35 );
             // centered below equation
             graphControls.setOffset( lineControls.getFullBoundsReference().getCenterX() - ( graphControls.getFullBoundsReference().getWidth() / 2 ),
                                           lineControls.getFullBoundsReference().getMaxY() + 25 );

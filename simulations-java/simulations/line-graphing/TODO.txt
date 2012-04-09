@@ -24,6 +24,7 @@ MEDIUM
 - try dynamically changing the rise/run/intercept constraints to keep line manipulators on the grid
 - try rise/run/intercept ranges of -5 to +5 (half grid range)
 - clean up standard line icons (no equation on line, shorter line)
+- try iOS Picker for changing numbers in equation
 
 LOW
 - should Save Line be grayed out when interactive line matches an existing saved line?
