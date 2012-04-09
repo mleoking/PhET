@@ -1,3 +1,4 @@
+4/6/12 constrain point tool to stage bounds
 4/6/12 separate point tool from graph
 4/6/12 make mvt apply to entire canvas, not just the graph
 4/6/12 make slope (rise over run) brackets visible by default, since AP feels strongly that they should always be visible

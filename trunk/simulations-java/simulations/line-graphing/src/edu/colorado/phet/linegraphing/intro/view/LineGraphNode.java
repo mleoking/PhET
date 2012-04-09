@@ -6,7 +6,6 @@ import java.awt.geom.Point2D;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
@@ -49,8 +48,7 @@ class LineGraphNode extends GraphNode implements Resettable {
 
     public LineGraphNode( final LineGraph graph, final ModelViewTransform mvt,
                           Property<SlopeInterceptLine> interactiveLine,
-                          IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange,
-                          Property<ImmutableVector2D> pointToolLocation ) {
+                          IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange ) {
         super( graph, mvt );
 
         this.graph = graph;
@@ -225,8 +223,7 @@ class LineGraphNode extends GraphNode implements Resettable {
                                                      new Property<SlopeInterceptLine>( new SlopeInterceptLine( 1, 1, 1 ) ),
                                                      new IntegerRange( -1, 1 ),
                                                      new IntegerRange( -1, 1 ),
-                                                     new IntegerRange( -1, 1 ),
-                                                     new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) ) );
+                                                     new IntegerRange( -1, 1 ) );
         graphNode.yEqualsXVisible.set( yEqualsXVisible );
         graphNode.yEqualsNegativeXVisible.set( yEqualsNegativeXVisible );
         graphNode.interactiveLineVisible.set( false );

@@ -3,6 +3,7 @@ package edu.colorado.phet.linegraphing.common.view;
 
 import java.awt.Color;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
@@ -50,6 +51,10 @@ public class LGCanvas extends PhetPCanvas {
 
     protected Dimension2D getStageSize() {
         return STAGE_SIZE;
+    }
+
+    protected Rectangle2D getStageBounds() {
+        return new Rectangle2D.Double( 0, 0, STAGE_SIZE.getWidth(), STAGE_SIZE.getHeight() );
     }
 
     // Centers the root node on the stage.
