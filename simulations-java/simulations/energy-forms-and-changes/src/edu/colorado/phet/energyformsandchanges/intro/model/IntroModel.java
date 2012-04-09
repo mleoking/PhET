@@ -51,10 +51,9 @@ public class IntroModel {
 
     public IntroModel() {
 
-        // Add the main lab bench shelf.  The position is tweaked such that it
-        // sits at the bottom of the play area.  The various parameters are
-        // set so that the image works well with the model representation.
-        shelfList.add( new Shelf( new Point2D.Double( -LAB_TABLE_WIDTH / 2, -0.115 ),
+        // Add the main lab bench shelf.  The center of the shelf is the point
+        // (0, 0) in model space.
+        shelfList.add( new Shelf( new Point2D.Double( -LAB_TABLE_WIDTH / 2, 0 ),
                                   LAB_TABLE_WIDTH,
                                   EnergyFormsAndChangesResources.Images.SHELF_LONG,
                                   LAB_TABLE_WIDTH * 0.015,
