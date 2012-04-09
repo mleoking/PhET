@@ -10,10 +10,11 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.HighlightHandler.FunctionHighlightHandler;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
+import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.linegraphing.intro.model.LineGraph;
 import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
+import edu.colorado.phet.linegraphing.intro.view.ReducedSlopeInterceptEquationFactory.ReducedSlopeInterceptEquationNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -104,10 +105,11 @@ public class SlopeInterceptLineNode extends PComposite {
         addChild( equationParentNode );
         equationParentNode.setOffset( tipLocation );
         equationParentNode.setRotation( line.run == 0 ? Math.PI / 2 : -Math.atan( line.rise / line.run ) );
-        equationNode = new ReducedSlopeInterceptEquationNode( line, color, EQUATION_FONT );
-        equationParentNode.addChild( equationNode );
-        equationNode.setOffset( -equationNode.getFullBoundsReference().getWidth() - 12,
-                                -equationNode.getFullBoundsReference().getHeight() - 12 );
+        equationNode = ReducedSlopeInterceptEquationFactory.createNode( line, color, EQUATION_FONT );
+        PNode zeroOffsetNode = new ZeroOffsetNode( equationNode );
+        equationParentNode.addChild( zeroOffsetNode );
+        zeroOffsetNode.setOffset( -zeroOffsetNode.getFullBoundsReference().getWidth() - 12,
+                                -zeroOffsetNode.getFullBoundsReference().getHeight() - 12 );
     }
 
     protected void updateColor( Color color ) {

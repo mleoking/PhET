@@ -30,7 +30,7 @@ public class SlopeInterceptLine {
 
     // Gets the slope, m=rise/run.
     private double getSlope() {
-        assert( run != 0 );
+        assert ( run != 0 );
         return ( (double) rise ) / run;
     }
 
@@ -56,16 +56,16 @@ public class SlopeInterceptLine {
 
     // x = (y-b)/m
     private static double solveX( double y, double b, double m ) {
-        assert( m != 0 );
+        assert ( m != 0 );
         return ( y - b ) / m;
     }
 
     public int getReducedRise() {
-        return (int)( rise/getGCD() );
+        return MathUtil.round( rise / getGCD() );
     }
 
     public int getReducedRun() {
-        return (int)( run/getGCD() );
+        return MathUtil.round( run / getGCD() );
     }
 
     // Gets the greatest common divisor (GCD) of the rise and run.
