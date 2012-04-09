@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.energyformsandchanges.intro.model.Cube;
+import edu.colorado.phet.energyformsandchanges.intro.model.Block;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -23,18 +23,18 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author John Blanco
  */
-public class CubeNode extends PNode {
+public class BlockNode extends PNode {
 
     private static final Font LABEL_FONT = new PhetFont( 32, false );
 
-    public CubeNode( Cube cube, final ModelViewTransform mvt ) {
+    public BlockNode( Block cube, final ModelViewTransform mvt ) {
 
         // Extract the scale transform from the MVT so that we can separate the
         // shape from the position of the cube.
         AffineTransform scaleTransform = AffineTransform.getScaleInstance( mvt.getTransform().getScaleX(), mvt.getTransform().getScaleY() );
 
         // Add the representation of the cube.
-        addChild( new PhetPPath( scaleTransform.createTransformedShape( Cube.getRawShape() ), cube.getColor(), new BasicStroke( 2 ), Color.LIGHT_GRAY ) );
+        addChild( new PhetPPath( scaleTransform.createTransformedShape( Block.getRawShape() ), cube.getColor(), new BasicStroke( 2 ), Color.LIGHT_GRAY ) );
 
         // Update the offset if and when the model position changes.
         cube.position.addObserver( new VoidFunction1<Point2D>() {
@@ -46,13 +46,13 @@ public class CubeNode extends PNode {
         // Add the label.
         PNode label = new PText( cube.getLabel() ) {{
             setFont( LABEL_FONT );
-            if ( getFullBoundsReference().width >= mvt.modelToViewDeltaX( Cube.FACE_SIZE * 0.9 ) ) {
+            if ( getFullBoundsReference().width >= mvt.modelToViewDeltaX( Block.FACE_SIZE * 0.9 ) ) {
                 // Scale the label to fit on the face of the block.
-                double scale = ( mvt.modelToViewDeltaX( Cube.FACE_SIZE * 0.9 ) / getFullBoundsReference().width );
+                double scale = ( mvt.modelToViewDeltaX( Block.FACE_SIZE * 0.9 ) / getFullBoundsReference().width );
                 setScale( scale );
             }
-            double centerX = mvt.modelToViewDeltaX( Cube.FACE_SIZE / 2 );
-            double centerY = mvt.modelToViewDeltaY( Cube.FACE_SIZE * 0.75 );
+            double centerX = mvt.modelToViewDeltaX( Block.FACE_SIZE / 2 );
+            double centerY = mvt.modelToViewDeltaY( Block.FACE_SIZE * 0.75 );
             centerFullBoundsOnPoint( centerX, centerY );
 
         }};

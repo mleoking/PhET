@@ -9,7 +9,7 @@ import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 /**
  * @author John Blanco
  */
-public class LeadBlock extends Cube {
+public class LeadBlock extends Block {
     @Override public Color getColor() {
         return new Color( 130, 130, 130 );
     }
