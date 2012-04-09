@@ -2,6 +2,8 @@
 package edu.colorado.phet.fluidpressureandflow.pressure.view;
 
 import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -37,25 +39,26 @@ public class FluidPressureControlPanel extends VerticalLayoutPanel {
     public FluidPressureControlPanel( final FluidPressureAndFlowModule<FluidPressureModel> module ) {
         super();
 
-        //Checkbox to show/hide ruler
-        add( new JPanel() {{
-            final FPAFCheckBox checkBox = new FPAFCheckBox( RULER, module.rulerVisible );
-            add( checkBox );
+        add( new JPanel( new GridBagLayout() ) {{
 
+            //Ruler check box
+            final FPAFCheckBox checkBox = new FPAFCheckBox( RULER, module.rulerVisible );
+            add( checkBox, getConstraints( 0, 0 ) );
+
+            //Ruler icon
             final RulerNode englishRuler = new RulerNode( 35, 5, 25, new String[] { "0", "1", "2" }, new PhetFont( 8 ), "", new PhetFont( 8 ), 4, 6, 3 );
             final Image image = englishRuler.toImage();
-//            add( new JLabel( new ImageIcon( BufferedImageUtils.multiScaleToHeight( BufferedImageUtils.toBufferedImage( image ), (int) checkBox.getPreferredSize().getHeight() ) ) ) );
             add( new JLabel( new ImageIcon( image ) ) {{
                 addMouseListener( new MouseAdapter() {
                     @Override public void mousePressed( final MouseEvent e ) {
                         module.rulerVisible.toggle();
                     }
                 } );
-            }} );
-        }} );
+            }}, getConstraints( 1, 0 ) );
 
-        //Checkbox that shows/hides the grid
-        add( new FPAFCheckBox( GRID, module.gridVisible ) );
+            //Checkbox that shows/hides the grid
+            add( new FPAFCheckBox( GRID, module.gridVisible ), getConstraints( 0, 1 ) );
+        }} );
 
         //Add Atmosphere on/off control panel.  So it's nice to be able to turn it off and just focus on the water.
         add( new PhetTitledPanel( "Atmosphere" ) {{
@@ -70,5 +73,17 @@ public class FluidPressureControlPanel extends VerticalLayoutPanel {
         add( new EnglishMetricControlPanel( new FPAFRadioButton<UnitSet>( ATMOSPHERES, units, UnitSet.ATMOSPHERES ),
                                             new FPAFRadioButton<UnitSet>( METRIC, units, UnitSet.METRIC ),
                                             new FPAFRadioButton<UnitSet>( ENGLISH, units, UnitSet.ENGLISH ) ) );
+    }
+
+    public static GridBagConstraints getConstraints( final int _gridx, final int _gridy ) {
+        return new GridBagConstraints() {{
+            gridx = _gridx;
+            gridy = _gridy;
+            gridwidth = 1;
+            gridheight = 1;
+            weightx = 1;
+            weighty = 1;
+            fill = HORIZONTAL;
+        }};
     }
 }
