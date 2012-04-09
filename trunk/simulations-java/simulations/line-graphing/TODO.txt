@@ -8,7 +8,6 @@ DESIGN
 - Save Line button is enabled when interactive equation changes, but the reduced form of the line may be the same
 
 HIGH
-- fix reduce equations while dragging
 - grid node gets bigger when IntroModel.GRID_MODEL_UNITS gets smaller, size should remain constant
 
 MEDIUM
@@ -24,7 +23,6 @@ MEDIUM
 - try iOS Picker for changing numbers in equation
 
 LOW
-- should Save Line be grayed out when interactive line matches an existing saved line?
 - review internal duplication in GraphNode
 - create spinner buttons programmatically to match colors
 
