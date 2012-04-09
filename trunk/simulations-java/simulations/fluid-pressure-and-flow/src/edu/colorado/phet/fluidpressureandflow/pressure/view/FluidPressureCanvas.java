@@ -75,6 +75,32 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
         //Variables for convenient access
         final FluidPressureModel model = module.model;
 
+        //Create the faucet for the trapezoidal mode.  Shown before pool background node so it will give us leeway in vertical pixels
+        final PNode outputFaucetAndWater = new PNode() {{
+            model.pool.valueEquals( model.trapezoidPool ).addObserver( new VoidFunction1<Boolean>() {
+                @Override public void apply( final Boolean visible ) {
+                    setVisible( visible );
+                }
+            } );
+
+            final PImage drainFaucetImage = new PImage( BufferedImageUtils.multiScaleToHeight( DRAIN_FAUCET_ATTACHED, (int) ( DRAIN_FAUCET_ATTACHED.getHeight() * 1.2 ) ) ) {{
+
+                //Center the faucet over the left opening, values sampled from a drag listener
+                setOffset( new Point2D.Double( 314.1624815361891 - 3, 644.3426883308715 - 1 ) );
+
+                FaucetSliderNode sliderNode = new FaucetSliderNode( UserComponentChain.chain( FPAFSimSharing.UserComponents.drainFaucet, UserComponents.slider ), model.trapezoidPool.drainFaucetEnabled, 1, model.trapezoidPool.drainFlowRate, true ) {{
+                    setOffset( 4, 8 + 5 - 1 ); //TODO #3199, change offsets when the faucet images are revised, make these constants
+                    scale( FaucetNode.HANDLE_SIZE.getWidth() / getFullBounds().getWidth() * 1.2 ); //scale to fit into the handle portion of the faucet image
+                }};
+                addChild( sliderNode );
+            }};
+
+            //Show the water coming out of the faucet
+            addChild( new OutputFlowingWaterNode( model.trapezoidPool, model.trapezoidPool.drainFlowRate, transform, model.liquidDensity, model.trapezoidPool.drainFaucetEnabled ) );
+            addChild( drainFaucetImage );
+        }};
+        addChild( outputFaucetAndWater );
+
         //Add a background behind the pool so earth doesn't bleed through transparent pool
         addPoolSpecificNode( model, new Function1<IPool, PNode>() {
             @Override public PNode apply( final IPool p ) {
@@ -184,32 +210,6 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
 
         }};
         addChild( inputFaucetAndWater );
-
-        //Create the faucet for the trapezoidal mode
-        final PNode outputFaucetAndWater = new PNode() {{
-            model.pool.valueEquals( model.trapezoidPool ).addObserver( new VoidFunction1<Boolean>() {
-                @Override public void apply( final Boolean visible ) {
-                    setVisible( visible );
-                }
-            } );
-
-            final PImage drainFaucetImage = new PImage( BufferedImageUtils.multiScaleToHeight( DRAIN_FAUCET_ATTACHED, (int) ( DRAIN_FAUCET_ATTACHED.getHeight() * 1.2 ) ) ) {{
-
-                //Center the faucet over the left opening, values sampled from a drag listener
-                setOffset( new Point2D.Double( 314.1624815361891 - 3, 644.3426883308715 ) );
-
-                FaucetSliderNode sliderNode = new FaucetSliderNode( UserComponentChain.chain( FPAFSimSharing.UserComponents.drainFaucet, UserComponents.slider ), model.trapezoidPool.drainFaucetEnabled, 1, model.trapezoidPool.drainFlowRate, true ) {{
-                    setOffset( 4, 8 ); //TODO #3199, change offsets when the faucet images are revised, make these constants
-                    scale( FaucetNode.HANDLE_SIZE.getWidth() / getFullBounds().getWidth() * 1.2 ); //scale to fit into the handle portion of the faucet image
-                }};
-                addChild( sliderNode );
-            }};
-
-            //Show the water coming out of the faucet
-            addChild( new OutputFlowingWaterNode( model.trapezoidPool, model.trapezoidPool.drainFlowRate, transform, model.liquidDensity, model.trapezoidPool.drainFaucetEnabled ) );
-            addChild( drainFaucetImage );
-        }};
-        addChild( outputFaucetAndWater );
 
         final PNode massesNode = new PNode() {{
             model.pool.valueEquals( model.chamberPool ).addObserver( new VoidFunction1<Boolean>() {
