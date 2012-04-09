@@ -31,6 +31,7 @@ public class BurnerNode extends PNode {
     private static final Stroke BURNER_STAND_STROKE = new BasicStroke( 3 );
     private static final Color BURNER_STAND_STROKE_COLOR = Color.BLACK;
     private static final double PERSPECTIVE_ANGLE = Math.PI / 4; // Positive is counterclockwise, a value of 0 produces a non-skewed rectangle.
+    private static final double BURNER_EDGE_LENGTH = 30;
 
     public BurnerNode( final Burner burner, final ModelViewTransform mvt ) {
         addChild( new PhetPPath( mvt.modelToViewRectangle( burner.getOutlineRect() ), new BasicStroke( 1 ), Color.RED ) );
@@ -51,18 +52,19 @@ public class BurnerNode extends PNode {
         // Add the left and right sides of the stand.
         addChild( new BurnerStandSide( new Point2D.Double( burnerViewRect.getX(), burnerViewRect.getY() ), burnerViewRect.getHeight() ) );
         addChild( new BurnerStandSide( new Point2D.Double( burnerViewRect.getMaxX(), burnerViewRect.getY() ), burnerViewRect.getHeight() ) );
+
+        // Add the top of the burner stand.
+        addChild( new BurnerStandTop( new Point2D.Double( burnerViewRect.getX(), burnerViewRect.getY() ), burnerViewRect.getWidth() ) );
     }
 
     private static class BurnerStandSide extends PNode {
-        private static final double PERSPECTIVE_ANGLE = Math.PI / 4; // Positive is counterclockwise, a value of 0 produces a non-skewed rectangle.
-        private static final double TOP_AND_BOTTOM_EDGE_LENGTH = 30;
 
         private BurnerStandSide( Point2D topCenter, double height ) {
             // Draw the side as a parallelogram.
             ImmutableVector2D topCenterVector = new ImmutableVector2D( topCenter );
-            ImmutableVector2D upperLeftCorner = topCenterVector.getAddedInstance( new ImmutableVector2D( -TOP_AND_BOTTOM_EDGE_LENGTH / 2, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE ) );
+            ImmutableVector2D upperLeftCorner = topCenterVector.getAddedInstance( new ImmutableVector2D( -BURNER_EDGE_LENGTH / 2, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE ) );
             ImmutableVector2D lowerLeftCorner = upperLeftCorner.getAddedInstance( new ImmutableVector2D( 0, height ) );
-            ImmutableVector2D lowerRightCorner = lowerLeftCorner.getAddedInstance( new ImmutableVector2D( TOP_AND_BOTTOM_EDGE_LENGTH, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE ) );
+            ImmutableVector2D lowerRightCorner = lowerLeftCorner.getAddedInstance( new ImmutableVector2D( BURNER_EDGE_LENGTH, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE ) );
             ImmutableVector2D upperRightCorner = lowerRightCorner.getAddedInstance( new ImmutableVector2D( 0, -height ) );
             DoubleGeneralPath path = new DoubleGeneralPath( topCenterVector );
             path.lineTo( upperLeftCorner );
@@ -75,20 +77,19 @@ public class BurnerNode extends PNode {
     }
 
     private static class BurnerStandTop extends PNode {
-        private static final double TOP_AND_BOTTOM_EDGE_LENGTH = 30;
 
-        private BurnerStandTop( Point2D topCenter, double height ) {
+        private BurnerStandTop( Point2D leftCenter, double width ) {
             // Draw the side as a parallelogram.
-            ImmutableVector2D topCenterVector = new ImmutableVector2D( topCenter );
-            ImmutableVector2D upperLeftCorner = topCenterVector.getAddedInstance( new ImmutableVector2D( -TOP_AND_BOTTOM_EDGE_LENGTH / 2, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE ) );
-            ImmutableVector2D lowerLeftCorner = upperLeftCorner.getAddedInstance( new ImmutableVector2D( 0, height ) );
-            ImmutableVector2D lowerRightCorner = lowerLeftCorner.getAddedInstance( new ImmutableVector2D( TOP_AND_BOTTOM_EDGE_LENGTH, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE ) );
-            ImmutableVector2D upperRightCorner = lowerRightCorner.getAddedInstance( new ImmutableVector2D( 0, -height ) );
-            DoubleGeneralPath path = new DoubleGeneralPath( topCenterVector );
+            ImmutableVector2D leftCenterVector = new ImmutableVector2D( leftCenter );
+            ImmutableVector2D upperLeftCorner = leftCenterVector.getAddedInstance( new ImmutableVector2D( BURNER_EDGE_LENGTH / 2, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE ) );
+            ImmutableVector2D upperRightCorner = upperLeftCorner.getAddedInstance( new ImmutableVector2D( width, 0 ) );
+            ImmutableVector2D lowerRightCorner = upperRightCorner.getAddedInstance( new ImmutableVector2D( -BURNER_EDGE_LENGTH, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE ) );
+            ImmutableVector2D lowerLeftCorner = lowerRightCorner.getAddedInstance( new ImmutableVector2D( -width, 0 ) );
+            DoubleGeneralPath path = new DoubleGeneralPath( leftCenterVector );
             path.lineTo( upperLeftCorner );
-            path.lineTo( lowerLeftCorner );
-            path.lineTo( lowerRightCorner );
             path.lineTo( upperRightCorner );
+            path.lineTo( lowerRightCorner );
+            path.lineTo( lowerLeftCorner );
             path.closePath();
             addChild( new PhetPPath( path.getGeneralPath(), BURNER_STAND_STROKE, BURNER_STAND_STROKE_COLOR ) );
         }
@@ -113,7 +114,7 @@ public class BurnerNode extends PNode {
                 new Point( (int) Math.round( stageSize.getWidth() * 0.5 ), (int) Math.round( stageSize.getHeight() * 0.50 ) ),
                 1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
-        canvas.getLayer().addChild( new BurnerStandSide( new Point2D.Double( 20, 20 ), 70 ) );
+        canvas.getLayer().addChild( new BurnerStandTop( new Point2D.Double( 20, 20 ), 70 ) );
 
         // Boiler plate app stuff.
         JFrame frame = new JFrame();
