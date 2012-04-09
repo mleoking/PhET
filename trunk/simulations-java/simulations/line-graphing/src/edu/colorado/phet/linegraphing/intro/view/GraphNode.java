@@ -62,7 +62,7 @@ class GraphNode extends PhetPNode {
 
         // Background
         PPath backgroundNode = new PPath( new Rectangle2D.Double( mvt.modelToViewDeltaX( graph.minX ), mvt.modelToViewDeltaY( graph.maxY ),
-                                                                  mvt.modelToViewDeltaX( graph.getWidth() ), mvt.modelToViewDeltaX( graph.getHeight() ) ) );
+                                                                  mvt.modelToViewDeltaX( graph.getWidth() ), mvt.modelToViewDeltaY( -graph.getHeight() ) ) );
         backgroundNode.setPaint( GRID_BACKGROUND );
         backgroundNode.setStroke( null );
         addChild( backgroundNode );
