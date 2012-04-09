@@ -59,4 +59,17 @@ public class SlopeInterceptLine {
         assert( m != 0 );
         return ( y - b ) / m;
     }
+
+    public int getReducedRise() {
+        return (int)( rise/getGCD() );
+    }
+
+    public int getReducedRun() {
+        return (int)( run/getGCD() );
+    }
+
+    // Gets the greatest common divisor (GCD) of the rise and run.
+    private int getGCD() {
+        return MathUtil.getGreatestCommonDivisor( MathUtil.round( Math.abs( rise ) ), MathUtil.round( Math.abs( run ) ) );
+    }
 }
