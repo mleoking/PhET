@@ -61,8 +61,9 @@ public class IntroCanvas extends LGCanvas implements Resettable {
             final double xMargin = 20;
             final double yMargin = 20;
 
+           lineGraphNode.setOffset( model.mvt.modelToView( 0, 0 ) );
             // upper-right of graph
-            lineControls.setOffset( getStageSize().getWidth() - lineControls.getFullBoundsReference().getWidth() - xMargin, 35 );
+            lineControls.setOffset( lineGraphNode.getFullBoundsReference().getMaxX(), 35 );
             // centered below equation
             graphControls.setOffset( lineControls.getFullBoundsReference().getCenterX() - ( graphControls.getFullBoundsReference().getWidth() / 2 ),
                                           lineControls.getFullBoundsReference().getMaxY() + 25 );
