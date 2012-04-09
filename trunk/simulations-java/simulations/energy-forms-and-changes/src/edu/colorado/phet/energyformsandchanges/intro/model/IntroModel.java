@@ -61,7 +61,7 @@ public class IntroModel {
                                   Math.PI / 2 ) );
 
         // Add the thermometer shelf.
-        shelfList.add( new Shelf( new Point2D.Double( -0.2, 0.05 ),
+        shelfList.add( new Shelf( new Point2D.Double( -0.2, 0.15 ),
                                   THERMOMETER_SHELF_WIDTH,
                                   EnergyFormsAndChangesResources.Images.SHELF_SHORT,
                                   THERMOMETER_SHELF_WIDTH * 0.05,
@@ -69,16 +69,16 @@ public class IntroModel {
                                   Math.PI / 2 ) );
 
         // Add the burners.
-        leftBurner = new Burner( new Point2D.Double( 0, 0 ) );
-        rightBurner = new Burner( new Point2D.Double( 50, 0 ) );
+        leftBurner = new Burner( new Point2D.Double( 0.07, 0 ) );
+        rightBurner = new Burner( new Point2D.Double( 0.17, 0 ) );
 
         // Add and position the brick.
         brick = new Brick();
-        brick.position.set( new Point2D.Double( -0.2, -0.1 ) );
+        brick.position.set( new Point2D.Double( -0.2, 0 ) );
 
         // Add and position the lead block.
         leadBlock = new LeadBlock();
-        leadBlock.position.set( new Point2D.Double( -0.1, -0.1 ) );
+        leadBlock.position.set( new Point2D.Double( -0.1, 0 ) );
     }
 
     //-------------------------------------------------------------------------

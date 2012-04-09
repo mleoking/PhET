@@ -18,8 +18,8 @@ public class Burner {
     // Class Data
     //-------------------------------------------------------------------------
 
-    private static final double WIDTH = 0.05; // In meters.
-    private static final double HEIGHT = WIDTH * 1.3;
+    private static final double WIDTH = 0.075; // In meters.
+    private static final double HEIGHT = WIDTH;
 
     //-------------------------------------------------------------------------
     // Instance Data
