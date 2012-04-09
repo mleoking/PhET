@@ -33,7 +33,7 @@ public class IntroModel implements Resettable {
     public final Property<ImmutableVector2D> pointToolLocation;
 
     public IntroModel() {
-        mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 1.2 * GRID_VIEW_UNITS / 2, 1.2 * GRID_VIEW_UNITS / 2 ), MVT_SCALE, -MVT_SCALE ); // y is inverted
+        mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 1.2 * GRID_VIEW_UNITS / 2, 1.25 * GRID_VIEW_UNITS / 2 ), MVT_SCALE, -MVT_SCALE ); // y is inverted
         interactiveLine = new Property<SlopeInterceptLine>( new SlopeInterceptLine( RISE_RANGE.getDefault(), RUN_RANGE.getDefault(), INTERCEPT_RANGE.getDefault() ) );
         graph = new LineGraph( X_RANGE, Y_RANGE );
         pointToolLocation = new Property<ImmutableVector2D>( new ImmutableVector2D( X_RANGE.getMax(), Y_RANGE.getMin() ) );
