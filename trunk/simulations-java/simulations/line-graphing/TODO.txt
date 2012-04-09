@@ -18,8 +18,6 @@ MEDIUM
 - make point tool draggable on/off grid, display "(-,-)" when off grid
 - improve layout of equation, try spinners in various layouts and locations
 - make point tool light up when the point is on any graphed line
-- put saved line on top of interactive line, but behind manipulators
-- put standard lines on top of interactive line, but behind manipulators (and on top of standard lines?)
 - when "Hide Lines" is unchecked, disable Save Line and Erase Lines buttons
 - try dynamically changing the rise/run/intercept constraints to keep line manipulators on the grid
 - try rise/run/intercept ranges of -5 to +5 (half grid range)

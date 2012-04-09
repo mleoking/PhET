@@ -77,9 +77,9 @@ class LineGraphNode extends GraphNode implements Resettable {
         bracketsParentNode = new PComposite();
 
         // Rendering order
-        addChild( standardLinesParentNode );
-        addChild( savedLinesParentNode );
         addChild( interactiveLineParentNode );
+        addChild( savedLinesParentNode );
+        addChild( standardLinesParentNode );
         addChild( bracketsParentNode );
         addChild( interceptManipulatorNode );
         addChild( slopeManipulatorNode ); // add slope after intercept, so that slope can be changed when x=0
