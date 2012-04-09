@@ -144,7 +144,7 @@ public class Levels {
         }
     } );
 
-    private RepresentationType createPatterns( String name, final int max, final int length, final F<Integer, Pattern> pyramid ) {
+    private RepresentationType createPatterns( String name, final int max, final int length, final F<Integer, Pattern> pattern ) {
         return twoComposites( name, new F<Fraction, Boolean>() {
                                   @Override public Boolean f( final Fraction fraction ) {
                                       return fraction.denominator == max;
@@ -152,12 +152,12 @@ public class Levels {
                               },
                               new F<Fraction, PNode>() {
                                   @Override public PNode f( Fraction f ) {
-                                      return new PatternNode( pyramid.f( length ), f.numerator, LIGHT_GREEN );
+                                      return new PatternNode( pattern.f( length ), f.numerator, LIGHT_GREEN );
                                   }
                               },
                               new F<Fraction, PNode>() {
                                   @Override public PNode f( Fraction f ) {
-                                      return new PatternNode( pyramid.f( length ), f.numerator, Colors.LIGHT_BLUE );
+                                      return new PatternNode( pattern.f( length ), f.numerator, Colors.LIGHT_BLUE );
                                   }
                               }
         );
