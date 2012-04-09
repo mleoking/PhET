@@ -1,6 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.intro.model;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+
 /**
  * Model of a graph that displays lines.
  *
@@ -27,5 +29,9 @@ public class LineGraph {
 
     public int getHeight() {
         return maxY - minY;
+    }
+
+    public boolean contains( ImmutableVector2D point ) {
+        return ( point.getX() >= minX && point.getX() <= maxX && point.getY() >= minY && point.getY() <= maxX );
     }
 }

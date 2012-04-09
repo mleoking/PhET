@@ -1,3 +1,4 @@
+4/9/12 when point tool is outside grid, don't snap and don't display coordinates
 4/9/12 change rendering order of line types: interactive, saved, standard
 4/9/12 convert graph and components to use absolute coordinates instead of deltas for mvt
 4/9/12 separate layout and positioning of graph
