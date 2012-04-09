@@ -79,16 +79,36 @@ public class BurnerNode extends PNode {
     private static class BurnerStandTop extends PNode {
 
         private BurnerStandTop( Point2D leftCenter, double width ) {
-            // Draw the side as a parallelogram.
+
             ImmutableVector2D leftCenterVector = new ImmutableVector2D( leftCenter );
+
+            // Create the points for the outline of the perspective rectangle.
             ImmutableVector2D upperLeftCorner = leftCenterVector.getAddedInstance( new ImmutableVector2D( BURNER_EDGE_LENGTH / 2, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE ) );
             ImmutableVector2D upperRightCorner = upperLeftCorner.getAddedInstance( new ImmutableVector2D( width, 0 ) );
             ImmutableVector2D lowerRightCorner = upperRightCorner.getAddedInstance( new ImmutableVector2D( -BURNER_EDGE_LENGTH, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE ) );
             ImmutableVector2D lowerLeftCorner = lowerRightCorner.getAddedInstance( new ImmutableVector2D( -width, 0 ) );
-            DoubleGeneralPath path = new DoubleGeneralPath( leftCenterVector );
-            path.lineTo( upperLeftCorner );
+
+            // Create the points for the circular opening in the top.
+            ImmutableVector2D upperLeftCircularOpeningCorner = upperLeftCorner.getAddedInstance( new ImmutableVector2D( width * 0.25, 0 ) );
+            ImmutableVector2D upperRightCircularOpeningCorner = upperLeftCorner.getAddedInstance( new ImmutableVector2D( width * 0.75, 0 ) );
+            ImmutableVector2D lowerLeftCircularOpeningCorner = lowerLeftCorner.getAddedInstance( new ImmutableVector2D( width * 0.25, 0 ) );
+            ImmutableVector2D lowerRightCircularOpeningCorner = lowerLeftCorner.getAddedInstance( new ImmutableVector2D( width * 0.75, 0 ) );
+
+            // Create the control points for the circular opening in the top.
+            ImmutableVector2D circularOpeningPerspectiveVector = new ImmutableVector2D( BURNER_EDGE_LENGTH * 0.5, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE );
+
+            DoubleGeneralPath path = new DoubleGeneralPath();
+            path.moveTo( upperLeftCorner );
+            path.lineTo( upperLeftCircularOpeningCorner );
+            path.curveTo( upperLeftCircularOpeningCorner.getAddedInstance( circularOpeningPerspectiveVector ),
+                          upperRightCircularOpeningCorner.getAddedInstance( circularOpeningPerspectiveVector ),
+                          upperRightCircularOpeningCorner );
             path.lineTo( upperRightCorner );
             path.lineTo( lowerRightCorner );
+            path.lineTo( lowerRightCircularOpeningCorner );
+            path.curveTo( lowerRightCircularOpeningCorner.getSubtractedInstance( circularOpeningPerspectiveVector ),
+                          lowerLeftCircularOpeningCorner.getSubtractedInstance( circularOpeningPerspectiveVector ),
+                          lowerLeftCircularOpeningCorner );
             path.lineTo( lowerLeftCorner );
             path.closePath();
             addChild( new PhetPPath( path.getGeneralPath(), BURNER_STAND_STROKE, BURNER_STAND_STROKE_COLOR ) );
@@ -114,7 +134,7 @@ public class BurnerNode extends PNode {
                 new Point( (int) Math.round( stageSize.getWidth() * 0.5 ), (int) Math.round( stageSize.getHeight() * 0.50 ) ),
                 1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
-        canvas.getLayer().addChild( new BurnerStandTop( new Point2D.Double( 20, 20 ), 70 ) );
+        canvas.getLayer().addChild( new BurnerStandTop( new Point2D.Double( 50, 50 ), 70 ) );
 
         // Boiler plate app stuff.
         JFrame frame = new JFrame();
