@@ -63,7 +63,8 @@ class GraphNode extends PhetPNode {
         //TODO review duplication for horizontal vs vertical grid, axis, etc.
 
         // Background
-        PPath backgroundNode = new PPath( new Rectangle2D.Double( mvt.modelToViewDeltaX( graph.minX ), mvt.modelToViewDeltaY( graph.maxY ), mvt.modelToViewDeltaX( graph.getWidth() ), mvt.modelToViewDeltaX( graph.getHeight() ) ) );
+        PPath backgroundNode = new PPath( new Rectangle2D.Double( mvt.modelToViewDeltaX( graph.minX ), mvt.modelToViewDeltaY( graph.maxY ),
+                                                                  mvt.modelToViewDeltaX( graph.getWidth() ), mvt.modelToViewDeltaX( graph.getHeight() ) ) );
         backgroundNode.setPaint( GRID_BACKGROUND );
         backgroundNode.setStroke( null );
         addChild( backgroundNode );
