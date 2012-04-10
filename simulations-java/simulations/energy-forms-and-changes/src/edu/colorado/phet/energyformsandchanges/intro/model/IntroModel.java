@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 
 /**
@@ -103,18 +104,18 @@ public class IntroModel {
     private void stepInTime( double dt ) {
 
         // Move any model elements that are not resting on a surface.
-        for ( UserMovableModelElement movableModelElement : Arrays.asList( leadBlock, brick ) ) {
+        for ( Block movableModelElement : Arrays.asList( leadBlock, brick ) ) {
             if ( !movableModelElement.userControlled.get() && movableModelElement.getParentSurface() == null && movableModelElement.position.get().getY() != 0 ) {
                 double acceleration = -9.8; // meters/s*s
                 double velocity = movableModelElement.verticalVelocity.get() + acceleration * dt;
                 double proposedYPos = movableModelElement.position.get().getY() + velocity * dt;
                 double minYPos = 0;
-                HorizontalSurface parentSurface = findHighestOverlappingSurface( movableModelElement.getBottomSurface(), movableModelElement );
+                ObservableProperty<HorizontalSurface> parentSurface = findHighestOverlappingSurface( movableModelElement.getBottomSurface(), movableModelElement );
                 if ( parentSurface != null ) {
-                    minYPos = parentSurface.yPos;
+                    minYPos = parentSurface.get().yPos;
 
                     //Center the movableModelElement on its new parent
-                    double targetX = parentSurface.getCenterX();
+                    double targetX = parentSurface.get().getCenterX();
                     movableModelElement.setX( targetX );
                 }
                 if ( proposedYPos < minYPos ) {
@@ -158,15 +159,33 @@ public class IntroModel {
         return rightBurner;
     }
 
-    private HorizontalSurface findHighestOverlappingSurface( HorizontalSurface surface, UserMovableModelElement element ) {
-        HorizontalSurface highestOverlappingSurface = null;
+    private ObservableProperty<HorizontalSurface> findHighestOverlappingSurface( HorizontalSurface surface, Block element ) {
+        ObservableProperty<HorizontalSurface> highestOverlappingSurface = null;
+        RestingSurfaceOwner selected = null;
         for ( RestingSurfaceOwner restingSurfaceOwner : Arrays.asList( leftBurner, rightBurner, brick, leadBlock ) ) {
-            if ( restingSurfaceOwner != element && surface.overlapsWith( restingSurfaceOwner.getRestingSurface() ) ) {
-                if ( highestOverlappingSurface == null || highestOverlappingSurface.yPos < restingSurfaceOwner.getRestingSurface().yPos ) {
+            System.out.println( "restingSurfaceOwner = " + restingSurfaceOwner + ". equals = " + ( restingSurfaceOwner == element ) );
+            if ( restingSurfaceOwner != element && surface.overlapsWith( restingSurfaceOwner.getRestingSurface().get() ) ) {
+                if ( highestOverlappingSurface == null || highestOverlappingSurface.get().yPos < restingSurfaceOwner.getRestingSurface().get().yPos && ( restingSurfaceOwner.getParent() != element.getRestingSurface() ) ) {
+                    System.out.println( "new highest found = " + restingSurfaceOwner + ", same as element == " + ( restingSurfaceOwner == element ) );
                     highestOverlappingSurface = restingSurfaceOwner.getRestingSurface();
+                    selected = restingSurfaceOwner;
+
                 }
             }
         }
+        System.out.println( "###############\n" +
+                            "Finished method, element = " + element );
+        System.out.println( "Returning: selected = " + selected + ", surface = " + highestOverlappingSurface );
+
+        System.out.println( "leftBurner.getRestingSurface() = " + leftBurner.getRestingSurface() );
+        System.out.println( "rightBurner.getRestingSurface() = " + rightBurner.getRestingSurface() );
+        System.out.println( "brick.getRestingSurface() = " + brick.getRestingSurface() );
+        System.out.println( "lead.getRestingSurface() = " + leadBlock.getRestingSurface() );
+
+        System.out.println( "element.getBottomSurface() = " + element.getBottomSurface() );
+        System.out.println( "leadBlock.getBottomSurface() = " + leadBlock.getBottomSurface() );
+        System.out.println( "brick.getBottomSurface() = " + brick.getBottomSurface() );
+        System.out.println( "############" );
         return highestOverlappingSurface;
     }
 }
