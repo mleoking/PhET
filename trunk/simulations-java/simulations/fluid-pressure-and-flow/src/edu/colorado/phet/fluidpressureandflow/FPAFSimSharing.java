@@ -1,7 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow;
 
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
+import edu.colorado.phet.fluidpressureandflow.pressure.view.RichVoidFunction0;
+
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendUserMessage;
 
 /**
  * Sim-sharing enums specific to this sim.
@@ -15,5 +20,14 @@ public class FPAFSimSharing {
         fluidPressureFaucet,
         slowMotionRadioButton,
         normalSpeedRadioButton, drainFaucet,
+        squarePoolButton, trapezoidPoolButton, massesPoolButton
+    }
+
+    public static RichVoidFunction0 sendMessage( final IUserComponent component, final IUserComponentType type, final IUserAction action ) {
+        return new RichVoidFunction0() {
+            @Override public void apply() {
+                sendUserMessage( component, type, action );
+            }
+        };
     }
 }

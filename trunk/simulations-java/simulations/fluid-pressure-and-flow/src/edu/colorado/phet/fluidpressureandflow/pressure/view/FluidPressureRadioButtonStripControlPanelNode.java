@@ -9,20 +9,22 @@ import java.util.Arrays;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
-import edu.colorado.phet.common.phetcommon.util.Pair;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.ToggleButtonNode;
+import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.FluidPressureModel;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.IPool;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
-import static edu.colorado.phet.common.phetcommon.util.Pair.pair;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes.button;
+import static edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.sendMessage;
 
 /**
  * Radio button strip that lets the user choose between different scenes in the pressure tab.
@@ -31,36 +33,44 @@ import static edu.colorado.phet.common.phetcommon.util.Pair.pair;
  */
 public class FluidPressureRadioButtonStripControlPanelNode extends PNode {
     public FluidPressureRadioButtonStripControlPanelNode( final FluidPressureCanvas canvas, final FluidPressureModel model ) {
-        final List<Pair<PNode, ? extends IPool>> elements = createButtons( canvas, model );
+        final List<Element> elements = createButtons( canvas, model );
 
         //Copied code from RadioButtonStripControlPanelNode so we could make non-square
         final HBox representationLayer = new HBox( 5 ) {{
-            for ( final Pair<PNode, ? extends IPool> element : elements ) {
+            for ( final Element element : elements ) {
 
                 double delta = 10;
-                PNode button = new PhetPPath( new RoundRectangle2D.Double( -delta / 2, -delta / 2, element._1.getFullBounds().getWidth() + delta, element._1.getFullBounds().getHeight() + delta, 20, 20 ), null ) {{
+                PNode buttonNode = new PhetPPath( new RoundRectangle2D.Double( -delta / 2, -delta / 2, element.node.getFullBounds().getWidth() + delta, element.node.getFullBounds().getHeight() + delta, 20, 20 ), null ) {{
 
-                    final ZeroOffsetNode theNode = new ZeroOffsetNode( element._1 ) {{
-                        final Point2D.Double origOffset = new Point2D.Double( element._1.getFullBounds().getWidth() / 2 - getFullWidth() / 2, element._1.getFullBounds().getHeight() / 2 - getFullHeight() / 2 );
+                    final ZeroOffsetNode theNode = new ZeroOffsetNode( element.node ) {{
+                        final Point2D.Double origOffset = new Point2D.Double( element.node.getFullBounds().getWidth() / 2 - getFullWidth() / 2, element.node.getFullBounds().getHeight() / 2 - getFullHeight() / 2 );
                         setOffset( origOffset );
                     }};
                     addChild( theNode );
                 }};
 
-                addChild( new ToggleButtonNode( button, model.pool.valueEquals( element._2 ), new VoidFunction0() {
-                    public void apply() {
-                        model.pool.set( element._2 );
-                    }
-                } ) );
+                addChild( new ToggleButtonNode( buttonNode, model.pool.valueEquals( element.pool ), sendMessage( element.component, button, pressed ).andThen( model.setPool_( element.pool ) ) ) );
             }
         }};
         addChild( representationLayer );
     }
 
-    private static List<Pair<PNode, ? extends IPool>> createButtons( final FluidPressureCanvas canvas, final FluidPressureModel model ) {
-        return Arrays.asList( pair( icon( canvas, model.pool, model.squarePool ), model.squarePool ),
-                              pair( icon( canvas, model.pool, model.trapezoidPool ), model.trapezoidPool ),
-                              pair( icon( canvas, model.pool, model.chamberPool ), model.chamberPool ) );
+    private static List<Element> createButtons( final FluidPressureCanvas canvas, final FluidPressureModel model ) {
+        return Arrays.asList( new Element( icon( canvas, model.pool, model.squarePool ), model.squarePool, UserComponents.squarePoolButton ),
+                              new Element( icon( canvas, model.pool, model.trapezoidPool ), model.trapezoidPool, UserComponents.trapezoidPoolButton ),
+                              new Element( icon( canvas, model.pool, model.chamberPool ), model.chamberPool, UserComponents.massesPoolButton ) );
+    }
+
+    public static class Element {
+        public final PNode node;
+        public final IPool pool;
+        public final IUserComponent component;
+
+        public Element( final PNode node, final IPool pool, final IUserComponent component ) {
+            this.node = node;
+            this.pool = pool;
+            this.component = component;
+        }
     }
 
     //Creates an icon that displays the track.

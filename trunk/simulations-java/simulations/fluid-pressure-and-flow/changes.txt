@@ -1,3 +1,4 @@
+Added sim sharing messages
 Improved i18n
 # 0.00.51 (63237) Apr 10, 2012
 Pressure tab: Scene 3: Removed "masses" label
