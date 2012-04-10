@@ -31,6 +31,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 import static edu.colorado.phet.fractionsintro.common.view.Colors.LIGHT_GREEN;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.MoveToCell;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.RepresentationType.*;
+import static edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern.sequentialFill;
 import static fj.data.List.*;
 
 /**
@@ -152,12 +153,12 @@ public class Levels {
                               },
                               new F<Fraction, PNode>() {
                                   @Override public PNode f( Fraction f ) {
-                                      return new PatternNode( pattern.f( length ), f.numerator, LIGHT_GREEN );
+                                      return new PatternNode( sequentialFill( pattern.f( length ), f.numerator ), LIGHT_GREEN );
                                   }
                               },
                               new F<Fraction, PNode>() {
                                   @Override public PNode f( Fraction f ) {
-                                      return new PatternNode( pattern.f( length ), f.numerator, Colors.LIGHT_BLUE );
+                                      return new PatternNode( sequentialFill( pattern.f( length ), f.numerator ), Colors.LIGHT_BLUE );
                                   }
                               }
         );
