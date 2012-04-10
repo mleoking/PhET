@@ -1,3 +1,4 @@
+4/10/12 make point tool a full-fledged model element, in preparation for adding highlighting feature
 4/10/12 start with pointer tool off the grid
 4/9/12 static constants for standard lines
 4/9/12 clean up rise/run bracket class

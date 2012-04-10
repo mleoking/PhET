@@ -22,6 +22,7 @@ import edu.colorado.phet.linegraphing.LGResources.Images;
 import edu.colorado.phet.linegraphing.LGSimSharing.ParameterKeys;
 import edu.colorado.phet.linegraphing.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.intro.model.LineGraph;
+import edu.colorado.phet.linegraphing.intro.model.PointTool;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -41,11 +42,11 @@ class PointToolNode extends PhetPNode {
 
     /**
      * Constructor
-     * @param point the point that is the tool is displaying, determines this node's offset and what it displays
+     * @param pointTool the point tool
      * @param mvt model-view transform
      * @param dragBounds drag bounds, in view coordinate frame
      */
-    public PointToolNode( Property<ImmutableVector2D> point, final ModelViewTransform mvt, final LineGraph graph, Rectangle2D dragBounds ) {
+    public PointToolNode( PointTool pointTool, final ModelViewTransform mvt, final LineGraph graph, Rectangle2D dragBounds ) {
 
         // tool body
         final PNode bodyNode = new PImage( Images.POINT_TOOL );
@@ -62,11 +63,11 @@ class PointToolNode extends PhetPNode {
         scale( 0.75 ); //TODO resize image file, or use BufferedImage.multiScale
 
         // location and display
-        point.addObserver( new VoidFunction1<ImmutableVector2D>() {
-            public void apply( ImmutableVector2D point ) {
-                setOffset( mvt.modelToView( point ).toPoint2D() );
-                if ( graph.contains( point ) ) {
-                    coordinatesNode.setText( MessageFormat.format( COORDINATES_PATTERN, COORDINATES_FORMAT.format( point.getX() ), COORDINATES_FORMAT.format( point.getY() ) ) );
+        pointTool.location.addObserver( new VoidFunction1<ImmutableVector2D>() {
+            public void apply( ImmutableVector2D location ) {
+                setOffset( mvt.modelToView( location ).toPoint2D() );
+                if ( graph.contains( location ) ) {
+                    coordinatesNode.setText( MessageFormat.format( COORDINATES_PATTERN, COORDINATES_FORMAT.format( location.getX() ), COORDINATES_FORMAT.format( location.getY() ) ) );
 
                 }
                 else {
@@ -80,7 +81,7 @@ class PointToolNode extends PhetPNode {
 
         // dragging
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new PointToolDragHandler( this, point, mvt, graph, dragBounds ) );
+        addInputEventListener( new PointToolDragHandler( this, pointTool.location, mvt, graph, dragBounds ) );
     }
 
     // Drag handler for the point tool, constrained to the range of the graph, snaps to grid.
