@@ -1,8 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
-import java.awt.geom.Point2D;
-
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -18,7 +16,10 @@ public abstract class UserMovableModelElement {
 
     public final BooleanProperty userControlled = new BooleanProperty( false );
 
-    public final Property<Point2D> position = new Property<Point2D>( new Point2D.Double( 0, 0 ) );
+    public final Property<ImmutableVector2D> position = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
+
+    // Velocity in the up/down direction.
+    public final Property<Double> verticalVelocity = new Property<Double>( 0.0 );
 
     /**
      * Get the "user component" identifier.  This supports the sim sharing
@@ -42,6 +43,6 @@ public abstract class UserMovableModelElement {
      * @param modelDelta Vector that describes the desired motion.
      */
     public void translate( ImmutableVector2D modelDelta ) {
-        position.set( new Point2D.Double( position.get().getX() + modelDelta.getX(), position.get().getY() + modelDelta.getY() ) );
+        position.set( position.get().getAddedInstance( modelDelta ) );
     }
 }
