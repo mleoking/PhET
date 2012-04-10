@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractions.util.immutable.Vector2D.UnitVector2D;
 import edu.colorado.phet.fractions.view.FNode;
+import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
 import edu.umd.cs.piccolox.PFrame;
 
@@ -139,7 +140,7 @@ public class Pattern {
                     setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
                     setSize( 1024, 768 );
                     getCanvas().getLayer().addChild( new FNode() {{
-                        addChild( new PatternNode( Pyramid.nine( 100 ), 9, Color.red ) {{translate( 200, 0 );}} );
+                        addChild( new PatternNode( FilledPattern.sequentialFill( Pyramid.nine( 100 ), 8 ), Color.red ) {{translate( 200, 0 );}} );
                     }} );
                 }}.setVisible( true );
             }

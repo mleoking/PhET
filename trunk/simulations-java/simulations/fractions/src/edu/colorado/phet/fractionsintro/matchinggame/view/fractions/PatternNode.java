@@ -1,12 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.matchinggame.view.fractions;
 
+import fj.P2;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Shape;
 
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -15,13 +16,11 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class PatternNode extends PNode {
-    public PatternNode( final Pattern representation, int numFilled, Color color ) {
-        int count = 0;
-        for ( Shape o : representation.shapes ) {
+    public PatternNode( final FilledPattern representation, Color color ) {
+        for ( P2<Shape, Boolean> o : representation.shapes ) {
 
             //Using a stroke more than 1 here prevents the right side from getting trimmed off during toImage
-            addChild( new PhetPPath( o, count < numFilled ? color : Color.white, new BasicStroke( 1.2f ), Color.black ) );
-            count++;
+            addChild( new PhetPPath( o._1(), o._2() ? color : Color.white, new BasicStroke( 1.2f ), Color.black ) );
         }
     }
 }
