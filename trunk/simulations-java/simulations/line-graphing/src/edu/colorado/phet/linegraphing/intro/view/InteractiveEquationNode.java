@@ -78,8 +78,8 @@ class InteractiveEquationNode extends PhetPNode {
 
         // layout
         {
-            final double xSpacing = 6;
-            final double ySpacing = 4;
+            final double xSpacing = 10;
+            final double ySpacing = 6;
             yNode.setOffset( 0, 0 );
             equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + xSpacing,
                                   yNode.getYOffset() );
