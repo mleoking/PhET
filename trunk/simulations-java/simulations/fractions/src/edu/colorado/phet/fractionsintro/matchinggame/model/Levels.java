@@ -2,6 +2,7 @@
 package edu.colorado.phet.fractionsintro.matchinggame.model;
 
 import fj.F;
+import fj.F2;
 import fj.data.List;
 import lombok.Data;
 
@@ -13,7 +14,6 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.fractions.util.Cache;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
-import edu.colorado.phet.fractionsintro.common.view.Colors;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.intro.model.containerset.Container;
 import edu.colorado.phet.fractionsintro.intro.model.containerset.ContainerSet;
@@ -21,6 +21,7 @@ import edu.colorado.phet.fractionsintro.intro.view.FractionNode;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Grid;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.PlusSigns;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Pyramid;
+import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.HorizontalBarsNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PieNode;
@@ -28,9 +29,11 @@ import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.VerticalBars
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
+import static edu.colorado.phet.fractionsintro.common.view.Colors.LIGHT_BLUE;
 import static edu.colorado.phet.fractionsintro.common.view.Colors.LIGHT_GREEN;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.MoveToCell;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.RepresentationType.*;
+import static edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern.randomFill;
 import static edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern.sequentialFill;
 import static fj.data.List.*;
 
@@ -40,6 +43,17 @@ import static fj.data.List.*;
  * @author Sam Reid
  */
 public class Levels {
+
+    private static final F2<Pattern, Integer, FilledPattern> SEQUENTIAL = new F2<Pattern, Integer, FilledPattern>() {
+        @Override public FilledPattern f( final Pattern pattern, final Integer numFilled ) {
+            return sequentialFill( pattern, numFilled );
+        }
+    };
+    private static final F2<Pattern, Integer, FilledPattern> RANDOM = new F2<Pattern, Integer, FilledPattern>() {
+        @Override public FilledPattern f( final Pattern pattern, final Integer numFilled ) {
+            return randomFill( pattern, numFilled );
+        }
+    };
 
     public static final F<Fraction, ArrayList<RepresentationType>> representationFunction( final List<RepresentationType> r ) {
         return new F<Fraction, ArrayList<RepresentationType>>() {
@@ -75,7 +89,7 @@ public class Levels {
                                                              },
                                                              new F<Fraction, PNode>() {
                                                                  @Override public PNode f( Fraction f ) {
-                                                                     return new HorizontalBarsNode( f, 0.9, Colors.LIGHT_BLUE );
+                                                                     return new HorizontalBarsNode( f, 0.9, LIGHT_BLUE );
                                                                  }
                                                              }
     );
@@ -87,7 +101,7 @@ public class Levels {
                                                            },
                                                            new F<Fraction, PNode>() {
                                                                @Override public PNode f( Fraction f ) {
-                                                                   return new VerticalBarsNode( f, 0.9, Colors.LIGHT_BLUE );
+                                                                   return new VerticalBarsNode( f, 0.9, LIGHT_BLUE );
                                                                }
                                                            }
     );
@@ -99,7 +113,7 @@ public class Levels {
                                                    },
                                                    new F<Fraction, PNode>() {
                                                        @Override public PNode f( Fraction f ) {
-                                                           return myPieNode( f, Colors.LIGHT_BLUE );
+                                                           return myPieNode( f, LIGHT_BLUE );
                                                        }
                                                    }
     );
@@ -114,38 +128,38 @@ public class Levels {
             @Override public Pattern f( final Integer integer ) {
                 return new PlusSigns( numPlusses );
             }
-        } );
+        }, SEQUENTIAL );
     }
 
     final RepresentationType fourGrid = createPatterns( "four grid", 4, 100, new F<Integer, Pattern>() {
         @Override public Pattern f( final Integer length ) {
             return new Grid( 2 );
         }
-    } );
+    }, SEQUENTIAL );
     final RepresentationType nineGrid = createPatterns( "nine grid", 9, 50, new F<Integer, Pattern>() {
         @Override public Pattern f( final Integer length ) {
             return new Grid( 3 );
         }
-    } );
+    }, SEQUENTIAL );
 
     //TODO: Could factor out other patterns using this style
     final RepresentationType onePyramid = createPatterns( "one pyramid", 1, 100, new F<Integer, Pattern>() {
         @Override public Pattern f( final Integer length ) {
             return Pyramid.single( length );
         }
-    } );
+    }, SEQUENTIAL );
     final RepresentationType fourPyramid = createPatterns( "four pyramid", 4, 50, new F<Integer, Pattern>() {
         @Override public Pattern f( final Integer length ) {
             return Pyramid.four( length );
         }
-    } );
+    }, SEQUENTIAL );
     final RepresentationType ninePyramid = createPatterns( "nine pyramid", 9, 30, new F<Integer, Pattern>() {
         @Override public Pattern f( final Integer length ) {
             return Pyramid.nine( length );
         }
-    } );
+    }, SEQUENTIAL );
 
-    private RepresentationType createPatterns( String name, final int max, final int length, final F<Integer, Pattern> pattern ) {
+    private RepresentationType createPatterns( String name, final int max, final int length, final F<Integer, Pattern> pattern, final F2<Pattern, Integer, FilledPattern> fill ) {
         return twoComposites( name, new F<Fraction, Boolean>() {
                                   @Override public Boolean f( final Fraction fraction ) {
                                       return fraction.denominator == max;
@@ -153,12 +167,12 @@ public class Levels {
                               },
                               new F<Fraction, PNode>() {
                                   @Override public PNode f( Fraction f ) {
-                                      return new PatternNode( sequentialFill( pattern.f( length ), f.numerator ), LIGHT_GREEN );
+                                      return new PatternNode( fill.f( pattern.f( length ), f.numerator ), LIGHT_GREEN );
                                   }
                               },
                               new F<Fraction, PNode>() {
                                   @Override public PNode f( Fraction f ) {
-                                      return new PatternNode( sequentialFill( pattern.f( length ), f.numerator ), Colors.LIGHT_BLUE );
+                                      return new PatternNode( fill.f( pattern.f( length ), f.numerator ), LIGHT_BLUE );
                                   }
                               }
         );
