@@ -55,7 +55,7 @@ public class Levels {
         }
     };
 
-    public static final F<Fraction, ArrayList<RepresentationType>> representationFunction( final List<RepresentationType> r ) {
+    public static F<Fraction, ArrayList<RepresentationType>> representationFunction( final List<RepresentationType> r ) {
         return new F<Fraction, ArrayList<RepresentationType>>() {
             @Override public ArrayList<RepresentationType> f( Fraction fraction ) {
                 return createRepresentations( fraction, r );
