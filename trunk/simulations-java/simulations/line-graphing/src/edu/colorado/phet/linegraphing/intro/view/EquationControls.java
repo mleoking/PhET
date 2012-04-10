@@ -12,7 +12,8 @@ import java.text.MessageFormat;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -27,7 +28,8 @@ import edu.colorado.phet.linegraphing.LGResources.Images;
 import edu.colorado.phet.linegraphing.LGResources.Strings;
 import edu.colorado.phet.linegraphing.LGSimSharing.ParameterKeys;
 import edu.colorado.phet.linegraphing.LGSimSharing.UserComponents;
-import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
+import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine.InteractiveLine;
+import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine.SavedLine;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -46,15 +48,15 @@ class EquationControls extends PhetPNode {
                                                            Strings.SYMBOL_X,
                                                            Strings.SYMBOL_INTERCEPT );
 
-    public EquationControls( final Property<SlopeInterceptLine> interactiveLine,
+    public EquationControls( final Property<Boolean> maximized,
+                             final Property<InteractiveLine> interactiveLine,
                              IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange,
-                             final VoidFunction1<SlopeInterceptLine> saveLineFunction, final VoidFunction0 eraseLinesFunction,
-                             final Property<Boolean> interactiveLineVisible ) {
+                             final ObservableList<SavedLine> savedLines ) {
 
         PNode titleNode = new PhetPText( TITLE, new PhetFont( Font.BOLD, 18 ) );
-        PNode minimizeMaximizeButtonNode = new ToggleButtonNode( UserComponents.equationMinimizeMaximizeButton, interactiveLineVisible, Images.MINIMIZE_BUTTON, Images.MAXIMIZE_BUTTON ) {
+        PNode minimizeMaximizeButtonNode = new ToggleButtonNode( UserComponents.equationMinimizeMaximizeButton, maximized, Images.MINIMIZE_BUTTON, Images.MAXIMIZE_BUTTON ) {
             @Override protected ParameterSet getParameterSet() {
-                return super.getParameterSet().with( ParameterKeys.maximized, !interactiveLineVisible.get() );
+                return super.getParameterSet().with( ParameterKeys.maximized, !maximized.get() );
             }
         };
         final PNode equationNode = new ZeroOffsetNode( new InteractiveEquationNode( interactiveLine, riseRange, runRange, interceptRange, EQUATION_FONT ) );
@@ -115,7 +117,7 @@ class EquationControls extends PhetPNode {
         addChild( new ControlPanelNode( panelNode ) );
 
         // Minimize/maximize the control panel
-        interactiveLineVisible.addObserver( new VoidFunction1<Boolean>() {
+        maximized.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean maximized ) {
                 if ( maximized ) {
                     panelNode.addChild( subPanelNode );
@@ -129,7 +131,7 @@ class EquationControls extends PhetPNode {
         // Save the current state of the interactive line.
         saveLineButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                saveLineFunction.apply( interactiveLine.get() );
+                savedLines.add( new SavedLine( interactiveLine.get(), LGColors.SAVED_LINE_NORMAL, LGColors.SAVED_LINE_HIGHLIGHT ) );
                 eraseLinesButton.setEnabled( true );
                 saveLineButton.setEnabled( false );
             }
@@ -138,15 +140,15 @@ class EquationControls extends PhetPNode {
         // Erase all lines that have been saved.
         eraseLinesButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                eraseLinesFunction.apply();
+                savedLines.clear();
                 eraseLinesButton.setEnabled( false );
                 saveLineButton.setEnabled( true );
             }
         } );
 
         // When the interactive line changes...
-        interactiveLine.addObserver( new VoidFunction1<SlopeInterceptLine>() {
-            public void apply( SlopeInterceptLine line ) {
+        interactiveLine.addObserver( new SimpleObserver() {
+            public void update() {
                 saveLineButton.setEnabled( true );
             }
         } );

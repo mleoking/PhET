@@ -31,20 +31,13 @@ class SlopeInterceptLineNode extends PComposite {
     private static final double LINE_EXTENT = 25; // how far the line extends past the grid
     private static final PhetFont EQUATION_FONT = new PhetFont( Font.BOLD, 18 );
 
+    public final SlopeInterceptLine line;
     private final DoubleArrowNode arrowNode;
     private final ReducedSlopeInterceptEquationNode equationNode;
 
-    // This constructor adds highlighting on mouseOver.
-    public SlopeInterceptLineNode( SlopeInterceptLine line, LineGraph graph, ModelViewTransform mvt, final Color color, final Color highlightColor ) {
-        this( line, graph, mvt, color );
-        addInputEventListener( new FunctionHighlightHandler( new VoidFunction1<Boolean>() {
-            public void apply( Boolean highlighted ) {
-                updateColor( highlighted ? highlightColor : color );
-            }
-        } ) );
-    }
+    public SlopeInterceptLineNode( final SlopeInterceptLine line, LineGraph graph, ModelViewTransform mvt ) {
 
-    public SlopeInterceptLineNode( SlopeInterceptLine line, LineGraph graph, ModelViewTransform mvt, Color color ) {
+        this.line = line;
 
         final double xExtent = mvt.viewToModelDeltaX( LINE_EXTENT );
         final double yExtent = Math.abs( mvt.viewToModelDeltaY( LINE_EXTENT ) );
@@ -96,7 +89,7 @@ class SlopeInterceptLineNode extends PComposite {
         Point2D tailLocation = new Point2D.Double( mvt.modelToViewX( tailX ), mvt.modelToViewY( tailY ) );
         Point2D tipLocation = new Point2D.Double( mvt.modelToViewX( tipX ), mvt.modelToViewY( tipY ) );
         arrowNode = new DoubleArrowNode( tailLocation, tipLocation, ARROW_HEAD_SIZE.getHeight(), ARROW_HEAD_SIZE.getWidth(), LINE_THICKNESS );
-        arrowNode.setPaint( color );
+        arrowNode.setPaint( line.color );
         arrowNode.setStroke( null ); // DoubleArrowNode is a shape that we fill, no need to stroke
         addChild( arrowNode );
 
@@ -105,11 +98,18 @@ class SlopeInterceptLineNode extends PComposite {
         addChild( equationParentNode );
         equationParentNode.setOffset( tipLocation );
         equationParentNode.setRotation( line.run == 0 ? Math.PI / 2 : -Math.atan( line.rise / line.run ) );
-        equationNode = ReducedSlopeInterceptEquationFactory.createNode( line, color, EQUATION_FONT );
+        equationNode = ReducedSlopeInterceptEquationFactory.createNode( line, EQUATION_FONT );
         PNode zeroOffsetNode = new ZeroOffsetNode( equationNode );
         equationParentNode.addChild( zeroOffsetNode );
         zeroOffsetNode.setOffset( -zeroOffsetNode.getFullBoundsReference().getWidth() - 12,
                                 -zeroOffsetNode.getFullBoundsReference().getHeight() - 12 );
+
+        // highlight on mouseOver
+        addInputEventListener( new FunctionHighlightHandler( new VoidFunction1<Boolean>() {
+            public void apply( Boolean highlighted ) {
+                updateColor( highlighted ? line.highlightColor : line.color );
+            }
+        } ) );
     }
 
     public void setEquationVisible( boolean visible ) {
