@@ -7,9 +7,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine.InteractiveLine;
-import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine.SavedLine;
-import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine.StandardLine;
 
 /**
  * Model of the point tool. Highlights when it is placed on one of the lines.
@@ -21,11 +18,11 @@ public class PointTool implements Resettable {
     public final Property<ImmutableVector2D> location;
     public final Property<Boolean> highlighted;
 
-    private final Property<InteractiveLine> interactiveLine;
-    private final ObservableList<SavedLine> savedLines;
-    private final ObservableList<StandardLine> standardLines;
+    private final Property<SlopeInterceptLine> interactiveLine;
+    private final ObservableList<SlopeInterceptLine> savedLines;
+    private final ObservableList<SlopeInterceptLine> standardLines;
 
-    public PointTool( ImmutableVector2D location, Property<InteractiveLine> interactiveLine, ObservableList<SavedLine> savedLines, ObservableList<StandardLine> standardLines ) {
+    public PointTool( ImmutableVector2D location, Property<SlopeInterceptLine> interactiveLine, ObservableList<SlopeInterceptLine> savedLines, ObservableList<SlopeInterceptLine> standardLines ) {
 
         this.location = new Property<ImmutableVector2D>( location );
         this.highlighted = new Property<Boolean>( false );
@@ -44,53 +41,37 @@ public class PointTool implements Resettable {
             };
             observer.observe( this.location, interactiveLine );
 
-            // saved lines
-            final VoidFunction1<SavedLine> savedLinesChanged = new VoidFunction1<SavedLine>() {
-                public void apply( SavedLine line ) {
+            // saved & standard lines
+            final VoidFunction1<SlopeInterceptLine> linesChanged = new VoidFunction1<SlopeInterceptLine>() {
+                public void apply( SlopeInterceptLine line ) {
                     updateHighlight();
                 }
             };
-            savedLines.addElementAddedObserver( savedLinesChanged );
-            savedLines.addElementRemovedObserver( savedLinesChanged );
-
-            // standard lines
-            final VoidFunction1<StandardLine> standardLinesChanged = new VoidFunction1<StandardLine>() {
-                public void apply( StandardLine line ) {
-                    updateHighlight();
-                }
-            };
-            standardLines.addElementAddedObserver( standardLinesChanged );
-            standardLines.addElementRemovedObserver( standardLinesChanged );
+            savedLines.addElementAddedObserver( linesChanged );
+            savedLines.addElementRemovedObserver( linesChanged );
+            standardLines.addElementAddedObserver( linesChanged );
+            standardLines.addElementRemovedObserver( linesChanged );
         }
     }
 
     // Highlight the tool if its place on one of the lines
     private void updateHighlight() {
-        highlighted.set( isOnLine( interactiveLine.get() ) || isOnSavedLines( savedLines ) || isOnStandardLines( standardLines ) );
+        highlighted.set( isOnLine( interactiveLine.get() ) || isOnLines( savedLines ) || isOnLines( standardLines ) );
     }
 
     // Is the point tool on this line?
     private boolean isOnLine( SlopeInterceptLine line ) {
-        if ( Math.round( line.run ) == 0 && Math.round( location.get().getX() ) == 0 ) {
+        if ( line.run == 0 && location.get().getX() == 0 ) {
             return true;
         }
-        else if ( Math.round( line.solveX( location.get().getY() ) ) == Math.round( location.get().getX() ) ) {
+        else if ( line.solveX( location.get().getY() ) == location.get().getX() ) {
             return true;
         }
         return false;
     }
 
-    private boolean isOnSavedLines( ObservableList<SavedLine> lines ) {
-         for ( SavedLine line : lines ) {
-             if ( isOnLine( line ) ) {
-                 return true;
-             }
-         }
-         return false;
-    }
-
-    private boolean isOnStandardLines( ObservableList<StandardLine> lines ) {
-         for ( StandardLine line : lines ) {
+    private boolean isOnLines( ObservableList<SlopeInterceptLine> lines ) {
+         for ( SlopeInterceptLine line : lines ) {
              if ( isOnLine( line ) ) {
                  return true;
              }

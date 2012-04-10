@@ -9,9 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine.InteractiveLine;
-import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine.SavedLine;
-import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine.StandardLine;
+import edu.colorado.phet.linegraphing.LGColors;
 
 /**
  * Model for the "Intro" module.
@@ -32,17 +30,17 @@ public class IntroModel implements Resettable {
     public static final IntegerRange INTERCEPT_RANGE = new IntegerRange( -10, 10, 2 );
 
     public final ModelViewTransform mvt;
-    public final Property<InteractiveLine> interactiveLine;
-    public final ObservableList<SavedLine> savedLines;
-    public final ObservableList<StandardLine> standardLines;
+    public final Property<SlopeInterceptLine> interactiveLine;
+    public final ObservableList<SlopeInterceptLine> savedLines;
+    public final ObservableList<SlopeInterceptLine> standardLines;
     public final LineGraph graph;
     public final PointTool pointTool;
 
     public IntroModel() {
         mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 1.2 * GRID_VIEW_UNITS / 2, 1.25 * GRID_VIEW_UNITS / 2 ), MVT_SCALE, -MVT_SCALE ); // y is inverted
-        interactiveLine = new Property<InteractiveLine>( new InteractiveLine( RISE_RANGE.getDefault(), RUN_RANGE.getDefault(), INTERCEPT_RANGE.getDefault() ) );
-        savedLines = new ObservableList<SavedLine>();
-        standardLines = new ObservableList<StandardLine>();
+        interactiveLine = new Property<SlopeInterceptLine>( new SlopeInterceptLine( RISE_RANGE.getDefault(), RUN_RANGE.getDefault(), INTERCEPT_RANGE.getDefault(), LGColors.INTERACTIVE_LINE ) );
+        savedLines = new ObservableList<SlopeInterceptLine>();
+        standardLines = new ObservableList<SlopeInterceptLine>();
         graph = new LineGraph( X_RANGE, Y_RANGE );
         pointTool = new PointTool( new ImmutableVector2D( X_RANGE.getMax() + 2, Y_RANGE.getMin() ), interactiveLine, savedLines, standardLines );
     }

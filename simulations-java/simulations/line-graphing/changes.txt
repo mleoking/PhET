@@ -1,3 +1,5 @@
+4/10/12 don't use rounding when determining if point tool is on line
+4/10/12 delete unnecessary specializations of SlopeInterceptLine
 4/10/12 first pass at highlighting point tool when it's on any line
 4/10/12 when "Hide Lines" is unchecked, disable Save Line and Erase Lines buttons
 4/10/12 keep saved and standard lines in model

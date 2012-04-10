@@ -13,8 +13,9 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
+import edu.colorado.phet.linegraphing.LGColors;
 import edu.colorado.phet.linegraphing.LGSimSharing.UserComponents;
-import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine.InteractiveLine;
+import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
 import edu.colorado.phet.linegraphing.intro.view.DoubleSpinnerNode.InterceptSpinnerNode;
 import edu.colorado.phet.linegraphing.intro.view.DoubleSpinnerNode.SlopeSpinnerNode;
 import edu.umd.cs.piccolo.PNode;
@@ -32,7 +33,7 @@ class InteractiveEquationNode extends PhetPNode {
 
     private final Property<Double> rise, run, intercept;
 
-    public InteractiveEquationNode( final Property<InteractiveLine> interactiveLine,
+    public InteractiveEquationNode( final Property<SlopeInterceptLine> interactiveLine,
                                     IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange, PhetFont font ) {
 
         this.rise = new Property<Double>( interactiveLine.get().rise );
@@ -99,14 +100,14 @@ class InteractiveEquationNode extends PhetPNode {
         // sync the model with the controls
         RichSimpleObserver lineUpdater = new RichSimpleObserver() {
             @Override public void update() {
-                interactiveLine.set( new InteractiveLine( rise.get(), run.get(), intercept.get() ) );
+                interactiveLine.set( new SlopeInterceptLine( rise.get(), run.get(), intercept.get(), LGColors.INTERACTIVE_LINE ) );
             }
         };
         lineUpdater.observe( rise, run, intercept );
 
         // sync the controls with the model
-        interactiveLine.addObserver( new VoidFunction1<InteractiveLine>() {
-            public void apply( InteractiveLine line ) {
+        interactiveLine.addObserver( new VoidFunction1<SlopeInterceptLine>() {
+            public void apply( SlopeInterceptLine line ) {
                 rise.set( line.rise );
                 run.set( line.run );
                 intercept.set( line.intercept );
