@@ -44,7 +44,7 @@ public class IntroModel implements Resettable {
         savedLines = new ObservableList<SavedLine>();
         standardLines = new ObservableList<StandardLine>();
         graph = new LineGraph( X_RANGE, Y_RANGE );
-        pointTool = new PointTool( new ImmutableVector2D( X_RANGE.getMax() + 2, Y_RANGE.getMin() ) );
+        pointTool = new PointTool( new ImmutableVector2D( X_RANGE.getMax() + 2, Y_RANGE.getMin() ), interactiveLine, savedLines, standardLines );
     }
 
     public void reset() {
