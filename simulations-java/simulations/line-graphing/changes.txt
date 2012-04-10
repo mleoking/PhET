@@ -1,3 +1,4 @@
+4/10/12 when "Hide Lines" is unchecked, disable Save Line and Erase Lines buttons
 4/10/12 keep saved and standard lines in model
 4/10/12 add line subclasses for different categories of lines, move line color into model because it's convenient
 4/10/12 make point tool a full-fledged model element, in preparation for adding highlighting feature

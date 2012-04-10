@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -51,7 +51,8 @@ class EquationControls extends PhetPNode {
     public EquationControls( final Property<Boolean> maximized,
                              final Property<InteractiveLine> interactiveLine,
                              IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange,
-                             final ObservableList<SavedLine> savedLines ) {
+                             final ObservableList<SavedLine> savedLines,
+                             final Property<Boolean> linesVisible ) {
 
         PNode titleNode = new PhetPText( TITLE, new PhetFont( Font.BOLD, 18 ) );
         PNode minimizeMaximizeButtonNode = new ToggleButtonNode( UserComponents.equationMinimizeMaximizeButton, maximized, Images.MINIMIZE_BUTTON, Images.MAXIMIZE_BUTTON ) {
@@ -132,8 +133,6 @@ class EquationControls extends PhetPNode {
         saveLineButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 savedLines.add( new SavedLine( interactiveLine.get(), LGColors.SAVED_LINE_NORMAL, LGColors.SAVED_LINE_HIGHLIGHT ) );
-                eraseLinesButton.setEnabled( true );
-                saveLineButton.setEnabled( false );
             }
         } );
 
@@ -141,15 +140,30 @@ class EquationControls extends PhetPNode {
         eraseLinesButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 savedLines.clear();
-                eraseLinesButton.setEnabled( false );
-                saveLineButton.setEnabled( true );
             }
         } );
 
-        // When the interactive line changes...
-        interactiveLine.addObserver( new SimpleObserver() {
-            public void update() {
-                saveLineButton.setEnabled( true );
+        // Sets the enabled states of the Save and Erase buttons
+        final VoidFunction0 enableButtons = new VoidFunction0() {
+            public void apply() {
+                saveLineButton.setEnabled( linesVisible.get() );
+                eraseLinesButton.setEnabled( linesVisible.get() && ( savedLines.size() > 0 ) );
+            }
+        };
+
+        // Enabled/disable buttons when saved lines are added/removed.
+        final VoidFunction1<SavedLine> savedLinesChanged = new VoidFunction1<SavedLine>() {
+            public void apply( SavedLine line ) {
+                enableButtons.apply();
+            }
+        };
+        savedLines.addElementAddedObserver( savedLinesChanged );
+        savedLines.addElementRemovedObserver( savedLinesChanged );
+
+        // Enable/disable buttons when visibility of lines on the graph changes.
+        linesVisible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean visible ) {
+                enableButtons.apply();
             }
         } );
     }
