@@ -6,36 +6,16 @@ import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.linegraphing.LGColors;
-import edu.colorado.phet.linegraphing.LGResources.Strings;
 
 /**
  * Model of an immutable line, using slope-intercept form, y=mx+b.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class SlopeInterceptLine {
+public class SlopeInterceptLine {
 
-    public static class InteractiveLine extends SlopeInterceptLine {
-        public InteractiveLine( double rise, double run, double intercept ) {
-            super( rise, run, intercept, LGColors.INTERACTIVE_LINE );
-        }
-    }
-
-    public static class StandardLine extends SlopeInterceptLine {
-
-        public static final StandardLine Y_EQUALS_X_LINE = new StandardLine( 1, 1, 0, LGColors.Y_EQUALS_X );  // y = x
-        public static final StandardLine Y_EQUALS_NEGATIVE_X_LINE = new StandardLine( -1, 1, 0, LGColors.Y_EQUALS_NEGATIVE_X ); // y = -x
-
-        public StandardLine( double rise, double run, double intercept, Color color ) {
-            super( rise, run, intercept, color );
-        }
-    }
-
-    public static class SavedLine extends SlopeInterceptLine {
-        public SavedLine( InteractiveLine line, Color color, Color highlightColor ) {
-            super( line.rise, line.run, line.intercept, color, highlightColor );
-        }
-    }
+    public static final SlopeInterceptLine Y_EQUALS_X_LINE = new SlopeInterceptLine( 1, 1, 0, LGColors.Y_EQUALS_X );  // y = x
+    public static final SlopeInterceptLine Y_EQUALS_NEGATIVE_X_LINE = new SlopeInterceptLine( -1, 1, 0, LGColors.Y_EQUALS_NEGATIVE_X ); // y = -x
 
     public final double rise;
     public final double run;
