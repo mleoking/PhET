@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow;
 
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
@@ -20,7 +21,19 @@ public class FPAFSimSharing {
         fluidPressureFaucet,
         slowMotionRadioButton,
         normalSpeedRadioButton, drainFaucet,
-        squarePoolButton, trapezoidPoolButton, massesPoolButton
+        squarePoolButton, trapezoidPoolButton, massesPoolButton,
+        pressureSensor0,
+        pressureSensor1,
+        pressureSensor2,
+        pressureSensor3,
+    }
+
+    public enum ParameterKeys implements IParameterKey {
+        pressure
+    }
+
+    public enum ComponentTypes implements IUserComponentType {
+        pressureSensor
     }
 
     public static RichVoidFunction0 sendMessage( final IUserComponent component, final IUserComponentType type, final IUserAction action ) {
