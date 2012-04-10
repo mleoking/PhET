@@ -5,6 +5,7 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
@@ -68,5 +69,14 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
     //Gets the pressure at the specified location.
     @Override public double getPressure( double x, double y ) {
         return pool.get().getPressure( x, y, atmosphere.get(), standardAirPressure.get(), liquidDensity.get(), gravity.get() );
+    }
+
+    //Creates a function that sets the pool for this model
+    public VoidFunction0 setPool_( final IPool pool ) {
+        return new VoidFunction0() {
+            public void apply() {
+                FluidPressureModel.this.pool.set( pool );
+            }
+        };
     }
 }
