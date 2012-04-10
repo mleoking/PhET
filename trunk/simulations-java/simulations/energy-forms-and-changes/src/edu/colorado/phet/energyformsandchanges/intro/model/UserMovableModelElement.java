@@ -17,6 +17,7 @@ public abstract class UserMovableModelElement {
 
     public final BooleanProperty userControlled = new BooleanProperty( false );
 
+    //Position of the center of the bottom of the block.
     public final Property<ImmutableVector2D> position = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
 
     // Velocity in the up/down direction.
@@ -72,4 +73,8 @@ public abstract class UserMovableModelElement {
     }
 
     public abstract HorizontalSurface getBottomSurface();
+
+    public void setX( final double x ) {
+        position.set( new ImmutableVector2D( x, position.get().getY() ) );
+    }
 }

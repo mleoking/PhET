@@ -18,4 +18,8 @@ public class HorizontalSurface {
     public boolean overlapsWith( HorizontalSurface surface ) {
         return ( xRange.intersects( surface.xRange ) );
     }
+
+    public double getCenterX() {
+        return xRange.getCenter();
+    }
 }

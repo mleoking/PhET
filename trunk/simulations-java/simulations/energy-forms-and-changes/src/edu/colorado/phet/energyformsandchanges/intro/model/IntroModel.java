@@ -109,14 +109,18 @@ public class IntroModel {
                 double velocity = movableModelElement.verticalVelocity.get() + acceleration * dt;
                 double proposedYPos = movableModelElement.position.get().getY() + velocity * dt;
                 double minYPos = 0;
-                HorizontalSurface hos = findHighestOverlappingSurface( movableModelElement.getBottomSurface(), movableModelElement );
-                if ( hos != null ) {
-                    minYPos = hos.yPos;
+                HorizontalSurface parentSurface = findHighestOverlappingSurface( movableModelElement.getBottomSurface(), movableModelElement );
+                if ( parentSurface != null ) {
+                    minYPos = parentSurface.yPos;
+
+                    //Center the movableModelElement on its new parent
+                    double targetX = parentSurface.getCenterX();
+                    movableModelElement.setX( targetX );
                 }
                 if ( proposedYPos < minYPos ) {
                     proposedYPos = minYPos;
                     movableModelElement.verticalVelocity.set( 0.0 );
-                    movableModelElement.setParentSurface( hos );
+                    movableModelElement.setParentSurface( parentSurface );
                 }
                 else {
                     movableModelElement.verticalVelocity.set( velocity );
