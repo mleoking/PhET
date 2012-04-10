@@ -166,11 +166,8 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
             translate( -transform.modelToViewDeltaX( model.squarePool.getWidth() / 2 ), 0 );
         }} );
 
-        //Grid for scene 1
-        addChild( new UnLabeledGridNode( module.gridVisible.and( not( squarePool ) ), transform, model.units ) {{
-            translate( -transform.modelToViewDeltaX( model.squarePool.getWidth() / 2 ), 0 );
-        }} );
-
+        //Grid for scene 1-2
+        addChild( new UnLabeledGridNode( module.gridVisible.and( not( squarePool ) ), transform, model.units ) );
 
         //Create and show the fluid density and gravity controls
         //TODO: Layout for i18n long strings
