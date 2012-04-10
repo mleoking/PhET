@@ -19,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
+import edu.colorado.phet.linegraphing.LGColors;
 import edu.colorado.phet.linegraphing.LGResources.Images;
 import edu.colorado.phet.linegraphing.LGSimSharing.ParameterKeys;
 import edu.colorado.phet.linegraphing.LGSimSharing.UserComponents;
@@ -27,6 +28,7 @@ import edu.colorado.phet.linegraphing.intro.model.PointTool;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
@@ -40,9 +42,6 @@ class PointToolNode extends PhetPNode {
     private static final String COORDINATES_PATTERN = "({0},{1})";
     private static final NumberFormat COORDINATES_FORMAT = new DefaultDecimalFormat( "0" );
     private static final double COORDINATES_Y_CENTER = 28; // center of the display area, measured from the top of the unscaled image file
-
-    private static final Color NORMAL_COLOR = Color.BLACK;
-    private static final Color HIGHLIGHT_COLOR = Color.RED;
 
     /**
      * Constructor
@@ -60,7 +59,16 @@ class PointToolNode extends PhetPNode {
         final PText coordinatesNode = new PText();
         coordinatesNode.setFont( new PhetFont( 20 ) );
 
+        // display background, shows through a transparent hole in the display area portion of the body image
+        final int margin = 10;
+        final PPath backgroundNode = new PPath( new Rectangle2D.Double( 10, 10,
+                                                                        bodyNode.getFullBoundsReference().getWidth() - ( 2 * margin ),
+                                                                        0.65 * bodyNode.getFullBoundsReference().getHeight() ) );
+        backgroundNode.setStroke( null );
+        backgroundNode.setOffset( bodyNode.getOffset() );
+
         // rendering order
+        addChild( backgroundNode );
         addChild( bodyNode );
         addChild( coordinatesNode );
 
@@ -77,11 +85,11 @@ class PointToolNode extends PhetPNode {
                 // display value and highlighting
                 if ( graph.contains( location ) ) {
                     coordinatesNode.setText( MessageFormat.format( COORDINATES_PATTERN, COORDINATES_FORMAT.format( location.getX() ), COORDINATES_FORMAT.format( location.getY() ) ) );
-                    coordinatesNode.setTextPaint( pointTool.highlighted.get() ? HIGHLIGHT_COLOR : NORMAL_COLOR );
+                    backgroundNode.setPaint( pointTool.highlighted.get() ? LGColors.POINT_TOOL_HIGHLIGHT_COLOR : LGColors.POINT_TOOL_NORMAL_COLOR );
                 }
                 else {
                     coordinatesNode.setText( "- -" );
-                    coordinatesNode.setTextPaint( NORMAL_COLOR );
+                    backgroundNode.setPaint( LGColors.POINT_TOOL_NORMAL_COLOR );
                 }
 
                 // horizontally centered
