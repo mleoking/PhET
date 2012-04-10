@@ -1,3 +1,4 @@
+4/10/12 tweak interactive equation layout
 4/10/12 move view properties from LineGraphNode to IntroCanvas
 4/10/12 solve for y when deciding whether to highlight point tool, to avoid divide-by-zero
 4/10/12 turn off point tool highlighting when lines are hidden on graph
