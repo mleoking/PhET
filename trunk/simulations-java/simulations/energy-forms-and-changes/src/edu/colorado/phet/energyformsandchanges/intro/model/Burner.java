@@ -5,6 +5,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 
 /**
  * Model element that represents the burner in the simulation.  The burner can
@@ -12,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  *
  * @author John Blanco
  */
-public class Burner {
+public class Burner implements RestingSurfaceOwner {
 
     //-------------------------------------------------------------------------
     // Class Data
@@ -61,5 +62,9 @@ public class Burner {
                                        position.getY(),
                                        WIDTH,
                                        HEIGHT );
+    }
+
+    public HorizontalSurface getRestingSurface() {
+        return new HorizontalSurface( new DoubleRange( getOutlineRect().getMinX(), getOutlineRect().getMaxX() ), getOutlineRect().getMaxY() );
     }
 }

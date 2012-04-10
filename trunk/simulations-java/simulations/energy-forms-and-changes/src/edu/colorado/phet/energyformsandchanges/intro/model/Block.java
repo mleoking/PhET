@@ -8,6 +8,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 
 /**
  * Class that represents a block in the view.  In the model, a block is two-
@@ -15,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentType
  *
  * @author John Blanco
  */
-public abstract class Block extends UserMovableModelElement {
+public abstract class Block extends UserMovableModelElement implements RestingSurfaceOwner {
 
     // Height and width of the face, which is square.
     public static final double FACE_SIZE = 0.05; // In meters.
@@ -40,6 +41,14 @@ public abstract class Block extends UserMovableModelElement {
                                        position.get().getY(),
                                        FACE_SIZE,
                                        FACE_SIZE );
+    }
+
+    public HorizontalSurface getRestingSurface() {
+        return new HorizontalSurface( new DoubleRange( getRect().getMinX(), getRect().getMaxX() ), getRect().getMaxY() );
+    }
+
+    @Override public HorizontalSurface getBottomSurface() {
+        return new HorizontalSurface( new DoubleRange( getRect().getMinX(), getRect().getMaxX() ), getRect().getMinY() );
     }
 
     /**

@@ -95,17 +95,28 @@ public class IntroModel {
     // Methods
     //-------------------------------------------------------------------------
 
+    /**
+     * Update the state of the model.
+     *
+     * @param dt
+     */
     private void stepInTime( double dt ) {
 
         // Move any model elements that are not resting on a surface.
         for ( UserMovableModelElement movableModelElement : Arrays.asList( leadBlock, brick ) ) {
-            if ( !movableModelElement.userControlled.get() ) {
+            if ( !movableModelElement.userControlled.get() && movableModelElement.getParentSurface() == null && movableModelElement.position.get().getY() != 0 ) {
                 double acceleration = -9.8; // meters/s*s
                 double velocity = movableModelElement.verticalVelocity.get() + acceleration * dt;
                 double proposedYPos = movableModelElement.position.get().getY() + velocity * dt;
-                if ( proposedYPos < 0 ) {
-                    proposedYPos = 0;
+                double minYPos = 0;
+                HorizontalSurface hos = findHighestOverlappingSurface( movableModelElement.getBottomSurface(), movableModelElement );
+                if ( hos != null ) {
+                    minYPos = hos.yPos;
+                }
+                if ( proposedYPos < minYPos ) {
+                    proposedYPos = minYPos;
                     movableModelElement.verticalVelocity.set( 0.0 );
+                    movableModelElement.setParentSurface( hos );
                 }
                 else {
                     movableModelElement.verticalVelocity.set( velocity );
@@ -141,5 +152,17 @@ public class IntroModel {
 
     public Burner getRightBurner() {
         return rightBurner;
+    }
+
+    private HorizontalSurface findHighestOverlappingSurface( HorizontalSurface surface, UserMovableModelElement element ) {
+        HorizontalSurface highestOverlappingSurface = null;
+        for ( RestingSurfaceOwner restingSurfaceOwner : Arrays.asList( leftBurner, rightBurner, brick, leadBlock ) ) {
+            if ( restingSurfaceOwner != element && surface.overlapsWith( restingSurfaceOwner.getRestingSurface() ) ) {
+                if ( highestOverlappingSurface == null || highestOverlappingSurface.yPos < restingSurfaceOwner.getRestingSurface().yPos ) {
+                    highestOverlappingSurface = restingSurfaceOwner.getRestingSurface();
+                }
+            }
+        }
+        return highestOverlappingSurface;
     }
 }

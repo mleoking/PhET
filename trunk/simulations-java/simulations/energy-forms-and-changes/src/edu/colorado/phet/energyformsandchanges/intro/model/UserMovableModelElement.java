@@ -6,6 +6,7 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
  * Base class for model elements that can be moved around by the user.
@@ -20,6 +21,22 @@ public abstract class UserMovableModelElement {
 
     // Velocity in the up/down direction.
     public final Property<Double> verticalVelocity = new Property<Double>( 0.0 );
+
+    // The surface upon which this model element is resting.  If null, the
+    // object is either on the ground or falling.
+    private HorizontalSurface parentSurface = null;
+
+    protected UserMovableModelElement() {
+        // Whenever a movable model element becomes user controlled, it is no
+        // longer resting on any surface.
+        userControlled.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean userControlled ) {
+                if ( userControlled ) {
+                    parentSurface = null;
+                }
+            }
+        } );
+    }
 
     /**
      * Get the "user component" identifier.  This supports the sim sharing
@@ -45,4 +62,14 @@ public abstract class UserMovableModelElement {
     public void translate( ImmutableVector2D modelDelta ) {
         position.set( position.get().getAddedInstance( modelDelta ) );
     }
+
+    public HorizontalSurface getParentSurface() {
+        return parentSurface;
+    }
+
+    public void setParentSurface( HorizontalSurface parentSurface ) {
+        this.parentSurface = parentSurface;
+    }
+
+    public abstract HorizontalSurface getBottomSurface();
 }
