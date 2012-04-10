@@ -5,6 +5,7 @@ import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.colorado.phet.fractionsintro.common.AbstractFractionsModule;
 import edu.colorado.phet.fractionsintro.intro.model.FractionsIntroModel;
 import edu.colorado.phet.fractionsintro.intro.model.IntroState;
@@ -23,7 +24,7 @@ public class FractionsIntroModule extends AbstractFractionsModule {
     }
 
     private FractionsIntroModule( FractionsIntroModel model ) {
-        super( "Intro", model.getClock() );
+        super( Components.introTab, "Intro", model.getClock() );
         setSimulationPanel( new FractionsIntroCanvas( model ) );
     }
 

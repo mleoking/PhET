@@ -5,6 +5,7 @@ import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.colorado.phet.fractionsintro.common.AbstractFractionsModule;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameModel;
 import edu.colorado.phet.fractionsintro.matchinggame.view.MatchingGameCanvas;
@@ -18,7 +19,7 @@ public class MatchingGameModule extends AbstractFractionsModule {
     }
 
     public MatchingGameModule( boolean dev, MatchingGameModel model ) {
-        super( "Matching Game", model.clock );
+        super( Components.matchingGameTab, "Matching Game", model.clock );
         setSimulationPanel( new MatchingGameCanvas( dev, model ) );
     }
 
