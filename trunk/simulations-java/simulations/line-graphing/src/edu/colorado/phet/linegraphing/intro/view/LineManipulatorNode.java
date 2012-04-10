@@ -12,7 +12,7 @@ import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class LineManipulatorNode extends ShadedSphereNode {
+class LineManipulatorNode extends ShadedSphereNode {
 
     public LineManipulatorNode( double diameter, Color fillColor ) {
         super( diameter, fillColor, Color.WHITE, fillColor.darker().darker(), false /* convertToImage */ );
