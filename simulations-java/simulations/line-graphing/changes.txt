@@ -1,3 +1,4 @@
+4/10/12 limit range of rise, run and intercept to -5 to 5 (half the range of the grid)
 4/10/12 tweak interactive equation layout
 4/10/12 move view properties from LineGraphNode to IntroCanvas
 4/10/12 solve for y when deciding whether to highlight point tool, to avoid divide-by-zero
