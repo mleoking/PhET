@@ -36,7 +36,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class InteractiveLineControls extends PhetPNode {
+class EquationControls extends PhetPNode {
 
     private static final PhetFont EQUATION_FONT = new PhetFont( Font.BOLD, 38 );
 
@@ -46,10 +46,10 @@ class InteractiveLineControls extends PhetPNode {
                                                            Strings.SYMBOL_X,
                                                            Strings.SYMBOL_INTERCEPT );
 
-    public InteractiveLineControls( final Property<SlopeInterceptLine> interactiveLine,
-                                    IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange,
-                                    final VoidFunction1<SlopeInterceptLine> saveLineFunction, final VoidFunction0 eraseLinesFunction,
-                                    final Property<Boolean> interactiveLineVisible ) {
+    public EquationControls( final Property<SlopeInterceptLine> interactiveLine,
+                             IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange,
+                             final VoidFunction1<SlopeInterceptLine> saveLineFunction, final VoidFunction0 eraseLinesFunction,
+                             final Property<Boolean> interactiveLineVisible ) {
 
         PNode titleNode = new PhetPText( TITLE, new PhetFont( Font.BOLD, 18 ) );
         PNode minimizeMaximizeButtonNode = new ToggleButtonNode( UserComponents.equationMinimizeMaximizeButton, interactiveLineVisible, Images.MINIMIZE_BUTTON, Images.MAXIMIZE_BUTTON ) {
