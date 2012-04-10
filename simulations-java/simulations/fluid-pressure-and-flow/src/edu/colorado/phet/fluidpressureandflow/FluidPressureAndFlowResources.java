@@ -62,6 +62,8 @@ public class FluidPressureAndFlowResources {
         public static final String QUESTION_MARK = RESOURCES.getLocalizedString( "questionMark" );
         public static final String RATE_UNITS_ENGLISH = RESOURCES.getLocalizedString( "rateUnitsEnglish" );
         public static final String RATE_UNITS_METRIC = RESOURCES.getLocalizedString( "rateUnitsMetric" );
+        public static final String READOUT_FEET = RESOURCES.getLocalizedString( "readoutFeet" );
+        public static final String READOUT_METERS = RESOURCES.getLocalizedString( "readoutMeters" );
         public static final String RESET = RESOURCES.getLocalizedString( "reset" );
         public static final String RULER = RESOURCES.getLocalizedString( "ruler" );
         public static final String SLOW_MOTION = RESOURCES.getLocalizedString( "slowMotion" );
