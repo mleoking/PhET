@@ -1,3 +1,4 @@
+4/9/12 rename equation controls
 4/9/12 hide equation on interactive line when equation control panel in minimized
 4/9/12 factory pattern for creating reduced equations in the correct format
 4/9/12 first attempt at revising format of equations shown on graphed lines, complicated and buggy while dragging

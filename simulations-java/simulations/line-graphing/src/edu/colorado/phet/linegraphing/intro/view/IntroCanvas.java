@@ -32,20 +32,20 @@ public class IntroCanvas extends LGCanvas implements Resettable {
                                            IntroModel.RISE_RANGE, IntroModel.RUN_RANGE, IntroModel.INTERCEPT_RANGE,
                                            interactiveLineVisible );
         PNode pointTool = new PointToolNode( model.pointToolLocation, model.mvt, model.graph, getStageBounds() );
-        InteractiveLineControls lineControls =
-                new InteractiveLineControls( model.interactiveLine,
-                                             IntroModel.RISE_RANGE, IntroModel.RUN_RANGE, IntroModel.INTERCEPT_RANGE,
-                                             new VoidFunction1<SlopeInterceptLine>() {
-                                                 public void apply( SlopeInterceptLine slopeInterceptLine ) {
-                                                     lineGraphNode.saveLine( slopeInterceptLine );
-                                                 }
-                                             },
-                                             new VoidFunction0() {
-                                                 public void apply() {
-                                                     lineGraphNode.eraseLines();
-                                                 }
-                                             },
-                                             interactiveLineVisible );
+        EquationControls equationControls =
+                new EquationControls( model.interactiveLine,
+                                      IntroModel.RISE_RANGE, IntroModel.RUN_RANGE, IntroModel.INTERCEPT_RANGE,
+                                      new VoidFunction1<SlopeInterceptLine>() {
+                                          public void apply( SlopeInterceptLine slopeInterceptLine ) {
+                                              lineGraphNode.saveLine( slopeInterceptLine );
+                                          }
+                                      },
+                                      new VoidFunction0() {
+                                          public void apply() {
+                                              lineGraphNode.eraseLines();
+                                          }
+                                      },
+                                      interactiveLineVisible );
         PNode graphControls = new GraphControls( lineGraphNode );
         PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, LGColors.RESET_ALL_BUTTON ) {{
             setConfirmationEnabled( false );
@@ -54,7 +54,7 @@ public class IntroCanvas extends LGCanvas implements Resettable {
         // rendering order
         {
             addChild( lineGraphNode );
-            addChild( lineControls );
+            addChild( equationControls );
             addChild( graphControls );
             addChild( resetAllButtonNode );
             addChild( pointTool );
@@ -66,10 +66,10 @@ public class IntroCanvas extends LGCanvas implements Resettable {
             final double yMargin = 20;
 
             // upper-right of graph
-            lineControls.setOffset( lineGraphNode.getFullBoundsReference().getMaxX(), 35 );
+            equationControls.setOffset( lineGraphNode.getFullBoundsReference().getMaxX(), 35 );
             // centered below equation
-            graphControls.setOffset( lineControls.getFullBoundsReference().getCenterX() - ( graphControls.getFullBoundsReference().getWidth() / 2 ),
-                                          lineControls.getFullBoundsReference().getMaxY() + 25 );
+            graphControls.setOffset( equationControls.getFullBoundsReference().getCenterX() - ( graphControls.getFullBoundsReference().getWidth() / 2 ),
+                                          equationControls.getFullBoundsReference().getMaxY() + 25 );
             // buttons centered below control panel
             resetAllButtonNode.setOffset( graphControls.getFullBoundsReference().getCenterX() - ( resetAllButtonNode.getFullBoundsReference().getWidth() / 2 ),
                                      getStageSize().getHeight() - yMargin - resetAllButtonNode.getFullBoundsReference().getHeight() );
