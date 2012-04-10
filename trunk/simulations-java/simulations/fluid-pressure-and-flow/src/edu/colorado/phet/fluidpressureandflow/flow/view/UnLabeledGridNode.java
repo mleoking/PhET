@@ -4,6 +4,7 @@ package edu.colorado.phet.fluidpressureandflow.flow.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Line2D;
+import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.model.property.Not;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
@@ -16,6 +17,10 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
 import edu.umd.cs.piccolo.PNode;
+
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.READOUT_FEET;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.READOUT_METERS;
+import static java.text.MessageFormat.format;
 
 /**
  * Shows a grid under the water with horizontal lines only so the user can see the water depth.
@@ -33,7 +38,7 @@ public class UnLabeledGridNode extends PropertyVisibleNode {
                 final LineNode lineNode = new LineNode( i, transform );
                 addChild( lineNode );
                 if ( i == -3 ) {
-                    addChild( createLabel( lineNode, "-3 meters", labelX ) );
+                    addChild( createLabel( lineNode, format( READOUT_METERS, new DecimalFormat( "0" ).format( -i ) ), labelX ) );
                 }
             }
         }} );
@@ -44,7 +49,7 @@ public class UnLabeledGridNode extends PropertyVisibleNode {
                 final LineNode lineNode = new LineNode( Units.feetToMeters( i ), transform );
                 addChild( lineNode );
                 if ( i == -10 ) {
-                    addChild( createLabel( lineNode, "-10 feet", labelX ) );
+                    addChild( createLabel( lineNode, format( READOUT_FEET, new DecimalFormat( "0" ).format( -i ) ), labelX ) );
                 }
             }
         }} );
