@@ -1,3 +1,4 @@
+4/9/12 static constants for standard lines
 4/9/12 clean up rise/run bracket class
 4/9/12 make view classes package private
 4/9/12 rename equation controls
