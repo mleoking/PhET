@@ -25,9 +25,9 @@ public class IntroModel implements Resettable {
     private static final IntegerRange Y_RANGE = X_RANGE;
     private static final double MVT_SCALE = GRID_VIEW_UNITS / Math.max( X_RANGE.getLength(), Y_RANGE.getLength() ); // view units / model units
 
-    public static final IntegerRange RISE_RANGE = new IntegerRange( -10, 10, 5 );
-    public static final IntegerRange RUN_RANGE = new IntegerRange( -10, 10, 5 );
-    public static final IntegerRange INTERCEPT_RANGE = new IntegerRange( -10, 10, 2 );
+    public static final IntegerRange RISE_RANGE = new IntegerRange( -5, 5, 2 );
+    public static final IntegerRange RUN_RANGE = new IntegerRange( -5, 5, 2 );
+    public static final IntegerRange INTERCEPT_RANGE = new IntegerRange( -5, 5, 2 );
 
     public final ModelViewTransform mvt;
     public final Property<SlopeInterceptLine> interactiveLine;
