@@ -33,7 +33,7 @@ public class UnLabeledGridNode extends PropertyVisibleNode {
                 final LineNode lineNode = new LineNode( i, transform );
                 addChild( lineNode );
                 if ( i == -3 ) {
-                    createLabel( lineNode, "-3 meters", labelX );
+                    addChild( createLabel( lineNode, "-3 meters", labelX ) );
                 }
             }
         }} );
@@ -44,7 +44,7 @@ public class UnLabeledGridNode extends PropertyVisibleNode {
                 final LineNode lineNode = new LineNode( Units.feetToMeters( i ), transform );
                 addChild( lineNode );
                 if ( i == -10 ) {
-                    createLabel( lineNode, "-10 feet", labelX );
+                    addChild( createLabel( lineNode, "-10 feet", labelX ) );
                 }
             }
         }} );
@@ -53,10 +53,10 @@ public class UnLabeledGridNode extends PropertyVisibleNode {
     }
 
     //Label the bottom tick mark
-    private void createLabel( final LineNode lineNode, final String text, final int labelX ) {
-        addChild( new ControlPanelNode( new PhetPText( text, new PhetFont( 16 ), Color.black ), new Color( 103, 162, 87 ), null, null, 3 ) {{
+    private ControlPanelNode createLabel( final LineNode lineNode, final String text, final int labelX ) {
+        return new ControlPanelNode( new PhetPText( text, new PhetFont( 16 ), Color.black ), new Color( 103, 162, 87 ), null, null, 3 ) {{
             setOffset( labelX, lineNode.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
-        }} );
+        }};
     }
 
     public static class LineNode extends PNode {
