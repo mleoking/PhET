@@ -11,9 +11,7 @@ HIGH
 - grid node gets bigger when IntroModel.GRID_MODEL_UNITS gets smaller, size should remain constant
 
 MEDIUM
-- more sophisticated model of point tool, for highlighting and comparison of point to lines
 - improve layout of equation, try spinners in various layouts and locations
-- make point tool light up when the point is on any graphed line
 - try dynamically changing the rise/run/intercept constraints to keep line manipulators on the grid
 - try rise/run/intercept ranges of -5 to +5 (half grid range)
 - clean up standard line icons (no equation on line, shorter line)
