@@ -5,7 +5,7 @@ package edu.colorado.phet.linegraphing.intro.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Paint;
+import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
@@ -27,12 +27,12 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Bracket with a value next to it.
+ * Bracket with a value next to it, used for showing rise or run of slope.
  * Origin is dependent on direction and sign of length.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class BracketValueNode extends PComposite {
+class RiseRunBracketNode extends PComposite {
 
     public static enum Direction {LEFT, RIGHT, UP, DOWN} // direction that the open side of the bracket faces
 
@@ -55,20 +55,25 @@ class BracketValueNode extends PComposite {
     private static final double LABEL_BACKGROUND_MARGIN = 3;
 
     // Constructor that uses default look
-    public BracketValueNode( Direction direction, double length, double value ) {
+    public RiseRunBracketNode( Direction direction, double length, double value ) {
         this( direction, length, BRACKET_COLOR, BRACKET_STROKE, value, LABEL_FONT, LABEL_COLOR, LABEL_BACKGROUND_COLOR );
     }
 
-    public BracketValueNode( Direction direction, double length, Color bracketColor, Stroke bracketStroke, double value, PhetFont font, Color textColor, Color backgroundColor ) {
+    public RiseRunBracketNode( Direction direction, double length, Color bracketColor, Stroke bracketStroke, double value, PhetFont font, Color textColor, Color backgroundColor ) {
 
-        PNode bracketNode = new BracketNode( Math.abs( length ), bracketColor, bracketStroke );
+        // bracket
+        PPath bracketNode = new PPath( createBracketShape( Math.abs( length ) ) );
+        bracketNode.setStroke( bracketStroke );
+        bracketNode.setStrokePaint( bracketColor );
         addChild( bracketNode );
 
+        // label
         PText labelNode = new PText( LABEL_FORMAT.format( value ) );
         labelNode.setFont( font );
         labelNode.setTextPaint( textColor );
         addChild( labelNode );
 
+        // background for the label
         PPath backgroundNode = new PPath( new RoundRectangle2D.Double( 0, 0,
                                                                   labelNode.getFullBoundsReference().getWidth() + ( 2 * LABEL_BACKGROUND_MARGIN ),
                                                                   labelNode.getFullBoundsReference().getHeight() + ( 2 * LABEL_BACKGROUND_MARGIN ),
@@ -129,26 +134,18 @@ class BracketValueNode extends PComposite {
         }
     }
 
-    // Bracket is drawn in the UP direction.
-    private static class BracketNode extends PPath {
-
-        public BracketNode( double width, Paint paint, Stroke stroke ) {
-            assert ( width > 0 );
-
-            setStroke( stroke );
-            setStrokePaint( paint );
-
-            final double bracketTipWidth = Math.min( BRACKET_TIP_WIDTH, 0.5 * width );
-            GeneralPath path = new GeneralPath();
-            path.moveTo( 0, BRACKET_END_Y_OFFSET );
-            path.quadTo( 0, (float) BRACKET_END_HEIGHT, (float) BRACKET_CORNER_RADIUS, (float) BRACKET_END_HEIGHT );
-            path.lineTo( (float) ( ( width - bracketTipWidth ) / 2 ), (float) BRACKET_END_HEIGHT );
-            path.lineTo( (float) ( width / 2 ), (float) ( BRACKET_END_HEIGHT + BRACKET_TIP_HEIGHT ) );
-            path.lineTo( (float) ( ( width + bracketTipWidth ) / 2 ), (float) BRACKET_END_HEIGHT );
-            path.lineTo( (float) ( width - BRACKET_CORNER_RADIUS ), (float) BRACKET_END_HEIGHT );
-            path.quadTo( (float) width, (float)BRACKET_END_HEIGHT, (float) width, BRACKET_END_Y_OFFSET );
-            setPathTo( path );
-        }
+    // Bracket shape, drawn in the UP direction.
+    private static Shape createBracketShape( double width ) {
+        final double bracketTipWidth = Math.min( BRACKET_TIP_WIDTH, 0.5 * width );
+        GeneralPath path = new GeneralPath();
+        path.moveTo( 0, BRACKET_END_Y_OFFSET );
+        path.quadTo( 0, (float) BRACKET_END_HEIGHT, (float) BRACKET_CORNER_RADIUS, (float) BRACKET_END_HEIGHT );
+        path.lineTo( (float) ( ( width - bracketTipWidth ) / 2 ), (float) BRACKET_END_HEIGHT );
+        path.lineTo( (float) ( width / 2 ), (float) ( BRACKET_END_HEIGHT + BRACKET_TIP_HEIGHT ) );
+        path.lineTo( (float) ( ( width + bracketTipWidth ) / 2 ), (float) BRACKET_END_HEIGHT );
+        path.lineTo( (float) ( width - BRACKET_CORNER_RADIUS ), (float) BRACKET_END_HEIGHT );
+        path.quadTo( (float) width, (float) BRACKET_END_HEIGHT, (float) width, BRACKET_END_Y_OFFSET );
+        return path;
     }
 
     // Return an icon that represents this feature.
@@ -157,12 +154,12 @@ class BracketValueNode extends PComposite {
         PNode parentNode = new PadBoundsNode();
 
         // rise bracket, pointing left
-        PNode riseNode = new BracketValueNode( Direction.LEFT, 40, BRACKET_COLOR, new BasicStroke( 1f ), 2, new PhetFont( Font.BOLD,18 ), LABEL_COLOR, LABEL_BACKGROUND_COLOR );
+        PNode riseNode = new RiseRunBracketNode( Direction.LEFT, 40, BRACKET_COLOR, new BasicStroke( 1f ), 2, new PhetFont( Font.BOLD,18 ), LABEL_COLOR, LABEL_BACKGROUND_COLOR );
         parentNode.addChild( riseNode );
         riseNode.setOffset( 0, 0 );
 
         // run bracket, pointing up
-        PNode runNode = new BracketValueNode( Direction.UP, 60, BRACKET_COLOR, new BasicStroke( 1f ), 3, new PhetFont( Font.BOLD,18 ), LABEL_COLOR, LABEL_BACKGROUND_COLOR );
+        PNode runNode = new RiseRunBracketNode( Direction.UP, 60, BRACKET_COLOR, new BasicStroke( 1f ), 3, new PhetFont( Font.BOLD,18 ), LABEL_COLOR, LABEL_BACKGROUND_COLOR );
         parentNode.addChild( runNode );
         runNode.setOffset( riseNode.getFullBoundsReference().getMinX() - runNode.getFullBoundsReference().getWidth() - 2,
                            riseNode.getFullBoundsReference().getMaxY() + 2);

@@ -8,7 +8,6 @@ import java.text.MessageFormat;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableNot;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
@@ -42,7 +41,7 @@ class GraphControls extends PNode {
         linesCheckBox.setFont( CONTROL_FONT );
         final JComponent positiveCheckBox = new PropertyCheckBoxWithIcon( yEqualsXCheckBox, Y_EQUALS_X, CONTROL_FONT, LineGraphNode.createYEqualsXIcon( 60 ), graphNode.yEqualsXVisible );
         final JComponent negativeCheckBox = new PropertyCheckBoxWithIcon( yEqualsNegativeXCheckBox, Y_EQUALS_NEGATIVE_X, CONTROL_FONT, LineGraphNode.createYEqualsNegativeXIcon( 60 ), graphNode.yEqualsNegativeXVisible );
-        final JComponent slopeCheckBox = new PropertyCheckBoxWithIcon( riseOverRunCheckBox, Strings.SLOPE, CONTROL_FONT, BracketValueNode.createIcon( 60 ), graphNode.slopeVisible );
+        final JComponent slopeCheckBox = new PropertyCheckBoxWithIcon( riseOverRunCheckBox, Strings.SLOPE, CONTROL_FONT, RiseRunBracketNode.createIcon( 60 ), graphNode.slopeVisible );
 
         // layout
         GridPanel panel = new GridPanel();

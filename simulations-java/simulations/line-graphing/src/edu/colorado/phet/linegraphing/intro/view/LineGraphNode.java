@@ -20,7 +20,7 @@ import edu.colorado.phet.linegraphing.LGColors;
 import edu.colorado.phet.linegraphing.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.intro.model.LineGraph;
 import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
-import edu.colorado.phet.linegraphing.intro.view.BracketValueNode.Direction;
+import edu.colorado.phet.linegraphing.intro.view.RiseRunBracketNode.Direction;
 import edu.colorado.phet.linegraphing.intro.view.LineManipulatorDragHandler.InterceptDragHandler;
 import edu.colorado.phet.linegraphing.intro.view.LineManipulatorDragHandler.SlopeDragHandler;
 import edu.umd.cs.piccolo.PNode;
@@ -192,14 +192,14 @@ class LineGraphNode extends GraphNode implements Resettable {
 
             // run bracket
             final Direction runDirection = line.rise >= 0 ? Direction.UP : Direction.DOWN;
-            final BracketValueNode runBracketNode = new BracketValueNode( runDirection, mvt.modelToViewDeltaX( line.run ), line.run );
+            final RiseRunBracketNode runBracketNode = new RiseRunBracketNode( runDirection, mvt.modelToViewDeltaX( line.run ), line.run );
             bracketsParentNode.addChild( runBracketNode );
             runBracketNode.setOffset( mvt.modelToViewX( 0 ), mvt.modelToViewY( line.intercept ) );
 
             // rise bracket
             if ( line.rise != 0 ) {
                 final Direction riseDirection = line.run > 0 ? Direction.LEFT : Direction.RIGHT;
-                final BracketValueNode riseBracket = new BracketValueNode( riseDirection, mvt.modelToViewDeltaX( line.rise ), line.rise );
+                final RiseRunBracketNode riseBracket = new RiseRunBracketNode( riseDirection, mvt.modelToViewDeltaX( line.rise ), line.rise );
                 bracketsParentNode.addChild( riseBracket );
                 riseBracket.setOffset( mvt.modelToViewX( line.run ), mvt.modelToViewY( line.intercept ) );
             }
