@@ -9,7 +9,10 @@ import edu.colorado.phet.common.phetcommon.model.property.Not;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
 import edu.umd.cs.piccolo.PNode;
@@ -24,20 +27,36 @@ public class UnLabeledGridNode extends PropertyVisibleNode {
         super( visible );
 
         //Show meters if in metric
+        final int labelX = 665;
         addChild( new PropertyVisibleNode( units.valueEquals( UnitSet.METRIC ) ) {{
             for ( double i = 0; i >= -10; i -= 0.5 ) {
-                addChild( new LineNode( i, transform ) );
+                final LineNode lineNode = new LineNode( i, transform );
+                addChild( lineNode );
+                if ( i == -3 ) {
+                    createLabel( lineNode, "-3 meters", labelX );
+                }
             }
         }} );
 
         //Show feet if non-metric
         addChild( new PropertyVisibleNode( new Not( units.valueEquals( UnitSet.METRIC ) ) ) {{
             for ( int i = 0; i >= -10; i-- ) {
-                addChild( new LineNode( Units.feetToMeters( i ), transform ) );
+                final LineNode lineNode = new LineNode( Units.feetToMeters( i ), transform );
+                addChild( lineNode );
+                if ( i == -10 ) {
+                    createLabel( lineNode, "-10 feet", labelX );
+                }
             }
         }} );
         setPickable( false );
         setChildrenPickable( false );
+    }
+
+    //Label the bottom tick mark
+    private void createLabel( final LineNode lineNode, final String text, final int labelX ) {
+        addChild( new ControlPanelNode( new PhetPText( text, new PhetFont( 16 ), Color.black ), new Color( 103, 162, 87 ), null, null, 3 ) {{
+            setOffset( labelX, lineNode.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
+        }} );
     }
 
     public static class LineNode extends PNode {
