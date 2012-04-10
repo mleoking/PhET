@@ -21,26 +21,26 @@ public class IntroCanvas extends LGCanvas implements Resettable {
 
     final Property<Boolean> interactiveLineVisible = new Property<Boolean>( true );
 
-    private final LineGraphNode lineGraphNode;
+    private final LineGraphNode graphNode;
 
     public IntroCanvas( final IntroModel model ) {
         setBackground( new Color( 255, 255, 225 ) );
 
-        lineGraphNode = new LineGraphNode( model.graph, model.mvt, model.interactiveLine, model.savedLines, model.standardLines,
-                                           IntroModel.RISE_RANGE, IntroModel.RUN_RANGE, IntroModel.INTERCEPT_RANGE,
-                                           interactiveLineVisible );
+        graphNode = new LineGraphNode( model.graph, model.mvt, model.interactiveLine, model.savedLines, model.standardLines,
+                                       IntroModel.RISE_RANGE, IntroModel.RUN_RANGE, IntroModel.INTERCEPT_RANGE,
+                                       interactiveLineVisible );
         PNode pointTool = new PointToolNode( model.pointTool, model.mvt, model.graph, getStageBounds() );
         EquationControls equationControls = new EquationControls( interactiveLineVisible, model.interactiveLine,
                                                                   IntroModel.RISE_RANGE, IntroModel.RUN_RANGE, IntroModel.INTERCEPT_RANGE,
-                                                                  model.savedLines );
-        PNode graphControls = new GraphControls( lineGraphNode, model.standardLines );
+                                                                  model.savedLines, graphNode.linesVisible );
+        PNode graphControls = new GraphControls( graphNode, model.standardLines );
         PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, LGColors.RESET_ALL_BUTTON ) {{
             setConfirmationEnabled( false );
         }};
 
         // rendering order
         {
-            addChild( lineGraphNode );
+            addChild( graphNode );
             addChild( equationControls );
             addChild( graphControls );
             addChild( resetAllButtonNode );
@@ -53,18 +53,18 @@ public class IntroCanvas extends LGCanvas implements Resettable {
             final double yMargin = 20;
 
             // upper-right of graph
-            equationControls.setOffset( lineGraphNode.getFullBoundsReference().getMaxX(), 35 );
+            equationControls.setOffset( graphNode.getFullBoundsReference().getMaxX(), 35 );
             // centered below equation
             graphControls.setOffset( equationControls.getFullBoundsReference().getCenterX() - ( graphControls.getFullBoundsReference().getWidth() / 2 ),
-                                          equationControls.getFullBoundsReference().getMaxY() + 25 );
+                                     equationControls.getFullBoundsReference().getMaxY() + 25 );
             // buttons centered below control panel
             resetAllButtonNode.setOffset( graphControls.getFullBoundsReference().getCenterX() - ( resetAllButtonNode.getFullBoundsReference().getWidth() / 2 ),
-                                     getStageSize().getHeight() - yMargin - resetAllButtonNode.getFullBoundsReference().getHeight() );
+                                          getStageSize().getHeight() - yMargin - resetAllButtonNode.getFullBoundsReference().getHeight() );
         }
     }
 
     public void reset() {
         interactiveLineVisible.reset();
-        lineGraphNode.reset();
+        graphNode.reset();
     }
 }
