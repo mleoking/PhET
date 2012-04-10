@@ -10,8 +10,8 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -20,9 +20,12 @@ import edu.colorado.phet.linegraphing.LGColors;
 import edu.colorado.phet.linegraphing.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.intro.model.LineGraph;
 import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
-import edu.colorado.phet.linegraphing.intro.view.RiseRunBracketNode.Direction;
+import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine.InteractiveLine;
+import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine.SavedLine;
+import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine.StandardLine;
 import edu.colorado.phet.linegraphing.intro.view.LineManipulatorDragHandler.InterceptDragHandler;
 import edu.colorado.phet.linegraphing.intro.view.LineManipulatorDragHandler.SlopeDragHandler;
+import edu.colorado.phet.linegraphing.intro.view.RiseRunBracketNode.Direction;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -34,22 +37,21 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 class LineGraphNode extends GraphNode implements Resettable {
 
     public final Property<Boolean> linesVisible = new Property<Boolean>( true );
-    public final Property<Boolean> yEqualsXVisible = new Property<Boolean>( false );
-    public final Property<Boolean> yEqualsNegativeXVisible = new Property<Boolean>( false );
     private final Property<Boolean> interactiveLineVisible = new Property<Boolean>( true );
     public final Property<Boolean> slopeVisible = new Property<Boolean>( true );
 
     private final LineGraph graph;
     private final ModelViewTransform mvt;
     private final Property<Boolean> interactiveEquationVisible;
-    private final SlopeInterceptLineNode yEqualsXLineNode, yEqualsNegativeXLineNode;
     private final PNode savedLinesParentNode, standardLinesParentNode; // intermediate nodes, for consistent rendering order
     private final PNode interactiveLineParentNode, bracketsParentNode;
     private final PNode slopeManipulatorNode, interceptManipulatorNode;
     private SlopeInterceptLineNode interactiveLineNode;
 
     public LineGraphNode( final LineGraph graph, final ModelViewTransform mvt,
-                          Property<SlopeInterceptLine> interactiveLine,
+                          Property<InteractiveLine> interactiveLine,
+                          ObservableList<SavedLine> savedLines,
+                          ObservableList<StandardLine> standardLines,
                           IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange,
                           Property<Boolean> interactiveEquationVisible ) {
         super( graph, mvt );
@@ -58,26 +60,17 @@ class LineGraphNode extends GraphNode implements Resettable {
         this.mvt = mvt;
         this.interactiveEquationVisible = interactiveEquationVisible;
 
-        // Standard lines
+        // Parent nodes for each category of line (standard, saved, interactive) to maintain rendering order
         standardLinesParentNode = new PComposite();
-        yEqualsXLineNode = new SlopeInterceptLineNode( SlopeInterceptLine.Y_EQUALS_X_LINE, graph, mvt, LGColors.Y_EQUALS_X );
-        standardLinesParentNode.addChild( yEqualsXLineNode );
-        yEqualsNegativeXLineNode = new SlopeInterceptLineNode( SlopeInterceptLine.Y_EQUALS_NEGATIVE_X_LINE, graph, mvt, LGColors.Y_EQUALS_NEGATIVE_X );
-        standardLinesParentNode.addChild( yEqualsNegativeXLineNode );
-
-        // Saved lines
         savedLinesParentNode = new PNode();
-
-        // Interactive line
         interactiveLineParentNode = new PComposite();
-        interactiveLineParentNode.setVisible( linesVisible.get() );
 
-        // Manipulators
+        // Manipulators for the interactive line
         final double manipulatorDiameter = mvt.modelToViewDeltaX( 0.75 );
         slopeManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.SLOPE_COLOR );
         interceptManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.INTERCEPT_COLOR );
 
-        // Rise and run brackets
+        // Rise and run brackets for the interactive line
         bracketsParentNode = new PComposite();
 
         // Rendering order
@@ -88,26 +81,33 @@ class LineGraphNode extends GraphNode implements Resettable {
         addChild( interceptManipulatorNode );
         addChild( slopeManipulatorNode ); // add slope after intercept, so that slope can be changed when x=0
 
-        // Visibility of lines
-        yEqualsXVisible.addObserver( new SimpleObserver() {
-            public void update() {
-                updateLinesVisibility();
+        // Add/remove standard lines
+        standardLines.addElementAddedObserver( new VoidFunction1<StandardLine>() {
+            public void apply( StandardLine line ) {
+                addStandardLine( line );
             }
         } );
-        yEqualsNegativeXVisible.addObserver( new SimpleObserver() {
-            public void update() {
-                updateLinesVisibility();
+        standardLines.addElementRemovedObserver( new VoidFunction1<StandardLine>() {
+            public void apply( StandardLine line ) {
+                removeStandardLine( line );
             }
         } );
-        linesVisible.addObserver( new SimpleObserver() {
-            public void update() {
-                updateLinesVisibility();
+
+        // Add/remove saved lines
+        savedLines.addElementAddedObserver( new VoidFunction1<SavedLine>() {
+            public void apply( SavedLine line ) {
+                addSavedLine( line );
+            }
+        } );
+        savedLines.addElementRemovedObserver( new VoidFunction1<SavedLine>() {
+            public void apply( SavedLine line ) {
+                removeSavedLine( line );
             }
         } );
 
         // When the interactive line changes, update the graph.
-        interactiveLine.addObserver( new VoidFunction1<SlopeInterceptLine>() {
-            public void apply( SlopeInterceptLine line ) {
+        interactiveLine.addObserver( new VoidFunction1<InteractiveLine>() {
+            public void apply( InteractiveLine line ) {
                 updateInteractiveLine( line, graph, mvt );
             }
         } );
@@ -142,29 +142,48 @@ class LineGraphNode extends GraphNode implements Resettable {
 
     public void reset() {
         linesVisible.reset();
-        yEqualsXVisible.reset();
-        yEqualsNegativeXVisible.reset();
         slopeVisible.reset();
-        eraseLines();
+        eraseSavedLines();
     }
 
-    // "Saves" a line, displaying it on the graph.
-    public void saveLine( SlopeInterceptLine line ) {
-        savedLinesParentNode.addChild( new SlopeInterceptLineNode( line, graph, mvt, LGColors.SAVED_LINE_NORMAL, LGColors.SAVED_LINE_HIGHLIGHT ) );
+    private void addStandardLine( StandardLine line ) {
+        standardLinesParentNode.addChild( new SlopeInterceptLineNode( line, graph, mvt ) );
+    }
+
+    private void removeStandardLine( StandardLine line ) {
+        removeLine( line, standardLinesParentNode );
+    }
+
+    private void addSavedLine( SavedLine line ) {
+        savedLinesParentNode.addChild( new SlopeInterceptLineNode( line, graph, mvt ) );
+    }
+
+    private void removeSavedLine( SavedLine line ) {
+        removeLine( line, savedLinesParentNode );
+    }
+
+    private static void removeLine( SlopeInterceptLine line, PNode parent ) {
+        for ( int i = 0; i < parent.getChildrenCount(); i++ ) {
+            PNode node = parent.getChild( i );
+            if ( node instanceof SlopeInterceptLineNode ) {
+                SlopeInterceptLineNode lineNode = (SlopeInterceptLineNode)node;
+                if ( lineNode.line == line ) {
+                    parent.removeChild( node );
+                    break;
+                }
+            }
+        }
     }
 
     // Erases all of the "saved" lines
-    public void eraseLines() {
+    public void eraseSavedLines() {
         savedLinesParentNode.removeAllChildren();
     }
 
     protected void updateLinesVisibility() {
 
         savedLinesParentNode.setVisible( linesVisible.get() );
-
         standardLinesParentNode.setVisible( linesVisible.get() );
-        yEqualsXLineNode.setVisible( yEqualsXVisible.get() );
-        yEqualsNegativeXLineNode.setVisible( yEqualsNegativeXVisible.get() );
 
         if ( interactiveLineParentNode != null ) {
             interactiveLineParentNode.setVisible( linesVisible.get() && interactiveLineVisible.get() );
@@ -178,11 +197,11 @@ class LineGraphNode extends GraphNode implements Resettable {
     }
 
     // Updates the line and its associated decorations
-    private void updateInteractiveLine( final SlopeInterceptLine line, final LineGraph graph, final ModelViewTransform mvt ) {
+    private void updateInteractiveLine( final InteractiveLine line, final LineGraph graph, final ModelViewTransform mvt ) {
 
         // replace the line node
         interactiveLineParentNode.removeAllChildren();
-        interactiveLineNode = new SlopeInterceptLineNode( line, graph, mvt, LGColors.INTERACTIVE_LINE );
+        interactiveLineNode = new SlopeInterceptLineNode( line, graph, mvt );
         interactiveLineNode.setEquationVisible( interactiveEquationVisible.get() );
         interactiveLineParentNode.addChild( interactiveLineNode );
 
@@ -233,15 +252,22 @@ class LineGraphNode extends GraphNode implements Resettable {
 
     // Icon creation
     private static Icon createIcon( double width, boolean yEqualsXVisible, boolean yEqualsNegativeXVisible ) {
+        ObservableList<StandardLine> standardLines = new ObservableList<StandardLine>();
         LineGraphNode graphNode = new LineGraphNode( new LineGraph( -3, 3, -3, 3 ),
                                                      ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 15, -15 ),
-                                                     new Property<SlopeInterceptLine>( new SlopeInterceptLine( 1, 1, 1 ) ),
+                                                     new Property<InteractiveLine>( new InteractiveLine( 1, 1, 1 ) ),
+                                                     new ObservableList<SavedLine>(),
+                                                     standardLines,
                                                      new IntegerRange( -1, 1 ),
                                                      new IntegerRange( -1, 1 ),
                                                      new IntegerRange( -1, 1 ),
                                                      new Property<Boolean>( false ) );
-        graphNode.yEqualsXVisible.set( yEqualsXVisible );
-        graphNode.yEqualsNegativeXVisible.set( yEqualsNegativeXVisible );
+        if ( yEqualsXVisible ) {
+            standardLines.add( StandardLine.Y_EQUALS_X_LINE );
+        }
+        if ( yEqualsNegativeXVisible ) {
+            standardLines.add( StandardLine.Y_EQUALS_NEGATIVE_X_LINE );
+        }
         graphNode.interactiveLineVisible.set( false );
         graphNode.scale( width / graphNode.getFullBoundsReference().getWidth() );
         return new ImageIcon( new PadBoundsNode( graphNode ).toImage() );

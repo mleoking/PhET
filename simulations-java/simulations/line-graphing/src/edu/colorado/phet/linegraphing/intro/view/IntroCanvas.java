@@ -5,14 +5,11 @@ import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.linegraphing.LGColors;
 import edu.colorado.phet.linegraphing.LGConstants;
 import edu.colorado.phet.linegraphing.common.view.LGCanvas;
 import edu.colorado.phet.linegraphing.intro.model.IntroModel;
-import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -22,31 +19,21 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class IntroCanvas extends LGCanvas implements Resettable {
 
+    final Property<Boolean> interactiveLineVisible = new Property<Boolean>( true );
+
     private final LineGraphNode lineGraphNode;
 
     public IntroCanvas( final IntroModel model ) {
         setBackground( new Color( 255, 255, 225 ) );
 
-        final Property<Boolean> interactiveLineVisible = new Property<Boolean>( true );
-        lineGraphNode = new LineGraphNode( model.graph, model.mvt, model.interactiveLine,
+        lineGraphNode = new LineGraphNode( model.graph, model.mvt, model.interactiveLine, model.savedLines, model.standardLines,
                                            IntroModel.RISE_RANGE, IntroModel.RUN_RANGE, IntroModel.INTERCEPT_RANGE,
                                            interactiveLineVisible );
         PNode pointTool = new PointToolNode( model.pointTool, model.mvt, model.graph, getStageBounds() );
-        EquationControls equationControls =
-                new EquationControls( model.interactiveLine,
-                                      IntroModel.RISE_RANGE, IntroModel.RUN_RANGE, IntroModel.INTERCEPT_RANGE,
-                                      new VoidFunction1<SlopeInterceptLine>() {
-                                          public void apply( SlopeInterceptLine slopeInterceptLine ) {
-                                              lineGraphNode.saveLine( slopeInterceptLine );
-                                          }
-                                      },
-                                      new VoidFunction0() {
-                                          public void apply() {
-                                              lineGraphNode.eraseLines();
-                                          }
-                                      },
-                                      interactiveLineVisible );
-        PNode graphControls = new GraphControls( lineGraphNode );
+        EquationControls equationControls = new EquationControls( interactiveLineVisible, model.interactiveLine,
+                                                                  IntroModel.RISE_RANGE, IntroModel.RUN_RANGE, IntroModel.INTERCEPT_RANGE,
+                                                                  model.savedLines );
+        PNode graphControls = new GraphControls( lineGraphNode, model.standardLines );
         PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, LGColors.RESET_ALL_BUTTON ) {{
             setConfirmationEnabled( false );
         }};
@@ -77,6 +64,7 @@ public class IntroCanvas extends LGCanvas implements Resettable {
     }
 
     public void reset() {
+        interactiveLineVisible.reset();
         lineGraphNode.reset();
     }
 }

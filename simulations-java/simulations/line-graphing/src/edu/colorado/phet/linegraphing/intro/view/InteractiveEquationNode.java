@@ -8,12 +8,13 @@ import java.text.NumberFormat;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.LGSimSharing.UserComponents;
-import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
+import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine.InteractiveLine;
 import edu.colorado.phet.linegraphing.intro.view.DoubleSpinnerNode.InterceptSpinnerNode;
 import edu.colorado.phet.linegraphing.intro.view.DoubleSpinnerNode.SlopeSpinnerNode;
 import edu.umd.cs.piccolo.PNode;
@@ -31,7 +32,7 @@ class InteractiveEquationNode extends PhetPNode {
 
     private final Property<Double> rise, run, intercept;
 
-    public InteractiveEquationNode( final Property<SlopeInterceptLine> interactiveLine,
+    public InteractiveEquationNode( final Property<InteractiveLine> interactiveLine,
                                     IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange, PhetFont font ) {
 
         this.rise = new Property<Double>( interactiveLine.get().rise );
@@ -96,26 +97,16 @@ class InteractiveEquationNode extends PhetPNode {
         }
 
         // sync the model with the controls
-        rise.addObserver( new VoidFunction1<Double>() {
-            public void apply( Double rise ) {
-                interactiveLine.set( new SlopeInterceptLine( rise, interactiveLine.get().run, interactiveLine.get().intercept ) );
+        RichSimpleObserver lineUpdater = new RichSimpleObserver() {
+            @Override public void update() {
+                interactiveLine.set( new InteractiveLine( rise.get(), run.get(), intercept.get() ) );
             }
-        } );
-        run.addObserver( new VoidFunction1<Double>() {
-            public void apply( Double run ) {
-                interactiveLine.set( new SlopeInterceptLine( interactiveLine.get().rise, run, interactiveLine.get().intercept ) );
-            }
-        } );
-        intercept.addObserver( new VoidFunction1<Double>() {
-            public void apply( Double intercept ) {
-                interactiveLine.set( new SlopeInterceptLine( interactiveLine.get().rise, interactiveLine.get().run, intercept ) );
-                interceptSignNode.setText( intercept > 0 ? "+" : "-" );
-            }
-        } );
+        };
+        lineUpdater.observe( rise, run, intercept );
 
         // sync the controls with the model
-        interactiveLine.addObserver( new VoidFunction1<SlopeInterceptLine>() {
-            public void apply( SlopeInterceptLine line ) {
+        interactiveLine.addObserver( new VoidFunction1<InteractiveLine>() {
+            public void apply( InteractiveLine line ) {
                 rise.set( line.rise );
                 run.set( line.run );
                 intercept.set( line.intercept );

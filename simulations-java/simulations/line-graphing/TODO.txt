@@ -11,7 +11,6 @@ HIGH
 - grid node gets bigger when IntroModel.GRID_MODEL_UNITS gets smaller, size should remain constant
 
 MEDIUM
-- keep saved and standard equations in model
 - more sophisticated model of point tool, for highlighting and comparison of point to lines
 - improve layout of equation, try spinners in various layouts and locations
 - make point tool light up when the point is on any graphed line

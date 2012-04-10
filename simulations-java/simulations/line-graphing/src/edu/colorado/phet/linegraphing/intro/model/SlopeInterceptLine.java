@@ -1,9 +1,11 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.intro.model;
 
+import java.awt.Color;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.linegraphing.LGColors;
 import edu.colorado.phet.linegraphing.LGResources.Strings;
 
 /**
@@ -11,20 +13,50 @@ import edu.colorado.phet.linegraphing.LGResources.Strings;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SlopeInterceptLine {
+public abstract class SlopeInterceptLine {
 
-    // standard lines
-    public static final SlopeInterceptLine Y_EQUALS_X_LINE = new SlopeInterceptLine( 1, 1, 0 );  // y = x
-    public static final SlopeInterceptLine Y_EQUALS_NEGATIVE_X_LINE = new SlopeInterceptLine( -1, 1, 0 ); // y = -x
+    public static class InteractiveLine extends SlopeInterceptLine {
+        public InteractiveLine( double rise, double run, double intercept ) {
+            super( rise, run, intercept, LGColors.INTERACTIVE_LINE );
+        }
+    }
+
+    public static class StandardLine extends SlopeInterceptLine {
+
+        public static final StandardLine Y_EQUALS_X_LINE = new StandardLine( 1, 1, 0, LGColors.Y_EQUALS_X );  // y = x
+        public static final StandardLine Y_EQUALS_NEGATIVE_X_LINE = new StandardLine( -1, 1, 0, LGColors.Y_EQUALS_NEGATIVE_X ); // y = -x
+
+        public StandardLine( double rise, double run, double intercept, Color color ) {
+            super( rise, run, intercept, color );
+        }
+    }
+
+    public static class SavedLine extends SlopeInterceptLine {
+        public SavedLine( InteractiveLine line, Color color, Color highlightColor ) {
+            super( line.rise, line.run, line.intercept, color, highlightColor );
+        }
+    }
 
     public final double rise;
     public final double run;
     public final double intercept;
+    public final Color color, highlightColor;
 
-    public SlopeInterceptLine( double rise, double run, double intercept ) {
+    public SlopeInterceptLine( double rise, double run, double intercept, Color color ) {
+        this( rise, run, intercept, color, color );
+    }
+
+    public SlopeInterceptLine( double rise, double run, double intercept, Color color, Color highlightColor ) {
         this.rise = rise;
         this.run = run;
         this.intercept = intercept;
+        this.color = color;
+        this.highlightColor = highlightColor;
+    }
+
+    // Duplicates a line with different colors
+    public SlopeInterceptLine( SlopeInterceptLine line, Color color, Color highlightColor ) {
+        this( line.rise, line.run, line.intercept, color, highlightColor );
     }
 
     // Line is undefined if it's slope (rise/run) is undefined.
@@ -75,5 +107,9 @@ public class SlopeInterceptLine {
     // Gets the greatest common divisor (GCD) of the rise and run.
     private int getGCD() {
         return MathUtil.getGreatestCommonDivisor( MathUtil.round( Math.abs( rise ) ), MathUtil.round( Math.abs( run ) ) );
+    }
+
+    @Override public String toString() {
+        return MessageFormat.format( "y=({0}/{1})x{2}", rise, run, intercept ) + ", color=" + color + ", highlightColor=" + highlightColor;
     }
 }
