@@ -112,14 +112,15 @@ class LineGraphNode extends GraphNode implements Resettable {
             }
         } );
 
-        // Visibility
+        // Visibility of lines
         RichSimpleObserver visibilityObserver = new RichSimpleObserver() {
             @Override public void update() {
                 updateLinesVisibility();
             }
         };
-        visibilityObserver.observe( interactiveEquationVisible, slopeVisible, linesVisible );
+        visibilityObserver.observe( interactiveLineVisible, slopeVisible, linesVisible );
 
+        // Visibility of the equation on the interactive line
         interactiveEquationVisible.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
                 if ( interactiveLineNode != null ) {
