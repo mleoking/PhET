@@ -29,7 +29,7 @@ public class IntroCanvas extends LGCanvas implements Resettable {
         graphNode = new LineGraphNode( model.graph, model.mvt, model.interactiveLine, model.savedLines, model.standardLines,
                                        IntroModel.RISE_RANGE, IntroModel.RUN_RANGE, IntroModel.INTERCEPT_RANGE,
                                        interactiveLineVisible );
-        PNode pointTool = new PointToolNode( model.pointTool, model.mvt, model.graph, getStageBounds() );
+        PNode pointTool = new PointToolNode( model.pointTool, model.mvt, model.graph, getStageBounds(), graphNode.linesVisible );
         EquationControls equationControls = new EquationControls( interactiveLineVisible, model.interactiveLine,
                                                                   IntroModel.RISE_RANGE, IntroModel.RUN_RANGE, IntroModel.INTERCEPT_RANGE,
                                                                   model.savedLines, graphNode.linesVisible );

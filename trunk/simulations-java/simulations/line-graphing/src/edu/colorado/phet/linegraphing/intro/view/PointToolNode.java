@@ -49,7 +49,7 @@ class PointToolNode extends PhetPNode {
      * @param mvt model-view transform
      * @param dragBounds drag bounds, in view coordinate frame
      */
-    public PointToolNode( final PointTool pointTool, final ModelViewTransform mvt, final LineGraph graph, Rectangle2D dragBounds ) {
+    public PointToolNode( final PointTool pointTool, final ModelViewTransform mvt, final LineGraph graph, Rectangle2D dragBounds, final Property<Boolean> linesVisible ) {
 
         // tool body
         final PNode bodyNode = new PImage( Images.POINT_TOOL );
@@ -85,7 +85,12 @@ class PointToolNode extends PhetPNode {
                 // display value and highlighting
                 if ( graph.contains( location ) ) {
                     coordinatesNode.setText( MessageFormat.format( COORDINATES_PATTERN, COORDINATES_FORMAT.format( location.getX() ), COORDINATES_FORMAT.format( location.getY() ) ) );
-                    backgroundNode.setPaint( pointTool.highlighted.get() ? LGColors.POINT_TOOL_HIGHLIGHT_COLOR : LGColors.POINT_TOOL_NORMAL_COLOR );
+                    if ( linesVisible.get() ) {
+                        backgroundNode.setPaint( pointTool.highlighted.get() ? LGColors.POINT_TOOL_HIGHLIGHT_COLOR : LGColors.POINT_TOOL_NORMAL_COLOR );
+                    }
+                    else {
+                        backgroundNode.setPaint( LGColors.POINT_TOOL_NORMAL_COLOR );
+                    }
                 }
                 else {
                     coordinatesNode.setText( "- -" );
@@ -97,7 +102,7 @@ class PointToolNode extends PhetPNode {
                                            bodyNode.getFullBoundsReference().getMinY() + COORDINATES_Y_CENTER - ( coordinatesNode.getFullBoundsReference().getHeight() / 2 ) );
             }
         };
-        observer.observe( pointTool.location, pointTool.highlighted );
+        observer.observe( pointTool.location, pointTool.highlighted, linesVisible );
 
         // dragging
         addInputEventListener( new CursorHandler() );
