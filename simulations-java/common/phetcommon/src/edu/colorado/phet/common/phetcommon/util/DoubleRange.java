@@ -160,4 +160,15 @@ public class DoubleRange {
     public boolean isZero() {
         return ( _max - _min == 0 );
     }
+
+    /**
+     * Do the two ranges overlap with one another?
+     * reference: http://eli.thegreenplace.net/2008/08/15/intersection-of-1d-segments/
+     *
+     * @param xRange
+     * @return
+     */
+    public boolean intersects( DoubleRange xRange ) {
+        return ( _max >= xRange.getMin() && xRange.getMax() >= _min );
+    }
 }
