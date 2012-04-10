@@ -3,8 +3,12 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
@@ -51,6 +55,12 @@ public class IntroModel {
 
     public IntroModel() {
 
+        clock.addClockListener( new ClockAdapter() {
+            @Override public void clockTicked( ClockEvent clockEvent ) {
+                stepInTime( clockEvent.getSimulationTimeChange() );
+            }
+        } );
+
         // Add the main lab bench shelf.  The center of the shelf is the point
         // (0, 0) in model space.
         shelfList.add( new Shelf( new Point2D.Double( -LAB_TABLE_WIDTH / 2, 0 ),
@@ -74,16 +84,36 @@ public class IntroModel {
 
         // Add and position the brick.
         brick = new Brick();
-        brick.position.set( new Point2D.Double( -0.2, 0 ) );
+        brick.position.set( new ImmutableVector2D( -0.2, 0 ) );
 
         // Add and position the lead block.
         leadBlock = new LeadBlock();
-        leadBlock.position.set( new Point2D.Double( -0.1, 0 ) );
+        leadBlock.position.set( new ImmutableVector2D( -0.1, 0 ) );
     }
 
     //-------------------------------------------------------------------------
     // Methods
     //-------------------------------------------------------------------------
+
+    private void stepInTime( double dt ) {
+
+        // Move any model elements that are not resting on a surface.
+        for ( UserMovableModelElement movableModelElement : Arrays.asList( leadBlock, brick ) ) {
+            if ( !movableModelElement.userControlled.get() ) {
+                double acceleration = -9.8; // meters/s*s
+                double velocity = movableModelElement.verticalVelocity.get() + acceleration * dt;
+                double proposedYPos = movableModelElement.position.get().getY() + velocity * dt;
+                if ( proposedYPos < 0 ) {
+                    proposedYPos = 0;
+                    movableModelElement.verticalVelocity.set( 0.0 );
+                }
+                else {
+                    movableModelElement.verticalVelocity.set( velocity );
+                }
+                movableModelElement.position.set( new ImmutableVector2D( movableModelElement.position.get().getX(), proposedYPos ) );
+            }
+        }
+    }
 
     public List<Shelf> getShelfList() {
         return shelfList;

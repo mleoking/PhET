@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -79,9 +78,9 @@ public class BlockNode extends PNode {
         }
 
         // Update the offset if and when the model position changes.
-        block.position.addObserver( new VoidFunction1<Point2D>() {
-            public void apply( Point2D position ) {
-                setOffset( mvt.modelToView( position ) );
+        block.position.addObserver( new VoidFunction1<ImmutableVector2D>() {
+            public void apply( ImmutableVector2D position ) {
+                setOffset( mvt.modelToView( position ).toPoint2D() );
             }
         } );
 
