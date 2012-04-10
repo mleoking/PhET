@@ -19,7 +19,9 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class IntroCanvas extends LGCanvas implements Resettable {
 
-    final Property<Boolean> interactiveLineVisible = new Property<Boolean>( true );
+    private final Property<Boolean> linesVisible = new Property<Boolean>( true );
+    private final Property<Boolean> interactiveLineVisible = new Property<Boolean>( true );
+    private final Property<Boolean> slopeVisible = new Property<Boolean>( true );
 
     private final LineGraphNode graphNode;
 
@@ -28,12 +30,12 @@ public class IntroCanvas extends LGCanvas implements Resettable {
 
         graphNode = new LineGraphNode( model.graph, model.mvt, model.interactiveLine, model.savedLines, model.standardLines,
                                        IntroModel.RISE_RANGE, IntroModel.RUN_RANGE, IntroModel.INTERCEPT_RANGE,
-                                       interactiveLineVisible );
-        PNode pointTool = new PointToolNode( model.pointTool, model.mvt, model.graph, getStageBounds(), graphNode.linesVisible );
+                                       interactiveLineVisible, linesVisible, interactiveLineVisible, slopeVisible );
+        PNode pointTool = new PointToolNode( model.pointTool, model.mvt, model.graph, getStageBounds(), linesVisible );
         EquationControls equationControls = new EquationControls( interactiveLineVisible, model.interactiveLine,
                                                                   IntroModel.RISE_RANGE, IntroModel.RUN_RANGE, IntroModel.INTERCEPT_RANGE,
-                                                                  model.savedLines, graphNode.linesVisible );
-        PNode graphControls = new GraphControls( graphNode, model.standardLines );
+                                                                  model.savedLines, linesVisible );
+        PNode graphControls = new GraphControls( linesVisible, slopeVisible, model.standardLines );
         PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, LGColors.RESET_ALL_BUTTON ) {{
             setConfirmationEnabled( false );
         }};
@@ -65,6 +67,7 @@ public class IntroCanvas extends LGCanvas implements Resettable {
 
     public void reset() {
         interactiveLineVisible.reset();
-        graphNode.reset();
+        linesVisible.reset();
+        slopeVisible.reset();
     }
 }

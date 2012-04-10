@@ -6,7 +6,6 @@ import java.awt.geom.Point2D;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
@@ -31,11 +30,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class LineGraphNode extends GraphNode implements Resettable {
-
-    public final Property<Boolean> linesVisible = new Property<Boolean>( true );
-    private final Property<Boolean> interactiveLineVisible = new Property<Boolean>( true );
-    public final Property<Boolean> slopeVisible = new Property<Boolean>( true );
+class LineGraphNode extends GraphNode {
 
     private final LineGraph graph;
     private final ModelViewTransform mvt;
@@ -44,18 +39,25 @@ class LineGraphNode extends GraphNode implements Resettable {
     private final PNode interactiveLineParentNode, bracketsParentNode;
     private final PNode slopeManipulatorNode, interceptManipulatorNode;
     private SlopeInterceptLineNode interactiveLineNode;
+    private final Property<Boolean> linesVisible, interactiveLineVisible, slopeVisible;
 
     public LineGraphNode( final LineGraph graph, final ModelViewTransform mvt,
                           Property<SlopeInterceptLine> interactiveLine,
                           ObservableList<SlopeInterceptLine> savedLines,
                           ObservableList<SlopeInterceptLine> standardLines,
                           IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange,
-                          Property<Boolean> interactiveEquationVisible ) {
+                          Property<Boolean> interactiveEquationVisible,
+                          Property<Boolean> linesVisible,
+                          Property<Boolean> interactiveLineVisible,
+                          Property<Boolean> slopeVisible ) {
         super( graph, mvt );
 
         this.graph = graph;
         this.mvt = mvt;
         this.interactiveEquationVisible = interactiveEquationVisible;
+        this.linesVisible = linesVisible;
+        this.interactiveLineVisible = interactiveLineVisible;
+        this.slopeVisible = slopeVisible;
 
         // Parent nodes for each category of line (standard, saved, interactive) to maintain rendering order
         standardLinesParentNode = new PComposite();
@@ -137,12 +139,6 @@ class LineGraphNode extends GraphNode implements Resettable {
                                                                                   interceptManipulatorNode, mvt, interactiveLine, interceptRange ) );
     }
 
-    public void reset() {
-        linesVisible.reset();
-        slopeVisible.reset();
-        eraseSavedLines();
-    }
-
     private void addStandardLine( SlopeInterceptLine line ) {
         standardLinesParentNode.addChild( new SlopeInterceptLineNode( line, graph, mvt ) );
     }
@@ -170,11 +166,6 @@ class LineGraphNode extends GraphNode implements Resettable {
                 }
             }
         }
-    }
-
-    // Erases all of the "saved" lines
-    public void eraseSavedLines() {
-        savedLinesParentNode.removeAllChildren();
     }
 
     protected void updateLinesVisibility() {
@@ -258,6 +249,9 @@ class LineGraphNode extends GraphNode implements Resettable {
                                                      new IntegerRange( -1, 1 ),
                                                      new IntegerRange( -1, 1 ),
                                                      new IntegerRange( -1, 1 ),
+                                                     new Property<Boolean>( false ),
+                                                     new Property<Boolean>( true ),
+                                                     new Property<Boolean>( false ),
                                                      new Property<Boolean>( false ) );
         if ( yEqualsXVisible ) {
             standardLines.add( SlopeInterceptLine.Y_EQUALS_X_LINE );

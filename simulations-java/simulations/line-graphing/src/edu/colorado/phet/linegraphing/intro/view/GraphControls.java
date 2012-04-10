@@ -37,17 +37,17 @@ class GraphControls extends PNode {
     private static final String Y_EQUALS_X = MessageFormat.format( "{0} = {1}", Strings.SYMBOL_Y, Strings.SYMBOL_X );
     private static final String Y_EQUALS_NEGATIVE_X = MessageFormat.format( "{0} = -{1}", Strings.SYMBOL_Y, Strings.SYMBOL_X );
 
-    public GraphControls( final LineGraphNode graphNode, final ObservableList<SlopeInterceptLine> standardLines ) {
+    public GraphControls( final Property<Boolean> linesVisible, final Property<Boolean> slopeVisible, final ObservableList<SlopeInterceptLine> standardLines ) {
 
         final Property<Boolean> yEqualsXVisible = new Property<Boolean>( standardLines.contains( SlopeInterceptLine.Y_EQUALS_X_LINE ) );
         final Property<Boolean> yEqualsNegativeXVisible = new Property<Boolean>( standardLines.contains( SlopeInterceptLine.Y_EQUALS_NEGATIVE_X_LINE ) );
 
         // components
-        final JComponent linesCheckBox = new PropertyCheckBox( UserComponents.linesCheckBox, Strings.HIDE_LINES, new SettableNot( graphNode.linesVisible ) );
+        final JComponent linesCheckBox = new PropertyCheckBox( UserComponents.linesCheckBox, Strings.HIDE_LINES, new SettableNot( linesVisible ) );
         linesCheckBox.setFont( CONTROL_FONT );
         final JComponent positiveCheckBox = new PropertyCheckBoxWithIcon( yEqualsXCheckBox, Y_EQUALS_X, CONTROL_FONT, LineGraphNode.createYEqualsXIcon( 60 ), yEqualsXVisible );
         final JComponent negativeCheckBox = new PropertyCheckBoxWithIcon( yEqualsNegativeXCheckBox, Y_EQUALS_NEGATIVE_X, CONTROL_FONT, LineGraphNode.createYEqualsNegativeXIcon( 60 ), yEqualsNegativeXVisible );
-        final JComponent slopeCheckBox = new PropertyCheckBoxWithIcon( riseOverRunCheckBox, Strings.SLOPE, CONTROL_FONT, RiseRunBracketNode.createIcon( 60 ), graphNode.slopeVisible );
+        final JComponent slopeCheckBox = new PropertyCheckBoxWithIcon( riseOverRunCheckBox, Strings.SLOPE, CONTROL_FONT, RiseRunBracketNode.createIcon( 60 ), slopeVisible );
 
         // layout
         GridPanel panel = new GridPanel();
@@ -65,7 +65,7 @@ class GraphControls extends PNode {
         addChild( new ControlPanelNode( panel ) );
 
         // when lines are not visible, hide related controls
-        graphNode.linesVisible.addObserver( new VoidFunction1<Boolean>() {
+        linesVisible.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
                 slopeCheckBox.setEnabled( visible );
                 positiveCheckBox.setEnabled( visible );

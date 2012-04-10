@@ -1,3 +1,5 @@
+4/10/12 move view properties from LineGraphNode to IntroCanvas
+4/10/12 solve for y when deciding whether to highlight point tool, to avoid divide-by-zero
 4/10/12 turn off point tool highlighting when lines are hidden on graph
 4/10/12 highlight the pointer tool by changing its background color
 4/10/12 don't use rounding when determining if point tool is on line
