@@ -1,3 +1,4 @@
+Fixed young-young automatic handling on 2nd tab (by default, will select divergent motion)
 Updated with SpeedometerNode changes (SR)
 # 0.00.30 (62920) Apr 2, 2012
 Fixed smoke variation with step size

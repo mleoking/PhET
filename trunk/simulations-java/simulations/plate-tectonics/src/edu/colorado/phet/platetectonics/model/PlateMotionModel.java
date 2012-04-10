@@ -109,6 +109,21 @@ public class PlateMotionModel extends PlateModel {
                 }
             }
         } );
+
+        // after choosing both plates, we need to determine the default motion type if the user presses play or step in automatic mode
+        hasBothPlates.addObserver( new SimpleObserver() {
+            public void update() {
+                if ( allowsConvergentMotion() ) {
+                    motionTypeIfStarted.set( MotionType.CONVERGENT );
+                }
+                else if ( allowsDivergentMotion() ) {
+                    motionTypeIfStarted.set( MotionType.DIVERGENT );
+                }
+                else {
+                    motionTypeIfStarted.set( MotionType.TRANSFORM );
+                }
+            }
+        } );
     }
 
     private void initializeBehaviors() {

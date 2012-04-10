@@ -120,7 +120,17 @@ public class MotionTypeChooserPanel extends PNode {
     }
 
     private boolean typeEquals( MotionType myType, MotionType current ) {
-        return myType == current || ( myType == MotionType.CONVERGENT && current == null );
+        if ( current == null ) {
+            // if there is no currently-chosen motion type, pick defaults like this
+            if ( plateModel.allowsConvergentMotion() ) {
+                return myType == MotionType.CONVERGENT;
+            }
+            if( plateModel.allowsDivergentMotion()) {
+                return myType == MotionType.DIVERGENT;
+            }
+            return myType == MotionType.TRANSFORM;
+        }
+        return myType == current;
     }
 
     private class MotionTypeChooserRadioButton extends JRadioButton {
