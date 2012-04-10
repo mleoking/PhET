@@ -61,10 +61,10 @@ public class FluidPressureControlPanel extends VerticalLayoutPanel {
         }} );
 
         //Add Atmosphere on/off control panel.  So it's nice to be able to turn it off and just focus on the water.
-        add( new PhetTitledPanel( "Atmosphere" ) {{
+        add( new PhetTitledPanel( ATMOSPHERE ) {{
             add( new JPanel() {{
-                add( new PropertyRadioButton<Boolean>( "On", module.model.atmosphere, true ) );
-                add( new PropertyRadioButton<Boolean>( "Off", module.model.atmosphere, false ) );
+                add( new PropertyRadioButton<Boolean>( ON, module.model.atmosphere, true ) );
+                add( new PropertyRadioButton<Boolean>( OFF, module.model.atmosphere, false ) );
             }} );
         }} );
 

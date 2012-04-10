@@ -36,8 +36,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents.normalSpeedRadioButton;
 import static edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents.slowMotionRadioButton;
-import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.UNKNOWN_VELOCITY;
-import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.VALUE_WITH_UNITS_PATTERN;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.*;
 import static edu.umd.cs.piccolo.PNode.PROPERTY_FULL_BOUNDS;
 
 /**
@@ -117,7 +116,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
     protected PNode createClockControls( final FluidPressureAndFlowModule<?> module ) {
         final double SIMULATION_TIME_DT = module.getConstantDtClock().getDt();
         final Property<Boolean> normalSpeed = new Property<Boolean>( true );
-        SlowMotionNormalTimeControlPanel controlPanel = new SlowMotionNormalTimeControlPanel( slowMotionRadioButton, "Slow Motion", "Normal", normalSpeedRadioButton, normalSpeed, module.getClock() ) {{
+        SlowMotionNormalTimeControlPanel controlPanel = new SlowMotionNormalTimeControlPanel( slowMotionRadioButton, SLOW_MOTION, NORMAL, normalSpeedRadioButton, normalSpeed, module.getClock() ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
         }};
 

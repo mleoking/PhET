@@ -31,8 +31,8 @@ public class UnitSet {
     private static final Unit RATE_ENGLISH = new LinearUnit( RATE_UNITS_ENGLISH, FEET_PER_METER * FEET_PER_METER * FEET_PER_METER, new DecimalFormat( "0.00" ) );
 
     //Common units for gravity
-    private static final Unit GRAVITY_METRIC = new LinearUnit( "m/s/s", 1, new DecimalFormat( "0.00" ) );
-    private static final Unit GRAVITY_ENGLISH = new LinearUnit( "ft/s/s", 32.16 / 9.80665, new DecimalFormat( "0.00" ) ); //http://evaosd.fartoomuch.info/library/units.htm
+    private static final Unit GRAVITY_METRIC = new LinearUnit( M_PER_S_PER_S, 1, new DecimalFormat( "0.00" ) );
+    private static final Unit GRAVITY_ENGLISH = new LinearUnit( FT_PER_S_PER_S, 32.16 / 9.80665, new DecimalFormat( "0.00" ) ); //http://evaosd.fartoomuch.info/library/units.htm
 
     //To convert ft3 / ft2 / s into m3 / m2 / s
     //Same as ft/s -> m/s, same as converting feet to meters
