@@ -10,12 +10,16 @@ import java.util.Locale;
 public class DummyConstantStringTester {
     //This can be used for testing. If non-null, this string is returned on calls to getLocalizedString
     private static String dummyString = null;
+    private static boolean debugStringTranslations = false;
 //    private static String dummyString = "\u0637\u0642\u0645 \u0627\u062F\u0648\u0627\u062A \u0627\u0646\u0634\u0627\u0621" ; //temporary code to test localization coverage and font rendering
 
     public static String getString( String string ) {
 
-        //Uncomment this line to help indicate which strings are translated, while still leaving them readable and usable
-//        return "T["+string+"]";
+        //Use this to help indicate which strings are translated, while still leaving them readable and usable
+        if ( debugStringTranslations ) {
+            return "T[" + string + "]";
+        }
+
         if ( dummyString != null ) {
             return dummyString;
         }
