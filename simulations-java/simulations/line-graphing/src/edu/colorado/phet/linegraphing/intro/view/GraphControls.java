@@ -8,6 +8,7 @@ import java.text.MessageFormat;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableNot;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;

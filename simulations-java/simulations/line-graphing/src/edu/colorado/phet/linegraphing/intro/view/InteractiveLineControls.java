@@ -46,16 +46,15 @@ class InteractiveLineControls extends PhetPNode {
                                                            Strings.SYMBOL_X,
                                                            Strings.SYMBOL_INTERCEPT );
 
-    public final Property<Boolean> maximized = new Property<Boolean>( true );
-
     public InteractiveLineControls( final Property<SlopeInterceptLine> interactiveLine,
                                     IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange,
-                                    final VoidFunction1<SlopeInterceptLine> saveLineFunction, final VoidFunction0 eraseLinesFunction ) {
+                                    final VoidFunction1<SlopeInterceptLine> saveLineFunction, final VoidFunction0 eraseLinesFunction,
+                                    final Property<Boolean> interactiveLineVisible ) {
 
         PNode titleNode = new PhetPText( TITLE, new PhetFont( Font.BOLD, 18 ) );
-        PNode minimizeMaximizeButtonNode = new ToggleButtonNode( UserComponents.equationMinimizeMaximizeButton, maximized, Images.MINIMIZE_BUTTON, Images.MAXIMIZE_BUTTON ) {
+        PNode minimizeMaximizeButtonNode = new ToggleButtonNode( UserComponents.equationMinimizeMaximizeButton, interactiveLineVisible, Images.MINIMIZE_BUTTON, Images.MAXIMIZE_BUTTON ) {
             @Override protected ParameterSet getParameterSet() {
-                return super.getParameterSet().with( ParameterKeys.maximized, !maximized.get() );
+                return super.getParameterSet().with( ParameterKeys.maximized, !interactiveLineVisible.get() );
             }
         };
         final PNode equationNode = new ZeroOffsetNode( new InteractiveEquationNode( interactiveLine, riseRange, runRange, interceptRange, EQUATION_FONT ) );
@@ -116,7 +115,7 @@ class InteractiveLineControls extends PhetPNode {
         addChild( new ControlPanelNode( panelNode ) );
 
         // Minimize/maximize the control panel
-        maximized.addObserver( new VoidFunction1<Boolean>() {
+        interactiveLineVisible.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean maximized ) {
                 if ( maximized ) {
                     panelNode.addChild( subPanelNode );
