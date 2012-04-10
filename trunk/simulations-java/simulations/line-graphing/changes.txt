@@ -1,3 +1,4 @@
+4/10/12 highlight the pointer tool by changing its background color
 4/10/12 don't use rounding when determining if point tool is on line
 4/10/12 delete unnecessary specializations of SlopeInterceptLine
 4/10/12 first pass at highlighting point tool when it's on any line
