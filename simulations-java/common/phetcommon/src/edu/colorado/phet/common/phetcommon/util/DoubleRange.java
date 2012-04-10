@@ -171,4 +171,13 @@ public class DoubleRange {
     public boolean intersects( DoubleRange xRange ) {
         return ( _max >= xRange.getMin() && xRange.getMax() >= _min );
     }
+
+    /**
+     * Get the center point within the range.
+     *
+     * @return the center
+     */
+    public double getCenter() {
+        return ( _max + _min ) / 2;
+    }
 }
