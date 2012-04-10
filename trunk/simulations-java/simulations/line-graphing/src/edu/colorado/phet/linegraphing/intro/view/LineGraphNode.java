@@ -60,9 +60,9 @@ class LineGraphNode extends GraphNode implements Resettable {
 
         // Standard lines
         standardLinesParentNode = new PComposite();
-        yEqualsXLineNode = new SlopeInterceptLineNode( new SlopeInterceptLine( 1, 1, 0 ), graph, mvt, LGColors.Y_EQUALS_X );
+        yEqualsXLineNode = new SlopeInterceptLineNode( SlopeInterceptLine.Y_EQUALS_X_LINE, graph, mvt, LGColors.Y_EQUALS_X );
         standardLinesParentNode.addChild( yEqualsXLineNode );
-        yEqualsNegativeXLineNode = new SlopeInterceptLineNode( new SlopeInterceptLine( 1, -1, 0 ), graph, mvt, LGColors.Y_EQUALS_NEGATIVE_X );
+        yEqualsNegativeXLineNode = new SlopeInterceptLineNode( SlopeInterceptLine.Y_EQUALS_NEGATIVE_X_LINE, graph, mvt, LGColors.Y_EQUALS_NEGATIVE_X );
         standardLinesParentNode.addChild( yEqualsNegativeXLineNode );
 
         // Saved lines

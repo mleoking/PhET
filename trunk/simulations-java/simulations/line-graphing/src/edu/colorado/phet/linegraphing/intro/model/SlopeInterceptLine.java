@@ -13,6 +13,10 @@ import edu.colorado.phet.linegraphing.LGResources.Strings;
  */
 public class SlopeInterceptLine {
 
+    // standard lines
+    public static final SlopeInterceptLine Y_EQUALS_X_LINE = new SlopeInterceptLine( 1, 1, 0 );  // y = x
+    public static final SlopeInterceptLine Y_EQUALS_NEGATIVE_X_LINE = new SlopeInterceptLine( -1, 1, 0 ); // y = -x
+
     public final double rise;
     public final double run;
     public final double intercept;
