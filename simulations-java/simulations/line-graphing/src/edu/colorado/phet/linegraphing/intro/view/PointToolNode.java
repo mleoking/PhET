@@ -33,7 +33,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PointToolNode extends PhetPNode {
+class PointToolNode extends PhetPNode {
 
     private static final String COORDINATES_PATTERN = "({0},{1})";
     private static final NumberFormat COORDINATES_FORMAT = new DefaultDecimalFormat( "0" );

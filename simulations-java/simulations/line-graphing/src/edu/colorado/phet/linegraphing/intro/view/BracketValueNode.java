@@ -32,7 +32,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BracketValueNode extends PComposite {
+class BracketValueNode extends PComposite {
 
     public static enum Direction {LEFT, RIGHT, UP, DOWN} // direction that the open side of the bracket faces
 
