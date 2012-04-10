@@ -21,7 +21,9 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.MASS_LABEL_PATTERN;
 import static edu.colorado.phet.fluidpressureandflow.pressure.view.MassesLayer.getDottedLineShape;
+import static java.text.MessageFormat.format;
 
 /**
  * Node for showing draggable masses in the mass pool.
@@ -32,7 +34,8 @@ public class MassNode extends PNode {
     public MassNode( final ChamberPool pool, final Property<ObservableList<Mass>> masses, final Mass mass, final ModelViewTransform transform ) {
         final PhetPPath shapeNode = new PhetPPath( transform.modelToView( mass.shape ), Color.gray, new BasicStroke( 2 ), Color.black );
         addChild( shapeNode );
-        addChild( new PhetPText( new DecimalFormat( "0" ).format( mass.mass ) + " N", new PhetFont( 13, true ), Color.white ) {{
+
+        addChild( new PhetPText( format( MASS_LABEL_PATTERN, new DecimalFormat( "0" ).format( mass.mass ) ), new PhetFont( 13, true ), Color.white ) {{
             centerBoundsOnPoint( shapeNode.getCenterX(), shapeNode.getCenterY() );
         }} );
         addInputEventListener( new CursorHandler() );

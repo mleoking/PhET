@@ -30,8 +30,7 @@ import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.IPool;
 import edu.umd.cs.piccolo.nodes.PText;
 
-import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.QUESTION_MARK;
-import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.VALUE_WITH_UNITS_PATTERN;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.*;
 import static java.text.MessageFormat.format;
 
 /**
@@ -54,7 +53,7 @@ public class PressureSensorNode extends SensorNode {
         final PointSensor<Double> pointSensor = new PointSensor<Double>( 0, 0 );
 
         //Show the speedometer sensor and make top-center be 1.0 atm for the pressure sensor
-        final ZeroOffsetNode speedometerNode = new ZeroOffsetNode( new SpeedometerSensorNode( transform, pointSensor, "pressure", Units.ATMOSPHERE.toSI( 1.0 ) * 2 ) ) {{
+        final ZeroOffsetNode speedometerNode = new ZeroOffsetNode( new SpeedometerSensorNode( transform, pointSensor, PRESSURE, Units.ATMOSPHERE.toSI( 1.0 ) * 2 ) ) {{
 
             //make the hot spot at the bottom center
             translate( -getFullWidth() / 2, -getFullBounds().getHeight() );
