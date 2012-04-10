@@ -5,6 +5,7 @@ import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.colorado.phet.fractionsintro.common.AbstractFractionsModule;
 import edu.colorado.phet.fractionsintro.equalitylab.model.EqualityLabModel;
 import edu.colorado.phet.fractionsintro.equalitylab.view.EqualityLabCanvas;
@@ -20,7 +21,7 @@ public class EqualityLabModule extends AbstractFractionsModule {
     }
 
     public EqualityLabModule( EqualityLabModel model ) {
-        super( "Equality Lab", model.clock );
+        super( Components.equalityLabTab, "Equality Lab", model.clock );
         setSimulationPanel( new EqualityLabCanvas( model ) );
     }
 
