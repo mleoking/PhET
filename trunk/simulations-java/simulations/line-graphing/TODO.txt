@@ -13,7 +13,6 @@ HIGH
 MEDIUM
 - keep saved and standard equations in model
 - more sophisticated model of point tool, for highlighting and comparison of point to lines
-- hide equation on interactive line when equation control panel in minimized
 - improve layout of equation, try spinners in various layouts and locations
 - make point tool light up when the point is on any graphed line
 - when "Hide Lines" is unchecked, disable Save Line and Erase Lines buttons
