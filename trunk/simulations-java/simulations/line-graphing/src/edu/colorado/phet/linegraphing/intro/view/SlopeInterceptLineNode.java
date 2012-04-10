@@ -112,6 +112,10 @@ public class SlopeInterceptLineNode extends PComposite {
                                 -zeroOffsetNode.getFullBoundsReference().getHeight() - 12 );
     }
 
+    public void setEquationVisible( boolean visible ) {
+        equationNode.setVisible( visible );
+    }
+
     protected void updateColor( Color color ) {
         arrowNode.setPaint( color );
         equationNode.setEquationColor( color );

@@ -41,18 +41,22 @@ class LineGraphNode extends GraphNode implements Resettable {
 
     private final LineGraph graph;
     private final ModelViewTransform mvt;
+    private final Property<Boolean> interactiveEquationVisible;
     private final SlopeInterceptLineNode yEqualsXLineNode, yEqualsNegativeXLineNode;
     private final PNode savedLinesParentNode, standardLinesParentNode; // intermediate nodes, for consistent rendering order
     private final PNode interactiveLineParentNode, bracketsParentNode;
     private final PNode slopeManipulatorNode, interceptManipulatorNode;
+    private SlopeInterceptLineNode interactiveLineNode;
 
     public LineGraphNode( final LineGraph graph, final ModelViewTransform mvt,
                           Property<SlopeInterceptLine> interactiveLine,
-                          IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange ) {
+                          IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange,
+                          Property<Boolean> interactiveEquationVisible ) {
         super( graph, mvt );
 
         this.graph = graph;
         this.mvt = mvt;
+        this.interactiveEquationVisible = interactiveEquationVisible;
 
         // Standard lines
         standardLinesParentNode = new PComposite();
@@ -114,7 +118,15 @@ class LineGraphNode extends GraphNode implements Resettable {
                 updateLinesVisibility();
             }
         };
-        visibilityObserver.observe( interactiveLineVisible, slopeVisible, linesVisible );
+        visibilityObserver.observe( interactiveEquationVisible, slopeVisible, linesVisible );
+
+        interactiveEquationVisible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean visible ) {
+                if ( interactiveLineNode != null ) {
+                    interactiveLineNode.setEquationVisible( visible );
+                }
+            }
+        } );
 
         // interactivity for slope manipulator
         slopeManipulatorNode.addInputEventListener( new CursorHandler() );
@@ -169,7 +181,9 @@ class LineGraphNode extends GraphNode implements Resettable {
 
         // replace the line node
         interactiveLineParentNode.removeAllChildren();
-        interactiveLineParentNode.addChild( new SlopeInterceptLineNode( line, graph, mvt, LGColors.INTERACTIVE_LINE ) );
+        interactiveLineNode = new SlopeInterceptLineNode( line, graph, mvt, LGColors.INTERACTIVE_LINE );
+        interactiveLineNode.setEquationVisible( interactiveEquationVisible.get() );
+        interactiveLineParentNode.addChild( interactiveLineNode );
 
         // replace the rise/run brackets
         bracketsParentNode.removeAllChildren();
@@ -223,7 +237,8 @@ class LineGraphNode extends GraphNode implements Resettable {
                                                      new Property<SlopeInterceptLine>( new SlopeInterceptLine( 1, 1, 1 ) ),
                                                      new IntegerRange( -1, 1 ),
                                                      new IntegerRange( -1, 1 ),
-                                                     new IntegerRange( -1, 1 ) );
+                                                     new IntegerRange( -1, 1 ),
+                                                     new Property<Boolean>( false ) );
         graphNode.yEqualsXVisible.set( yEqualsXVisible );
         graphNode.yEqualsNegativeXVisible.set( yEqualsNegativeXVisible );
         graphNode.interactiveLineVisible.set( false );
