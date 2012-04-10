@@ -6,9 +6,13 @@ import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
  * Class that represents a block in the view.  In the model, a block is two-
@@ -20,10 +24,29 @@ public abstract class Block extends UserMovableModelElement implements RestingSu
 
     // Height and width of the face, which is square.
     public static final double FACE_SIZE = 0.05; // In meters.
+    private final Property<HorizontalSurface> restingSurface;
 
     public abstract Color getColor();
 
     public abstract String getLabel();
+
+    protected Block() {
+        this.restingSurface = new Property<HorizontalSurface>( getTopSurface() );
+        position.addObserver( new VoidFunction1<ImmutableVector2D>() {
+            @Override public void apply( final ImmutableVector2D immutableVector2D ) {
+                restingSurface.set( getTopSurface() );
+            }
+        } );
+//        this.restingSurface = new CompositeProperty<HorizontalSurface>( new Function0<HorizontalSurface>() {
+//            @Override public HorizontalSurface apply() {
+//                return new HorizontalSurface( new DoubleRange( getRect().getMinX(), getRect().getMaxX() ), getRect().getMaxY() );
+//            }
+//        }, position );
+    }
+
+    public HorizontalSurface getTopSurface() {
+        return new HorizontalSurface( new DoubleRange( getRect().getMinX(), getRect().getMaxX() ), getRect().getMaxY() );
+    }
 
     public void setOnSurface( Point2D surfaceLocation ) {
         // TODO
@@ -43,8 +66,8 @@ public abstract class Block extends UserMovableModelElement implements RestingSu
                                        FACE_SIZE );
     }
 
-    public HorizontalSurface getRestingSurface() {
-        return new HorizontalSurface( new DoubleRange( getRect().getMinX(), getRect().getMaxX() ), getRect().getMaxY() );
+    public ObservableProperty<HorizontalSurface> getRestingSurface() {
+        return restingSurface;
     }
 
     @Override public HorizontalSurface getBottomSurface() {

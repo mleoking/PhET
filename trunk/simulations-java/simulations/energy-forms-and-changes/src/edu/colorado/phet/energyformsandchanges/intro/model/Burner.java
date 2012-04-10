@@ -4,6 +4,7 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 
@@ -31,6 +32,7 @@ public class Burner implements RestingSurfaceOwner {
     // Property that is used to control the amount of heating or cooling that
     // is being done.
     public final Property<Double> heatCoolLevel = new Property<Double>( 0.0 );
+    private Property<HorizontalSurface> restingSurface;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -45,6 +47,7 @@ public class Burner implements RestingSurfaceOwner {
      */
     public Burner( Point2D position ) {
         this.position.setLocation( position );
+        restingSurface = new Property<HorizontalSurface>( new HorizontalSurface( new DoubleRange( getOutlineRect().getMinX(), getOutlineRect().getMaxX() ), getOutlineRect().getMaxY() ) );
     }
 
     //-------------------------------------------------------------------------
@@ -64,7 +67,7 @@ public class Burner implements RestingSurfaceOwner {
                                        HEIGHT );
     }
 
-    public HorizontalSurface getRestingSurface() {
-        return new HorizontalSurface( new DoubleRange( getOutlineRect().getMinX(), getOutlineRect().getMaxX() ), getOutlineRect().getMaxY() );
+    public ObservableProperty<HorizontalSurface> getRestingSurface() {
+        return restingSurface;
     }
 }

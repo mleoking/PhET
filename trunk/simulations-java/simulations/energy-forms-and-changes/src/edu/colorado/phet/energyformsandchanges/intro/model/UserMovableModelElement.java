@@ -3,6 +3,7 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
@@ -25,7 +26,14 @@ public abstract class UserMovableModelElement {
 
     // The surface upon which this model element is resting.  If null, the
     // object is either on the ground or falling.
-    private HorizontalSurface parentSurface = null;
+    private ObservableProperty<HorizontalSurface> parentSurface = null;
+    private VoidFunction1<HorizontalSurface> observer = new VoidFunction1<HorizontalSurface>() {
+        @Override public void apply( final HorizontalSurface horizontalSurface ) {
+            final ImmutableVector2D value = new ImmutableVector2D( horizontalSurface.getCenterX(), horizontalSurface.yPos );
+            System.out.println( "value = " + value );
+            position.set( value );
+        }
+    };
 
     protected UserMovableModelElement() {
         // Whenever a movable model element becomes user controlled, it is no
@@ -64,12 +72,24 @@ public abstract class UserMovableModelElement {
         position.set( position.get().getAddedInstance( modelDelta ) );
     }
 
-    public HorizontalSurface getParentSurface() {
+    public ObservableProperty<HorizontalSurface> getParentSurface() {
         return parentSurface;
     }
 
-    public void setParentSurface( HorizontalSurface parentSurface ) {
+    public void setParentSurface( ObservableProperty<HorizontalSurface> parentSurface ) {
+        if ( this.parentSurface != null ) {
+            this.parentSurface.removeObserver( observer );
+        }
         this.parentSurface = parentSurface;
+
+        if ( this.parentSurface != null ) {
+
+//            if ( parentSurface == getTop() || parentSurface == getBottom() ) {
+//                throw new RuntimeException( "Same as top or bottom" );
+//            }
+//               ()
+            this.parentSurface.addObserver( observer );
+        }
     }
 
     public abstract HorizontalSurface getBottomSurface();
