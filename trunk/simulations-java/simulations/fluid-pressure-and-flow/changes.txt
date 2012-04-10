@@ -1,5 +1,6 @@
 Added sim sharing messages
 Improved i18n
+Removed minus signs from grid readouts
 # 0.00.51 (63237) Apr 10, 2012
 Pressure tab: Scene 3: Removed "masses" label
 Pressure tab: Scenes 2-3: Added a label for the bottom grid line

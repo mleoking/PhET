@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.VelocitySensorContext;
@@ -50,8 +51,8 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
         } );
 
         //Add the sensors at positions that were determined empirically
-        addPressureSensor( new PressureSensor( this, 3, 1.188 ) );
-        addPressureSensor( new PressureSensor( this, 3, 1.188 ) );
+        addPressureSensor( new PressureSensor( this, 3, 1.188, UserComponents.pressureSensor0 ) );
+        addPressureSensor( new PressureSensor( this, 3, 1.188, UserComponents.pressureSensor1 ) );
         addVelocitySensor( new FPAFVelocitySensor( this, 1, 0.4735 ) );
         addVelocitySensor( new FPAFVelocitySensor( this, 1, 0.4735 ) );
     }

@@ -8,6 +8,9 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
@@ -23,6 +26,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PointSensor;
 import edu.colorado.phet.common.piccolophet.nodes.SpeedometerSensorNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.ComponentTypes;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Unit;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
@@ -30,6 +34,8 @@ import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.IPool;
 import edu.umd.cs.piccolo.nodes.PText;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
+import static edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.ParameterKeys.pressure;
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.*;
 import static java.text.MessageFormat.format;
 
@@ -97,7 +103,15 @@ public class PressureSensorNode extends SensorNode {
                 //Return the closest point within the visible model bounds, so it can't be dragged off-screen
                 return visibleModelRect.apply().getClosestPoint( pt );
             }
-        } ) );
+        } ) {
+            @Override protected void sendMessage( final Point2D modelPoint ) {
+                super.sendMessage( modelPoint );
+                SimSharingManager.sendUserMessage( sensor.userComponent, ComponentTypes.pressureSensor, UserActions.drag,
+                                                   parameterSet( ParameterKeys.x, modelPoint.getX() ).
+                                                           with( ParameterKeys.y, modelPoint.getY() ).
+                                                           with( pressure, sensor.context.getPressure( modelPoint.getX(), modelPoint.getY() ) ) );
+            }
+        } );
     }
 
     //Use higher precision in the air since the pressure changes much more slowly there

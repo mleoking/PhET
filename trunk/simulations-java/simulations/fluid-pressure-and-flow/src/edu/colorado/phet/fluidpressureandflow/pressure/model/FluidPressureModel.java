@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 
@@ -35,10 +36,10 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
         chamberPool = new ChamberPool( gravity, liquidDensity );
 
         //Show pressure partly submerged in the water, but at the top of the water
-        addPressureSensor( new PressureSensor( this, -4, 2 ) );
-        addPressureSensor( new PressureSensor( this, -4, 2 ) );
-        addPressureSensor( new PressureSensor( this, -4, 2 ) );
-        addPressureSensor( new PressureSensor( this, -4, 2 ) );
+        addPressureSensor( new PressureSensor( this, -4, 2, UserComponents.pressureSensor0 ) );
+        addPressureSensor( new PressureSensor( this, -4, 2, UserComponents.pressureSensor1 ) );
+        addPressureSensor( new PressureSensor( this, -4, 2, UserComponents.pressureSensor2 ) );
+        addPressureSensor( new PressureSensor( this, -4, 2, UserComponents.pressureSensor3 ) );
 
         getClock().addSimulationTimeChangeListener( new VoidFunction1<Double>() {
             @Override public void apply( final Double dt ) {

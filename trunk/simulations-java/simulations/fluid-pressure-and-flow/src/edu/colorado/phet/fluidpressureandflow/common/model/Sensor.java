@@ -3,6 +3,7 @@ package edu.colorado.phet.fluidpressureandflow.common.model;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -15,8 +16,10 @@ public abstract class Sensor<T> {
 
     public final Property<ImmutableVector2D> location;
     protected final Property<T> value;
+    public final IUserComponent userComponent;
 
-    public Sensor( double x, double y, T value ) {
+    public Sensor( double x, double y, T value, final IUserComponent userComponent ) {
+        this.userComponent = userComponent;
         location = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
         this.value = new Property<T>( value );
     }

@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.VelocitySensorContext;
@@ -52,8 +53,8 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
         super( METRIC );
 
         //Add the pressure and velocity sensors
-        addPressureSensor( new PressureSensor( this, 30, 25 ) );
-        addPressureSensor( new PressureSensor( this, 30, 25 ) );
+        addPressureSensor( new PressureSensor( this, 30, 25, UserComponents.pressureSensor0 ) );
+        addPressureSensor( new PressureSensor( this, 30, 25, UserComponents.pressureSensor1 ) );
         addVelocitySensor( new FPAFVelocitySensor( this, 30, 30 ) );
         addVelocitySensor( new FPAFVelocitySensor( this, 30, 30 ) );
 

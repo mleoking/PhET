@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.common.model;
 
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -10,8 +11,12 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class PressureSensor extends Sensor<Double> {
 
-    public PressureSensor( final Context context, double x, double y ) {
-        super( x, y, context.getPressure( x, y ) );
+    public final Context context;
+
+    public PressureSensor( final Context context, double x, double y, IUserComponent userComponent ) {
+        super( x, y, context.getPressure( x, y ), userComponent );
+
+        this.context = context;
 
         //When the location or context changes, update the pressure value so readouts will update
         final SimpleObserver updatePressure = new SimpleObserver() {

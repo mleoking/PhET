@@ -64,7 +64,14 @@ public class RelativeDragHandler extends PBasicInputEventHandler {
 
         //Find the constrained point for the targeted model point and apply it
         Point2D constrained = constraint.apply( modelPt );
+
+        sendMessage( constrained );
+
         setModelPosition( constrained );
+    }
+
+    //Optionally send a message before the model is changed
+    protected void sendMessage( final Point2D modelPoint ) {
     }
 
     //Set the model position.  This is overrideable for cases that need to apply application logic (such as detecting translations for emitting crystals)
