@@ -1,4 +1,5 @@
-Added sim sharing messages
+Added images for masses
+Added some sim sharing messages
 Improved i18n
 Removed minus signs from grid readouts
 # 0.00.51 (63237) Apr 10, 2012

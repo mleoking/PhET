@@ -20,6 +20,7 @@ import edu.colorado.phet.fluidpressureandflow.pressure.model.Mass;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.MASS_LABEL_PATTERN;
 import static edu.colorado.phet.fluidpressureandflow.pressure.view.MassesLayer.getDottedLineShape;
@@ -32,11 +33,20 @@ import static java.text.MessageFormat.format;
  */
 public class MassNode extends PNode {
     public MassNode( final ChamberPool pool, final Property<ObservableList<Mass>> masses, final Mass mass, final ModelViewTransform transform ) {
-        final PhetPPath shapeNode = new PhetPPath( transform.modelToView( mass.shape ), Color.gray, new BasicStroke( 2 ), Color.black );
+
+        final Shape viewShape = transform.modelToView( mass.shape.getBounds2D() );
+
+        final PImage shapeNode = new PImage( mass.image ) {{
+            setBounds( viewShape.getBounds2D() );
+        }};
         addChild( shapeNode );
 
+        //Add a border because otherwise when the blocks are stacked and moving together the edges kind of jump in a funny-looking way
+        final PhetPPath borderNode = new PhetPPath( transform.modelToView( mass.shape ), new BasicStroke( 1.5f ), Color.darkGray );
+        addChild( borderNode );
+
         addChild( new PhetPText( format( MASS_LABEL_PATTERN, new DecimalFormat( "0" ).format( mass.mass ) ), new PhetFont( 13, true ), Color.white ) {{
-            centerBoundsOnPoint( shapeNode.getCenterX(), shapeNode.getCenterY() );
+            centerBoundsOnPoint( shapeNode.getFullBounds().getCenterX(), shapeNode.getFullBounds().getCenterY() );
         }} );
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
