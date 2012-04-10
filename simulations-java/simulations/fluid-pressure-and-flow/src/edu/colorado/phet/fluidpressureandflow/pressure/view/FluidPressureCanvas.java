@@ -11,9 +11,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.colorado.phet.common.piccolophet.nodes.faucet.FaucetNode;
@@ -214,9 +212,10 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
                     setVisible( visible );
                 }
             } );
-            addChild( new PhetPText( "Masses", new PhetFont( 18 ) ) {{
-                setOffset( new Point2D.Double( 54.01477104874449, 343.01329394387 ) );//Sampled from a drag listener
-            }} );
+
+            //On 4/9/2012 we decided to remove this label because it is unnecessary, but I'll leave the code here in case others object
+//            addChild( new PhetPText( "Masses", new PhetFont( 18 ) ) {{ setOffset( new Point2D.Double( 54.01477104874449, 343.01329394387 ) );//Sampled from a drag listener }} );
+
             addChild( new MassesLayer( model.chamberPool, transform ) );
         }};
         addChild( massesNode );
