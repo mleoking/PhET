@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.intro.view;
 
+import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
@@ -12,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -40,13 +41,16 @@ class PointToolNode extends PhetPNode {
     private static final NumberFormat COORDINATES_FORMAT = new DefaultDecimalFormat( "0" );
     private static final double COORDINATES_Y_CENTER = 28; // center of the display area, measured from the top of the unscaled image file
 
+    private static final Color NORMAL_COLOR = Color.BLACK;
+    private static final Color HIGHLIGHT_COLOR = Color.RED;
+
     /**
      * Constructor
      * @param pointTool the point tool
      * @param mvt model-view transform
      * @param dragBounds drag bounds, in view coordinate frame
      */
-    public PointToolNode( PointTool pointTool, final ModelViewTransform mvt, final LineGraph graph, Rectangle2D dragBounds ) {
+    public PointToolNode( final PointTool pointTool, final ModelViewTransform mvt, final LineGraph graph, Rectangle2D dragBounds ) {
 
         // tool body
         final PNode bodyNode = new PImage( Images.POINT_TOOL );
@@ -63,21 +67,29 @@ class PointToolNode extends PhetPNode {
         scale( 0.75 ); //TODO resize image file, or use BufferedImage.multiScale
 
         // location and display
-        pointTool.location.addObserver( new VoidFunction1<ImmutableVector2D>() {
-            public void apply( ImmutableVector2D location ) {
+        RichSimpleObserver observer = new RichSimpleObserver() {
+            @Override public void update() {
+
+                // move to location
+                ImmutableVector2D location = pointTool.location.get();
                 setOffset( mvt.modelToView( location ).toPoint2D() );
+
+                // display value and highlighting
                 if ( graph.contains( location ) ) {
                     coordinatesNode.setText( MessageFormat.format( COORDINATES_PATTERN, COORDINATES_FORMAT.format( location.getX() ), COORDINATES_FORMAT.format( location.getY() ) ) );
-
+                    coordinatesNode.setTextPaint( pointTool.highlighted.get() ? HIGHLIGHT_COLOR : NORMAL_COLOR );
                 }
                 else {
-                   coordinatesNode.setText( "- -" );
+                    coordinatesNode.setText( "- -" );
+                    coordinatesNode.setTextPaint( NORMAL_COLOR );
                 }
+
                 // horizontally centered
                 coordinatesNode.setOffset( bodyNode.getFullBoundsReference().getCenterX() - ( coordinatesNode.getFullBoundsReference().getWidth() / 2 ),
                                            bodyNode.getFullBoundsReference().getMinY() + COORDINATES_Y_CENTER - ( coordinatesNode.getFullBoundsReference().getHeight() / 2 ) );
             }
-        } );
+        };
+        observer.observe( pointTool.location, pointTool.highlighted );
 
         // dragging
         addInputEventListener( new CursorHandler() );
