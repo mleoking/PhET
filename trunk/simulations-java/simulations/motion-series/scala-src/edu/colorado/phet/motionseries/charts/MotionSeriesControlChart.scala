@@ -6,7 +6,6 @@ import edu.colorado.phet.common.motion.charts._
 import java.awt.event.{ComponentEvent, ComponentAdapter}
 import edu.colorado.phet.motionseries.MotionSeriesResources._
 import edu.umd.cs.piccolox.pswing.PSwing
-import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.scalacommon.util.Observable
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import java.lang.Math.PI
@@ -20,6 +19,7 @@ import java.awt.{BasicStroke, Color}
 import edu.umd.cs.piccolo.event.{PInputEvent, PBasicInputEventHandler}
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty
+import edu.colorado.phet.motionseries.{MotionSeriesSimSharing, MotionSeriesDefaults}
 
 object ChartDefaults {
   val LABEL_OFFSET_DY = 5 //distance between bottom of the chart and top of the time axis label
@@ -83,11 +83,13 @@ class MotionSeriesMultiControlChart(canvas: PhetPCanvas, model: MotionSeriesMode
 
 class RampForceChartNode(canvas: PhetPCanvas, motionSeriesModel: MotionSeriesModel) extends MotionSeriesMultiControlChart(canvas, motionSeriesModel, Array(new RampForceMinimizableControlChart(motionSeriesModel)), 0.5)
 
+import MotionSeriesSimSharing._
+
 class ForcesAndMotionChartNode(canvas: PhetPCanvas, model: MotionSeriesModel) extends MotionSeriesMultiControlChart(canvas, model, Array(
   new ForcesAndMotionMinimizableControlChart(model),
-  new MinimizableControlChart("properties.acceleration".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.acceleration, 50, "properties.acceleration.units".translate, MotionSeriesDefaults.accelerationColor, "properties.acceleration".translate).chart, false),
-  new MinimizableControlChart("properties.velocity".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.state.velocity, 25, "properties.velocity.units".translate, MotionSeriesDefaults.velocityColor, "properties.velocity".translate).chart, false),
-  new MinimizableControlChart("properties.position".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.state.position, 10, "properties.position.units".translate, MotionSeriesDefaults.positionColor, "properties.position".translate).chart, false)),
+  new MinimizableControlChart(minimizeAccelerationChartButton, maximizeAccelerationChartButton, "properties.acceleration".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.acceleration, 50, "properties.acceleration.units".translate, MotionSeriesDefaults.accelerationColor, "properties.acceleration".translate).chart, false),
+  new MinimizableControlChart(minimizeVelocityChartButton, maximizeVelocityChartButton, "properties.velocity".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.state.velocity, 25, "properties.velocity.units".translate, MotionSeriesDefaults.velocityColor, "properties.velocity".translate).chart, false),
+  new MinimizableControlChart(minimizePositionChartButton, maximizePositionChartButton, "properties.position".translate, new SingleSeriesChart(model, () => model.motionSeriesObject.state.position, 10, "properties.position.units".translate, MotionSeriesDefaults.positionColor, "properties.position".translate).chart, false)),
                                                                                                                     0.7)
 
 class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Double, maxY: Double, units: String, color: Color, title: String) {
@@ -139,9 +141,9 @@ class SingleSeriesChart(motionSeriesModel: MotionSeriesModel, _value: () => Doub
   })
 }
 
-class RampForceMinimizableControlChart(motionSeriesModel: MotionSeriesModel) extends MinimizableControlChart("forces.parallel-title-with-units".translate, new RampControlChart(motionSeriesModel).chart)
+class RampForceMinimizableControlChart(motionSeriesModel: MotionSeriesModel) extends MinimizableControlChart(parallelForcesChartMinimizeButton, parallelForcesChartMaximizeButton, "forces.parallel-title-with-units".translate, new RampControlChart(motionSeriesModel).chart)
 
-class ForcesAndMotionMinimizableControlChart(motionSeriesModel: MotionSeriesModel) extends MinimizableControlChart("forces.parallel-title-with-units".translate, new ForcesAndMotionControlChart(motionSeriesModel).chart)
+class ForcesAndMotionMinimizableControlChart(motionSeriesModel: MotionSeriesModel) extends MinimizableControlChart(parallelForcesChartMinimizeButton, parallelForcesChartMaximizeButton, "forces.parallel-title-with-units".translate, new ForcesAndMotionControlChart(motionSeriesModel).chart)
 
 class RampControlChart(motionSeriesModel: MotionSeriesModel) extends MotionSeriesControlChart(motionSeriesModel, "forces.sum-parallel".translate) {
   def addSerieses() = {
@@ -304,7 +306,7 @@ abstract class MotionSeriesControlChart(motionSeriesModel: MotionSeriesModel, fo
 }
 
 class MutableDouble(private var _value: Double) extends Observable {
-  def this() = this (0.0)
+  def this() = this(0.0)
 
   def value = _value
 

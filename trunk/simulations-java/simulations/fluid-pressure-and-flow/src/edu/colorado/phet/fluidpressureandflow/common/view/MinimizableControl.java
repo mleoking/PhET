@@ -5,6 +5,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
@@ -23,11 +24,11 @@ import static java.awt.Color.black;
 public class MinimizableControl extends PNode {
     protected final Property<Boolean> maximized;
 
-    public MinimizableControl( final Property<Boolean> maximized, final PNode content, final String text ) {
+    public MinimizableControl( IUserComponent minimizeButtonComponent, IUserComponent maximizeButtonComponent, final Property<Boolean> maximized, final PNode content, final String text ) {
         this.maximized = maximized;
 
         //Button for showing/hiding the slider
-        MinimizeMaximizeNode minimizeMaximizeNode = new MinimizeMaximizeNode( text, BUTTON_LEFT, FluidPressureCanvas.CONTROL_FONT, black, 10 ) {{
+        MinimizeMaximizeNode minimizeMaximizeNode = new MinimizeMaximizeNode( minimizeButtonComponent, maximizeButtonComponent, text, BUTTON_LEFT, FluidPressureCanvas.CONTROL_FONT, black, 10 ) {{
             addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     maximized.set( isMaximized() );

@@ -2,6 +2,7 @@
 package edu.colorado.phet.common.motion.charts;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.PNode;
 
@@ -13,15 +14,15 @@ public class MinimizableControlChart extends PNode {
     private ControlChart controlChart;
     private MinimizeMaximizeButton minimizeMaximizeButton;
 
-    public MinimizableControlChart( String title, final ControlChart controlChart ) {
-        this( title, controlChart, true );
+    public MinimizableControlChart( IUserComponent minimizeButtonComponent, IUserComponent maximizeButtonComponent, String title, final ControlChart controlChart ) {
+        this( minimizeButtonComponent, maximizeButtonComponent, title, controlChart, true );
     }
 
-    public MinimizableControlChart( String title, final ControlChart controlChart, boolean maximized ) {
+    public MinimizableControlChart( IUserComponent minimizeButtonComponent, IUserComponent maximizeButtonComponent, String title, final ControlChart controlChart, boolean maximized ) {
         this.controlChart = controlChart;
         addChild( controlChart );
 
-        this.minimizeMaximizeButton = new MinimizeMaximizeButton( title, maximized );
+        this.minimizeMaximizeButton = new MinimizeMaximizeButton( minimizeButtonComponent, maximizeButtonComponent, title, maximized );
         addChild( minimizeMaximizeButton );
 
         final SimpleObserver updateVisibility = new SimpleObserver() {

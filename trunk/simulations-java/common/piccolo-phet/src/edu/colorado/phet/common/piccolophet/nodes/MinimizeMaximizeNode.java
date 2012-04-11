@@ -12,6 +12,10 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
@@ -62,6 +66,8 @@ public class MinimizeMaximizeNode extends PNode {
     private EventListenerList listenerList;
     private PText textNode;
     private PImage buttonNode;
+    private final IUserComponent minimizeButtonComponent;
+    private final IUserComponent maximizeButtonComponent;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -73,8 +79,8 @@ public class MinimizeMaximizeNode extends PNode {
      * @param text
      * @param buttonPosition BUTTON_LEFT or BUTTON_RIGHT
      */
-    public MinimizeMaximizeNode( String text, int buttonPosition ) {
-        this( text, buttonPosition, DEFAULT_FONT, DEFAULT_TEXT_COLOR, DEFAULT_SPACING );
+    public MinimizeMaximizeNode( IUserComponent minimizeButtonComponent, IUserComponent maximizeButtonComponent, String text, int buttonPosition ) {
+        this( minimizeButtonComponent, maximizeButtonComponent, text, buttonPosition, DEFAULT_FONT, DEFAULT_TEXT_COLOR, DEFAULT_SPACING );
     }
 
     /**
@@ -86,8 +92,10 @@ public class MinimizeMaximizeNode extends PNode {
      * @param textPaint
      * @param spacing        horizontal space between text and button
      */
-    public MinimizeMaximizeNode( String text, int buttonPosition, Font textFont, Color textPaint, double spacing ) {
+    public MinimizeMaximizeNode( final IUserComponent minimizeButtonComponent, final IUserComponent maximizeButtonComponent, String text, int buttonPosition, Font textFont, Color textPaint, double spacing ) {
         super();
+        this.minimizeButtonComponent = minimizeButtonComponent;
+        this.maximizeButtonComponent = maximizeButtonComponent;
 
         if ( buttonPosition != BUTTON_LEFT && buttonPosition != BUTTON_RIGHT ) {
             throw new IllegalArgumentException( "invalid buttonPosition: " + buttonPosition );
@@ -108,6 +116,7 @@ public class MinimizeMaximizeNode extends PNode {
         buttonNode.addInputEventListener( new PBasicInputEventHandler() {
             public void mouseReleased( PInputEvent event ) {
                 minimized = !minimized;
+                SimSharingManager.sendUserMessage( isMinimized() ? minimizeButtonComponent : maximizeButtonComponent, UserComponentTypes.button, UserActions.pressed );
                 updateView();
                 fireChangeEvent( new ChangeEvent( thisNode ) );
             }
