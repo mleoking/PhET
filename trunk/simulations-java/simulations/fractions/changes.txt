@@ -1,3 +1,4 @@
+Send messages when number line knobs are dragged
 Send messages when the lock is toggled
 Send messages when the scaled up value changes
 Send messages when the container state changes
