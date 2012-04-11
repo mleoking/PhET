@@ -4,7 +4,6 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 
@@ -14,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
  *
  * @author John Blanco
  */
-public class Burner extends ModelElement implements RestingSurfaceOwner {
+public class Burner extends ModelElement {
 
     //-------------------------------------------------------------------------
     // Class Data
@@ -32,7 +31,7 @@ public class Burner extends ModelElement implements RestingSurfaceOwner {
     // Property that is used to control the amount of heating or cooling that
     // is being done.
     public final Property<Double> heatCoolLevel = new Property<Double>( 0.0 );
-    private Property<HorizontalSurface> restingSurface;
+    private Property<HorizontalSurface> topSurface;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -47,7 +46,7 @@ public class Burner extends ModelElement implements RestingSurfaceOwner {
      */
     public Burner( Point2D position ) {
         this.position.setLocation( position );
-        restingSurface = new Property<HorizontalSurface>( new HorizontalSurface( new DoubleRange( getOutlineRect().getMinX(), getOutlineRect().getMaxX() ), getOutlineRect().getMaxY(), this ) );
+        topSurface = new Property<HorizontalSurface>( new HorizontalSurface( new DoubleRange( getOutlineRect().getMinX(), getOutlineRect().getMaxX() ), getOutlineRect().getMaxY(), this ) );
     }
 
     //-------------------------------------------------------------------------
@@ -67,11 +66,7 @@ public class Burner extends ModelElement implements RestingSurfaceOwner {
                                        HEIGHT );
     }
 
-    public ObservableProperty<HorizontalSurface> getRestingSurface() {
-        return restingSurface;
-    }
-
-    public ObservableProperty<HorizontalSurface> getParent() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    @Override public Property<HorizontalSurface> getTopSurfaceProperty() {
+        return topSurface;
     }
 }

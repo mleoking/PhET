@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 
 /**
@@ -112,18 +112,18 @@ public class IntroModel {
                 double velocity = movableModelElement.verticalVelocity.get() + acceleration * dt;
                 double proposedYPos = movableModelElement.position.get().getY() + velocity * dt;
                 double minYPos = 0;
-                ObservableProperty<HorizontalSurface> parentSurface = findHighestOverlappingSurface( movableModelElement.getBottomSurface(), movableModelElement );
-                if ( parentSurface != null ) {
-                    minYPos = parentSurface.get().yPos;
+                Property<HorizontalSurface> potentialSupportingSurface = findHighestPossibleSupportSurface( movableModelElement );
+                if ( potentialSupportingSurface != null ) {
+                    minYPos = potentialSupportingSurface.get().yPos;
 
-                    //Center the movableModelElement on its new parent
-                    double targetX = parentSurface.get().getCenterX();
+                    // Center the movableModelElement on its new parent
+                    double targetX = potentialSupportingSurface.get().getCenterX();
                     movableModelElement.setX( targetX );
                 }
                 if ( proposedYPos < minYPos ) {
                     proposedYPos = minYPos;
                     movableModelElement.verticalVelocity.set( 0.0 );
-                    movableModelElement.setParentSurface( parentSurface );
+                    movableModelElement.setSupportingSurface( potentialSupportingSurface );
                 }
                 else {
                     movableModelElement.verticalVelocity.set( velocity );
@@ -161,16 +161,21 @@ public class IntroModel {
         return rightBurner;
     }
 
-    private ObservableProperty<HorizontalSurface> findHighestOverlappingSurface( HorizontalSurface surface, Block element ) {
-        ObservableProperty<HorizontalSurface> highestOverlappingSurface = null;
-        RestingSurfaceOwner selected = null;
-        for ( RestingSurfaceOwner restingSurfaceOwner : Arrays.asList( leftBurner, rightBurner, brick, leadBlock ) ) {
-            System.out.println( "restingSurfaceOwner = " + restingSurfaceOwner + ". equals = " + ( restingSurfaceOwner == element ) );
-            if ( restingSurfaceOwner != element && surface.overlapsWith( restingSurfaceOwner.getRestingSurface().get() ) ) {
-                if ( highestOverlappingSurface == null || highestOverlappingSurface.get().yPos < restingSurfaceOwner.getRestingSurface().get().yPos ) {
-                    highestOverlappingSurface = restingSurfaceOwner.getRestingSurface();
-                    selected = restingSurfaceOwner;
-
+    private Property<HorizontalSurface> findHighestPossibleSupportSurface( UserMovableModelElement element ) {
+        Property<HorizontalSurface> highestOverlappingSurface = null;
+        ModelElement selected = null;
+        for ( ModelElement potentialSupportingElement : Arrays.asList( leftBurner, rightBurner, brick, leadBlock ) ) {
+            if ( potentialSupportingElement == element ) {
+                // This is the element being tested, so skip it.
+                continue;
+            }
+            if ( element.getBottomSurfaceProperty() == null || potentialSupportingElement.getTopSurfaceProperty() == null ) {
+                System.out.println( "Gimme some slack here." );
+            }
+            if ( potentialSupportingElement != element && element.getBottomSurfaceProperty().get().overlapsWith( potentialSupportingElement.getTopSurfaceProperty().get() ) ) {
+                if ( highestOverlappingSurface == null || highestOverlappingSurface.get().yPos < potentialSupportingElement.getTopSurfaceProperty().get().yPos ) {
+                    highestOverlappingSurface = potentialSupportingElement.getTopSurfaceProperty();
+                    selected = potentialSupportingElement;
                 }
             }
         }
@@ -178,14 +183,12 @@ public class IntroModel {
                             "Finished method, element = " + element );
         System.out.println( "Returning: selected = " + selected + ", surface = " + highestOverlappingSurface );
 
-        System.out.println( "leftBurner.getRestingSurface() = " + leftBurner.getRestingSurface() );
-        System.out.println( "rightBurner.getRestingSurface() = " + rightBurner.getRestingSurface() );
-        System.out.println( "brick.getRestingSurface() = " + brick.getRestingSurface() );
-        System.out.println( "lead.getRestingSurface() = " + leadBlock.getRestingSurface() );
+        System.out.println( "leftBurner.getRestingSurface() = " + leftBurner.getTopSurfaceProperty().get() );
+        System.out.println( "rightBurner.getRestingSurface() = " + rightBurner.getTopSurfaceProperty().get() );
 
-        System.out.println( "element.getBottomSurface() = " + element.getBottomSurface() );
-        System.out.println( "leadBlock.getBottomSurface() = " + leadBlock.getBottomSurface() );
-        System.out.println( "brick.getBottomSurface() = " + brick.getBottomSurface() );
+        System.out.println( "element.getBottomSurface() = " + element.getBottomSurfaceProperty() );
+        System.out.println( "leadBlock.getBottomSurface() = " + leadBlock.getBottomSurfaceProperty() );
+        System.out.println( "brick.getBottomSurface() = " + brick.getBottomSurfaceProperty() );
         System.out.println( "############" );
         return highestOverlappingSurface;
     }

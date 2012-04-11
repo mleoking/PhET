@@ -4,12 +4,16 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 
 /**
+ * A simple horizontal surface.  This is represented by a range of x values
+ * and a single y value.
+ *
  * @author John Blanco
  */
 public class HorizontalSurface {
     public final DoubleRange xRange;
     public final double yPos;
-    public final ModelElement owner;
+
+    private final ModelElement owner;
 
     public HorizontalSurface( DoubleRange xRange, double yPos, ModelElement owner ) {
         this.xRange = xRange;
@@ -23,6 +27,10 @@ public class HorizontalSurface {
 
     public double getCenterX() {
         return xRange.getCenter();
+    }
+
+    public ModelElement getOwner() {
+        return owner;
     }
 
     @Override

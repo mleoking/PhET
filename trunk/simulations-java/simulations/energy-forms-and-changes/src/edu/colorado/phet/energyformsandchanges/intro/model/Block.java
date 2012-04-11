@@ -6,7 +6,6 @@ import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
@@ -19,32 +18,34 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  *
  * @author John Blanco
  */
-public abstract class Block extends UserMovableModelElement implements RestingSurfaceOwner {
+public abstract class Block extends UserMovableModelElement {
 
     // Height and width of the face, which is square.
     public static final double FACE_SIZE = 0.05; // In meters.
-    private final Property<HorizontalSurface> restingSurface;
+    private final Property<HorizontalSurface> topSurface = new Property<HorizontalSurface>( null );
+    private final Property<HorizontalSurface> bottomSurface = new Property<HorizontalSurface>( null );
 
     public abstract Color getColor();
 
     public abstract String getLabel();
 
     protected Block() {
-        this.restingSurface = new Property<HorizontalSurface>( getTopSurface() );
+
+        // Update the top an bottom surfaces whenever the position changes.
         position.addObserver( new VoidFunction1<ImmutableVector2D>() {
             public void apply( final ImmutableVector2D immutableVector2D ) {
-                restingSurface.set( getTopSurface() );
+                updateTopSurfaceProperty();
+                updateBottomSurfaceProperty();
             }
         } );
-//        this.restingSurface = new CompositeProperty<HorizontalSurface>( new Function0<HorizontalSurface>() {
-//            @Override public HorizontalSurface apply() {
-//                return new HorizontalSurface( new DoubleRange( getRect().getMinX(), getRect().getMaxX() ), getRect().getMaxY() );
-//            }
-//        }, position );
     }
 
-    public HorizontalSurface getTopSurface() {
-        return new HorizontalSurface( new DoubleRange( getRect().getMinX(), getRect().getMaxX() ), getRect().getMaxY(), this );
+    public Property<HorizontalSurface> getTopSurfaceProperty() {
+        return topSurface;
+    }
+
+    @Override public Property<HorizontalSurface> getBottomSurfaceProperty() {
+        return bottomSurface;
     }
 
     /**
@@ -61,12 +62,12 @@ public abstract class Block extends UserMovableModelElement implements RestingSu
                                        FACE_SIZE );
     }
 
-    public ObservableProperty<HorizontalSurface> getRestingSurface() {
-        return restingSurface;
+    private void updateTopSurfaceProperty() {
+        topSurface.set( new HorizontalSurface( new DoubleRange( getRect().getMinX(), getRect().getMaxX() ), getRect().getMaxY(), this ) );
     }
 
-    @Override public HorizontalSurface getBottomSurface() {
-        return new HorizontalSurface( new DoubleRange( getRect().getMinX(), getRect().getMaxX() ), getRect().getMinY(), this );
+    private void updateBottomSurfaceProperty() {
+        bottomSurface.set( new HorizontalSurface( new DoubleRange( getRect().getMinX(), getRect().getMaxX() ), getRect().getMinY(), this ) );
     }
 
     /**
