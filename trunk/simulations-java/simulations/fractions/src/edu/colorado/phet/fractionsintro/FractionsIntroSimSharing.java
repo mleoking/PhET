@@ -3,6 +3,9 @@ package edu.colorado.phet.fractionsintro;
 
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
@@ -38,10 +41,23 @@ public class FractionsIntroSimSharing {
         cakeRadioButton
     }
 
+    public enum ModelComponents implements IModelComponent {
+        containerSetComponent
+    }
+
+    public enum ModelComponentTypes implements IModelComponentType {
+        containerSetComponentType
+    }
+
+    public enum ModelActions implements IModelAction {
+        changed
+    }
+
     public enum ParameterKeys implements IParameterKey {
         max,
         numerator,
         denominator,
+        containerSetKey,
     }
 
     public static RichVoidFunction0 sendMessage( final IUserComponent component, final IUserComponentType type, final IUserAction action ) {
