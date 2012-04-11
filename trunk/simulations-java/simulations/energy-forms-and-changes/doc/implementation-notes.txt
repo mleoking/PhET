@@ -1,0 +1,10 @@
+
+Tab 1
+
+Acceleration is used to make things fall to give it a more natural look.
+
+Terms: A "resting surface" is a flat surface upon which other objects in the
+model can rest.
+
+
+
