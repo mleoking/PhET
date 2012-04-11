@@ -4,9 +4,6 @@ package edu.colorado.phet.fractionsintro.intro.view;
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
-import edu.colorado.phet.common.phetcommon.util.function.Function0;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
@@ -14,14 +11,11 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.view.SpinnerButtonPanelVBox;
-import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes.button;
 import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.maxSpinnerDownButton;
 import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.maxSpinnerUpButton;
 import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ParameterKeys.max;
-import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.sendMessage;
+import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.sendMessageAndApply;
 
 /**
  * Spinner that shows and allows the user to change the max value (max number of filled containers) for the sim between 1-6.
@@ -40,20 +34,8 @@ public class MaxSpinner extends RichPNode {
                                     }
                                 } );
                             }}, new SpinnerButtonPanelVBox( (int) ( 50.0 / 2.0 ),
-                                                            sendMessageAndApply( maxSpinnerUpButton, value, +1 ), value.lessThan( 6 ),
-                                                            sendMessageAndApply( maxSpinnerDownButton, value, -1 ), value.greaterThan( 1 ) ) )
+                                                            sendMessageAndApply( maxSpinnerUpButton, max, value, +1 ), value.lessThan( 6 ),
+                                                            sendMessageAndApply( maxSpinnerDownButton, max, value, -1 ), value.greaterThan( 1 ) ) )
         ) );
-    }
-
-    private static VoidFunction0 sendMessageAndApply( Components component, final IntegerProperty value, int delta ) {
-        return sendMessage( component, button, pressed, newValue( value, delta ) ).andThen( value.add_( delta ) );
-    }
-
-    private static Function0<ParameterSet> newValue( final IntegerProperty value, final int delta ) {
-        return new Function0<ParameterSet>() {
-            @Override public ParameterSet apply() {
-                return ParameterSet.parameterSet( max, value.get() + delta );
-            }
-        };
     }
 }
