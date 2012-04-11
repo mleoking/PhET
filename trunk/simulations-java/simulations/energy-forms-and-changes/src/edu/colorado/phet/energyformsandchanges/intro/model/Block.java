@@ -3,7 +3,6 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 
 import java.awt.Color;
 import java.awt.Shape;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -46,10 +45,6 @@ public abstract class Block extends UserMovableModelElement implements RestingSu
 
     public HorizontalSurface getTopSurface() {
         return new HorizontalSurface( new DoubleRange( getRect().getMinX(), getRect().getMaxX() ), getRect().getMaxY() );
-    }
-
-    public void setOnSurface( Point2D surfaceLocation ) {
-        // TODO
     }
 
     /**
