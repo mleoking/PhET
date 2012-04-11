@@ -1,3 +1,4 @@
+4/11/12 temporarily remove "Game" tab for study version
 # 1.03.08 (62772) Mar 23, 2012
 3/23/12 change request: change color of Before/After boxes from dark blue (RGB=46,107,178) to black
 # 1.03.07 (62651) Mar 20, 2012
