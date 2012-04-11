@@ -44,6 +44,7 @@ public class FluidPressureAndFlowResources {
         public static final String HIGH = RESOURCES.getLocalizedString( "high" );
         public static final String HONEY = RESOURCES.getLocalizedString( "honey" );
         public static final String HOSE = RESOURCES.getLocalizedString( "hose" );
+        public static final String K_PA = RESOURCES.getLocalizedString( "kPa" );
         public static final String LOW = RESOURCES.getLocalizedString( "low" );
         public static final String M = RESOURCES.getLocalizedString( "m" );
         public static final String M_PER_S = RESOURCES.getLocalizedString( "mPerS" );

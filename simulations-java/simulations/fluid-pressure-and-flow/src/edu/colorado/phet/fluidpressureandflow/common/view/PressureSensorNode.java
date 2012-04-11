@@ -121,8 +121,10 @@ public class PressureSensorNode extends SensorNode {
         if ( !Double.isNaN( v ) ) {
 
             //For pascals, don’t show any decimal places because it already has enough precision
-            final DecimalFormat format = unit == Units.PASCAL ? new DecimalFormat( "0" ) :
-                                         pool != null && pool.get().isAbbreviatedUnits( sensor.location.get(), v ) ? new DecimalFormat( "0.00" ) :
+            final boolean poolAbbreviated = pool != null && pool.get().isAbbreviatedUnits( sensor.location.get(), v );
+            final DecimalFormat format = unit == Units.KILOPASCAL && poolAbbreviated ? new DecimalFormat( "0.0" ) :
+                                         unit == Units.KILOPASCAL && !poolAbbreviated ? new DecimalFormat( "0.000" ) :
+                                         poolAbbreviated ? new DecimalFormat( "0.00" ) :
                                          new DecimalFormat( "0.0000" );
             value = format.format( unit.siToUnit( v ) );
         }
