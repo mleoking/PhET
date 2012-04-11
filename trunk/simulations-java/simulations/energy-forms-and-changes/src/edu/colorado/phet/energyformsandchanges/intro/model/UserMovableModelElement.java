@@ -28,7 +28,7 @@ public abstract class UserMovableModelElement {
     // object is either on the ground or falling.
     private ObservableProperty<HorizontalSurface> parentSurface = null;
     private VoidFunction1<HorizontalSurface> observer = new VoidFunction1<HorizontalSurface>() {
-        @Override public void apply( final HorizontalSurface horizontalSurface ) {
+        public void apply( final HorizontalSurface horizontalSurface ) {
             final ImmutableVector2D value = new ImmutableVector2D( horizontalSurface.getCenterX(), horizontalSurface.yPos );
             System.out.println( "value = " + value );
             position.set( value );
