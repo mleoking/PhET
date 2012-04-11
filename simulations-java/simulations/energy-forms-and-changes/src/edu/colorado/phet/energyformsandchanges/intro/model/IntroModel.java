@@ -166,7 +166,6 @@ public class IntroModel {
 
     private Property<HorizontalSurface> findHighestPossibleSupportSurface( UserMovableModelElement element ) {
         Property<HorizontalSurface> highestOverlappingSurface = null;
-        ModelElement selected = null;
         for ( ModelElement potentialSupportingElement : Arrays.asList( leftBurner, rightBurner, brick, leadBlock ) ) {
             if ( potentialSupportingElement == element || potentialSupportingElement.isStackedUpon( element ) ) {
                 // The potential supporting element is either the same as the
@@ -178,21 +177,9 @@ public class IntroModel {
             if ( potentialSupportingElement != element && element.getBottomSurfaceProperty().get().overlapsWith( potentialSupportingElement.getTopSurfaceProperty().get() ) ) {
                 if ( highestOverlappingSurface == null || highestOverlappingSurface.get().yPos < potentialSupportingElement.getTopSurfaceProperty().get().yPos ) {
                     highestOverlappingSurface = potentialSupportingElement.getTopSurfaceProperty();
-                    selected = potentialSupportingElement;
                 }
             }
         }
-        System.out.println( "###############\n" +
-                            "Finished method, element = " + element );
-        System.out.println( "Returning: selected = " + selected + ", surface = " + highestOverlappingSurface );
-
-        System.out.println( "leftBurner.getRestingSurface() = " + leftBurner.getTopSurfaceProperty().get() );
-        System.out.println( "rightBurner.getRestingSurface() = " + rightBurner.getTopSurfaceProperty().get() );
-
-        System.out.println( "element.getBottomSurface() = " + element.getBottomSurfaceProperty() );
-        System.out.println( "leadBlock.getBottomSurface() = " + leadBlock.getBottomSurfaceProperty() );
-        System.out.println( "brick.getBottomSurface() = " + brick.getBottomSurfaceProperty() );
-        System.out.println( "############" );
         return highestOverlappingSurface;
     }
 }
