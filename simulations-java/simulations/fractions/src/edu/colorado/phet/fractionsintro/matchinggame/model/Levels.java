@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.fractions.util.Cache;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
@@ -29,6 +30,8 @@ import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.VerticalBars
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
+import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.matchingGameFraction;
 import static edu.colorado.phet.fractionsintro.common.view.Colors.LIGHT_BLUE;
 import static edu.colorado.phet.fractionsintro.common.view.Colors.LIGHT_GREEN;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.MoveToCell;
@@ -226,7 +229,7 @@ public class Levels {
         RepresentationType representationSetA = representations.get( random.nextInt( representations.size() ) );
         final Cell cellA = cells.get( random.nextInt( cells.size() ) );
         final F<Fraction, PNode> representationA = representationSetA.chooseOne();
-        MovableFraction fractionA = fraction( fraction, cellA, representationA );
+        MovableFraction fractionA = fraction( fraction, cellA, representationA, createUserComponent( fraction, representationSetA ) );
 
         //Don't use the same representation for the 2nd one, and put it in a new cell
         while ( representations.contains( representationSetA ) ) {
@@ -237,19 +240,23 @@ public class Levels {
         final Cell cellB = cells.get( random.nextInt( cells.size() ) );
         RepresentationType representationSetB = representations.get( random.nextInt( representations.size() ) );
         final F<Fraction, PNode> representationB = representationSetB.chooseOne();
-        MovableFraction fractionB = fraction( fraction, cellB, representationB );
+        MovableFraction fractionB = fraction( fraction, cellB, representationB, createUserComponent( fraction, representationSetB ) );
 
         cells.remove( cellB );
 
         return new ResultPair( new Result( fractionA, representationSetA, representationA ), new Result( fractionB, representationSetB, representationB ) );
     }
 
-    private static MovableFraction fraction( Fraction fraction, Cell cell, final F<Fraction, PNode> node ) {
-        return fraction( fraction.numerator, fraction.denominator, cell, node );
+    private IUserComponent createUserComponent( final Fraction fraction, final RepresentationType representationType ) {
+        return chain( chain( matchingGameFraction, fraction.numerator + "/" + fraction.denominator ), representationType.name );
+    }
+
+    private static MovableFraction fraction( Fraction fraction, Cell cell, final F<Fraction, PNode> node, IUserComponent userComponent ) {
+        return fraction( fraction.numerator, fraction.denominator, cell, node, userComponent );
     }
 
     //Create a MovableFraction for the given fraction at the specified cell
-    private static MovableFraction fraction( int numerator, int denominator, Cell cell, final F<Fraction, PNode> node ) {
+    private static MovableFraction fraction( int numerator, int denominator, Cell cell, final F<Fraction, PNode> node, IUserComponent userComponent ) {
 
         //Cache nodes as images to improve performance
         //TODO: could this put the same node at 2 places in the scene graph?  If so, what problems would that cause?
@@ -259,7 +266,7 @@ public class Levels {
                                             return new PComposite() {{ addChild( node.f( fraction ) ); }};
                                         }
                                     } ),
-                                    MoveToCell( cell ), false );
+                                    MoveToCell( cell ), false, userComponent );
     }
 
     private List<MovableFraction> createLevel( F<Fraction, ArrayList<RepresentationType>> representations, List<Cell> _cells, Fraction[] a ) {
