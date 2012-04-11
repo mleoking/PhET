@@ -84,10 +84,10 @@ public class PlanarComponentNode extends GLNode {
 
     public <T> void updateOnEvent( Notifier<T> notifier ) {
         notifier.addUpdateListener( new UpdateListener() {
-            public void update() {
-                PlanarComponentNode.this.update();
-            }
-        }, false );
+                                        public void update() {
+                                            PlanarComponentNode.this.update();
+                                        }
+                                    }, false );
     }
 
     public boolean doesLocalRayHit( Ray3F ray ) {

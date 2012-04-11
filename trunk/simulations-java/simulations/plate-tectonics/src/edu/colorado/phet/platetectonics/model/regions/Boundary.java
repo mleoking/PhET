@@ -22,42 +22,6 @@ public class Boundary {
         return samples.get( index );
     }
 
-    public void borrowPosition( Boundary other ) {
-        assert other.samples.size() == samples.size();
-
-        for ( int i = 0; i < samples.size(); i++ ) {
-            final Sample mySample = samples.get( i );
-            final Sample otherSample = other.samples.get( i );
-
-            mySample.setPosition( otherSample.getPosition() );
-        }
-    }
-
-    public void borrowPositionAndTexture( Boundary other ) {
-        assert other.samples.size() == samples.size();
-
-        for ( int i = 0; i < samples.size(); i++ ) {
-            final Sample mySample = samples.get( i );
-            final Sample otherSample = other.samples.get( i );
-
-            mySample.setPosition( otherSample.getPosition() );
-            mySample.setTextureCoordinates( otherSample.getTextureCoordinates() );
-        }
-    }
-
-    public void borrowPositionTemperatureAndTexture( Boundary other ) {
-        assert other.samples.size() == samples.size();
-
-        for ( int i = 0; i < samples.size(); i++ ) {
-            final Sample mySample = samples.get( i );
-            final Sample otherSample = other.samples.get( i );
-
-            mySample.setPosition( otherSample.getPosition() );
-            mySample.setTextureCoordinates( otherSample.getTextureCoordinates() );
-            mySample.setTemperature( otherSample.getTemperature() );
-        }
-    }
-
     public Sample getEdgeSample( Side side ) {
         return side.getEnd( samples );
     }

@@ -10,7 +10,10 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * Shows crust pieces that can be dragged out into the play area and dropped onto either the left or right side
+ * Panel that contains crust pieces that can be dragged out into the play area and dropped onto either the left or right side.
+ * <p/>
+ * IMPORTANT NOTE: the crust pieces are not actually contained inside this panel, since they need to be draggable outside of the panel.
+ * They are placed on top, and this class just provides the coordinates for positioning them.
  */
 public class CrustChooserPanel extends PNode {
     // size and padding for the icons
@@ -35,14 +38,18 @@ public class CrustChooserPanel extends PNode {
         addChild( youngOceanicLabel );
         addChild( oldOceanicLabel );
 
+        // center the labels above the draggable crust pieces
         continentalLabel.setOffset( ( CRUST_AREA_MAX_WIDTH - continentalLabel.getFullBounds().getWidth() ) / 2, 0 );
         youngOceanicLabel.setOffset( ( CRUST_AREA_MAX_WIDTH - youngOceanicLabel.getFullBounds().getWidth() ) / 2
                                      + CRUST_AREA_PADDING + CRUST_AREA_MAX_WIDTH, 0 );
         oldOceanicLabel.setOffset( ( CRUST_AREA_MAX_WIDTH - oldOceanicLabel.getFullBounds().getWidth() ) / 2
                                    + ( CRUST_AREA_PADDING + CRUST_AREA_MAX_WIDTH ) * 2, 0 );
 
+        // padding between labels and crust pieces
         verticalOffset = (int) ( continentalLabel.getFullBounds().getHeight() + 10 );
 
+        // add spacers so that the ControlPanelNode border accounts for the room
+        // the crust pieces are added as separate draggable nodes, and thus are not contained within this panel
         continentalSpacer = new Spacer( 0, verticalOffset, CRUST_AREA_MAX_WIDTH, CRUST_AREA_MAX_HEIGHT );
         addChild( continentalSpacer );
 
@@ -60,6 +67,9 @@ public class CrustChooserPanel extends PNode {
         return new ImmutableVector2F( globalPoint.getX(), globalPoint.getY() );
     }
 
+    /*---------------------------------------------------------------------------*
+    * coordinates for where the crust pieces should be placed
+    *----------------------------------------------------------------------------*/
     public ImmutableVector2F getContinentalCenter() {
         return getPieceCenter( continentalSpacer );
     }

@@ -19,10 +19,12 @@ public class PlateTectonicsConstants {
     private PlateTectonicsConstants() {
     }
 
+    // colors for different motion directions
     public static final Color ARROW_CONVERGENT_FILL = new Color( 0, 0.8f, 0, 0.8f );
     public static final Color ARROW_DIVERGENT_FILL = new Color( 0.8f, 0, 0, 0.8f );
     public static final Color ARROW_TRANSFORM_FILL = new Color( 0, 0, 1, 0.8f );
 
+    // the "grass" green color shown in above-water low-lying areas
     public static final Color EARTH_GREEN = new Color( 0x526F35 );
 
     public static final Color DARK_LABEL = Color.BLACK;

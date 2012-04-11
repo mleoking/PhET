@@ -125,7 +125,7 @@ public class MotionTypeChooserPanel extends PNode {
             if ( plateModel.allowsConvergentMotion() ) {
                 return myType == MotionType.CONVERGENT;
             }
-            if( plateModel.allowsDivergentMotion()) {
+            if ( plateModel.allowsDivergentMotion() ) {
                 return myType == MotionType.DIVERGENT;
             }
             return myType == MotionType.TRANSFORM;

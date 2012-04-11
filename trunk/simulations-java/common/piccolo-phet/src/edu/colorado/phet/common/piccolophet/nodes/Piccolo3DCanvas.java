@@ -59,7 +59,6 @@ public class Piccolo3DCanvas extends PSwingCanvas {
         alreadyInLoop = true;
 
         PBounds bounds = node.getFullBounds();
-        System.out.println( bounds );
 
         // make extra-sure our canvas size changes
         // TODO: how to handle bounds that don't have origin of 0,0?
