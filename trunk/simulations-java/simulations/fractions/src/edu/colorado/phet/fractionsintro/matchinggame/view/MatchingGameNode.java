@@ -12,6 +12,10 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -22,6 +26,8 @@ import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractions.view.FNode;
+import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ComponentTypes;
+import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.intro.view.FractionsIntroCanvas;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Cell;
@@ -97,6 +103,7 @@ public class MatchingGameNode extends FNode {
             //If they match, show a "Keep" button. This allows the student to look at the right answer as long as they want before moving it to the scoreboard.
             if ( state.getLeftScaleValue() == state.getRightScaleValue() ) {
                 addChild( new HTMLImageButtonNode( "Keep<br>Match", new PhetFont( 16, true ), Color.orange ) {{
+                    setUserComponent( Components.keepMatchButton );
                     centerFullBoundsOnPoint( state.getLastDroppedScaleRight() ? scalesNode.getFullBounds().getMaxX() + 80 :
                                              scalesNode.getFullBounds().getX() - getFullBounds().getWidth(), scalesNode.getFullBounds().getCenterY() );
                     addActionListener( new ActionListener() {
@@ -151,7 +158,9 @@ public class MatchingGameNode extends FNode {
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
                 @Override public void mousePressed( PInputEvent event ) {
-                    model.set( state.audio( !state.audio ) );
+                    final boolean newValue = !state.audio;
+                    SimSharingManager.sendUserMessage( Components.audioButton, ComponentTypes.spriteCheckBox, UserActions.pressed, ParameterSet.parameterSet( ParameterKeys.value, newValue ) );
+                    model.set( state.audio( newValue ) );
                 }
             } );
         }} );
