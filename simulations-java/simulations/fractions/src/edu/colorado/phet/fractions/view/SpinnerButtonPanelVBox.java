@@ -14,11 +14,11 @@ import static edu.colorado.phet.fractions.FractionsResources.Images.*;
  * @author Sam Reid
  */
 public class SpinnerButtonPanelVBox extends VBox {
-    public SpinnerButtonPanelVBox( VoidFunction1 up, ObservableProperty<Boolean> upEnabled, VoidFunction1 down, ObservableProperty<Boolean> downEnabled ) {
+    public SpinnerButtonPanelVBox( VoidFunction1<Boolean> up, ObservableProperty<Boolean> upEnabled, VoidFunction1<Boolean> down, ObservableProperty<Boolean> downEnabled ) {
         this( 50, up, upEnabled, down, downEnabled );
     }
 
-    public SpinnerButtonPanelVBox( int size, VoidFunction1 up, ObservableProperty<Boolean> upEnabled, VoidFunction1 down, ObservableProperty<Boolean> downEnabled ) {
+    public SpinnerButtonPanelVBox( int size, VoidFunction1<Boolean> up, ObservableProperty<Boolean> upEnabled, VoidFunction1<Boolean> down, ObservableProperty<Boolean> downEnabled ) {
         super( 2,
                new SpinnerButtonNode( multiScaleToHeight( ROUND_BUTTON_UP, size ), multiScaleToHeight( ROUND_BUTTON_UP_PRESSED, size ), multiScaleToHeight( ROUND_BUTTON_UP_GRAY, size ), up, upEnabled ),
                new SpinnerButtonNode( multiScaleToHeight( ROUND_BUTTON_DOWN, size ), multiScaleToHeight( ROUND_BUTTON_DOWN_PRESSED, size ), multiScaleToHeight( ROUND_BUTTON_DOWN_GRAY, size ), down, downEnabled ) );

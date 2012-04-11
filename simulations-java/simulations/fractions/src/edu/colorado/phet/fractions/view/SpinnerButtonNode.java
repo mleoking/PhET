@@ -26,7 +26,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * @author Sam Reid
  */
 public class SpinnerButtonNode extends PNode {
-    private final VoidFunction1 callback;
+    private final VoidFunction1<Boolean> callback;
     private final ObservableProperty<Boolean> enabled;
     private final BooleanProperty pressed = new BooleanProperty( false );
     private final BooleanProperty entered = new BooleanProperty( true );
@@ -46,11 +46,11 @@ public class SpinnerButtonNode extends PNode {
     }};
     private boolean autoSpinning = false;
 
-    public SpinnerButtonNode( final BufferedImage unpressedImage, final BufferedImage pressedImage, final BufferedImage disabledImage, final VoidFunction1 callback ) {
+    public SpinnerButtonNode( final BufferedImage unpressedImage, final BufferedImage pressedImage, final BufferedImage disabledImage, final VoidFunction1<Boolean> callback ) {
         this( unpressedImage, pressedImage, disabledImage, callback, new BooleanProperty( true ) );
     }
 
-    public SpinnerButtonNode( final BufferedImage unpressedImage, final BufferedImage pressedImage, final BufferedImage disabledImage, final VoidFunction1 callback, ObservableProperty<Boolean> enabled ) {
+    public SpinnerButtonNode( final BufferedImage unpressedImage, final BufferedImage pressedImage, final BufferedImage disabledImage, final VoidFunction1<Boolean> callback, ObservableProperty<Boolean> enabled ) {
         this.callback = callback;
         this.enabled = enabled;
         imageNode = new PImage();
