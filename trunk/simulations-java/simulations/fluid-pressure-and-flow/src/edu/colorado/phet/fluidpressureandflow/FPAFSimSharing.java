@@ -26,6 +26,14 @@ public class FPAFSimSharing {
         pressureSensor1,
         pressureSensor2,
         pressureSensor3,
+
+        pressureTab,
+        flowTab,
+        rulerCheckBox, frictionCheckBox, fluxMeterCheckBox, gridCheckBox, measuringTapeCheckBox, hoseCheckBox, waterTowerTab, rulerCheckBoxIcon,
+        atmosphereOnRadioButton,
+        atmosphereOffRadioButton, atmospheresRadioButton,
+        metricRadioButton,
+        englishRadioButton
     }
 
     public enum ParameterKeys implements IParameterKey {

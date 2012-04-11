@@ -2,6 +2,7 @@
 package edu.colorado.phet.fluidpressureandflow.common.view;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureCanvas;
 
@@ -13,8 +14,8 @@ import static edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressure
  * @author Sam Reid
  */
 public class FPAFCheckBox extends PropertyCheckBox {
-    public FPAFCheckBox( String label, final Property<Boolean> property ) {
-        super( label, property );
+    public FPAFCheckBox( IUserComponent component, String label, final Property<Boolean> property ) {
+        super( component, label, property );
         setForeground( FOREGROUND );
         setFont( FluidPressureCanvas.CONTROL_FONT );
     }
