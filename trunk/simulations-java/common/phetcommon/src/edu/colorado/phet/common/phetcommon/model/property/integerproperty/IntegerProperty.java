@@ -84,20 +84,11 @@ public class IntegerProperty extends Property<Integer> {
         set( get() - 1 );
     }
 
-    //Returns a function that calls increment() on this instance
-    public VoidFunction0 increment_() {
+    //Returns a function that when invoked, adds the specified value to this instance
+    public VoidFunction0 add_( final int delta ) {
         return new VoidFunction0() {
             @Override public void apply() {
-                increment();
-            }
-        };
-    }
-
-    //Returns a function that calls decrement() on this instance
-    public VoidFunction0 decrement_() {
-        return new VoidFunction0() {
-            @Override public void apply() {
-                decrement();
+                set( get() + delta );
             }
         };
     }
