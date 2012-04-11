@@ -11,14 +11,15 @@ import java.awt.geom.Dimension2D;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Cell;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MovableFraction;
 import edu.colorado.phet.fractionsintro.matchinggame.model.UpdateArgs;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static edu.colorado.phet.fractions.util.FJUtils.ord;
@@ -41,16 +42,32 @@ public class MovableFractionNode extends PNode {
 
     private void attachInputHandlers( final SettableProperty<MatchingGameState> model, final MovableFraction f, final PNode rootNode ) {
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new PBasicInputEventHandler() {
+        addInputEventListener( new SimSharingDragHandler( f.userComponent, UserComponentTypes.sprite, true ) {
 
             //Flag one slice as dragging
-            @Override public void mousePressed( PInputEvent event ) {
+            @Override protected void startDrag( final PInputEvent event ) {
+                super.startDrag( event );
                 MatchingGameState state = model.get();
                 model.set( state.fractions( state.fractions.delete( f, Equal.<MovableFraction>anyEqual() ).snoc( f.dragging( true ) ) ) );
             }
 
+            //Drag the dragged slice as identified by the model (since nodes will be destroyed as this happens)
+            @Override protected void drag( final PInputEvent event ) {
+                super.drag( event );
+
+                MatchingGameState state = model.get();
+                final Dimension2D delta = event.getDeltaRelativeTo( rootNode );
+                MatchingGameState newState = state.fractions( state.fractions.map( new F<MovableFraction, MovableFraction>() {
+                    @Override public MovableFraction f( MovableFraction f ) {
+                        return f.dragging ? f.translate( delta.getWidth(), delta.getHeight() ) : f;
+                    }
+                } ) );
+                model.set( newState );
+            }
+
             //Set all drag flags to false
-            @Override public void mouseReleased( PInputEvent event ) {
+            @Override protected void endDrag( final PInputEvent event ) {
+                super.endDrag( event );
                 MatchingGameState state = model.get();
 
                 //Find the fraction that the user released:
@@ -91,19 +108,6 @@ public class MovableFractionNode extends PNode {
                     }
                 } );
                 final MatchingGameState newState = state.fractions( newFractions );
-                model.set( newState );
-            }
-
-            //Drag the dragged slice as identified by the model (since nodes will be destroyed as this happens)
-            @Override public void mouseDragged( PInputEvent event ) {
-                MatchingGameState state = model.get();
-
-                final Dimension2D delta = event.getDeltaRelativeTo( rootNode );
-                MatchingGameState newState = state.fractions( state.fractions.map( new F<MovableFraction, MovableFraction>() {
-                    @Override public MovableFraction f( MovableFraction f ) {
-                        return f.dragging ? f.translate( delta.getWidth(), delta.getHeight() ) : f;
-                    }
-                } ) );
                 model.set( newState );
             }
         } );
