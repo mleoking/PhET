@@ -107,7 +107,7 @@ public class IntroModel {
         // surface to fall (or, in some cases, jump up) towards the nearest
         // supporting surface.
         for ( Block movableModelElement : Arrays.asList( leadBlock, brick ) ) {
-            if ( !movableModelElement.userControlled.get() && movableModelElement.getParentSurface() == null && movableModelElement.position.get().getY() != 0 ) {
+            if ( !movableModelElement.userControlled.get() && movableModelElement.getSupportingSurface() == null && movableModelElement.position.get().getY() != 0 ) {
                 double acceleration = -9.8; // meters/s*s
                 double velocity = movableModelElement.verticalVelocity.get() + acceleration * dt;
                 double proposedYPos = movableModelElement.position.get().getY() + velocity * dt;
@@ -121,9 +121,12 @@ public class IntroModel {
                     movableModelElement.setX( targetX );
                 }
                 if ( proposedYPos < minYPos ) {
+                    // The element has landed on the ground or some other surface.
                     proposedYPos = minYPos;
                     movableModelElement.verticalVelocity.set( 0.0 );
-                    movableModelElement.setSupportingSurface( potentialSupportingSurface );
+                    if ( potentialSupportingSurface != null ) {
+                        movableModelElement.setSupportingSurface( potentialSupportingSurface );
+                    }
                 }
                 else {
                     movableModelElement.verticalVelocity.set( velocity );
@@ -165,12 +168,12 @@ public class IntroModel {
         Property<HorizontalSurface> highestOverlappingSurface = null;
         ModelElement selected = null;
         for ( ModelElement potentialSupportingElement : Arrays.asList( leftBurner, rightBurner, brick, leadBlock ) ) {
-            if ( potentialSupportingElement == element ) {
-                // This is the element being tested, so skip it.
+            if ( potentialSupportingElement == element || potentialSupportingElement.isStackedUpon( element ) ) {
+                // The potential supporting element is either the same as the
+                // test element or is sitting on top of the test element.  In
+                // either case, it can't be used to support the element, so
+                // skip it.
                 continue;
-            }
-            if ( element.getBottomSurfaceProperty() == null || potentialSupportingElement.getTopSurfaceProperty() == null ) {
-                System.out.println( "Gimme some slack here." );
             }
             if ( potentialSupportingElement != element && element.getBottomSurfaceProperty().get().overlapsWith( potentialSupportingElement.getTopSurfaceProperty().get() ) ) {
                 if ( highestOverlappingSurface == null || highestOverlappingSurface.get().yPos < potentialSupportingElement.getTopSurfaceProperty().get().yPos ) {

@@ -63,6 +63,7 @@ public abstract class Block extends UserMovableModelElement {
     }
 
     private void updateTopSurfaceProperty() {
+        System.out.println( "Updating top surface property." );
         topSurface.set( new HorizontalSurface( new DoubleRange( getRect().getMinX(), getRect().getMaxX() ), getRect().getMaxY(), this ) );
     }
 
