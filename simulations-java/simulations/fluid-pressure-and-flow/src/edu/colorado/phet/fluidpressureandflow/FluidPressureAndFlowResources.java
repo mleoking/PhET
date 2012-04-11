@@ -79,6 +79,7 @@ public class FluidPressureAndFlowResources {
         public static final BufferedImage DRAIN_FAUCET_ATTACHED = RESOURCES.getImage( "drain-faucet-attached.png" );
         public static final BufferedImage HANDLE = RESOURCES.getImage( "handle.png" );
         public static final BufferedImage KNOB = RESOURCES.getImage( "knob.png" );
+        public static final BufferedImage MASS = RESOURCES.getImage( "mass.png" );
         public static final BufferedImage NOZZLE = RESOURCES.getImage( "nozzle.png" );
         public static final BufferedImage PANEL = RESOURCES.getImage( "panel.png" );
         public static final BufferedImage PIPE_LEFT_BACK = RESOURCES.getImage( "pipe-left-back.png" );
@@ -87,7 +88,5 @@ public class FluidPressureAndFlowResources {
         public static final BufferedImage PIPE_RIGHT = RESOURCES.getImage( "pipe-right.png" );
         public static final BufferedImage PIPE_HANDLE_1 = RESOURCES.getImage( "pipe_handle_1.png" );
         public static final BufferedImage POTTED_PLANT = RESOURCES.getImage( "potted-plant.png" );
-        public static final BufferedImage SMALL_MASS = RESOURCES.getImage( "small-mass.png" );
-        public static final BufferedImage TALL_MASS = RESOURCES.getImage( "tall-mass.png" );
     }
 }

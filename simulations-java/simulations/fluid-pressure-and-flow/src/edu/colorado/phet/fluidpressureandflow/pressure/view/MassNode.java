@@ -42,10 +42,10 @@ public class MassNode extends PNode {
         addChild( shapeNode );
 
         //Add a border because otherwise when the blocks are stacked and moving together the edges kind of jump in a funny-looking way
-        final PhetPPath borderNode = new PhetPPath( transform.modelToView( mass.shape ), new BasicStroke( 1.5f ), Color.darkGray );
+        final PhetPPath borderNode = new PhetPPath( transform.modelToView( mass.shape ), new BasicStroke( 1.5f ), Color.gray );
         addChild( borderNode );
 
-        addChild( new PhetPText( format( MASS_LABEL_PATTERN, new DecimalFormat( "0" ).format( mass.mass ) ), new PhetFont( 13, true ), Color.white ) {{
+        addChild( new PhetPText( format( MASS_LABEL_PATTERN, new DecimalFormat( "0" ).format( mass.mass ) ), new PhetFont( 13, true ), Color.black ) {{
             centerBoundsOnPoint( shapeNode.getFullBounds().getCenterX(), shapeNode.getFullBounds().getCenterY() );
         }} );
         addInputEventListener( new CursorHandler() );
