@@ -25,7 +25,7 @@ public class BeakerNode extends PNode {
 
     private static final Stroke OUTLINE_STROKE = new BasicStroke( 3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
     private static final Color OUTLINE_COLOR = Color.LIGHT_GRAY;
-    private static final Color FLUID_COLOR = new Color( 220, 180, 180 );
+    private static final Color FLUID_COLOR = new Color( 175, 238, 238, 200 );
     private static final double PERSPECTIVE_PROPORTION = 0.2;
     private static final Font LABEL_FONT = new PhetFont( 32, false );
     private static final boolean SHOW_MODEL_RECT = true;
@@ -52,6 +52,9 @@ public class BeakerNode extends PNode {
         addChild( new PhetPPath( new Ellipse2D.Double( beakerViewRect.getMinX(), beakerViewRect.getMinY() - ellipseHeight / 2, beakerViewRect.getWidth(), ellipseHeight ),
                                  OUTLINE_STROKE,
                                  OUTLINE_COLOR ) );
+
+        // Add the water TODO this is temp, since size will need to change.
+        addChild( new PhetPPath( beakerViewRect, FLUID_COLOR ) );
 
         // Add the label.
         PText label = new PText( "Water" );
