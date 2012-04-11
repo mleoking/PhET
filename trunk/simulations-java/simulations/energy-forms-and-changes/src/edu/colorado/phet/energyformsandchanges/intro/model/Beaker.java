@@ -8,12 +8,11 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 
 /**
- * Model element that represents a burner in the simulation.  The burner can
- * heat and also cool other model elements.
+ * Model element that represents a beaker in the simulation.
  *
  * @author John Blanco
  */
-public class Burner extends ModelElement {
+public class Beaker extends ModelElement {
 
     //-------------------------------------------------------------------------
     // Class Data
@@ -28,10 +27,11 @@ public class Burner extends ModelElement {
 
     private final Point2D position = new Point2D.Double( 0, 0 );
 
-    // Property that is used to control the amount of heating or cooling that
-    // is being done.
-    public final Property<Double> heatCoolLevel = new Property<Double>( 0.0 );
-    private Property<HorizontalSurface> topSurface;
+    // Property that is used to control the amount of fluid in the beaker.
+    public final Property<Double> fluidLevel = new Property<Double>( 0.3 );
+
+    // Surface upon which any model elements will sit.
+    private final Property<HorizontalSurface> topSurface;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -44,9 +44,9 @@ public class Burner extends ModelElement {
      *                 By convention for this simulation, the position is
      *                 defined as the bottom center of the model element.
      */
-    public Burner( Point2D position ) {
+    public Beaker( Point2D position ) {
         this.position.setLocation( position );
-        topSurface = new Property<HorizontalSurface>( new HorizontalSurface( new DoubleRange( getOutlineRect().getMinX(), getOutlineRect().getMaxX() ), getOutlineRect().getMaxY(), this ) );
+        topSurface = new Property<HorizontalSurface>( new HorizontalSurface( new DoubleRange( getOutlineRect().getMinX(), getOutlineRect().getMaxX() ), getOutlineRect().getMinY(), this ) );
     }
 
     //-------------------------------------------------------------------------

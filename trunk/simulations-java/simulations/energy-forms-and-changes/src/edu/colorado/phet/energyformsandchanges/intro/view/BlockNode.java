@@ -84,7 +84,7 @@ public class BlockNode extends PNode {
             }
         } );
 
-        // Add and position the label.
+        // Position and add the label.
         PText label = new PText( block.getLabel() );
         label.setFont( LABEL_FONT );
         if ( label.getFullBoundsReference().width >= mvt.modelToViewDeltaX( Block.FACE_SIZE * 0.9 ) ) {
@@ -95,7 +95,6 @@ public class BlockNode extends PNode {
         double labelCenterX = ( upperLeftCornerOfFace.getX() + upperRightCornerOfFace.getX() ) / 2;
         double labelCenterY = ( upperLeftCornerOfFace.getY() + label.getFullBoundsReference().height );
         label.centerFullBoundsOnPoint( labelCenterX, labelCenterY );
-
         addChild( label );
 
 

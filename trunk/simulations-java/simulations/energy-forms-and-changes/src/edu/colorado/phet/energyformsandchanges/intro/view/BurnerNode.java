@@ -22,7 +22,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Piccolo node that represents the burner in the view.
+ * Piccolo node that represents a burner in the view.
  *
  * @author John Blanco
  */
