@@ -65,8 +65,12 @@ public class PointArc extends Mesh {
 
         approximateSemicircle = isApproximateSemicircle( startDir, endDir );
 
-        if ( approximateSemicircle && lastMidpointDir != null ) {
+        if ( approximateSemicircle ) {
             // basically construct a an approximate semicircle based on the semicircleDir, so that our semicircle doesn't vary dramatically
+
+            if ( lastMidpointDir == null ) {
+                lastMidpointDir = new Vector3f( 0, 1, 0 );
+            }
 
             // find a vector that is as orthogonal to both directions as possible
             Vector3f averageCross = startDir.cross( lastMidpointDir ).add( lastMidpointDir.cross( endDir ) ).normalizeLocal();
