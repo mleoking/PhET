@@ -1,3 +1,4 @@
+# 1.02.12 (63276) Apr 10, 2012
 Improved CO2 and BeCl2 initial bond angle placement
 "Show Lone Pairs" now disabled when there are no main lone pairs (even if there are lone pairs on terminal atoms)
 # 1.02.11 (62872) Mar 29, 2012
