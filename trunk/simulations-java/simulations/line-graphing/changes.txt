@@ -1,3 +1,4 @@
+# 0.00.02 (63268) Apr 10, 2012
 4/10/12 limit range of rise, run and intercept to -5 to 5 (half the range of the grid)
 4/10/12 tweak interactive equation layout
 4/10/12 move view properties from LineGraphNode to IntroCanvas
