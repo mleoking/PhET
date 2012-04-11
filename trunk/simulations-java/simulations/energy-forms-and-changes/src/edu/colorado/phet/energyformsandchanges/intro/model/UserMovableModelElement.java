@@ -3,7 +3,6 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
@@ -24,10 +23,9 @@ public abstract class UserMovableModelElement extends ModelElement {
     // Velocity in the up/down direction.
     public final Property<Double> verticalVelocity = new Property<Double>( 0.0 );
 
-    // The surface upon which this model element is resting.  If null, the
-    // object is either on the ground or falling.
-    private ObservableProperty<HorizontalSurface> parentSurface = null;
-    private VoidFunction1<HorizontalSurface> observer = new VoidFunction1<HorizontalSurface>() {
+    // Observer that moves this model element if an when the surface that is
+    // supporting it moves.
+    private VoidFunction1<HorizontalSurface> surfaceMotionObserver = new VoidFunction1<HorizontalSurface>() {
         public void apply( final HorizontalSurface horizontalSurface ) {
             final ImmutableVector2D value = new ImmutableVector2D( horizontalSurface.getCenterX(), horizontalSurface.yPos );
             System.out.println( "value = " + value );
@@ -35,16 +33,29 @@ public abstract class UserMovableModelElement extends ModelElement {
         }
     };
 
-    protected UserMovableModelElement() {
-        // Whenever a movable model element becomes user controlled, it is no
-        // longer resting on any surface.
+    /**
+     * Constructor.
+     */
+    public UserMovableModelElement() {
         userControlled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean userControlled ) {
                 if ( userControlled ) {
-                    parentSurface = null;
+                    // The user has grabbed this model element, so it is no
+                    // longer sitting on any surface.
+                    if ( getSupportingSurface() != null ) {
+                        getSupportingSurface().removeObserver( surfaceMotionObserver );
+                        setSupportingSurface( null );
+                    }
                 }
             }
         } );
+    }
+
+    @Override public void setSupportingSurface( Property<HorizontalSurface> surfaceProperty ) {
+        super.setSupportingSurface( surfaceProperty );
+        if ( surfaceProperty != null ) {
+            surfaceProperty.addObserver( surfaceMotionObserver );
+        }
     }
 
     /**
@@ -70,26 +81,6 @@ public abstract class UserMovableModelElement extends ModelElement {
      */
     public void translate( ImmutableVector2D modelDelta ) {
         position.set( position.get().getAddedInstance( modelDelta ) );
-    }
-
-    public ObservableProperty<HorizontalSurface> getParentSurface() {
-        return parentSurface;
-    }
-
-    public void setParentSurface( ObservableProperty<HorizontalSurface> parentSurface ) {
-        if ( this.parentSurface != null ) {
-            this.parentSurface.removeObserver( observer );
-        }
-        this.parentSurface = parentSurface;
-
-        if ( this.parentSurface != null ) {
-
-//            if ( parentSurface == getTop() || parentSurface == getBottom() ) {
-//                throw new RuntimeException( "Same as top or bottom" );
-//            }
-//               ()
-            this.parentSurface.addObserver( observer );
-        }
     }
 
     public abstract Property<HorizontalSurface> getBottomSurfaceProperty();

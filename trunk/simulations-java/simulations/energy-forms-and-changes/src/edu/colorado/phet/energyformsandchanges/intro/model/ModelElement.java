@@ -68,15 +68,16 @@ public class ModelElement {
      *         one, which includes cases where one or more elements are in between.
      */
     public boolean isStackedUpon( ModelElement element ) {
-        if ( element.getSupportingSurface() == null ) {
+        if ( getSupportingSurface() == null ) {
+            // Not stacked on anything at all.
             return false;
         }
-        else if ( element.getSupportingSurface().get().getOwner() == element ) {
+        else if ( getSupportingSurface().get().getOwner() == element ) {
             return true;
         }
         else {
             // Recurse to the next level.
-            return isStackedUpon( element.getSupportingSurface().get().getOwner() );
+            return getSupportingSurface().get().getOwner().isStackedUpon( element );
         }
     }
 }
