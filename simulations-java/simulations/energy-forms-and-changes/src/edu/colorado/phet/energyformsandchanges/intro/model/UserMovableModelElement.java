@@ -92,7 +92,7 @@ public abstract class UserMovableModelElement extends ModelElement {
         }
     }
 
-    public abstract HorizontalSurface getBottomSurface();
+    public abstract Property<HorizontalSurface> getBottomSurfaceProperty();
 
     public void setX( final double x ) {
         position.set( new ImmutableVector2D( x, position.get().getY() ) );
