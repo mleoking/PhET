@@ -11,6 +11,4 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
  */
 public interface RestingSurfaceOwner {
     ObservableProperty<HorizontalSurface> getRestingSurface();
-
-    ObservableProperty<HorizontalSurface> getParent();
 }
