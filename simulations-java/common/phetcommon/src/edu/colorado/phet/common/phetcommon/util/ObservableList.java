@@ -149,17 +149,19 @@ public class ObservableList<T> implements List<T> {
     }
 
     public boolean remove( Object o ) {
-        boolean result = list.remove( o );
-        elementRemovedObservers.notifyObservers( (T) o );
+        boolean itemRemoved = list.remove( o );
+        if ( itemRemoved ) {
+            elementRemovedObservers.notifyObservers( (T) o );
+        }
 
         //Notify observers that were specifically observing when the specified element would be removed
-        if ( particularElementRemovedObservers.containsKey( o ) ) {
+        if ( particularElementRemovedObservers.containsKey( o ) && itemRemoved ) {
             for ( VoidFunction0 observer : new ArrayList<VoidFunction0>( particularElementRemovedObservers.get( o ) ) ) {
                 observer.apply();
             }
         }
 
-        return result;
+        return itemRemoved;
     }
 
     public boolean addAll( Collection<? extends T> c ) {
