@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -24,6 +25,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.RadioButtonStripControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.RadioButtonStripControlPanelNode.Element;
+import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing;
 import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.common.view.Colors;
@@ -75,11 +77,13 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         //Make the control panels a little smaller in this one so that we have more vertical space for representations
         final double representationControlPanelScale = 0.80;
         final int padding = 7;
-        final RichPNode leftRepresentationControlPanel = new ZeroOffsetNode( new RadioButtonStripControlPanelNode<Representation>( leftRepresentation, getIcons( leftRepresentation, Colors.LIGHT_GREEN ), padding ) {{ scale( representationControlPanelScale ); }} ) {{
+        final RichPNode leftRepresentationControlPanel = new ZeroOffsetNode( new RadioButtonStripControlPanelNode<Representation>( leftRepresentation, getIcons( leftRepresentation, Colors.LIGHT_GREEN, FractionsIntroSimSharing.green ), padding ) {{ scale( representationControlPanelScale ); }} ) {{
             setOffset( 114, INSET );
         }};
 
-        final RichPNode rightRepresentationControlPanel = new ZeroOffsetNode( new RadioButtonStripControlPanelNode<Representation>( model.rightRepresentation, getIcons( model.rightRepresentation, Colors.LIGHT_BLUE ), padding ) {{scale( representationControlPanelScale );}} ) {{
+        final RichPNode rightRepresentationControlPanel = new ZeroOffsetNode( new RadioButtonStripControlPanelNode<Representation>( model.rightRepresentation, getIcons( model.rightRepresentation, Colors.LIGHT_BLUE, FractionsIntroSimSharing.blue ), padding ) {{
+            scale( representationControlPanelScale );
+        }} ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullWidth() - 30 - 84, INSET );
         }};
 
@@ -215,10 +219,10 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         }} );
     }
 
-    private List<Element<Representation>> getIcons( SettableProperty<Representation> representation, Color color ) {
-        return Arrays.asList( new Element<Representation>( new PieIcon( representation, color ), PIE, Components.pieRadioButton ),
-                              new Element<Representation>( new HorizontalBarIcon( representation, color ) {{scale( 0.8 );}}, HORIZONTAL_BAR, Components.horizontalBarRadioButton ),
-                              new Element<Representation>( new WaterGlassIcon( representation, color ) {{scale( 0.8 );}}, WATER_GLASSES, Components.waterGlassesRadioButton ),
-                              new Element<Representation>( new NumberLineIcon( representation ), NUMBER_LINE, Components.numberLineRadioButton ) );
+    private List<Element<Representation>> getIcons( SettableProperty<Representation> representation, Color color, String type ) {
+        return Arrays.asList( new Element<Representation>( new PieIcon( representation, color ), PIE, UserComponentChain.chain( Components.pieRadioButton, type ) ),
+                              new Element<Representation>( new HorizontalBarIcon( representation, color ) {{scale( 0.8 );}}, HORIZONTAL_BAR, UserComponentChain.chain( Components.horizontalBarRadioButton, type ) ),
+                              new Element<Representation>( new WaterGlassIcon( representation, color ) {{scale( 0.8 );}}, WATER_GLASSES, UserComponentChain.chain( Components.waterGlassesRadioButton, type ) ),
+                              new Element<Representation>( new NumberLineIcon( representation ), NUMBER_LINE, UserComponentChain.chain( Components.numberLineRadioButton, type ) ) );
     }
 }
