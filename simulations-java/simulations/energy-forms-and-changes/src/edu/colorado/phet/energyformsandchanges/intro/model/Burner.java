@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
  *
  * @author John Blanco
  */
-public class Burner implements RestingSurfaceOwner {
+public class Burner extends ModelElement implements RestingSurfaceOwner {
 
     //-------------------------------------------------------------------------
     // Class Data
@@ -47,7 +47,7 @@ public class Burner implements RestingSurfaceOwner {
      */
     public Burner( Point2D position ) {
         this.position.setLocation( position );
-        restingSurface = new Property<HorizontalSurface>( new HorizontalSurface( new DoubleRange( getOutlineRect().getMinX(), getOutlineRect().getMaxX() ), getOutlineRect().getMaxY() ) );
+        restingSurface = new Property<HorizontalSurface>( new HorizontalSurface( new DoubleRange( getOutlineRect().getMinX(), getOutlineRect().getMaxX() ), getOutlineRect().getMaxY(), this ) );
     }
 
     //-------------------------------------------------------------------------
