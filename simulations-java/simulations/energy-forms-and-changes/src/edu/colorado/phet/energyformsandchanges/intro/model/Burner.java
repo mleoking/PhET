@@ -70,4 +70,8 @@ public class Burner implements RestingSurfaceOwner {
     public ObservableProperty<HorizontalSurface> getRestingSurface() {
         return restingSurface;
     }
+
+    public ObservableProperty<HorizontalSurface> getParent() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

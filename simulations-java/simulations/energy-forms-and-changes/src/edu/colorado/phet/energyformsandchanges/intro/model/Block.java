@@ -32,7 +32,7 @@ public abstract class Block extends UserMovableModelElement implements RestingSu
     protected Block() {
         this.restingSurface = new Property<HorizontalSurface>( getTopSurface() );
         position.addObserver( new VoidFunction1<ImmutableVector2D>() {
-            @Override public void apply( final ImmutableVector2D immutableVector2D ) {
+            public void apply( final ImmutableVector2D immutableVector2D ) {
                 restingSurface.set( getTopSurface() );
             }
         } );
