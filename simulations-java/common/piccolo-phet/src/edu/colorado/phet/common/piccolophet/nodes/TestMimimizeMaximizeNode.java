@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -35,7 +36,10 @@ public class TestMimimizeMaximizeNode {
         canvas.getLayer().addChild( chartNode1 );
         chartNode1.setOffset( 50, 50 );
 
-        final MinimizeMaximizeNode minMaxNode1 = new MinimizeMaximizeNode( "Show chart 1", MinimizeMaximizeNode.BUTTON_RIGHT );
+        final MinimizeMaximizeNode minMaxNode1 = new MinimizeMaximizeNode( new IUserComponent() {
+        }, new IUserComponent() {
+        }, "Show chart 1", MinimizeMaximizeNode.BUTTON_RIGHT
+        );
         canvas.getLayer().addChild( minMaxNode1 );
         double x1 = chartNode1.getFullBounds().getMaxX() - minMaxNode1.getFullBounds().getWidth() - 10;
         double y1 = chartNode1.getOffset().getY() + 10;
@@ -61,7 +65,10 @@ public class TestMimimizeMaximizeNode {
 
         Font font = new PhetFont( Font.BOLD, 18 );
         double spacing = 10;
-        final MinimizeMaximizeNode minMaxNode2 = new MinimizeMaximizeNode( "Show chart 2", MinimizeMaximizeNode.BUTTON_LEFT, font, Color.BLACK, spacing );
+        final MinimizeMaximizeNode minMaxNode2 = new MinimizeMaximizeNode( new IUserComponent() {
+        }, new IUserComponent() {
+        }, "Show chart 2", MinimizeMaximizeNode.BUTTON_LEFT, font, Color.BLACK, spacing
+        );
         canvas.getLayer().addChild( minMaxNode2 );
         double x2 = chartNode2.getOffset().getX() + 10;
         double y2 = chartNode2.getOffset().getY() + 10;

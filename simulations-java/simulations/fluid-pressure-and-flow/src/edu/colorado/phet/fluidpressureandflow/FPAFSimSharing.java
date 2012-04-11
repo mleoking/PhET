@@ -33,7 +33,11 @@ public class FPAFSimSharing {
         atmosphereOnRadioButton,
         atmosphereOffRadioButton, atmospheresRadioButton,
         metricRadioButton,
-        englishRadioButton
+        englishRadioButton,
+        minimizeGravityControlButton,
+        maximizeGravityControlButton,
+        minimizeFluidDensityControlButton,
+        maximizeFluidDensityControlButton
     }
 
     public enum ParameterKeys implements IParameterKey {

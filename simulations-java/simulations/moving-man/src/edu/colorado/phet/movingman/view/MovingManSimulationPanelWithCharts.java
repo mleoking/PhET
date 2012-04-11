@@ -5,10 +5,18 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.motion.charts.*;
+import edu.colorado.phet.common.motion.charts.ChartZoomControlNode;
+import edu.colorado.phet.common.motion.charts.ControlChart;
+import edu.colorado.phet.common.motion.charts.GoButton;
+import edu.colorado.phet.common.motion.charts.MinimizableControlChart;
+import edu.colorado.phet.common.motion.charts.MotionSliderNode;
+import edu.colorado.phet.common.motion.charts.MultiControlChart;
+import edu.colorado.phet.common.motion.charts.TemporalChart;
+import edu.colorado.phet.common.motion.charts.TemporalChartSliderNode;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.movingman.MovingManColorScheme;
+import edu.colorado.phet.movingman.MovingManSimSharing.UserComponents;
 import edu.colorado.phet.movingman.model.MovingMan;
 import edu.colorado.phet.movingman.model.MovingManModel;
 import edu.colorado.phet.movingman.model.MovingManState;
@@ -73,7 +81,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
                 positionChartControl.addChild( goButton );
                 goButton.setOffset( positionChartControl.getFullBounds().getMaxX() - goButton.getFullBounds().getWidth(), positionChartControl.getFullBounds().getMaxY() );
             }
-            positionMovingManChart = new MinimizableControlChart( POSITION, new ControlChart( positionChartControl, sliderNode, positionChart, new ChartZoomControlNode( positionChart ) ) );
+            positionMovingManChart = new MinimizableControlChart( UserComponents.minimizePositionChartButton, UserComponents.maximizePositionChartButton, POSITION, new ControlChart( positionChartControl, sliderNode, positionChart, new ChartZoomControlNode( positionChart ) ) );
         }
 
         // velocityMovingManChart
@@ -121,7 +129,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
                 }
             } );
             updateVelocityModeSelected.update();
-            velocityMovingManChart = new MinimizableControlChart( VELOCITY, new ControlChart( velocityChartControl, chartSliderNode, velocityChart, new ChartZoomControlNode( velocityChart ) ) );
+            velocityMovingManChart = new MinimizableControlChart( UserComponents.minimizeVelocityChartButton, UserComponents.maximizeVelocityChartButton, VELOCITY, new ControlChart( velocityChartControl, chartSliderNode, velocityChart, new ChartZoomControlNode( velocityChart ) ) );
         }
 
         // accelerationMovingManChart
@@ -173,7 +181,7 @@ public class MovingManSimulationPanelWithCharts extends MovingManSimulationPanel
                 accelerationChartControl.addChild( goButton );
             }
             ControlChart acc = new ControlChart( accelerationChartControl, chartSliderNode, accelerationChart, new ChartZoomControlNode( accelerationChart ) );
-            accelerationMovingManChart = new MinimizableControlChart( ACCELERATION, acc );
+            accelerationMovingManChart = new MinimizableControlChart( UserComponents.minimizeAccelerationChartButton, UserComponents.maximizeAccelerationChartButton, ACCELERATION, acc );
         }
         final MultiControlChart multiChart = new MultiControlChart( new MinimizableControlChart[] { positionMovingManChart, velocityMovingManChart, accelerationMovingManChart } );
         addScreenChild( multiChart );

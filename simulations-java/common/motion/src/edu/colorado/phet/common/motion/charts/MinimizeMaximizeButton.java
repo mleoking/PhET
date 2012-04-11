@@ -5,6 +5,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.MinimizeMaximizeNode;
 import edu.umd.cs.piccolo.PNode;
@@ -17,13 +18,13 @@ public class MinimizeMaximizeButton extends PNode {
     private BooleanProperty maximized;
     private final boolean defaultMaximizedValue;
 
-    public MinimizeMaximizeButton( String title ) {
-        this( title, true );
+    public MinimizeMaximizeButton( IUserComponent minimizeButtonComponent, IUserComponent maximizeButtonComponent, String title ) {
+        this( minimizeButtonComponent, maximizeButtonComponent, title, true );
     }
 
-    public MinimizeMaximizeButton( String title, boolean maximizedValue ) {
+    public MinimizeMaximizeButton( IUserComponent minimizeButtonComponent, IUserComponent maximizeButtonComponent, String title, boolean maximizedValue ) {
 
-        node = new MinimizeMaximizeNode( title, MinimizeMaximizeNode.BUTTON_RIGHT );
+        node = new MinimizeMaximizeNode( minimizeButtonComponent, maximizeButtonComponent, title, MinimizeMaximizeNode.BUTTON_RIGHT );
         addChild( node );
 
         SimpleObserver maximizedObserver = new SimpleObserver() {
