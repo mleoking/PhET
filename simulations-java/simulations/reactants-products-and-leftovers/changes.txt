@@ -1,3 +1,4 @@
+4/11/12 restore "Game" tab
 # 1.03.09 (63311) Apr 11, 2012
 4/11/12 temporarily remove "Game" tab for study version
 # 1.03.08 (62772) Mar 23, 2012
