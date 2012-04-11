@@ -10,7 +10,6 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
-import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -22,6 +21,8 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.RadioButtonStripControlPanelNode;
+import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.RadioButtonStripControlPanelNode.Element;
+import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.common.view.Colors;
 import edu.colorado.phet.fractionsintro.equalitylab.model.EqualityLabModel;
@@ -207,10 +208,10 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         }} );
     }
 
-    private List<Pair<PNode, Representation>> getIcons( SettableProperty<Representation> representation, Color color ) {
-        return Arrays.asList( new Pair<PNode, Representation>( new PieIcon( representation, color ), PIE ),
-                              new Pair<PNode, Representation>( new HorizontalBarIcon( representation, color ) {{scale( 0.8 );}}, HORIZONTAL_BAR ),
-                              new Pair<PNode, Representation>( new WaterGlassIcon( representation, color ) {{scale( 0.8 );}}, WATER_GLASSES ),
-                              new Pair<PNode, Representation>( new NumberLineIcon( representation ), NUMBER_LINE ) );
+    private List<Element<Representation>> getIcons( SettableProperty<Representation> representation, Color color ) {
+        return Arrays.asList( new Element<Representation>( new PieIcon( representation, color ), PIE, Components.pieRadioButton ),
+                              new Element<Representation>( new HorizontalBarIcon( representation, color ) {{scale( 0.8 );}}, HORIZONTAL_BAR, Components.horizontalBarRadioButton ),
+                              new Element<Representation>( new WaterGlassIcon( representation, color ) {{scale( 0.8 );}}, WATER_GLASSES, Components.waterGlassesRadioButton ),
+                              new Element<Representation>( new NumberLineIcon( representation ), NUMBER_LINE, Components.numberLineRadioButton ) );
     }
 }
