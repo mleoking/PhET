@@ -42,6 +42,7 @@ public class FractionsIntroSimSharing {
         scaledUpFractionSpinnerRightButton,
         scaledUpFractionSpinnerLeftButton,
         lock,
+        numberLineArrow, numberLineKnob
     }
 
     public enum ComponentTypes implements IUserComponentType {
