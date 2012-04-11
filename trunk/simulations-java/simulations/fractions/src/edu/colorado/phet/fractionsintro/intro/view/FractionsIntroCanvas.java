@@ -5,10 +5,10 @@ import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
-import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.RadioButtonStripControlPanelNode;
+import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.RadioButtonStripControlPanelNode.Element;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.common.view.Colors;
 import edu.colorado.phet.fractionsintro.intro.model.FractionsIntroModel;
@@ -20,8 +20,8 @@ import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.Nu
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.PieIcon;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.VerticalBarIcon;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.WaterGlassIcon;
-import edu.umd.cs.piccolo.PNode;
 
+import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.*;
 import static edu.colorado.phet.fractionsintro.intro.view.Representation.*;
 import static java.util.Arrays.asList;
 
@@ -39,12 +39,12 @@ public class FractionsIntroCanvas extends AbstractFractionsCanvas {
 
         final RadioButtonStripControlPanelNode<Representation> representationControlPanel =
                 new RadioButtonStripControlPanelNode<Representation>( model.representation, asList(
-                        new Pair<PNode, Representation>( new PieIcon( model.representation, Colors.CIRCLE_COLOR ), PIE ),
-                        new Pair<PNode, Representation>( new HorizontalBarIcon( model.representation, Colors.HORIZONTAL_SLICE_COLOR ), HORIZONTAL_BAR ),
-                        new Pair<PNode, Representation>( new VerticalBarIcon( model.factorySet.verticalSliceFactory, Colors.VERTICAL_SLICE_COLOR ).getNode(), VERTICAL_BAR ),
-                        new Pair<PNode, Representation>( new WaterGlassIcon( model.representation, Colors.CUP_COLOR ), WATER_GLASSES ),
-                        new Pair<PNode, Representation>( new CakeIcon( model.representation ), CAKE ),
-                        new Pair<PNode, Representation>( new NumberLineIcon( model.representation ), NUMBER_LINE ) ), 0 ) {{
+                        new Element<Representation>( new PieIcon( model.representation, Colors.CIRCLE_COLOR ), PIE, pieRadioButton ),
+                        new Element<Representation>( new HorizontalBarIcon( model.representation, Colors.HORIZONTAL_SLICE_COLOR ), HORIZONTAL_BAR, horizontalBarRadioButton ),
+                        new Element<Representation>( new VerticalBarIcon( model.factorySet.verticalSliceFactory, Colors.VERTICAL_SLICE_COLOR ).getNode(), VERTICAL_BAR, verticalBarRadioButton ),
+                        new Element<Representation>( new WaterGlassIcon( model.representation, Colors.CUP_COLOR ), WATER_GLASSES, waterGlassesRadioButton ),
+                        new Element<Representation>( new CakeIcon( model.representation ), CAKE, cakeRadioButton ),
+                        new Element<Representation>( new NumberLineIcon( model.representation ), NUMBER_LINE, numberLineRadioButton ) ), 0 ) {{
                     setOffset( STAGE_SIZE.getWidth() / 2 - getFullWidth() / 2, INSET );
                 }};
         addChild( representationControlPanel );

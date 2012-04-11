@@ -1,3 +1,4 @@
+Added messages for changing representations
 Added messages for dragging slices
 Added messages for numerator and denominator spinners
 Added messages for max spinner
