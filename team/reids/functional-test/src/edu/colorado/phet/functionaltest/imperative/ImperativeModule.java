@@ -10,7 +10,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
  */
 public class ImperativeModule extends Module {
     public ImperativeModule() {
-        super( "Functional module", new ConstantDtClock() );
+        super( "Imperative module", new ConstantDtClock() );
         final ImperativeModel model = new ImperativeModel( getClock() );
         setSimulationPanel( new PhetPCanvas() {{
             addScreenChild( new ImperativeModelNode( model ) );

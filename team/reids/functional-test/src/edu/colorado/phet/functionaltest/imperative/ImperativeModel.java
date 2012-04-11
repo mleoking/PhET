@@ -15,8 +15,8 @@ public class ImperativeModel {
     private final ArrayList<Circle> circles = new ArrayList<Circle>();
 
     public ImperativeModel( final IClock clock ) {
-        for ( int i = 0; i < 100; i++ ) {
-            circles.add( new Circle( new Vector2D( i * 5, 100 ) ) );
+        for ( int i = 0; i < 10; i++ ) {
+            circles.add( new Circle( new Vector2D( i * 60, 100 ) ) );
         }
         clock.addClockListener( new ClockAdapter() {
             @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
