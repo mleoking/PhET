@@ -1,3 +1,4 @@
+Added messages for numerator and denominator spinners
 Added messages for max spinner
 Added sim sharing event messages
 Make public properties private in SpinnerButtonNode, to confirm that they don't need to be exposed (and some of them don't really need to be properties)
