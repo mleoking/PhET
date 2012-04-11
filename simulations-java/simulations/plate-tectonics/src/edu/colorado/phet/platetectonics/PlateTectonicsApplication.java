@@ -27,6 +27,9 @@ import edu.colorado.phet.platetectonics.dev.PerformanceFrame;
 import edu.colorado.phet.platetectonics.modules.CrustTab;
 import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
 
+/**
+ * Main simulation entry point
+ */
 public class PlateTectonicsApplication extends PhetApplication {
 
     public static final Property<Boolean> showFPSMeter = new Property<Boolean>( false );
@@ -124,7 +127,6 @@ public class PlateTectonicsApplication extends PhetApplication {
     //----------------------------------------------------------------------------
 
     public static void main( final String[] args ) throws ClassNotFoundException {
-        // TODO: set the frame rate
         try {
             StartupUtils.setupLibraries();
         }

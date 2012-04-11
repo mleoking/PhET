@@ -22,7 +22,7 @@ import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
 
 /**
- * Displays a ruler in the 3D play area space
+ * Displays a speedometer-style draggable readout.
  */
 public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableTool2D {
 
@@ -51,10 +51,10 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
         getCanvas().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
 
         model.modelChanged.addUpdateListener( new UpdateListener() {
-            public void update() {
-                updateReadout();
-            }
-        }, true );
+                                                  public void update() {
+                                                      updateReadout();
+                                                  }
+                                              }, true );
 
         updateOnEvent( tab.beforeFrameRender );
     }
@@ -118,9 +118,9 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
         public DensitySensorNode2D( float kmToViewUnit, PlateTectonicsTab tab ) {
             super( ModelViewTransform.createIdentity(), new PointSensor<Double>( 0, 0 ) {{
 
-                //Start by showing needle at 0.0 instead of hiding it
-                value.set( new Some<Double>( 0.0 ) );
-            }}, "Density", 3500 );
+                       //Start by showing needle at 0.0 instead of hiding it
+                       value.set( new Some<Double>( 0.0 ) );
+                   }}, "Density", 3500 );
 
             // scale it so that we achieve adherence to the model scale
             scale( ThermometerNode3D.PICCOLO_PIXELS_TO_VIEW_UNIT * kmToViewUnit / ThermometerNode3D.PIXEL_SCALE );

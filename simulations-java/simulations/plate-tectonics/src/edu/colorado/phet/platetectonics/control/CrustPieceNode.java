@@ -12,7 +12,7 @@ import edu.colorado.phet.platetectonics.model.PlateType;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Stylized piece of crust that can be dragged into open spots in the plate motion tab
+ * Stylized (cuboid with borders) piece of crust that can be dragged into open spots in the plate motion tab
  */
 public class CrustPieceNode extends PNode {
 
@@ -23,6 +23,7 @@ public class CrustPieceNode extends PNode {
         final float topHeight = 20;
         final float rightWidth = 30;
 
+        // given the main intensity, brighten the top and right side respectively
         float topIntensity = 1 - ( 1 - intensity ) * 0.5f;
         float rightIntensity = 1 - ( 1 - intensity ) * 0.3f;
 

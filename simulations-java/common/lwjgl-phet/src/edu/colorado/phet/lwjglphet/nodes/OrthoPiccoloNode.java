@@ -19,8 +19,8 @@ public class OrthoPiccoloNode extends OrthoComponentNode {
     public OrthoPiccoloNode( final PNode node, final LWJGLTab tab, CanvasTransform canvasTransform, Property<ImmutableVector2D> position, final VoidNotifier mouseEventNotifier ) {
         // use a wrapper panel that takes up no extra room
         super( new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) ) {{
-            add( new Piccolo3DCanvas( node ) );
-        }}, tab, canvasTransform, position, mouseEventNotifier );
+                   add( new Piccolo3DCanvas( node ) );
+               }}, tab, canvasTransform, position, mouseEventNotifier );
         this.node = node;
     }
 

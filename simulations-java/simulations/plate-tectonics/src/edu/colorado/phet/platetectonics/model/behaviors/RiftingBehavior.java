@@ -320,10 +320,6 @@ public class RiftingBehavior extends PlateBehavior {
             float newT = currentT + millionsOfYears * magicConstant1;
             float newRatio = (float) ( Math.atan( newT ) / ( Math.PI / 2 ) );
 
-            if ( newRatio < 0 ) {
-                System.out.println( "breakpoint" );
-            }
-
             // some necessary assertions for any future debugging
             assert currentRatio >= 0;
             assert currentRatio <= 1;
