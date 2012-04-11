@@ -1,3 +1,4 @@
+Move masses to front when dragging
 Improved images for masses
 # 0.00.52 (63247) Apr 10, 2012
 Added images for masses
