@@ -45,6 +45,10 @@ public class FractionsIntroSimSharing {
         numberLineArrow, numberLineKnob
     }
 
+    //For chaining with component types
+    public static final String blue = "blue";
+    public static final String green = "green";
+
     public enum ComponentTypes implements IUserComponentType {
 
         //Looks like a sprite but behaves like a check box
