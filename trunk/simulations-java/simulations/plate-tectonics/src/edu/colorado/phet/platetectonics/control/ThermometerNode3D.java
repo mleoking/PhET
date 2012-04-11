@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.LiquidExpansionThermometerNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -18,6 +19,7 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.PlanarPiccoloNode;
+import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
 import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
@@ -88,7 +90,7 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
         repaint();
     }
 
-    private ImmutableVector3F getSensorModelPosition() {
+    public ImmutableVector3F getSensorModelPosition() {
         return modelViewTransform.inversePosition( transform.getMatrix().getTranslation().plus( new ImmutableVector3F( 0, sensorVerticalOffset / PICCOLO_PIXELS_TO_VIEW_UNIT * scaleMultiplier( tab ), 0 ) ) );
     }
 
@@ -98,6 +100,10 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
 
     public ImmutableVector2F getInitialMouseOffset() {
         return new ImmutableVector2F( 10, 10 );
+    }
+
+    public IUserComponent getUserComponent() {
+        return UserComponents.thermometer;
     }
 
     public void recycle() {

@@ -6,15 +6,18 @@ import java.util.Collections;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.lwjglphet.LWJGLCursorHandler;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.PlanarPiccoloNode;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
+import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
 import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
@@ -29,11 +32,13 @@ public class RulerNode3D extends PlanarPiccoloNode implements DraggableTool2D {
 
     // how much larger should the ruler construction values be to get a good look? we scale by the inverse to remain the correct size
     private static final float RULER_PIXEL_SCALE = 3f;
+    private final LWJGLTransform modelViewTransform;
 
     public RulerNode3D( final LWJGLTransform modelViewTransform, final PlateTectonicsTab tab ) {
         super( new RulerNode2D( modelViewTransform.transformDeltaX( (float) 1000 ), tab ) {{
             scale( scaleMultiplier( tab ) );
         }} );
+        this.modelViewTransform = modelViewTransform;
 
         // scale the node to handle the subsampling
         scale( 1 / PICCOLO_PIXELS_TO_VIEW_UNIT );
@@ -57,6 +62,15 @@ public class RulerNode3D extends PlanarPiccoloNode implements DraggableTool2D {
 
     public ImmutableVector2F getInitialMouseOffset() {
         return new ImmutableVector2F( 10, 190 );
+    }
+
+    public IUserComponent getUserComponent() {
+        return UserComponents.ruler;
+    }
+
+    // bottom-left corner of the ruler
+    public ImmutableVector3F getSensorModelPosition() {
+        return modelViewTransform.inversePosition( transform.getMatrix().getTranslation() );
     }
 
     public void recycle() {
