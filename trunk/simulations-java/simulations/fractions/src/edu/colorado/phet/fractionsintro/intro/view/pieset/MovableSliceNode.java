@@ -9,11 +9,14 @@ import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes.sprite;
+import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.sliceComponent;
 
 /**
  * Node used in PieSetNode for showing user-draggable pieces.  This matches with the immutable model and so has
@@ -28,10 +31,13 @@ public class MovableSliceNode extends PNode {
         addChild( child );
 
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new PBasicInputEventHandler() {
+
+        addInputEventListener( new SimSharingDragHandler( sliceComponent, sprite, true ) {
 
             //Flag one slice as dragging
-            @Override public void mousePressed( PInputEvent event ) {
+            @Override protected void startDrag( final PInputEvent event ) {
+                super.startDrag( event );
+
                 PieSet state = model.get();
 
                 //Do not allow the user to grab a piece that is animating to a target, it causes the representations to get out of sync
@@ -47,8 +53,25 @@ public class MovableSliceNode extends PNode {
                 }
             }
 
+            //Drag the dragged slice as identified by the model (since nodes will be destroyed as this happens)
+            @Override protected void drag( final PInputEvent event ) {
+                super.drag( event );
+
+                PieSet state = model.get();
+                final Dimension2D delta = event.getDeltaRelativeTo( rootNode );
+                PieSet newState = state.slices( state.slices.map( new F<Slice, Slice>() {
+                    public Slice f( Slice s ) {
+                        return s.dragging ? s.translate( delta.getWidth(), delta.getHeight() ) : s;
+                    }
+                } ) );
+
+                model.set( newState );
+            }
+
             //Set all drag flags to false
-            @Override public void mouseReleased( PInputEvent event ) {
+            @Override protected void endDrag( final PInputEvent event ) {
+                super.endDrag( event );
+
                 final PieSet state = model.get();
 
                 //Any dropped pieces should snap to their destination.
@@ -61,18 +84,7 @@ public class MovableSliceNode extends PNode {
                     }
                 } );
                 final PieSet newState = state.slices( newSlices );
-                model.set( newState );
-            }
 
-            //Drag the dragged slice as identified by the model (since nodes will be destroyed as this happens)
-            @Override public void mouseDragged( PInputEvent event ) {
-                PieSet state = model.get();
-                final Dimension2D delta = event.getDeltaRelativeTo( rootNode );
-                PieSet newState = state.slices( state.slices.map( new F<Slice, Slice>() {
-                    public Slice f( Slice s ) {
-                        return s.dragging ? s.translate( delta.getWidth(), delta.getHeight() ) : s;
-                    }
-                } ) );
                 model.set( newState );
             }
         } );

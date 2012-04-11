@@ -26,7 +26,9 @@ public class FractionsIntroSimSharing {
         numeratorSpinnerUpButton,
         numeratorSpinnerDownButton,
         denominatorSpinnerUpButton,
-        denominatorSpinnerDownButton
+        denominatorSpinnerDownButton,
+
+        sliceComponent
     }
 
     public enum ParameterKeys implements IParameterKey {
