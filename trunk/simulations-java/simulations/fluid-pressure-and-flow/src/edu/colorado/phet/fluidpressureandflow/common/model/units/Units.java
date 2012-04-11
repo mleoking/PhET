@@ -4,6 +4,7 @@ package edu.colorado.phet.fluidpressureandflow.common.model.units;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources;
+import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings;
 
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.*;
 
@@ -30,7 +31,8 @@ public class Units {
     } );
 
     //Units for atmosphere, see http://en.wikipedia.org/wiki/Atmosphere_%28unit%29
-    public static final Unit PASCAL = new LinearUnit( FluidPressureAndFlowResources.Strings.PA, 1, new DecimalFormat( "0" ) );
+//    public static final Unit PASCAL = new LinearUnit( FluidPressureAndFlowResources.Strings.PA, 1, new DecimalFormat( "0" ) );
+    public static final Unit KILOPASCAL = new LinearUnit( Strings.K_PA, 1.0 / 1000.0, new DecimalFormat( "0" ) );
     public static final Unit PSI = new LinearUnit( FluidPressureAndFlowResources.Strings.PSI, 145.04E-6, new DecimalFormat( "0.00" ) );
 
     //Units for length
