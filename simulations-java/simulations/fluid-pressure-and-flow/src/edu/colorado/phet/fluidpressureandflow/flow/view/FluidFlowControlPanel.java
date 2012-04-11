@@ -4,6 +4,8 @@ package edu.colorado.phet.fluidpressureandflow.flow.view;
 import javax.swing.JComponent;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing;
+import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishMetricControlPanel;
@@ -22,17 +24,17 @@ public class FluidFlowControlPanel extends VerticalLayoutPanel {
     public FluidFlowControlPanel( final FluidPressureAndFlowModule<FluidFlowModel> module ) {
 
         //Checkbox that allows the user to show/hide the ruler
-        addControlFullWidth( new FPAFCheckBox( RULER, module.rulerVisible ) );
+        addControlFullWidth( new FPAFCheckBox( FPAFSimSharing.UserComponents.rulerCheckBox, RULER, module.rulerVisible ) );
 
         //Units control panel that allows choice between english and metric
-        addControlFullWidth( new EnglishMetricControlPanel( new FPAFRadioButton<UnitSet>( METRIC, module.model.units, UnitSet.METRIC ),
-                                                            new FPAFRadioButton<UnitSet>( ENGLISH, module.model.units, UnitSet.ENGLISH ) ) );
+        addControlFullWidth( new EnglishMetricControlPanel( new FPAFRadioButton<UnitSet>( UserComponents.metricRadioButton, METRIC, module.model.units, UnitSet.METRIC ),
+                                                            new FPAFRadioButton<UnitSet>( UserComponents.englishRadioButton, ENGLISH, module.model.units, UnitSet.ENGLISH ) ) );
 
         //Add a control that lets the user toggle friction on and off
-        addControlFullWidth( new FPAFCheckBox( FRICTION, module.model.pipe.friction ) );
+        addControlFullWidth( new FPAFCheckBox( FPAFSimSharing.UserComponents.frictionCheckBox, FRICTION, module.model.pipe.friction ) );
 
         //Add a control that enables the user to show/hide a flux meter
-        addControlFullWidth( new FPAFCheckBox( FLUX_METER, module.model.fluxMeter.visible ) );
+        addControlFullWidth( new FPAFCheckBox( FPAFSimSharing.UserComponents.fluxMeterCheckBox, FLUX_METER, module.model.fluxMeter.visible ) );
     }
 
     private void addControlFullWidth( JComponent component ) {

@@ -1,3 +1,4 @@
+Added sim event messages
 # 0.00.53 (63300) Apr 11, 2012
 Switched from Pascals to kiloPascals
 Move masses to front when dragging

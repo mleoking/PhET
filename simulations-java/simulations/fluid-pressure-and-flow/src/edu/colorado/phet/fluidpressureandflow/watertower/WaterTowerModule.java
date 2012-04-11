@@ -2,6 +2,7 @@
 package edu.colorado.phet.fluidpressureandflow.watertower;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.watertower.model.WaterTowerModel;
 import edu.colorado.phet.fluidpressureandflow.watertower.view.WaterTowerCanvas;
@@ -18,7 +19,7 @@ public class WaterTowerModule extends FluidPressureAndFlowModule<WaterTowerModel
     public final WaterTowerCanvas canvas;
 
     public WaterTowerModule() {
-        super( WATER_TOWER, new WaterTowerModel() );
+        super( UserComponents.waterTowerTab, WATER_TOWER, new WaterTowerModel() );
         canvas = new WaterTowerCanvas( this );
         setSimulationPanel( canvas );
     }
