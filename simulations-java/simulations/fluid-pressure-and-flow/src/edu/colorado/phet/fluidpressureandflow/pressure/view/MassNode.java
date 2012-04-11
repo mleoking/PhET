@@ -51,11 +51,7 @@ public class MassNode extends PNode {
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( final PInputEvent event ) {
-                masses.set( masses.get().map( new Function1<Mass, Mass>() {
-                    @Override public Mass apply( final Mass m ) {
-                        return m == mass ? m.withDragging( true ) : m;
-                    }
-                } ) );
+                masses.set( startDragging( masses.get(), mass ) );
             }
 
             @Override public void mouseDragged( final PInputEvent event ) {
@@ -98,5 +94,23 @@ public class MassNode extends PNode {
                 } ) );
             }
         } );
+    }
+
+    private ObservableList<Mass> startDragging( final ObservableList<Mass> origMasses, final Mass mass ) {
+        ObservableList<Mass> output = new ObservableList<Mass>();
+        Mass dragMass = null;
+        for ( Mass origMass : origMasses ) {
+            if ( origMass == mass ) {
+                if ( dragMass != null ) { throw new RuntimeException( "two drag mass" ); }
+                dragMass = origMass.withDragging( true );
+            }
+            else {
+                output.add( origMass );
+            }
+        }
+        if ( dragMass != null ) {
+            output.add( dragMass );
+        }
+        return output;
     }
 }
