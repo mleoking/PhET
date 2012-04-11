@@ -58,8 +58,8 @@ public class StateNode extends PNode {
         }
 
         addChild( new PhetPText( state.circles.find( new F<Circle2, Boolean>() {
-            @Override public Boolean f( final Circle2 circle2 ) {
-                return circle2.dragging;
+            @Override public Boolean f( final Circle2 circle ) {
+                return circle.dragging;
             }
         } ).toString() ) );
     }
