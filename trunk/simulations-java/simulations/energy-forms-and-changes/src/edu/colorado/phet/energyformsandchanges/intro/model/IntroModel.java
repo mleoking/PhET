@@ -175,7 +175,7 @@ public class IntroModel {
 
     private Property<HorizontalSurface> findHighestPossibleSupportSurface( UserMovableModelElement element ) {
         Property<HorizontalSurface> highestOverlappingSurface = null;
-        for ( ModelElement potentialSupportingElement : Arrays.asList( leftBurner, rightBurner, brick, leadBlock ) ) {
+        for ( ModelElement potentialSupportingElement : Arrays.asList( leftBurner, rightBurner, brick, leadBlock, beaker ) ) {
             if ( potentialSupportingElement == element || potentialSupportingElement.isStackedUpon( element ) ) {
                 // The potential supporting element is either the same as the
                 // test element or is sitting on top of the test element.  In
