@@ -6,7 +6,7 @@ package edu.colorado.phet.common.phetcommon.simsharing.messages;
  */
 public enum ParameterKeys implements IParameterKey {
     canvasPositionX, canvasPositionY, componentType, description, height, interactive, item,
-    isSelected, key, part, text, title, value, width, window, x, y,
+    isSelected, key, part, text, title, value, width, window, x, y, z,
     enabled,
     minX, maxX, averageX, minY, maxY, averageY,
     isPlaying,

@@ -4,16 +4,17 @@ package edu.colorado.phet.platetectonics.control;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JCheckBox;
-import javax.swing.JRadioButton;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJCheckBox;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJRadioButton;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
+import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
 import edu.colorado.phet.platetectonics.modules.CrustTab;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
 import edu.colorado.phet.platetectonics.view.ColorMode;
@@ -44,7 +45,7 @@ public class ViewOptionsPanel extends PNode {
         final Property<Double> maxWidth = new Property<Double>( title.getFullBounds().getWidth() );
         final Property<Double> y = new Property<Double>( title.getFullBounds().getMaxY() );
 
-        final PSwing densityMode = new PSwing( new JRadioButton( Strings.DENSITY_VIEW ) {{
+        final PSwing densityMode = new PSwing( new SimSharingJRadioButton( UserComponents.densityView, Strings.DENSITY_VIEW ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     setSelected( true );
@@ -71,7 +72,7 @@ public class ViewOptionsPanel extends PNode {
             maxWidth.set( Math.max( maxWidth.get(), getFullBounds().getWidth() ) );
         }};
         addChild( densityMode );
-        final PSwing temperatureMode = new PSwing( new JRadioButton( Strings.TEMPERATURE_VIEW ) {{
+        final PSwing temperatureMode = new PSwing( new SimSharingJRadioButton( UserComponents.temperatureView, Strings.TEMPERATURE_VIEW ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     setSelected( true );
@@ -98,7 +99,7 @@ public class ViewOptionsPanel extends PNode {
             maxWidth.set( Math.max( maxWidth.get(), getFullBounds().getWidth() ) );
         }};
         addChild( temperatureMode );
-        final PSwing combinedMode = new PSwing( new JRadioButton( Strings.BOTH_VIEW ) {{
+        final PSwing combinedMode = new PSwing( new SimSharingJRadioButton( UserComponents.bothView, Strings.BOTH_VIEW ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     setSelected( true );
@@ -130,7 +131,7 @@ public class ViewOptionsPanel extends PNode {
 
         // TODO: implement labels for 2nd tab
         if ( tab instanceof CrustTab ) {
-            final PSwing showLabelCheckBox = new PSwing( new JCheckBox( Strings.SHOW_LABELS ) {{
+            final PSwing showLabelCheckBox = new PSwing( new SimSharingJCheckBox( UserComponents.showLabels, Strings.SHOW_LABELS ) {{
                 setSelected( showLabels.get() );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent actionEvent ) {
@@ -162,7 +163,7 @@ public class ViewOptionsPanel extends PNode {
 
         PSwing showWaterCheckBox = null;
         if ( containsWaterOption ) {
-            showWaterCheckBox = new PSwing( new JCheckBox( Strings.SHOW_SEAWATER ) {{
+            showWaterCheckBox = new PSwing( new SimSharingJCheckBox( UserComponents.showWater, Strings.SHOW_SEAWATER ) {{
                 setSelected( showWater.get() );
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent actionEvent ) {

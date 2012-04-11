@@ -6,8 +6,11 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJSlider;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
+import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
 import edu.colorado.phet.platetectonics.model.CrustModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -27,9 +30,9 @@ public class MyCrustPanel extends PNode {
             setFont( new PhetFont( 16, true ) );
         }};
 
-        SliderNode temperatureSlider = new SliderNode( TEMPERATURE, COOL, WARM, model.temperatureRatio, 0, 1 );
-        SliderNode compositionSlider = new SliderNode( COMPOSITION, MORE_IRON, MORE_SILICA, model.compositionRatio, 0, 1 );
-        SliderNode thicknessSlider = new SliderNode( THICKNESS, THIN, THICK, model.thickness, 4000, 70000 );
+        SliderNode temperatureSlider = new SliderNode( UserComponents.temperatureSlider, TEMPERATURE, COOL, WARM, model.temperatureRatio, 0, 1 );
+        SliderNode compositionSlider = new SliderNode( UserComponents.compositionSlider, COMPOSITION, MORE_IRON, MORE_SILICA, model.compositionRatio, 0, 1 );
+        SliderNode thicknessSlider = new SliderNode( UserComponents.thicknessSlider, THICKNESS, THIN, THICK, model.thickness, 4000, 70000 );
 
         // center the title node (based on the slider itself, not the other labels!)
         titleNode.setOffset( ( temperatureSlider.getSlider().getWidth() - titleNode.getFullBounds().getWidth() ) / 2, 0 );
@@ -53,14 +56,14 @@ public class MyCrustPanel extends PNode {
 
         private static final int sliderMax = 4096;
 
-        private SliderNode( String title, String lowText, String highText, final Property<Double> property, double min, double max ) {
+        private SliderNode( IUserComponent userComponent, String title, String lowText, String highText, final Property<Double> property, double min, double max ) {
             this.property = property;
             this.min = min;
             this.max = max;
             PText titleNode = new PText( title ) {{ setFont( sliderTitleFont ); }};
             PText lowNode = new PText( lowText ) {{ setFont( limitFont ); }};
             PText highNode = new PText( highText ) {{ setFont( limitFont ); }};
-            slider = new JSlider( 0, sliderMax, getInitialValue() ) {{
+            slider = new SimSharingJSlider( userComponent, 0, sliderMax, getInitialValue() ) {{
                 setPaintTicks( true );
             }};
             PSwing sliderNode = new PSwing( slider );

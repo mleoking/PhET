@@ -5,6 +5,7 @@ import java.awt.Cursor;
 
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -16,6 +17,7 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.PlanarPiccoloNode;
+import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
 import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
@@ -79,7 +81,7 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
         repaint();
     }
 
-    private ImmutableVector3F getSensorModelPosition() {
+    public ImmutableVector3F getSensorModelPosition() {
         float horizontalSensorOffset = (float) ( ( (DensitySensorNode2D) getNode() ).horizontalSensorOffset * 0.75 / PICCOLO_PIXELS_TO_VIEW_UNIT * scaleMultiplier( tab ) );
         return modelViewTransform.inversePosition( transform.getMatrix().getTranslation().plus( new ImmutableVector3F( horizontalSensorOffset, 0, 0 ) ) );
     }
@@ -92,6 +94,10 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
         final double s = 0.75 / PICCOLO_PIXELS_TO_VIEW_UNIT;
         return new ImmutableVector2F( (float) ( getNode().getFullBounds().getWidth() / 2 ) * s,
                                       ( getNode().getFullBounds().getHeight() / 3 ) * s );
+    }
+
+    public IUserComponent getUserComponent() {
+        return UserComponents.densityMeter;
     }
 
     public void recycle() {
