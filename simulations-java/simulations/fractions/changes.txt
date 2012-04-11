@@ -1,3 +1,4 @@
+Send messages for audio check box
 Send different messages for representations in equality lab
 Send messages when number line knobs are dragged
 Send messages when the lock is toggled

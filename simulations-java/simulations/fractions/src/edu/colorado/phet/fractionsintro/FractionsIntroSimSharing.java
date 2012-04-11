@@ -42,7 +42,9 @@ public class FractionsIntroSimSharing {
         scaledUpFractionSpinnerRightButton,
         scaledUpFractionSpinnerLeftButton,
         lock,
-        numberLineArrow, numberLineKnob
+        numberLineArrow, numberLineKnob,
+        keepMatchButton,
+        audioButton
     }
 
     //For chaining with component types
