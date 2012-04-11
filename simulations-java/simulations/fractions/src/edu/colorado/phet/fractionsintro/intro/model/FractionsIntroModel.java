@@ -11,6 +11,9 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ParameterKeys;
 import edu.colorado.phet.fractionsintro.intro.model.containerset.CellPointer;
 import edu.colorado.phet.fractionsintro.intro.model.containerset.ContainerSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
@@ -19,6 +22,12 @@ import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.CakeSliceFa
 import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.FactorySet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.SliceFactory;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
+
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
+import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ModelActions.changed;
+import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ModelComponentTypes.containerSetComponentType;
+import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ModelComponents.containerSetComponent;
+import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ParameterKeys.containerSetKey;
 
 /**
  * Model for the Fractions Intro sim.  This is the most complicated class in the sim, because it has to manage several different ways of changing
@@ -303,6 +312,24 @@ public class FractionsIntroModel {
             }
         }
         ).toIntegerProperty();
+
+        //Send messages when the container state changes
+        ClientProperty<ContainerSet> containerSetClientProperty = new ClientProperty<ContainerSet>( state, new F<IntroState, ContainerSet>() {
+            @Override public ContainerSet f( final IntroState introState ) {
+                return introState.containerSet;
+            }
+        }, new F2<IntroState, ContainerSet, IntroState>() {
+            @Override public IntroState f( final IntroState introState, final ContainerSet containerSet ) {
+                throw new RuntimeException( "Shouldn't be called" );
+            }
+        }
+        );
+        containerSetClientProperty.addObserver( new VoidFunction1<ContainerSet>() {
+            @Override public void apply( final ContainerSet containerSet ) {
+                SimSharingManager.sendModelMessage( containerSetComponent, containerSetComponentType, changed, parameterSet( ParameterKeys.numerator, containerSet.numerator ).with(
+                        ParameterKeys.denominator, containerSet.denominator ).with( containerSetKey, containerSet.toString() ) );
+            }
+        } );
     }
 
     public void resetAll() { state.set( initialState ); }
