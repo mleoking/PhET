@@ -44,7 +44,7 @@ public abstract class Block extends UserMovableModelElement implements RestingSu
     }
 
     public HorizontalSurface getTopSurface() {
-        return new HorizontalSurface( new DoubleRange( getRect().getMinX(), getRect().getMaxX() ), getRect().getMaxY() );
+        return new HorizontalSurface( new DoubleRange( getRect().getMinX(), getRect().getMaxX() ), getRect().getMaxY(), this );
     }
 
     /**
@@ -66,7 +66,7 @@ public abstract class Block extends UserMovableModelElement implements RestingSu
     }
 
     @Override public HorizontalSurface getBottomSurface() {
-        return new HorizontalSurface( new DoubleRange( getRect().getMinX(), getRect().getMaxX() ), getRect().getMinY() );
+        return new HorizontalSurface( new DoubleRange( getRect().getMinX(), getRect().getMaxX() ), getRect().getMinY(), this );
     }
 
     /**

@@ -103,7 +103,9 @@ public class IntroModel {
      */
     private void stepInTime( double dt ) {
 
-        // Move any model elements that are not resting on a surface.
+        // Cause any user-movable model elements that are not supported by a
+        // surface to fall (or, in some cases, jump up) towards the nearest
+        // supporting surface.
         for ( Block movableModelElement : Arrays.asList( leadBlock, brick ) ) {
             if ( !movableModelElement.userControlled.get() && movableModelElement.getParentSurface() == null && movableModelElement.position.get().getY() != 0 ) {
                 double acceleration = -9.8; // meters/s*s
@@ -165,8 +167,7 @@ public class IntroModel {
         for ( RestingSurfaceOwner restingSurfaceOwner : Arrays.asList( leftBurner, rightBurner, brick, leadBlock ) ) {
             System.out.println( "restingSurfaceOwner = " + restingSurfaceOwner + ". equals = " + ( restingSurfaceOwner == element ) );
             if ( restingSurfaceOwner != element && surface.overlapsWith( restingSurfaceOwner.getRestingSurface().get() ) ) {
-                if ( highestOverlappingSurface == null || highestOverlappingSurface.get().yPos < restingSurfaceOwner.getRestingSurface().get().yPos && ( restingSurfaceOwner.getParent() != element.getRestingSurface() ) ) {
-                    System.out.println( "new highest found = " + restingSurfaceOwner + ", same as element == " + ( restingSurfaceOwner == element ) );
+                if ( highestOverlappingSurface == null || highestOverlappingSurface.get().yPos < restingSurfaceOwner.getRestingSurface().get().yPos ) {
                     highestOverlappingSurface = restingSurfaceOwner.getRestingSurface();
                     selected = restingSurfaceOwner;
 

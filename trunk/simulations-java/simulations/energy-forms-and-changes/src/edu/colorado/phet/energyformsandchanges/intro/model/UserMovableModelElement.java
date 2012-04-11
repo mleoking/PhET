@@ -14,11 +14,11 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  *
  * @author John Blanco
  */
-public abstract class UserMovableModelElement {
+public abstract class UserMovableModelElement extends ModelElement {
 
     public final BooleanProperty userControlled = new BooleanProperty( false );
 
-    //Position of the center of the bottom of the block.
+    // Position of the center of the bottom of the block.
     public final Property<ImmutableVector2D> position = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
 
     // Velocity in the up/down direction.

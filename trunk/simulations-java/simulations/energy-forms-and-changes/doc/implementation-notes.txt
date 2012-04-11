@@ -1,4 +1,9 @@
 
+Convention
+
+Property types (e.g. Property< Double > position) are public.  All other
+attributes of a class are private and are accessed via accessor methods.
+
 Tab 1
 
 Acceleration is used to make things fall to give it a more natural look.

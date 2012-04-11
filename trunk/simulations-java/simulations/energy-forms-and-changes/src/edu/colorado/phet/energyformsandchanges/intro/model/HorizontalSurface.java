@@ -9,10 +9,12 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 public class HorizontalSurface {
     public final DoubleRange xRange;
     public final double yPos;
+    public final ModelElement owner;
 
-    public HorizontalSurface( DoubleRange xRange, double yPos ) {
+    public HorizontalSurface( DoubleRange xRange, double yPos, ModelElement owner ) {
         this.xRange = xRange;
         this.yPos = yPos;
+        this.owner = owner;
     }
 
     public boolean overlapsWith( HorizontalSurface surface ) {
@@ -31,7 +33,9 @@ public class HorizontalSurface {
         final HorizontalSurface that = (HorizontalSurface) o;
 
         if ( Double.compare( that.yPos, yPos ) != 0 ) { return false; }
-        if ( xRange != null ? !xRange.equals( that.xRange ) : that.xRange != null ) { return false; }
+        if ( xRange != null ? !xRange.equals( that.xRange ) : that.xRange != null ) {
+            return false;
+        }
 
         return true;
     }
