@@ -10,6 +10,8 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -44,9 +46,12 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScale;
 import static edu.colorado.phet.fractions.FractionsResources.Images.LOCKED;
 import static edu.colorado.phet.fractions.FractionsResources.Images.UNLOCKED;
+import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ComponentTypes.spriteCheckBox;
 import static edu.colorado.phet.fractionsintro.equalitylab.model.EqualityLabModel.scaledFactorySet;
 import static edu.colorado.phet.fractionsintro.intro.view.Representation.*;
 import static edu.colorado.phet.fractionsintro.intro.view.pieset.PieSetNode.CreateEmptyCellsNode;
@@ -101,7 +106,9 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
                 @Override public void mousePressed( final PInputEvent event ) {
-                    model.locked.set( !model.locked.get() );
+                    final boolean newValue = !model.locked.get();
+                    SimSharingManager.sendUserMessage( Components.lock, spriteCheckBox, pressed, parameterSet( ParameterKeys.value, newValue ) );
+                    model.locked.set( newValue );
                 }
             } );
             setOffset( ( leftRepresentationControlPanel.getCenterX() + rightRepresentationControlPanel.getCenterX() ) / 2 - getFullBounds().getWidth() / 2, leftRepresentationControlPanel.getCenterY() - getFullBounds().getHeight() / 2 );

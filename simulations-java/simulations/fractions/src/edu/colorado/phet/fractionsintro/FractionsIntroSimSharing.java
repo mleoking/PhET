@@ -41,6 +41,13 @@ public class FractionsIntroSimSharing {
         cakeRadioButton,
         scaledUpFractionSpinnerRightButton,
         scaledUpFractionSpinnerLeftButton,
+        lock,
+    }
+
+    public enum ComponentTypes implements IUserComponentType {
+
+        //Looks like a sprite but behaves like a check box
+        spriteCheckBox
     }
 
     public enum ModelComponents implements IModelComponent {
