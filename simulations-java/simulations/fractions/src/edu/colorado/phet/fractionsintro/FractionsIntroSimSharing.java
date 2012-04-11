@@ -38,7 +38,9 @@ public class FractionsIntroSimSharing {
         verticalBarRadioButton,
         waterGlassesRadioButton,
         numberLineRadioButton,
-        cakeRadioButton
+        cakeRadioButton,
+        scaledUpFractionSpinnerRightButton,
+        scaledUpFractionSpinnerLeftButton,
     }
 
     public enum ModelComponents implements IModelComponent {
@@ -58,6 +60,7 @@ public class FractionsIntroSimSharing {
         numerator,
         denominator,
         containerSetKey,
+        scale
     }
 
     public static RichVoidFunction0 sendMessage( final IUserComponent component, final IUserComponentType type, final IUserAction action ) {

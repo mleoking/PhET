@@ -7,12 +7,16 @@ import java.awt.geom.Line2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.Times;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractions.view.SpinnerButtonPanelHBox;
+import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ParameterKeys;
 import edu.colorado.phet.fractionsintro.intro.view.FractionNumberNode;
+
+import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.scaledUpFractionSpinnerLeftButton;
+import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.scaledUpFractionSpinnerRightButton;
+import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.sendMessageAndApply;
 
 /**
  * Node that shows a fraction (numerator and denominator and dividing line) as a multiple of another fraction.
@@ -38,16 +42,9 @@ public class ScaledUpFractionNode extends RichPNode {
             setOffset( line.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2 - offset, line.getFullBounds().getY() );
         }} );
 
-        final ZeroOffsetNode spinnerButtonPanel = new ZeroOffsetNode( new SpinnerButtonPanelHBox( new VoidFunction0() {
-            public void apply() {
-                scale.increment();
-            }
-        }, scale.lessThanOrEqualTo( 2 ), new VoidFunction0() {
-            public void apply() {
-                scale.decrement();
-            }
-        }, scale.greaterThanOrEqualTo( 2 )
-        ) );
+        final SpinnerButtonPanelHBox spinnerNode = new SpinnerButtonPanelHBox( sendMessageAndApply( scaledUpFractionSpinnerRightButton, ParameterKeys.scale, scale, +1 ), scale.lessThanOrEqualTo( 2 ),
+                                                                               sendMessageAndApply( scaledUpFractionSpinnerLeftButton, ParameterKeys.scale, scale, -1 ), scale.greaterThanOrEqualTo( 2 ) );
+        final ZeroOffsetNode spinnerButtonPanel = new ZeroOffsetNode( spinnerNode );
 
         spinnerButtonPanel.setOffset( getMaxX() + 12, getCenterY() / 2 - spinnerButtonPanel.getFullHeight() / 2 );
         addChild( spinnerButtonPanel );
