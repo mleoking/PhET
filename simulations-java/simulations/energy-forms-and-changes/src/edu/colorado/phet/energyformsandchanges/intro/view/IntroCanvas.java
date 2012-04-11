@@ -54,5 +54,6 @@ public class IntroCanvas extends PhetPCanvas {
         // Add the movable objects.
         rootNode.addChild( new BlockNode( model.getBrick(), mvt ) );
         rootNode.addChild( new BlockNode( model.getLeadBlock(), mvt ) );
+        rootNode.addChild( new BeakerNode( model.getBeaker(), mvt ) );
     }
 }

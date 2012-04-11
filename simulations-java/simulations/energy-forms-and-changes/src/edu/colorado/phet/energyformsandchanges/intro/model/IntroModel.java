@@ -50,6 +50,8 @@ public class IntroModel {
     private final Brick brick;
     private final LeadBlock leadBlock;
 
+    private final Beaker beaker;
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
@@ -90,6 +92,9 @@ public class IntroModel {
         // Add and position the lead block.
         leadBlock = new LeadBlock();
         leadBlock.position.set( new ImmutableVector2D( -0.1, 0 ) );
+
+        // Add and position the beaker.
+        beaker = new Beaker( new Point2D.Double( -0.02, 0 ) );
     }
 
     //-------------------------------------------------------------------------
@@ -162,6 +167,10 @@ public class IntroModel {
 
     public Burner getRightBurner() {
         return rightBurner;
+    }
+
+    public Beaker getBeaker() {
+        return beaker;
     }
 
     private Property<HorizontalSurface> findHighestPossibleSupportSurface( UserMovableModelElement element ) {
