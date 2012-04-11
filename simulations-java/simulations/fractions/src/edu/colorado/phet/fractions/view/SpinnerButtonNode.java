@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.DynamicCursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -26,7 +26,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * @author Sam Reid
  */
 public class SpinnerButtonNode extends PNode {
-    private final VoidFunction0 callback;
+    private final VoidFunction1 callback;
     private final ObservableProperty<Boolean> enabled;
     private final BooleanProperty pressed = new BooleanProperty( false );
     private final BooleanProperty entered = new BooleanProperty( true );
@@ -38,7 +38,7 @@ public class SpinnerButtonNode extends PNode {
         public void actionPerformed( ActionEvent e ) {
             if ( enabled.get() ) {
                 autoSpinning = true;
-                callback.apply();
+                callback.apply( autoSpinning );
             }
         }
     } ) {{
@@ -46,11 +46,11 @@ public class SpinnerButtonNode extends PNode {
     }};
     private boolean autoSpinning = false;
 
-    public SpinnerButtonNode( final BufferedImage unpressedImage, final BufferedImage pressedImage, final BufferedImage disabledImage, final VoidFunction0 callback ) {
+    public SpinnerButtonNode( final BufferedImage unpressedImage, final BufferedImage pressedImage, final BufferedImage disabledImage, final VoidFunction1 callback ) {
         this( unpressedImage, pressedImage, disabledImage, callback, new BooleanProperty( true ) );
     }
 
-    public SpinnerButtonNode( final BufferedImage unpressedImage, final BufferedImage pressedImage, final BufferedImage disabledImage, final VoidFunction0 callback, ObservableProperty<Boolean> enabled ) {
+    public SpinnerButtonNode( final BufferedImage unpressedImage, final BufferedImage pressedImage, final BufferedImage disabledImage, final VoidFunction1 callback, ObservableProperty<Boolean> enabled ) {
         this.callback = callback;
         this.enabled = enabled;
         imageNode = new PImage();
@@ -79,7 +79,7 @@ public class SpinnerButtonNode extends PNode {
 
                     //Only fire the release event if the user didn't hold it down long enough to start autospin
                     if ( !autoSpinning ) {
-                        callback.apply();
+                        callback.apply( autoSpinning );
                     }
                     pressed.set( false );
                     autoSpinning = false;
