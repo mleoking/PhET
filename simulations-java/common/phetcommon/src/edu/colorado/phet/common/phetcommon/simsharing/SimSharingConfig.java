@@ -88,7 +88,7 @@ public class SimSharingConfig {
      * Principal researcher: Julia Chamberlain
      * Location: Boulder, CO
      */
-    public static final SimSharingConfig RPAL_APRIL_2012 = new SimSharingConfig( "rpal-april-2012", true, true, false, false );
+    public static final SimSharingConfig RPAL_APRIL_2012 = new SimSharingConfig( "rpal-april-2012", true, false, false, false );
 
     private static final HashMap<String, SimSharingConfig> CONFIG_MAP = new HashMap<String, SimSharingConfig>();
 
