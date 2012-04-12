@@ -10,12 +10,12 @@ import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.VelocitySensorContext;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.createPolar;
+import static edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents.*;
 import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.METRIC;
 import static java.lang.Math.sqrt;
 
@@ -53,10 +53,10 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
         super( METRIC );
 
         //Add the pressure and velocity sensors
-        addPressureSensor( new PressureSensor( this, 30, 25, UserComponents.pressureSensor0 ) );
-        addPressureSensor( new PressureSensor( this, 30, 25, UserComponents.pressureSensor1 ) );
-        addVelocitySensor( new FPAFVelocitySensor( this, 30, 30 ) );
-        addVelocitySensor( new FPAFVelocitySensor( this, 30, 30 ) );
+        addPressureSensor( new PressureSensor( pressureSensor0, this, 30, 25 ) );
+        addPressureSensor( new PressureSensor( pressureSensor1, this, 30, 25 ) );
+        addVelocitySensor( new FPAFVelocitySensor( velocitySensor0, this, 30, 30 ) );
+        addVelocitySensor( new FPAFVelocitySensor( velocitySensor1, this, 30, 30 ) );
 
         //Step when the clock ticks
         getClock().addSimulationTimeChangeListener( new VoidFunction1<Double>() {

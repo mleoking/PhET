@@ -32,6 +32,14 @@ public class DraggableSensorNode<T> extends SensorNode<T> {
     private void addInteraction() {
         //Add interactivity
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new RelativeDragHandler( this, transform, pointSensor.position, boundedConstraint ) );
+        addInputEventListener( new RelativeDragHandler( this, transform, pointSensor.position, boundedConstraint ) {
+            @Override protected void sendMessage( final Point2D modelPoint ) {
+                DraggableSensorNode.this.sendMessage( modelPoint );
+            }
+        } );
+    }
+
+    //allows sending a sim sharing message before firing any model events
+    protected void sendMessage( final Point2D modelPoint ) {
     }
 }

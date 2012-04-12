@@ -27,6 +27,9 @@ public class FPAFSimSharing {
         pressureSensor2,
         pressureSensor3,
 
+        velocitySensor0,
+        velocitySensor1,
+
         pressureTab,
         flowTab,
         rulerCheckBox, frictionCheckBox, fluxMeterCheckBox, gridCheckBox, measuringTapeCheckBox, hoseCheckBox, waterTowerTab, rulerCheckBoxIcon,
@@ -48,11 +51,14 @@ public class FPAFSimSharing {
 
     public enum ParameterKeys implements IParameterKey {
         pressure,
-        droppedInDottedLineRegion
+        droppedInDottedLineRegion,
+        velocityX,
+        velocityY
     }
 
     public enum ComponentTypes implements IUserComponentType {
-        pressureSensor
+        pressureSensor,
+        velocitySensor
     }
 
     public static RichVoidFunction0 sendMessage( final IUserComponent component, final IUserComponentType type, final IUserAction action ) {

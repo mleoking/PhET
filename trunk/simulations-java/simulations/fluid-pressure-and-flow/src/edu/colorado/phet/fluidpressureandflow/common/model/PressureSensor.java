@@ -13,7 +13,7 @@ public class PressureSensor extends Sensor<Double> {
 
     public final Context context;
 
-    public PressureSensor( final Context context, double x, double y, IUserComponent userComponent ) {
+    public PressureSensor( IUserComponent userComponent, final Context context, double x, double y ) {
         super( x, y, context.getPressure( x, y ), userComponent );
 
         this.context = context;

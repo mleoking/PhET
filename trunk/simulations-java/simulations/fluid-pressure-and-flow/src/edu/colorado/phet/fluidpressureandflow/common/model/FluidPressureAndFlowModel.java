@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.VelocitySensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
+import edu.colorado.phet.fluidpressureandflow.watertower.model.FPAFVelocitySensor;
 
 /**
  * Main model base class for FluidPressureAndFlow.  Units for this sim are by default in SI, and conversions through class
@@ -33,7 +34,7 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetM
     //Model values
     private final ConstantDtClock clock = new ConstantDtClock( 30 );
     private final ArrayList<PressureSensor> pressureSensors = new ArrayList<PressureSensor>();
-    private final ArrayList<VelocitySensor> velocitySensors = new ArrayList<VelocitySensor>();
+    private final ArrayList<FPAFVelocitySensor> velocitySensors = new ArrayList<FPAFVelocitySensor>();
     public final Property<Double> gravity = new Property<Double>( EARTH_GRAVITY );
     public final Property<Double> standardAirPressure = new Property<Double>( EARTH_AIR_PRESSURE );//air pressure at y=0
     public final Property<Double> liquidDensity = new Property<Double>( 1000.0 );//SI
@@ -74,7 +75,7 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetM
         pressureSensors.add( sensor );
     }
 
-    public void addVelocitySensor( VelocitySensor sensor ) {
+    public void addVelocitySensor( FPAFVelocitySensor sensor ) {
         velocitySensors.add( sensor );
     }
 
@@ -116,8 +117,8 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetM
         return pressureSensors.toArray( new PressureSensor[pressureSensors.size()] );
     }
 
-    public VelocitySensor[] getVelocitySensors() {
-        return velocitySensors.toArray( new VelocitySensor[velocitySensors.size()] );
+    public FPAFVelocitySensor[] getVelocitySensors() {
+        return velocitySensors.toArray( new FPAFVelocitySensor[velocitySensors.size()] );
     }
 
     //Reset the module for "reset all"

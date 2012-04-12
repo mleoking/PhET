@@ -36,10 +36,10 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
         chamberPool = new ChamberPool( gravity, liquidDensity );
 
         //Show pressure partly submerged in the water, but at the top of the water
-        addPressureSensor( new PressureSensor( this, -4, 2, UserComponents.pressureSensor0 ) );
-        addPressureSensor( new PressureSensor( this, -4, 2, UserComponents.pressureSensor1 ) );
-        addPressureSensor( new PressureSensor( this, -4, 2, UserComponents.pressureSensor2 ) );
-        addPressureSensor( new PressureSensor( this, -4, 2, UserComponents.pressureSensor3 ) );
+        addPressureSensor( new PressureSensor( UserComponents.pressureSensor0, this, -4, 2 ) );
+        addPressureSensor( new PressureSensor( UserComponents.pressureSensor1, this, -4, 2 ) );
+        addPressureSensor( new PressureSensor( UserComponents.pressureSensor2, this, -4, 2 ) );
+        addPressureSensor( new PressureSensor( UserComponents.pressureSensor3, this, -4, 2 ) );
 
         getClock().addSimulationTimeChangeListener( new VoidFunction1<Double>() {
             @Override public void apply( final Double dt ) {
