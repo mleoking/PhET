@@ -9,7 +9,6 @@ DESIGN
 
 HIGH
 - grid node gets bigger when IntroModel.GRID_MODEL_UNITS gets smaller, size should remain constant
-- don't show rise/run brackets for zero values
 - when equation is minimized, equation on graphed line should be hidden, not the entire line
 
 MEDIUM
@@ -17,6 +16,7 @@ MEDIUM
 - try dynamically changing the rise/run/intercept constraints to keep line manipulators on the grid
 - clean up standard line icons (no equation on line, shorter line)
 - try iOS Picker for changing numbers in equation
+- don't like all the MathUtil.round that's going on
 
 LOW
 - review internal duplication in GraphNode
