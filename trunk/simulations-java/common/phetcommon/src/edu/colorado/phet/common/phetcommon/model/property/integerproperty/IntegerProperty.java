@@ -87,7 +87,7 @@ public class IntegerProperty extends Property<Integer> {
     //Returns a function that when invoked, adds the specified value to this instance
     public VoidFunction0 add_( final int delta ) {
         return new VoidFunction0() {
-            @Override public void apply() {
+            public void apply() {
                 set( get() + delta );
             }
         };

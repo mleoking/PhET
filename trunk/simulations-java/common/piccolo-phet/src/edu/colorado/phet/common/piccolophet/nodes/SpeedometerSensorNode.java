@@ -41,7 +41,7 @@ public class SpeedometerSensorNode extends ToolNode {
 
         final Property<Option<Double>> speed = new Property<Option<Double>>( new Some<Double>( 0.0 ) );
         pointSensor.value.addObserver( new VoidFunction1<Option<Double>>() {
-            @Override public void apply( final Option<Double> doubles ) {
+            public void apply( final Option<Double> doubles ) {
                 speed.set( doubles );
             }
         } );
