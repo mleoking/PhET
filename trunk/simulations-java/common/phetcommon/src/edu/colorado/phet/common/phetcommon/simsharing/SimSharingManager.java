@@ -27,6 +27,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemComponents;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.SystemMessage;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserMessage;
 import edu.colorado.phet.common.phetcommon.simsharing.tests.MongoLoadTesterSimLauncher;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
@@ -210,6 +212,11 @@ public class SimSharingManager {
 
     public void sendSystemMessageNS( ISystemComponent component, ISystemComponentType componentType, ISystemAction action, ParameterSet parameters ) {
         sendMessage( new SystemMessage( system, component, componentType, action, parameters ) );
+    }
+
+    //Convenience overload to signify that the user has pressed a button
+    public static void sendButtonPressed( IUserComponent component ) {
+        sendUserMessage( component, UserComponentTypes.button, UserActions.pressed );
     }
 
     //Convenience overload to provide no parameters
