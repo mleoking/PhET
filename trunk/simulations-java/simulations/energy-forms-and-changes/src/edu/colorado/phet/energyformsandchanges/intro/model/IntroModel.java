@@ -93,8 +93,7 @@ public class IntroModel {
         leadBlock.position.set( new ImmutableVector2D( -0.1, 0 ) );
 
         // Add and position the beaker.
-//        beaker = new Beaker( new ImmutableVector2D( -0.02, 0 ) );
-        beaker = new Beaker( new ImmutableVector2D( 0, 0 ) );
+        beaker = new Beaker( new ImmutableVector2D( -0.01, 0 ) );
     }
 
     //-------------------------------------------------------------------------
