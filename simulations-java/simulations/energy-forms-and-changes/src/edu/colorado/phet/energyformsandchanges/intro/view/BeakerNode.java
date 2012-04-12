@@ -4,15 +4,19 @@ package edu.colorado.phet.energyformsandchanges.intro.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -61,7 +65,7 @@ public class BeakerNode extends PNode {
                                  OUTLINE_COLOR ) );
 
         // Add the water TODO this is temp, since size will need to change.
-        addChild( new PerspectiveWaterNode() );
+        addChild( new PerspectiveWaterNode( beakerViewRect, beaker.fluidLevel ) );
 
         // Add the label.
         PText label = new PText( "Water" );
@@ -92,10 +96,48 @@ public class BeakerNode extends PNode {
 
     private static class PerspectiveWaterNode extends PNode {
         private static final Color WATER_COLOR = new Color( 175, 238, 238, 200 );
+        private static final Color WATER_OUTLINE_COLOR = ColorUtils.darkerColor( WATER_COLOR, 0.2 );
+        private static final Stroke WATER_OUTLINE_STROKE = new BasicStroke( 2 );
 
-        private PerspectiveWaterNode() {
+        private PerspectiveWaterNode( final Rectangle2D beakerOutlineRect, Property<Double> waterLevel ) {
 
+            final PhetPPath waterBodyNode = new PhetPPath( WATER_COLOR, WATER_OUTLINE_STROKE, WATER_OUTLINE_COLOR );
+            addChild( waterBodyNode );
+            final PhetPPath waterTopNode = new PhetPPath( WATER_COLOR, WATER_OUTLINE_STROKE, WATER_OUTLINE_COLOR );
+            addChild( waterTopNode );
+
+
+            waterLevel.addObserver( new VoidFunction1<Double>() {
+                public void apply( Double fluidLevel ) {
+                    assert fluidLevel >= 0 && fluidLevel <= 1; // Bounds checking.
+
+                    Rectangle2D waterRect = new Rectangle2D.Double( beakerOutlineRect.getX(),
+                                                                    beakerOutlineRect.getY() + beakerOutlineRect.getHeight() * ( 1 - fluidLevel ),
+                                                                    beakerOutlineRect.getWidth(),
+                                                                    beakerOutlineRect.getHeight() * fluidLevel );
+
+                    double ellipseHeight = PERSPECTIVE_PROPORTION * beakerOutlineRect.getWidth();
+                    Shape topEllipse = new Ellipse2D.Double( waterRect.getMinX(),
+                                                             waterRect.getMinY() - ellipseHeight / 2,
+                                                             waterRect.getWidth(),
+                                                             ellipseHeight );
+
+                    Shape bottomEllipse = new Ellipse2D.Double( waterRect.getMinX(),
+                                                                waterRect.getMaxY() - ellipseHeight / 2,
+                                                                waterRect.getWidth(),
+                                                                ellipseHeight );
+
+                    // Update the shape of the body and bottom of the water.
+                    Area waterBodyArea = new Area( waterRect );
+                    waterBodyArea.add( new Area( bottomEllipse ) );
+                    waterBodyArea.subtract( new Area( topEllipse ) );
+                    waterBodyNode.setPathTo( waterBodyArea );
+
+                    // Update the shape of the water based on the proportionate
+                    // water level.
+                    waterTopNode.setPathTo( topEllipse );
+                }
+            } );
         }
     }
-
 }
