@@ -34,7 +34,7 @@ public class IntroModel implements Resettable {
     public final ObservableList<SlopeInterceptLine> savedLines;
     public final ObservableList<SlopeInterceptLine> standardLines;
     public final LineGraph graph;
-    public final PointTool pointTool;
+    public final PointTool pointTool1, pointTool2;
 
     public IntroModel() {
         mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 1.2 * GRID_VIEW_UNITS / 2, 1.25 * GRID_VIEW_UNITS / 2 ), MVT_SCALE, -MVT_SCALE ); // y is inverted
@@ -42,13 +42,14 @@ public class IntroModel implements Resettable {
         savedLines = new ObservableList<SlopeInterceptLine>();
         standardLines = new ObservableList<SlopeInterceptLine>();
         graph = new LineGraph( X_RANGE, Y_RANGE );
-        pointTool = new PointTool( new ImmutableVector2D( X_RANGE.getMax() + 2, Y_RANGE.getMin() ), interactiveLine, savedLines, standardLines );
+        pointTool1 = new PointTool( new ImmutableVector2D( X_RANGE.getMax() + 2, Y_RANGE.getMin() ), interactiveLine, savedLines, standardLines );
+        pointTool2 = new PointTool( pointTool1.location.get(), interactiveLine, savedLines, standardLines );
     }
 
     public void reset() {
         interactiveLine.reset();
         savedLines.clear();
         standardLines.clear();
-        pointTool.reset();
+        pointTool1.reset();
     }
 }
