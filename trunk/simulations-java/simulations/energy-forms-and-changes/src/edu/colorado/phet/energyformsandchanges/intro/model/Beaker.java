@@ -18,7 +18,7 @@ public class Beaker extends ModelElement {
     // Class Data
     //-------------------------------------------------------------------------
 
-    private static final double WIDTH = 0.075; // In meters.
+    private static final double WIDTH = 0.085; // In meters.
     private static final double HEIGHT = WIDTH;
 
     //-------------------------------------------------------------------------
