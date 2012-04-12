@@ -97,7 +97,6 @@ public class BlockNode extends PNode {
         label.centerFullBoundsOnPoint( labelCenterX, labelCenterY );
         addChild( label );
 
-
         // Add the cursor handler.
         addInputEventListener( new CursorHandler( CursorHandler.HAND ) );
 
