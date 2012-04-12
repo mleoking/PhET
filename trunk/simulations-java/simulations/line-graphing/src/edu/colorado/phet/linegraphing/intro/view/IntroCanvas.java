@@ -21,6 +21,7 @@ public class IntroCanvas extends LGCanvas implements Resettable {
 
     private final Property<Boolean> linesVisible = new Property<Boolean>( true );
     private final Property<Boolean> interactiveLineVisible = new Property<Boolean>( true );
+    private final Property<Boolean> interactiveEquationVisible = new Property<Boolean>( true );
     private final Property<Boolean> slopeVisible = new Property<Boolean>( true );
 
     private final LineGraphNode graphNode;
@@ -30,10 +31,10 @@ public class IntroCanvas extends LGCanvas implements Resettable {
 
         graphNode = new LineGraphNode( model.graph, model.mvt, model.interactiveLine, model.savedLines, model.standardLines,
                                        IntroModel.RISE_RANGE, IntroModel.RUN_RANGE, IntroModel.INTERCEPT_RANGE,
-                                       interactiveLineVisible, linesVisible, interactiveLineVisible, slopeVisible );
+                                       interactiveEquationVisible, linesVisible, interactiveLineVisible, slopeVisible );
         PNode pointTool1 = new PointToolNode( model.pointTool1, model.mvt, model.graph, getStageBounds(), linesVisible );
         PNode pointTool2 = new PointToolNode( model.pointTool2, model.mvt, model.graph, getStageBounds(), linesVisible );
-        EquationControls equationControls = new EquationControls( interactiveLineVisible, model.interactiveLine,
+        EquationControls equationControls = new EquationControls( interactiveEquationVisible, model.interactiveLine,
                                                                   IntroModel.RISE_RANGE, IntroModel.RUN_RANGE, IntroModel.INTERCEPT_RANGE,
                                                                   model.savedLines, linesVisible );
         PNode graphControls = new GraphControls( linesVisible, slopeVisible, model.standardLines );
