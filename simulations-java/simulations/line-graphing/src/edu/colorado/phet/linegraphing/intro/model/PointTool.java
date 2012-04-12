@@ -69,7 +69,8 @@ public class PointTool implements Resettable {
             // slope is zero and point tool in at intercept
             return true;
         }
-        else if ( location.get().getY() == line.solveY( location.get().getX() ) ) {
+        else if ( line.run != 0 && line.rise != 0 && location.get().getY() == line.solveY( location.get().getX() ) ) {
+            // not one of the 2 special cases above, and the tool is on the line
             return true;
         }
         return false;

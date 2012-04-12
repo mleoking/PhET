@@ -1,3 +1,4 @@
+4/11/12 bug fix in point tool, only solve equation when slope is defined
 # 0.00.02 (63268) Apr 10, 2012
 4/10/12 limit range of rise, run and intercept to -5 to 5 (half the range of the grid)
 4/10/12 tweak interactive equation layout
