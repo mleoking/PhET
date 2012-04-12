@@ -15,6 +15,9 @@ import edu.colorado.phet.fluidpressureandflow.flow.model.Pipe;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendButtonPressed;
+import static edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents.gridInjectorButton;
+
 /**
  * Injects a grid of particles.
  *
@@ -78,6 +81,8 @@ public class GridInjectorNode extends InjectorNode {
 
             @Override public void mouseReleased( final PInputEvent event ) {
                 if ( !disabled ) {
+
+                    sendButtonPressed( gridInjectorButton );
 
                     inject.update();
                     checkPop( event );

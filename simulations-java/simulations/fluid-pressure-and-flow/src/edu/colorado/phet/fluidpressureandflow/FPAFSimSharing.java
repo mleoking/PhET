@@ -46,7 +46,9 @@ public class FPAFSimSharing {
         textField,
         slider,
 
-        mass1, mass2, mass3
+        mass1, mass2, mass3,
+
+        gridInjectorButton
     }
 
     public enum ParameterKeys implements IParameterKey {
