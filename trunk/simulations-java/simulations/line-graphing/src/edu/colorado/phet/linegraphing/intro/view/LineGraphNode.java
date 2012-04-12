@@ -190,7 +190,7 @@ class LineGraphNode extends GraphNode {
         // replace the line node
         interactiveLineParentNode.removeAllChildren();
         interactiveLineNode = new SlopeInterceptLineNode( line, graph, mvt );
-        interactiveLineNode.setEquationVisible( interactiveEquationVisible.get() );
+        interactiveLineNode.setEquationVisible( interactiveEquationVisible.get() && !slopeManipulatorNode.isDragging() && !interceptManipulatorNode.isDragging() );
         interactiveLineParentNode.addChild( interactiveLineNode );
 
         // replace the rise/run brackets

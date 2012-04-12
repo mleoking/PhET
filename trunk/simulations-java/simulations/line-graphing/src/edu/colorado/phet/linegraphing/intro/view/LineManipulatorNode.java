@@ -14,8 +14,18 @@ import edu.colorado.phet.common.piccolophet.nodes.SphericalNode;
  */
 class LineManipulatorNode extends ShadedSphereNode {
 
+    private boolean dragging;
+
     public LineManipulatorNode( double diameter, Color fillColor ) {
         super( diameter, fillColor, Color.WHITE, fillColor.darker().darker(), false /* convertToImage */ );
         setStrokeAndPaint( new BasicStroke( 1f ), fillColor.darker().darker() );
+    }
+
+    public void setDragging( boolean dragging ) {
+        this.dragging = dragging;
+    }
+
+    public boolean isDragging() {
+        return dragging;
     }
 }
