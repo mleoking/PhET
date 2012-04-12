@@ -1,3 +1,4 @@
+Instrumented 2nd tab
 Instrumented 1st tab
 Fixed young-young automatic handling on 2nd tab (by default, will select divergent motion)
 Updated with SpeedometerNode changes (SR)

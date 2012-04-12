@@ -6,11 +6,18 @@ import java.util.Collections;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.ModelActions;
+import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.ModelComponents;
+import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.ParameterKeys;
 import edu.colorado.phet.platetectonics.model.behaviors.CollidingBehavior;
 import edu.colorado.phet.platetectonics.model.behaviors.OverridingBehavior;
 import edu.colorado.phet.platetectonics.model.behaviors.RiftingBehavior;
@@ -126,6 +133,12 @@ public class PlateMotionModel extends PlateModel {
     }
 
     private void initializeBehaviors() {
+
+        ParameterSet parameters = new ParameterSet( new Parameter[] {
+                new Parameter( ParameterKeys.leftPlateType, leftPlateType.get().toString() ),
+                new Parameter( ParameterKeys.rightPlateType, rightPlateType.get().toString() )
+        } );
+
         switch( motionType.get() ) {
             case TRANSFORM:
                 // limit to 25 million years
@@ -134,6 +147,7 @@ public class PlateMotionModel extends PlateModel {
                 rightPlate.setBehavior( new TransformBehavior( rightPlate, leftPlate, !isTransformMotionCCW() ) );
                 leftPlate.addMiddleSide( rightPlate );
                 rightPlate.addMiddleSide( leftPlate );
+                SimSharingManager.sendModelMessage( ModelComponents.motion, ModelComponentTypes.feature, ModelActions.transformMotion, parameters );
                 break;
             case CONVERGENT:
                 // if both continental, we collide
@@ -142,6 +156,7 @@ public class PlateMotionModel extends PlateModel {
                     clock.setTimeLimit( 35 );
                     leftPlate.setBehavior( new CollidingBehavior( leftPlate, rightPlate ) );
                     rightPlate.setBehavior( new CollidingBehavior( rightPlate, leftPlate ) );
+                    SimSharingManager.sendModelMessage( ModelComponents.motion, ModelComponentTypes.feature, ModelActions.continentalCollisionMotion, parameters );
                 }
                 // otherwise test for the heavier plate, which will subduct
                 else if ( leftPlateType.get().isContinental() || rightPlateType.get() == PlateType.OLD_OCEANIC ) {
@@ -150,6 +165,7 @@ public class PlateMotionModel extends PlateModel {
                     leftPlate.setBehavior( new OverridingBehavior( leftPlate, rightPlate ) );
                     rightPlate.setBehavior( new SubductingBehavior( rightPlate, leftPlate ) );
                     rightPlate.getCrust().moveToFront();
+                    SimSharingManager.sendModelMessage( ModelComponents.motion, ModelComponentTypes.feature, ModelActions.rightPlateSubductingMotion, parameters );
                 }
                 else if ( rightPlateType.get().isContinental() || leftPlateType.get() == PlateType.OLD_OCEANIC ) {
                     clock.setTimeLimit( 50 );
@@ -157,6 +173,7 @@ public class PlateMotionModel extends PlateModel {
                     leftPlate.setBehavior( new SubductingBehavior( leftPlate, rightPlate ) );
                     rightPlate.setBehavior( new OverridingBehavior( rightPlate, leftPlate ) );
                     leftPlate.getCrust().moveToFront();
+                    SimSharingManager.sendModelMessage( ModelComponents.motion, ModelComponentTypes.feature, ModelActions.leftPlateSubductingMotion, parameters );
                 }
                 else {
                     // plates must be the same
@@ -170,6 +187,7 @@ public class PlateMotionModel extends PlateModel {
                 clock.setTimeLimit( 35 );
                 leftPlate.setBehavior( new RiftingBehavior( leftPlate, rightPlate ) );
                 rightPlate.setBehavior( new RiftingBehavior( rightPlate, leftPlate ) );
+                SimSharingManager.sendModelMessage( ModelComponents.motion, ModelComponentTypes.feature, ModelActions.divergentMotion, parameters );
                 break;
         }
 
@@ -203,16 +221,13 @@ public class PlateMotionModel extends PlateModel {
         addTerrain( terrainConnector );
     }
 
-    private boolean rewinding = false;
 
     public void rewind() {
-        rewinding = true;
         resetPlates();
         resetTerrain();
 
-        dropLeftCrust( leftPlateType.get() );
-        dropRightCrust( rightPlateType.get() );
-        rewinding = false;
+        dropCrust( Side.LEFT, leftPlateType.get() );
+        dropCrust( Side.RIGHT, rightPlateType.get() );
 
         initializeBehaviors();
 
@@ -257,25 +272,15 @@ public class PlateMotionModel extends PlateModel {
         }
     }
 
-    public void dropLeftCrust( final PlateType type ) {
-        leftPlate.droppedCrust( type );
-        leftPlateType.set( type );
+    public void dropCrust( Side side, PlateType type ) {
+        PlateMotionPlate plate = getPlate( side );
+
+        plate.droppedCrust( type );
+        getPlateTypeProperty( side ).set( type );
 
         updateStrips();
-        leftPlate.fullSyncTerrain();
-        leftPlate.randomizeTerrain();
-        updateTerrain();
-        updateStrips();
-        modelChanged.updateListeners();
-    }
-
-    public void dropRightCrust( final PlateType type ) {
-        rightPlate.droppedCrust( type );
-        rightPlateType.set( type );
-
-        updateStrips();
-        rightPlate.fullSyncTerrain();
-        rightPlate.randomizeTerrain();
+        plate.fullSyncTerrain();
+        plate.randomizeTerrain();
         updateTerrain();
         updateStrips();
         modelChanged.updateListeners();
@@ -296,12 +301,28 @@ public class PlateMotionModel extends PlateModel {
         terrainConnector.update();
     }
 
+    public Property<PlateType> getPlateTypeProperty( Side side ) {
+        return side == Side.LEFT ? leftPlateType : rightPlateType;
+    }
+
+    public PlateType getPlateType( Side side ) {
+        return getPlateTypeProperty( side ).get();
+    }
+
+    public PlateMotionPlate getPlate( Side side ) {
+        return side == Side.LEFT ? leftPlate : rightPlate;
+    }
+
+    public boolean hasPlate( Side side ) {
+        return getPlateType( side ) != null;
+    }
+
     public boolean hasLeftPlate() {
-        return leftPlateType.get() != null;
+        return hasPlate( Side.LEFT );
     }
 
     public boolean hasRightPlate() {
-        return rightPlateType.get() != null;
+        return hasPlate( Side.RIGHT );
     }
 
     public List<Sample> getAllSamples() {

@@ -3,6 +3,7 @@ package edu.colorado.phet.platetectonics.control;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
@@ -26,6 +27,9 @@ public interface DraggableTool2D {
 
     // where the tool is making a read-out, if applicable
     public ImmutableVector3F getSensorModelPosition();
+
+    // for sim-sharing messages
+    public ParameterSet getCustomParameters();
 
     // detach the tool and remove it from use
     public void recycle();

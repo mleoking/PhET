@@ -8,16 +8,18 @@ import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-import javax.swing.JRadioButton;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJRadioButton;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
+import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel.MotionType;
 import edu.umd.cs.piccolo.PNode;
@@ -42,9 +44,9 @@ public class MotionTypeChooserPanel extends PNode {
         boolean showConvergent = plateModel.allowsConvergentMotion();
         boolean showTransform = plateModel.allowsTransformMotion();
 
-        PSwing convergentButton = new PSwing( new MotionTypeChooserRadioButton( "Convergent", MotionType.CONVERGENT ) );
-        PSwing divergentButton = new PSwing( new MotionTypeChooserRadioButton( "Divergent", MotionType.DIVERGENT ) );
-        PSwing transformButton = new PSwing( new MotionTypeChooserRadioButton( "Transform", MotionType.TRANSFORM ) );
+        PSwing convergentButton = new PSwing( new MotionTypeChooserRadioButton( UserComponents.convergentMotion, "Convergent", MotionType.CONVERGENT ) );
+        PSwing divergentButton = new PSwing( new MotionTypeChooserRadioButton( UserComponents.divergentMotion, "Divergent", MotionType.DIVERGENT ) );
+        PSwing transformButton = new PSwing( new MotionTypeChooserRadioButton( UserComponents.transformMotion, "Transform", MotionType.TRANSFORM ) );
 
         final Property<Double> x = new Property<Double>( 0.0 );
 
@@ -133,10 +135,10 @@ public class MotionTypeChooserPanel extends PNode {
         return myType == current;
     }
 
-    private class MotionTypeChooserRadioButton extends JRadioButton {
-        private MotionTypeChooserRadioButton( String title, final MotionType type ) {
+    private class MotionTypeChooserRadioButton extends SimSharingJRadioButton {
+        private MotionTypeChooserRadioButton( IUserComponent userComponent, String title, final MotionType type ) {
             // TODO: clean up handling with this and the other mode. very complicated interactions
-            super( title );
+            super( userComponent, title );
             if ( plateModel.animationStarted.get() ) {
                 setSelected( typeEquals( type, motionType.get() ) );
             }

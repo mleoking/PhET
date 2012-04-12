@@ -12,7 +12,11 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
@@ -25,6 +29,9 @@ import edu.colorado.phet.lwjglphet.nodes.OrthoComponentNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing;
+import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.ParameterKeys;
+import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserActions;
+import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
 import edu.colorado.phet.platetectonics.control.CrustChooserPanel;
 import edu.colorado.phet.platetectonics.control.CrustPieceNode;
 import edu.colorado.phet.platetectonics.control.MotionTypeChooserPanel;
@@ -36,6 +43,7 @@ import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateType;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
+import edu.colorado.phet.platetectonics.util.Side;
 import edu.colorado.phet.platetectonics.view.BoxHighlightNode;
 import edu.colorado.phet.platetectonics.view.HandleNode;
 import edu.colorado.phet.platetectonics.view.PlateView;
@@ -334,26 +342,17 @@ public class PlateMotionTab extends PlateTectonicsTab {
                                     case CONVERGENT:
                                         // comparison works for opposite direction
                                         if ( motionVectorRight.get().x != 0 ) {
-                                            final float timeChange = getTimeElapsed() * Math.abs( mapDragMagnitude( motionVectorRight.get().x ) );
-                                            if ( !Float.isNaN( timeChange ) ) {
-                                                getClock().stepByWallSecondsForced( timeChange );
-                                            }
+                                            manualHandleDragTimeChange( getTimeElapsed() * Math.abs( mapDragMagnitude( motionVectorRight.get().x ) ) );
                                         }
                                         break;
                                     case DIVERGENT:
                                         if ( motionVectorRight.get().x != 0 ) {
-                                            final float timeChange = getTimeElapsed() * Math.abs( mapDragMagnitude( motionVectorRight.get().x ) );
-                                            if ( !Float.isNaN( timeChange ) ) {
-                                                getClock().stepByWallSecondsForced( timeChange );
-                                            }
+                                            manualHandleDragTimeChange( getTimeElapsed() * Math.abs( mapDragMagnitude( motionVectorRight.get().x ) ) );
                                         }
                                         break;
                                     case TRANSFORM:
                                         if ( motionVectorRight.get().y != 0 ) {
-                                            final float timeChange = getTimeElapsed() * Math.abs( mapDragMagnitude( motionVectorRight.get().y ) );
-                                            if ( !Float.isNaN( timeChange ) ) {
-                                                getClock().stepByWallSecondsForced( timeChange );
-                                            }
+                                            manualHandleDragTimeChange( getTimeElapsed() * Math.abs( mapDragMagnitude( motionVectorRight.get().y ) ) );
                                         }
                                         break;
                                 }
@@ -363,6 +362,17 @@ public class PlateMotionTab extends PlateTectonicsTab {
                 }, false );
 
         guiLayer.addChild( createFPSReadout( Color.BLACK ) );
+    }
+
+    private void manualHandleDragTimeChange( float timeChange ) {
+        if ( !Float.isNaN( timeChange ) ) {
+            SimSharingManager.sendUserMessage( UserComponents.handle, UserComponentTypes.sprite, edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.drag,
+                                               new ParameterSet( new Parameter[] {
+                                                       new Parameter( ParameterKeys.timeChangeMillionsOfYears, timeChange ),
+                                                       new Parameter( ParameterKeys.motionType, getPlateMotionModel().motionType.get().toString() )
+                                               } ) );
+            getClock().stepByWallSecondsForced( timeChange );
+        }
     }
 
     private float mapDragMagnitude( float mag ) {
@@ -395,31 +405,30 @@ public class PlateMotionTab extends PlateTectonicsTab {
         PlateMotionModel model = getPlateMotionModel();
         CrustPieceNode piece = (CrustPieceNode) crustPieceNode.getNode();
 
-        boolean droppedBackInPanel = isMouseOverCrustChooser();
+        ParameterSet parameters = new ParameterSet( new Parameter( ParameterKeys.plateType, piece.type.toString() ) );
 
-        if ( droppedBackInPanel ) {
+        if ( isMouseOverCrustChooser() ) {
+            // user is putting the crust back in the chooser area
             crustPieceNode.position.reset();
+
+            SimSharingManager.sendUserMessage( UserComponents.crustPiece, UserComponentTypes.sprite, UserActions.putBackInCrustPicker, parameters );
         }
         else {
-            if ( isMouseOverLeftSide() ) {
-                if ( !model.hasLeftPlate() ) {
-                    model.dropLeftCrust( piece.type );
-                    placedPieces.add( crustPieceNode );
-                    removeCrustPieceGLNode( (CrustPieceGLNode) crustPieceNode );
-                }
-                else {
-                    crustPieceNode.position.reset();
-                }
+            Side side = isMouseOverLeftSide() ? Side.LEFT : Side.RIGHT;
+            parameters = parameters.with( new Parameter( ParameterKeys.side, side.toString() ) );
+
+            if ( !model.hasPlate( side ) ) {
+                model.dropCrust( side, piece.type );
+                placedPieces.add( crustPieceNode );
+                removeCrustPieceGLNode( (CrustPieceGLNode) crustPieceNode );
+
+                SimSharingManager.sendUserMessage( UserComponents.crustPiece, UserComponentTypes.sprite, UserActions.droppedCrustPiece, parameters );
             }
             else {
-                if ( !model.hasRightPlate() ) {
-                    model.dropRightCrust( piece.type );
-                    placedPieces.add( crustPieceNode );
-                    removeCrustPieceGLNode( (CrustPieceGLNode) crustPieceNode );
-                }
-                else {
-                    crustPieceNode.position.reset();
-                }
+                // user tried to drop crust on a side that already has crust. just move it back to the picker area
+                crustPieceNode.position.reset();
+
+                SimSharingManager.sendUserMessage( UserComponents.crustPiece, UserComponentTypes.sprite, UserActions.attemptedToDropOnExistingCrust, parameters );
             }
         }
     }

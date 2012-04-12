@@ -4,13 +4,15 @@ package edu.colorado.phet.platetectonics.control;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JRadioButton;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJRadioButton;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
+import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -19,8 +21,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class PlayModePanel extends PNode {
     public PlayModePanel( final Property<Boolean> isAutoMode ) {
-        PSwing autoRadioButton = new ModeRadioButton( Strings.AUTOMATIC_MODE, true, isAutoMode );
-        PSwing manualRadioButton = new ModeRadioButton( Strings.MANUAL_MODE, false, isAutoMode );
+        PSwing autoRadioButton = new ModeRadioButton( UserComponents.automaticMode, Strings.AUTOMATIC_MODE, true, isAutoMode );
+        PSwing manualRadioButton = new ModeRadioButton( UserComponents.manualMode, Strings.MANUAL_MODE, false, isAutoMode );
 
         addChild( autoRadioButton );
         addChild( manualRadioButton );
@@ -29,8 +31,8 @@ public class PlayModePanel extends PNode {
     }
 
     private static class ModeRadioButton extends PSwing {
-        public ModeRadioButton( String title, final boolean isAuto, final Property<Boolean> isAutoMode ) {
-            super( new JRadioButton( title ) {{
+        public ModeRadioButton( IUserComponent userComponent, String title, final boolean isAuto, final Property<Boolean> isAutoMode ) {
+            super( new SimSharingJRadioButton( userComponent, title ) {{
                 isAutoMode.addObserver( new SimpleObserver() {
                     public void update() {
                         final boolean is = isAuto ? isAutoMode.get() : !isAutoMode.get();

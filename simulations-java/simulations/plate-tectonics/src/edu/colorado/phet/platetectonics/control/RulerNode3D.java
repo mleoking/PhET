@@ -7,6 +7,7 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
@@ -71,6 +72,11 @@ public class RulerNode3D extends PlanarPiccoloNode implements DraggableTool2D {
     // bottom-left corner of the ruler
     public ImmutableVector3F getSensorModelPosition() {
         return modelViewTransform.inversePosition( transform.getMatrix().getTranslation() );
+    }
+
+    public ParameterSet getCustomParameters() {
+        // no extra parameters needed for this
+        return new ParameterSet();
     }
 
     public void recycle() {

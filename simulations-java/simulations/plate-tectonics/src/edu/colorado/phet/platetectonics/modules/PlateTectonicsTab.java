@@ -27,6 +27,8 @@ import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.lwjglphet.CanvasTransform;
@@ -50,6 +52,7 @@ import edu.colorado.phet.lwjglphet.shapes.UnitMarker;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.PlateTectonicsApplication;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing;
+import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.ParameterKeys;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
 import edu.colorado.phet.platetectonics.control.CrustPieceNode;
 import edu.colorado.phet.platetectonics.control.DensitySensorNode3D;
@@ -774,7 +777,10 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     }
 
     public void pickedCrustPiece( OrthoPiccoloNode crustPiece ) {
+        CrustPieceNode piece = (CrustPieceNode) crustPiece.getNode();
         // overridden in PlateMotionTab
+        SimSharingManager.sendUserMessage( UserComponents.crustPiece, UserComponentTypes.sprite, edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.startDrag,
+                                           new ParameterSet( new Parameter( ParameterKeys.plateType, piece.type.toString() ) ) );
     }
 
     public void movedCrustPiece( OrthoPiccoloNode crustPiece ) {
