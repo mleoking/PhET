@@ -8,9 +8,11 @@ import java.awt.event.FocusListener;
 import java.text.Format;
 import java.text.ParseException;
 
-import javax.swing.JFormattedTextField;
-
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJTextField;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
@@ -21,9 +23,18 @@ import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
  *
  * @author Sam Reid
  */
-public class DoubleTextField extends JFormattedTextField {
-    public DoubleTextField( Format format, final SettableProperty<Double> property, final double min, final double max ) {
-        super( format );
+public class DoubleTextField extends SimSharingJTextField {
+    private final Format format;
+    private final SettableProperty<Double> property;
+    private final double min;
+    private final double max;
+
+    public DoubleTextField( IUserComponent component, Format format, final SettableProperty<Double> property, final double min, final double max ) {
+        super( component );
+        this.format = format;
+        this.property = property;
+        this.min = min;
+        this.max = max;
 
         //When the property changes, set the value of the text field
         property.addObserver( new VoidFunction1<Double>() {
@@ -35,15 +46,7 @@ public class DoubleTextField extends JFormattedTextField {
         //When the text field edit completes, set the value of the property.
         final ActionListener updateProperty = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                try {
-                    commitEdit();
-                    property.set( clamp( min, ( (Number) getValue() ).doubleValue(), max ) );
-                }
-                catch ( ParseException e1 ) {
-
-                    //If parse error, go back to the true value of the property.
-                    setValue( property.get() );
-                }
+                property.set( getClampedValue( getParsedValue() ) );
             }
         };
         addActionListener( updateProperty );
@@ -57,5 +60,37 @@ public class DoubleTextField extends JFormattedTextField {
                 updateProperty.actionPerformed( null );
             }
         } );
+    }
+
+    private double getClampedValue( double x ) {
+        return clamp( min, x, max );
+    }
+
+    @Override protected ParameterSet getParameters() {
+        return super.getParameters().with( ParameterKeys.value, getClampedValue( getParsedValue() ) );
+    }
+
+    private double getParsedValue() {
+        try {
+            return getValue();
+        }
+        catch ( ParseException e ) {
+            return property.get();
+        }
+    }
+
+    private void setValue( final double value ) {
+        setText( format.format( value ) );
+    }
+
+    private double getValue() throws ParseException {
+        return parseText();
+    }
+
+    private double parseText() throws ParseException {
+        final Object result = format.parseObject( getText() );
+        return result instanceof Long ? ( (Long) result ).doubleValue() :
+               result instanceof Integer ? ( (Integer) result ).doubleValue() :
+               (Double) result;
     }
 }
