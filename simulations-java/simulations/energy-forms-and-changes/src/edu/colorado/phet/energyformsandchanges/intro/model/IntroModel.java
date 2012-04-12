@@ -49,7 +49,6 @@ public class IntroModel {
     // Movable model objects.
     private final Brick brick;
     private final LeadBlock leadBlock;
-
     private final Beaker beaker;
 
     //-------------------------------------------------------------------------
@@ -111,7 +110,7 @@ public class IntroModel {
         // Cause any user-movable model elements that are not supported by a
         // surface to fall (or, in some cases, jump up) towards the nearest
         // supporting surface.
-        for ( Block movableModelElement : Arrays.asList( leadBlock, brick ) ) {
+        for ( UserMovableModelElement movableModelElement : Arrays.asList( leadBlock, brick, beaker ) ) {
             if ( !movableModelElement.userControlled.get() && movableModelElement.getSupportingSurface() == null && movableModelElement.position.get().getY() != 0 ) {
                 double acceleration = -9.8; // meters/s*s
                 double velocity = movableModelElement.verticalVelocity.get() + acceleration * dt;
