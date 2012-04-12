@@ -9,7 +9,6 @@ DESIGN
 
 HIGH
 - grid node gets bigger when IntroModel.GRID_MODEL_UNITS gets smaller, size should remain constant
-- when equation is minimized, equation on graphed line should be hidden, not the entire line
 
 MEDIUM
 - improve layout of equation, try spinners in various layouts and locations
