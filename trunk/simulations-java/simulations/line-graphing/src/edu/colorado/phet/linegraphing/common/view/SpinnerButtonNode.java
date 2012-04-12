@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -143,7 +144,7 @@ public class SpinnerButtonNode<T> extends PNode {
     public static class IncrementDoubleSpinnerButtonNode extends SpinnerButtonNode {
         public IncrementDoubleSpinnerButtonNode( IUserComponent userComponent,
                                                  final Image unpressedImage, final Image pressedImage, final Image disabledImage,
-                                                 final Property<Double> value, double maxValue ) {
+                                                 final Property<Double> value, Property<DoubleRange> range ) {
             super( userComponent,
                    unpressedImage, pressedImage, disabledImage,
                    value,
@@ -152,7 +153,7 @@ public class SpinnerButtonNode<T> extends PNode {
                            return value.get() + 1;
                        }
                    },
-                   new LessThan( value, maxValue ) );
+                   new LessThan( value, range.get().getMax() ) );
         }
     }
 
@@ -160,7 +161,7 @@ public class SpinnerButtonNode<T> extends PNode {
     public static class DecrementDoubleSpinnerButtonNode extends SpinnerButtonNode {
         public DecrementDoubleSpinnerButtonNode( IUserComponent userComponent,
                                                  final Image unpressedImage, final Image pressedImage, final Image disabledImage,
-                                                 final Property<Double> value, double minValue ) {
+                                                 final Property<Double> value, Property<DoubleRange> range ) {
             super( userComponent,
                    unpressedImage, pressedImage, disabledImage,
                    value,
@@ -169,7 +170,7 @@ public class SpinnerButtonNode<T> extends PNode {
                            return value.get() - 1;
                        }
                    },
-                   new GreaterThan( value, minValue ) );
+                   new GreaterThan( value, range.get().getMin() ) );
         }
     }
 }

@@ -6,8 +6,10 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.LGColors;
 
@@ -25,11 +27,8 @@ public class IntroModel implements Resettable {
     private static final IntegerRange Y_RANGE = X_RANGE;
     private static final double MVT_SCALE = GRID_VIEW_UNITS / Math.max( X_RANGE.getLength(), Y_RANGE.getLength() ); // view units / model units
 
-    public static final IntegerRange RISE_RANGE = new IntegerRange( -5, 5, 2 );
-    public static final IntegerRange RUN_RANGE = new IntegerRange( -5, 5, 2 );
-    public static final IntegerRange INTERCEPT_RANGE = new IntegerRange( -5, 5, 2 );
-
     public final ModelViewTransform mvt;
+    public final Property<DoubleRange> riseRange, runRange, interceptRange;
     public final Property<SlopeInterceptLine> interactiveLine;
     public final ObservableList<SlopeInterceptLine> savedLines;
     public final ObservableList<SlopeInterceptLine> standardLines;
@@ -37,19 +36,38 @@ public class IntroModel implements Resettable {
     public final PointTool pointTool1, pointTool2;
 
     public IntroModel() {
+
         mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 1.2 * GRID_VIEW_UNITS / 2, 1.25 * GRID_VIEW_UNITS / 2 ), MVT_SCALE, -MVT_SCALE ); // y is inverted
-        interactiveLine = new Property<SlopeInterceptLine>( new SlopeInterceptLine( RISE_RANGE.getDefault(), RUN_RANGE.getDefault(), INTERCEPT_RANGE.getDefault(), LGColors.INTERACTIVE_LINE ) );
+
+        riseRange = new Property<DoubleRange>( new DoubleRange( -5, 5, 2 ) );
+        runRange = new Property<DoubleRange>( new DoubleRange( -10, 10, 2 ) );
+        interceptRange = new Property<DoubleRange>( new DoubleRange( -5, 5, 2 ) );
+
+        interactiveLine = new Property<SlopeInterceptLine>( new SlopeInterceptLine( riseRange.get().getDefault(), runRange.get().getDefault(), interceptRange.get().getDefault(), LGColors.INTERACTIVE_LINE ) );
         savedLines = new ObservableList<SlopeInterceptLine>();
         standardLines = new ObservableList<SlopeInterceptLine>();
+
         graph = new LineGraph( X_RANGE, Y_RANGE );
+
         pointTool1 = new PointTool( new ImmutableVector2D( X_RANGE.getMax() + 2, Y_RANGE.getMin() ), interactiveLine, savedLines, standardLines );
         pointTool2 = new PointTool( pointTool1.location.get(), interactiveLine, savedLines, standardLines );
+
+        RichSimpleObserver rangeUpdater = new RichSimpleObserver() {
+            @Override public void update() {
+                //TODO dynamically set the rise and intercept ranges so that rise + intercept is constrained to the bounds of the graph
+            }
+        };
+        rangeUpdater.observe( riseRange, runRange, interceptRange );
     }
 
     public void reset() {
+        riseRange.reset();
+        runRange.reset();
+        interceptRange.reset();
         interactiveLine.reset();
         savedLines.clear();
         standardLines.clear();
         pointTool1.reset();
+        pointTool2.reset();
     }
 }

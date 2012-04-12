@@ -8,7 +8,7 @@ import java.text.NumberFormat;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
-import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -29,7 +29,7 @@ abstract class DoubleSpinnerNode extends PNode {
 
     // Spinner that is color coded for intercept
     public static class InterceptSpinnerNode extends DoubleSpinnerNode {
-        public InterceptSpinnerNode( IUserComponent userComponent, Property<Double> value, IntegerRange range, PhetFont font, NumberFormat format ) {
+        public InterceptSpinnerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
             super( userComponent,
                    Images.SPINNER_UP_UNPRESSED_YELLOW, Images.SPINNER_UP_PRESSED_YELLOW, Images.SPINNER_UP_GRAY,
                    Images.SPINNER_DOWN_UNPRESSED_YELLOW, Images.SPINNER_DOWN_PRESSED_YELLOW, Images.SPINNER_DOWN_GRAY,
@@ -39,7 +39,7 @@ abstract class DoubleSpinnerNode extends PNode {
 
     // Spinner that is color coded for slope
     public static class SlopeSpinnerNode extends DoubleSpinnerNode {
-        public SlopeSpinnerNode( IUserComponent userComponent, Property<Double> value, IntegerRange range, PhetFont font, NumberFormat format ) {
+        public SlopeSpinnerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
             super( userComponent,
                    Images.SPINNER_UP_UNPRESSED_GREEN, Images.SPINNER_UP_PRESSED_GREEN, Images.SPINNER_UP_GRAY,
                    Images.SPINNER_DOWN_UNPRESSED_GREEN, Images.SPINNER_DOWN_PRESSED_GREEN, Images.SPINNER_DOWN_GRAY,
@@ -50,7 +50,7 @@ abstract class DoubleSpinnerNode extends PNode {
     public DoubleSpinnerNode( IUserComponent userComponent,
                               Image upUnpressedImage, Image upPressedImage, Image upDisabledImage,
                               Image downUnpressedImage, Image downPressedImage, Image downDisabledImage,
-                              Property<Double> value, IntegerRange range, PhetFont font, NumberFormat format ) {
+                              Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
         this( userComponent, upUnpressedImage, upPressedImage, upDisabledImage, downUnpressedImage, downPressedImage, downDisabledImage,
               value, range, font, format, false /* abs */ );
     }
@@ -58,17 +58,17 @@ abstract class DoubleSpinnerNode extends PNode {
     public DoubleSpinnerNode( IUserComponent userComponent,
                               final Image upUnpressedImage, final Image upPressedImage, final Image upDisabledImage,
                               final Image downUnpressedImage, final Image downPressedImage, final Image downDisabledImage,
-                              final Property<Double> value, IntegerRange range, PhetFont font, final NumberFormat format, final boolean abs ) {
+                              final Property<Double> value, Property<DoubleRange> range, PhetFont font, final NumberFormat format, final boolean abs ) {
 
-        IncrementDoubleSpinnerButtonNode incrementButton = new IncrementDoubleSpinnerButtonNode( UserComponentChain.chain( userComponent, "up" ), upUnpressedImage, upPressedImage, upDisabledImage, value, range.getMax() );
-        DecrementDoubleSpinnerButtonNode decrementButton = new DecrementDoubleSpinnerButtonNode( UserComponentChain.chain( userComponent, "down" ), downUnpressedImage, downPressedImage, downDisabledImage, value, range.getMin() );
+        IncrementDoubleSpinnerButtonNode incrementButton = new IncrementDoubleSpinnerButtonNode( UserComponentChain.chain( userComponent, "up" ), upUnpressedImage, upPressedImage, upDisabledImage, value, range );
+        DecrementDoubleSpinnerButtonNode decrementButton = new DecrementDoubleSpinnerButtonNode( UserComponentChain.chain( userComponent, "down" ), downUnpressedImage, downPressedImage, downDisabledImage, value, range );
         final PText textNode = new PhetPText( font );
         textNode.setPickable( false );
 
         // compute max text width
-        textNode.setText( format.format( abs ? Math.abs( range.getMin() ) : range.getMin() ) );
+        textNode.setText( format.format( abs ? Math.abs( range.get().getMin() ) : range.get().getMin() ) );
         double minValueWidth = textNode.getFullBoundsReference().getWidth();
-        textNode.setText( format.format( abs ? Math.abs( range.getMax() ) : range.getMax() ) );
+        textNode.setText( format.format( abs ? Math.abs( range.get().getMax() ) : range.get().getMax() ) );
         double maxValueWidth = textNode.getFullBoundsReference().getWidth();
         final double maxWidth = Math.max( minValueWidth, maxValueWidth );
         PPath horizontalStrutNode = new PPath( new Rectangle2D.Double( 0, 0, maxWidth, 1 ) ) {{

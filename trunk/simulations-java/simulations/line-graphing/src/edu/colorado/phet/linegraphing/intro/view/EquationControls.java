@@ -11,7 +11,7 @@ import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
-import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -49,7 +49,9 @@ class EquationControls extends PhetPNode {
 
     public EquationControls( final Property<Boolean> maximized,
                              final Property<SlopeInterceptLine> interactiveLine,
-                             IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange,
+                             Property<DoubleRange> riseRange,
+                             Property<DoubleRange> runRange,
+                             Property<DoubleRange> interceptRange,
                              final ObservableList<SlopeInterceptLine> savedLines,
                              final Property<Boolean> linesVisible ) {
 
