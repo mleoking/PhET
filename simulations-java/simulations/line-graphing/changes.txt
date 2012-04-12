@@ -1,4 +1,5 @@
 4/11/12 hide equation on interactive line while manipulators are being dragged
+4/11/12 fix: don't show rise/run bracket when value is zero
 4/11/12 make manipulator drag handler specific to manipulator node
 4/11/12 revert to continuous line manipulation
 # 0.00.03 (63322) Apr 11, 2012
