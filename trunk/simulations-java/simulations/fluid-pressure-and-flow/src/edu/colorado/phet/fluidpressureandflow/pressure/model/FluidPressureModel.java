@@ -42,7 +42,7 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
         addPressureSensor( new PressureSensor( UserComponents.pressureSensor3, this, -4, 2 ) );
 
         getClock().addSimulationTimeChangeListener( new VoidFunction1<Double>() {
-            @Override public void apply( final Double dt ) {
+            public void apply( final Double dt ) {
                 if ( dt > 0 ) {pool.get().stepInTime( dt );}
             }
         } );

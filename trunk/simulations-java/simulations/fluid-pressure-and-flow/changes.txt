@@ -1,3 +1,5 @@
+Fixed crash under 1.5 related to BoxLayout, see #3301
+Removed @Override for interfaces
 Added message for grid button pressed
 Added messages for velocity sensors
 Added messages for dragging masses

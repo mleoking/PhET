@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 public abstract class RichVoidFunction0 implements VoidFunction0 {
     public VoidFunction0 andThen( final VoidFunction0 after ) {
         return new VoidFunction0() {
-            @Override public void apply() {
+            public void apply() {
                 RichVoidFunction0.this.apply();
                 after.apply();
             }

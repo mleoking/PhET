@@ -35,7 +35,7 @@ public class PoolNode extends PNode {
                 }
             } );
             pool.getWaterShape().addObserver( new VoidFunction1<Shape>() {
-                @Override public void apply( final Shape shape ) {
+                public void apply( final Shape shape ) {
                     setPathTo( transform2D.modelToView( shape ) );
                 }
             } );

@@ -75,7 +75,7 @@ public class PressureSensorNode extends SensorNode {
         addChild( textNode );
 
         sensor.addValueObserver( new SimpleObserver() {
-            @Override public void update() {
+            public void update() {
                 final Double v = sensor.getValue();
                 Option<Double> value = Double.isNaN( v ) ? new None<Double>() : new Some<Double>( v );
                 pointSensor.value.set( value );

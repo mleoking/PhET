@@ -41,7 +41,7 @@ public class TrapezoidPool implements IPool {
 
     public TrapezoidPool() {
         this.waterShape = new CompositeProperty<Shape>( new Function0<Shape>() {
-            @Override public Shape apply() {
+            public Shape apply() {
                 final Shape containerShape = getContainerShape();
                 double height = getWaterHeight();
                 Rectangle2D whole = containerShape.getBounds2D();
@@ -54,12 +54,12 @@ public class TrapezoidPool implements IPool {
             }
         }, waterVolume );
         inputFaucetEnabled = new CompositeBooleanProperty( new Function0<Boolean>() {
-            @Override public Boolean apply() {
+            public Boolean apply() {
                 return getWaterHeight() < height;
             }
         }, waterVolume );
         drainFaucetEnabled = new CompositeBooleanProperty( new Function0<Boolean>() {
-            @Override public Boolean apply() {
+            public Boolean apply() {
                 return waterVolume.get() > 0.0;
             }
         }, waterVolume );
@@ -72,7 +72,7 @@ public class TrapezoidPool implements IPool {
         return Math.min( waterVolume.get(), height );
     }
 
-    @Override public Shape getContainerShape() {
+    public Shape getContainerShape() {
         return new Area( leftChamber() ) {{
             add( new Area( rightChamber() ) );
             add( new Area( passage() ) );
@@ -111,15 +111,15 @@ public class TrapezoidPool implements IPool {
         return fromLines( topLeft, bottomLeft, bottomRight, topRight );
     }
 
-    @Override public double getHeight() {
+    public double getHeight() {
         return getContainerShape().getBounds2D().getHeight();
     }
 
-    @Override public ObservableProperty<Shape> getWaterShape() {
+    public ObservableProperty<Shape> getWaterShape() {
         return waterShape;
     }
 
-    @Override public double getPressure( final double x, final double y, final boolean atmosphere, final double standardAirPressure, final double liquidDensity, final double gravity ) {
+    public double getPressure( final double x, final double y, final boolean atmosphere, final double standardAirPressure, final double liquidDensity, final double gravity ) {
         if ( y >= 0 ) {
             return Pool.getPressureAboveGround( y, atmosphere, standardAirPressure, gravity );
         }
@@ -155,15 +155,15 @@ public class TrapezoidPool implements IPool {
         waterVolume.set( MathUtil.clamp( 0, waterVolume.get() + inputFlowRatePercentage.get() * dt - drainFlowRate.get() * dt, height ) );
     }
 
-    @Override public void addPressureChangeObserver( final SimpleObserver updatePressure ) {
+    public void addPressureChangeObserver( final SimpleObserver updatePressure ) {
         waterVolume.addObserver( updatePressure );
     }
 
-    @Override public Point2D clampSensorPosition( final Point2D pt ) {
+    public Point2D clampSensorPosition( final Point2D pt ) {
         return pt;
     }
 
-    @Override public boolean isAbbreviatedUnits( final ImmutableVector2D sensorPosition, final double value ) {
+    public boolean isAbbreviatedUnits( final ImmutableVector2D sensorPosition, final double value ) {
         return getWaterShape().get().contains( sensorPosition.getX(), sensorPosition.getY() );
     }
 

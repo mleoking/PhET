@@ -25,7 +25,7 @@ public class MassesLayer extends PNode {
     public MassesLayer( final ChamberPool pool, final ModelViewTransform transform ) {
         final Property<ObservableList<Mass>> massesProperty = pool.masses;
         final SimpleObserver observer = new SimpleObserver() {
-            @Override public void update() {
+            public void update() {
                 final ObservableList<Mass> masses = massesProperty.get();
                 removeAllChildren();
                 Mass dragging = findDragging( masses );
