@@ -99,11 +99,13 @@ public class JmolViewerNode extends PhetPNode {
 
         viewerPanel = new ViewerPanel( currentMolecule.get(), background, size );
         //Record drag events for sim-sharing. Note that we cannot guarantee that these events are sent before the viewer display changes.
-        viewerPanel.addMouseListener( new SimSharingDragListener( UserComponents.realMoleculeViewer, UserComponentTypes.jmolViewer ) {
+        final SimSharingDragListener dragListener = new SimSharingDragListener( UserComponents.realMoleculeViewer, UserComponentTypes.jmolViewer ) {
             @Override public ParameterSet getParametersForAllEvents( MouseEvent event ) {
                 return super.getParametersForAllEvents( event ).with( Parameters.currentMolecule, currentMolecule.get().getName() );
             }
-        } );
+        };
+        viewerPanel.addMouseListener( dragListener ); // for mousePressed and mouseReleased
+        viewerPanel.addMouseMotionListener( dragListener ); // for mouseDragged
         addChild( new PSwing( viewerPanel ) );
 
         this.molecule = new Property<Molecule3D>( currentMolecule.get() );

@@ -3,6 +3,7 @@ package edu.colorado.phet.common.phetcommon.simsharing.components;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
@@ -17,15 +18,20 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 /**
  * Base class for Swing drag listeners that perform sim-sharing data collection.
  * Sends messages on startDrag, endDrag, and (optionally) on drag.
- * <p/>
+ * <p>
  * Can be customized in 3 ways:
  * 1. Override getParametersForAllEvents to augment or replace the standard parameters for all events.
  * 2. Override the get*Parameters methods to augment or replace the standard parameters for specific.
  * 3. Call set*Function methods to replace the functions invoked for specific events.
+ * <p>
+ * Client usage: Be sure to add this using both addMouseListener and addMouseMotionListener,
+ * so that you get all drag-related events, and an accurate summary of drag points in the
+ * endDrag message.
+ * </p>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SimSharingDragListener extends MouseAdapter {
+public class SimSharingDragListener extends MouseAdapter implements MouseMotionListener {
 
     public interface DragFunction {
         public void apply( IUserComponent userComponent, IUserComponentType componentType, IUserAction action, ParameterSet parameters, MouseEvent event );
@@ -75,18 +81,21 @@ public class SimSharingDragListener extends MouseAdapter {
         super.mousePressed( event );
     }
 
-    @Override public void mouseDragged( MouseEvent event ) {
-        addDragPoint( event );
-        dragFunction.apply( userComponent, componentType, UserActions.drag, getDragParameters( event ), event );
-        super.mouseDragged( event );
-    }
-
     @Override public void mouseReleased( MouseEvent event ) {
         addDragPoint( event );
         endDragFunction.apply( userComponent, componentType, UserActions.endDrag, getEndDragParameters( event ), event );
         clearDragPoints();
         super.mouseReleased( event );
     }
+
+    // This was added to MouseAdapter in 1.6, but we need to implement MouseMotionListener for 1.5 compatibility
+    public void mouseDragged( MouseEvent event ) {
+        addDragPoint( event );
+        dragFunction.apply( userComponent, componentType, UserActions.drag, getDragParameters( event ), event );
+    }
+
+    // This was added to MouseAdapter in 1.6, but we need to implement MouseMotionListener for 1.5 compatibility
+    public void mouseMoved( MouseEvent event ) {}
 
     // Call this to replace the sim-sharing function that is called on startDrag.
     public void setStartDragFunction( DragFunction f ) {
