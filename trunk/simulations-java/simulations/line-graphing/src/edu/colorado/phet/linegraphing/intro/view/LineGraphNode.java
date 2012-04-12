@@ -37,7 +37,7 @@ class LineGraphNode extends GraphNode {
     private final Property<Boolean> interactiveEquationVisible;
     private final PNode savedLinesParentNode, standardLinesParentNode; // intermediate nodes, for consistent rendering order
     private final PNode interactiveLineParentNode, bracketsParentNode;
-    private final PNode slopeManipulatorNode, interceptManipulatorNode;
+    private final LineManipulatorNode slopeManipulatorNode, interceptManipulatorNode;
     private SlopeInterceptLineNode interactiveLineNode;
     private final Property<Boolean> linesVisible, interactiveLineVisible, slopeVisible;
 

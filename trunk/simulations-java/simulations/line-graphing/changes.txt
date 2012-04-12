@@ -1,3 +1,4 @@
+4/11/12 make manipulator drag handler specific to manipulator node
 4/11/12 revert to continuous line manipulation
 # 0.00.03 (63322) Apr 11, 2012
 4/11/12 add a 2nd point tool
