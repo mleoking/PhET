@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images;
 
 /**
@@ -48,9 +49,9 @@ public class ChamberPool implements IPool {
     public final Property<ObservableList<Mass>> masses = new Property<ObservableList<Mass>>( new ObservableList<Mass>() {{
         double massOffset = -4.9;
         double separation = 0.05;
-        add( new Mass( new Rectangle2D.Double( massOffset + 0, 0, passageSize, passageSize ), false, 0.0, 500, Images.MASS ) );
-        add( new Mass( new Rectangle2D.Double( massOffset + passageSize + separation, 0, passageSize, passageSize / 2 ), false, 0.0, 250, Images.MASS ) );
-        add( new Mass( new Rectangle2D.Double( massOffset + passageSize * 2 + separation * 2, 0, passageSize, passageSize / 2 ), false, 0.0, 250, Images.MASS ) );
+        add( new Mass( UserComponents.mass1, new Rectangle2D.Double( massOffset + 0, 0, passageSize, passageSize ), false, 0.0, 500, Images.MASS ) );
+        add( new Mass( UserComponents.mass2, new Rectangle2D.Double( massOffset + passageSize + separation, 0, passageSize, passageSize / 2 ), false, 0.0, 250, Images.MASS ) );
+        add( new Mass( UserComponents.mass3, new Rectangle2D.Double( massOffset + passageSize * 2 + separation * 2, 0, passageSize, passageSize / 2 ), false, 0.0, 250, Images.MASS ) );
     }} );
     private final Property<Double> gravity;
     private final Property<Double> fluidDensity;

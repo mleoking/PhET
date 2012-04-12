@@ -6,6 +6,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 
 /**
@@ -32,24 +33,26 @@ public class Mass {
 
     //Image to show for this mass
     public final BufferedImage image;
+    public final IUserComponent component;
 
-    public Mass( final Shape shape, final boolean dragging, final double velocity, final double mass, final BufferedImage image ) {
-        this( shape, shape, dragging, velocity, mass, image );
+    public Mass( IUserComponent component, final Shape shape, final boolean dragging, final double velocity, final double mass, final BufferedImage image ) {
+        this( component, shape, shape, dragging, velocity, mass, image );
     }
 
-    public Mass( final Shape initialShape, final Shape shape, final boolean dragging, final double velocity, final double mass, BufferedImage image ) {
+    public Mass( IUserComponent component, final Shape initialShape, final Shape shape, final boolean dragging, final double velocity, final double mass, BufferedImage image ) {
         this.initialShape = initialShape;
         this.shape = shape;
         this.dragging = dragging;
         this.velocity = velocity;
         this.mass = mass;
         this.image = image;
+        this.component = component;
     }
 
-    public Mass withDragging( final boolean b ) { return new Mass( initialShape, shape, b, velocity, mass, image ); }
+    public Mass withDragging( final boolean b ) { return new Mass( component, initialShape, shape, b, velocity, mass, image ); }
 
     public Mass translate( Dimension2D dim ) {
-        return new Mass( initialShape, AffineTransform.getTranslateInstance( dim.getWidth(), dim.getHeight() ).createTransformedShape( shape ), dragging, velocity, mass, image );
+        return new Mass( component, initialShape, AffineTransform.getTranslateInstance( dim.getWidth(), dim.getHeight() ).createTransformedShape( shape ), dragging, velocity, mass, image );
     }
 
     public double getMinY() {
@@ -61,7 +64,7 @@ public class Mass {
     }
 
     public Mass withVelocity( final double newVelocity ) {
-        return new Mass( initialShape, shape, dragging, newVelocity, mass, image );
+        return new Mass( component, initialShape, shape, dragging, newVelocity, mass, image );
     }
 
     public Mass withCenterX( final double centerX ) {
@@ -73,6 +76,6 @@ public class Mass {
     }
 
     public Mass withShape( final Shape initialShape ) {
-        return new Mass( this.initialShape, initialShape, dragging, velocity, mass, image );
+        return new Mass( component, this.initialShape, initialShape, dragging, velocity, mass, image );
     }
 }

@@ -41,11 +41,14 @@ public class FPAFSimSharing {
 
         //Cross products
         textField,
-        slider
+        slider,
+
+        mass1, mass2, mass3
     }
 
     public enum ParameterKeys implements IParameterKey {
-        pressure
+        pressure,
+        droppedInDottedLineRegion
     }
 
     public enum ComponentTypes implements IUserComponentType {
