@@ -1,3 +1,5 @@
+4/12/12 comment out study args in build.properties
+4/12/12 restore "Game" tab
 # 1.03.11 (63358) Apr 12, 2012
 4/12/12 study version WITHOUT Game tab
 4/12/12 temporarily remove "Game" tab for study version
