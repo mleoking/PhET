@@ -36,6 +36,7 @@ public class BeakerNode extends PNode {
     private static final double PERSPECTIVE_PROPORTION = 0.2;
     private static final Font LABEL_FONT = new PhetFont( 32, false );
     private static final boolean SHOW_MODEL_RECT = true;
+    private static final Color BEAKER_COLOR = new Color( 250, 250, 250, 100 );
 
     public BeakerNode( final Beaker beaker, final ModelViewTransform mvt ) {
 
@@ -55,17 +56,27 @@ public class BeakerNode extends PNode {
                                  OUTLINE_STROKE,
                                  OUTLINE_COLOR ) );
 
-        // Add the top and bottom of the beaker.
+        // Create the shapes for the top and bottom of the beaker.  These are
+        // ellipses in order to create a 3D-ish look.
         double ellipseHeight = beakerViewRect.getWidth() * PERSPECTIVE_PROPORTION;
-        addChild( new PhetPPath( new Ellipse2D.Double( beakerViewRect.getMinX(), beakerViewRect.getMaxY() - ellipseHeight / 2, beakerViewRect.getWidth(), ellipseHeight ),
-                                 OUTLINE_STROKE,
-                                 OUTLINE_COLOR ) );
-        addChild( new PhetPPath( new Ellipse2D.Double( beakerViewRect.getMinX(), beakerViewRect.getMinY() - ellipseHeight / 2, beakerViewRect.getWidth(), ellipseHeight ),
-                                 OUTLINE_STROKE,
-                                 OUTLINE_COLOR ) );
+        final Ellipse2D.Double topEllipse = new Ellipse2D.Double( beakerViewRect.getMinX(), beakerViewRect.getMinY() - ellipseHeight / 2, beakerViewRect.getWidth(), ellipseHeight );
+        final Ellipse2D.Double bottomEllipse = new Ellipse2D.Double( beakerViewRect.getMinX(), beakerViewRect.getMaxY() - ellipseHeight / 2, beakerViewRect.getWidth(), ellipseHeight );
+
+        // Add the bottom ellipse.
+        addChild( new PhetPPath( bottomEllipse, BEAKER_COLOR, OUTLINE_STROKE, OUTLINE_COLOR ) );
+
+        // Create and add the shape for the body of the beaker.
+        Area beakerBody = new Area( beakerViewRect );
+        beakerBody.add( new Area( bottomEllipse ) );
+        beakerBody.subtract( new Area( topEllipse ) );
+        addChild( new PhetPPath( beakerBody, BEAKER_COLOR, OUTLINE_STROKE, OUTLINE_COLOR ) );
+
 
         // Add the water TODO this is temp, since size will need to change.
         addChild( new PerspectiveWaterNode( beakerViewRect, beaker.fluidLevel ) );
+
+        // Add the top ellipse.  It is behind the water for proper Z-order behavior.
+        addChild( new PhetPPath( topEllipse, BEAKER_COLOR, OUTLINE_STROKE, OUTLINE_COLOR ) );
 
         // Add the label.
         PText label = new PText( "Water" );
