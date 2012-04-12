@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -39,49 +40,52 @@ class SlopeInterceptLineNode extends PComposite {
 
         this.line = line;
 
+        // snap to grid
+        SlopeInterceptLine snappedLine = new SlopeInterceptLine( MathUtil.round( line.rise ), MathUtil.round( line.run ), MathUtil.round( line.intercept ), line.color, line.highlightColor );
+
         final double xExtent = mvt.viewToModelDeltaX( LINE_EXTENT );
         final double yExtent = Math.abs( mvt.viewToModelDeltaY( LINE_EXTENT ) );
 
         double tailX, tailY, tipX, tipY;
 
-        if ( line.run == 0 ) {
+        if ( snappedLine.run == 0 ) {
             // x = 0
             tailX = 0;
             tailY = graph.maxY + yExtent;
             tipX = 0;
             tipY = graph.minY - yExtent;
         }
-        else if ( line.rise == 0 ) {
+        else if ( snappedLine.rise == 0 ) {
             // y = b
             tailX = graph.minX - xExtent;
-            tailY = line.intercept;
+            tailY = snappedLine.intercept;
             tipX = graph.maxY + yExtent;
-            tipY = line.intercept;
+            tipY = snappedLine.intercept;
         }
         else {
 
             // tail is the left-most end point. Compute x such that the point is inside the grid.
             tailX = graph.minX - xExtent;
-            tailY = line.solveY( tailX );
+            tailY = snappedLine.solveY( tailX );
             if ( tailY < graph.minY - yExtent ) {
-                tailX = line.solveX( graph.minY - yExtent );
-                tailY = line.solveY( tailX );
+                tailX = snappedLine.solveX( graph.minY - yExtent );
+                tailY = snappedLine.solveY( tailX );
             }
             else if ( tailY > graph.maxY + yExtent ) {
-                tailX = line.solveX( graph.maxY + yExtent );
-                tailY = line.solveY( tailX );
+                tailX = snappedLine.solveX( graph.maxY + yExtent );
+                tailY = snappedLine.solveY( tailX );
             }
 
             // tip is the right-most end point. Compute x such that the point is inside the grid.
             tipX = graph.maxX + xExtent;
-            tipY = line.solveY( tipX );
+            tipY = snappedLine.solveY( tipX );
             if ( tipY < graph.minY - yExtent ) {
-                tipX = line.solveX( graph.minY - yExtent );
-                tipY = line.solveY( tipX );
+                tipX = snappedLine.solveX( graph.minY - yExtent );
+                tipY = snappedLine.solveY( tipX );
             }
             else if ( tipY > graph.maxY + yExtent ) {
-                tipX = line.solveX( graph.maxY + yExtent );
-                tipY = line.solveY( tipX );
+                tipX = snappedLine.solveX( graph.maxY + yExtent );
+                tipY = snappedLine.solveY( tipX );
             }
         }
 
@@ -97,8 +101,8 @@ class SlopeInterceptLineNode extends PComposite {
         PNode equationParentNode = new PNode();
         addChild( equationParentNode );
         equationParentNode.setOffset( tipLocation );
-        equationParentNode.setRotation( line.run == 0 ? Math.PI / 2 : -Math.atan( line.rise / line.run ) );
-        equationNode = ReducedSlopeInterceptEquationFactory.createNode( line, EQUATION_FONT );
+        equationParentNode.setRotation( snappedLine.run == 0 ? Math.PI / 2 : -Math.atan( snappedLine.rise / snappedLine.run ) );
+        equationNode = ReducedSlopeInterceptEquationFactory.createNode( snappedLine, EQUATION_FONT );
         PNode zeroOffsetNode = new ZeroOffsetNode( equationNode );
         equationParentNode.addChild( zeroOffsetNode );
         zeroOffsetNode.setOffset( -zeroOffsetNode.getFullBoundsReference().getWidth() - 12,
