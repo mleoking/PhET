@@ -7,9 +7,6 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
-import edu.colorado.phet.common.phetcommon.util.Option;
-import edu.colorado.phet.common.phetcommon.util.Option.None;
-import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
@@ -71,17 +68,6 @@ public class ItemList<T> extends ObservableList<T> {
             }
         }
         return false;
-    }
-
-    // return the first matching item, or None if there is none
-    public Option<T> find( Function1<T, Boolean> predicate ) {
-        ItemList<T> results = filter( predicate );
-        if ( results.isEmpty() ) {
-            return new None<T>();
-        }
-        else {
-            return new Some<T>( results.get( 0 ) );
-        }
     }
 
     //Count the items in the list that are an instance of the specified class

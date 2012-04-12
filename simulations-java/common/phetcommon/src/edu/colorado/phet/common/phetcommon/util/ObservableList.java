@@ -10,6 +10,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import edu.colorado.phet.common.phetcommon.util.Option.None;
+import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -330,6 +332,14 @@ public class ObservableList<T> implements List<T> {
                 add( map.apply( t ) );
             }
         }};
+    }
+
+    // return the first matching item, or None if there is none
+    public Option<T> find( Function1<T, Boolean> predicate ) {
+        for ( T t : list ) {
+            if ( predicate.apply( t ) ) { return new Some<T>( t ); }
+        }
+        return new None<T>();
     }
 
     //Returns the minimum value in the list, causes runtime fail if not comparable
