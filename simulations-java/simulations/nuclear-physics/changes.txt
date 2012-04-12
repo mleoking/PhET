@@ -1,3 +1,5 @@
+# 3.25.00 (63341) Apr 12, 2012
+4/12/12 > Deploying to production server with fixes for several chart resizing issues.
 # 3.24.07 (63192) Apr 9, 2012
 4/9/12 Depolying to dev for testing prior to redeployment to production site.
 # 3.24.06 (58840) Nov 29, 2011
