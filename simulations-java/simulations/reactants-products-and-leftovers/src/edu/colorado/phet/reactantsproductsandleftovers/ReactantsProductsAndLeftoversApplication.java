@@ -29,7 +29,7 @@ public class ReactantsProductsAndLeftoversApplication extends PiccoloPhetApplica
         Frame parentFrame = getPhetFrame();
         addModule( new SandwichShopModule( parentFrame ) );
         addModule( new RealReactionModule( parentFrame ) );
-//        addModule( new GameModule( parentFrame ) );
+        addModule( new GameModule( parentFrame ) );
         
         // Developer menu
         JMenu developerMenu = getPhetFrame().getDeveloperMenu();
