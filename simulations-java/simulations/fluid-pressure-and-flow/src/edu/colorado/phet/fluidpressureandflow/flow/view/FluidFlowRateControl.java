@@ -40,7 +40,7 @@ public class FluidFlowRateControl extends PNode {
         }
 
         //Create and add the slider controls
-        addChild( new UnitBasedSliderControl( UserComponents.flowRateEnglishSlider, FLOW_RATE, ENGLISH ) );
-        addChild( new UnitBasedSliderControl( UserComponents.flowRateMetricSlider, FLOW_RATE, METRIC ) );
+        addChild( new UnitBasedSliderControl( UserComponents.flowRateEnglishControl, FLOW_RATE, ENGLISH ) );
+        addChild( new UnitBasedSliderControl( UserComponents.flowRateMetricControl, FLOW_RATE, METRIC ) );
     }
 }
