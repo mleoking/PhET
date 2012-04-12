@@ -6,6 +6,9 @@ import java.awt.Cursor;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -74,16 +77,24 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
     private void updateReadout() {
         // get model coordinates
         // TODO: improve model/view and listening for sensor location
-        ImmutableVector3F modelSensorPosition = getSensorModelPosition();
-        final Double density = model.getDensity( modelSensorPosition.getX(), modelSensorPosition.getY() );
+        final Double density = getDensityValue();
         DensitySensorNode2D node = (DensitySensorNode2D) getNode();
         node.pointSensor.value.set( new Option.Some<Double>( density ) );
         repaint();
     }
 
+    private Double getDensityValue() {
+        ImmutableVector3F modelSensorPosition = getSensorModelPosition();
+        return model.getDensity( modelSensorPosition.getX(), modelSensorPosition.getY() );
+    }
+
     public ImmutableVector3F getSensorModelPosition() {
         float horizontalSensorOffset = (float) ( ( (DensitySensorNode2D) getNode() ).horizontalSensorOffset * 0.75 / PICCOLO_PIXELS_TO_VIEW_UNIT * scaleMultiplier( tab ) );
         return modelViewTransform.inversePosition( transform.getMatrix().getTranslation().plus( new ImmutableVector3F( horizontalSensorOffset, 0, 0 ) ) );
+    }
+
+    public ParameterSet getCustomParameters() {
+        return new ParameterSet( new Parameter( ParameterKeys.value, getDensityValue() ) );
     }
 
     public Property<Boolean> getInsideToolboxProperty( ToolboxState toolboxState ) {

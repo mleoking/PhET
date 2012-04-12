@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
@@ -29,6 +30,7 @@ public class ResetPanel extends PNode {
         PNode rewindNode = null;
         if ( showRewindButton ) {
             rewindNode = new TextButtonNode( Strings.REWIND, new PhetFont( 14 ), Color.ORANGE ) {{
+                setUserComponent( UserComponents.rewindButton );
                 setOffset( 0, y.get() + 15 );
                 y.set( getFullBounds().getMaxY() );
                 maxWidth.set( Math.max( maxWidth.get(), getFullBounds().getWidth() ) );
@@ -52,6 +54,7 @@ public class ResetPanel extends PNode {
         }
 
         PNode resetAllNode = new TextButtonNode( Strings.RESET_ALL, new PhetFont( 14 ), Color.ORANGE ) {{
+            setUserComponent( UserComponents.resetAllButton );
             setOffset( 0, y.get() + 15 );
             y.set( getFullBounds().getMaxY() );
             maxWidth.set( Math.max( maxWidth.get(), getFullBounds().getWidth() ) );

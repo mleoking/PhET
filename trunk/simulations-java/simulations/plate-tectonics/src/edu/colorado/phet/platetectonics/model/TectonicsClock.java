@@ -9,6 +9,10 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
+import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.ModelActions;
+import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.ModelComponents;
 
 public class TectonicsClock implements IClock {
     private double lastSimulationTime = 0.0;
@@ -66,6 +70,7 @@ public class TectonicsClock implements IClock {
         double proposedTime = simulationTime + timeElapsed * timeMultiplier;
         if ( proposedTime > timeLimit ) {
             proposedTime = timeLimit;
+            SimSharingManager.sendModelMessage( ModelComponents.time, ModelComponentTypes.feature, ModelActions.maximumTimeReached );
         }
 
         setSimulationTime( proposedTime );

@@ -10,6 +10,9 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.LiquidExpansionThermometerNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -83,15 +86,23 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
     private void updateLiquidHeight() {
         // get model coordinates
         // TODO: improve model/view and listening for sensor location
-        ImmutableVector3F modelSensorPosition = getSensorModelPosition();
-        final Double temp = model.getTemperature( modelSensorPosition.getX(), modelSensorPosition.getY() );
+        final Double temp = getTemperatureValue();
         double liquidHeight = MathUtil.clamp( 0.2, new Function.LinearFunction( 290, 2000, 0.2, 0.8 ).evaluate( temp ), 1 );
         ( (LiquidExpansionThermometerNode) getNode() ).setLiquidHeight( liquidHeight );
         repaint();
     }
 
+    private Double getTemperatureValue() {
+        ImmutableVector3F modelSensorPosition = getSensorModelPosition();
+        return model.getTemperature( modelSensorPosition.getX(), modelSensorPosition.getY() );
+    }
+
     public ImmutableVector3F getSensorModelPosition() {
         return modelViewTransform.inversePosition( transform.getMatrix().getTranslation().plus( new ImmutableVector3F( 0, sensorVerticalOffset / PICCOLO_PIXELS_TO_VIEW_UNIT * scaleMultiplier( tab ), 0 ) ) );
+    }
+
+    public ParameterSet getCustomParameters() {
+        return new ParameterSet( new Parameter( ParameterKeys.value, getTemperatureValue() ) );
     }
 
     public Property<Boolean> getInsideToolboxProperty( ToolboxState toolboxState ) {

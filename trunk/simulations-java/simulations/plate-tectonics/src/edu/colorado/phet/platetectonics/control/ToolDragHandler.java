@@ -78,6 +78,6 @@ public class ToolDragHandler {
                 new Parameter( ParameterKeys.x, tool.getSensorModelPosition().x ),
                 new Parameter( ParameterKeys.y, tool.getSensorModelPosition().y ),
                 new Parameter( ParameterKeys.z, tool.getSensorModelPosition().z )
-        } );
+        } ).with( tool.getCustomParameters() );
     }
 }
