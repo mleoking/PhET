@@ -6,11 +6,13 @@ import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
+import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents;
 import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -33,7 +35,7 @@ public class SliderControl extends PNode {
         }};
 
         //Create the top component which has: title text field units
-        final PSwing textField = new PSwing( new DoubleTextField( format, property, min, max ) {{
+        final PSwing textField = new PSwing( new DoubleTextField( UserComponentChain.chain( userComponent, UserComponents.textField ), format, property, min, max ) {{
             setColumns( 6 );
             setFont( FluidPressureCanvas.CONTROL_FONT );
         }} );

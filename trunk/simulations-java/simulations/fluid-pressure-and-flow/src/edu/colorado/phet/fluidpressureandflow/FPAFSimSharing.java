@@ -37,7 +37,9 @@ public class FPAFSimSharing {
         minimizeGravityControlButton,
         maximizeGravityControlButton,
         minimizeFluidDensityControlButton,
-        maximizeFluidDensityControlButton
+        maximizeFluidDensityControlButton,
+
+        textField
     }
 
     public enum ParameterKeys implements IParameterKey {
