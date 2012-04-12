@@ -8,20 +8,23 @@ import java.awt.geom.Dimension2D;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.ChamberPool;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.Mass;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
+import static edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.ParameterKeys.droppedInDottedLineRegion;
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.MASS_LABEL_PATTERN;
 import static edu.colorado.phet.fluidpressureandflow.pressure.view.MassesLayer.getDottedLineShape;
 import static java.text.MessageFormat.format;
@@ -49,13 +52,15 @@ public class MassNode extends PNode {
             centerBoundsOnPoint( shapeNode.getFullBounds().getCenterX(), shapeNode.getFullBounds().getCenterY() );
         }} );
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new PBasicInputEventHandler() {
-            @Override public void mousePressed( final PInputEvent event ) {
+
+        addInputEventListener( new SimSharingDragHandler( mass.component, true ) {
+            @Override protected void startDrag( final PInputEvent event ) {
+                super.startDrag( event );
                 masses.set( startDragging( masses.get(), mass ) );
             }
 
-            @Override public void mouseDragged( final PInputEvent event ) {
-                super.mouseDragged( event );
+            @Override protected void drag( final PInputEvent event ) {
+                super.drag( event );
                 final Dimension2D modelDelta = transform.viewToModelDelta( event.getDelta() );
                 masses.set( masses.get().map( new Function1<Mass, Mass>() {
                     @Override public Mass apply( final Mass mass ) {
@@ -65,9 +70,20 @@ public class MassNode extends PNode {
                 } ) );
             }
 
-            @Override public void mouseReleased( final PInputEvent event ) {
+            //Identify whether the user dropped it in the dotted line region or not
+            @Override protected ParameterSet getEndDragParameters( final PInputEvent event ) {
+                final Option<Mass> m = masses.get().find( new Function1<Mass, Boolean>() {
+                    @Override public Boolean apply( final Mass mass ) {
+                        return mass.dragging;
+                    }
+                } );
+                return super.getEndDragParameters( event ).with( droppedInDottedLineRegion, m.isSome() && m.get().shape.intersects( getDottedLineShape( pool, m.get() ).getBounds2D() ) );
+            }
 
-                //Turn off the "dragging" flag
+            @Override protected void endDrag( final PInputEvent event ) {
+                super.endDrag( event );
+
+                //Turn off the "dragging" flag and have masses snap to their correct locations
                 masses.set( masses.get().map( new Function1<Mass, Mass>() {
                     @Override public Mass apply( Mass m ) {
 

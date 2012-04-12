@@ -1,3 +1,4 @@
+Added messages for dragging masses
 Improved sim sharing component chaining
 Added message for text fields
 Added sim event messages
