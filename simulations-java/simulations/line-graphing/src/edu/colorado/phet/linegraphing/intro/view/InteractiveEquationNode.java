@@ -7,7 +7,7 @@ import java.text.NumberFormat;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
-import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -34,7 +34,10 @@ class InteractiveEquationNode extends PhetPNode {
     private final Property<Double> rise, run, intercept;
 
     public InteractiveEquationNode( final Property<SlopeInterceptLine> interactiveLine,
-                                    IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange, PhetFont font ) {
+                                    Property<DoubleRange> riseRange,
+                                    Property<DoubleRange> runRange,
+                                    Property<DoubleRange> interceptRange,
+                                    PhetFont font ) {
 
         this.rise = new Property<Double>( interactiveLine.get().rise );
         this.run = new Property<Double>( interactiveLine.get().run );
@@ -43,11 +46,11 @@ class InteractiveEquationNode extends PhetPNode {
         // determine the max width of the rise and run spinners, based on the extents of their range
         double maxSlopeWidth;
         {
-            PNode maxRiseNode = new SlopeSpinnerNode( UserComponents.riseSpinner, new Property<Double>( (double) riseRange.getMax() ), riseRange, font, FORMAT );
-            PNode minRiseNode = new SlopeSpinnerNode( UserComponents.riseSpinner, new Property<Double>( (double) riseRange.getMin() ), riseRange, font, FORMAT );
+            PNode maxRiseNode = new SlopeSpinnerNode( UserComponents.riseSpinner, new Property<Double>( riseRange.get().getMax() ), riseRange, font, FORMAT );
+            PNode minRiseNode = new SlopeSpinnerNode( UserComponents.riseSpinner, new Property<Double>( riseRange.get().getMin() ), riseRange, font, FORMAT );
             double maxRiseWidth = Math.max( maxRiseNode.getFullBoundsReference().getWidth(), minRiseNode.getFullBoundsReference().getWidth() );
-            PNode maxRunNode = new SlopeSpinnerNode( UserComponents.riseSpinner, new Property<Double>( (double) runRange.getMax() ), runRange, font, FORMAT );
-            PNode minRunNode = new SlopeSpinnerNode( UserComponents.riseSpinner, new Property<Double>( (double) runRange.getMin() ), runRange, font, FORMAT );
+            PNode maxRunNode = new SlopeSpinnerNode( UserComponents.riseSpinner, new Property<Double>( runRange.get().getMax() ), runRange, font, FORMAT );
+            PNode minRunNode = new SlopeSpinnerNode( UserComponents.riseSpinner, new Property<Double>( runRange.get().getMin() ), runRange, font, FORMAT );
             double maxRunWidth = Math.max( maxRunNode.getFullBoundsReference().getWidth(), minRunNode.getFullBoundsReference().getWidth() );
             maxSlopeWidth = Math.max( maxRiseWidth, maxRunWidth );
         }

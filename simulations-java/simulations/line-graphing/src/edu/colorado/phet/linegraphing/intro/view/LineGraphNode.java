@@ -9,7 +9,7 @@ import javax.swing.ImageIcon;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
-import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -46,7 +46,9 @@ class LineGraphNode extends GraphNode {
                           Property<SlopeInterceptLine> interactiveLine,
                           ObservableList<SlopeInterceptLine> savedLines,
                           ObservableList<SlopeInterceptLine> standardLines,
-                          IntegerRange riseRange, IntegerRange runRange, IntegerRange interceptRange,
+                          Property<DoubleRange> riseRange,
+                          Property<DoubleRange> runRange,
+                          Property<DoubleRange> interceptRange,
                           Property<Boolean> interactiveEquationVisible,
                           Property<Boolean> linesVisible,
                           Property<Boolean> interactiveLineVisible,
@@ -247,9 +249,9 @@ class LineGraphNode extends GraphNode {
                                                      new Property<SlopeInterceptLine>( new SlopeInterceptLine( 1, 1, 1, LGColors.INTERACTIVE_LINE ) ),
                                                      new ObservableList<SlopeInterceptLine>(),
                                                      standardLines,
-                                                     new IntegerRange( -1, 1 ),
-                                                     new IntegerRange( -1, 1 ),
-                                                     new IntegerRange( -1, 1 ),
+                                                     new Property<DoubleRange>( new DoubleRange( -1, 1 ) ),
+                                                     new Property<DoubleRange>( new DoubleRange( -1, 1 ) ),
+                                                     new Property<DoubleRange>( new DoubleRange( -1, 1 ) ),
                                                      new Property<Boolean>( false ),
                                                      new Property<Boolean>( true ),
                                                      new Property<Boolean>( false ),
