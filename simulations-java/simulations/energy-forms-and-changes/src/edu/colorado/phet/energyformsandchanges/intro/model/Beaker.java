@@ -31,11 +31,10 @@ public class Beaker extends UserMovableModelElement {
     // Property that is used to control the amount of fluid in the beaker.
     public final Property<Double> fluidLevel = new Property<Double>( 0.3 );
 
-    // Surface upon which any model elements will sit.
-    private final Property<HorizontalSurface> topSurface;
-
-    // Bottom of this model element, used when setting it on something.
-    private Property<HorizontalSurface> bottomSurface;
+    // Surface upon which any model elements will sit.  For the beaker, other
+    // model elements sit on the bottom of it, so the top and the bottom
+    // surfaces are the same.
+    private final Property<HorizontalSurface> surface = new Property<HorizontalSurface>( null );
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -49,22 +48,14 @@ public class Beaker extends UserMovableModelElement {
      */
     public Beaker( ImmutableVector2D initialPosition ) {
 
-        this.position.set( initialPosition );
-
-        // Create the top surface.  Since the beaker has objects rest at the
-        // bottom inside the beaker, the top surface is the bottom of the
-        // defining rectangle.
-        topSurface = new Property<HorizontalSurface>( new HorizontalSurface( new DoubleRange( getOutlineRect().getMinX(), getOutlineRect().getMaxX() ), getOutlineRect().getMinY(), this ) );
-
-        // For the beaker, the top and bottom surfaces are the same.
-        bottomSurface = topSurface;
-
         // Update the top and bottom surfaces whenever the position changes.
         position.addObserver( new VoidFunction1<ImmutableVector2D>() {
             public void apply( final ImmutableVector2D immutableVector2D ) {
                 updateSurfaces();
             }
         } );
+
+        this.position.set( initialPosition );
     }
 
     //-------------------------------------------------------------------------
@@ -85,17 +76,17 @@ public class Beaker extends UserMovableModelElement {
     }
 
     private void updateSurfaces() {
-        topSurface.set( new HorizontalSurface( new DoubleRange( getOutlineRect().getMinX(), getOutlineRect().getMaxX() ),
-                                               getOutlineRect().getMaxY(),
-                                               this ) );
+        surface.set( new HorizontalSurface( new DoubleRange( getOutlineRect().getMinX(), getOutlineRect().getMaxX() ),
+                                            getOutlineRect().getMinY(),
+                                            this ) );
     }
 
     @Override public Property<HorizontalSurface> getTopSurfaceProperty() {
-        return topSurface;
+        return surface;
     }
 
     @Override public Property<HorizontalSurface> getBottomSurfaceProperty() {
-        return bottomSurface;
+        return surface;
     }
 
     @Override public IUserComponent getUserComponent() {
