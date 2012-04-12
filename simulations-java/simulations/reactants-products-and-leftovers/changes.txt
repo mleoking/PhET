@@ -1,3 +1,4 @@
+4/12/12 temporarily remove "Game" tab for study version
 # 1.03.12 (63362) Apr 12, 2012
 4/12/12 study version with Game tab and no connection to MongoDB server
 4/12/12 restore study args in build.properties
