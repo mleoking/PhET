@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
@@ -37,6 +38,11 @@ public class SimSharingDragHandler extends PDragSequenceEventHandler {
     protected final IUserComponentType componentType;
     private final SimSharingDragPoints dragPoints; // canvas coordinates, accumulated during a drag sequence
     private DragFunction startDragFunction, dragFunction, endDragFunction; // functions called for various events
+
+    //Auxiliary constructor for sprites, provided for convenience because many SimSharingDragHandler target PNodes are sprites
+    public SimSharingDragHandler( IUserComponent userComponent, boolean sendMessages ) {
+        this( userComponent, UserComponentTypes.sprite, sendMessages );
+    }
 
     // Sends a message on startDrag and endDrag, but not drag
     public SimSharingDragHandler( IUserComponent userComponent, IUserComponentType componentType ) {
