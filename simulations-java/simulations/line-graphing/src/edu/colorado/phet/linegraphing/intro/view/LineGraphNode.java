@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
@@ -195,7 +196,7 @@ class LineGraphNode extends GraphNode {
 
         // replace the rise/run brackets
         bracketsParentNode.removeAllChildren();
-        if ( Math.round( line.run ) != 0 ) {
+        if ( MathUtil.round( line.run ) != 0 ) {
 
             // run bracket
             final Direction runDirection = line.rise >= 0 ? Direction.UP : Direction.DOWN;
@@ -204,7 +205,7 @@ class LineGraphNode extends GraphNode {
             runBracketNode.setOffset( mvt.modelToViewX( 0 ), mvt.modelToViewY( line.intercept ) );
 
             // rise bracket
-            if (  Math.round( line.rise ) != 0  ) {
+            if (  MathUtil.round( line.rise ) != 0  ) {
                 final Direction riseDirection = line.run > 0 ? Direction.LEFT : Direction.RIGHT;
                 final RiseRunBracketNode riseBracket = new RiseRunBracketNode( riseDirection, mvt.modelToViewDeltaX( line.rise ), line.rise );
                 bracketsParentNode.addChild( riseBracket );

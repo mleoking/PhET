@@ -1,3 +1,4 @@
+4/11/12 correct accidental use of Math.round when MathUtil.round was intended
 # 0.00.04 (63327) Apr 11, 2012
 4/11/12 hide equation on interactive line while manipulators are being dragged
 4/11/12 fix: don't show rise/run bracket when value is zero
