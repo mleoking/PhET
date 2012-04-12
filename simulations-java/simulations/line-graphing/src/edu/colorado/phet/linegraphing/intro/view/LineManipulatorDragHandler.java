@@ -14,7 +14,6 @@ import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.linegraphing.LGColors;
 import edu.colorado.phet.linegraphing.LGSimSharing.ParameterKeys;
 import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
@@ -24,14 +23,14 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
 
-    protected final PNode dragNode;
+    protected final LineManipulatorNode manipulatorNode;
     protected final ModelViewTransform mvt;
     protected final Property<SlopeInterceptLine> line;
 
     public LineManipulatorDragHandler( IUserComponent userComponent, IUserComponentType componentType,
-                                       PNode dragNode, ModelViewTransform mvt, Property<SlopeInterceptLine> line ) {
+                                       LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<SlopeInterceptLine> line ) {
         super( userComponent, componentType, true /* sendDragMessages */ );
-        this.dragNode = dragNode;
+        this.manipulatorNode = manipulatorNode;
         this.mvt = mvt;
         this.line = line;
     }
@@ -57,20 +56,20 @@ abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
         private double clickYOffset; // offset of mouse click from dragNode's origin, in parent's coordinate frame
 
         public InterceptDragHandler( IUserComponent userComponent, IUserComponentType componentType,
-                                     PNode dragNode, ModelViewTransform mvt, Property<SlopeInterceptLine> line, IntegerRange interceptRange ) {
-            super( userComponent, componentType, dragNode, mvt, line );
+                                     LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<SlopeInterceptLine> line, IntegerRange interceptRange ) {
+            super( userComponent, componentType, manipulatorNode, mvt, line );
             this.interceptRange = interceptRange;
         }
 
         @Override protected void startDrag( PInputEvent event ) {
             super.startDrag( event );
-            Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
+            Point2D pMouse = event.getPositionRelativeTo( manipulatorNode.getParent() );
             clickYOffset = pMouse.getY() - mvt.modelToViewDeltaY( line.get().intercept );
         }
 
         @Override protected void drag( PInputEvent event ) {
             super.drag( event );
-            Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
+            Point2D pMouse = event.getPositionRelativeTo( manipulatorNode.getParent() );
             double intercept = MathUtil.clamp( mvt.viewToModelDeltaY( pMouse.getY() - clickYOffset ), interceptRange );
             line.set( new SlopeInterceptLine( line.get().rise, line.get().run, intercept, LGColors.INTERACTIVE_LINE ) );
         }
@@ -83,22 +82,22 @@ abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
         private double clickXOffset, clickYOffset; // offset of mouse click from dragNode's origin, in parent's coordinate frame
 
         public SlopeDragHandler( IUserComponent userComponent, IUserComponentType componentType,
-                                 PNode dragNode, ModelViewTransform mvt, Property<SlopeInterceptLine> line, IntegerRange riseRange, IntegerRange runRange ) {
-            super( userComponent, componentType, dragNode, mvt, line );
+                                 LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<SlopeInterceptLine> line, IntegerRange riseRange, IntegerRange runRange ) {
+            super( userComponent, componentType, manipulatorNode, mvt, line );
             this.riseRange = riseRange;
             this.runRange = runRange;
         }
 
         @Override protected void startDrag( PInputEvent event ) {
             super.startDrag( event );
-            Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
+            Point2D pMouse = event.getPositionRelativeTo( manipulatorNode.getParent() );
             clickXOffset = pMouse.getX() - mvt.modelToViewDeltaX( line.get().run );
             clickYOffset = pMouse.getY() - mvt.modelToViewDeltaY( line.get().rise + line.get().intercept );
         }
 
         @Override protected void drag( PInputEvent event ) {
             super.drag( event );
-            Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
+            Point2D pMouse = event.getPositionRelativeTo( manipulatorNode.getParent() );
             double run = MathUtil.clamp( mvt.viewToModelDeltaX( pMouse.getX() - clickXOffset ), runRange );
             double rise = MathUtil.clamp( mvt.viewToModelDeltaY( pMouse.getY() - clickYOffset ) - line.get().intercept, riseRange );
             line.set( new SlopeInterceptLine( rise, run, line.get().intercept, LGColors.INTERACTIVE_LINE ) );
