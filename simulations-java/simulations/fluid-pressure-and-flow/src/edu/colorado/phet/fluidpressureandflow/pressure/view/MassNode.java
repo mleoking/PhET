@@ -63,7 +63,7 @@ public class MassNode extends PNode {
                 super.drag( event );
                 final Dimension2D modelDelta = transform.viewToModelDelta( event.getDelta() );
                 masses.set( masses.get().map( new Function1<Mass, Mass>() {
-                    @Override public Mass apply( final Mass mass ) {
+                    public Mass apply( final Mass mass ) {
                         Mass translatedMass = mass.translate( modelDelta );
                         return mass.dragging ? translatedMass : mass;
                     }
@@ -73,7 +73,7 @@ public class MassNode extends PNode {
             //Identify whether the user dropped it in the dotted line region or not
             @Override protected ParameterSet getEndDragParameters( final PInputEvent event ) {
                 final Option<Mass> m = masses.get().find( new Function1<Mass, Boolean>() {
-                    @Override public Boolean apply( final Mass mass ) {
+                    public Boolean apply( final Mass mass ) {
                         return mass.dragging;
                     }
                 } );
@@ -85,7 +85,7 @@ public class MassNode extends PNode {
 
                 //Turn off the "dragging" flag and have masses snap to their correct locations
                 masses.set( masses.get().map( new Function1<Mass, Mass>() {
-                    @Override public Mass apply( Mass m ) {
+                    public Mass apply( Mass m ) {
 
                         //Snap to the dotted line or above ground
                         if ( m.dragging ) {

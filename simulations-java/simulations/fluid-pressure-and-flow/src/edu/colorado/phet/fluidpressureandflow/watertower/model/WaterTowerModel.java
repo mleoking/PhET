@@ -60,7 +60,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
 
         //Step when the clock ticks
         getClock().addSimulationTimeChangeListener( new VoidFunction1<Double>() {
-            @Override public void apply( final Double dt ) {
+            public void apply( final Double dt ) {
                 if ( dt > 0 ) { stepInTime( dt ); }
             }
         } );

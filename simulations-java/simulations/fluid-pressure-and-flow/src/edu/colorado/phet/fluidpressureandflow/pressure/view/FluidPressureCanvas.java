@@ -76,7 +76,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
         //Create the faucet for the trapezoidal mode.  Shown before pool background node so it will give us leeway in vertical pixels
         final PNode outputFaucetAndWater = new PNode() {{
             model.pool.valueEquals( model.trapezoidPool ).addObserver( new VoidFunction1<Boolean>() {
-                @Override public void apply( final Boolean visible ) {
+                public void apply( final Boolean visible ) {
                     setVisible( visible );
                 }
             } );
@@ -101,14 +101,14 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
 
         //Add a background behind the pool so earth doesn't bleed through transparent pool
         addPoolSpecificNode( model, new Function1<IPool, PNode>() {
-            @Override public PNode apply( final IPool p ) {
+            public PNode apply( final IPool p ) {
                 return new PhetPPath( transform.modelToView( p.getContainerShape() ), Color.white );
             }
         } );
 
         //Show the height on the side of the pool in selected right units
         addPoolSpecificNode( model, new Function1<IPool, PNode>() {
-            @Override public PNode apply( final IPool p ) {
+            public PNode apply( final IPool p ) {
                 if ( p instanceof Pool ) {
                     return new SidePoolHeightReadoutNode( transform, (Pool) p, model.units );
                 }
@@ -132,7 +132,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
         final ValueEquals<IPool> squarePool = model.pool.valueEquals( model.squarePool );
         addChild( new PImage( POTTED_PLANT ) {{
             squarePool.addObserver( new VoidFunction1<Boolean>() {
-                @Override public void apply( final Boolean v ) {
+                public void apply( final Boolean v ) {
                     setVisible( v );
                 }
             } );
@@ -154,7 +154,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
 
         //Show the pool itself
         addPoolSpecificNode( model, new Function1<IPool, PNode>() {
-            @Override public PNode apply( final IPool p ) {
+            public PNode apply( final IPool p ) {
                 return new PoolNode( transform, p, model.liquidDensity );
             }
         } );
@@ -188,7 +188,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
         //Create the faucet for the trapezoidal mode
         final PNode inputFaucetAndWater = new PNode() {{
             model.pool.valueEquals( model.trapezoidPool ).addObserver( new VoidFunction1<Boolean>() {
-                @Override public void apply( final Boolean visible ) {
+                public void apply( final Boolean visible ) {
                     setVisible( visible );
                 }
             } );
@@ -208,7 +208,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
 
         final PNode massesNode = new PNode() {{
             model.pool.valueEquals( model.chamberPool ).addObserver( new VoidFunction1<Boolean>() {
-                @Override public void apply( final Boolean visible ) {
+                public void apply( final Boolean visible ) {
                     setVisible( visible );
                 }
             } );
@@ -234,7 +234,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
     private void addPoolSpecificNode( final FluidPressureModel model, final Function1<IPool, PNode> f ) {
         addChild( new PNode() {{
             model.pool.addObserver( new VoidFunction1<IPool>() {
-                @Override public void apply( final IPool p ) {
+                public void apply( final IPool p ) {
                     removeAllChildren();
                     addChild( f.apply( p ) );
                 }

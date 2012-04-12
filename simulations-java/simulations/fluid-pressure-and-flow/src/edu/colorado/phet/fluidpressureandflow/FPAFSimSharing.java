@@ -65,7 +65,7 @@ public class FPAFSimSharing {
 
     public static RichVoidFunction0 sendMessage( final IUserComponent component, final IUserComponentType type, final IUserAction action ) {
         return new RichVoidFunction0() {
-            @Override public void apply() {
+            public void apply() {
                 sendUserMessage( component, type, action );
             }
         };

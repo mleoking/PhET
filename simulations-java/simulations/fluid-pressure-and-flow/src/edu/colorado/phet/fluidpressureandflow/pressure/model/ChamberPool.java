@@ -59,7 +59,7 @@ public class ChamberPool implements IPool {
     //These heights are as measured above the lower chamber
     public final Property<Double> leftWaterHeight = new Property<Double>( 1.0 );
     private final CompositeProperty<Double> rightWaterHeight = new CompositeProperty<Double>( new Function0<Double>() {
-        @Override public Double apply() {
+        public Double apply() {
             return 1.0 + getLeftDisplacement() / lengthRatio;
         }
     }, leftWaterHeight );
@@ -76,7 +76,7 @@ public class ChamberPool implements IPool {
 
         //just keep the bottom part that is occupied by water
         this.waterShape = new CompositeProperty<Shape>( new Function0<Shape>() {
-            @Override public Shape apply() {
+            public Shape apply() {
                 return createWaterShape();
             }
         }, masses, leftWaterHeight, rightWaterHeight );
@@ -93,7 +93,7 @@ public class ChamberPool implements IPool {
         }};
     }
 
-    @Override public Shape getContainerShape() {
+    public Shape getContainerShape() {
         return new Area( leftOpening() ) {{
             add( new Area( leftChamber() ) );
             add( new Area( horizontalPassage() ) );
@@ -121,12 +121,12 @@ public class ChamberPool implements IPool {
 
     private Shape rightChamber() { return new Rectangle2D.Double( 0, -height, CHAMBER_HEIGHT, CHAMBER_HEIGHT ); }
 
-    @Override public double getHeight() { return height; }
+    public double getHeight() { return height; }
 
-    @Override public ObservableProperty<Shape> getWaterShape() { return waterShape; }
+    public ObservableProperty<Shape> getWaterShape() { return waterShape; }
 
     //Similar to code in TrapezoidPool, maybe some could be factored out
-    @Override public double getPressure( final double x, final double y, final boolean atmosphere, final double standardAirPressure, final double liquidDensity, final double gravity ) {
+    public double getPressure( final double x, final double y, final boolean atmosphere, final double standardAirPressure, final double liquidDensity, final double gravity ) {
         if ( y >= 0 ) {
             return Pool.getPressureAboveGround( y, atmosphere, standardAirPressure, gravity );
         }
@@ -193,7 +193,7 @@ public class ChamberPool implements IPool {
         }
     }
 
-    @Override public void addPressureChangeObserver( final SimpleObserver updatePressure ) {
+    public void addPressureChangeObserver( final SimpleObserver updatePressure ) {
         waterShape.addObserver( updatePressure );
         masses.addObserver( updatePressure );
         leftWaterHeight.addObserver( updatePressure );
@@ -201,9 +201,9 @@ public class ChamberPool implements IPool {
     }
 
     //Sensor can travel anywhere in this scene
-    @Override public Point2D clampSensorPosition( final Point2D pt ) { return pt; }
+    public Point2D clampSensorPosition( final Point2D pt ) { return pt; }
 
-    @Override public boolean isAbbreviatedUnits( final ImmutableVector2D sensorPosition, final double value ) {
+    public boolean isAbbreviatedUnits( final ImmutableVector2D sensorPosition, final double value ) {
         return getWaterShape().get().contains( sensorPosition.getX(), sensorPosition.getY() );
     }
 
@@ -236,7 +236,7 @@ public class ChamberPool implements IPool {
             }
 
             Collections.sort( stacked, new Comparator<Mass>() {
-                @Override public int compare( final Mass o1, final Mass o2 ) {
+                public int compare( final Mass o1, final Mass o2 ) {
                     return Double.compare( o1.getMinY(), o2.getMinY() );
                 }
             } );

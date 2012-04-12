@@ -33,11 +33,11 @@ public class Pool implements IPool {
         return HEIGHT;
     }
 
-    @Override public Property<Shape> getWaterShape() {
+    public Property<Shape> getWaterShape() {
         return waterShape;
     }
 
-    @Override public double getPressure( final double x, final double y, boolean atmosphere, double standardAirPressure, double liquidDensity, double gravity ) {
+    public double getPressure( final double x, final double y, boolean atmosphere, double standardAirPressure, double liquidDensity, double gravity ) {
         if ( y >= 0 ) {
             return Pool.getPressureAboveGround( y, atmosphere, standardAirPressure, gravity );
         }
@@ -69,13 +69,13 @@ public class Pool implements IPool {
         }
     }
 
-    @Override public void stepInTime( final double dt ) {
+    public void stepInTime( final double dt ) {
     }
 
-    @Override public void addPressureChangeObserver( final SimpleObserver updatePressure ) {
+    public void addPressureChangeObserver( final SimpleObserver updatePressure ) {
     }
 
-    @Override public Point2D clampSensorPosition( Point2D point2D ) {
+    public Point2D clampSensorPosition( Point2D point2D ) {
         point2D = new Point2D.Double( point2D.getX(), Math.max( point2D.getY(), getMinY() ) );
         if ( point2D.getY() < 0 ) {
             point2D.setLocation( MathUtil.clamp( getMinX(), point2D.getX(), getMaxX() ), point2D.getY() );
@@ -83,7 +83,7 @@ public class Pool implements IPool {
         return point2D;
     }
 
-    @Override public boolean isAbbreviatedUnits( final ImmutableVector2D sensorPosition, final double value ) {
+    public boolean isAbbreviatedUnits( final ImmutableVector2D sensorPosition, final double value ) {
         return sensorPosition.getY() < 0;
     }
 
