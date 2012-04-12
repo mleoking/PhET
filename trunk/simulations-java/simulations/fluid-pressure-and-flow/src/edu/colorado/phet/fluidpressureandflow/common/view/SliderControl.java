@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
@@ -18,6 +17,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
+
 /**
  * Slider control customized with tick labels and using the Property[Double] interface
  *
@@ -26,7 +27,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class SliderControl extends PNode {
 
     public SliderControl( IUserComponent userComponent, String title, String units, final double min, final double max, final Property<Double> property, final HashMap<Double, String> tickLabels, final DecimalFormat format ) {
-        HSliderNode slider = new HSliderNode( userComponent, min, max, property );
+        HSliderNode slider = new HSliderNode( chain( userComponent, UserComponents.slider ), min, max, property );
         for ( Double key : tickLabels.keySet() ) {
             slider.addLabel( key, new PText( tickLabels.get( key ) ) );
         }
@@ -35,7 +36,7 @@ public class SliderControl extends PNode {
         }};
 
         //Create the top component which has: title text field units
-        final PSwing textField = new PSwing( new DoubleTextField( UserComponentChain.chain( userComponent, UserComponents.textField ), format, property, min, max ) {{
+        final PSwing textField = new PSwing( new DoubleTextField( chain( userComponent, UserComponents.textField ), format, property, min, max ) {{
             setColumns( 6 );
             setFont( FluidPressureCanvas.CONTROL_FONT );
         }} );

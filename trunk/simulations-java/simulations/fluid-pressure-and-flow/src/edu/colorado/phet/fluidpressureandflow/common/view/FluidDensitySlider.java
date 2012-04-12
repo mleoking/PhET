@@ -12,7 +12,7 @@ import edu.colorado.phet.fluidpressureandflow.common.model.ScaledDoubleProperty;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Unit;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents.fluidDensitySlider;
+import static edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents.fluidDensityControl;
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.*;
 import static edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel.*;
 
@@ -30,7 +30,7 @@ public class FluidDensitySlider<T extends FluidPressureAndFlowModel> extends PNo
         final double waterDensity = density.siToUnit( WATER_DENSITY );
 
         //Create the slider
-        final SliderControl sliderControl = new SliderControl( fluidDensitySlider, FLUID_DENSITY, density.getAbbreviation(), gasDensity, honeyDensity,
+        final SliderControl sliderControl = new SliderControl( fluidDensityControl, FLUID_DENSITY, density.getAbbreviation(), gasDensity, honeyDensity,
                                                                new ScaledDoubleProperty( module.model.liquidDensity, density.siToUnit( 1.0 ) ), new HashMap<Double, String>() {{
             put( gasDensity, GASOLINE );
             put( waterDensity, WATER );

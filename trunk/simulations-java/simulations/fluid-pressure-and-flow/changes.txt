@@ -1,3 +1,4 @@
+Improved sim sharing component chaining
 Added message for text fields
 Added sim event messages
 # 0.00.53 (63300) Apr 11, 2012

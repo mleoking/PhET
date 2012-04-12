@@ -17,7 +17,7 @@ import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.s
 public class FPAFSimSharing {
 
     public enum UserComponents implements IUserComponent {
-        waterTowerFaucet, fluidDensitySlider, flowRateMetricSlider, gravitySlider, flowRateEnglishSlider,
+        waterTowerFaucet, fluidDensityControl, flowRateMetricControl, gravityControl, flowRateEnglishControl,
         fluidPressureFaucet,
         slowMotionRadioButton,
         normalSpeedRadioButton, drainFaucet,
@@ -39,7 +39,9 @@ public class FPAFSimSharing {
         minimizeFluidDensityControlButton,
         maximizeFluidDensityControlButton,
 
-        textField
+        //Cross products
+        textField,
+        slider
     }
 
     public enum ParameterKeys implements IParameterKey {

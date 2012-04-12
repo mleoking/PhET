@@ -28,7 +28,7 @@ public class GravitySlider<T extends FluidPressureAndFlowModel> extends PNode {
         final double highGravity = density.siToUnit( 20 );
 
         //Create the slider
-        final SliderControl sliderControl = new SliderControl( FPAFSimSharing.UserComponents.fluidDensitySlider, Strings.GRAVITY, density.getAbbreviation(), lowGravity, highGravity,
+        final SliderControl sliderControl = new SliderControl( FPAFSimSharing.UserComponents.fluidDensityControl, Strings.GRAVITY, density.getAbbreviation(), lowGravity, highGravity,
                                                                new ScaledDoubleProperty( module.model.gravity, density.siToUnit( 1.0 ) ), new HashMap<Double, String>() {{
             put( lowGravity, Strings.LOW );
             put( earthGravity, Strings.EARTH );
