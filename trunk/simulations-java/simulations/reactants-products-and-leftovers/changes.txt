@@ -1,3 +1,4 @@
+4/12/12 restore study args in build.properties
 4/12/12 turn off "sendToServer" for the study (#3204) because the sim crashes when there is no internet connection (#3304)
 4/12/12 comment out study args in build.properties
 4/12/12 restore "Game" tab
