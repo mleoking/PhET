@@ -1,3 +1,4 @@
+4/11/12 revert to continuous line manipulation
 # 0.00.03 (63322) Apr 11, 2012
 4/11/12 add a 2nd point tool
 4/11/12 allow manipulators to be dragged continuously, but keep interactive line snapped to grid
