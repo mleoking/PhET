@@ -35,8 +35,14 @@ abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
         this.line = line;
     }
 
+    @Override protected void startDrag( PInputEvent event ) {
+        super.startDrag( event );
+        manipulatorNode.setDragging( true );
+    }
+
     @Override protected void endDrag( PInputEvent event ) {
         super.endDrag( event );
+        manipulatorNode.setDragging( false );
         // snap to grid
         line.set( new SlopeInterceptLine( MathUtil.round( line.get().rise ), MathUtil.round( line.get().run ), MathUtil.round( line.get().intercept ), LGColors.INTERACTIVE_LINE ) );
     }
