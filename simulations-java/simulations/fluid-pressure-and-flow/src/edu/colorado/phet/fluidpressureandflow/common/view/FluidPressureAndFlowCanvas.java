@@ -12,6 +12,10 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -21,19 +25,23 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.SlowMotionNormalTimeControlPanel;
-import edu.colorado.phet.common.piccolophet.nodes.VelocitySensor;
 import edu.colorado.phet.common.piccolophet.nodes.VelocitySensorNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
+import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.ComponentTypes;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Unit;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.IPool;
+import edu.colorado.phet.fluidpressureandflow.watertower.model.FPAFVelocitySensor;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
+import static edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.ParameterKeys.velocityX;
+import static edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.ParameterKeys.velocityY;
 import static edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents.normalSpeedRadioButton;
 import static edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents.slowMotionRadioButton;
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.*;
@@ -153,7 +161,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
 
     //Add the velocity sensor node, and constrain to remain on the screen
     protected void addVelocitySensorNodes( final FluidPressureAndFlowModel model, final EmptyNode velocitySensorNodeArea, final FluidPressureAndFlowControlPanelNode sensorToolBoxNode ) {
-        for ( final VelocitySensor velocitySensor : model.getVelocitySensors() ) {
+        for ( final FPAFVelocitySensor velocitySensor : model.getVelocitySensors() ) {
 
             //Move so it has the right physical location so it will look like it is in the toolbox
             //Do so initially and on resets
@@ -169,17 +177,30 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
                 public Point2D apply( Point2D point2D ) {
                     return visibleModelBounds.apply().getClosestPoint( point2D );
                 }
-            }, UNKNOWN_VELOCITY ) {{
+            }, UNKNOWN_VELOCITY ) {
+                {
 
-                //Make sure the node moves to front when dragged, and that it snaps back to the control panel when dropped
-                addInputEventListener( new MoveToFront( this ) );
-                addInputEventListener( new SnapToToolbox( sensorToolBoxNode, velocitySensor.position,
-                                                          getModelLocationForVelocitySensor( velocitySensorNodeArea ), new Function0<PBounds>() {
-                    public PBounds apply() {
-                        return getBodyNode().getGlobalFullBounds();
-                    }
-                } ) );
-            }} );
+                    //Make sure the node moves to front when dragged, and that it snaps back to the control panel when dropped
+                    addInputEventListener( new MoveToFront( this ) );
+                    addInputEventListener( new SnapToToolbox( sensorToolBoxNode, velocitySensor.position,
+                                                              getModelLocationForVelocitySensor( velocitySensorNodeArea ), new Function0<PBounds>() {
+                        public PBounds apply() {
+                            return getBodyNode().getGlobalFullBounds();
+                        }
+                    } ) );
+                }
+
+                @Override protected void sendMessage( final Point2D modelPoint ) {
+                    super.sendMessage( modelPoint );
+                    final Option<ImmutableVector2D> velocity = velocitySensor.context.getVelocity( modelPoint.getX(), modelPoint.getY() );
+                    SimSharingManager.sendUserMessage( velocitySensor.component, ComponentTypes.velocitySensor, UserActions.drag,
+                                                       parameterSet( ParameterKeys.x, modelPoint.getX() ).
+                                                               with( ParameterKeys.y, modelPoint.getY() ).
+                                                               with( velocityX, velocity.isSome() ? velocity.get().getX() : Double.NaN ).
+                                                               with( velocityY, velocity.isSome() ? velocity.get().getY() : Double.NaN )
+                    );
+                }
+            } );
         }
     }
 

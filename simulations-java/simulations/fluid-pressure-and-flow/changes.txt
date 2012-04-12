@@ -1,3 +1,4 @@
+Added messages for velocity sensors
 Added messages for dragging masses
 Improved sim sharing component chaining
 Added message for text fields

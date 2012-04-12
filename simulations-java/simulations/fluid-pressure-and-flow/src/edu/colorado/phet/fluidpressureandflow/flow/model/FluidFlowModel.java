@@ -51,10 +51,10 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
         } );
 
         //Add the sensors at positions that were determined empirically
-        addPressureSensor( new PressureSensor( this, 3, 1.188, UserComponents.pressureSensor0 ) );
-        addPressureSensor( new PressureSensor( this, 3, 1.188, UserComponents.pressureSensor1 ) );
-        addVelocitySensor( new FPAFVelocitySensor( this, 1, 0.4735 ) );
-        addVelocitySensor( new FPAFVelocitySensor( this, 1, 0.4735 ) );
+        addPressureSensor( new PressureSensor( UserComponents.pressureSensor0, this, 3, 1.188 ) );
+        addPressureSensor( new PressureSensor( UserComponents.pressureSensor1, this, 3, 1.188 ) );
+        addVelocitySensor( new FPAFVelocitySensor( UserComponents.velocitySensor0, this, 1, 0.4735 ) );
+        addVelocitySensor( new FPAFVelocitySensor( UserComponents.velocitySensor1, this, 1, 0.4735 ) );
     }
 
     //When time passes, the circular particles and rectangular dye moves
