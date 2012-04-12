@@ -3,23 +3,23 @@ TODO list for line-graphing
 DEADLINES
 
 DESIGN
-- if user saves 2 lines with the same reduced form, they will see only 1 saved line (actually 2 identical lines on top of each other)
-- will constraints on dragging manipulators be confusing? Eg, with b=-2, m can't be dragged higher than y=8
-- Save Line button is enabled when interactive equation changes, but the reduced form of the line may be the same
+
+SPINNER IDEAS
+- AP's design
+- iOS Picker with swipe gesture
+- fractions buttons above/below numbers, buttons side-by-side
+- small up/down arrows above/below each number
 
 HIGH
-- grid node gets bigger when IntroModel.GRID_MODEL_UNITS gets smaller, size should remain constant
+- try dynamically changing the rise/run/intercept constraints to keep line manipulators on the grid
 
 MEDIUM
-- improve layout of equation, try spinners in various layouts and locations
-- try dynamically changing the rise/run/intercept constraints to keep line manipulators on the grid
 - clean up standard line icons (no equation on line, shorter line)
-- try iOS Picker for changing numbers in equation
 - don't like all the MathUtil.round that's going on
 
 LOW
+- grid node gets bigger when IntroModel.GRID_MODEL_UNITS gets smaller, size should remain constant
 - review internal duplication in GraphNode
-- create spinner buttons programmatically to match colors
 - don't like having int methods in SlopeInterceptLine model
 
 SIM-SHARING
