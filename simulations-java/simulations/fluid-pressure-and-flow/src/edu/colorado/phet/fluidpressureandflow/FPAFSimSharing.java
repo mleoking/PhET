@@ -62,7 +62,8 @@ public class FPAFSimSharing {
 
         fluxMeterPanel, fluxMeterHoop,
         faucetManualRadioButton, faucetMatchLeakageRadioButton,
-        fillButton
+        fillButton,
+        waterTowerDoor
     }
 
     public enum ParameterKeys implements IParameterKey {

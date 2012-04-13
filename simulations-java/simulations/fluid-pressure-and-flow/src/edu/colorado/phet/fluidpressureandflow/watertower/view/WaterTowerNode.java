@@ -23,11 +23,11 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.RelativeDragHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents;
 import edu.colorado.phet.fluidpressureandflow.pressure.view.WaterColor;
 import edu.colorado.phet.fluidpressureandflow.watertower.model.WaterTower;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -142,14 +142,19 @@ public class WaterTowerNode extends PNode {
             waterTower.panelOffset.addObserver( updatePanelLocation );
             waterTower.tankBottomCenter.addObserver( updatePanelLocation );
 
-            addInputEventListener( new PBasicInputEventHandler() {
-                public void mouseDragged( PInputEvent event ) {
+            addInputEventListener( new SimSharingDragHandler( UserComponents.waterTowerDoor, true ) {
+                @Override protected void drag( final PInputEvent event ) {
+                    super.drag( event );
                     if ( event.getDeltaRelativeTo( getParent() ).getHeight() > 0 ) {
                         waterTower.panelOffset.set( new ImmutableVector2D( WaterTower.PANEL_OFFSET, 0 ) );
                     }
                     else if ( event.getDeltaRelativeTo( getParent() ).getHeight() < 0 ) {
                         waterTower.panelOffset.set( new ImmutableVector2D( WaterTower.PANEL_OFFSET, 2 ) );
                     }
+                }
+
+                @Override protected ParameterSet getParametersForAllEvents( final PInputEvent event ) {
+                    return super.getParametersForAllEvents( event ).with( ParameterKeys.y, waterTower.panelOffset.get().getY() );
                 }
             } );
             addInputEventListener( new CursorHandler( Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR ) ) );
