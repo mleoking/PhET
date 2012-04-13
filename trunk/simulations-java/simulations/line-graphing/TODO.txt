@@ -11,8 +11,6 @@ SPINNER IDEAS
 - small up/down arrows above/below each number
 
 HIGH
-- dynamically enable/disable the spinner buttons as the range changes
-- don't allow rise/run=0/0, snap rise above or below the intercept on endDrag
 
 MEDIUM
 - max width of spinners needs to be based the length of the axis ranges, not the min/max values
