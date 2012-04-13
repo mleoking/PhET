@@ -1,3 +1,4 @@
+# 0.00.05 (63387) Apr 12, 2012
 4/12/12 tweak initial location of point tools
 4/12/12 tweak the layout of spinner-based interactive equation
 4/12/12 set correct sign (+,-) for intercept in interactive equation
