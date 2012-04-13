@@ -19,6 +19,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.Mongo;
+import com.mongodb.MongoException;
 import com.mongodb.WriteResult;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -72,9 +73,16 @@ public class MongoLog implements Log {
         DB database = mongo.getDB( dbName );
 
         // Authenticate.
-        boolean auth = database.authenticate( "phetsimclient", ( MER + SimSharingManager.MONGO_PASSWORD + "" + ( 2 * 2 * 2 ) + "ss0O88723otbubaoue" ).toCharArray() );
-        if ( !auth ) {
-            new RuntimeException( "Authentication failed" ).printStackTrace();
+        try {
+            boolean auth = database.authenticate( "phetsimclient", ( MER + SimSharingManager.MONGO_PASSWORD + "" + ( 2 * 2 * 2 ) + "ss0O88723otbubaoue" ).toCharArray() );
+            if ( !auth ) {
+                new RuntimeException( "Authentication failed" ).printStackTrace();
+            }
+        }
+
+        //A MongoException.Network indicates a failure to reach mongo for the authentication attempt, and hence there is probably no internet connection.  See #3304
+        catch ( MongoException.Network exception ) {
+            System.err.println( "Failed to connect to mongo during authentication.  Perhaps there is no internet connection." );
         }
 
         //One collection per session, lets us easily iterate and add messages per session.
