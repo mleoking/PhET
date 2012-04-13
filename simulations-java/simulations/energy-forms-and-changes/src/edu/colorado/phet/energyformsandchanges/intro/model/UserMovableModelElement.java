@@ -28,7 +28,6 @@ public abstract class UserMovableModelElement extends ModelElement {
     private VoidFunction1<HorizontalSurface> surfaceMotionObserver = new VoidFunction1<HorizontalSurface>() {
         public void apply( final HorizontalSurface horizontalSurface ) {
             final ImmutableVector2D value = new ImmutableVector2D( horizontalSurface.getCenterX(), horizontalSurface.yPos );
-            System.out.println( "value = " + value );
             position.set( value );
         }
     };
