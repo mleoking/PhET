@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents;
 import edu.colorado.phet.fluidpressureandflow.flow.model.FluxMeter;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PClip;
@@ -62,7 +63,7 @@ public class FluxMeterHoopNode extends PNode {
                 fluxMeter.pipe.addShapeChangeListener( updateShape );
 
                 //Make it so the user can drag the flux meter back and forth along the pipe
-                addInputEventListener( new FluxMeterDragHandler( transform, fluxMeter, this ) );
+                addInputEventListener( new FluxMeterDragHandler( UserComponents.fluxMeterHoop, transform, fluxMeter, this ) );
 
                 //Developer control for changing the color
                 if ( showColorChooser ) {

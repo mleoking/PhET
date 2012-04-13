@@ -32,8 +32,4 @@ public class EnglishMetricControlPanel extends PhetTitledPanel {
         }
         SwingUtils.setForegroundDeep( this, FluidPressureControlPanel.FOREGROUND );
     }
-
-    @Override public void doLayout() {
-        super.doLayout();
-    }
 }

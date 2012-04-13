@@ -1,3 +1,4 @@
+Added messages for the flux meter
 Added messages for handles
 Fixed crash under 1.5 related to BoxLayout, see #3301
 Removed @Override for interfaces

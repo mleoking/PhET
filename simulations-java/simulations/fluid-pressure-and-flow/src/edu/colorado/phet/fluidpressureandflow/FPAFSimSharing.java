@@ -59,6 +59,8 @@ public class FPAFSimSharing {
         pipeCrossSectionHandle5,
         pipeCrossSectionHandle6,
         pipeCrossSectionHandle7,
+
+        fluxMeterPanel, fluxMeterHoop
     }
 
     public enum ParameterKeys implements IParameterKey {

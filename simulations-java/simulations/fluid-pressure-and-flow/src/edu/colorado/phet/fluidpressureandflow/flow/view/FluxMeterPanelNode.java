@@ -21,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Unit;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.colorado.phet.fluidpressureandflow.flow.model.FluxMeter;
@@ -91,7 +92,7 @@ public class FluxMeterPanelNode extends PNode {
             fluxMeter.pipe.addShapeChangeListener( updateShape );
 
             //Make it so the user can drag the flux meter back and forth along the pipe
-            addInputEventListener( new FluxMeterDragHandler( transform, fluxMeter, this ) );
+            addInputEventListener( new FluxMeterDragHandler( UserComponents.fluxMeterPanel, transform, fluxMeter, this ) );
         }} );
 
         //Only show the flux meter if the user has selected it in the control panel, and it has the same units as the set selected by the user
