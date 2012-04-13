@@ -21,7 +21,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentType
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.DynamicCursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -40,13 +39,6 @@ public class SpinnerButtonNode<T> extends PNode {
     private final BooleanProperty pressed = new BooleanProperty( false );
     private boolean entered = false;
     private boolean spinContinuously = false;
-
-    // Spinner button that is always enabled.
-    public SpinnerButtonNode( IUserComponent userComponent,
-                              Image unpressedImage, Image pressedImage, Image disabledImage,
-                              Property<T> value, Function0<T> newValueFunction ) {
-        this( userComponent, unpressedImage, pressedImage, disabledImage, value, newValueFunction, new BooleanProperty( true ) );
-    }
 
     /**
      * Constructor
