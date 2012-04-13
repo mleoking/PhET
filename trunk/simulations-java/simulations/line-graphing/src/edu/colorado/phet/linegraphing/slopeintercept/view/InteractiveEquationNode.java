@@ -81,22 +81,22 @@ class InteractiveEquationNode extends PhetPNode {
 
         // layout
         {
-            final double xSpacing = 10;
+            // NOTE: x spacing varies and was tweaked to look good
             final double ySpacing = 6;
             yNode.setOffset( 0, 0 );
-            equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + xSpacing,
+            equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + 10,
                                   yNode.getYOffset() );
-            lineNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + xSpacing,
+            lineNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + 10,
                                 equalsNode.getFullBoundsReference().getCenterY() );
             riseNode.setOffset( lineNode.getFullBoundsReference().getMaxX() - riseNode.getFullBoundsReference().getWidth(),
                                 lineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - ySpacing );
             runNode.setOffset( lineNode.getFullBoundsReference().getMaxX() - runNode.getFullBoundsReference().getWidth(),
                                lineNode.getFullBoundsReference().getMinY() + ySpacing );
-            xNode.setOffset( lineNode.getFullBoundsReference().getMaxX() + xSpacing,
+            xNode.setOffset( lineNode.getFullBoundsReference().getMaxX() + 15,
                              yNode.getYOffset() );
-            interceptSignNode.setOffset( xNode.getFullBoundsReference().getMaxX() + xSpacing,
+            interceptSignNode.setOffset( xNode.getFullBoundsReference().getMaxX() + 10,
                                          xNode.getYOffset() );
-            interceptNode.setOffset( interceptSignNode.getFullBoundsReference().getMaxX() + xSpacing,
+            interceptNode.setOffset( interceptSignNode.getFullBoundsReference().getMaxX() + 2,
                                      xNode.getYOffset() );
         }
 

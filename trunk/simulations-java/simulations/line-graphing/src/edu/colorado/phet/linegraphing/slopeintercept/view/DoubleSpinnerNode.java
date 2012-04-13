@@ -13,12 +13,14 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.common.LGResources.Images;
 import edu.colorado.phet.linegraphing.common.view.SpinnerButtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * Spinner for a double value, with up and down arrows.
@@ -27,6 +29,8 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 abstract class DoubleSpinnerNode extends PNode {
+
+    private static final boolean DEBUG_BOUNDS = false;
 
     // Spinner that is color coded for intercept
     public static class InterceptSpinnerNode extends DoubleSpinnerNode {
@@ -120,15 +124,20 @@ abstract class DoubleSpinnerNode extends PNode {
         decrementButton.setOffset( incrementButton.getXOffset(),
                                    textNode.getFullBoundsReference().getCenterY() + 1 );
 
+        // show bounds, for debugging
+        if ( DEBUG_BOUNDS ) {
+            PBounds b = getFullBoundsReference();
+            addChild( new PPath( new Rectangle2D.Double( b.getX(), b.getY(), b.getWidth(), b.getHeight() ) ) );
+        }
+
         // when the value changes, update the display
         final double minusWidth = new PhetPText( "-", font ).getFullBoundsReference().getWidth();
         value.addObserver( new VoidFunction1<Double>() {
             public void apply( Double value ) {
                 // displayed value
-                final double adjustedValue = abs ? Math.abs( value ) : value;
-                textNode.setText( format.format( adjustedValue ) );
+                textNode.setText( format.format( abs ? Math.abs( value ) : value ) );
                  // centered, adjusting for minus sign in negative values
-                final double minusXOffset = adjustedValue < 0 ? ( minusWidth / 2 ) : 0;
+                final double minusXOffset = ( textNode.getText().startsWith( "-" ) ) ? ( minusWidth / 2 ) : 0;
                 textNode.setOffset( ( ( maxWidth - textNode.getFullBoundsReference().getWidth() ) / 2 ) - minusXOffset, textNode.getYOffset() );
             }
         } );
