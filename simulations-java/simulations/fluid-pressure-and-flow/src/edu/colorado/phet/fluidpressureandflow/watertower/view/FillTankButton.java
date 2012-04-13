@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
+import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents;
 import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureControlPanel;
 
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.FILL;
@@ -24,6 +25,7 @@ import static edu.colorado.phet.fluidpressureandflow.watertower.view.WaterTowerC
 public class FillTankButton extends TextButtonNode {
     public FillTankButton( ObservableProperty<Boolean> full, final VoidFunction0 fill, final Property<ImmutableVector2D> panelOffset ) {
         super( FILL, new PhetFont( FLOATING_BUTTON_FONT_SIZE ), FluidPressureControlPanel.BACKGROUND );
+        setUserComponent( UserComponents.fillButton );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 fill.apply();

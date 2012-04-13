@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.piccolophet.nodes.faucet.FaucetNode;
+import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents;
 import edu.colorado.phet.fluidpressureandflow.watertower.model.FaucetFlowRate;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -35,8 +36,8 @@ public class FPAFFaucetNode extends FaucetNode {
         PNode radioButtons = new PSwing( new VerticalLayoutPanel() {{
             //Bring the radio buttons a bit closer together
             setInsets( new Insets( -6, 0, 0, 0 ) );
-            add( new FaucetRadioButton( MANUAL, not( faucetFlowRate.automatic ) ) );
-            add( new FaucetRadioButton( MATCH_LEAKAGE, faucetFlowRate.automatic ) );
+            add( new FaucetRadioButton( UserComponents.faucetManualRadioButton, MANUAL, not( faucetFlowRate.automatic ) ) );
+            add( new FaucetRadioButton( UserComponents.faucetMatchLeakageRadioButton, MATCH_LEAKAGE, faucetFlowRate.automatic ) );
             setBackground( WaterTowerCanvas.TRANSPARENT );
         }} );
         addChild( radioButtons );
