@@ -7,7 +7,6 @@ DESIGN
 SPINNER IDEAS
 - AP's design
 - iOS Picker with swipe gesture
-- fractions buttons above/below numbers, buttons side-by-side
 - small up/down arrows above/below each number
 
 HIGH

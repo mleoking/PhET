@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.slopeintercept.view;
 
+import java.awt.Button;
 import java.awt.Image;
 import java.awt.geom.Rectangle2D;
 import java.text.NumberFormat;
@@ -29,40 +30,61 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 abstract class DoubleSpinnerNode extends PNode {
 
+    public static enum ButtonsLocation {RIGHT, TOP, BOTTOM}
+
     private static final boolean DEBUG_BOUNDS = false;
 
-    // Spinner that is color coded for intercept
+    private static final ButtonsLocation RISE_BUTTONS_LOCATION = ButtonsLocation.TOP;
+    private static final ButtonsLocation RUN_BUTTONS_LOCATION = ButtonsLocation.BOTTOM;
+    private static final ButtonsLocation INTERCEPT_BUTTONS_LOCATION = ButtonsLocation.TOP;
+
+    // Intercept spinner
     public static class InterceptSpinnerNode extends DoubleSpinnerNode {
         public InterceptSpinnerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
             super( userComponent,
                    Images.SPINNER_UP_UNPRESSED_YELLOW, Images.SPINNER_UP_PRESSED_YELLOW, Images.SPINNER_UP_GRAY,
                    Images.SPINNER_DOWN_UNPRESSED_YELLOW, Images.SPINNER_DOWN_PRESSED_YELLOW, Images.SPINNER_DOWN_GRAY,
-                   value, range, font, format, true /* abs */ );
+                   value, range, font, format, true /* abs */, INTERCEPT_BUTTONS_LOCATION );
         }
     }
 
-    // Spinner that is color coded for slope
-    public static class SlopeSpinnerNode extends DoubleSpinnerNode {
-        public SlopeSpinnerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
+    // Rise spinner
+    public static class RiseSpinnerNode extends SlopeSpinnerNode {
+        public  RiseSpinnerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
+            super(userComponent, value, range, font, format, RISE_BUTTONS_LOCATION );
+        }
+    }
+
+    // Run spinner
+    public static class RunSpinnerNode extends SlopeSpinnerNode {
+        public  RunSpinnerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
+            super(userComponent, value, range, font, format, RUN_BUTTONS_LOCATION );
+        }
+    }
+
+    // Base class that is color-coded for slope
+    private abstract static class SlopeSpinnerNode extends DoubleSpinnerNode {
+        public SlopeSpinnerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format, ButtonsLocation buttonsLocation ) {
             super( userComponent,
                    Images.SPINNER_UP_UNPRESSED_GREEN, Images.SPINNER_UP_PRESSED_GREEN, Images.SPINNER_UP_GRAY,
                    Images.SPINNER_DOWN_UNPRESSED_GREEN, Images.SPINNER_DOWN_PRESSED_GREEN, Images.SPINNER_DOWN_GRAY,
-                   value, range, font, format );
+                   value, range, font, format, buttonsLocation );
         }
     }
 
     public DoubleSpinnerNode( IUserComponent userComponent,
                               Image upUnpressedImage, Image upPressedImage, Image upDisabledImage,
                               Image downUnpressedImage, Image downPressedImage, Image downDisabledImage,
-                              Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
+                              Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format, ButtonsLocation buttonsLocation ) {
         this( userComponent, upUnpressedImage, upPressedImage, upDisabledImage, downUnpressedImage, downPressedImage, downDisabledImage,
-              value, range, font, format, false /* abs */ );
+              value, range, font, format, false /* abs */, buttonsLocation );
     }
 
     public DoubleSpinnerNode( IUserComponent userComponent,
                               final Image upUnpressedImage, final Image upPressedImage, final Image upDisabledImage,
                               final Image downUnpressedImage, final Image downPressedImage, final Image downDisabledImage,
-                              final Property<Double> value, final Property<DoubleRange> range, PhetFont font, final NumberFormat format, final boolean abs ) {
+                              final Property<Double> value, final Property<DoubleRange> range, PhetFont font, final NumberFormat format, final boolean abs,
+                              ButtonsLocation buttonsLocation ) {
 
         SpinnerButtonNode incrementButton = new SpinnerButtonNode<Double>( UserComponentChain.chain( userComponent, "up" ),
                                                                    upUnpressedImage, upPressedImage, upDisabledImage,
@@ -118,10 +140,31 @@ abstract class DoubleSpinnerNode extends PNode {
         // layout
         horizontalStrutNode.setOffset( 0, 0 );
         textNode.setOffset( maxWidth - textNode.getFullBoundsReference().getWidth(), 0 );
-        incrementButton.setOffset( textNode.getFullBoundsReference().getMaxX() + 3,
-                                   textNode.getFullBoundsReference().getCenterY() - incrementButton.getFullBoundsReference().getHeight() - 1 );
-        decrementButton.setOffset( incrementButton.getXOffset(),
-                                   textNode.getFullBoundsReference().getCenterY() + 1 );
+        if ( buttonsLocation == ButtonsLocation.RIGHT ) {
+            incrementButton.setOffset( textNode.getFullBoundsReference().getMaxX() + 3,
+                                       textNode.getFullBoundsReference().getCenterY() - incrementButton.getFullBoundsReference().getHeight() - 1 );
+            decrementButton.setOffset( incrementButton.getXOffset(),
+                                       textNode.getFullBoundsReference().getCenterY() + 1 );
+        }
+        else if ( buttonsLocation == ButtonsLocation.TOP ) {
+            final double buttonXSpacing = 2;
+            final double buttonYSpacing = 2;
+            incrementButton.setOffset( ( maxWidth / 2 ) - incrementButton.getFullBoundsReference().getWidth() - buttonXSpacing,
+                                       textNode.getFullBoundsReference().getMinY() - incrementButton.getFullBoundsReference().getHeight() - buttonYSpacing );
+            decrementButton.setOffset( ( maxWidth / 2 ) + buttonXSpacing,
+                                       incrementButton.getYOffset() );
+        }
+        else if ( buttonsLocation == ButtonsLocation.BOTTOM ) {
+            final double buttonXSpacing = 2;
+            final double buttonYSpacing = 2;
+            incrementButton.setOffset( ( maxWidth / 2 ) - incrementButton.getFullBoundsReference().getWidth() - buttonXSpacing,
+                                       textNode.getFullBoundsReference().getMaxY() + buttonYSpacing );
+            decrementButton.setOffset( ( maxWidth / 2 ) + buttonXSpacing,
+                                       incrementButton.getYOffset() );
+        }
+        else {
+            throw new IllegalArgumentException( "unsupported location for spinner buttons: " + buttonsLocation );
+        }
 
         // show bounds, for debugging
         if ( DEBUG_BOUNDS ) {
