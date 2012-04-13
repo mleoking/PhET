@@ -1,11 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.flow.view;
 
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.fluidpressureandflow.flow.model.FluxMeter;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
@@ -15,7 +16,7 @@ import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
  *
  * @author Sam Reid
  */
-public class FluxMeterDragHandler extends PBasicInputEventHandler {
+public class FluxMeterDragHandler extends SimSharingDragHandler {
 
     private final ModelViewTransform transform;
     private final FluxMeter fluxMeter;
@@ -30,13 +31,15 @@ public class FluxMeterDragHandler extends PBasicInputEventHandler {
     //This is only important since FluxMeterDragHandler is used in more than one place
     private final CursorHandler cursorHandler = new CursorHandler();
 
-    public FluxMeterDragHandler( ModelViewTransform transform, FluxMeter fluxMeter, PNode node ) {
+    public FluxMeterDragHandler( IUserComponent component, ModelViewTransform transform, FluxMeter fluxMeter, PNode node ) {
+        super( component, true );
         this.transform = transform;
         this.fluxMeter = fluxMeter;
         this.node = node;
     }
 
-    @Override public void mouseDragged( PInputEvent event ) {
+    @Override protected void drag( final PInputEvent event ) {
+        super.drag( event );
         cursorHandler.mouseDragged( event );
         final double targetX = fluxMeter.x.get() + transform.viewToModelDeltaX( event.getDeltaRelativeTo( node.getParent() ).getWidth() );
 
@@ -48,18 +51,22 @@ public class FluxMeterDragHandler extends PBasicInputEventHandler {
 
     //Override methods that CursorHandler must receive to update the cursor
     @Override public void mouseEntered( PInputEvent event ) {
+        super.mouseEntered( event );
         cursorHandler.mouseEntered( event );
     }
 
     @Override public void mousePressed( PInputEvent event ) {
+        super.mousePressed( event );
         cursorHandler.mousePressed( event );
     }
 
     @Override public void mouseReleased( PInputEvent event ) {
+        super.mouseReleased( event );
         cursorHandler.mouseReleased( event );
     }
 
     @Override public void mouseExited( PInputEvent event ) {
+        super.mouseExited( event );
         cursorHandler.mouseExited( event );
     }
 }
