@@ -11,7 +11,7 @@ SPINNER IDEAS
 - small up/down arrows above/below each number
 
 HIGH
-- dynamically set the rise and intercept ranges, so that rise + intercept is constrained to the bounds of the graph (see IntroModel)
+- dynamically enable/disable the spinner buttons as the range changes
 
 MEDIUM
 - clean up standard line icons (no equation on line, shorter line)
