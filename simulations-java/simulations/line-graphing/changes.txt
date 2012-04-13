@@ -1,3 +1,4 @@
+4/12/12 dynamically set the rise and intercept ranges, so that rise + intercept is constrained to the bounds of the graph
 4/12/12 set up infrastructure for dynamically adjusting rise and intercept ranges
 4/11/12 fix: when equation is minimized, equation on graphed line should be hidden, not the entire line
 4/11/12 correct accidental use of Math.round when MathUtil.round was intended

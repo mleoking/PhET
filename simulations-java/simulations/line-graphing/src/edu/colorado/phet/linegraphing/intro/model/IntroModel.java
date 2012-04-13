@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
-import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.LGColors;
 
@@ -39,9 +39,9 @@ public class IntroModel implements Resettable {
 
         mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 1.2 * GRID_VIEW_UNITS / 2, 1.25 * GRID_VIEW_UNITS / 2 ), MVT_SCALE, -MVT_SCALE ); // y is inverted
 
-        riseRange = new Property<DoubleRange>( new DoubleRange( -5, 5, 2 ) );
+        riseRange = new Property<DoubleRange>( new DoubleRange( -10, 10, 2 ) );
         runRange = new Property<DoubleRange>( new DoubleRange( -10, 10, 2 ) );
-        interceptRange = new Property<DoubleRange>( new DoubleRange( -5, 5, 2 ) );
+        interceptRange = new Property<DoubleRange>( new DoubleRange( -10, 10, 2 ) );
 
         interactiveLine = new Property<SlopeInterceptLine>( new SlopeInterceptLine( riseRange.get().getDefault(), runRange.get().getDefault(), interceptRange.get().getDefault(), LGColors.INTERACTIVE_LINE ) );
         savedLines = new ObservableList<SlopeInterceptLine>();
@@ -52,12 +52,14 @@ public class IntroModel implements Resettable {
         pointTool1 = new PointTool( new ImmutableVector2D( X_RANGE.getMax() + 2, Y_RANGE.getMin() ), interactiveLine, savedLines, standardLines );
         pointTool2 = new PointTool( pointTool1.location.get(), interactiveLine, savedLines, standardLines );
 
-        RichSimpleObserver rangeUpdater = new RichSimpleObserver() {
-            @Override public void update() {
-                //TODO dynamically set the rise and intercept ranges so that rise + intercept is constrained to the bounds of the graph
+        // Dynamically set the rise and intercept ranges so that rise + intercept is constrained to the bounds of the graph
+        interactiveLine.addObserver( new VoidFunction1<SlopeInterceptLine>() {
+            public void apply( SlopeInterceptLine line ) {
+                riseRange.set( new DoubleRange( graph.minY - line.intercept, graph.maxY - line.intercept ) );
+                interceptRange.set( new DoubleRange( line.rise >= 0 ? graph.minY : graph.minY - line.rise,
+                                                     line.rise <= 0 ? graph.maxY : graph.maxY - line.rise ) );
             }
-        };
-        rangeUpdater.observe( riseRange, runRange, interceptRange );
+        } );
     }
 
     public void reset() {
