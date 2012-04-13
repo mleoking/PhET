@@ -61,7 +61,7 @@ abstract class DoubleSpinnerNode extends PNode {
                               final Image downUnpressedImage, final Image downPressedImage, final Image downDisabledImage,
                               final Property<Double> value, final Property<DoubleRange> range, PhetFont font, final NumberFormat format, final boolean abs ) {
 
-        SpinnerButtonNode incrementButton = new SpinnerButtonNode( UserComponentChain.chain( userComponent, "up" ),
+        SpinnerButtonNode incrementButton = new SpinnerButtonNode<Double>( UserComponentChain.chain( userComponent, "up" ),
                                                                    upUnpressedImage, upPressedImage, upDisabledImage,
                                                                    value,
                                                                    // increment the value
@@ -77,7 +77,7 @@ abstract class DoubleSpinnerNode extends PNode {
                                                                        }
                                                                    }, value, range ) );
 
-        SpinnerButtonNode decrementButton = new SpinnerButtonNode( UserComponentChain.chain( userComponent, "down" ),
+        SpinnerButtonNode decrementButton = new SpinnerButtonNode<Double>( UserComponentChain.chain( userComponent, "down" ),
                                                                    downUnpressedImage, downPressedImage, downDisabledImage,
                                                                    value,
                                                                    // decrement the value
