@@ -6,6 +6,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.linegraphing.game.GameModule;
 import edu.colorado.phet.linegraphing.intro.IntroModule;
+import edu.colorado.phet.linegraphing.pointslope.PointSlopeModule;
 
 /**
  * The "Line Graphing" simulation.
@@ -17,6 +18,7 @@ public class LineGraphingApplication extends PiccoloPhetApplication {
     public LineGraphingApplication( PhetApplicationConfig config ) {
         super( config );
         addModule( new IntroModule() );
+        addModule( new PointSlopeModule() );
         addModule( new GameModule() );
     }
 
