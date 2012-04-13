@@ -5,7 +5,7 @@ import java.awt.Color;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.linegraphing.LGColors;
+import edu.colorado.phet.linegraphing.common.LGColors;
 
 /**
  * Model of an immutable line, using slope-intercept form, y=mx+b.

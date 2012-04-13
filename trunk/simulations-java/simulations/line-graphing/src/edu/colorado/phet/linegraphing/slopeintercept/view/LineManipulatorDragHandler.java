@@ -11,8 +11,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
-import edu.colorado.phet.linegraphing.LGColors;
-import edu.colorado.phet.linegraphing.LGSimSharing.ParameterKeys;
+import edu.colorado.phet.linegraphing.common.LGColors;
+import edu.colorado.phet.linegraphing.common.LGSimSharing.ParameterKeys;
 import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptLine;
 import edu.umd.cs.piccolo.event.PInputEvent;
 

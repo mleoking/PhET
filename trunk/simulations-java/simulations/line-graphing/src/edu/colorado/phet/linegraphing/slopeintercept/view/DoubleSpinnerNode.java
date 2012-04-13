@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
-import edu.colorado.phet.linegraphing.LGResources.Images;
+import edu.colorado.phet.linegraphing.common.LGResources.Images;
 import edu.colorado.phet.linegraphing.common.view.SpinnerButtonNode.DecrementDoubleSpinnerButtonNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerButtonNode.IncrementDoubleSpinnerButtonNode;
 import edu.umd.cs.piccolo.PNode;
