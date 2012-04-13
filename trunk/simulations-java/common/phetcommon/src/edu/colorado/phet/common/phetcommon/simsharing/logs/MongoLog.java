@@ -82,7 +82,7 @@ public class MongoLog implements Log {
 
         //A MongoException.Network indicates a failure to reach mongo for the authentication attempt, and hence there is probably no internet connection.  See #3304
         catch ( MongoException.Network exception ) {
-            System.err.println( "Failed to connect to mongo during authentication.  Perhaps there is no internet connection." );
+            LOGGER.warning( "Failed to connect to mongo during authentication.  Perhaps there is no internet connection." );
         }
 
         //One collection per session, lets us easily iterate and add messages per session.
