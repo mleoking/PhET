@@ -1,8 +1,8 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.linegraphing.game.view;
+package edu.colorado.phet.linegraphing.linegame.view;
 
 import edu.colorado.phet.linegraphing.common.view.LGCanvas;
-import edu.colorado.phet.linegraphing.game.model.LineGameModel;
+import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 
 /**
  * Canvas for the "Line Game" module.

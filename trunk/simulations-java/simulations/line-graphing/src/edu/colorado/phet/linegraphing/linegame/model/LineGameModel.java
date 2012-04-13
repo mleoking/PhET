@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.linegraphing.game.model;
+package edu.colorado.phet.linegraphing.linegame.model;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 
