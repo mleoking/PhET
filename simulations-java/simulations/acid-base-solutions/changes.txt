@@ -1,3 +1,4 @@
+4/12/12 delete study flavor from build.properties
 # 1.02.08 (60474) Jan 19, 2012
 # 1.02.07 (60468) Jan 19, 2012
 # 1.02.06 (60435) Jan 18, 2012

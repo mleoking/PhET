@@ -1,3 +1,4 @@
+4/12/12 delete study flavor from build.properties
 # 2.07.01 (60398) Jan 18, 2012
 1/17/12 #3124, first dev version with data collection features
 1/17/12 #3214, create SimSharingConfig and add entry to build.properties
