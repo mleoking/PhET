@@ -13,6 +13,7 @@ SPINNER IDEAS
 HIGH
 
 MEDIUM
+- create spinner buttons programmatically, so they look more like line manipulators
 - clean up standard line icons (no equation on line, shorter line)
 - don't like all the MathUtil.round that's going on
 
