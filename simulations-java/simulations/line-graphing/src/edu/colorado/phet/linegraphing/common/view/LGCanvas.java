@@ -1,7 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.common.view;
 
-import java.awt.Color;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
