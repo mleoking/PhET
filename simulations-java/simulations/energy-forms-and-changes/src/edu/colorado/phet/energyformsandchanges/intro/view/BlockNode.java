@@ -21,8 +21,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Piccolo node that represents a block in the view.  The blocks in the model
- * are two dimensional, and this class gives them some perspective in order to
- * make them appear to be three dimensional.
+ * are 2D, and this class gives them some perspective in order to make them
+ * appear to be 3D.
  *
  * @author John Blanco
  */
