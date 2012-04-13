@@ -5,6 +5,11 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -48,7 +53,12 @@ public class GrabHandle extends PNode {
 
             //Make it draggable, but only up and down
             addInputEventListener( new CursorHandler() );
-            addInputEventListener( new RelativeDragHandler( this, transform, controlPoint.point, constraint ) );
+            addInputEventListener( new RelativeDragHandler( this, transform, controlPoint.point, constraint ) {
+                @Override protected void sendMessage( final Point2D modelPoint ) {
+                    super.sendMessage( modelPoint );
+                    SimSharingManager.sendUserMessage( controlPoint.component, UserComponentTypes.sprite, UserActions.drag, ParameterSet.parameterSet( ParameterKeys.x, modelPoint.getX() ).with( ParameterKeys.y, modelPoint.getY() ) );
+                }
+            } );
         }} );
     }
 }

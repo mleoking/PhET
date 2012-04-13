@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -21,7 +22,7 @@ import static edu.colorado.phet.fluidpressureandflow.flow.view.PipeCrossSectionC
  * @author Sam Reid
  */
 public class PipeOffsetControl extends PNode {
-    public PipeOffsetControl( final ModelViewTransform transform, final PipeCrossSection pipePosition, final double offsetX ) {
+    public PipeOffsetControl( final IUserComponent component, final ModelViewTransform transform, final PipeCrossSection pipePosition, final double offsetX ) {
         final double x = pipePosition.getX() + offsetX;
         final Property<ImmutableVector2D> point = new Property<ImmutableVector2D>( new ImmutableVector2D( x, pipePosition.getCenterY() ) );
         point.addObserver( new SimpleObserver() {
@@ -41,7 +42,7 @@ public class PipeOffsetControl extends PNode {
         pipePosition.bottom.addObserver( updateCenter );
 
         //Add the handle that the user can use to drag the pipe up and down
-        addChild( new GrabHandle( transform, new PipeControlPoint( point ),
+        addChild( new GrabHandle( transform, new PipeControlPoint( component, point ),
                                   new Function1<Point2D, Point2D>() {
                                       public Point2D apply( Point2D proposedDragPoint ) {
                                           return new Point2D.Double( x, MathUtil.clamp( MIN_DRAG_Y + DISTANCE_THRESHOLD, proposedDragPoint.getY(), MAX_DRAG_Y - DISTANCE_THRESHOLD ) );

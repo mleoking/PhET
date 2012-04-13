@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.spline.CubicSpline2D;
 import edu.colorado.phet.fluidpressureandflow.flow.view.PipeCrossSectionControl;
 
+import static edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents.*;
 import static java.util.Collections.min;
 
 /**
@@ -44,13 +45,13 @@ public class Pipe {
 
     //Creates a pipe with a default shape.
     public Pipe() {
-        controlCrossSections.add( new PipeCrossSection( -6, -3, -1 ) );
-        controlCrossSections.add( new PipeCrossSection( -4, -3, -1 ) );
-        controlCrossSections.add( new PipeCrossSection( -2, -3, -1 ) );
-        controlCrossSections.add( new PipeCrossSection( 0, -3, -1 ) );
-        controlCrossSections.add( new PipeCrossSection( 2, -3, -1 ) );
-        controlCrossSections.add( new PipeCrossSection( 4, -3, -1 ) );
-        controlCrossSections.add( new PipeCrossSection( 6, -3, -1 ) );
+        controlCrossSections.add( new PipeCrossSection( pipeCrossSectionHandle1, -6, -3, -1 ) );
+        controlCrossSections.add( new PipeCrossSection( pipeCrossSectionHandle2, -4, -3, -1 ) );
+        controlCrossSections.add( new PipeCrossSection( pipeCrossSectionHandle3, -2, -3, -1 ) );
+        controlCrossSections.add( new PipeCrossSection( pipeCrossSectionHandle4, 0, -3, -1 ) );
+        controlCrossSections.add( new PipeCrossSection( pipeCrossSectionHandle5, 2, -3, -1 ) );
+        controlCrossSections.add( new PipeCrossSection( pipeCrossSectionHandle6, 4, -3, -1 ) );
+        controlCrossSections.add( new PipeCrossSection( pipeCrossSectionHandle7, 6, -3, -1 ) );
         for ( PipeCrossSection controlPoint : controlCrossSections ) {
             controlPoint.addObserver( new SimpleObserver() {
                 public void update() {
@@ -86,9 +87,9 @@ public class Pipe {
     private ArrayList<PipeCrossSection> createSpline() {
         ArrayList<PipeCrossSection> pipePositions = new ArrayList<PipeCrossSection>();
         double dx = 0.2;//extend water flow so it looks like it enters the pipe cutaway
-        pipePositions.add( new PipeCrossSection( getMinX() - dx, getBottomLeft().getY(), getTopLeft().getY() ) );
+        pipePositions.add( new PipeCrossSection( null, getMinX() - dx, getBottomLeft().getY(), getTopLeft().getY() ) );
         pipePositions.addAll( this.controlCrossSections );
-        pipePositions.add( new PipeCrossSection( getMaxX() + dx, getBottomRight().getY(), getTopRight().getY() ) );
+        pipePositions.add( new PipeCrossSection( null, getMaxX() + dx, getBottomRight().getY(), getTopRight().getY() ) );
         return spline( pipePositions );
     }
 
@@ -122,7 +123,7 @@ public class Pipe {
                 topY = center + min / 2;
                 bottomY = center - min / 2;
             }
-            spline.add( new PipeCrossSection( ( topPt.getX() + bottomPt.getX() ) / 2, bottomY, topY ) );
+            spline.add( new PipeCrossSection( null, ( topPt.getX() + bottomPt.getX() ) / 2, bottomY, topY ) );
         }
         return spline;
     }
@@ -187,7 +188,7 @@ public class Pipe {
         PipeCrossSection next = getPipePositionAfter( x );
         double top = new Function.LinearFunction( previous.getTop(), next.getTop() ).evaluate( x );
         double bottom = new Function.LinearFunction( previous.getBottom(), next.getBottom() ).evaluate( x );
-        return new PipeCrossSection( x, bottom, top );
+        return new PipeCrossSection( null, x, bottom, top );
     }
 
     //Find the y-value for the specified x-value and fraction (0=bottom, 1=top) of the pipe

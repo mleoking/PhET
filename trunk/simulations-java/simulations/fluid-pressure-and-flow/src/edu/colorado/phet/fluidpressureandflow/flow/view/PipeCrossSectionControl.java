@@ -5,11 +5,13 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents;
 import edu.colorado.phet.fluidpressureandflow.flow.model.PipeControlPoint;
 import edu.colorado.phet.fluidpressureandflow.flow.model.PipeCrossSection;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
 
 /**
  * Control for the user to deform the pipe vertically.
@@ -31,8 +33,8 @@ public class PipeCrossSectionControl extends PNode {
     public static final double MAX_DRAG_Y = 0;
 
     public PipeCrossSectionControl( final ModelViewTransform transform, final PipeCrossSection pipePosition ) {
-        final PipeControlPoint top = new PipeControlPoint( pipePosition.top );
-        final PipeControlPoint bottom = new PipeControlPoint( pipePosition.bottom );
+        final PipeControlPoint top = new PipeControlPoint( chain( pipePosition.component, UserComponents.top ), pipePosition.top );
+        final PipeControlPoint bottom = new PipeControlPoint( chain( pipePosition.component, UserComponents.bottom ), pipePosition.bottom );
 
         Function1<Point2D, Point2D> bottomConstraint = new Function1<Point2D, Point2D>() {
             public Point2D apply( Point2D bottomLocation ) {

@@ -5,6 +5,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -19,8 +20,10 @@ public class PipeCrossSection {
     //Top and bottom end points on the cross section
     public final Property<ImmutableVector2D> top;
     public final Property<ImmutableVector2D> bottom;
+    public final IUserComponent component;
 
-    public PipeCrossSection( double x, double yBottom, double yTop ) {
+    public PipeCrossSection( IUserComponent component, double x, double yBottom, double yTop ) {
+        this.component = component;
         top = new Property<ImmutableVector2D>( new ImmutableVector2D( x, yTop ) );
         bottom = new Property<ImmutableVector2D>( new ImmutableVector2D( x, yBottom ) );
     }

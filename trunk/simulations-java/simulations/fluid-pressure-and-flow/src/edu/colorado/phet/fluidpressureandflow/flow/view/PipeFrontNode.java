@@ -9,6 +9,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents;
 import edu.colorado.phet.fluidpressureandflow.flow.model.Pipe;
 import edu.colorado.phet.fluidpressureandflow.flow.model.PipeCrossSection;
 import edu.umd.cs.piccolo.PNode;
@@ -80,8 +81,8 @@ public class PipeFrontNode extends PNode {
 
         //Also allow the user to translate the left and right sides up and down
         double offsetX = 0.6;
-        addChild( new PipeOffsetControl( transform, pipe.getControlCrossSections().get( 0 ), -offsetX ) );
-        addChild( new PipeOffsetControl( transform, pipe.getControlCrossSections().get( pipe.getControlCrossSections().size() - 1 ), offsetX ) );
+        addChild( new PipeOffsetControl( UserComponents.leftPipeHandle, transform, pipe.getControlCrossSections().get( 0 ), -offsetX ) );
+        addChild( new PipeOffsetControl( UserComponents.rightPipeHandle, transform, pipe.getControlCrossSections().get( pipe.getControlCrossSections().size() - 1 ), offsetX ) );
     }
 
     public double getPipeRightViewHeight() {
