@@ -27,7 +27,6 @@ public class SlopeInterceptCanvas extends LGCanvas implements Resettable {
     private final LineGraphNode graphNode;
 
     public SlopeInterceptCanvas( final SlopeInterceptModel model ) {
-        setBackground( new Color( 255, 255, 225 ) );
 
         graphNode = new LineGraphNode( model.graph, model.mvt, model.interactiveLine, model.savedLines, model.standardLines,
                                        model.riseRange, model.runRange, model.interceptRange,
