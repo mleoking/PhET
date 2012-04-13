@@ -123,7 +123,7 @@ abstract class DoubleSpinnerNode extends PNode {
         value.addObserver( new VoidFunction1<Double>() {
             public void apply( Double value ) {
                 textNode.setText( format.format( abs ? Math.abs( value ) : value ) );
-                textNode.setOffset( maxWidth - textNode.getFullBoundsReference().getWidth(), textNode.getYOffset() );
+                textNode.setOffset( ( maxWidth - textNode.getFullBoundsReference().getWidth() ) / 2, textNode.getYOffset() ); // centered
             }
         } );
     }

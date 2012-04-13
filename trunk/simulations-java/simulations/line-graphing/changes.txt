@@ -1,3 +1,4 @@
+4/12/12 center value in spinner
 4/12/12 don't allow slope and intercept to overlap, snap rise towards the origin (above or below intercept)
 4/12/12 shrink the grid a bit, so that there's a margin around it for rise/run brackets
 4/12/12 dynamically enable/disable the spinner buttons as the range changes
