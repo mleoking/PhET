@@ -4,8 +4,8 @@ package edu.colorado.phet.linegraphing;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.linegraphing.game.GameModule;
-import edu.colorado.phet.linegraphing.intro.IntroModule;
+import edu.colorado.phet.linegraphing.game.LineGameModule;
+import edu.colorado.phet.linegraphing.intro.SlopeInterceptModule;
 import edu.colorado.phet.linegraphing.pointslope.PointSlopeModule;
 
 /**
@@ -17,9 +17,9 @@ public class LineGraphingApplication extends PiccoloPhetApplication {
 
     public LineGraphingApplication( PhetApplicationConfig config ) {
         super( config );
-        addModule( new IntroModule() );
+        addModule( new SlopeInterceptModule() );
         addModule( new PointSlopeModule() );
-        addModule( new GameModule() );
+        addModule( new LineGameModule() );
     }
 
     public static void main( final String[] args ) {

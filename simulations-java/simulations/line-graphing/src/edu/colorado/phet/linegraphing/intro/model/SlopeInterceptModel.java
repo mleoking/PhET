@@ -18,7 +18,7 @@ import edu.colorado.phet.linegraphing.LGColors;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class IntroModel implements Resettable {
+public class SlopeInterceptModel implements Resettable {
 
     private static final int GRID_VIEW_UNITS = 560; // max dimension of the grid in the view
     private static final int GRID_MODEL_UNITS = 10; // dimensions of the grid in the model
@@ -35,7 +35,7 @@ public class IntroModel implements Resettable {
     public final LineGraph graph;
     public final PointTool pointTool1, pointTool2;
 
-    public IntroModel() {
+    public SlopeInterceptModel() {
 
         mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 1.2 * GRID_VIEW_UNITS / 2, 1.25 * GRID_VIEW_UNITS / 2 ), MVT_SCALE, -MVT_SCALE ); // y is inverted
 

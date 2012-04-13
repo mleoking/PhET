@@ -2,7 +2,6 @@
 package edu.colorado.phet.linegraphing.pointslope.view;
 
 import edu.colorado.phet.linegraphing.common.view.LGCanvas;
-import edu.colorado.phet.linegraphing.game.model.GameModel;
 import edu.colorado.phet.linegraphing.pointslope.model.PointSlopeModel;
 
 /**
