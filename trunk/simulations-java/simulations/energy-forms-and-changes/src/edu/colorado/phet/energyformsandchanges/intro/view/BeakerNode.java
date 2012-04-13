@@ -34,7 +34,7 @@ public class BeakerNode extends PNode {
     private static final Color OUTLINE_COLOR = Color.LIGHT_GRAY;
     private static final double PERSPECTIVE_PROPORTION = 0.2;
     private static final Font LABEL_FONT = new PhetFont( 32, false );
-    private static final boolean SHOW_MODEL_RECT = false;
+    private static final boolean SHOW_MODEL_RECT = true;
     private static final Color BEAKER_COLOR = new Color( 250, 250, 250, 100 );
 
     public BeakerNode( final Beaker beaker, final ModelViewTransform mvt ) {
@@ -45,7 +45,7 @@ public class BeakerNode extends PNode {
 
         // Get a version of the rectangle that defines the beaker size and
         // location in the view.
-        final Rectangle2D beakerViewRect = scaleTransform.createTransformedShape( beaker.getOutlineRect() ).getBounds2D();
+        final Rectangle2D beakerViewRect = scaleTransform.createTransformedShape( Beaker.getRawOutlineRect() ).getBounds2D();
 
         // Create the shapes for the top and bottom of the beaker.  These are
         // ellipses in order to create a 3D-ish look.
@@ -62,8 +62,7 @@ public class BeakerNode extends PNode {
         beakerBody.subtract( new Area( topEllipse ) );
         addChild( new PhetPPath( beakerBody, BEAKER_COLOR, OUTLINE_STROKE, OUTLINE_COLOR ) );
 
-
-        // Add the water TODO this is temp, since size will need to change.
+        // Add the water.  It will adjust its size based on the fluid level.
         addChild( new PerspectiveWaterNode( beakerViewRect, beaker.fluidLevel ) );
 
         // Add the top ellipse.  It is behind the water for proper Z-order behavior.

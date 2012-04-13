@@ -108,6 +108,17 @@ public class Beaker extends UserMovableModelElement {
         fluidLevel.set( newFluidLevel );
     }
 
+
+    /**
+     * Get the untranslated rectangle that defines the shape of the beaker.
+     *
+     * @return
+     */
+    public static final Rectangle2D getRawOutlineRect() {
+        return new Rectangle2D.Double( -WIDTH / 2, 0, WIDTH, HEIGHT );
+    }
+
+
     private void updateSurfaces() {
         surface.set( new HorizontalSurface( new DoubleRange( getOutlineRect().getMinX(), getOutlineRect().getMaxX() ),
                                             getOutlineRect().getMinY(),
