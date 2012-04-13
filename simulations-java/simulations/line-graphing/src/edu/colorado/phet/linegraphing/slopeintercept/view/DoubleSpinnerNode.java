@@ -80,7 +80,7 @@ abstract class DoubleSpinnerNode extends PNode {
         SpinnerButtonNode decrementButton = new SpinnerButtonNode( UserComponentChain.chain( userComponent, "down" ),
                                                                    downUnpressedImage, downPressedImage, downDisabledImage,
                                                                    value,
-                                                                   // increment the value
+                                                                   // decrement the value
                                                                    new Function0<Double>() {
                                                                        public Double apply() {
                                                                            return value.get() - 1;
@@ -116,7 +116,7 @@ abstract class DoubleSpinnerNode extends PNode {
         horizontalStrutNode.setOffset( 0, 0 );
         textNode.setOffset( maxWidth - textNode.getFullBoundsReference().getWidth(), 0 );
         incrementButton.setOffset( textNode.getFullBoundsReference().getMaxX() + 3,
-                            textNode.getFullBoundsReference().getCenterY() - incrementButton.getFullBoundsReference().getHeight() - 1 );
+                                   textNode.getFullBoundsReference().getCenterY() - incrementButton.getFullBoundsReference().getHeight() - 1 );
         decrementButton.setOffset( incrementButton.getXOffset(),
                                    textNode.getFullBoundsReference().getCenterY() + 1 );
 
