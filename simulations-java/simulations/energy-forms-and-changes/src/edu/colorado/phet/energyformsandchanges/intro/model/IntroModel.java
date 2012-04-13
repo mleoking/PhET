@@ -138,6 +138,10 @@ public class IntroModel {
                 movableModelElement.position.set( new ImmutableVector2D( movableModelElement.position.get().getX(), proposedYPos ) );
             }
         }
+
+        // Update the fluid level in the beaker, which could be displaced by
+        // one or more of the blocks.
+        beaker.updateFluidLevel( Arrays.asList( brick.getRect(), leadBlock.getRect() ) );
     }
 
     public List<Shelf> getShelfList() {
