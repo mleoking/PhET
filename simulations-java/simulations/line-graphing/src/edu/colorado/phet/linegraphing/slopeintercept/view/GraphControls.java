@@ -19,12 +19,12 @@ import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Fill;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
-import edu.colorado.phet.linegraphing.LGResources.Strings;
-import edu.colorado.phet.linegraphing.LGSimSharing.UserComponents;
+import edu.colorado.phet.linegraphing.common.LGResources.Strings;
+import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptLine;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.linegraphing.LGSimSharing.UserComponents.*;
+import static edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents.*;
 
 /**
  * Control for various features related to the graph.
