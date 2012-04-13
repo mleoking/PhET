@@ -20,7 +20,7 @@ import edu.colorado.phet.linegraphing.common.LGColors;
  */
 public class SlopeInterceptModel implements Resettable {
 
-    private static final int GRID_VIEW_UNITS = 560; // max dimension of the grid in the view
+    private static final int GRID_VIEW_UNITS = 530; // max dimension of the grid in the view
     private static final int GRID_MODEL_UNITS = 10; // dimensions of the grid in the model
 
     private static final IntegerRange X_RANGE = new IntegerRange( -GRID_MODEL_UNITS, GRID_MODEL_UNITS );
