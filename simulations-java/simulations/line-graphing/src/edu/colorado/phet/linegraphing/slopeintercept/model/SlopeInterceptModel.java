@@ -49,7 +49,7 @@ public class SlopeInterceptModel implements Resettable {
 
         graph = new LineGraph( X_RANGE, Y_RANGE );
 
-        pointTool1 = new PointTool( new ImmutableVector2D( X_RANGE.getMax() + 2, Y_RANGE.getMin() ), interactiveLine, savedLines, standardLines );
+        pointTool1 = new PointTool( new ImmutableVector2D( X_RANGE.getMax() + 2.75, Y_RANGE.getMin() - 2 ), interactiveLine, savedLines, standardLines );
         pointTool2 = new PointTool( pointTool1.location.get(), interactiveLine, savedLines, standardLines );
 
         // Dynamically set the rise and intercept ranges so that rise + intercept is constrained to the bounds of the graph
