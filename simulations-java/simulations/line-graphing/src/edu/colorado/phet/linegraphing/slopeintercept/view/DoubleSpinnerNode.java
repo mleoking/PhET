@@ -5,16 +5,17 @@ import java.awt.Image;
 import java.awt.geom.Rectangle2D;
 import java.text.NumberFormat;
 
+import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.common.LGResources.Images;
-import edu.colorado.phet.linegraphing.common.view.SpinnerButtonNode.DecrementDoubleSpinnerButtonNode;
-import edu.colorado.phet.linegraphing.common.view.SpinnerButtonNode.IncrementDoubleSpinnerButtonNode;
+import edu.colorado.phet.linegraphing.common.view.SpinnerButtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -58,10 +59,39 @@ abstract class DoubleSpinnerNode extends PNode {
     public DoubleSpinnerNode( IUserComponent userComponent,
                               final Image upUnpressedImage, final Image upPressedImage, final Image upDisabledImage,
                               final Image downUnpressedImage, final Image downPressedImage, final Image downDisabledImage,
-                              final Property<Double> value, Property<DoubleRange> range, PhetFont font, final NumberFormat format, final boolean abs ) {
+                              final Property<Double> value, final Property<DoubleRange> range, PhetFont font, final NumberFormat format, final boolean abs ) {
 
-        IncrementDoubleSpinnerButtonNode incrementButton = new IncrementDoubleSpinnerButtonNode( UserComponentChain.chain( userComponent, "up" ), upUnpressedImage, upPressedImage, upDisabledImage, value, range );
-        DecrementDoubleSpinnerButtonNode decrementButton = new DecrementDoubleSpinnerButtonNode( UserComponentChain.chain( userComponent, "down" ), downUnpressedImage, downPressedImage, downDisabledImage, value, range );
+        SpinnerButtonNode incrementButton = new SpinnerButtonNode( UserComponentChain.chain( userComponent, "up" ),
+                                                                   upUnpressedImage, upPressedImage, upDisabledImage,
+                                                                   value,
+                                                                   // increment the value
+                                                                   new Function0<Double>() {
+                                                                       public Double apply() {
+                                                                           return value.get() + 1;
+                                                                       }
+                                                                   },
+                                                                   // enabled the button if value < range.max
+                                                                   new CompositeProperty<Boolean>( new Function0<Boolean>() {
+                                                                       public Boolean apply() {
+                                                                           return value.get() < range.get().getMax();
+                                                                       }
+                                                                   }, value, range ) );
+
+        SpinnerButtonNode decrementButton = new SpinnerButtonNode( UserComponentChain.chain( userComponent, "down" ),
+                                                                   downUnpressedImage, downPressedImage, downDisabledImage,
+                                                                   value,
+                                                                   // increment the value
+                                                                   new Function0<Double>() {
+                                                                       public Double apply() {
+                                                                           return value.get() - 1;
+                                                                       }
+                                                                   },
+                                                                   // enabled the button if value > range.min
+                                                                   new CompositeProperty<Boolean>( new Function0<Boolean>() {
+                                                                       public Boolean apply() {
+                                                                           return value.get() > range.get().getMin();
+                                                                       }
+                                                                   }, value, range ) );
         final PText textNode = new PhetPText( font );
         textNode.setPickable( false );
 
