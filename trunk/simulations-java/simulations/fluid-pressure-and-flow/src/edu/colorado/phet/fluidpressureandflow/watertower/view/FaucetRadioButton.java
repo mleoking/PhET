@@ -2,6 +2,7 @@
 package edu.colorado.phet.fluidpressureandflow.watertower.view;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
@@ -11,8 +12,8 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  * @author Sam Reid
  */
 public class FaucetRadioButton extends PropertyRadioButton<Boolean> {
-    public FaucetRadioButton( String name, SettableProperty<Boolean> selected ) {
-        super( name, selected, true );
+    public FaucetRadioButton( IUserComponent component, String name, SettableProperty<Boolean> selected ) {
+        super( component, name, selected, true );
 
         //Background is transparent since these buttons should be placed directly on the pipe itself without any background
         setBackground( WaterTowerCanvas.TRANSPARENT );
