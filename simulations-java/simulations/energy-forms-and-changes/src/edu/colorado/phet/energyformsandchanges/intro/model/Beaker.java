@@ -2,9 +2,6 @@
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -86,37 +83,29 @@ public class Beaker extends UserMovableModelElement {
      * could be caused by the given rectangles.  This algorithm is strictly
      * two dimensional, even though displacement is more of the 3D concept.
      *
-     * @param rectangles
+     * @param potentiallyDisplacingRectangles
+     *
      */
-    public void updateFluidLevel( List<Rectangle2D> rectangles ) {
+    public void updateFluidLevel( List<Rectangle2D> potentiallyDisplacingRectangles ) {
 
-        // Make a copy of the list so that it can be manipulated.
-        List<Rectangle2D> potentiallyDisplacingRectList = new ArrayList<Rectangle2D>( rectangles );
-
-        // Eliminate any rectangle that has no overlap with the beaker, and
-        // thus couldn't be displacing it.
-        for ( Rectangle2D rect : rectangles ) {
-            if ( !rect.intersects( getOutlineRect() ) ) {
-                potentiallyDisplacingRectList.remove( rect );
+        // Calculate the amount of overlap between the rectangle that
+        // represents the fluid and the displacing rectangles.
+        Rectangle2D fluidRectangle = new Rectangle2D.Double( getOutlineRect().getX(),
+                                                             getOutlineRect().getY(),
+                                                             WIDTH,
+                                                             HEIGHT * fluidLevel.get() );
+        double overlappingArea = 0;
+        for ( Rectangle2D rectangle2D : potentiallyDisplacingRectangles ) {
+            if ( rectangle2D.intersects( fluidRectangle ) ) {
+                Rectangle2D intersection = rectangle2D.createIntersection( fluidRectangle );
+                overlappingArea += intersection.getWidth() * intersection.getHeight();
             }
         }
 
-        if ( potentiallyDisplacingRectList.size() == 0 ) {
-            // No displacement is being caused.
-            fluidLevel.set( NON_DISPLACED_FLUID_LEVEL );
-        }
-        else {
-            // Sort the rectangles so that the lowest ones are first on the list.
-            Collections.sort( potentiallyDisplacingRectList, new Comparator<Rectangle2D>() {
-                public int compare( Rectangle2D r1, Rectangle2D r2 ) {
-                    return Double.compare( r1.getMinY(), r2.getMinY() );
-                }
-            } );
-
-            // Calculate the displacement height of the fluid.
-            // TODO:
-            fluidLevel.set( 1.0 );
-        }
+        // Map the overlap to a new fluid height.  The scaling factor was
+        // empirically determined to look good.
+        double newFluidLevel = Math.min( NON_DISPLACED_FLUID_LEVEL + overlappingArea * 150, 1 );
+        fluidLevel.set( newFluidLevel );
     }
 
     private void updateSurfaces() {
