@@ -1,3 +1,4 @@
+# 0.00.06 (63392) Apr 12, 2012
 4/12/12 try spinner buttons above/below numbers, buttons side-by-side
 # 0.00.05 (63387) Apr 12, 2012
 4/12/12 tweak initial location of point tools
