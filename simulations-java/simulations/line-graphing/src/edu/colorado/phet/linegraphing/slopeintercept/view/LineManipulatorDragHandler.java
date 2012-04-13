@@ -112,7 +112,7 @@ abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
             line.set( new SlopeInterceptLine( rise, run, line.get().intercept, LGColors.INTERACTIVE_LINE ) );
         }
 
-        // Don't allow slope and intercept to overlap, snap rise towards the origin (above or below intercept)
+        // Don't allow slope and intercept to overlap (slope=0/0), snap rise towards the origin (above or below intercept)
         @Override protected void endDrag( PInputEvent event ) {
             super.endDrag( event );
             if ( line.get().rise == 0 && line.get().run == 0 ) {
