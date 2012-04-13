@@ -2,6 +2,10 @@
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -24,12 +28,14 @@ public class Beaker extends UserMovableModelElement {
     private static final double WIDTH = 0.085; // In meters.
     private static final double HEIGHT = WIDTH;
 
+    private static final double NON_DISPLACED_FLUID_LEVEL = 0.3;
+
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
 
     // Property that is used to control the amount of fluid in the beaker.
-    public final Property<Double> fluidLevel = new Property<Double>( 0.3 );
+    public final Property<Double> fluidLevel = new Property<Double>( NON_DISPLACED_FLUID_LEVEL );
 
     // Surface upon which any model elements will sit.  For the beaker, other
     // model elements sit on the bottom of it, so the top and the bottom
@@ -73,6 +79,44 @@ public class Beaker extends UserMovableModelElement {
                                        position.get().getY(),
                                        WIDTH,
                                        HEIGHT );
+    }
+
+    /**
+     * Update the fluid level in the beaker based upon any displacement that
+     * could be caused by the given rectangles.  This algorithm is strictly
+     * two dimensional, even though displacement is more of the 3D concept.
+     *
+     * @param rectangles
+     */
+    public void updateFluidLevel( List<Rectangle2D> rectangles ) {
+
+        // Make a copy of the list so that it can be manipulated.
+        List<Rectangle2D> potentiallyDisplacingRectList = new ArrayList<Rectangle2D>( rectangles );
+
+        // Eliminate any rectangle that has no overlap with the beaker, and
+        // thus couldn't be displacing it.
+        for ( Rectangle2D rect : rectangles ) {
+            if ( !rect.intersects( getOutlineRect() ) ) {
+                potentiallyDisplacingRectList.remove( rect );
+            }
+        }
+
+        if ( potentiallyDisplacingRectList.size() == 0 ) {
+            // No displacement is being caused.
+            fluidLevel.set( NON_DISPLACED_FLUID_LEVEL );
+        }
+        else {
+            // Sort the rectangles so that the lowest ones are first on the list.
+            Collections.sort( potentiallyDisplacingRectList, new Comparator<Rectangle2D>() {
+                public int compare( Rectangle2D r1, Rectangle2D r2 ) {
+                    return Double.compare( r1.getMinY(), r2.getMinY() );
+                }
+            } );
+
+            // Calculate the displacement height of the fluid.
+            // TODO:
+            fluidLevel.set( 1.0 );
+        }
     }
 
     private void updateSurfaces() {
