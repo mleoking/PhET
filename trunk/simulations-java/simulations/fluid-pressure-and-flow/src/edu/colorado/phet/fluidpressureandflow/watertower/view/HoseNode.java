@@ -11,6 +11,8 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -18,6 +20,8 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
+import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents;
 import edu.colorado.phet.fluidpressureandflow.watertower.model.Hose;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -73,11 +77,16 @@ public class HoseNode extends PNode {
 
             //Make it possible to T-shaped drag handle to change the elevation
             addInputEventListener( new CursorHandler( Cursor.getPredefinedCursor( N_RESIZE_CURSOR ) ) );
-            addInputEventListener( new PBasicInputEventHandler() {
-                public void mouseDragged( PInputEvent event ) {
-                    double modelDelta = transform.viewToModelDeltaY( event.getDeltaRelativeTo( getParent() ).getHeight() );
-                    hose.y.set( MathUtil.clamp( 0, hose.y.get() + modelDelta, 30 ) );
+            addInputEventListener( new SimSharingDragHandler( UserComponents.hoseHandle, true ) {
+                @Override protected void drag( final PInputEvent event ) {
+                    super.drag( event );
+                    final double newY = getNewYValue( event, transform, hose );
+                    hose.y.set( newY );
                     showDragHandles.set( false );
+                }
+
+                @Override protected ParameterSet getParametersForAllEvents( final PInputEvent event ) {
+                    return super.getParametersForAllEvents( event ).with( ParameterKeys.y, getNewYValue( event, transform, hose ) );
                 }
             } );
         }};
@@ -121,11 +130,12 @@ public class HoseNode extends PNode {
 
             //Make it possible to drag the angle of the hose
             //Copied from PrismNode
-            addInputEventListener( new PBasicInputEventHandler() {
+            addInputEventListener( new SimSharingDragHandler( UserComponents.hoseNozzle, true ) {
                 private double previousAngle;
 
                 //Store the original angle since rotations are computed as deltas between each event
-                public void mousePressed( PInputEvent event ) {
+                @Override protected void startDrag( final PInputEvent event ) {
+                    super.startDrag( event );
                     previousAngle = getAngle( event );
                 }
 
@@ -134,9 +144,19 @@ public class HoseNode extends PNode {
                     return new ImmutableVector2D( hose.outputPoint.get().toPoint2D(), transform.viewToModel( event.getPositionRelativeTo( getParent() ) ) ).getAngle();
                 }
 
+                @Override protected ParameterSet getParametersForAllEvents( final PInputEvent event ) {
+                    return super.getParametersForAllEvents( event ).with( ParameterKeys.angle, getNewAngle( getAngle( event ) ) );
+                }
+
                 //Drag the nozzle to rotate it
-                public void mouseDragged( PInputEvent event ) {
+                @Override protected void drag( final PInputEvent event ) {
+                    super.drag( event );
                     double angle = getAngle( event );
+                    hose.angle.set( getNewAngle( angle ) );
+                    previousAngle = angle;
+                }
+
+                private double getNewAngle( final double angle ) {
                     final double delta = angle - previousAngle;
                     double desiredAngle = hose.angle.get() + delta;
 
@@ -145,9 +165,7 @@ public class HoseNode extends PNode {
                     while ( desiredAngle < -1 ) { desiredAngle = desiredAngle + PI * 2; }
 
                     //Then ensure the angle is between 0 and 90 degrees
-                    final double newAngle = MathUtil.clamp( 0, desiredAngle, PI / 2 );
-                    hose.angle.set( newAngle );
-                    previousAngle = angle;
+                    return MathUtil.clamp( 0, desiredAngle, PI / 2 );
                 }
             } );
         }};
@@ -204,5 +222,10 @@ public class HoseNode extends PNode {
             }
         } );
         addChild( nozzleImageNode );
+    }
+
+    private double getNewYValue( final PInputEvent event, final ModelViewTransform transform, final Hose hose ) {
+        double modelDelta = transform.viewToModelDeltaY( event.getDeltaRelativeTo( getParent() ).getHeight() );
+        return MathUtil.clamp( 0, hose.y.get() + modelDelta, 30 );
     }
 }
