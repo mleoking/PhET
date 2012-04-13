@@ -41,14 +41,24 @@ public class FPAFSimSharing {
         maximizeGravityControlButton,
         minimizeFluidDensityControlButton,
         maximizeFluidDensityControlButton,
+        mass1, mass2, mass3,
+        gridInjectorButton,
+        waterTowerHandle,
 
         //Cross products
         textField,
         slider,
+        top, bottom,
 
-        mass1, mass2, mass3,
-
-        gridInjectorButton
+        rightPipeHandle,
+        leftPipeHandle,
+        pipeCrossSectionHandle1,
+        pipeCrossSectionHandle2,
+        pipeCrossSectionHandle3,
+        pipeCrossSectionHandle4,
+        pipeCrossSectionHandle5,
+        pipeCrossSectionHandle6,
+        pipeCrossSectionHandle7,
     }
 
     public enum ParameterKeys implements IParameterKey {

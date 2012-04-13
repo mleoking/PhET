@@ -11,6 +11,11 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -18,6 +23,7 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.RelativeDragHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents;
 import edu.colorado.phet.fluidpressureandflow.pressure.view.WaterColor;
 import edu.colorado.phet.fluidpressureandflow.watertower.model.WaterTower;
 import edu.umd.cs.piccolo.PNode;
@@ -50,7 +56,12 @@ public class WaterTowerNode extends PNode {
                 public Point2D apply( Point2D modelLocation ) {
                     return new Point2D.Double( waterTower.tankBottomCenter.get().getX(), MathUtil.clamp( 0, modelLocation.getY(), WaterTower.MAX_Y ) );
                 }
-            } ) );
+            } ) {
+                @Override protected void sendMessage( final Point2D modelPoint ) {
+                    super.sendMessage( modelPoint );
+                    SimSharingManager.sendUserMessage( UserComponents.waterTowerHandle, UserComponentTypes.sprite, UserActions.drag, ParameterSet.parameterSet( ParameterKeys.x, modelPoint.getX() ).with( ParameterKeys.y, modelPoint.getY() ) );
+                }
+            } );
             scale( 0.45 );
             addInputEventListener( new CursorHandler( Cursor.getPredefinedCursor( Cursor.N_RESIZE_CURSOR ) ) );
             waterTower.tankBottomCenter.addObserver( new SimpleObserver() {
