@@ -9,7 +9,6 @@ import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -35,7 +34,7 @@ public class BeakerNode extends PNode {
     private static final Color OUTLINE_COLOR = Color.LIGHT_GRAY;
     private static final double PERSPECTIVE_PROPORTION = 0.2;
     private static final Font LABEL_FONT = new PhetFont( 32, false );
-    private static final boolean SHOW_MODEL_RECT = true;
+    private static final boolean SHOW_MODEL_RECT = false;
     private static final Color BEAKER_COLOR = new Color( 250, 250, 250, 100 );
 
     public BeakerNode( final Beaker beaker, final ModelViewTransform mvt ) {
@@ -47,14 +46,6 @@ public class BeakerNode extends PNode {
         // Get a version of the rectangle that defines the beaker size and
         // location in the view.
         final Rectangle2D beakerViewRect = scaleTransform.createTransformedShape( beaker.getOutlineRect() ).getBounds2D();
-
-        // Add the left and right sides of the beaker.
-        addChild( new PhetPPath( new Line2D.Double( beakerViewRect.getMinX(), beakerViewRect.getMinY(), beakerViewRect.getMinX(), beakerViewRect.getMaxY() ),
-                                 OUTLINE_STROKE,
-                                 OUTLINE_COLOR ) );
-        addChild( new PhetPPath( new Line2D.Double( beakerViewRect.getMaxX(), beakerViewRect.getMinY(), beakerViewRect.getMaxX(), beakerViewRect.getMaxY() ),
-                                 OUTLINE_STROKE,
-                                 OUTLINE_COLOR ) );
 
         // Create the shapes for the top and bottom of the beaker.  These are
         // ellipses in order to create a 3D-ish look.
