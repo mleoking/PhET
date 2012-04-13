@@ -104,6 +104,7 @@ class InteractiveEquationNode extends PhetPNode {
         RichSimpleObserver lineUpdater = new RichSimpleObserver() {
             @Override public void update() {
                 interactiveLine.set( new SlopeInterceptLine( rise.get(), run.get(), intercept.get(), LGColors.INTERACTIVE_LINE ) );
+                interceptSignNode.setText( intercept.get() >= 0 ? "+" : "-" );
             }
         };
         lineUpdater.observe( rise, run, intercept );
