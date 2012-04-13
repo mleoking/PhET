@@ -58,8 +58,8 @@ public class SlopeInterceptCanvas extends LGCanvas implements Resettable {
 
             // upper-right of graph
             equationControls.setOffset( graphNode.getFullBoundsReference().getMaxX(), 35 );
-            // centered below equation
-            graphControls.setOffset( equationControls.getFullBoundsReference().getCenterX() - ( graphControls.getFullBoundsReference().getWidth() / 2 ),
+            // right aligned below equation
+            graphControls.setOffset( equationControls.getFullBoundsReference().getMaxX() - graphControls.getFullBoundsReference().getWidth(),
                                      equationControls.getFullBoundsReference().getMaxY() + 25 );
             // buttons centered below control panel
             resetAllButtonNode.setOffset( graphControls.getFullBoundsReference().getCenterX() - ( resetAllButtonNode.getFullBoundsReference().getWidth() / 2 ),
