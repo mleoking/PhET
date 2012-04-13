@@ -15,7 +15,7 @@ import edu.colorado.phet.linegraphing.game.view.GameCanvas;
 public class GameModule extends LGModule {
 
     public GameModule() {
-        super( UserComponents.gameTab, Strings.TAB_GAME );
+        super( UserComponents.lineGameTab, Strings.TAB_LINE_GAME );
         setSimulationPanel( new GameCanvas( new GameModel() ) );
     }
 }

@@ -31,8 +31,9 @@ public class LGResources {
         public static final String SYMBOL_SLOPE = RESOURCES.getLocalizedString( "symbol.slope" );
         public static final String SYMBOL_INTERCEPT = RESOURCES.getLocalizedString( "symbol.intercept" );
 
-        public static final String TAB_INTRO = RESOURCES.getLocalizedString( "tab.intro" );
-        public static final String TAB_GAME = RESOURCES.getLocalizedString( "tab.game" );
+        public static final String TAB_SLOPE_INTERCEPT = RESOURCES.getLocalizedString( "tab.slopeIntercept" );
+        public static final String TAB_POINT_SLOPE = RESOURCES.getLocalizedString( "tab.pointSlope" );
+        public static final String TAB_LINE_GAME = RESOURCES.getLocalizedString( "tab.lineGame" );
     }
 
     public static class Images {

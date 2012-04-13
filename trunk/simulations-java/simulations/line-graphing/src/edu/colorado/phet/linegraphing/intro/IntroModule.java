@@ -15,7 +15,7 @@ import edu.colorado.phet.linegraphing.intro.view.IntroCanvas;
 public class IntroModule extends LGModule {
 
     public IntroModule() {
-        super( UserComponents.introTab, Strings.TAB_INTRO );
+        super( UserComponents.slopeInterceptTab, Strings.TAB_SLOPE_INTERCEPT );
         setSimulationPanel( new IntroCanvas( new IntroModel() ) );
     }
 }
