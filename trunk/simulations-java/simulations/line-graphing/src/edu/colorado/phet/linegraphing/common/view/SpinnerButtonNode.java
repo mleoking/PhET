@@ -11,8 +11,6 @@ import javax.swing.Timer;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.GreaterThan;
-import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.LessThan;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKey;
@@ -20,10 +18,10 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
-import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.DynamicCursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -32,6 +30,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * A button for use in spinner controls, fires continuously if pressed and held.
+ * (Adapted from fractions sim.)
  *
  * @author Sam Reid
  * @author Chris Malley
@@ -89,13 +88,14 @@ public class SpinnerButtonNode<T> extends PNode {
             setInitialDelay( 500 );
         }};
 
-        // Manage the cursor
+        // Manage the cursor and button state
         new RichSimpleObserver() {
             @Override public void update() {
 
-                //Show a cursor hand but only if enabled
+                //Show a cursor hand if enabled
                 listener.setCursor( enabled.get() ? Cursor.HAND_CURSOR : Cursor.DEFAULT_CURSOR );
 
+                // Enabled/disable the button
                 imageNode.setImage( new Function0<Image>() {
                     public Image apply() {
                         if ( enabled.get() && !pressed.get() ) { return unpressedImage; }
@@ -138,39 +138,5 @@ public class SpinnerButtonNode<T> extends PNode {
         } );
 
         addInputEventListener( listener );
-    }
-
-    // Spinner button for incrementing a Double value
-    public static class IncrementDoubleSpinnerButtonNode extends SpinnerButtonNode {
-        public IncrementDoubleSpinnerButtonNode( IUserComponent userComponent,
-                                                 final Image unpressedImage, final Image pressedImage, final Image disabledImage,
-                                                 final Property<Double> value, Property<DoubleRange> range ) {
-            super( userComponent,
-                   unpressedImage, pressedImage, disabledImage,
-                   value,
-                   new Function0<Double>() {
-                       public Double apply() {
-                           return value.get() + 1;
-                       }
-                   },
-                   new LessThan( value, range.get().getMax() ) );
-        }
-    }
-
-    // Spinner button for decrementing a Double value
-    public static class DecrementDoubleSpinnerButtonNode extends SpinnerButtonNode {
-        public DecrementDoubleSpinnerButtonNode( IUserComponent userComponent,
-                                                 final Image unpressedImage, final Image pressedImage, final Image disabledImage,
-                                                 final Property<Double> value, Property<DoubleRange> range ) {
-            super( userComponent,
-                   unpressedImage, pressedImage, disabledImage,
-                   value,
-                   new Function0<Double>() {
-                       public Double apply() {
-                           return value.get() - 1;
-                       }
-                   },
-                   new GreaterThan( value, range.get().getMin() ) );
-        }
     }
 }
