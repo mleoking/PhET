@@ -4,12 +4,9 @@ DEADLINES
 
 DESIGN
 
-SPINNER IDEAS
-- AP's design
-- iOS Picker with swipe gesture
-- small up/down arrows above/below each number
-
 HIGH
+- implement AP's user-interface component for incrementing/decrementing numbers in equation
+- implement Point-Slope tab
 
 MEDIUM
 - create spinner buttons programmatically, so they look more like line manipulators
@@ -20,6 +17,7 @@ LOW
 - grid node gets bigger when IntroModel.GRID_MODEL_UNITS gets smaller, size should remain constant
 - review internal duplication in GraphNode
 - don't like having int methods in SlopeInterceptLine model
+- spinner alternative: small up/down arrows above/below each number
 
 SIM-SHARING
 
