@@ -120,10 +120,16 @@ abstract class DoubleSpinnerNode extends PNode {
         decrementButton.setOffset( incrementButton.getXOffset(),
                                    textNode.getFullBoundsReference().getCenterY() + 1 );
 
+        // when the value changes, update the display
+        final double minusWidth = new PhetPText( "-", font ).getFullBoundsReference().getWidth();
         value.addObserver( new VoidFunction1<Double>() {
             public void apply( Double value ) {
-                textNode.setText( format.format( abs ? Math.abs( value ) : value ) );
-                textNode.setOffset( ( maxWidth - textNode.getFullBoundsReference().getWidth() ) / 2, textNode.getYOffset() ); // centered
+                // displayed value
+                final double adjustedValue = abs ? Math.abs( value ) : value;
+                textNode.setText( format.format( adjustedValue ) );
+                 // centered, adjusting for minus sign in negative values
+                final double minusXOffset = adjustedValue < 0 ? ( minusWidth / 2 ) : 0;
+                textNode.setOffset( ( ( maxWidth - textNode.getFullBoundsReference().getWidth() ) / 2 ) - minusXOffset, textNode.getYOffset() );
             }
         } );
     }
