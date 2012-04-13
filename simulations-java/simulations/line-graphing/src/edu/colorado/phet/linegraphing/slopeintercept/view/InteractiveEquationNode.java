@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.linegraphing.intro.view;
+package edu.colorado.phet.linegraphing.slopeintercept.view;
 
 import java.awt.BasicStroke;
 import java.awt.geom.Line2D;
@@ -15,9 +15,9 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.LGColors;
 import edu.colorado.phet.linegraphing.LGSimSharing.UserComponents;
-import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
-import edu.colorado.phet.linegraphing.intro.view.DoubleSpinnerNode.InterceptSpinnerNode;
-import edu.colorado.phet.linegraphing.intro.view.DoubleSpinnerNode.SlopeSpinnerNode;
+import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptLine;
+import edu.colorado.phet.linegraphing.slopeintercept.view.DoubleSpinnerNode.InterceptSpinnerNode;
+import edu.colorado.phet.linegraphing.slopeintercept.view.DoubleSpinnerNode.SlopeSpinnerNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;

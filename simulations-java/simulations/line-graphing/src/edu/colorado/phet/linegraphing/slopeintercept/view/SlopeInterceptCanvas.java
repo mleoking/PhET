@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.linegraphing.intro.view;
+package edu.colorado.phet.linegraphing.slopeintercept.view;
 
 import java.awt.Color;
 
@@ -9,7 +9,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.linegraphing.LGColors;
 import edu.colorado.phet.linegraphing.LGConstants;
 import edu.colorado.phet.linegraphing.common.view.LGCanvas;
-import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptModel;
+import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptModel;
 import edu.umd.cs.piccolo.PNode;
 
 /**

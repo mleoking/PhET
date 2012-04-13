@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.linegraphing.intro.model;
+package edu.colorado.phet.linegraphing.slopeintercept.model;
 
 import java.awt.geom.Point2D;
 

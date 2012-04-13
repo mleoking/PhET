@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.linegraphing.linegame.LineGameModule;
-import edu.colorado.phet.linegraphing.intro.SlopeInterceptModule;
+import edu.colorado.phet.linegraphing.slopeintercept.SlopeInterceptModule;
 import edu.colorado.phet.linegraphing.pointslope.PointSlopeModule;
 
 /**
