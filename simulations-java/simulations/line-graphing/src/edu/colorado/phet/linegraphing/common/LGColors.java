@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
  */
 public class LGColors {
 
+    public static final Color CANVAS_COLOR = new Color( 255, 255, 225 );
     public static final Color INTERACTIVE_LINE = PhetColorScheme.RED_COLORBLIND;
     public static final Color SAVED_LINE_NORMAL = Color.GRAY;
     public static final Color SAVED_LINE_HIGHLIGHT = new Color( 0, 190, 0 );

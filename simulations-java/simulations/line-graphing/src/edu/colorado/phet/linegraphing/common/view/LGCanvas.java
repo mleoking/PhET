@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
+import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -22,14 +23,13 @@ public class LGCanvas extends PhetPCanvas {
     private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( LGCanvas.class.getCanonicalName() );
 
     private static final Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
-    private static final Color CANVAS_COLOR = Color.WHITE;
     private static final boolean SHOW_STAGE_BOUNDS = PhetApplication.getInstance().getSimInfo().hasCommandLineArg( "-showStageBounds" );
 
     private final PNode rootNode;
 
     protected LGCanvas() {
 
-        setBackground( CANVAS_COLOR );
+        setBackground( LGColors.CANVAS_COLOR );
 
         setWorldTransformStrategy( new CenteredStage( this, STAGE_SIZE ) );
         if ( SHOW_STAGE_BOUNDS ) {
