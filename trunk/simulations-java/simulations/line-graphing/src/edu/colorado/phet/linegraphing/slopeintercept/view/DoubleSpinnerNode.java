@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.linegraphing.intro.view;
+package edu.colorado.phet.linegraphing.slopeintercept.view;
 
 import java.awt.Image;
 import java.awt.geom.Rectangle2D;

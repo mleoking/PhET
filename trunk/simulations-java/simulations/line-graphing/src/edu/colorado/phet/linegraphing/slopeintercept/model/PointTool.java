@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.linegraphing.intro.model;
+package edu.colorado.phet.linegraphing.slopeintercept.model;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;

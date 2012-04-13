@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.linegraphing.intro.view;
+package edu.colorado.phet.linegraphing.slopeintercept.view;
 
 import java.awt.Font;
 import java.awt.Insets;
@@ -21,7 +21,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.linegraphing.LGResources.Strings;
 import edu.colorado.phet.linegraphing.LGSimSharing.UserComponents;
-import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
+import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptLine;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.linegraphing.LGSimSharing.UserComponents.*;

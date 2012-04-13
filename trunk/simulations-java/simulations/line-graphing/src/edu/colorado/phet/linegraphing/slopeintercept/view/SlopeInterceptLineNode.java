@@ -1,20 +1,19 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.linegraphing.intro.view;
+package edu.colorado.phet.linegraphing.slopeintercept.view;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.HighlightHandler.FunctionHighlightHandler;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.colorado.phet.linegraphing.intro.model.LineGraph;
-import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptLine;
-import edu.colorado.phet.linegraphing.intro.view.ReducedSlopeInterceptEquationFactory.ReducedSlopeInterceptEquationNode;
+import edu.colorado.phet.linegraphing.slopeintercept.model.LineGraph;
+import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptLine;
+import edu.colorado.phet.linegraphing.slopeintercept.view.ReducedSlopeInterceptEquationFactory.ReducedSlopeInterceptEquationNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;

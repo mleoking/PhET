@@ -1,11 +1,11 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.linegraphing.intro;
+package edu.colorado.phet.linegraphing.slopeintercept;
 
 import edu.colorado.phet.linegraphing.LGResources.Strings;
 import edu.colorado.phet.linegraphing.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.LGModule;
-import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptModel;
-import edu.colorado.phet.linegraphing.intro.view.SlopeInterceptCanvas;
+import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptModel;
+import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptCanvas;
 
 /**
  * Module for the "Intro" tab.
