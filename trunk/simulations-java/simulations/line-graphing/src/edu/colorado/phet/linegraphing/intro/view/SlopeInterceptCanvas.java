@@ -9,7 +9,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.linegraphing.LGColors;
 import edu.colorado.phet.linegraphing.LGConstants;
 import edu.colorado.phet.linegraphing.common.view.LGCanvas;
-import edu.colorado.phet.linegraphing.intro.model.IntroModel;
+import edu.colorado.phet.linegraphing.intro.model.SlopeInterceptModel;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class IntroCanvas extends LGCanvas implements Resettable {
+public class SlopeInterceptCanvas extends LGCanvas implements Resettable {
 
     private final Property<Boolean> linesVisible = new Property<Boolean>( true );
     private final Property<Boolean> interactiveLineVisible = new Property<Boolean>( true );
@@ -26,7 +26,7 @@ public class IntroCanvas extends LGCanvas implements Resettable {
 
     private final LineGraphNode graphNode;
 
-    public IntroCanvas( final IntroModel model ) {
+    public SlopeInterceptCanvas( final SlopeInterceptModel model ) {
         setBackground( new Color( 255, 255, 225 ) );
 
         graphNode = new LineGraphNode( model.graph, model.mvt, model.interactiveLine, model.savedLines, model.standardLines,

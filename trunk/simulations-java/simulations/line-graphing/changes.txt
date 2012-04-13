@@ -1,3 +1,4 @@
+4/12/12 rename top-level classes for tabs 1 & 3
 4/12/12 rename first tab (Slope-Intercept), add second tab (Point-Slope)
 4/12/12 dynamically set the rise and intercept ranges, so that rise + intercept is constrained to the bounds of the graph
 4/12/12 set up infrastructure for dynamically adjusting rise and intercept ranges
