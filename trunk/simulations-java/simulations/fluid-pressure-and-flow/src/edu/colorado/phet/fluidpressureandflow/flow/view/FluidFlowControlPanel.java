@@ -2,6 +2,7 @@
 package edu.colorado.phet.fluidpressureandflow.flow.view;
 
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing;
@@ -14,6 +15,7 @@ import edu.colorado.phet.fluidpressureandflow.common.view.FPAFRadioButton;
 import edu.colorado.phet.fluidpressureandflow.flow.model.FluidFlowModel;
 
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.*;
+import static edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureControlPanel.RulerIcon;
 
 /**
  * Control panel for the fluid flow module
@@ -24,7 +26,10 @@ public class FluidFlowControlPanel extends VerticalLayoutPanel {
     public FluidFlowControlPanel( final FluidPressureAndFlowModule<FluidFlowModel> module ) {
 
         //Checkbox that allows the user to show/hide the ruler
-        addControlFullWidth( new FPAFCheckBox( FPAFSimSharing.UserComponents.rulerCheckBox, RULER, module.rulerVisible ) );
+        addControlFullWidth( new JPanel() {{
+            add( new FPAFCheckBox( FPAFSimSharing.UserComponents.rulerCheckBox, RULER, module.rulerVisible ) );
+            add( RulerIcon( module ) );
+        }} );
 
         //Units control panel that allows choice between english and metric
         addControlFullWidth( new EnglishMetricControlPanel( new FPAFRadioButton<UnitSet>( UserComponents.metricRadioButton, METRIC, module.model.units, UnitSet.METRIC ),
