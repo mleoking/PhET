@@ -30,6 +30,12 @@ public class SpeedometerNode extends PNode {
         addChild( new PhetPPath( new Ellipse2D.Double( 0, 0, width, width ), Color.white, new BasicStroke( 2 ), Color.gray ) );
         addChild( new PhetPText( title ) {{
             setFont( new PhetFont( 16 ) );
+
+            //Scale the text to fit within the speedometer if it is too big
+            final double MAX_WIDTH = 65.0;
+            if ( getFullWidth() > MAX_WIDTH ) {
+                scale( MAX_WIDTH / getFullWidth() );
+            }
             setOffset( width / 2 - getFullBounds().getWidth() / 2, width * 0.2 );
         }} );
         addChild( new PhetPPath( new BasicStroke( 2 ), Color.red ) {{
