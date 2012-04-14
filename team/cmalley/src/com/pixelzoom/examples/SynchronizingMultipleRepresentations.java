@@ -1,8 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package com.pixelzoom.examples;
 
-import sun.java2d.Disposer.PollDisposable;
-
 import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
