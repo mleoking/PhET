@@ -2,8 +2,10 @@
 package edu.colorado.phet.fluidpressureandflow.watertower.view;
 
 import java.awt.Dimension;
+import java.awt.GridBagLayout;
 
 import javax.swing.Box;
+import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
@@ -16,6 +18,7 @@ import edu.colorado.phet.fluidpressureandflow.watertower.WaterTowerModule;
 
 import static edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents.*;
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.*;
+import static edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureControlPanel.getConstraints;
 
 /**
  * Control panel for the Water Tower module, has ruler, measuring tape, units and 'hose'
@@ -25,9 +28,22 @@ import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResourc
 public class WaterTowerControlPanel extends VerticalLayoutPanel {
     public WaterTowerControlPanel( final WaterTowerModule module ) {
 
-        //Measuring devices and units
-        add( new FPAFCheckBox( rulerCheckBox, RULER, module.rulerVisible ) );
-        add( new FPAFCheckBox( measuringTapeCheckBox, MEASURING_TAPE, module.measuringTapeVisible ) );
+        //Measuring devices
+        add( new JPanel( new GridBagLayout() ) {{
+
+            //Ruler check box
+            add( new FPAFCheckBox( rulerCheckBox, RULER, module.rulerVisible ), getConstraints( 0, 0 ) );
+
+            //Measuring tape
+            add( new FPAFCheckBox( measuringTapeCheckBox, MEASURING_TAPE, module.measuringTapeVisible ), getConstraints( 0, 1 ) );
+
+            //Icons omitted in this tab to save horizontal space
+            //Ruler icon
+//            add( RulerIcon( module ), getConstraints( 1, 0 ) );
+
+            //Measuring tape icon
+//            add( new FPAFCheckBox( measuringTapeCheckBox, MEASURING_TAPE, module.measuringTapeVisible ), getConstraints( 0, 1 ) );
+        }} );
 
         //Units control panel that allows choice between english and metric
         SettableProperty<UnitSet> units = module.model.units;

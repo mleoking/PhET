@@ -44,26 +44,20 @@ public class FluidPressureControlPanel extends VerticalLayoutPanel {
     public FluidPressureControlPanel( final FluidPressureAndFlowModule<FluidPressureModel> module ) {
         super();
 
-        add( new JPanel( new GridBagLayout() ) {{
+        add( new JPanel( new GridBagLayout() ) {
+            {
 
-            //Ruler check box
-            final FPAFCheckBox checkBox = new FPAFCheckBox( rulerCheckBox, RULER, module.rulerVisible );
-            add( checkBox, getConstraints( 0, 0 ) );
+                //Ruler check box
+                final FPAFCheckBox checkBox = new FPAFCheckBox( rulerCheckBox, RULER, module.rulerVisible );
+                add( checkBox, getConstraints( 0, 0 ) );
 
-            //Ruler icon
-            final RulerNode englishRuler = new RulerNode( 35, 5, 25, new String[] { "0", "1", "2" }, new PhetFont( 8 ), "", new PhetFont( 8 ), 4, 6, 3 );
-            add( new JLabel( new ImageIcon( englishRuler.toImage() ) ) {{
-                addMouseListener( new MouseAdapter() {
-                    @Override public void mousePressed( final MouseEvent e ) {
-                        SimSharingManager.sendUserMessage( rulerCheckBoxIcon, icon, pressed, parameterSet( isSelected, !module.rulerVisible.get() ) );
-                        module.rulerVisible.toggle();
-                    }
-                } );
-            }}, getConstraints( 1, 0 ) );
+                //Ruler icon
+                add( RulerIcon( module ), getConstraints( 1, 0 ) );
 
-            //Checkbox that shows/hides the grid
-            add( new FPAFCheckBox( gridCheckBox, GRID, module.gridVisible ), getConstraints( 0, 1 ) );
-        }} );
+                //Checkbox that shows/hides the grid
+                add( new FPAFCheckBox( gridCheckBox, GRID, module.gridVisible ), getConstraints( 0, 1 ) );
+            }
+        } );
 
         //Add Atmosphere on/off control panel.  So it's nice to be able to turn it off and just focus on the water.
         add( new PhetTitledPanel( ATMOSPHERE ) {{
@@ -87,6 +81,18 @@ public class FluidPressureControlPanel extends VerticalLayoutPanel {
             weightx = 1;
             weighty = 1;
             fill = HORIZONTAL;
+        }};
+    }
+
+    public static JLabel RulerIcon( final FluidPressureAndFlowModule module ) {
+        final RulerNode englishRuler = new RulerNode( 35, 5, 25, new String[] { "0", "1", "2" }, new PhetFont( 8 ), "", new PhetFont( 8 ), 4, 6, 3 );
+        return new JLabel( new ImageIcon( englishRuler.toImage() ) ) {{
+            addMouseListener( new MouseAdapter() {
+                @Override public void mousePressed( final MouseEvent e ) {
+                    SimSharingManager.sendUserMessage( rulerCheckBoxIcon, icon, pressed, parameterSet( isSelected, !module.rulerVisible.get() ) );
+                    module.rulerVisible.toggle();
+                }
+            } );
         }};
     }
 }
