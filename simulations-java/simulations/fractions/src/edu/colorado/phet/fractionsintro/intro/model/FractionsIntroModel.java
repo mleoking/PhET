@@ -32,6 +32,7 @@ import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ModelAct
 import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ModelComponentTypes.containerSetComponentType;
 import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ModelComponents.containerSetComponent;
 import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ParameterKeys.containerSetKey;
+import static edu.colorado.phet.fractionsintro.intro.model.F2Recorder.record;
 
 /**
  * Model for the Fractions Intro sim.  This is the most complicated class in the sim, because it has to manage several different ways of changing
@@ -96,7 +97,7 @@ public class FractionsIntroModel implements Serializable {
                 return s.representation;
             }
 
-        }, new ChangeRepresentation( factorySet ), true );
+        }, record( new ChangeRepresentation( factorySet ) ) );
 
         numerator = new IntClientProperty( state, new F<IntroState, Integer>() {
             public Integer f( IntroState s ) {
@@ -155,8 +156,7 @@ public class FractionsIntroModel implements Serializable {
                 return s.pieSet;
             }
         },
-                new UpdateCircularPies( factorySet )
-                , true
+                record( new UpdateCircularPies( factorySet ) )
         );
 
         //When the user drags slices, update the ContainerSet (so it will update the spinner and make it easy to switch representations)
