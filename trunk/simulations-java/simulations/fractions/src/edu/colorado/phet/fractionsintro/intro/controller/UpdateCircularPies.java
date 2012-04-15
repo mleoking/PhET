@@ -2,6 +2,7 @@
 package edu.colorado.phet.fractionsintro.intro.controller;
 
 import fj.F2;
+import lombok.Data;
 
 import edu.colorado.phet.fractionsintro.intro.model.IntroState;
 import edu.colorado.phet.fractionsintro.intro.model.containerset.ContainerSet;
@@ -9,9 +10,11 @@ import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.FactorySet;
 
 /**
+ * Controller that updates the model when the user drags circular pies.
+ *
  * @author Sam Reid
  */
-public class UpdateCircularPies extends F2<IntroState, PieSet, IntroState> {
+public @Data class UpdateCircularPies extends F2<IntroState, PieSet, IntroState> {
 
     private final FactorySet factorySet;
 

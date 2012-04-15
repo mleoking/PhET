@@ -7,6 +7,7 @@ import lombok.Data;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.Serializable;
 import java.util.Arrays;
 
@@ -44,7 +45,7 @@ public class F2Recorder<A, B, C> extends F2<A, B, C> {
     }
 
     public static @Data class Entry<A, B, C> implements Serializable {
-        final F2<A, B, C> change;
+        final F2<A, B, C> function;
         final A init;
         final B value;
         final C result;
@@ -53,11 +54,18 @@ public class F2Recorder<A, B, C> extends F2<A, B, C> {
     public static void main( String[] args ) {
         try {
             for ( int index = 0; index < 100; index++ ) {
-                Entry e = loadXStream( index );
-                System.out.println( "e = " + e );
-                Object newResult = e.change.f( e.init, e.value );
-                boolean equals = newResult.equals( e.result );
-                System.out.println( "equals = " + equals );
+                final File xmlFile = new File( "C:\\Users\\Sam\\Desktop\\tests\\save_" + index + ".xml" );
+                if ( xmlFile.exists() ) {
+                    Entry e = loadXStream( xmlFile );
+                    Object newResult = e.function.f( e.init, e.value );
+                    boolean equals = newResult.equals( e.result );
+//                System.out.println( "equals = " + equals );
+                    final PrintStream stream = equals ? System.out : System.err;
+                    stream.println( "index = " + index + " function = " + e.function + ", argument = " + e.value );
+                }
+                else {
+                    break;
+                }
             }
         }
         catch ( IOException e ) {
@@ -85,9 +93,8 @@ public class F2Recorder<A, B, C> extends F2<A, B, C> {
         }
     }
 
-    public static Entry loadXStream( int index ) throws FileNotFoundException {
-        final File file = new File( "C:\\Users\\Sam\\Desktop\\tests\\save_" + index + ".xml" );
+    public static Entry loadXStream( File xmlFile ) throws FileNotFoundException {
         XStream xstream = new XStream();
-        return (Entry) xstream.fromXML( file );
+        return (Entry) xstream.fromXML( xmlFile );
     }
 }
