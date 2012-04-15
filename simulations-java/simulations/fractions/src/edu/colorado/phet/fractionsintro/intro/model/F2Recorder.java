@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import com.thoughtworks.xstream.XStream;
 
 /**
- * Function wrapper that also records the results of invokation for later testing.
+ * Function wrapper that also records the results of invocation for later testing.
  *
  * @author Sam Reid
  */
