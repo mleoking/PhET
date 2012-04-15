@@ -51,17 +51,7 @@ public class EqualityLabModel {
 
             double pieX = 70 - 36 - 146;
 
-            final F<Site, Site> siteMap = new F<Site, Site>() {
-                @Override public Site f( final Site s ) {
-                    return s.eq( 0, 0 ) ? new Site( 1, 2 ) :
-                           s.eq( 0, 1 ) ? new Site( 0, 2 ) :
-                           s.eq( 0, 2 ) ? new Site( 1, 1 ) :
-                           s.eq( 1, 0 ) ? new Site( 0, 1 ) :
-                           s.eq( 1, 1 ) ? new Site( 1, 0 ) :
-                           s.eq( 1, 2 ) ? new Site( 0, 0 ) :
-                           null;
-                }
-            };
+            final F<Site, Site> siteMap = new SiteMap();
 
             //Use little buckets for everything so it will fit, but not for vertical bars, which are too wide for the little bucket
             Dimension2D littleBucket = new Dimension2D( 250, 100 );
