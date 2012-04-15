@@ -4,6 +4,8 @@ package edu.colorado.phet.fractionsintro.intro.model;
 import fj.F;
 import fj.F2;
 
+import java.io.Serializable;
+
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -14,6 +16,8 @@ import edu.colorado.phet.common.phetcommon.model.property.integerproperty.Intege
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ParameterKeys;
+import edu.colorado.phet.fractionsintro.intro.controller.ChangeRepresentation;
+import edu.colorado.phet.fractionsintro.intro.controller.UpdateCircularPies;
 import edu.colorado.phet.fractionsintro.intro.model.containerset.CellPointer;
 import edu.colorado.phet.fractionsintro.intro.model.containerset.ContainerSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
@@ -39,7 +43,7 @@ import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Paramete
  *
  * @author Sam Reid
  */
-public class FractionsIntroModel {
+public class FractionsIntroModel implements Serializable {
     private final Property<IntroState> state;
 
     //Clock for the model.
@@ -92,14 +96,7 @@ public class FractionsIntroModel {
                 return s.representation;
             }
 
-        }, new F2<IntroState, Representation, IntroState>() {
-            public IntroState f( IntroState s, Representation r ) {
-
-                //Workaround for a bug: when dragging number line quickly, pie set gets out of sync.  So update it when representations change
-                return s.representation( r ).fromContainerSet( s.containerSet, factorySet );
-            }
-        }
-        );
+        }, new ChangeRepresentation( factorySet ), true );
 
         numerator = new IntClientProperty( state, new F<IntroState, Integer>() {
             public Integer f( IntroState s ) {
@@ -158,19 +155,8 @@ public class FractionsIntroModel {
                 return s.pieSet;
             }
         },
-                new F2<IntroState, PieSet, IntroState>() {
-                    public IntroState f( IntroState s, PieSet pieSet ) {
-                        final ContainerSet c = pieSet.toContainerSet();
-                        //Update both the pie set and container state to match the user specified pie set
-                        return s.pieSet( pieSet ).
-                                containerSet( c ).
-                                numerator( c.numerator ).
-                                horizontalBarSet( HorizontalSliceFactory.fromContainerSetState( c ) ).
-                                verticalBarSet( VerticalSliceFactory.fromContainerSetState( c ) ).
-                                waterGlassSet( WaterGlassSetFactory.fromContainerSetState( c ) ).
-                                cakeSet( cakeSliceFactory.fromContainerSetState( c ) );
-                    }
-                }
+                new UpdateCircularPies( factorySet )
+                , true
         );
 
         //When the user drags slices, update the ContainerSet (so it will update the spinner and make it easy to switch representations)
