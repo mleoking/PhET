@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.text.NumberFormat;
 
@@ -51,19 +52,18 @@ public class NumberPickerNode extends PhetPNode {
     // Data structure for picker color scheme
     public static class NumberPickerColorScheme {
 
-        public final Color topNormalColor, topHighlightColor, topDisabledColor;
-        public final Color bottomNormalColor, bottomHighlightColor, bottomDisabledColor;
-        public final Color shadowColor;
+        public final Color topNormalColor, topHighlightColor;
+        public final Color bottomNormalColor, bottomHighlightColor;
+        public final Color disabledColor, shadowColor;
 
-        public NumberPickerColorScheme( Color topNormalColor, Color topHighlightColor, Color topDisabledColor,
-                                        Color bottomNormalColor, Color bottomHighlightColor, Color bottomDisabledColor,
-                                        Color shadowColor ) {
+        public NumberPickerColorScheme( Color topNormalColor, Color topHighlightColor,
+                                        Color bottomNormalColor, Color bottomHighlightColor,
+                                        Color disabledColor, Color shadowColor ) {
             this.topNormalColor = topNormalColor;
             this.topHighlightColor = topHighlightColor;
-            this.topDisabledColor = topDisabledColor;
             this.bottomNormalColor = bottomNormalColor;
             this.bottomHighlightColor = bottomHighlightColor;
-            this.bottomDisabledColor = bottomDisabledColor;
+            this.disabledColor = disabledColor;
             this.shadowColor = shadowColor;
         }
     }
@@ -142,13 +142,13 @@ public class NumberPickerNode extends PhetPNode {
         final DynamicCursorHandler bottomButtonCursorHandler = new DynamicCursorHandler();
         topEnabled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean enabled ) {
-                topButtonNode.setPaint( enabled ? colorScheme.topNormalColor : colorScheme.topDisabledColor );
+                topButtonNode.setPaint( enabled ? colorScheme.topNormalColor : colorScheme.disabledColor );
                 topButtonCursorHandler.setCursor( topEnabled.get() ? Cursor.HAND_CURSOR : Cursor.DEFAULT_CURSOR );
             }
         } );
         bottomEnabled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean enabled ) {
-                bottomButtonNode.setPaint( enabled ? colorScheme.bottomNormalColor : colorScheme.bottomDisabledColor );
+                bottomButtonNode.setPaint( enabled ? colorScheme.bottomNormalColor : colorScheme.disabledColor );
                 bottomButtonCursorHandler.setCursor( bottomEnabled.get() ? Cursor.HAND_CURSOR : Cursor.DEFAULT_CURSOR );
             }
         } );
@@ -186,16 +186,11 @@ public class NumberPickerNode extends PhetPNode {
         return path.getGeneralPath();
     }
 
+    // Bottom shape is same of the top shape, but facing down.
     private static final Shape createBottomButtonShape( double width, double height ) {
-        DoubleGeneralPath path = new DoubleGeneralPath();
-        path.moveTo( 0, 0 );
-        path.lineTo( 0, 0.25 * height );
-        path.lineTo( 0.1 * width, height );
-        path.lineTo( 0.9 * width, height );
-        path.lineTo( width, 0.25 * height );
-        path.lineTo( width, 0 );
-        path.closePath();
-        return path.getGeneralPath();
+        AffineTransform transform = AffineTransform.getRotateInstance( Math.PI );
+        transform.translate( -width, -height );
+        return transform.createTransformedShape( createTopButtonShape( width, height ) );
     }
 
     private static class IncrementButtonHandler extends ButtonHandler {
@@ -317,9 +312,10 @@ public class NumberPickerNode extends PhetPNode {
     // test
     public static void main( String[] args ) {
 
-        NumberPickerColorScheme colorScheme = new NumberPickerColorScheme( new Color( 0, 225, 0 ), new Color( 0, 255, 0 ), Color.LIGHT_GRAY,
-                                                                           new Color( 0, 180, 0 ), new Color( 0, 255, 0 ), Color.LIGHT_GRAY,
-                                                                           Color.DARK_GRAY );
+        final Color disabledColor = new Color( 210, 210, 210 );
+        NumberPickerColorScheme colorScheme = new NumberPickerColorScheme( new Color( 0, 225, 0 ), new Color( 0, 255, 0 ),
+                                                                           new Color( 0, 180, 0 ), new Color( 0, 255, 0 ),
+                                                                           disabledColor, Color.DARK_GRAY );
         Property<Double> value = new Property<Double>( 3d );
         Property<DoubleRange> range = new Property<DoubleRange>( new DoubleRange( -10, 10 ) );
 
