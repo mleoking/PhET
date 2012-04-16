@@ -2,7 +2,6 @@
 package edu.colorado.phet.fractionsintro.intro.controller;
 
 import fj.F;
-import fj.F2;
 import lombok.Data;
 
 import edu.colorado.phet.fractionsintro.intro.model.IntroState;
@@ -14,8 +13,10 @@ import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
  *
  * @author Sam Reid
  */
-public @Data class ChangeNumerator extends F2<IntroState, Integer, IntroState> {
-    public IntroState f( IntroState s, Integer numerator ) {
+public @Data class SetNumerator extends F<IntroState, IntroState> {
+    public final int numerator;
+
+    @Override public IntroState f( IntroState s ) {
         int oldValue = s.numerator;
         int delta = numerator - oldValue;
         if ( delta > 0 ) {

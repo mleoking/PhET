@@ -2,7 +2,6 @@
 package edu.colorado.phet.fractionsintro.intro.model;
 
 import fj.F;
-import fj.F2;
 
 import java.io.Serializable;
 
@@ -16,13 +15,17 @@ import edu.colorado.phet.common.phetcommon.model.property.integerproperty.Intege
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ParameterKeys;
-import edu.colorado.phet.fractionsintro.intro.controller.ChangeNumerator;
-import edu.colorado.phet.fractionsintro.intro.controller.ChangeRepresentation;
-import edu.colorado.phet.fractionsintro.intro.controller.UpdateCircularPies;
-import edu.colorado.phet.fractionsintro.intro.model.containerset.CellPointer;
+import edu.colorado.phet.fractionsintro.intro.controller.SetCakeSet;
+import edu.colorado.phet.fractionsintro.intro.controller.SetCircularPieSet;
+import edu.colorado.phet.fractionsintro.intro.controller.SetDenominator;
+import edu.colorado.phet.fractionsintro.intro.controller.SetHorizontalBarSet;
+import edu.colorado.phet.fractionsintro.intro.controller.SetMaximum;
+import edu.colorado.phet.fractionsintro.intro.controller.SetNumerator;
+import edu.colorado.phet.fractionsintro.intro.controller.SetRepresentation;
+import edu.colorado.phet.fractionsintro.intro.controller.SetVerticalBarSet;
+import edu.colorado.phet.fractionsintro.intro.controller.SetWaterGlassSet;
 import edu.colorado.phet.fractionsintro.intro.model.containerset.ContainerSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
-import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.CakeSliceFactory;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.FactorySet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.SliceFactory;
@@ -33,7 +36,7 @@ import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ModelAct
 import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ModelComponentTypes.containerSetComponentType;
 import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ModelComponents.containerSetComponent;
 import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ParameterKeys.containerSetKey;
-import static edu.colorado.phet.fractionsintro.intro.model.F2Recorder.record;
+import static edu.colorado.phet.fractionsintro.intro.model.FRecorder.record;
 
 /**
  * Model for the Fractions Intro sim.  This is the most complicated class in the sim, because it has to manage several different ways of changing
@@ -98,123 +101,94 @@ public class FractionsIntroModel implements Serializable {
                 return s.representation;
             }
 
-        }, record( new ChangeRepresentation( factorySet ) ) );
+        }, new F<Representation, F<IntroState, IntroState>>() {
+            @Override public F<IntroState, IntroState> f( final Representation r ) {
+                return record( new SetRepresentation( r ) );
+            }
+        }
+        );
 
         numerator = new IntClientProperty( state, new F<IntroState, Integer>() {
             public Integer f( IntroState s ) {
                 return s.numerator;
             }
-        }, record( new ChangeNumerator() ) ).toIntegerProperty();
+        }, new F<Integer, F<IntroState, IntroState>>() {
+            @Override public F<IntroState, IntroState> f( final Integer numerator ) {
+                return record( new SetNumerator( numerator ) );
+            }
+        }
+        ).toIntegerProperty();
 
         denominator = new IntClientProperty( state, new F<IntroState, Integer>() {
             public Integer f( IntroState s ) {
                 return s.denominator;
             }
-        }, new F2<IntroState, Integer, IntroState>() {
-            public IntroState f( IntroState s, Integer denominator ) {
-
-                //create a new container set
-                ContainerSet c = s.containerSet.update( s.maximum, denominator );
-                return s.containerSet( c ).denominator( denominator ).fromContainerSet( c, factorySet );
+        }, new F<Integer, F<IntroState, IntroState>>() {
+            @Override public F<IntroState, IntroState> f( final Integer denominator ) {
+                return record( new SetDenominator( denominator ) );
             }
         }
         ).toIntegerProperty();
 
         //When the user drags slices, update the ContainerSet (so it will update the spinner and make it easy to switch representations)
-        pieSet = new ClientProperty<PieSet>(
-                state, new F<IntroState, PieSet>() {
+        pieSet = new ClientProperty<PieSet>( state, new F<IntroState, PieSet>() {
             public PieSet f( IntroState s ) {
                 return s.pieSet;
             }
-        }, record( new UpdateCircularPies( factorySet ) )
+        }, new F<PieSet, F<IntroState, IntroState>>() {
+            @Override public F<IntroState, IntroState> f( final PieSet pieSet ) {
+                return record( new SetCircularPieSet( pieSet ) );
+            }
+        }
         );
 
         //When the user drags slices, update the ContainerSet (so it will update the spinner and make it easy to switch representations)
-        horizontalBarSet = new ClientProperty<PieSet>(
-                state, new F<IntroState, PieSet>() {
+        horizontalBarSet = new ClientProperty<PieSet>( state, new F<IntroState, PieSet>() {
             public PieSet f( IntroState s ) {
                 return s.horizontalBarSet;
             }
         },
-                new F2<IntroState, PieSet, IntroState>() {
-                    public IntroState f( IntroState s, PieSet p ) {
-                        final ContainerSet cs = p.toContainerSet();
-                        //Update both the pie set and container state to match the user specified pie set
-                        return s.horizontalBarSet( p ).
-                                containerSet( cs ).
-                                numerator( cs.numerator ).
-                                pieSet( CircularSliceFactory.fromContainerSetState( cs ) ).
-                                verticalBarSet( VerticalSliceFactory.fromContainerSetState( cs ) ).
-                                waterGlassSet( WaterGlassSetFactory.fromContainerSetState( cs ) ).
-                                cakeSet( cakeSliceFactory.fromContainerSetState( cs ) );
-                    }
-                }
+                                                       new F<PieSet, F<IntroState, IntroState>>() {
+                                                           @Override public F<IntroState, IntroState> f( final PieSet pieSet ) {
+                                                               return record( new SetHorizontalBarSet( pieSet ) );
+                                                           }
+                                                       }
         );
 
         //When the user drags slices, update the ContainerSet (so it will update the spinner and make it easy to switch representations)
-        verticalBarSet = new ClientProperty<PieSet>(
-                state, new F<IntroState, PieSet>() {
+        verticalBarSet = new ClientProperty<PieSet>( state, new F<IntroState, PieSet>() {
             public PieSet f( IntroState s ) {
                 return s.verticalBarSet;
             }
-        },
-                new F2<IntroState, PieSet, IntroState>() {
-                    public IntroState f( IntroState s, PieSet p ) {
-                        final ContainerSet cs = p.toContainerSet();
-                        //Update both the pie set and container state to match the user specified pie set
-                        return s.verticalBarSet( p ).
-                                containerSet( cs ).
-                                horizontalBarSet( HorizontalSliceFactory.fromContainerSetState( cs ) ).
-                                numerator( cs.numerator ).
-                                pieSet( CircularSliceFactory.fromContainerSetState( cs ) ).
-                                waterGlassSet( WaterGlassSetFactory.fromContainerSetState( cs ) ).
-                                cakeSet( cakeSliceFactory.fromContainerSetState( cs ) );
-                    }
-                }
+        }, new F<PieSet, F<IntroState, IntroState>>() {
+            @Override public F<IntroState, IntroState> f( final PieSet pieSet ) {
+                return record( new SetVerticalBarSet( pieSet ) );
+            }
+        }
         );
 
         //When the user drags slices, update the ContainerSet (so it will update the spinner and make it easy to switch representations)
-        waterGlassSet = new ClientProperty<PieSet>(
-                state, new F<IntroState, PieSet>() {
+        waterGlassSet = new ClientProperty<PieSet>( state, new F<IntroState, PieSet>() {
             public PieSet f( IntroState s ) {
                 return s.waterGlassSet;
             }
-        },
-                new F2<IntroState, PieSet, IntroState>() {
-                    public IntroState f( IntroState s, PieSet p ) {
-                        final ContainerSet cs = p.toContainerSet();
-                        //Update both the pie set and container state to match the user specified pie set
-                        return s.waterGlassSet( p ).
-                                containerSet( cs ).
-                                verticalBarSet( VerticalSliceFactory.fromContainerSetState( cs ) ).
-                                horizontalBarSet( HorizontalSliceFactory.fromContainerSetState( cs ) ).
-                                numerator( cs.numerator ).
-                                pieSet( CircularSliceFactory.fromContainerSetState( cs ) ).
-                                cakeSet( CircularSliceFactory.fromContainerSetState( cs ) );
-                    }
-                }
+        }, new F<PieSet, F<IntroState, IntroState>>() {
+            @Override public F<IntroState, IntroState> f( final PieSet pieSet ) {
+                return record( new SetWaterGlassSet( pieSet ) );
+            }
+        }
         );
 
         //When the user drags slices, update the ContainerSet (so it will update the spinner and make it easy to switch representations)
-        cakeSet = new ClientProperty<PieSet>(
-                state, new F<IntroState, PieSet>() {
+        cakeSet = new ClientProperty<PieSet>( state, new F<IntroState, PieSet>() {
             public PieSet f( IntroState s ) {
                 return s.cakeSet;
             }
-        },
-                new F2<IntroState, PieSet, IntroState>() {
-                    public IntroState f( IntroState s, PieSet p ) {
-                        final ContainerSet cs = p.toContainerSet();
-                        //Update both the pie set and container state to match the user specified pie set
-                        return s.cakeSet( p ).
-                                containerSet( cs ).
-                                verticalBarSet( VerticalSliceFactory.fromContainerSetState( cs ) ).
-                                horizontalBarSet( HorizontalSliceFactory.fromContainerSetState( cs ) ).
-                                numerator( cs.numerator ).
-                                pieSet( CircularSliceFactory.fromContainerSetState( cs ) ).
-                                waterGlassSet( WaterGlassSetFactory.fromContainerSetState( cs ) );
-                    }
-                }
+        }, new F<PieSet, F<IntroState, IntroState>>() {
+            @Override public F<IntroState, IntroState> f( final PieSet pieSet ) {
+                return record( new SetCakeSet( pieSet ) );
+            }
+        }
         );
 
         //When the user changes the max value with the spinner, update the model
@@ -222,49 +196,9 @@ public class FractionsIntroModel implements Serializable {
             @Override public Integer f( IntroState s ) {
                 return s.maximum;
             }
-        }, new F2<IntroState, Integer, IntroState>() {
-            @Override public IntroState f( final IntroState s, final Integer maximum ) {
-                final ContainerSet c = s.containerSet.maximum( maximum );
-                IntroState newState = s.maximum( maximum ).
-                        containerSet( c ).
-                        fromContainerSet( c, factorySet ).
-                        numerator( c.numerator ).
-                        denominator( c.denominator );
-
-                int lastMax = s.maximum;
-                int delta = maximum - lastMax;
-
-                //Eject any pieces in the pie that will be dropped
-                int numPiecesToEject = s.containerSet.getContainer( s.containerSet.getContainers().length() - 1 ).getFilledCells().length();
-
-                //Animate pie pieces leaving from pies that are dropped when max decreases
-                //Do this by creating a new slice in the location of the deleted slice, and animating it to the bucket.
-                //This is necessary since the location of pies changed when max changed.
-                if ( delta < 0 && numPiecesToEject > 0 ) {
-                    ContainerSet csx = s.containerSet;
-                    for ( int i = 0; i < numPiecesToEject; i++ ) {
-                        final CellPointer cp = csx.getLastFullCell();
-
-                        //TODO: improve readability
-                        final Slice newPieSlice = CircularSliceFactory.createPieCell( s.maximum, cp.container, cp.cell, s.denominator );
-                        newState = newState.pieSet( newState.pieSet.slices( newState.pieSet.slices.cons( newPieSlice ) ).animateSliceToBucket( newPieSlice, s.randomSeed ) );
-
-                        final Slice newHorizontalSlice = HorizontalSliceFactory.createPieCell( s.maximum, cp.container, cp.cell, s.denominator );
-                        newState = newState.horizontalBarSet( newState.horizontalBarSet.slices( newState.horizontalBarSet.slices.cons( newHorizontalSlice ) ).animateSliceToBucket( newHorizontalSlice, s.randomSeed ) );
-
-                        final Slice newVerticalSlice = VerticalSliceFactory.createPieCell( s.maximum, cp.container, cp.cell, s.denominator );
-                        newState = newState.verticalBarSet( newState.verticalBarSet.slices( newState.verticalBarSet.slices.cons( newVerticalSlice ) ).animateSliceToBucket( newVerticalSlice, s.randomSeed ) );
-
-                        final Slice newWaterSlice = WaterGlassSetFactory.createPieCell( s.maximum, cp.container, cp.cell, s.denominator );
-                        newState = newState.waterGlassSet( newState.waterGlassSet.slices( newState.waterGlassSet.slices.cons( newWaterSlice ) ).animateSliceToBucket( newWaterSlice, s.randomSeed ) );
-
-                        final Slice newCakeSlice = cakeSliceFactory.createPieCell( s.maximum, cp.container, cp.cell, s.denominator );
-                        newState = newState.cakeSet( newState.cakeSet.slices( newState.cakeSet.slices.cons( newCakeSlice ) ).animateSliceToBucket( newCakeSlice, s.randomSeed ) );
-
-                        csx = csx.toggle( cp );
-                    }
-                }
-                return newState;
+        }, new F<Integer, F<IntroState, IntroState>>() {
+            @Override public F<IntroState, IntroState> f( final Integer maximum ) {
+                return record( new SetMaximum( maximum ) );
             }
         }
         ).toIntegerProperty();
@@ -274,9 +208,9 @@ public class FractionsIntroModel implements Serializable {
             @Override public ContainerSet f( final IntroState introState ) {
                 return introState.containerSet;
             }
-        }, new F2<IntroState, ContainerSet, IntroState>() {
-            @Override public IntroState f( final IntroState introState, final ContainerSet containerSet ) {
-                throw new RuntimeException( "Shouldn't be called" );
+        }, new F<ContainerSet, F<IntroState, IntroState>>() {
+            @Override public F<IntroState, IntroState> f( final ContainerSet containerSet ) {
+                throw new RuntimeException( "Shouldn't be called (should be read-only)" );
             }
         }
         );

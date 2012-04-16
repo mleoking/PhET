@@ -2,7 +2,6 @@
 package edu.colorado.phet.fractionsintro.intro.model;
 
 import fj.F;
-import fj.F2;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
@@ -16,7 +15,7 @@ public class IntClientProperty extends ClientProperty<Integer> {
 
     public IntClientProperty( final Property<IntroState> state,
                               final F<IntroState, Integer> get,
-                              final F2<IntroState, Integer, IntroState> change ) {
+                              final F<Integer, F<IntroState, IntroState>> change ) {
         super( state, get, change );
     }
 
