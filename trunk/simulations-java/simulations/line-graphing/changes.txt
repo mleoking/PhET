@@ -1,3 +1,4 @@
+4/16/12 scale point tool image to eliminate scaling in PointTooNode
 # 0.00.07 (63437) Apr 16, 2012
 4/16/12 use grayscale image for point tool, until we work out colors of other things
 4/16/12 highlight the point tool using the color of the line that the tool is on

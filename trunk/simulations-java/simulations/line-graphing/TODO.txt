@@ -19,7 +19,6 @@ LOW
 - grid node gets bigger when IntroModel.GRID_MODEL_UNITS gets smaller, size should remain constant
 - review internal duplication in GraphNode
 - create spinner buttons programmatically, so they look more like line manipulators
-- PointToolNode looks a little ragged around image edges, resize image or use multiscaling
 
 SIM-SHARING
 

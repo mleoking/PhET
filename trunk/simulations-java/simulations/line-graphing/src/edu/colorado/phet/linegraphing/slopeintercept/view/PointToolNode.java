@@ -42,7 +42,7 @@ class PointToolNode extends PhetPNode {
 
     private static final String COORDINATES_PATTERN = "({0},{1})";
     private static final NumberFormat COORDINATES_FORMAT = new DefaultDecimalFormat( "0" );
-    private static final double COORDINATES_Y_CENTER = 28; // center of the display area, measured from the top of the unscaled image file
+    private static final double COORDINATES_Y_CENTER = 21; // center of the display area, measured from the top of the unscaled image file
 
     /**
      * Constructor
@@ -58,11 +58,11 @@ class PointToolNode extends PhetPNode {
 
         // coordinate display
         final PText coordinatesNode = new PText();
-        coordinatesNode.setFont( new PhetFont( Font.BOLD, 20 ) );
+        coordinatesNode.setFont( new PhetFont( Font.BOLD, 15 ) );
 
         // display background, shows through a transparent hole in the display area portion of the body image
         final int margin = 10;
-        final PPath backgroundNode = new PPath( new Rectangle2D.Double( 10, 10,
+        final PPath backgroundNode = new PPath( new Rectangle2D.Double( 10, 5,
                                                                         bodyNode.getFullBoundsReference().getWidth() - ( 2 * margin ),
                                                                         0.65 * bodyNode.getFullBoundsReference().getHeight() ) );
         backgroundNode.setStroke( null );
@@ -72,8 +72,6 @@ class PointToolNode extends PhetPNode {
         addChild( backgroundNode );
         addChild( bodyNode );
         addChild( coordinatesNode );
-
-        scale( 0.75 ); //TODO resize image file, or use BufferedImage.multiScale
 
         // location and display
         RichSimpleObserver observer = new RichSimpleObserver() {
