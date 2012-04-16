@@ -28,7 +28,7 @@ public class CellProteinSynthesisSimulator {
     public static final DoubleRange POLYMERASE_ASSOCIATION_PROBABILITY_RANGE = new DoubleRange( 0.0, 2 * DEFAULT_POLYMERASE_ASSOCIATION_PROBABILITY );
     public static final double DEFAULT_PROTEIN_DEGRADATION_RATE = 0.0004f;
     public static final DoubleRange PROTEIN_DEGRADATION_RANGE = new DoubleRange( DEFAULT_PROTEIN_DEGRADATION_RATE * 0.7, DEFAULT_PROTEIN_DEGRADATION_RATE * 1.3 );
-    public static final double DEFAULT_MRNA_DEGRADATION_RATE = 0.1; // TODO: Stubbed for now.
+    public static final double DEFAULT_MRNA_DEGRADATION_RATE = 0; // TODO: Stubbed for now.
     public static final DoubleRange MRNA_DEGRADATION_RATE_RANGE = new DoubleRange( DEFAULT_MRNA_DEGRADATION_RATE / 10, DEFAULT_MRNA_DEGRADATION_RATE * 10 );
 
     private Random _random = new Random();
@@ -56,7 +56,8 @@ public class CellProteinSynthesisSimulator {
             0.001f, //mRNA-ribosome association
             0.0009f, //mRNA-ribosome degradation
             0.0009f, //translation
-            DEFAULT_PROTEIN_DEGRADATION_RATE //protein degradation
+            DEFAULT_PROTEIN_DEGRADATION_RATE, //protein degradation
+            DEFAULT_MRNA_DEGRADATION_RATE //mRNA degradation
     };
 
     public CellProteinSynthesisSimulator() {
@@ -202,6 +203,7 @@ public class CellProteinSynthesisSimulator {
         h[6] = _objectCounts[7];
         h[7] = _objectCounts[7];
         h[8] = _objectCounts[8];
+        h[9] = _objectCounts[5];
 
         for ( int i = 0; i < h.length; i++ ) {
             h[i] *= _reactionProbabilities[i];
@@ -255,6 +257,9 @@ public class CellProteinSynthesisSimulator {
                 break;
             case 8:
                 _objectCounts[8]--;
+                break;
+            case 9:
+                _objectCounts[5]--;
         }
     }
 
