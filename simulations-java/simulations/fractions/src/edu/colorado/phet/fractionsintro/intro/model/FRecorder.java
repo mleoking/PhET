@@ -22,6 +22,7 @@ import com.thoughtworks.xstream.XStream;
 public class FRecorder<A, B> extends F<A, B> {
     private final F<A, B> function;
     private static final boolean debug = true;
+    private static final boolean checkDeterminism = false;
 
     public FRecorder( F<A, B> function ) {
         this.function = function;
@@ -34,6 +35,20 @@ public class FRecorder<A, B> extends F<A, B> {
 
     @Override public B f( final A a ) {
         final B result = function.f( a );
+        if ( checkDeterminism ) {
+            checkDeterminism( a, result );
+        }
+
+        Entry<A, B> e = new Entry<A, B>( a, function, result );
+        System.out.println( "Recorded function application: " + count + ", function = " + function );
+
+        //Could do in a thread if too expensive
+        writeObject( e );
+
+        return result;
+    }
+
+    private void checkDeterminism( A a, B result ) {
         final B result2 = function.f( a );
         if ( !result.equals( result2 ) ) {
             System.out.println( "Nondeterministic method. warning!" );
@@ -51,14 +66,6 @@ public class FRecorder<A, B> extends F<A, B> {
                 System.out.println( "pieSet.SliceFactory.Equals = " + x.pieSet.sliceFactory.equals( y.pieSet.sliceFactory ) );
             }
         }
-
-        Entry<A, B> e = new Entry<A, B>( a, function, result );
-        System.out.println( "Recorded function application: " + count + ", function = " + function );
-
-        //Could do in a thread if too expensive
-        writeObject( e );
-
-        return result;
     }
 
     public static @Data class Entry<A, B> implements Serializable {
