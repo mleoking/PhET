@@ -25,7 +25,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
             @Override public void apply() {
                 model.state.set( newLevel( gameSettings.level.get() ).
                         withChoosingSettings( false ).
-                        audio( gameSettings.soundEnabled.get() ) );
+                        withAudio( gameSettings.soundEnabled.get() ) );
             }
         };
         final PSwing settingsDialog = new PSwing( new GameSettingsPanel( gameSettings, startGame ) ) {{

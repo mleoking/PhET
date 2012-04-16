@@ -48,7 +48,7 @@ public class MovableFractionNode extends PNode {
             @Override protected void startDrag( final PInputEvent event ) {
                 super.startDrag( event );
                 MatchingGameState state = model.get();
-                model.set( state.fractions( state.fractions.delete( f, Equal.<MovableFraction>anyEqual() ).snoc( f.dragging( true ) ) ) );
+                model.set( state.withFractions( state.fractions.delete( f, Equal.<MovableFraction>anyEqual() ).snoc( f.dragging( true ) ) ) );
             }
 
             //Drag the dragged slice as identified by the model (since nodes will be destroyed as this happens)
@@ -57,7 +57,7 @@ public class MovableFractionNode extends PNode {
 
                 MatchingGameState state = model.get();
                 final Dimension2D delta = event.getDeltaRelativeTo( rootNode );
-                MatchingGameState newState = state.fractions( state.fractions.map( new F<MovableFraction, MovableFraction>() {
+                MatchingGameState newState = state.withFractions( state.fractions.map( new F<MovableFraction, MovableFraction>() {
                     @Override public MovableFraction f( MovableFraction f ) {
                         return f.dragging ? f.translate( delta.getWidth(), delta.getHeight() ) : f;
                     }
@@ -98,8 +98,8 @@ public class MovableFractionNode extends PNode {
 
                 final Vector2D selectedAttachmentPoint = sorted.head();
 
-                if ( selectedAttachmentPoint.equals( rightScaleAttachmentPoint ) ) { state = state.jettisonFraction( state.rightScale ).rightScaleDropTime( System.currentTimeMillis() ); }
-                if ( selectedAttachmentPoint.equals( leftScaleAttachmentPoint ) ) { state = state.jettisonFraction( state.leftScale ).leftScaleDropTime( System.currentTimeMillis() ); }
+                if ( selectedAttachmentPoint.equals( rightScaleAttachmentPoint ) ) { state = state.jettisonFraction( state.rightScale ).withRightScaleDropTime( System.currentTimeMillis() ); }
+                if ( selectedAttachmentPoint.equals( leftScaleAttachmentPoint ) ) { state = state.jettisonFraction( state.leftScale ).withLeftScaleDropTime( System.currentTimeMillis() ); }
 
                 //animate to the closest destination
                 final List<MovableFraction> newFractions = state.fractions.map( new F<MovableFraction, MovableFraction>() {
@@ -107,7 +107,7 @@ public class MovableFractionNode extends PNode {
                         return f.dragging ? f.dragging( false ).motion( tm.get( selectedAttachmentPoint ).some() ) : f;
                     }
                 } );
-                final MatchingGameState newState = state.fractions( newFractions );
+                final MatchingGameState newState = state.withFractions( newFractions );
                 model.set( newState );
             }
         } );
