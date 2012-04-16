@@ -1,3 +1,4 @@
+4/16/12 version of interactive equation that uses number pickers instead of spinners
 4/16/12 add "barrel" shapes to number pickers
 4/16/12 bug fix for SpinnerButtonNode, inherited from fractions
 4/16/12 intermediate, crude version of AP's number picker

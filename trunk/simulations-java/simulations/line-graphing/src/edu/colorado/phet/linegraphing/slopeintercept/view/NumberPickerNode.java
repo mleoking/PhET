@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.slopeintercept.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -16,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.Timer;
 import javax.swing.WindowConstants;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
@@ -27,6 +29,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChai
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -49,6 +52,43 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class NumberPickerNode extends PhetPNode {
 
+    private static final Color DISABLED_COLOR = new Color( 210, 210, 210 );
+    private static final Color SHADOW_COLOR = new Color( 120, 120, 120 );
+
+    // Picker for intercept
+    public static class InterceptPickerNode extends NumberPickerNode {
+        public InterceptPickerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
+            super( userComponent, value, range, 1, true, font, format,
+                   new NumberPickerColorScheme( new Color( 245, 245, 0 ), new Color( 255, 255, 0 ),
+                                                new Color( 230, 230, 0 ), new Color( 255, 255, 0 ),
+                                                DISABLED_COLOR, SHADOW_COLOR ) );
+        }
+    }
+
+    // Picker for rise
+    public static class RisePickerNode extends SlopePickerNode {
+        public RisePickerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
+            super( userComponent, value, range, font, format );
+        }
+    }
+
+    // Picker for run
+    public static class RunPickerNode extends SlopePickerNode {
+        public RunPickerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
+            super( userComponent, value, range, font, format );
+        }
+    }
+
+    // Picker for slope
+    public static abstract class SlopePickerNode extends NumberPickerNode {
+        public SlopePickerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
+            super( userComponent, value, range, 1, false, font, format,
+                   new NumberPickerColorScheme( new Color( 0, 245, 0 ), new Color( 0, 255, 0 ),
+                                                new Color( 0, 230, 0 ), new Color( 0, 255, 0 ),
+                                                DISABLED_COLOR, SHADOW_COLOR ) );
+        }
+    }
+
     // Data structure for picker color scheme
     public static class NumberPickerColorScheme {
 
@@ -68,6 +108,7 @@ public class NumberPickerNode extends PhetPNode {
         }
     }
 
+    private static final ImmutableVector2D SHADOW_OFFSET = new ImmutableVector2D( 2, 2 );
     private final Property<Boolean> topEnabled, bottomEnabled;
 
     public NumberPickerNode( IUserComponent userComponent,
@@ -91,8 +132,8 @@ public class NumberPickerNode extends PhetPNode {
         textNode.setText( "X" );
         final double maxHeight = textNode.getFullBoundsReference().getHeight();
 
-        final double xMargin = 6;
-        final double yMargin = 6;
+        final double xMargin = 3;
+        final double yMargin = 3;
         final double buttonWidth = maxWidth + ( 2 * xMargin );
         final double buttonHeight = ( maxHeight / 2 ) + ( 2 * yMargin );
         final PPath topButtonNode = new PPath( createTopButtonShape( buttonWidth, buttonHeight ) );
@@ -107,8 +148,11 @@ public class NumberPickerNode extends PhetPNode {
         bottomShadowNode.setPaint( colorScheme.shadowColor );
 
         // strokes
-        topButtonNode.setStroke( null );
-        bottomButtonNode.setStroke( null );
+        final Color strokeColor = new Color( 175, 175, 175 );
+        topButtonNode.setStroke( new BasicStroke( 0.5f ) );
+        topButtonNode.setStrokePaint( strokeColor );
+        bottomButtonNode.setStroke( new BasicStroke( 0.25f ) );
+        bottomButtonNode.setStrokePaint( strokeColor );
         topShadowNode.setStroke( null );
         bottomShadowNode.setStroke( null );
 
@@ -128,12 +172,10 @@ public class NumberPickerNode extends PhetPNode {
 
         // layout
         {
-            final double shadowXOffset = 3;
-            final double shadowYOffset = 3;
             topButtonNode.setOffset( 0, 0 );
-            topShadowNode.setOffset( topButtonNode.getXOffset() + shadowXOffset, topButtonNode.getYOffset() + shadowYOffset );
+            topShadowNode.setOffset( topButtonNode.getXOffset() + SHADOW_OFFSET.getX(), topButtonNode.getYOffset() + SHADOW_OFFSET.getY() );
             bottomButtonNode.setOffset( topButtonNode.getXOffset(), topButtonNode.getFullBoundsReference().getMaxY() );
-            bottomShadowNode.setOffset( bottomButtonNode.getXOffset() + shadowXOffset, bottomButtonNode.getYOffset() + shadowYOffset );
+            bottomShadowNode.setOffset( bottomButtonNode.getXOffset() + SHADOW_OFFSET.getX(), bottomButtonNode.getYOffset() + SHADOW_OFFSET.getY() );
             // textNode offset is set dynamically, to keep value centered
         }
 
@@ -154,20 +196,21 @@ public class NumberPickerNode extends PhetPNode {
         } );
 
         // sync with value
-        value.addObserver( new VoidFunction1<Double>() {
-            public void apply( Double value ) {
-                double adjustedValue = abs ? Math.abs( value ) : value;
+        final RichSimpleObserver observer = new RichSimpleObserver() {
+            @Override public void update() {
+                double adjustedValue = abs ? Math.abs( value.get() ) : value.get();
                 textNode.setText( format.format( adjustedValue ) );
                 textNode.setOffset( topButtonNode.getFullBoundsReference().getCenterX() - ( textNode.getFullBoundsReference().getWidth() / 2 ),
                                     topButtonNode.getFullBoundsReference().getMaxY() - ( textNode.getFullBoundsReference().getHeight() / 2 ) );
-                topEnabled.set( value < range.get().getMax() );
-                bottomEnabled.set( value > range.get().getMin() );
+                topEnabled.set( value.get() < range.get().getMax() );
+                bottomEnabled.set( value.get() > range.get().getMin() );
             }
-        } );
+        };
+        observer.observe( value, range );
 
         // button handlers
-        topButtonNode.addInputEventListener( topButtonCursorHandler  );
-        bottomButtonNode.addInputEventListener( bottomButtonCursorHandler  );
+        topButtonNode.addInputEventListener( topButtonCursorHandler );
+        bottomButtonNode.addInputEventListener( bottomButtonCursorHandler );
         topButtonNode.addInputEventListener( new IncrementButtonHandler( userComponent, topButtonNode, colorScheme.topNormalColor, colorScheme.topHighlightColor,
                                                                          topEnabled, value, range, delta ) );
         bottomButtonNode.addInputEventListener( new DecrementButtonHandler( userComponent, bottomButtonNode, colorScheme.bottomNormalColor, colorScheme.bottomHighlightColor,
@@ -177,10 +220,10 @@ public class NumberPickerNode extends PhetPNode {
     private static final Shape createTopButtonShape( double width, double height ) {
         DoubleGeneralPath path = new DoubleGeneralPath();
         path.moveTo( 0, height );
-        path.lineTo( 0, 0.75 * height );
+        path.lineTo( 0, 0.65 * height );
         path.lineTo( 0.1 * width, 0 );
         path.lineTo( 0.9 * width, 0 );
-        path.lineTo( width, 0.75 * height );
+        path.lineTo( width, 0.65 * height );
         path.lineTo( width, height );
         path.closePath();
         return path.getGeneralPath();
@@ -293,7 +336,7 @@ public class NumberPickerNode extends PhetPNode {
         @Override public void mousePressed( PInputEvent event ) {
             super.mousePressed( event );
             if ( enabled.get() ) {
-                buttonNode.setOffset( buttonNodeNormalOffset.getX() + 1, buttonNodeNormalOffset.getY() + 1 );
+                buttonNode.setOffset( buttonNodeNormalOffset.getX() + SHADOW_OFFSET.getX(), buttonNodeNormalOffset.getY() + SHADOW_OFFSET.getY() );
                 timer.start();
             }
         }
