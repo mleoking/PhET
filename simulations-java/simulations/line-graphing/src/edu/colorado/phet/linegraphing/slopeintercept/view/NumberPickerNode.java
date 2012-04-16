@@ -5,10 +5,10 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.text.NumberFormat;
 
 import javax.swing.JFrame;
@@ -28,6 +28,7 @@ import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -90,13 +91,14 @@ public class NumberPickerNode extends PhetPNode {
         textNode.setText( "X" );
         final double maxHeight = textNode.getFullBoundsReference().getHeight();
 
-        final double xMargin = 3;
-        final double yMargin = 3;
-        final Rectangle2D buttonShape = new Rectangle2D.Double( 0, 0, maxWidth + ( 2 * xMargin ), ( maxHeight / 2 ) + ( 2 * yMargin ) );
-        final PPath topButtonNode = new PPath( buttonShape );
-        final PPath bottomButtonNode = new PPath( buttonShape );
-        PPath topShadowNode = new PPath( buttonShape );
-        PPath bottomShadowNode = new PPath( buttonShape );
+        final double xMargin = 6;
+        final double yMargin = 6;
+        final double buttonWidth = maxWidth + ( 2 * xMargin );
+        final double buttonHeight = ( maxHeight / 2 ) + ( 2 * yMargin );
+        final PPath topButtonNode = new PPath( createTopButtonShape( buttonWidth, buttonHeight ) );
+        final PPath bottomButtonNode = new PPath( createBottomButtonShape( buttonWidth, buttonHeight ) );
+        PPath topShadowNode = new PPath( topButtonNode.getPathReference() );
+        PPath bottomShadowNode = new PPath( bottomButtonNode.getPathReference() );
 
         // fill colors
         topButtonNode.setPaint( colorScheme.topNormalColor );
@@ -126,8 +128,8 @@ public class NumberPickerNode extends PhetPNode {
 
         // layout
         {
-            final double shadowXOffset = 2;
-            final double shadowYOffset = 2;
+            final double shadowXOffset = 3;
+            final double shadowYOffset = 3;
             topButtonNode.setOffset( 0, 0 );
             topShadowNode.setOffset( topButtonNode.getXOffset() + shadowXOffset, topButtonNode.getYOffset() + shadowYOffset );
             bottomButtonNode.setOffset( topButtonNode.getXOffset(), topButtonNode.getFullBoundsReference().getMaxY() );
@@ -170,6 +172,30 @@ public class NumberPickerNode extends PhetPNode {
                                                                          topEnabled, value, range, delta ) );
         bottomButtonNode.addInputEventListener( new DecrementButtonHandler( userComponent, bottomButtonNode, colorScheme.bottomNormalColor, colorScheme.bottomHighlightColor,
                                                                             bottomEnabled, value, range, delta ) );
+    }
+
+    private static final Shape createTopButtonShape( double width, double height ) {
+        DoubleGeneralPath path = new DoubleGeneralPath();
+        path.moveTo( 0, height );
+        path.lineTo( 0, 0.75 * height );
+        path.lineTo( 0.1 * width, 0 );
+        path.lineTo( 0.9 * width, 0 );
+        path.lineTo( width, 0.75 * height );
+        path.lineTo( width, height );
+        path.closePath();
+        return path.getGeneralPath();
+    }
+
+    private static final Shape createBottomButtonShape( double width, double height ) {
+        DoubleGeneralPath path = new DoubleGeneralPath();
+        path.moveTo( 0, 0 );
+        path.lineTo( 0, 0.25 * height );
+        path.lineTo( 0.1 * width, height );
+        path.lineTo( 0.9 * width, height );
+        path.lineTo( width, 0.25 * height );
+        path.lineTo( width, 0 );
+        path.closePath();
+        return path.getGeneralPath();
     }
 
     private static class IncrementButtonHandler extends ButtonHandler {
@@ -291,8 +317,8 @@ public class NumberPickerNode extends PhetPNode {
     // test
     public static void main( String[] args ) {
 
-        NumberPickerColorScheme colorScheme = new NumberPickerColorScheme( Color.GREEN.darker(), Color.GREEN, Color.LIGHT_GRAY,
-                                                                           Color.RED.darker(), Color.RED, Color.LIGHT_GRAY,
+        NumberPickerColorScheme colorScheme = new NumberPickerColorScheme( new Color( 0, 225, 0 ), new Color( 0, 255, 0 ), Color.LIGHT_GRAY,
+                                                                           new Color( 0, 180, 0 ), new Color( 0, 255, 0 ), Color.LIGHT_GRAY,
                                                                            Color.DARK_GRAY );
         Property<Double> value = new Property<Double>( 3d );
         Property<DoubleRange> range = new Property<DoubleRange>( new DoubleRange( -10, 10 ) );
