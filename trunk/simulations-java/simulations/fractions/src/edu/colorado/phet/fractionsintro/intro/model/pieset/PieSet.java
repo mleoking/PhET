@@ -41,10 +41,8 @@ import static fj.data.List.range;
     //The factory, which is used to get locations for animating pieces to bucket and cells
     public final SliceFactory sliceFactory;
 
-    private static final Random random = new Random();
-
-    public PieSet( int numPies, SliceFactory sliceFactory ) {
-        this( 1, sliceFactory.createEmptyPies( numPies, 1 ), sliceFactory.createSlicesForBucket( 1, 6 ), sliceFactory );
+    public PieSet( int numPies, SliceFactory sliceFactory, long randomSeed ) {
+        this( 1, sliceFactory.createEmptyPies( numPies, 1 ), sliceFactory.createSlicesForBucket( 1, 6, randomSeed ), sliceFactory );
     }
 
     public PieSet( int denominator, List<Pie> pies, List<Slice> slices, SliceFactory sliceFactory ) {
@@ -185,13 +183,13 @@ import static fj.data.List.range;
         } ) );
     }
 
-    public PieSet animateBucketSliceToPie( CellPointer emptyCell ) {
+    public PieSet animateBucketSliceToPie( CellPointer emptyCell, long randomSeed ) {
 
         final List<Slice> bucketSlices = getBucketSlices();
 
         //Randomly choose a slice as the prototype for where the slice should come from.
         //But do not actually delete the slice because there must seem to be an "infinite" supply from the bucket.
-        final Slice bucketSlice = bucketSlices.index( random.nextInt( bucketSlices.length() ) );
+        final Slice bucketSlice = bucketSlices.index( new Random( randomSeed ).nextInt( bucketSlices.length() ) );
 
         final Slice target = sliceFactory.createPieCell( pies.length(), emptyCell.container, emptyCell.cell, denominator );
         return slices( slices.snoc( bucketSlice.animationTarget( target ) ) );
@@ -205,7 +203,7 @@ import static fj.data.List.range;
         } );
     }
 
-    public PieSet animateSliceToBucket( CellPointer cell ) {
+    public PieSet animateSliceToBucket( CellPointer cell, long randomSeed ) {
 
         //Cell that should be moved
         //May choose a slice that is on its way to a pie
@@ -223,14 +221,14 @@ import static fj.data.List.range;
         } ).some();
 
         //Could be none if still animating
-        return animateSliceToBucket( slice );
+        return animateSliceToBucket( slice, randomSeed );
     }
 
-    public PieSet animateSliceToBucket( final Slice slice ) {
+    public PieSet animateSliceToBucket( final Slice slice, final long randomSeed ) {
         //Stepping the animation ensures that its center won't be at the center of a pie and hence it won't be identified as being "contained" in that pie
         final List<Slice> newSlices = slices.map( new F<Slice, Slice>() {
             @Override public Slice f( Slice m ) {
-                return m == slice ? m.animationTarget( sliceFactory.createBucketSlice( denominator ) ).stepAnimation() : m;
+                return m == slice ? m.animationTarget( sliceFactory.createBucketSlice( denominator, randomSeed ) ).stepAnimation() : m;
             }
         } );
 

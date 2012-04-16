@@ -25,8 +25,9 @@ import static edu.colorado.phet.fractionsintro.intro.model.pieset.AnimationTarge
     public final AnimationTarget animationTarget;
 
     //Left as a function instead of a field so we don't eagerly compute it until necessary
-    //Also transient so that it doesn't appear in Lombok equals--necessary because slices are put as keys in a map
-    private transient final F<Slice, Shape> toShape;
+    //This toShape function should use Lombok (or something else) to generate an equals() function for equality testing of Slices.
+    //Equality should be correct for Slices because they are put in a map
+    public final F<Slice, Shape> toShape;
     public final Color color;
 
     //Copy methods:
