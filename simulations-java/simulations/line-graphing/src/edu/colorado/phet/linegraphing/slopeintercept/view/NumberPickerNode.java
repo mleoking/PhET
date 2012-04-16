@@ -160,7 +160,6 @@ public class NumberPickerNode extends PhetPNode {
                                     topButtonNode.getFullBoundsReference().getMaxY() - ( textNode.getFullBoundsReference().getHeight() / 2 ) );
                 topEnabled.set( value < range.get().getMax() );
                 bottomEnabled.set( value > range.get().getMin() );
-                System.out.println( "value = " + value + " range=" + range + " bottomEnabled=" + bottomEnabled.get() );//XXX
             }
         } );
 
