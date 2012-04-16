@@ -2,10 +2,11 @@
 package edu.colorado.phet.fractionsintro.intro.model.pieset.factories;
 
 import fj.F;
+import lombok.Data;
 
 import java.awt.Color;
 import java.awt.Shape;
-import java.awt.geom.Rectangle2D;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.fractions.util.immutable.Dimension2D;
@@ -17,7 +18,7 @@ import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
  *
  * @author Sam Reid
  */
-public class VerticalSliceFactory extends SliceFactory {
+public @Data class VerticalSliceFactory extends SliceFactory {
 
     public final double barWidth;
     public final double barHeight;
@@ -40,15 +41,12 @@ public class VerticalSliceFactory extends SliceFactory {
 
     //Returns the shape for the slice
     public final F<Slice, Shape> createToShape( final double height ) {
-        return new F<Slice, Shape>() {
-            @Override public Shape f( Slice slice ) {
-                return new Rectangle2D.Double( slice.position.getX() - barWidth / 2, slice.position.getY() - height / 2, barWidth, height );
-            }
-        };
+        return new VerticalShape( height, barWidth );
     }
 
     //Put the pieces right in the center of the bucket hole.
-    public Slice createBucketSlice( int denominator ) {
+    public Slice createBucketSlice( int denominator, long randomSeed ) {
+        Random random = new Random( randomSeed );
         final Slice cell = createPieCell( 6, 0, 0, denominator, fullBars ? barHeight : barHeight / denominator );
         final Shape shape = cell.getShape();
         double leftEdgeBucketHole = getBucketCenter().getX() - bucket.getHoleShape().getBounds2D().getWidth() / 2 + shape.getBounds2D().getWidth() / 2 + 20;

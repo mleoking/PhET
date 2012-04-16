@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.model.property.integerproperty.Intege
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ParameterKeys;
+import edu.colorado.phet.fractionsintro.intro.controller.ChangeNumerator;
 import edu.colorado.phet.fractionsintro.intro.controller.ChangeRepresentation;
 import edu.colorado.phet.fractionsintro.intro.controller.UpdateCircularPies;
 import edu.colorado.phet.fractionsintro.intro.model.containerset.CellPointer;
@@ -103,37 +104,7 @@ public class FractionsIntroModel implements Serializable {
             public Integer f( IntroState s ) {
                 return s.numerator;
             }
-        }, new F2<IntroState, Integer, IntroState>() {
-            public IntroState f( IntroState s, Integer numerator ) {
-                int oldValue = s.numerator;
-                int delta = numerator - oldValue;
-                if ( delta > 0 ) {
-                    for ( int i = 0; i < delta; i++ ) {
-                        final CellPointer firstEmptyCell = s.containerSet.getFirstEmptyCell();
-                        s = s.updatePieSets( new F<PieSet, PieSet>() {
-                            @Override public PieSet f( PieSet p ) {
-                                return p.animateBucketSliceToPie( firstEmptyCell );
-                            }
-                        } ).numerator( numerator );
-                    }
-                }
-                else if ( delta < 0 ) {
-                    for ( int i = 0; i < Math.abs( delta ); i++ ) {
-                        final CellPointer lastFullCell = s.containerSet.getLastFullCell();
-                        s = s.updatePieSets( new F<PieSet, PieSet>() {
-                            @Override public PieSet f( PieSet p ) {
-                                return p.animateSliceToBucket( lastFullCell );
-                            }
-                        } ).numerator( numerator );
-                    }
-                }
-                else {
-                    //Nothing to do if delta == 0
-                }
-                return s;
-            }
-        }
-        ).toIntegerProperty();
+        }, record( new ChangeNumerator() ) ).toIntegerProperty();
 
         denominator = new IntClientProperty( state, new F<IntroState, Integer>() {
             public Integer f( IntroState s ) {
@@ -155,8 +126,7 @@ public class FractionsIntroModel implements Serializable {
             public PieSet f( IntroState s ) {
                 return s.pieSet;
             }
-        },
-                record( new UpdateCircularPies( factorySet ) )
+        }, record( new UpdateCircularPies( factorySet ) )
         );
 
         //When the user drags slices, update the ContainerSet (so it will update the spinner and make it easy to switch representations)
@@ -277,19 +247,19 @@ public class FractionsIntroModel implements Serializable {
 
                         //TODO: improve readability
                         final Slice newPieSlice = CircularSliceFactory.createPieCell( s.maximum, cp.container, cp.cell, s.denominator );
-                        newState = newState.pieSet( newState.pieSet.slices( newState.pieSet.slices.cons( newPieSlice ) ).animateSliceToBucket( newPieSlice ) );
+                        newState = newState.pieSet( newState.pieSet.slices( newState.pieSet.slices.cons( newPieSlice ) ).animateSliceToBucket( newPieSlice, s.randomSeed ) );
 
                         final Slice newHorizontalSlice = HorizontalSliceFactory.createPieCell( s.maximum, cp.container, cp.cell, s.denominator );
-                        newState = newState.horizontalBarSet( newState.horizontalBarSet.slices( newState.horizontalBarSet.slices.cons( newHorizontalSlice ) ).animateSliceToBucket( newHorizontalSlice ) );
+                        newState = newState.horizontalBarSet( newState.horizontalBarSet.slices( newState.horizontalBarSet.slices.cons( newHorizontalSlice ) ).animateSliceToBucket( newHorizontalSlice, s.randomSeed ) );
 
                         final Slice newVerticalSlice = VerticalSliceFactory.createPieCell( s.maximum, cp.container, cp.cell, s.denominator );
-                        newState = newState.verticalBarSet( newState.verticalBarSet.slices( newState.verticalBarSet.slices.cons( newVerticalSlice ) ).animateSliceToBucket( newVerticalSlice ) );
+                        newState = newState.verticalBarSet( newState.verticalBarSet.slices( newState.verticalBarSet.slices.cons( newVerticalSlice ) ).animateSliceToBucket( newVerticalSlice, s.randomSeed ) );
 
                         final Slice newWaterSlice = WaterGlassSetFactory.createPieCell( s.maximum, cp.container, cp.cell, s.denominator );
-                        newState = newState.waterGlassSet( newState.waterGlassSet.slices( newState.waterGlassSet.slices.cons( newWaterSlice ) ).animateSliceToBucket( newWaterSlice ) );
+                        newState = newState.waterGlassSet( newState.waterGlassSet.slices( newState.waterGlassSet.slices.cons( newWaterSlice ) ).animateSliceToBucket( newWaterSlice, s.randomSeed ) );
 
                         final Slice newCakeSlice = cakeSliceFactory.createPieCell( s.maximum, cp.container, cp.cell, s.denominator );
-                        newState = newState.cakeSet( newState.cakeSet.slices( newState.cakeSet.slices.cons( newCakeSlice ) ).animateSliceToBucket( newCakeSlice ) );
+                        newState = newState.cakeSet( newState.cakeSet.slices( newState.cakeSet.slices.cons( newCakeSlice ) ).animateSliceToBucket( newCakeSlice, s.randomSeed ) );
 
                         csx = csx.toggle( cp );
                     }
@@ -321,4 +291,8 @@ public class FractionsIntroModel implements Serializable {
     public void resetAll() { state.set( initialState ); }
 
     public Clock getClock() { return clock;}
+
+    public long getRandomSeed() {
+        return state.get().randomSeed;
+    }
 }

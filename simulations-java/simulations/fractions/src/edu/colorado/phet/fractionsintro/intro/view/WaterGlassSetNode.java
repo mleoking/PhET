@@ -35,7 +35,7 @@ public class WaterGlassSetNode extends PieSetNode {
     //The water glass icon has to use bucket slice since it doesn't have an empty background like the other bucket icon nodes
     public static PNode createIcon( final PieSet state, final F<SliceNodeArgs, PNode> createSliceNode ) {
         return new PNode() {{
-            Slice slice = state.sliceFactory.createBucketSlice( state.denominator );
+            Slice slice = state.sliceFactory.createBucketSlice( state.denominator, 0L );
 
             //Create the slice.  Wrap the state in a dummy Property to facilitate reuse of MovableSliceNode code.
             //Could be improved by generalizing MovableSliceNode to not require

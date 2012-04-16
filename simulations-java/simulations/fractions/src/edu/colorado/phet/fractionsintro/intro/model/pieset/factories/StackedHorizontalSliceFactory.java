@@ -2,10 +2,11 @@
 package edu.colorado.phet.fractionsintro.intro.model.pieset.factories;
 
 import fj.F;
+import lombok.Data;
 
 import java.awt.Color;
 import java.awt.Shape;
-import java.awt.geom.Rectangle2D;
+import java.util.Random;
 
 import edu.colorado.phet.fractions.util.immutable.Dimension2D;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
@@ -16,7 +17,7 @@ import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
  *
  * @author Sam Reid
  */
-public class StackedHorizontalSliceFactory extends SliceFactory {
+public @Data class StackedHorizontalSliceFactory extends SliceFactory {
 
     private final double x;
     private final double y;
@@ -31,16 +32,12 @@ public class StackedHorizontalSliceFactory extends SliceFactory {
 
     //Returns the shape for the slice, but gets rid of the "crack" appearing to the right in full circles by using an ellipse instead.
     public final F<Slice, Shape> createToShape( final double width ) {
-        return new F<Slice, Shape>() {
-            @Override public Shape f( Slice slice ) {
-                Vector2D tip = slice.position;
-                return new Rectangle2D.Double( tip.getX() - width / 2, tip.getY() - barHeight / 2, width, barHeight );
-            }
-        };
+        return new StackedHorizontalSliceToShape( width, barHeight );
     }
 
     //Put the pieces right in the center of the bucket hole.
-    public Slice createBucketSlice( int denominator ) {
+    public Slice createBucketSlice( int denominator, long randomSeed ) {
+        Random random = new Random( randomSeed );
         final Slice cell = createPieCell( 6, 0, 0, denominator );
         final Shape shape = cell.getShape();
         double leftEdgeBucketHole = getBucketCenter().getX() - bucket.getHoleShape().getBounds2D().getWidth() / 2 + shape.getBounds2D().getWidth() / 2 + 20;

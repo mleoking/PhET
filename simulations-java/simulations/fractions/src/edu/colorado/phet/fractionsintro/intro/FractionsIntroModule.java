@@ -20,7 +20,7 @@ import static edu.colorado.phet.fractionsintro.intro.model.IntroState.createFact
  */
 public class FractionsIntroModule extends AbstractFractionsModule {
     public FractionsIntroModule() {
-        this( new FractionsIntroModel( IntroState.newState( 1, createFactorySet() ), createFactorySet() ) );
+        this( new FractionsIntroModel( IntroState.newState( 1, createFactorySet(), System.currentTimeMillis() ), createFactorySet() ) );
     }
 
     private FractionsIntroModule( FractionsIntroModel model ) {

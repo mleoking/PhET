@@ -79,7 +79,7 @@ public class MovableSliceNode extends PNode {
                     public Slice f( Slice s ) {
                         Slice target = state.getDropTarget( s );
                         return s.dragging && target != null ? s.moveTo( target ) :
-                               s.dragging ? s.dragging( false ).animationTarget( model.get().sliceFactory.createBucketSlice( model.get().denominator ) ) :
+                               s.dragging ? s.dragging( false ).animationTarget( model.get().sliceFactory.createBucketSlice( model.get().denominator, System.currentTimeMillis() ) ) :
                                s;
                     }
                 } );

@@ -17,7 +17,7 @@ public class VerticalBarIcon implements RepresentationIcon {
     private final PNode node;
 
     public VerticalBarIcon( final SliceFactory sliceFactory, final Color color ) {
-        node = new ShapeNode( sliceFactory.createBucketSlice( 1 ) ) {{
+        node = new ShapeNode( sliceFactory.createBucketSlice( 1, 0L ) ) {{
             scale( 44 / getFullBounds().getWidth() );
             setPaint( color );
         }};
