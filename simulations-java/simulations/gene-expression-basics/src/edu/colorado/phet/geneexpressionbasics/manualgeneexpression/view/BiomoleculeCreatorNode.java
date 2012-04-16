@@ -11,6 +11,7 @@ import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -49,7 +50,7 @@ public class BiomoleculeCreatorNode extends PComposite {
      *                             creates a look like the object was dragged
      *                             out of the tool box.
      */
-    public BiomoleculeCreatorNode( PNode appearanceNode,
+    public BiomoleculeCreatorNode( PPath appearanceNode,
                                    ManualGeneExpressionCanvas canvas,
                                    final ModelViewTransform mvt,
                                    final Function1<Point2D, MobileBiomolecule> moleculeCreator,
@@ -65,7 +66,8 @@ public class BiomoleculeCreatorNode extends PComposite {
         addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mousePressed( PInputEvent event ) {
-                BiomoleculeCreatorNode.this.appearanceNode.setVisible( !goInvisibleOnAdd );
+//                BiomoleculeCreatorNode.this.appearanceNode.setVisible( !goInvisibleOnAdd );
+                BiomoleculeCreatorNode.this.appearanceNode.setTransparency( 0.3f );
                 biomolecule = moleculeCreator.apply( getModelPosition( event.getCanvasPosition() ) );
                 biomolecule.userControlled.set( true );
                 // Add an observer to watch for this model element to be returned.
@@ -82,7 +84,8 @@ public class BiomoleculeCreatorNode extends PComposite {
                                 moleculeDestroyer.apply( finalBiomolecule );
                                 System.out.println( "Molecule returned to tool box." );
                                 finalBiomolecule.userControlled.removeObserver( this );
-                                BiomoleculeCreatorNode.this.appearanceNode.setVisible( true );
+//                                BiomoleculeCreatorNode.this.appearanceNode.setVisible( true );
+                                BiomoleculeCreatorNode.this.appearanceNode.setTransparency( 1 );
                             }
                         }
                     }
@@ -102,6 +105,8 @@ public class BiomoleculeCreatorNode extends PComposite {
                 biomolecule = null;
             }
         } );
+
+        // Add the main node with which the user will interact.
         addChild( appearanceNode );
     }
 
