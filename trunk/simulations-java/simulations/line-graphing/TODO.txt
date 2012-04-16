@@ -9,16 +9,16 @@ HIGH
 - implement Point-Slope tab
 
 MEDIUM
-- create spinner buttons programmatically, so they look more like line manipulators
-- clean up standard line icons (no equation on line, shorter line)
 - don't like all the MathUtil.round that's going on
+- don't like having int methods in SlopeInterceptLine model
 
 LOW
+- clean up standard line icons (no equation on line, shorter line)
 - change tip of point tool image, having it on a 45-degree angle makes it line up with slopes too often (eg, y=x, y=-x)
 - grid node gets bigger when IntroModel.GRID_MODEL_UNITS gets smaller, size should remain constant
 - review internal duplication in GraphNode
-- don't like having int methods in SlopeInterceptLine model
-- spinner alternative: small up/down arrows above/below each number
+- create spinner buttons programmatically, so they look more like line manipulators
+- PointToolNode looks a little ragged around image edges, resize image or use multiscaling
 
 SIM-SHARING
 
