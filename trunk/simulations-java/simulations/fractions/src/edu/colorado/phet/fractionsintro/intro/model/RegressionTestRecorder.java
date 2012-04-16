@@ -6,9 +6,12 @@ import lombok.Data;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -153,24 +156,26 @@ public class RegressionTestRecorder<A, B> extends F<A, B> {
 
     public static void main( String[] args ) {
         try {
-            for ( int index = 0; index < 100; index++ ) {
-                final File xmlFile = new File( "C:\\Users\\Sam\\Desktop\\tests\\save_" + index + ".xml" );
-                if ( xmlFile.exists() ) {
-                    Entry e = loadXStream( xmlFile );
-                    Object output = e.function.f( e.input );
-                    boolean equals = output.equals( e.output );
-                    final PrintStream stream = equals ? System.out : System.err;
-                    stream.println( ( equals ? "pass" : "fail" ) + ", index = " + index + " function = " + e.function );
-                    if ( !equals ) {
-                        if ( debug ) {
-                            output.equals( e.output );
-                        }
-                        stream.println( "loadedValue = " + e.output );
-                        stream.println( "computedVal = " + output );
-                    }
+            File testDir = new File( "C:\\Users\\Sam\\Desktop\\tests" );
+            File[] children = testDir.listFiles( new FilenameFilter() {
+                @Override public boolean accept( final File dir, final String name ) {
+                    return name.endsWith( ".xml" );
                 }
-                else {
-                    break;
+            } );
+            Arrays.sort( children, new Comparator<File>() {
+                @Override public int compare( final File o1, final File o2 ) {
+                    return Double.compare( o1.lastModified(), o2.lastModified() );
+                }
+            } );
+            for ( File file : children ) {
+                Entry e = loadXStream( file );
+                Object output = e.function.f( e.input );
+                boolean equals = output.equals( e.output );
+                final PrintStream stream = equals ? System.out : System.err;
+                stream.println( ( equals ? "pass" : "fail" ) + ", file = " + file.getName() + " function = " + e.function );
+                if ( !equals ) {
+                    stream.println( "loadedValue = " + e.output );
+                    stream.println( "computedVal = " + output );
                 }
             }
         }
