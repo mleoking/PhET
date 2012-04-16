@@ -17,7 +17,7 @@ import edu.colorado.phet.fractions.view.FNode;
  * @author Sam Reid
  */
 public class BarGraphNode extends FNode {
-    public BarGraphNode( double leftScaleValue, double leftScaleDropTime, double rightScaleValue, double rightScaleDropTime ) {
+    public BarGraphNode( double leftScaleValue, double leftScaleDropTime, double rightScaleValue, double rightScaleDropTime, final boolean showBars ) {
         double majorWidth = 90;
         double minorWidth = 70;
         double innerWidth = 50;
@@ -32,12 +32,14 @@ public class BarGraphNode extends FNode {
         addLine( 200, majorWidth, 2, "0" );
         addChild( new PhetPPath( new Line2D.Double( 0, -15, 0, 200 ), new BasicStroke( 2 ), Color.black ) );
 
-        final double leftBarHeight = leftScaleValue * 100;
-        final int barWidth = 17;
-        addChild( new PhetPPath( new Rectangle2D.Double( -20, 200 - leftBarHeight, barWidth, leftBarHeight ), Color.red, new BasicStroke( 1 ), Color.black ) );
+        if ( showBars ) {
+            final double leftBarHeight = leftScaleValue * 100;
+            final int barWidth = 17;
+            addChild( new PhetPPath( new Rectangle2D.Double( -20, 200 - leftBarHeight, barWidth, leftBarHeight ), Color.red, new BasicStroke( 1 ), Color.black ) );
 
-        final double rightBarHeight = rightScaleValue * 100;
-        addChild( new PhetPPath( new Rectangle2D.Double( 0, 200 - rightBarHeight, barWidth, rightBarHeight ), Color.red, new BasicStroke( 1 ), Color.black ) );
+            final double rightBarHeight = rightScaleValue * 100;
+            addChild( new PhetPPath( new Rectangle2D.Double( 0, 200 - rightBarHeight, barWidth, rightBarHeight ), Color.red, new BasicStroke( 1 ), Color.black ) );
+        }
     }
 
     private void addLine( double y, double width, float strokeWidth ) {

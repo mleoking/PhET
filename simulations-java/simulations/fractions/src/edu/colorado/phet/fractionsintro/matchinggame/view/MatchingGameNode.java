@@ -11,35 +11,26 @@ import java.awt.event.ActionListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
+import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractions.view.FNode;
-import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ComponentTypes;
 import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
-import edu.colorado.phet.fractionsintro.intro.view.FractionsIntroCanvas;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Cell;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MovableFraction;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Scale;
+import edu.colorado.phet.fractionsintro.matchinggame.model.State;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.nodes.PImage;
 
-import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState.initialState;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState.newLevel;
 import static java.awt.Color.lightGray;
@@ -60,17 +51,16 @@ public class MatchingGameNode extends FNode {
         final PNode scales = new RichPNode( state.leftScale.toNode(), state.rightScale.toNode() );
         addChild( scales );
 
-        addChild( new ZeroOffsetNode( new BarGraphNode( state.getLeftScaleValue(), state.leftScaleDropTime, state.getRightScaleValue(), state.rightScaleDropTime ) ) {{
+        addChild( new ZeroOffsetNode( new BarGraphNode( state.getLeftScaleValue(), state.leftScaleDropTime, state.getRightScaleValue(), state.rightScaleDropTime,
+                                                        state.state == State.SHOWING_WHY_ANSWER_WRONG || state.state == State.RIGHT ) ) {{
             setOffset( scales.getFullBounds().getCenterX() - getFullWidth() / 2, scales.getFullBounds().getCenterY() - getFullHeight() - 15 );
         }} );
 
-        final FNode scalesNode = new FNode() {{
-            state.getScales().map( new F<Scale, PNode>() {
-                @Override public PNode f( Scale s ) {
-                    return s.toNode();
-                }
-            } ).foreach( addChild );
-        }};
+        final FNode scalesNode = new FNode( state.getScales().map( new F<Scale, PNode>() {
+            @Override public PNode f( final Scale s ) {
+                return s.toNode();
+            }
+        } ) );
         addChild( scalesNode );
 
         final FNode scoreCellsLayer = new FNode( state.scoreCells.map( new F<Cell, PNode>() {
@@ -86,34 +76,70 @@ public class MatchingGameNode extends FNode {
             setOffset( scoreCellsLayer.getChild( 0 ).getFullBounds().getCenterX() - getFullWidth() / 2, scoreCellsLayer.getMaxY() );
         }} );
 
+        final ImmutableVector2D buttonLocation = new ImmutableVector2D( state.getLastDroppedScaleRight() ? scalesNode.getFullBounds().getMaxX() + 80 :
+                                                                        scalesNode.getFullBounds().getX() - getFullBounds().getWidth(), scalesNode.getFullBounds().getCenterY() );
         if ( state.getLeftScaleValue() > 0 && state.getRightScaleValue() > 0 ) {
+            System.out.println( "state = " + state.state + ", state.checks = " + state.checks );
+            if ( state.state == State.SHOWING_WHY_ANSWER_WRONG ) {
+                addSignNode( state, scales );
 
-            class TextSign extends PNode {
-                TextSign( String text ) {
-                    final PhetFont textFont = new PhetFont( 100, true );
-                    final PNode sign = createSignNode( textFont.createGlyphVector( new FontRenderContext( new AffineTransform(), true, true ), text ).getOutline() );
-                    addChild( sign );
-                }
-            }
+                if ( state.checks < 2 ) {
 
-            final PNode sign = state.getLeftScaleValue() < state.getRightScaleValue() ? new TextSign( "<" ) :
-                               state.getLeftScaleValue() > state.getRightScaleValue() ? new TextSign( ">" ) :
-                               new EqualsSignNode();
-            sign.centerFullBoundsOnPoint( scales.getFullBounds().getCenter2D().getX(), scales.getFullBounds().getCenter2D().getY() + 10 );
-            addChild( sign );
-
-            //If they match, show a "Keep" button. This allows the student to look at the right answer as long as they want before moving it to the scoreboard.
-            if ( state.getLeftScaleValue() == state.getRightScaleValue() ) {
-                addChild( new HTMLImageButtonNode( "Keep<br>Match", new PhetFont( 16, true ), Color.orange ) {{
-                    setUserComponent( Components.keepMatchButton );
-                    centerFullBoundsOnPoint( state.getLastDroppedScaleRight() ? scalesNode.getFullBounds().getMaxX() + 80 :
-                                             scalesNode.getFullBounds().getX() - getFullBounds().getWidth(), scalesNode.getFullBounds().getCenterY() );
-                    addActionListener( new ActionListener() {
-                        @Override public void actionPerformed( ActionEvent e ) {
-                            model.set( model.get().animateMatchToScoreCell() );
+                    TextButtonNode checkAnswerButtonNode = new TextButtonNode( "Try again", new PhetFont( 18, true ) );
+                    checkAnswerButtonNode.addActionListener( new ActionListener() {
+                        @Override public void actionPerformed( final ActionEvent e ) {
+                            model.set( new TryAgain().f( model.get() ) );
                         }
                     } );
-                }} );
+                    checkAnswerButtonNode.centerFullBoundsOnPoint( buttonLocation );
+                    addChild( checkAnswerButtonNode );
+                }
+                else {
+                    TextButtonNode checkAnswerButtonNode = new TextButtonNode( "Show answer", new PhetFont( 18, true ) );
+                    checkAnswerButtonNode.addActionListener( new ActionListener() {
+                        @Override public void actionPerformed( final ActionEvent e ) {
+                            model.set( new TryAgain().f( model.get() ) );
+                        }
+                    } );
+                    checkAnswerButtonNode.centerFullBoundsOnPoint( buttonLocation );
+                    addChild( checkAnswerButtonNode );
+                }
+            }
+            else if ( state.checks < 2 && state.state == State.WAITING_FOR_USER_TO_CHECK_ANSWER ) {
+                TextButtonNode checkAnswerButtonNode = new TextButtonNode( "Check answer", new PhetFont( 18, true ) );
+                checkAnswerButtonNode.addActionListener( new ActionListener() {
+                    @Override public void actionPerformed( final ActionEvent e ) {
+                        model.set( new CheckAnswer().f( model.get() ) );
+                    }
+                } );
+                checkAnswerButtonNode.centerFullBoundsOnPoint( buttonLocation );
+                addChild( checkAnswerButtonNode );
+            }
+            else if ( state.checks >= 2 ) {
+                TextButtonNode checkAnswerButtonNode = new TextButtonNode( "Show answer", new PhetFont( 18, true ) );
+                checkAnswerButtonNode.addActionListener( new ActionListener() {
+                    @Override public void actionPerformed( final ActionEvent e ) {
+                        model.set( new ShowAnswer().f( model.get() ) );
+                    }
+                } );
+                checkAnswerButtonNode.centerFullBoundsOnPoint( buttonLocation );
+                addChild( checkAnswerButtonNode );
+            }
+            else if ( state.state == State.RIGHT ) {
+                addSignNode( state, scales );
+
+                //If they match, show a "Keep" button. This allows the student to look at the right answer as long as they want before moving it to the scoreboard.
+                if ( state.getLeftScaleValue() == state.getRightScaleValue() ) {
+                    addChild( new HTMLImageButtonNode( "Keep<br>Match", new PhetFont( 16, true ), Color.orange ) {{
+                        setUserComponent( Components.keepMatchButton );
+                        centerFullBoundsOnPoint( buttonLocation );
+                        addActionListener( new ActionListener() {
+                            @Override public void actionPerformed( ActionEvent e ) {
+                                model.set( model.get().animateMatchToScoreCell().withState( State.WAITING_FOR_USER_TO_CHECK_ANSWER ) );
+                            }
+                        } );
+                    }} );
+                }
             }
         }
         state.scoreCells.take( state.scored ).map( new F<Cell, PNode>() {
@@ -137,7 +163,7 @@ public class MatchingGameNode extends FNode {
         final int newLevel = state.level + 1;
         final ActionListener nextLevel = new ActionListener() {
             @Override public void actionPerformed( ActionEvent e ) {
-                model.set( newLevel( newLevel ).audio( state.audio ) );
+                model.set( newLevel( newLevel ).withAudio( state.audio ) );
             }
         };
 
@@ -145,7 +171,7 @@ public class MatchingGameNode extends FNode {
 
             final ActionListener playAgain = new ActionListener() {
                 @Override public void actionPerformed( ActionEvent e ) {
-                    model.set( newLevel( state.level ).audio( state.audio ) );
+                    model.set( newLevel( state.level ).withAudio( state.audio ) );
                 }
             };
 
@@ -155,17 +181,6 @@ public class MatchingGameNode extends FNode {
                 setOffset( AbstractFractionsCanvas.STAGE_SIZE.getWidth() - getFullWidth(), AbstractFractionsCanvas.STAGE_SIZE.getHeight() / 2 - getFullHeight() / 2 );
             }} );
         }
-        addChild( new PImage( state.audio ? Images.SOUND_MAX : Images.SOUND_MIN ) {{
-            setOffset( FractionsIntroCanvas.STAGE_SIZE.getWidth() - getFullBounds().getWidth() - INSET, FractionsIntroCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() - INSET );
-            addInputEventListener( new CursorHandler() );
-            addInputEventListener( new PBasicInputEventHandler() {
-                @Override public void mousePressed( PInputEvent event ) {
-                    final boolean newValue = !state.audio;
-                    SimSharingManager.sendUserMessage( Components.audioButton, ComponentTypes.spriteCheckBox, UserActions.pressed, ParameterSet.parameterSet( ParameterKeys.value, newValue ) );
-                    model.set( state.audio( newValue ) );
-                }
-            } );
-        }} );
 
         if ( showDeveloperControls ) {
             addChild( new VBox(
@@ -188,5 +203,21 @@ public class MatchingGameNode extends FNode {
                     }}
             ) {{setOffset( 0, 200 );}} );
         }
+    }
+
+    private void addSignNode( final MatchingGameState state, final PNode scales ) {
+        class TextSign extends PNode {
+            TextSign( String text ) {
+                final PhetFont textFont = new PhetFont( 100, true );
+                final PNode sign = createSignNode( textFont.createGlyphVector( new FontRenderContext( new AffineTransform(), true, true ), text ).getOutline() );
+                addChild( sign );
+            }
+        }
+
+        final PNode sign = state.getLeftScaleValue() < state.getRightScaleValue() ? new TextSign( "<" ) :
+                           state.getLeftScaleValue() > state.getRightScaleValue() ? new TextSign( ">" ) :
+                           new EqualsSignNode();
+        sign.centerFullBoundsOnPoint( scales.getFullBounds().getCenter2D().getX(), scales.getFullBounds().getCenter2D().getY() + 10 );
+        addChild( sign );
     }
 }
