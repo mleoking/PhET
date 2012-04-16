@@ -18,23 +18,47 @@ import com.thoughtworks.xstream.XStream;
 
 /**
  * Function wrapper that also records the results of invocation for later testing.
+ * <p/>
+ * Regression tests for the model:
+ * When the user interacts with the sim, the simulation state is taken from an initial state s0 to a final state s1 like this:
+ * <p/>
+ * s1 = f(s0)
+ * <p/>
+ * In order to make this testable, these 3 components (s0, f, s1) are recorded to disk, so that the code may be checked at a later time.  These regression tests are generated at runtime as the user/tests plays with the sim, and hence guarantees that the tested inputs and outputs are natural states of the sim (and not, say, unusual corner cases).
+ * <p/>
+ * This form of testing could also be used to record stepInTime events, but perhaps they should be filtered since there are so many of them.
+ * <p/>
+ * Tests passing does not guarantee that all features are working perfectly, just that the tested functions produce the same outputs given the same inputs.  Likewise, tests failing do not guarantee that there is a problem, perhaps some allowed change has crept in.  The regression tests are to be used to identify potential problems, but since a significant amount of the sim is outside of the functional model (e.g. the user interface code), user testing will have to be done anyways.
+ * <p/>
+ * Here are some different storage techniques I investigated, along with their pros and cons.
+ * java serializable: no dependencies, brittle to changes
+ * java xmlencoder: no dependencies, maybe slow, requires default constructor
+ * xstream: lots of jar dependencies, no need to put "implements serializable" or add default constructors, and it works
+ * jackson: looks like it requires default constructor?
+ * gson: requires no-args constructor and cannot handle circles
+ * <p/>
+ * Generated tests are large. One run generated 25MB of plaintext xml.
+ * Zipped this is 1.3MB
+ * 7Zipped it was 157KB
+ * <p/>
+ * 7Zip has a Java implementation or binding if we decide to use that.
  *
  * @author Sam Reid
  */
-public class FRecorder<A, B> extends F<A, B> {
+public class RegressionTestRecorder<A, B> extends F<A, B> {
     private final F<A, B> function;
     private static final boolean debug = true;
     private static final boolean checkDeterminism = false;
     private static final ExecutorService executorService = Executors.newFixedThreadPool( 1 );
     private static final boolean checkSavedFile = false;
 
-    public FRecorder( F<A, B> function ) {
+    public RegressionTestRecorder( F<A, B> function ) {
         this.function = function;
     }
 
     //Convenience method to get rid of type parameter boilerplate
-    public static <X, Y> FRecorder record( F<X, Y> function ) {
-        return new FRecorder<X, Y>( function );
+    public static <X, Y> RegressionTestRecorder record( F<X, Y> function ) {
+        return new RegressionTestRecorder<X, Y>( function );
     }
 
     @Override public B f( final A a ) {
@@ -47,9 +71,10 @@ public class FRecorder<A, B> extends F<A, B> {
         System.out.println( "Recorded function application: " + count + ", function = " + function );
 
         //Could do in a thread if too expensive
+        //Look ma, no synchronization issues since using immutable instance
         executorService.execute( new Runnable() {
-            @Override public void run() {
-                writeObject( e );//Look ma, no synchronization issues since using immutable instance
+            public void run() {
+                writeObject( e );
             }
         } );
 
