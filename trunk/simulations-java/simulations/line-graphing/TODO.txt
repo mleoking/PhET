@@ -3,7 +3,7 @@ TODO list for line-graphing
 DEADLINES
 
 DESIGN
-- spinners or pickers for interactive equation?
+- spinners or pickers for interactive equation? (InteractiveEquationNode or InteractiveEquationNode2)
 
 HIGH
 - implement Point-Slope tab
