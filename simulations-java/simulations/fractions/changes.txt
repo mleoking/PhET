@@ -1,3 +1,4 @@
+After getting it wrong, hide the "check answer" button until they remove something from the platform or put something else up there.
 Started adding "try again"/"show answer" buttons
 Extended max level to 6
 Wired up game dialog with audio settings
