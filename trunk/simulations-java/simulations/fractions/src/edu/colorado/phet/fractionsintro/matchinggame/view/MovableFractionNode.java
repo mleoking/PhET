@@ -18,6 +18,7 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Cell;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MovableFraction;
+import edu.colorado.phet.fractionsintro.matchinggame.model.State;
 import edu.colorado.phet.fractionsintro.matchinggame.model.UpdateArgs;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -107,7 +108,7 @@ public class MovableFractionNode extends PNode {
                         return f.dragging ? f.dragging( false ).motion( tm.get( selectedAttachmentPoint ).some() ) : f;
                     }
                 } );
-                final MatchingGameState newState = state.withFractions( newFractions );
+                final MatchingGameState newState = state.withFractions( newFractions ).withState( State.WAITING_FOR_USER_TO_CHECK_ANSWER );
                 model.set( newState );
             }
         } );

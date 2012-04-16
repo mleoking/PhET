@@ -116,6 +116,7 @@ import static fj.data.List.range;
 
     public double getRightScaleValue() { return getScaleValue( rightScale ); }
 
+    //Move fractions from the scale back to a free starting cell
     public MatchingGameState jettisonFraction( Scale scale ) {
         final Option<MovableFraction> scaleFraction = getScaleFraction( scale );
         return scaleFraction.option( this, new F<MovableFraction, MatchingGameState>() {
