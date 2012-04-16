@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.slopeintercept.view;
 
+import java.awt.Font;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
@@ -24,6 +25,7 @@ import edu.colorado.phet.linegraphing.common.LGSimSharing.ParameterKeys;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.slopeintercept.model.LineGraph;
 import edu.colorado.phet.linegraphing.slopeintercept.model.PointTool;
+import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptLine;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -56,7 +58,7 @@ class PointToolNode extends PhetPNode {
 
         // coordinate display
         final PText coordinatesNode = new PText();
-        coordinatesNode.setFont( new PhetFont( 20 ) );
+        coordinatesNode.setFont( new PhetFont( Font.BOLD, 20 ) );
 
         // display background, shows through a transparent hole in the display area portion of the body image
         final int margin = 10;
@@ -85,15 +87,20 @@ class PointToolNode extends PhetPNode {
                 if ( graph.contains( location ) ) {
                     coordinatesNode.setText( MessageFormat.format( COORDINATES_PATTERN, COORDINATES_FORMAT.format( location.getX() ), COORDINATES_FORMAT.format( location.getY() ) ) );
                     if ( linesVisible.get() ) {
-                        backgroundNode.setPaint( pointTool.highlighted.get() ? LGColors.POINT_TOOL_HIGHLIGHT_COLOR : LGColors.POINT_TOOL_NORMAL_COLOR );
+                        // use the line's color to highlight
+                        SlopeInterceptLine onLine = pointTool.onLine.get();
+                        coordinatesNode.setTextPaint( onLine == null ? LGColors.POINT_TOOL_FOREGROUND_NORMAL_COLOR : LGColors.POINT_TOOL_FOREGROUND_HIGHLIGHT_COLOR );
+                        backgroundNode.setPaint( onLine == null ? LGColors.POINT_TOOL_BACKGROUND_NORMAL_COLOR : onLine.color );
                     }
                     else {
-                        backgroundNode.setPaint( LGColors.POINT_TOOL_NORMAL_COLOR );
+                        coordinatesNode.setTextPaint( LGColors.POINT_TOOL_FOREGROUND_NORMAL_COLOR );
+                        backgroundNode.setPaint( LGColors.POINT_TOOL_BACKGROUND_NORMAL_COLOR );
                     }
                 }
                 else {
                     coordinatesNode.setText( "- -" );
-                    backgroundNode.setPaint( LGColors.POINT_TOOL_NORMAL_COLOR );
+                    coordinatesNode.setTextPaint( LGColors.POINT_TOOL_FOREGROUND_NORMAL_COLOR );
+                    backgroundNode.setPaint( LGColors.POINT_TOOL_BACKGROUND_NORMAL_COLOR );
                 }
 
                 // horizontally centered
@@ -101,7 +108,7 @@ class PointToolNode extends PhetPNode {
                                            bodyNode.getFullBoundsReference().getMinY() + COORDINATES_Y_CENTER - ( coordinatesNode.getFullBoundsReference().getHeight() / 2 ) );
             }
         };
-        observer.observe( pointTool.location, pointTool.highlighted, linesVisible );
+        observer.observe( pointTool.location, pointTool.onLine, linesVisible );
 
         // dragging
         addInputEventListener( new CursorHandler() );
