@@ -109,15 +109,15 @@ public class SpinnerButtonNode<T> extends PNode {
             }
 
             @Override public void mouseReleased( PInputEvent event ) {
+                timer.stop();
                 if ( enabled.get() && entered && pressed.get() ) {
                     // Only fire if the user didn't hold down long enough to start spinning continuously.
                     if ( !spinContinuously ) {
                         buttonFired.apply();
                     }
                     pressed.set( false );
-                    spinContinuously = false;
                 }
-                timer.stop();
+                spinContinuously = false;
             }
 
             @Override public void mouseEntered( PInputEvent event ) {
