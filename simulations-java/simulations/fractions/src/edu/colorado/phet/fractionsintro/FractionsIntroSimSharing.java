@@ -45,8 +45,9 @@ public class FractionsIntroSimSharing {
         lock,
         numberLineArrow, numberLineKnob,
         keepMatchButton,
-        audioButton,
-        matchingGameFraction
+        matchingGameFraction,
+
+        tryAgainButton, showAnswerButton, checkAnswerButton,
     }
 
     //For chaining with component types

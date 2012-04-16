@@ -13,6 +13,7 @@ import java.awt.geom.AffineTransform;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
@@ -31,6 +32,7 @@ import edu.colorado.phet.fractionsintro.matchinggame.model.Scale;
 import edu.colorado.phet.fractionsintro.matchinggame.model.State;
 import edu.umd.cs.piccolo.PNode;
 
+import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.*;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState.initialState;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState.newLevel;
 import static java.awt.Color.lightGray;
@@ -84,14 +86,14 @@ public class MatchingGameNode extends FNode {
                 addSignNode( state, scales );
 
                 if ( state.checks < 2 ) {
-                    addChild( new Button( "Try again", buttonLocation, new ActionListener() {
+                    addChild( new Button( tryAgainButton, "Try again", Color.red, buttonLocation, new ActionListener() {
                         @Override public void actionPerformed( final ActionEvent e ) {
                             model.set( new TryAgain().f( model.get() ) );
                         }
                     } ) );
                 }
                 else {
-                    addChild( new Button( "Show answer", buttonLocation, new ActionListener() {
+                    addChild( new Button( showAnswerButton, "Show answer", Color.red, buttonLocation, new ActionListener() {
                         @Override public void actionPerformed( final ActionEvent e ) {
                             model.set( new TryAgain().f( model.get() ) );
                         }
@@ -99,14 +101,14 @@ public class MatchingGameNode extends FNode {
                 }
             }
             else if ( state.checks < 2 && state.state == State.WAITING_FOR_USER_TO_CHECK_ANSWER ) {
-                addChild( new Button( "Check answer", buttonLocation, new ActionListener() {
+                addChild( new Button( checkAnswerButton, "Check answer", Color.orange, buttonLocation, new ActionListener() {
                     @Override public void actionPerformed( final ActionEvent e ) {
                         model.set( new CheckAnswer().f( model.get() ) );
                     }
                 } ) );
             }
             else if ( state.checks >= 2 ) {
-                addChild( new Button( "Show answer", buttonLocation, new ActionListener() {
+                addChild( new Button( showAnswerButton, "Show answer", Color.red, buttonLocation, new ActionListener() {
                     @Override public void actionPerformed( final ActionEvent e ) {
                         model.set( new ShowAnswer().f( model.get() ) );
                     }
@@ -117,15 +119,11 @@ public class MatchingGameNode extends FNode {
 
                 //If they match, show a "Keep" button. This allows the student to look at the right answer as long as they want before moving it to the scoreboard.
                 if ( state.getLeftScaleValue() == state.getRightScaleValue() ) {
-                    addChild( new HTMLImageButtonNode( "Keep<br>Match", new PhetFont( 16, true ), Color.orange ) {{
-                        setUserComponent( Components.keepMatchButton );
-                        centerFullBoundsOnPoint( buttonLocation );
-                        addActionListener( new ActionListener() {
-                            @Override public void actionPerformed( ActionEvent e ) {
-                                model.set( model.get().animateMatchToScoreCell().withState( State.WAITING_FOR_USER_TO_CHECK_ANSWER ) );
-                            }
-                        } );
-                    }} );
+                    addChild( new Button( Components.keepMatchButton, "Next", Color.green, buttonLocation, new ActionListener() {
+                        @Override public void actionPerformed( ActionEvent e ) {
+                            model.set( model.get().animateMatchToScoreCell().withState( State.WAITING_FOR_USER_TO_CHECK_ANSWER ) );
+                        }
+                    } ) );
                 }
             }
         }
@@ -171,30 +169,26 @@ public class MatchingGameNode extends FNode {
 
         if ( showDeveloperControls ) {
             addChild( new VBox(
-                    new HTMLImageButtonNode( "Reset" ) {{
-                        addActionListener( new ActionListener() {
-                            @Override public void actionPerformed( final ActionEvent e ) {
-                                model.set( initialState() );
-                            }
-                        } );
-                    }},
-                    new HTMLImageButtonNode( "Resample" ) {{
-                        addActionListener( new ActionListener() {
-                            @Override public void actionPerformed( final ActionEvent e ) {
-                                model.set( newLevel( model.get().level ) );
-                            }
-                        } );
-                    }},
-                    new HTMLImageButtonNode( "Skip to level " + newLevel ) {{
-                        addActionListener( nextLevel );
-                    }}
+                    new Button( null, "Reset", Color.yellow, ImmutableVector2D.ZERO, new ActionListener() {
+                        @Override public void actionPerformed( final ActionEvent e ) {
+                            model.set( initialState() );
+                        }
+                    } ),
+                    new Button( null, "Resample", Color.yellow, ImmutableVector2D.ZERO, new ActionListener() {
+                        @Override public void actionPerformed( final ActionEvent e ) {
+                            model.set( newLevel( model.get().level ) );
+                        }
+                    } ),
+                    new Button( null, "Skip to level " + newLevel, Color.yellow, ImmutableVector2D.ZERO, nextLevel )
             ) {{setOffset( 0, 200 );}} );
         }
     }
 
     public static class Button extends TextButtonNode {
-        public Button( String text, ImmutableVector2D location, ActionListener listener ) {
+        public Button( IUserComponent component, String text, Color color, ImmutableVector2D location, ActionListener listener ) {
             super( text );
+            setUserComponent( component );
+            setBackground( color );
             setFont( new PhetFont( 18, true ) );
             centerFullBoundsOnPoint( location );
             addActionListener( listener );
