@@ -17,5 +17,6 @@ public class GeneExpressionBasicsSimSharing {
         polymeraseAffinitySlider,
         proteinDegradationRateSlider,
         negativeTranscriptionFactorCheckBox,
+        rnaDestroyerLevel
     }
 }
