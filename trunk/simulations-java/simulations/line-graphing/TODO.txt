@@ -6,7 +6,6 @@ DESIGN
 
 HIGH
 - use a lighter/brighter yellow for point tool highlight
-- make minus sign more obvious in equations on graphed lines
 - implement AP's user-interface component for incrementing/decrementing numbers in equation
 - implement Point-Slope tab
 

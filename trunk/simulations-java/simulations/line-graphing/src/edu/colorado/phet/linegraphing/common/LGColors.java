@@ -23,6 +23,8 @@ public class LGColors {
     public static final Color SAVE_LINE_BUTTON = Color.WHITE;
     public static final Color ERASE_LINES_BUTTON = Color.WHITE;
     public static final Color RESET_ALL_BUTTON = Color.WHITE;
-    public static final Color POINT_TOOL_NORMAL_COLOR = Color.WHITE;
-    public static final Color POINT_TOOL_HIGHLIGHT_COLOR = new Color( 250, 255, 80 );
+
+    public static final Color POINT_TOOL_FOREGROUND_NORMAL_COLOR = Color.BLACK;
+    public static final Color POINT_TOOL_BACKGROUND_NORMAL_COLOR = Color.WHITE;
+    public static final Color POINT_TOOL_FOREGROUND_HIGHLIGHT_COLOR = Color.WHITE;
 }

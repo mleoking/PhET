@@ -1,6 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.slopeintercept.model;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -16,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 public class PointTool implements Resettable {
 
     public final Property<ImmutableVector2D> location;
-    public final Property<Boolean> highlighted;
+    public final Property<SlopeInterceptLine> onLine; // line that the tool is on, possibly null
 
     private final Property<SlopeInterceptLine> interactiveLine;
     private final ObservableList<SlopeInterceptLine> savedLines;
@@ -25,7 +27,7 @@ public class PointTool implements Resettable {
     public PointTool( ImmutableVector2D location, Property<SlopeInterceptLine> interactiveLine, ObservableList<SlopeInterceptLine> savedLines, ObservableList<SlopeInterceptLine> standardLines ) {
 
         this.location = new Property<ImmutableVector2D>( location );
-        this.highlighted = new Property<Boolean>( false );
+        this.onLine = new Property<SlopeInterceptLine>( null );
 
         this.interactiveLine = interactiveLine;
         this.savedLines = savedLines;
@@ -36,7 +38,7 @@ public class PointTool implements Resettable {
             // interactive line
             final RichSimpleObserver observer = new RichSimpleObserver() {
                 public void update() {
-                    updateHighlight();
+                    updateOnLine();
                 }
             };
             observer.observe( this.location, interactiveLine );
@@ -44,7 +46,7 @@ public class PointTool implements Resettable {
             // saved & standard lines
             final VoidFunction1<SlopeInterceptLine> linesChanged = new VoidFunction1<SlopeInterceptLine>() {
                 public void apply( SlopeInterceptLine line ) {
-                    updateHighlight();
+                    updateOnLine();
                 }
             };
             savedLines.addElementAddedObserver( linesChanged );
@@ -54,9 +56,22 @@ public class PointTool implements Resettable {
         }
     }
 
-    // Highlight the tool if its place on one of the lines
-    private void updateHighlight() {
-        highlighted.set( isOnLine( interactiveLine.get() ) || isOnLines( savedLines ) || isOnLines( standardLines ) );
+    // Determine which line (if any) the tool is placed on.
+    private void updateOnLine() {
+
+        ArrayList<SlopeInterceptLine> lines = new ArrayList<SlopeInterceptLine>();
+        lines.addAll( savedLines );
+        lines.addAll( standardLines );
+        lines.add( interactiveLine.get() );
+
+        for ( SlopeInterceptLine line : lines ) {
+            if ( isOnLine( line ) ) {
+                onLine.set( line );
+                return;
+            }
+        }
+
+        onLine.set( null );
     }
 
     // Is the point tool on this line?
@@ -76,17 +91,8 @@ public class PointTool implements Resettable {
         return false;
     }
 
-    private boolean isOnLines( ObservableList<SlopeInterceptLine> lines ) {
-         for ( SlopeInterceptLine line : lines ) {
-             if ( isOnLine( line ) ) {
-                 return true;
-             }
-         }
-         return false;
-    }
-
     public void reset() {
         location.reset();
-        highlighted.reset();
+        onLine.reset();
     }
 }
