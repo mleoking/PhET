@@ -28,8 +28,9 @@ public class CellProteinSynthesisSimulator {
     public static final DoubleRange POLYMERASE_ASSOCIATION_PROBABILITY_RANGE = new DoubleRange( 0.0, 2 * DEFAULT_POLYMERASE_ASSOCIATION_PROBABILITY );
     public static final double DEFAULT_PROTEIN_DEGRADATION_RATE = 0.0004f;
     public static final DoubleRange PROTEIN_DEGRADATION_RANGE = new DoubleRange( DEFAULT_PROTEIN_DEGRADATION_RATE * 0.7, DEFAULT_PROTEIN_DEGRADATION_RATE * 1.3 );
-    public static final double DEFAULT_MRNA_DEGRADATION_RATE = 0; // TODO: Stubbed for now.
-    public static final DoubleRange MRNA_DEGRADATION_RATE_RANGE = new DoubleRange( DEFAULT_MRNA_DEGRADATION_RATE / 10, DEFAULT_MRNA_DEGRADATION_RATE * 10 );
+    public static final double DEFAULT_MRNA_DEGRADATION_RATE = 0.01;
+    public static final DoubleRange MRNA_DEGRADATION_RATE_RANGE = new DoubleRange( DEFAULT_MRNA_DEGRADATION_RATE / 1000, DEFAULT_MRNA_DEGRADATION_RATE * 1000 );
+//    public static final DoubleRange MRNA_DEGRADATION_RATE_RANGE = new DoubleRange( 0, DEFAULT_MRNA_DEGRADATION_RATE * 2 );
 
     private Random _random = new Random();
     private double _timeStep = 5e2;
@@ -125,8 +126,9 @@ public class CellProteinSynthesisSimulator {
 
     public void setMrnaDegradationRate( double mrnaDegradationRate ) {
         // TODO: Stubbed for now.
-//        assert MRNA_DEGRADATION_RATE_RANGE.contains( mrnaDegradationRate );
+        assert MRNA_DEGRADATION_RATE_RANGE.contains( mrnaDegradationRate );
         System.out.println( "mrnaDegradationRate set to: " + mrnaDegradationRate );
+        _reactionProbabilities[9] = mrnaDegradationRate;
     }
 
     /**
