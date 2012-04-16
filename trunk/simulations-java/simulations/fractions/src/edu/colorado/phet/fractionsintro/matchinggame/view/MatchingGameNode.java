@@ -84,48 +84,35 @@ public class MatchingGameNode extends FNode {
                 addSignNode( state, scales );
 
                 if ( state.checks < 2 ) {
-
-                    TextButtonNode checkAnswerButtonNode = new TextButtonNode( "Try again", new PhetFont( 18, true ) );
-                    checkAnswerButtonNode.addActionListener( new ActionListener() {
+                    addChild( new Button( "Try again", buttonLocation, new ActionListener() {
                         @Override public void actionPerformed( final ActionEvent e ) {
                             model.set( new TryAgain().f( model.get() ) );
                         }
-                    } );
-                    checkAnswerButtonNode.centerFullBoundsOnPoint( buttonLocation );
-                    addChild( checkAnswerButtonNode );
+                    } ) );
                 }
                 else {
-                    TextButtonNode checkAnswerButtonNode = new TextButtonNode( "Show answer", new PhetFont( 18, true ) );
-                    checkAnswerButtonNode.addActionListener( new ActionListener() {
+                    addChild( new Button( "Show answer", buttonLocation, new ActionListener() {
                         @Override public void actionPerformed( final ActionEvent e ) {
                             model.set( new TryAgain().f( model.get() ) );
                         }
-                    } );
-                    checkAnswerButtonNode.centerFullBoundsOnPoint( buttonLocation );
-                    addChild( checkAnswerButtonNode );
+                    } ) );
                 }
             }
             else if ( state.checks < 2 && state.state == State.WAITING_FOR_USER_TO_CHECK_ANSWER ) {
-                TextButtonNode checkAnswerButtonNode = new TextButtonNode( "Check answer", new PhetFont( 18, true ) );
-                checkAnswerButtonNode.addActionListener( new ActionListener() {
+                addChild( new Button( "Check answer", buttonLocation, new ActionListener() {
                     @Override public void actionPerformed( final ActionEvent e ) {
                         model.set( new CheckAnswer().f( model.get() ) );
                     }
-                } );
-                checkAnswerButtonNode.centerFullBoundsOnPoint( buttonLocation );
-                addChild( checkAnswerButtonNode );
+                } ) );
             }
             else if ( state.checks >= 2 ) {
-                TextButtonNode checkAnswerButtonNode = new TextButtonNode( "Show answer", new PhetFont( 18, true ) );
-                checkAnswerButtonNode.addActionListener( new ActionListener() {
+                addChild( new Button( "Show answer", buttonLocation, new ActionListener() {
                     @Override public void actionPerformed( final ActionEvent e ) {
                         model.set( new ShowAnswer().f( model.get() ) );
                     }
-                } );
-                checkAnswerButtonNode.centerFullBoundsOnPoint( buttonLocation );
-                addChild( checkAnswerButtonNode );
+                } ) );
             }
-            else if ( state.state == State.RIGHT ) {
+            if ( state.state == State.RIGHT ) {
                 addSignNode( state, scales );
 
                 //If they match, show a "Keep" button. This allows the student to look at the right answer as long as they want before moving it to the scoreboard.
@@ -202,6 +189,15 @@ public class MatchingGameNode extends FNode {
                         addActionListener( nextLevel );
                     }}
             ) {{setOffset( 0, 200 );}} );
+        }
+    }
+
+    public static class Button extends TextButtonNode {
+        public Button( String text, ImmutableVector2D location, ActionListener listener ) {
+            super( text );
+            setFont( new PhetFont( 18, true ) );
+            centerFullBoundsOnPoint( location );
+            addActionListener( listener );
         }
     }
 
