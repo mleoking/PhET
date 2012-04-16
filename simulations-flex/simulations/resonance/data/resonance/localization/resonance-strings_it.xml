@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resonance-strings_it.xml created Fri Apr 13 20:23:13 CEST 2012 using: resonance 1.01.00 (54775), translation-utility 2.13.00 (59150) dic 8, 2011-->
+<SimStrings>
+<string key="simSpeed" value="velocità di simulaz."/>
+<string key="sameFrequency" value="freq. di rison. uguale"/>
+<string key="sameSpring" value="molle uguali"/>
+<string key="slow" value="lento"/>
+<string key="mixedMAndK" value="m e k modificabili"/>
+<string key="numberOfResonators" value="Numero di Risonatori"/>
+<string key="pause" value="pausa"/>
+<string key="amplitude" value="ampiezza"/>
+<string key="frequencyEqualsXHz" value="frequenza = {0} Hz"/>
+<string key="sloMo" value="RALLENTATO"/>
+<string key="driver" value="OSCILLATORE"/>
+<string key="on" value="ON"/>
+<string key="ruler" value="Metro"/>
+<string key="resonance.simTitle" value="Risonanza"/>
+<string key="springConstant" value="costante elastica"/>
+<string key="frequency" value="frequenza"/>
+<string key="resetAll" value="Ripristina tutto"/>
+<string key="mass" value="massa"/>
+<string key="sameMass" value="masse uguali"/>
+<string key="resonator" value="Risonatore"/>
+<string key="translation.credits" value="Orlando De Giorgi"/>
+<string key="gravityColon" value="Gravità:"/>
+<string key="paused" value="IN PAUSA"/>
+<string key="off" value="OFF"/>
+<string key="dampingConstant" value="costante di smorzamento"/>
+<string key="normal" value="normale"/>
+<string key="selectPreset" value="Valori preimpostati"/>
+</SimStrings>
