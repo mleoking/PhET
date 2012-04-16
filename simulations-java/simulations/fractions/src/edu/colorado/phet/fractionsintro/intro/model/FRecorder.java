@@ -9,6 +9,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.Serializable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
 
@@ -23,6 +25,8 @@ public class FRecorder<A, B> extends F<A, B> {
     private final F<A, B> function;
     private static final boolean debug = true;
     private static final boolean checkDeterminism = false;
+    private static final ExecutorService executorService = Executors.newFixedThreadPool( 1 );
+    private static final boolean checkSavedFile = false;
 
     public FRecorder( F<A, B> function ) {
         this.function = function;
@@ -39,11 +43,15 @@ public class FRecorder<A, B> extends F<A, B> {
             checkDeterminism( a, result );
         }
 
-        Entry<A, B> e = new Entry<A, B>( a, function, result );
+        final Entry<A, B> e = new Entry<A, B>( a, function, result );
         System.out.println( "Recorded function application: " + count + ", function = " + function );
 
         //Could do in a thread if too expensive
-        writeObject( e );
+        executorService.execute( new Runnable() {
+            @Override public void run() {
+                writeObject( e );//Look ma, no synchronization issues since using immutable instance
+            }
+        } );
 
         return result;
     }
@@ -82,9 +90,10 @@ public class FRecorder<A, B> extends F<A, B> {
         count++;
     }
 
+    public static final XStream xstream = new XStream();
+
     private void writeXStream( final Entry e ) {// XML encode directly to the file.
         File file = new File( "C:\\Users\\Sam\\Desktop\\tests\\save_" + count + ".xml" );
-        XStream xstream = new XStream();
         String xml = xstream.toXML( e );
         try {
             FileUtils.writeString( file, xml );
@@ -93,6 +102,12 @@ public class FRecorder<A, B> extends F<A, B> {
             e1.printStackTrace();
         }
 
+        if ( checkSavedFile ) {
+            checkSavedFile( e, file );
+        }
+    }
+
+    private void checkSavedFile( final Entry e, final File file ) {
         try {
             Entry loaded = loadXStream( file );
             boolean equals = loaded.output.equals( e.output );
@@ -108,7 +123,6 @@ public class FRecorder<A, B> extends F<A, B> {
     }
 
     public static Entry loadXStream( File xmlFile ) throws FileNotFoundException {
-        XStream xstream = new XStream();
         return (Entry) xstream.fromXML( xmlFile );
     }
 
