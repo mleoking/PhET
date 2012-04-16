@@ -32,31 +32,26 @@ public class BiomoleculeCreatorNode extends PComposite {
     /**
      * Constructor.
      *
-     * @param appearanceNode       - Node that represents the appearance of this
+     * @param appearanceNode       Node that represents the appearance of this
      *                             creator node, generally looks like the thing
      *                             being created.
-     * @param canvas               - Canvas upon which this node ultimately
+     * @param canvas               Canvas upon which this node ultimately
      *                             resides.  This is needed for figuring out
      *                             where in model space this node exists.
-     * @param mvt                  - Model view transform.
-     * @param moleculeCreator      - Function object that knows how to create
+     * @param mvt                  Model view transform.
+     * @param moleculeCreator      Function object that knows how to create
      *                             the model element and add it to the model.
-     * @param enclosingToolBoxNode - Tool box in which this creator node is
+     * @param enclosingToolBoxNode Tool box in which this creator node is
      *                             contained.  This is needed in order to
      *                             determine when the created model element is
      *                             returned to the tool box.
-     * @param goInvisibleOnAdd     - Flag that indicates whether this node
-     *                             should disappear when clicked on, which
-     *                             creates a look like the object was dragged
-     *                             out of the tool box.
      */
     public BiomoleculeCreatorNode( PPath appearanceNode,
                                    ManualGeneExpressionCanvas canvas,
                                    final ModelViewTransform mvt,
                                    final Function1<Point2D, MobileBiomolecule> moleculeCreator,
                                    final VoidFunction1<MobileBiomolecule> moleculeDestroyer,
-                                   final PNode enclosingToolBoxNode,
-                                   final boolean goInvisibleOnAdd ) {
+                                   final PNode enclosingToolBoxNode ) {
         this.canvas = canvas;
         this.mvt = mvt;
         this.appearanceNode = appearanceNode;
@@ -66,8 +61,14 @@ public class BiomoleculeCreatorNode extends PComposite {
         addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mousePressed( PInputEvent event ) {
-//                BiomoleculeCreatorNode.this.appearanceNode.setVisible( !goInvisibleOnAdd );
+
+                // Set the node to look faded out so that something is still
+                // visible.  This acts a a legend in the tool box.
                 BiomoleculeCreatorNode.this.appearanceNode.setTransparency( 0.3f );
+                setPickable( false );
+                setChildrenPickable( false );
+
+                // Create the corresponding biomolecule and add it to the model.
                 biomolecule = moleculeCreator.apply( getModelPosition( event.getCanvasPosition() ) );
                 biomolecule.userControlled.set( true );
                 // Add an observer to watch for this model element to be returned.
@@ -84,8 +85,9 @@ public class BiomoleculeCreatorNode extends PComposite {
                                 moleculeDestroyer.apply( finalBiomolecule );
                                 System.out.println( "Molecule returned to tool box." );
                                 finalBiomolecule.userControlled.removeObserver( this );
-//                                BiomoleculeCreatorNode.this.appearanceNode.setVisible( true );
                                 BiomoleculeCreatorNode.this.appearanceNode.setTransparency( 1 );
+                                setPickable( true );
+                                setChildrenPickable( true );
                             }
                         }
                     }
@@ -115,7 +117,9 @@ public class BiomoleculeCreatorNode extends PComposite {
             biomolecule.userControlled.removeObserver( observer );
             biomolecule = null;
         }
-        appearanceNode.setVisible( true );
+        appearanceNode.setTransparency( 1 );
+        setPickable( true );
+        setChildrenPickable( true );
     }
 
     /**
