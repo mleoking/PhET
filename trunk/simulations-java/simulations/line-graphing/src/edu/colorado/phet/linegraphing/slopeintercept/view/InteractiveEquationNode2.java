@@ -48,11 +48,11 @@ class InteractiveEquationNode2 extends PhetPNode {
         // determine the max width of the rise and run spinners, based on the extents of their range
         double maxSlopeWidth;
         {
-            PNode maxRiseNode = new SlopePickerNode( UserComponents.riseSpinner, new Property<Double>( riseRange.get().getMax() ), riseRange, font, FORMAT );
-            PNode minRiseNode = new SlopePickerNode( UserComponents.riseSpinner, new Property<Double>( riseRange.get().getMin() ), riseRange, font, FORMAT );
+            PNode maxRiseNode = new SlopePickerNode( UserComponents.riseSpinner, new Property<Double>( Math.abs( riseRange.get().getMax() ) ), riseRange, font, FORMAT, true );
+            PNode minRiseNode = new SlopePickerNode( UserComponents.riseSpinner, new Property<Double>( Math.abs( riseRange.get().getMin() ) ), riseRange, font, FORMAT, true );
             double maxRiseWidth = Math.max( maxRiseNode.getFullBoundsReference().getWidth(), minRiseNode.getFullBoundsReference().getWidth() );
-            PNode maxRunNode = new SlopePickerNode( UserComponents.riseSpinner, new Property<Double>( runRange.get().getMax() ), runRange, font, FORMAT );
-            PNode minRunNode = new SlopePickerNode( UserComponents.riseSpinner, new Property<Double>( runRange.get().getMin() ), runRange, font, FORMAT );
+            PNode maxRunNode = new SlopePickerNode( UserComponents.riseSpinner, new Property<Double>( Math.abs( runRange.get().getMax() ) ), runRange, font, FORMAT, true );
+            PNode minRunNode = new SlopePickerNode( UserComponents.riseSpinner, new Property<Double>( Math.abs( runRange.get().getMin() ) ), runRange, font, FORMAT, true );
             double maxRunWidth = Math.max( maxRunNode.getFullBoundsReference().getWidth(), minRunNode.getFullBoundsReference().getWidth() );
             maxSlopeWidth = Math.max( maxRiseWidth, maxRunWidth );
         }
@@ -60,22 +60,26 @@ class InteractiveEquationNode2 extends PhetPNode {
         // y = mx + b
         PText yNode = new PhetPText( "y", font );
         PText equalsNode = new PhetPText( "=", font );
-        PNode riseNode = new ZeroOffsetNode( new SlopePickerNode( UserComponents.riseSpinner, this.rise, riseRange, font, FORMAT ) );
-        PNode runNode = new ZeroOffsetNode( new SlopePickerNode( UserComponents.runSpinner, this.run, runRange, font, FORMAT ) );
+        final PText riseSignNode = new PhetPText( "-", font );
+        final PText runSignNode = new PhetPText( "-", font );
+        PNode riseNode = new ZeroOffsetNode( new SlopePickerNode( UserComponents.riseSpinner, this.rise, riseRange, font, FORMAT, true ) );
+        PNode runNode = new ZeroOffsetNode( new SlopePickerNode( UserComponents.runSpinner, this.run, runRange, font, FORMAT, true ) );
         final PPath lineNode = new PPath( new Line2D.Double( 0, 0, maxSlopeWidth, 0 ) ) {{
             setStroke( new BasicStroke( 2f ) );
         }};
         PText xNode = new PhetPText( "x", font );
         final PText interceptSignNode = new PhetPText( "+", font );
-        PNode interceptNode = new ZeroOffsetNode( new InterceptPickerNode( UserComponents.interceptSpinner, this.intercept, interceptRange, font, FORMAT ) );
+        PNode interceptNode = new ZeroOffsetNode( new InterceptPickerNode( UserComponents.interceptSpinner, this.intercept, interceptRange, font, FORMAT, true ) );
 
         // rendering order
         {
             addChild( yNode );
             addChild( equalsNode );
+            addChild( riseSignNode );
+            addChild( runSignNode );
             addChild( riseNode );
-            addChild( lineNode );
             addChild( runNode );
+            addChild( lineNode );
             addChild( xNode );
             addChild( interceptSignNode );
             addChild( interceptNode );
@@ -88,7 +92,11 @@ class InteractiveEquationNode2 extends PhetPNode {
             yNode.setOffset( 0, 0 );
             equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + 10,
                                   yNode.getYOffset() );
-            lineNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + 10,
+            riseSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + 2,
+                                    equalsNode.getFullBoundsReference().getCenterY() - ySpacing - ( riseNode.getFullBoundsReference().getHeight() / 2 ) - ( riseSignNode.getFullBoundsReference().getHeight() / 2 ) );
+            runSignNode.setOffset( riseSignNode.getXOffset(),
+                                    equalsNode.getFullBoundsReference().getCenterY() + ySpacing + ( riseNode.getFullBoundsReference().getHeight() / 2 ) - ( runSignNode.getFullBoundsReference().getHeight() / 2 ) );
+            lineNode.setOffset( riseSignNode.getFullBoundsReference().getMaxX() + 2,
                                 equalsNode.getFullBoundsReference().getCenterY() );
             riseNode.setOffset( lineNode.getFullBoundsReference().getMaxX() - riseNode.getFullBoundsReference().getWidth(),
                                 lineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - ySpacing );
@@ -106,6 +114,8 @@ class InteractiveEquationNode2 extends PhetPNode {
         RichSimpleObserver lineUpdater = new RichSimpleObserver() {
             @Override public void update() {
                 interactiveLine.set( new SlopeInterceptLine( rise.get(), run.get(), intercept.get(), LGColors.INTERACTIVE_LINE ) );
+                riseSignNode.setText( rise.get() >= 0 ? "" : "-" );
+                runSignNode.setText( run.get() >= 0 ? "" : "-" );
                 interceptSignNode.setText( intercept.get() >= 0 ? "+" : "-" );
             }
         };
