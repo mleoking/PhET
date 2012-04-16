@@ -186,10 +186,9 @@ public class MatchingGameNode extends FNode {
 
     public static class Button extends TextButtonNode {
         public Button( IUserComponent component, String text, Color color, ImmutableVector2D location, ActionListener listener ) {
-            super( text );
+            super( text, new PhetFont( 18, true ) );
             setUserComponent( component );
             setBackground( color );
-            setFont( new PhetFont( 18, true ) );
             centerFullBoundsOnPoint( location );
             addActionListener( listener );
         }
