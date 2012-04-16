@@ -1,3 +1,4 @@
+Fixed bugs in button enable/disable when autospin + max/min reached
 Show a smilie face and score readout when checking the answer and it is right
 Play audio for right/wrong answers
 After getting it wrong, hide the "check answer" button until they remove something from the platform or put something else up there.
