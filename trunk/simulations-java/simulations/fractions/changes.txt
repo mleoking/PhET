@@ -1,3 +1,4 @@
+Added dialog for game start
 Added docs for regression testing
 Regression test: store results in separate thread and improved performance
 Converted from F2 updates to F
