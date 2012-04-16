@@ -14,6 +14,7 @@ MEDIUM
 - don't like all the MathUtil.round that's going on
 
 LOW
+- change tip of point tool image, having it on a 45-degree angle makes it line up with slopes too often (eg, y=x, y=-x)
 - grid node gets bigger when IntroModel.GRID_MODEL_UNITS gets smaller, size should remain constant
 - review internal duplication in GraphNode
 - don't like having int methods in SlopeInterceptLine model
