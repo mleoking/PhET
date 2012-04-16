@@ -3,9 +3,9 @@ TODO list for line-graphing
 DEADLINES
 
 DESIGN
+- spinners or pickers for interactive equation?
 
 HIGH
-- implement AP's user-interface component for incrementing/decrementing numbers in equation
 - implement Point-Slope tab
 
 MEDIUM
