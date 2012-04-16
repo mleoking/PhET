@@ -11,6 +11,8 @@ import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+import static edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState.newLevel;
+
 /**
  * Canvas for the matching game. Uses the immutable model so reconstructs the scene graph any time the model changes.
  *
@@ -18,12 +20,15 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class MatchingGameCanvas extends AbstractFractionsCanvas {
     public MatchingGameCanvas( final boolean showDeveloperControls, final MatchingGameModel model ) {
+        final GameSettings gameSettings = new GameSettings( new IntegerRange( 1, 5, 1 ), false, false );
         final VoidFunction0 startGame = new VoidFunction0() {
             @Override public void apply() {
-                model.state.set( model.state.get().withChoosingSettings( false ) );
+                model.state.set( newLevel( gameSettings.level.get() ).
+                        withChoosingSettings( false ).
+                        audio( gameSettings.soundEnabled.get() ) );
             }
         };
-        final PSwing settingsDialog = new PSwing( new GameSettingsPanel( new GameSettings( new IntegerRange( 1, 5, 1 ), false, false ), startGame ) ) {{
+        final PSwing settingsDialog = new PSwing( new GameSettingsPanel( gameSettings, startGame ) ) {{
             scale( 1.5 );
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.height / 2 - getFullBounds().getHeight() / 2 );
         }};
