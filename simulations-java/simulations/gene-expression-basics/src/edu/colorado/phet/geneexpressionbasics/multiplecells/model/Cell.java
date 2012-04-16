@@ -138,7 +138,6 @@ public class Cell extends ShapeChangingModelElement {
         proteinSynthesisSimulator.printDebugInfo();
     }
 
-
     public void setPolymeraseCount( int polymeraseCount ) {
         proteinSynthesisSimulator.setPolymeraseCount( polymeraseCount );
     }
@@ -157,6 +156,10 @@ public class Cell extends ShapeChangingModelElement {
 
     public void setProteinDegradationRate( double newRate ) {
         proteinSynthesisSimulator.setProteinDegradationRate( newRate );
+    }
+
+    public void setMRnaDegradationRate( double mRnaDegradationRate ) {
+        proteinSynthesisSimulator.setMrnaDegradationRate( mRnaDegradationRate );
     }
 
     //----------- End of pass-through methods ---------------------------------
