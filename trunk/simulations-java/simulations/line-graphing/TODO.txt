@@ -9,6 +9,7 @@ HIGH
 - implement Point-Slope tab
 
 MEDIUM
+- when point tool is on a saved line, change the point tool highlighting when the user mouses over the saved line
 - don't like all the MathUtil.round that's going on
 - don't like having int methods in SlopeInterceptLine model
 
