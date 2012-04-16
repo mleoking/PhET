@@ -1,7 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.model;
 
-import fj.F2;
+import fj.F;
 import lombok.Data;
 
 import java.io.File;
@@ -9,7 +9,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.Serializable;
-import java.util.Arrays;
 
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
 
@@ -20,32 +19,32 @@ import com.thoughtworks.xstream.XStream;
  *
  * @author Sam Reid
  */
-public class F2Recorder<A, B, C> extends F2<A, B, C> {
-    private final F2<A, B, C> function;
+public class FRecorder<A, B> extends F<A, B> {
+    private final F<A, B> function;
     private static final boolean debug = true;
 
-    public F2Recorder( F2<A, B, C> function ) {
+    public FRecorder( F<A, B> function ) {
         this.function = function;
     }
 
     //Convenience method to get rid of type parameter boilerplate
-    public static <X, Y, Z> F2Recorder record( F2<X, Y, Z> function ) {
-        return new F2Recorder<X, Y, Z>( function );
+    public static <X, Y> FRecorder record( F<X, Y> function ) {
+        return new FRecorder<X, Y>( function );
     }
 
-    @Override public C f( final A a, final B b ) {
-        final C result = function.f( a, b );
-        final C result2 = function.f( a, b );
+    @Override public B f( final A a ) {
+        final B result = function.f( a );
+        final B result2 = function.f( a );
         if ( !result.equals( result2 ) ) {
             System.out.println( "Nondeterministic method. warning!" );
             System.out.println( "a = " + result );
             System.out.println( "b = " + result2 );
             boolean equal = result.equals( result2 );
             System.out.println( "equal = " + equal );
-            function.f( a, b );
+            function.f( a );
             for ( int i = 0; i < 1; i++ ) {
-                IntroState x = (IntroState) function.f( a, b );
-                IntroState y = (IntroState) function.f( a, b );
+                IntroState x = (IntroState) function.f( a );
+                IntroState y = (IntroState) function.f( a );
                 System.out.println( "containerSetEquals = " + x.containerSet.equals( y.containerSet ) );
                 System.out.println( "pieSetEquals = " + x.pieSet.equals( y.pieSet ) );
                 System.out.println( "pieSet.Slices.Equals = " + x.pieSet.slices.equals( y.pieSet.slices ) );
@@ -53,8 +52,8 @@ public class F2Recorder<A, B, C> extends F2<A, B, C> {
             }
         }
 
-        Entry<A, B, C> e = new Entry<A, B, C>( function, a, b, result );
-        System.out.println( "Recorded function application: " + count + ", function = " + function + ", inputType = " + Arrays.asList( b.getClass().getTypeParameters() ) );
+        Entry<A, B> e = new Entry<A, B>( a, function, result );
+        System.out.println( "Recorded function application: " + count + ", function = " + function );
 
         //Could do in a thread if too expensive
         writeObject( e );
@@ -62,11 +61,10 @@ public class F2Recorder<A, B, C> extends F2<A, B, C> {
         return result;
     }
 
-    public static @Data class Entry<A, B, C> implements Serializable {
-        final F2<A, B, C> function;
-        final A init;
-        final B value;
-        final C result;
+    public static @Data class Entry<A, B> implements Serializable {
+        final A input;
+        final F<A, B> function;
+        final B output;
     }
 
     public static int count = 0;
@@ -90,11 +88,11 @@ public class F2Recorder<A, B, C> extends F2<A, B, C> {
 
         try {
             Entry loaded = loadXStream( file );
-            boolean equals = loaded.result.equals( e.result );
+            boolean equals = loaded.output.equals( e.output );
             System.out.println( "compared xstream, equals = " + equals );
             if ( !equals ) {
-                System.out.println( "a = " + e.result );
-                System.out.println( "b = " + loaded.result );
+                System.out.println( "a = " + e.output );
+                System.out.println( "b = " + loaded.output );
             }
         }
         catch ( FileNotFoundException e1 ) {
@@ -113,16 +111,16 @@ public class F2Recorder<A, B, C> extends F2<A, B, C> {
                 final File xmlFile = new File( "C:\\Users\\Sam\\Desktop\\tests\\save_" + index + ".xml" );
                 if ( xmlFile.exists() ) {
                     Entry e = loadXStream( xmlFile );
-                    Object newResult = e.function.f( e.init, e.value );
-                    boolean equals = newResult.equals( e.result );
+                    Object output = e.function.f( e.input );
+                    boolean equals = output.equals( e.output );
                     final PrintStream stream = equals ? System.out : System.err;
-                    stream.println( ( equals ? "pass" : "fail" ) + ", index = " + index + " function = " + e.function + ", argument = " + e.value );
+                    stream.println( ( equals ? "pass" : "fail" ) + ", index = " + index + " function = " + e.function );
                     if ( !equals ) {
                         if ( debug ) {
-                            newResult.equals( e.result );
+                            output.equals( e.output );
                         }
-                        stream.println( "loadedValue = " + e.result );
-                        stream.println( "computedVal = " + newResult );
+                        stream.println( "loadedValue = " + e.output );
+                        stream.println( "computedVal = " + output );
                     }
                 }
                 else {

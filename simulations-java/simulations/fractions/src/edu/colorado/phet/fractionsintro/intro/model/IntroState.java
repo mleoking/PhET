@@ -40,39 +40,40 @@ import edu.colorado.phet.fractionsintro.intro.view.Representation;
     public final Representation representation;
     public final int maximum;
     public final long randomSeed;
+    public final FactorySet factorySet;
 
-    public static IntroState newState( int maximum, FactorySet factories, long randomSeed ) {
+    public static IntroState newState( int maximum, FactorySet factorySet, long randomSeed ) {
         int denominator = 1;
         return new IntroState( new ContainerSet( denominator, new Container[] { new Container( 1, new int[] { } ) } ).padAndTrim().maximum( maximum ), false, false,
-                               new PieSet( maximum, factories.circularSliceFactory, randomSeed ),
-                               new PieSet( maximum, factories.horizontalSliceFactory, randomSeed ),
-                               new PieSet( maximum, factories.verticalSliceFactory, randomSeed ),
-                               new PieSet( maximum, factories.waterGlassSetFactory, randomSeed ),
-                               new PieSet( maximum, factories.cakeSliceFactory, randomSeed ), 0, 1, Representation.PIE, maximum, randomSeed );
+                               new PieSet( maximum, factorySet.circularSliceFactory, randomSeed ),
+                               new PieSet( maximum, factorySet.horizontalSliceFactory, randomSeed ),
+                               new PieSet( maximum, factorySet.verticalSliceFactory, randomSeed ),
+                               new PieSet( maximum, factorySet.waterGlassSetFactory, randomSeed ),
+                               new PieSet( maximum, factorySet.cakeSliceFactory, randomSeed ), 0, 1, Representation.PIE, maximum, randomSeed, factorySet );
     }
 
     //Copy methods
-    public IntroState pieSet( PieSet pieSet ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum, randomSeed ); }
+    public IntroState pieSet( PieSet pieSet ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum, randomSeed, factorySet ); }
 
-    public IntroState representation( Representation representation ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum, randomSeed ); }
+    public IntroState representation( Representation representation ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum, randomSeed, factorySet ); }
 
-    public IntroState numerator( Integer numerator ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum, randomSeed ); }
+    public IntroState numerator( Integer numerator ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum, randomSeed, factorySet ); }
 
-    public IntroState denominator( Integer denominator ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum, randomSeed ); }
+    public IntroState denominator( Integer denominator ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum, randomSeed, factorySet ); }
 
-    public IntroState containerSet( ContainerSet containerSet ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum, randomSeed ); }
+    public IntroState containerSet( ContainerSet containerSet ) { return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum, randomSeed, factorySet ); }
 
-    public IntroState horizontalBarSet( PieSet horizontalBarSet ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum, randomSeed );}
+    public IntroState horizontalBarSet( PieSet horizontalBarSet ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum, randomSeed, factorySet );}
 
-    public IntroState verticalBarSet( PieSet verticalBarSet ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum, randomSeed );}
+    public IntroState verticalBarSet( PieSet verticalBarSet ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum, randomSeed, factorySet );}
 
-    public IntroState maximum( int maximum ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum, randomSeed );}
+    public IntroState maximum( int maximum ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum, randomSeed, factorySet );}
 
-    public IntroState waterGlassSet( PieSet waterGlassSet ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum, randomSeed );}
+    public IntroState waterGlassSet( PieSet waterGlassSet ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum, randomSeed, factorySet );}
 
-    public IntroState cakeSet( PieSet cakeSet ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum, randomSeed );}
+    public IntroState cakeSet( PieSet cakeSet ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum, randomSeed, factorySet );}
 
-    public IntroState randomSeed( long randomSeed ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum, randomSeed );}
+    public IntroState randomSeed( long randomSeed ) {return new IntroState( containerSet, showReduced, showMixed, pieSet, horizontalBarSet, verticalBarSet, waterGlassSet, cakeSet, numerator, denominator, representation, maximum, randomSeed, factorySet );}
 
     //Apply an update rule to all of the pie sets, and updates the container set to match
     public IntroState updatePieSets( F<PieSet, PieSet> f ) {

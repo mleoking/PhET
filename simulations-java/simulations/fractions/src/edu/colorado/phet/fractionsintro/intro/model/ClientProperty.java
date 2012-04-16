@@ -2,7 +2,6 @@
 package edu.colorado.phet.fractionsintro.intro.model;
 
 import fj.F;
-import fj.F2;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
@@ -17,11 +16,11 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 public class ClientProperty<T> extends SettableProperty<T> {
     private final Property<IntroState> state;
     private final F<IntroState, T> get;
-    private final F2<IntroState, T, IntroState> change;
+    private final F<T, F<IntroState, IntroState>> change;
 
     public ClientProperty( final Property<IntroState> state,
                            final F<IntroState, T> get,
-                           final F2<IntroState, T, IntroState> change ) {
+                           final F<T, F<IntroState, IntroState>> change ) {
         super( get.f( state.get() ) );
         this.state = state;
         this.get = get;
@@ -34,7 +33,7 @@ public class ClientProperty<T> extends SettableProperty<T> {
     }
 
     @Override public void set( T value ) {
-        state.set( change.f( state.get(), value ) );
+        state.set( change.f( value ).f( state.get() ) );
         notifyIfChanged();
     }
 
