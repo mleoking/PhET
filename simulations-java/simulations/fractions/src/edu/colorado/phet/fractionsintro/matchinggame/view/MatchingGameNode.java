@@ -40,6 +40,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
+import static edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState.initialState;
+import static edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState.newLevel;
 import static java.awt.Color.lightGray;
 import static java.awt.Color.yellow;
 
@@ -135,7 +137,7 @@ public class MatchingGameNode extends FNode {
         final int newLevel = state.level + 1;
         final ActionListener nextLevel = new ActionListener() {
             @Override public void actionPerformed( ActionEvent e ) {
-                model.set( MatchingGameState.initialState( newLevel ).audio( state.audio ) );
+                model.set( newLevel( newLevel ).audio( state.audio ) );
             }
         };
 
@@ -143,7 +145,7 @@ public class MatchingGameNode extends FNode {
 
             final ActionListener playAgain = new ActionListener() {
                 @Override public void actionPerformed( ActionEvent e ) {
-                    model.set( MatchingGameState.initialState( state.level ).audio( state.audio ) );
+                    model.set( newLevel( state.level ).audio( state.audio ) );
                 }
             };
 
@@ -170,14 +172,14 @@ public class MatchingGameNode extends FNode {
                     new HTMLImageButtonNode( "Reset" ) {{
                         addActionListener( new ActionListener() {
                             @Override public void actionPerformed( final ActionEvent e ) {
-                                model.set( MatchingGameState.initialState() );
+                                model.set( initialState() );
                             }
                         } );
                     }},
                     new HTMLImageButtonNode( "Resample" ) {{
                         addActionListener( new ActionListener() {
                             @Override public void actionPerformed( final ActionEvent e ) {
-                                model.set( MatchingGameState.initialState( model.get().level ) );
+                                model.set( newLevel( model.get().level ) );
                             }
                         } );
                     }},

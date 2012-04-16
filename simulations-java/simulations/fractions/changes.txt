@@ -1,3 +1,4 @@
+Wired up game dialog with audio settings
 Added dialog for game start
 Added docs for regression testing
 Regression test: store results in separate thread and improved performance
