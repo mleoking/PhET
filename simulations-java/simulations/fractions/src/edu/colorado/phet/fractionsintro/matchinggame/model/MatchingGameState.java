@@ -46,12 +46,15 @@ import static fj.data.List.range;
 
     public final boolean audio;
 
+    //TODO: Maybe pop this up a level
+    public final boolean choosingSettings;
+
     public static MatchingGameState initialState() { return initialState( 1 ); }
 
     public static MatchingGameState initialState( int level ) {
         final List<Cell> cells = createCells( 100, 415 + 12, 130, 120, 6, 2, 0, 0 );
         final List<Cell> scoreCells = createCells( 10, 12, 155, 90, 6, 1, 10, 0 );
-        return new MatchingGameState( Levels.get( level ).f( cells ), cells, scoreCells, 0, 0, 0, level, false );
+        return new MatchingGameState( Levels.get( level ).f( cells ), cells, scoreCells, 0, 0, 0, level, false, true );
     }
 
     //Create adjacent cells from which fractions can be dragged
@@ -67,15 +70,17 @@ import static fj.data.List.range;
         } );
     }
 
-    public MatchingGameState fractions( List<MovableFraction> fractions ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio ); }
+    public MatchingGameState fractions( List<MovableFraction> fractions ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio, choosingSettings ); }
 
-    public MatchingGameState scored( int scored ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio ); }
+    public MatchingGameState scored( int scored ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio, choosingSettings ); }
 
-    public MatchingGameState audio( boolean audio ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio ); }
+    public MatchingGameState audio( boolean audio ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio, choosingSettings ); }
 
-    public MatchingGameState leftScaleDropTime( long leftScaleDropTime ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio ); }
+    public MatchingGameState leftScaleDropTime( long leftScaleDropTime ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio, choosingSettings ); }
 
-    public MatchingGameState rightScaleDropTime( long rightScaleDropTime ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio ); }
+    public MatchingGameState rightScaleDropTime( long rightScaleDropTime ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio, choosingSettings ); }
+
+    public MatchingGameState withChoosingSettings( final boolean choosingSettings ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio, choosingSettings ); }
 
     public List<Scale> getScales() { return list( leftScale, rightScale ); }
 
@@ -167,4 +172,5 @@ import static fj.data.List.range;
             }
         } );
     }
+
 }
