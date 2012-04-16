@@ -34,9 +34,9 @@ abstract class DoubleSpinnerNode extends PNode {
 
     private static final boolean DEBUG_BOUNDS = false;
 
-    private static final ButtonsLocation RISE_BUTTONS_LOCATION = ButtonsLocation.TOP;
-    private static final ButtonsLocation RUN_BUTTONS_LOCATION = ButtonsLocation.BOTTOM;
-    private static final ButtonsLocation INTERCEPT_BUTTONS_LOCATION = ButtonsLocation.TOP;
+    private static final ButtonsLocation RISE_BUTTONS_LOCATION = ButtonsLocation.RIGHT;
+    private static final ButtonsLocation RUN_BUTTONS_LOCATION = ButtonsLocation.RIGHT;
+    private static final ButtonsLocation INTERCEPT_BUTTONS_LOCATION = ButtonsLocation.RIGHT;
 
     // Intercept spinner
     public static class InterceptSpinnerNode extends DoubleSpinnerNode {
