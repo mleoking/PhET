@@ -92,11 +92,11 @@ class InteractiveEquationNode2 extends PhetPNode {
             yNode.setOffset( 0, 0 );
             equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + 10,
                                   yNode.getYOffset() );
-            riseSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + 2,
+            riseSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX(),
                                     equalsNode.getFullBoundsReference().getCenterY() - ySpacing - ( riseNode.getFullBoundsReference().getHeight() / 2 ) - ( riseSignNode.getFullBoundsReference().getHeight() / 2 ) );
             runSignNode.setOffset( riseSignNode.getXOffset(),
                                     equalsNode.getFullBoundsReference().getCenterY() + ySpacing + ( riseNode.getFullBoundsReference().getHeight() / 2 ) - ( runSignNode.getFullBoundsReference().getHeight() / 2 ) );
-            lineNode.setOffset( riseSignNode.getFullBoundsReference().getMaxX() + 2,
+            lineNode.setOffset( riseSignNode.getFullBoundsReference().getMaxX(),
                                 equalsNode.getFullBoundsReference().getCenterY() );
             riseNode.setOffset( lineNode.getFullBoundsReference().getMaxX() - riseNode.getFullBoundsReference().getWidth(),
                                 lineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - ySpacing );
