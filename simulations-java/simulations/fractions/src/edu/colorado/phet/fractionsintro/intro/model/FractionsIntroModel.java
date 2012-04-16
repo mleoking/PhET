@@ -28,7 +28,6 @@ import edu.colorado.phet.fractionsintro.intro.model.containerset.ContainerSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.CakeSliceFactory;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.FactorySet;
-import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.SliceFactory;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
@@ -36,7 +35,7 @@ import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ModelAct
 import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ModelComponentTypes.containerSetComponentType;
 import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ModelComponents.containerSetComponent;
 import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ParameterKeys.containerSetKey;
-import static edu.colorado.phet.fractionsintro.intro.model.FRecorder.record;
+import static edu.colorado.phet.fractionsintro.intro.model.RegressionTestRecorder.record;
 
 /**
  * Model for the Fractions Intro sim.  This is the most complicated class in the sim, because it has to manage several different ways of changing
@@ -70,12 +69,6 @@ public class FractionsIntroModel implements Serializable {
 
     public FractionsIntroModel( IntroState initialState, final FactorySet factorySet ) {
         this.factorySet = factorySet;
-
-        final SliceFactory cakeSliceFactory = factorySet.cakeSliceFactory;
-        final SliceFactory HorizontalSliceFactory = factorySet.horizontalSliceFactory;
-        final SliceFactory VerticalSliceFactory = factorySet.verticalSliceFactory;
-        final SliceFactory CircularSliceFactory = factorySet.circularSliceFactory;
-        final SliceFactory WaterGlassSetFactory = factorySet.waterGlassSetFactory;
 
         this.initialState = initialState;
         state = new Property<IntroState>( initialState );
@@ -215,7 +208,7 @@ public class FractionsIntroModel implements Serializable {
         }
         );
         containerSetClientProperty.addObserver( new VoidFunction1<ContainerSet>() {
-            @Override public void apply( final ContainerSet containerSet ) {
+            public void apply( final ContainerSet containerSet ) {
                 SimSharingManager.sendModelMessage( containerSetComponent, containerSetComponentType, changed, parameterSet( ParameterKeys.numerator, containerSet.numerator ).with(
                         ParameterKeys.denominator, containerSet.denominator ).with( containerSetKey, containerSet.toString() ) );
             }
