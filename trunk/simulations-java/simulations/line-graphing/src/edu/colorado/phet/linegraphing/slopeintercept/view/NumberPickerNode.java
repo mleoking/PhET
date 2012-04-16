@@ -168,9 +168,9 @@ public class NumberPickerNode extends PhetPNode {
         topButtonNode.addInputEventListener( topButtonCursorHandler  );
         bottomButtonNode.addInputEventListener( bottomButtonCursorHandler  );
         topButtonNode.addInputEventListener( new IncrementButtonHandler( userComponent, topButtonNode, colorScheme.topNormalColor, colorScheme.topHighlightColor,
-                                                                         topEnabled, value, range, 1 ) );
+                                                                         topEnabled, value, range, delta ) );
         bottomButtonNode.addInputEventListener( new DecrementButtonHandler( userComponent, bottomButtonNode, colorScheme.bottomNormalColor, colorScheme.bottomHighlightColor,
-                                                                            bottomEnabled, value, range, 1 ) );
+                                                                            bottomEnabled, value, range, delta ) );
     }
 
     private static class IncrementButtonHandler extends ButtonHandler {
