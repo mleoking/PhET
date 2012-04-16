@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
+import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -54,7 +55,7 @@ public class MatchingGameNode extends FNode {
         addChild( scales );
 
         addChild( new ZeroOffsetNode( new BarGraphNode( state.getLeftScaleValue(), state.leftScaleDropTime, state.getRightScaleValue(), state.rightScaleDropTime,
-                                                        state.state == State.SHOWING_WHY_ANSWER_WRONG || state.state == State.RIGHT ) ) {{
+                                                        state.state == State.SHOWING_WHY_ANSWER_WRONG || state.state == State.USER_CHECKED_CORRECT_ANSWER ) ) {{
             setOffset( scales.getFullBounds().getCenterX() - getFullWidth() / 2, scales.getFullBounds().getCenterY() - getFullHeight() - 15 );
         }} );
 
@@ -95,11 +96,13 @@ public class MatchingGameNode extends FNode {
                 else {
                     addChild( new Button( showAnswerButton, "Show answer", Color.red, buttonLocation, new ActionListener() {
                         @Override public void actionPerformed( final ActionEvent e ) {
-                            model.set( new TryAgain().f( model.get() ) );
+                            model.set( new ShowAnswer().f( model.get() ) );
                         }
                     } ) );
                 }
             }
+
+            //This shows a flicker of "check answer" after user presses next, needs to be fixed
             else if ( state.checks < 2 && state.state == State.WAITING_FOR_USER_TO_CHECK_ANSWER ) {
                 addChild( new Button( checkAnswerButton, "Check answer", Color.orange, buttonLocation, new ActionListener() {
                     @Override public void actionPerformed( final ActionEvent e ) {
@@ -107,24 +110,21 @@ public class MatchingGameNode extends FNode {
                     }
                 } ) );
             }
-            else if ( state.checks >= 2 ) {
-                addChild( new Button( showAnswerButton, "Show answer", Color.red, buttonLocation, new ActionListener() {
-                    @Override public void actionPerformed( final ActionEvent e ) {
-                        model.set( new ShowAnswer().f( model.get() ) );
-                    }
-                } ) );
-            }
-            if ( state.state == State.RIGHT ) {
+
+            //If they match, show a "Keep" button. This allows the student to look at the right answer as long as they want before moving it to the scoreboard.
+            if ( state.state == State.USER_CHECKED_CORRECT_ANSWER ) {
                 addSignNode( state, scales );
 
-                //If they match, show a "Keep" button. This allows the student to look at the right answer as long as they want before moving it to the scoreboard.
-                if ( state.getLeftScaleValue() == state.getRightScaleValue() ) {
-                    addChild( new Button( Components.keepMatchButton, "Next", Color.green, buttonLocation, new ActionListener() {
-                        @Override public void actionPerformed( ActionEvent e ) {
-                            model.set( model.get().animateMatchToScoreCell().withState( State.WAITING_FOR_USER_TO_CHECK_ANSWER ) );
-                        }
-                    } ) );
-                }
+                addChild( new VBox( new FaceNode( 200 ), new PhetPText( state.checks == 1 ? "+2" : "+1", new PhetFont( 18, true ) ) ) {{
+                    final ImmutableVector2D pt = buttonLocation.plus( 0, -150 );
+                    centerFullBoundsOnPoint( pt.getX(), pt.getY() );
+                }} );
+
+                addChild( new Button( Components.keepMatchButton, "Next", Color.green, buttonLocation, new ActionListener() {
+                    @Override public void actionPerformed( ActionEvent e ) {
+                        model.set( model.get().animateMatchToScoreCell().withState( State.WAITING_FOR_USER_TO_CHECK_ANSWER ).withChecks( 0 ) );
+                    }
+                } ) );
             }
         }
         state.scoreCells.take( state.scored ).map( new F<Cell, PNode>() {
