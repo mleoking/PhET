@@ -28,7 +28,7 @@ public class CellProteinSynthesisSimulator {
     public static final DoubleRange POLYMERASE_ASSOCIATION_PROBABILITY_RANGE = new DoubleRange( 0.0, 2 * DEFAULT_POLYMERASE_ASSOCIATION_PROBABILITY );
     public static final double DEFAULT_PROTEIN_DEGRADATION_RATE = 0.0004f;
     public static final DoubleRange PROTEIN_DEGRADATION_RANGE = new DoubleRange( DEFAULT_PROTEIN_DEGRADATION_RATE * 0.7, DEFAULT_PROTEIN_DEGRADATION_RATE * 1.3 );
-    public static final double DEFAULT_MRNA_DEGRADATION_RATE = 0; // TODO: Stubbed for now.
+    public static final double DEFAULT_MRNA_DEGRADATION_RATE = 0.1; // TODO: Stubbed for now.
     public static final DoubleRange MRNA_DEGRADATION_RATE_RANGE = new DoubleRange( DEFAULT_MRNA_DEGRADATION_RATE / 10, DEFAULT_MRNA_DEGRADATION_RATE * 10 );
 
     private Random _random = new Random();
