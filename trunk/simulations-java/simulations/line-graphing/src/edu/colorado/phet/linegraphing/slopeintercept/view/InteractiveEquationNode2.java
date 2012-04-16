@@ -17,10 +17,8 @@ import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptLine;
-import edu.colorado.phet.linegraphing.slopeintercept.view.DoubleSpinnerNode.InterceptSpinnerNode;
 import edu.colorado.phet.linegraphing.slopeintercept.view.NumberPickerNode.InterceptPickerNode;
-import edu.colorado.phet.linegraphing.slopeintercept.view.NumberPickerNode.RisePickerNode;
-import edu.colorado.phet.linegraphing.slopeintercept.view.NumberPickerNode.RunPickerNode;
+import edu.colorado.phet.linegraphing.slopeintercept.view.NumberPickerNode.SlopePickerNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -50,11 +48,11 @@ class InteractiveEquationNode2 extends PhetPNode {
         // determine the max width of the rise and run spinners, based on the extents of their range
         double maxSlopeWidth;
         {
-            PNode maxRiseNode = new RisePickerNode( UserComponents.riseSpinner, new Property<Double>( riseRange.get().getMax() ), riseRange, font, FORMAT );
-            PNode minRiseNode = new RisePickerNode( UserComponents.riseSpinner, new Property<Double>( riseRange.get().getMin() ), riseRange, font, FORMAT );
+            PNode maxRiseNode = new SlopePickerNode( UserComponents.riseSpinner, new Property<Double>( riseRange.get().getMax() ), riseRange, font, FORMAT );
+            PNode minRiseNode = new SlopePickerNode( UserComponents.riseSpinner, new Property<Double>( riseRange.get().getMin() ), riseRange, font, FORMAT );
             double maxRiseWidth = Math.max( maxRiseNode.getFullBoundsReference().getWidth(), minRiseNode.getFullBoundsReference().getWidth() );
-            PNode maxRunNode = new RunPickerNode( UserComponents.riseSpinner, new Property<Double>( runRange.get().getMax() ), runRange, font, FORMAT );
-            PNode minRunNode = new RunPickerNode( UserComponents.riseSpinner, new Property<Double>( runRange.get().getMin() ), runRange, font, FORMAT );
+            PNode maxRunNode = new SlopePickerNode( UserComponents.riseSpinner, new Property<Double>( runRange.get().getMax() ), runRange, font, FORMAT );
+            PNode minRunNode = new SlopePickerNode( UserComponents.riseSpinner, new Property<Double>( runRange.get().getMin() ), runRange, font, FORMAT );
             double maxRunWidth = Math.max( maxRunNode.getFullBoundsReference().getWidth(), minRunNode.getFullBoundsReference().getWidth() );
             maxSlopeWidth = Math.max( maxRiseWidth, maxRunWidth );
         }
@@ -62,8 +60,8 @@ class InteractiveEquationNode2 extends PhetPNode {
         // y = mx + b
         PText yNode = new PhetPText( "y", font );
         PText equalsNode = new PhetPText( "=", font );
-        PNode riseNode = new ZeroOffsetNode( new RisePickerNode( UserComponents.riseSpinner, this.rise, riseRange, font, FORMAT ) );
-        PNode runNode = new ZeroOffsetNode( new RunPickerNode( UserComponents.runSpinner, this.run, runRange, font, FORMAT ) );
+        PNode riseNode = new ZeroOffsetNode( new SlopePickerNode( UserComponents.riseSpinner, this.rise, riseRange, font, FORMAT ) );
+        PNode runNode = new ZeroOffsetNode( new SlopePickerNode( UserComponents.runSpinner, this.run, runRange, font, FORMAT ) );
         final PPath lineNode = new PPath( new Line2D.Double( 0, 0, maxSlopeWidth, 0 ) ) {{
             setStroke( new BasicStroke( 2f ) );
         }};

@@ -52,6 +52,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class NumberPickerNode extends PhetPNode {
 
+    //TODO move colors in this file to LGColors
     private static final Color DISABLED_COLOR = new Color( 210, 210, 210 );
     private static final Color SHADOW_COLOR = new Color( 120, 120, 120 );
 
@@ -65,22 +66,8 @@ public class NumberPickerNode extends PhetPNode {
         }
     }
 
-    // Picker for rise
-    public static class RisePickerNode extends SlopePickerNode {
-        public RisePickerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
-            super( userComponent, value, range, font, format );
-        }
-    }
-
-    // Picker for run
-    public static class RunPickerNode extends SlopePickerNode {
-        public RunPickerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
-            super( userComponent, value, range, font, format );
-        }
-    }
-
-    // Picker for slope
-    public static abstract class SlopePickerNode extends NumberPickerNode {
+    // Picker for slope (rise or run)
+    public static class SlopePickerNode extends NumberPickerNode {
         public SlopePickerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
             super( userComponent, value, range, 1, false, font, format,
                    new NumberPickerColorScheme( new Color( 0, 245, 0 ), new Color( 0, 255, 0 ),
