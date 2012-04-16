@@ -83,7 +83,6 @@ public class BiomoleculeCreatorNode extends PComposite {
                             // should be removed from the model.
                             if ( enclosingToolBoxNode.getFullBoundsReference().contains( mvt.modelToView( finalBiomolecule.getPosition() ) ) ) {
                                 moleculeDestroyer.apply( finalBiomolecule );
-                                System.out.println( "Molecule returned to tool box." );
                                 finalBiomolecule.userControlled.removeObserver( this );
                                 BiomoleculeCreatorNode.this.appearanceNode.setTransparency( 1 );
                                 setPickable( true );
