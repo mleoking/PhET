@@ -287,29 +287,4 @@ public class BiomoleculeToolBoxNode extends PNode {
             );
         }
     }
-
-    /*
-    private static class GenericCreatorNode<T extends MobileBiomolecule> extends BiomoleculeCreatorNode {
-        private GenericCreatorNode( final BiomoleculeBoxNode biomoleculeBoxNode, double scalingFactor ) {
-            super( new MobileBiomoleculeNode( ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), scalingFactor ), new SmallRibosomalSubunit() ),
-                   biomoleculeBoxNode.canvas,
-                   biomoleculeBoxNode.mvt,
-                   new Function1<Point2D, MobileBiomolecule>() {
-                       public MobileBiomolecule apply( Point2D pos ) {
-                           T srs = new T( pos );
-                           biomoleculeBoxNode.model.addMobileBiomolecule( srs );
-                           return srs;
-                       }
-                   },
-                   new VoidFunction1<MobileBiomolecule>() {
-                       public void apply( MobileBiomolecule mobileBiomolecule ) {
-                           biomoleculeBoxNode.model.removeMobileBiomolecule( mobileBiomolecule );
-                       }
-                   },
-                   biomoleculeBoxNode,
-                   true
-            );
-        }
-    }
-    */
 }
