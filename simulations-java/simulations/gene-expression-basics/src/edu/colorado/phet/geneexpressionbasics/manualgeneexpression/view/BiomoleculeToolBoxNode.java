@@ -190,8 +190,7 @@ public class BiomoleculeToolBoxNode extends PNode {
                            biomoleculeBoxNode.model.removeMobileBiomolecule( mobileBiomolecule );
                        }
                    },
-                   biomoleculeBoxNode,
-                   true
+                   biomoleculeBoxNode
             );
         }
     }
@@ -222,8 +221,7 @@ public class BiomoleculeToolBoxNode extends PNode {
                            biomoleculeBoxNode.model.removeMobileBiomolecule( mobileBiomolecule );
                        }
                    },
-                   biomoleculeBoxNode,
-                   true
+                   biomoleculeBoxNode
             );
         }
     }
@@ -252,8 +250,7 @@ public class BiomoleculeToolBoxNode extends PNode {
                            biomoleculeBoxNode.model.removeMobileBiomolecule( mobileBiomolecule );
                        }
                    },
-                   biomoleculeBoxNode,
-                   true
+                   biomoleculeBoxNode
             );
         }
     }
@@ -282,8 +279,7 @@ public class BiomoleculeToolBoxNode extends PNode {
                            biomoleculeBoxNode.model.removeMobileBiomolecule( mobileBiomolecule );
                        }
                    },
-                   biomoleculeBoxNode,
-                   true
+                   biomoleculeBoxNode
             );
         }
     }
