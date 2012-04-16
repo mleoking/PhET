@@ -63,6 +63,11 @@ public class MultiCellParameterController extends PNode {
                                                     CellProteinSynthesisSimulator.MRNA_DEGRADATION_RATE_RANGE.getMax(),
                                                     model.mRnaDegradationRate,
                                                     "<center>mRNA Destroyer<br>Level</center>" )
+//                new DoubleParameterSliderNode( UserComponents.rnaDestroyerLevel,
+//                                               CellProteinSynthesisSimulator.MRNA_DEGRADATION_RATE_RANGE.getMin(),
+//                                               CellProteinSynthesisSimulator.MRNA_DEGRADATION_RATE_RANGE.getMax(),
+//                                               model.mRnaDegradationRate,
+//                                               "<center>mRNA Destroyer<br>Level</center>" )
         );
 
         // Add the content to a control panel.
