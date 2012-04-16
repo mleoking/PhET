@@ -17,14 +17,14 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.RnaPolymerase;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.view.ColorChangingCellNode;
-import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * Base class for displaying and interacting with mobile biomolecules.  In
  * essence, this observes the shape of the biomolecule, which changes as it
  * moves.
  */
-public class MobileBiomoleculeNode extends PNode {
+public class MobileBiomoleculeNode extends PPath {
 
     /**
      * Constructor that uses default stroke.

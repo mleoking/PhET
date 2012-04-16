@@ -1,3 +1,4 @@
+Changed the biomolecule tool box such that it leaves a faded version of the biomolecule behind as a sort of legend.
 Fixed an issue where the biomolecules could end up moving outside of their motion bounds when attaching to a base pair on the DNA molecule.
 # 0.00.19 (62767) Mar 23, 2012
 3/23/12 Deploying to dev for review
