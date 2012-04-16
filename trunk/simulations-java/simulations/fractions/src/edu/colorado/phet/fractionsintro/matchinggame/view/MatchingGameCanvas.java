@@ -20,7 +20,7 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameSt
  */
 public class MatchingGameCanvas extends AbstractFractionsCanvas {
     public MatchingGameCanvas( final boolean showDeveloperControls, final MatchingGameModel model ) {
-        final GameSettings gameSettings = new GameSettings( new IntegerRange( 1, 5, 1 ), false, false );
+        final GameSettings gameSettings = new GameSettings( new IntegerRange( 1, 6, 1 ), false, false );
         final VoidFunction0 startGame = new VoidFunction0() {
             @Override public void apply() {
                 model.state.set( newLevel( gameSettings.level.get() ).
