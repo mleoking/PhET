@@ -234,7 +234,7 @@ class ReducedSlopeInterceptEquationFactory {
             equalsNode.setOffset( yNode.getFullBoundsReference().getWidth() + X_SPACING, yNode.getYOffset() );
             if ( !slopeIsPositive ) {
                 slopeSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING,
-                                         equalsNode.getYOffset() );
+                                         equalsNode.getYOffset() - ( slopeSignNode.getFullBoundsReference().getHeight() / 2 ) );
                 lineNode.setOffset( slopeSignNode.getFullBoundsReference().getMaxX() + X_SPACING,
                                     equalsNode.getFullBoundsReference().getCenterY() - ( lineNode.getFullBoundsReference().getHeight() / 2 ) );
             }

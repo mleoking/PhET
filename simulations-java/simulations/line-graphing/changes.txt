@@ -1,3 +1,4 @@
+4/16/12 improve visibility of minus sign in graphed equations by aligning it with slope numerator
 4/16/12 try yellow for highlight on point tool, but it conflicts with yellow used elsewhere for intercept
 4/16/12 revert to spinner buttons on right, above/below was deemed to be ugly with poor usability
 4/12/12 delete "interviews" study version from build.properties, it's premature
