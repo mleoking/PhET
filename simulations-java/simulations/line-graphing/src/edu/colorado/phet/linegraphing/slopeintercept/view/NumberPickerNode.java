@@ -58,8 +58,8 @@ public class NumberPickerNode extends PhetPNode {
 
     // Picker for intercept
     public static class InterceptPickerNode extends NumberPickerNode {
-        public InterceptPickerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
-            super( userComponent, value, range, 1, true, font, format,
+        public InterceptPickerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format, boolean abs ) {
+            super( userComponent, value, range, 1, abs, font, format,
                    new NumberPickerColorScheme( new Color( 245, 245, 0 ), new Color( 255, 255, 0 ),
                                                 new Color( 230, 230, 0 ), new Color( 255, 255, 0 ),
                                                 DISABLED_COLOR, SHADOW_COLOR ) );
@@ -68,8 +68,8 @@ public class NumberPickerNode extends PhetPNode {
 
     // Picker for slope (rise or run)
     public static class SlopePickerNode extends NumberPickerNode {
-        public SlopePickerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
-            super( userComponent, value, range, 1, false, font, format,
+        public SlopePickerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format, boolean abs ) {
+            super( userComponent, value, range, 1, abs, font, format,
                    new NumberPickerColorScheme( new Color( 0, 245, 0 ), new Color( 0, 255, 0 ),
                                                 new Color( 0, 230, 0 ), new Color( 0, 255, 0 ),
                                                 DISABLED_COLOR, SHADOW_COLOR ) );
