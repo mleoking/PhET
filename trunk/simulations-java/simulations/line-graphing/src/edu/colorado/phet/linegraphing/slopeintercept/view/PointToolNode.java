@@ -40,7 +40,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 class PointToolNode extends PhetPNode {
 
-    private static final String COORDINATES_PATTERN = "({0},{1})";
+    private static final String COORDINATES_PATTERN = "({0}, {1})"; // space between the coordinates because some locales use ',' as the decimal separator
     private static final NumberFormat COORDINATES_FORMAT = new DefaultDecimalFormat( "0" );
     private static final double COORDINATES_Y_CENTER = 21; // center of the display area, measured from the top of the unscaled image file
 
