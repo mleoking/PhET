@@ -237,7 +237,7 @@ public class MatchingGameNode extends FNode {
     }
 
     //Apply the specified function to the model
-    private void updateWith( final F<MatchingGameState, MatchingGameState> f ) { model.set( f.f( model.get() ) ); }
+    public void updateWith( final F<MatchingGameState, MatchingGameState> f ) { model.set( f.f( model.get() ) ); }
 
     //Encapsulates stroke, paint and stroke paint for a sign node like "=", "<", ">"
     public static PhetPPath createSignNode( Shape shape ) { return new PhetPPath( shape, yellow, new BasicStroke( 2 ), Color.black ); }
