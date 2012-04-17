@@ -1,3 +1,4 @@
+Matching Game: Show the current level and a menu button
 Matching Game: Added object ID's and test for rendering strategy
 Matching Game: Keep track of score
 Matching Game: Improved game over handling
