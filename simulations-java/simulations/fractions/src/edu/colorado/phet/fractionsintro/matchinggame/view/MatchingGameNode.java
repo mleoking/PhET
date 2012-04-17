@@ -79,8 +79,8 @@ public class MatchingGameNode extends FNode {
             setOffset( scoreCellsLayer.getChild( 0 ).getFullBounds().getCenterX() - getFullWidth() / 2, scoreCellsLayer.getMaxY() );
         }} );
 
-        final ImmutableVector2D buttonLocation = new ImmutableVector2D( state.getLastDroppedScaleRight() ? scalesNode.getFullBounds().getMaxX() + 80 :
-                                                                        scalesNode.getFullBounds().getX() - getFullBounds().getWidth(), scalesNode.getFullBounds().getCenterY() );
+        final ImmutableVector2D buttonLocation = new ImmutableVector2D( state.getLastDroppedScaleRight() ? scalesNode.getFullBounds().getMaxX() + 80 : scalesNode.getFullBounds().getX() - 80,
+                                                                        scalesNode.getFullBounds().getCenterY() );
         if ( state.getLeftScaleValue() > 0 && state.getRightScaleValue() > 0 ) {
             System.out.println( "state = " + state.state + ", state.checks = " + state.checks );
             if ( state.state == State.SHOWING_WHY_ANSWER_WRONG ) {
