@@ -4,10 +4,11 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.geneexpressionbasics.common.model.BioShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.view.ColorChangingCellNode;
 
 /**
@@ -18,7 +19,7 @@ public class ProteinC extends Protein {
     // Make the color look like the fluorescent green used in "multiple cells" tab.
     private static final Color BASE_COLOR = ColorChangingCellNode.FLORESCENT_FILL_COLOR;
 
-    private static final double FULL_GROWN_WIDTH = 450;
+    private static final double FULL_GROWN_WIDTH = 350;
 
     public ProteinC() {
         this( new StubGeneExpressionModel() );
@@ -49,22 +50,16 @@ public class ProteinC extends Protein {
 
     private static Shape createShape( double growthFactor ) {
         final double currentWidth = MathUtil.clamp( 0.01, growthFactor, 1 ) * FULL_GROWN_WIDTH;
-        DoubleGeneralPath path = new DoubleGeneralPath( 0, 0 ) {{
-            Vector2D vector = new Vector2D( -currentWidth / 2, 0 );
-            moveTo( vector.getX(), vector.getY() );
-            for ( int i = 0; i < 10; i++ ) {
-                vector.rotate( 2 * Math.PI / 10 );
-                if ( i % 2 == 0 ) {
-                    vector.scale( 0.5 );
-                }
-                else {
-                    vector.scale( 2 );
-                }
-                lineTo( vector.getX(), vector.getY() );
-            }
-            closePath();
-        }};
-
-        return path.getGeneralPath();
+        double currentHeight = currentWidth * 1.3;
+        List<Point2D> pointList = new ArrayList<Point2D>();
+        pointList.add( new Point2D.Double( -currentWidth * 0.5, currentHeight * 0.45 ) );
+        pointList.add( new Point2D.Double( -currentWidth * 0.3, currentHeight * 0.25 ) );
+        pointList.add( new Point2D.Double( -currentWidth * 0.4, -currentHeight * 0.45 ) );
+        pointList.add( new Point2D.Double( currentWidth * 0.5, -currentHeight * 0.45 ) );
+        pointList.add( new Point2D.Double( currentWidth * 0.45, -currentHeight * 0.35 ) );
+        pointList.add( new Point2D.Double( currentWidth * 0.5, currentHeight * 0.45 ) );
+        pointList.add( new Point2D.Double( currentWidth * 0.25, currentHeight * 0.5 ) );
+        pointList.add( new Point2D.Double( -currentWidth * 0.25, currentHeight * 0.45 ) );
+        return BioShapeUtils.createRoundedShapeFromPoints( pointList );
     }
 }
