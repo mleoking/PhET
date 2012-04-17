@@ -22,8 +22,8 @@ public class Beaker extends UserMovableModelElement {
     // Class Data
     //-------------------------------------------------------------------------
 
-    private static final double WIDTH = 0.085; // In meters.
-    private static final double HEIGHT = WIDTH;
+    private static final double WIDTH = 0.080; // In meters.
+    private static final double HEIGHT = WIDTH * 1.1;
 
     private static final double NON_DISPLACED_FLUID_LEVEL = 0.3;
 
