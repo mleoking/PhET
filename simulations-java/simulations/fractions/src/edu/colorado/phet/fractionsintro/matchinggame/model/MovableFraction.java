@@ -18,6 +18,9 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.Stilln
  */
 @Data public class MovableFraction {
 
+    //For keeping track of which one is which.  Can't use object equality across time steps
+    public final int id;
+
     //The location of the fraction, I haven't decided if this is center or top left
     public final Vector2D position;
 
@@ -46,19 +49,21 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.Stilln
     public final boolean scored;
     public final IUserComponent userComponent;
 
+    private static int count;
+
     public MovableFraction translate( double dx, double dy ) { return position( position.plus( dx, dy ) ); }
 
     public MovableFraction translate( Vector2D v ) { return translate( v.getX(), v.getY() ); }
 
-    public MovableFraction dragging( boolean dragging ) { return new MovableFraction( position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent );}
+    public MovableFraction dragging( boolean dragging ) { return new MovableFraction( id, position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent );}
 
-    public MovableFraction position( Vector2D position ) { return new MovableFraction( position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent );}
+    public MovableFraction position( Vector2D position ) { return new MovableFraction( id, position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent );}
 
-    public MovableFraction scale( double scale ) { return new MovableFraction( position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent );}
+    public MovableFraction scale( double scale ) { return new MovableFraction( id, position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent );}
 
-    public MovableFraction motion( F<UpdateArgs, MovableFraction> motion ) { return new MovableFraction( position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent );}
+    public MovableFraction motion( F<UpdateArgs, MovableFraction> motion ) { return new MovableFraction( id, position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent );}
 
-    public MovableFraction scored( boolean scored ) { return new MovableFraction( position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent );}
+    public MovableFraction scored( boolean scored ) { return new MovableFraction( id, position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent );}
 
     public Fraction fraction() { return new Fraction( numerator, denominator );}
 
@@ -93,5 +98,11 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.Stilln
         final PNode node = this.node.f( fraction() );
         node.setScale( scale );
         return node;
+    }
+
+    public static int nextID() {
+        int id = count;
+        count++;
+        return id;
     }
 }

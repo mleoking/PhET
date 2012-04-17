@@ -1,3 +1,4 @@
+Matching Game: Added object ID's and test for rendering strategy
 Matching Game: Keep track of score
 Matching Game: Improved game over handling
 Matching Game: Added a game over dialog
