@@ -112,7 +112,7 @@ public class MovableFractionNode extends PNode {
                         return f.dragging ? f.dragging( false ).motion( tm.get( selectedAttachmentPoint ).some() ) : f;
                     }
                 } );
-                final MatchingGameState newState = state.withFractions( newFractions ).withState( Mode.WAITING_FOR_USER_TO_CHECK_ANSWER );
+                final MatchingGameState newState = state.withFractions( newFractions ).withMode( Mode.WAITING_FOR_USER_TO_CHECK_ANSWER );
                 model.set( newState );
             }
         } );

@@ -13,6 +13,6 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.Mode.WAITING_F
  */
 public class Next extends F<MatchingGameState, MatchingGameState> {
     @Override public MatchingGameState f( final MatchingGameState s ) {
-        return s.animateMatchToScoreCell().withState( WAITING_FOR_USER_TO_CHECK_ANSWER ).withChecks( 0 );
+        return s.animateMatchToScoreCell().withMode( WAITING_FOR_USER_TO_CHECK_ANSWER ).withChecks( 0 );
     }
 }
