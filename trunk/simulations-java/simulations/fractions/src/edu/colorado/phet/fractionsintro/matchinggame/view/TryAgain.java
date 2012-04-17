@@ -13,6 +13,6 @@ import edu.colorado.phet.fractionsintro.matchinggame.model.Mode;
  */
 public @Data class TryAgain extends F<MatchingGameState, MatchingGameState> {
     @Override public MatchingGameState f( final MatchingGameState state ) {
-        return state.withState( Mode.WAITING_FOR_USER_TO_CHANGE_ANSWER );
+        return state.withMode( Mode.WAITING_FOR_USER_TO_CHANGE_ANSWER );
     }
 }

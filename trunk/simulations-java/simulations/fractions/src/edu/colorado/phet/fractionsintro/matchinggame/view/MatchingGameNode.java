@@ -10,13 +10,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
+import java.text.DecimalFormat;
 
+import edu.colorado.phet.common.games.GameOverNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
@@ -170,17 +171,16 @@ public class MatchingGameNode extends FNode {
 
         if ( state.scored == state.scoreCells.length() ) {
 
-            final ActionListener playAgain = new ActionListener() {
-                @Override public void actionPerformed( ActionEvent e ) {
-                    model.set( newLevel( state.level ).withAudio( state.audio ) );
-                }
-            };
-
-            addChild( new VBox( new HTMLImageButtonNode( "Play again", Color.orange ) {{ addActionListener( playAgain ); }},
-                                new HTMLImageButtonNode( "Level " + newLevel, Color.green ) {{ addActionListener( nextLevel ); }}
-            ) {{
-                setOffset( AbstractFractionsCanvas.STAGE_SIZE.getWidth() - getFullWidth(), AbstractFractionsCanvas.STAGE_SIZE.getHeight() / 2 - getFullHeight() / 2 );
-            }} );
+            GameOverNode gameOverNode = new GameOverNode( state.level, state.score, 12, new DecimalFormat( "0" ), state.time, state.bestTime, state.time >= state.bestTime, state.timerVisible ) {{
+                scale( MatchingGameCanvas.GAME_UI_SCALE );
+                centerFullBoundsOnPoint( AbstractFractionsCanvas.STAGE_SIZE.getWidth() / 2, AbstractFractionsCanvas.STAGE_SIZE.getHeight() / 2 );
+                addGameOverListener( new GameOverListener() {
+                    @Override public void newGamePressed() {
+                        model.set( model.get().newGame() );
+                    }
+                } );
+            }};
+            addChild( gameOverNode );
         }
 
         if ( showDeveloperControls ) {

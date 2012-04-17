@@ -14,6 +14,6 @@ import edu.colorado.phet.fractionsintro.matchinggame.model.Mode;
 public @Data class ShowAnswer extends F<MatchingGameState, MatchingGameState> {
     @Override public MatchingGameState f( final MatchingGameState state ) {
         assert state.getLeftScaleValue() != state.getRightScaleValue();
-        return state.withState( Mode.SHOWING_CORRECT_ANSWER_AFTER_INCORRECT_GUESS ).animateToCorrectAnswer();
+        return state.withMode( Mode.SHOWING_CORRECT_ANSWER_AFTER_INCORRECT_GUESS ).animateToCorrectAnswer();
     }
 }
