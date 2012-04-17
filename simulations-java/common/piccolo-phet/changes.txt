@@ -1,3 +1,4 @@
+4/17/12 Performance improvements for PhetPText and PhetPPath, see #3309
 4/13/12 Scale down text on SpeedometerNode if it is too big
 4/5/12 PadBoundsNode, workaround for toImage clipping, see #558
 4/5/12 hide the speedometer needle when NaN
