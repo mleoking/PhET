@@ -32,8 +32,6 @@ public class Controller {
 
     //Moves to the next match.
     public static @Data class Next extends F<MatchingGameState, MatchingGameState> {
-        @Override public MatchingGameState f( final MatchingGameState s ) {
-            return s.animateMatchToScoreCell().withMode( WAITING_FOR_USER_TO_CHECK_ANSWER ).withChecks( 0 );
-        }
+        @Override public MatchingGameState f( final MatchingGameState s ) { return s.animateMatchToScoreCell().withMode( WAITING_FOR_USER_TO_CHECK_ANSWER ).withChecks( 0 ); }
     }
 }
