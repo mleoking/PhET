@@ -214,4 +214,6 @@ import static fj.data.List.range;
     public MatchingGameState newGame() { return withMode( Mode.CHOOSING_SETTINGS ); }
 
     public MatchingGameState withChecks( final int checks ) { return withInfo( info.withChecks( checks ) ); }
+
+    public MatchingGameState withScore( final int score ) { return withInfo( info.withScore( score ) ); }
 }

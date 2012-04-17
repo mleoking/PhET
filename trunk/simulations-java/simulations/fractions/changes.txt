@@ -1,3 +1,4 @@
+Matching Game: Keep track of score
 Matching Game: Improved game over handling
 Matching Game: Added a game over dialog
 Matching Game: Fixed: User shouldn't be able to interact with any fractions while showing clues or correct answer
