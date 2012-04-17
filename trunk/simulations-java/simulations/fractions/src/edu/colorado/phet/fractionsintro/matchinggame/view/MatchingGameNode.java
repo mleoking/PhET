@@ -28,12 +28,12 @@ import edu.colorado.phet.fractionsintro.matchinggame.model.Cell;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MovableFraction;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Scale;
-import edu.colorado.phet.fractionsintro.matchinggame.model.State;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.*;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState.initialState;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState.newLevel;
+import static edu.colorado.phet.fractionsintro.matchinggame.model.Mode.*;
 import static java.awt.Color.lightGray;
 import static java.awt.Color.yellow;
 
@@ -55,9 +55,9 @@ public class MatchingGameNode extends FNode {
         final PNode scales = new RichPNode( state.leftScale.toNode(), state.rightScale.toNode() );
         addChild( scales );
 
-        final boolean revealClues = state.state == State.SHOWING_WHY_ANSWER_WRONG ||
-                                    state.state == State.USER_CHECKED_CORRECT_ANSWER ||
-                                    state.state == State.SHOWING_CORRECT_ANSWER_AFTER_INCORRECT_GUESS;
+        final boolean revealClues = state.mode == SHOWING_WHY_ANSWER_WRONG ||
+                                    state.mode == USER_CHECKED_CORRECT_ANSWER ||
+                                    state.mode == SHOWING_CORRECT_ANSWER_AFTER_INCORRECT_GUESS;
         addChild( new ZeroOffsetNode( new BarGraphNode( state.getLeftScaleValue(), state.leftScaleDropTime, state.getRightScaleValue(), state.rightScaleDropTime, revealClues ) ) {{
             setOffset( scales.getFullBounds().getCenterX() - getFullWidth() / 2, scales.getFullBounds().getCenterY() - getFullHeight() - 15 );
         }} );
@@ -91,9 +91,9 @@ public class MatchingGameNode extends FNode {
         }
 
         if ( state.getLeftScaleValue() > 0 && state.getRightScaleValue() > 0 ) {
-            System.out.println( "state = " + state.state + ", state.checks = " + state.checks );
+            System.out.println( "state = " + state.mode + ", state.checks = " + state.checks );
 
-            if ( state.state == State.SHOWING_WHY_ANSWER_WRONG ) {
+            if ( state.mode == SHOWING_WHY_ANSWER_WRONG ) {
                 if ( state.checks < 2 ) {
                     addChild( new Button( tryAgainButton, "Try again", Color.red, buttonLocation, new ActionListener() {
                         @Override public void actionPerformed( final ActionEvent e ) {
@@ -111,7 +111,7 @@ public class MatchingGameNode extends FNode {
             }
 
             //TODO: This shows a flicker of "check answer" after user presses next, needs to be fixed
-            else if ( state.checks < 2 && state.state == State.WAITING_FOR_USER_TO_CHECK_ANSWER ) {
+            else if ( state.checks < 2 && state.mode == WAITING_FOR_USER_TO_CHECK_ANSWER ) {
                 addChild( new Button( checkAnswerButton, "Check answer", Color.orange, buttonLocation, new ActionListener() {
                     @Override public void actionPerformed( final ActionEvent e ) {
                         updateWith( new CheckAnswer() );
@@ -120,7 +120,7 @@ public class MatchingGameNode extends FNode {
             }
 
             //If they match, show a "Keep" button. This allows the student to look at the right answer as long as they want before moving it to the scoreboard.
-            if ( state.state == State.USER_CHECKED_CORRECT_ANSWER ) {
+            if ( state.mode == USER_CHECKED_CORRECT_ANSWER ) {
                 addSignNode( state, scales );
 
                 addChild( new VBox( new FaceNode( 200 ), new PhetPText( state.checks == 1 ? "+2" : "+1", new PhetFont( 18, true ) ) ) {{
@@ -135,7 +135,7 @@ public class MatchingGameNode extends FNode {
                 } ) );
             }
 
-            if ( state.state == State.SHOWING_CORRECT_ANSWER_AFTER_INCORRECT_GUESS ) {
+            if ( state.mode == SHOWING_CORRECT_ANSWER_AFTER_INCORRECT_GUESS ) {
                 addChild( new Button( Components.keepMatchButton, "Next", Color.green, buttonLocation, new ActionListener() {
                     @Override public void actionPerformed( ActionEvent e ) {
                         updateWith( new Next() );

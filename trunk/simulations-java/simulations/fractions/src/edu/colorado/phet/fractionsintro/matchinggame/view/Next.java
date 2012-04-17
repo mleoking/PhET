@@ -4,7 +4,7 @@ import fj.F;
 
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
 
-import static edu.colorado.phet.fractionsintro.matchinggame.model.State.WAITING_FOR_USER_TO_CHECK_ANSWER;
+import static edu.colorado.phet.fractionsintro.matchinggame.model.Mode.WAITING_FOR_USER_TO_CHECK_ANSWER;
 
 /**
  * Moves to the next match.
