@@ -7,6 +7,7 @@ DESIGN
 
 HIGH
 - implement Point-Slope tab
+- prevent slope=0/0 in the interactive equation
 
 MEDIUM
 - when point tool is on a saved line, change the point tool highlighting when the user mouses over the saved line
