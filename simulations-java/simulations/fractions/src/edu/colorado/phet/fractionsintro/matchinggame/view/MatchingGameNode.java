@@ -84,12 +84,14 @@ public class MatchingGameNode extends FNode {
 
         final ImmutableVector2D buttonLocation = new ImmutableVector2D( state.getLastDroppedScaleRight() ? scalesNode.getFullBounds().getMaxX() + 80 : scalesNode.getFullBounds().getX() - 80,
                                                                         scalesNode.getFullBounds().getCenterY() );
+
+        //Show the sign
+        if ( revealClues ) {
+            addSignNode( state, scales );
+        }
+
         if ( state.getLeftScaleValue() > 0 && state.getRightScaleValue() > 0 ) {
             System.out.println( "state = " + state.state + ", state.checks = " + state.checks );
-
-            if ( revealClues ) {
-                addSignNode( state, scales );
-            }
 
             if ( state.state == State.SHOWING_WHY_ANSWER_WRONG ) {
                 if ( state.checks < 2 ) {
@@ -155,7 +157,7 @@ public class MatchingGameNode extends FNode {
         } ).foreach( addChild );
         state.fractions.map( new F<MovableFraction, PNode>() {
             @Override public PNode f( final MovableFraction f ) {
-                return new MovableFractionNode( model, f, f.toNode(), rootNode );
+                return new MovableFractionNode( model, f, f.toNode(), rootNode, !revealClues );
             }
         } ).foreach( addChild );
 

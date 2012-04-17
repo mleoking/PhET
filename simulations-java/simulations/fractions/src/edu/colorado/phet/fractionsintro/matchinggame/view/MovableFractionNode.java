@@ -33,12 +33,16 @@ import static fj.data.TreeMap.fromMutableMap;
  * @author Sam Reid
  */
 public class MovableFractionNode extends PNode {
-    public MovableFractionNode( final SettableProperty<MatchingGameState> model, final MovableFraction f, PNode node, final PNode rootNode ) {
+    public MovableFractionNode( final SettableProperty<MatchingGameState> model, final MovableFraction f, PNode node, final PNode rootNode, boolean pickable ) {
         addChild( node );
         centerFullBoundsOnPoint( f.position.getX(), f.position.getY() );
         if ( !f.scored ) {
             attachInputHandlers( model, f, rootNode );
         }
+
+        //Disallow interaction when showing clues
+        setPickable( pickable );
+        setChildrenPickable( pickable );
     }
 
     private void attachInputHandlers( final SettableProperty<MatchingGameState> model, final MovableFraction f, final PNode rootNode ) {
