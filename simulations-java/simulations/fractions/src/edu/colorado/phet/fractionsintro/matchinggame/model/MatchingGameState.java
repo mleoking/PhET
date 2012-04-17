@@ -42,26 +42,15 @@ import static fj.data.List.range;
     public final long leftScaleDropTime;
     public final long rightScaleDropTime;
 
-    public final int level;
-
-    public final boolean audio;
-
-    //Number of times the user pressed "check answer" since the last collected response.
-    public final int checks;
-
-    //State for checks.
-    public final Mode mode;
-    public final double score = 0;
-    public final long time = 0;
-    public final long bestTime = 0;
-    public final boolean timerVisible = true;
+    //Issues general to other games
+    public final GameInfo info;
 
     public static MatchingGameState initialState() { return newLevel( 1 ).withMode( Mode.CHOOSING_SETTINGS ); }
 
     public static MatchingGameState newLevel( int level ) {
         final List<Cell> cells = createCells( 100, 415 + 12, 130, 120, 6, 2, 0, 0 );
         final List<Cell> scoreCells = createCells( 10, 12, 155, 90, 6, 1, 10, 0 );
-        return new MatchingGameState( Levels.get( level ).f( cells ), cells, scoreCells, 0, 0, 0, level, false, 0, Mode.WAITING_FOR_USER_TO_CHECK_ANSWER );
+        return new MatchingGameState( Levels.get( level ).f( cells ), cells, scoreCells, 0, 0, 0, new GameInfo( level, false, 0, Mode.WAITING_FOR_USER_TO_CHECK_ANSWER, 0, 0, 0, true ) );
     }
 
     //Create adjacent cells from which fractions can be dragged
@@ -77,19 +66,23 @@ import static fj.data.List.range;
         } );
     }
 
-    public MatchingGameState withFractions( List<MovableFraction> fractions ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio, checks, mode ); }
+    public Mode getMode() { return info.mode; }
 
-    public MatchingGameState withScored( int scored ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio, checks, mode ); }
+    public int getChecks() {return info.checks;}
 
-    public MatchingGameState withAudio( boolean audio ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio, checks, mode ); }
+    public MatchingGameState withFractions( List<MovableFraction> fractions ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info ); }
 
-    public MatchingGameState withLeftScaleDropTime( long leftScaleDropTime ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio, checks, mode ); }
+    public MatchingGameState withScored( int scored ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info ); }
 
-    public MatchingGameState withRightScaleDropTime( long rightScaleDropTime ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio, checks, mode ); }
+    public MatchingGameState withAudio( boolean audio ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info.withAudio( audio ) ); }
 
-    public MatchingGameState withChecks( final int checks ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio, checks, mode ); }
+    public MatchingGameState withLeftScaleDropTime( long leftScaleDropTime ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info ); }
 
-    public MatchingGameState withMode( final Mode state ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, level, audio, checks, state ); }
+    public MatchingGameState withRightScaleDropTime( long rightScaleDropTime ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info ); }
+
+    public MatchingGameState withMode( final Mode state ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info.withMode( state ) ); }
+
+    public MatchingGameState withInfo( final GameInfo info ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info ); }
 
     public List<Scale> getScales() { return list( leftScale, rightScale ); }
 
@@ -220,5 +213,9 @@ import static fj.data.List.range;
 
     public MatchingGameState newGame() {
         return withMode( Mode.CHOOSING_SETTINGS );
+    }
+
+    public MatchingGameState withChecks( final int checks ) {
+        return withInfo( info.withChecks( checks ) );
     }
 }

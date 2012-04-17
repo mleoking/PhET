@@ -21,10 +21,10 @@ public class MatchingGameModel {
     public final Property<MatchingGameState> state = new Property<MatchingGameState>( initialState() ) {{
         addObserver( new ChangeObserver<MatchingGameState>() {
             @Override public void update( final MatchingGameState newValue, final MatchingGameState oldValue ) {
-                if ( newValue.audio && oldValue.mode == Mode.WAITING_FOR_USER_TO_CHECK_ANSWER && newValue.mode == Mode.USER_CHECKED_CORRECT_ANSWER ) {
+                if ( newValue.info.audio && oldValue.info.mode == Mode.WAITING_FOR_USER_TO_CHECK_ANSWER && newValue.info.mode == Mode.USER_CHECKED_CORRECT_ANSWER ) {
                     gameAudioPlayer.correctAnswer();
                 }
-                if ( newValue.audio && oldValue.mode == Mode.WAITING_FOR_USER_TO_CHECK_ANSWER && newValue.mode == Mode.SHOWING_WHY_ANSWER_WRONG ) {
+                if ( newValue.info.audio && oldValue.info.mode == Mode.WAITING_FOR_USER_TO_CHECK_ANSWER && newValue.info.mode == Mode.SHOWING_WHY_ANSWER_WRONG ) {
                     gameAudioPlayer.wrongAnswer();
                 }
             }
