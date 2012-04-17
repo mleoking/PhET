@@ -61,8 +61,10 @@ public class PhetPPath extends PPath {
      * @param fill
      */
     public PhetPPath( Shape shape, Paint fill ) {
-        super( shape );
+
+        //Set the stroke before setting the path so that it doesn't waste time computing the layout twice (once for the default stroke and once for the specified stroke)
         setStroke( null );
+        setPathTo( shape );
         setPaint( fill );
     }
 
@@ -74,8 +76,10 @@ public class PhetPPath extends PPath {
      * @param strokePaint
      */
     public PhetPPath( Shape shape, Stroke stroke, Paint strokePaint ) {
-        super( shape );
+
+        //Set the stroke before setting the path so that it doesn't waste time computing the layout twice (once for the default stroke and once for the specified stroke)
         setStroke( stroke );
+        setPathTo( shape );
         setStrokePaint( strokePaint );
     }
 
@@ -88,9 +92,11 @@ public class PhetPPath extends PPath {
      * @param strokePaint
      */
     public PhetPPath( Shape shape, Paint fill, Stroke stroke, Paint strokePaint ) {
-        super( shape );
+
+        //Set the stroke before setting the path so that it doesn't waste time computing the layout twice (once for the default stroke and once for the specified stroke)
         setPaint( fill );
         setStroke( stroke );
+        setPathTo( shape );
         setStrokePaint( strokePaint );
     }
 

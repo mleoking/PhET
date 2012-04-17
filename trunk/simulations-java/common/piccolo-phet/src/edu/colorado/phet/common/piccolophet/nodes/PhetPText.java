@@ -18,9 +18,12 @@ public class PhetPText extends PText {
         super( text );
     }
 
+    //Create a PhetPText with the specified text and font.
     public PhetPText( String text, Font font ) {
-        super( text );
+
+        //Set the font first so that it doesn't waste time computing the layout twice (once for the default font and once for the specified font)
         setFont( font );
+        setText( text );
     }
 
     public PhetPText( Font font ) {
@@ -28,8 +31,10 @@ public class PhetPText extends PText {
     }
 
     public PhetPText( String text, Font font, Paint paint ) {
-        super( text );
+
+        //Set the font first so that it doesn't waste time computing the layout twice (once for the default font and once for the specified font)
         setFont( font );
+        setText( text );
         setTextPaint( paint );
     }
 
