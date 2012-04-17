@@ -1,3 +1,4 @@
+Changed the shape of the fluorescent protein on the 3rd tab to approximate the shape of real green fluorescent protein.
 # 0.00.20 (63446) Apr 16, 2012
 4/16/12 Deploying to dev to enable the design team to review some changes.
 Changed the biomolecule tool box such that it leaves a faded version of the biomolecule behind as a sort of legend.

@@ -179,11 +179,13 @@ public class ProteinCollectionNode extends PNode {
     // different types of protein can be collected.
     private static class ProteinCollectionArea extends PNode {
         private ProteinCollectionArea( ManualGeneExpressionModel model, ModelViewTransform mvt ) {
+
             // Get a transform that performs only the scaling portion of the mvt.
             double scale = mvt.getTransform().getScaleX();
             assert scale == -mvt.getTransform().getScaleY(); // This only handles symmetric transform case.
-            AffineTransform transform = AffineTransform.getScaleInstance( scale, scale );
+            AffineTransform transform = AffineTransform.getScaleInstance( scale, -scale );
 
+            // Add the collection area, which is a set of collection nodes.
             addChild( new HBox(
                     0,
                     new ProteinCaptureNode( model, ProteinA.class, transform ),
