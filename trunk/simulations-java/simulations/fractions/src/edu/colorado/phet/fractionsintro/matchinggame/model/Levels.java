@@ -35,6 +35,7 @@ import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Componen
 import static edu.colorado.phet.fractionsintro.common.view.Colors.LIGHT_BLUE;
 import static edu.colorado.phet.fractionsintro.common.view.Colors.LIGHT_GREEN;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.MoveToCell;
+import static edu.colorado.phet.fractionsintro.matchinggame.model.MovableFraction.nextID;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.RepresentationType.*;
 import static edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern.randomFill;
 import static edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern.sequentialFill;
@@ -260,7 +261,7 @@ public class Levels {
 
         //Cache nodes as images to improve performance
         //TODO: could this put the same node at 2 places in the scene graph?  If so, what problems would that cause?
-        return new MovableFraction( new Vector2D( cell.rectangle.getCenter() ), numerator, denominator, false, cell, 1.0,
+        return new MovableFraction( nextID(), new Vector2D( cell.rectangle.getCenter() ), numerator, denominator, false, cell, 1.0,
                                     new Cache<Fraction, PNode>( new F<Fraction, PNode>() {
                                         @Override public PNode f( final Fraction fraction ) {
                                             return new PComposite() {{ addChild( node.f( fraction ) ); }};
@@ -388,6 +389,9 @@ public class Levels {
             new Fraction( 1, 1 ) };
     public F<List<Cell>, List<MovableFraction>> Level1 = new F<List<Cell>, List<MovableFraction>>() {
         @Override public List<MovableFraction> f( List<Cell> cells ) { return createLevel( getRepresentationPool( 1 ), cells, level1Fractions ); }
+
+        //Test for just creating one fraction
+//        @Override public List<MovableFraction> f( List<Cell> cells ) { return single( createLevel( getRepresentationPool( 1 ), cells, level1Fractions ).head() ); }
     };
 
     /**
