@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.LGColors;
+import edu.colorado.phet.linegraphing.common.model.Graph;
 
 /**
  * Model for the "Intro" module.
@@ -32,7 +33,7 @@ public class SlopeInterceptModel implements Resettable {
     public final Property<SlopeInterceptLine> interactiveLine;
     public final ObservableList<SlopeInterceptLine> savedLines;
     public final ObservableList<SlopeInterceptLine> standardLines;
-    public final LineGraph graph;
+    public final Graph graph;
     public final PointTool pointTool1, pointTool2;
 
     public SlopeInterceptModel() {
@@ -47,7 +48,7 @@ public class SlopeInterceptModel implements Resettable {
         savedLines = new ObservableList<SlopeInterceptLine>();
         standardLines = new ObservableList<SlopeInterceptLine>();
 
-        graph = new LineGraph( X_RANGE, Y_RANGE );
+        graph = new Graph( X_RANGE, Y_RANGE );
 
         pointTool1 = new PointTool( new ImmutableVector2D( X_RANGE.getMax() + 2.75, Y_RANGE.getMin() - 2 ), interactiveLine, savedLines, standardLines );
         pointTool2 = new PointTool( pointTool1.location.get(), interactiveLine, savedLines, standardLines );

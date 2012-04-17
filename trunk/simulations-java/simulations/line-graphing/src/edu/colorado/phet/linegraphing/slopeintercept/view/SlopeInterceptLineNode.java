@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.HighlightHandler.FunctionHighlightHandler;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.colorado.phet.linegraphing.slopeintercept.model.LineGraph;
+import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptLine;
 import edu.colorado.phet.linegraphing.slopeintercept.view.ReducedSlopeInterceptEquationFactory.ReducedSlopeInterceptEquationNode;
 import edu.umd.cs.piccolo.PNode;
@@ -35,7 +35,7 @@ class SlopeInterceptLineNode extends PComposite {
     private final DoubleArrowNode arrowNode;
     private final ReducedSlopeInterceptEquationNode equationNode;
 
-    public SlopeInterceptLineNode( final SlopeInterceptLine line, LineGraph graph, ModelViewTransform mvt ) {
+    public SlopeInterceptLineNode( final SlopeInterceptLine line, Graph graph, ModelViewTransform mvt ) {
 
         this.line = line;
 
