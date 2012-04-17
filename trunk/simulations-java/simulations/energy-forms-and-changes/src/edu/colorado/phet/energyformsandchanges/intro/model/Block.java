@@ -21,7 +21,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 public abstract class Block extends UserMovableModelElement {
 
     // Height and width of the face, which is square.
-    public static final double FACE_SIZE = 0.05; // In meters.
+    public static final double FACE_SIZE = 0.04; // In meters.
     private final Property<HorizontalSurface> topSurface = new Property<HorizontalSurface>( null );
     private final Property<HorizontalSurface> bottomSurface = new Property<HorizontalSurface>( null );
 
