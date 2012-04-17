@@ -6,6 +6,7 @@ Added beaker.
 Added blocks.
 Added burners.
 Added shelves.
+Added drawing for 2nd tab.
 # 0.00.01 (62656) Mar 20, 2012
 3/20/12 Deploying very first version to dev in order to test that project is correctly set up.
 Added a drawing of the envisioned design to the main canvas as a sort of fast prototype.
