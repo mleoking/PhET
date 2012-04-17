@@ -1,3 +1,4 @@
+Adjusted block and beaker sizes as well as displacement algorithm so that both blocks fit in the beaker and the water is displaced to cover both blocks and almost fill the beaker when both blocks are contained.
 Adjusted block size so that both blocks will fit in the beaker.
 Added the ability to remove blocks from the beaker.
 Added displacement of the water when blocks added to beaker.
