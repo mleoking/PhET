@@ -1,3 +1,4 @@
+4/17/12 make GraphNode more object-oriented
 4/17/12 add test to GraphNode, move view-specific assertion from Graph to GraphNode
 4/17/12 repackage classes used in >1 tab
 4/17/12 rename some classes that are specific to slope-intercept format
