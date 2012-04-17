@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.common.phetcommon.util;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.FieldPosition;
@@ -15,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
  * See main for examples.
  */
 public class DefaultDecimalFormat extends DecimalFormat {
+
     private NumberFormat decimalFormat;
 
     public DefaultDecimalFormat( String str ) {
@@ -26,11 +29,19 @@ public class DefaultDecimalFormat extends DecimalFormat {
 
     public DefaultDecimalFormat( NumberFormat decimalFormat ) {
         this.decimalFormat = decimalFormat;
-        this.decimalFormat.setRoundingMode( RoundingMode.HALF_UP ); // Round to nearest neighbor. This is the rounding method that most of us were taught in grade school.
+        // #3303, When we move to Java 1.6, replace roundNearestNeighbor with this.decimalFormat.setRoundingMode( RoundingMode.HALF_UP );
+    }
+
+    // #3303, Java 1.5 workaround for "nearest neighbor" rounding.
+    private double roundNearestNeighbor( double number ) {
+        final int numDigitsToShow = decimalFormat.getMaximumFractionDigits();
+        BigDecimal bigDecimal = new BigDecimal( number, new MathContext( numDigitsToShow, RoundingMode.HALF_UP ) );
+        BigDecimal roundedBigDecimal = bigDecimal.setScale( numDigitsToShow, RoundingMode.HALF_UP );
+        return roundedBigDecimal.doubleValue();
     }
 
     public StringBuffer format( double number, StringBuffer result, FieldPosition fieldPosition ) {
-        StringBuffer formattedText = decimalFormat.format( number, new StringBuffer(), fieldPosition );
+        StringBuffer formattedText = decimalFormat.format( roundNearestNeighbor( number ), new StringBuffer(), fieldPosition );
         double parsed = 0;
         try {
             parsed = decimalFormat.parse( formattedText.toString() ).doubleValue();
@@ -66,15 +77,31 @@ public class DefaultDecimalFormat extends DecimalFormat {
         assert ( new DecimalFormat( "0.00" ).format( -0.00001 ).equals( "-0.00" ) );
         assert ( new DefaultDecimalFormat( "0.00" ).format( -0.00001 ).equals( "0.00" ) );
 
-        // rounding (even neighbor)
+        // positive rounding (even neighbor)
         assert ( new DefaultDecimalFormat( "0.00" ).format( 0.014 ).equals( "0.01" ) );
         assert ( new DefaultDecimalFormat( "0.00" ).format( 0.015 ).equals( "0.02" ) );
         assert ( new DefaultDecimalFormat( "0.00" ).format( 0.016 ).equals( "0.02" ) );
 
-        // rounding (odd neighbor)
+        // positive rounding (odd neighbor)
         assert ( new DefaultDecimalFormat( "0.00" ).format( 0.024 ).equals( "0.02" ) );
         assert ( new DefaultDecimalFormat( "0.00" ).format( 0.025 ).equals( "0.03" ) );
         assert ( new DefaultDecimalFormat( "0.00" ).format( 0.026 ).equals( "0.03" ) );
+
+         // negative rounding (even neighbor)
+        assert ( new DefaultDecimalFormat( "0.00" ).format( -0.014 ).equals( "-0.01" ) );
+        assert ( new DefaultDecimalFormat( "0.00" ).format( -0.015 ).equals( "-0.02" ) );
+        assert ( new DefaultDecimalFormat( "0.00" ).format( -0.016 ).equals( "-0.02" ) );
+
+        // negative rounding (odd neighbor)
+        assert ( new DefaultDecimalFormat( "0.00" ).format( -0.024 ).equals( "-0.02" ) );
+        assert ( new DefaultDecimalFormat( "0.00" ).format( -0.025 ).equals( "-0.03" ) );
+        assert ( new DefaultDecimalFormat( "0.00" ).format( -0.026 ).equals( "-0.03" ) );
+
+        // try other numbers of decimal places, with odd and even neighbors
+        assert ( new DefaultDecimalFormat( "0.000" ).format( 0.0014 ).equals( "0.001" ) );
+        assert ( new DefaultDecimalFormat( "0.000" ).format( 0.0025 ).equals( "0.003" ) );
+        assert ( new DefaultDecimalFormat( "0.0000" ).format( 0.00014 ).equals( "0.0001" ) );
+        assert ( new DefaultDecimalFormat( "0.0000" ).format( 0.00025 ).equals( "0.0003" ) );
     }
 
 }
