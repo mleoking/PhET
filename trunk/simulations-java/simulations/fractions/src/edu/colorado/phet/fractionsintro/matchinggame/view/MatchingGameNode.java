@@ -57,7 +57,7 @@ public class MatchingGameNode extends FNode {
         this.model = model;
         final MatchingGameState state = model.get();
 
-        if ( state.mode == CHOOSING_SETTINGS ) {
+        if ( state.getMode() == CHOOSING_SETTINGS ) {
             final GameSettings gameSettings = new GameSettings( new IntegerRange( 1, 6, 1 ), false, false );
             final VoidFunction0 startGame = new VoidFunction0() {
                 @Override public void apply() {
@@ -78,9 +78,9 @@ public class MatchingGameNode extends FNode {
         final PNode scales = new RichPNode( state.leftScale.toNode(), state.rightScale.toNode() );
         addChild( scales );
 
-        final boolean revealClues = state.mode == SHOWING_WHY_ANSWER_WRONG ||
-                                    state.mode == USER_CHECKED_CORRECT_ANSWER ||
-                                    state.mode == SHOWING_CORRECT_ANSWER_AFTER_INCORRECT_GUESS;
+        final boolean revealClues = state.getMode() == SHOWING_WHY_ANSWER_WRONG ||
+                                    state.getMode() == USER_CHECKED_CORRECT_ANSWER ||
+                                    state.getMode() == SHOWING_CORRECT_ANSWER_AFTER_INCORRECT_GUESS;
         addChild( new ZeroOffsetNode( new BarGraphNode( state.getLeftScaleValue(), state.leftScaleDropTime, state.getRightScaleValue(), state.rightScaleDropTime, revealClues ) ) {{
             setOffset( scales.getFullBounds().getCenterX() - getFullWidth() / 2, scales.getFullBounds().getCenterY() - getFullHeight() - 15 );
         }} );
@@ -114,10 +114,10 @@ public class MatchingGameNode extends FNode {
         }
 
         if ( state.getLeftScaleValue() > 0 && state.getRightScaleValue() > 0 ) {
-            System.out.println( "state = " + state.mode + ", state.checks = " + state.checks );
+            System.out.println( "state = " + state.getMode() + ", state.checks = " + state.getChecks() );
 
-            if ( state.mode == SHOWING_WHY_ANSWER_WRONG ) {
-                if ( state.checks < 2 ) {
+            if ( state.getMode() == SHOWING_WHY_ANSWER_WRONG ) {
+                if ( state.getChecks() < 2 ) {
                     addChild( new Button( tryAgainButton, "Try again", Color.red, buttonLocation, new ActionListener() {
                         @Override public void actionPerformed( final ActionEvent e ) {
                             updateWith( new TryAgain() );
@@ -134,7 +134,7 @@ public class MatchingGameNode extends FNode {
             }
 
             //TODO: This shows a flicker of "check answer" after user presses next, needs to be fixed
-            else if ( state.checks < 2 && state.mode == WAITING_FOR_USER_TO_CHECK_ANSWER ) {
+            else if ( state.getChecks() < 2 && state.getMode() == WAITING_FOR_USER_TO_CHECK_ANSWER ) {
                 addChild( new Button( checkAnswerButton, "Check answer", Color.orange, buttonLocation, new ActionListener() {
                     @Override public void actionPerformed( final ActionEvent e ) {
                         updateWith( new CheckAnswer() );
@@ -143,10 +143,10 @@ public class MatchingGameNode extends FNode {
             }
 
             //If they match, show a "Keep" button. This allows the student to look at the right answer as long as they want before moving it to the scoreboard.
-            if ( state.mode == USER_CHECKED_CORRECT_ANSWER ) {
+            if ( state.getMode() == USER_CHECKED_CORRECT_ANSWER ) {
                 addSignNode( state, scales );
 
-                addChild( new VBox( new FaceNode( 200 ), new PhetPText( state.checks == 1 ? "+2" : "+1", new PhetFont( 18, true ) ) ) {{
+                addChild( new VBox( new FaceNode( 200 ), new PhetPText( state.getChecks() == 1 ? "+2" : "+1", new PhetFont( 18, true ) ) ) {{
                     final ImmutableVector2D pt = buttonLocation.plus( 0, -150 );
                     centerFullBoundsOnPoint( pt.getX(), pt.getY() );
                 }} );
@@ -158,7 +158,7 @@ public class MatchingGameNode extends FNode {
                 } ) );
             }
 
-            if ( state.mode == SHOWING_CORRECT_ANSWER_AFTER_INCORRECT_GUESS ) {
+            if ( state.getMode() == SHOWING_CORRECT_ANSWER_AFTER_INCORRECT_GUESS ) {
                 addChild( new Button( Components.keepMatchButton, "Next", Color.green, buttonLocation, new ActionListener() {
                     @Override public void actionPerformed( ActionEvent e ) {
                         updateWith( new Next() );
@@ -184,16 +184,16 @@ public class MatchingGameNode extends FNode {
             }
         } ).foreach( addChild );
 
-        final int newLevel = state.level + 1;
+        final int newLevel = state.info.level + 1;
         final ActionListener nextLevel = new ActionListener() {
             @Override public void actionPerformed( ActionEvent e ) {
-                model.set( newLevel( newLevel ).withAudio( state.audio ) );
+                model.set( newLevel( newLevel ).withAudio( state.info.audio ) );
             }
         };
 
         if ( state.scored == state.scoreCells.length() ) {
 
-            GameOverNode gameOverNode = new GameOverNode( state.level, state.score, 12, new DecimalFormat( "0" ), state.time, state.bestTime, state.time >= state.bestTime, state.timerVisible ) {{
+            GameOverNode gameOverNode = new GameOverNode( state.info.level, state.info.score, 12, new DecimalFormat( "0" ), state.info.time, state.info.bestTime, state.info.time >= state.info.bestTime, state.info.timerVisible ) {{
                 scale( MatchingGameCanvas.GAME_UI_SCALE );
                 centerFullBoundsOnPoint( AbstractFractionsCanvas.STAGE_SIZE.getWidth() / 2, AbstractFractionsCanvas.STAGE_SIZE.getHeight() / 2 );
                 addGameOverListener( new GameOverListener() {
@@ -214,7 +214,7 @@ public class MatchingGameNode extends FNode {
                     } ),
                     new Button( null, "Resample", Color.yellow, ImmutableVector2D.ZERO, new ActionListener() {
                         @Override public void actionPerformed( final ActionEvent e ) {
-                            model.set( newLevel( model.get().level ) );
+                            model.set( newLevel( model.get().info.level ) );
                         }
                     } ),
                     new Button( null, "Skip to level " + newLevel, Color.yellow, ImmutableVector2D.ZERO, nextLevel )
