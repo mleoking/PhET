@@ -13,7 +13,7 @@ import edu.colorado.phet.fractionsintro.matchinggame.model.State;
  */
 public @Data class ShowAnswer extends F<MatchingGameState, MatchingGameState> {
     @Override public MatchingGameState f( final MatchingGameState state ) {
-        return state.getLeftScaleValue() == state.getRightScaleValue() ? state.withChecks( state.checks + 1 ).withState( State.USER_CHECKED_CORRECT_ANSWER ) :
-               state.withChecks( state.checks + 1 ).withState( State.SHOWING_CORRECT_ANSWER_AFTER_INCORRECT_GUESS );
+        assert state.getLeftScaleValue() != state.getRightScaleValue();
+        return state.withState( State.SHOWING_CORRECT_ANSWER_AFTER_INCORRECT_GUESS ).animateToCorrectAnswer();
     }
 }

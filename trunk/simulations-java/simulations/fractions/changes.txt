@@ -1,3 +1,4 @@
+Matching Game: Animate to the correct answer
 Matching Game: Fixed: buttons don't appear for the left scale
 Matching Game: Fixed bugs in button enable/disable when autospin + max/min reached
 Matching Game: Show a smilie face and score readout when checking the answer and it is right

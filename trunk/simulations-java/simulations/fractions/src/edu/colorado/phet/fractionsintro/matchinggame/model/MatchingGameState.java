@@ -138,6 +138,8 @@ import static fj.data.List.range;
         } );
     }
 
+    public boolean isOnScale( final MovableFraction m ) { return isOnScale( leftScale, m ) || isOnScale( rightScale, m ); }
+
     public MatchingGameState animateMatchToScoreCell() {
         return withFractions( fractions.map( new F<MovableFraction, MovableFraction>() {
             @Override public MovableFraction f( MovableFraction m ) {
@@ -184,4 +186,36 @@ import static fj.data.List.range;
         } );
     }
 
+    //The user pressed show answer.  We need to take the last object off the scale, and move the right one to the scale.
+    public MatchingGameState animateToCorrectAnswer() {
+
+        //find which side needs a match and what the value should be
+        final double valueToMatch = getLastDroppedScaleRight() ? getLeftScaleValue() : getRightScaleValue();
+
+        //Find the answer to match with.  It must have the same value and not be on either scale
+        final MovableFraction match = fractions.find( new F<MovableFraction, Boolean>() {
+            @Override public Boolean f( final MovableFraction m ) {
+                return Math.abs( m.getValue() - valueToMatch ) < 1E-8 && !isOnScale( m );
+            }
+        } ).some();
+
+        return withFractions( fractions.map( new F<MovableFraction, MovableFraction>() {
+            @Override public MovableFraction f( MovableFraction m ) {
+
+                //Move the bad value back to a free cell
+                final boolean matchesLeft = isOnScale( leftScale, m ) && !getLastDroppedScaleRight();
+                final boolean matchesRight = isOnScale( rightScale, m ) && getLastDroppedScaleRight();
+                if ( matchesLeft || matchesRight ) {
+                    return m.motion( MoveToCell( getClosestFreeStartCell( m ) ) );
+                }
+
+                //Replace the latest thing the user placed
+                if ( m == match ) {
+                    return m.motion( getLastDroppedScaleRight() ? MoveToRightScale : MoveToLeftScale );
+                }
+
+                return m;
+            }
+        } ) ).withScored( scored + 1 );
+    }
 }
