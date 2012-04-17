@@ -1,11 +1,12 @@
-Fixed bugs in button enable/disable when autospin + max/min reached
-Show a smilie face and score readout when checking the answer and it is right
-Play audio for right/wrong answers
-After getting it wrong, hide the "check answer" button until they remove something from the platform or put something else up there.
-Started adding "try again"/"show answer" buttons
-Extended max level to 6
-Wired up game dialog with audio settings
-Added dialog for game start
+Matching Game: Fixed: buttons don't appear for the left scale
+Matching Game: Fixed bugs in button enable/disable when autospin + max/min reached
+Matching Game: Show a smilie face and score readout when checking the answer and it is right
+Matching Game: Play audio for right/wrong answers
+Matching Game: After getting it wrong, hide the "check answer" button until they remove something from the platform or put something else up there.
+Matching Game: Started adding "try again"/"show answer" buttons
+Matching Game: Extended max level to 6
+Matching Game: Wired up game dialog with audio settings
+Matching Game: Added dialog for game start
 Added docs for regression testing
 Regression test: store results in separate thread and improved performance
 Converted from F2 updates to F
