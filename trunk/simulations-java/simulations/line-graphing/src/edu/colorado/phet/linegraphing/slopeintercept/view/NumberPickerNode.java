@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -160,8 +161,8 @@ public class NumberPickerNode extends PhetPNode {
         // layout
         {
             topButtonNode.setOffset( 0, 0 );
+            bottomButtonNode.setOffset( topButtonNode.getOffset() );
             topShadowNode.setOffset( topButtonNode.getXOffset() + SHADOW_OFFSET.getX(), topButtonNode.getYOffset() + SHADOW_OFFSET.getY() );
-            bottomButtonNode.setOffset( topButtonNode.getXOffset(), topButtonNode.getFullBoundsReference().getMaxY() );
             bottomShadowNode.setOffset( bottomButtonNode.getXOffset() + SHADOW_OFFSET.getX(), bottomButtonNode.getYOffset() + SHADOW_OFFSET.getY() );
             // textNode offset is set dynamically, to keep value centered
         }
@@ -219,17 +220,17 @@ public class NumberPickerNode extends PhetPNode {
     // Bottom shape is same of the top shape, but facing down.
     private static final Shape createBottomButtonShape( double width, double height ) {
         AffineTransform transform = AffineTransform.getRotateInstance( Math.PI );
-        transform.translate( -width, -height );
+        transform.translate( -width, -2 * height );
         return transform.createTransformedShape( createTopButtonShape( width, height ) );
     }
 
     private static class IncrementButtonHandler extends ButtonHandler {
         public IncrementButtonHandler( final IUserComponent userComponent,
                                        PNode buttonNode,
-                                       Color normalColor, Color highlightColor,
+                                       Paint normalColor, Paint highlightPaint,
                                        Property<Boolean> enabled,
                                        final Property<Double> value, final Property<DoubleRange> range, final double delta ) {
-            super( buttonNode, normalColor, highlightColor, enabled,
+            super( buttonNode, normalColor, highlightPaint, enabled,
                    new VoidFunction0() {
                        public void apply() {
                            final double newValue = Math.min( range.get().getMax(), value.get() + delta );
@@ -244,10 +245,10 @@ public class NumberPickerNode extends PhetPNode {
     private static class DecrementButtonHandler extends ButtonHandler {
         public DecrementButtonHandler( final IUserComponent userComponent,
                                        PNode buttonNode,
-                                       Color normalColor, Color highlightColor,
+                                       Paint normalColor, Paint highlightPaint,
                                        Property<Boolean> enabled,
                                        final Property<Double> value, final Property<DoubleRange> range, final double delta ) {
-            super( buttonNode, normalColor, highlightColor, enabled,
+            super( buttonNode, normalColor, highlightPaint, enabled,
                    new VoidFunction0() {
                        public void apply() {
                            final double newValue = Math.min( range.get().getMax(), value.get() - delta );
@@ -262,7 +263,7 @@ public class NumberPickerNode extends PhetPNode {
     private static abstract class ButtonHandler extends PBasicInputEventHandler {
 
         private final PNode buttonNode;
-        private final Color normalColor, highlightColor;
+        private final Paint normalPaint, highlightPaint;
         private final Property<Boolean> enabled;
         private final VoidFunction0 buttonFired;
         private final Point2D buttonNodeNormalOffset;
@@ -272,13 +273,13 @@ public class NumberPickerNode extends PhetPNode {
         private boolean fireContinuously = false;
 
         public ButtonHandler( final PNode buttonNode,
-                              Color normalColor, Color highlightColor,
+                              Paint normalPaint, Paint highlightPaint,
                               final Property<Boolean> enabled,
                               final VoidFunction0 buttonFired ) {
 
             this.buttonNode = buttonNode;
-            this.normalColor = normalColor;
-            this.highlightColor = highlightColor;
+            this.normalPaint = normalPaint;
+            this.highlightPaint = highlightPaint;
             this.enabled = enabled;
             this.buttonFired = buttonFired;
 
@@ -308,7 +309,7 @@ public class NumberPickerNode extends PhetPNode {
             super.mouseEntered( event );
             mouseOver = true;
             if ( enabled.get() ) {
-                buttonNode.setPaint( highlightColor );
+                buttonNode.setPaint( highlightPaint );
             }
         }
 
@@ -316,7 +317,7 @@ public class NumberPickerNode extends PhetPNode {
             super.mouseExited( event );
             mouseOver = false;
             if ( enabled.get() ) {
-                buttonNode.setPaint( normalColor );
+                buttonNode.setPaint( normalPaint );
             }
         }
 
