@@ -7,7 +7,9 @@ import java.awt.Font;
 import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Arrays;
 
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -29,6 +31,7 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Protein
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * A PNode that represents a labeled box where the user can collect protein
@@ -185,12 +188,29 @@ public class ProteinCollectionNode extends PNode {
             assert scale == -mvt.getTransform().getScaleY(); // This only handles symmetric transform case.
             AffineTransform transform = AffineTransform.getScaleInstance( scale, -scale );
 
+            // Figure out the max dimensions of the various protein types so
+            // that the capture nodes can be properly laid out.
+            Dimension2D captureNodeBackgroundSize = new PDimension( 0, 0 );
+            for ( Class<? extends Protein> proteinClass : Arrays.asList( ProteinA.class, ProteinB.class, ProteinC.class ) ) {
+                try {
+                    Protein protein = proteinClass.newInstance();
+                    Rectangle2D proteinShapeBounds = transform.createTransformedShape( protein.getFullyGrownShape() ).getBounds2D();
+                    captureNodeBackgroundSize.setSize( Math.max( proteinShapeBounds.getWidth() * ProteinCaptureNode.SCALE_FOR_FLASH_NODE, captureNodeBackgroundSize.getWidth() ),
+                                                       Math.max( proteinShapeBounds.getHeight() * ProteinCaptureNode.SCALE_FOR_FLASH_NODE, captureNodeBackgroundSize.getHeight() ) );
+                }
+                catch ( Exception e ) {
+                    System.out.println( "Exception thrown when instantiating protein, e = " + e );
+                    e.printStackTrace();
+                    continue;
+                }
+            }
+
             // Add the collection area, which is a set of collection nodes.
             addChild( new HBox(
                     0,
-                    new ProteinCaptureNode( model, ProteinA.class, transform ),
-                    new ProteinCaptureNode( model, ProteinB.class, transform ),
-                    new ProteinCaptureNode( model, ProteinC.class, transform )
+                    new ProteinCaptureNode( model, ProteinA.class, transform, captureNodeBackgroundSize ),
+                    new ProteinCaptureNode( model, ProteinB.class, transform, captureNodeBackgroundSize ),
+                    new ProteinCaptureNode( model, ProteinC.class, transform, captureNodeBackgroundSize )
             ) );
         }
     }
@@ -200,7 +220,7 @@ public class ProteinCollectionNode extends PNode {
     private static class ProteinCaptureNode extends PNode {
 
         private static final Color FLASH_COLOR = new Color( 173, 255, 47 );
-        private static final double SCALE_FOR_FLASH_NODE = 1.5;
+        protected static final double SCALE_FOR_FLASH_NODE = 1.5;
 
         // Tweak warning: This is used to make sure that the counters on
         // the various protein nodes end up horizontally aligned.  This will
@@ -208,10 +228,12 @@ public class ProteinCollectionNode extends PNode {
         private static final double VERTICAL_DISTANCE_TO_COUNT_NODE = 35;
 
         // Constructor.
-        private ProteinCaptureNode( final ManualGeneExpressionModel model, final Class<? extends Protein> proteinClass, AffineTransform transform ) {
+        private ProteinCaptureNode( final ManualGeneExpressionModel model, final Class<? extends Protein> proteinClass, AffineTransform transform, Dimension2D size ) {
 
             Shape proteinShape = new Rectangle2D.Double( -10, -10, 20, 20 ); // Arbitrary initial shape.
             Color fullBaseColor = Color.PINK; // Arbitrary initial color.
+
+            // Get the shape of the protein.
             try {
                 Protein protein = proteinClass.newInstance();
                 proteinShape = transform.createTransformedShape( protein.getFullyGrownShape() );
@@ -224,11 +246,16 @@ public class ProteinCollectionNode extends PNode {
                 e.printStackTrace();
             }
 
+            // Add the background node.  This is invisible, and exists only to
+            // made the node a specific size.
+            addChild( new PhetPPath( new Rectangle2D.Double( -size.getWidth() / 2, -size.getHeight() / 2, size.getWidth(), size.getHeight() ),
+                                     new Color( 0, 0, 0, 0 ) ) );
+
             // Add the node that will flash when a protein is created, stay lit
             // until the protein is captured, and turn off once it is captured.
             Shape flashingCaptureNodeShape = AffineTransform.getScaleInstance( SCALE_FOR_FLASH_NODE, SCALE_FOR_FLASH_NODE ).createTransformedShape( proteinShape );
             final FlashingShapeNode flashingCaptureNode = new FlashingShapeNode( flashingCaptureNodeShape, FLASH_COLOR, 350, 350, 4, false, true );
-            addChild( flashingCaptureNode );
+//            addChild( flashingCaptureNode );
 
             // Add the node that will represent the spot where the protein can
             // be captured, which is a black shape (signifying emptiness)

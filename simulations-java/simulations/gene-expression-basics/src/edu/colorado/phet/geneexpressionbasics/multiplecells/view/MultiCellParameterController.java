@@ -73,5 +73,4 @@ public class MultiCellParameterController extends PNode {
         // Add the content to a control panel.
         addChild( new ControlPanelNode( content, BACKGROUND_COLOR ) );
     }
-
 }
