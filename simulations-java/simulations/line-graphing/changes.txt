@@ -1,3 +1,4 @@
+4/16/12 use Paint instead of Color in picker interfaces, to support possible use of gradients
 # 0.00.09 (63501) Apr 16, 2012
 4/16/12 make pickers show abs value, put signs outside pickers
 4/16/12 delete convenience pickers for rise and run
