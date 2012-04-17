@@ -1,4 +1,10 @@
-Made blocks snap to their parent when dropped
+Added the ability to remove blocks from the beaker.
+Added displacement of the water when blocks added to beaker.
+Made blocks snap to the center of the thing that they are stacked on when dropped.
+Added beaker.
+Added blocks.
+Added burners.
+Added shelves.
 # 0.00.01 (62656) Mar 20, 2012
 3/20/12 Deploying very first version to dev in order to test that project is correctly set up.
 Added a drawing of the envisioned design to the main canvas as a sort of fast prototype.
