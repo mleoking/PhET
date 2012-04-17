@@ -45,7 +45,7 @@ public class BurnerNode extends PNode {
         PNode heaterCoolerNode = new HeaterCoolerNode( burner.heatCoolLevel, "Heat", "Cool" ) {{
             setScale( mvt.modelToViewDeltaX( burner.getOutlineRect().getWidth() ) * 0.7 / getFullBoundsReference().width );
             setOffset( burnerViewRect.getX() + burnerViewRect.getWidth() / 2 - getFullBoundsReference().width / 2,
-                       burnerViewRect.getMaxY() - getFullBoundsReference().height );
+                       burnerViewRect.getMaxY() - getFullBoundsReference().height * 0.9 );
         }};
         addChild( heaterCoolerNode );
 
