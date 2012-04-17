@@ -9,6 +9,7 @@ import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -17,11 +18,18 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyformsandchanges.intro.model.Beaker;
+import edu.colorado.phet.energyformsandchanges.intro.model.Block;
+import edu.colorado.phet.energyformsandchanges.intro.model.IntroModel;
+import edu.colorado.phet.energyformsandchanges.intro.model.UserMovableModelElement;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Piccolo node that represents a beaker in the view.
@@ -37,7 +45,13 @@ public class BeakerNode extends PNode {
     private static final boolean SHOW_MODEL_RECT = true;
     private static final Color BEAKER_COLOR = new Color( 250, 250, 250, 100 );
 
-    public BeakerNode( final Beaker beaker, final ModelViewTransform mvt ) {
+    private final PhetPCanvas canvas;
+    private final ModelViewTransform mvt;
+
+    public BeakerNode( final IntroModel model, PhetPCanvas canvas, final ModelViewTransform mvt ) {
+
+        this.mvt = mvt;
+        this.canvas = canvas;
 
         // Extract the scale transform from the MVT so that we can separate the
         // shape from the position.
@@ -63,7 +77,7 @@ public class BeakerNode extends PNode {
         addChild( new PhetPPath( beakerBody, BEAKER_COLOR, OUTLINE_STROKE, OUTLINE_COLOR ) );
 
         // Add the water.  It will adjust its size based on the fluid level.
-        addChild( new PerspectiveWaterNode( beakerViewRect, beaker.fluidLevel ) );
+        addChild( new PerspectiveWaterNode( beakerViewRect, model.getBeaker().fluidLevel ) );
 
         // Add the top ellipse.  It is behind the water for proper Z-order behavior.
         addChild( new PhetPPath( topEllipse, BEAKER_COLOR, OUTLINE_STROKE, OUTLINE_COLOR ) );
@@ -81,7 +95,7 @@ public class BeakerNode extends PNode {
         }
 
         // Update the offset if and when the model position changes.
-        beaker.position.addObserver( new VoidFunction1<ImmutableVector2D>() {
+        model.getBeaker().position.addObserver( new VoidFunction1<ImmutableVector2D>() {
             public void apply( ImmutableVector2D position ) {
                 setOffset( mvt.modelToView( position ).toPoint2D() );
             }
@@ -90,10 +104,54 @@ public class BeakerNode extends PNode {
         // Add the cursor handler.
         addInputEventListener( new CursorHandler( CursorHandler.HAND ) );
 
-        // Add the drag handler.
-        addInputEventListener( new MovableElementDragHandler( beaker, this, mvt ) );
+        // Add the drag handler.  This handler is a bit tricky, since it needs
+        // to handle the case where a block is inside the beaker.
+        addInputEventListener( new PBasicInputEventHandler() {
+
+            UserMovableModelElement elementToMove = model.getBeaker();
+
+            @Override
+            public void mousePressed( final PInputEvent event ) {
+                // TODO: Sim sharing.  See ModelElementCreatorNode in Balance and Torque for an example.
+                for ( Block block : model.getBlockList() ) {
+                    // If there is a block at the location inside the beaker
+                    // where the user has pressed the mouse, move that instead
+                    // of the beaker.  Otherwise, blocks can never be removed.
+                    if ( block.getRect().contains( convertCanvasPointToModelPoint( event.getCanvasPosition() ) ) ) {
+                        elementToMove = block;
+                    }
+                }
+                elementToMove.userControlled.set( true );
+            }
+
+            @Override
+            public void mouseDragged( PInputEvent event ) {
+                // TODO: Sim sharing.  See ModelElementCreatorNode in Balance and Torque for an example.
+                PDimension viewDelta = event.getDeltaRelativeTo( BeakerNode.this.getParent() );
+                ImmutableVector2D modelDelta = mvt.viewToModelDelta( new ImmutableVector2D( viewDelta ) );
+                elementToMove.translate( modelDelta );
+            }
+
+            @Override
+            public void mouseReleased( final PInputEvent event ) {
+                // The user has released this node.
+                // TODO: Sim sharing.  See ModelElementCreatorNode in Balance and Torque for an example.
+                elementToMove.userControlled.set( false );
+                if ( elementToMove != model.getBeaker() ) {
+                    elementToMove = model.getBeaker();
+                }
+            }
+        } );
     }
 
+    /**
+     * Convert the canvas position to the corresponding location in the model.
+     */
+    private Point2D convertCanvasPointToModelPoint( Point2D canvasPos ) {
+        Point2D worldPos = new Point2D.Double( canvasPos.getX(), canvasPos.getY() );
+        canvas.getPhetRootNode().screenToWorld( worldPos );
+        return mvt.viewToModel( worldPos );
+    }
 
     private static class PerspectiveWaterNode extends PNode {
         private static final Color WATER_COLOR = new Color( 175, 238, 238, 200 );

@@ -194,4 +194,8 @@ public class IntroModel {
         }
         return highestOverlappingSurface;
     }
+
+    public List<Block> getBlockList() {
+        return Arrays.asList( brick, leadBlock );
+    }
 }
