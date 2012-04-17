@@ -255,7 +255,7 @@ public class ProteinCollectionNode extends PNode {
             // until the protein is captured, and turn off once it is captured.
             Shape flashingCaptureNodeShape = AffineTransform.getScaleInstance( SCALE_FOR_FLASH_NODE, SCALE_FOR_FLASH_NODE ).createTransformedShape( proteinShape );
             final FlashingShapeNode flashingCaptureNode = new FlashingShapeNode( flashingCaptureNodeShape, FLASH_COLOR, 350, 350, 4, false, true );
-//            addChild( flashingCaptureNode );
+            addChild( flashingCaptureNode );
 
             // Add the node that will represent the spot where the protein can
             // be captured, which is a black shape (signifying emptiness)
