@@ -1,3 +1,4 @@
+4/17/12 rename some classes that are specific to slope-intercept format
 4/17/12 i18n suggestion from Sandor: add a space between x and y coordinates in point tool, because ',' is the decimal separator for many locales
 4/16/12 use Paint instead of Color in picker interfaces, to support possible use of gradients
 # 0.00.09 (63501) Apr 16, 2012
