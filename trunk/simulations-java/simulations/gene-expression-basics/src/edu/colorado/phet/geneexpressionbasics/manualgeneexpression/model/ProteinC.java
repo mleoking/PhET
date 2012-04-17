@@ -4,11 +4,9 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.geneexpressionbasics.common.model.BioShapeUtils;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.view.ColorChangingCellNode;
 
 /**
@@ -19,7 +17,7 @@ public class ProteinC extends Protein {
     // Make the color look like the fluorescent green used in "multiple cells" tab.
     private static final Color BASE_COLOR = ColorChangingCellNode.FLORESCENT_FILL_COLOR;
 
-    private static final double FULL_GROWN_WIDTH = 350;
+    private static final double FULL_GROWN_WIDTH = 320;
 
     public ProteinC() {
         this( new StubGeneExpressionModel() );
@@ -50,16 +48,31 @@ public class ProteinC extends Protein {
 
     private static Shape createShape( double growthFactor ) {
         final double currentWidth = MathUtil.clamp( 0.01, growthFactor, 1 ) * FULL_GROWN_WIDTH;
-        double currentHeight = currentWidth * 1.3;
-        List<Point2D> pointList = new ArrayList<Point2D>();
-        pointList.add( new Point2D.Double( -currentWidth * 0.5, currentHeight * 0.45 ) );
-        pointList.add( new Point2D.Double( -currentWidth * 0.3, currentHeight * 0.25 ) );
-        pointList.add( new Point2D.Double( -currentWidth * 0.4, -currentHeight * 0.45 ) );
-        pointList.add( new Point2D.Double( currentWidth * 0.5, -currentHeight * 0.45 ) );
-        pointList.add( new Point2D.Double( currentWidth * 0.45, -currentHeight * 0.35 ) );
-        pointList.add( new Point2D.Double( currentWidth * 0.5, currentHeight * 0.45 ) );
-        pointList.add( new Point2D.Double( currentWidth * 0.25, currentHeight * 0.5 ) );
-        pointList.add( new Point2D.Double( -currentWidth * 0.25, currentHeight * 0.45 ) );
-        return BioShapeUtils.createRoundedShapeFromPoints( pointList );
+        double currentHeight = currentWidth * 1.5;
+        DoubleGeneralPath path = new DoubleGeneralPath();
+        double curveMultiplier = 0.55;
+        // Start in the upper left and proceed clockwise in adding segments.
+        path.moveTo( -currentWidth * 0.45, currentHeight * 0.45 );
+        path.curveTo( -currentWidth * 0.33, currentHeight * curveMultiplier, currentWidth * 0.3, currentHeight * curveMultiplier, currentWidth * 0.45, currentHeight * 0.45 );
+        path.curveTo( currentWidth * curveMultiplier, currentHeight * 0.33, currentWidth * curveMultiplier, -currentHeight * 0.33, currentWidth * 0.45, -currentHeight * 0.45 );
+        path.curveTo( currentWidth * 0.33, -currentHeight * curveMultiplier, -currentWidth * 0.3, -currentHeight * curveMultiplier, -currentWidth * 0.45, -currentHeight * 0.45 );
+        path.curveTo( -currentWidth * curveMultiplier, -currentHeight * 0.33, -currentWidth * curveMultiplier, currentHeight * 0.33, -currentWidth * 0.45, currentHeight * 0.45 );
+        return path.getGeneralPath();
     }
+
+//    private static Shape createShape( double growthFactor ) {
+//        final double currentWidth = MathUtil.clamp( 0.01, growthFactor, 1 ) * FULL_GROWN_WIDTH;
+//        double currentHeight = currentWidth * 1.4;
+//        DoubleGeneralPath path = new DoubleGeneralPath();
+//        double topAndBottomCurveMultiplier = 0.55;
+//        double sideCurvesMultiplier = 0.40;
+//        // Start in the upper left and proceed clockwise in adding segments.
+//        path.moveTo( -currentWidth * 0.45, currentHeight * 0.45 );
+//        path.curveTo( -currentWidth * 0.33, currentHeight * topAndBottomCurveMultiplier, currentWidth * 0.3, currentHeight * topAndBottomCurveMultiplier, currentWidth * 0.45, currentHeight * 0.45 );
+//        path.curveTo( currentWidth * sideCurvesMultiplier, currentHeight * 0.33, currentWidth * sideCurvesMultiplier, -currentHeight * 0.33, currentWidth * 0.45, -currentHeight * 0.45 );
+//        path.curveTo( currentWidth * 0.33, -currentHeight * topAndBottomCurveMultiplier, -currentWidth * 0.3, -currentHeight * topAndBottomCurveMultiplier, -currentWidth * 0.45, -currentHeight * 0.45 );
+//        path.curveTo( -currentWidth * sideCurvesMultiplier, -currentHeight * 0.33, -currentWidth * sideCurvesMultiplier, currentHeight * 0.33, -currentWidth * 0.45, currentHeight * 0.45 );
+//        return path.getGeneralPath();
+//    }
+
 }
