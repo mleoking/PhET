@@ -81,19 +81,18 @@ public class IntroModel {
                                   Math.PI / 2 ) );
 
         // Add the burners.
-        leftBurner = new Burner( new Point2D.Double( 0.07, 0 ) );
-        rightBurner = new Burner( new Point2D.Double( 0.17, 0 ) );
-
-        // Add and position the brick.
-        brick = new Brick();
-        brick.position.set( new ImmutableVector2D( -0.2, 0 ) );
-
-        // Add and position the lead block.
-        leadBlock = new LeadBlock();
-        leadBlock.position.set( new ImmutableVector2D( -0.1, 0 ) );
+        rightBurner = new Burner( new Point2D.Double( 0.18, 0 ) );
+        leftBurner = new Burner( new Point2D.Double( 0.08, 0 ) );
 
         // Add and position the beaker.
-        beaker = new Beaker( new ImmutableVector2D( -0.02, 0 ) );
+        beaker = new Beaker( new ImmutableVector2D( -0.01, 0 ) );
+
+        // Add and position the blocks
+        brick = new Brick();
+        brick.position.set( new ImmutableVector2D( -0.1, 0 ) );
+        leadBlock = new LeadBlock();
+        leadBlock.position.set( new ImmutableVector2D( -0.175, 0 ) );
+
     }
 
     //-------------------------------------------------------------------------
