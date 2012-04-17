@@ -18,7 +18,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PadBoundsNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
-import edu.colorado.phet.linegraphing.slopeintercept.model.LineGraph;
+import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptLine;
 import edu.colorado.phet.linegraphing.slopeintercept.view.LineManipulatorDragHandler.InterceptDragHandler;
 import edu.colorado.phet.linegraphing.slopeintercept.view.LineManipulatorDragHandler.SlopeDragHandler;
@@ -33,7 +33,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 class LineGraphNode extends GraphNode {
 
-    private final LineGraph graph;
+    private final Graph graph;
     private final ModelViewTransform mvt;
     private final Property<Boolean> interactiveEquationVisible;
     private final PNode savedLinesParentNode, standardLinesParentNode; // intermediate nodes, for consistent rendering order
@@ -42,7 +42,7 @@ class LineGraphNode extends GraphNode {
     private SlopeInterceptLineNode interactiveLineNode;
     private final Property<Boolean> linesVisible, interactiveLineVisible, slopeVisible;
 
-    public LineGraphNode( final LineGraph graph, final ModelViewTransform mvt,
+    public LineGraphNode( final Graph graph, final ModelViewTransform mvt,
                           Property<SlopeInterceptLine> interactiveLine,
                           ObservableList<SlopeInterceptLine> savedLines,
                           ObservableList<SlopeInterceptLine> standardLines,
@@ -188,7 +188,7 @@ class LineGraphNode extends GraphNode {
     }
 
     // Updates the line and its associated decorations
-    private void updateInteractiveLine( final SlopeInterceptLine line, final LineGraph graph, final ModelViewTransform mvt ) {
+    private void updateInteractiveLine( final SlopeInterceptLine line, final Graph graph, final ModelViewTransform mvt ) {
 
         // replace the line node
         interactiveLineParentNode.removeAllChildren();
@@ -244,7 +244,7 @@ class LineGraphNode extends GraphNode {
     // Icon creation
     private static Icon createIcon( double width, boolean yEqualsXVisible, boolean yEqualsNegativeXVisible ) {
         ObservableList<SlopeInterceptLine> standardLines = new ObservableList<SlopeInterceptLine>();
-        LineGraphNode graphNode = new LineGraphNode( new LineGraph( -3, 3, -3, 3 ),
+        LineGraphNode graphNode = new LineGraphNode( new Graph( -3, 3, -3, 3 ),
                                                      ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 15, -15 ),
                                                      new Property<SlopeInterceptLine>( new SlopeInterceptLine( 1, 1, 1, LGColors.INTERACTIVE_LINE ) ),
                                                      new ObservableList<SlopeInterceptLine>(),

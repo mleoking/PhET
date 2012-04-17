@@ -3,19 +3,24 @@ package edu.colorado.phet.linegraphing.slopeintercept.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
+
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
-import edu.colorado.phet.linegraphing.slopeintercept.model.LineGraph;
+import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -36,7 +41,7 @@ class GraphNode extends PhetPNode {
     private static final Stroke MAJOR_GRID_LINE_STROKE = new BasicStroke( 0.5f );
     private static final Color MAJOR_GRID_LINE_COLOR = Color.LIGHT_GRAY;
 
-    // axes
+    // axes                                                                                                                                          n
     private final PDimension AXIS_ARROW_SIZE = new PDimension( 10, 10 );
     private final double AXIS_THICKNESS = 1;
     private final Color AXIS_COLOR = Color.BLACK;
@@ -56,7 +61,10 @@ class GraphNode extends PhetPNode {
     private final double TICK_LABEL_SPACING = 2;
     private final double MINUS_SIGN_WIDTH = new PhetPText( "-", MAJOR_TICK_FONT ).getFullBoundsReference().getWidth();
 
-    public GraphNode( LineGraph graph, ModelViewTransform mvt ) {
+    public GraphNode( Graph graph, ModelViewTransform mvt ) {
+
+        assert ( graph.maxX > 0 && graph.minX <= 0 && graph.maxY > 0 && graph.minY <= 0 ); // (0,0) and quadrant 1 is visible
+
 
         //TODO review duplication for horizontal vs vertical grid, axis, etc.
 
@@ -225,5 +233,24 @@ class GraphNode extends PhetPNode {
             addChild( xAxisNode );
             addChild( yAxisNode );
         }
+    }
+
+    // test
+    public static void main( String[] args ) {
+
+        Graph graph = new Graph( -10, 10, -10, 10 );
+        ModelViewTransform mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 300, 300 ), 20, -20 );
+
+        GraphNode graphNode = new GraphNode( graph, mvt );
+
+        PhetPCanvas canvas = new PhetPCanvas();
+        canvas.setPreferredSize( new Dimension( 800, 600 ) );
+        canvas.getLayer().addChild( graphNode );
+
+        JFrame frame = new JFrame();
+        frame.setContentPane( canvas );
+        frame.pack();
+        frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+        frame.setVisible( true );
     }
 }

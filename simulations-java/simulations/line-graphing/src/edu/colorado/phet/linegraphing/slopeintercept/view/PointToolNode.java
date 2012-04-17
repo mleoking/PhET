@@ -23,7 +23,7 @@ import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGResources.Images;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.ParameterKeys;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
-import edu.colorado.phet.linegraphing.slopeintercept.model.LineGraph;
+import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.slopeintercept.model.PointTool;
 import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptLine;
 import edu.umd.cs.piccolo.PNode;
@@ -50,7 +50,7 @@ class PointToolNode extends PhetPNode {
      * @param mvt model-view transform
      * @param dragBounds drag bounds, in view coordinate frame
      */
-    public PointToolNode( final PointTool pointTool, final ModelViewTransform mvt, final LineGraph graph, Rectangle2D dragBounds, final Property<Boolean> linesVisible ) {
+    public PointToolNode( final PointTool pointTool, final ModelViewTransform mvt, final Graph graph, Rectangle2D dragBounds, final Property<Boolean> linesVisible ) {
 
         // tool body
         final PNode bodyNode = new PImage( Images.POINT_TOOL );
@@ -119,11 +119,11 @@ class PointToolNode extends PhetPNode {
         private final PNode dragNode;
         private final Property<ImmutableVector2D> point;
         private final ModelViewTransform mvt;
-        private final LineGraph graph;
+        private final Graph graph;
         private final Rectangle2D dragBounds; // drag bounds, in view coordinate frame
         private double clickXOffset, clickYOffset; // offset of mouse click from dragNode's origin, in parent's coordinate frame
 
-        public PointToolDragHandler( PNode dragNode, Property<ImmutableVector2D> point, ModelViewTransform mvt, LineGraph graph, Rectangle2D dragBounds ) {
+        public PointToolDragHandler( PNode dragNode, Property<ImmutableVector2D> point, ModelViewTransform mvt, Graph graph, Rectangle2D dragBounds ) {
             super( UserComponents.pointTool, UserComponentTypes.sprite, true );
             this.dragNode = dragNode;
             this.point = point;
