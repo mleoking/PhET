@@ -96,9 +96,21 @@ public class NumberPickerNode extends PhetPNode {
         }
     }
 
-    private static final ImmutableVector2D SHADOW_OFFSET = new ImmutableVector2D( 2, 2 );
-    private final Property<Boolean> topEnabled, bottomEnabled;
+    private static final ImmutableVector2D SHADOW_OFFSET = new ImmutableVector2D( 2, 2 ); // offset of drop shadow from buttons
 
+    private final Property<Boolean> topEnabled, bottomEnabled; // enabled state of the top and bottom buttons
+
+    /**
+     * Constructor
+     * @param userComponent identifier for data-collection messages
+     * @param value the value to display and modify
+     * @param range range of value, may change dynamically
+     * @param delta amount to increment or decrement
+     * @param abs true = display absolute value, false = display actual value, including minus sign
+     * @param font font used to display the value
+     * @param format formatter for the value
+     * @param colorScheme colors to use for the picker buttons
+     */
     public NumberPickerNode( IUserComponent userComponent,
                              final Property<Double> value, final Property<DoubleRange> range, final double delta, final boolean abs,
                              PhetFont font, final NumberFormat format, final NumberPickerColorScheme colorScheme ) {
@@ -205,6 +217,7 @@ public class NumberPickerNode extends PhetPNode {
                                                                             bottomEnabled, value, range, delta ) );
     }
 
+    // Creates the shape for the top button.
     private static final Shape createTopButtonShape( double width, double height ) {
         DoubleGeneralPath path = new DoubleGeneralPath();
         path.moveTo( 0, height );
@@ -224,6 +237,7 @@ public class NumberPickerNode extends PhetPNode {
         return transform.createTransformedShape( createTopButtonShape( width, height ) );
     }
 
+    // Button handler that increments a value.
     private static class IncrementButtonHandler extends ButtonHandler {
         public IncrementButtonHandler( final IUserComponent userComponent,
                                        PNode buttonNode,
@@ -242,6 +256,7 @@ public class NumberPickerNode extends PhetPNode {
         }
     }
 
+    // Button handler that decrements a value.
     private static class DecrementButtonHandler extends ButtonHandler {
         public DecrementButtonHandler( final IUserComponent userComponent,
                                        PNode buttonNode,
@@ -260,6 +275,7 @@ public class NumberPickerNode extends PhetPNode {
         }
     }
 
+    // Base class for button handlers. Behaves like a spinner if you press and hold.
     private static abstract class ButtonHandler extends PBasicInputEventHandler {
 
         private final PNode buttonNode;
@@ -270,7 +286,7 @@ public class NumberPickerNode extends PhetPNode {
         private final Timer timer;
 
         private boolean mouseOver = false;
-        private boolean fireContinuously = false;
+        private boolean isFiringContinuously = false; // true = is acting like a spinner, repeatedly firing while the mouse is pressed
 
         public ButtonHandler( final PNode buttonNode,
                               Paint normalPaint, Paint highlightPaint,
@@ -285,16 +301,16 @@ public class NumberPickerNode extends PhetPNode {
 
             buttonNodeNormalOffset = buttonNode.getOffset();
 
-            // If holding down the button, then spin continuously.
+            // If holding down the button, then fire continuously.
             timer = new Timer( 200, new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    fireContinuously = true;
+                    isFiringContinuously = true;
                     buttonFired.apply();
                 }
             } );
             timer.setInitialDelay( 500 );
 
-            // stop the timer when the button is disabled
+            // Stop the timer when the button is disabled.
             enabled.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean enabled ) {
                     if ( timer.isRunning() ) {
@@ -333,10 +349,10 @@ public class NumberPickerNode extends PhetPNode {
             super.mouseReleased( event );
             timer.stop();
             buttonNode.setOffset( buttonNodeNormalOffset );
-            if ( mouseOver && enabled.get() && !fireContinuously ) {
+            if ( mouseOver && enabled.get() && !isFiringContinuously ) {
                 buttonFired.apply();
             }
-            fireContinuously = false;
+            isFiringContinuously = false;
         }
     }
 
