@@ -121,10 +121,15 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         addWorldChild( cellParameterController );
 
         // Lay out the controllers.
-        double maxControllerWidth = Math.max( cellNumberController.getFullBoundsReference().width, cellParameterController.getFullBoundsReference().width );
-        cellNumberController.setOffset( STAGE_SIZE.getWidth() - maxControllerWidth / 2 - cellNumberController.getFullBoundsReference().getWidth() / 2 - 20, 20 );
-        cellParameterController.setOffset( cellNumberController.getFullBoundsReference().getCenterX() - cellParameterController.getFullBoundsReference().getWidth() / 2,
-                                           cellNumberController.getFullBoundsReference().getMaxY() + 20 );
+        // TODO: Layout is in flux awaiting some decisions about the number of parameters.  Clean up when done.
+//        double maxControllerWidth = Math.max( cellNumberController.getFullBoundsReference().width, cellParameterController.getFullBoundsReference().width );
+//        cellNumberController.setOffset( STAGE_SIZE.getWidth() - maxControllerWidth / 2 - cellNumberController.getFullBoundsReference().getWidth() / 2 - 20, 20 );
+//        cellParameterController.setOffset( cellNumberController.getFullBoundsReference().getCenterX() - cellParameterController.getFullBoundsReference().getWidth() / 2,
+//                                           cellNumberController.getFullBoundsReference().getMaxY() + 20 );
+        cellParameterController.setOffset( STAGE_SIZE.getWidth() - cellParameterController.getFullBoundsReference().width - 10,
+                                           20 );
+        cellNumberController.setOffset( cellParameterController.getFullBoundsReference().getMinX() - cellNumberController.getFullBoundsReference().width - 10,
+                                        cellParameterController.getFullBoundsReference().getMinY() );
 
         // Add the floating clock control.
         final ConstantDtClock modelClock = (ConstantDtClock) model.getClock();
@@ -151,15 +156,14 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         // Add the Reset All button.
         final ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { model, this }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
             setConfirmationEnabled( false );
-            setOffset( cellParameterController.getFullBoundsReference().getCenterX() - getFullBoundsReference().getWidth() / 2,
-                       cellParameterController.getFullBoundsReference().getMaxY() + 20 );
+            setOffset( floatingClockControlNode.getFullBoundsReference().getCenterX() - getFullBoundsReference().getWidth() / 2,
+                       cellParameterController.getFullBoundsReference().getMaxY() + 30 );
         }};
         addWorldChild( resetAllButtonNode );
 
         // Add button for showing a picture of real fluorescent cells.
         addWorldChild( new HTMLImageButtonNode( "Show Real Cells", new PhetFont( 18 ), Color.YELLOW ) {{
-            centerFullBoundsOnPoint( ( proteinLevelChartNode.getFullBoundsReference().getMaxX() + resetAllButtonNode.getFullBoundsReference().getMinX() ) / 2,
-                                     resetAllButtonNode.getFullBoundsReference().getCenterY() );
+            centerFullBoundsOnPoint( cellParameterController.getFullBoundsReference().getCenterX(), resetAllButtonNode.getFullBoundsReference().getCenterY() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     FluorescentCellsPictureDialog dialog = new FluorescentCellsPictureDialog( parentFrame );
