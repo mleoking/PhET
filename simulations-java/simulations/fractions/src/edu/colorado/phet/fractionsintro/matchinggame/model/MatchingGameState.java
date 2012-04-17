@@ -56,7 +56,7 @@ import static fj.data.List.range;
     public final long bestTime = 0;
     public final boolean timerVisible = true;
 
-    public static MatchingGameState initialState() { return newLevel( 1 ); }
+    public static MatchingGameState initialState() { return newLevel( 1 ).withMode( Mode.CHOOSING_SETTINGS ); }
 
     public static MatchingGameState newLevel( int level ) {
         final List<Cell> cells = createCells( 100, 415 + 12, 130, 120, 6, 2, 0, 0 );
