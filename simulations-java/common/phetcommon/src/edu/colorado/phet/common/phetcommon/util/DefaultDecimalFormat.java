@@ -98,9 +98,9 @@ public class DefaultDecimalFormat extends DecimalFormat {
         assert ( new DefaultDecimalFormat( "0.00" ).format( -0.026 ).equals( "-0.03" ) );
 
         // try other numbers of decimal places, with odd and even neighbors
-        assert ( new DefaultDecimalFormat( "0.000" ).format( 0.0014 ).equals( "0.001" ) );
+        assert ( new DefaultDecimalFormat( "0.000" ).format( 0.0015 ).equals( "0.002" ) );
         assert ( new DefaultDecimalFormat( "0.000" ).format( 0.0025 ).equals( "0.003" ) );
-        assert ( new DefaultDecimalFormat( "0.0000" ).format( 0.00014 ).equals( "0.0001" ) );
+        assert ( new DefaultDecimalFormat( "0.0000" ).format( 0.00015 ).equals( "0.0002" ) );
         assert ( new DefaultDecimalFormat( "0.0000" ).format( 0.00025 ).equals( "0.0003" ) );
     }
 
