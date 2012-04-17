@@ -46,33 +46,34 @@ public class ProteinC extends Protein {
         return createShape( 0 );
     }
 
-    private static Shape createShape( double growthFactor ) {
-        final double currentWidth = MathUtil.clamp( 0.01, growthFactor, 1 ) * FULL_GROWN_WIDTH;
-        double currentHeight = currentWidth * 1.5;
-        DoubleGeneralPath path = new DoubleGeneralPath();
-        double curveMultiplier = 0.55;
-        // Start in the upper left and proceed clockwise in adding segments.
-        path.moveTo( -currentWidth * 0.45, currentHeight * 0.45 );
-        path.curveTo( -currentWidth * 0.33, currentHeight * curveMultiplier, currentWidth * 0.3, currentHeight * curveMultiplier, currentWidth * 0.45, currentHeight * 0.45 );
-        path.curveTo( currentWidth * curveMultiplier, currentHeight * 0.33, currentWidth * curveMultiplier, -currentHeight * 0.33, currentWidth * 0.45, -currentHeight * 0.45 );
-        path.curveTo( currentWidth * 0.33, -currentHeight * curveMultiplier, -currentWidth * 0.3, -currentHeight * curveMultiplier, -currentWidth * 0.45, -currentHeight * 0.45 );
-        path.curveTo( -currentWidth * curveMultiplier, -currentHeight * 0.33, -currentWidth * curveMultiplier, currentHeight * 0.33, -currentWidth * 0.45, currentHeight * 0.45 );
-        return path.getGeneralPath();
-    }
-
-//    private static Shape createShape( double growthFactor ) {
+//  TODO: This creates a barrel shape with concave sides.  Keep until the shape of this protein is finalized, then remove.
+//  private static Shape createShape( double growthFactor ) {
 //        final double currentWidth = MathUtil.clamp( 0.01, growthFactor, 1 ) * FULL_GROWN_WIDTH;
-//        double currentHeight = currentWidth * 1.4;
+//        double currentHeight = currentWidth * 1.5;
 //        DoubleGeneralPath path = new DoubleGeneralPath();
-//        double topAndBottomCurveMultiplier = 0.55;
-//        double sideCurvesMultiplier = 0.40;
+//        double curveMultiplier = 0.55;
 //        // Start in the upper left and proceed clockwise in adding segments.
 //        path.moveTo( -currentWidth * 0.45, currentHeight * 0.45 );
-//        path.curveTo( -currentWidth * 0.33, currentHeight * topAndBottomCurveMultiplier, currentWidth * 0.3, currentHeight * topAndBottomCurveMultiplier, currentWidth * 0.45, currentHeight * 0.45 );
-//        path.curveTo( currentWidth * sideCurvesMultiplier, currentHeight * 0.33, currentWidth * sideCurvesMultiplier, -currentHeight * 0.33, currentWidth * 0.45, -currentHeight * 0.45 );
-//        path.curveTo( currentWidth * 0.33, -currentHeight * topAndBottomCurveMultiplier, -currentWidth * 0.3, -currentHeight * topAndBottomCurveMultiplier, -currentWidth * 0.45, -currentHeight * 0.45 );
-//        path.curveTo( -currentWidth * sideCurvesMultiplier, -currentHeight * 0.33, -currentWidth * sideCurvesMultiplier, currentHeight * 0.33, -currentWidth * 0.45, currentHeight * 0.45 );
+//        path.curveTo( -currentWidth * 0.33, currentHeight * curveMultiplier, currentWidth * 0.3, currentHeight * curveMultiplier, currentWidth * 0.45, currentHeight * 0.45 );
+//        path.curveTo( currentWidth * curveMultiplier, currentHeight * 0.33, currentWidth * curveMultiplier, -currentHeight * 0.33, currentWidth * 0.45, -currentHeight * 0.45 );
+//        path.curveTo( currentWidth * 0.33, -currentHeight * curveMultiplier, -currentWidth * 0.3, -currentHeight * curveMultiplier, -currentWidth * 0.45, -currentHeight * 0.45 );
+//        path.curveTo( -currentWidth * curveMultiplier, -currentHeight * 0.33, -currentWidth * curveMultiplier, currentHeight * 0.33, -currentWidth * 0.45, currentHeight * 0.45 );
 //        return path.getGeneralPath();
 //    }
+
+    private static Shape createShape( double growthFactor ) {
+        final double currentWidth = MathUtil.clamp( 0.01, growthFactor, 1 ) * FULL_GROWN_WIDTH;
+        double currentHeight = currentWidth * 1.4;
+        DoubleGeneralPath path = new DoubleGeneralPath();
+        double topAndBottomCurveMultiplier = 0.55;
+        double sideCurvesMultiplier = 0.40;
+        // Start in the upper left and proceed clockwise in adding segments.
+        path.moveTo( -currentWidth * 0.45, currentHeight * 0.45 );
+        path.curveTo( -currentWidth * 0.33, currentHeight * topAndBottomCurveMultiplier, currentWidth * 0.3, currentHeight * topAndBottomCurveMultiplier, currentWidth * 0.45, currentHeight * 0.45 );
+        path.curveTo( currentWidth * sideCurvesMultiplier, currentHeight * 0.33, currentWidth * sideCurvesMultiplier, -currentHeight * 0.33, currentWidth * 0.45, -currentHeight * 0.45 );
+        path.curveTo( currentWidth * 0.33, -currentHeight * topAndBottomCurveMultiplier, -currentWidth * 0.3, -currentHeight * topAndBottomCurveMultiplier, -currentWidth * 0.45, -currentHeight * 0.45 );
+        path.curveTo( -currentWidth * sideCurvesMultiplier, -currentHeight * 0.33, -currentWidth * sideCurvesMultiplier, currentHeight * 0.33, -currentWidth * 0.45, currentHeight * 0.45 );
+        return path.getGeneralPath();
+    }
 
 }
