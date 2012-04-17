@@ -13,14 +13,12 @@ import java.awt.geom.AffineTransform;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
-import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.view.FNode;
@@ -181,16 +179,6 @@ public class MatchingGameNode extends FNode {
                     } ),
                     new Button( null, "Skip to level " + newLevel, Color.yellow, ImmutableVector2D.ZERO, nextLevel )
             ) {{setOffset( 0, 200 );}} );
-        }
-    }
-
-    public static class Button extends TextButtonNode {
-        public Button( IUserComponent component, String text, Color color, ImmutableVector2D location, ActionListener listener ) {
-            super( text, new PhetFont( 18, true ) );
-            setUserComponent( component );
-            setBackground( color );
-            centerFullBoundsOnPoint( location );
-            addActionListener( listener );
         }
     }
 
