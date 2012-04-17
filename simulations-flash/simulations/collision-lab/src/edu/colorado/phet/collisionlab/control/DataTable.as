@@ -631,7 +631,8 @@ public class DataTable extends Sprite {
                     }
                     if ( col == vxColumnNbr ) { // v_x in m/s
                         var xVel: Number = myModel.ball_arr[ballNum].velocity.getX();
-                        text_arr[row][col].text = xVel.toFixed( generalPrecision ); //round(xVel, nbrPlaces);
+                        text_arr[row][col].text = round(xVel, generalPrecision);
+//                        text_arr[row][col].text = xVel.toFixed( generalPrecision ); //round(xVel, nbrPlaces);
                     }
                     if ( !myModel.isIntro ) { // y position in m
                         if ( col == yColumnNbr ) {

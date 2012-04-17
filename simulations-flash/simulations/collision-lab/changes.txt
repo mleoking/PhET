@@ -1,3 +1,4 @@
+Fixed x rounding for example
 Removed back button
 Removed "Show Momentum" and "Show Values" from the control panel (control panel resized)
 # 1.00.20 (63181) Apr 8, 2012
