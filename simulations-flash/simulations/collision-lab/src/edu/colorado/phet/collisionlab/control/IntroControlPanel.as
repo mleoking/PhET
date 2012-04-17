@@ -31,6 +31,10 @@ public class IntroControlPanel extends ControlPanel {
             removeChild( sub_showMomenta_label );
             removeChild( kineticEnergyCheckBox );
             removeChild( kineticEnergyCheckBoxLabel );
+            removeChild( sub_showMomentumVectors_cb );
+            removeChild( sub_showMomentumVectors_label );
+            removeChild( sub_showValues_cb );
+            removeChild( sub_showValues_label );
             myModel.setElasticity( 0 );
             // disable the "back" button if we go under 100% elasticity
             if ( myModel.e < 1 ) {

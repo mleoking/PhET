@@ -1,3 +1,5 @@
+Removed back button
+Removed "Show Momentum" and "Show Values" from the control panel (control panel resized)
 # 1.00.20 (63181) Apr 8, 2012
 Removed Momentum readout in "Show Values" overlays
 Changed default velocities to 0.75 and -0.75.
