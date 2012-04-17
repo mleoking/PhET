@@ -28,7 +28,6 @@ import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.view.FNode;
 import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components;
-import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Cell;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Mode;
@@ -41,6 +40,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.*;
+import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
+import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.STAGE_SIZE;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState.initialState;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState.newLevel;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Mode.*;
@@ -60,6 +61,7 @@ public class MatchingGameNode extends FNode {
         this.model = model;
         final MatchingGameState state = model.get();
 
+        //Show the settings dialog
         if ( state.getMode() == CHOOSING_SETTINGS ) {
             final GameSettings gameSettings = new GameSettings( new IntegerRange( 1, 6, 1 ), false, false );
             final VoidFunction0 startGame = new VoidFunction0() {
@@ -71,7 +73,7 @@ public class MatchingGameNode extends FNode {
             };
             final PSwing settingsDialog = new PSwing( new GameSettingsPanel( gameSettings, startGame ) ) {{
                 scale( MatchingGameCanvas.GAME_UI_SCALE );
-                setOffset( AbstractFractionsCanvas.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, AbstractFractionsCanvas.STAGE_SIZE.height / 2 - getFullBounds().getHeight() / 2 );
+                setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.height / 2 - getFullBounds().getHeight() / 2 );
             }};
 
             addChild( settingsDialog );
@@ -195,10 +197,9 @@ public class MatchingGameNode extends FNode {
         };
 
         if ( state.scored == state.scoreCells.length() ) {
-
             GameOverNode gameOverNode = new GameOverNode( state.info.level, state.info.score, 12, new DecimalFormat( "0" ), state.info.time, state.info.bestTime, state.info.time >= state.info.bestTime, state.info.timerVisible ) {{
                 scale( MatchingGameCanvas.GAME_UI_SCALE );
-                centerFullBoundsOnPoint( AbstractFractionsCanvas.STAGE_SIZE.getWidth() / 2, AbstractFractionsCanvas.STAGE_SIZE.getHeight() / 2 );
+                centerFullBoundsOnPoint( STAGE_SIZE.getWidth() / 2, STAGE_SIZE.getHeight() / 2 );
                 addGameOverListener( new GameOverListener() {
                     @Override public void newGamePressed() {
                         model.set( model.get().newGame() );
@@ -208,23 +209,31 @@ public class MatchingGameNode extends FNode {
             addChild( gameOverNode );
         }
 
-        if ( showDeveloperControls ) {
-            addChild( new VBox(
-                    new Button( null, "Reset", Color.yellow, ImmutableVector2D.ZERO, new ActionListener() {
-                        @Override public void actionPerformed( final ActionEvent e ) {
-                            model.set( initialState() );
-                        }
-                    } ),
-                    new Button( null, "Resample", Color.yellow, ImmutableVector2D.ZERO, new ActionListener() {
-                        @Override public void actionPerformed( final ActionEvent e ) {
-                            model.set( newLevel( model.get().info.level ) );
-                        }
-                    } ),
-                    new Button( null, "Skip to level " + newLevel, Color.yellow, ImmutableVector2D.ZERO, nextLevel )
-            ) {{
-                setOffset( 0, 200 );
-            }} );
+        addChild( new ScoreboardNode( model ) {{
+            setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - INSET, scoreCellsLayer.getMaxY() + INSET );
+        }} );
+
+        if ( showDeveloperControls && false ) {
+            showDeveloperControls( model, newLevel, nextLevel );
         }
+    }
+
+    private void showDeveloperControls( final SettableProperty<MatchingGameState> model, final int newLevel, final ActionListener nextLevel ) {
+        addChild( new VBox(
+                new Button( null, "Reset", Color.yellow, ImmutableVector2D.ZERO, new ActionListener() {
+                    @Override public void actionPerformed( final ActionEvent e ) {
+                        model.set( initialState() );
+                    }
+                } ),
+                new Button( null, "Resample", Color.yellow, ImmutableVector2D.ZERO, new ActionListener() {
+                    @Override public void actionPerformed( final ActionEvent e ) {
+                        model.set( newLevel( model.get().info.level ) );
+                    }
+                } ),
+                new Button( null, "Skip to level " + newLevel, Color.yellow, ImmutableVector2D.ZERO, nextLevel )
+        ) {{
+            setOffset( 0, 200 );
+        }} );
     }
 
     //Apply the specified function to the model
