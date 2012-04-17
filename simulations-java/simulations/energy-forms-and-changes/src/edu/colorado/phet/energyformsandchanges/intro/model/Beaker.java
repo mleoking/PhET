@@ -22,10 +22,10 @@ public class Beaker extends UserMovableModelElement {
     // Class Data
     //-------------------------------------------------------------------------
 
-    private static final double WIDTH = 0.080; // In meters.
+    private static final double WIDTH = 0.085; // In meters.
     private static final double HEIGHT = WIDTH * 1.1;
 
-    private static final double NON_DISPLACED_FLUID_LEVEL = 0.3;
+    private static final double NON_DISPLACED_FLUID_LEVEL = 0.5;
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -104,7 +104,7 @@ public class Beaker extends UserMovableModelElement {
 
         // Map the overlap to a new fluid height.  The scaling factor was
         // empirically determined to look good.
-        double newFluidLevel = Math.min( NON_DISPLACED_FLUID_LEVEL + overlappingArea * 150, 1 );
+        double newFluidLevel = Math.min( NON_DISPLACED_FLUID_LEVEL + overlappingArea * 120, 1 );
         fluidLevel.set( newFluidLevel );
     }
 
