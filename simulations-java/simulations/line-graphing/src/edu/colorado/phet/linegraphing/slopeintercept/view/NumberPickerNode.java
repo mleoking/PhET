@@ -230,7 +230,7 @@ public class NumberPickerNode extends PhetPNode {
         return path.getGeneralPath();
     }
 
-    // Bottom shape is same of the top shape, but facing down.
+    // Bottom shape is same of the top shape, but facing down. It shares the same coordinate frame with the top button.
     private static final Shape createBottomButtonShape( double width, double height ) {
         AffineTransform transform = AffineTransform.getRotateInstance( Math.PI );
         transform.translate( -width, -2 * height );
