@@ -216,6 +216,6 @@ import static fj.data.List.range;
 
                 return m;
             }
-        } ) ).withScored( scored + 1 );
+        } ) );
     }
 }

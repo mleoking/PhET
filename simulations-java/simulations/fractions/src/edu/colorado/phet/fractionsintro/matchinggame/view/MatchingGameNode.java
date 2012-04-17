@@ -44,16 +44,21 @@ import static java.awt.Color.yellow;
  */
 public class MatchingGameNode extends FNode {
 
+    private final SettableProperty<MatchingGameState> model;
+
     //Encapsulates stroke, paint and stroke paint for a sign node like "=", "<", ">"
     public static PhetPPath createSignNode( Shape shape ) { return new PhetPPath( shape, yellow, new BasicStroke( 2 ), Color.black ); }
 
     public MatchingGameNode( final boolean showDeveloperControls, final SettableProperty<MatchingGameState> model, final PNode rootNode ) {
+        this.model = model;
         final MatchingGameState state = model.get();
         final PNode scales = new RichPNode( state.leftScale.toNode(), state.rightScale.toNode() );
         addChild( scales );
 
-        addChild( new ZeroOffsetNode( new BarGraphNode( state.getLeftScaleValue(), state.leftScaleDropTime, state.getRightScaleValue(), state.rightScaleDropTime,
-                                                        state.state == State.SHOWING_WHY_ANSWER_WRONG || state.state == State.USER_CHECKED_CORRECT_ANSWER ) ) {{
+        final boolean revealClues = state.state == State.SHOWING_WHY_ANSWER_WRONG ||
+                                    state.state == State.USER_CHECKED_CORRECT_ANSWER ||
+                                    state.state == State.SHOWING_CORRECT_ANSWER_AFTER_INCORRECT_GUESS;
+        addChild( new ZeroOffsetNode( new BarGraphNode( state.getLeftScaleValue(), state.leftScaleDropTime, state.getRightScaleValue(), state.rightScaleDropTime, revealClues ) ) {{
             setOffset( scales.getFullBounds().getCenterX() - getFullWidth() / 2, scales.getFullBounds().getCenterY() - getFullHeight() - 15 );
         }} );
 
@@ -81,30 +86,33 @@ public class MatchingGameNode extends FNode {
                                                                         scalesNode.getFullBounds().getCenterY() );
         if ( state.getLeftScaleValue() > 0 && state.getRightScaleValue() > 0 ) {
             System.out.println( "state = " + state.state + ", state.checks = " + state.checks );
-            if ( state.state == State.SHOWING_WHY_ANSWER_WRONG ) {
-                addSignNode( state, scales );
 
+            if ( revealClues ) {
+                addSignNode( state, scales );
+            }
+
+            if ( state.state == State.SHOWING_WHY_ANSWER_WRONG ) {
                 if ( state.checks < 2 ) {
                     addChild( new Button( tryAgainButton, "Try again", Color.red, buttonLocation, new ActionListener() {
                         @Override public void actionPerformed( final ActionEvent e ) {
-                            model.set( new TryAgain().f( model.get() ) );
+                            updateWith( new TryAgain() );
                         }
                     } ) );
                 }
                 else {
                     addChild( new Button( showAnswerButton, "Show answer", Color.red, buttonLocation, new ActionListener() {
                         @Override public void actionPerformed( final ActionEvent e ) {
-                            model.set( new ShowAnswer().f( model.get() ) );
+                            updateWith( new ShowAnswer() );
                         }
                     } ) );
                 }
             }
 
-            //This shows a flicker of "check answer" after user presses next, needs to be fixed
+            //TODO: This shows a flicker of "check answer" after user presses next, needs to be fixed
             else if ( state.checks < 2 && state.state == State.WAITING_FOR_USER_TO_CHECK_ANSWER ) {
                 addChild( new Button( checkAnswerButton, "Check answer", Color.orange, buttonLocation, new ActionListener() {
                     @Override public void actionPerformed( final ActionEvent e ) {
-                        model.set( new CheckAnswer().f( model.get() ) );
+                        updateWith( new CheckAnswer() );
                     }
                 } ) );
             }
@@ -120,7 +128,15 @@ public class MatchingGameNode extends FNode {
 
                 addChild( new Button( Components.keepMatchButton, "Next", Color.green, buttonLocation, new ActionListener() {
                     @Override public void actionPerformed( ActionEvent e ) {
-                        model.set( model.get().animateMatchToScoreCell().withState( State.WAITING_FOR_USER_TO_CHECK_ANSWER ).withChecks( 0 ) );
+                        updateWith( new Next() );
+                    }
+                } ) );
+            }
+
+            if ( state.state == State.SHOWING_CORRECT_ANSWER_AFTER_INCORRECT_GUESS ) {
+                addChild( new Button( Components.keepMatchButton, "Next", Color.green, buttonLocation, new ActionListener() {
+                    @Override public void actionPerformed( ActionEvent e ) {
+                        updateWith( new Next() );
                     }
                 } ) );
             }
@@ -178,9 +194,14 @@ public class MatchingGameNode extends FNode {
                         }
                     } ),
                     new Button( null, "Skip to level " + newLevel, Color.yellow, ImmutableVector2D.ZERO, nextLevel )
-            ) {{setOffset( 0, 200 );}} );
+            ) {{
+                setOffset( 0, 200 );
+            }} );
         }
     }
+
+    //Apply the specified function to the model
+    private void updateWith( final F<MatchingGameState, MatchingGameState> f ) { model.set( f.f( model.get() ) ); }
 
     private void addSignNode( final MatchingGameState state, final PNode scales ) {
         class TextSign extends PNode {
