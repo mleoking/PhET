@@ -53,9 +53,6 @@ public class MatchingGameNode extends FNode {
 
     private final SettableProperty<MatchingGameState> model;
 
-    //Encapsulates stroke, paint and stroke paint for a sign node like "=", "<", ">"
-    public static PhetPPath createSignNode( Shape shape ) { return new PhetPPath( shape, yellow, new BasicStroke( 2 ), Color.black ); }
-
     public MatchingGameNode( final boolean showDeveloperControls, final SettableProperty<MatchingGameState> model, final PNode rootNode ) {
         this.model = model;
         final MatchingGameState state = model.get();
@@ -229,6 +226,9 @@ public class MatchingGameNode extends FNode {
 
     //Apply the specified function to the model
     private void updateWith( final F<MatchingGameState, MatchingGameState> f ) { model.set( f.f( model.get() ) ); }
+
+    //Encapsulates stroke, paint and stroke paint for a sign node like "=", "<", ">"
+    public static PhetPPath createSignNode( Shape shape ) { return new PhetPPath( shape, yellow, new BasicStroke( 2 ), Color.black ); }
 
     private void addSignNode( final MatchingGameState state, final PNode scales ) {
         class TextSign extends PNode {
