@@ -13,8 +13,12 @@ import java.awt.geom.AffineTransform;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.games.GameOverNode;
+import edu.colorado.phet.common.games.GameSettings;
+import edu.colorado.phet.common.games.GameSettingsPanel;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
@@ -27,9 +31,11 @@ import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Cell;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
+import edu.colorado.phet.fractionsintro.matchinggame.model.Mode;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MovableFraction;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Scale;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.*;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState.initialState;
@@ -53,6 +59,25 @@ public class MatchingGameNode extends FNode {
     public MatchingGameNode( final boolean showDeveloperControls, final SettableProperty<MatchingGameState> model, final PNode rootNode ) {
         this.model = model;
         final MatchingGameState state = model.get();
+
+        if ( state.mode == CHOOSING_SETTINGS ) {
+            final GameSettings gameSettings = new GameSettings( new IntegerRange( 1, 6, 1 ), false, false );
+            final VoidFunction0 startGame = new VoidFunction0() {
+                @Override public void apply() {
+                    model.set( newLevel( gameSettings.level.get() ).
+                            withMode( Mode.WAITING_FOR_USER_TO_CHECK_ANSWER ).
+                            withAudio( gameSettings.soundEnabled.get() ) );
+                }
+            };
+            final PSwing settingsDialog = new PSwing( new GameSettingsPanel( gameSettings, startGame ) ) {{
+                scale( MatchingGameCanvas.GAME_UI_SCALE );
+                setOffset( AbstractFractionsCanvas.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, AbstractFractionsCanvas.STAGE_SIZE.height / 2 - getFullBounds().getHeight() / 2 );
+            }};
+
+            addChild( settingsDialog );
+            return;
+        }
+
         final PNode scales = new RichPNode( state.leftScale.toNode(), state.rightScale.toNode() );
         addChild( scales );
 
