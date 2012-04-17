@@ -34,6 +34,9 @@ import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Mode;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MovableFraction;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Scale;
+import edu.colorado.phet.fractionsintro.matchinggame.view.Controller.Next;
+import edu.colorado.phet.fractionsintro.matchinggame.view.Controller.ShowAnswer;
+import edu.colorado.phet.fractionsintro.matchinggame.view.Controller.TryAgain;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
