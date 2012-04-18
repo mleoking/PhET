@@ -1,3 +1,4 @@
+# 0.00.59 (63576) Apr 18, 2012
 Added a flag to disable function recorder
 Matching Game: Show the current level and a menu button
 Matching Game: Added object ID's and test for rendering strategy
