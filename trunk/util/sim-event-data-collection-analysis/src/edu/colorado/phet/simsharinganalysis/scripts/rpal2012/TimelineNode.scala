@@ -14,10 +14,11 @@ import edu.umd.cs.piccolo.event.{PInputEvent, PBasicInputEventHandler}
 /**
  * @author Sam Reid
  */
-class TimelineNode(states: List[StateEntry[SimState]]) extends PNode {
-  val startTime = states.head.entry.time
-  val endTime = states.last.entry.time
-  val function = new LinearFunction(startTime, Math.max(endTime, startTime + 1000 * 60 * 3), 0, 1024)
+class TimelineNode(states: List[StateEntry[SimState]], minTime: Long, maxTime: Long) extends PNode {
+  //  val startTime = states.head.entry.time
+  //  val endTime = states.last.entry.time
+  //  val function = new LinearFunction(startTime, Math.max(endTime, startTime + 1000 * 60 * 3), 0, 1024)
+  val function = new LinearFunction(minTime, maxTime, 0, 1024)
   val lightRed = new Color(255, 147, 147)
   val lightBlue = new Color(96, 216, 255)
   val lightGreen = new Color(144, 255, 191)

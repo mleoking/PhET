@@ -7,6 +7,11 @@ import java.io.File
 import java.text.DecimalFormat
 import collection.mutable.ArrayBuffer
 import scala.Double
+import edu.colorado.phet.common.piccolophet.PhetPCanvas
+import swing.{Component, Frame}
+import java.awt.Dimension
+import edu.umd.cs.piccolo.event.{PZoomEventHandler, PPanEventHandler}
+import edu.umd.cs.piccolo.nodes.PText
 
 /**
  * @author Sam Reid
@@ -188,6 +193,33 @@ object RPALAnalysis extends StateMachine[SimState] {
     //    userStates.map(_.start.tab).toList.foreach(println)
 
     reportOnHowManyA1GroupsCompletedEachGameLevel(phet load new File(args(0)))
+
+    val canvas = new PhetPCanvas {
+      setPanEventHandler(new PPanEventHandler)
+      setZoomEventHandler(new PZoomEventHandler)
+    }
+    val chartFrame = new Frame {
+      contents = new Component {
+        override lazy val peer = canvas
+      }
+      size = new Dimension(1024, 100)
+    }
+
+    val logs = phet load new File(args(0))
+    val longestRun = logs.map(log => log.endTime - log.startTime).max
+    var i = 0;
+    val separation = 100
+    for ( log <- logs ) {
+      val report = new Report(log)
+      canvas.getLayer.addChild(new TimelineNode(report.states, log.startTime, log.startTime + longestRun) {
+        setOffset(0, i * separation)
+      })
+      canvas.getLayer.addChild(new PText(log.file.getName) {
+        setOffset(0, i * separation - getFullBounds.getHeight)
+      })
+      i = i + 1
+    }
+    chartFrame.visible = true
   }
 
   /*
