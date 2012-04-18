@@ -1,3 +1,4 @@
+# 1.00.23 (63584) Apr 18, 2012
 Slight increase of data column width for improved text headers
 Moved "Momentum column to far right"
 # 1.00.21 (63565) Apr 17, 2012
