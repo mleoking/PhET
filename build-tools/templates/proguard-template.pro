@@ -52,10 +52,32 @@
 }
 
 -keep class org.jfree.chart.resources.JFreeChartResources
-
 -keep class org.jfree.resources.JCommonResources
-
 -keep class org.jfree.ui.about.Licenses
+
+#Keep xstream dependencies
+-keep class com.thoughtworks.xstream.converters.extended.**{
+    <fields>;
+    <methods>;
+}
+-keep class com.thoughtworks.xstream.converters.reflection.**{
+    <fields>;
+    <methods>;
+}
+-keep class com.thoughtworks.xstream.converters.enums.**{
+    <fields>;
+    <methods>;
+}
+-keep class com.thoughtworks.xstream.converters.basic.**{
+    <fields>;
+    <methods>;
+}
+-keep class com.thoughtworks.xstream.annotations.**
+-keep class com.thoughtworks.xstream.mapper.**
+-keep class com.thoughtworks.xstream.mapper.AnnotationMapper{
+    <fields>;
+    <methods>;
+}
 
 # Keep names - Native method names. Keep all native class/method names.
 -keepclasseswithmembernames class * {
