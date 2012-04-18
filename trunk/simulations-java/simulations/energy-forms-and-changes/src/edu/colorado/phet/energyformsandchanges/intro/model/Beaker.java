@@ -24,6 +24,7 @@ public class Beaker extends UserMovableModelElement {
 
     private static final double WIDTH = 0.085; // In meters.
     private static final double HEIGHT = WIDTH * 1.1;
+    private static final double MATERIAL_THICKNESS = 0.001; // In meters.
 
     private static final double NON_DISPLACED_FLUID_LEVEL = 0.5;
 
@@ -34,10 +35,13 @@ public class Beaker extends UserMovableModelElement {
     // Property that is used to control the amount of fluid in the beaker.
     public final Property<Double> fluidLevel = new Property<Double>( NON_DISPLACED_FLUID_LEVEL );
 
-    // Surface upon which any model elements will sit.  For the beaker, other
-    // model elements sit on the bottom of it, so the top and the bottom
-    // surfaces are the same.
-    private final Property<HorizontalSurface> surface = new Property<HorizontalSurface>( null );
+    // Top surface, which is the surface upon which other model elements can
+    // sit.  For the beaker, this is only slightly above the bottom surface.
+    private final Property<HorizontalSurface> topSurface = new Property<HorizontalSurface>( null );
+
+    // Bottom surface, which is the surface that touches the ground, or sits
+    // on a burner, etc.
+    private final Property<HorizontalSurface> bottomSurface = new Property<HorizontalSurface>( null );
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -120,17 +124,20 @@ public class Beaker extends UserMovableModelElement {
 
 
     private void updateSurfaces() {
-        surface.set( new HorizontalSurface( new DoubleRange( getOutlineRect().getMinX(), getOutlineRect().getMaxX() ),
-                                            getOutlineRect().getMinY(),
-                                            this ) );
+        topSurface.set( new HorizontalSurface( new DoubleRange( getOutlineRect().getMinX(), getOutlineRect().getMaxX() ),
+                                               getOutlineRect().getMinY() + MATERIAL_THICKNESS,
+                                               this ) );
+        bottomSurface.set( new HorizontalSurface( new DoubleRange( getOutlineRect().getMinX(), getOutlineRect().getMaxX() ),
+                                                  getOutlineRect().getMinY(),
+                                                  this ) );
     }
 
     @Override public Property<HorizontalSurface> getTopSurfaceProperty() {
-        return surface;
+        return topSurface;
     }
 
     @Override public Property<HorizontalSurface> getBottomSurfaceProperty() {
-        return surface;
+        return bottomSurface;
     }
 
     @Override public IUserComponent getUserComponent() {
