@@ -25,7 +25,7 @@ public class TestSCanvas {
     public static void main( String[] args ) {
         new JFrame( "Test" ) {{
             final Property<State> model = new Property<State>( new State( new Vector2D( 50, 200 ) ) );
-            model.trace( "model changed" );
+//            model.trace( "model changed" );
             final SNode root = createRoot( model );
             setContentPane( new SCanvas( root ) {{
                 setPreferredSize( new Dimension( 800, 600 ) );
@@ -55,7 +55,7 @@ public class TestSCanvas {
     private static SNode createRoot( final Property<State> model ) {
         final SNode text = textNode( "Hello", new PhetFont( 30, true ), Color.blue ).translate( 100, 100 );
         ImmutableRectangle2D bounds = text.getBounds();
-        System.out.println( "bounds = " + bounds );
+//        System.out.println( "bounds = " + bounds );
 
         DrawShape shape = new DrawShape( bounds );
         SNode fillShape = new FillShape( bounds ).withPaint( Color.white );
