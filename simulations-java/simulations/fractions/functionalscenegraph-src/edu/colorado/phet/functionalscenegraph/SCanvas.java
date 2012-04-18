@@ -12,22 +12,22 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
-import static java.awt.geom.AffineTransform.getScaleInstance;
-import static java.awt.geom.AffineTransform.getTranslateInstance;
+import static edu.colorado.phet.functionalscenegraph.DrawText.textNode;
 
 /**
  * @author Sam Reid
  */
 public class SCanvas extends JComponent {
-    public final SEffect child;
+    public final Property<SNode> child;
 
     //Make sure mock and Graphics2D use same font, so bounds will be right
     public static final Font DEFAULT_FONT = new PhetFont();
 
-    public SCanvas( final SEffect child ) {
-        this.child = child;
+    public SCanvas( final SNode child ) {
+        this.child = new Property<SNode>( child );
     }
 
     @Override protected void paintComponent( final Graphics g ) {
@@ -37,20 +37,20 @@ public class SCanvas extends JComponent {
         final Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         g2.setRenderingHint( RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON );
-        this.child.render( new Graphics2DContext( g2 ) );
+        this.child.get().render( new Graphics2DContext( g2 ) );
         g.setFont( orig );
     }
 
     public static void main( String[] args ) {
         new JFrame( "Test" ) {{
-            final WithTransform text = new WithTransform( getTranslateInstance( 100, 100 ), new WithPaint( Color.red, new WithFont( new PhetFont( 24, true ), new DrawText( "hello" ) ) ) );
-            ImmutableRectangle2D bounds = text.getBounds( new MockState( DEFAULT_FONT ) );
+            final SNode text = textNode( "Hello", new PhetFont( 30, true ), Color.blue ).translate( 100, 100 );
+            ImmutableRectangle2D bounds = text.getBounds();
             System.out.println( "bounds = " + bounds );
 
-            DrawShape shape = new DrawShape( bounds.toRectangle2D() );
-            WithPaint fillShape = new WithPaint( Color.white, new FillShape( bounds.toRectangle2D() ) );
+            DrawShape shape = new DrawShape( bounds );
+            SNode fillShape = new FillShape( bounds ).withPaint( Color.white );
 
-            setContentPane( new SCanvas( new WithTransform( getScaleInstance( 2, 2 ), new SList( fillShape, shape, text ) ) ) {{
+            setContentPane( new SCanvas( new SList( fillShape, shape, text ).scale( 2 ) ) {{
                 setPreferredSize( new Dimension( 800, 600 ) );
             }} );
             pack();
