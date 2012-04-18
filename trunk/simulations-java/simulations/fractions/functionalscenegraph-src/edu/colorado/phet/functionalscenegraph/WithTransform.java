@@ -1,5 +1,6 @@
 package edu.colorado.phet.functionalscenegraph;
 
+import fj.data.Option;
 import lombok.Data;
 
 import java.awt.geom.AffineTransform;
@@ -30,9 +31,9 @@ public @Data class WithTransform extends SNode {
         return new ImmutableRectangle2D( transform.createTransformedShape( child.getBounds( mockState ).toRectangle2D() ) );
     }
 
-    @Override protected boolean hits( final Vector2D vector2D, final MockState mockState ) {
+    @Override protected Option<? extends SNode> pick( final Vector2D vector2D, final MockState mockState ) {
         try {
-            return child.hits( new Vector2D( transform.inverseTransform( vector2D.toPoint2D(), null ) ), mockState );
+            return child.pick( new Vector2D( transform.inverseTransform( vector2D.toPoint2D(), null ) ), mockState );
         }
         catch ( NoninvertibleTransformException e ) {
             throw new RuntimeException( e );

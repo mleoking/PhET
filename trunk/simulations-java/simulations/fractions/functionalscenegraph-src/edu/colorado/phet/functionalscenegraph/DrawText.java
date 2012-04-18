@@ -1,5 +1,6 @@
 package edu.colorado.phet.functionalscenegraph;
 
+import fj.data.Option;
 import lombok.Data;
 
 import java.awt.Font;
@@ -24,8 +25,8 @@ public @Data class DrawText extends SNode {
         return new ImmutableRectangle2D( toTextLayout( mockState ).getBounds() );
     }
 
-    @Override protected boolean hits( final Vector2D vector2D, final MockState mockState ) {
-        return toTextLayout( mockState ).getOutline( new AffineTransform() ).contains( vector2D.toPoint2D() );
+    @Override protected Option<? extends SNode> pick( final Vector2D vector2D, final MockState mockState ) {
+        return toTextLayout( mockState ).getOutline( new AffineTransform() ).contains( vector2D.toPoint2D() ) ? Option.some( this ) : Option.<SNode>none();
     }
 
     private TextLayout toTextLayout( final GraphicsContext mockState ) {return new TextLayout( text, mockState.getFont(), mockState.getFontRenderContext() );}

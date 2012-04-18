@@ -1,5 +1,7 @@
 package edu.colorado.phet.functionalscenegraph;
 
+import fj.data.Option;
+
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -7,6 +9,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Ellipse2D;
@@ -30,18 +33,37 @@ public class SCanvas extends JComponent {
 
     //Make sure mock and Graphics2D use same font, so bounds will be right
     public static final Font DEFAULT_FONT = new PhetFont();
+    private Option<? extends SNode> pick;
 
     public SCanvas( final SNode child ) {
         this.child = new Property<SNode>( child );
+        addMouseListener( new MouseAdapter() {
+            @Override public void mousePressed( final MouseEvent e ) {
+                pick = child.pick( new Vector2D( e.getPoint() ) );
+            }
+
+            @Override public void mouseReleased( final MouseEvent e ) {
+                //when dragging something, create a new scene graph
+
+            }
+        } );
         addMouseMotionListener( new MouseMotionListener() {
             @Override public void mouseDragged( final MouseEvent e ) {
+                if ( pick.isSome() ) {
+                    //Return the same tree, but where the given node has a withTranslate.
+                    //Eh, this will cause problems (failure to detect identical states, and stack overflows), we should collapse adjacent withTranslates.
+
+                    //On second thought just send this to the model, and wait for them to send back a new tree.
+
+                }
             }
 
             @Override public void mouseMoved( final MouseEvent e ) {
                 //hit detection and show cursor hand
                 //should mouse location be in the model?
-                if ( child.hits( new Vector2D( e.getPoint() ) ) ) {
-                    setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+                final Option<? extends SNode> picked = child.pick( new Vector2D( e.getPoint() ) );
+                if ( picked.isSome() ) {
+                    setCursor( picked.some().getCursor() );
                 }
                 else {
                     setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
