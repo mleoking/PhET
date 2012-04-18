@@ -36,15 +36,16 @@ public class ScoreboardNode extends PNode {
             } );
         }
 
+        final PNode optionalTimer = model.get().info.timerVisible ? new VBox( 0, text( "Time" ),
+                                                                              text( model.get().info.time / 1000L + " sec" ),
+                                                                              new Spacer( 0, 0, 5, 10 ) ) : new PNode();
         addChild( new VBox( 0, text( "Level" ),
                             text( model.get().info.level + "" ),
                             new Spacer( 0, 0, 5, 10 ),
                             text( "Score" ),
                             text( model.get().info.score + "" ),
                             new Spacer( 0, 0, 5, 10 ),
-                            text( "Time" ),
-                            text( model.get().info.time / 1000L + " sec" ),
-                            new Spacer( 0, 0, 5, 10 ),
+                            optionalTimer,
                             menuButton ) );
     }
 

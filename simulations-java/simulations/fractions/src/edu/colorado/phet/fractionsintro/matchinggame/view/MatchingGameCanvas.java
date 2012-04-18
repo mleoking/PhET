@@ -46,6 +46,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
 
     public MatchingGameCanvas( final boolean showDeveloperControls, final MatchingGameModel model ) {
 
+        //Have to cache the buttons to re-use them between frames because they are animated piccolo components and do not have their model subsumed by this model.
         final F<ButtonArgs, Button> buttonFactory = Cache.cache( new F<ButtonArgs, Button>() {
             @Override public Button f( final ButtonArgs buttonArgs ) {
                 return new Button( buttonArgs.component, buttonArgs.text, buttonArgs.color, buttonArgs.location, new ActionListener() {
@@ -63,7 +64,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                     @Override public void run() {
                         final MatchingGameState m = newLevel( gameSettings.level.get() ).
                                 withMode( Mode.WAITING_FOR_USER_TO_CHECK_ANSWER ).
-                                withAudio( gameSettings.soundEnabled.get() );
+                                withAudio( gameSettings.soundEnabled.get() ).withTimerVisible( gameSettings.timerEnabled.get() );
                         System.out.println( "starting game, info = " + m.info );
                         model.state.set( m );
                     }
