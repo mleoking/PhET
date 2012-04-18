@@ -460,11 +460,58 @@ public class Levels {
         }
     };
 
+    /**
+     * Level 5:
+     * All representations possible as well as complicated mixed/improper numbers
+     */
+    final Fraction[] level5Fractions = {
+            new Fraction( 13, 7 ),
+            new Fraction( 13, 7 ),
+            new Fraction( 14, 8 ),
+            new Fraction( 9, 5 ),
+            new Fraction( 6, 3 ),
+            new Fraction( 9, 8 ),
+            new Fraction( 8, 9 ),
+            new Fraction( 6, 9 ),
+            new Fraction( 4, 9 ),
+            new Fraction( 3, 9 ),
+            new Fraction( 2, 9 ),
+            new Fraction( 9, 7 ) };
+    public F<List<Cell>, List<MovableFraction>> Level5 = new F<List<Cell>, List<MovableFraction>>() {
+        @Override public List<MovableFraction> f( List<Cell> cells ) {
+            return createLevel( getRepresentationPool( 5 ), cells, level5Fractions );
+        }
+    };
+
+    /**
+     * Level 6:
+     * All representations possible as well as complicated mixed/improper numbers
+     */
+    final Fraction[] level6Fractions = {
+            new Fraction( 13, 7 ),
+            new Fraction( 13, 7 ),
+            new Fraction( 14, 8 ),
+            new Fraction( 9, 5 ),
+            new Fraction( 6, 3 ),
+            new Fraction( 9, 8 ),
+            new Fraction( 8, 9 ),
+            new Fraction( 6, 9 ),
+            new Fraction( 4, 9 ),
+            new Fraction( 3, 9 ),
+            new Fraction( 2, 9 ),
+            new Fraction( 9, 7 ) };
+    public F<List<Cell>, List<MovableFraction>> Level6 = new F<List<Cell>, List<MovableFraction>>() {
+        @Override public List<MovableFraction> f( List<Cell> cells ) {
+            return createLevel( getRepresentationPool( 6 ), cells, level6Fractions );
+        }
+    };
+
     public F<List<Cell>, List<MovableFraction>> get( int level ) {
         return level == 1 ? Level1 :
                level == 2 ? Level2 :
                level == 3 ? Level3 :
                level == 4 ? Level4 :
-               Level4;
+               level == 5 ? Level5 :
+               Level6;
     }
 }
