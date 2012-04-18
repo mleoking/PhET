@@ -1,3 +1,5 @@
+# 3.25.01 (63593) Apr 18, 2012
+4/18/12 Deploying to dev for testing prior to production redeploy due to a bug in common code, see #3303 and see #3307.
 # 3.25.00 (63341) Apr 12, 2012
 4/12/12 > Deploying to production server with fixes for several chart resizing issues.
 # 3.24.07 (63192) Apr 9, 2012
