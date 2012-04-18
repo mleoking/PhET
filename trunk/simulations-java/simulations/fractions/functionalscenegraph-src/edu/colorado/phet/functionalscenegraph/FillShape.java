@@ -30,7 +30,7 @@ public @Data class FillShape extends SNode {
         return new ImmutableRectangle2D( shape.getBounds2D() );
     }
 
-    @Override protected Option<? extends SNode> pick( final Vector2D vector2D, final MockState mockState ) {
-        return shape.contains( vector2D.x, vector2D.y ) ? Option.some( this ) : Option.<SNode>none();
+    @Override protected Option<PickResult> pick( final Vector2D vector2D, final MockState mockState ) {
+        return shape.contains( vector2D.x, vector2D.y ) ? Option.some( new PickResult( this, mockState.getDragHandler() ) ) : Option.<PickResult>none();
     }
 }

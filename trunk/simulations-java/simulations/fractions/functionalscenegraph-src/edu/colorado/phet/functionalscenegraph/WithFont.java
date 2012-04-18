@@ -43,9 +43,10 @@ public @Data class WithFont extends SNode {
         } );
     }
 
-    @Override protected Option<? extends SNode> pick( final Vector2D vector2D, final MockState mockState ) {
-        return apply( mockState, new F<MockState, Option<? extends SNode>>() {
-            @Override public Option<? extends SNode> f( final MockState mockState ) {
+    @Override protected Option<PickResult> pick( final Vector2D vector2D, final MockState mockState ) {
+
+        return apply( mockState, new F<MockState, Option<PickResult>>() {
+            @Override public Option<PickResult> f( final MockState mockState ) {
                 return child.pick( vector2D, mockState );
             }
         } );

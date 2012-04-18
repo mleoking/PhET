@@ -28,7 +28,7 @@ public @Data class WithPaint extends SNode {
         return child.getBounds( mockState );
     }
 
-    @Override protected Option<? extends SNode> pick( final Vector2D vector2D, final MockState mockState ) {
+    @Override protected Option<PickResult> pick( final Vector2D vector2D, final MockState mockState ) {
         return child.pick( vector2D, mockState );
     }
 }
