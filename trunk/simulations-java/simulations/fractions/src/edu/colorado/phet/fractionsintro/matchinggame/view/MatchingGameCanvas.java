@@ -55,7 +55,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                     }
                 } );
             }
-        }, true );
+        } );
 
         final GameSettings gameSettings = new GameSettings( new IntegerRange( 1, 6, 1 ), false, false );
         final VoidFunction0 startGame = new VoidFunction0() {
