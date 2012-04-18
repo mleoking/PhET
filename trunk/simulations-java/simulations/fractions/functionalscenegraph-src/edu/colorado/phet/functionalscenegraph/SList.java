@@ -15,6 +15,10 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
 public class SList extends SNode {
     private final List<SNode> children;
 
+    public SList( final List<SNode> children ) {
+        this.children = children;
+    }
+
     public SList( final SNode... children ) {
         this.children = List.iterableList( Arrays.asList( children ) );
     }

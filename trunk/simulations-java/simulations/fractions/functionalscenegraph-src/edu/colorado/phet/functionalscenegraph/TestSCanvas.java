@@ -1,6 +1,7 @@
 package edu.colorado.phet.functionalscenegraph;
 
 import fj.Effect;
+import fj.data.List;
 import lombok.Data;
 
 import java.awt.Color;
@@ -66,7 +67,27 @@ public class TestSCanvas {
                         model.set( model.get().withCirclePosition( model.get().circlePosition.plus( vector2D ) ) );
                     }
                 } );
-        return new SList( fillShape, shape, text, ellipse );
+
+//        int additional = 4;
+        int numCircles = 1000;
+//        final int max = numCircles + additional;
+//        ArrayList<SNode> nodes = new ArrayList<SNode>( max );
+        List<SNode> list = List.nil();
+        for ( int i = 0; i < numCircles; i++ ) {
+            list = list.cons( new FillShape( new Ellipse2D.Double( 0, 0, 10, 10 ) ).withPaint( new Color( i % 255, 0, 0 ) ).translate( i / 10.0, i / 10.0 ) );
+        }
+
+//        fj.data.List<SNode> elements = fj.data.List.range( 0, 10000 ).map( new F<Integer, SNode>() {
+//            @Override public SNode f( final Integer i ) {
+//                return new FillShape( new Ellipse2D.Double( 0, 0, 10, 10 ) ).withPaint( new Color( i % 255, 0, 0 ) ).translate( i/10, i/10 );
+//            }
+//        } );
+        list = list.cons( text );
+        list = list.cons( fillShape );
+        list = list.cons( shape );
+        list = list.cons( ellipse );
+//        nodes.addAll( Arrays.asList( fillShape, shape, text, ellipse ) );
+        return new SList( list );
 
         //Deltas not getting transformed yet
 //        .scale( 2 );
