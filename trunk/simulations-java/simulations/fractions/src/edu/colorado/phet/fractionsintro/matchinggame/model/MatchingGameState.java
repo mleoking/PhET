@@ -216,4 +216,6 @@ import static fj.data.List.range;
     public MatchingGameState withChecks( final int checks ) { return withInfo( info.withChecks( checks ) ); }
 
     public MatchingGameState withScore( final int score ) { return withInfo( info.withScore( score ) ); }
+
+    public MatchingGameState withTimerVisible( final Boolean timerVisible ) { return withInfo( info.withTimerVisible( timerVisible ) ); }
 }
