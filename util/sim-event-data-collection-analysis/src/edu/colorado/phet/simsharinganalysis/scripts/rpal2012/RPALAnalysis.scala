@@ -202,7 +202,7 @@ object RPALAnalysis extends StateMachine[SimState] {
       contents = new Component {
         override lazy val peer = canvas
       }
-      size = new Dimension(1024, 100)
+      size = new Dimension(1024, 768)
     }
 
     val logs = phet load new File(args(0))

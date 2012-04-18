@@ -1,3 +1,4 @@
+Show summary text
 Show timelines for each session
 Added report for how many groups completed each level
 # 00.00.34 (62725) Mar 21, 2012
