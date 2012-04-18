@@ -13,9 +13,9 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
  *
  * @author Sam Reid
  */
-public @Data class WithFont extends SEffect {
+public @Data class WithFont extends SNode {
     public final Font font;
-    public final SEffect child;
+    public final SNode child;
 
     @Override public void render( final DrawableGraphicsContext graphics2D ) {
         apply( graphics2D, new Effect<DrawableGraphicsContext>() {

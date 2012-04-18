@@ -11,9 +11,9 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
  *
  * @author Sam Reid
  */
-public @Data class WithTransform extends SEffect {
+public @Data class WithTransform extends SNode {
     public final AffineTransform transform;
-    public final SEffect child;
+    public final SNode child;
 
     @Override public void render( final DrawableGraphicsContext graphics2D ) {
         AffineTransform orig = graphics2D.getTransform();
