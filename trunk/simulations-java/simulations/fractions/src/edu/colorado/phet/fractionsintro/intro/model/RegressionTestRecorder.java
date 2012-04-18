@@ -55,9 +55,6 @@ public class RegressionTestRecorder<A, B> extends F<A, B> {
     private static final ExecutorService executorService = Executors.newFixedThreadPool( 1 );
     private static final boolean checkSavedFile = false;
 
-    //Global flag for whether this functionality should be enabled
-    public static boolean recordRegressionData = false;
-
     private RegressionTestRecorder( F<A, B> function ) {
         this.function = function;
     }
@@ -69,10 +66,6 @@ public class RegressionTestRecorder<A, B> extends F<A, B> {
 
     @Override public B f( final A a ) {
         final B result = function.f( a );
-
-        if ( !recordRegressionData ) {
-            return result;
-        }
 
         if ( checkDeterminism ) {
             checkDeterminism( a, result );

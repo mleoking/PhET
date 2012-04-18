@@ -1,3 +1,4 @@
+Isolate instantiation of regression tests
 Fixes for the game over dialog
 Hide the timer if not selected in the settings dialog
 Added timer to scoreboard

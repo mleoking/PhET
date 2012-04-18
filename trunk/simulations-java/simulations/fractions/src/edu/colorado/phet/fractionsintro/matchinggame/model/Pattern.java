@@ -133,6 +133,16 @@ public class Pattern {
         }
     }
 
+    public static class Polygon {
+
+        //http://www.mathsisfun.com/geometry/interior-angles-polygons.html
+        public static Pattern create( double diameter, int numSides ) {
+            double eachAngle = ( numSides - 2 ) * Math.PI / numSides;
+
+            return new Pattern( List.single( triangle( diameter, new Vector2D( 0, 0 ), new UnitVector2D( 0, 1 ) ) ) );
+        }
+    }
+
     public static void main( String[] args ) throws InvocationTargetException, InterruptedException {
         SwingUtilities.invokeAndWait( new Runnable() {
             @Override public void run() {
@@ -140,7 +150,7 @@ public class Pattern {
                     setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
                     setSize( 1024, 768 );
                     getCanvas().getLayer().addChild( new FNode() {{
-                        addChild( new PatternNode( FilledPattern.sequentialFill( Pyramid.nine( 100 ), 8 ), Color.red ) {{translate( 200, 0 );}} );
+                        addChild( new PatternNode( FilledPattern.sequentialFill( Polygon.create( 50, 4 ), 4 ), Color.red ) {{translate( 200, 200 );}} );
                     }} );
                 }}.setVisible( true );
             }

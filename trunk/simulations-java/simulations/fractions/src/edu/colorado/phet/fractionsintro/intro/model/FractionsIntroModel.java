@@ -31,11 +31,11 @@ import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.FactorySet;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
+import static edu.colorado.phet.fractionsintro.FractionsIntroApplication.recordRegressionData;
 import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ModelActions.changed;
 import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ModelComponentTypes.containerSetComponentType;
 import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ModelComponents.containerSetComponent;
 import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ParameterKeys.containerSetKey;
-import static edu.colorado.phet.fractionsintro.intro.model.RegressionTestRecorder.record;
 
 /**
  * Model for the Fractions Intro sim.  This is the most complicated class in the sim, because it has to manage several different ways of changing
@@ -96,7 +96,7 @@ public class FractionsIntroModel implements Serializable {
 
         }, new F<Representation, F<IntroState, IntroState>>() {
             @Override public F<IntroState, IntroState> f( final Representation r ) {
-                return record( new SetRepresentation( r ) );
+                return evaluate( new SetRepresentation( r ) );
             }
         }
         );
@@ -107,7 +107,7 @@ public class FractionsIntroModel implements Serializable {
             }
         }, new F<Integer, F<IntroState, IntroState>>() {
             @Override public F<IntroState, IntroState> f( final Integer numerator ) {
-                return record( new SetNumerator( numerator ) );
+                return evaluate( new SetNumerator( numerator ) );
             }
         }
         ).toIntegerProperty();
@@ -118,7 +118,7 @@ public class FractionsIntroModel implements Serializable {
             }
         }, new F<Integer, F<IntroState, IntroState>>() {
             @Override public F<IntroState, IntroState> f( final Integer denominator ) {
-                return record( new SetDenominator( denominator ) );
+                return evaluate( new SetDenominator( denominator ) );
             }
         }
         ).toIntegerProperty();
@@ -130,7 +130,7 @@ public class FractionsIntroModel implements Serializable {
             }
         }, new F<PieSet, F<IntroState, IntroState>>() {
             @Override public F<IntroState, IntroState> f( final PieSet pieSet ) {
-                return record( new SetCircularPieSet( pieSet ) );
+                return evaluate( new SetCircularPieSet( pieSet ) );
             }
         }
         );
@@ -143,7 +143,7 @@ public class FractionsIntroModel implements Serializable {
         },
                                                        new F<PieSet, F<IntroState, IntroState>>() {
                                                            @Override public F<IntroState, IntroState> f( final PieSet pieSet ) {
-                                                               return record( new SetHorizontalBarSet( pieSet ) );
+                                                               return evaluate( new SetHorizontalBarSet( pieSet ) );
                                                            }
                                                        }
         );
@@ -155,7 +155,7 @@ public class FractionsIntroModel implements Serializable {
             }
         }, new F<PieSet, F<IntroState, IntroState>>() {
             @Override public F<IntroState, IntroState> f( final PieSet pieSet ) {
-                return record( new SetVerticalBarSet( pieSet ) );
+                return evaluate( new SetVerticalBarSet( pieSet ) );
             }
         }
         );
@@ -167,7 +167,7 @@ public class FractionsIntroModel implements Serializable {
             }
         }, new F<PieSet, F<IntroState, IntroState>>() {
             @Override public F<IntroState, IntroState> f( final PieSet pieSet ) {
-                return record( new SetWaterGlassSet( pieSet ) );
+                return evaluate( new SetWaterGlassSet( pieSet ) );
             }
         }
         );
@@ -179,7 +179,7 @@ public class FractionsIntroModel implements Serializable {
             }
         }, new F<PieSet, F<IntroState, IntroState>>() {
             @Override public F<IntroState, IntroState> f( final PieSet pieSet ) {
-                return record( new SetCakeSet( pieSet ) );
+                return evaluate( new SetCakeSet( pieSet ) );
             }
         }
         );
@@ -191,7 +191,7 @@ public class FractionsIntroModel implements Serializable {
             }
         }, new F<Integer, F<IntroState, IntroState>>() {
             @Override public F<IntroState, IntroState> f( final Integer maximum ) {
-                return record( new SetMaximum( maximum ) );
+                return evaluate( new SetMaximum( maximum ) );
             }
         }
         ).toIntegerProperty();
@@ -214,6 +214,8 @@ public class FractionsIntroModel implements Serializable {
             }
         } );
     }
+
+    private F<IntroState, IntroState> evaluate( final F<IntroState, IntroState> f ) { return recordRegressionData ? RegressionTestRecorder.record( f ) : f; }
 
     public void resetAll() { state.set( initialState ); }
 
