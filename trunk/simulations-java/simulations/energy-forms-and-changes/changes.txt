@@ -1,3 +1,4 @@
+Added z-order management so that blocks look correct when stacked on each other and placed beside one another.
 Adjusted block and beaker sizes as well as displacement algorithm so that both blocks fit in the beaker and the water is displaced to cover both blocks and almost fill the beaker when both blocks are contained.
 Adjusted block size so that both blocks will fit in the beaker.
 Added the ability to remove blocks from the beaker.
