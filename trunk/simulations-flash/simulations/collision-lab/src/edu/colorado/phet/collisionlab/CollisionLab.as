@@ -17,7 +17,7 @@ import flash.geom.Rectangle;
 
 public class CollisionLab extends Sprite {  //should the main class extend MovieClip or Sprite?
 
-    This will not compile, because it needs to be reverted to a non-study version before it can be deployed - JO
+//    This will not compile, because it needs to be reverted to a non-study version before it can be deployed - JO
 
     public static var isStudyVersion: Boolean = true;
 
