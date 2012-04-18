@@ -1,3 +1,4 @@
+4/17/12 add model for point-slope line format, add stub for base class
 4/17/12 new point tool image from AP
 4/17/12 make GraphNode more object-oriented
 4/17/12 add test to GraphNode, move view-specific assertion from Graph to GraphNode
