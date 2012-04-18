@@ -17,10 +17,10 @@ public @Data class WithFont extends SEffect {
     public final Font font;
     public final SEffect child;
 
-    @Override public void e( final DrawableGraphicsContext graphics2D ) {
+    @Override public void render( final DrawableGraphicsContext graphics2D ) {
         apply( graphics2D, new Effect<DrawableGraphicsContext>() {
             @Override public void e( final DrawableGraphicsContext context ) {
-                child.e( context );
+                child.render( context );
             }
         }.e() );
     }
