@@ -61,9 +61,7 @@ public class NumberPickerNode extends PhetPNode {
     public static class InterceptPickerNode extends NumberPickerNode {
         public InterceptPickerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format, boolean abs ) {
             super( userComponent, value, range, 1, abs, font, format,
-                   new NumberPickerColorScheme( new Color( 245, 245, 0 ), new Color( 255, 255, 0 ),
-                                                new Color( 230, 230, 0 ), new Color( 255, 255, 0 ),
-                                                DISABLED_COLOR, SHADOW_COLOR ) );
+                   new NumberPickerColorScheme( new Color( 245, 245, 0 ), new Color( 230, 230, 0 ), new Color( 255, 255, 0 ), DISABLED_COLOR, SHADOW_COLOR ) );
         }
     }
 
@@ -71,26 +69,20 @@ public class NumberPickerNode extends PhetPNode {
     public static class SlopePickerNode extends NumberPickerNode {
         public SlopePickerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format, boolean abs ) {
             super( userComponent, value, range, 1, abs, font, format,
-                   new NumberPickerColorScheme( new Color( 0, 245, 0 ), new Color( 0, 255, 0 ),
-                                                new Color( 0, 230, 0 ), new Color( 0, 255, 0 ),
-                                                DISABLED_COLOR, SHADOW_COLOR ) );
+                   new NumberPickerColorScheme( new Color( 0, 245, 0 ), new Color( 0, 230, 0 ), new Color( 0, 255, 0 ), DISABLED_COLOR, SHADOW_COLOR ) );
         }
     }
 
     // Data structure for picker color scheme
     public static class NumberPickerColorScheme {
 
-        public final Color topNormalColor, topHighlightColor;
-        public final Color bottomNormalColor, bottomHighlightColor;
-        public final Color disabledColor, shadowColor;
+        public final Color topNormalColor, bottomNormalColor;
+        public final Color highlightColor, disabledColor, shadowColor;
 
-        public NumberPickerColorScheme( Color topNormalColor, Color topHighlightColor,
-                                        Color bottomNormalColor, Color bottomHighlightColor,
-                                        Color disabledColor, Color shadowColor ) {
+        public NumberPickerColorScheme( Color topNormalColor, Color bottomNormalColor, Color highlightColor, Color disabledColor, Color shadowColor ) {
             this.topNormalColor = topNormalColor;
-            this.topHighlightColor = topHighlightColor;
             this.bottomNormalColor = bottomNormalColor;
-            this.bottomHighlightColor = bottomHighlightColor;
+            this.highlightColor = highlightColor;
             this.disabledColor = disabledColor;
             this.shadowColor = shadowColor;
         }
@@ -211,9 +203,9 @@ public class NumberPickerNode extends PhetPNode {
         // button handlers
         topButtonNode.addInputEventListener( topButtonCursorHandler );
         bottomButtonNode.addInputEventListener( bottomButtonCursorHandler );
-        topButtonNode.addInputEventListener( new IncrementButtonHandler( userComponent, topButtonNode, colorScheme.topNormalColor, colorScheme.topHighlightColor,
+        topButtonNode.addInputEventListener( new IncrementButtonHandler( userComponent, topButtonNode, colorScheme.topNormalColor, colorScheme.highlightColor,
                                                                          topEnabled, value, range, delta ) );
-        bottomButtonNode.addInputEventListener( new DecrementButtonHandler( userComponent, bottomButtonNode, colorScheme.bottomNormalColor, colorScheme.bottomHighlightColor,
+        bottomButtonNode.addInputEventListener( new DecrementButtonHandler( userComponent, bottomButtonNode, colorScheme.bottomNormalColor, colorScheme.highlightColor,
                                                                             bottomEnabled, value, range, delta ) );
     }
 
@@ -359,10 +351,8 @@ public class NumberPickerNode extends PhetPNode {
     // test
     public static void main( String[] args ) {
 
-        final Color disabledColor = new Color( 210, 210, 210 );
-        NumberPickerColorScheme colorScheme = new NumberPickerColorScheme( new Color( 0, 225, 0 ), new Color( 0, 255, 0 ),
-                                                                           new Color( 0, 180, 0 ), new Color( 0, 255, 0 ),
-                                                                           disabledColor, Color.DARK_GRAY );
+        NumberPickerColorScheme colorScheme = new NumberPickerColorScheme( new Color( 0, 225, 0 ), new Color( 0, 180, 0 ),
+                                                                           new Color( 0, 255, 0 ), new Color( 210, 210, 210 ), Color.DARK_GRAY );
         Property<Double> value = new Property<Double>( 3d );
         Property<DoubleRange> range = new Property<DoubleRange>( new DoubleRange( -10, 10 ) );
 
