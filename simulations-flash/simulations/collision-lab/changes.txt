@@ -1,3 +1,5 @@
+Slight increase of data column width for improved text headers
+Moved "Momentum column to far right"
 # 1.00.21 (63565) Apr 17, 2012
 Added "Initial Position" and "Initial Velocity" columns into the data table. Currently not modifiable, since both position and velocity are modifiable at the start anyways.
 Added Momentum column back into the data table

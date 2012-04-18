@@ -56,16 +56,16 @@ public class DataTable extends Sprite {
     private const massColumnNbr: int = 1;
     private const xColumnNbr: int = 2;
     private const vxColumnNbr: int = 3;
-    private const pxColumnNbr: int = 4;
-    private const initialPositionColumnNbr: int = 5;
-    private const initialVelocityColumnNbr: int = 6;
+    private const pxColumnNbr: int = 6;
+    private const initialPositionColumnNbr: int = 4;
+    private const initialVelocityColumnNbr: int = 5;
 
     private const highlightColor: int = 0xffff33;
     private const unhighlightColor: int = 0xffffff;
 
     public function DataTable( myModel: Model, myMainView: MainView ) {
         this.myModel = myModel;
-        colWidth = 80;
+        colWidth = 100;
         myModel.registerView( this );
         this.myMainView = myMainView;
         nbrBalls = this.myModel.nbrBalls;
