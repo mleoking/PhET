@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 public @Data class DrawText extends SEffect {
     public final String text;
 
-    @Override public void e( final DrawableGraphicsContext graphics2D ) {
+    @Override public void render( final DrawableGraphicsContext graphics2D ) {
         graphics2D.drawString( text, 0, 0 );
     }
 

@@ -15,10 +15,10 @@ public @Data class WithPaint extends SEffect {
     public final Paint paint;
     public final SEffect child;
 
-    @Override public void e( final DrawableGraphicsContext graphics2D ) {
+    @Override public void render( final DrawableGraphicsContext graphics2D ) {
         Paint origPaint = graphics2D.getPaint();
         graphics2D.setPaint( paint );
-        child.e( graphics2D );
+        child.render( graphics2D );
         graphics2D.setPaint( origPaint );
     }
 

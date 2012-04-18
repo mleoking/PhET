@@ -17,10 +17,10 @@ public class SList extends SEffect {
         this.children = List.iterableList( Arrays.asList( children ) );
     }
 
-    @Override public void e( final DrawableGraphicsContext graphics2D ) {
+    @Override public void render( final DrawableGraphicsContext graphics2D ) {
         children.foreach( new Effect<SEffect>() {
             @Override public void e( final SEffect s ) {
-                s.e( graphics2D );
+                s.render( graphics2D );
             }
         } );
     }

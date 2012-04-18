@@ -15,10 +15,10 @@ public @Data class WithTransform extends SEffect {
     public final AffineTransform transform;
     public final SEffect child;
 
-    @Override public void e( final DrawableGraphicsContext graphics2D ) {
+    @Override public void render( final DrawableGraphicsContext graphics2D ) {
         AffineTransform orig = graphics2D.getTransform();
         graphics2D.transform( transform );
-        child.e( graphics2D );
+        child.render( graphics2D );
         graphics2D.setTransform( orig );
     }
 

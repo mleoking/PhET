@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 public @Data class DrawShape extends SEffect {
     public final Shape shape;
 
-    @Override public void e( final DrawableGraphicsContext context ) {
+    @Override public void render( final DrawableGraphicsContext context ) {
         context.draw( shape );
     }
 
