@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GradientPaint;
 import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.event.ActionEvent;
@@ -61,7 +62,7 @@ public class NumberPickerNode extends PhetPNode {
     public static class InterceptPickerNode extends NumberPickerNode {
         public InterceptPickerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format, boolean abs ) {
             super( userComponent, value, range, 1, abs, font, format,
-                   new NumberPickerColorScheme( new Color( 245, 245, 0 ), new Color( 230, 230, 0 ), new Color( 255, 255, 0 ), DISABLED_COLOR, SHADOW_COLOR ) );
+                   new NumberPickerColorScheme( new Color( 255, 255, 148 ), new Color( 235, 235, 0 ), Color.YELLOW, DISABLED_COLOR, SHADOW_COLOR ) );
         }
     }
 
@@ -69,22 +70,30 @@ public class NumberPickerNode extends PhetPNode {
     public static class SlopePickerNode extends NumberPickerNode {
         public SlopePickerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format, boolean abs ) {
             super( userComponent, value, range, 1, abs, font, format,
-                   new NumberPickerColorScheme( new Color( 0, 245, 0 ), new Color( 0, 230, 0 ), new Color( 0, 255, 0 ), DISABLED_COLOR, SHADOW_COLOR ) );
+                   new NumberPickerColorScheme( new Color( 150, 255, 150 ), new Color( 0, 200, 0 ), Color.GREEN, DISABLED_COLOR, SHADOW_COLOR ) );
         }
     }
 
     // Data structure for picker color scheme
     public static class NumberPickerColorScheme {
 
-        public final Color topNormalColor, bottomNormalColor;
+        private final Color gradientEndsColor, gradientCenterColor;
         public final Color highlightColor, disabledColor, shadowColor;
 
-        public NumberPickerColorScheme( Color topNormalColor, Color bottomNormalColor, Color highlightColor, Color disabledColor, Color shadowColor ) {
-            this.topNormalColor = topNormalColor;
-            this.bottomNormalColor = bottomNormalColor;
+        public NumberPickerColorScheme( Color gradientEndsColor, Color gradientCenterColor, Color highlightColor, Color disabledColor, Color shadowColor ) {
+            this.gradientEndsColor = gradientEndsColor;
+            this.gradientCenterColor = gradientCenterColor;
             this.highlightColor = highlightColor;
             this.disabledColor = disabledColor;
             this.shadowColor = shadowColor;
+        }
+
+        public Paint getTopButtonPaint( double height ) {
+            return new GradientPaint( 0f, 0f, gradientEndsColor, 0f, (float)height, gradientCenterColor );
+        }
+
+         public Paint getBottomButtonPaint( double height ) {
+            return new GradientPaint( 0f, (float) height, gradientCenterColor, 0f, (float) ( 2 * height ), gradientEndsColor );
         }
     }
 
@@ -134,8 +143,8 @@ public class NumberPickerNode extends PhetPNode {
         PPath bottomShadowNode = new PPath( bottomButtonNode.getPathReference() );
 
         // fill colors
-        topButtonNode.setPaint( colorScheme.topNormalColor );
-        bottomButtonNode.setPaint( colorScheme.bottomNormalColor );
+        topButtonNode.setPaint( colorScheme.getTopButtonPaint( buttonHeight ) );
+        bottomButtonNode.setPaint( colorScheme.getBottomButtonPaint( buttonHeight ) );
         topShadowNode.setPaint( colorScheme.shadowColor );
         bottomShadowNode.setPaint( colorScheme.shadowColor );
 
@@ -176,13 +185,13 @@ public class NumberPickerNode extends PhetPNode {
         final DynamicCursorHandler bottomButtonCursorHandler = new DynamicCursorHandler();
         topEnabled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean enabled ) {
-                topButtonNode.setPaint( enabled ? colorScheme.topNormalColor : colorScheme.disabledColor );
+                topButtonNode.setPaint( enabled ? colorScheme.getTopButtonPaint( buttonHeight ) : colorScheme.disabledColor );
                 topButtonCursorHandler.setCursor( topEnabled.get() ? Cursor.HAND_CURSOR : Cursor.DEFAULT_CURSOR );
             }
         } );
         bottomEnabled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean enabled ) {
-                bottomButtonNode.setPaint( enabled ? colorScheme.bottomNormalColor : colorScheme.disabledColor );
+                bottomButtonNode.setPaint( enabled ? colorScheme.getBottomButtonPaint( buttonHeight ) : colorScheme.disabledColor );
                 bottomButtonCursorHandler.setCursor( bottomEnabled.get() ? Cursor.HAND_CURSOR : Cursor.DEFAULT_CURSOR );
             }
         } );
@@ -203,9 +212,9 @@ public class NumberPickerNode extends PhetPNode {
         // button handlers
         topButtonNode.addInputEventListener( topButtonCursorHandler );
         bottomButtonNode.addInputEventListener( bottomButtonCursorHandler );
-        topButtonNode.addInputEventListener( new IncrementButtonHandler( userComponent, topButtonNode, colorScheme.topNormalColor, colorScheme.highlightColor,
+        topButtonNode.addInputEventListener( new IncrementButtonHandler( userComponent, topButtonNode, colorScheme.getTopButtonPaint( buttonHeight ), colorScheme.highlightColor,
                                                                          topEnabled, value, range, delta ) );
-        bottomButtonNode.addInputEventListener( new DecrementButtonHandler( userComponent, bottomButtonNode, colorScheme.bottomNormalColor, colorScheme.highlightColor,
+        bottomButtonNode.addInputEventListener( new DecrementButtonHandler( userComponent, bottomButtonNode, colorScheme.getBottomButtonPaint( buttonHeight ), colorScheme.highlightColor,
                                                                             bottomEnabled, value, range, delta ) );
     }
 

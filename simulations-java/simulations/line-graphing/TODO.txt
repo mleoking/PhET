@@ -4,8 +4,6 @@ DEADLINES
 
 DESIGN
 - spinners or pickers for interactive equation? (SlopeInterceptEquationNode or SlopeInterceptEquationNode2)
-- gradients on picker buttons?
-- no movement of picker buttons?
 
 HIGH
 - implement Point-Slope tab
