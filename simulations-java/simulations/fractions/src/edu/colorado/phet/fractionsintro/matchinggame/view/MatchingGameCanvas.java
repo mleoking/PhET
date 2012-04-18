@@ -47,6 +47,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
     public MatchingGameCanvas( final boolean showDeveloperControls, final MatchingGameModel model ) {
 
         //Have to cache the buttons to re-use them between frames because they are animated piccolo components and do not have their model subsumed by this model.
+        //Note the cache will fail if there is no @Data annotation on the listener--it is used in the comparison for equals
         final F<ButtonArgs, Button> buttonFactory = Cache.cache( new F<ButtonArgs, Button>() {
             @Override public Button f( final ButtonArgs buttonArgs ) {
                 return new Button( buttonArgs.component, buttonArgs.text, buttonArgs.color, buttonArgs.location, new ActionListener() {
