@@ -76,39 +76,28 @@ public class IntroCanvas extends PhetPCanvas {
 
         // Create an observer that updates the Z-order of the blocks when the
         // user controlled state changes.
-        SimpleObserver blockUserControlledObserver = new SimpleObserver() {
+        SimpleObserver blockChangeObserver = new SimpleObserver() {
             public void update() {
-                if ( model.getBrick().userControlled.get() ) {
-                    if ( model.getLeadBlock().isStackedUpon( model.getBrick() ) ) {
-                        brickNode.moveToBack();
-                    }
-                    else {
-                        brickNode.moveToFront();
-                    }
+                if ( model.getLeadBlock().isStackedUpon( model.getBrick() ) ) {
+                    brickNode.moveToBack();
                 }
-                else if ( model.getLeadBlock().userControlled.get() ) {
-                    if ( model.getBrick().isStackedUpon( model.getLeadBlock() ) ) {
-                        leadNode.moveToBack();
-                    }
-                    else {
-                        leadNode.moveToFront();
-                    }
+                else if ( model.getBrick().isStackedUpon( model.getLeadBlock() ) ) {
+                    leadNode.moveToBack();
                 }
-                else {
-                    if ( model.getLeadBlock().position.get().getX() > model.getBrick().position.get().getX() ||
-                         model.getLeadBlock().position.get().getY() > model.getBrick().position.get().getY() ) {
-                        leadNode.moveToFront();
-                    }
-                    else {
-                        leadNode.moveToBack();
-                    }
+                else if ( model.getLeadBlock().getRect().getMinX() >= model.getBrick().getRect().getMaxX() ||
+                          model.getLeadBlock().getRect().getMinY() >= model.getBrick().getRect().getMaxY() ) {
+                    leadNode.moveToFront();
+                }
+                else if ( model.getBrick().getRect().getMinX() >= model.getLeadBlock().getRect().getMaxX() ||
+                          model.getBrick().getRect().getMinY() >= model.getLeadBlock().getRect().getMaxY() ) {
+                    brickNode.moveToFront();
                 }
             }
         };
 
         // Update the Z-order of the blocks whenever the "userControlled" state
         // of either changes.
-        model.getBrick().userControlled.addObserver( blockUserControlledObserver );
-        model.getLeadBlock().userControlled.addObserver( blockUserControlledObserver );
+        model.getBrick().position.addObserver( blockChangeObserver );
+        model.getLeadBlock().position.addObserver( blockChangeObserver );
     }
 }
