@@ -57,6 +57,8 @@ public class DataTable extends Sprite {
     private const xColumnNbr: int = 2;
     private const vxColumnNbr: int = 3;
     private const pxColumnNbr: int = 4;
+    private const initialPositionColumnNbr: int = 5;
+    private const initialVelocityColumnNbr: int = 6;
 
     private const highlightColor: int = 0xffff33;
     private const unhighlightColor: int = 0xffffff;
@@ -181,7 +183,7 @@ public class DataTable extends Sprite {
                             text_arr[row][col].restrict = "0-9.\\-";  //velocities can be negative
                         }
                         else {
-                            trace( "ERROR in DataTable.initialize. Invalid value of col" );
+//                            trace( "ERROR in DataTable.initialize. Invalid value of col" );
                         }
                     }
                 }
@@ -215,7 +217,7 @@ public class DataTable extends Sprite {
     }
 
     public function get nbrColumns(): int {
-        return 5;
+        return 7;
     }
 
     /**
@@ -288,12 +290,16 @@ public class DataTable extends Sprite {
         text_arr[0][xColumnNbr].text = SimStrings.get( "DataTable.position", "Position" );
         text_arr[0][vxColumnNbr].text = SimStrings.get( "DataTable.velocity", "Velocity" );
         text_arr[0][pxColumnNbr].text = SimStrings.get( "DataTable.momentum", "Momentum" );
+        text_arr[0][initialPositionColumnNbr].text = SimStrings.get( "DataTable.initialVelocity", "Initial Position" );
+        text_arr[0][initialVelocityColumnNbr].text = SimStrings.get( "DataTable.initialMomentum", "Initial Velocity" );
 
         text_arr[1][ballColumnNbr].text = "";
         text_arr[1][massColumnNbr].text = SimStrings.get( "DataTable.units.kilograms", "kg" );
         text_arr[1][xColumnNbr].text = SimStrings.get( "DataTable.units.meters", "m" );
         text_arr[1][vxColumnNbr].text = SimStrings.get( "DataTable.units.metersPerSecond", "m/s" );
         text_arr[1][pxColumnNbr].text = SimStrings.get( "DataTable.units.kilogramMetersPerSecond", "kg m/s" );
+        text_arr[1][initialPositionColumnNbr].text = SimStrings.get( "DataTable.units.meters", "m" );
+        text_arr[1][initialVelocityColumnNbr].text = SimStrings.get( "DataTable.units.metersPerSecond", "m/s" );
 
         tFormat.bold = true;
         for ( var row: int = 0; row < maxRows; row++ ) {
@@ -310,9 +316,13 @@ public class DataTable extends Sprite {
         TextFieldUtils.resizeText( text_arr[headerRowNbr][xColumnNbr], TextFieldAutoSize.CENTER );
         TextFieldUtils.resizeText( text_arr[headerRowNbr][vxColumnNbr], TextFieldAutoSize.CENTER );
         TextFieldUtils.resizeText( text_arr[headerRowNbr][pxColumnNbr], TextFieldAutoSize.CENTER );
+        TextFieldUtils.resizeText( text_arr[headerRowNbr][initialPositionColumnNbr], TextFieldAutoSize.CENTER );
+        TextFieldUtils.resizeText( text_arr[headerRowNbr][initialVelocityColumnNbr], TextFieldAutoSize.CENTER );
         TextFieldUtils.resizeText( text_arr[0][xColumnNbr], TextFieldAutoSize.CENTER );
         TextFieldUtils.resizeText( text_arr[0][vxColumnNbr], TextFieldAutoSize.CENTER );
         TextFieldUtils.resizeText( text_arr[0][pxColumnNbr], TextFieldAutoSize.CENTER );
+        TextFieldUtils.resizeText( text_arr[0][initialPositionColumnNbr], TextFieldAutoSize.CENTER );
+        TextFieldUtils.resizeText( text_arr[0][initialVelocityColumnNbr], TextFieldAutoSize.CENTER );
     }
 
 
@@ -550,16 +560,22 @@ public class DataTable extends Sprite {
                 for ( col = 0; col < nbrColumns; col++ ) {
                     if ( col == massColumnNbr ) { // mass in kg
                         mass = myModel.ball_arr[ballNum].getMass();
-                        text_arr[row][col].text = mass.toFixed( massPrecision ); //round(mass, 1);
+                        text_arr[row][col].text = round( mass, massPrecision ); //round(mass, 1);
                     }
                     if ( col == xColumnNbr ) { //x position in m
                         var xPos: Number = myModel.ball_arr[ballNum].position.getX();
-                        text_arr[row][col].text = xPos.toFixed( generalPrecision ); //round(xPos, nbrPlaces);
+                        text_arr[row][col].text = round( xPos, generalPrecision ); //round(xPos, nbrPlaces);
                     }
                     if ( col == vxColumnNbr ) { // v_x in m/s
                         var xVel: Number = myModel.ball_arr[ballNum].velocity.getX();
                         text_arr[row][col].text = round( xVel, generalPrecision );
 //                        text_arr[row][col].text = xVel.toFixed( generalPrecision ); //round(xVel, nbrPlaces);
+                    }
+                    if( col == initialPositionColumnNbr ) {
+                        text_arr[row][col].text = round( myModel.ball_arr[ballNum].initialPosition.getX(), generalPrecision );
+                    }
+                    if( col == initialVelocityColumnNbr ) {
+                        text_arr[row][col].text = round( myModel.ball_arr[ballNum].initialVelocity.getX(), generalPrecision );
                     }
                 }
             }
@@ -597,11 +613,11 @@ public class DataTable extends Sprite {
     }
 
     //round decimal number to n places; made obsolete by toFixed() Number function
-    private function round( input: Number, nPlaces: int ): Number {
+    private function round( input: Number, nPlaces: int ): String {
         var result: Number;
         var factor: Number = Math.pow( 10, nPlaces );
         result = Math.round( factor * input ) / factor;
-        return result
+        return result.toFixed( nPlaces );
     }
 
 }

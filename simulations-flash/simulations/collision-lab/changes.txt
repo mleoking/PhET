@@ -1,3 +1,4 @@
+Added "Initial Position" and "Initial Velocity" columns into the data table. Currently not modifiable, since both position and velocity are modifiable at the start anyways.
 Added Momentum column back into the data table
 Fixed x rounding for example
 Removed back button
