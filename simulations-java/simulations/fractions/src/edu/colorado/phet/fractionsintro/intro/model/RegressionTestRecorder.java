@@ -55,17 +55,25 @@ public class RegressionTestRecorder<A, B> extends F<A, B> {
     private static final ExecutorService executorService = Executors.newFixedThreadPool( 1 );
     private static final boolean checkSavedFile = false;
 
-    public RegressionTestRecorder( F<A, B> function ) {
+    //Global flag for whether this functionality should be enabled
+    public static boolean recordRegressionData = false;
+
+    private RegressionTestRecorder( F<A, B> function ) {
         this.function = function;
     }
 
-    //Convenience method to get rid of type parameter boilerplate
+    //Convenience construction method to get rid of type parameter boilerplate
     public static <X, Y> RegressionTestRecorder record( F<X, Y> function ) {
         return new RegressionTestRecorder<X, Y>( function );
     }
 
     @Override public B f( final A a ) {
         final B result = function.f( a );
+
+        if ( !recordRegressionData ) {
+            return result;
+        }
+
         if ( checkDeterminism ) {
             checkDeterminism( a, result );
         }
