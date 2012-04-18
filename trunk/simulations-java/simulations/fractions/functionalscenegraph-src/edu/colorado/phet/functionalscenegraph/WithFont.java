@@ -7,6 +7,7 @@ import lombok.Data;
 import java.awt.Font;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
+import edu.colorado.phet.fractions.util.immutable.Vector2D;
 
 /**
  * Apply an effect to the graphics2d with the specified paint
@@ -37,6 +38,14 @@ public @Data class WithFont extends SNode {
         return apply( context, new F<GraphicsContext, ImmutableRectangle2D>() {
             @Override public ImmutableRectangle2D f( final GraphicsContext graphicsContext ) {
                 return child.getBounds( graphicsContext );
+            }
+        } );
+    }
+
+    @Override protected boolean hits( final Vector2D vector2D, final MockState mockState ) {
+        return apply( mockState, new F<MockState, Boolean>() {
+            @Override public Boolean f( final MockState mockState ) {
+                return child.hits( vector2D, mockState );
             }
         } );
     }

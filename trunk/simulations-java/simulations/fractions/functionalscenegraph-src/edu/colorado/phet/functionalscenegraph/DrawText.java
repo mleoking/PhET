@@ -5,8 +5,10 @@ import lombok.Data;
 import java.awt.Font;
 import java.awt.Paint;
 import java.awt.font.TextLayout;
+import java.awt.geom.AffineTransform;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
+import edu.colorado.phet.fractions.util.immutable.Vector2D;
 
 /**
  * @author Sam Reid
@@ -19,9 +21,14 @@ public @Data class DrawText extends SNode {
     }
 
     @Override public ImmutableRectangle2D getBounds( GraphicsContext mockState ) {
-        TextLayout textLayout = new TextLayout( text, mockState.getFont(), mockState.getFontRenderContext() );
-        return new ImmutableRectangle2D( textLayout.getBounds() );
+        return new ImmutableRectangle2D( toTextLayout( mockState ).getBounds() );
     }
+
+    @Override protected boolean hits( final Vector2D vector2D, final MockState mockState ) {
+        return toTextLayout( mockState ).getOutline( new AffineTransform() ).contains( vector2D.toPoint2D() );
+    }
+
+    private TextLayout toTextLayout( final GraphicsContext mockState ) {return new TextLayout( text, mockState.getFont(), mockState.getFontRenderContext() );}
 
     public static SNode textNode( String text, Font font, Paint paint ) {
         final WithFont textNode = new WithFont( font, new WithPaint( paint, new DrawText( text ) ) );
