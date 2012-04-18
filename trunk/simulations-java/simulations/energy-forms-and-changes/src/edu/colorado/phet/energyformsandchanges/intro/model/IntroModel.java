@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 
 /**
@@ -115,7 +116,7 @@ public class IntroModel {
                 double velocity = movableModelElement.verticalVelocity.get() + acceleration * dt;
                 double proposedYPos = movableModelElement.position.get().getY() + velocity * dt;
                 double minYPos = 0;
-                Property<HorizontalSurface> potentialSupportingSurface = findHighestPossibleSupportSurface( movableModelElement );
+                Property<HorizontalSurface> potentialSupportingSurface = findBestSupportSurface( movableModelElement );
                 if ( potentialSupportingSurface != null ) {
                     minYPos = potentialSupportingSurface.get().yPos;
 
@@ -175,11 +176,11 @@ public class IntroModel {
         return beaker;
     }
 
-    private Property<HorizontalSurface> findHighestPossibleSupportSurface( UserMovableModelElement element ) {
-        Property<HorizontalSurface> highestOverlappingSurface = null;
+    private Property<HorizontalSurface> findBestSupportSurface( UserMovableModelElement element ) {
+        Property<HorizontalSurface> bestOverlappingSurface = null;
 
-        // Check each of the possible supporting elements in the model to
-        // see if this element can go on top of it.
+        // Check each of the possible supporting elements in the model to see
+        // if this element can go on top of it.
         for ( ModelElement potentialSupportingElement : Arrays.asList( leftBurner, rightBurner, brick, leadBlock, beaker ) ) {
             if ( potentialSupportingElement == element || potentialSupportingElement.isStackedUpon( element ) ) {
                 // The potential supporting element is either the same as the
@@ -189,15 +190,34 @@ public class IntroModel {
                 continue;
             }
             if ( potentialSupportingElement != element && element.getBottomSurfaceProperty().get().overlapsWith( potentialSupportingElement.getTopSurfaceProperty().get() ) ) {
-                if ( highestOverlappingSurface == null || highestOverlappingSurface.get().yPos < potentialSupportingElement.getTopSurfaceProperty().get().yPos ) {
-                    highestOverlappingSurface = potentialSupportingElement.getTopSurfaceProperty();
+
+                // There is at least some overlap.  Determine if this surface
+                // is the best one so far.
+                double surfaceOverlap = getOverlap( potentialSupportingElement.getTopSurfaceProperty().get().xRange, element.getBottomSurfaceProperty().get().xRange );
+
+                // The following nasty 'if' clause determines if the potential
+                // supporting surface if a better one than we currently have
+                // based on whether we have one at all, or has more overlap
+                // than the previous best choice, or has the same overlap but
+                // is higher.
+                if ( bestOverlappingSurface == null ||
+                     surfaceOverlap > getOverlap( bestOverlappingSurface.get().xRange, element.getBottomSurfaceProperty().get().xRange ) ||
+                     ( surfaceOverlap == getOverlap( bestOverlappingSurface.get().xRange, element.getBottomSurfaceProperty().get().xRange ) &&
+                       potentialSupportingElement.getTopSurfaceProperty().get().yPos > bestOverlappingSurface.get().yPos ) ) {
+                    bestOverlappingSurface = potentialSupportingElement.getTopSurfaceProperty();
                 }
             }
         }
-        return highestOverlappingSurface;
+        return bestOverlappingSurface;
     }
 
     public List<Block> getBlockList() {
         return Arrays.asList( brick, leadBlock );
+    }
+
+    private double getOverlap( DoubleRange r1, DoubleRange r2 ) {
+        double lowestMax = Math.min( r1.getMax(), r2.getMax() );
+        double highestMin = Math.max( r1.getMin(), r2.getMin() );
+        return Math.max( lowestMax - highestMin, 0 );
     }
 }
