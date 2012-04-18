@@ -6,13 +6,14 @@ import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.linegraphing.common.LGColors;
+import edu.colorado.phet.linegraphing.common.model.StraightLine;
 
 /**
  * Model of an immutable line, using slope-intercept form, y=mx+b.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SlopeInterceptLine {
+public class SlopeInterceptLine extends StraightLine {
 
     public static final SlopeInterceptLine Y_EQUALS_X_LINE = new SlopeInterceptLine( 1, 1, 0, LGColors.Y_EQUALS_X );  // y = x
     public static final SlopeInterceptLine Y_EQUALS_NEGATIVE_X_LINE = new SlopeInterceptLine( -1, 1, 0, LGColors.Y_EQUALS_NEGATIVE_X ); // y = -x
@@ -39,25 +40,15 @@ public class SlopeInterceptLine {
         this( line.rise, line.run, line.intercept, color, highlightColor );
     }
 
-    // Line is undefined if it's slope (rise/run) is undefined.
-    public boolean isDefined() {
-        return ( run != 0 );
-    }
-
-    // Gets the slope, m=rise/run.
-    private double getSlope() {
-        assert ( run != 0 );
-        return rise / run;
-    }
-
     // y = mx + b, returns 0 if there is no unique solution
     public double solveY( double x ) {
-        return solveY( getSlope(), x, intercept );
+        return solveY( x, rise, run, intercept );
     }
 
     // y = mx + b
-    private static double solveY( double m, double x, double b ) {
-        return ( m * x ) + b;
+    private static double solveY( double x, double rise, double run, double intercept ) {
+        assert( run != 0 );
+        return ( ( rise / run ) * x ) + intercept;
     }
 
     // x = (y-b)/m
@@ -66,14 +57,14 @@ public class SlopeInterceptLine {
             return 0;
         }
         else {
-            return solveX( y, intercept, getSlope() );
+            return solveX( y, rise, run, intercept );
         }
     }
 
     // x = (y-b)/m
-    private static double solveX( double y, double b, double m ) {
-        assert ( m != 0 );
-        return ( y - b ) / m;
+    private static double solveX( double y, double rise, double run, double b ) {
+        assert ( rise != 0 && run != 0 );
+        return ( y - b ) / ( rise / run );
     }
 
     public int getReducedRise() {
