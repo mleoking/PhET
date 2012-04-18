@@ -14,8 +14,6 @@ import java.text.MessageFormat;
 import java.text.NumberFormat;
 import java.util.EventListener;
 
-import javax.swing.JButton;
-import javax.swing.JPanel;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.games.GameSimSharing.ModelActions;
@@ -24,16 +22,14 @@ import edu.colorado.phet.common.games.GameSimSharing.ParameterKeys;
 import edu.colorado.phet.common.games.GameSimSharing.UserComponents;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.components.SimSharingJButton;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Upon completion of a Game, this node is used to display a summary of the user's game results.
@@ -129,19 +125,15 @@ public class GameOverNode extends PhetPNode {
         addChild( timeNode );
 
         // buttons
-        JButton newGameButton = new SimSharingJButton( UserComponents.newGameButton, BUTTON_NEW_GAME );
-        newGameButton.setOpaque( false );
-        newGameButton.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                fireNewGamePressed();
-            }
-        } );
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setOpaque( false );
-        buttonPanel.add( newGameButton );
-        PSwing newGameButtonWrapper = new PSwing( newGameButton );
-        newGameButtonWrapper.addInputEventListener( new CursorHandler() );
-        addChild( newGameButtonWrapper );
+        HTMLImageButtonNode buttonNode = new HTMLImageButtonNode( BUTTON_NEW_GAME, GameSettingsPanel.DEFAULT_BUTTON_COLOR ) {{
+            setUserComponent( UserComponents.newGameButton );
+            addActionListener( new ActionListener() {
+                @Override public void actionPerformed( final ActionEvent e ) {
+                    fireNewGamePressed();
+                }
+            } );
+        }};
+        addChild( buttonNode );
 
         // horizontal separators, compute width after adding other children
         final double separatorWidth = Math.max( PNodeLayoutUtils.getMaxFullWidthChildren( this ), MIN_SEPARATOR_WIDTH );
@@ -183,9 +175,9 @@ public class GameOverNode extends PhetPNode {
         y = timeNode.getFullBoundsReference().getMaxY() + Y_SPACING;
         separatorNode2.setOffset( x, y );
         // button centered below separator
-        x = ( backgroundNode.getFullBoundsReference().getWidth() - newGameButtonWrapper.getFullBoundsReference().getWidth() ) / 2;
+        x = ( backgroundNode.getFullBoundsReference().getWidth() - buttonNode.getFullBoundsReference().getWidth() ) / 2;
         y = separatorNode2.getFullBoundsReference().getMaxY() + Y_SPACING;
-        newGameButtonWrapper.setOffset( x, y );
+        buttonNode.setOffset( x, y );
     }
 
     /*
