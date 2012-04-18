@@ -138,26 +138,52 @@ object RPALAnalysis extends StateMachine[SimState] {
     else state.copy(tab1 = state.tab1.next(e), time = e.time)
   }
 
-  def main(args: Array[String]) {
+  //Find the study given the filename. See http://stackoverflow.com/questions/5286885/how-to-split-this-string-by-regex
+  def study(text: String) = """\_""".r.split(text)(2)
 
-    val logs = phet load new File("C:\\Users\\Sam\\Desktop\\ms-data-revised")
+  def displayReport(name: String, mylogs: List[Log]) {
+    val logs = mylogs.filter(log => study(log.file.getName) == name)
     val reports = logs.map(toReport(_))
-    println("filename\t" + "" +
+    println("study\t" +
+            "filename\t" +
+            "sim version\t" +
             "time tab 1\t" +
             "time tab 2\t" +
-            "time real\t" +
-            "time model\t" +
+            "time tab 3\t" +
             "tab transitions\t" +
             "kit transitions\t" +
             "molecule transitions\t" +
             "view transitions")
 
     def format(x: Double) = new DecimalFormat("0.00").format(x)
-    reports.foreach(r => println(r.log.file.getName + "\t" +
+    reports.foreach(r => println(name + "\t" +
+                                 r.log.file.getName + "\t" +
+                                 r.log.simVersion + "\t" +
                                  format(r.minutesInTab(0)) + "\t" +
                                  format(r.minutesInTab(1)) + "\t" +
+                                 format(r.minutesInTab(2)) + "\t" +
                                  r.tabTransitions + "\t" +
                                  r.kitTransitions + "\t" +
                                  r.viewTransitions))
+  }
+
+  def main(args: Array[String]) {
+    displayReport("a1", phet load new File(args(0)))
+    displayReport("a2", phet load new File(args(0)))
+
+    //    val log = phet parse new File("C:\\Users\\Sam\\Desktop\\jc-analysis-4-16\\s011_m1p_a1_c1_2012-04-16_13-10-03_4pkk224opf68l94ngdlooepjfh_s66f1ighvkbr9bf5trsqac8if4t.txt")
+    //    val elapsed = log.endTime - log.startTime
+    //
+    //    val states = getStates(log)
+    //    println(elapsed / 1000.0 / 60.0 + " minutes")
+    //
+    //    val summedTime = states.map(_.time).sum / 1000.0 / 60.0
+    //    println("summed time = " + summedTime);
+    //
+    //    val userStates = states.slice(states.indexWhere(_.entry.messageType == "user"), states.lastIndexWhere(_.entry.messageType == "user") + 1)
+    //    val userSummedTime = userStates.map(_.time).sum / 1000.0 / 60.0
+    //    println("userSummedTime: " + userSummedTime)
+    //
+    //    userStates.map(_.start.tab).toList.foreach(println)
   }
 }
