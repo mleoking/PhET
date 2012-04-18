@@ -64,6 +64,9 @@ public class GameSettingsPanel extends GridPanel {
     private final GridPanel inputPanel;
     private int inputRow; // next control added to the "input panel" will appear in this row
 
+    //Default color for the "start game" and "new game" buttons
+    public static final Color DEFAULT_BUTTON_COLOR = new Color( 235, 235, 235 );
+
     /**
      * This constructor handles observes properties in GameSettings, and handles setting up the synchronization
      * between Property<T> observers and old-style GameSettingsPanelListener.
@@ -74,7 +77,7 @@ public class GameSettingsPanel extends GridPanel {
      * @param startFunction
      */
     public GameSettingsPanel( GameSettings gameSettings, VoidFunction0 startFunction ) {
-        this( gameSettings, startFunction, new PhetFont( 24 ), new PhetFont(), new PhetFont(), new Color( 235, 235, 235 ) );
+        this( gameSettings, startFunction, new PhetFont( 24 ), new PhetFont(), new PhetFont(), DEFAULT_BUTTON_COLOR );
     }
 
     public GameSettingsPanel( GameSettings gameSettings, VoidFunction0 startFunction, Color startButtonColor ) {
