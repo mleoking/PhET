@@ -20,6 +20,8 @@ public abstract @Data class SNode {
 
     abstract public ImmutableRectangle2D getBounds( GraphicsContext context );
 
+    public SNode translate( Vector2D delta ) { return translate( delta.x, delta.y ); }
+
     public SNode translate( final double dx, final double dy ) {
         return new WithTransform( AffineTransform.getTranslateInstance( dx, dy ), this );
     }
