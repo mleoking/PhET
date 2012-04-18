@@ -16,6 +16,8 @@ public @Data class GameInfo {
     //State for checks.
     public final Mode mode;
     public final int score;
+
+    //Time in seconds
     public final long time;
     public final long bestTime;
     public final boolean timerVisible;

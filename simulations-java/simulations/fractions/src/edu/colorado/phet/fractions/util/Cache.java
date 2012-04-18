@@ -13,27 +13,31 @@ import java.util.HashMap;
  */
 public class Cache<T, U> extends F<T, U> {
     private final F<T, U> f;
+    private final boolean debug;
     private final HashMap<T, U> map = new HashMap<T, U>();
 
-    private static final boolean debugMisses = false;
+    public Cache( F<T, U> f ) { this( f, false ); }
 
-    public Cache( F<T, U> f ) {
+    public Cache( F<T, U> f, boolean debug ) {
         this.f = f;
+        this.debug = debug;
     }
 
     @Override public U f( T t ) {
         if ( !map.containsKey( t ) ) {
-            if ( debugMisses ) { System.out.println( "cache miss for key = " + t ); }
-            map.put( t, f.f( t ) );
+            if ( debug ) { System.out.println( "cache miss for key = " + t ); }
+            final U result = f.f( t );
+            map.put( t, result );
+            return result;
         }
         else {
-            if ( debugMisses ) { System.out.println( "cache hit for key = " + t ); }
+            if ( debug ) { System.out.println( "cache hit for key = " + t ); }
+            return map.get( t );
         }
-        return map.get( t );
     }
 
     //Utility method to avoid providing type arguments in client instantiation
-    public static <T, U> Cache<T, U> cache( F<T, U> f ) {
-        return new Cache<T, U>( f );
-    }
+    public static <T, U> Cache<T, U> cache( F<T, U> f ) { return new Cache<T, U>( f, false ); }
+
+    public static <T, U> Cache<T, U> cache( F<T, U> f, boolean debug ) { return new Cache<T, U>( f, debug ); }
 }

@@ -91,7 +91,7 @@ import static fj.data.List.range;
             @Override public MovableFraction f( MovableFraction f ) {
                 return f.stepInTime( new UpdateArgs( f, dt, MatchingGameState.this ) );
             }
-        } ) );
+        } ) ).withInfo( info.withTime( info.time + (long) ( dt * 1000.0 ) ) );
     }
 
     public Option<MovableFraction> getScaleFraction( final Scale scale ) {

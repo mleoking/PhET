@@ -1,6 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractionsintro.matchinggame.model;
 
+import javax.swing.SwingUtilities;
+
 import edu.colorado.phet.common.games.GameAudioPlayer;
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -30,10 +32,17 @@ public class MatchingGameModel {
             }
         } );
     }};
-    public Clock clock = new ConstantDtClock( 60 ) {{
+    public Clock clock = new ConstantDtClock( 60.0 ) {{
         addClockListener( new ClockAdapter() {
-            @Override public void simulationTimeChanged( ClockEvent clockEvent ) {
-                state.set( state.get().stepInTime( clockEvent.getSimulationTimeChange() ) );
+            @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
+                SwingUtilities.invokeLater( new Runnable() {
+                    @Override public void run() {
+                        final MatchingGameState init = state.get();
+                        final MatchingGameState value = init.stepInTime( clockEvent.getSimulationTimeChange() );
+//                        System.out.println( "stepping in time, before = " + init.info + ", after = " + value.info );
+                        state.set( value );
+                    }
+                } );
             }
         } );
     }};
