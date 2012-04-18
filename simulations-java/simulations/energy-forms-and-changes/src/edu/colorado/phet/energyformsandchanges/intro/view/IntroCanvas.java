@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.energyformsandchanges.intro.model.IntroModel;
@@ -20,7 +21,13 @@ import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEF
  * @author John Blanco
  */
 public class IntroCanvas extends PhetPCanvas {
-    public IntroCanvas( IntroModel model ) {
+
+    /**
+     * Constructor.
+     *
+     * @param model
+     */
+    public IntroCanvas( final IntroModel model ) {
 
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new CenteredStage( this ) );
@@ -42,18 +49,66 @@ public class IntroCanvas extends PhetPCanvas {
         final PNode rootNode = new PNode();
         addWorldChild( rootNode );
 
+        // Create some PNodes that will act as layers in order to create the
+        // needed Z-order behavior.
+        PNode backLayer = new PNode();
+        rootNode.addChild( backLayer );
+        PNode blockLayer = new PNode();
+        rootNode.addChild( blockLayer );
+        PNode frontLayer = new PNode();
+        rootNode.addChild( frontLayer );
+
         // Add the shelves.
         for ( Shelf shelf : model.getShelfList() ) {
-            rootNode.addChild( new ShelfNode( shelf, mvt ) );
+            backLayer.addChild( new ShelfNode( shelf, mvt ) );
         }
 
         // Add the burners.
-        rootNode.addChild( new BurnerNode( model.getLeftBurner(), mvt ) );
-        rootNode.addChild( new BurnerNode( model.getRightBurner(), mvt ) );
+        backLayer.addChild( new BurnerNode( model.getLeftBurner(), mvt ) );
+        backLayer.addChild( new BurnerNode( model.getRightBurner(), mvt ) );
 
         // Add the movable objects.
-        rootNode.addChild( new BlockNode( model.getBrick(), mvt ) );
-        rootNode.addChild( new BlockNode( model.getLeadBlock(), mvt ) );
-        rootNode.addChild( new BeakerNode( model, this, mvt ) );
+        final PNode brickNode = new BlockNode( model.getBrick(), mvt );
+        blockLayer.addChild( brickNode );
+        final PNode leadNode = new BlockNode( model.getLeadBlock(), mvt );
+        blockLayer.addChild( leadNode );
+        frontLayer.addChild( new BeakerNode( model, this, mvt ) );
+
+        // Create an observer that updates the Z-order of the blocks when the
+        // user controlled state changes.
+        SimpleObserver blockUserControlledObserver = new SimpleObserver() {
+            public void update() {
+                if ( model.getBrick().userControlled.get() ) {
+                    if ( model.getLeadBlock().isStackedUpon( model.getBrick() ) ) {
+                        brickNode.moveToBack();
+                    }
+                    else {
+                        brickNode.moveToFront();
+                    }
+                }
+                else if ( model.getLeadBlock().userControlled.get() ) {
+                    if ( model.getBrick().isStackedUpon( model.getLeadBlock() ) ) {
+                        leadNode.moveToBack();
+                    }
+                    else {
+                        leadNode.moveToFront();
+                    }
+                }
+                else {
+                    if ( model.getLeadBlock().position.get().getX() > model.getBrick().position.get().getX() ||
+                         model.getLeadBlock().position.get().getY() > model.getBrick().position.get().getY() ) {
+                        leadNode.moveToFront();
+                    }
+                    else {
+                        leadNode.moveToBack();
+                    }
+                }
+            }
+        };
+
+        // Update the Z-order of the blocks whenever the "userControlled" state
+        // of either changes.
+        model.getBrick().userControlled.addObserver( blockUserControlledObserver );
+        model.getLeadBlock().userControlled.addObserver( blockUserControlledObserver );
     }
 }
