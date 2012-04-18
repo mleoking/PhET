@@ -72,7 +72,9 @@ public class IntroCanvas extends PhetPCanvas {
         blockLayer.addChild( brickNode );
         final PNode leadNode = new BlockNode( model.getLeadBlock(), mvt );
         blockLayer.addChild( leadNode );
-        frontLayer.addChild( new BeakerNode( model, this, mvt ) );
+        BeakerView beakerView = new BeakerView( model, this, mvt );
+        frontLayer.addChild( beakerView.getFrontNode() );
+        backLayer.addChild( beakerView.getBackNode() );
 
         // Create an observer that updates the Z-order of the blocks when the
         // user controlled state changes.
