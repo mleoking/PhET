@@ -31,7 +31,7 @@ public @Data class WithTransform extends SNode {
         return new ImmutableRectangle2D( transform.createTransformedShape( child.getBounds( mockState ).toRectangle2D() ) );
     }
 
-    @Override protected Option<? extends SNode> pick( final Vector2D vector2D, final MockState mockState ) {
+    @Override protected Option<PickResult> pick( final Vector2D vector2D, final MockState mockState ) {
         try {
             return child.pick( new Vector2D( transform.inverseTransform( vector2D.toPoint2D(), null ) ), mockState );
         }

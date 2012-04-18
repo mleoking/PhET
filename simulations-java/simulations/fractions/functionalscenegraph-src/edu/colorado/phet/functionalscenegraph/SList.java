@@ -37,9 +37,9 @@ public class SList extends SNode {
         return rect;
     }
 
-    @Override protected Option<? extends SNode> pick( final Vector2D vector2D, final MockState mockState ) {
+    @Override protected Option<PickResult> pick( final Vector2D vector2D, final MockState mockState ) {
         for ( SNode sNode : children.reverse() ) {
-            final Option<? extends SNode> picked = sNode.pick( vector2D, mockState );
+            final Option<PickResult> picked = sNode.pick( vector2D, mockState );
             if ( picked.isSome() ) {
                 return picked;
             }

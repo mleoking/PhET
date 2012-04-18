@@ -25,8 +25,8 @@ public @Data class DrawText extends SNode {
         return new ImmutableRectangle2D( toTextLayout( mockState ).getBounds() );
     }
 
-    @Override protected Option<? extends SNode> pick( final Vector2D vector2D, final MockState mockState ) {
-        return toTextLayout( mockState ).getOutline( new AffineTransform() ).contains( vector2D.toPoint2D() ) ? Option.some( this ) : Option.<SNode>none();
+    @Override protected Option<PickResult> pick( final Vector2D vector2D, final MockState mockState ) {
+        return toTextLayout( mockState ).getOutline( new AffineTransform() ).contains( vector2D.toPoint2D() ) ? Option.some( new PickResult( this, mockState.getDragHandler() ) ) : Option.<PickResult>none();
     }
 
     private TextLayout toTextLayout( final GraphicsContext mockState ) {return new TextLayout( text, mockState.getFont(), mockState.getFontRenderContext() );}

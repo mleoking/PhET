@@ -1,6 +1,8 @@
 package edu.colorado.phet.functionalscenegraph;
 
+import fj.Effect;
 import fj.data.Option;
+import lombok.Data;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -20,6 +22,8 @@ import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 
@@ -33,13 +37,15 @@ public class SCanvas extends JComponent {
 
     //Make sure mock and Graphics2D use same font, so bounds will be right
     public static final Font DEFAULT_FONT = new PhetFont();
-    private Option<? extends SNode> pick;
+    private Option<PickResult> pick;
+    private Vector2D lastMousePoint = null;
 
-    public SCanvas( final SNode child ) {
-        this.child = new Property<SNode>( child );
+    public SCanvas( final SNode _child ) {
+        this.child = new Property<SNode>( _child );
         addMouseListener( new MouseAdapter() {
             @Override public void mousePressed( final MouseEvent e ) {
-                pick = child.pick( new Vector2D( e.getPoint() ) );
+                pick = child.get().pick( new Vector2D( e.getPoint() ) );
+                lastMousePoint = new Vector2D( e.getPoint() );
             }
 
             @Override public void mouseReleased( final MouseEvent e ) {
@@ -54,20 +60,29 @@ public class SCanvas extends JComponent {
                     //Eh, this will cause problems (failure to detect identical states, and stack overflows), we should collapse adjacent withTranslates.
 
                     //On second thought just send this to the model, and wait for them to send back a new tree.
+                    //In the most abstract sense, for purposes of this class, a model is a function that receives events and produces new SNodes.
 
+                    pick.some().dragHandler.e( new Vector2D( e.getPoint() ).minus( lastMousePoint ) );
                 }
+                lastMousePoint = new Vector2D( e.getPoint() );
             }
 
             @Override public void mouseMoved( final MouseEvent e ) {
                 //hit detection and show cursor hand
                 //should mouse location be in the model?
-                final Option<? extends SNode> picked = child.pick( new Vector2D( e.getPoint() ) );
+                final Option<PickResult> picked = child.get().pick( new Vector2D( e.getPoint() ) );
                 if ( picked.isSome() ) {
-                    setCursor( picked.some().getCursor() );
+                    setCursor( picked.some().node.getCursor() );
                 }
                 else {
                     setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
                 }
+            }
+        } );
+
+        this.child.addObserver( new SimpleObserver() {
+            @Override public void update() {
+                repaint();
             }
         } );
     }
@@ -85,18 +100,51 @@ public class SCanvas extends JComponent {
 
     public static void main( String[] args ) {
         new JFrame( "Test" ) {{
-            final SNode text = textNode( "Hello", new PhetFont( 30, true ), Color.blue ).translate( 100, 100 );
-            ImmutableRectangle2D bounds = text.getBounds();
-            System.out.println( "bounds = " + bounds );
-
-            DrawShape shape = new DrawShape( bounds );
-            SNode fillShape = new FillShape( bounds ).withPaint( Color.white );
-
-            setContentPane( new SCanvas( new SList( fillShape, shape, text, new FillShape( new Ellipse2D.Double( 0, 0, 100, 100 ) ) ).scale( 2 ) ) {{
+            final Property<State> model = new Property<State>( new State( new Vector2D( 50, 200 ) ) );
+            model.trace( "model changed" );
+            final SNode root = createRoot( model );
+            setContentPane( new SCanvas( root ) {{
                 setPreferredSize( new Dimension( 800, 600 ) );
+
+                //When the model updates, create a new node
+                model.addObserver( new VoidFunction1<State>() {
+                    @Override public void apply( final State state ) {
+                        child.set( createRoot( model ) );
+                        repaint();
+                    }
+                } );
+
             }} );
             pack();
             setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
         }}.setVisible( true );
+    }
+
+    //look up corresponding model element by ID?
+    //Better to provide different methods to dispatch to.  Should be attached to the node.
+    public static @Data class State {
+        public final Vector2D circlePosition;
+
+        public State withCirclePosition( final Vector2D circlePosition ) { return new State( circlePosition ); }
+    }
+
+    private static SNode createRoot( final Property<State> model ) {
+        final SNode text = textNode( "Hello", new PhetFont( 30, true ), Color.blue ).translate( 100, 100 );
+        ImmutableRectangle2D bounds = text.getBounds();
+        System.out.println( "bounds = " + bounds );
+
+        DrawShape shape = new DrawShape( bounds );
+        SNode fillShape = new FillShape( bounds ).withPaint( Color.white );
+
+        final SNode ellipse = new FillShape( new Ellipse2D.Double( 0, 0, 100, 100 ) ).translate( model.get().circlePosition.x, model.get().circlePosition.y ).
+                withDragEvent( new Effect<Vector2D>() {
+                    @Override public void e( final Vector2D vector2D ) {
+                        model.set( model.get().withCirclePosition( model.get().circlePosition.plus( vector2D ) ) );
+                    }
+                } );
+        return new SList( fillShape, shape, text, ellipse );
+
+        //Deltas not getting transformed yet
+//        .scale( 2 );
     }
 }

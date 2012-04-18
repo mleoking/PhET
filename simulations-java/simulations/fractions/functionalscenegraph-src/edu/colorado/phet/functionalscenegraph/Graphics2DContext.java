@@ -1,11 +1,15 @@
 package edu.colorado.phet.functionalscenegraph;
 
+import fj.Effect;
+
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
+
+import edu.colorado.phet.fractions.util.immutable.Vector2D;
 
 /**
  * @author Sam Reid
@@ -59,5 +63,8 @@ public class Graphics2DContext implements DrawableGraphicsContext {
 
     @Override public void setTransform( final AffineTransform orig ) {
         g.setTransform( orig );
+    }
+
+    @Override public void setDragHandler( final Effect<Vector2D> effect ) {
     }
 }

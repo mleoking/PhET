@@ -31,7 +31,7 @@ public @Data class DrawShape extends SNode {
     }
 
     //TODO: needs stroke
-    @Override protected Option<? extends SNode> pick( final Vector2D vector2D, final MockState mockState ) {
+    @Override protected Option<PickResult> pick( final Vector2D vector2D, final MockState mockState ) {
         return Option.none();
     }
 }

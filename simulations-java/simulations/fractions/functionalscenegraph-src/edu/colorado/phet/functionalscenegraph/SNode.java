@@ -1,5 +1,6 @@
 package edu.colorado.phet.functionalscenegraph;
 
+import fj.Effect;
 import fj.data.Option;
 import lombok.Data;
 
@@ -14,6 +15,7 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
  * @author Sam Reid
  */
 public abstract @Data class SNode {
+
     abstract public void render( final DrawableGraphicsContext context );
 
     abstract public ImmutableRectangle2D getBounds( GraphicsContext context );
@@ -28,14 +30,14 @@ public abstract @Data class SNode {
 
     public SNode withPaint( final Paint paint ) { return new WithPaint( paint, this );}
 
-    public Option<? extends SNode> pick( final Vector2D vector2D ) { return pick( vector2D, createMockState() ); }
+    public Option<PickResult> pick( final Vector2D vector2D ) { return pick( vector2D, createMockState() ); }
 
     private MockState createMockState() {return new MockState( SCanvas.DEFAULT_FONT );}
 
-    protected abstract Option<? extends SNode> pick( final Vector2D vector2D, final MockState mockState );
+    protected abstract Option<PickResult> pick( final Vector2D vector2D, final MockState mockState );
 
     //TODO: move to property effect
-    public Cursor getCursor() {
-        return Cursor.getPredefinedCursor( Cursor.HAND_CURSOR );
-    }
+    public Cursor getCursor() { return Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ); }
+
+    public SNode withDragEvent( final Effect<Vector2D> effect ) { return new WithDragEvent( effect, this ); }
 }
