@@ -36,7 +36,33 @@ object RPALRealTimeAnalysis extends App {
   }) {
     top.menuBar = new MenuBar {
       contents += new Menu("File") {
-        contents += new MenuItem(Action("Plot Directory"
+
+        contents += new MenuItem(Action("Show Time Plots"
+        ) {
+            val chooser = new JFileChooser() {
+              setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY)
+            }
+            val result = chooser.showOpenDialog(top.peer)
+            result match {
+              case JFileChooser.APPROVE_OPTION => RPALAnalysis.main(Array(chooser.getSelectedFile.getAbsolutePath))
+              case _ => {}
+            }
+          })
+
+        contents += new MenuItem(Action("Show Reports"
+        ) {
+            val chooser = new JFileChooser() {
+              setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY)
+            }
+            val result = chooser.showOpenDialog(top.peer)
+            result match {
+              case JFileChooser.APPROVE_OPTION => RPALShowAllReports.main(Array(chooser.getSelectedFile.getAbsolutePath))
+              case _ => {}
+            }
+          })
+
+
+        contents += new MenuItem(Action("Game plots"
         ) {
             val chooser = new JFileChooser() {
               setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY)
