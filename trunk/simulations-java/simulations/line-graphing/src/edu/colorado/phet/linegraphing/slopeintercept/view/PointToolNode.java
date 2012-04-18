@@ -61,10 +61,9 @@ class PointToolNode extends PhetPNode {
         coordinatesNode.setFont( new PhetFont( Font.BOLD, 15 ) );
 
         // display background, shows through a transparent hole in the display area portion of the body image
-        final int margin = 10;
-        final PPath backgroundNode = new PPath( new Rectangle2D.Double( 10, 5,
-                                                                        bodyNode.getFullBoundsReference().getWidth() - ( 2 * margin ),
-                                                                        0.65 * bodyNode.getFullBoundsReference().getHeight() ) );
+        final PPath backgroundNode = new PPath( new Rectangle2D.Double( 5, 5,
+                                                                        bodyNode.getFullBoundsReference().getWidth() - 10,
+                                                                        0.55 * bodyNode.getFullBoundsReference().getHeight() ) );
         backgroundNode.setStroke( null );
         backgroundNode.setOffset( bodyNode.getOffset() );
 

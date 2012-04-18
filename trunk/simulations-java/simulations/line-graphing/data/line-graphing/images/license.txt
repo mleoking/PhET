@@ -1,4 +1,4 @@
-point-tool.png author=PhET notes=hacked together using piccolo-phet/*/velocity*.png
+point_tool.png author=PhET notes=created by Ariel Paul
 spinner_down_gray.png author=PhET notes=copied from fractions
 spinner_down_pressed_green.png author=PhET notes=copied from fractions
 spinner_down_pressed_yellow.png author=PhET notes=copied from fractions

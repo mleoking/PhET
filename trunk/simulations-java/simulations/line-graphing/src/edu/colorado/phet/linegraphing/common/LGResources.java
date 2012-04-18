@@ -38,7 +38,7 @@ public class LGResources {
 
     public static class Images {
 
-        public static final Image POINT_TOOL = RESOURCES.getImage( "point-tool.png" );
+        public static final Image POINT_TOOL = RESOURCES.getImage( "point_tool.png" );
 
         public static final Image MINIMIZE_BUTTON = PhetCommonResources.getImage( "buttons/minimizeButton.png" );
         public static final Image MAXIMIZE_BUTTON = PhetCommonResources.getImage( "buttons/maximizeButton.png" );
