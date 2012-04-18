@@ -32,11 +32,13 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Piccolo node that represents a beaker in the view.
+ * Object that represents a beaker in the view.  This representation is split
+ * between a front node and a back node, which must be separately added to the
+ * canvas.  This is done to allow a layering effect.
  *
  * @author John Blanco
  */
-public class BeakerNode extends PNode {
+public class BeakerView {
 
     private static final Stroke OUTLINE_STROKE = new BasicStroke( 3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
     private static final Color OUTLINE_COLOR = Color.LIGHT_GRAY;
@@ -48,7 +50,10 @@ public class BeakerNode extends PNode {
     private final PhetPCanvas canvas;
     private final ModelViewTransform mvt;
 
-    public BeakerNode( final IntroModel model, PhetPCanvas canvas, final ModelViewTransform mvt ) {
+    private final PNode frontNode = new PNode();
+    private final PNode backNode = new PNode();
+
+    public BeakerView( final IntroModel model, PhetPCanvas canvas, final ModelViewTransform mvt ) {
 
         this.mvt = mvt;
         this.canvas = canvas;
@@ -68,45 +73,46 @@ public class BeakerNode extends PNode {
         final Ellipse2D.Double bottomEllipse = new Ellipse2D.Double( beakerViewRect.getMinX(), beakerViewRect.getMaxY() - ellipseHeight / 2, beakerViewRect.getWidth(), ellipseHeight );
 
         // Add the bottom ellipse.
-        addChild( new PhetPPath( bottomEllipse, BEAKER_COLOR, OUTLINE_STROKE, OUTLINE_COLOR ) );
+        backNode.addChild( new PhetPPath( bottomEllipse, BEAKER_COLOR, OUTLINE_STROKE, OUTLINE_COLOR ) );
 
         // Create and add the shape for the body of the beaker.
         Area beakerBody = new Area( beakerViewRect );
         beakerBody.add( new Area( bottomEllipse ) );
         beakerBody.subtract( new Area( topEllipse ) );
-        addChild( new PhetPPath( beakerBody, BEAKER_COLOR, OUTLINE_STROKE, OUTLINE_COLOR ) );
+        frontNode.addChild( new PhetPPath( beakerBody, BEAKER_COLOR, OUTLINE_STROKE, OUTLINE_COLOR ) );
 
         // Add the water.  It will adjust its size based on the fluid level.
-        addChild( new PerspectiveWaterNode( beakerViewRect, model.getBeaker().fluidLevel ) );
+        frontNode.addChild( new PerspectiveWaterNode( beakerViewRect, model.getBeaker().fluidLevel ) );
 
         // Add the top ellipse.  It is behind the water for proper Z-order behavior.
-        addChild( new PhetPPath( topEllipse, BEAKER_COLOR, OUTLINE_STROKE, OUTLINE_COLOR ) );
+        backNode.addChild( new PhetPPath( topEllipse, BEAKER_COLOR, OUTLINE_STROKE, OUTLINE_COLOR ) );
 
         // Add the label.
         PText label = new PText( "Water" );
         label.setFont( LABEL_FONT );
         label.centerFullBoundsOnPoint( beakerViewRect.getCenterX(), beakerViewRect.getMinY() + label.getFullBoundsReference().height * 2 );
-        addChild( label );
+        frontNode.addChild( label );
 
         // If enabled, show the outline of the rectangle that represents the
         // beaker's position in the model.
         if ( SHOW_MODEL_RECT ) {
-            addChild( new PhetPPath( beakerViewRect, new BasicStroke( 1 ), Color.RED ) );
+            frontNode.addChild( new PhetPPath( beakerViewRect, new BasicStroke( 1 ), Color.RED ) );
         }
 
         // Update the offset if and when the model position changes.
         model.getBeaker().position.addObserver( new VoidFunction1<ImmutableVector2D>() {
             public void apply( ImmutableVector2D position ) {
-                setOffset( mvt.modelToView( position ).toPoint2D() );
+                frontNode.setOffset( mvt.modelToView( position ).toPoint2D() );
+                backNode.setOffset( mvt.modelToView( position ).toPoint2D() );
             }
         } );
 
         // Add the cursor handler.
-        addInputEventListener( new CursorHandler( CursorHandler.HAND ) );
+        frontNode.addInputEventListener( new CursorHandler( CursorHandler.HAND ) );
 
         // Add the drag handler.  This handler is a bit tricky, since it needs
         // to handle the case where a block is inside the beaker.
-        addInputEventListener( new PBasicInputEventHandler() {
+        frontNode.addInputEventListener( new PBasicInputEventHandler() {
 
             UserMovableModelElement elementToMove = model.getBeaker();
 
@@ -127,7 +133,7 @@ public class BeakerNode extends PNode {
             @Override
             public void mouseDragged( PInputEvent event ) {
                 // TODO: Sim sharing.  See ModelElementCreatorNode in Balance and Torque for an example.
-                PDimension viewDelta = event.getDeltaRelativeTo( BeakerNode.this.getParent() );
+                PDimension viewDelta = event.getDeltaRelativeTo( frontNode.getParent() );
                 ImmutableVector2D modelDelta = mvt.viewToModelDelta( new ImmutableVector2D( viewDelta ) );
                 elementToMove.translate( modelDelta );
             }
@@ -198,5 +204,13 @@ public class BeakerNode extends PNode {
                 }
             } );
         }
+    }
+
+    public PNode getFrontNode() {
+        return frontNode;
+    }
+
+    public PNode getBackNode() {
+        return backNode;
     }
 }
