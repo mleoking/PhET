@@ -48,6 +48,8 @@ public class Model {
     var view_arr: Array;		//views of this model
     var nbrViews: int;		//number of views
 
+    private var hasAnimationStarted: Boolean = false;
+
     public var isIntro: Boolean;
 
     public function Model( isIntro: Boolean ) {
@@ -206,6 +208,7 @@ public class Model {
     }
 
     public function resetAll(): void {
+        hasAnimationStarted = false;
         this.resetting = true;
         this.setOneDMode( false );
         this.setReflectingBorder( true );
@@ -256,6 +259,7 @@ public class Model {
 
     //called whenever reset button pushed by user or when nbrBalls changes
     public function initializePositions(): void {
+        hasAnimationStarted = false;
         this.atInitialConfig = true;
         this.starting = true;
         for ( var i: int = 0; i < this.nbrBalls; i++ ) {
@@ -311,6 +315,9 @@ public class Model {
             this.initPos[indx].setX( xPos );
             this.setTimeToZero();
         }
+        if( !hasAnimationStarted ) {
+            this.ball_arr[indx].setAsInitialState();
+        }
         this.setCenterOfMass();
         if ( !playing ) {this.updateViews();}  //when playing, singleStep() controls updateVeiws
     }
@@ -350,6 +357,9 @@ public class Model {
         if ( this.atInitialConfig ) {
             this.initVel[indx].setX( xVel );
             this.setTimeToZero();
+        }
+        if( !hasAnimationStarted ) {
+            this.ball_arr[indx].setAsInitialState();
         }
         if ( !playing ) {this.updateViews();}
     }
@@ -393,6 +403,7 @@ public class Model {
     }
 
     public function singleStep(): void {
+        hasAnimationStarted = true;
         this.nbrCollisionsInThisTimeStep = 0;
         if ( this.atInitialConfig ) {this.atInitialConfig = false;}
         var dt: Number;
