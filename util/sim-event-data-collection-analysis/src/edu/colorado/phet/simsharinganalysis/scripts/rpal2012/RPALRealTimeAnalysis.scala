@@ -24,7 +24,7 @@ object RPALRealTimeAnalysis extends App {
   new RealTimeAnalysis(log => {
     val states = RPALAnalysis getStates log
     canvas.getLayer.removeAllChildren()
-    canvas.getLayer.addChild(new TimelineNode(states))
+    canvas.getLayer.addChild(new TimelineNode(states, log.startTime, log.endTime))
 
     RPALAnalysis.toReport(log).toString + "\n" +
     "Tab " + states.last.end.tab + "\n" +
