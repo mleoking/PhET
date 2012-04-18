@@ -6,6 +6,7 @@ import edu.colorado.phet.simsharinganalysis.{phet, Entry, Log}
 import java.io.File
 import java.text.DecimalFormat
 import collection.mutable.ArrayBuffer
+import scala.Double
 
 /**
  * @author Sam Reid
@@ -185,5 +186,49 @@ object RPALAnalysis extends StateMachine[SimState] {
     //    println("userSummedTime: " + userSummedTime)
     //
     //    userStates.map(_.start.tab).toList.foreach(println)
+
+    reportOnHowManyA1GroupsCompletedEachGameLevel(phet load new File(args(0)))
+  }
+
+  /*
+  KL said on 4/18/2012:
+
+  I am more interested in how many A1 groups completed each game level.
+  I imagine it would look something like this:
+
+  Total A1 groups: 20
+
+  Level 1 complete: 18 groups
+  Level 2 complete: 14
+  Level 3 complete: 10
+  Level 1 hidden complete: 6
+  Level 2 hidden complete: 4
+  Level 3 hidden complete: 2
+
+  The "hidden" levels are ones where the groups hid the molecules or the
+  numbers. I think this would give a better indication than time on game
+  tab of how far the groups were able to get in the A1 activity.
+   */
+  def reportOnHowManyA1GroupsCompletedEachGameLevel(_logs: List[Log]) {
+    val a1Logs = _logs.filter(log => study(log.file.getName) == "a1")
+    println("Total A1 Groups: " + a1Logs.length)
+
+    import edu.colorado.phet.simsharinganalysis.scripts.rpal2012.Hiding
+    import Hiding._
+    def countGroups(desiredLevel: Int, rule: Hiding => Boolean) = a1Logs.count(log => {
+      new Report(log).gameResults.exists(result => result.level == desiredLevel && result.finished && rule(result.hiding))
+    })
+
+    println("Level 1 complete: " + countGroups(1, _ == nothing) + " groups")
+    println("Level 2 complete: " + countGroups(2, _ == nothing) + " groups")
+    println("Level 3 complete: " + countGroups(3, _ == nothing) + " groups")
+    println("Level 1 complete (hiding something): " + countGroups(1, _ != nothing) + " groups")
+    println("Level 2 complete (hiding something): " + countGroups(2, _ != nothing) + " groups")
+    println("Level 3 complete (hiding something): " + countGroups(3, _ != nothing) + " groups")
+
+    a1Logs.map(log => {
+      val report = new Report(log)
+      report.gameResults.map(_.hiding)
+    }).foreach(println)
   }
 }
