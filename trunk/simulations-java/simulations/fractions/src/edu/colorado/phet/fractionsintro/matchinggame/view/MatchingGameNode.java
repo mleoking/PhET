@@ -2,6 +2,7 @@
 package edu.colorado.phet.fractionsintro.matchinggame.view;
 
 import fj.F;
+import lombok.Data;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -13,12 +14,8 @@ import java.awt.geom.AffineTransform;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.games.GameOverNode;
-import edu.colorado.phet.common.games.GameSettings;
-import edu.colorado.phet.common.games.GameSettingsPanel;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
-import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
@@ -26,23 +23,22 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractions.view.FNode;
 import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Cell;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
-import edu.colorado.phet.fractionsintro.matchinggame.model.Mode;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MovableFraction;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Scale;
 import edu.colorado.phet.fractionsintro.matchinggame.view.Controller.Next;
 import edu.colorado.phet.fractionsintro.matchinggame.view.Controller.ShowAnswer;
 import edu.colorado.phet.fractionsintro.matchinggame.view.Controller.TryAgain;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
-import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.*;
+import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.showAnswerButton;
+import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.tryAgainButton;
 import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
 import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.STAGE_SIZE;
-import static edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState.initialState;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState.newLevel;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Mode.*;
 import static java.awt.Color.lightGray;
@@ -57,28 +53,9 @@ public class MatchingGameNode extends FNode {
 
     private final SettableProperty<MatchingGameState> model;
 
-    public MatchingGameNode( final boolean showDeveloperControls, final SettableProperty<MatchingGameState> model, final PNode rootNode ) {
+    public MatchingGameNode( final boolean showDeveloperControls, final SettableProperty<MatchingGameState> model, final PNode rootNode, final F<ButtonArgs, Button> buttonFactory ) {
         this.model = model;
         final MatchingGameState state = model.get();
-
-        //Show the settings dialog
-        if ( state.getMode() == CHOOSING_SETTINGS ) {
-            final GameSettings gameSettings = new GameSettings( new IntegerRange( 1, 6, 1 ), false, false );
-            final VoidFunction0 startGame = new VoidFunction0() {
-                @Override public void apply() {
-                    model.set( newLevel( gameSettings.level.get() ).
-                            withMode( Mode.WAITING_FOR_USER_TO_CHECK_ANSWER ).
-                            withAudio( gameSettings.soundEnabled.get() ) );
-                }
-            };
-            final PSwing settingsDialog = new PSwing( new GameSettingsPanel( gameSettings, startGame ) ) {{
-                scale( MatchingGameCanvas.GAME_UI_SCALE );
-                setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.height / 2 - getFullBounds().getHeight() / 2 );
-            }};
-
-            addChild( settingsDialog );
-            return;
-        }
 
         final PNode scales = new RichPNode( state.leftScale.toNode(), state.rightScale.toNode() );
         addChild( scales );
@@ -110,8 +87,8 @@ public class MatchingGameNode extends FNode {
             setOffset( scoreCellsLayer.getChild( 0 ).getFullBounds().getCenterX() - getFullWidth() / 2, scoreCellsLayer.getMaxY() );
         }} );
 
-        final ImmutableVector2D buttonLocation = new ImmutableVector2D( state.getLastDroppedScaleRight() ? scalesNode.getFullBounds().getMaxX() + 80 : scalesNode.getFullBounds().getX() - 80,
-                                                                        scalesNode.getFullBounds().getCenterY() );
+        final Vector2D buttonLocation = new Vector2D( state.getLastDroppedScaleRight() ? scalesNode.getFullBounds().getMaxX() + 80 : scalesNode.getFullBounds().getX() - 80,
+                                                      scalesNode.getFullBounds().getCenterY() );
 
         //Show the sign
         if ( revealClues ) {
@@ -119,32 +96,20 @@ public class MatchingGameNode extends FNode {
         }
 
         if ( state.getLeftScaleValue() > 0 && state.getRightScaleValue() > 0 ) {
-            System.out.println( "state = " + state.getMode() + ", state.checks = " + state.getChecks() );
+//            System.out.println( "state = " + state.getMode() + ", state.checks = " + state.getChecks() );
 
             if ( state.getMode() == SHOWING_WHY_ANSWER_WRONG ) {
                 if ( state.getChecks() < 2 ) {
-                    addChild( new Button( tryAgainButton, "Try again", Color.red, buttonLocation, new ActionListener() {
-                        @Override public void actionPerformed( final ActionEvent e ) {
-                            updateWith( new TryAgain() );
-                        }
-                    } ) );
+                    addChild( buttonFactory.f( new ButtonArgs( tryAgainButton, "Try again", Color.red, buttonLocation, new TryAgain() ) ) );
                 }
                 else {
-                    addChild( new Button( showAnswerButton, "Show answer", Color.red, buttonLocation, new ActionListener() {
-                        @Override public void actionPerformed( final ActionEvent e ) {
-                            updateWith( new ShowAnswer() );
-                        }
-                    } ) );
+                    addChild( buttonFactory.f( new ButtonArgs( showAnswerButton, "Show answer", Color.red, buttonLocation, new ShowAnswer() ) ) );
                 }
             }
 
             //TODO: This shows a flicker of "check answer" after user presses next, needs to be fixed
             else if ( state.getChecks() < 2 && state.getMode() == WAITING_FOR_USER_TO_CHECK_ANSWER ) {
-                addChild( new Button( checkAnswerButton, "Check answer", Color.orange, buttonLocation, new ActionListener() {
-                    @Override public void actionPerformed( final ActionEvent e ) {
-                        updateWith( new CheckAnswer() );
-                    }
-                } ) );
+                addChild( buttonFactory.f( new ButtonArgs( Components.checkAnswerButton, "Check answer", Color.orange, buttonLocation, new CheckAnswer() ) ) );
             }
 
             //If they match, show a "Keep" button. This allows the student to look at the right answer as long as they want before moving it to the scoreboard.
@@ -152,23 +117,15 @@ public class MatchingGameNode extends FNode {
                 addSignNode( state, scales );
 
                 addChild( new VBox( new FaceNode( 200 ), new PhetPText( state.getChecks() == 1 ? "+2" : "+1", new PhetFont( 18, true ) ) ) {{
-                    final ImmutableVector2D pt = buttonLocation.plus( 0, -150 );
+                    final Vector2D pt = buttonLocation.plus( 0, -150 );
                     centerFullBoundsOnPoint( pt.getX(), pt.getY() );
                 }} );
 
-                addChild( new Button( Components.keepMatchButton, "Next", Color.green, buttonLocation, new ActionListener() {
-                    @Override public void actionPerformed( ActionEvent e ) {
-                        updateWith( new Next() );
-                    }
-                } ) );
+                addChild( buttonFactory.f( new ButtonArgs( Components.keepMatchButton, "Next", Color.green, buttonLocation, new Next() ) ) );
             }
 
             if ( state.getMode() == SHOWING_CORRECT_ANSWER_AFTER_INCORRECT_GUESS ) {
-                addChild( new Button( Components.keepMatchButton, "Next", Color.green, buttonLocation, new ActionListener() {
-                    @Override public void actionPerformed( ActionEvent e ) {
-                        updateWith( new Next() );
-                    }
-                } ) );
+                addChild( buttonFactory.f( new ButtonArgs( Components.keepMatchButton, "Next", Color.green, buttonLocation, new Next() ) ) );
             }
         }
         state.scoreCells.take( state.scored ).map( new F<Cell, PNode>() {
@@ -213,28 +170,36 @@ public class MatchingGameNode extends FNode {
             setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - INSET, scoreCellsLayer.getMaxY() + INSET );
         }} );
 
-        if ( showDeveloperControls && false ) {
-            showDeveloperControls( model, newLevel, nextLevel );
-        }
+//        if ( showDeveloperControls && false ) {
+//            showDeveloperControls( model, newLevel, nextLevel );
+//        }
     }
 
-    private void showDeveloperControls( final SettableProperty<MatchingGameState> model, final int newLevel, final ActionListener nextLevel ) {
-        addChild( new VBox(
-                new Button( null, "Reset", Color.yellow, ImmutableVector2D.ZERO, new ActionListener() {
-                    @Override public void actionPerformed( final ActionEvent e ) {
-                        model.set( initialState() );
-                    }
-                } ),
-                new Button( null, "Resample", Color.yellow, ImmutableVector2D.ZERO, new ActionListener() {
-                    @Override public void actionPerformed( final ActionEvent e ) {
-                        model.set( newLevel( model.get().info.level ) );
-                    }
-                } ),
-                new Button( null, "Skip to level " + newLevel, Color.yellow, ImmutableVector2D.ZERO, nextLevel )
-        ) {{
-            setOffset( 0, 200 );
-        }} );
+    public static @Data class ButtonArgs {
+        public final IUserComponent component;
+        public final String text;
+        public final Color color;
+        public final Vector2D location;
+        public final F<MatchingGameState, MatchingGameState> listener;
     }
+
+//    private void showDeveloperControls( final SettableProperty<MatchingGameState> model, final int newLevel, final ActionListener nextLevel ) {
+//        addChild( new VBox(
+//                new Button( null, "Reset", Color.yellow, Vector2D.ZERO, new ActionListener() {
+//                    @Override public void actionPerformed( final ActionEvent e ) {
+//                        model.set( initialState() );
+//                    }
+//                } ),
+//                new Button( null, "Resample", Color.yellow, Vector2D.ZERO, new ActionListener() {
+//                    @Override public void actionPerformed( final ActionEvent e ) {
+//                        model.set( newLevel( model.get().info.level ) );
+//                    }
+//                } ),
+//                new Button( null, "Skip to level " + newLevel, Color.yellow, Vector2D.ZERO, nextLevel )
+//        ) {{
+//            setOffset( 0, 200 );
+//        }} );
+//    }
 
     //Apply the specified function to the model
     public void updateWith( final F<MatchingGameState, MatchingGameState> f ) { model.set( f.f( model.get() ) ); }

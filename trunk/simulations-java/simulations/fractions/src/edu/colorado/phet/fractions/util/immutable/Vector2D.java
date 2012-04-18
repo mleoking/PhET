@@ -21,6 +21,7 @@ import static java.lang.Math.sin;
 @Data public class Vector2D {
     public final double x;
     public final double y;
+    public static final Vector2D ZERO = new Vector2D( 0, 0 );
 
     //Have to provide required args constructor because we provide auxiliary constructors
     public Vector2D( double x, double y ) {
