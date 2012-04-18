@@ -1,8 +1,8 @@
 package edu.colorado.phet.functionalscenegraph;
 
 import fj.Effect;
-import fj.F;
 import fj.data.List;
+import fj.data.Option;
 
 import java.util.Arrays;
 
@@ -37,11 +37,13 @@ public class SList extends SNode {
         return rect;
     }
 
-    @Override protected boolean hits( final Vector2D vector2D, final MockState mockState ) {
-        return children.find( new F<SNode, Boolean>() {
-            @Override public Boolean f( final SNode sNode ) {
-                return sNode.hits( vector2D, mockState );
+    @Override protected Option<? extends SNode> pick( final Vector2D vector2D, final MockState mockState ) {
+        for ( SNode sNode : children.reverse() ) {
+            final Option<? extends SNode> picked = sNode.pick( vector2D, mockState );
+            if ( picked.isSome() ) {
+                return picked;
             }
-        } ).isSome();
+        }
+        return Option.none();
     }
 }

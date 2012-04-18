@@ -2,6 +2,7 @@ package edu.colorado.phet.functionalscenegraph;
 
 import fj.Effect;
 import fj.F;
+import fj.data.Option;
 import lombok.Data;
 
 import java.awt.Font;
@@ -42,10 +43,10 @@ public @Data class WithFont extends SNode {
         } );
     }
 
-    @Override protected boolean hits( final Vector2D vector2D, final MockState mockState ) {
-        return apply( mockState, new F<MockState, Boolean>() {
-            @Override public Boolean f( final MockState mockState ) {
-                return child.hits( vector2D, mockState );
+    @Override protected Option<? extends SNode> pick( final Vector2D vector2D, final MockState mockState ) {
+        return apply( mockState, new F<MockState, Option<? extends SNode>>() {
+            @Override public Option<? extends SNode> f( final MockState mockState ) {
+                return child.pick( vector2D, mockState );
             }
         } );
     }

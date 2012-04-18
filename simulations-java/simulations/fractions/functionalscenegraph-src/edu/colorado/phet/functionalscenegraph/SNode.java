@@ -1,7 +1,9 @@
 package edu.colorado.phet.functionalscenegraph;
 
+import fj.data.Option;
 import lombok.Data;
 
+import java.awt.Cursor;
 import java.awt.Paint;
 import java.awt.geom.AffineTransform;
 
@@ -26,9 +28,14 @@ public abstract @Data class SNode {
 
     public SNode withPaint( final Paint paint ) { return new WithPaint( paint, this );}
 
-    public boolean hits( final Vector2D vector2D ) { return hits( vector2D, createMockState() ); }
+    public Option<? extends SNode> pick( final Vector2D vector2D ) { return pick( vector2D, createMockState() ); }
 
     private MockState createMockState() {return new MockState( SCanvas.DEFAULT_FONT );}
 
-    protected abstract boolean hits( final Vector2D vector2D, final MockState mockState );
+    protected abstract Option<? extends SNode> pick( final Vector2D vector2D, final MockState mockState );
+
+    //TODO: move to property effect
+    public Cursor getCursor() {
+        return Cursor.getPredefinedCursor( Cursor.HAND_CURSOR );
+    }
 }

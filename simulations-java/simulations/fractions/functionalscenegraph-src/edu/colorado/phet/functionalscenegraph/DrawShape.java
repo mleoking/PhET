@@ -1,5 +1,6 @@
 package edu.colorado.phet.functionalscenegraph;
 
+import fj.data.Option;
 import lombok.Data;
 
 import java.awt.Shape;
@@ -30,7 +31,7 @@ public @Data class DrawShape extends SNode {
     }
 
     //TODO: needs stroke
-    @Override protected boolean hits( final Vector2D vector2D, final MockState mockState ) {
-        return false;
+    @Override protected Option<? extends SNode> pick( final Vector2D vector2D, final MockState mockState ) {
+        return Option.none();
     }
 }

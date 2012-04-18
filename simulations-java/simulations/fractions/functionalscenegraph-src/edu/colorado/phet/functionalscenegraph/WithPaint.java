@@ -1,5 +1,6 @@
 package edu.colorado.phet.functionalscenegraph;
 
+import fj.data.Option;
 import lombok.Data;
 
 import java.awt.Paint;
@@ -27,7 +28,7 @@ public @Data class WithPaint extends SNode {
         return child.getBounds( mockState );
     }
 
-    @Override protected boolean hits( final Vector2D vector2D, final MockState mockState ) {
-        return child.hits( vector2D, mockState );
+    @Override protected Option<? extends SNode> pick( final Vector2D vector2D, final MockState mockState ) {
+        return child.pick( vector2D, mockState );
     }
 }

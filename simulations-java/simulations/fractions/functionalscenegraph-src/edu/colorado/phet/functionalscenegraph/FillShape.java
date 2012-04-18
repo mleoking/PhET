@@ -1,5 +1,6 @@
 package edu.colorado.phet.functionalscenegraph;
 
+import fj.data.Option;
 import lombok.Data;
 
 import java.awt.Shape;
@@ -29,7 +30,7 @@ public @Data class FillShape extends SNode {
         return new ImmutableRectangle2D( shape.getBounds2D() );
     }
 
-    @Override protected boolean hits( final Vector2D vector2D, final MockState mockState ) {
-        return shape.contains( vector2D.x, vector2D.y );
+    @Override protected Option<? extends SNode> pick( final Vector2D vector2D, final MockState mockState ) {
+        return shape.contains( vector2D.x, vector2D.y ) ? Option.some( this ) : Option.<SNode>none();
     }
 }
