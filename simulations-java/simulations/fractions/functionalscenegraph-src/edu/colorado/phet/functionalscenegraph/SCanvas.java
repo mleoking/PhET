@@ -136,7 +136,7 @@ public class SCanvas extends JComponent {
         DrawShape shape = new DrawShape( bounds );
         SNode fillShape = new FillShape( bounds ).withPaint( Color.white );
 
-        final SNode ellipse = new FillShape( new Ellipse2D.Double( 0, 0, 100, 100 ) ).translate( model.get().circlePosition.x, model.get().circlePosition.y ).
+        final SNode ellipse = new FillShape( new Ellipse2D.Double( 0, 0, 100, 100 ) ).translate( model.get().circlePosition ).
                 withDragEvent( new Effect<Vector2D>() {
                     @Override public void e( final Vector2D vector2D ) {
                         model.set( model.get().withCirclePosition( model.get().circlePosition.plus( vector2D ) ) );
