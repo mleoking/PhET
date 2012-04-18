@@ -2,20 +2,14 @@
 package edu.colorado.phet.fractionsintro.matchinggame.view;
 
 import fj.F;
-import lombok.Data;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Shape;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
-import java.text.DecimalFormat;
 
-import edu.colorado.phet.common.games.GameOverNode;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
@@ -39,7 +33,6 @@ import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Componen
 import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.tryAgainButton;
 import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
 import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.STAGE_SIZE;
-import static edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState.newLevel;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Mode.*;
 import static java.awt.Color.lightGray;
 import static java.awt.Color.yellow;
@@ -146,26 +139,6 @@ public class MatchingGameNode extends FNode {
             }
         } ).foreach( addChild );
 
-        final int newLevel = state.info.level + 1;
-        final ActionListener nextLevel = new ActionListener() {
-            @Override public void actionPerformed( ActionEvent e ) {
-                model.set( newLevel( newLevel ).withAudio( state.info.audio ) );
-            }
-        };
-
-        if ( state.scored == state.scoreCells.length() ) {
-            GameOverNode gameOverNode = new GameOverNode( state.info.level, state.info.score, 12, new DecimalFormat( "0" ), state.info.time, state.info.bestTime, state.info.time >= state.info.bestTime, state.info.timerVisible ) {{
-                scale( MatchingGameCanvas.GAME_UI_SCALE );
-                centerFullBoundsOnPoint( STAGE_SIZE.getWidth() / 2, STAGE_SIZE.getHeight() / 2 );
-                addGameOverListener( new GameOverListener() {
-                    @Override public void newGamePressed() {
-                        model.set( model.get().newGame() );
-                    }
-                } );
-            }};
-            addChild( gameOverNode );
-        }
-
         addChild( new ScoreboardNode( model ) {{
             setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - INSET, scoreCellsLayer.getMaxY() + INSET );
         }} );
@@ -175,15 +148,14 @@ public class MatchingGameNode extends FNode {
 //        }
     }
 
-    public static @Data class ButtonArgs {
-        public final IUserComponent component;
-        public final String text;
-        public final Color color;
-        public final Vector2D location;
-        public final F<MatchingGameState, MatchingGameState> listener;
-    }
+    //    private void showDeveloperControls( final SettableProperty<MatchingGameState> model, final int newLevel, final ActionListener nextLevel ) {
 
-//    private void showDeveloperControls( final SettableProperty<MatchingGameState> model, final int newLevel, final ActionListener nextLevel ) {
+//    final int newLevel = state.info.level + 1;
+//    final ActionListener nextLevel = new ActionListener() {
+//        @Override public void actionPerformed( ActionEvent e ) {
+//            model.set( newLevel( newLevel ).withAudio( state.info.audio ) );
+//        }
+//    };
 //        addChild( new VBox(
 //                new Button( null, "Reset", Color.yellow, Vector2D.ZERO, new ActionListener() {
 //                    @Override public void actionPerformed( final ActionEvent e ) {
@@ -200,9 +172,6 @@ public class MatchingGameNode extends FNode {
 //            setOffset( 0, 200 );
 //        }} );
 //    }
-
-    //Apply the specified function to the model
-    public void updateWith( final F<MatchingGameState, MatchingGameState> f ) { model.set( f.f( model.get() ) ); }
 
     //Encapsulates stroke, paint and stroke paint for a sign node like "=", "<", ">"
     public static PhetPPath createSignNode( Shape shape ) { return new PhetPPath( shape, yellow, new BasicStroke( 2 ), Color.black ); }

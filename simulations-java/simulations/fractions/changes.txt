@@ -1,3 +1,4 @@
+Fixes for the game over dialog
 Hide the timer if not selected in the settings dialog
 Added timer to scoreboard
 # 0.00.59 (63576) Apr 18, 2012
