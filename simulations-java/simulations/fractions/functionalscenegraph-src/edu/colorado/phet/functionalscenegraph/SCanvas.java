@@ -1,11 +1,15 @@
 package edu.colorado.phet.functionalscenegraph;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+import java.awt.geom.Ellipse2D;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -14,6 +18,7 @@ import javax.swing.WindowConstants;
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.fractions.util.immutable.Vector2D;
 
 import static edu.colorado.phet.functionalscenegraph.DrawText.textNode;
 
@@ -28,6 +33,21 @@ public class SCanvas extends JComponent {
 
     public SCanvas( final SNode child ) {
         this.child = new Property<SNode>( child );
+        addMouseMotionListener( new MouseMotionListener() {
+            @Override public void mouseDragged( final MouseEvent e ) {
+            }
+
+            @Override public void mouseMoved( final MouseEvent e ) {
+                //hit detection and show cursor hand
+                //should mouse location be in the model?
+                if ( child.hits( new Vector2D( e.getPoint() ) ) ) {
+                    setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+                }
+                else {
+                    setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+                }
+            }
+        } );
     }
 
     @Override protected void paintComponent( final Graphics g ) {
@@ -50,7 +70,7 @@ public class SCanvas extends JComponent {
             DrawShape shape = new DrawShape( bounds );
             SNode fillShape = new FillShape( bounds ).withPaint( Color.white );
 
-            setContentPane( new SCanvas( new SList( fillShape, shape, text ).scale( 2 ) ) {{
+            setContentPane( new SCanvas( new SList( fillShape, shape, text, new FillShape( new Ellipse2D.Double( 0, 0, 100, 100 ) ) ).scale( 2 ) ) {{
                 setPreferredSize( new Dimension( 800, 600 ) );
             }} );
             pack();

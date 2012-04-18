@@ -1,11 +1,13 @@
 package edu.colorado.phet.functionalscenegraph;
 
 import fj.Effect;
+import fj.F;
 import fj.data.List;
 
 import java.util.Arrays;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
+import edu.colorado.phet.fractions.util.immutable.Vector2D;
 
 /**
  * @author Sam Reid
@@ -33,5 +35,13 @@ public class SList extends SNode {
             rect = rect.union( sEffect.getBounds( mockState ) );
         }
         return rect;
+    }
+
+    @Override protected boolean hits( final Vector2D vector2D, final MockState mockState ) {
+        return children.find( new F<SNode, Boolean>() {
+            @Override public Boolean f( final SNode sNode ) {
+                return sNode.hits( vector2D, mockState );
+            }
+        } ).isSome();
     }
 }

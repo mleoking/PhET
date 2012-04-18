@@ -5,6 +5,7 @@ import lombok.Data;
 import java.awt.Shape;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
+import edu.colorado.phet.fractions.util.immutable.Vector2D;
 
 /**
  * @author Sam Reid
@@ -26,5 +27,9 @@ public @Data class FillShape extends SNode {
 
     @Override public ImmutableRectangle2D getBounds( GraphicsContext mockState ) {
         return new ImmutableRectangle2D( shape.getBounds2D() );
+    }
+
+    @Override protected boolean hits( final Vector2D vector2D, final MockState mockState ) {
+        return shape.contains( vector2D.x, vector2D.y );
     }
 }
