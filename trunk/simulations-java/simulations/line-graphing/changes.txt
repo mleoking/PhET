@@ -1,3 +1,5 @@
+# 0.00.10 (63626) Apr 19, 2012
+4/19/12 dev version with refined pickers
 4/19/12 color tweaks
 4/19/12 use number color for button highlight color, white highlight wasn't noticeable enough
 4/19/12 AP picker change requests: use gray gradient for buttons, use color for numbers, black outline on numbers
