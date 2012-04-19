@@ -1,3 +1,4 @@
+4/19/12 use less-saturated colors for picker button highlight
 4/19/12 center root node on stage in tab 1
 4/19/12 make sign outside picker same color as number in picker
 4/19/12 add a flag to make it easy to switch between spinners and pickers in interactive equation
