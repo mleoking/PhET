@@ -1,0 +1,61 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: April 5 - 18, 2011
+
+Line Graphing
+- design meeting
+- various design discussions with AP
+- implemented AP's new user-interface for changing numbers in equation
+- first tab (Slope-Intercept) is feature-complete
+- minor amount of work started on tab 2 (Point-Slope)
+- published 0.00.01 through 0.00.10
+- latest: http://www.colorado.edu/physics/phet/dev/line-graphing/0.00.10/
+
+Reactants, Products and Leftovers
+- dev version without Game tab for study
+- created jars that are runnable offline for study
+- redid all of the above to workaround crash when MongoDB server isn't accessible
+
+Molarity
+- requested a volunteer to regression test (no response)
+
+Common Code
+- removed Java 1.6 dependency from DefaultDecimalFormat, #3303
+- identified sims that need to be republished due to Java 1.6 dependency, #3307
+- reported misc issues with OutlinePText
+
+Data Collection
+- reported sim crash when MongoDB server isn't accessible, #3304
+
+Developer Discussions
+- discussion about deferring instrumentation of sims for data collection
+- functional programming discussion with SR
+
+Translations
+- verified that all translations are now contained in English jars, #3292
+- helped Chilean customer with translation, #3299
+
+Administrative
+- status meeting
+- reports
+- postdoc interview and feedback
+
+WHAT'S NEXT:
+
+- Line Graphing: design and implementation
+- Beer's Law Lab: waiting for instructions
+- Molarity: republish version that works with Java 1.5
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- April 23 - May 12 (bike trip, not working)
+- July 5-11 (CT, working)
+- August 6-19 (vacation, not working)
+- October 10-23 (CT, working)
+
+--
