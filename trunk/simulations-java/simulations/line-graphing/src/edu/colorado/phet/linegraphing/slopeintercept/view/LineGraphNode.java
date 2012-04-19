@@ -38,6 +38,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 class LineGraphNode extends GraphNode {
 
+    private static final double MANIPULATOR_DIAMETER = 0.85; // diameter of the manipulators, in model units
+
     private final Graph graph;
     private final ModelViewTransform mvt;
     private final Property<Boolean> interactiveEquationVisible;
@@ -73,7 +75,7 @@ class LineGraphNode extends GraphNode {
         interactiveLineParentNode = new PComposite();
 
         // Manipulators for the interactive line
-        final double manipulatorDiameter = mvt.modelToViewDeltaX( 0.75 );
+        final double manipulatorDiameter = mvt.modelToViewDeltaX( MANIPULATOR_DIAMETER );
         slopeManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.SLOPE );
         interceptManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.INTERCEPT );
 
