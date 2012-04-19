@@ -108,7 +108,7 @@ class SlopeInterceptEquationNode2 extends PhetPNode {
                              yNode.getYOffset() );
             interceptSignNode.setOffset( xNode.getFullBoundsReference().getMaxX() + 10,
                                          lineNode.getFullBoundsReference().getCenterY() - ( interceptSignNode.getFullBoundsReference().getHeight() / 2 ) );
-            interceptNode.setOffset( interceptSignNode.getFullBoundsReference().getMaxX() + 2,
+            interceptNode.setOffset( interceptSignNode.getFullBoundsReference().getMaxX() + 4,
                                      interceptSignNode.getFullBoundsReference().getCenterY() - ( interceptNode.getFullBoundsReference().getHeight() / 2 ) );
         }
 
