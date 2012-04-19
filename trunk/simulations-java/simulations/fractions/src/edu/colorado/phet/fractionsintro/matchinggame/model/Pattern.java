@@ -82,6 +82,17 @@ public class Pattern {
         }}.getGeneralPath();
     }
 
+    public static Pattern sixFlower( final Integer length ) {
+        final double angle = Math.PI * 2 / 6;
+        return new Pattern( range( 0, 6 ).map( new F<Integer, Shape>() {
+            @Override public Shape f( final Integer index ) {
+                final double x = Math.sin( angle / 2 );
+                final double y = Math.cos( angle / 2 );
+                return AffineTransform.getRotateInstance( angle * index, 0, 0 ).createTransformedShape( fromPoints( length, list( v( 0, 0 ), v( x, y ), v( 0, y * 2 ), v( -x, y ) ) ) );
+            }
+        } ) );
+    }
+
     public static class Direction {
         public static Direction RIGHT = new Direction( 1, 0 );
         public static Direction LEFT = new Direction( -1, 0 );
@@ -208,6 +219,7 @@ public class Pattern {
                         }
                         addChild( new PatternNode( FilledPattern.sequentialFill( tetrisPiece( 50 ), 4 ), Color.red ) {{translate( 200, 400 );}} );
                         addChild( new PatternNode( FilledPattern.sequentialFill( letterLShapedDiagonal( 10, 2 ), 4 ), Color.red ) {{translate( 200, 500 );}} );
+                        addChild( new PatternNode( FilledPattern.sequentialFill( sixFlower( 50 ), 4 ), Color.red ) {{translate( 300, 500 );}} );
                     }} );
                 }}.setVisible( true );
             }
