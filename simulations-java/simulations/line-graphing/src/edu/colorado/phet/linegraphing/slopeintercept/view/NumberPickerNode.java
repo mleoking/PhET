@@ -67,7 +67,7 @@ public class NumberPickerNode extends PhetPNode {
     public static class InterceptPickerNode extends NumberPickerNode {
         public InterceptPickerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format, boolean abs ) {
             super( userComponent, value, range, 1, abs, font, format,
-                   new NumberPickerColorScheme( LGColors.INTERCEPT, BUTTON_TOP_COLOR, BUTTON_BOTTOM_COLOR, new Color( 240, 240, 0 ), BUTTON_DISABLED_COLOR, BUTTON_SHADOW_COLOR ) );
+                   new NumberPickerColorScheme( LGColors.INTERCEPT, BUTTON_TOP_COLOR, BUTTON_BOTTOM_COLOR, new Color( 255, 255, 225 ), BUTTON_DISABLED_COLOR, BUTTON_SHADOW_COLOR ) );
         }
     }
 
@@ -75,7 +75,7 @@ public class NumberPickerNode extends PhetPNode {
     public static class SlopePickerNode extends NumberPickerNode {
         public SlopePickerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format, boolean abs ) {
             super( userComponent, value, range, 1, abs, font, format,
-                   new NumberPickerColorScheme( LGColors.SLOPE, BUTTON_TOP_COLOR, BUTTON_BOTTOM_COLOR, new Color( 120, 225, 3 ), BUTTON_DISABLED_COLOR, BUTTON_SHADOW_COLOR ) );
+                   new NumberPickerColorScheme( LGColors.SLOPE, BUTTON_TOP_COLOR, BUTTON_BOTTOM_COLOR, new Color( 224, 255, 211 ), BUTTON_DISABLED_COLOR, BUTTON_SHADOW_COLOR ) );
         }
     }
 
