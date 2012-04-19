@@ -200,8 +200,8 @@ public class NumberPickerNode extends PhetPNode {
             @Override public void update() {
                 double adjustedValue = abs ? Math.abs( value.get() ) : value.get();
                 numberNode.setText( format.format( adjustedValue ) );
-                numberNode.setOffset( topButtonNode.getFullBoundsReference().getCenterX() - ( numberNode.getFullBoundsReference().getWidth() / 2 ),
-                                    topButtonNode.getFullBoundsReference().getMaxY() - ( numberNode.getFullBoundsReference().getHeight() / 2 ) );
+                numberNode.setOffset( ( topButtonNode.getFullBoundsReference().getWidth() - numberNode.getFullBoundsReference().getWidth() ) / 2,
+                                      ( topButtonNode.getFullBoundsReference().getHeight() - numberNode.getFullBoundsReference().getHeight() / 2 ) );
                 topEnabled.set( value.get() < range.get().getMax() );
                 bottomEnabled.set( value.get() > range.get().getMin() );
             }
