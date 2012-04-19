@@ -56,9 +56,11 @@ public class DataTable extends Sprite {
     private const massColumnNbr: int = 1;
     private const xColumnNbr: int = 2;
     private const vxColumnNbr: int = 3;
-    private const pxColumnNbr: int = 6;
-    private const initialPositionColumnNbr: int = 4;
-    private const initialVelocityColumnNbr: int = 5;
+    private const pxColumnNbr: int = 4;
+    private const initialPositionColumnNbr: int = 5;
+    private const initialVelocityColumnNbr: int = 6;
+
+    private const separatorPaddingSize: int = 20;
 
     private const highlightColor: int = 0xffff33;
     private const unhighlightColor: int = 0xffffff;
@@ -161,7 +163,7 @@ public class DataTable extends Sprite {
                 }
 
                 // decrease width (and thus position) for the ball column
-                text_arr[row][col].x = (col == 0) ? 0 : (col * colWidth - (colWidth - ballColWidth));
+                text_arr[row][col].x = (col == 0) ? 0 : (col * colWidth - (colWidth - ballColWidth)) + (col > pxColumnNbr ? separatorPaddingSize : 0);
                 text_arr[row][col].y = 0;
                 text_arr[row][col].text = "row" + row;
                 text_arr[row][col].width = (col == 0) ? (ballColWidth - 5) : (colWidth - 5);
@@ -246,13 +248,21 @@ public class DataTable extends Sprite {
         g.clear();
         g.lineStyle( bWidth, 0x2222ff );
         g.beginFill( 0xffff99 );
-        g.drawRect( -del, -del + offTopOffset, rowWidth + 2 * del, nbrRows * rowHeight + 2 * del - offTopOffset );
+        var areaHeight: Number = nbrRows * rowHeight + 2 * del - offTopOffset;
+        g.drawRect( -del, -del + offTopOffset, rowWidth + 2 * del + (showingMore ? separatorPaddingSize : 0), areaHeight );
         g.endFill();
 
         var gI: Graphics = invisibleBorder.graphics;
         gI.clear();
         gI.lineStyle( bWidth, 0x000000, 0 );
-        gI.drawRect( -del, -del + offTopOffset, rowWidth + 2 * del, nbrRows * rowHeight + 2 * del - offTopOffset );
+        gI.drawRect( -del, -del + offTopOffset, rowWidth + 2 * del + (showingMore ? separatorPaddingSize : 0), nbrRows * rowHeight + 2 * del - offTopOffset );
+
+        if( showingMore ) {
+            var separatorX: Number = (pxColumnNbr + 1) * colWidth - (colWidth - ballColWidth) + separatorPaddingSize / 2;
+            g.lineStyle( bWidth, 0x2222ff );
+            g.moveTo( separatorX, -del + offTopOffset );
+            g.lineTo( separatorX, -del + offTopOffset + areaHeight );
+        }
     }
 
 //    public function get vxColumnNbr(): int {
@@ -571,10 +581,10 @@ public class DataTable extends Sprite {
                         text_arr[row][col].text = round( xVel, generalPrecision );
 //                        text_arr[row][col].text = xVel.toFixed( generalPrecision ); //round(xVel, nbrPlaces);
                     }
-                    if( col == initialPositionColumnNbr ) {
+                    if ( col == initialPositionColumnNbr ) {
                         text_arr[row][col].text = round( myModel.ball_arr[ballNum].initialPosition.getX(), generalPrecision );
                     }
-                    if( col == initialVelocityColumnNbr ) {
+                    if ( col == initialVelocityColumnNbr ) {
                         text_arr[row][col].text = round( myModel.ball_arr[ballNum].initialVelocity.getX(), generalPrecision );
                     }
                 }
