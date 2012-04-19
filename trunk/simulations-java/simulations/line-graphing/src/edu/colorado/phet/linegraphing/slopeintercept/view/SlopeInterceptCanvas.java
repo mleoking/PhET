@@ -65,6 +65,7 @@ public class SlopeInterceptCanvas extends LGCanvas implements Resettable {
             resetAllButtonNode.setOffset( graphControls.getFullBoundsReference().getCenterX() - ( resetAllButtonNode.getFullBoundsReference().getWidth() / 2 ),
                                           getStageSize().getHeight() - yMargin - resetAllButtonNode.getFullBoundsReference().getHeight() );
         }
+        centerRootNodeOnStage();
     }
 
     public void reset() {
