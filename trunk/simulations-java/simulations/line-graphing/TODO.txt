@@ -15,6 +15,7 @@ MEDIUM
 - don't like having int methods in SlopeInterceptLine model
 
 LOW
+- align baseline of fraction with center of equals sign
 - equations on lines are sometimes difficult to read when they overlap with other things
 - clean up standard line icons (no equation on line, shorter line)
 - change tip of point tool image, having it on a 45-degree angle makes it line up with slopes too often (eg, y=x, y=-x)
