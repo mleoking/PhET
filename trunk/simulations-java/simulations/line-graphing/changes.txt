@@ -1,3 +1,4 @@
+4/19/12 restore use of pickers
 # 0.00.12 (63651) Apr 19, 2012
 4/19/12 identical to 0.00.11, but uses spinners instead of pickers
 4/19/12 temporarily replace pickers with spinners, so we can compare in 2 identical dev versions

@@ -39,7 +39,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 class EquationControls extends PhetPNode {
 
-    private static final boolean USE_SPINNERS = true; // spinners vs pickers for interactive equation
+    private static final boolean USE_SPINNERS = false; // spinners vs pickers for interactive equation
 
     private static final PhetFont EQUATION_FONT = new PhetFont( Font.BOLD, 38 );
 
