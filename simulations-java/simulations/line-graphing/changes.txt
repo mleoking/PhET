@@ -1,3 +1,4 @@
+4/19/12 make rise/run values slightly less transparent, so that the values are more clearly-visible when they are on top of other things
 4/19/12 make manipulators slightly larger, to encourage users to play with them
 4/19/12 layout tweak in picker
 4/19/12 clean up standard line icons (no equation on line, shorter line)
