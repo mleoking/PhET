@@ -91,15 +91,16 @@ class SlopeInterceptEquationNode2 extends PhetPNode {
         {
             // NOTE: x spacing varies and was tweaked to look good
             final double ySpacing = 6;
+            final double yFudgeFactor = 3; // fudge factor to align fraction dividing line with the center of the equals sign, visually tweaked
             yNode.setOffset( 0, 0 );
             equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + 10,
                                   yNode.getYOffset() );
             riseSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX(),
-                                    equalsNode.getFullBoundsReference().getCenterY() - ySpacing - ( riseNode.getFullBoundsReference().getHeight() / 2 ) - ( riseSignNode.getFullBoundsReference().getHeight() / 2 ) );
+                                    equalsNode.getFullBoundsReference().getCenterY() - ySpacing - ( riseNode.getFullBoundsReference().getHeight() / 2 ) - ( riseSignNode.getFullBoundsReference().getHeight() / 2 ) + yFudgeFactor );
             runSignNode.setOffset( riseSignNode.getXOffset(),
-                                    equalsNode.getFullBoundsReference().getCenterY() + ySpacing + ( riseNode.getFullBoundsReference().getHeight() / 2 ) - ( runSignNode.getFullBoundsReference().getHeight() / 2 ) );
+                                    equalsNode.getFullBoundsReference().getCenterY() + ySpacing + ( riseNode.getFullBoundsReference().getHeight() / 2 ) - ( runSignNode.getFullBoundsReference().getHeight() / 2 ) + yFudgeFactor );
             lineNode.setOffset( riseSignNode.getFullBoundsReference().getMaxX() + 2,
-                                equalsNode.getFullBoundsReference().getCenterY() );
+                                equalsNode.getFullBoundsReference().getCenterY() + yFudgeFactor );
             riseNode.setOffset( lineNode.getFullBoundsReference().getMaxX() - riseNode.getFullBoundsReference().getWidth(),
                                 lineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - ySpacing );
             runNode.setOffset( lineNode.getFullBoundsReference().getMaxX() - runNode.getFullBoundsReference().getWidth(),

@@ -15,7 +15,6 @@ MEDIUM
 - don't like having int methods in SlopeInterceptLine model
 
 LOW
-- align baseline of fraction with center of equals sign
 - equations on lines are sometimes difficult to read when they overlap with other things
 - clean up standard line icons (no equation on line, shorter line)
 - grid node gets bigger when IntroModel.GRID_MODEL_UNITS gets smaller, size should remain constant
