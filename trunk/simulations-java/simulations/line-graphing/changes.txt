@@ -1,3 +1,4 @@
+4/19/12 make sign outside picker same color as number in picker
 4/19/12 add a flag to make it easy to switch between spinners and pickers in interactive equation
 # 0.00.10 (63626) Apr 19, 2012
 4/19/12 dev version with refined pickers
