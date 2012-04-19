@@ -1,3 +1,4 @@
+Matching Game: Added tetris pieces
 Matching Game: Added random fill at higher levels
 Matching Game: Added scaled representations at levels 5-6
 Matching Game: Improved scoreboard layout and smilie face size
