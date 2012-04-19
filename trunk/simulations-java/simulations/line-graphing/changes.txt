@@ -1,3 +1,4 @@
+4/19/12 color-code title of equation controls to match the interactive line
 4/19/12 use a thinner stroke for picker numbers, the aliasing is less noticeable
 4/19/12 use less-saturated colors for picker button highlight
 4/19/12 center root node on stage in tab 1

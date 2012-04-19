@@ -57,7 +57,7 @@ class EquationControls extends PhetPNode {
                              final ObservableList<SlopeInterceptLine> savedLines,
                              final Property<Boolean> linesVisible ) {
 
-        PNode titleNode = new PhetPText( TITLE, new PhetFont( Font.BOLD, 18 ) );
+        PNode titleNode = new PhetPText( TITLE, new PhetFont( Font.BOLD, 18 ), LGColors.INTERACTIVE_LINE );
         PNode minimizeMaximizeButtonNode = new ToggleButtonNode( UserComponents.equationMinimizeMaximizeButton, maximized, Images.MINIMIZE_BUTTON, Images.MAXIMIZE_BUTTON ) {
             @Override protected ParameterSet getParameterSet() {
                 return super.getParameterSet().with( ParameterKeys.maximized, !maximized.get() );
