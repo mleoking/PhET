@@ -133,73 +133,74 @@ public class Levels {
                                                        }
                                                    }
     );
-    final RepresentationType twoPlusses = makePlusses( 2 );
-    final RepresentationType threePlusses = makePlusses( 3 );
-    final RepresentationType fourPlusses = makePlusses( 4 );
-    final RepresentationType fivePlusses = makePlusses( 5 );
-    final RepresentationType sixPlusses = makePlusses( 6 );
 
-    final RepresentationType fourPolygon = createPatterns( "four polygon", 4, 50, new F<Integer, Pattern>() {
-        @Override public Pattern f( final Integer integer ) {
-            return Polygon.create( 50, 4 );
-        }
-    }, SEQUENTIAL );
-    final RepresentationType fivePolygon = createPatterns( "five polygon", 5, 50, new F<Integer, Pattern>() {
-        @Override public Pattern f( final Integer integer ) {
-            return Polygon.create( 50, 5 );
-        }
-    }, SEQUENTIAL );
-    final RepresentationType sixPolygon = createPatterns( "six polygon", 6, 50, new F<Integer, Pattern>() {
-        @Override public Pattern f( final Integer integer ) {
-            return Polygon.create( 50, 6 );
-        }
-    }, SEQUENTIAL );
-    final RepresentationType sevenPolygon = createPatterns( "seven polygon", 7, 50, new F<Integer, Pattern>() {
-        @Override public Pattern f( final Integer integer ) {
-            return Polygon.create( 50, 7 );
-        }
-    }, SEQUENTIAL );
-    final RepresentationType eightPolygon = createPatterns( "eight polygon", 8, 50, new F<Integer, Pattern>() {
-        @Override public Pattern f( final Integer integer ) {
-            return Polygon.create( 50, 8 );
-        }
-    }, SEQUENTIAL );
+    public RepresentationType polygon( final int numSides, F2<Pattern, Integer, FilledPattern> fill ) {
+        return createPatterns( numSides + " polygon", numSides, 80, new F<Integer, Pattern>() {
+            @Override public Pattern f( final Integer integer ) {
+                return Polygon.create( 80, numSides );
+            }
+        }, fill );
+    }
 
-    private RepresentationType makePlusses( final int numPlusses ) {
+    private RepresentationType makePlusses( final int numPlusses, F2<Pattern, Integer, FilledPattern> order ) {
         return createPatterns( numPlusses + " plusses", numPlusses, 10, new F<Integer, Pattern>() {
             @Override public Pattern f( final Integer integer ) {
                 return new PlusSigns( numPlusses );
             }
-        }, SEQUENTIAL );
+        }, order );
     }
 
-    final RepresentationType fourGrid = createPatterns( "four grid", 4, 100, new F<Integer, Pattern>() {
+    final RepresentationType fourGridSEQUENTIAL = createPatterns( "four grid", 4, 100, new F<Integer, Pattern>() {
         @Override public Pattern f( final Integer length ) {
             return new Grid( 2 );
         }
     }, SEQUENTIAL );
-    final RepresentationType nineGrid = createPatterns( "nine grid", 9, 50, new F<Integer, Pattern>() {
+    final RepresentationType nineGridSEQUENTIAL = createPatterns( "nine grid", 9, 50, new F<Integer, Pattern>() {
         @Override public Pattern f( final Integer length ) {
             return new Grid( 3 );
         }
     }, SEQUENTIAL );
+    final RepresentationType fourGridRANDOM = createPatterns( "four grid", 4, 100, new F<Integer, Pattern>() {
+        @Override public Pattern f( final Integer length ) {
+            return new Grid( 2 );
+        }
+    }, RANDOM );
+    final RepresentationType nineGridRANDOM = createPatterns( "nine grid", 9, 50, new F<Integer, Pattern>() {
+        @Override public Pattern f( final Integer length ) {
+            return new Grid( 3 );
+        }
+    }, RANDOM );
 
-    //TODO: Could factor out other patterns using this style
-    final RepresentationType onePyramid = createPatterns( "one pyramid", 1, 100, new F<Integer, Pattern>() {
+    final RepresentationType onePyramidSEQUENTIAL = createPatterns( "one pyramid", 1, 100, new F<Integer, Pattern>() {
         @Override public Pattern f( final Integer length ) {
             return Pyramid.single( length );
         }
     }, SEQUENTIAL );
-    final RepresentationType fourPyramid = createPatterns( "four pyramid", 4, 50, new F<Integer, Pattern>() {
+    final RepresentationType fourPyramidSEQUENTIAL = createPatterns( "four pyramid", 4, 50, new F<Integer, Pattern>() {
         @Override public Pattern f( final Integer length ) {
             return Pyramid.four( length );
         }
     }, SEQUENTIAL );
-    final RepresentationType ninePyramid = createPatterns( "nine pyramid", 9, 30, new F<Integer, Pattern>() {
+    final RepresentationType ninePyramidSEQUENTIAL = createPatterns( "nine pyramid", 9, 30, new F<Integer, Pattern>() {
         @Override public Pattern f( final Integer length ) {
             return Pyramid.nine( length );
         }
     }, SEQUENTIAL );
+    final RepresentationType onePyramidRANDOM = createPatterns( "one pyramid", 1, 100, new F<Integer, Pattern>() {
+        @Override public Pattern f( final Integer length ) {
+            return Pyramid.single( length );
+        }
+    }, RANDOM );
+    final RepresentationType fourPyramidRANDOM = createPatterns( "four pyramid", 4, 50, new F<Integer, Pattern>() {
+        @Override public Pattern f( final Integer length ) {
+            return Pyramid.four( length );
+        }
+    }, RANDOM );
+    final RepresentationType ninePyramidRANDOM = createPatterns( "nine pyramid", 9, 30, new F<Integer, Pattern>() {
+        @Override public Pattern f( final Integer length ) {
+            return Pyramid.nine( length );
+        }
+    }, RANDOM );
 
     private RepresentationType createPatterns( String name, final int max, final int length, final F<Integer, Pattern> pattern, final F2<Pattern, Integer, FilledPattern> fill ) {
         return twoComposites( name, new F<Fraction, Boolean>() {
@@ -224,10 +225,14 @@ public class Levels {
 
     @SuppressWarnings("unchecked")
     final List<RepresentationType> easyRepresentations = list( numeric, horizontalBars, verticalBars, pies );
-    final List<RepresentationType> mediumRepresentations = list( twoPlusses, threePlusses, fourPlusses, fivePlusses, sixPlusses, fourGrid, nineGrid, onePyramid, fourPyramid, ninePyramid,
-                                                                 fourPolygon, fivePolygon, sixPolygon, sevenPolygon, eightPolygon );
-    final List<RepresentationType> difficultRepresentations = list( scaledNumeric( 2 ), scaledNumeric( 3 ) );
-    final List<RepresentationType> veryDifficultRepresentations = list( scaledNumeric( 4 ), scaledNumeric( 5 ) );
+    final List<RepresentationType> mediumRepresentationsSequential = list( makePlusses( 2, SEQUENTIAL ), makePlusses( 3, SEQUENTIAL ), makePlusses( 4, SEQUENTIAL ), makePlusses( 5, SEQUENTIAL ), makePlusses( 6, SEQUENTIAL ),
+                                                                           fourGridSEQUENTIAL, nineGridSEQUENTIAL, onePyramidSEQUENTIAL, fourPyramidSEQUENTIAL, ninePyramidSEQUENTIAL,
+                                                                           polygon( 4, SEQUENTIAL ), polygon( 5, SEQUENTIAL ), polygon( 6, SEQUENTIAL ), polygon( 7, SEQUENTIAL ), polygon( 8, SEQUENTIAL ) );
+    final List<RepresentationType> mediumRepresentationsRandom = list( makePlusses( 2, RANDOM ), makePlusses( 3, RANDOM ), makePlusses( 4, RANDOM ), makePlusses( 5, RANDOM ), makePlusses( 6, RANDOM ),
+                                                                       fourGridRANDOM, nineGridRANDOM, onePyramidRANDOM, fourPyramidRANDOM, ninePyramidRANDOM,
+                                                                       polygon( 4, RANDOM ), polygon( 5, RANDOM ), polygon( 6, RANDOM ), polygon( 7, RANDOM ), polygon( 8, RANDOM ) );
+    final List<RepresentationType> easyScaledNumeric = list( scaledNumeric( 2 ), scaledNumeric( 3 ) );
+    final List<RepresentationType> difficultScaledNumeric = list( scaledNumeric( 4 ), scaledNumeric( 5 ) );
 
     //Convenience Wrapper to create PieNodes
     private PNode myPieNode( final Fraction f, final Color color ) {
@@ -339,9 +344,10 @@ public class Levels {
 
     private F<Fraction, ArrayList<RepresentationType>> getRepresentationPool( final int level ) {
         return level == 1 ? representationFunction( easyRepresentations ) :
-               level >= 2 && level <= 4 ? representationFunction( easyRepresentations.append( mediumRepresentations ) ) :
-               level == 5 ? representationFunction( mediumRepresentations.append( difficultRepresentations ) ) :
-               level == 6 ? representationFunction( mediumRepresentations.append( veryDifficultRepresentations ) ) :
+               level >= 2 && level <= 3 ? representationFunction( easyRepresentations.append( mediumRepresentationsSequential ) ) :
+               level == 4 ? representationFunction( mediumRepresentationsRandom ) :
+               level == 5 ? representationFunction( mediumRepresentationsRandom.append( easyScaledNumeric ) ) :
+               level == 6 ? representationFunction( mediumRepresentationsRandom.append( mediumRepresentationsRandom.append( difficultScaledNumeric ) ) ) :
                matchError( "level not found: " + level );
     }
 
@@ -535,18 +541,26 @@ public class Levels {
      * All representations possible as well as complicated mixed/improper numbers
      */
     final Fraction[] level6Fractions = {
-            new Fraction( 13, 7 ),
-            new Fraction( 13, 7 ),
-            new Fraction( 14, 8 ),
             new Fraction( 9, 5 ),
-            new Fraction( 6, 3 ),
+            new Fraction( 8, 5 ),
+            new Fraction( 7, 5 ),
+            new Fraction( 6, 5 ),
+            new Fraction( 7, 6 ),
+            new Fraction( 8, 6 ),
+            new Fraction( 9, 6 ),
+            new Fraction( 9, 7 ),
+            new Fraction( 10, 7 ),
+            new Fraction( 13, 7 ),
             new Fraction( 9, 8 ),
-            new Fraction( 8, 9 ),
-            new Fraction( 6, 9 ),
+            new Fraction( 10, 8 ),
+            new Fraction( 11, 8 ),
+            new Fraction( 14, 8 ),
             new Fraction( 4, 9 ),
-            new Fraction( 3, 9 ),
-            new Fraction( 2, 9 ),
-            new Fraction( 9, 7 ) };
+            new Fraction( 6, 9 ),
+            new Fraction( 8, 9 ),
+            new Fraction( 10, 9 ),
+            new Fraction( 11, 9 ),
+    };
     public F<List<Cell>, List<MovableFraction>> Level6 = new F<List<Cell>, List<MovableFraction>>() {
         @Override public List<MovableFraction> f( List<Cell> cells ) {
             return createLevel( getRepresentationPool( 6 ), cells, level6Fractions );
