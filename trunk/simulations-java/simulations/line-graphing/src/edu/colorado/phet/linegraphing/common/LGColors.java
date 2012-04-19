@@ -18,7 +18,7 @@ public class LGColors {
     public static final Color SAVED_LINE_HIGHLIGHT = new Color( 0, 190, 0 );
     public static final Color Y_EQUALS_X = Color.BLUE;
     public static final Color Y_EQUALS_NEGATIVE_X = new Color( 0, 178, 178 );
-    public static final Color SLOPE_COLOR = new Color( 120, 215, 3 );
+    public static final Color SLOPE_COLOR = new Color( 120, 245, 3 );
     public static final Color INTERCEPT_COLOR = Color.YELLOW;
     public static final Color SAVE_LINE_BUTTON = Color.WHITE;
     public static final Color ERASE_LINES_BUTTON = Color.WHITE;

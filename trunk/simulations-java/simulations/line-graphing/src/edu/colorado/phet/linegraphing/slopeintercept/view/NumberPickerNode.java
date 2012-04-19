@@ -39,11 +39,12 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.DynamicCursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.OutlinePText;
+import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Number picker based on design by Ariel Paul.
@@ -55,14 +56,16 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class NumberPickerNode extends PhetPNode {
 
     //TODO move colors in this file to LGColors
-    private static final Color DISABLED_COLOR = new Color( 210, 210, 210 );
+    private static final Color BUTTON_TOP_COLOR = Color.WHITE;
+    private static final Color BUTTON_BOTTOM_COLOR = new Color( 235, 235, 235 );
+    private static final Color BUTTON_DISABLED_COLOR = new Color( 210, 210, 210 );
     private static final Color SHADOW_COLOR = new Color( 120, 120, 120 );
 
     // Picker for intercept
     public static class InterceptPickerNode extends NumberPickerNode {
         public InterceptPickerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format, boolean abs ) {
             super( userComponent, value, range, 1, abs, font, format,
-                   new NumberPickerColorScheme( new Color( 255, 255, 148 ), new Color( 235, 235, 0 ), Color.YELLOW, DISABLED_COLOR, SHADOW_COLOR ) );
+                   new NumberPickerColorScheme( LGColors.INTERCEPT_COLOR, BUTTON_TOP_COLOR, BUTTON_BOTTOM_COLOR, Color.WHITE, BUTTON_DISABLED_COLOR, SHADOW_COLOR ) );
         }
     }
 
@@ -70,17 +73,19 @@ public class NumberPickerNode extends PhetPNode {
     public static class SlopePickerNode extends NumberPickerNode {
         public SlopePickerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format, boolean abs ) {
             super( userComponent, value, range, 1, abs, font, format,
-                   new NumberPickerColorScheme( new Color( 150, 255, 150 ), new Color( 0, 200, 0 ), Color.GREEN, DISABLED_COLOR, SHADOW_COLOR ) );
+                   new NumberPickerColorScheme( LGColors.SLOPE_COLOR, BUTTON_TOP_COLOR, BUTTON_BOTTOM_COLOR, Color.WHITE, BUTTON_DISABLED_COLOR, SHADOW_COLOR ) );
         }
     }
 
     // Data structure for picker color scheme
     public static class NumberPickerColorScheme {
 
+        public final Color numberColor;
         private final Color gradientEndsColor, gradientCenterColor;
         public final Color highlightColor, disabledColor, shadowColor;
 
-        public NumberPickerColorScheme( Color gradientEndsColor, Color gradientCenterColor, Color highlightColor, Color disabledColor, Color shadowColor ) {
+        public NumberPickerColorScheme( Color numberColor, Color gradientEndsColor, Color gradientCenterColor, Color highlightColor, Color disabledColor, Color shadowColor ) {
+            this.numberColor = numberColor;
             this.gradientEndsColor = gradientEndsColor;
             this.gradientCenterColor = gradientCenterColor;
             this.highlightColor = highlightColor;
@@ -119,21 +124,15 @@ public class NumberPickerNode extends PhetPNode {
         topEnabled = new Property<Boolean>( true );
         bottomEnabled = new Property<Boolean>( true );
 
-        final PText textNode = new PText();
-        textNode.setFont( font );
+        double numberOutlineWidth = 1;
+        final OutlinePText numberNode = new OutlinePText( "?", font, colorScheme.numberColor, Color.BLACK, numberOutlineWidth );
 
-        // compute max text width, based on range
-        textNode.setText( format.format( abs ? Math.abs( range.get().getMin() ) : range.get().getMin() ) );
-        double minValueWidth = textNode.getFullBoundsReference().getWidth();
-        textNode.setText( format.format( abs ? Math.abs( range.get().getMax() ) : range.get().getMax() ) );
-        double maxValueWidth = textNode.getFullBoundsReference().getWidth();
-        final double maxWidth = Math.max( minValueWidth, maxValueWidth );
+        // compute max number width, based on range
+        numberNode.setText( "20" ); //TODO this assumes 2 digits, better to compute based on range but range is dynamic.
+        final double maxWidth = numberNode.getFullBoundsReference().getWidth();
+        final double maxHeight = numberNode.getFullBoundsReference().getHeight();
 
-        // compute max text height
-        textNode.setText( "X" );
-        final double maxHeight = textNode.getFullBoundsReference().getHeight();
-
-        final double xMargin = 3;
+        final double xMargin = 6;
         final double yMargin = 3;
         final double buttonWidth = maxWidth + ( 2 * xMargin );
         final double buttonHeight = ( maxHeight / 2 ) + ( 2 * yMargin );
@@ -158,7 +157,7 @@ public class NumberPickerNode extends PhetPNode {
         bottomShadowNode.setStroke( null );
 
         // non-interactive
-        textNode.setPickable( false );
+        numberNode.setPickable( false );
         topShadowNode.setPickable( false );
         bottomShadowNode.setPickable( false );
 
@@ -168,7 +167,7 @@ public class NumberPickerNode extends PhetPNode {
             addChild( bottomShadowNode );
             addChild( topButtonNode );
             addChild( bottomButtonNode );
-            addChild( textNode );
+            addChild( numberNode );
         }
 
         // layout
@@ -177,7 +176,7 @@ public class NumberPickerNode extends PhetPNode {
             bottomButtonNode.setOffset( topButtonNode.getOffset() );
             topShadowNode.setOffset( topButtonNode.getXOffset() + SHADOW_OFFSET.getX(), topButtonNode.getYOffset() + SHADOW_OFFSET.getY() );
             bottomShadowNode.setOffset( bottomButtonNode.getXOffset() + SHADOW_OFFSET.getX(), bottomButtonNode.getYOffset() + SHADOW_OFFSET.getY() );
-            // textNode offset is set dynamically, to keep value centered
+            // numberNode offset is set dynamically, to keep value centered
         }
 
         // enabled/disabled
@@ -200,9 +199,9 @@ public class NumberPickerNode extends PhetPNode {
         final RichSimpleObserver observer = new RichSimpleObserver() {
             @Override public void update() {
                 double adjustedValue = abs ? Math.abs( value.get() ) : value.get();
-                textNode.setText( format.format( adjustedValue ) );
-                textNode.setOffset( topButtonNode.getFullBoundsReference().getCenterX() - ( textNode.getFullBoundsReference().getWidth() / 2 ),
-                                    topButtonNode.getFullBoundsReference().getMaxY() - ( textNode.getFullBoundsReference().getHeight() / 2 ) );
+                numberNode.setText( format.format( adjustedValue ) );
+                numberNode.setOffset( topButtonNode.getFullBoundsReference().getCenterX() - ( numberNode.getFullBoundsReference().getWidth() / 2 ),
+                                    topButtonNode.getFullBoundsReference().getMaxY() - ( numberNode.getFullBoundsReference().getHeight() / 2 ) );
                 topEnabled.set( value.get() < range.get().getMax() );
                 bottomEnabled.set( value.get() > range.get().getMin() );
             }
@@ -241,7 +240,7 @@ public class NumberPickerNode extends PhetPNode {
     // Button handler that increments a value.
     private static class IncrementButtonHandler extends ButtonHandler {
         public IncrementButtonHandler( final IUserComponent userComponent,
-                                       PNode buttonNode,
+                                       PPath buttonNode,
                                        Paint normalColor, Paint highlightPaint,
                                        Property<Boolean> enabled,
                                        final Property<Double> value, final Property<DoubleRange> range, final double delta ) {
@@ -260,7 +259,7 @@ public class NumberPickerNode extends PhetPNode {
     // Button handler that decrements a value.
     private static class DecrementButtonHandler extends ButtonHandler {
         public DecrementButtonHandler( final IUserComponent userComponent,
-                                       PNode buttonNode,
+                                       PPath buttonNode,
                                        Paint normalColor, Paint highlightPaint,
                                        Property<Boolean> enabled,
                                        final Property<Double> value, final Property<DoubleRange> range, final double delta ) {
@@ -279,7 +278,7 @@ public class NumberPickerNode extends PhetPNode {
     // Base class for button handlers. Behaves like a spinner if you press and hold.
     private static abstract class ButtonHandler extends PBasicInputEventHandler {
 
-        private final PNode buttonNode;
+        private final PPath buttonNode;
         private final Paint normalPaint, highlightPaint;
         private final Property<Boolean> enabled;
         private final VoidFunction0 buttonFired;
@@ -289,7 +288,7 @@ public class NumberPickerNode extends PhetPNode {
         private boolean mouseOver = false;
         private boolean isFiringContinuously = false; // true = is acting like a spinner, repeatedly firing while the mouse is pressed
 
-        public ButtonHandler( final PNode buttonNode,
+        public ButtonHandler( final PPath buttonNode,
                               Paint normalPaint, Paint highlightPaint,
                               final Property<Boolean> enabled,
                               final VoidFunction0 buttonFired ) {
@@ -360,8 +359,8 @@ public class NumberPickerNode extends PhetPNode {
     // test
     public static void main( String[] args ) {
 
-        NumberPickerColorScheme colorScheme = new NumberPickerColorScheme( new Color( 0, 225, 0 ), new Color( 0, 180, 0 ),
-                                                                           new Color( 0, 255, 0 ), new Color( 210, 210, 210 ), Color.DARK_GRAY );
+        NumberPickerColorScheme colorScheme = new NumberPickerColorScheme( LGColors.SLOPE_COLOR, BUTTON_TOP_COLOR, BUTTON_BOTTOM_COLOR,
+                                                                           BUTTON_DISABLED_COLOR, SHADOW_COLOR, Color.DARK_GRAY );
         Property<Double> value = new Property<Double>( 3d );
         Property<DoubleRange> range = new Property<DoubleRange>( new DoubleRange( -10, 10 ) );
 
