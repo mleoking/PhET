@@ -5,6 +5,8 @@ import edu.colorado.phet.collisionlab.CollisionLab;
 import edu.colorado.phet.collisionlab.constants.CLConstants;
 import edu.colorado.phet.collisionlab.util.TwoVector;
 
+import edu.colorado.phet.flashcommon.MathUtil;
+
 import flash.events.*;
 import flash.geom.*;
 import flash.utils.*;
@@ -58,7 +60,7 @@ public class Model {
         this.borderWidth = CLConstants.BORDER_WIDTH;	//units are meters
         this.borderHeight = CLConstants.BORDER_HEIGHT_2D; // TODO: better behavior through setup
         this.e = 1;				//set elasticity of collisions, 1 = perfectly elastic
-        if( CollisionLab.isStudyVersion ) {
+        if ( CollisionLab.isStudyVersion ) {
             this.e = 0;
         }
         this.massBall1 = 0.5;
@@ -79,7 +81,7 @@ public class Model {
         msTimer.addEventListener( TimerEvent.TIMER, stepForward );
         this.stopMotion();
         this.e = 1;				//set elasticity of collisions, 1 = perfectly elastic
-        if( CollisionLab.isStudyVersion ) {
+        if ( CollisionLab.isStudyVersion ) {
             this.e = 0;
         }
         //this.realTimer = new Timer(1000);  //argument 1000 is irrelevant
@@ -163,14 +165,8 @@ public class Model {
         startingPos[2] = new TwoVector( 1, -0.5 );
         startingPos[3] = new TwoVector( 2.2, -1.2 );
         startingPos[4] = new TwoVector( 1.2, +0.8 );
-        if ( isIntro ) {
-            startingVel[0] = new TwoVector( 0.75, 0 );
-            startingVel[1] = new TwoVector( -0.75, 0 );
-        }
-        else {
-            startingVel[0] = new TwoVector( 1, 0.3 );
-            startingVel[1] = new TwoVector( -0.5, -0.5 );
-        }
+        startingVel[0] = new TwoVector( 0.8, 0 );
+        startingVel[1] = new TwoVector( -0.8, 0 );
         startingVel[2] = new TwoVector( -0.5, -0.25 );
         startingVel[3] = new TwoVector( 1.1, 0.2 );
         startingVel[4] = new TwoVector( -1.1, 0 );
@@ -220,7 +216,7 @@ public class Model {
         this.ball_arr[1].setMass( this.massBall2 );
         this.nbrBalls = 2;
         this.e = 1;			//set elasticity of collisions, 1 = perfectly elastic
-        if( CollisionLab.isStudyVersion ) {
+        if ( CollisionLab.isStudyVersion ) {
             this.e = 0;
         }
         this.timeRate = 0.5;
@@ -315,7 +311,7 @@ public class Model {
             this.initPos[indx].setX( xPos );
             this.setTimeToZero();
         }
-        if( !hasAnimationStarted ) {
+        if ( !hasAnimationStarted ) {
             this.ball_arr[indx].setAsInitialState();
         }
         this.setCenterOfMass();
@@ -350,6 +346,7 @@ public class Model {
             var ballNbr: int = indx + 1;
             trace( "ERROR: ball number " + ballNbr + ": xVel is NaN." );
         }
+        xVel = Math.round( xVel * 10 ) / 10;
         if ( !this.playing && !this.singleStepping ) {
             this.atInitialConfig = true;
         }
@@ -358,13 +355,14 @@ public class Model {
             this.initVel[indx].setX( xVel );
             this.setTimeToZero();
         }
-        if( !hasAnimationStarted ) {
+        if ( !hasAnimationStarted ) {
             this.ball_arr[indx].setAsInitialState();
         }
         if ( !playing ) {this.updateViews();}
     }
 
     public function setVY( indx: int, yVel: Number ): void {
+        yVel = Math.round( yVel * 10 ) / 10;
         if ( !this.playing && !this.singleStepping ) {
             this.atInitialConfig = true;
         }
@@ -387,6 +385,8 @@ public class Model {
             var tempBallNbr: int = indx + 1;
             trace( "ERROR: ball number " + tempBallNbr + ": yVel is NaN." );
         }
+        xVel = Math.round( xVel * 10 ) / 10;
+        yVel = Math.round( yVel * 10 ) / 10;
         this.ball_arr[indx].velocity.setX( xVel );
         this.ball_arr[indx].velocity.setY( yVel );
         if ( this.atInitialConfig ) {
