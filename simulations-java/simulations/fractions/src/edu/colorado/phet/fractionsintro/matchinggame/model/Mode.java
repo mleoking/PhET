@@ -8,4 +8,5 @@ public enum Mode {
 
     //After getting it wrong, hide the "check answer" button until they remove something from the platform or put something else up there.
     WAITING_FOR_USER_TO_CHANGE_ANSWER,
+    SHOWING_GAME_OVER_SCREEN
 }

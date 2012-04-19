@@ -169,6 +169,14 @@ import static fj.data.List.range;
         return !isTaken( cell );
     }
 
+    public boolean allStartCellsFree() {
+        return startCells.filter( new F<Cell, Boolean>() {
+            @Override public Boolean f( final Cell cell ) {
+                return isFree( cell );
+            }
+        } ).length() == startCells.length();
+    }
+
     private boolean isTaken( final Cell cell ) {
         return fractions.exists( new F<MovableFraction, Boolean>() {
             @Override public Boolean f( final MovableFraction movableFraction ) {

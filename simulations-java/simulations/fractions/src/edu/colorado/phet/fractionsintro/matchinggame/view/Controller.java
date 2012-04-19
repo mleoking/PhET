@@ -6,8 +6,7 @@ import lombok.Data;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Mode;
 
-import static edu.colorado.phet.fractionsintro.matchinggame.model.Mode.WAITING_FOR_USER_TO_CHANGE_ANSWER;
-import static edu.colorado.phet.fractionsintro.matchinggame.model.Mode.WAITING_FOR_USER_TO_CHECK_ANSWER;
+import static edu.colorado.phet.fractionsintro.matchinggame.model.Mode.*;
 
 /**
  * Commands send by the user to update the model.  They are @Data classes for purposes of automated regression testing.
@@ -32,6 +31,12 @@ public class Controller {
 
     //Moves to the next match.
     public static @Data class Next extends F<MatchingGameState, MatchingGameState> {
-        @Override public MatchingGameState f( final MatchingGameState s ) { return s.animateMatchToScoreCell().withMode( WAITING_FOR_USER_TO_CHECK_ANSWER ).withChecks( 0 ); }
+        @Override public MatchingGameState f( final MatchingGameState s ) {
+
+            final MatchingGameState updated = s.animateMatchToScoreCell().withMode( WAITING_FOR_USER_TO_CHECK_ANSWER ).withChecks( 0 );
+            return updated.allStartCellsFree() ?
+                   updated.withInfo( updated.info.withBestTime( Math.min( updated.info.time, updated.info.bestTime ) ) ).withMode( SHOWING_GAME_OVER_SCREEN ) :
+                   updated;
+        }
     }
 }
