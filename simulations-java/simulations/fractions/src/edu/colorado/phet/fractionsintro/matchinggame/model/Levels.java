@@ -142,6 +142,14 @@ public class Levels {
         }, fill );
     }
 
+    public RepresentationType tetrisPiece( F2<Pattern, Integer, FilledPattern> fill ) {
+        return createPatterns( "tetris piece", 4, 50, new F<Integer, Pattern>() {
+            @Override public Pattern f( final Integer length ) {
+                return Pattern.tetrisPiece( length );
+            }
+        }, fill );
+    }
+
     private RepresentationType makePlusses( final int numPlusses, F2<Pattern, Integer, FilledPattern> order ) {
         return createPatterns( numPlusses + " plusses", numPlusses, 10, new F<Integer, Pattern>() {
             @Override public Pattern f( final Integer integer ) {
@@ -227,10 +235,12 @@ public class Levels {
     final List<RepresentationType> easyRepresentations = list( numeric, horizontalBars, verticalBars, pies );
     final List<RepresentationType> mediumRepresentationsSequential = list( makePlusses( 2, SEQUENTIAL ), makePlusses( 3, SEQUENTIAL ), makePlusses( 4, SEQUENTIAL ), makePlusses( 5, SEQUENTIAL ), makePlusses( 6, SEQUENTIAL ),
                                                                            fourGridSEQUENTIAL, nineGridSEQUENTIAL, onePyramidSEQUENTIAL, fourPyramidSEQUENTIAL, ninePyramidSEQUENTIAL,
-                                                                           polygon( 4, SEQUENTIAL ), polygon( 5, SEQUENTIAL ), polygon( 6, SEQUENTIAL ), polygon( 7, SEQUENTIAL ), polygon( 8, SEQUENTIAL ) );
+                                                                           polygon( 4, SEQUENTIAL ), polygon( 5, SEQUENTIAL ), polygon( 6, SEQUENTIAL ), polygon( 7, SEQUENTIAL ), polygon( 8, SEQUENTIAL ),
+                                                                           tetrisPiece( SEQUENTIAL ) );
     final List<RepresentationType> mediumRepresentationsRandom = list( makePlusses( 2, RANDOM ), makePlusses( 3, RANDOM ), makePlusses( 4, RANDOM ), makePlusses( 5, RANDOM ), makePlusses( 6, RANDOM ),
                                                                        fourGridRANDOM, nineGridRANDOM, onePyramidRANDOM, fourPyramidRANDOM, ninePyramidRANDOM,
-                                                                       polygon( 4, RANDOM ), polygon( 5, RANDOM ), polygon( 6, RANDOM ), polygon( 7, RANDOM ), polygon( 8, RANDOM ) );
+                                                                       polygon( 4, RANDOM ), polygon( 5, RANDOM ), polygon( 6, RANDOM ), polygon( 7, RANDOM ), polygon( 8, RANDOM ),
+                                                                       tetrisPiece( RANDOM ) );
     final List<RepresentationType> easyScaledNumeric = list( scaledNumeric( 2 ), scaledNumeric( 3 ) );
     final List<RepresentationType> difficultScaledNumeric = list( scaledNumeric( 4 ), scaledNumeric( 5 ) );
 

@@ -69,6 +69,9 @@ import static java.lang.Math.sin;
 
     public Vector2D rotate( final double angle ) { return polar( getMagnitude(), getAngle() + angle ); }
 
+    //Use this method if you need to be very concise
+    public static Vector2D v( double x, double y ) { return new Vector2D( x, y ); }
+
     //Returns the angle of the vector. The angle will be between -pi and pi.
     public double getAngle() { return Math.atan2( y, x ); }
 

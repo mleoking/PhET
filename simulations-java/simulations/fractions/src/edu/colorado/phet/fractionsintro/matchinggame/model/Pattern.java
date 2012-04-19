@@ -24,6 +24,7 @@ import edu.umd.cs.piccolox.PFrame;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.createPolar;
+import static edu.colorado.phet.fractions.util.immutable.Vector2D.v;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Direction.*;
 import static fj.data.List.*;
 
@@ -41,6 +42,25 @@ public class Pattern {
 
     public static Rectangle2D.Double square( double x, double y, double length ) {
         return new Rectangle2D.Double( x, y, length, length );
+    }
+
+    public static Pattern tetrisPiece( final int d ) {
+
+        //Use points in a 5x5 grid, trace pieces clockwise
+        return new Pattern( list( fromPoints( d / 3.0, list( v( 0, 0 ), v( 3, 0 ), v( 3, 1 ), v( 2, 1 ), v( 2, 2 ), v( 1, 2 ), v( 1, 1 ), v( 0, 1 ) ) ),
+                                  fromPoints( d / 3.0, list( v( 3, 0 ), v( 4, 0 ), v( 4, 3 ), v( 3, 3 ), v( 3, 2 ), v( 2, 2 ), v( 2, 1 ), v( 3, 1 ) ) ),
+                                  fromPoints( d / 3.0, list( v( 4, 3 ), v( 4, 4 ), v( 1, 4 ), v( 1, 3 ), v( 2, 3 ), v( 2, 2 ), v( 3, 2 ), v( 3, 3 ) ) ),
+                                  fromPoints( d / 3.0, list( v( 0, 4 ), v( 0, 1 ), v( 1, 1 ), v( 1, 2 ), v( 2, 2 ), v( 2, 3 ), v( 1, 3 ), v( 1, 4 ) ) )
+        ) );
+    }
+
+    private static Shape fromPoints( final double length, final List<Vector2D> v ) {
+        return new DoubleGeneralPath( v.head().toImmutableVector2D().times( length ) ) {{
+            for ( Vector2D vector2D : v.tail() ) {
+                lineTo( vector2D.toImmutableVector2D().times( length ) );
+            }
+            lineTo( v.head().toImmutableVector2D().times( length ) );
+        }}.getGeneralPath();
     }
 
     public static class Direction {
@@ -167,6 +187,7 @@ public class Pattern {
                             final int finalI = i;
                             addChild( new PatternNode( FilledPattern.sequentialFill( Polygon.create( 50, finalI ), finalI / 2 ), Color.red ) {{translate( 200 + finalI * 60, 200 );}} );
                         }
+                        addChild( new PatternNode( FilledPattern.sequentialFill( tetrisPiece( 50 ), 4 ), Color.red ) {{translate( 200, 400 );}} );
                     }} );
                 }}.setVisible( true );
             }
