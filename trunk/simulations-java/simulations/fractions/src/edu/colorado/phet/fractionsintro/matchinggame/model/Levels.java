@@ -36,6 +36,7 @@ import static edu.colorado.phet.fractionsintro.common.view.Colors.LIGHT_BLUE;
 import static edu.colorado.phet.fractionsintro.common.view.Colors.LIGHT_GREEN;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.MoveToCell;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.MovableFraction.nextID;
+import static edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Polygon;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.RepresentationType.*;
 import static edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern.randomFill;
 import static edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern.sequentialFill;
@@ -127,6 +128,32 @@ public class Levels {
     final RepresentationType fivePlusses = makePlusses( 5 );
     final RepresentationType sixPlusses = makePlusses( 6 );
 
+    final RepresentationType fourPolygon = createPatterns( "four polygon", 4, 50, new F<Integer, Pattern>() {
+        @Override public Pattern f( final Integer integer ) {
+            return Polygon.create( 50, 4 );
+        }
+    }, SEQUENTIAL );
+    final RepresentationType fivePolygon = createPatterns( "five polygon", 5, 50, new F<Integer, Pattern>() {
+        @Override public Pattern f( final Integer integer ) {
+            return Polygon.create( 50, 5 );
+        }
+    }, SEQUENTIAL );
+    final RepresentationType sixPolygon = createPatterns( "six polygon", 6, 50, new F<Integer, Pattern>() {
+        @Override public Pattern f( final Integer integer ) {
+            return Polygon.create( 50, 6 );
+        }
+    }, SEQUENTIAL );
+    final RepresentationType sevenPolygon = createPatterns( "seven polygon", 7, 50, new F<Integer, Pattern>() {
+        @Override public Pattern f( final Integer integer ) {
+            return Polygon.create( 50, 7 );
+        }
+    }, SEQUENTIAL );
+    final RepresentationType eightPolygon = createPatterns( "eight polygon", 8, 50, new F<Integer, Pattern>() {
+        @Override public Pattern f( final Integer integer ) {
+            return Polygon.create( 50, 8 );
+        }
+    }, SEQUENTIAL );
+
     private RepresentationType makePlusses( final int numPlusses ) {
         return createPatterns( numPlusses + " plusses", numPlusses, 10, new F<Integer, Pattern>() {
             @Override public Pattern f( final Integer integer ) {
@@ -186,7 +213,8 @@ public class Levels {
 
     @SuppressWarnings("unchecked")
     final List<RepresentationType> levelOneRepresentations = list( numeric, horizontalBars, verticalBars, pies );
-    final List<RepresentationType> allRepresentations = levelOneRepresentations.append( list( twoPlusses, threePlusses, fourPlusses, fivePlusses, sixPlusses, fourGrid, nineGrid, onePyramid, fourPyramid, ninePyramid ) );
+    final List<RepresentationType> allRepresentations = levelOneRepresentations.append( list( twoPlusses, threePlusses, fourPlusses, fivePlusses, sixPlusses, fourGrid, nineGrid, onePyramid, fourPyramid, ninePyramid,
+                                                                                              fourPolygon, fivePolygon, sixPolygon, sevenPolygon, eightPolygon ) );
 
     //Convenience Wrapper to create PieNodes
     private PNode myPieNode( final Fraction f, final Color color ) {

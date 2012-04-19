@@ -1,3 +1,4 @@
+Matching Game: Improved scoreboard layout and smilie face size
 # 0.00.60 (63599) Apr 18, 2012
 Isolate instantiation of regression tests
 Fixes for the game over dialog
