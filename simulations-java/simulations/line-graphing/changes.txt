@@ -1,3 +1,4 @@
+4/19/12 clean up standard line icons (no equation on line, shorter line)
 4/19/12 align fraction dividing line with center of equals sign
 4/19/12 color-code title of equation controls to match the interactive line
 4/19/12 use a thinner stroke for picker numbers, the aliasing is less noticeable

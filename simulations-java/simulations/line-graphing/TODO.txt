@@ -16,7 +16,6 @@ MEDIUM
 
 LOW
 - equations on lines are sometimes difficult to read when they overlap with other things
-- clean up standard line icons (no equation on line, shorter line)
 - grid node gets bigger when IntroModel.GRID_MODEL_UNITS gets smaller, size should remain constant
 - review internal duplication in GraphNode
 - create spinner buttons programmatically, so they look more like line manipulators
