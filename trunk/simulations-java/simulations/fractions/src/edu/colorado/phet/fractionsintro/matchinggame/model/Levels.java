@@ -21,6 +21,7 @@ import edu.colorado.phet.fractionsintro.intro.model.containerset.ContainerSet;
 import edu.colorado.phet.fractionsintro.intro.view.FractionNode;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Grid;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.PlusSigns;
+import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Polygon;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Pyramid;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.HorizontalBarsNode;
@@ -36,8 +37,6 @@ import static edu.colorado.phet.fractionsintro.common.view.Colors.LIGHT_BLUE;
 import static edu.colorado.phet.fractionsintro.common.view.Colors.LIGHT_GREEN;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.MoveToCell;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.MovableFraction.nextID;
-import static edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Polygon;
-import static edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.letterLShapedDiagonal;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.RepresentationType.*;
 import static edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern.randomFill;
 import static edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern.sequentialFill;
@@ -146,7 +145,7 @@ public class Levels {
     public RepresentationType elShapedPairs( final int numPairs, F2<Pattern, Integer, FilledPattern> fill ) {
         return createPatterns( numPairs + " L-shaped diagonal", numPairs, 80, new F<Integer, Pattern>() {
             @Override public Pattern f( final Integer integer ) {
-                return letterLShapedDiagonal( 20, numPairs );
+                return Pattern.letterLShapedDiagonal( 20, numPairs );
             }
         }, fill );
     }
@@ -175,6 +174,17 @@ public class Levels {
     final RepresentationType sixFlowerRANDOM = createPatterns( "six flower sequential", 6, 100, new F<Integer, Pattern>() {
         @Override public Pattern f( final Integer length ) {
             return Pattern.sixFlower( 25 );
+        }
+    }, RANDOM );
+
+    final RepresentationType interleavedLShapeSEQUENTIAL = createPatterns( "interleaved L shape, sequential", 8, 80, new F<Integer, Pattern>() {
+        @Override public Pattern f( final Integer integer ) {
+            return Pattern.interleavedLShape( 35, 2, 2 );
+        }
+    }, SEQUENTIAL );
+    final RepresentationType interleavedLShapeRANDOM = createPatterns( "interleaved L shape, sequential", 8, 80, new F<Integer, Pattern>() {
+        @Override public Pattern f( final Integer integer ) {
+            return Pattern.interleavedLShape( 35, 2, 2 );
         }
     }, RANDOM );
 
@@ -257,13 +267,13 @@ public class Levels {
                                                                            fourGridSEQUENTIAL, nineGridSEQUENTIAL, onePyramidSEQUENTIAL, fourPyramidSEQUENTIAL, ninePyramidSEQUENTIAL,
                                                                            polygon( 4, SEQUENTIAL ), polygon( 5, SEQUENTIAL ), polygon( 6, SEQUENTIAL ), polygon( 7, SEQUENTIAL ), polygon( 8, SEQUENTIAL ),
                                                                            tetrisPiece( SEQUENTIAL ), elShapedPairs( 2, SEQUENTIAL ), elShapedPairs( 3, SEQUENTIAL ),
-                                                                           sixFlowerSEQUENTIAL
+                                                                           sixFlowerSEQUENTIAL, interleavedLShapeSEQUENTIAL
     );
     final List<RepresentationType> mediumRepresentationsRandom = list( makePlusses( 2, RANDOM ), makePlusses( 3, RANDOM ), makePlusses( 4, RANDOM ), makePlusses( 5, RANDOM ), makePlusses( 6, RANDOM ),
                                                                        fourGridRANDOM, nineGridRANDOM, onePyramidRANDOM, fourPyramidRANDOM, ninePyramidRANDOM,
                                                                        polygon( 4, RANDOM ), polygon( 5, RANDOM ), polygon( 6, RANDOM ), polygon( 7, RANDOM ), polygon( 8, RANDOM ),
                                                                        tetrisPiece( RANDOM ), elShapedPairs( 2, RANDOM ), elShapedPairs( 3, RANDOM ),
-                                                                       sixFlowerRANDOM
+                                                                       sixFlowerRANDOM, interleavedLShapeRANDOM
     );
     final List<RepresentationType> easyScaledNumeric = list( scaledNumeric( 2 ), scaledNumeric( 3 ) );
     final List<RepresentationType> difficultScaledNumeric = list( scaledNumeric( 4 ), scaledNumeric( 5 ) );
@@ -521,6 +531,11 @@ public class Levels {
             new Fraction( 4, 6 ),
             new Fraction( 3, 6 ),
             new Fraction( 2, 6 ),
+            new Fraction( 3, 8 ),
+            new Fraction( 4, 8 ),
+            new Fraction( 5, 8 ),
+            new Fraction( 6, 8 ),
+            new Fraction( 7, 8 ),
     };
     public F<List<Cell>, List<MovableFraction>> Level3 = new F<List<Cell>, List<MovableFraction>>() {
         @Override public List<MovableFraction> f( List<Cell> cells ) {
