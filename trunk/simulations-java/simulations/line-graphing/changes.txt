@@ -1,3 +1,4 @@
+4/19/12 i18n for format of xy coordinates in point tool
 4/17/12 use gradients for picker buttons
 4/17/12 simplify color scheme for pickers
 4/17/12 add model for point-slope line format, add stub for base class
