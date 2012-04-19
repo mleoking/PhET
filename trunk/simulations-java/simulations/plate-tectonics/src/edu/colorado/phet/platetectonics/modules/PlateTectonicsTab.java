@@ -386,8 +386,11 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                     // offset the ruler slightly from the mouse, and start the drag
                     ImmutableVector2F mousePosition = getMousePositionOnZPlane();
                     ImmutableVector2F initialMouseOffset = thermometer.getInitialMouseOffset();
-                    thermometer.transform.prepend( ImmutableMatrix4F.translation( mousePosition.x - initialMouseOffset.x,
-                                                                                  mousePosition.y - initialMouseOffset.y,
+                    final float initialX = mousePosition.x - initialMouseOffset.x;
+                    final float initialY = mousePosition.y - initialMouseOffset.y;
+                    thermometer.draggedPosition = new ImmutableVector2F( initialX, initialY );
+                    thermometer.transform.prepend( ImmutableMatrix4F.translation( initialX,
+                                                                                  initialY,
                                                                                   THERMOMETER_Z ) );
 
                     toolDragHandler.startDragging( thermometer, mousePosition );
@@ -408,8 +411,11 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                     // offset the ruler slightly from the mouse, and start the drag
                     ImmutableVector2F mousePosition = getMousePositionOnZPlane();
                     ImmutableVector2F initialMouseOffset = sensorNode.getInitialMouseOffset();
-                    sensorNode.transform.prepend( ImmutableMatrix4F.translation( mousePosition.x - initialMouseOffset.x,
-                                                                                 mousePosition.y - initialMouseOffset.y,
+                    final float initialX = mousePosition.x - initialMouseOffset.x;
+                    final float initialY = mousePosition.y - initialMouseOffset.y;
+                    sensorNode.draggedPosition = new ImmutableVector2F( initialX, initialY );
+                    sensorNode.transform.prepend( ImmutableMatrix4F.translation( initialX,
+                                                                                 initialY,
                                                                                  DENSITY_SENSOR_Z ) );
 
                     toolDragHandler.startDragging( sensorNode, mousePosition );
@@ -559,7 +565,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         return perspectiveMatrix;
     }
 
-    protected float getSceneDistanceZoomFactor() {
+    public float getSceneDistanceZoomFactor() {
         float minDistance = 1;
         float maxDistance = 35;
         return minDistance + ( getZoomRatio() ) * ( maxDistance - minDistance );
