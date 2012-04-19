@@ -60,7 +60,7 @@ public class NumberPickerNode extends PhetPNode {
     private static final Color BUTTON_DISABLED_COLOR = new Color( 210, 210, 210 );
     private static final Color BUTTON_SHADOW_COLOR = new Color( 120, 120, 120 );
     private static final Color BUTTON_STROKE_COLOR = new Color( 135, 135, 135 );
-    private static final double NUMBER_OUTLINE_WIDTH = 1;
+    private static final double NUMBER_OUTLINE_WIDTH = 0.5;
     private static final Color NUMBER_OUTLINE_COLOR = Color.BLACK;
 
     // Picker for intercept
