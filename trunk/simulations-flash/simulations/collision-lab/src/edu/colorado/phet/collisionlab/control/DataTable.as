@@ -54,11 +54,11 @@ public class DataTable extends Sprite {
 
     private const ballColumnNbr: int = 0;
     private const massColumnNbr: int = 1;
-    private const xColumnNbr: int = 2;
-    private const vxColumnNbr: int = 3;
-    private const pxColumnNbr: int = 4;
-    private const initialPositionColumnNbr: int = 5;
-    private const initialVelocityColumnNbr: int = 6;
+//    private const xColumnNbr: int = 2;
+    private const vxColumnNbr: int = 2;
+    private const pxColumnNbr: int = 3;
+//    private const initialPositionColumnNbr: int = 5;
+    private const initialVelocityColumnNbr: int = 4;
 
     private const separatorPaddingSize: int = 20;
 
@@ -219,7 +219,7 @@ public class DataTable extends Sprite {
     }
 
     public function get nbrColumns(): int {
-        return 7;
+        return 5;
     }
 
     /**
@@ -297,18 +297,18 @@ public class DataTable extends Sprite {
         // add a column above the main header row
         text_arr[0][ballColumnNbr].text = SimStrings.get( "DataTable.ball", "Ball" );
         text_arr[0][massColumnNbr].text = SimStrings.get( "DataTable.mass", "Mass" );
-        text_arr[0][xColumnNbr].text = SimStrings.get( "DataTable.position", "Position" );
+//        text_arr[0][xColumnNbr].text = SimStrings.get( "DataTable.position", "Position" );
         text_arr[0][vxColumnNbr].text = SimStrings.get( "DataTable.velocity", "Velocity" );
         text_arr[0][pxColumnNbr].text = SimStrings.get( "DataTable.momentum", "Momentum" );
-        text_arr[0][initialPositionColumnNbr].text = SimStrings.get( "DataTable.initialVelocity", "Initial Position" );
+//        text_arr[0][initialPositionColumnNbr].text = SimStrings.get( "DataTable.initialVelocity", "Initial Position" );
         text_arr[0][initialVelocityColumnNbr].text = SimStrings.get( "DataTable.initialMomentum", "Initial Velocity" );
 
         text_arr[1][ballColumnNbr].text = "";
         text_arr[1][massColumnNbr].text = SimStrings.get( "DataTable.units.kilograms", "kg" );
-        text_arr[1][xColumnNbr].text = SimStrings.get( "DataTable.units.meters", "m" );
+//        text_arr[1][xColumnNbr].text = SimStrings.get( "DataTable.units.meters", "m" );
         text_arr[1][vxColumnNbr].text = SimStrings.get( "DataTable.units.metersPerSecond", "m/s" );
         text_arr[1][pxColumnNbr].text = SimStrings.get( "DataTable.units.kilogramMetersPerSecond", "kg m/s" );
-        text_arr[1][initialPositionColumnNbr].text = SimStrings.get( "DataTable.units.meters", "m" );
+//        text_arr[1][initialPositionColumnNbr].text = SimStrings.get( "DataTable.units.meters", "m" );
         text_arr[1][initialVelocityColumnNbr].text = SimStrings.get( "DataTable.units.metersPerSecond", "m/s" );
 
         tFormat.bold = true;
@@ -323,15 +323,15 @@ public class DataTable extends Sprite {
 
         TextFieldUtils.resizeText( text_arr[headerRowNbr][ballColumnNbr], TextFieldAutoSize.CENTER );
         TextFieldUtils.resizeText( text_arr[headerRowNbr][massColumnNbr], TextFieldAutoSize.CENTER );
-        TextFieldUtils.resizeText( text_arr[headerRowNbr][xColumnNbr], TextFieldAutoSize.CENTER );
+//        TextFieldUtils.resizeText( text_arr[headerRowNbr][xColumnNbr], TextFieldAutoSize.CENTER );
         TextFieldUtils.resizeText( text_arr[headerRowNbr][vxColumnNbr], TextFieldAutoSize.CENTER );
         TextFieldUtils.resizeText( text_arr[headerRowNbr][pxColumnNbr], TextFieldAutoSize.CENTER );
-        TextFieldUtils.resizeText( text_arr[headerRowNbr][initialPositionColumnNbr], TextFieldAutoSize.CENTER );
+//        TextFieldUtils.resizeText( text_arr[headerRowNbr][initialPositionColumnNbr], TextFieldAutoSize.CENTER );
         TextFieldUtils.resizeText( text_arr[headerRowNbr][initialVelocityColumnNbr], TextFieldAutoSize.CENTER );
-        TextFieldUtils.resizeText( text_arr[0][xColumnNbr], TextFieldAutoSize.CENTER );
+//        TextFieldUtils.resizeText( text_arr[0][xColumnNbr], TextFieldAutoSize.CENTER );
         TextFieldUtils.resizeText( text_arr[0][vxColumnNbr], TextFieldAutoSize.CENTER );
         TextFieldUtils.resizeText( text_arr[0][pxColumnNbr], TextFieldAutoSize.CENTER );
-        TextFieldUtils.resizeText( text_arr[0][initialPositionColumnNbr], TextFieldAutoSize.CENTER );
+//        TextFieldUtils.resizeText( text_arr[0][initialPositionColumnNbr], TextFieldAutoSize.CENTER );
         TextFieldUtils.resizeText( text_arr[0][initialVelocityColumnNbr], TextFieldAutoSize.CENTER );
     }
 
@@ -394,9 +394,9 @@ public class DataTable extends Sprite {
                 if ( col == massColumnNbr ) {
                     text_arr[row][col].addEventListener( Event.CHANGE, changeMassListener );
                 }
-                if ( col == xColumnNbr ) {
-                    text_arr[row][col].addEventListener( Event.CHANGE, changeXListener );
-                }
+//                if ( col == xColumnNbr ) {
+//                    text_arr[row][col].addEventListener( Event.CHANGE, changeXListener );
+//                }
                 if ( col == vxColumnNbr ) {
                     text_arr[row][col].addEventListener( Event.CHANGE, changeVXListener );
                 }
@@ -405,7 +405,7 @@ public class DataTable extends Sprite {
     }
 
     public function setPositionHighlight( ballIndex: int, highlighted: Boolean ): void {
-        text_arr[rowOfBall( ballIndex )][xColumnNbr].backgroundColor = highlighted ? highlightColor : unhighlightColor;
+//        text_arr[rowOfBall( ballIndex )][xColumnNbr].backgroundColor = highlighted ? highlightColor : unhighlightColor;
     }
 
     public function setVelocityHighlight( ballIndex: int, highlighted: Boolean ): void {
@@ -570,22 +570,22 @@ public class DataTable extends Sprite {
                 for ( col = 0; col < nbrColumns; col++ ) {
                     if ( col == massColumnNbr ) { // mass in kg
                         mass = myModel.ball_arr[ballNum].getMass();
-                        text_arr[row][col].text = round( mass, massPrecision ); //round(mass, 1);
+                        text_arr[row][col].text = round( mass, 1 ); //round(mass, 1);
                     }
-                    if ( col == xColumnNbr ) { //x position in m
-                        var xPos: Number = myModel.ball_arr[ballNum].position.getX();
-                        text_arr[row][col].text = round( xPos, generalPrecision ); //round(xPos, nbrPlaces);
-                    }
+//                    if ( col == xColumnNbr ) { //x position in m
+//                        var xPos: Number = myModel.ball_arr[ballNum].position.getX();
+//                        text_arr[row][col].text = round( xPos, generalPrecision ); //round(xPos, nbrPlaces);
+//                    }
                     if ( col == vxColumnNbr ) { // v_x in m/s
                         var xVel: Number = myModel.ball_arr[ballNum].velocity.getX();
-                        text_arr[row][col].text = round( xVel, generalPrecision );
+                        text_arr[row][col].text = round( xVel, 1 );
 //                        text_arr[row][col].text = xVel.toFixed( generalPrecision ); //round(xVel, nbrPlaces);
                     }
-                    if ( col == initialPositionColumnNbr ) {
-                        text_arr[row][col].text = round( myModel.ball_arr[ballNum].initialPosition.getX(), generalPrecision );
-                    }
+//                    if ( col == initialPositionColumnNbr ) {
+//                        text_arr[row][col].text = round( myModel.ball_arr[ballNum].initialPosition.getX(), generalPrecision );
+//                    }
                     if ( col == initialVelocityColumnNbr ) {
-                        text_arr[row][col].text = round( myModel.ball_arr[ballNum].initialVelocity.getX(), generalPrecision );
+                        text_arr[row][col].text = round( myModel.ball_arr[ballNum].initialVelocity.getX(), 1 );
                     }
                 }
             }
