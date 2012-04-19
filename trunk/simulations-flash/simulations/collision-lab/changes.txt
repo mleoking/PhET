@@ -1,3 +1,4 @@
+# 1.00.24 (63612) Apr 19, 2012
 Restricted mass and velocity to only 1-decimal-point values.
 Removed position and initial position data columns
 Moved Momentum column back into position, added a separator between current and initial values
