@@ -6,6 +6,7 @@ import fj.data.List;
 
 import java.awt.Color;
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -42,6 +43,24 @@ public class Pattern {
 
     public static Rectangle2D.Double square( double x, double y, double length ) {
         return new Rectangle2D.Double( x, y, length, length );
+    }
+
+    //Same grid orientation as for the "tetris-grid.jpg" in the doc directory
+    public static Pattern letterLShapedDiagonal( final int cellLength, final int numberOfPairs ) {
+        return new Pattern( iterableList( new ArrayList<Shape>() {{
+            for ( int i = 0; i < numberOfPairs; i++ ) {
+                add( topL( cellLength, i * 2, i * 1 ) );
+                add( bottomL( cellLength, i * 2, i * 1 ) );
+            }
+        }} ) );
+    }
+
+    private static Shape topL( final int cellLength, final int x, final int y ) {
+        return AffineTransform.getTranslateInstance( x * cellLength, y * cellLength ).createTransformedShape( fromPoints( cellLength, list( v( 0, 0 ), v( 2, 0 ), v( 2, 3 ), v( 1, 3 ), v( 1, 1 ), v( 0, 1 ) ) ) );
+    }
+
+    private static Shape bottomL( final int cellLength, final int x, final int y ) {
+        return AffineTransform.getTranslateInstance( x * cellLength, y * cellLength ).createTransformedShape( fromPoints( cellLength, list( v( 0, 1 ), v( 1, 1 ), v( 1, 3 ), v( 2, 3 ), v( 2, 4 ), v( 0, 4 ) ) ) );
     }
 
     public static Pattern tetrisPiece( final int d ) {
@@ -188,6 +207,7 @@ public class Pattern {
                             addChild( new PatternNode( FilledPattern.sequentialFill( Polygon.create( 50, finalI ), finalI / 2 ), Color.red ) {{translate( 200 + finalI * 60, 200 );}} );
                         }
                         addChild( new PatternNode( FilledPattern.sequentialFill( tetrisPiece( 50 ), 4 ), Color.red ) {{translate( 200, 400 );}} );
+                        addChild( new PatternNode( FilledPattern.sequentialFill( letterLShapedDiagonal( 10, 2 ), 4 ), Color.red ) {{translate( 200, 500 );}} );
                     }} );
                 }}.setVisible( true );
             }

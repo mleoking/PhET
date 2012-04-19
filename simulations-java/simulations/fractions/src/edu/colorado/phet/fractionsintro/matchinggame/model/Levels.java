@@ -37,6 +37,7 @@ import static edu.colorado.phet.fractionsintro.common.view.Colors.LIGHT_GREEN;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.MoveToCell;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.MovableFraction.nextID;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Polygon;
+import static edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.letterLShapedDiagonal;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.RepresentationType.*;
 import static edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern.randomFill;
 import static edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern.sequentialFill;
@@ -142,6 +143,14 @@ public class Levels {
         }, fill );
     }
 
+    public RepresentationType elShapedPairs( final int numPairs, F2<Pattern, Integer, FilledPattern> fill ) {
+        return createPatterns( numPairs + " L-shaped diagonal", numPairs, 80, new F<Integer, Pattern>() {
+            @Override public Pattern f( final Integer integer ) {
+                return letterLShapedDiagonal( 20, numPairs );
+            }
+        }, fill );
+    }
+
     public RepresentationType tetrisPiece( F2<Pattern, Integer, FilledPattern> fill ) {
         return createPatterns( "tetris piece", 4, 50, new F<Integer, Pattern>() {
             @Override public Pattern f( final Integer length ) {
@@ -236,11 +245,13 @@ public class Levels {
     final List<RepresentationType> mediumRepresentationsSequential = list( makePlusses( 2, SEQUENTIAL ), makePlusses( 3, SEQUENTIAL ), makePlusses( 4, SEQUENTIAL ), makePlusses( 5, SEQUENTIAL ), makePlusses( 6, SEQUENTIAL ),
                                                                            fourGridSEQUENTIAL, nineGridSEQUENTIAL, onePyramidSEQUENTIAL, fourPyramidSEQUENTIAL, ninePyramidSEQUENTIAL,
                                                                            polygon( 4, SEQUENTIAL ), polygon( 5, SEQUENTIAL ), polygon( 6, SEQUENTIAL ), polygon( 7, SEQUENTIAL ), polygon( 8, SEQUENTIAL ),
-                                                                           tetrisPiece( SEQUENTIAL ) );
+                                                                           tetrisPiece( SEQUENTIAL ), elShapedPairs( 2, SEQUENTIAL ), elShapedPairs( 3, SEQUENTIAL )
+    );
     final List<RepresentationType> mediumRepresentationsRandom = list( makePlusses( 2, RANDOM ), makePlusses( 3, RANDOM ), makePlusses( 4, RANDOM ), makePlusses( 5, RANDOM ), makePlusses( 6, RANDOM ),
                                                                        fourGridRANDOM, nineGridRANDOM, onePyramidRANDOM, fourPyramidRANDOM, ninePyramidRANDOM,
                                                                        polygon( 4, RANDOM ), polygon( 5, RANDOM ), polygon( 6, RANDOM ), polygon( 7, RANDOM ), polygon( 8, RANDOM ),
-                                                                       tetrisPiece( RANDOM ) );
+                                                                       tetrisPiece( RANDOM ), elShapedPairs( 2, RANDOM ), elShapedPairs( 3, RANDOM )
+    );
     final List<RepresentationType> easyScaledNumeric = list( scaledNumeric( 2 ), scaledNumeric( 3 ) );
     final List<RepresentationType> difficultScaledNumeric = list( scaledNumeric( 4 ), scaledNumeric( 5 ) );
 
