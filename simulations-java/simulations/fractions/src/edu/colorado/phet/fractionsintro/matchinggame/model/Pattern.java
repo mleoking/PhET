@@ -46,7 +46,7 @@ public class Pattern {
 
     public static Pattern tetrisPiece( final int d ) {
 
-        //Use points in a 5x5 grid, trace pieces clockwise
+        //Use points in a 5x5 grid, trace pieces clockwise.  See "tetris-grid.jpg" in the doc directory
         return new Pattern( list( fromPoints( d / 3.0, list( v( 0, 0 ), v( 3, 0 ), v( 3, 1 ), v( 2, 1 ), v( 2, 2 ), v( 1, 2 ), v( 1, 1 ), v( 0, 1 ) ) ),
                                   fromPoints( d / 3.0, list( v( 3, 0 ), v( 4, 0 ), v( 4, 3 ), v( 3, 3 ), v( 3, 2 ), v( 2, 2 ), v( 2, 1 ), v( 3, 1 ) ) ),
                                   fromPoints( d / 3.0, list( v( 4, 3 ), v( 4, 4 ), v( 1, 4 ), v( 1, 3 ), v( 2, 3 ), v( 2, 2 ), v( 3, 2 ), v( 3, 3 ) ) ),
