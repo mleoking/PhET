@@ -20,7 +20,9 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.linegraphing.common.LGColors;
+import edu.colorado.phet.linegraphing.common.LGResources;
 import edu.colorado.phet.linegraphing.common.LGResources.Images;
+import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.ParameterKeys;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Graph;
@@ -40,7 +42,6 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 class PointToolNode extends PhetPNode {
 
-    private static final String COORDINATES_PATTERN = "({0}, {1})"; // space between the coordinates because some locales use ',' as the decimal separator
     private static final NumberFormat COORDINATES_FORMAT = new DefaultDecimalFormat( "0" );
     private static final double COORDINATES_Y_CENTER = 21; // center of the display area, measured from the top of the unscaled image file
 
@@ -82,7 +83,7 @@ class PointToolNode extends PhetPNode {
 
                 // display value and highlighting
                 if ( graph.contains( location ) ) {
-                    coordinatesNode.setText( MessageFormat.format( COORDINATES_PATTERN, COORDINATES_FORMAT.format( location.getX() ), COORDINATES_FORMAT.format( location.getY() ) ) );
+                    coordinatesNode.setText( MessageFormat.format( Strings.PATTERN_X_Y, COORDINATES_FORMAT.format( location.getX() ), COORDINATES_FORMAT.format( location.getY() ) ) );
                     if ( linesVisible.get() ) {
                         // use the line's color to highlight
                         SlopeInterceptLine onLine = pointTool.onLine.get();
