@@ -143,35 +143,10 @@ public class MatchingGameNode extends FNode {
             setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - INSET, scoreCellsLayer.getMaxY() + INSET );
         }} );
 
-//        if ( showDeveloperControls && false ) {
-//            showDeveloperControls( model, newLevel, nextLevel );
-//        }
+        if ( showDeveloperControls ) {
+            addChild( buttonFactory.f( new ButtonArgs( null, "Resample", Color.red, new Vector2D( 100, 6 ), new Resample() ) ) );
+        }
     }
-
-    //    private void showDeveloperControls( final SettableProperty<MatchingGameState> model, final int newLevel, final ActionListener nextLevel ) {
-
-//    final int newLevel = state.info.level + 1;
-//    final ActionListener nextLevel = new ActionListener() {
-//        @Override public void actionPerformed( ActionEvent e ) {
-//            model.set( newLevel( newLevel ).withAudio( state.info.audio ) );
-//        }
-//    };
-//        addChild( new VBox(
-//                new Button( null, "Reset", Color.yellow, Vector2D.ZERO, new ActionListener() {
-//                    @Override public void actionPerformed( final ActionEvent e ) {
-//                        model.set( initialState() );
-//                    }
-//                } ),
-//                new Button( null, "Resample", Color.yellow, Vector2D.ZERO, new ActionListener() {
-//                    @Override public void actionPerformed( final ActionEvent e ) {
-//                        model.set( newLevel( model.get().info.level ) );
-//                    }
-//                } ),
-//                new Button( null, "Skip to level " + newLevel, Color.yellow, Vector2D.ZERO, nextLevel )
-//        ) {{
-//            setOffset( 0, 200 );
-//        }} );
-//    }
 
     //Encapsulates stroke, paint and stroke paint for a sign node like "=", "<", ">"
     public static PhetPPath createSignNode( Shape shape ) { return new PhetPPath( shape, yellow, new BasicStroke( 2 ), Color.black ); }
