@@ -167,6 +167,17 @@ public class Levels {
         }, order );
     }
 
+    final RepresentationType sixFlowerSEQUENTIAL = createPatterns( "six flower sequential", 6, 100, new F<Integer, Pattern>() {
+        @Override public Pattern f( final Integer length ) {
+            return Pattern.sixFlower( 25 );
+        }
+    }, SEQUENTIAL );
+    final RepresentationType sixFlowerRANDOM = createPatterns( "six flower sequential", 6, 100, new F<Integer, Pattern>() {
+        @Override public Pattern f( final Integer length ) {
+            return Pattern.sixFlower( 25 );
+        }
+    }, RANDOM );
+
     final RepresentationType fourGridSEQUENTIAL = createPatterns( "four grid", 4, 100, new F<Integer, Pattern>() {
         @Override public Pattern f( final Integer length ) {
             return new Grid( 2 );
@@ -245,12 +256,14 @@ public class Levels {
     final List<RepresentationType> mediumRepresentationsSequential = list( makePlusses( 2, SEQUENTIAL ), makePlusses( 3, SEQUENTIAL ), makePlusses( 4, SEQUENTIAL ), makePlusses( 5, SEQUENTIAL ), makePlusses( 6, SEQUENTIAL ),
                                                                            fourGridSEQUENTIAL, nineGridSEQUENTIAL, onePyramidSEQUENTIAL, fourPyramidSEQUENTIAL, ninePyramidSEQUENTIAL,
                                                                            polygon( 4, SEQUENTIAL ), polygon( 5, SEQUENTIAL ), polygon( 6, SEQUENTIAL ), polygon( 7, SEQUENTIAL ), polygon( 8, SEQUENTIAL ),
-                                                                           tetrisPiece( SEQUENTIAL ), elShapedPairs( 2, SEQUENTIAL ), elShapedPairs( 3, SEQUENTIAL )
+                                                                           tetrisPiece( SEQUENTIAL ), elShapedPairs( 2, SEQUENTIAL ), elShapedPairs( 3, SEQUENTIAL ),
+                                                                           sixFlowerSEQUENTIAL
     );
     final List<RepresentationType> mediumRepresentationsRandom = list( makePlusses( 2, RANDOM ), makePlusses( 3, RANDOM ), makePlusses( 4, RANDOM ), makePlusses( 5, RANDOM ), makePlusses( 6, RANDOM ),
                                                                        fourGridRANDOM, nineGridRANDOM, onePyramidRANDOM, fourPyramidRANDOM, ninePyramidRANDOM,
                                                                        polygon( 4, RANDOM ), polygon( 5, RANDOM ), polygon( 6, RANDOM ), polygon( 7, RANDOM ), polygon( 8, RANDOM ),
-                                                                       tetrisPiece( RANDOM ), elShapedPairs( 2, RANDOM ), elShapedPairs( 3, RANDOM )
+                                                                       tetrisPiece( RANDOM ), elShapedPairs( 2, RANDOM ), elShapedPairs( 3, RANDOM ),
+                                                                       sixFlowerRANDOM
     );
     final List<RepresentationType> easyScaledNumeric = list( scaledNumeric( 2 ), scaledNumeric( 3 ) );
     final List<RepresentationType> difficultScaledNumeric = list( scaledNumeric( 4 ), scaledNumeric( 5 ) );
@@ -504,7 +517,11 @@ public class Levels {
             new Fraction( 7, 4 ),
             new Fraction( 5, 4 ),
             new Fraction( 6, 4 ),
-            new Fraction( 3, 4 ) };
+            new Fraction( 5, 6 ),
+            new Fraction( 4, 6 ),
+            new Fraction( 3, 6 ),
+            new Fraction( 2, 6 ),
+    };
     public F<List<Cell>, List<MovableFraction>> Level3 = new F<List<Cell>, List<MovableFraction>>() {
         @Override public List<MovableFraction> f( List<Cell> cells ) {
             return createLevel( getRepresentationPool( 3 ), cells, level3Fractions );

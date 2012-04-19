@@ -1,3 +1,4 @@
+Matching Game: Added 6-star
 # 0.00.61 (63609) Apr 18, 2012
 Matching Game: Added L-shaped diagonal
 Matching Game: Added tetris pieces
