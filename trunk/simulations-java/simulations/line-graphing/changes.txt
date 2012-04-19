@@ -1,3 +1,5 @@
+# 0.00.12 (63651) Apr 19, 2012
+4/19/12 identical to 0.00.11, but uses spinners instead of pickers
 4/19/12 temporarily replace pickers with spinners, so we can compare in 2 identical dev versions
 # 0.00.11 (63649) Apr 19, 2012
 4/19/12 make rise/run values slightly less transparent, so that the values are more clearly-visible when they are on top of other things
