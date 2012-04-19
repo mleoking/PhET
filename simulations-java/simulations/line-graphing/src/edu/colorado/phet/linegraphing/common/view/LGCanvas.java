@@ -28,7 +28,7 @@ public class LGCanvas extends PhetPCanvas {
 
     protected LGCanvas() {
 
-        setBackground( LGColors.CANVAS_COLOR );
+        setBackground( LGColors.CANVAS );
 
         setWorldTransformStrategy( new CenteredStage( this, STAGE_SIZE ) );
         if ( SHOW_STAGE_BOUNDS ) {

@@ -12,14 +12,14 @@ import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
  */
 public class LGColors {
 
-    public static final Color CANVAS_COLOR = new Color( 255, 255, 225 );
+    public static final Color CANVAS = new Color( 255, 255, 225 );
     public static final Color INTERACTIVE_LINE = PhetColorScheme.RED_COLORBLIND;
     public static final Color SAVED_LINE_NORMAL = Color.GRAY;
     public static final Color SAVED_LINE_HIGHLIGHT = new Color( 0, 190, 0 );
     public static final Color Y_EQUALS_X = Color.BLUE;
     public static final Color Y_EQUALS_NEGATIVE_X = new Color( 0, 178, 178 );
-    public static final Color SLOPE_COLOR = new Color( 120, 245, 3 );
-    public static final Color INTERCEPT_COLOR = Color.YELLOW;
+    public static final Color SLOPE = new Color( 120, 245, 3 );
+    public static final Color INTERCEPT = Color.YELLOW;
     public static final Color SAVE_LINE_BUTTON = Color.WHITE;
     public static final Color ERASE_LINES_BUTTON = Color.WHITE;
     public static final Color RESET_ALL_BUTTON = Color.WHITE;

@@ -1,3 +1,4 @@
+4/19/12 color tweaks
 4/19/12 use number color for button highlight color, white highlight wasn't noticeable enough
 4/19/12 AP picker change requests: use gray gradient for buttons, use color for numbers, black outline on numbers
 4/19/12 i18n for format of xy coordinates in point tool

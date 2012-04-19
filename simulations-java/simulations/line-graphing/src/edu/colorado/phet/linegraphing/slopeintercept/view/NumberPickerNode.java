@@ -41,7 +41,6 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.DynamicCursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.OutlinePText;
 import edu.colorado.phet.linegraphing.common.LGColors;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -59,13 +58,16 @@ public class NumberPickerNode extends PhetPNode {
     private static final Color BUTTON_TOP_COLOR = Color.WHITE;
     private static final Color BUTTON_BOTTOM_COLOR = new Color( 235, 235, 235 );
     private static final Color BUTTON_DISABLED_COLOR = new Color( 210, 210, 210 );
-    private static final Color SHADOW_COLOR = new Color( 120, 120, 120 );
+    private static final Color BUTTON_SHADOW_COLOR = new Color( 120, 120, 120 );
+    private static final Color BUTTON_STROKE_COLOR = new Color( 135, 135, 135 );
+    private static final double NUMBER_OUTLINE_WIDTH = 1;
+    private static final Color NUMBER_OUTLINE_COLOR = Color.BLACK;
 
     // Picker for intercept
     public static class InterceptPickerNode extends NumberPickerNode {
         public InterceptPickerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format, boolean abs ) {
             super( userComponent, value, range, 1, abs, font, format,
-                   new NumberPickerColorScheme( LGColors.INTERCEPT_COLOR, BUTTON_TOP_COLOR, BUTTON_BOTTOM_COLOR, LGColors.INTERCEPT_COLOR, BUTTON_DISABLED_COLOR, SHADOW_COLOR ) );
+                   new NumberPickerColorScheme( LGColors.INTERCEPT, BUTTON_TOP_COLOR, BUTTON_BOTTOM_COLOR, new Color( 240, 240, 0 ), BUTTON_DISABLED_COLOR, BUTTON_SHADOW_COLOR ) );
         }
     }
 
@@ -73,7 +75,7 @@ public class NumberPickerNode extends PhetPNode {
     public static class SlopePickerNode extends NumberPickerNode {
         public SlopePickerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format, boolean abs ) {
             super( userComponent, value, range, 1, abs, font, format,
-                   new NumberPickerColorScheme( LGColors.SLOPE_COLOR, BUTTON_TOP_COLOR, BUTTON_BOTTOM_COLOR, LGColors.SLOPE_COLOR, BUTTON_DISABLED_COLOR, SHADOW_COLOR ) );
+                   new NumberPickerColorScheme( LGColors.SLOPE, BUTTON_TOP_COLOR, BUTTON_BOTTOM_COLOR, new Color( 120, 225, 3 ), BUTTON_DISABLED_COLOR, BUTTON_SHADOW_COLOR ) );
         }
     }
 
@@ -124,8 +126,7 @@ public class NumberPickerNode extends PhetPNode {
         topEnabled = new Property<Boolean>( true );
         bottomEnabled = new Property<Boolean>( true );
 
-        double numberOutlineWidth = 1;
-        final OutlinePText numberNode = new OutlinePText( "?", font, colorScheme.numberColor, Color.BLACK, numberOutlineWidth );
+        final OutlinePText numberNode = new OutlinePText( "?", font, colorScheme.numberColor, NUMBER_OUTLINE_COLOR, NUMBER_OUTLINE_WIDTH );
 
         // compute max number width, based on range
         numberNode.setText( "20" ); //TODO this assumes 2 digits, better to compute based on range but range is dynamic.
@@ -148,11 +149,10 @@ public class NumberPickerNode extends PhetPNode {
         bottomShadowNode.setPaint( colorScheme.shadowColor );
 
         // strokes
-        final Color strokeColor = new Color( 150, 150, 150 );
         topButtonNode.setStroke( new BasicStroke( 0.5f ) );
-        topButtonNode.setStrokePaint( strokeColor );
+        topButtonNode.setStrokePaint( BUTTON_STROKE_COLOR );
         bottomButtonNode.setStroke( new BasicStroke( 0.25f ) );
-        bottomButtonNode.setStrokePaint( strokeColor );
+        bottomButtonNode.setStrokePaint( BUTTON_STROKE_COLOR );
         topShadowNode.setStroke( null );
         bottomShadowNode.setStroke( null );
 
@@ -359,8 +359,8 @@ public class NumberPickerNode extends PhetPNode {
     // test
     public static void main( String[] args ) {
 
-        NumberPickerColorScheme colorScheme = new NumberPickerColorScheme( LGColors.SLOPE_COLOR, BUTTON_TOP_COLOR, BUTTON_BOTTOM_COLOR,
-                                                                           BUTTON_DISABLED_COLOR, SHADOW_COLOR, Color.DARK_GRAY );
+        NumberPickerColorScheme colorScheme = new NumberPickerColorScheme( LGColors.SLOPE, BUTTON_TOP_COLOR, BUTTON_BOTTOM_COLOR,
+                                                                           BUTTON_DISABLED_COLOR, BUTTON_SHADOW_COLOR, Color.DARK_GRAY );
         Property<Double> value = new Property<Double>( 3d );
         Property<DoubleRange> range = new Property<DoubleRange>( new DoubleRange( -10, 10 ) );
 
