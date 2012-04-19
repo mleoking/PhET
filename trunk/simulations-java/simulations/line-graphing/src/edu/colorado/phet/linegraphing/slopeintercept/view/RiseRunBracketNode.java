@@ -48,7 +48,7 @@ class RiseRunBracketNode extends PComposite {
     // label
     private static final PhetFont LABEL_FONT = new PhetFont( Font.BOLD, 16 );
     private static final Color LABEL_COLOR = Color.BLACK;
-    private static final Color LABEL_BACKGROUND_COLOR = ColorUtils.createColor( LGColors.SLOPE_COLOR, 120 );
+    private static final Color LABEL_BACKGROUND_COLOR = ColorUtils.createColor( LGColors.SLOPE, 120 );
     private static final NumberFormat LABEL_FORMAT = new DefaultDecimalFormat( "0" );
     private final double MINUS_SIGN_WIDTH = new PhetPText( "-", LABEL_FONT ).getFullBoundsReference().getWidth();
     private static final double LABEL_SPACING = 2;
