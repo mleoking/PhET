@@ -148,7 +148,7 @@ public class NumberPickerNode extends PhetPNode {
         bottomShadowNode.setPaint( colorScheme.shadowColor );
 
         // strokes
-        final Color strokeColor = new Color( 175, 175, 175 );
+        final Color strokeColor = new Color( 150, 150, 150 );
         topButtonNode.setStroke( new BasicStroke( 0.5f ) );
         topButtonNode.setStrokePaint( strokeColor );
         bottomButtonNode.setStroke( new BasicStroke( 0.25f ) );
