@@ -13,7 +13,6 @@ MEDIUM
 - when point tool is on a saved line, change the point tool highlighting when the user mouses over the saved line
 - don't like all the MathUtil.round that's going on
 - don't like having int methods in SlopeInterceptLine model
-- new point-tool.png and assert from AP
 
 LOW
 - equations on lines are sometimes difficult to read when they overlap with other things
