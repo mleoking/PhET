@@ -10,7 +10,7 @@ HIGH
 - prevent slope=0/0 in the interactive equation by skipping over 0. This also affects dynamic range.
 
 MEDIUM
-- outlined numbers aren't always centered in pickers
+- outlined numbers (OutlinePText) can't be reliably centered in pickers and they are aliased
 - when point tool is on a saved line, change the point tool highlighting when the user mouses over the saved line
 - don't like all the MathUtil.round that's going on
 - don't like having int methods in SlopeInterceptLine model
