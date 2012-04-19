@@ -62,6 +62,10 @@ public class OutlinePText extends PNode {
         textPPath.setPathTo( textLayout.getOutline( new AffineTransform() ) );
     }
 
+    public void setFillColor( Color color ) {
+        textPPath.setPaint( color );
+    }
+
     /**
      * Test harness.
      *
