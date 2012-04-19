@@ -257,7 +257,7 @@ class LineGraphNode extends GraphNode {
         Point2D p2 = mvt.modelToView( x2, y2 );
         graphNode.addChild( new PPath( new Line2D.Double( p1.getX(), p1.getY(), p2.getX(), p2.getY() ) ) {{
             setStrokePaint( color );
-            setStroke( new BasicStroke( 3f ) );
+            setStroke( new BasicStroke( 4f ) );
         }} );
         graphNode.scale( width / graphNode.getFullBoundsReference().getWidth() );
         return new ImageIcon( new PadBoundsNode( graphNode ).toImage() );
