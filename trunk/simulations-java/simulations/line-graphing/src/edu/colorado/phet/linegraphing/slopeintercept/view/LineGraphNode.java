@@ -1,7 +1,11 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.slopeintercept.view;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -24,6 +28,7 @@ import edu.colorado.phet.linegraphing.slopeintercept.view.LineManipulatorDragHan
 import edu.colorado.phet.linegraphing.slopeintercept.view.LineManipulatorDragHandler.SlopeDragHandler;
 import edu.colorado.phet.linegraphing.slopeintercept.view.RiseRunBracketNode.Direction;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
@@ -233,36 +238,25 @@ class LineGraphNode extends GraphNode {
 
     // Creates an icon for the "y = +x" feature
     public static Icon createYEqualsXIcon( double width ) {
-        return createIcon( width, true, false );
+        return createIcon( width, LGColors.Y_EQUALS_X, -3, -3, 3, 3 );
     }
 
     // Creates an icon for the "y = -x" feature
     public static Icon createYEqualsNegativeXIcon( double width ) {
-        return createIcon( width, false, true );
+       return createIcon( width, LGColors.Y_EQUALS_NEGATIVE_X, -3, 3, 3, -3 );
     }
 
-    // Icon creation
-    private static Icon createIcon( double width, boolean yEqualsXVisible, boolean yEqualsNegativeXVisible ) {
-        ObservableList<SlopeInterceptLine> standardLines = new ObservableList<SlopeInterceptLine>();
-        LineGraphNode graphNode = new LineGraphNode( new Graph( -3, 3, -3, 3 ),
-                                                     ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 15, -15 ),
-                                                     new Property<SlopeInterceptLine>( new SlopeInterceptLine( 1, 1, 1, LGColors.INTERACTIVE_LINE ) ),
-                                                     new ObservableList<SlopeInterceptLine>(),
-                                                     standardLines,
-                                                     new Property<DoubleRange>( new DoubleRange( -1, 1 ) ),
-                                                     new Property<DoubleRange>( new DoubleRange( -1, 1 ) ),
-                                                     new Property<DoubleRange>( new DoubleRange( -1, 1 ) ),
-                                                     new Property<Boolean>( false ),
-                                                     new Property<Boolean>( true ),
-                                                     new Property<Boolean>( false ),
-                                                     new Property<Boolean>( false ) );
-        if ( yEqualsXVisible ) {
-            standardLines.add( SlopeInterceptLine.Y_EQUALS_X_LINE );
-        }
-        if ( yEqualsNegativeXVisible ) {
-            standardLines.add( SlopeInterceptLine.Y_EQUALS_NEGATIVE_X_LINE );
-        }
-        graphNode.interactiveLineVisible.set( false );
+    // Creates an icon for a line between 2 points on a grid with fixed dimensions.
+    public static Icon createIcon( double width, final Color color, int x1, int y1, int x2, int y2 ) {
+        final Graph graph = new Graph( -3, 3, -3, 3 );
+        final ModelViewTransform mvt = ModelViewTransform.createOffsetScaleMapping( new Double( 0, 0 ), 15, -15 );
+        GraphNode graphNode = new GraphNode( graph, mvt );
+        Point2D p1 = mvt.modelToView( x1, y1 );
+        Point2D p2 = mvt.modelToView( x2, y2 );
+        graphNode.addChild( new PPath( new Line2D.Double( p1.getX(), p1.getY(), p2.getX(), p2.getY() ) ) {{
+            setStrokePaint( color );
+            setStroke( new BasicStroke( 3f ) );
+        }} );
         graphNode.scale( width / graphNode.getFullBoundsReference().getWidth() );
         return new ImageIcon( new PadBoundsNode( graphNode ).toImage() );
     }
