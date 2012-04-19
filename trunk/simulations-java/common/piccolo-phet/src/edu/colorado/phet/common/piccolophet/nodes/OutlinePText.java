@@ -55,7 +55,7 @@ public class OutlinePText extends PNode {
         TextLayout textLayout = new TextLayout( text, font, SWING_FRC );
         textPPath.setPathTo( textLayout.getOutline( new AffineTransform() ) );
         addChild( new ZeroOffsetNode( textPPath ) ); // Make sure that this node's origin is in the upper left corner.
-        textPPath.setPickable( false ); // this class should be pickable, but not individual components
+        textPPath.setPickable( false ); // #3313 temporary workaround; this class should be pickable, but not individual components
     }
 
     public void setText( String text ) {
