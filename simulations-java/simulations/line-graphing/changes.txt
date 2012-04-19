@@ -1,3 +1,4 @@
+4/19/12 make manipulators slightly larger, to encourage users to play with them
 4/19/12 layout tweak in picker
 4/19/12 clean up standard line icons (no equation on line, shorter line)
 4/19/12 align fraction dividing line with center of equals sign
