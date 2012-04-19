@@ -45,6 +45,25 @@ public class Pattern {
         return new Rectangle2D.Double( x, y, length, length );
     }
 
+    public static Pattern interleavedLShape( final int squareLength, final int numberPairRows, final int numberPairColumns ) {
+        return new Pattern( iterableList( new ArrayList<Shape>() {{
+            for ( int i = 0; i < numberPairRows; i++ ) {
+                for ( int j = 0; j < numberPairColumns; j++ ) {
+                    add( AffineTransform.getTranslateInstance( squareLength * i, squareLength * j ).createTransformedShape( leftSide( squareLength ) ) );
+                    add( AffineTransform.getTranslateInstance( squareLength * i, squareLength * j ).createTransformedShape( rightSide( squareLength ) ) );
+                }
+            }
+        }} ) );
+    }
+
+    private static Shape leftSide( final double s ) {
+        return fromPoints( s, list( v( 0, 0 ), v( 1.0 / 3.0, 0 ), v( 1.0 / 3.0, 0.5 ), v( 2.0 / 3.0, 0.5 ), v( 2.0 / 3.0, 1 ), v( 0, 1 ) ) );
+    }
+
+    private static Shape rightSide( final double s ) {
+        return fromPoints( s, list( v( 1, 0 ), v( 1, 1 ), v( 2.0 / 3, 1 ), v( 2.0 / 3.0, 0.5 ), v( 1.0 / 3.0, 0.5 ), v( 1.0 / 3, 0 ) ) );
+    }
+
     //Same grid orientation as for the "tetris-grid.jpg" in the doc directory
     public static Pattern letterLShapedDiagonal( final int cellLength, final int numberOfPairs ) {
         return new Pattern( iterableList( new ArrayList<Shape>() {{
@@ -220,6 +239,7 @@ public class Pattern {
                         addChild( new PatternNode( FilledPattern.sequentialFill( tetrisPiece( 50 ), 4 ), Color.red ) {{translate( 200, 400 );}} );
                         addChild( new PatternNode( FilledPattern.sequentialFill( letterLShapedDiagonal( 10, 2 ), 4 ), Color.red ) {{translate( 200, 500 );}} );
                         addChild( new PatternNode( FilledPattern.sequentialFill( sixFlower( 50 ), 4 ), Color.red ) {{translate( 300, 500 );}} );
+                        addChild( new PatternNode( FilledPattern.sequentialFill( interleavedLShape( 80, 2, 2 ), 6 ), Color.red ) {{translate( 400, 500 );}} );
                     }} );
                 }}.setVisible( true );
             }
