@@ -86,6 +86,17 @@ public class Levels {
                                                                             return new FractionNode( f, 0.3 );
                                                                         }
                                                                     } );
+
+
+    static RepresentationType scaledNumeric( final int scale ) {
+        return singleRepresentation( "numeric", all,
+                                     new F<Fraction, PNode>() {
+                                         @Override public PNode f( Fraction f ) {
+                                             return new FractionNode( new Fraction( f.numerator * scale, f.denominator * scale ), 0.3 );
+                                         }
+                                     } );
+    }
+
     final RepresentationType horizontalBars = twoComposites( "horizontal bars", all,
                                                              new F<Fraction, PNode>() {
                                                                  @Override public PNode f( Fraction f ) {
@@ -212,9 +223,11 @@ public class Levels {
     public static Levels Levels = new Levels();
 
     @SuppressWarnings("unchecked")
-    final List<RepresentationType> levelOneRepresentations = list( numeric, horizontalBars, verticalBars, pies );
-    final List<RepresentationType> allRepresentations = levelOneRepresentations.append( list( twoPlusses, threePlusses, fourPlusses, fivePlusses, sixPlusses, fourGrid, nineGrid, onePyramid, fourPyramid, ninePyramid,
-                                                                                              fourPolygon, fivePolygon, sixPolygon, sevenPolygon, eightPolygon ) );
+    final List<RepresentationType> easyRepresentations = list( numeric, horizontalBars, verticalBars, pies );
+    final List<RepresentationType> mediumRepresentations = list( twoPlusses, threePlusses, fourPlusses, fivePlusses, sixPlusses, fourGrid, nineGrid, onePyramid, fourPyramid, ninePyramid,
+                                                                 fourPolygon, fivePolygon, sixPolygon, sevenPolygon, eightPolygon );
+    final List<RepresentationType> difficultRepresentations = list( scaledNumeric( 2 ), scaledNumeric( 3 ) );
+    final List<RepresentationType> veryDifficultRepresentations = list( scaledNumeric( 4 ), scaledNumeric( 5 ) );
 
     //Convenience Wrapper to create PieNodes
     private PNode myPieNode( final Fraction f, final Color color ) {
@@ -325,8 +338,14 @@ public class Levels {
     }
 
     private F<Fraction, ArrayList<RepresentationType>> getRepresentationPool( final int level ) {
-        return level == 1 ? representationFunction( levelOneRepresentations ) : representationFunction( allRepresentations );
+        return level == 1 ? representationFunction( easyRepresentations ) :
+               level >= 2 && level <= 4 ? representationFunction( easyRepresentations.append( mediumRepresentations ) ) :
+               level == 5 ? representationFunction( mediumRepresentations.append( difficultRepresentations ) ) :
+               level == 6 ? representationFunction( mediumRepresentations.append( veryDifficultRepresentations ) ) :
+               matchError( "level not found: " + level );
     }
+
+    private F<Fraction, ArrayList<RepresentationType>> matchError( final String s ) { throw new RuntimeException( s ); }
 
     private void makeSureNoRepresentationTypeUsedTwiceForTheSameFraction( final List<ResultPair> all ) {
         List<Fraction> fractions = all.bind( new F<ResultPair, List<Fraction>>() {
