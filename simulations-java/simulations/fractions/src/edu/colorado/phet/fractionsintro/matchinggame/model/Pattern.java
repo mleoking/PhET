@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.matchinggame.model;
 
+import fj.F;
 import fj.data.List;
 
 import java.awt.Color;
@@ -21,9 +22,10 @@ import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPatter
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
 import edu.umd.cs.piccolox.PFrame;
 
+import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
+import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.createPolar;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Direction.*;
-import static fj.data.List.iterableList;
-import static fj.data.List.list;
+import static fj.data.List.*;
 
 /**
  * An abstraction over shape-based representations for fractions, such as a grid of cells, or a pyramid of triangles.
@@ -136,10 +138,21 @@ public class Pattern {
     public static class Polygon {
 
         //http://www.mathsisfun.com/geometry/interior-angles-polygons.html
-        public static Pattern create( double diameter, int numSides ) {
-            double eachAngle = ( numSides - 2 ) * Math.PI / numSides;
-
-            return new Pattern( List.single( triangle( diameter, new Vector2D( 0, 0 ), new UnitVector2D( 0, 1 ) ) ) );
+        public static Pattern create( double diameter, final int numSides ) {
+            final double triAngle = Math.PI * 2.0 / numSides;
+//            final double eachAngle = ( numSides - 2 ) * Math.PI / numSides;
+            final double radius = diameter / 2;
+            return new Pattern( range( 0, numSides ).map( new F<Integer, Shape>() {
+                @Override public Shape f( final Integer side ) {
+                    final double startAngle = Math.PI / 2 - triAngle / 2 + side * triAngle;
+                    final double endAngle = Math.PI / 2 + triAngle / 2 + side * triAngle;
+                    return new DoubleGeneralPath( ZERO ) {{
+                        lineTo( createPolar( radius, startAngle ) );
+                        lineTo( createPolar( radius, endAngle ) );
+                        lineTo( ZERO );
+                    }}.getGeneralPath();
+                }
+            } ) );
         }
     }
 
@@ -150,7 +163,10 @@ public class Pattern {
                     setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
                     setSize( 1024, 768 );
                     getCanvas().getLayer().addChild( new FNode() {{
-                        addChild( new PatternNode( FilledPattern.sequentialFill( Polygon.create( 50, 4 ), 4 ), Color.red ) {{translate( 200, 200 );}} );
+                        for ( int i = 4; i <= 8; i++ ) {
+                            final int finalI = i;
+                            addChild( new PatternNode( FilledPattern.sequentialFill( Polygon.create( 50, finalI ), finalI / 2 ), Color.red ) {{translate( 200 + finalI * 60, 200 );}} );
+                        }
                     }} );
                 }}.setVisible( true );
             }

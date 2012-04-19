@@ -109,9 +109,9 @@ public class MatchingGameNode extends FNode {
             if ( state.getMode() == USER_CHECKED_CORRECT_ANSWER ) {
                 addSignNode( state, scales );
 
-                addChild( new VBox( new FaceNode( 200 ), new PhetPText( state.getChecks() == 1 ? "+2" : "+1", new PhetFont( 18, true ) ) ) {{
+                addChild( new VBox( new FaceNode( 120 ), new PhetPText( state.getChecks() == 1 ? "+2" : "+1", new PhetFont( 18, true ) ) ) {{
                     final Vector2D pt = buttonLocation.plus( 0, -150 );
-                    centerFullBoundsOnPoint( pt.getX(), pt.getY() );
+                    centerFullBoundsOnPoint( pt.getX() - getFullBounds().getWidth() / 2, pt.getY() );
                 }} );
 
                 addChild( buttonFactory.f( new ButtonArgs( Components.keepMatchButton, "Next", Color.green, buttonLocation, new Next() ) ) );
