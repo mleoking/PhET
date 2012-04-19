@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.LiquidExpansionThermometerNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -46,6 +47,8 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
 
     private final float sensorVerticalOffset;
 
+    public ImmutableVector2F draggedPosition = new ImmutableVector2F();
+
     public ThermometerNode3D( final LWJGLTransform modelViewTransform, final PlateTectonicsTab tab, PlateModel model ) {
 
         //TODO: rewrite with composition instead of inheritance
@@ -59,7 +62,16 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
         sensorVerticalOffset = (float) ( (ThermometerNode2D) getNode() ).sensorVerticalOffset;
 
         // scale the node to handle the subsampling
-        scale( 1 / PICCOLO_PIXELS_TO_VIEW_UNIT );
+//        scale( 1 / PICCOLO_PIXELS_TO_VIEW_UNIT );
+        tab.zoomRatio.addObserver( new SimpleObserver() {
+            public void update() {
+                final ImmutableMatrix4F scaling = ImmutableMatrix4F.scaling( getScale() );
+                final ImmutableMatrix4F translation = ImmutableMatrix4F.translation( draggedPosition.x,
+                                                                                     draggedPosition.y,
+                                                                                     0 );
+                transform.set( translation.times( scaling ) );
+            }
+        } );
 
         // since we are using the node in the main scene, mouse events don't get passed in, and we need to set our cursor manually
         getCanvas().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
@@ -73,12 +85,17 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
         updateOnEvent( tab.beforeFrameRender );
     }
 
+    private float getScale() {
+        return tab.getSceneDistanceZoomFactor() / PICCOLO_PIXELS_TO_VIEW_UNIT;
+    }
+
     public boolean allowsDrag( ImmutableVector2F initialPosition ) {
         return true; // if this node is picked, always allow a drag anywhere on it
     }
 
     public void dragDelta( ImmutableVector2F delta ) {
         this.transform.prepend( ImmutableMatrix4F.translation( delta.x, delta.y, 0 ) );
+        draggedPosition = draggedPosition.plus( delta );
         updateLiquidHeight();
 //        tab.getModel().debugPing.updateListeners( getSensorModelPosition() );
     }
@@ -98,7 +115,7 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
     }
 
     public ImmutableVector3F getSensorModelPosition() {
-        return modelViewTransform.inversePosition( transform.getMatrix().getTranslation().plus( new ImmutableVector3F( 0, sensorVerticalOffset / PICCOLO_PIXELS_TO_VIEW_UNIT * scaleMultiplier( tab ), 0 ) ) );
+        return modelViewTransform.inversePosition( new ImmutableVector3F( draggedPosition.x, draggedPosition.y, 0 ).plus( new ImmutableVector3F( 0, sensorVerticalOffset * getScale() * scaleMultiplier( tab ), 0 ) ) );
     }
 
     public ParameterSet getCustomParameters() {

@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PointSensor;
 import edu.colorado.phet.common.piccolophet.nodes.SpeedometerSensorNode;
@@ -38,6 +39,8 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
     private final PlateTectonicsTab tab;
     private final PlateModel model;
 
+    public ImmutableVector2F draggedPosition = new ImmutableVector2F();
+
     public DensitySensorNode3D( final LWJGLTransform modelViewTransform, final PlateTectonicsTab tab, PlateModel model ) {
 
         //TODO: rewrite with composition instead of inheritance
@@ -50,7 +53,15 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
 
         // scale the node to handle the subsampling
         // how much larger should the ruler construction values be to get a good look? we scale by the inverse to remain the correct size
-        scale( 0.75f / PICCOLO_PIXELS_TO_VIEW_UNIT );
+        tab.zoomRatio.addObserver( new SimpleObserver() {
+            public void update() {
+                final ImmutableMatrix4F scaling = ImmutableMatrix4F.scaling( getScale() );
+                final ImmutableMatrix4F translation = ImmutableMatrix4F.translation( draggedPosition.x,
+                                                                                     draggedPosition.y,
+                                                                                     0 );
+                transform.set( translation.times( scaling ) );
+            }
+        } );
 
         // since we are using the node in the main scene, mouse events don't get passed in, and we need to set our cursor manually
         getCanvas().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
@@ -64,12 +75,17 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
         updateOnEvent( tab.beforeFrameRender );
     }
 
+    private float getScale() {
+        return tab.getSceneDistanceZoomFactor() * 0.75f / PICCOLO_PIXELS_TO_VIEW_UNIT;
+    }
+
     public boolean allowsDrag( ImmutableVector2F initialPosition ) {
         return true; // if this node is picked, always allow a drag anywhere on it
     }
 
     public void dragDelta( ImmutableVector2F delta ) {
         transform.prepend( ImmutableMatrix4F.translation( delta.x, delta.y, 0 ) );
+        draggedPosition = draggedPosition.plus( delta );
         updateReadout();
 //        tab.getModel().debugPing.updateListeners( getSensorModelPosition() );
     }
@@ -89,8 +105,8 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
     }
 
     public ImmutableVector3F getSensorModelPosition() {
-        float horizontalSensorOffset = (float) ( ( (DensitySensorNode2D) getNode() ).horizontalSensorOffset * 0.75 / PICCOLO_PIXELS_TO_VIEW_UNIT * scaleMultiplier( tab ) );
-        return modelViewTransform.inversePosition( transform.getMatrix().getTranslation().plus( new ImmutableVector3F( horizontalSensorOffset, 0, 0 ) ) );
+        float horizontalSensorOffset = (float) ( ( (DensitySensorNode2D) getNode() ).horizontalSensorOffset * getScale() * scaleMultiplier( tab ) );
+        return modelViewTransform.inversePosition( new ImmutableVector3F( draggedPosition.x, draggedPosition.y, 0 ).plus( new ImmutableVector3F( horizontalSensorOffset, 0, 0 ) ) );
     }
 
     public ParameterSet getCustomParameters() {
