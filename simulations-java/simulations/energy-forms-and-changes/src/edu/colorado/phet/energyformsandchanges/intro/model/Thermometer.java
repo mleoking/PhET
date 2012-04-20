@@ -17,8 +17,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentType
 public class Thermometer extends UserMovableModelElement {
 
     // Height and width of the face, which is square.
-    public static final double WIDTH = 0.02; // In meters.
-    public static final double HEIGHT = WIDTH * 5;
+    public static final double WIDTH = 0.015; // In meters.
+    public static final double HEIGHT = WIDTH * 4;
 
     /**
      * Get a rectangle the defines the current shape in model space.  By

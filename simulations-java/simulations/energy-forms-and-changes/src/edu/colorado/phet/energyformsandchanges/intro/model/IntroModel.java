@@ -47,10 +47,14 @@ public class IntroModel {
     private final Burner leftBurner;
     private final Burner rightBurner;
 
-    // Movable model objects.
+    // Movable thermal model objects.
     private final Brick brick;
     private final LeadBlock leadBlock;
     private final Beaker beaker;
+
+    // Thermometers.
+    private final Thermometer thermometer1;
+
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -93,6 +97,10 @@ public class IntroModel {
         brick.position.set( new ImmutableVector2D( -0.1, 0 ) );
         leadBlock = new LeadBlock();
         leadBlock.position.set( new ImmutableVector2D( -0.175, 0 ) );
+
+        // Add and position the thermometers.
+        thermometer1 = new Thermometer();
+        thermometer1.position.set( new ImmutableVector2D( 0, 0 ) );
 
     }
 
@@ -174,6 +182,10 @@ public class IntroModel {
 
     public Beaker getBeaker() {
         return beaker;
+    }
+
+    public Thermometer getThermometer1() {
+        return thermometer1;
     }
 
     private Property<HorizontalSurface> findBestSupportSurface( UserMovableModelElement element ) {
