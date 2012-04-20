@@ -414,7 +414,7 @@ public class DataTable extends Sprite {
 
     private function changeMassListener( evt: Event ): void {
         manualUpdating = true;
-        var mass: Number = Number( evt.target.text );
+        var mass: Number = evtTextToNumber( evt );
         var row: Number = Number( evt.target.name );  //first ball is ball 1, is Model.ball_arr[0]
         var ballNum: int = ballNbr( row );
         myModel.setMass( ballNum, mass );
@@ -477,7 +477,7 @@ public class DataTable extends Sprite {
         }
 
         // remove anything after the ten's digit
-        if ( inputText.indexOf( "." ) < inputText.length - 2 ) {
+        if ( inputText.indexOf( "." ) != -1 && inputText.indexOf( "." ) < inputText.length - 2 ) {
             evt.target.text = inputText = inputText.substr( 0, inputText.indexOf( "." ) + 2 );
         }
         if ( isNaN( Number( inputText ) ) ) {
