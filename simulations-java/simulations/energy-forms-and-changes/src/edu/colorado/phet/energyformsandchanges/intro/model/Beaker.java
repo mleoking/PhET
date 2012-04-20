@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
- * Model element that represents a beaker in the simulation.
+ * Model element that represents a beaker in the model.
  *
  * @author John Blanco
  */
