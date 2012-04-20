@@ -63,10 +63,6 @@ public class IntroCanvas extends PhetPCanvas {
             backLayer.addChild( new ShelfNode( shelf, mvt ) );
         }
 
-        // Add the thermometers.
-        frontLayer.addChild( new ThermometerNode( model.getThermometer1(), mvt ) );
-        frontLayer.addChild( new ThermometerNode( model.getThermometer2(), mvt ) );
-
         // Add the burners.
         backLayer.addChild( new BurnerNode( model.getLeftBurner(), mvt ) );
         backLayer.addChild( new BurnerNode( model.getRightBurner(), mvt ) );
@@ -79,6 +75,10 @@ public class IntroCanvas extends PhetPCanvas {
         BeakerView beakerView = new BeakerView( model, this, mvt );
         frontLayer.addChild( beakerView.getFrontNode() );
         backLayer.addChild( beakerView.getBackNode() );
+
+        // Add the thermometers.
+        frontLayer.addChild( new ThermometerNode( model.getThermometer1(), mvt ) );
+        frontLayer.addChild( new ThermometerNode( model.getThermometer2(), mvt ) );
 
         // Create an observer that updates the Z-order of the blocks when the
         // user controlled state changes.
