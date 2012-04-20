@@ -175,7 +175,7 @@ public class DataTable extends Sprite {
                     text_arr[row][col].selectable = false;
                 }
                 else {
-                    if ( col > 0 && col < 3 ) {
+                    if ( col == massColumnNbr ) {
                         dressInputTextField( row, col );
                         text_arr[row][col].restrict = "0-9.";
                     }

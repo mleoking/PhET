@@ -1,3 +1,4 @@
+More bugfixes
 # 1.00.26 (63658) Apr 19, 2012
 Restricted mass input to 1 decimal place.
 Fixed input bug that made it impossible to input a value above 9.9
