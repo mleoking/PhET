@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
- * Class that represents a block in the view.  In the model, a block is two-
+ * Class that represents a block in the model.  In the model, a block is two-
  * dimensional, so its shape is represented by a rectangle.
  *
  * @author John Blanco
