@@ -44,7 +44,7 @@ public class VSliderNode2 extends SliderNode {
     public static final double DEFAULT_TRACK_LENGTH = 200;
 
     protected PhetPPath trackNode;
-    protected PNode knobNode;
+    protected KnobNode knobNode;
 
     // Root node to which all other nodes should be added.  This is done to
     // allow the offset of the composite node to be at (0, 0). Use this when
@@ -66,6 +66,18 @@ public class VSliderNode2 extends SliderNode {
     }
 
     /**
+     * Constructor that uses default knob.
+     *
+     * @param userComponent
+     * @param min
+     * @param max
+     * @param value
+     */
+    public VSliderNode2( IUserComponent userComponent, final double min, final double max, double trackThickness, double trackLength, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
+        this( userComponent, min, max, new KnobNode( KnobNode.DEFAULT_SIZE, new KnobNode.ColorScheme( new Color( 115, 217, 255 ) ) ), DEFAULT_TRACK_THICKNESS, DEFAULT_TRACK_LENGTH, value, new Property<Boolean>( true ) );
+    }
+
+    /**
      * Main constructor.
      *
      * @param userComponent
@@ -76,67 +88,67 @@ public class VSliderNode2 extends SliderNode {
      * @param value
      * @param enabled
      */
-    public VSliderNode2( IUserComponent userComponent, final double min, final double max, double trackThickness, double trackLength, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
+    public VSliderNode2( IUserComponent userComponent, final double min, final double max, final KnobNode knobNode, double trackThickness, double trackLength, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
         super( userComponent, min, max, value );
         this.trackLength = trackLength;
         this.trackThickness = trackThickness;
+        this.knobNode = knobNode;
         addChild( rootNode );
 
         final Rectangle2D.Double trackPath = new Rectangle2D.Double( 0, 0, trackThickness, trackLength );
         trackNode = new PhetPPath( trackPath, new GradientPaint( 0, 0, Color.gray, 0, (float) trackLength, Color.white, false ), new BasicStroke( 1 ), Color.BLACK );
         rootNode.addChild( trackNode );
-        knobNode = new ZeroOffsetNode( new KnobNode( KnobNode.DEFAULT_SIZE, new KnobNode.ColorScheme( new Color( 115, 217, 255 ) ) ) {{
-            rotate( Math.PI * 2 * 3.0 / 4.0 );
-            enabled.addObserver( new VoidFunction1<Boolean>() {
-                public void apply( Boolean enabled ) {
-                    setEnabled( enabled );
-                }
-            } );
+        enabled.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean enabled ) {
+                knobNode.setEnabled( enabled );
+            }
+        } );
+        value.addObserver( new VoidFunction1<Double>() {
+            public void apply( Double value ) {
+                double viewY = getViewY( value );
+                System.out.println( "value = " + value );
+                System.out.println( "knobNode.getFullBoundsReference().getY() - knobNode.getFullBoundsReference().getMinY() = " + ( knobNode.getFullBoundsReference().getY() - knobNode.getFullBoundsReference().getMinY() ) );
+                knobNode.setOffset( trackNode.getFullBounds().getCenterX() - knobNode.getFullBounds().getWidth() / 2,
+                                    viewY - knobNode.getFullBounds().getHeight() / 2 );
+            }
+        } );
+        knobNode.addInputEventListener( new CursorHandler() );
+        knobNode.addInputEventListener( new PDragSequenceEventHandler() {
 
-        }} ) {{
-            value.addObserver( new VoidFunction1<Double>() {
-                public void apply( Double value ) {
-                    double viewY = getViewY( value );
-                    setOffset( trackNode.getFullBounds().getWidth() / 2 - getFullBounds().getWidth() / 2, viewY - getFullBounds().getHeight() / 2 );
-                }
-            } );
-            addInputEventListener( new CursorHandler() );
-            addInputEventListener( new PDragSequenceEventHandler() {
+            private Point2D startPoint;
+            public Double startValue;
 
-                private Point2D startPoint;
-                public Double startValue;
+            @Override public void startDrag( PInputEvent event ) {
+                super.startDrag( event );
+                dragStarted();
+                startPoint = event.getPositionRelativeTo( VSliderNode2.this );
+                startValue = value.get();
+            }
 
-                @Override public void startDrag( PInputEvent event ) {
-                    super.startDrag( event );
-                    dragStarted();
-                    startPoint = event.getPositionRelativeTo( VSliderNode2.this );
-                    startValue = value.get();
-                }
+            @Override public void drag( PInputEvent event ) {
+                super.drag( event );
+                dragged();
+                Point2D point = event.getPositionRelativeTo( VSliderNode2.this );
+                final ImmutableVector2D vector = new ImmutableVector2D( startPoint, point );
 
-                @Override public void drag( PInputEvent event ) {
-                    super.drag( event );
-                    dragged();
-                    Point2D point = event.getPositionRelativeTo( VSliderNode2.this );
-                    final ImmutableVector2D vector = new ImmutableVector2D( startPoint, point );
+                Point2D minGlobal = trackNode.localToGlobal( new Point2D.Double( 0, 0 ) );
+                Point2D maxGlobal = trackNode.localToGlobal( createEndPoint() );
+                final ImmutableVector2D unitVector = new ImmutableVector2D( minGlobal, maxGlobal ).getNormalizedInstance();
+                double viewDelta = vector.dot( unitVector );
 
-                    Point2D minGlobal = trackNode.localToGlobal( new Point2D.Double( 0, 0 ) );
-                    Point2D maxGlobal = trackNode.localToGlobal( createEndPoint() );
-                    final ImmutableVector2D unitVector = new ImmutableVector2D( minGlobal, maxGlobal ).getNormalizedInstance();
-                    double viewDelta = vector.dot( unitVector );
+                double modelDelta = ( max - min ) / trackNode.getFullBounds().getHeight() * viewDelta;
+                value.set( MathUtil.clamp( min, startValue + modelDelta, max ) );
+            }
 
-                    double modelDelta = ( min - max ) / trackNode.getFullBounds().getHeight() * viewDelta;
-                    value.set( MathUtil.clamp( min, startValue + modelDelta, max ) );
-                }
+            @Override protected void endDrag( PInputEvent event ) {
+                super.endDrag( event );
+                dragEnded();
+            }
+        } );
 
-                @Override protected void endDrag( PInputEvent event ) {
-                    super.endDrag( event );
-                    dragEnded();
-                }
-            } );
-        }};
-
-        //Create an invisible rectangle that will account for where the knob could be
-        //This is so that the knob won't overlap other layout elements that are positioned using this node's full bounds
+        // Create an invisible rectangle that will account for where the knob
+        // is able to move so that the overall node's full bounds takes this
+        // into account.
         Rectangle2D leftKnobRect = getKnobRect( min );
         Rectangle2D rightKnobRect = getKnobRect( max );
         PhetPPath knobBackground = new PhetPPath( leftKnobRect.createUnion( rightKnobRect ), null, null, null ) {{
@@ -167,7 +179,7 @@ public class VSliderNode2 extends SliderNode {
     }
 
     protected double getViewY( double value ) {
-        return new Function.LinearFunction( max, min, trackNode.getFullBounds().getMinY(), trackNode.getFullBounds().getHeight() ).evaluate( value );
+        return new Function.LinearFunction( min, max, trackNode.getFullBounds().getMinY(), trackNode.getFullBounds().getHeight() ).evaluate( value );
     }
 
     //Add a label to appear under the slider at the specified location
