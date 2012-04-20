@@ -44,7 +44,7 @@ public class BeakerView {
     private static final Color OUTLINE_COLOR = Color.LIGHT_GRAY;
     private static final double PERSPECTIVE_PROPORTION = 0.2;
     private static final Font LABEL_FONT = new PhetFont( 32, false );
-    private static final boolean SHOW_MODEL_RECT = true;
+    private static final boolean SHOW_MODEL_RECT = false;
     private static final Color BEAKER_COLOR = new Color( 250, 250, 250, 100 );
 
     private final PhetPCanvas canvas;

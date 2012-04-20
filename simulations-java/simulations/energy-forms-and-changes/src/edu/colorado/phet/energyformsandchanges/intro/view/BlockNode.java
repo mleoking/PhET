@@ -34,7 +34,7 @@ public class BlockNode extends PNode {
     private static final double PERSPECTIVE_ANGLE = Math.PI / 4; // Positive is counterclockwise, a value of 0 produces a non-skewed rectangle.
     private static final double PERSPECTIVE_EDGE_PROPORTION = 0.33;
 
-    private static final boolean SHOW_2D_REPRESENTATION = true;
+    private static final boolean SHOW_2D_REPRESENTATION = false;
 
     public BlockNode( Block block, final ModelViewTransform mvt ) {
 
