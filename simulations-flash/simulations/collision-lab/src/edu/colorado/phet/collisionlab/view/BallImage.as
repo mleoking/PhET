@@ -15,6 +15,7 @@ import edu.colorado.phet.collisionlab.model.Ball;
 import edu.colorado.phet.collisionlab.model.Model;
 import edu.colorado.phet.collisionlab.util.TwoVector;
 
+import edu.colorado.phet.flashcommon.MathUtil;
 import edu.colorado.phet.flashcommon.SimStrings;
 
 import flash.display.*;
@@ -450,7 +451,7 @@ public class BallImage extends Sprite {
                 thisBallImage.arrowHeadIndicator.x = target.x;
                 var velocityX: Number = (target.x * ratio) / thisBallImage.vArrowImage.scale;
                 //trace("velocityX: "+velocityX);
-
+                velocityX = Math.round( velocityX * 10 ) / 10;
                 modelRef.setVX( indx, velocityX );
                 //if not in 1DMode, set y-component of velocity
                 if ( !modelRef.oneDMode ) {
