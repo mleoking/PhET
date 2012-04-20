@@ -106,8 +106,6 @@ public class VSliderNode2 extends SliderNode {
         value.addObserver( new VoidFunction1<Double>() {
             public void apply( Double value ) {
                 double viewY = getViewY( value );
-                System.out.println( "value = " + value );
-                System.out.println( "knobNode.getFullBoundsReference().getY() - knobNode.getFullBoundsReference().getMinY() = " + ( knobNode.getFullBoundsReference().getY() - knobNode.getFullBoundsReference().getMinY() ) );
                 knobNode.setOffset( trackNode.getFullBounds().getCenterX() - knobNode.getFullBounds().getWidth() / 2,
                                     viewY - knobNode.getFullBounds().getHeight() / 2 );
             }
