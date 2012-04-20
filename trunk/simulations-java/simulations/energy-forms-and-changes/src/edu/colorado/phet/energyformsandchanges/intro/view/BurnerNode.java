@@ -33,8 +33,13 @@ public class BurnerNode extends PNode {
     private static final double PERSPECTIVE_ANGLE = Math.PI / 4; // Positive is counterclockwise, a value of 0 produces a non-skewed rectangle.
     private static final double BURNER_EDGE_LENGTH = 30;
 
+    private static final boolean SHOW_2D_RECT = false;
+
     public BurnerNode( final Burner burner, final ModelViewTransform mvt ) {
-        addChild( new PhetPPath( mvt.modelToViewRectangle( burner.getOutlineRect() ), new BasicStroke( 1 ), Color.RED ) );
+
+        if ( SHOW_2D_RECT ) {
+            addChild( new PhetPPath( mvt.modelToViewRectangle( burner.getOutlineRect() ), new BasicStroke( 1 ), Color.RED ) );
+        }
 
         // Get a version of the rectangle that defines the burner size and
         // location in the view.

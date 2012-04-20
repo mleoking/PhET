@@ -8,9 +8,11 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.LiquidExpansionThermometerNode;
 import edu.colorado.phet.energyformsandchanges.intro.model.IntroModel;
 import edu.colorado.phet.energyformsandchanges.intro.model.Shelf;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEFAULT_STAGE_SIZE;
 
@@ -62,6 +64,14 @@ public class IntroCanvas extends PhetPCanvas {
         for ( Shelf shelf : model.getShelfList() ) {
             backLayer.addChild( new ShelfNode( shelf, mvt ) );
         }
+
+        // Add the thermometers.
+        frontLayer.addChild( new LiquidExpansionThermometerNode( new PDimension( 30, 90 ) ) {{
+            setOffset( 50, 50 );
+        }} );
+        frontLayer.addChild( new LiquidExpansionThermometerNode( new PDimension( 30, 90 ) ) {{
+            setOffset( 90, 50 );
+        }} );
 
         // Add the burners.
         backLayer.addChild( new BurnerNode( model.getLeftBurner(), mvt ) );
