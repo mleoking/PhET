@@ -1,3 +1,5 @@
+Restricted mass input to 1 decimal place.
+Fixed input bug that made it impossible to input a value above 9.9
 # 1.00.25 (63656) Apr 19, 2012
 Restricting typed (and dragged) velocities to 1 decimal place, displaying 2 decimal places, and the model uses actual values.
 # 1.00.24 (63612) Apr 19, 2012
