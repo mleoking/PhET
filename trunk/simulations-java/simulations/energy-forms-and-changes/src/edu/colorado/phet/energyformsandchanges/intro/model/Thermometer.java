@@ -4,6 +4,7 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
@@ -19,6 +20,10 @@ public class Thermometer extends UserMovableModelElement {
     // Height and width of the face, which is square.
     public static final double WIDTH = 0.02; // In meters.
     public static final double HEIGHT = WIDTH * 3;
+
+    public Thermometer( ImmutableVector2D initialPosition ) {
+        position.set( initialPosition );
+    }
 
     /**
      * Get a rectangle the defines the current shape in model space.  By
