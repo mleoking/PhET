@@ -15,9 +15,12 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.intro.model.Block;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.nodes.PClip;
 
 /**
  * Piccolo node that represents a block in the view.  The blocks in the model
@@ -71,7 +74,27 @@ public class BlockNode extends PNode {
         path.lineTo( lowerBackRightCorner );
         path.lineTo( lowerRightCornerOfFace );
         path.lineTo( upperRightCornerOfFace );
-        addChild( new PhetPPath( path.getGeneralPath(), block.getColor(), OUTLINE_STROKE, OUTLINE_STROKE_COLOR ) );
+//        PhetPPath drawnBlock = new PhetPPath( path.getGeneralPath(), block.getColor(), OUTLINE_STROKE, OUTLINE_STROKE_COLOR );
+        PhetPPath drawnBlock = new PhetPPath( path.getGeneralPath(), OUTLINE_STROKE, OUTLINE_STROKE_COLOR );
+
+        PClip clippedTexture = new PClip();
+        clippedTexture.setPathTo( path.getGeneralPath() );
+
+
+        PImage texture = new PImage( EnergyFormsAndChangesResources.Images.BRICK_TEXTURE_FRONT );
+//        texture.
+        double textureScale = 1;
+        if ( texture.getFullBoundsReference().width < drawnBlock.getFullBoundsReference().width ) {
+            textureScale = drawnBlock.getFullBoundsReference().width / texture.getFullBoundsReference().width;
+        }
+        if ( texture.getFullBoundsReference().height < drawnBlock.getFullBoundsReference().height ) {
+            textureScale = Math.max( drawnBlock.getFullBoundsReference().height / texture.getFullBoundsReference().height, textureScale );
+        }
+        texture.setScale( textureScale );
+        texture.setOffset( drawnBlock.getFullBoundsReference().getMinX(), drawnBlock.getFullBoundsReference().getMinY() );
+        clippedTexture.addChild( texture );
+        addChild( clippedTexture );
+        addChild( drawnBlock );
 
         if ( SHOW_2D_REPRESENTATION ) {
             addChild( new PhetPPath( scaleTransform.createTransformedShape( Block.getRawShape() ), new BasicStroke( 1 ), Color.RED ) );
