@@ -257,7 +257,7 @@ public class DataTable extends Sprite {
         gI.lineStyle( bWidth, 0x000000, 0 );
         gI.drawRect( -del, -del + offTopOffset, rowWidth + 2 * del + (showingMore ? separatorPaddingSize : 0), nbrRows * rowHeight + 2 * del - offTopOffset );
 
-        if( showingMore ) {
+        if ( showingMore ) {
             var separatorX: Number = (pxColumnNbr + 1) * colWidth - (colWidth - ballColWidth) + separatorPaddingSize / 2;
             g.lineStyle( bWidth, 0x2222ff );
             g.moveTo( separatorX, -del + offTopOffset );
@@ -460,36 +460,31 @@ public class DataTable extends Sprite {
     }
 
 
-    private function evtTextToNumber( evt: Event ): Number {
+    private function evtTextToNumber( evt: Event, single = false ): Number {
         var inputText: String = evt.target.text;
-        var outputNumber: Number;
         if ( inputText == "." ) {
             evt.target.text = "0.";
             evt.target.setSelection( 2, 2 ); //sets cursor at end of line
-            outputNumber = 0;
+            return 0;
         }
-        else {
-            if ( inputText == "-" ) {
-                outputNumber = 0;
-            }
-            else {
-                if ( inputText == "-." ) {
-                    evt.target.text = "-0.";
-                    evt.target.setSelection( 3, 3 ); //sets cursor at end of line
-                    outputNumber = 0;
-                }
-                else {
-                    if ( isNaN( Number( inputText ) ) ) {
-                        evt.target.text = "0";
-                        outputNumber = 0;
-                    }
-                    else {
-                        outputNumber = Number( inputText );
-                    }
-                }
-            }
+        if ( inputText == "-" ) {
+            return 0;
         }
-        return outputNumber;
+        if ( inputText == "-." ) {
+            evt.target.text = "-0.";
+            evt.target.setSelection( 3, 3 ); //sets cursor at end of line
+            return 0;
+        }
+
+        // remove anything after the ten's digit
+        if ( inputText.indexOf( "." ) < inputText.length - 2 ) {
+            evt.target.text = inputText = inputText.substr( 0, inputText.indexOf( "." ) + 2 );
+        }
+        if ( isNaN( Number( inputText ) ) ) {
+            evt.target.text = "0";
+            return 0;
+        }
+        return Number( inputText );
     }
 
     private function massSliderListener( evt: SliderEvent ): void {
@@ -578,7 +573,7 @@ public class DataTable extends Sprite {
 //                    }
                     if ( col == vxColumnNbr ) { // v_x in m/s
                         var xVel: Number = myModel.ball_arr[ballNum].velocity.getX();
-                        text_arr[row][col].text = round( xVel, 1 );
+                        text_arr[row][col].text = round( xVel, 2 );
 //                        text_arr[row][col].text = xVel.toFixed( generalPrecision ); //round(xVel, nbrPlaces);
                     }
 //                    if ( col == initialPositionColumnNbr ) {

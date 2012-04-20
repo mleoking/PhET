@@ -1,3 +1,4 @@
+Restricting typed (and dragged) velocities to 1 decimal place, displaying 2 decimal places, and the model uses actual values.
 # 1.00.24 (63612) Apr 19, 2012
 Restricted mass and velocity to only 1-decimal-point values.
 Removed position and initial position data columns

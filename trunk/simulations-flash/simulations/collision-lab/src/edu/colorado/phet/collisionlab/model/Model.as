@@ -346,7 +346,7 @@ public class Model {
             var ballNbr: int = indx + 1;
             trace( "ERROR: ball number " + ballNbr + ": xVel is NaN." );
         }
-        xVel = Math.round( xVel * 10 ) / 10;
+//        xVel = Math.round( xVel * 10 ) / 10;
         if ( !this.playing && !this.singleStepping ) {
             this.atInitialConfig = true;
         }
@@ -385,8 +385,6 @@ public class Model {
             var tempBallNbr: int = indx + 1;
             trace( "ERROR: ball number " + tempBallNbr + ": yVel is NaN." );
         }
-        xVel = Math.round( xVel * 10 ) / 10;
-        yVel = Math.round( yVel * 10 ) / 10;
         this.ball_arr[indx].velocity.setX( xVel );
         this.ball_arr[indx].velocity.setY( yVel );
         if ( this.atInitialConfig ) {
