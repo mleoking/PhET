@@ -65,6 +65,7 @@ public class IntroCanvas extends PhetPCanvas {
 
         // Add the thermometers.
         frontLayer.addChild( new ThermometerNode( model.getThermometer1(), mvt ) );
+        frontLayer.addChild( new ThermometerNode( model.getThermometer2(), mvt ) );
 
         // Add the burners.
         backLayer.addChild( new BurnerNode( model.getLeftBurner(), mvt ) );

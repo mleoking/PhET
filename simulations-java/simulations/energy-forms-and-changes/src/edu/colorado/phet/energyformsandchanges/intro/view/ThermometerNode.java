@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro.view;
 
+import java.awt.Color;
 import java.awt.geom.AffineTransform;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -20,15 +21,18 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class ThermometerNode extends PNode {
 
 
-    public ThermometerNode( Thermometer thermometer, final ModelViewTransform mvt ) {
+    public ThermometerNode( final Thermometer thermometer, final ModelViewTransform mvt ) {
 
         // Extract the scale transform from the MVT so that we can separate the
         // shape from the position of the block.
         AffineTransform scaleTransform = AffineTransform.getScaleInstance( mvt.getTransform().getScaleX(), mvt.getTransform().getScaleY() );
 
         addChild( new LiquidExpansionThermometerNode( new PDimension( mvt.modelToViewDeltaX( thermometer.getRect().getWidth() ),
-                                                                      -mvt.modelToViewDeltaY( thermometer.getRect().getHeight() ) ) ) );
-//        addChild( new LiquidExpansionThermometerNode( new PDimension( 20, 50 ) ) );
+                                                                      -mvt.modelToViewDeltaY( thermometer.getRect().getHeight() ) ) ) {{
+            setOutlineStrokeWidth( 2 );
+            setTicks( -mvt.modelToViewDeltaY( thermometer.getRect().getHeight() ) / 10, Color.BLACK, 2 );
+
+        }} );
 
         // Add the cursor handler.
         addInputEventListener( new CursorHandler( CursorHandler.HAND ) );

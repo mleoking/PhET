@@ -54,7 +54,7 @@ public class IntroModel {
 
     // Thermometers.
     private final Thermometer thermometer1;
-
+    private final Thermometer thermometer2;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -100,8 +100,9 @@ public class IntroModel {
 
         // Add and position the thermometers.
         thermometer1 = new Thermometer();
-        thermometer1.position.set( new ImmutableVector2D( 0, 0 ) );
-
+        thermometer1.position.set( new ImmutableVector2D( -0.2, 0.22 ) );
+        thermometer2 = new Thermometer();
+        thermometer2.position.set( new ImmutableVector2D( -0.15, 0.22 ) );
     }
 
     //-------------------------------------------------------------------------
@@ -186,6 +187,10 @@ public class IntroModel {
 
     public Thermometer getThermometer1() {
         return thermometer1;
+    }
+
+    public Thermometer getThermometer2() {
+        return thermometer2;
     }
 
     private Property<HorizontalSurface> findBestSupportSurface( UserMovableModelElement element ) {
