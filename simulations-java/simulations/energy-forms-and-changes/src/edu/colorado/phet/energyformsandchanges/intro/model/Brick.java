@@ -2,9 +2,11 @@
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
 import java.awt.Color;
+import java.awt.Image;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 
 /**
@@ -14,6 +16,10 @@ public class Brick extends Block {
 
     protected Brick( ImmutableVector2D initialPosition ) {
         super( initialPosition );
+    }
+
+    @Override public Image getTextureImage() {
+        return EnergyFormsAndChangesResources.Images.BRICK_TEXTURE_FRONT;
     }
 
     @Override public Color getColor() {
