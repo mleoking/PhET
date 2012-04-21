@@ -1,3 +1,4 @@
+# 0.00.13 (63678) Apr 20, 2012
 4/19/12 fix sign on reduced equations when slope is an integer
 4/19/12 restore use of pickers
 # 0.00.12 (63651) Apr 19, 2012
