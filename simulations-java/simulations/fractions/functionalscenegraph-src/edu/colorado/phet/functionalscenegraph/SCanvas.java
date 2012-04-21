@@ -14,7 +14,6 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.JComponent;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 
@@ -69,11 +68,11 @@ public class SCanvas extends JComponent {
             }
         } );
 
-        this.child.addObserver( new SimpleObserver() {
-            @Override public void update() {
-                repaint();
-            }
-        } );
+//        this.child.addObserver( new SimpleObserver() {
+//            @Override public void update() {
+//                repaint();
+//            }
+//        } );
     }
 
     @Override protected void paintComponent( final Graphics g ) {

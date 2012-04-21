@@ -3,6 +3,7 @@ package edu.colorado.phet.functionalscenegraph;
 import fj.Effect;
 import fj.data.List;
 import fj.data.Option;
+import lombok.Data;
 
 import java.util.Arrays;
 
@@ -12,8 +13,8 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
 /**
  * @author Sam Reid
  */
-public class SList extends SNode {
-    private final List<SNode> children;
+public @Data class SList extends SNode {
+    public final List<SNode> children;
 
     public SList( final List<SNode> children ) {
         this.children = children;
@@ -49,5 +50,9 @@ public class SList extends SNode {
             }
         }
         return Option.none();
+    }
+
+    public int length() {
+        return children.length();
     }
 }
