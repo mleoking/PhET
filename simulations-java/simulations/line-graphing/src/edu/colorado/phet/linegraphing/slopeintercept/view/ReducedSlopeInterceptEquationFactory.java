@@ -163,7 +163,7 @@ class ReducedSlopeInterceptEquationFactory {
             // y = rise x + b
             PText yNode = new PhetPText( Strings.SYMBOL_Y, font, line.color );
             PText equalsNode = new PhetPText( "=", font, line.color );
-            PText riseNode = new PhetPText( String.valueOf( line.getReducedRise() ), font, line.color );
+            PText riseNode = new PhetPText( String.valueOf( line.getReducedRise() / line.getReducedRun() ), font, line.color );
             PText xNode = new PhetPText( Strings.SYMBOL_X, font, line.color );
             PText signNode = new PhetPText( line.intercept > 0 ? "+" : "-", font, line.color );
             PText interceptNode = new PhetPText( String.valueOf( MathUtil.round( Math.abs( line.intercept ) ) ), font, line.color );

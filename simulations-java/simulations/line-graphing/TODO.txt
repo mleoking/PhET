@@ -6,7 +6,6 @@ DESIGN
 - spinners or pickers for interactive equation? (SlopeInterceptEquationNode or SlopeInterceptEquationNode2)
 
 HIGH
-- AP: when the slope manipulator is in the 4th quadrant it appears you can get a "negative" slope displayed on the line even though the actual slope is positive.
 - implement Point-Slope tab
 - prevent slope=0/0 in the interactive equation by skipping over 0. This also affects dynamic range.
 
