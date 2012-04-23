@@ -1,3 +1,4 @@
+Fixed: Text fields don't always clamp to the min/max after user finishes editing
 Pressure tab: Translated everything up by 10 pixels to make more room for the drains at the bottom
 Added more inset space between the fluid density slider control and the bottom and right edges of the screen
 Change to metric for the default in Tab 1, and move metric to 1st radio button
