@@ -17,7 +17,6 @@ import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNo
 import edu.colorado.phet.common.piccolophet.nodes.faucet.FaucetNode;
 import edu.colorado.phet.common.piccolophet.nodes.faucet.FaucetSliderNode;
 import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing;
-import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishRuler;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidDensityControl;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowCanvas;
@@ -35,7 +34,6 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.DRAIN_FAUCET_ATTACHED;
-import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.POTTED_PLANT;
 
 /**
  * Canvas for the "pressure" tab in Fluid Pressure and Flow.
@@ -128,19 +126,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
             setOffset( controlPanelNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, controlPanelNode.getFullBounds().getMaxY() + INSET * 2 );
         }} );
 
-        //Add an image for a sense of scale
         final ValueEquals<IPool> squarePool = model.pool.valueEquals( model.squarePool );
-        addChild( new PImage( POTTED_PLANT ) {{
-            squarePool.addObserver( new VoidFunction1<Boolean>() {
-                public void apply( final Boolean v ) {
-                    setVisible( v );
-                }
-            } );
-            double height = Math.abs( transform.modelToViewDeltaY( 3 / Units.FEET_PER_METER ) );
-            double currentHeight = getFullBounds().getHeight();
-            scale( height / currentHeight );
-            setOffset( 115.50960118168459, 249.0989660265875 );//determined with a draghandler
-        }} );
 
         //Show the ruler
         //Some nodes go behind the pool so that it looks like they submerge

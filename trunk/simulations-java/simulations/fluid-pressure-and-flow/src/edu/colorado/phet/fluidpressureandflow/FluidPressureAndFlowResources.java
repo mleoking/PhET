@@ -86,6 +86,5 @@ public class FluidPressureAndFlowResources {
         public static final BufferedImage PIPE_MIDDLE = RESOURCES.getImage( "pipe-middle.png" );
         public static final BufferedImage PIPE_RIGHT = RESOURCES.getImage( "pipe-right.png" );
         public static final BufferedImage PIPE_HANDLE_1 = RESOURCES.getImage( "pipe_handle_1.png" );
-        public static final BufferedImage POTTED_PLANT = RESOURCES.getImage( "potted-plant.png" );
     }
 }
