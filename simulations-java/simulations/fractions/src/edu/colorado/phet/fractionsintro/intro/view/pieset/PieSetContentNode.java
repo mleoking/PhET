@@ -46,6 +46,11 @@ public class PieSetContentNode extends PNode {
         PNode iconAndText = iconTextOnTheRight ? new HBox( 20, icon, text ) : new HBox( 20, text, icon );
 
         addChild( new ZeroOffsetNode( iconAndText ) {{
+
+            //This next line of code looks ridiculous and unnecessary, let me explain it:
+            //When showing debug regions in piccolo debugger, without the first setoffset() call, the entire screen gets redrawn.
+            //It is because centerFullBoundsOnPoint calls validate, and since the node is at zero before validate, (0,0) gets thrown into the dirty regions.
+            setOffset( bucketView.getFrontNode().getFullBounds().getCenterX(), bucketView.getFrontNode().getFullBounds().getCenterY() + 4 );
             centerFullBoundsOnPoint( bucketView.getFrontNode().getFullBounds().getCenterX(), bucketView.getFrontNode().getFullBounds().getCenterY() + 4 );
 
             //Make it so the user can't grab the bucket icon
