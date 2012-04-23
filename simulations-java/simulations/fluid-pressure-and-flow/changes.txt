@@ -1,3 +1,4 @@
+Change to metric for the default in Tab 1, and move metric to 1st radio button
 Removed the plant image
 Flow tab: Added ruler icon in the control panel
 # 0.00.54 (63404) Apr 13, 2012
