@@ -11,6 +11,7 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
@@ -18,11 +19,11 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -44,7 +45,7 @@ public class VSliderNode2 extends SliderNode {
     public static final double DEFAULT_TRACK_LENGTH = 200;
 
     protected PhetPPath trackNode;
-    protected KnobNode knobNode;
+    protected KnobNode2 knobNode;
 
     // Root node to which all other nodes should be added.  This is done to
     // allow the offset of the composite node to be at (0, 0). Use this when
@@ -74,7 +75,8 @@ public class VSliderNode2 extends SliderNode {
      * @param value
      */
     public VSliderNode2( IUserComponent userComponent, final double min, final double max, double trackThickness, double trackLength, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
-        this( userComponent, min, max, new KnobNode( KnobNode.DEFAULT_SIZE, new KnobNode.ColorScheme( new Color( 115, 217, 255 ) ) ), DEFAULT_TRACK_THICKNESS, DEFAULT_TRACK_LENGTH, value, new Property<Boolean>( true ) );
+        this( userComponent, min, max, new KnobNode2( KnobNode2.DEFAULT_SIZE, KnobNode2.DEFAULT_STYLE, new KnobNode2.ColorScheme( new Color( 115, 217, 255 ) ) ),
+              DEFAULT_TRACK_THICKNESS, DEFAULT_TRACK_LENGTH, value, new Property<Boolean>( true ) );
     }
 
     /**
@@ -88,7 +90,7 @@ public class VSliderNode2 extends SliderNode {
      * @param value
      * @param enabled
      */
-    public VSliderNode2( IUserComponent userComponent, final double min, final double max, final KnobNode knobNode, double trackThickness, double trackLength, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
+    public VSliderNode2( IUserComponent userComponent, final double min, final double max, final KnobNode2 knobNode, double trackThickness, double trackLength, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
         super( userComponent, min, max, value );
         this.trackLength = trackLength;
         this.trackThickness = trackThickness;
@@ -195,7 +197,7 @@ public class VSliderNode2 extends SliderNode {
     }
 
     public static void main( String[] args ) {
-        new PFrame( "test", false, new PCanvas() {{
+        new PFrame( "test", false, new PhetPCanvas() {{
 
             Property<Double> sliderValue = new Property<Double>( 0.0 ) {{
                 addObserver( new VoidFunction1<Double>() {
@@ -205,14 +207,24 @@ public class VSliderNode2 extends SliderNode {
                 } );
             }};
 
-            VSliderNode2 sliderNode = new VSliderNode2( new UserComponent( "mySlider" ), -1, +1, sliderValue ) {{
-                setOffset( 200, 200 );
-            }};
-            sliderNode.addLabel( +1, new PhetPText( "Positive", new PhetFont( 16 ) ) );
-            sliderNode.addLabel( 0.0, new PhetPText( "0", new PhetFont( 16 ) ) );
-            sliderNode.addLabel( -1, new PhetPText( "Negative", new PhetFont( 16 ) ) );
-
-            getLayer().addChild( sliderNode );
+            addWorldChild( new VSliderNode2( new UserComponent( "mySlider" ), -1, +1, sliderValue ) {{
+                setOffset( 100, 200 );
+                addLabel( +1, new PhetPText( "Positive", new PhetFont( 16 ) ) );
+                addLabel( 0.0, new PhetPText( "0", new PhetFont( 16 ) ) );
+                addLabel( -1, new PhetPText( "Negative", new PhetFont( 16 ) ) );
+            }} );
+            addWorldChild( new VSliderNode2( new UserComponent( "mySlider" ), -1, +1, new KnobNode2( 40, KnobNode2.Style.POINTED_RECTANGLE ), 10, 80, sliderValue, new BooleanProperty( true ) ) {{
+                setOffset( 250, 200 );
+                addLabel( +1, new PhetPText( "High", new PhetFont( 16 ) ) );
+                addLabel( 0.0, new PhetPText( "0", new PhetFont( 16 ) ) );
+                addLabel( -1, new PhetPText( "Low", new PhetFont( 16 ) ) );
+            }} );
+            addWorldChild( new VSliderNode2( new UserComponent( "mySlider" ), -1, +1, new KnobNode2( 30, KnobNode2.Style.HELMET, new KnobNode2.ColorScheme( new Color( 0, 200, 0 ) ) ), 5, 150, sliderValue, new BooleanProperty( true ) ) {{
+                setOffset( 400, 200 );
+                addLabel( +1, new PhetPText( "Lots", new PhetFont( 16 ) ) );
+                addLabel( 0.0, new PhetPText( "0", new PhetFont( 16 ) ) );
+                addLabel( -1, new PhetPText( "None", new PhetFont( 16 ) ) );
+            }} );
 
             setPanEventHandler( null );
         }} ) {{
