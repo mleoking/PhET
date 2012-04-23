@@ -77,7 +77,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         // ones zoom in).
         mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.4 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.32 ) ),
+                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.4 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.37 ) ),
                 1E8 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         // Set the background color.
@@ -197,7 +197,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         Rectangle2D visibleCellCollectionBounds = model.getVisibleCellCollectionBounds();
         if ( visibleCellCollectionBounds.getWidth() > 0 && visibleCellCollectionBounds.getHeight() > 0 ) {
             double xScale = Math.min( ( STAGE_SIZE.getWidth() * 0.75 ) / mvt.modelToViewDeltaX( visibleCellCollectionBounds.getWidth() ), 1 );
-            double yScale = Math.min( ( STAGE_SIZE.getHeight() * 0.6 ) / Math.abs( mvt.modelToViewDeltaY( visibleCellCollectionBounds.getHeight() ) ), 1 );
+            double yScale = Math.min( ( STAGE_SIZE.getHeight() * 0.4 ) / Math.abs( mvt.modelToViewDeltaY( visibleCellCollectionBounds.getHeight() ) ), 1 );
             localWorldRootNode.scaleAboutPoint( Math.min( xScale, yScale ), mvt.modelToView( new Point2D.Double( 0, 0 ) ) );
         }
 
