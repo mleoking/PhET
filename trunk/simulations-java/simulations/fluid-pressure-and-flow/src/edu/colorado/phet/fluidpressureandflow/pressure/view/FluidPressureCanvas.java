@@ -48,8 +48,11 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
 
     private static final double MODEL_HEIGHT = Pool.DEFAULT_HEIGHT * 2.2;
 
+    //How much to translate up the camera so that the bottom of the pool isn't too offscreen
+    private static final int VIEW_OFFSET_Y = 10;
+
     public FluidPressureCanvas( final FluidPressureModule module ) {
-        super( ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width / 2, STAGE_SIZE.height / 2 ), STAGE_SIZE.height / MODEL_HEIGHT ) );
+        super( ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width / 2, STAGE_SIZE.height / 2 - VIEW_OFFSET_Y ), STAGE_SIZE.height / MODEL_HEIGHT ) );
 
         //Show the sky
         addChild( new OutsideBackgroundNode( transform, 3, 1 ) {{
@@ -82,7 +85,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
             final PImage drainFaucetImage = new PImage( BufferedImageUtils.multiScaleToHeight( DRAIN_FAUCET_ATTACHED, (int) ( DRAIN_FAUCET_ATTACHED.getHeight() * 1.2 ) ) ) {{
 
                 //Center the faucet over the left opening, values sampled from a drag listener
-                setOffset( new Point2D.Double( 314.1624815361891 - 3, 644.3426883308715 - 1 ) );
+                setOffset( new Point2D.Double( 314.1624815361891 - 3, 644.3426883308715 - 1 - VIEW_OFFSET_Y ) );
 
                 FaucetSliderNode sliderNode = new FaucetSliderNode( UserComponentChain.chain( FPAFSimSharing.UserComponents.drainFaucet, UserComponents.slider ), model.trapezoidPool.drainFaucetEnabled, 1, model.trapezoidPool.drainFlowRate, true ) {{
                     setOffset( 4, 8 + 5 - 1 ); //TODO #3199, change offsets when the faucet images are revised, make these constants
@@ -182,7 +185,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
             final FluidPressureFaucetNode faucetNode = new FluidPressureFaucetNode( model.trapezoidPool.inputFlowRatePercentage, model.trapezoidPool.inputFaucetEnabled ) {{
 
                 //Center the faucet over the left opening, values sampled from a drag listener
-                setOffset( new Point2D.Double( 109.2584933530281, 157.19350073855244 ) );
+                setOffset( new Point2D.Double( 109.2584933530281, 157.19350073855244 - VIEW_OFFSET_Y ) );
             }};
 
             //Show the water coming out of the faucet
