@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.multiplecells.model;
 
+import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -29,7 +31,8 @@ public class MultipleCellsModel implements Resettable {
     public static final int MAX_CELLS = 90;
 
     // Seeds for the random number generators.  Values chosen empirically.
-    private static final long POSITION_RANDOMIZER_SEED = 20000;
+    private static final long POSITION_RANDOMIZER_SEED = 226;
+
     private static final long SIZE_AND_ORIENTATION_RANDOMIZER_SEED = 5;
 
     // Threshold used to prevent floating point errors from not correctly
@@ -105,7 +108,7 @@ public class MultipleCellsModel implements Resettable {
                 // Note that the index is used as the seed for the shape in
                 // order to make the cell appearance vary, but be deterministic.
                 newCell = new Cell( new PDimension( cellWidth, Cell.DEFAULT_CELL_SIZE.getHeight() ), new Point2D.Double( 0, 0 ), Math.PI * 2 * sizeAndRotationRandomizer.nextDouble(), cellList.size() );
-                placeCellInOpenLocation( newCell, cellList );
+                placeCellInOpenLocation( newCell, cellList, positionRandomizer );
             }
             cellList.add( newCell );
         }
@@ -232,7 +235,42 @@ public class MultipleCellsModel implements Resettable {
 
     // Find a location for the given cell that doesn't overlap with any of the
     // other cells on the list.
-    private void placeCellInOpenLocation( Cell cell, List<Cell> cellList ) {
+    private static void placeCellInOpenLocation( Cell cell, List<Cell> cellList, Random positionRandomizer ) {
+        // Loop, randomly generating positions of increasing distance from the
+        // center, until the cell is positioned in a place that does not
+        // overlap with the existing cells.  The overall bounding shape of the
+        // collection of cells is elliptical, not circular.
+        double boundingShapeWidth = Cell.DEFAULT_CELL_SIZE.getWidth() * 20;
+        double boundingShapeHeight = boundingShapeWidth * 0.35;
+        Shape boundingShape = new Ellipse2D.Double( -boundingShapeWidth / 2, -boundingShapeHeight / 2, boundingShapeWidth, boundingShapeHeight );
+        for ( int i = 0; i < (int) Math.ceil( Math.sqrt( cellList.size() ) ); i++ ) {
+            double radius = ( i + 1 ) * Cell.DEFAULT_CELL_SIZE.getWidth() * ( positionRandomizer.nextDouble() / 2 + .75 );
+            for ( int j = 0; j < radius * Math.PI / ( Cell.DEFAULT_CELL_SIZE.getHeight() * 2 ); j++ ) {
+                double angle = positionRandomizer.nextDouble() * 2 * Math.PI;
+                cell.setPosition( radius * Math.cos( angle ), radius * Math.sin( angle ) );
+                if ( !boundingShape.contains( cell.getPosition() ) ) {
+                    // Not in bounds.
+                    continue;
+                }
+                boolean overlapDetected = false;
+                for ( Cell existingCell : cellList ) {
+                    if ( rectanglesOverlap( cell.getEnclosingRectVertices(), existingCell.getEnclosingRectVertices() ) ) {
+                        overlapDetected = true;
+                        break;
+                    }
+                }
+                if ( !overlapDetected ) {
+                    // Found an open spot.
+                    return;
+                }
+            }
+        }
+        System.out.println( "Warning: Exiting placement loop without having found open location." );
+    }
+
+    // Find a location for the given cell that doesn't overlap with any of the
+    // other cells on the list.
+    private static void placeCellInOpenLocationOldCircular( Cell cell, List<Cell> cellList, Random positionRandomizer ) {
         // Loop, randomly generating positions of increasing distance from the
         // center, until the cell is positioned in a place that does not
         // overlap with the existing cells.
