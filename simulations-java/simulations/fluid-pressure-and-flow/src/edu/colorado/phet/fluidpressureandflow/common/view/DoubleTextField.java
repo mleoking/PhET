@@ -46,7 +46,15 @@ public class DoubleTextField extends SimSharingJTextField {
         //When the text field edit completes, set the value of the property.
         final ActionListener updateProperty = new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                property.set( getClampedValue( getParsedValue() ) );
+                double origPropertyValue = property.get();
+                final double value = getClampedValue( getParsedValue() );
+                property.set( value );
+
+                //If the property didn't change, it won't send update notifications, but we still need to update the view with the clamped value
+                //so it doesn't show something outside of the allowed range.
+                if ( origPropertyValue == value ) {
+                    setValue( value );
+                }
             }
         };
         addActionListener( updateProperty );
