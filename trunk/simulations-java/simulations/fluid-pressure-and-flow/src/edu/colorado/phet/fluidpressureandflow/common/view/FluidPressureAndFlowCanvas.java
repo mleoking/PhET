@@ -227,7 +227,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
     protected void addFluidDensityControl( FluidPressureAndFlowModule<T> module ) {
         final FluidDensityControl<T> fluidDensityControl = new FluidDensityControl<T>( module );
         addChild( new FluidPressureAndFlowControlPanelNode( fluidDensityControl ) {{
-            setOffset( STAGE_SIZE.getWidth() - fluidDensityControl.getMaximumSize().getWidth() - INSET, STAGE_SIZE.getHeight() - fluidDensityControl.getMaximumSize().getHeight() - INSET );
+            setOffset( STAGE_SIZE.getWidth() - fluidDensityControl.getMaximumSize().getWidth() - INSET * 2, STAGE_SIZE.getHeight() - fluidDensityControl.getMaximumSize().getHeight() - INSET * 2 );
         }} );
     }
 
