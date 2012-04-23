@@ -1,3 +1,4 @@
+Moved the control on the 3rd tab that sets the number of cells to the top center, removed the caption.
 Changed the shape of the fluorescent protein on the 3rd tab to approximate the shape of real green fluorescent protein.
 # 0.00.20 (63446) Apr 16, 2012
 4/16/12 Deploying to dev to enable the design team to review some changes.
