@@ -25,10 +25,8 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsSimSharing.UserComponents;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.model.Cell;
@@ -126,10 +124,8 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
 //        cellNumberController.setOffset( STAGE_SIZE.getWidth() - maxControllerWidth / 2 - cellNumberController.getFullBoundsReference().getWidth() / 2 - 20, 20 );
 //        cellParameterController.setOffset( cellNumberController.getFullBoundsReference().getCenterX() - cellParameterController.getFullBoundsReference().getWidth() / 2,
 //                                           cellNumberController.getFullBoundsReference().getMaxY() + 20 );
-        cellParameterController.setOffset( STAGE_SIZE.getWidth() - cellParameterController.getFullBoundsReference().width - 10,
-                                           20 );
-        cellNumberController.setOffset( cellParameterController.getFullBoundsReference().getMinX() - cellNumberController.getFullBoundsReference().width - 10,
-                                        cellParameterController.getFullBoundsReference().getMinY() );
+        cellParameterController.setOffset( STAGE_SIZE.getWidth() - cellParameterController.getFullBoundsReference().width - 10, 20 );
+        cellNumberController.setOffset( mvt.modelToViewX( 0 ) - cellNumberController.getFullBoundsReference().width / 2, 10 );
 
         // Add the floating clock control.
         final ConstantDtClock modelClock = (ConstantDtClock) model.getClock();
@@ -221,9 +217,6 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
     private static class CellNumberController extends PNode {
         private CellNumberController( final MultipleCellsModel model ) {
 
-            // Create the title.
-            PNode title = new HTMLNode( "<center>Number of<br>Cells</center>", Color.black, new PhetFont( 16, true ) );
-
             // Create the slider.
             IntegerHSliderNode sliderNode = new IntegerHSliderNode( UserComponents.numberOfCellsSlider, 1, MultipleCellsModel.MAX_CELLS, 4, 100, model.numberOfVisibleCells );
             sliderNode.addLabel( 1, new PLabel( "One", 14 ) );
@@ -232,7 +225,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
 
             // Put the title and slider together in a box and add to the node
             // and enclose in a control panel.
-            ControlPanelNode controlPanel = new ControlPanelNode( new VBox( title, sliderNode ), new Color( 245, 205, 245 ) );
+            ControlPanelNode controlPanel = new ControlPanelNode( sliderNode, new Color( 245, 205, 245 ) );
 
             // Add the control panel as a child.
             addChild( controlPanel );
