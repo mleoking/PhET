@@ -11,7 +11,7 @@ import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 
-import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.ATMOSPHERES;
+import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.METRIC;
 
 /**
  * Model for the "pressure" tab
@@ -32,7 +32,7 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
     public SettableProperty<Boolean> atmosphere = new BooleanProperty( true );
 
     public FluidPressureModel() {
-        super( ATMOSPHERES );
+        super( METRIC );
         chamberPool = new ChamberPool( gravity, liquidDensity );
 
         //Show pressure partly submerged in the water, but at the top of the water

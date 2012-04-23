@@ -67,8 +67,8 @@ public class FluidPressureControlPanel extends VerticalLayoutPanel {
 
         //Units control panel that allows choice between atmospheres, english and metric
         final Property<UnitSet> units = module.model.units;
-        add( new EnglishMetricControlPanel( new FPAFRadioButton<UnitSet>( atmospheresRadioButton, ATMOSPHERES, units, UnitSet.ATMOSPHERES ),
-                                            new FPAFRadioButton<UnitSet>( metricRadioButton, METRIC, units, UnitSet.METRIC ),
+        add( new EnglishMetricControlPanel( new FPAFRadioButton<UnitSet>( metricRadioButton, METRIC, units, UnitSet.METRIC ),
+                                            new FPAFRadioButton<UnitSet>( atmospheresRadioButton, ATMOSPHERES, units, UnitSet.ATMOSPHERES ),
                                             new FPAFRadioButton<UnitSet>( englishRadioButton, ENGLISH, units, UnitSet.ENGLISH ) ) );
     }
 
