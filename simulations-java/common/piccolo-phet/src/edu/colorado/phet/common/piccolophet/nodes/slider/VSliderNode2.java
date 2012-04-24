@@ -3,7 +3,6 @@ package edu.colorado.phet.common.piccolophet.nodes.slider;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.GradientPaint;
 import java.awt.Paint;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -38,11 +37,22 @@ import edu.umd.cs.piccolox.PFrame;
  */
 public class VSliderNode2 extends SliderNode {
 
-    //the default width of the track (thin dimension)
+    //-------------------------------------------------------------------------
+    // Class Data
+    //-------------------------------------------------------------------------
+
+    // The default width of the track (thin dimension)
     public static final double DEFAULT_TRACK_THICKNESS = 6;
 
-    //The size of the track (how far the knob can move)
+    // The size of the track (how far the knob can move)
     public static final double DEFAULT_TRACK_LENGTH = 200;
+
+    // Default paint for the track.
+    public static final Paint DEFAULT_TRACK_PAINT = Color.BLACK;
+
+    //-------------------------------------------------------------------------
+    // Instance Data
+    //-------------------------------------------------------------------------
 
     protected PhetPPath trackNode;
     protected KnobNode2 knobNode;
@@ -53,6 +63,10 @@ public class VSliderNode2 extends SliderNode {
     protected final PNode rootNode = new PNode();
     public final double trackLength;
     public final double trackThickness;
+
+    //-------------------------------------------------------------------------
+    // Constructor(s)
+    //-------------------------------------------------------------------------
 
     /**
      * Constructor that uses defaults for several of the slider parameters.
@@ -95,11 +109,16 @@ public class VSliderNode2 extends SliderNode {
         this.trackLength = trackLength;
         this.trackThickness = trackThickness;
         this.knobNode = knobNode;
+
+        // Add the root node, to which any other nodes should be added.
         addChild( rootNode );
 
+        // Create the track.
         final Rectangle2D.Double trackPath = new Rectangle2D.Double( 0, 0, trackThickness, trackLength );
-        trackNode = new PhetPPath( trackPath, new GradientPaint( 0, 0, Color.gray, 0, (float) trackLength, Color.white, false ), new BasicStroke( 1 ), Color.BLACK );
-        rootNode.addChild( trackNode );
+        trackNode = new PhetPPath( trackPath, DEFAULT_TRACK_PAINT, new BasicStroke( 1 ), Color.BLACK );
+
+        // Hook up observers to control the enabled state and position of the
+        // knob.
         enabled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean enabled ) {
                 knobNode.setEnabled( enabled );
@@ -112,7 +131,9 @@ public class VSliderNode2 extends SliderNode {
                                     viewY - knobNode.getFullBounds().getHeight() / 2 );
             }
         } );
-        knobNode.addInputEventListener( new CursorHandler() );
+
+        // Add the handler that will change the value of the controlled
+        // property when the knob is moved.
         knobNode.addInputEventListener( new PDragSequenceEventHandler() {
 
             private Point2D startPoint;
@@ -146,9 +167,12 @@ public class VSliderNode2 extends SliderNode {
             }
         } );
 
-        // Create an invisible rectangle that will account for where the knob
-        // is able to move so that the overall node's full bounds takes this
-        // into account.
+        // Cursor handler.
+        knobNode.addInputEventListener( new CursorHandler() );
+
+        // Create an invisible background rectangle that is large enough to
+        // encompass the full motion of the knob.  This makes the full bounds
+        // of this node much easier to work with when doing layout.
         Rectangle2D leftKnobRect = getKnobRect( min );
         Rectangle2D rightKnobRect = getKnobRect( max );
         PhetPPath knobBackground = new PhetPPath( leftKnobRect.createUnion( rightKnobRect ), null, null, null ) {{
@@ -157,13 +181,63 @@ public class VSliderNode2 extends SliderNode {
         }};
         rootNode.addChild( knobBackground );
 
+        // Add the track and the knob.
+        rootNode.addChild( trackNode );
         rootNode.addChild( knobNode );
 
+        // Make sure the origin of this node is at (0, 0).
         adjustOrigin();
     }
 
+    //-------------------------------------------------------------------------
+    // Methods
+    //-------------------------------------------------------------------------
+
     @Override public void setTrackFillPaint( final Paint paint ) {
         trackNode.setPaint( paint );
+    }
+
+    /**
+     * Get the point in screen coordinates that represents the end point of the
+     * slider track.
+     *
+     * @return End point of the slider track.
+     */
+    protected Point2D.Double createEndPoint() {
+        return new Point2D.Double( 0, trackNode.getFullBounds().getHeight() );
+    }
+
+    /**
+     * Map a value to the corresponding position on the slider track.
+     *
+     * @param value
+     * @return
+     */
+    protected double getViewY( double value ) {
+        return new Function.LinearFunction( min, max, trackNode.getFullBounds().getMinY(), trackNode.getFullBounds().getHeight() ).evaluate( value );
+    }
+
+    /**
+     * Add a label to appear at the specified location on the slider.
+     *
+     * @param value Numerical value at which the label should appear.  Must be
+     *              within the range of the slider.
+     * @param label PNode label that will appear at the specified location.
+     */
+    public void addLabel( double value, PNode label ) {
+        rootNode.addChild( label );
+        label.setOffset( knobNode.getFullBounds().getWidth() / 2 + trackThickness / 2, getViewY( value ) - label.getFullBounds().getHeight() / 2 );
+        adjustOrigin();
+    }
+
+    /**
+     * Adjust the origin of this node so that it is at (0, 0), which is the
+     * convention for PNodes.  This is useful for resetting the origin when
+     * other nodes are added in subclasses.
+     */
+    protected void adjustOrigin() {
+        removeAllChildren();
+        addChild( new ZeroOffsetNode( rootNode ) );
     }
 
     private Rectangle2D getKnobRect( double value ) {
@@ -174,27 +248,9 @@ public class VSliderNode2 extends SliderNode {
         return leftKnobRect;
     }
 
-    protected Point2D.Double createEndPoint() {
-        return new Point2D.Double( 0, trackNode.getFullBounds().getHeight() );
-    }
-
-    protected double getViewY( double value ) {
-        return new Function.LinearFunction( min, max, trackNode.getFullBounds().getMinY(), trackNode.getFullBounds().getHeight() ).evaluate( value );
-    }
-
-    //Add a label to appear under the slider at the specified location
-    public void addLabel( double value, PNode label ) {
-        rootNode.addChild( label );
-        label.setOffset( knobNode.getFullBounds().getWidth() / 2 + trackThickness / 2, getViewY( value ) - label.getFullBounds().getHeight() / 2 );
-        adjustOrigin();
-    }
-
-    //Adjust the origin of this node so that it is at (0, 0) in screen coordinates.
-    //This will only work if all items have been added to the root node.
-    protected void adjustOrigin() {
-        removeAllChildren();
-        addChild( new ZeroOffsetNode( rootNode ) );
-    }
+    //-------------------------------------------------------------------------
+    // Test Harness
+    //-------------------------------------------------------------------------
 
     public static void main( String[] args ) {
         new PFrame( "test", false, new PhetPCanvas() {{
