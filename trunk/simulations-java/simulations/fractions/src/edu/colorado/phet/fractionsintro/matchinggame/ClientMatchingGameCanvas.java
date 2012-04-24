@@ -6,6 +6,8 @@ import fj.data.List;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.SwingUtilities;
 
@@ -25,6 +27,8 @@ import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.fractions.util.Cache;
+import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractions.view.FNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Cell;
@@ -33,6 +37,8 @@ import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Mode;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MovableFraction;
 import edu.colorado.phet.fractionsintro.matchinggame.view.BarGraphNode;
+import edu.colorado.phet.fractionsintro.matchinggame.view.Button;
+import edu.colorado.phet.fractionsintro.matchinggame.view.ButtonArgs;
 import edu.colorado.phet.fractionsintro.matchinggame.view.MatchingGameCanvas;
 import edu.colorado.phet.fractionsintro.matchinggame.view.MovableFractionNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.ScoreboardNode;
@@ -86,8 +92,8 @@ public class ClientMatchingGameCanvas extends AbstractFractionsCanvas {
 
             //Cells at the top of the board
 
-            final PNode scales = new RichPNode( model.state.get().leftScale.toNode(), model.state.get().rightScale.toNode() );
-            addChild( scales );
+            final PNode scalesNode = new RichPNode( model.state.get().leftScale.toNode(), model.state.get().rightScale.toNode() );
+            addChild( scalesNode );
 
             final ObservableProperty<Boolean> revealClues = new CompositeBooleanProperty( new Function0<Boolean>() {
                 @Override public Boolean apply() {
@@ -100,20 +106,29 @@ public class ClientMatchingGameCanvas extends AbstractFractionsCanvas {
                 @Override public Double apply() {
                     return model.state.get().getLeftScaleValue();
                 }
-            } );
+            }, model.state );
             final ObservableProperty<Double> rightScaleValue = new CompositeDoubleProperty( new Function0<Double>() {
                 @Override public Double apply() {
                     return model.state.get().getRightScaleValue();
                 }
-            } );
-
+            }, model.state );
+            final ObservableProperty<Mode> mode = new CompositeProperty<Mode>( new Function0<Mode>() {
+                @Override public Mode apply() {
+                    return model.state.get().getMode();
+                }
+            }, model.state );
+            final ObservableProperty<Integer> checks = new CompositeProperty<Integer>( new Function0<Integer>() {
+                @Override public Integer apply() {
+                    return model.state.get().getChecks();
+                }
+            }, model.state );
 
             addChild( new PNode() {{
                 new RichSimpleObserver() {
                     @Override public void update() {
                         removeAllChildren();
                         addChild( new ZeroOffsetNode( new BarGraphNode( leftScaleValue.get(), rightScaleValue.get(), revealClues.get() ) ) {{
-                            setOffset( scales.getFullBounds().getCenterX() - getFullWidth() / 2, scales.getFullBounds().getCenterY() - getFullHeight() - 15 );
+                            setOffset( scalesNode.getFullBounds().getCenterX() - getFullWidth() / 2, scalesNode.getFullBounds().getCenterY() - getFullHeight() - 15 );
                         }} );
                     }
                 }.observe( leftScaleValue, rightScaleValue, revealClues );
@@ -138,7 +153,8 @@ public class ClientMatchingGameCanvas extends AbstractFractionsCanvas {
                 }
             } ) ) );
 
-            //For each unique ID, show a graphic for that one
+            //For each unique ID, show a graphic for that one.
+            //TODO: handle new indices and throw away no longer used indices
             for ( int i = 0; i < 24; i++ ) {
                 final int finalI = i;
                 addChild( new PNode() {{
@@ -170,22 +186,36 @@ public class ClientMatchingGameCanvas extends AbstractFractionsCanvas {
                 }} );
             }
 
-            //TODO: could do better region management on this one
-//            addChild( new FNode() {{
-//                model.state.addObserver( new VoidFunction1<MatchingGameState>() {
-//                    @Override public void apply( final MatchingGameState matchingGameState ) {
-//                        removeAllChildren();
-//                        model.state.get().fractions.map( new F<MovableFraction, PNode>() {
-//                            @Override public PNode f( final MovableFraction f ) {
-//                                return new MovableFractionNode( model.state, f, f.toNode(), rootNode, !revealClues.get() );
-//                            }
-//                        } ).foreach( addChild );
-//                    }
-//                } );
-//            }} );
-//
             addChild( new ScoreboardNode( model.state ) {{
                 setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - INSET, scoreCellsLayer.getMaxY() + INSET );
+            }} );
+
+            //Way of creating game buttons, cache is vestigial and could be removed.
+            final F<ButtonArgs, Button> buttonFactory = Cache.cache( new F<ButtonArgs, Button>() {
+                @Override public Button f( final ButtonArgs buttonArgs ) {
+                    return new Button( buttonArgs.component, buttonArgs.text, buttonArgs.color, buttonArgs.location, new ActionListener() {
+                        @Override public void actionPerformed( final ActionEvent e ) {
+                            model.state.set( buttonArgs.listener.f( model.state.get() ) );
+                        }
+                    } );
+                }
+            } );
+
+            final ObservableProperty<Vector2D> buttonLocation = new CompositeProperty<Vector2D>( new Function0<Vector2D>() {
+                @Override public Vector2D apply() {
+                    return new Vector2D( model.state.get().getLastDroppedScaleRight() ? scalesNode.getFullBounds().getMaxX() + 80 : scalesNode.getFullBounds().getX() - 80,
+                                         scalesNode.getFullBounds().getCenterY() );
+                }
+            }, leftScaleValue, rightScaleValue );
+
+            addChild( new PNode() {{
+                //leftScaleValue, rightScaleValue, mode, checks, buttonLocation,
+                new RichSimpleObserver() {
+                    @Override public void update() {
+                        removeAllChildren();
+                        addChild( new GameButtonsNode( model.state.get(), buttonFactory, buttonLocation.get() ) );
+                    }
+                }.observe( leftScaleValue, rightScaleValue, mode, checks, buttonLocation );
             }} );
 //
 //            if ( showDeveloperControls ) {
