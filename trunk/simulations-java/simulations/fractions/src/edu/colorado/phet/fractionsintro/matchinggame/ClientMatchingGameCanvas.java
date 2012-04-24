@@ -54,6 +54,10 @@ import static java.awt.Color.lightGray;
 import static java.awt.Color.yellow;
 
 /**
+ * This class shows the graphics and provides user interaction for the matching game.
+ * This class was written in response to #3314, because the previous version of MatchingGameCanvas redrew the screen every time step and had poor performance on
+ * an old PhET laptop.  This class uses a more traditional piccolo approach, creating nodes once and maintaining them and only updating them when necessary.
+ *
  * @author Sam Reid
  */
 public class ClientMatchingGameCanvas extends AbstractFractionsCanvas {
