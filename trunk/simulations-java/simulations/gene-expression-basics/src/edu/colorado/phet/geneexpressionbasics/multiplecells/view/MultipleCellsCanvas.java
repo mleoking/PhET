@@ -27,6 +27,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsSimSharing.UserComponents;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.model.Cell;
@@ -77,7 +78,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         // ones zoom in).
         mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.4 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.37 ) ),
+                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.45 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.37 ) ),
                 1E8 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         // Set the background color.
@@ -104,10 +105,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         } );
 
         // Add the chart that displays the average protein level.
-        proteinLevelChartNode = new ProteinLevelChartNode( model.averageProteinLevel, model.getClock() ) {{
-            setOffset( mvt.modelToViewX( 0 ) - getFullBoundsReference().width / 2,
-                       STAGE_SIZE.getHeight() - getFullBoundsReference().height - 10 );
-        }};
+        proteinLevelChartNode = new ProteinLevelChartNode( model.averageProteinLevel, model.getClock() );
         addWorldChild( proteinLevelChartNode );
 
         // Create and add the slider that controls one vs. many cells.
@@ -118,28 +116,18 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         final TranscriptionFactorParameterController transcriptionFactorParameterController = new TranscriptionFactorParameterController( model );
         addWorldChild( transcriptionFactorParameterController );
 
-        // Lay out the controllers.
-        // TODO: Layout is in flux awaiting some decisions about the number of parameters.  Clean up when done.
-//        double maxControllerWidth = Math.max( cellNumberController.getFullBoundsReference().width, cellParameterController.getFullBoundsReference().width );
-//        cellNumberController.setOffset( STAGE_SIZE.getWidth() - maxControllerWidth / 2 - cellNumberController.getFullBoundsReference().getWidth() / 2 - 20, 20 );
-//        cellParameterController.setOffset( cellNumberController.getFullBoundsReference().getCenterX() - cellParameterController.getFullBoundsReference().getWidth() / 2,
-//                                           cellNumberController.getFullBoundsReference().getMaxY() + 20 );
-        transcriptionFactorParameterController.setOffset( STAGE_SIZE.getWidth() - transcriptionFactorParameterController.getFullBoundsReference().width - 10, 20 );
-        cellNumberController.setOffset( mvt.modelToViewX( 0 ) - cellNumberController.getFullBoundsReference().width / 2, 10 );
-
-        // Add the floating clock control.
+        // Create the floating clock control.
         final ConstantDtClock modelClock = (ConstantDtClock) model.getClock();
         clockRunning.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean isRunning ) {
                 modelClock.setRunning( isRunning );
             }
         } );
-        final FloatingClockControlNode floatingClockControlNode = new FloatingClockControlNode( clockRunning, null,
-                                                                                                model.getClock(), null,
-                                                                                                new Property<Color>( Color.white ) );
-        floatingClockControlNode.centerFullBoundsOnPoint( ( proteinLevelChartNode.getFullBoundsReference().getMaxX() + transcriptionFactorParameterController.getFullBoundsReference().getMinX() ) / 2,
-                                                          proteinLevelChartNode.getFullBoundsReference().getCenterY() );
-        addWorldChild( floatingClockControlNode );
+        final FloatingClockControlNode floatingClockControl = new FloatingClockControlNode( clockRunning, null,
+                                                                                            model.getClock(), null,
+                                                                                            new Property<Color>( Color.white ) );
+        floatingClockControl.centerFullBoundsOnPoint( ( proteinLevelChartNode.getFullBoundsReference().getMaxX() + transcriptionFactorParameterController.getFullBoundsReference().getMinX() ) / 2,
+                                                      proteinLevelChartNode.getFullBoundsReference().getCenterY() );
 
         // Make sure that the floating clock control sees the change when the
         // clock gets started.
@@ -149,17 +137,16 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
             }
         } );
 
-        // Add the Reset All button.
-        final ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { model, this }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
+        // Create the Reset All button.
+        final ResetAllButtonNode resetAllButton = new ResetAllButtonNode( new Resettable[] { model, this }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
             setConfirmationEnabled( false );
-            setOffset( floatingClockControlNode.getFullBoundsReference().getCenterX() - getFullBoundsReference().getWidth() / 2,
+            setOffset( floatingClockControl.getFullBoundsReference().getCenterX() - getFullBoundsReference().getWidth() / 2,
                        transcriptionFactorParameterController.getFullBoundsReference().getMaxY() + 30 );
         }};
-        addWorldChild( resetAllButtonNode );
 
-        // Add button for showing a picture of real fluorescent cells.
-        addWorldChild( new HTMLImageButtonNode( "Show Real Cells", new PhetFont( 18 ), Color.YELLOW ) {{
-            centerFullBoundsOnPoint( transcriptionFactorParameterController.getFullBoundsReference().getCenterX(), resetAllButtonNode.getFullBoundsReference().getCenterY() );
+        // Create button for showing a picture of real fluorescent cells.
+        PNode showRealCells = new HTMLImageButtonNode( "Show Real Cells", new PhetFont( 18 ), Color.YELLOW ) {{
+            centerFullBoundsOnPoint( transcriptionFactorParameterController.getFullBoundsReference().getCenterX(), resetAllButton.getFullBoundsReference().getCenterY() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     FluorescentCellsPictureDialog dialog = new FluorescentCellsPictureDialog( parentFrame );
@@ -169,14 +156,20 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
                     dialog.setVisible( true );
                 }
             } );
-        }} );
+        }};
+
+        // Create a panel containing the clock control, reset button, and the
+        // button for showing real cells.
+        PNode globalControlsPanel = new VBox( 20, floatingClockControl, resetAllButton, showRealCells );
+        addWorldChild( globalControlsPanel );
 
         if ( SHOW_CELL_BOUNDING_BOX ) {
             localWorldRootNode.addChild( cellBoundingBox );
         }
 
-        // Add a handler that controls the zoom level.  This automatically
-        // zooms in and out to allow all of the cells to be seen.
+        // Add a handler that automatically controls the zoom level of the
+        // collection of cells.  This zooms in and out as cells are added or
+        // removed to allow all of the cells to be visible.
         model.visibleCellList.addElementAddedObserver( new VoidFunction1<Cell>() {
             public void apply( Cell cell ) {
                 setZoomToSeeAllCells();
@@ -187,6 +180,19 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
                 setZoomToSeeAllCells();
             }
         } );
+
+        // Do the lay out.
+        // TODO: Layout is in flux awaiting some decisions about the number of parameters.  Clean up when done.
+//        double maxControllerWidth = Math.max( cellNumberController.getFullBoundsReference().width, cellParameterController.getFullBoundsReference().width );
+//        cellNumberController.setOffset( STAGE_SIZE.getWidth() - maxControllerWidth / 2 - cellNumberController.getFullBoundsReference().getWidth() / 2 - 20, 20 );
+//        cellParameterController.setOffset( cellNumberController.getFullBoundsReference().getCenterX() - cellParameterController.getFullBoundsReference().getWidth() / 2,
+//                                           cellNumberController.getFullBoundsReference().getMaxY() + 20 );
+        proteinLevelChartNode.setOffset( mvt.modelToViewX( 0 ) - proteinLevelChartNode.getFullBoundsReference().width / 2,
+                                         STAGE_SIZE.getHeight() - proteinLevelChartNode.getFullBoundsReference().height - 10 );
+        globalControlsPanel.setOffset( proteinLevelChartNode.getFullBoundsReference().getMinX() - globalControlsPanel.getFullBoundsReference().width - 10,
+                                       proteinLevelChartNode.getFullBoundsReference().getCenterY() - globalControlsPanel.getFullBoundsReference().height / 2 );
+        transcriptionFactorParameterController.setOffset( STAGE_SIZE.getWidth() - transcriptionFactorParameterController.getFullBoundsReference().width - 10, 20 );
+        cellNumberController.setOffset( mvt.modelToViewX( 0 ) - cellNumberController.getFullBoundsReference().width / 2, 10 );
     }
 
     private void setZoomToSeeAllCells() {
