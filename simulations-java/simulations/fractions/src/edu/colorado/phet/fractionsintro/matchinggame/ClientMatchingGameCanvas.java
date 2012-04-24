@@ -6,8 +6,11 @@ import fj.data.List;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
 
 import javax.swing.SwingUtilities;
 
@@ -39,6 +42,7 @@ import edu.colorado.phet.fractionsintro.matchinggame.model.MovableFraction;
 import edu.colorado.phet.fractionsintro.matchinggame.view.BarGraphNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.Button;
 import edu.colorado.phet.fractionsintro.matchinggame.view.ButtonArgs;
+import edu.colorado.phet.fractionsintro.matchinggame.view.EqualsSignNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.MatchingGameCanvas;
 import edu.colorado.phet.fractionsintro.matchinggame.view.MovableFractionNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.ScoreboardNode;
@@ -47,6 +51,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState.newLevel;
 import static java.awt.Color.lightGray;
+import static java.awt.Color.yellow;
 
 /**
  * @author Sam Reid
@@ -222,9 +227,40 @@ public class ClientMatchingGameCanvas extends AbstractFractionsCanvas {
 //                addChild( buttonFactory.f( new ButtonArgs( null, "Resample", Color.red, new Vector2D( 100, 6 ), new Resample() ) ) );
 //            }
 
+            //Show the sign node, but only if revealClues is true
+            addChild( new PNode() {{
+                new RichSimpleObserver() {
+                    @Override public void update() {
+                        removeAllChildren();
+                        if ( revealClues.get() ) {
+                            addChild( getSignNode( model.state.get(), scalesNode ) );
+                        }
+                    }
+                }.observe( leftScaleValue, rightScaleValue, mode, revealClues );
+            }} );
+
         }};
 
         addChild( gameNode );
+    }
+
+    //Encapsulates stroke, paint and stroke paint for a sign node like "=", "<", ">"
+    public static PhetPPath createSignNode( Shape shape ) { return new PhetPPath( shape, yellow, new BasicStroke( 2 ), Color.black ); }
+
+    private static PNode getSignNode( final MatchingGameState state, final PNode scales ) {
+        class TextSign extends PNode {
+            TextSign( String text ) {
+                final PhetFont textFont = new PhetFont( 100, true );
+                final PNode sign = createSignNode( textFont.createGlyphVector( new FontRenderContext( new AffineTransform(), true, true ), text ).getOutline() );
+                addChild( sign );
+            }
+        }
+
+        final PNode sign = state.getLeftScaleValue() < state.getRightScaleValue() ? new TextSign( "<" ) :
+                           state.getLeftScaleValue() > state.getRightScaleValue() ? new TextSign( ">" ) :
+                           new EqualsSignNode();
+        sign.centerFullBoundsOnPoint( scales.getFullBounds().getCenter2D().getX(), scales.getFullBounds().getCenter2D().getY() + 10 );
+        return sign;
     }
 
     public static VoidFunction1<Boolean> setNodeVisible( final PNode node ) {
