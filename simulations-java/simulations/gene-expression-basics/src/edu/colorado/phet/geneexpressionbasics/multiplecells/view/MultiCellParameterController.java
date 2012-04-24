@@ -16,6 +16,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 /**
  * Control panel that allows the user to alter various parameters of cell
  * operation within a population of cells.
+ * <p/>
+ * TODO: This was replaced by a set of separate, collapsible control panels in April 2012.  If this change sticks, this class should be removed.
  *
  * @author John Blanco
  */
