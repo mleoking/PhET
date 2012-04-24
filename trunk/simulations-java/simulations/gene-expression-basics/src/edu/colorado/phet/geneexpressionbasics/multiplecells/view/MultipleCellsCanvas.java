@@ -112,9 +112,13 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         final CellNumberController cellNumberController = new CellNumberController( model );
         addWorldChild( cellNumberController );
 
-        // Create and add the control panel that controls the cell parameters.
+        // Create and add the control panels that controls the cell parameters.
         final TranscriptionFactorParameterController transcriptionFactorParameterController = new TranscriptionFactorParameterController( model );
         addWorldChild( transcriptionFactorParameterController );
+        final PolymeraseParameterController polymeraseParameterController = new PolymeraseParameterController( model );
+        addWorldChild( polymeraseParameterController );
+        final DegradationParameterController degradationParameterController = new DegradationParameterController( model );
+        addWorldChild( degradationParameterController );
 
         // Create the floating clock control.
         final ConstantDtClock modelClock = (ConstantDtClock) model.getClock();
@@ -126,8 +130,6 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         final FloatingClockControlNode floatingClockControl = new FloatingClockControlNode( clockRunning, null,
                                                                                             model.getClock(), null,
                                                                                             new Property<Color>( Color.white ) );
-        floatingClockControl.centerFullBoundsOnPoint( ( proteinLevelChartNode.getFullBoundsReference().getMaxX() + transcriptionFactorParameterController.getFullBoundsReference().getMinX() ) / 2,
-                                                      proteinLevelChartNode.getFullBoundsReference().getCenterY() );
 
         // Make sure that the floating clock control sees the change when the
         // clock gets started.
@@ -192,6 +194,10 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         globalControlsPanel.setOffset( proteinLevelChartNode.getFullBoundsReference().getMinX() - globalControlsPanel.getFullBoundsReference().width - 10,
                                        proteinLevelChartNode.getFullBoundsReference().getCenterY() - globalControlsPanel.getFullBoundsReference().height / 2 );
         transcriptionFactorParameterController.setOffset( STAGE_SIZE.getWidth() - transcriptionFactorParameterController.getFullBoundsReference().width - 10, 20 );
+        polymeraseParameterController.setOffset( transcriptionFactorParameterController.getFullBoundsReference().getMinX(),
+                                                 transcriptionFactorParameterController.getFullBoundsWhenOpen().getMaxY() + 10 );
+        degradationParameterController.setOffset( polymeraseParameterController.getFullBoundsReference().getMinX(),
+                                                  polymeraseParameterController.getFullBoundsWhenOpen().getMaxY() + 10 );
         cellNumberController.setOffset( mvt.modelToViewX( 0 ) - cellNumberController.getFullBoundsReference().width / 2, 10 );
     }
 
