@@ -42,7 +42,6 @@ public class KnobNode2 extends PComposite {
     public static final double DEFAULT_SIZE = 26;
     public static final Style DEFAULT_STYLE = Style.RECTANGLE;
 
-
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
