@@ -255,7 +255,9 @@ public class ClientMatchingGameCanvas extends AbstractFractionsCanvas {
                         removeAllChildren();
                         addChild( new FNode( model.state.get().scoreCells.take( model.state.get().scored ).map( new F<Cell, PNode>() {
                             @Override public PNode f( final Cell cell ) {
-                                return new PhetPText( "=", new PhetFont( 22 ) ) {{centerFullBoundsOnPoint( cell.rectangle.getCenter() );}};
+                                return new PhetPText( "=", new PhetFont( 22 ) ) {{
+                                    centerFullBoundsOnPoint( cell.rectangle.getCenter() );
+                                }};
                             }
                         } ) ) );
                     }
