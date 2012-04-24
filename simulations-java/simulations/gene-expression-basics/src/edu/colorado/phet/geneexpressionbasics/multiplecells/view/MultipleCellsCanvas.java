@@ -115,8 +115,8 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         addWorldChild( cellNumberController );
 
         // Create and add the control panel that controls the cell parameters.
-        final MultiCellParameterController cellParameterController = new MultiCellParameterController( model );
-        addWorldChild( cellParameterController );
+        final TranscriptionFactorParameterController transcriptionFactorParameterController = new TranscriptionFactorParameterController( model );
+        addWorldChild( transcriptionFactorParameterController );
 
         // Lay out the controllers.
         // TODO: Layout is in flux awaiting some decisions about the number of parameters.  Clean up when done.
@@ -124,7 +124,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
 //        cellNumberController.setOffset( STAGE_SIZE.getWidth() - maxControllerWidth / 2 - cellNumberController.getFullBoundsReference().getWidth() / 2 - 20, 20 );
 //        cellParameterController.setOffset( cellNumberController.getFullBoundsReference().getCenterX() - cellParameterController.getFullBoundsReference().getWidth() / 2,
 //                                           cellNumberController.getFullBoundsReference().getMaxY() + 20 );
-        cellParameterController.setOffset( STAGE_SIZE.getWidth() - cellParameterController.getFullBoundsReference().width - 10, 20 );
+        transcriptionFactorParameterController.setOffset( STAGE_SIZE.getWidth() - transcriptionFactorParameterController.getFullBoundsReference().width - 10, 20 );
         cellNumberController.setOffset( mvt.modelToViewX( 0 ) - cellNumberController.getFullBoundsReference().width / 2, 10 );
 
         // Add the floating clock control.
@@ -137,7 +137,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         final FloatingClockControlNode floatingClockControlNode = new FloatingClockControlNode( clockRunning, null,
                                                                                                 model.getClock(), null,
                                                                                                 new Property<Color>( Color.white ) );
-        floatingClockControlNode.centerFullBoundsOnPoint( ( proteinLevelChartNode.getFullBoundsReference().getMaxX() + cellParameterController.getFullBoundsReference().getMinX() ) / 2,
+        floatingClockControlNode.centerFullBoundsOnPoint( ( proteinLevelChartNode.getFullBoundsReference().getMaxX() + transcriptionFactorParameterController.getFullBoundsReference().getMinX() ) / 2,
                                                           proteinLevelChartNode.getFullBoundsReference().getCenterY() );
         addWorldChild( floatingClockControlNode );
 
@@ -153,13 +153,13 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         final ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { model, this }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
             setConfirmationEnabled( false );
             setOffset( floatingClockControlNode.getFullBoundsReference().getCenterX() - getFullBoundsReference().getWidth() / 2,
-                       cellParameterController.getFullBoundsReference().getMaxY() + 30 );
+                       transcriptionFactorParameterController.getFullBoundsReference().getMaxY() + 30 );
         }};
         addWorldChild( resetAllButtonNode );
 
         // Add button for showing a picture of real fluorescent cells.
         addWorldChild( new HTMLImageButtonNode( "Show Real Cells", new PhetFont( 18 ), Color.YELLOW ) {{
-            centerFullBoundsOnPoint( cellParameterController.getFullBoundsReference().getCenterX(), resetAllButtonNode.getFullBoundsReference().getCenterY() );
+            centerFullBoundsOnPoint( transcriptionFactorParameterController.getFullBoundsReference().getCenterX(), resetAllButtonNode.getFullBoundsReference().getCenterY() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     FluorescentCellsPictureDialog dialog = new FluorescentCellsPictureDialog( parentFrame );
