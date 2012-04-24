@@ -156,6 +156,15 @@ public class ClientMatchingGameCanvas extends AbstractFractionsCanvas {
                     return model.state.get().info.time / 1000L;
                 }
             }, model.state );
+            final ObservableProperty<List<Integer>> fractionIDs = new CompositeProperty<List<Integer>>( new Function0<List<Integer>>() {
+                @Override public List<Integer> apply() {
+                    return model.state.get().fractions.map( new F<MovableFraction, Integer>() {
+                        @Override public Integer f( final MovableFraction m ) {
+                            return m.id;
+                        }
+                    } );
+                }
+            }, model.state );
 
             addChild( new PNode() {{
                 new RichSimpleObserver() {
@@ -187,38 +196,38 @@ public class ClientMatchingGameCanvas extends AbstractFractionsCanvas {
                 }
             } ) ) );
 
-            //For each unique ID, show a graphic for that one.
-            //TODO: handle new indices and throw away no longer used indices
-            for ( int i = 0; i < 24; i++ ) {
-                final int finalI = i;
-                addChild( new PNode() {{
-                    CompositeProperty<MovableFraction> m = new CompositeProperty<MovableFraction>( new Function0<MovableFraction>() {
-                        @Override public MovableFraction apply() {
+            //Show the draggable Fraction nodes.  if fraction ids changes or revealclues changes, just update the lot of them
+            addChild( new PNode() {{
 
-                            List<Integer> result = model.state.get().fractions.map( new F<MovableFraction, Integer>() {
-                                @Override public Integer f( final MovableFraction movableFraction ) {
-                                    return movableFraction.id;
-                                }
-                            } );
-//                            System.out.println( "result = " + result );
-
-                            return model.state.get().fractions.find( new F<MovableFraction, Boolean>() {
-                                @Override public Boolean f( final MovableFraction movableFraction ) {
-                                    return movableFraction.id == finalI;
-                                }
-                            } ).orSome( (MovableFraction) null );
+                new RichSimpleObserver() {
+                    @Override public void update() {
+                        removeAllChildren();
+                        //For each unique ID, show a graphic for that one.
+                        for ( int i : fractionIDs.get() ) {
+                            final int finalI = i;
+                            addChild( new PNode() {{
+                                CompositeProperty<MovableFraction> m = new CompositeProperty<MovableFraction>( new Function0<MovableFraction>() {
+                                    @Override public MovableFraction apply() {
+                                        return model.state.get().fractions.find( new F<MovableFraction, Boolean>() {
+                                            @Override public Boolean f( final MovableFraction movableFraction ) {
+                                                return movableFraction.id == finalI;
+                                            }
+                                        } ).orSome( (MovableFraction) null );
+                                    }
+                                }, model.state );
+                                m.addObserver( new VoidFunction1<MovableFraction>() {
+                                    @Override public void apply( final MovableFraction f ) {
+                                        removeAllChildren();
+                                        if ( f != null ) {
+                                            addChild( new MovableFractionNode( model.state, f, f.toNode(), rootNode, !revealClues.get() ) );
+                                        }
+                                    }
+                                } );
+                            }} );
                         }
-                    }, model.state );
-                    m.addObserver( new VoidFunction1<MovableFraction>() {
-                        @Override public void apply( final MovableFraction f ) {
-                            removeAllChildren();
-                            if ( f != null ) {
-                                addChild( new MovableFractionNode( model.state, f, f.toNode(), rootNode, !revealClues.get() ) );
-                            }
-                        }
-                    } );
-                }} );
-            }
+                    }
+                }.observe( fractionIDs, revealClues );
+            }} );
 
             //Update when level, score, timerVisible, time in seconds changes
             addChild( new PNode() {{
