@@ -131,6 +131,11 @@ public class ClientMatchingGameCanvas extends AbstractFractionsCanvas {
                     return model.state.get().getChecks();
                 }
             }, model.state );
+            final ObservableProperty<Integer> scored = new CompositeProperty<Integer>( new Function0<Integer>() {
+                @Override public Integer apply() {
+                    return model.state.get().scored;
+                }
+            }, model.state );
 
             addChild( new PNode() {{
                 new RichSimpleObserver() {
@@ -243,6 +248,19 @@ public class ClientMatchingGameCanvas extends AbstractFractionsCanvas {
                 }.observe( leftScaleValue, rightScaleValue, mode, revealClues );
             }} );
 
+            //Show equals signs in the scoreboard.
+            addChild( new PNode() {{
+                new RichSimpleObserver() {
+                    @Override public void update() {
+                        removeAllChildren();
+                        addChild( new FNode( model.state.get().scoreCells.take( model.state.get().scored ).map( new F<Cell, PNode>() {
+                            @Override public PNode f( final Cell cell ) {
+                                return new PhetPText( "=", new PhetFont( 22 ) ) {{centerFullBoundsOnPoint( cell.rectangle.getCenter() );}};
+                            }
+                        } ) ) );
+                    }
+                }.observe( scored );
+            }} );
         }};
 
         addChild( gameNode );
