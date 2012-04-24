@@ -67,6 +67,9 @@ public class CakeSetNode extends PieSetNode {
             } ).nub().map( new F<Vector2D, PNode>() {
                 @Override public PNode f( final Vector2D vector2D ) {
                     return new PImage( cropAndTrim( RESOURCES.getImage( "cake/cake_grid_" + state.denominator + ".png" ) ) ) {{
+
+                        //#3314: centerFullBoundsOnPoint gets full bounds, which invalidates paint around (0,0).  Have to move closer to its final location before calling centerBoundsOnPoint
+                        setOffset( vector2D.x, vector2D.y );
                         setOffset( vector2D.x - getFullBounds().getWidth() / 2, vector2D.y - getFullBounds().getHeight() / 2 - 40 );
                     }};
                 }
@@ -80,6 +83,9 @@ public class CakeSetNode extends PieSetNode {
             //Center on the slice tip because each image is padded to the amount of a full cake
             super( cakeImages.f( new Arg( cell, a.denominator ) ) );
             double fudgeY = getFullBounds().getHeight() / 4;
+
+            //#3314: centerFullBoundsOnPoint gets full bounds, which invalidates paint around (0,0).  Have to move closer to its final location before calling centerBoundsOnPoint
+            setOffset( a.slice.position.getX(), a.slice.position.getY() );
             setOffset( a.slice.position.getX() - getFullBounds().getWidth() / 2, a.slice.position.getY() - getFullBounds().getHeight() / 2 - fudgeY );
         }
     }
