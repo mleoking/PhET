@@ -35,6 +35,7 @@ import static fj.data.TreeMap.fromMutableMap;
 public class MovableFractionNode extends PNode {
     public MovableFractionNode( final SettableProperty<MatchingGameState> model, final MovableFraction f, PNode node, final PNode rootNode, boolean pickable ) {
         addChild( node );
+        setOffset( f.position.getX(), f.position.getY() );
         centerFullBoundsOnPoint( f.position.getX(), f.position.getY() );
         if ( !f.scored ) {
             attachInputHandlers( model, f, rootNode );

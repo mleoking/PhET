@@ -56,7 +56,7 @@ public class MatchingGameNode extends FNode {
         final boolean revealClues = state.getMode() == SHOWING_WHY_ANSWER_WRONG ||
                                     state.getMode() == USER_CHECKED_CORRECT_ANSWER ||
                                     state.getMode() == SHOWING_CORRECT_ANSWER_AFTER_INCORRECT_GUESS;
-        addChild( new ZeroOffsetNode( new BarGraphNode( state.getLeftScaleValue(), state.leftScaleDropTime, state.getRightScaleValue(), state.rightScaleDropTime, revealClues ) ) {{
+        addChild( new ZeroOffsetNode( new BarGraphNode( state.getLeftScaleValue(), state.getRightScaleValue(), revealClues ) ) {{
             setOffset( scales.getFullBounds().getCenterX() - getFullWidth() / 2, scales.getFullBounds().getCenterY() - getFullHeight() - 15 );
         }} );
 
