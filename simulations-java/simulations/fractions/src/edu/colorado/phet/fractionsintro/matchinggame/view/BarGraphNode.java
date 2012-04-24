@@ -17,7 +17,7 @@ import edu.colorado.phet.fractions.view.FNode;
  * @author Sam Reid
  */
 public class BarGraphNode extends FNode {
-    public BarGraphNode( double leftScaleValue, double leftScaleDropTime, double rightScaleValue, double rightScaleDropTime, final boolean showBars ) {
+    public BarGraphNode( double leftScaleValue, double rightScaleValue, final boolean showBars ) {
         double majorWidth = 90;
         double minorWidth = 70;
         double innerWidth = 50;

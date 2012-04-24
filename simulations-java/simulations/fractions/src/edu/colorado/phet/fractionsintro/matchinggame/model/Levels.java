@@ -13,7 +13,6 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
-import edu.colorado.phet.fractions.util.Cache;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.intro.model.containerset.Container;
@@ -352,11 +351,14 @@ public class Levels {
         //Cache nodes as images to improve performance
         //TODO: could this put the same node at 2 places in the scene graph?  If so, what problems would that cause?
         return new MovableFraction( nextID(), new Vector2D( cell.rectangle.getCenter() ), numerator, denominator, false, cell, 1.0,
-                                    new Cache<Fraction, PNode>( new F<Fraction, PNode>() {
+//                                    new Cache<Fraction, PNode>(
+                                    new F<Fraction, PNode>() {
                                         @Override public PNode f( final Fraction fraction ) {
                                             return new PComposite() {{ addChild( node.f( fraction ) ); }};
                                         }
-                                    } ),
+                                    }
+//        )
+                ,
                                     MoveToCell( cell ), false, userComponent );
     }
 

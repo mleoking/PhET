@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.colorado.phet.fractionsintro.common.AbstractFractionsModule;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameModel;
-import edu.colorado.phet.fractionsintro.matchinggame.view.MatchingGameCanvas;
 
 /**
  * @author Sam Reid
@@ -23,7 +22,9 @@ public class MatchingGameModule extends AbstractFractionsModule {
 
     public MatchingGameModule( boolean dev, MatchingGameModel model ) {
         super( Components.matchingGameTab, "Matching Game", model.clock );
-        setSimulationPanel( new MatchingGameCanvas( dev, model ) );
+//        setSimulationPanel( new MatchingGameCanvas( dev, model ) );
+//        setSimulationPanel( new MatchingGameDirtyRectangleCanvas( dev, model ) );
+        setSimulationPanel( new ClientMatchingGameCanvas( dev, model ) );
     }
 
     @Override protected JComponent createClockControlPanel( final IClock clock ) {
