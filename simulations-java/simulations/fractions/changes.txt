@@ -1,3 +1,4 @@
+Intro tab: Improved performance for cake slice dirty rectangles, see #3314
 Intro tab: Fixed performance in PieSetContentNode for dirty rectangles, see #3314 [63694]
 # 0.00.62 (63618) Apr 19, 2012
 Matching Game: Added interleaved L-shape
