@@ -263,18 +263,23 @@ public class VSliderNode2 extends SliderNode {
                 } );
             }};
 
+            // Test case: Default values.
             addWorldChild( new VSliderNode2( new UserComponent( "mySlider" ), -1, +1, sliderValue ) {{
                 setOffset( 100, 200 );
                 addLabel( +1, new PhetPText( "Positive", new PhetFont( 16 ) ) );
                 addLabel( 0.0, new PhetPText( "0", new PhetFont( 16 ) ) );
                 addLabel( -1, new PhetPText( "Negative", new PhetFont( 16 ) ) );
             }} );
+
+            // Test case: Pointy knob, non-default track size.
             addWorldChild( new VSliderNode2( new UserComponent( "mySlider" ), -1, +1, new KnobNode2( 40, KnobNode2.Style.POINTED_RECTANGLE ), 10, 80, sliderValue, new BooleanProperty( true ) ) {{
                 setOffset( 250, 200 );
                 addLabel( +1, new PhetPText( "High", new PhetFont( 16 ) ) );
                 addLabel( 0.0, new PhetPText( "0", new PhetFont( 16 ) ) );
                 addLabel( -1, new PhetPText( "Low", new PhetFont( 16 ) ) );
             }} );
+
+            // Test case: Helmet-style knob.
             addWorldChild( new VSliderNode2( new UserComponent( "mySlider" ), -1, +1, new KnobNode2( 30, KnobNode2.Style.HELMET, new KnobNode2.ColorScheme( new Color( 0, 200, 0 ) ) ), 5, 150, sliderValue, new BooleanProperty( true ) ) {{
                 setOffset( 400, 200 );
                 addLabel( +1, new PhetPText( "Lots", new PhetFont( 16 ) ) );
