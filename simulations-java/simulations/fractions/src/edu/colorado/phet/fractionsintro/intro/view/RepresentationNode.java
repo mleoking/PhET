@@ -11,10 +11,15 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class RepresentationNode extends PNode {
-    public RepresentationNode( ObservableProperty<Representation> chosenRepresentation, final Representation representation, PNode... children ) {
+    public RepresentationNode( ObservableProperty<Representation> chosenRepresentation, final Representation representation, final PNode... children ) {
         chosenRepresentation.valueEquals( representation ).addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
                 setVisible( visible );
+
+                //Send message to children so they can avoid updating when possible
+                for ( PNode child : children ) {
+                    child.setVisible( visible );
+                }
             }
         } );
         for ( PNode child : children ) {
