@@ -136,6 +136,26 @@ public class ClientMatchingGameCanvas extends AbstractFractionsCanvas {
                     return model.state.get().scored;
                 }
             }, model.state );
+            final ObservableProperty<Integer> level = new CompositeProperty<Integer>( new Function0<Integer>() {
+                @Override public Integer apply() {
+                    return model.state.get().info.level;
+                }
+            }, model.state );
+            final ObservableProperty<Integer> score = new CompositeProperty<Integer>( new Function0<Integer>() {
+                @Override public Integer apply() {
+                    return model.state.get().info.score;
+                }
+            }, model.state );
+            final ObservableProperty<Boolean> timerVisible = new CompositeProperty<Boolean>( new Function0<Boolean>() {
+                @Override public Boolean apply() {
+                    return model.state.get().info.timerVisible;
+                }
+            }, model.state );
+            final ObservableProperty<Long> timeInSec = new CompositeProperty<Long>( new Function0<Long>() {
+                @Override public Long apply() {
+                    return model.state.get().info.time / 1000L;
+                }
+            }, model.state );
 
             addChild( new PNode() {{
                 new RichSimpleObserver() {
@@ -200,8 +220,16 @@ public class ClientMatchingGameCanvas extends AbstractFractionsCanvas {
                 }} );
             }
 
-            addChild( new ScoreboardNode( model.state ) {{
-                setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - INSET, scoreCellsLayer.getMaxY() + INSET );
+            //Update when level, score, timerVisible, time in seconds changes
+            addChild( new PNode() {{
+                new RichSimpleObserver() {
+                    @Override public void update() {
+                        removeAllChildren();
+                        addChild( new ScoreboardNode( model.state ) {{
+                            setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - INSET, scoreCellsLayer.getMaxY() + INSET );
+                        }} );
+                    }
+                }.observe( level, score, timerVisible, timeInSec );
             }} );
 
             //Way of creating game buttons, cache is vestigial and could be removed.
