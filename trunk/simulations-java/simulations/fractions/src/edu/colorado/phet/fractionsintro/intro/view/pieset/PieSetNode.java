@@ -9,6 +9,8 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -53,10 +55,20 @@ public class PieSetNode extends FNode {
     public PieSetNode( final SettableProperty<PieSet> model, final PNode rootNode, final F<SliceNodeArgs, PNode> createSliceNode, final F<PieSet, PNode> createEmptyCellsNode, final F<PieSet, PNode> createBucketIcon, final boolean iconTextOnTheRight ) {
         bucketView = new BucketView( model.get().sliceFactory.bucket, createSinglePointScaleInvertedYMapping( new Point(), new Point(), 1 ) );
 
-        model.addObserver( new SimpleObserver() {
+        final SimpleObserver observer = new SimpleObserver() {
             public void update() {
+
+                //Only update when visible, thus saving time since all models update at the same time
                 removeAllChildren();
-                addChild( new PieSetContentNode( bucketView, model, createSliceNode, rootNode, createEmptyCellsNode, createBucketIcon, iconTextOnTheRight ) );
+                if ( getVisible() ) {
+                    addChild( new PieSetContentNode( bucketView, model, createSliceNode, rootNode, createEmptyCellsNode, createBucketIcon, iconTextOnTheRight ) );
+                }
+            }
+        };
+        model.addObserver( observer );
+        addPropertyChangeListener( PROPERTY_VISIBLE, new PropertyChangeListener() {
+            @Override public void propertyChange( final PropertyChangeEvent evt ) {
+                observer.update();
             }
         } );
     }

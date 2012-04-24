@@ -106,8 +106,16 @@ public class NumberLineNode extends PNode {
 
         final RichSimpleObserver mainObserver = new RichSimpleObserver() {
             @Override public void update() {
-                final ArrayList<PNode> highlights = new ArrayList<PNode>();
+
                 removeAllChildren();
+
+                //Only render if visible, visibility flags set in RepresentationNode
+                if ( !getVisible() ) {
+                    return;
+                }
+
+                final ArrayList<PNode> highlights = new ArrayList<PNode>();
+
 
                 //always go the same distance to whole numbers
                 int divisionsBetweenTicks = denominator.get();
