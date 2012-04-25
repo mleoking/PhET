@@ -183,6 +183,14 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
             }
         } );
 
+        // Make the parameter controllers all the same size.
+        double parameterControllerWidth = Math.max( Math.max( transcriptionFactorParameterController.getFullBoundsReference().width,
+                                                              polymeraseParameterController.getFullBoundsReference().width ),
+                                                    degradationParameterController.getFullBoundsReference().width );
+        transcriptionFactorParameterController.setMinWidth( parameterControllerWidth );
+        polymeraseParameterController.setMinWidth( parameterControllerWidth );
+        degradationParameterController.setMinWidth( parameterControllerWidth );
+
         // Do the lay out.
         // TODO: Layout is in flux awaiting some decisions about the number of parameters.  Clean up when done.
 //        double maxControllerWidth = Math.max( cellNumberController.getFullBoundsReference().width, cellParameterController.getFullBoundsReference().width );
