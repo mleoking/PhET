@@ -11,9 +11,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
+import java.text.DecimalFormat;
 
 import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.games.GameOverNode;
 import edu.colorado.phet.common.games.GameSettings;
 import edu.colorado.phet.common.games.GameSettingsPanel;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeBooleanProperty;
@@ -45,6 +47,7 @@ import edu.colorado.phet.fractionsintro.matchinggame.view.ButtonArgs;
 import edu.colorado.phet.fractionsintro.matchinggame.view.EqualsSignNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.MatchingGameCanvas;
 import edu.colorado.phet.fractionsintro.matchinggame.view.MovableFractionNode;
+import edu.colorado.phet.fractionsintro.matchinggame.view.Resample;
 import edu.colorado.phet.fractionsintro.matchinggame.view.ScoreboardNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -89,6 +92,11 @@ public class ClientMatchingGameCanvas extends AbstractFractionsCanvas {
             }, model.state ).addObserver( setNodeVisible( this ) );
         }};
         addChild( settingsDialog );
+        final ObservableProperty<Mode> mode = new CompositeProperty<Mode>( new Function0<Mode>() {
+            @Override public Mode apply() {
+                return model.state.get().getMode();
+            }
+        }, model.state );
 
         //Things to show during the game (i.e. not when settings dialog showing.)
         final PNode gameNode = new PNode() {{
@@ -119,11 +127,6 @@ public class ClientMatchingGameCanvas extends AbstractFractionsCanvas {
             final ObservableProperty<Double> rightScaleValue = new CompositeDoubleProperty( new Function0<Double>() {
                 @Override public Double apply() {
                     return model.state.get().getRightScaleValue();
-                }
-            }, model.state );
-            final ObservableProperty<Mode> mode = new CompositeProperty<Mode>( new Function0<Mode>() {
-                @Override public Mode apply() {
-                    return model.state.get().getMode();
                 }
             }, model.state );
             final ObservableProperty<Integer> checks = new CompositeProperty<Integer>( new Function0<Integer>() {
@@ -268,10 +271,6 @@ public class ClientMatchingGameCanvas extends AbstractFractionsCanvas {
                     }
                 }.observe( leftScaleValue, rightScaleValue, mode, checks, buttonLocation );
             }} );
-//
-//            if ( showDeveloperControls ) {
-//                addChild( buttonFactory.f( new ButtonArgs( null, "Resample", Color.red, new Vector2D( 100, 6 ), new Resample() ) ) );
-//            }
 
             //Show the sign node, but only if revealClues is true
             addChild( new PNode() {{
@@ -300,9 +299,36 @@ public class ClientMatchingGameCanvas extends AbstractFractionsCanvas {
                     }
                 }.observe( scored );
             }} );
+
+            if ( dev ) {
+                addChild( buttonFactory.f( new ButtonArgs( null, "Resample", Color.red, new Vector2D( 100, 6 ), new Resample() ) ) );
+            }
         }};
 
         addChild( gameNode );
+
+
+        //Show the game over dialog, if the game has ended.  Also, it has a stateful piccolo button so must not be cleared when the model changes, so it is stored in a field
+        //and only regenerated when new games end.
+        addChild( new PNode() {{
+            mode.addObserver( new VoidFunction1<Mode>() {
+                @Override public void apply( final Mode mode ) {
+                    removeAllChildren();
+                    if ( mode == Mode.SHOWING_GAME_OVER_SCREEN ) {
+                        MatchingGameState state = model.state.get();
+                        addChild( new GameOverNode( state.info.level, state.info.score, 12, new DecimalFormat( "0" ), state.info.time, state.info.bestTime, state.info.time >= state.info.bestTime, state.info.timerVisible ) {{
+                            scale( MatchingGameCanvas.GAME_UI_SCALE );
+                            centerFullBoundsOnPoint( STAGE_SIZE.getWidth() / 2, STAGE_SIZE.getHeight() / 2 );
+                            addGameOverListener( new GameOverListener() {
+                                @Override public void newGamePressed() {
+                                    model.state.set( model.state.get().newGame() );
+                                }
+                            } );
+                        }} );
+                    }
+                }
+            } );
+        }} );
     }
 
     //Encapsulates stroke, paint and stroke paint for a sign node like "=", "<", ">"
