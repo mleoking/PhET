@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractionsintro.matchinggame;
 
+import fj.Effect;
 import fj.F;
 import fj.data.List;
 
@@ -273,16 +274,12 @@ public class ClientMatchingGameCanvas extends AbstractFractionsCanvas {
             }} );
 
             //Show the sign node, but only if revealClues is true
-            addChild( new PNode() {{
-                new RichSimpleObserver() {
-                    @Override public void update() {
-                        removeAllChildren();
-                        if ( revealClues.get() ) {
-                            addChild( getSignNode( model.state.get(), scalesNode ) );
-                        }
-                    }
-                }.observe( leftScaleValue, rightScaleValue, mode, revealClues );
-            }} );
+            addChild( new UpdateNode( new Effect<PNode>() {
+                @Override public void e( final PNode parent ) {
+                    parent.addChild( revealClues.get() ? getSignNode( model.state.get(), scalesNode ) : new PNode() );
+                }
+            },
+                                      leftScaleValue, rightScaleValue, mode, revealClues ) );
 
             //Show equals signs in the scoreboard.
             addChild( new PNode() {{
