@@ -2,10 +2,8 @@
 package edu.colorado.phet.geneexpressionbasics.mrnaproduction;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel;
 import edu.colorado.phet.geneexpressionbasics.mrnaproduction.model.MessengerRnaProductionModel;
 import edu.colorado.phet.geneexpressionbasics.mrnaproduction.view.MessengerRnaProductionCanvas;
-import edu.colorado.phet.geneexpressionbasics.proteinlevelsincell.view.ProteinLevelsInCellCanvas;
 
 /**
  * @author John Blanco

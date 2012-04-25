@@ -8,7 +8,6 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.ManualGeneExpressionModule;
 import edu.colorado.phet.geneexpressionbasics.mrnaproduction.MessengerRnaProductionModule;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.MultipleCellsModule;
-import edu.colorado.phet.geneexpressionbasics.proteinlevelsincell.ProteinLevelsInCellModule;
 
 /**
  * Main application class for this simulation.
