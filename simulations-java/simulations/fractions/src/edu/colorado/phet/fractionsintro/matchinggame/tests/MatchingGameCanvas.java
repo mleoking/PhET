@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.fractionsintro.matchinggame.view;
+package edu.colorado.phet.fractionsintro.matchinggame.tests;
 
 import fj.F;
 
@@ -20,6 +20,9 @@ import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameModel;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Mode;
+import edu.colorado.phet.fractionsintro.matchinggame.view.Button;
+import edu.colorado.phet.fractionsintro.matchinggame.view.ButtonArgs;
+import edu.colorado.phet.fractionsintro.matchinggame.view.MatchingGameNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
