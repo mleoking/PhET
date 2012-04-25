@@ -21,6 +21,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolo.util.PDebug;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -41,10 +42,9 @@ public class CollapsibleControlPanel extends PNode {
     private final PNode controls;
     private final PNode openPanelNode;
 
-    // Nodes used to pad the layout.
-    private PNode titlePad = new PNode();
-    private PNode leftContentPad = new PNode();
-    private PNode rightContentPad = new PNode();
+    // Node used to pad the width.
+    private PNode closedTitlePad = new PNode();
+    private PNode openTitlePad = new PNode();
 
     // State var that tracks whether control panel is open or closed.
     private boolean isOpen = INITIAL_OPEN_STATE;
@@ -63,17 +63,21 @@ public class CollapsibleControlPanel extends PNode {
     public CollapsibleControlPanel( Color backgroundColor, String titleText, Font titleFont, PNode controls ) {
         this.controls = controls;
 
-        // Create the contents for the closed version of the panel.
+        // Create the closed version of this panel.
         PNode expandButton = new PImage( PhetCommonResources.getMaximizeButtonImage() );
-        closedPanelContents = new HBox( BOX_SPACING, expandButton, new PhetPText( titleText, titleFont ), titlePad );
+        closedPanelContents = new PNode();
+        closedPanelContents.addChild( new HBox( BOX_SPACING, expandButton, new PhetPText( titleText, titleFont ) ) );
+        closedTitlePad.setOffset( closedPanelContents.getFullBoundsReference().getWidth(), 0 ); // Position padding node.
+        closedPanelContents.addChild( closedTitlePad ); // Add padding node.
         closedPanelNode = new ControlPanelNode( closedPanelContents, backgroundColor );
 
-        // Create the contents for the open version of the panel.
+        // Create the open version of this panel.
         PNode collapseButton = new PImage( PhetCommonResources.getMinimizeButtonImage() );
-        openPanelNode = new ControlPanelNode( new VBox( BOX_SPACING,
-                                                        VBox.LEFT_ALIGNED, new HBox( collapseButton, new PhetPText( titleText, titleFont ) ),
-                                                        new HBox( leftContentPad, controls, rightContentPad ) ),
-                                              backgroundColor );
+        PNode openPanelTitle = new PNode();
+        openPanelTitle.addChild( new HBox( BOX_SPACING, collapseButton, new PhetPText( titleText, titleFont ) ) );
+        openTitlePad.setOffset( openPanelTitle.getFullBoundsReference().getWidth(), 0 ); // Position padding node.
+        openPanelTitle.addChild( openTitlePad ); // Add padding node.
+        openPanelNode = new ControlPanelNode( new VBox( BOX_SPACING, VBox.CENTER_ALIGNED, openPanelTitle, controls ), backgroundColor );
 
         // Add the main content node, which is the only direct child.
         rootNode.addChild( isOpen ? openPanelNode : closedPanelNode );
@@ -145,32 +149,32 @@ public class CollapsibleControlPanel extends PNode {
      * sizes are the same.
      */
     private void updatePadding() {
+        PDebug.debugBounds = true;
 
         // Reset all padding.
-        titlePad.removeAllChildren();
-        leftContentPad.removeAllChildren();
-        rightContentPad.removeAllChildren();
+        closedTitlePad.removeAllChildren();
+        openTitlePad.removeAllChildren();
 
         // Deduce the total inset amount used by the control panel.
         double controlPanelInsets = closedPanelNode.getFullBoundsReference().width - closedPanelContents.getFullBoundsReference().width;
 
         // Determine the required overall width.
-        double contentWidth = Math.max( Math.max( closedPanelContents.getFullBoundsReference().width, controls.getFullBoundsReference().width ),
-                                        minWidth - controlPanelInsets );
-        if ( contentWidth > closedPanelContents.getFullBoundsReference().width ) {
-            titlePad.addChild( new HPad( contentWidth - closedPanelContents.getFullBoundsReference().width ) );
-        }
-        if ( contentWidth > controls.getFullBoundsReference().width ) {
-            double padWidth = ( contentWidth - controls.getFullBoundsReference().width ) / 2;
-            leftContentPad.addChild( new HPad( padWidth ) );
-            rightContentPad.addChild( new HPad( padWidth ) );
+        double minContentWidth = Math.max( Math.max( closedPanelContents.getFullBoundsReference().width, controls.getFullBoundsReference().width ),
+                                           minWidth - controlPanelInsets );
+//        double paddingNeeded = minContentWidth - closedPanelContents.getFullBoundsReference().width;
+        double paddingNeeded = minContentWidth - closedPanelContents.getFullBoundsReference().width + 20;
+        if ( paddingNeeded > 0 ) {
+            closedTitlePad.addChild( new HPad( paddingNeeded ) );
+            openTitlePad.addChild( new HPad( paddingNeeded ) );
         }
     }
 
     // Convenience class for horizontal padding of control panel.
     private static class HPad extends PNode {
-        private static final double PAD_RECT_HEIGHT = 0.01;
-        private static final Color INVISIBLE_COLOR = new Color( 0, 0, 0, 0 );
+        //        private static final double PAD_RECT_HEIGHT = 0.01;
+        private static final double PAD_RECT_HEIGHT = 4;
+        //        private static final Color INVISIBLE_COLOR = new Color( 0, 0, 0, 0 );
+        private static final Color INVISIBLE_COLOR = Color.RED;
 
         private HPad( double width ) {
             addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, width, PAD_RECT_HEIGHT ), INVISIBLE_COLOR ) );
