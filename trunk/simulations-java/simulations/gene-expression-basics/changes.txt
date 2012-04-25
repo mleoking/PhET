@@ -1,3 +1,5 @@
+Changed the layout on the 3rd tab so that clock control, reset button, and "Show Cells" button are now on the left.
+Changed the parameter controllers on the 3rd tab to be in groups.
 Changed the way the cells on the 3rd tab are added so that they fit between the controller at the top and the chart at the bottom.
 Moved the control on the 3rd tab that sets the number of cells to the top center, removed the caption.
 Changed the shape of the fluorescent protein on the 3rd tab to approximate the shape of real green fluorescent protein.
