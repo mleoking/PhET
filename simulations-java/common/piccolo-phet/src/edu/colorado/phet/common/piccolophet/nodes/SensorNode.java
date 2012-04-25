@@ -98,12 +98,14 @@ public class SensorNode<T> extends ToolNode {
         addChild( velocityPointNode );
 
         //Update the entire location of this node based on the location of the model ViewSensor, keeping the hot spot at the specified location.
-        pointSensor.position.addObserver( new SimpleObserver() {
+        final SimpleObserver updateEntireLocation = new SimpleObserver() {
             public void update() {
                 final Point2D.Double viewPoint = transform.modelToView( pointSensor.position.get() ).toPoint2D();
                 setOffset( viewPoint.getX() - bodyNode.getFullBounds().getWidth() / 2, viewPoint.getY() - bodyNode.getFullBounds().getHeight() - velocityPoint.getHeight() );
             }
-        } );
+        };
+        pointSensor.position.addObserver( updateEntireLocation );
+        bodyNode.addCenterWidthObserver( updateEntireLocation );
     }
 
     //Drags all components of the velocity sensor--there is only one component, so it just translates the entire node
