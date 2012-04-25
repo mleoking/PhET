@@ -22,12 +22,12 @@ public class TranscriptionFactorParameterController extends CellParameterControl
                                                            CellProteinSynthesisSimulator.TRANSCRIPTION_FACTOR_COUNT_RANGE.getMin(),
                                                            CellProteinSynthesisSimulator.TRANSCRIPTION_FACTOR_COUNT_RANGE.getMax(),
                                                            model.transcriptionFactorLevel,
-                                                           "<center>Concentration</center>" ),
+                                                           "<center>Positive TF Concentration</center>" ),
                 new LogarithmicParameterSliderNode( UserComponents.transcriptionFactorAffinitySlider,
                                                     CellProteinSynthesisSimulator.TF_ASSOCIATION_PROBABILITY_RANGE.getMin(),
                                                     CellProteinSynthesisSimulator.TF_ASSOCIATION_PROBABILITY_RANGE.getMax(),
                                                     model.transcriptionFactorAssociationProbability,
-                                                    "<center>Affinity</center>" )
+                                                    "<center>Positive TF Affinity</center>" )
         ) );
     }
 }
