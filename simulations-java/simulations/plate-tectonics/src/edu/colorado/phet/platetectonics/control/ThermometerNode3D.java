@@ -67,7 +67,7 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
             public void update() {
                 final ImmutableMatrix4F scaling = ImmutableMatrix4F.scaling( getScale() );
                 final ImmutableMatrix4F translation = ImmutableMatrix4F.translation( draggedPosition.x,
-                                                                                     draggedPosition.y,
+                                                                                     draggedPosition.y - sensorVerticalOffset * getScale() * scaleMultiplier( tab ),
                                                                                      0 );
                 transform.set( translation.times( scaling ) );
             }
@@ -115,7 +115,7 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
     }
 
     public ImmutableVector3F getSensorModelPosition() {
-        return modelViewTransform.inversePosition( new ImmutableVector3F( draggedPosition.x, draggedPosition.y, 0 ).plus( new ImmutableVector3F( 0, sensorVerticalOffset * getScale() * scaleMultiplier( tab ), 0 ) ) );
+        return modelViewTransform.inversePosition( new ImmutableVector3F( draggedPosition.x, draggedPosition.y, 0 ) );
     }
 
     public ParameterSet getCustomParameters() {
@@ -127,7 +127,9 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
     }
 
     public ImmutableVector2F getInitialMouseOffset() {
-        return new ImmutableVector2F( 10, 10 );
+        final double s = getScale();
+
+        return new ImmutableVector2F( getNode().getFullBounds().getWidth() / 2 * s, 0 );
     }
 
     public IUserComponent getUserComponent() {
