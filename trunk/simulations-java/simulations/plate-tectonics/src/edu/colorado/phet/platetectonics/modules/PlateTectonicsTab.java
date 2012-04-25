@@ -365,8 +365,11 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                     // offset the ruler slightly from the mouse, and start the drag
                     ImmutableVector2F mousePosition = getMousePositionOnZPlane();
                     ImmutableVector2F initialMouseOffset = ruler.getInitialMouseOffset();
-                    ruler.transform.prepend( ImmutableMatrix4F.translation( mousePosition.x - initialMouseOffset.x,
-                                                                            mousePosition.y - initialMouseOffset.y,
+                    final float initialX = mousePosition.x - initialMouseOffset.x;
+                    final float initialY = mousePosition.y - initialMouseOffset.y;
+                    ruler.draggedPosition = new ImmutableVector2F( initialX, initialY );
+                    ruler.transform.prepend( ImmutableMatrix4F.translation( initialX,
+                                                                            initialY,
                                                                             RULER_Z ) );
                     toolDragHandler.startDragging( ruler, mousePosition );
                 }
