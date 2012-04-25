@@ -1,3 +1,4 @@
+# 0.00.63 (63725) Apr 24, 2012
 Matching Game: switched from MatchingGameCanvas to ClientMatchingGameCanvas to improve performance, see #3314
 Intro tab: Only update and render views when visible, see #3314
 Intro tab: Added developer menu items for debugging performance, see #3314
