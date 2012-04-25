@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
-import edu.colorado.phet.fluidpressureandflow.pressure.model.Pool;
+import edu.colorado.phet.fluidpressureandflow.pressure.model.SquarePool;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -26,7 +26,7 @@ import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResourc
  * @author Sam Reid
  */
 public class SidePoolHeightReadoutNode extends PNode {
-    public SidePoolHeightReadoutNode( final ModelViewTransform transform, final Pool pool, final Property<UnitSet> units ) {
+    public SidePoolHeightReadoutNode( final ModelViewTransform transform, final SquarePool pool, final Property<UnitSet> units ) {
 
         //Bracket to show the relevant height
         final PhetPPath bracket = new PhetPPath( new BasicStroke( 1 ), Color.black );
