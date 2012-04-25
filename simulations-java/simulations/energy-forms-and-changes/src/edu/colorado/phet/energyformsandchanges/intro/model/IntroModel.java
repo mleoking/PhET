@@ -198,8 +198,8 @@ public class IntroModel {
             if ( potentialSupportingElement == element || potentialSupportingElement.isStackedUpon( element ) ) {
                 // The potential supporting element is either the same as the
                 // test element or is sitting on top of the test element.  In
-                // either case, it can't be used to support the element, so
-                // skip it.
+                // either case, it can't be used to support the test element,
+                // so skip it.
                 continue;
             }
             if ( potentialSupportingElement != element && element.getBottomSurfaceProperty().get().overlapsWith( potentialSupportingElement.getTopSurfaceProperty().get() ) ) {
@@ -209,14 +209,14 @@ public class IntroModel {
                 double surfaceOverlap = getOverlap( potentialSupportingElement.getTopSurfaceProperty().get().xRange, element.getBottomSurfaceProperty().get().xRange );
 
                 // The following nasty 'if' clause determines if the potential
-                // supporting surface if a better one than we currently have
+                // supporting surface is a better one than we currently have
                 // based on whether we have one at all, or has more overlap
-                // than the previous best choice, or has the same overlap but
-                // is higher.
+                // than the previous best choice, or is directly above the
+                // current one.
                 if ( bestOverlappingSurface == null ||
-                     surfaceOverlap > getOverlap( bestOverlappingSurface.get().xRange, element.getBottomSurfaceProperty().get().xRange ) ||
-                     ( surfaceOverlap == getOverlap( bestOverlappingSurface.get().xRange, element.getBottomSurfaceProperty().get().xRange ) &&
-                       potentialSupportingElement.getTopSurfaceProperty().get().yPos > bestOverlappingSurface.get().yPos ) ) {
+                     ( surfaceOverlap > getHorizontalOverlap( bestOverlappingSurface.get(), element.getBottomSurfaceProperty().get() ) &&
+                       !isDirectlyAbove( bestOverlappingSurface.get(), potentialSupportingElement.getTopSurfaceProperty().get() ) ) ||
+                     ( isDirectlyAbove( potentialSupportingElement.getTopSurfaceProperty().get(), bestOverlappingSurface.get() ) ) ) {
                     bestOverlappingSurface = potentialSupportingElement.getTopSurfaceProperty();
                 }
             }
@@ -232,5 +232,17 @@ public class IntroModel {
         double lowestMax = Math.min( r1.getMax(), r2.getMax() );
         double highestMin = Math.max( r1.getMin(), r2.getMin() );
         return Math.max( lowestMax - highestMin, 0 );
+    }
+
+    // Get the amount of overlap in the x direction between two horizontal surfaces.
+    private double getHorizontalOverlap( HorizontalSurface s1, HorizontalSurface s2 ) {
+        double lowestMax = Math.min( s1.xRange.getMax(), s2.xRange.getMax() );
+        double highestMin = Math.max( s1.xRange.getMin(), s2.xRange.getMin() );
+        return Math.max( lowestMax - highestMin, 0 );
+    }
+
+    // Returns true if surface s1's center is above surface s2.
+    private boolean isDirectlyAbove( HorizontalSurface s1, HorizontalSurface s2 ) {
+        return s2.xRange.contains( s1.getCenterX() ) && s1.yPos > s2.yPos;
     }
 }
