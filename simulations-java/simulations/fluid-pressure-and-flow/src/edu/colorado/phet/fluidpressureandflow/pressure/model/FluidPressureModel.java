@@ -20,7 +20,7 @@ import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.
  */
 public class FluidPressureModel extends FluidPressureAndFlowModel {
 
-    public final Pool squarePool = new Pool();
+    public final SquarePool squarePool = new SquarePool();
     public final TrapezoidPool trapezoidPool = new TrapezoidPool();
     public final ChamberPool chamberPool;
 

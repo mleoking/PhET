@@ -29,6 +29,7 @@ import edu.colorado.phet.fluidpressureandflow.pressure.FluidPressureModule;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.FluidPressureModel;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.IPool;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.Pool;
+import edu.colorado.phet.fluidpressureandflow.pressure.model.SquarePool;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -110,8 +111,8 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
         //Show the height on the side of the pool in selected right units
         addPoolSpecificNode( model, new Function1<IPool, PNode>() {
             public PNode apply( final IPool p ) {
-                if ( p instanceof Pool ) {
-                    return new SidePoolHeightReadoutNode( transform, (Pool) p, model.units );
+                if ( p instanceof SquarePool ) {
+                    return new SidePoolHeightReadoutNode( transform, (SquarePool) p, model.units );
                 }
                 else { return new PNode(); }
             }
