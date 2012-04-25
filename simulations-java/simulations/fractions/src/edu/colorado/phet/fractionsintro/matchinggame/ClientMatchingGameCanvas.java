@@ -230,6 +230,9 @@ public class ClientMatchingGameCanvas extends AbstractFractionsCanvas {
             addChild( new UpdateNode( new Effect<PNode>() {
                 @Override public void e( final PNode parent ) {
                     parent.addChild( new ScoreboardNode( model.state ) {{
+
+                        //Update the location, but get it approximately right so it doesn't expand the dirty region
+                        setOffset( STAGE_SIZE.width - INSET, scoreCellsLayer.getMaxY() + INSET );
                         setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - INSET, scoreCellsLayer.getMaxY() + INSET );
                     }} );
                 }
