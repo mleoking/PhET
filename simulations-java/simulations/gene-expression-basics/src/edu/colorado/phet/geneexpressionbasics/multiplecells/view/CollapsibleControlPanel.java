@@ -186,28 +186,19 @@ public class CollapsibleControlPanel extends PNode {
         titleBarSpacer.removeAllChildren();
         controls.setOffset( 0, 0 );
 
-        // Update padding and offsets.
-        if ( titleBar.getFullBoundsReference().width > controls.getFullBoundsReference().width ) {
-            // Controls are narrower than title bar, so center the controls.
-            controls.setOffset( titleBar.getFullBoundsReference().getCenterX() - controls.getFullBoundsReference().width / 2, 0 );
-        }
-        else {
-            // Controls are wider than the title bar, so pad the title bar so
-            // that the width of the panel is the same whether open or closed.
-            titleBarSpacer.addChild( new HPad( controls.getFullBoundsReference().width ) );
+        // Determine the minimum width of the content of the control panel.
+        double minContentWidth = Math.max( Math.max( controls.getFullBoundsReference().width, titleBar.getFullBoundsReference().width ),
+                                           minWidth - 2 * CONTROL_PANEL_INSET );
+
+        // Pad the title bar if needed.
+        if ( titleBar.getFullBoundsReference().width < minContentWidth ) {
+            titleBarSpacer.addChild( new HPad( minContentWidth ) );
         }
 
-        // Determine the required overall width.
-//        {
-//            double minContentWidth = Math.max( Math.max( closedPanelContents.getFullBoundsReference().width, controls.getFullBoundsReference().width ),
-//                                               minWidth - controlPanelInsets );
-//        }
-//        double paddingNeeded = minContentWidth - closedPanelContents.getFullBoundsReference().width;
-//        double paddingNeeded = minContentWidth - closedPanelContents.getFullBoundsReference().width + 20;
-//        if ( paddingNeeded > 0 ) {
-//            closedTitlePad.addChild( new HPad( paddingNeeded ) );
-//            openTitlePad.addChild( new HPad( paddingNeeded ) );
-//        }
+        // Offset the controls if needed.
+        if ( controls.getFullBoundsReference().width < minContentWidth ) {
+            controls.setOffset( minContentWidth / 2 - controls.getFullBoundsReference().width / 2, 0 );
+        }
     }
 
     // Convenience class for horizontal padding of control panel.
