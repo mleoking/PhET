@@ -30,7 +30,6 @@ public class CellProteinSynthesisSimulator {
     public static final DoubleRange PROTEIN_DEGRADATION_RANGE = new DoubleRange( DEFAULT_PROTEIN_DEGRADATION_RATE * 0.7, DEFAULT_PROTEIN_DEGRADATION_RATE * 1.3 );
     public static final double DEFAULT_MRNA_DEGRADATION_RATE = 0.01;
     public static final DoubleRange MRNA_DEGRADATION_RATE_RANGE = new DoubleRange( DEFAULT_MRNA_DEGRADATION_RATE / 1000, DEFAULT_MRNA_DEGRADATION_RATE * 1000 );
-//    public static final DoubleRange MRNA_DEGRADATION_RATE_RANGE = new DoubleRange( 0, DEFAULT_MRNA_DEGRADATION_RATE * 2 );
 
     private Random _random = new Random();
     private double _timeStep = 5e2;
