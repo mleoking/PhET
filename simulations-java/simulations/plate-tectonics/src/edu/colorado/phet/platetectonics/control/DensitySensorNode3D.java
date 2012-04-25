@@ -56,7 +56,7 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
         tab.zoomRatio.addObserver( new SimpleObserver() {
             public void update() {
                 final ImmutableMatrix4F scaling = ImmutableMatrix4F.scaling( getScale() );
-                final ImmutableMatrix4F translation = ImmutableMatrix4F.translation( draggedPosition.x,
+                final ImmutableMatrix4F translation = ImmutableMatrix4F.translation( draggedPosition.x - getSensorXOffset(),
                                                                                      draggedPosition.y,
                                                                                      0 );
                 transform.set( translation.times( scaling ) );
@@ -105,8 +105,11 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
     }
 
     public ImmutableVector3F getSensorModelPosition() {
-        float horizontalSensorOffset = (float) ( ( (DensitySensorNode2D) getNode() ).horizontalSensorOffset * getScale() * scaleMultiplier( tab ) );
-        return modelViewTransform.inversePosition( new ImmutableVector3F( draggedPosition.x, draggedPosition.y, 0 ).plus( new ImmutableVector3F( horizontalSensorOffset, 0, 0 ) ) );
+        return modelViewTransform.inversePosition( new ImmutableVector3F( draggedPosition.x, draggedPosition.y, 0 ) );
+    }
+
+    private float getSensorXOffset() {
+        return (float) ( ( (DensitySensorNode2D) getNode() ).horizontalSensorOffset * getScale() * scaleMultiplier( tab ) );
     }
 
     public ParameterSet getCustomParameters() {
@@ -118,9 +121,8 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
     }
 
     public ImmutableVector2F getInitialMouseOffset() {
-        final double s = 0.75 / PICCOLO_PIXELS_TO_VIEW_UNIT;
-        return new ImmutableVector2F( (float) ( getNode().getFullBounds().getWidth() / 2 ) * s,
-                                      ( getNode().getFullBounds().getHeight() / 3 ) * s );
+        final double s = getScale();
+        return new ImmutableVector2F( 0, ( getNode().getFullBounds().getHeight() / 3 ) * s );
     }
 
     public IUserComponent getUserComponent() {
