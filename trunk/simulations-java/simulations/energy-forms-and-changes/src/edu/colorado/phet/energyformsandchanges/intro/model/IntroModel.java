@@ -12,7 +12,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 
 /**
@@ -206,7 +205,7 @@ public class IntroModel {
 
                 // There is at least some overlap.  Determine if this surface
                 // is the best one so far.
-                double surfaceOverlap = getOverlap( potentialSupportingElement.getTopSurfaceProperty().get().xRange, element.getBottomSurfaceProperty().get().xRange );
+                double surfaceOverlap = getHorizontalOverlap( potentialSupportingElement.getTopSurfaceProperty().get(), element.getBottomSurfaceProperty().get() );
 
                 // The following nasty 'if' clause determines if the potential
                 // supporting surface is a better one than we currently have
@@ -226,12 +225,6 @@ public class IntroModel {
 
     public List<Block> getBlockList() {
         return Arrays.asList( brick, leadBlock );
-    }
-
-    private double getOverlap( DoubleRange r1, DoubleRange r2 ) {
-        double lowestMax = Math.min( r1.getMax(), r2.getMax() );
-        double highestMin = Math.max( r1.getMin(), r2.getMin() );
-        return Math.max( lowestMax - highestMin, 0 );
     }
 
     // Get the amount of overlap in the x direction between two horizontal surfaces.
