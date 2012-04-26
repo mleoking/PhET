@@ -66,6 +66,11 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
     // Chart that depicts the average protein level.
     protected ProteinLevelChartNode proteinLevelChartNode;
 
+    // Parameter control panels.
+    protected CollapsibleControlPanel concentrationControlPanel;
+    protected CollapsibleControlPanel affinityControlPanel;
+    protected CollapsibleControlPanel degradationParameterController;
+
     /**
      * Constructor.
      *
@@ -120,11 +125,11 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         addWorldChild( cellNumberController );
 
         // Create and add the control panels that controls the cell parameters.
-        final CollapsibleControlPanel concentrationControlPanel = new ConcentrationsControlPanel( model );
+        concentrationControlPanel = new ConcentrationsControlPanel( model );
         addWorldChild( concentrationControlPanel );
-        final CollapsibleControlPanel affinityControlPanel = new AffinityControlPanel( model );
+        affinityControlPanel = new AffinityControlPanel( model );
         addWorldChild( affinityControlPanel );
-        final CollapsibleControlPanel degradationParameterController = new DegradationControlPanel( model );
+        degradationParameterController = new DegradationControlPanel( model );
         addWorldChild( degradationParameterController );
 
         // Create the floating clock control.
@@ -228,8 +233,14 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
     }
 
     public void reset() {
+
         // Reset the chart.
         proteinLevelChartNode.clear();
+
+        // Close up all of the parameter controllers.
+        concentrationControlPanel.setOpen( false );
+        affinityControlPanel.setOpen( false );
+        degradationParameterController.setOpen( false );
     }
 
     /**
