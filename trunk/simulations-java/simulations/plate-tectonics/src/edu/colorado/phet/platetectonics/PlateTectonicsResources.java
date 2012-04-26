@@ -40,6 +40,7 @@ public class PlateTectonicsResources {
         public static final String RESET_ALL = RESOURCES.getLocalizedString( "resetAll" );
         public static final String REWIND = RESOURCES.getLocalizedString( "rewind" );
         public static final String RULER_UNITS = RESOURCES.getLocalizedString( "rulerUnits" );
+        public static final String SENSOR_MULTIPLIER = RESOURCES.getLocalizedString( "sensorMultiplier" );
         public static final String SHOW_LABELS = RESOURCES.getLocalizedString( "showLabels" );
         public static final String SHOW_SEAWATER = RESOURCES.getLocalizedString( "showSeawater" );
         public static final String TEMPERATURE = RESOURCES.getLocalizedString( "temperature" );

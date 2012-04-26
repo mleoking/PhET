@@ -2,6 +2,9 @@
 package edu.colorado.phet.platetectonics.control;
 
 import java.awt.Cursor;
+import java.text.MessageFormat;
+
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -13,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PointSensor;
 import edu.colorado.phet.common.piccolophet.nodes.SpeedometerSensorNode;
 import edu.colorado.phet.lwjglphet.LWJGLCursorHandler;
@@ -21,11 +25,14 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.PlanarPiccoloNode;
+import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
+import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
 import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
+import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Displays a speedometer-style draggable readout.
@@ -38,6 +45,8 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
     private final LWJGLTransform modelViewTransform;
     private final PlateTectonicsTab tab;
     private final PlateModel model;
+
+    private int scaleFactor = 1;
 
     public ImmutableVector2F draggedPosition = new ImmutableVector2F();
 
@@ -60,6 +69,21 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
                                                                                      draggedPosition.y,
                                                                                      0 );
                 transform.set( translation.times( scaling ) );
+
+                final int newScaleFactor = (int) Math.floor( ( tab.getSceneDistanceZoomFactor() - 1 ) / 10 ) + 1;
+                final boolean changed = newScaleFactor != scaleFactor;
+                scaleFactor = newScaleFactor;
+                if ( changed ) {
+                    updateReadout();
+
+                    SwingUtilities.invokeLater( new Runnable() {
+                        public void run() {
+                            final DensitySensorNode2D node = (DensitySensorNode2D) getNode();
+                            node.setMultiplier( scaleFactor );
+                            node.repaint();
+                        }
+                    } );
+                }
             }
         } );
 
@@ -94,9 +118,18 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
         // get model coordinates
         // TODO: improve model/view and listening for sensor location
         final Double density = getDensityValue();
-        DensitySensorNode2D node = (DensitySensorNode2D) getNode();
-        node.pointSensor.value.set( new Option.Some<Double>( density ) );
-        repaint();
+        final DensitySensorNode2D node = (DensitySensorNode2D) getNode();
+        final double densityToShow = density / ( (float) scaleFactor );
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                node.pointSensor.value.set( new Option.Some<Double>( densityToShow ) );
+                LWJGLUtils.invoke( new Runnable() {
+                    public void run() {
+                        repaint();
+                    }
+                } );
+            }
+        } );
     }
 
     private Double getDensityValue() {
@@ -122,7 +155,7 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
 
     public ImmutableVector2F getInitialMouseOffset() {
         final double s = getScale();
-        return new ImmutableVector2F( 0, ( getNode().getFullBounds().getHeight() / 3 ) * s );
+        return new ImmutableVector2F( 0, ( DensitySensorNode2D.h / 3 ) * s );
     }
 
     public IUserComponent getUserComponent() {
@@ -145,6 +178,10 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
         // TODO: change this to a 2D offset
         public final double horizontalSensorOffset;
 
+        final PText modifierText;
+        public static double w;
+        public static double h;
+
         /**
          * @param kmToViewUnit Number of view units (in 3D JME) that correspond to 1 km in the model. Extracted into
          *                     a parameter so that we can add a 2D version to the toolbox that is unaffected by future
@@ -157,6 +194,15 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
                        value.set( new Some<Double>( 0.0 ) );
                    }}, "Density", 3500 );
 
+            w = getFullBounds().getWidth();
+            h = getFullBounds().getHeight();
+
+            modifierText = new PText( "" ) {{
+                setFont( new PhetFont( 16, true ) );
+            }};
+            addChild( modifierText );
+            positionText();
+
             // scale it so that we achieve adherence to the model scale
             scale( ThermometerNode3D.PICCOLO_PIXELS_TO_VIEW_UNIT * kmToViewUnit / ThermometerNode3D.PIXEL_SCALE );
 
@@ -164,6 +210,16 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
 
             // give it the "Hand" cursor
             addInputEventListener( new LWJGLCursorHandler() );
+        }
+
+        public void positionText() {
+            modifierText.setOffset( w / 2 - modifierText.getFullBounds().getWidth() / 2,
+                                    h * 6 / 11 );
+        }
+
+        public void setMultiplier( int multiplier ) {
+            modifierText.setText( multiplier == 1 ? "" : MessageFormat.format( Strings.SENSOR_MULTIPLIER, multiplier ) );
+            positionText();
         }
     }
 }

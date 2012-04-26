@@ -47,7 +47,12 @@ public class SpeedometerNode extends PNode {
                         ImmutableVector2D delta = ImmutableVector2D.createPolar( 1.0, angle );
                         ImmutableVector2D tail = center.minus( delta.times( width / 10 ) );
                         ImmutableVector2D tip = center.plus( delta.times( width / 2 ) );
-                        setPathTo( new Line2D.Double( tail.toPoint2D(), tip.toPoint2D() ) );
+                        if ( Double.isNaN( angle ) || Double.isInfinite( angle ) ) {
+                            setPathTo( new Rectangle2D.Double( 0, 0, 0, 0 ) );
+                        }
+                        else {
+                            setPathTo( new Line2D.Double( tail.toPoint2D(), tip.toPoint2D() ) );
+                        }
                     }
                     else {
                         setPathTo( new Rectangle2D.Double( 0, 0, 0, 0 ) );
