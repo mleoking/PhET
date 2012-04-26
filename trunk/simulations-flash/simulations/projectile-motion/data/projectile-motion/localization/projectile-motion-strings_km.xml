@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--178_projectile-motion-strings_km.xml created Tue Feb 14 09:40:23 ICT 2012 using: projectile-motion 2.02.00 (37323), translation-utility 2.10.00 (48775) Feb 9, 2011-->
+<!--projectile-motion-strings_km.xml created Tue Feb 14 09:40:23 ICT 2012 using: projectile-motion 2.02.00 (37323), translation-utility 2.10.00 (48775) Feb 9, 2011-->
 <SimStrings>
 <string key="dragLabel" value="អូស​មេគុណកកិត"/>
 <string key="userChoice" value="ជម្រើសអ្នក​ប្រើ"/>
