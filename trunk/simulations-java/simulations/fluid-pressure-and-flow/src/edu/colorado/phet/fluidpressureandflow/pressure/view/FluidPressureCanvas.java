@@ -5,18 +5,12 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.ValueEquals;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponents;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
-import edu.colorado.phet.common.piccolophet.nodes.faucet.FaucetNode;
-import edu.colorado.phet.common.piccolophet.nodes.faucet.FaucetSliderNode;
-import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishRuler;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidDensityControl;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowCanvas;
@@ -31,10 +25,8 @@ import edu.colorado.phet.fluidpressureandflow.pressure.model.IPool;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.Pool;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.SquarePool;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
-import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.DRAIN_FAUCET_ATTACHED;
 
 /**
  * Canvas for the "pressure" tab in Fluid Pressure and Flow.
@@ -75,31 +67,11 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
         //Variables for convenient access
         final FluidPressureModel model = module.model;
 
+        //Create the faucet for the square pool scene.  Shown before pool background node so it will give us leeway in vertical pixels
+        addChild( new DrainFaucetNode( model.pool, model.squarePool, 314.1624815361891 - 3 - 30 - 20 - 20 - 11, VIEW_OFFSET_Y, transform, model.liquidDensity ) );
+
         //Create the faucet for the trapezoidal mode.  Shown before pool background node so it will give us leeway in vertical pixels
-        final PNode outputFaucetAndWater = new PNode() {{
-            model.pool.valueEquals( model.trapezoidPool ).addObserver( new VoidFunction1<Boolean>() {
-                public void apply( final Boolean visible ) {
-                    setVisible( visible );
-                }
-            } );
-
-            final PImage drainFaucetImage = new PImage( BufferedImageUtils.multiScaleToHeight( DRAIN_FAUCET_ATTACHED, (int) ( DRAIN_FAUCET_ATTACHED.getHeight() * 1.2 ) ) ) {{
-
-                //Center the faucet over the left opening, values sampled from a drag listener
-                setOffset( new Point2D.Double( 314.1624815361891 - 3, 644.3426883308715 - 1 - VIEW_OFFSET_Y ) );
-
-                FaucetSliderNode sliderNode = new FaucetSliderNode( UserComponentChain.chain( FPAFSimSharing.UserComponents.drainFaucet, UserComponents.slider ), model.trapezoidPool.drainFaucetEnabled, 1, model.trapezoidPool.drainFlowRate, true ) {{
-                    setOffset( 4, 8 + 5 - 1 ); //TODO #3199, change offsets when the faucet images are revised, make these constants
-                    scale( FaucetNode.HANDLE_SIZE.getWidth() / getFullBounds().getWidth() * 1.2 ); //scale to fit into the handle portion of the faucet image
-                }};
-                addChild( sliderNode );
-            }};
-
-            //Show the water coming out of the faucet
-            addChild( new OutputFlowingWaterNode( model.trapezoidPool, model.trapezoidPool.drainFlowRate, transform, model.liquidDensity, model.trapezoidPool.drainFaucetEnabled ) );
-            addChild( drainFaucetImage );
-        }};
-        addChild( outputFaucetAndWater );
+        addChild( new DrainFaucetNode( model.pool, model.trapezoidPool, 314.1624815361891 - 3, VIEW_OFFSET_Y, transform, model.liquidDensity ) );
 
         //Add a background behind the pool so earth doesn't bleed through transparent pool
         addPoolSpecificNode( model, new Function1<IPool, PNode>() {

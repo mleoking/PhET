@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.fluidpressureandflow.pressure.view.FaucetPool;
 
 import static java.lang.Math.min;
 
@@ -22,7 +23,7 @@ import static java.lang.Math.min;
  *
  * @author Sam Reid
  */
-public class SquarePool implements IPool {
+public class SquarePool implements FaucetPool {
 
     //Units in meters
     public final double height = 3;
@@ -107,13 +108,9 @@ public class SquarePool implements IPool {
         waterVolume.set( MathUtil.clamp( 0, waterVolume.get() + inputFlowRatePercentage.get() * dt - drainFlowRate.get() * dt, height ) );
     }
 
-    public void addPressureChangeObserver( final SimpleObserver updatePressure ) {
-        waterVolume.addObserver( updatePressure );
-    }
+    public void addPressureChangeObserver( final SimpleObserver updatePressure ) { waterVolume.addObserver( updatePressure ); }
 
-    public Point2D clampSensorPosition( final Point2D pt ) {
-        return pt;
-    }
+    public Point2D clampSensorPosition( final Point2D pt ) { return pt; }
 
     public boolean isAbbreviatedUnits( final ImmutableVector2D sensorPosition, final double value ) {
         return getWaterShape().get().contains( sensorPosition.getX(), sensorPosition.getY() );
@@ -135,4 +132,16 @@ public class SquarePool implements IPool {
     public double getWidth() { return getContainerShape().getBounds2D().getHeight(); }
 
     public Point2D getTopRight() { return new Point2D.Double( getMaxX(), getMaxY() ); }
+
+    @Override public double getWaterOutputCenterX() { return getWaterShape().get().getBounds2D().getCenterX(); }
+
+    @Override public ObservableProperty<Double> getWaterVolume() {return waterVolume;}
+
+    @Override public ObservableProperty<Boolean> getDrainFaucetEnabled() {
+        return drainFaucetEnabled;
+    }
+
+    @Override public Property<Double> getDrainFlowRate() {
+        return drainFlowRate;
+    }
 }
