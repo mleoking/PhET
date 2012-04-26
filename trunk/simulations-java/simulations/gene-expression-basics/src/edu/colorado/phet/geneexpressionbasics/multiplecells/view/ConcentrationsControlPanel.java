@@ -22,12 +22,12 @@ public class ConcentrationsControlPanel extends CellParameterControlPanel {
                                                            CellProteinSynthesisSimulator.TRANSCRIPTION_FACTOR_COUNT_RANGE.getMin(),
                                                            CellProteinSynthesisSimulator.TRANSCRIPTION_FACTOR_COUNT_RANGE.getMax(),
                                                            model.transcriptionFactorLevel,
-                                                           "<center>Positive Transcription Factor</center>" ),
+                                                           "Positive Transcription Factor" ),
                 new LogarithmicParameterSliderNode( UserComponents.rnaDestroyerLevel,
                                                     CellProteinSynthesisSimulator.MRNA_DEGRADATION_RATE_RANGE.getMin(),
                                                     CellProteinSynthesisSimulator.MRNA_DEGRADATION_RATE_RANGE.getMax(),
                                                     model.mRnaDegradationRate,
-                                                    "<center>mRNA Destroyer</center>" )
+                                                    "mRNA Destroyer" )
         ) );
     }
 }

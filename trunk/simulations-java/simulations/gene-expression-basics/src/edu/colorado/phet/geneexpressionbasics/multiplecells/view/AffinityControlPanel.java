@@ -22,12 +22,12 @@ public class AffinityControlPanel extends CellParameterControlPanel {
                                                     CellProteinSynthesisSimulator.TF_ASSOCIATION_PROBABILITY_RANGE.getMin(),
                                                     CellProteinSynthesisSimulator.TF_ASSOCIATION_PROBABILITY_RANGE.getMax(),
                                                     model.transcriptionFactorAssociationProbability,
-                                                    "<center>Positive Transcription Factor</center>" ),
+                                                    "Positive Transcription Factor" ),
                 new DoubleParameterSliderNode( UserComponents.polymeraseAffinitySlider,
                                                CellProteinSynthesisSimulator.POLYMERASE_ASSOCIATION_PROBABILITY_RANGE.getMin(),
                                                CellProteinSynthesisSimulator.POLYMERASE_ASSOCIATION_PROBABILITY_RANGE.getMax(),
                                                model.polymeraseAssociationProbability,
-                                               "<center>Polymerase</center>" )
+                                               "Polymerase" )
         ) );
     }
 }
