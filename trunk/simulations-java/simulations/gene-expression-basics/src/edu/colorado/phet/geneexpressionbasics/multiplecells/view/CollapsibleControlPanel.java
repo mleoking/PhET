@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -216,8 +217,8 @@ public class CollapsibleControlPanel extends PNode {
         private final PNode openButton = new PImage( PhetCommonResources.getMaximizeButtonImage() );
         private final PNode closeButton = new PImage( PhetCommonResources.getMinimizeButtonImage() );
 
-
         private OpenCloseButton( boolean initiallyOpen ) {
+            addInputEventListener( new CursorHandler() );
             addChild( openButton );
             addChild( closeButton );
             open = new BooleanProperty( initiallyOpen );
@@ -240,7 +241,6 @@ public class CollapsibleControlPanel extends PNode {
             } );
         }
     }
-
 
     /**
      * Test harness - constructs a PhET Piccolo canvas in a window and tests
