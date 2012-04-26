@@ -9,7 +9,6 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.energyformsandchanges.intro.model.IntroModel;
-import edu.colorado.phet.energyformsandchanges.intro.model.Shelf;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEFAULT_STAGE_SIZE;
@@ -59,9 +58,7 @@ public class IntroCanvas extends PhetPCanvas {
         rootNode.addChild( frontLayer );
 
         // Add the shelves.
-        for ( Shelf shelf : model.getShelfList() ) {
-            backLayer.addChild( new ShelfNode( shelf, mvt ) );
-        }
+        backLayer.addChild( new ShelfNode( model.getLabBenchSurface(), mvt ) );
 
         // Add the burners.
         backLayer.addChild( new BurnerNode( model.getLeftBurner(), mvt ) );
