@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--my-solar-system-strings_km.xml created Mon Dec 27 14:45:48 ICT 2010 using: my-solar-system 2.02.00 (37313), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<!--my-solar-system-strings_km.xml created Mon Jan 30 11:50:54 PST 2012 using: my-solar-system 2.03.00 (52285), translation-utility 2.10.00 (48775) Feb 8, 2011-->
 <SimStrings>
 <string key="slingshot" value="ចំពាម"/>
 <string key="binaryStarPlanet" value="ផ្កាយភ្លោះ  ភព"/>
@@ -11,35 +11,35 @@
 <string key="body1" value="អង្គធាតុ ១"/>
 <string key="velocity" value="ល្បឿន"/>
 <string key="doubleDouble" value="ឌុប ឌុប"/>
-<string key="xVel" value="X"/>
+<string key="xVel" value="x"/>
 <string key="massEquals" value="ម៉ាស ="/>
-<string key="yEquals" value="Y="/>
+<string key="yEquals" value="y="/>
 <string key="hyperbolics" value="អ៊ីពែបូល"/>
-<string key="xEquals" value="X="/>
+<string key="xEquals" value="x="/>
 <string key="help9" value="រក្សាសិត្ធិ​ដោយ​គម្រោង PhET និង Univerisity of Colorado នៅ Boulder ។"/>
 <string key="help8" value="មិនដូច Runge-Kutta ទេ វិធី Verlet រក្សាថាមពលក្នុងប្រព័ន្ធយោល បង្កើត​បានជាគន្លងមានលំនឹង។"/>
 <string key="help6" value="ការ​ពិសោធន៍​ប្រើ​​ឡូការីត  fixed-timestep velocity-Verlet ដើម្បី​​បញ្ចូល​ក្នុង​ចម្ងាយ​ផ្លូវ"/>
 <string key="stop" value="បញ្ឈប់"/>
-<string key="help5" value="នៅពេលដែលផ្ចិតនៃប្រព័ន្ធត្រូវបានត្រូតពិនិត្យ ចលនានៃប្រព័ន្ធផ្ចិតម៉ាសត្រូវបានលុបចេញ។"/>
+<string key="help5" value="នៅពេលដែលផ្ចិតប្រព័ន្ធត្រូវបានធីក ចលនានៃប្រព័ន្ធផ្ចិតម៉ាសត្រូវបានលុបចេញ។"/>
 <string key="help4" value="ចំពោះទីតាំង និងល្បឿន​បច្ចុប្បន្ន សូមចុច បញ្ឈប់ ហើយ​ដាក់​កណ្ដុរ​លើអង្គធាតុ ។"/>
-<string key="help3" value="សូមរក្សាម៉ាសតិចជាងខ្ទង់ពាន់"/>
+<string key="help3" value="សូមរក្សាម៉ាសតិចជាងខ្ទង់ពាន់ បើ​មិន​ដូច្នោះ​ទេ វា​នឹង​បង្ហាញ​លទ្ធផល​ខុស ។"/>
 <string key="help2" value="ចម្ងាយ ម៉ាស និងរយៈ​ពេល​ស្ថិតក្នុងខ្នាតមិនជាក់លាក់ ។ (សូមស្រាវជ្រាវដោយខ្លួនឯង)"/>
 <string key="help1" value="បង្កើតប្រព័ន្ធព្រះអាទិត្យរបស់អ្នកដោយទាញអង្គធាតុ និង សញ្ញា V (ល្បឿន) រឺដោយបញ្ចូល​ក្នុង​តារាង​ល្បឿនដើម ។"/>
 <string key="help0" value="គន្លងប្រព័ន្ធព្រះអាទិត្យ"/>
-<string key="doubleSlingshot" value="ឌុប បាញ់ទោល"/>
+<string key="doubleSlingshot" value="ចំពាម​ឌុប"/>
 <string key="vYEquals" value="vy="/>
 <string key="systemCentered" value="ផ្ចិតប្រព័ន្ធ"/>
 <string key="vXEquals" value="vx="/>
 <string key="start" value="ចាប់ផ្តើម"/>
 <string key="showTraces" value="បង្ហាញដាន"/>
-<string key="back" value="បិទ​បង្អួច"/>
-<string key="xPos" value="X"/>
+<string key="back" value="ថយក្រោយ"/>
+<string key="xPos" value="x"/>
 <string key="help" value="ជំនួយ"/>
 <string key="tapeMeasure" value="ម៉ែត្ររុំ"/>
-<string key="accurate" value="ត្រឹមត្រូវ"/>
+<string key="accurate" value="ភាព​ទៀងទាត់"/>
 <string key="showGrid" value="បង្ហាញក្រឡា"/>
 <string key="selectPreset" value="ជ្រើស​កា​រកំណត់​ជា​មុន"/>
-<string key="yVel" value="Y"/>
+<string key="yVel" value="y"/>
 <string key="timeEquals" value="រយៈពេល ="/>
 <string key="ellipses" value="អេលីប"/>
 <string key="trojanAsteroids" value="Trojan asteroids"/>
@@ -51,6 +51,6 @@
 <string key="simTitle" value="ប្រព័ន្ធព្រះអាទិត្យរបស់ខ្ងុំ"/>
 <string key="sunPlanetMoon" value="ព្រះអាទិត្យ ភព និងព្រះច័ន្ទ"/>
 <string key="initialSettings" value="ការ​កំណត់​ដំបូង ៖"/>
-<string key="yPos" value="Y"/>
+<string key="yPos" value="y"/>
 <string key="sunPlanetComet" value="ព្រះអាទិត្យ ភព និងផ្កាយដុះកន្ទុយ"/>
 </SimStrings>
