@@ -192,11 +192,6 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         degradationParameterController.setMinWidth( parameterControllerWidth );
 
         // Do the lay out.
-        // TODO: Layout is in flux awaiting some decisions about the number of parameters.  Clean up when done.
-//        double maxControllerWidth = Math.max( cellNumberController.getFullBoundsReference().width, cellParameterController.getFullBoundsReference().width );
-//        cellNumberController.setOffset( STAGE_SIZE.getWidth() - maxControllerWidth / 2 - cellNumberController.getFullBoundsReference().getWidth() / 2 - 20, 20 );
-//        cellParameterController.setOffset( cellNumberController.getFullBoundsReference().getCenterX() - cellParameterController.getFullBoundsReference().getWidth() / 2,
-//                                           cellNumberController.getFullBoundsReference().getMaxY() + 20 );
         proteinLevelChartNode.setOffset( mvt.modelToViewX( 0 ) - proteinLevelChartNode.getFullBoundsReference().width / 2,
                                          STAGE_SIZE.getHeight() - proteinLevelChartNode.getFullBoundsReference().height - 10 );
         globalControlsPanel.setOffset( proteinLevelChartNode.getFullBoundsReference().getMinX() / 2 - globalControlsPanel.getFullBoundsReference().width / 2,
