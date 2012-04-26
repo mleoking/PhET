@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--density-and-buoyancy-strings_km.xml created Fri Dec 24 11:48:52 ICT 2010 using: density-and-buoyancy 1.02.00 (44977), translation-utility 2.09.00 (44031) Sep 14, 2010-->
+<!--density-and-buoyancy-strings_km.xml created Tue Apr 24 10:02:41 ICT 2012 using: density-and-buoyancy 1.05.00 (50250), translation-utility 2.13.00 (59150) Dec 8, 2011-->
 <SimStrings>
 <string key="properties.mass" value="ម៉ាស"/>
 <string key="forceArrows.contact" value="ទាក់ទង"/>
 <string key="mode.objectsOfSameVolume" value="មាឌ​ដូច​គ្នា"/>
-<string key="bottle.2L" value="2L"/>
 <string key="mysteryObject.densityColumnHeader" value="ដង់ស៊ីតេ ({0})"/>
 <string key="material.aluminum" value="អាលុយមីញ៉ូម"/>
 <string key="material.air" value="ខ្យល់"/>
@@ -29,21 +28,20 @@
 <string key="material.oliveOil" value="ប្រេង​អូលីវ"/>
 <string key="material.lead" value="សំណ"/>
 <string key="forceArrows.buoyancy" value="ដំណោល"/>
-<string key="properties.fluidDensity" value="ដង់ស៊ីតេ​​នៃ​សន្ទនីយ"/>
+<string key="properties.fluidDensity" value="ដង់ស៊ីតេ​​វត្ថុ​រាវ"/>
 <string key="mysteryObject.densityUnitsKgL" value="kg/L"/>
 <string key="customObject.properties" value="លក្ខណៈ"/>
 <string key="forceArrows.gravity" value="ទំនាញ​ផែនដី"/>
+<string key="mysteryObject.table.title" value="ដង់ស៊ីតេ​សម្ភារៈ​ផ្សេងៗ"/>
 <string key="material.brick" value="ឥដ្ឋ"/>
-<string key="mysteryObject.table.title" value="ដង់ស៊ីតេ​របស់​សម្ភារៈ​ផ្សេងៗ"/>
 <string key="mysteryObject.material" value="សម្ភារៈ"/>
 <string key="properties.weightPoundValue" value="{0} lb"/>
-<string key="properties.volumeLiterValue" value="{0} ល.{0} L"/>
+<string key="properties.volumeLiterValue" value="{0} L"/>
 <string key="mode.objectsOfSameDensity" value="ដង់ស៊ីតេ​ដូច​គ្នា"/>
 <string key="density.simTitle" value="ដង់ស៊ីតេ"/>
 <string key="properties.volumeMilliLiterValue" value="{0} mL"/>
-<string key="forceArrows.fluidDrag" value="អូស​សន្ទនីយ"/>
-<string key="mode.customObject" value="ជ្រើសរើស​តាម​បំណង"/>
 <string key="mode.objectsOfSameMass" value="ម៉ាស​ដូច​គ្នា"/>
+<string key="mode.customObject" value="ជ្រើសរើស​តាម​បំណង"/>
 <string key="application.resetAll" value="កំណត់​ទាំង​អស់​ឡើ​ងវិញ"/>
 <string key="material.gold" value="មាស"/>
 <string key="properties.weightNewtonValue" value="{0} N"/>
