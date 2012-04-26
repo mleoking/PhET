@@ -16,4 +16,12 @@ public interface FaucetPool extends IPool {
     ObservableProperty<Boolean> getDrainFaucetEnabled();
 
     Property<Double> getDrainFlowRate();
+
+    Property<Double> getInputFlowRatePercentage();
+
+    ObservableProperty<Boolean> getInputFaucetEnabled();
+
+    double getInputFaucetX();
+
+    double getWaterHeight();
 }

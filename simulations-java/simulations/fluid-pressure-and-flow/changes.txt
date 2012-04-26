@@ -1,3 +1,4 @@
+Scene 1: Added input faucet
 Scene 2: Trapezoid pool now starts half full
 Scene 1: Translated the pool to the left
 Scene 1: starts with a half full water basin.
