@@ -2,7 +2,6 @@
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,9 +28,6 @@ public class IntroModel {
     // Size of the lab table top.
     private static final double LAB_TABLE_WIDTH = 0.5; // In meters.
 
-    // Size of the thermometer shelf.
-    private static final double THERMOMETER_SHELF_WIDTH = 0.1; // In meters.
-
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
@@ -39,8 +35,8 @@ public class IntroModel {
     // Main model clock.
     protected final ConstantDtClock clock = new ConstantDtClock( 30.0 );
 
-    // List of all shelves in the model.
-    private final List<Shelf> shelfList = new ArrayList<Shelf>();
+    // Surface of the lab bench.
+    private final Shelf labBenchSurface;
 
     // Burners.
     private final Burner leftBurner;
@@ -69,20 +65,12 @@ public class IntroModel {
 
         // Add the main lab bench shelf.  The center of the shelf is the point
         // (0, 0) in model space.
-        shelfList.add( new Shelf( new Point2D.Double( -LAB_TABLE_WIDTH / 2, 0 ),
-                                  LAB_TABLE_WIDTH,
-                                  EnergyFormsAndChangesResources.Images.SHELF_LONG,
-                                  LAB_TABLE_WIDTH * 0.015,
-                                  LAB_TABLE_WIDTH * 0.05,
-                                  Math.PI / 2 ) );
-
-        // Add the thermometer shelf.
-        shelfList.add( new Shelf( new Point2D.Double( -0.2, 0.15 ),
-                                  THERMOMETER_SHELF_WIDTH,
-                                  EnergyFormsAndChangesResources.Images.SHELF_SHORT,
-                                  THERMOMETER_SHELF_WIDTH * 0.05,
-                                  THERMOMETER_SHELF_WIDTH * 0.20,
-                                  Math.PI / 2 ) );
+        labBenchSurface = new Shelf( new Point2D.Double( -LAB_TABLE_WIDTH / 2, 0 ),
+                                     LAB_TABLE_WIDTH,
+                                     EnergyFormsAndChangesResources.Images.SHELF_LONG,
+                                     LAB_TABLE_WIDTH * 0.015,
+                                     LAB_TABLE_WIDTH * 0.05,
+                                     Math.PI / 2 );
 
         // Add the burners.
         rightBurner = new Burner( new Point2D.Double( 0.18, 0 ) );
@@ -148,16 +136,16 @@ public class IntroModel {
         beaker.updateFluidLevel( Arrays.asList( brick.getRect(), leadBlock.getRect() ) );
     }
 
-    public List<Shelf> getShelfList() {
-        return shelfList;
-    }
-
     public void reset() {
         // TODO.
     }
 
     public IClock getClock() {
         return clock;
+    }
+
+    public Shelf getLabBenchSurface() {
+        return labBenchSurface;
     }
 
     public Brick getBrick() {
