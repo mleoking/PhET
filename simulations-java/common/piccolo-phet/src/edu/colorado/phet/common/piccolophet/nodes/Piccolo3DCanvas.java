@@ -49,14 +49,14 @@ public class Piccolo3DCanvas extends PSwingCanvas {
     }
 
     // this keeps the updateSize() from being called by its own change callbacks
-    private boolean alreadyInLoop = false;
+    private int loopcount = 0;
 
     // called when the PNode changes full bounds. triggers (under the hood) a transfer to a new texture
     public void updateSize() {
-        if ( alreadyInLoop ) {
-//            return;
+        if ( loopcount > 0 ) {
+            return;
         }
-        alreadyInLoop = true;
+        loopcount += 1;
 
         PBounds bounds = node.getFullBounds();
 
@@ -64,9 +64,14 @@ public class Piccolo3DCanvas extends PSwingCanvas {
         // TODO: how to handle bounds that don't have origin of 0,0?
         // TODO: once JME is phased out, use the ceil version
 //        setPreferredSize( new Dimension( (int) Math.ceil( bounds.width ), (int) Math.ceil( bounds.height ) ) );
-        setPreferredSize( new Dimension( (int) bounds.width, (int) bounds.height ) );
-        setSize( getPreferredSize() );
+        if ( !Double.isNaN( bounds.getX() ) ) {
+            setPreferredSize( new Dimension( (int) bounds.width, (int) bounds.height ) );
+            setSize( getPreferredSize() );
+        }
+        else {
+            throw new RuntimeException( "Nullity!" );
+        }
 
-        alreadyInLoop = false;
+        loopcount -= 1;
     }
 }
