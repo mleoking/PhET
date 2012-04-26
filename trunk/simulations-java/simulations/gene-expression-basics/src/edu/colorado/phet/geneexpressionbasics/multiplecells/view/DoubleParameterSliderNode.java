@@ -9,10 +9,10 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Class that depicts a slider that controls a parameter of type Double.
@@ -26,7 +26,36 @@ class DoubleParameterSliderNode extends PNode {
     private static final double SLIDER_TRACK_THICKNESS = 4;
     private static final Font LABEL_FONT = new PhetFont( 12 );
 
-    DoubleParameterSliderNode( IUserComponent userComponent, double min, double max, final SettableProperty<Double> settableProperty, String htmlLabelText ) {
+    /**
+     * Constructor that uses default labels for the low and high ends of the
+     * slider.
+     *
+     * @param userComponent
+     * @param min
+     * @param max
+     * @param settableProperty
+     * @param htmlLabelText
+     */
+    DoubleParameterSliderNode( IUserComponent userComponent, double min, double max,
+                               final SettableProperty<Double> settableProperty, String htmlLabelText ) {
+        // TODO: i18n
+        this( userComponent, min, max, settableProperty, htmlLabelText, "Low", "High" );
+    }
+
+    /**
+     * Main constructor.
+     *
+     * @param userComponent
+     * @param min
+     * @param max
+     * @param settableProperty
+     * @param htmlLabelText
+     * @param lowEndLabel
+     * @param highEndLabel
+     */
+    DoubleParameterSliderNode( IUserComponent userComponent, double min, double max,
+                               final SettableProperty<Double> settableProperty, String htmlLabelText,
+                               String lowEndLabel, String highEndLabel ) {
 
         // Create the label.
         PNode labelNode = new HTMLNode( htmlLabelText ) {{
@@ -39,13 +68,8 @@ class DoubleParameterSliderNode extends PNode {
         }};
 
         // Add the labels to the slider node.
-        // TODO: i18n
-        sliderNode.addLabel( min, new PText( "Low" ) {{
-            setFont( LABEL_FONT );
-        }} );
-        sliderNode.addLabel( max, new PText( "High" ) {{
-            setFont( LABEL_FONT );
-        }} );
+        sliderNode.addLabel( min, new PhetPText( lowEndLabel, LABEL_FONT ) );
+        sliderNode.addLabel( max, new PhetPText( highEndLabel, LABEL_FONT ) );
 
         // Add the label and slider to a vertical box.
         addChild( new VBox( 0, labelNode, sliderNode ) );

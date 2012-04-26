@@ -22,7 +22,9 @@ public class DegradationControlPanel extends CellParameterControlPanel {
                                                CellProteinSynthesisSimulator.PROTEIN_DEGRADATION_RANGE.getMin(),
                                                CellProteinSynthesisSimulator.PROTEIN_DEGRADATION_RANGE.getMax(),
                                                model.proteinDegradationRate,
-                                               "Protein" )
+                                               "Protein",
+                                               "Slow",
+                                               "Fast" )
         ) );
     }
 }
