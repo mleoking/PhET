@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--collision-lab-strings_km.xml created Wed Feb 01 12:02:45 PST 2012 using: collision-lab 0.01.00 (45337), translation-utility 2.10.00 (48775) Feb 8, 2011-->
+<!--collision-lab-strings_km.xml created Tue Apr 24 11:02:24 ICT 2012 using: collision-lab 0.01.00 (45337), translation-utility 2.13.00 (59150) Dec 8, 2011-->
 <SimStrings>
 <string key="PlayPauseButtons.step" value="ឈាន"/>
 <string key="MomentumView.total" value="សរុប"/>
