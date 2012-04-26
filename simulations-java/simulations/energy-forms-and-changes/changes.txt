@@ -1,3 +1,4 @@
+Removed the thermometer shelf.
 # 0.00.02 (63687) Apr 23, 2012
 4/23/12 Publishing to dev for review of some aspects of the UI on the first tab.
 Added movable visual representation of the thermometers.
