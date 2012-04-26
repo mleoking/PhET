@@ -78,7 +78,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         // ones zoom in).
         mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.45 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.37 ) ),
+                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.475 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.37 ) ),
                 1E8 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         // Set the background color.
@@ -113,11 +113,11 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         addWorldChild( cellNumberController );
 
         // Create and add the control panels that controls the cell parameters.
-        final TranscriptionFactorParameterController transcriptionFactorParameterController = new TranscriptionFactorParameterController( model );
-        addWorldChild( transcriptionFactorParameterController );
-        final PolymeraseParameterController polymeraseParameterController = new PolymeraseParameterController( model );
-        addWorldChild( polymeraseParameterController );
-        final DegradationParameterController degradationParameterController = new DegradationParameterController( model );
+        final CollapsibleControlPanel concentrationControlPanel = new ConcentrationsControlPanel( model );
+        addWorldChild( concentrationControlPanel );
+        final CollapsibleControlPanel affinityControlPanel = new AffinityControlPanel( model );
+        addWorldChild( affinityControlPanel );
+        final CollapsibleControlPanel degradationParameterController = new DegradationControlPanel( model );
         addWorldChild( degradationParameterController );
 
         // Create the floating clock control.
@@ -143,12 +143,12 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         final ResetAllButtonNode resetAllButton = new ResetAllButtonNode( new Resettable[] { model, this }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
             setConfirmationEnabled( false );
             setOffset( floatingClockControl.getFullBoundsReference().getCenterX() - getFullBoundsReference().getWidth() / 2,
-                       transcriptionFactorParameterController.getFullBoundsReference().getMaxY() + 30 );
+                       concentrationControlPanel.getFullBoundsReference().getMaxY() + 30 );
         }};
 
         // Create button for showing a picture of real fluorescent cells.
         PNode showRealCells = new HTMLImageButtonNode( "Show Real Cells", new PhetFont( 18 ), Color.YELLOW ) {{
-            centerFullBoundsOnPoint( transcriptionFactorParameterController.getFullBoundsReference().getCenterX(), resetAllButton.getFullBoundsReference().getCenterY() );
+            centerFullBoundsOnPoint( concentrationControlPanel.getFullBoundsReference().getCenterX(), resetAllButton.getFullBoundsReference().getCenterY() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     FluorescentCellsPictureDialog dialog = new FluorescentCellsPictureDialog( parentFrame );
@@ -184,11 +184,11 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         } );
 
         // Make the parameter controllers all the same size.
-        double parameterControllerWidth = Math.max( Math.max( transcriptionFactorParameterController.getFullBoundsReference().width,
-                                                              polymeraseParameterController.getFullBoundsReference().width ),
+        double parameterControllerWidth = Math.max( Math.max( concentrationControlPanel.getFullBoundsReference().width,
+                                                              affinityControlPanel.getFullBoundsReference().width ),
                                                     degradationParameterController.getFullBoundsReference().width );
-        transcriptionFactorParameterController.setMinWidth( parameterControllerWidth );
-        polymeraseParameterController.setMinWidth( parameterControllerWidth );
+        concentrationControlPanel.setMinWidth( parameterControllerWidth );
+        affinityControlPanel.setMinWidth( parameterControllerWidth );
         degradationParameterController.setMinWidth( parameterControllerWidth );
 
         // Do the lay out.
@@ -199,13 +199,13 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
 //                                           cellNumberController.getFullBoundsReference().getMaxY() + 20 );
         proteinLevelChartNode.setOffset( mvt.modelToViewX( 0 ) - proteinLevelChartNode.getFullBoundsReference().width / 2,
                                          STAGE_SIZE.getHeight() - proteinLevelChartNode.getFullBoundsReference().height - 10 );
-        globalControlsPanel.setOffset( proteinLevelChartNode.getFullBoundsReference().getMinX() - globalControlsPanel.getFullBoundsReference().width - 10,
+        globalControlsPanel.setOffset( proteinLevelChartNode.getFullBoundsReference().getMinX() / 2 - globalControlsPanel.getFullBoundsReference().width / 2,
                                        proteinLevelChartNode.getFullBoundsReference().getCenterY() - globalControlsPanel.getFullBoundsReference().height / 2 );
-        transcriptionFactorParameterController.setOffset( STAGE_SIZE.getWidth() - transcriptionFactorParameterController.getFullBoundsReference().width - 10, 20 );
-        polymeraseParameterController.setOffset( transcriptionFactorParameterController.getFullBoundsReference().getMinX(),
-                                                 transcriptionFactorParameterController.getFullBoundsWhenOpen().getMaxY() + 10 );
-        degradationParameterController.setOffset( polymeraseParameterController.getFullBoundsReference().getMinX(),
-                                                  polymeraseParameterController.getFullBoundsWhenOpen().getMaxY() + 10 );
+        concentrationControlPanel.setOffset( STAGE_SIZE.getWidth() - concentrationControlPanel.getFullBoundsReference().width - 10, 20 );
+        affinityControlPanel.setOffset( concentrationControlPanel.getFullBoundsReference().getMinX(),
+                                        concentrationControlPanel.getFullBoundsWhenOpen().getMaxY() + 10 );
+        degradationParameterController.setOffset( affinityControlPanel.getFullBoundsReference().getMinX(),
+                                                  affinityControlPanel.getFullBoundsWhenOpen().getMaxY() + 10 );
         cellNumberController.setOffset( mvt.modelToViewX( 0 ) - cellNumberController.getFullBoundsReference().width / 2, 10 );
     }
 
