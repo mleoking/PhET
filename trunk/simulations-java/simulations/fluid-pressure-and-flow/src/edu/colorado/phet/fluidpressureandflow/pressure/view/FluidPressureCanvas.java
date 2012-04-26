@@ -147,26 +147,9 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
         addChild( gravityControlPanelNode );
         addChild( fluidDensityControlNode );
 
-        //Create the faucet for the trapezoidal mode
-        final PNode inputFaucetAndWater = new PNode() {{
-            model.pool.valueEquals( model.trapezoidPool ).addObserver( new VoidFunction1<Boolean>() {
-                public void apply( final Boolean visible ) {
-                    setVisible( visible );
-                }
-            } );
-
-            final FluidPressureFaucetNode faucetNode = new FluidPressureFaucetNode( model.trapezoidPool.inputFlowRatePercentage, model.trapezoidPool.inputFaucetEnabled ) {{
-
-                //Center the faucet over the left opening, values sampled from a drag listener
-                setOffset( new Point2D.Double( 109.2584933530281, 157.19350073855244 - VIEW_OFFSET_Y ) );
-            }};
-
-            //Show the water coming out of the faucet
-            addChild( new InputFlowingWaterNode( model.trapezoidPool, model.trapezoidPool.inputFlowRatePercentage, transform, model.liquidDensity, model.trapezoidPool.inputFaucetEnabled ) );
-            addChild( faucetNode );
-
-        }};
-        addChild( inputFaucetAndWater );
+        //Create the input faucets
+        addChild( new InputFaucetNode( model, model.squarePool, VIEW_OFFSET_Y, transform, 120 ) );
+        addChild( new InputFaucetNode( model, model.trapezoidPool, VIEW_OFFSET_Y, transform, 109.2584933530281 ) );
 
         final PNode massesNode = new PNode() {{
             model.pool.valueEquals( model.chamberPool ).addObserver( new VoidFunction1<Boolean>() {

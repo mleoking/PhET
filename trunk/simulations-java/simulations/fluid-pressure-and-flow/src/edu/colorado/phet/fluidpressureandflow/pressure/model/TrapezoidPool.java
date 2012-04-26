@@ -178,4 +178,10 @@ public class TrapezoidPool implements FaucetPool {
     @Override public ObservableProperty<Boolean> getDrainFaucetEnabled() { return drainFaucetEnabled; }
 
     @Override public Property<Double> getDrainFlowRate() { return drainFlowRate; }
+
+    @Override public Property<Double> getInputFlowRatePercentage() { return inputFlowRatePercentage; }
+
+    @Override public ObservableProperty<Boolean> getInputFaucetEnabled() { return inputFaucetEnabled; }
+
+    @Override public double getInputFaucetX() { return centerAtLeftChamberOpening; }
 }

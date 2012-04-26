@@ -137,11 +137,13 @@ public class SquarePool implements FaucetPool {
 
     @Override public ObservableProperty<Double> getWaterVolume() {return waterVolume;}
 
-    @Override public ObservableProperty<Boolean> getDrainFaucetEnabled() {
-        return drainFaucetEnabled;
-    }
+    @Override public ObservableProperty<Boolean> getDrainFaucetEnabled() { return drainFaucetEnabled; }
 
-    @Override public Property<Double> getDrainFlowRate() {
-        return drainFlowRate;
-    }
+    @Override public Property<Double> getDrainFlowRate() { return drainFlowRate; }
+
+    @Override public Property<Double> getInputFlowRatePercentage() { return inputFlowRatePercentage; }
+
+    @Override public ObservableProperty<Boolean> getInputFaucetEnabled() { return inputFaucetEnabled; }
+
+    @Override public double getInputFaucetX() { return -3 + 0.2; }
 }
