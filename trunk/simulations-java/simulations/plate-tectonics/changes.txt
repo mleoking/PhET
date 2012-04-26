@@ -1,3 +1,4 @@
+# 0.00.33 (63768) Apr 26, 2012
 Initial thermometer "scaling" based on zoom level.
 Ruler handles zooming by resizing in "even decimal" increments
 Thermometer / density meter handle zooming by staying at a constant "screen" size.
