@@ -26,6 +26,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
@@ -65,6 +66,12 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
     // Chart that depicts the average protein level.
     protected ProteinLevelChartNode proteinLevelChartNode;
 
+    /**
+     * Constructor.
+     *
+     * @param model
+     * @param parentFrame
+     */
     public MultipleCellsCanvas( final MultipleCellsModel model, final Frame parentFrame ) {
         this.model = model;
 
@@ -78,7 +85,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         // ones zoom in).
         mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.475 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.37 ) ),
+                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.475 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.4 ) ),
                 1E8 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         // Set the background color.
@@ -234,13 +241,16 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
 
             // Create the slider.
             IntegerHSliderNode sliderNode = new IntegerHSliderNode( UserComponents.numberOfCellsSlider, 1, MultipleCellsModel.MAX_CELLS, 4, 100, model.numberOfVisibleCells );
+            // TODO: i18n
             sliderNode.addLabel( 1, new PLabel( "One", 14 ) );
+            // TODO: i18n
             sliderNode.addLabel( (double) MultipleCellsModel.MAX_CELLS, new PLabel( "Many", 14 ) );
-            addChild( sliderNode );
 
             // Put the title and slider together in a box and add to the node
             // and enclose in a control panel.
-            ControlPanelNode controlPanel = new ControlPanelNode( sliderNode, new Color( 245, 205, 245 ) );
+            // TODO: i18n
+            ControlPanelNode controlPanel = new ControlPanelNode( new VBox( new PhetPText( "Cells", new PhetFont( 16, true ) ), sliderNode ),
+                                                                  new Color( 245, 205, 245 ) );
 
             // Add the control panel as a child.
             addChild( controlPanel );
