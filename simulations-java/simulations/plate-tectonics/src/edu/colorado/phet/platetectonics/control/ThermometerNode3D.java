@@ -70,6 +70,8 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
                                                                                      draggedPosition.y - sensorVerticalOffset * getScale() * scaleMultiplier( tab ),
                                                                                      0 );
                 transform.set( translation.times( scaling ) );
+
+                ( (LiquidExpansionThermometerNode) getNode() ).setTicks( 10 / getTemperatureScale(), Color.BLACK, 1 );
             }
         } );
 
@@ -83,6 +85,10 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
                                               }, true );
 
         updateOnEvent( tab.beforeFrameRender );
+    }
+
+    private float getTemperatureScale() {
+        return 1 + ( tab.getSceneDistanceZoomFactor() - 1 ) / 8;
     }
 
     private float getScale() {
@@ -104,8 +110,10 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
         // get model coordinates
         // TODO: improve model/view and listening for sensor location
         final Double temp = getTemperatureValue();
-        double liquidHeight = MathUtil.clamp( 0.2, new Function.LinearFunction( 290, 2000, 0.2, 0.8 ).evaluate( temp ), 1 );
-        ( (LiquidExpansionThermometerNode) getNode() ).setLiquidHeight( liquidHeight );
+        double liquidHeight = MathUtil.clamp( 0.2, new Function.LinearFunction( 290, 2000, 0.2, 0.8 ).evaluate( temp / getTemperatureScale() ), 1 );
+        final LiquidExpansionThermometerNode node = (LiquidExpansionThermometerNode) getNode();
+        node.setLiquidHeight( liquidHeight );
+        node.repaint();
         repaint();
     }
 
