@@ -20,6 +20,8 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.DRAIN_FAUCET_ATTACHED;
 
 /**
+ * Shows the drain faucet below the scene 1 & 2 pools.
+ *
  * @author Sam Reid
  */
 public class DrainFaucetNode extends PNode {
