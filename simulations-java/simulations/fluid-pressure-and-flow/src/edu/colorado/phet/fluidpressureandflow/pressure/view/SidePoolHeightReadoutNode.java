@@ -37,8 +37,8 @@ public class SidePoolHeightReadoutNode extends PNode {
         //Update when the units change
         units.addObserver( new SimpleObserver() {
             public void update() {
-                DecimalFormat format = new DecimalFormat( "0.000" );
-                if ( units.get().distance == Units.FEET ) {
+                DecimalFormat format = new DecimalFormat( "0.00" );
+                if ( units.get().distance == Units.METERS ) {
                     format = new DecimalFormat( "0" );
                 }
                 text.setText( MessageFormat.format( VALUE_WITH_UNITS_PATTERN, format.format( units.get().distance.siToUnit( pool.getHeight() ) ), units.get().distance.getAbbreviation() ) );
