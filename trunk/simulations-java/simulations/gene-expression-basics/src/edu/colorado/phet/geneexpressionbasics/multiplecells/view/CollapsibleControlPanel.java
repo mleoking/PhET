@@ -34,13 +34,20 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class CollapsibleControlPanel extends PNode {
 
+    //-------------------------------------------------------------------------
+    // Class Data
+    //-------------------------------------------------------------------------
+
     private static final boolean INITIAL_OPEN_STATE = false;
     private static final double BOX_SPACING = 10;
     private static final int CONTROL_PANEL_INSET = 9;
 
+    //-------------------------------------------------------------------------
+    // Instance Data
+    //-------------------------------------------------------------------------
+
     // Various nodes that comprise this node.  They need to be member variables
     // so that layout can be adjusted when needed.
-    private final PNode rootNode = new PNode();
     private final PNode controls;
     private final PNode titleBar;
     private final PNode titleBarSpacer;
@@ -50,6 +57,10 @@ public class CollapsibleControlPanel extends PNode {
 
     // Button that also tracks the open/closed state.
     protected OpenCloseButton openCloseButton;
+
+    //-------------------------------------------------------------------------
+    // Constructor(s)
+    //-------------------------------------------------------------------------
 
     /**
      * Constructor.
@@ -95,48 +106,11 @@ public class CollapsibleControlPanel extends PNode {
         } );
 
         updateLayout();
-
-
-        // Create the closed version of this panel.
-        /*
-        final PNode expandButton = new PImage( PhetCommonResources.getMaximizeButtonImage() );
-        closedPanelContents = new PNode();
-        closedPanelContents.addChild( new HBox( BOX_SPACING, expandButton, new PhetPText( titleText, titleFont ) ) );
-        closedTitlePad.setOffset( closedPanelContents.getFullBoundsReference().getWidth(), 0 ); // Position padding node.
-        closedPanelContents.addChild( closedTitlePad ); // Add padding node.
-        closedPanelNode = new ControlPanelNode( closedPanelContents, backgroundColor );
-
-        // Create the open version of this panel.
-        PNode collapseButton = new PImage( PhetCommonResources.getMinimizeButtonImage() );
-        PNode openPanelTitle = new PNode();
-        openPanelTitle.addChild( new HBox( BOX_SPACING, collapseButton, new PhetPText( titleText, titleFont ) ) );
-        openTitlePad.setOffset( openPanelTitle.getFullBoundsReference().getWidth(), 0 ); // Position padding node.
-        openPanelTitle.addChild( openTitlePad ); // Add padding node.
-        openPanelNode = new ControlPanelNode( new VBox( BOX_SPACING, VBox.CENTER_ALIGNED, openPanelTitle, controls ), backgroundColor );
-
-        // Add the main content node, which is the only direct child.
-        rootNode.addChild( isOpen ? openPanelNode : closedPanelNode );
-        addChild( rootNode );
-
-        // Make the open and closed size match.
-        updatePadding();
-
-        // Add handlers that switch the contents when the buttons are pressed.
-        expandButton.addInputEventListener( new PBasicInputEventHandler() {
-            @Override public void mouseReleased( PInputEvent event ) {
-                closedPanelNode.removeAllChildren();
-//                rootNode.removeAllChildren();
-//                rootNode.addChild( openPanelNode );
-            }
-        } );
-        collapseButton.addInputEventListener( new PBasicInputEventHandler() {
-            @Override public void mouseReleased( PInputEvent event ) {
-                rootNode.removeAllChildren();
-                rootNode.addChild( closedPanelNode );
-            }
-        } );
-        */
     }
+
+    //-------------------------------------------------------------------------
+    // Methods
+    //-------------------------------------------------------------------------
 
     /**
      * Set the panel to be open or closed.
@@ -178,7 +152,7 @@ public class CollapsibleControlPanel extends PNode {
     }
 
     /*
-     * Update the padding so that the min width is met and the open and closed
+     * Update the layout so that the min width is met and the open and closed
      * sizes are the same.
      */
     private void updateLayout() {
@@ -202,6 +176,10 @@ public class CollapsibleControlPanel extends PNode {
         }
     }
 
+    //-------------------------------------------------------------------------
+    // Inner Classes and Interfaces
+    //-------------------------------------------------------------------------
+
     // Convenience class for horizontal padding of control panel.
     private static class HPad extends PNode {
         private static final double PAD_RECT_HEIGHT = 0.01;
@@ -212,6 +190,7 @@ public class CollapsibleControlPanel extends PNode {
         }
     }
 
+    // PNode that is the button that is used to open/close the panel.
     private static class OpenCloseButton extends PNode {
         public final BooleanProperty open;
         private final PNode openButton = new PImage( PhetCommonResources.getMaximizeButtonImage() );
@@ -242,10 +221,10 @@ public class CollapsibleControlPanel extends PNode {
         }
     }
 
-    /**
-     * Test harness - constructs a PhET Piccolo canvas in a window and tests
-     * out the class.
-     */
+    //-------------------------------------------------------------------------
+    // Test Harness
+    //-------------------------------------------------------------------------
+
     public static void main( String[] args ) {
 
         // Create the canvas.
