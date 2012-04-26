@@ -15,13 +15,14 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.fluidpressureandflow.pressure.view.FaucetPool;
 
 /**
  * A pair of trapezoidal pools.
  *
  * @author Sam Reid
  */
-public class TrapezoidPool implements IPool {
+public class TrapezoidPool implements FaucetPool {
 
     //Units in meters, describes the leftmost chamber and is used to create both
     private final double widthAtTop = 1;
@@ -159,9 +160,7 @@ public class TrapezoidPool implements IPool {
         waterVolume.addObserver( updatePressure );
     }
 
-    public Point2D clampSensorPosition( final Point2D pt ) {
-        return pt;
-    }
+    public Point2D clampSensorPosition( final Point2D pt ) { return pt; }
 
     public boolean isAbbreviatedUnits( final ImmutableVector2D sensorPosition, final double value ) {
         return getWaterShape().get().contains( sensorPosition.getX(), sensorPosition.getY() );
@@ -171,4 +170,12 @@ public class TrapezoidPool implements IPool {
         inputFlowRatePercentage.reset();
         waterVolume.reset();
     }
+
+    @Override public double getWaterOutputCenterX() { return passage().getBounds2D().getCenterX() + 0.55; }
+
+    @Override public ObservableProperty<Double> getWaterVolume() { return waterVolume; }
+
+    @Override public ObservableProperty<Boolean> getDrainFaucetEnabled() { return drainFaucetEnabled; }
+
+    @Override public Property<Double> getDrainFlowRate() { return drainFlowRate; }
 }
