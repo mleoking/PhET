@@ -7,27 +7,27 @@ import edu.colorado.phet.geneexpressionbasics.multiplecells.model.CellProteinSyn
 import edu.colorado.phet.geneexpressionbasics.multiplecells.model.MultipleCellsModel;
 
 /**
- * Control panel that allows the user to change parameters related to
- * degradation of biomolecules in the multi-cell model.
+ * Control panel that allows the user to change the concentrations of various
+ * biomolecules in the multi-cell model.
  *
  * @author John Blanco
  */
-public class DegradationParameterController extends CellParameterControlPanel {
+public class ConcentrationsControlPanel extends CellParameterControlPanel {
 
-    public DegradationParameterController( MultipleCellsModel model ) {
+    public ConcentrationsControlPanel( MultipleCellsModel model ) {
         // TODO: i18n
-        super( "Degradation", new VBox(
+        super( "Concentrations", new VBox(
                 20,
-                new DoubleParameterSliderNode( UserComponents.proteinDegradationRateSlider,
-                                               CellProteinSynthesisSimulator.PROTEIN_DEGRADATION_RANGE.getMin(),
-                                               CellProteinSynthesisSimulator.PROTEIN_DEGRADATION_RANGE.getMax(),
-                                               model.proteinDegradationRate,
-                                               "<center>Protein<br>Degradation Rate</center>" ),
+                new LogarithmicIntegerParameterSliderNode( UserComponents.transcriptionFactorLevelSlider,
+                                                           CellProteinSynthesisSimulator.TRANSCRIPTION_FACTOR_COUNT_RANGE.getMin(),
+                                                           CellProteinSynthesisSimulator.TRANSCRIPTION_FACTOR_COUNT_RANGE.getMax(),
+                                                           model.transcriptionFactorLevel,
+                                                           "<center>Positive Transcription Factor</center>" ),
                 new LogarithmicParameterSliderNode( UserComponents.rnaDestroyerLevel,
                                                     CellProteinSynthesisSimulator.MRNA_DEGRADATION_RATE_RANGE.getMin(),
                                                     CellProteinSynthesisSimulator.MRNA_DEGRADATION_RATE_RANGE.getMax(),
                                                     model.mRnaDegradationRate,
-                                                    "<center>mRNA Destroyer<br>Level</center>" )
+                                                    "<center>mRNA Destroyer</center>" )
         ) );
     }
 }
