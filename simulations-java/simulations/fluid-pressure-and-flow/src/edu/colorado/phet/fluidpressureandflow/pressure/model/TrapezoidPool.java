@@ -36,7 +36,7 @@ public class TrapezoidPool implements FaucetPool {
     public final ObservableProperty<Boolean> inputFaucetEnabled;
 
     private final CompositeProperty<Shape> waterShape;
-    public final Property<Double> waterVolume = new Property<Double>( 0.0 );
+    public final Property<Double> waterVolume = new Property<Double>( height / 2 );
     public final ObservableProperty<Boolean> drainFaucetEnabled;
     public final Property<Double> drainFlowRate = new Property<Double>( 0.0 );
 

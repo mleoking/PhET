@@ -1,5 +1,6 @@
+Scene 2: Trapezoid pool now starts half full
 Scene 1: Translated the pool to the left
-Scene 1 starts with a half full water basin.
+Scene 1: starts with a half full water basin.
 Switched to dynamic model for square pool
 Fixed: Text fields don't always clamp to the min/max after user finishes editing
 Pressure tab: Translated everything up by 10 pixels to make more room for the drains at the bottom
