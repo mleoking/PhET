@@ -1,3 +1,5 @@
+# 3.26.00 (63815) Apr 27, 2012
+4/27/12 > Redeploying to production server with a number of fixes and enhancements related to graph sizing and interaction.
 # 3.25.01 (63593) Apr 18, 2012
 4/18/12 Deploying to dev for testing prior to production redeploy due to a bug in common code, see #3303 and see #3307.
 # 3.25.00 (63341) Apr 12, 2012
