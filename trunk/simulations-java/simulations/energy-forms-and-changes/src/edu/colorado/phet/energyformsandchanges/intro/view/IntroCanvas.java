@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.geom.Point2D;
@@ -8,6 +9,8 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyformsandchanges.intro.model.IntroModel;
 import edu.umd.cs.piccolo.PNode;
 
@@ -57,7 +60,10 @@ public class IntroCanvas extends PhetPCanvas {
         PNode frontLayer = new PNode();
         rootNode.addChild( frontLayer );
 
-        // Add the shelves.
+        // Add the tool box for the thermometers.
+        backLayer.addChild( new ControlPanelNode( new PhetPPath( mvt.modelToView( model.getThermometerToolBox() ) ), Color.LIGHT_GRAY, new BasicStroke( 2 ), Color.BLACK, 0 ) );
+
+        // Add the lab bench surface.
         backLayer.addChild( new ShelfNode( model.getLabBenchSurface(), mvt ) );
 
         // Add the burners.
