@@ -46,16 +46,13 @@ public class ConcentrationTransform {
     // Maps a scale to units.
     private static String scaleToUnits( int scale ) {
         if ( scale == 1 ) {
-//            return Strings.UNITS_M;
-            return Strings.UNITS_MOLES_PER_LITER;
+            return Strings.UNITS_M;
         }
         else if ( scale == 1000 ) {
-//            return Strings.UNITS_mM;
-            return Strings.UNITS_mMOLES_PER_LITER;
+            return Strings.UNITS_mM;
         }
         else if ( scale == 1000000 ) {
-//            return Strings.UNITS_uM;
-            return Strings.UNITS_uMOLES_PER_LITER;
+            return Strings.UNITS_uM;
         }
         else {
             throw new IllegalArgumentException( "unsupported scale=" + scale );

@@ -49,9 +49,7 @@ public class BLLResources {
         public static final String UNITS_MOLES_PER_LITER = RESOURCES.getLocalizedString( "units.molesPerLiter" );
         public static final String UNITS_M = RESOURCES.getLocalizedString( "units.M" );
         public static final String UNITS_mM = RESOURCES.getLocalizedString( "units.mM" );
-        public static final String UNITS_mMOLES_PER_LITER = RESOURCES.getLocalizedString( "units.mmolesPerLiter" );
         public static final String UNITS_uM = RESOURCES.getLocalizedString( "units.uM" );
-        public static final String UNITS_uMOLES_PER_LITER = RESOURCES.getLocalizedString( "units.umolesPerLiter" );
         public static final String VARIABLE = RESOURCES.getLocalizedString( "variable" );
         public static final String WATER = RESOURCES.getLocalizedString( "water" );
         public static final String WAVELENGTH = RESOURCES.getLocalizedString( "wavelength" );
