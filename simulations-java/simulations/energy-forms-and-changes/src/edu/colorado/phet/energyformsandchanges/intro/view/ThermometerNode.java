@@ -85,7 +85,8 @@ public class ThermometerNode extends PComposite {
         // Update the offset if and when the model position changes.
         thermometer.position.addObserver( new VoidFunction1<ImmutableVector2D>() {
             public void apply( ImmutableVector2D position ) {
-                setOffset( mvt.modelToView( position ).toPoint2D() );
+                setOffset( mvt.modelToViewX( position.getX() ),
+                           mvt.modelToViewY( position.getY() ) - ( getFullBoundsReference().height / 2 + TRIANGLE_TIP_OFFSET_FROM_THERMOMETER_CENTER.getHeight() ) );
             }
         } );
     }

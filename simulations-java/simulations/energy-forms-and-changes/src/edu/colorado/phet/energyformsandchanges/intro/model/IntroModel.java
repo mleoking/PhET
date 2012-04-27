@@ -84,7 +84,8 @@ public class IntroModel {
         leadBlock = new LeadBlock( new ImmutableVector2D( -0.175, 0 ) );
 
         // Add and position the thermometers.
-        thermometer1 = new Thermometer( new ImmutableVector2D( -0.2, 0.22 ) );
+//        thermometer1 = new Thermometer( new ImmutableVector2D( -0.2, 0.22 ) );
+        thermometer1 = new Thermometer( new ImmutableVector2D( 0, 0 ) );
         thermometer2 = new Thermometer( new ImmutableVector2D( -0.15, 0.22 ) );
     }
 
