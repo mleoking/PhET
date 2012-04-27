@@ -29,14 +29,35 @@ public abstract class Block extends UserMovableModelElement {
     public abstract Color getColor();
 
     /**
-     * Get an image to use for the texture of the block when portrayed in the
-     * view, if one should be used.  If no texture is used, the block will be
-     * displayed with a solid color for the fill.
+     * Get an image to use for the texture of the front of the block when
+     * portrayed in the view, if one should be used.
      *
      * @return An image to use for the texture, or null if no texture should
      *         be used.
      */
-    public Image getTextureImage() {
+    public Image getFrontTextureImage() {
+        return null;
+    }
+
+    /**
+     * Get an image to use for the texture of the top of the block when
+     * portrayed in the view, if one should be used.
+     *
+     * @return An image to use for the texture, or null if no texture should
+     *         be used.
+     */
+    public Image getTopTextureImage() {
+        return null;
+    }
+
+    /**
+     * Get an image to use for the texture of the side of the block when
+     * portrayed in the view, if one should be used.
+     *
+     * @return An image to use for the texture, or null if no texture should
+     *         be used.
+     */
+    public Image getSideTextureImage() {
         return null;
     }
 

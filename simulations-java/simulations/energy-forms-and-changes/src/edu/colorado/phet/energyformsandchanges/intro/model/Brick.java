@@ -18,8 +18,16 @@ public class Brick extends Block {
         super( initialPosition );
     }
 
-    @Override public Image getTextureImage() {
+    @Override public Image getFrontTextureImage() {
         return EnergyFormsAndChangesResources.Images.BRICK_TEXTURE_FRONT;
+    }
+
+    @Override public Image getTopTextureImage() {
+        return EnergyFormsAndChangesResources.Images.BRICK_TEXTURE_TOP;
+    }
+
+    @Override public Image getSideTextureImage() {
+        return EnergyFormsAndChangesResources.Images.BRICK_TEXTURE_RIGHT;
     }
 
     @Override public Color getColor() {
