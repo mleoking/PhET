@@ -3,12 +3,12 @@
 # 3.25.00 (63341) Apr 12, 2012
 4/12/12 > Deploying to production server with fixes for several chart resizing issues.
 # 3.24.07 (63192) Apr 9, 2012
-4/9/12 Depolying to dev for testing prior to redeployment to production site.
+4/9/12 Deploying to dev for testing prior to redeployment to production site.
 # 3.24.06 (58840) Nov 29, 2011
 11/29/11 Deploying to dev for review of some enhancements and fixes.
 > Fixed an issue where tick marks on the time graphs could be positioned past the time line.
 > Made the flashing of the adjustment arrow stop if the user moused over the arrow before the flashing finished.
-Fixed an issue where graph positioning didn't work when nuclei had very long decay times (longer than the graph length).
+> Fixed an issue where graph positioning didn't work when nuclei had very long decay times (longer than the graph length).
 Fixed some problems with centering the time charts at the top of the play area.
 # 3.24.06 (58817) Nov 28, 2011
 11/28/11 Testing Kannada font properties changes
