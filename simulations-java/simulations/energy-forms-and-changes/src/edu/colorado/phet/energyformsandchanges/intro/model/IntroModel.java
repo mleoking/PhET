@@ -2,6 +2,7 @@
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
 import java.util.List;
 
@@ -47,6 +48,9 @@ public class IntroModel {
     private final LeadBlock leadBlock;
     private final Beaker beaker;
 
+    // Themometer tool box.
+    private final Rectangle2D thermometerToolBox;
+
     // Thermometers.
     private final Thermometer thermometer1;
     private final Thermometer thermometer2;
@@ -83,9 +87,11 @@ public class IntroModel {
         brick = new Brick( new ImmutableVector2D( -0.1, 0 ) );
         leadBlock = new LeadBlock( new ImmutableVector2D( -0.175, 0 ) );
 
+        // Add the thermometer tool box.
+        thermometerToolBox = new Rectangle2D.Double( 0, 0, 0.1, 0.1 );
+
         // Add and position the thermometers.
-//        thermometer1 = new Thermometer( new ImmutableVector2D( -0.2, 0.22 ) );
-        thermometer1 = new Thermometer( new ImmutableVector2D( 0, 0 ) );
+        thermometer1 = new Thermometer( new ImmutableVector2D( -0.2, 0.22 ) );
         thermometer2 = new Thermometer( new ImmutableVector2D( -0.15, 0.22 ) );
     }
 
@@ -175,6 +181,10 @@ public class IntroModel {
 
     public Thermometer getThermometer2() {
         return thermometer2;
+    }
+
+    public Rectangle2D getThermometerToolBox() {
+        return thermometerToolBox;
     }
 
     private Property<HorizontalSurface> findBestSupportSurface( UserMovableModelElement element ) {
