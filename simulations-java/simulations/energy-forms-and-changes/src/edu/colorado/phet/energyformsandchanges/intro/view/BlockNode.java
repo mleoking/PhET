@@ -39,7 +39,7 @@ public class BlockNode extends PComposite {
     private static final double PERSPECTIVE_ANGLE = Math.PI / 4; // Positive is counterclockwise, a value of 0 produces a non-skewed rectangle.
     private static final double PERSPECTIVE_EDGE_PROPORTION = 0.33;
 
-    private static final boolean SHOW_2D_REPRESENTATION = true;
+    private static final boolean SHOW_2D_REPRESENTATION = false;
 
     public BlockNode( Block block, final ModelViewTransform mvt ) {
 
@@ -83,43 +83,10 @@ public class BlockNode extends PComposite {
         blockSidePath.lineTo( upperRightCornerOfFace );
         Shape blockSideShape = blockSidePath.getGeneralPath();
 
-        // Add the representation of the block.  This is projected into a 3D
-        // appearance based on the size and position of the 2D block in model
-        // space.  It is projected and offset both forward and backward so that
-        // the model position is in the center of the 3D shape.
-        /*
-        double perspectiveEdgeSize = mvt.modelToViewDeltaX( block.getRect().getWidth() * PERSPECTIVE_EDGE_PROPORTION );
-        ImmutableVector2D forwardPerspectiveOffset = new ImmutableVector2D( -perspectiveEdgeSize / 2, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE );
-        ImmutableVector2D backwardPerspectiveOffset = new ImmutableVector2D( perspectiveEdgeSize / 2, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE );
-        Rectangle2D blockRectInViewCoords = scaleTransform.createTransformedShape( Block.getRawShape() ).getBounds2D();
-        ImmutableVector2D lowerLeftCornerOfFace = new ImmutableVector2D( blockRectInViewCoords.getMinX(), blockRectInViewCoords.getMaxY() ).getAddedInstance( forwardPerspectiveOffset );
-        ImmutableVector2D lowerRightCornerOfFace = new ImmutableVector2D( blockRectInViewCoords.getMaxX(), blockRectInViewCoords.getMaxY() ).getAddedInstance( forwardPerspectiveOffset );
-        ImmutableVector2D upperRightCornerOfFace = new ImmutableVector2D( blockRectInViewCoords.getMaxX(), blockRectInViewCoords.getMinY() ).getAddedInstance( forwardPerspectiveOffset );
-        ImmutableVector2D upperLeftCornerOfFace = new ImmutableVector2D( blockRectInViewCoords.getMinX(), blockRectInViewCoords.getMinY() ).getAddedInstance( forwardPerspectiveOffset );
-        ImmutableVector2D upperBackLeftCorner = new ImmutableVector2D( blockRectInViewCoords.getMinX(), blockRectInViewCoords.getMinY() ).getAddedInstance( backwardPerspectiveOffset );
-        ImmutableVector2D upperBackRightCorner = new ImmutableVector2D( blockRectInViewCoords.getMaxX(), blockRectInViewCoords.getMinY() ).getAddedInstance( backwardPerspectiveOffset );
-        ImmutableVector2D lowerBackRightCorner = new ImmutableVector2D( blockRectInViewCoords.getMaxX(), blockRectInViewCoords.getMaxY() ).getAddedInstance( backwardPerspectiveOffset );
-        DoubleGeneralPath path = new DoubleGeneralPath();
-        path.moveTo( lowerLeftCornerOfFace );
-        path.lineTo( lowerRightCornerOfFace );
-        path.lineTo( upperRightCornerOfFace );
-        path.lineTo( upperLeftCornerOfFace );
-        path.lineTo( lowerLeftCornerOfFace );
-        path.moveTo( upperLeftCornerOfFace );
-        path.lineTo( upperBackLeftCorner );
-        path.lineTo( upperBackRightCorner );
-        path.lineTo( upperRightCornerOfFace );
-        path.moveTo( upperBackRightCorner );
-        path.lineTo( lowerBackRightCorner );
-        path.lineTo( lowerRightCornerOfFace );
-        path.lineTo( upperRightCornerOfFace );
-        */
-
-        addChild( addBlockSurface( blockFaceShape, block.getColor(), block.getFrontTextureImage() ) );
-        addChild( addBlockSurface( blockTopShape, block.getColor(), block.getTopTextureImage() ) );
-        addChild( addBlockSurface( blockSideShape, block.getColor(), block.getSideTextureImage() ) );
-
-        // Fill in
+        // Add the shapes that comprise the block representation.
+        addChild( createSurface( blockFaceShape, block.getColor(), block.getFrontTextureImage() ) );
+        addChild( createSurface( blockTopShape, block.getColor(), block.getTopTextureImage() ) );
+        addChild( createSurface( blockSideShape, block.getColor(), block.getSideTextureImage() ) );
 
         if ( SHOW_2D_REPRESENTATION ) {
             addChild( new PhetPPath( scaleTransform.createTransformedShape( Block.getRawShape() ), new BasicStroke( 1 ), Color.RED ) );
@@ -152,38 +119,11 @@ public class BlockNode extends PComposite {
         addInputEventListener( new MovableElementDragHandler( block, this, mvt ) );
     }
 
-    // Convenience method to avoid code duplication.
-    private void addTexturedShape( Shape blockFaceShape, Image textureImage ) {
-
-        // Add the clipped texture.
-        PClip clippedTexture = new PClip();
-        clippedTexture.setPathTo( blockFaceShape );
-        PImage texture = new PImage( textureImage );
-
-        // Scale up the texture image if needed.
-        double textureScale = 1;
-        if ( texture.getFullBoundsReference().width < clippedTexture.getFullBoundsReference().width ) {
-            textureScale = clippedTexture.getFullBoundsReference().width / texture.getFullBoundsReference().width;
-        }
-        if ( texture.getFullBoundsReference().height < clippedTexture.getFullBoundsReference().height ) {
-            textureScale = Math.max( clippedTexture.getFullBoundsReference().height / texture.getFullBoundsReference().height, textureScale );
-        }
-        texture.setScale( textureScale );
-
-        // Add the texture to the clip node in order to clip it.
-        texture.setOffset( clippedTexture.getFullBoundsReference().getMinX(), clippedTexture.getFullBoundsReference().getMinY() );
-        clippedTexture.addChild( texture );
-        addChild( clippedTexture );
-
-        // Add the outlined shape so that edges are visible.
-        addChild( new PhetPPath( blockFaceShape, OUTLINE_STROKE, OUTLINE_STROKE_COLOR ) );
-    }
-
     /*
     * Convenience method to avoid code duplication.  Adds a node of the given
     * shape, color, and texture (if a texture is specified).
     */
-    private PNode addBlockSurface( Shape blockFaceShape, Color fillColor, Image textureImage ) {
+    private PNode createSurface( Shape blockFaceShape, Color fillColor, Image textureImage ) {
 
         PNode root = new PNode();
 
