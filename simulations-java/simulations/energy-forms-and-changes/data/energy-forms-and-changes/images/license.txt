@@ -1,3 +1,5 @@
 brick_texture_front.png source=PhET author=Noah P
 brick_texture_top.png source=PhET author=Noah P
 brick_texture_right.png source=PhET author=Noah P
+thermometer_back.png source=PhET author=Noah P
+thermometer_front.png source=PhET author=Noah P
