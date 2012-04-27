@@ -73,7 +73,7 @@ public class BlockNode extends PNode {
         path.lineTo( lowerBackRightCorner );
         path.lineTo( lowerRightCornerOfFace );
         path.lineTo( upperRightCornerOfFace );
-        if ( block.getTextureImage() == null ) {
+        if ( block.getFrontTextureImage() == null ) {
             // No texture used for this block, so draw it filled with the
             // block's color.
             addChild( new PhetPPath( path.getGeneralPath(), block.getColor(), OUTLINE_STROKE, OUTLINE_STROKE_COLOR ) );
@@ -85,7 +85,7 @@ public class BlockNode extends PNode {
             // Add the clipped texture.
             PClip clippedTexture = new PClip();
             clippedTexture.setPathTo( path.getGeneralPath() );
-            PImage texture = new PImage( block.getTextureImage() );
+            PImage texture = new PImage( block.getFrontTextureImage() );
             double textureScale = 1;
             if ( texture.getFullBoundsReference().width < drawnBlock.getFullBoundsReference().width ) {
                 textureScale = drawnBlock.getFullBoundsReference().width / texture.getFullBoundsReference().width;

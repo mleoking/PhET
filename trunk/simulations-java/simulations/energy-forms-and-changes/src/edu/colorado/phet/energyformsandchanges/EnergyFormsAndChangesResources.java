@@ -22,9 +22,9 @@ public class EnergyFormsAndChangesResources {
     //Images
     public static class Images {
         public static final BufferedImage BRICK_TEXTURE_FRONT = RESOURCES.getImage( "brick_texture_front.png" );
-        public static final BufferedImage FIRST_TAB_DRAWING = RESOURCES.getImage( "first-tab-drawing.png" );
+        public static final BufferedImage BRICK_TEXTURE_RIGHT = RESOURCES.getImage( "brick_texture_right.png" );
+        public static final BufferedImage BRICK_TEXTURE_TOP = RESOURCES.getImage( "brick_texture_top.png" );
         public static final BufferedImage SECOND_TAB_DRAWING = RESOURCES.getImage( "second-tab-drawing.png" );
         public static final BufferedImage SHELF_LONG = RESOURCES.getImage( "shelf_long.png" );
-        public static final BufferedImage SHELF_SHORT = RESOURCES.getImage( "shelf_short.png" );
     }
 }
