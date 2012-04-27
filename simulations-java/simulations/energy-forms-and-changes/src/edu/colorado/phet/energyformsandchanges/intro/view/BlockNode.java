@@ -4,6 +4,8 @@ package edu.colorado.phet.energyformsandchanges.intro.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
@@ -20,6 +22,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PClip;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Piccolo node that represents a block in the view.  The blocks in the model
@@ -28,7 +31,7 @@ import edu.umd.cs.piccolox.nodes.PClip;
  *
  * @author John Blanco
  */
-public class BlockNode extends PNode {
+public class BlockNode extends PComposite {
 
     private static final Font LABEL_FONT = new PhetFont( 32, false );
     private static final Stroke OUTLINE_STROKE = new BasicStroke( 3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
@@ -36,7 +39,7 @@ public class BlockNode extends PNode {
     private static final double PERSPECTIVE_ANGLE = Math.PI / 4; // Positive is counterclockwise, a value of 0 produces a non-skewed rectangle.
     private static final double PERSPECTIVE_EDGE_PROPORTION = 0.33;
 
-    private static final boolean SHOW_2D_REPRESENTATION = false;
+    private static final boolean SHOW_2D_REPRESENTATION = true;
 
     public BlockNode( Block block, final ModelViewTransform mvt ) {
 
@@ -44,10 +47,47 @@ public class BlockNode extends PNode {
         // shape from the position of the block.
         AffineTransform scaleTransform = AffineTransform.getScaleInstance( mvt.getTransform().getScaleX(), mvt.getTransform().getScaleY() );
 
+        // Create the shape for the front of the block.
+        Rectangle2D blockRectInViewCoords = scaleTransform.createTransformedShape( Block.getRawShape() ).getBounds2D();
+        double perspectiveEdgeSize = mvt.modelToViewDeltaX( block.getRect().getWidth() * PERSPECTIVE_EDGE_PROPORTION );
+        ImmutableVector2D blockFaceOffset = new ImmutableVector2D( -perspectiveEdgeSize / 2, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE );
+        ImmutableVector2D backCornersOffset = new ImmutableVector2D( perspectiveEdgeSize, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE );
+        ImmutableVector2D lowerLeftCornerOfFace = new ImmutableVector2D( blockRectInViewCoords.getMinX(), blockRectInViewCoords.getMaxY() ).getAddedInstance( blockFaceOffset );
+        ImmutableVector2D lowerRightCornerOfFace = new ImmutableVector2D( blockRectInViewCoords.getMaxX(), blockRectInViewCoords.getMaxY() ).getAddedInstance( blockFaceOffset );
+        ImmutableVector2D upperRightCornerOfFace = new ImmutableVector2D( blockRectInViewCoords.getMaxX(), blockRectInViewCoords.getMinY() ).getAddedInstance( blockFaceOffset );
+        ImmutableVector2D upperLeftCornerOfFace = new ImmutableVector2D( blockRectInViewCoords.getMinX(), blockRectInViewCoords.getMinY() ).getAddedInstance( blockFaceOffset );
+        Shape blockFaceShape = new Rectangle2D.Double( lowerLeftCornerOfFace.getX(),
+                                                       upperLeftCornerOfFace.getY(),
+                                                       blockRectInViewCoords.getWidth(),
+                                                       blockRectInViewCoords.getHeight() );
+
+        // Create the shape of the top of the block.
+        ImmutableVector2D backLeftCornerOfTop = upperLeftCornerOfFace.getAddedInstance( backCornersOffset );
+        ImmutableVector2D backRightCornerOfTop = upperRightCornerOfFace.getAddedInstance( backCornersOffset );
+        DoubleGeneralPath blockTopPath = new DoubleGeneralPath();
+        blockTopPath.moveTo( upperLeftCornerOfFace );
+        blockTopPath.lineTo( upperRightCornerOfFace );
+        blockTopPath.lineTo( backRightCornerOfTop );
+        blockTopPath.lineTo( backLeftCornerOfTop );
+        blockTopPath.lineTo( upperLeftCornerOfFace );
+        Shape blockTopShape = blockTopPath.getGeneralPath();
+
+        // Create the shape of the side of the block.
+        ImmutableVector2D upperBackCornerOfSide = upperRightCornerOfFace.getAddedInstance( backCornersOffset );
+        ImmutableVector2D lowerBackCornerOfSide = lowerRightCornerOfFace.getAddedInstance( backCornersOffset );
+        DoubleGeneralPath blockSidePath = new DoubleGeneralPath();
+        blockSidePath.moveTo( upperRightCornerOfFace );
+        blockSidePath.lineTo( lowerRightCornerOfFace );
+        blockSidePath.lineTo( lowerBackCornerOfSide );
+        blockSidePath.lineTo( upperBackCornerOfSide );
+        blockSidePath.lineTo( upperRightCornerOfFace );
+        Shape blockSideShape = blockSidePath.getGeneralPath();
+
         // Add the representation of the block.  This is projected into a 3D
         // appearance based on the size and position of the 2D block in model
         // space.  It is projected and offset both forward and backward so that
         // the model position is in the center of the 3D shape.
+        /*
         double perspectiveEdgeSize = mvt.modelToViewDeltaX( block.getRect().getWidth() * PERSPECTIVE_EDGE_PROPORTION );
         ImmutableVector2D forwardPerspectiveOffset = new ImmutableVector2D( -perspectiveEdgeSize / 2, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE );
         ImmutableVector2D backwardPerspectiveOffset = new ImmutableVector2D( perspectiveEdgeSize / 2, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE );
@@ -73,32 +113,13 @@ public class BlockNode extends PNode {
         path.lineTo( lowerBackRightCorner );
         path.lineTo( lowerRightCornerOfFace );
         path.lineTo( upperRightCornerOfFace );
-        if ( block.getFrontTextureImage() == null ) {
-            // No texture used for this block, so draw it filled with the
-            // block's color.
-            addChild( new PhetPPath( path.getGeneralPath(), block.getColor(), OUTLINE_STROKE, OUTLINE_STROKE_COLOR ) );
-        }
-        else {
-            // Add the shape of the block but unfilled.
-            PhetPPath drawnBlock = new PhetPPath( path.getGeneralPath(), OUTLINE_STROKE, OUTLINE_STROKE_COLOR );
+        */
 
-            // Add the clipped texture.
-            PClip clippedTexture = new PClip();
-            clippedTexture.setPathTo( path.getGeneralPath() );
-            PImage texture = new PImage( block.getFrontTextureImage() );
-            double textureScale = 1;
-            if ( texture.getFullBoundsReference().width < drawnBlock.getFullBoundsReference().width ) {
-                textureScale = drawnBlock.getFullBoundsReference().width / texture.getFullBoundsReference().width;
-            }
-            if ( texture.getFullBoundsReference().height < drawnBlock.getFullBoundsReference().height ) {
-                textureScale = Math.max( drawnBlock.getFullBoundsReference().height / texture.getFullBoundsReference().height, textureScale );
-            }
-            texture.setScale( textureScale );
-            texture.setOffset( drawnBlock.getFullBoundsReference().getMinX(), drawnBlock.getFullBoundsReference().getMinY() );
-            clippedTexture.addChild( texture );
-            addChild( clippedTexture );
-            addChild( drawnBlock );
-        }
+        addChild( addBlockSurface( blockFaceShape, block.getColor(), block.getFrontTextureImage() ) );
+        addChild( addBlockSurface( blockTopShape, block.getColor(), block.getTopTextureImage() ) );
+        addChild( addBlockSurface( blockSideShape, block.getColor(), block.getSideTextureImage() ) );
+
+        // Fill in
 
         if ( SHOW_2D_REPRESENTATION ) {
             addChild( new PhetPPath( scaleTransform.createTransformedShape( Block.getRawShape() ), new BasicStroke( 1 ), Color.RED ) );
@@ -129,5 +150,73 @@ public class BlockNode extends PNode {
 
         // Add the drag handler.
         addInputEventListener( new MovableElementDragHandler( block, this, mvt ) );
+    }
+
+    // Convenience method to avoid code duplication.
+    private void addTexturedShape( Shape blockFaceShape, Image textureImage ) {
+
+        // Add the clipped texture.
+        PClip clippedTexture = new PClip();
+        clippedTexture.setPathTo( blockFaceShape );
+        PImage texture = new PImage( textureImage );
+
+        // Scale up the texture image if needed.
+        double textureScale = 1;
+        if ( texture.getFullBoundsReference().width < clippedTexture.getFullBoundsReference().width ) {
+            textureScale = clippedTexture.getFullBoundsReference().width / texture.getFullBoundsReference().width;
+        }
+        if ( texture.getFullBoundsReference().height < clippedTexture.getFullBoundsReference().height ) {
+            textureScale = Math.max( clippedTexture.getFullBoundsReference().height / texture.getFullBoundsReference().height, textureScale );
+        }
+        texture.setScale( textureScale );
+
+        // Add the texture to the clip node in order to clip it.
+        texture.setOffset( clippedTexture.getFullBoundsReference().getMinX(), clippedTexture.getFullBoundsReference().getMinY() );
+        clippedTexture.addChild( texture );
+        addChild( clippedTexture );
+
+        // Add the outlined shape so that edges are visible.
+        addChild( new PhetPPath( blockFaceShape, OUTLINE_STROKE, OUTLINE_STROKE_COLOR ) );
+    }
+
+    /*
+    * Convenience method to avoid code duplication.  Adds a node of the given
+    * shape, color, and texture (if a texture is specified).
+    */
+    private PNode addBlockSurface( Shape blockFaceShape, Color fillColor, Image textureImage ) {
+
+        PNode root = new PNode();
+
+        // Add the filled shape.  Note that in cases where a texture is
+        // provided, this may end up getting partially or entirely covered up.
+        root.addChild( new PhetPPath( blockFaceShape, fillColor ) );
+
+        if ( textureImage != null ) {
+
+            // Add the clipped texture.
+            PClip clippedTexture = new PClip();
+            clippedTexture.setPathTo( blockFaceShape );
+            PImage texture = new PImage( textureImage );
+
+            // Scale up the texture image if needed.
+            double textureScale = 1;
+            if ( texture.getFullBoundsReference().width < clippedTexture.getFullBoundsReference().width ) {
+                textureScale = clippedTexture.getFullBoundsReference().width / texture.getFullBoundsReference().width;
+            }
+            if ( texture.getFullBoundsReference().height < clippedTexture.getFullBoundsReference().height ) {
+                textureScale = Math.max( clippedTexture.getFullBoundsReference().height / texture.getFullBoundsReference().height, textureScale );
+            }
+            texture.setScale( textureScale );
+
+            // Add the texture to the clip node in order to clip it.
+            texture.setOffset( clippedTexture.getFullBoundsReference().getMinX(), clippedTexture.getFullBoundsReference().getMinY() );
+            clippedTexture.addChild( texture );
+            root.addChild( clippedTexture );
+        }
+
+        // Add the outlined shape so that edges are visible.
+        root.addChild( new PhetPPath( blockFaceShape, OUTLINE_STROKE, OUTLINE_STROKE_COLOR ) );
+
+        return root;
     }
 }
