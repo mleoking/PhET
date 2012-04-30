@@ -4,8 +4,10 @@ package edu.colorado.phet.fluidpressureandflow.pressure.view;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.property.ValueEquals;
+import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -57,8 +59,17 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
             addChild( new GroundNode( transform, new Rectangle2D.Double( -1000, -2000, 2000, 2000 ), 5, new Color( 157, 139, 97 ), new Color( 100, 90, 60 ) ) );
 
             //Add grass
-            addChild( GrassNode.GrassNode( transform, module.model.pool.get().getContainerShape().getBounds2D().getMaxX(), module.model.pool.get().getContainerShape().getBounds2D().getMaxX() + 100 ) );
-            addChild( GrassNode.GrassNode( transform, -100, module.model.pool.get().getContainerShape().getBounds2D().getMinX() ) );
+            addChild( new PNode() {{
+                module.model.pool.addObserver( new VoidFunction1<IPool>() {
+                    @Override public void apply( final IPool pool ) {
+                        removeAllChildren();
+                        ArrayList<Pair<Double, Double>> segments = pool.getGrassSegments();
+                        for ( Pair<Double, Double> segment : segments ) {
+                            addChild( GrassNode.GrassNode( transform, segment._1, segment._2 ) );
+                        }
+                    }
+                } );
+            }} );
 
             //Only show when there is an atmosphere
             module.model.atmosphere.addObserver( new VoidFunction1<Boolean>() {

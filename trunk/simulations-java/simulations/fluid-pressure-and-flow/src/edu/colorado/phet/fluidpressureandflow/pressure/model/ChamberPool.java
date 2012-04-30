@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
+import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents;
@@ -205,6 +206,14 @@ public class ChamberPool implements IPool {
 
     public boolean isAbbreviatedUnits( final ImmutableVector2D sensorPosition, final double value ) {
         return getWaterShape().get().contains( sensorPosition.getX(), sensorPosition.getY() );
+    }
+
+    @Override public ArrayList<Pair<Double, Double>> getGrassSegments() {
+        return new ArrayList<Pair<Double, Double>>() {{
+            add( new Pair<Double, Double>( leftOpening().getBounds2D().getX() - 100, leftOpening().getBounds2D().getX() ) );
+            add( new Pair<Double, Double>( leftOpening().getBounds2D().getMaxX(), rightOpening().getBounds2D().getMinX() ) );
+            add( new Pair<Double, Double>( rightOpening().getBounds2D().getMaxX(), rightOpening().getBounds2D().getMaxX() + 100 ) );
+        }};
     }
 
     private ObservableList<Mass> updateMasses( final ObservableList<Mass> masses, final double dt ) {
