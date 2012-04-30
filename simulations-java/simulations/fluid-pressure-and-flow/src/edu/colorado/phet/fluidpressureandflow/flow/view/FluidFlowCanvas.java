@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.InjectorNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
@@ -75,7 +76,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
 
         //Show a checkbox that enabled/disables adding dots to the fluid
         final PropertyCheckBox dotsCheckBox = new PropertyCheckBox( DOTS, model.dropperEnabled ) {{
-            setFont( CONTROL_FONT );
+            setFont( new PhetFont( (int) ( CONTROL_FONT.getSize() * 1.3 ), false ) );
             setBackground( new Color( 0, 0, 0, 0 ) );
         }};
         addChild( new PSwing( dotsCheckBox ) {{
