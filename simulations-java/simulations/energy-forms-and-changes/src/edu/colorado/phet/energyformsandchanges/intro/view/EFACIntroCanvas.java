@@ -8,9 +8,11 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
 import edu.umd.cs.piccolo.PNode;
 
@@ -66,6 +68,12 @@ public class EFACIntroCanvas extends PhetPCanvas {
                                                              new BasicStroke( 2 ),
                                                              Color.BLACK,
                                                              0 ) {{
+            PNode title = new PhetPText( "Tool Box", new PhetFont( 20, false ) );
+            if ( title.getFullBoundsReference().width > getFullBoundsReference().width ) {
+                title.setScale( getFullBoundsReference().width / title.getFullBoundsReference().width * 0.9 );
+            }
+            title.centerFullBoundsOnPoint( getCenterX(), title.getFullBoundsReference().height / 2 );
+            addChild( title );
             setOffset( mvt.modelToView( model.getThermometerToolBox().getMinX(), model.getThermometerToolBox().getMaxY() ) );
         }};
         backLayer.addChild( toolBoxNode );
