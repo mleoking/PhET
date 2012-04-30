@@ -144,7 +144,11 @@ public class EFACIntroModel {
     }
 
     public void reset() {
-        // TODO.
+        leadBlock.position.reset();
+        brick.position.reset();
+        beaker.position.reset();
+        thermometer1.position.reset();
+        thermometer2.position.reset();
     }
 
     public IClock getClock() {
