@@ -2,6 +2,7 @@
 package edu.colorado.phet.fluidpressureandflow.watertower.model;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -24,7 +25,7 @@ public class Hose {
     public final Property<Double> y = new Property<Double>( 0.0 );
 
     //Flag to indicate whether the hose has been enabled by the user
-    public final Property<Boolean> enabled = new Property<Boolean>( false );
+    public final BooleanProperty enabled = new BooleanProperty( false );
 
     //Place where the hose attaches to the water tower
     public final ObservableProperty<ImmutableVector2D> attachmentPoint;

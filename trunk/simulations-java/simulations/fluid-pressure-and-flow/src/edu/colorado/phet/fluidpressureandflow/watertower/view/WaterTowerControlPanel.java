@@ -1,16 +1,18 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.watertower.view;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -18,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishMetricControlPanel;
 import edu.colorado.phet.fluidpressureandflow.common.view.FPAFCheckBox;
@@ -42,7 +45,7 @@ import static edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressure
  * @author Sam Reid
  */
 public class WaterTowerControlPanel extends VerticalLayoutPanel {
-    public WaterTowerControlPanel( final WaterTowerModule module ) {
+    public WaterTowerControlPanel( final WaterTowerModule module, final ModelViewTransform transform ) {
 
         //Measuring devices
         add( new JPanel( new GridBagLayout() ) {{
@@ -68,10 +71,14 @@ public class WaterTowerControlPanel extends VerticalLayoutPanel {
 
         //Separator
         add( Box.createRigidArea( new Dimension( 5, 5 ) ) );//separate the "hose" control a bit from the other controls so it is easier to parse visually
-        add( new JSeparator() );
 
-        //Hose on/off
-        add( new FPAFCheckBox( hoseCheckBox, HOSE, module.model.hose.enabled ) );
+        add( new JPanel( new GridBagLayout() ) {{
+            //Hose on/off
+            add( new FPAFCheckBox( hoseCheckBox, HOSE, module.model.hose.enabled ), getConstraints( 0, 0 ) );
+
+            //Icon for hose
+            add( HoseIcon( module ), getConstraints( 1, 0 ) );
+        }} );
     }
 
     private JLabel MeasuringTapeIcon( final WaterTowerModule module ) {
@@ -81,6 +88,27 @@ public class WaterTowerControlPanel extends VerticalLayoutPanel {
                 @Override public void mousePressed( final MouseEvent e ) {
                     SimSharingManager.sendUserMessage( measuringTapeCheckBoxIcon, icon, pressed, parameterSet( isSelected, !module.measuringTapeVisible.get() ) );
                     module.measuringTapeVisible.toggle();
+                }
+            } );
+        }};
+    }
+
+    private JLabel HoseIcon( final WaterTowerModule module ) {
+        final int width = 60;
+        final int height = 14;
+        PNode node = new PhetPPath( new RoundRectangle2D.Double( 0, 0, width, height, 10, 10 ), Color.green, new BasicStroke( 1 ), Color.darkGray ) {{
+            //workaround the "edges get cut off in toImage" problem
+            setBounds( -1, -1, width + 2, height + 2 );
+        }};
+        final ImageIcon imageIcon = new ImageIcon( node.toImage() );
+
+        //restore
+//        module.model.hose.enabled.set( enabled );
+        return new JLabel( imageIcon ) {{
+            addMouseListener( new MouseAdapter() {
+                @Override public void mousePressed( final MouseEvent e ) {
+                    SimSharingManager.sendUserMessage( hoseCheckBoxIcon, icon, pressed, parameterSet( isSelected, !module.model.hose.enabled.get() ) );
+                    module.model.hose.enabled.toggle();
                 }
             } );
         }};
