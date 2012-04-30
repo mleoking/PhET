@@ -18,7 +18,7 @@ public abstract class UserMovableModelElement extends ModelElement {
     public final BooleanProperty userControlled = new BooleanProperty( false );
 
     // Position of the center of the bottom of the block.
-    public final Property<ImmutableVector2D> position = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
+    public final Property<ImmutableVector2D> position;
 
     // Velocity in the up/down direction.
     public final Property<Double> verticalVelocity = new Property<Double>( 0.0 );
@@ -35,7 +35,8 @@ public abstract class UserMovableModelElement extends ModelElement {
     /**
      * Constructor.
      */
-    public UserMovableModelElement() {
+    public UserMovableModelElement( ImmutableVector2D initialPosition ) {
+        position = new Property<ImmutableVector2D>( initialPosition );
         userControlled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean userControlled ) {
                 if ( userControlled ) {

@@ -54,6 +54,7 @@ public class Beaker extends UserMovableModelElement {
      *                        the center bottom of the model element.
      */
     public Beaker( ImmutableVector2D initialPosition ) {
+        super( initialPosition );
 
         // Update the top and bottom surfaces whenever the position changes.
         position.addObserver( new VoidFunction1<ImmutableVector2D>() {
@@ -61,8 +62,6 @@ public class Beaker extends UserMovableModelElement {
                 updateSurfaces();
             }
         } );
-
-        this.position.set( initialPosition );
     }
 
     //-------------------------------------------------------------------------

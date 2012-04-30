@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentType
 public class Thermometer extends UserMovableModelElement {
 
     public Thermometer( ImmutableVector2D initialPosition ) {
-        position.set( initialPosition );
+        super( initialPosition );
     }
 
     @Override public IUserComponent getUserComponent() {
