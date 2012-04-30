@@ -46,15 +46,17 @@ import static java.text.MessageFormat.format;
  */
 public class PressureSensorNode extends SensorNode {
     private final Property<IPool> pool;
+    private final PressureSensor pressureSensor;
 
-    public PressureSensorNode( final ModelViewTransform transform, final PressureSensor sensor, final Property<UnitSet> units,
+    public PressureSensorNode( final ModelViewTransform transform, final PressureSensor pressureSensor, final Property<UnitSet> units,
 
                                //the area to constrain the node within or null if no constraints
                                final Property<IPool> pool,
 
                                final Function0<ImmutableRectangle2D> visibleModelRect ) {
-        super( transform, sensor, getPressureUnit( units ) );
+        super( transform, pressureSensor, getPressureUnit( units ) );
         this.pool = pool;
+        this.pressureSensor = pressureSensor;
 
         final PointSensor<Double> pointSensor = new PointSensor<Double>( 0, 0 );
 
@@ -74,9 +76,9 @@ public class PressureSensorNode extends SensorNode {
         addChild( textOutline );
         addChild( textNode );
 
-        sensor.addValueObserver( new SimpleObserver() {
+        pressureSensor.addValueObserver( new SimpleObserver() {
             public void update() {
-                final Double v = sensor.getValue();
+                final Double v = pressureSensor.getValue();
                 Option<Double> value = Double.isNaN( v ) ? new None<Double>() : new Some<Double>( v );
                 pointSensor.value.set( value );
             }
@@ -92,7 +94,7 @@ public class PressureSensorNode extends SensorNode {
             }
         } );
 
-        addInputEventListener( new RelativeDragHandler( this, transform, sensor.location, new Function1<Point2D, Point2D>() {
+        addInputEventListener( new RelativeDragHandler( this, transform, pressureSensor.location, new Function1<Point2D, Point2D>() {
             public Point2D apply( Point2D point2D ) {
                 Point2D pt = point2D;
                 //not allowed to go to negative Potential Energy in the pool
@@ -106,10 +108,10 @@ public class PressureSensorNode extends SensorNode {
         } ) {
             @Override protected void sendMessage( final Point2D modelPoint ) {
                 super.sendMessage( modelPoint );
-                SimSharingManager.sendUserMessage( sensor.userComponent, ComponentTypes.pressureSensor, UserActions.drag,
+                SimSharingManager.sendUserMessage( pressureSensor.userComponent, ComponentTypes.pressureSensor, UserActions.drag,
                                                    parameterSet( ParameterKeys.x, modelPoint.getX() ).
                                                            with( ParameterKeys.y, modelPoint.getY() ).
-                                                           with( pressure, sensor.context.getPressure( modelPoint.getX(), modelPoint.getY() ) ) );
+                                                           with( pressure, pressureSensor.context.getPressure( modelPoint.getX(), modelPoint.getY() ) ) );
             }
         } );
     }
@@ -121,10 +123,14 @@ public class PressureSensorNode extends SensorNode {
         if ( !Double.isNaN( v ) ) {
 
             //For pascals, don’t show any decimal places because it already has enough precision
-            final boolean poolAbbreviated = pool != null && pool.get().isAbbreviatedUnits( sensor.location.get(), v );
-            final DecimalFormat format = unit == Units.KILOPASCAL && poolAbbreviated ? new DecimalFormat( "0.0" ) :
-                                         unit == Units.KILOPASCAL && !poolAbbreviated ? new DecimalFormat( "0.000" ) :
-                                         poolAbbreviated ? new DecimalFormat( "0.00" ) :
+            final boolean abbreviatedBasedOnPool = pool != null && pool.get().isAbbreviatedUnits( sensor.location.get(), v );
+
+            //Also, don't show extra decimal places if it is in the water of the water tank.
+            final boolean abbreviatedBasedOnWaterTower = pressureSensor != null && pressureSensor.context != null && pressureSensor.context.isInWaterTowerWater( sensor.location.get().getX(), sensor.location.get().getY() );
+            final boolean showAbbreviated = abbreviatedBasedOnPool || abbreviatedBasedOnWaterTower;
+            final DecimalFormat format = unit == Units.KILOPASCAL && showAbbreviated ? new DecimalFormat( "0.0" ) :
+                                         unit == Units.KILOPASCAL && !showAbbreviated ? new DecimalFormat( "0.000" ) :
+                                         showAbbreviated ? new DecimalFormat( "0.00" ) :
                                          new DecimalFormat( "0.0000" );
             value = format.format( unit.siToUnit( v ) );
         }

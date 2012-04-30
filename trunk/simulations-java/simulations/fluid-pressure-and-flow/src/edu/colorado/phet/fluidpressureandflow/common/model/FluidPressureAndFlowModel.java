@@ -21,7 +21,7 @@ import edu.colorado.phet.fluidpressureandflow.watertower.model.FPAFVelocitySenso
  *
  * @author Sam Reid
  */
-public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetModel {
+public abstract class FluidPressureAndFlowModel implements PressureSensor.Context, ResetModel {
 
     //Density of different substances in SI
     public static final double GASOLINE_DENSITY = 700;

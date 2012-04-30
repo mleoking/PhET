@@ -153,6 +153,10 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
         pipe.friction.addObserver( updatePressure );
     }
 
+    @Override public boolean isInWaterTowerWater( final double x, final double y ) {
+        return false;
+    }
+
     public void pourFoodColoring() {
         double x0 = pipe.getMinX() + 1E-6;
         double width = 0.75;
