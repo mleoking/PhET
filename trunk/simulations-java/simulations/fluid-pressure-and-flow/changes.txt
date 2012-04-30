@@ -1,3 +1,4 @@
+Flow tab: Made font for "dots" checkbox larger
 Flow + Water Tower tabs: Fixed: Reset all doesn't reset pause/running state of the clock
 Flow + Water Tower tabs: Fixed: Reset all doesn't reset the radio button for slow motion
 Pressure tab: Fixed: On the first tab: Reset All doesn't reset the amount of water in the rectangular pool, but does the others.
