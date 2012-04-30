@@ -89,9 +89,7 @@ public class KnobNode2 extends PComposite {
             new RichSimpleObserver() {
                 @Override public void update() {
                     setPaint( !enabled.get() ? colorScheme.disabledColor : ( focused.get() ? colorScheme.highlightedColor : colorScheme.enabledColor ) );
-                    setStrokePaint( !enabled.get() ? Color.gray : focused.get() ?
-                                                                  new Color( 160, 160, 160 ) :
-                                                                  Color.lightGray );
+                    setStrokePaint( !enabled.get() ? Color.gray : focused.get() ? ColorUtils.darkerColor( Color.gray, 0.2 ) : Color.gray );
                 }
             }.observe( enabled, focused );
         }};
@@ -160,7 +158,7 @@ public class KnobNode2 extends PComposite {
                 break;
             case POINTED_RECTANGLE: {
                 double unPointedProportion = 0.7;
-                double height = width * 0.4;
+                double height = width * 0.5;
                 knobShape = new Area( new RoundRectangle2D.Double( 0, 0, width * unPointedProportion, height, width / 10, width / 10 ) );
                 DoubleGeneralPath pointerPath = new DoubleGeneralPath( width, height / 2 );
                 pointerPath.lineTo( width * unPointedProportion, 0 );
