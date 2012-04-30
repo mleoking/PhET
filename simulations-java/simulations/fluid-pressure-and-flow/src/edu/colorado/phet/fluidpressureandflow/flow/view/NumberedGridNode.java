@@ -18,8 +18,7 @@ import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.Pool;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.READOUT_FEET;
-import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.READOUT_METERS;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.*;
 import static java.text.MessageFormat.format;
 
 /**
@@ -34,14 +33,14 @@ public class NumberedGridNode extends PropertyVisibleNode {
         //Show meters if in metric
         addChild( new PropertyVisibleNode( units.valueEquals( UnitSet.METRIC ) ) {{
             for ( int i = 0; i >= -10; i-- ) {
-                addChild( new LineNode( format( READOUT_METERS, new DecimalFormat( "0" ).format( -i ) ), i, transform ) );
+                addChild( new LineNode( format( i == -1 ? READOUT_METER : READOUT_METERS, new DecimalFormat( "0" ).format( -i ) ), i, transform ) );
             }
         }} );
 
         //Show feet if non-metric
         addChild( new PropertyVisibleNode( new Not( units.valueEquals( UnitSet.METRIC ) ) ) {{
             for ( int i = 0; i >= -10; i-- ) {
-                addChild( new LineNode( format( READOUT_FEET, new DecimalFormat( "0" ).format( -i ) ), Units.feetToMeters( i ), transform ) );
+                addChild( new LineNode( format( i == -1 ? READOUT_FOOT : READOUT_FEET, new DecimalFormat( "0" ).format( -i ) ), Units.feetToMeters( i ), transform ) );
             }
         }} );
         setPickable( false );

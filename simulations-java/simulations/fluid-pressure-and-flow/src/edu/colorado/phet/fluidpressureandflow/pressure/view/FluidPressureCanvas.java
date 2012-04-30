@@ -123,7 +123,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
 
         //Grid for scene 1
         addChild( new NumberedGridNode( module.gridVisible.and( squarePool ), transform, model.units ) {{
-            translate( -transform.modelToViewDeltaX( model.squarePool.getWidth() / 2 ), 0 );
+            translate( transform.modelToViewDeltaX( model.squarePool.getMinX() ), 0 );
         }} );
 
         //Grid for scene 1-2
