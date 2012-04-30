@@ -12,7 +12,8 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
+import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode2;
+import edu.colorado.phet.common.piccolophet.nodes.slider.KnobNode2;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -52,7 +53,10 @@ class LogarithmicIntegerParameterSliderNode extends PNode {
         final Property<Double> passThroughProperty = new Property<Double>( Math.log10( settableProperty.get() ) );
 
         // Create the slider node.
-        HSliderNode sliderNode = new HSliderNode( userComponent, sliderMin, sliderMax, SLIDER_TRACK_THICKNESS, SLIDER_TRACK_LENGTH, passThroughProperty, new BooleanProperty( true ) ) {{
+        HSliderNode2 sliderNode = new HSliderNode2( userComponent, sliderMin, sliderMax,
+                                                    new KnobNode2( 30, KnobNode2.Style.POINTED_RECTANGLE, new KnobNode2.ColorScheme( new Color( 142, 229, 238 ) ) ),
+                                                    SLIDER_TRACK_THICKNESS, SLIDER_TRACK_LENGTH, passThroughProperty,
+                                                    new BooleanProperty( true ) ) {{
             setTrackFillPaint( Color.black );
         }};
 
