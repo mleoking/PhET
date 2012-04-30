@@ -1,3 +1,4 @@
+Water Tower tab: added ruler icon
 Flow tab: Made font for "dots" checkbox larger
 Flow + Water Tower tabs: Fixed: Reset all doesn't reset pause/running state of the clock
 Flow + Water Tower tabs: Fixed: Reset all doesn't reset the radio button for slow motion

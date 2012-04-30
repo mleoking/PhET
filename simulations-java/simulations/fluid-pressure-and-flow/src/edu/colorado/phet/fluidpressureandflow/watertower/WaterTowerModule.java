@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.watertower;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.watertower.model.WaterTowerModel;
@@ -15,7 +15,7 @@ import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResourc
  * @author Sam Reid
  */
 public class WaterTowerModule extends FluidPressureAndFlowModule<WaterTowerModel> {
-    public final Property<Boolean> measuringTapeVisible = new Property<Boolean>( false );
+    public final BooleanProperty measuringTapeVisible = new BooleanProperty( false );
     public final WaterTowerCanvas canvas;
 
     public WaterTowerModule() {

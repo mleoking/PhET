@@ -33,6 +33,7 @@ public class FPAFSimSharing {
         pressureTab,
         flowTab,
         rulerCheckBox, frictionCheckBox, fluxMeterCheckBox, gridCheckBox, measuringTapeCheckBox, hoseCheckBox, waterTowerTab, rulerCheckBoxIcon,
+        measuringTapeCheckBoxIcon,
         atmosphereOnRadioButton,
         atmosphereOffRadioButton, atmospheresRadioButton,
         metricRadioButton,
