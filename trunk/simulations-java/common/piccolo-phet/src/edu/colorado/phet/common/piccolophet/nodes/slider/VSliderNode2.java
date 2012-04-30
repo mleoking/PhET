@@ -219,8 +219,8 @@ public class VSliderNode2 extends SliderNode {
      * @return
      */
     protected double getViewY( double value ) {
-        return new Function.LinearFunction( min, max, trackNode.getFullBounds().getMinY() + TRACK_STROKE_WIDTH / 2,
-                                            trackNode.getFullBounds().getHeight() - TRACK_STROKE_WIDTH ).evaluate( value );
+        return new Function.LinearFunction( min, max, trackNode.getFullBounds().getMinY() + TRACK_STROKE_WIDTH,
+                                            trackNode.getFullBounds().getHeight() - TRACK_STROKE_WIDTH * 2 ).evaluate( value );
     }
 
     /**
