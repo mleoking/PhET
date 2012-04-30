@@ -87,12 +87,19 @@ public class EFACIntroModel {
         brick = new Brick( new ImmutableVector2D( -0.1, 0 ) );
         leadBlock = new LeadBlock( new ImmutableVector2D( -0.175, 0 ) );
 
-        // Add the thermometer tool box.
-        thermometerToolBox = new Rectangle2D.Double( 0, 0, 0.1, 0.1 );
+        // Add the thermometer tool box.  Tweak Alert: This is sized and
+        // positioned to be in a reasonable location and to contain the
+        // thermometer representation used in the view.
+        thermometerToolBox = new Rectangle2D.Double( -0.22, 0.17, 0.1, 0.08 );
 
-        // Add and position the thermometers.
-        thermometer1 = new Thermometer( new ImmutableVector2D( -0.2, 0.22 ) );
-        thermometer2 = new Thermometer( new ImmutableVector2D( -0.15, 0.22 ) );
+        // Add and position the thermometers.  They are initially positioned
+        // inside the tool box.  Some coordination is necessary with the view
+        // in order to make their initial positions look good.
+        {
+            double thermometerYPos = thermometerToolBox.getMinY() + 0.015;
+            thermometer1 = new Thermometer( new ImmutableVector2D( thermometerToolBox.getMinX() + thermometerToolBox.getWidth() * 0.1, thermometerYPos ) );
+            thermometer2 = new Thermometer( new ImmutableVector2D( thermometerToolBox.getMinX() + thermometerToolBox.getWidth() * 0.6, thermometerYPos ) );
+        }
     }
 
     //-------------------------------------------------------------------------
