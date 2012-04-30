@@ -15,7 +15,6 @@ import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
-import edu.colorado.phet.platetectonics.modules.CrustTab;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
 import edu.colorado.phet.platetectonics.view.ColorMode;
 import edu.umd.cs.piccolo.PNode;
@@ -129,37 +128,34 @@ public class ViewOptionsPanel extends PNode {
 
         y.set( y.get() + 5 );
 
-        // TODO: implement labels for 2nd tab
-        if ( tab instanceof CrustTab ) {
-            final PSwing showLabelCheckBox = new PSwing( new SimSharingJCheckBox( UserComponents.showLabels, Strings.SHOW_LABELS ) {{
-                setSelected( showLabels.get() );
-                addActionListener( new ActionListener() {
-                    public void actionPerformed( ActionEvent actionEvent ) {
-                        final boolean showThem = isSelected();
-                        LWJGLUtils.invoke( new Runnable() {
-                            public void run() {
-                                showLabels.set( showThem );
-                            }
-                        } );
-                    }
-                } );
-                showLabels.addObserver( new SimpleObserver() {
-                    public void update() {
-                        final boolean showThem = showLabels.get();
-                        SwingUtilities.invokeLater( new Runnable() {
-                            public void run() {
-                                setSelected( showThem );
-                            }
-                        } );
-                    }
-                } );
-            }} ) {{
-                setOffset( 0, y.get() );
-                y.set( getFullBounds().getMaxY() );
-                maxWidth.set( Math.max( maxWidth.get(), getFullBounds().getWidth() ) );
-            }};
-            addChild( showLabelCheckBox );
-        }
+        final PSwing showLabelCheckBox = new PSwing( new SimSharingJCheckBox( UserComponents.showLabels, Strings.SHOW_LABELS ) {{
+            setSelected( showLabels.get() );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent actionEvent ) {
+                    final boolean showThem = isSelected();
+                    LWJGLUtils.invoke( new Runnable() {
+                        public void run() {
+                            showLabels.set( showThem );
+                        }
+                    } );
+                }
+            } );
+            showLabels.addObserver( new SimpleObserver() {
+                public void update() {
+                    final boolean showThem = showLabels.get();
+                    SwingUtilities.invokeLater( new Runnable() {
+                        public void run() {
+                            setSelected( showThem );
+                        }
+                    } );
+                }
+            } );
+        }} ) {{
+            setOffset( 0, y.get() );
+            y.set( getFullBounds().getMaxY() );
+            maxWidth.set( Math.max( maxWidth.get(), getFullBounds().getWidth() ) );
+        }};
+        addChild( showLabelCheckBox );
 
         PSwing showWaterCheckBox = null;
         if ( containsWaterOption ) {

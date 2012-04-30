@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
@@ -98,6 +99,12 @@ public class PlateMotionPlate extends Plate {
                 sample.setTextureCoordinates( desiredSample.getTextureCoordinates() );
             }
         }
+
+        model.getRangeLabels().add( new RangeLabel(
+                new Property<ImmutableVector3F>( getCrust().getTopBoundary().samples.get( getCrust().getTopBoundary().samples.size() / 2 ).getPosition() ),
+                new Property<ImmutableVector3F>( getCrust().getBottomBoundary().samples.get( getCrust().getBottomBoundary().samples.size() / 2 ).getPosition() ),
+                type.getSpecificLabel(), this
+        ) );
     }
 
     public float getSimpleChunkWidth() {
