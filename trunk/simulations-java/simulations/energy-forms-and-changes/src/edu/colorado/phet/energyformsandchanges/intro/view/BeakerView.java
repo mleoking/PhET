@@ -23,7 +23,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyformsandchanges.intro.model.Beaker;
 import edu.colorado.phet.energyformsandchanges.intro.model.Block;
-import edu.colorado.phet.energyformsandchanges.intro.model.IntroModel;
+import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
 import edu.colorado.phet.energyformsandchanges.intro.model.UserMovableModelElement;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -53,7 +53,7 @@ public class BeakerView {
     private final PNode frontNode = new PNode();
     private final PNode backNode = new PNode();
 
-    public BeakerView( final IntroModel model, PhetPCanvas canvas, final ModelViewTransform mvt ) {
+    public BeakerView( final EFACIntroModel model, PhetPCanvas canvas, final ModelViewTransform mvt ) {
 
         this.mvt = mvt;
         this.canvas = canvas;

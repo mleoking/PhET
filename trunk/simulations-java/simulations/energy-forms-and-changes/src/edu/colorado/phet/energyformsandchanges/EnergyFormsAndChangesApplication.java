@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.energyformsandchanges.energysystems.EnergySystemsModule;
-import edu.colorado.phet.energyformsandchanges.intro.IntroModule;
+import edu.colorado.phet.energyformsandchanges.intro.EFACIntroModule;
 
 /**
  * Main application class for PhET's Energy Forms and Changes simulation.
@@ -19,7 +19,7 @@ public class EnergyFormsAndChangesApplication extends PiccoloPhetApplication {
         super( config );
 
         // Create the modules
-        addModule( new IntroModule() );
+        addModule( new EFACIntroModule() );
         addModule( new EnergySystemsModule() );
     }
 

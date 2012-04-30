@@ -7,8 +7,8 @@ import edu.colorado.phet.common.piccolophet.SimSharingPiccoloModule;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
-import edu.colorado.phet.energyformsandchanges.intro.model.IntroModel;
-import edu.colorado.phet.energyformsandchanges.intro.view.IntroCanvas;
+import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
+import edu.colorado.phet.energyformsandchanges.intro.view.EFACIntroCanvas;
 
 /**
  * The "Intro" module for the Energy Forms and Changes simulation.  This is
@@ -16,21 +16,21 @@ import edu.colorado.phet.energyformsandchanges.intro.view.IntroCanvas;
  *
  * @author John Blanco
  */
-public class IntroModule extends SimSharingPiccoloModule {
+public class EFACIntroModule extends SimSharingPiccoloModule {
 
-    private IntroModel model;
+    private EFACIntroModel model;
 
-    public IntroModule() {
-        this( new IntroModel() );
+    public EFACIntroModule() {
+        this( new EFACIntroModel() );
     }
 
-    private IntroModule( IntroModel model ) {
+    private EFACIntroModule( EFACIntroModel model ) {
         super( EnergyFormsAndChangesSimSharing.UserComponents.introTab, EnergyFormsAndChangesResources.Strings.INTRO, model.getClock() );
         this.model = model;
         setClockControlPanel( new PiccoloClockControlPanel( model.getClock() ) {{
             setBackground( Color.GRAY );
         }} );
-        setSimulationPanel( new IntroCanvas( model ) );
+        setSimulationPanel( new EFACIntroCanvas( model ) );
         reset();
     }
 

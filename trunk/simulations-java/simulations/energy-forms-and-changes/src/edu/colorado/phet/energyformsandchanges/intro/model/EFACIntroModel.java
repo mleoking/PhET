@@ -20,7 +20,7 @@ import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
  *
  * @author John Blanco
  */
-public class IntroModel {
+public class EFACIntroModel {
 
     //-------------------------------------------------------------------------
     // Class Data
@@ -59,7 +59,7 @@ public class IntroModel {
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    public IntroModel() {
+    public EFACIntroModel() {
 
         clock.addClockListener( new ClockAdapter() {
             @Override public void clockTicked( ClockEvent clockEvent ) {
