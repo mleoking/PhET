@@ -1,5 +1,6 @@
 button_pressed.png source=PhET notes=copied from gene-network
 button_unpressed.png source=PhET notes=copied from gene-network
+grass-texture.png source=Open Clip Art notes=http://openclipart.org/detail/21212/grass-texture-by-rg1024-21212 as public domain
 handle.png source=PhET notes=drawn by NP
 handle_T.png source=PhET notes=drawn by NP
 knob.png source=PhET notes=drawn by NP
