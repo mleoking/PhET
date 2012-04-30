@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.property.ValueEquals;
 import edu.colorado.phet.common.phetcommon.util.Pair;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -16,6 +17,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.GroundNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.SkyNode;
+import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplication;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishRuler;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidDensityControl;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowCanvas;
@@ -56,7 +58,15 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
         //Show the sky
         addChild( new PNode() {{
             addChild( new SkyNode( transform, new Rectangle2D.Double( -1000, 0, 2000, 2000 ), 20 ) );
-            addChild( new GroundNode( transform, new Rectangle2D.Double( -1000, -2000, 2000, 2000 ), 5, new Color( 157, 139, 97 ), new Color( 100, 90, 60 ) ) );
+
+            addChild( new PNode() {{
+                new RichSimpleObserver() {
+                    @Override public void update() {
+                        removeAllChildren();
+                        addChild( new GroundNode( transform, new Rectangle2D.Double( -1000, -2000, 2000, 2000 ), 5, FluidPressureAndFlowApplication.dirtTopColor.get(), FluidPressureAndFlowApplication.dirtBottomColor.get() ) );
+                    }
+                }.observe( FluidPressureAndFlowApplication.dirtTopColor, FluidPressureAndFlowApplication.dirtBottomColor );
+            }} );
 
             //Add grass
             addChild( new PNode() {{
