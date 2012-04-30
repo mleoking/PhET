@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.energyformsandchanges.intro.model.IntroModel;
+import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEFAULT_STAGE_SIZE;
@@ -22,14 +22,14 @@ import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEF
  *
  * @author John Blanco
  */
-public class IntroCanvas extends PhetPCanvas {
+public class EFACIntroCanvas extends PhetPCanvas {
 
     /**
      * Constructor.
      *
      * @param model
      */
-    public IntroCanvas( final IntroModel model ) {
+    public EFACIntroCanvas( final EFACIntroModel model ) {
 
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new CenteredStage( this ) );
