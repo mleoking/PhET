@@ -162,7 +162,7 @@ public class VSliderNode2 extends SliderNode {
                 final ImmutableVector2D unitVector = new ImmutableVector2D( minGlobal, maxGlobal ).getNormalizedInstance();
                 double viewDelta = vector.dot( unitVector );
 
-                double modelDelta = ( max - min ) / trackNode.getFullBounds().getHeight() * viewDelta;
+                double modelDelta = ( min - max ) / trackNode.getFullBounds().getHeight() * viewDelta;
                 value.set( MathUtil.clamp( min, startValue + modelDelta, max ) );
             }
 
@@ -219,7 +219,7 @@ public class VSliderNode2 extends SliderNode {
      * @return
      */
     protected double getViewY( double value ) {
-        return new Function.LinearFunction( min, max, trackNode.getFullBounds().getMinY() + TRACK_STROKE_WIDTH,
+        return new Function.LinearFunction( max, min, trackNode.getFullBounds().getMinY() + TRACK_STROKE_WIDTH,
                                             trackNode.getFullBounds().getHeight() - TRACK_STROKE_WIDTH * 2 ).evaluate( value );
     }
 
