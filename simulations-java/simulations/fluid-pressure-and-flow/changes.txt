@@ -1,3 +1,4 @@
+Water tower tab: Fixed: units metric/english control should be left justified instead of centered in units box
 Water tower tab: Added hose icon
 Water Tower tab: added ruler icon
 Flow tab: Made font for "dots" checkbox larger
