@@ -61,13 +61,14 @@ public class EFACIntroCanvas extends PhetPCanvas {
         rootNode.addChild( frontLayer );
 
         // Add the tool box for the thermometers.
-        backLayer.addChild( new ControlPanelNode( new PhetPPath( mvt.modelToView( model.getThermometerToolBox() ), new BasicStroke( 0 ), new Color( 0, 0, 0, 0 ) ),
-                                                  Color.LIGHT_GRAY,
-                                                  new BasicStroke( 2 ),
-                                                  Color.BLACK,
-                                                  0 ) {{
+        ControlPanelNode toolBoxNode = new ControlPanelNode( new PhetPPath( mvt.modelToView( model.getThermometerToolBox() ), new BasicStroke( 0 ), new Color( 0, 0, 0, 0 ) ),
+                                                             Color.LIGHT_GRAY,
+                                                             new BasicStroke( 2 ),
+                                                             Color.BLACK,
+                                                             0 ) {{
             setOffset( mvt.modelToView( model.getThermometerToolBox().getMinX(), model.getThermometerToolBox().getMaxY() ) );
-        }} );
+        }};
+        backLayer.addChild( toolBoxNode );
 
         // Add the lab bench surface.
         backLayer.addChild( new ShelfNode( model.getLabBenchSurface(), mvt ) );
@@ -86,8 +87,8 @@ public class EFACIntroCanvas extends PhetPCanvas {
         backLayer.addChild( beakerView.getBackNode() );
 
         // Add the thermometers.
-        frontLayer.addChild( new ThermometerNode( model.getThermometer1(), mvt ) );
-        frontLayer.addChild( new ThermometerNode( model.getThermometer2(), mvt ) );
+        frontLayer.addChild( new ThermometerNode( model.getThermometer1(), mvt, toolBoxNode ) );
+        frontLayer.addChild( new ThermometerNode( model.getThermometer2(), mvt, toolBoxNode ) );
 
         // Create an observer that updates the Z-order of the blocks when the
         // user controlled state changes.
