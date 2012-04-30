@@ -8,7 +8,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
+import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode2;
+import edu.colorado.phet.common.piccolophet.nodes.slider.KnobNode2;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -23,7 +24,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 class IntegerHSliderNode extends PNode {
 
-    private final HSliderNode hSliderNode;
+    private final HSliderNode2 sliderNode;
 
     /**
      * Constructor.
@@ -58,14 +59,17 @@ class IntegerHSliderNode extends PNode {
         } );
 
         // Create the slider node.
-        hSliderNode = new HSliderNode( userComponent, min, max, trackThickness, trackLength, doubleProperty, new BooleanProperty( true ) ) {{
+        sliderNode = new HSliderNode2( userComponent, min, max,
+                                       new KnobNode2( 30, KnobNode2.Style.POINTED_RECTANGLE, new KnobNode2.ColorScheme( new Color( 142, 229, 238 ) ) ),
+                                       trackThickness, trackLength, doubleProperty,
+                                       new BooleanProperty( true ) ) {{
             setTrackFillPaint( Color.black );
         }};
 
-        addChild( hSliderNode );
+        addChild( sliderNode );
     }
 
     public void addLabel( double value, PNode label ) {
-        hSliderNode.addLabel( value, label );
+        sliderNode.addLabel( value, label );
     }
 }
