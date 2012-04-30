@@ -123,12 +123,12 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
     //Create clock controls (play/pause), including a time speed slider (no time readout)
     protected PNode createClockControls( final FluidPressureAndFlowModule<?> module ) {
         final double SIMULATION_TIME_DT = module.getConstantDtClock().getDt();
-        final Property<Boolean> normalSpeed = new Property<Boolean>( true );
-        SlowMotionNormalTimeControlPanel controlPanel = new SlowMotionNormalTimeControlPanel( slowMotionRadioButton, SLOW_MOTION, NORMAL, normalSpeedRadioButton, normalSpeed, module.getClock() ) {{
+
+        SlowMotionNormalTimeControlPanel controlPanel = new SlowMotionNormalTimeControlPanel( slowMotionRadioButton, SLOW_MOTION, NORMAL, normalSpeedRadioButton, module.normalSpeed, module.getClock() ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
         }};
 
-        normalSpeed.addObserver( new VoidFunction1<Boolean>() {
+        module.normalSpeed.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean normalSpeed ) {
                 module.getConstantDtClock().setDt( normalSpeed ? SIMULATION_TIME_DT : SIMULATION_TIME_DT / 4.0 );
             }

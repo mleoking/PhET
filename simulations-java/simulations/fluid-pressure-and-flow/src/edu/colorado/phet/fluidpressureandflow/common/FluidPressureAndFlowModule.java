@@ -27,6 +27,7 @@ public class FluidPressureAndFlowModule<T extends FluidPressureAndFlowModel> ext
     public final BooleanProperty gridVisible = new BooleanProperty( false );
     public final ObservableProperty<Boolean> meterStickVisible;
     public final ObservableProperty<Boolean> yardStickVisible;
+    public final BooleanProperty normalSpeed = new BooleanProperty( true );
 
     protected FluidPressureAndFlowModule( IUserComponent tabUserComponent, String name, T model ) {
         super( tabUserComponent, name, model.getClock() );
@@ -51,5 +52,6 @@ public class FluidPressureAndFlowModule<T extends FluidPressureAndFlowModel> ext
         fluidDensityControlVisible.reset();
         gravityControlVisible.reset();
         model.reset();
+        normalSpeed.reset();
     }
 }
