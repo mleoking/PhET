@@ -248,4 +248,8 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
         waterTower.fluidVolume.addObserver( updatePressure );
         waterTower.tankBottomCenter.addObserver( updatePressure );
     }
+
+    @Override public boolean isInWaterTowerWater( final double x, final double y ) {
+        return waterTower.getWaterShape().contains( x, y );
+    }
 }

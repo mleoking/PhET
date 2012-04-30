@@ -1,3 +1,4 @@
+Water tower tab: Reduce precision in pressure sensor when over the water tower water
 Added developer menu items for the dirt color
 Pressure tab: added grass for all scenes
 Water tower tab: Fixed: units metric/english control should be left justified instead of centered in units box

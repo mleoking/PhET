@@ -33,5 +33,7 @@ public class PressureSensor extends Sensor<Double> {
         double getPressure( double x, double y );
 
         void addPressureChangeObserver( SimpleObserver updatePressure );
+
+        boolean isInWaterTowerWater( double x, double y );
     }
 }

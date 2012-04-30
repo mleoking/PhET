@@ -70,6 +70,10 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
         chamberPool.addPressureChangeObserver( updatePressure );
     }
 
+    @Override public boolean isInWaterTowerWater( final double x, final double y ) {
+        return false;
+    }
+
     //Gets the pressure at the specified location.
     @Override public double getPressure( double x, double y ) {
         return pool.get().getPressure( x, y, atmosphere.get(), standardAirPressure.get(), liquidDensity.get(), gravity.get() );
