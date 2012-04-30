@@ -128,6 +128,11 @@ public class MeasuringTape extends PhetPNode {
         }
     }
 
+    //Getter for generating icons
+    public BodyGraphic getBodyNode() {
+        return bodyGraphic;
+    }
+
     private Dimension2D getDelta( PInputEvent event ) {
         Dimension2D dx = event.getDeltaRelativeTo( this );
         return dx;
