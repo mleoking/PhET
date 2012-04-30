@@ -116,7 +116,8 @@ public class BlockNode extends PComposite {
         addInputEventListener( new CursorHandler( CursorHandler.HAND ) );
 
         // Add the drag handler.
-        addInputEventListener( new MovableElementDragHandler( block, this, mvt ) );
+//        addInputEventListener( new MovableElementDragHandler( block, this, mvt ) );
+        addInputEventListener( new ThermalItemDragHandler( block, this, mvt ) );
     }
 
     /*
