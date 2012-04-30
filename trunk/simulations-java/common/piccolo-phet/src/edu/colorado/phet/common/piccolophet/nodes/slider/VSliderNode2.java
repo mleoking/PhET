@@ -37,6 +37,8 @@ import edu.umd.cs.piccolox.PFrame;
  */
 public class VSliderNode2 extends SliderNode {
 
+    private static final float TRACK_STROKE_WIDTH = 1;
+
     //-------------------------------------------------------------------------
     // Class Data
     //-------------------------------------------------------------------------
@@ -118,7 +120,7 @@ public class VSliderNode2 extends SliderNode {
 
         // Create the track.
         final Rectangle2D.Double trackPath = new Rectangle2D.Double( 0, 0, trackThickness, trackLength );
-        trackNode = new PhetPPath( trackPath, DEFAULT_TRACK_PAINT, new BasicStroke( 1 ), Color.BLACK );
+        trackNode = new PhetPPath( trackPath, DEFAULT_TRACK_PAINT, new BasicStroke( TRACK_STROKE_WIDTH ), Color.BLACK );
 
         // Hook up observers to control the enabled state and position of the
         // knob.
@@ -217,7 +219,8 @@ public class VSliderNode2 extends SliderNode {
      * @return
      */
     protected double getViewY( double value ) {
-        return new Function.LinearFunction( min, max, trackNode.getFullBounds().getMinY(), trackNode.getFullBounds().getHeight() ).evaluate( value );
+        return new Function.LinearFunction( min, max, trackNode.getFullBounds().getMinY() + TRACK_STROKE_WIDTH / 2,
+                                            trackNode.getFullBounds().getHeight() - TRACK_STROKE_WIDTH ).evaluate( value );
     }
 
     /**
