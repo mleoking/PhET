@@ -40,7 +40,7 @@ public class EFACIntroCanvas extends PhetPCanvas {
         // adjusted to shift the center right or left, and the scale factor
         // can be adjusted to zoom in or out (smaller numbers zoom out, larger
         // ones zoom in).
-        ModelViewTransform mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
+        final ModelViewTransform mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
                 new Point( (int) Math.round( DEFAULT_STAGE_SIZE.getWidth() * 0.5 ), (int) Math.round( DEFAULT_STAGE_SIZE.getHeight() * 0.93 ) ),
                 2500 ); // "Zoom factor" - smaller zooms out, larger zooms in.
@@ -61,7 +61,13 @@ public class EFACIntroCanvas extends PhetPCanvas {
         rootNode.addChild( frontLayer );
 
         // Add the tool box for the thermometers.
-        backLayer.addChild( new ControlPanelNode( new PhetPPath( mvt.modelToView( model.getThermometerToolBox() ) ), Color.LIGHT_GRAY, new BasicStroke( 2 ), Color.BLACK, 0 ) );
+        backLayer.addChild( new ControlPanelNode( new PhetPPath( mvt.modelToView( model.getThermometerToolBox() ), new BasicStroke( 0 ), new Color( 0, 0, 0, 0 ) ),
+                                                  Color.LIGHT_GRAY,
+                                                  new BasicStroke( 2 ),
+                                                  Color.BLACK,
+                                                  0 ) {{
+            setOffset( mvt.modelToView( model.getThermometerToolBox().getMinX(), model.getThermometerToolBox().getMaxY() ) );
+        }} );
 
         // Add the lab bench surface.
         backLayer.addChild( new ShelfNode( model.getLabBenchSurface(), mvt ) );
