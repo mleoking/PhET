@@ -26,6 +26,7 @@ public class EnglishMetricControlPanel extends PhetTitledPanel {
             gridx = 0;
             gridy = RELATIVE;
             anchor = WEST;
+            weightx = 2;
         }};
         for ( PropertyRadioButton button : buttons ) {
             add( button, constraints );
