@@ -64,6 +64,7 @@ public abstract class Block extends UserMovableModelElement {
     public abstract String getLabel();
 
     protected Block( ImmutableVector2D initialPosition ) {
+        super( initialPosition );
 
         // Update the top an bottom surfaces whenever the position changes.
         position.addObserver( new VoidFunction1<ImmutableVector2D>() {
@@ -72,9 +73,6 @@ public abstract class Block extends UserMovableModelElement {
                 updateBottomSurfaceProperty();
             }
         } );
-
-        // Set the initial position.
-        position.set( initialPosition );
     }
 
     public Property<HorizontalSurface> getTopSurfaceProperty() {
