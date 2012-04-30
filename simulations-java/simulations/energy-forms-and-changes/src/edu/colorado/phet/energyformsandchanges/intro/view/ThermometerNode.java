@@ -39,7 +39,7 @@ public class ThermometerNode extends PComposite {
      * @param thermometer
      * @param mvt
      */
-    public ThermometerNode( final Thermometer thermometer, final ModelViewTransform mvt ) {
+    public ThermometerNode( final Thermometer thermometer, final ModelViewTransform mvt, final PNode toolBoxNode ) {
 
         // Root node, all children should be added to this.
         PNode rootNode = new PNode();
@@ -87,6 +87,19 @@ public class ThermometerNode extends PComposite {
             public void apply( ImmutableVector2D position ) {
                 setOffset( mvt.modelToViewX( position.getX() ),
                            mvt.modelToViewY( position.getY() ) - ( getFullBoundsReference().height / 2 + TRIANGLE_TIP_OFFSET_FROM_THERMOMETER_CENTER.getHeight() ) );
+            }
+        } );
+
+        // Add a listener that detects the situation where the user has
+        // released this thermometer over the tool box and, in response,
+        // resets the position.
+        thermometer.userControlled.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean aBoolean ) {
+                if ( ThermometerNode.this.getFullBoundsReference().intersects( toolBoxNode.getFullBoundsReference() ) ) {
+                    // The user has released the thermometer node over the tool
+                    // box, so return the thermometer to its original position.
+                    thermometer.position.reset();
+                }
             }
         } );
     }
