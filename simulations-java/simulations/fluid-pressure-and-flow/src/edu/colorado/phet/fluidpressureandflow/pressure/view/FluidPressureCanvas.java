@@ -3,6 +3,7 @@ package edu.colorado.phet.fluidpressureandflow.pressure.view;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.ValueEquals;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -10,11 +11,14 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.background.GroundNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
+import edu.colorado.phet.common.piccolophet.nodes.background.SkyNode;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishRuler;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidDensityControl;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowCanvas;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowControlPanelNode;
+import edu.colorado.phet.fluidpressureandflow.common.view.GrassNode;
 import edu.colorado.phet.fluidpressureandflow.common.view.GravityControl;
 import edu.colorado.phet.fluidpressureandflow.common.view.MeterStick;
 import edu.colorado.phet.fluidpressureandflow.flow.view.NumberedGridNode;
@@ -48,7 +52,15 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
         super( ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width / 2, STAGE_SIZE.height / 2 - VIEW_OFFSET_Y ), STAGE_SIZE.height / MODEL_HEIGHT ) );
 
         //Show the sky
-        addChild( new OutsideBackgroundNode( transform, 3, 1 ) {{
+        addChild( new PNode() {{
+            addChild( new SkyNode( transform, new Rectangle2D.Double( -1000, 0, 2000, 2000 ), 20 ) );
+            addChild( new GroundNode( transform, new Rectangle2D.Double( -1000, -2000, 2000, 2000 ), 5, new Color( 157, 139, 97 ), new Color( 100, 90, 60 ) ) );
+
+            //Add grass
+            addChild( GrassNode.GrassNode( transform, module.model.pool.get().getContainerShape().getBounds2D().getMaxX(), module.model.pool.get().getContainerShape().getBounds2D().getMaxX() + 100 ) );
+            addChild( GrassNode.GrassNode( transform, -100, module.model.pool.get().getContainerShape().getBounds2D().getMinX() ) );
+
+            //Only show when there is an atmosphere
             module.model.atmosphere.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean atmosphere ) {
                     setVisible( atmosphere );
