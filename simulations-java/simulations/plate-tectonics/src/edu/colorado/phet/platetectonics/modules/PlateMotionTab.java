@@ -4,7 +4,9 @@ package edu.colorado.phet.platetectonics.modules;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.lwjgl.input.Mouse;
 
@@ -17,13 +19,16 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.Ray3F;
+import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.GuiNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoComponentNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
@@ -39,14 +44,17 @@ import edu.colorado.phet.platetectonics.control.PlayModePanel;
 import edu.colorado.phet.platetectonics.control.ResetPanel;
 import edu.colorado.phet.platetectonics.control.TectonicsTimeControl;
 import edu.colorado.phet.platetectonics.control.ViewOptionsPanel;
+import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateType;
+import edu.colorado.phet.platetectonics.model.RangeLabel;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.util.Side;
 import edu.colorado.phet.platetectonics.view.BoxHighlightNode;
 import edu.colorado.phet.platetectonics.view.HandleNode;
 import edu.colorado.phet.platetectonics.view.PlateView;
+import edu.colorado.phet.platetectonics.view.RangeLabelNode;
 
 /**
  * Displays two main plates that the user can direct to move towards, away from, or along each other.
@@ -75,6 +83,9 @@ public class PlateMotionTab extends PlateTectonicsTab {
     private HandleNode rightHandle;
     private TectonicsTimeControl tectonicsTimeControl;
 
+    public final ObservableList<RangeLabel> rangeLabels = new ObservableList<RangeLabel>();
+    public final Map<RangeLabel, RangeLabelNode> rangeLabelMap = new HashMap<RangeLabel, RangeLabelNode>();
+
     public PlateMotionTab( LWJGLCanvas canvas ) {
         super( canvas, Strings.PLATE_MOTION_TAB, 0.5f );
     }
@@ -94,7 +105,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
 
         // create the model and terrain
 //        model = new AnimatedPlateModel( grid );
-        setModel( new PlateMotionModel( getClock(), grid.getBounds() ) );
+        setModel( new PlateMotionModel( getClock(), grid.getBounds(), rangeLabels ) );
 
         sceneLayer.addChild( new PlateView( getModel(), this, showWater ) );
         leftHandle = new HandleNode( new Property<ImmutableVector3F>( new ImmutableVector3F( -120, 0, -125 / 2 ) ), this, false ) {{
@@ -113,6 +124,48 @@ public class PlateMotionTab extends PlateTectonicsTab {
             } );
         }};
         sceneLayer.addChild( rightHandle );
+
+        final GLNode layerLabels = new GLNode() {{
+            showLabels.addObserver( new SimpleObserver() {
+                public void update() {
+                    setVisible( showLabels.get() );
+                }
+            } );
+        }};
+        sceneLayer.addChild( layerLabels );
+
+        rangeLabels.addElementAddedObserver( new VoidFunction1<RangeLabel>() {
+            public void apply( final RangeLabel rangeLabel ) {
+                final RangeLabelNode node = new RangeLabelNode(
+                        new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+                            beforeFrameRender.addUpdateListener( new UpdateListener() {
+                                                                     public void update() {
+                                                                         set( convertRadial( rangeLabel.top.get() ) );
+                                                                     }
+                                                                 }, true );
+                        }},
+                        new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+                            beforeFrameRender.addUpdateListener( new UpdateListener() {
+                                                                     public void update() {
+                                                                         set( convertRadial( rangeLabel.bottom.get() ) );
+                                                                     }
+                                                                 }, true );
+                        }},
+                        rangeLabel.label,
+                        new Property<Float>( 1f ),
+                        colorMode, true
+                );
+                layerLabels.addChild( node );
+                rangeLabelMap.put( rangeLabel, node );
+            }
+        } );
+
+        rangeLabels.addElementRemovedObserver( new VoidFunction1<RangeLabel>() {
+            public void apply( RangeLabel rangeLabel ) {
+                layerLabels.removeChild( rangeLabelMap.get( rangeLabel ) );
+                rangeLabelMap.remove( rangeLabel );
+            }
+        } );
 
         final Color overHighlightColor = new Color( 1, 1, 0.5f, 0.3f );
         final Color regularHighlightColor = new Color( 0.5f, 0.5f, 0.5f, 0.3f );
@@ -575,6 +628,10 @@ public class PlateMotionTab extends PlateTectonicsTab {
                 motionVectorRight.reset();
             }
         }
+    }
+
+    private ImmutableVector3F convertRadial( ImmutableVector3F v ) {
+        return getModelViewTransform().transformPosition( PlateModel.convertToRadial( v ) );
     }
 
     public IUserComponent getUserComponent() {

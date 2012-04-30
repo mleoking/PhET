@@ -32,6 +32,7 @@ public class PlateMotionModel extends PlateModel {
     private PlateMotionPlate leftPlate;
     private PlateMotionPlate rightPlate;
     private final TectonicsClock clock;
+    private final List<RangeLabel> rangeLabels;
 
     public static enum MotionType {
         CONVERGENT,
@@ -97,9 +98,10 @@ public class PlateMotionModel extends PlateModel {
     }};
 
     // TODO: change bounds to possibly a Z range, or just bake it in
-    public PlateMotionModel( final TectonicsClock clock, final Bounds3D bounds ) {
+    public PlateMotionModel( final TectonicsClock clock, final Bounds3D bounds, final List<RangeLabel> rangeLabels ) {
         super( bounds, new TextureStrategy( 0.000006f ) );
         this.clock = clock;
+        this.rangeLabels = rangeLabels;
 
         resetPlates();
         resetTerrain();
@@ -256,6 +258,8 @@ public class PlateMotionModel extends PlateModel {
         modelChanged.updateListeners();
 
         smokePuffs.clear();
+
+        rangeLabels.clear();
     }
 
     // xIndex can be from 0 to HORIZONTAL_SAMPLES-1
@@ -427,6 +431,10 @@ public class PlateMotionModel extends PlateModel {
 
     public List<CrossSectionStrip> getStripsInOrder() {
         return stripTracker.getStripsInOrder();
+    }
+
+    public List<RangeLabel> getRangeLabels() {
+        return rangeLabels;
     }
 
     // keeps track of the stacking order of cross-section strips so we can accurately get intersection information even with overlapping strips

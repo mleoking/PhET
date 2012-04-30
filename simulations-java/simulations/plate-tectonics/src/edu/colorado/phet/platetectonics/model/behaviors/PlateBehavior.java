@@ -8,6 +8,7 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.platetectonics.model.RangeLabel;
 import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
 import edu.colorado.phet.platetectonics.model.Sample;
 import edu.colorado.phet.platetectonics.model.Terrain;
@@ -27,9 +28,14 @@ public abstract class PlateBehavior {
     protected MagmaRegion magmaChamber;
     protected float magmaSpeed;
 
+    // reference to our tab's labels
+    public final List<RangeLabel> rangeLabels;
+
     public PlateBehavior( PlateMotionPlate plate, PlateMotionPlate otherPlate ) {
         this.plate = plate;
         this.otherPlate = otherPlate;
+
+        rangeLabels = plate.getModel().getRangeLabels();
     }
 
     // called after both behaviors have initialized

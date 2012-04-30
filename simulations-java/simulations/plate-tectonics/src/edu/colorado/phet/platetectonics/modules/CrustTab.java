@@ -29,7 +29,7 @@ import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.view.ColorMode;
 import edu.colorado.phet.platetectonics.view.PlateView;
-import edu.colorado.phet.platetectonics.view.RangeLabel;
+import edu.colorado.phet.platetectonics.view.RangeLabelNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings.CONTINENTAL_CRUST;
@@ -88,7 +88,7 @@ public class CrustTab extends PlateTectonicsTab {
         sceneLayer.addChild( layerLabels );
 
         // crust label
-        layerLabels.addChild( new RangeLabel( new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+        layerLabels.addChild( new RangeLabelNode( new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
             beforeFrameRender.addUpdateListener( new UpdateListener() {
                                                      public void update() {
                                                          set( flatModelToView.apply( new ImmutableVector3F( -10000, (float) getCrustModel().getCenterCrustElevation(), 0 ) ) );
@@ -144,7 +144,7 @@ public class CrustTab extends PlateTectonicsTab {
             }
         };
 
-        layerLabels.addChild( new RangeLabel(
+        layerLabels.addChild( new RangeLabelNode(
                 upperMantleTop,
                 upperMantleBottom,
                 Strings.MANTLE, scaleProperty,
@@ -154,7 +154,7 @@ public class CrustTab extends PlateTectonicsTab {
 
         Property<ImmutableVector3F> lowerMantleTop = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 150000, CrustModel.UPPER_LOWER_MANTLE_BOUNDARY_Y, 0 ) ) );
         Property<ImmutableVector3F> lowerMantleBottom = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 150000, CrustModel.MANTLE_CORE_BOUNDARY_Y, 0 ) ) );
-        layerLabels.addChild( new RangeLabel(
+        layerLabels.addChild( new RangeLabelNode(
                 lowerMantleTop,
                 lowerMantleBottom,
                 Strings.LOWER_MANTLE, scaleProperty,
@@ -164,7 +164,7 @@ public class CrustTab extends PlateTectonicsTab {
 
         Property<ImmutableVector3F> outerCoreTop = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( -250000, CrustModel.MANTLE_CORE_BOUNDARY_Y, 0 ) ) );
         Property<ImmutableVector3F> outerCoreBottom = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( -250000, CrustModel.INNER_OUTER_CORE_BOUNDARY_Y, 0 ) ) );
-        layerLabels.addChild( new RangeLabel(
+        layerLabels.addChild( new RangeLabelNode(
                 outerCoreTop,
                 outerCoreBottom,
                 Strings.OUTER_CORE, scaleProperty,
@@ -174,7 +174,7 @@ public class CrustTab extends PlateTectonicsTab {
 
         Property<ImmutableVector3F> innerCoreTop = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 250000, CrustModel.INNER_OUTER_CORE_BOUNDARY_Y, 0 ) ) );
         Property<ImmutableVector3F> innerCoreBottom = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 250000, -PlateModel.EARTH_RADIUS, 0 ) ) );
-        layerLabels.addChild( new RangeLabel(
+        layerLabels.addChild( new RangeLabelNode(
                 innerCoreTop,
                 innerCoreBottom,
                 Strings.INNER_CORE, scaleProperty,

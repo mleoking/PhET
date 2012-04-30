@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.view;
 
+import java.awt.geom.AffineTransform;
+
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -13,6 +15,7 @@ import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.PlanarComponentNode;
 import edu.colorado.phet.lwjglphet.nodes.PlanarPiccoloNode;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.lwjglphet.utils.LWJGLUtils.vertex3f;
@@ -23,7 +26,7 @@ import static org.lwjgl.opengl.GL11.*;
 /**
  * A label that shows a range that it is associated with (usually a top and bottom point)
  */
-public class RangeLabel extends GLNode {
+public class RangeLabelNode extends GLNode {
 
     public static final float BAR_WIDTH = 7;
     public static final ImmutableVector3F NORMAL = ImmutableVector3F.Z_UNIT;
@@ -40,8 +43,9 @@ public class RangeLabel extends GLNode {
     private Property<ImmutableVector3F> labelLocation;
     private PlanarComponentNode labelNode;
     private Property<Float> scale;
+    private PText labelPNode;
 
-    public RangeLabel( final Property<ImmutableVector3F> top, final Property<ImmutableVector3F> bottom, String label, Property<Float> scale, Property<ColorMode> colorMode, boolean isDark ) {
+    public RangeLabelNode( final Property<ImmutableVector3F> top, final Property<ImmutableVector3F> bottom, String label, Property<Float> scale, Property<ColorMode> colorMode, boolean isDark ) {
         // label is centered between the top and bottom
         this( top, bottom, label, scale, colorMode, isDark, new Property<ImmutableVector3F>( top.get().plus( bottom.get() ).times( 0.5f ) ) {{
             SimpleObserver recenterLabelPosition = new SimpleObserver() {
@@ -63,7 +67,7 @@ public class RangeLabel extends GLNode {
      * @param isDark        Whether we are dark for the Density color mode, or the opposite
      * @param labelLocation The position of the label (3d point)
      */
-    public RangeLabel( Property<ImmutableVector3F> top, Property<ImmutableVector3F> bottom, String label, final Property<Float> scale, final Property<ColorMode> colorMode, final boolean isDark, final Property<ImmutableVector3F> labelLocation ) {
+    public RangeLabelNode( final Property<ImmutableVector3F> top, final Property<ImmutableVector3F> bottom, String label, final Property<Float> scale, final Property<ColorMode> colorMode, final boolean isDark, final Property<ImmutableVector3F> labelLocation ) {
         this.top = top;
         this.bottom = bottom;
         this.label = label;
@@ -72,7 +76,7 @@ public class RangeLabel extends GLNode {
         this.labelLocation = labelLocation;
         this.scale = scale;
 
-        labelNode = new PlanarPiccoloNode( new PText( label ) {{
+        labelPNode = new PText( label ) {{
             setFont( new PhetFont( 14 ) );
             scale( PIXEL_SCALE );
             colorMode.addObserver( new SimpleObserver() {
@@ -86,6 +90,20 @@ public class RangeLabel extends GLNode {
                     } );
                 }
             } );
+        }};
+        labelNode = new PlanarPiccoloNode( new PNode() {{
+            addChild( labelPNode );
+
+            SimpleObserver updateRotation = new SimpleObserver() {
+                public void update() {
+                    setTransform( new AffineTransform() );
+                    rotateAboutPoint( top.get().minus( bottom.get() ).angleBetween( new ImmutableVector3F( 0, 1, 0 ) ) * ( top.get().x > bottom.get().x ? 1 : -1 ),
+                                      labelPNode.getFullBounds().getWidth() / 2, labelPNode.getFullBounds().getHeight() / 2 );
+                }
+            };
+
+            top.addObserver( updateRotation );
+            bottom.addObserver( updateRotation );
         }} ) {{
             SimpleObserver updateObserver = new SimpleObserver() {
                 public void update() {
@@ -116,7 +134,7 @@ public class RangeLabel extends GLNode {
     }
 
     private boolean hasDarkColor() {
-        return dark == ( RangeLabel.this.colorMode.get() == ColorMode.DENSITY );
+        return dark == ( RangeLabelNode.this.colorMode.get() == ColorMode.DENSITY );
     }
 
     @Override public void renderSelf( GLOptions options ) {
@@ -124,7 +142,7 @@ public class RangeLabel extends GLNode {
         ImmutableVector3F crossed = topToBottom.cross( NORMAL ).normalized();
         ImmutableVector3F perpendicular = crossed.times( scale.get() * BAR_WIDTH / 2 );
         ImmutableVector3F middle = labelLocation.get();
-        float labelAllowance = labelNode.getComponentHeight() / 2 * LABEL_SCALE * 1.3f * scale.get();
+        float labelAllowance = (float) ( labelPNode.getFullBounds().getHeight() / 2 * LABEL_SCALE * 1.3f * scale.get() );
 
         // TODO: switch to different type of label when this style is not displayable?
         ImmutableVector3F topMiddle = middle.minus( topToBottom.times( labelAllowance ) );
