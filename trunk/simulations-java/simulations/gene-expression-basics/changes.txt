@@ -1,3 +1,5 @@
+Changed sliders to use a different knob - one that looks more professional.
+Changed the way parameters are grouped on the 3rd tab to be more oriented towards function (e.g. "Affinity") instead of biomolecule (e.g. "Transcription Factors").
 # 0.00.21 (63741) Apr 25, 2012
 4/25/12 Deploying to dev for testing and review.
 Changed the layout on the 3rd tab so that clock control, reset button, and "Show Cells" button are now on the left.
