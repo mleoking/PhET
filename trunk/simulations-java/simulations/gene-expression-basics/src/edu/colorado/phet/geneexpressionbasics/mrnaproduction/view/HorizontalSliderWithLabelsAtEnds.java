@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.mrnaproduction.view;
 
+import java.awt.Color;
 import java.awt.Font;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -8,7 +9,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
-import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
+import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode2;
+import edu.colorado.phet.common.piccolophet.nodes.slider.KnobNode2;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -36,7 +38,14 @@ class HorizontalSliderWithLabelsAtEnds extends PNode {
         }};
         double sliderWidth = OVERALL_WIDTH - leftLabelNode.getFullBoundsReference().width -
                              rightLabelNode.getFullBoundsReference().width - ( 2 * INTER_ELEMENT_SPACING );
-        PNode sliderNode = new HSliderNode( userComponent, min, max, 5, sliderWidth, doubleProperty, new BooleanProperty( true ) );
+        PNode sliderNode = new HSliderNode2( userComponent,
+                                             min,
+                                             max,
+                                             new KnobNode2( 30, KnobNode2.Style.POINTED_RECTANGLE, new KnobNode2.ColorScheme( new Color( 142, 229, 238 ) ) ),
+                                             5,
+                                             sliderWidth,
+                                             doubleProperty,
+                                             new BooleanProperty( true ) );
         addChild( new HBox( INTER_ELEMENT_SPACING, leftLabelNode, sliderNode, rightLabelNode ) );
     }
 }
