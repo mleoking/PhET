@@ -1,3 +1,4 @@
+Pressure tab: Fixed: On the first tab: Reset All doesn't reset the amount of water in the rectangular pool, but does the others.
 Flow tab: move the "dots" checkbox vertically up, centering it on the dispenser button
 Scene 1: Reworded "1 feet" to "1 foot" and "1 meters" to "1 meter"
 Scene 1: Fixed: The grid no longer aligns with the pool
