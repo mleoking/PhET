@@ -88,9 +88,10 @@ public class VSliderNode2 extends SliderNode {
      * @param max
      * @param value
      */
-    public VSliderNode2( IUserComponent userComponent, final double min, final double max, double trackThickness, double trackLength, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
+    public VSliderNode2( IUserComponent userComponent, final double min, final double max, double trackThickness,
+                         double trackLength, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
         this( userComponent, min, max, new KnobNode2( KnobNode2.DEFAULT_SIZE, KnobNode2.DEFAULT_STYLE, new KnobNode2.ColorScheme( new Color( 115, 217, 255 ) ) ),
-              DEFAULT_TRACK_THICKNESS, DEFAULT_TRACK_LENGTH, value, new Property<Boolean>( true ) );
+              trackThickness, trackLength, value, enabled );
     }
 
     /**
@@ -104,7 +105,9 @@ public class VSliderNode2 extends SliderNode {
      * @param value
      * @param enabled
      */
-    public VSliderNode2( IUserComponent userComponent, final double min, final double max, final KnobNode2 knobNode, double trackThickness, double trackLength, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
+    public VSliderNode2( IUserComponent userComponent, final double min, final double max, final KnobNode2 knobNode,
+                         double trackThickness, double trackLength, final SettableProperty<Double> value,
+                         final ObservableProperty<Boolean> enabled ) {
         super( userComponent, min, max, value );
         this.trackLength = trackLength;
         this.trackThickness = trackThickness;

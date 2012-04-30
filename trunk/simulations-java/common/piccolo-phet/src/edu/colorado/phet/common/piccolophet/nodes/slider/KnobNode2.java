@@ -11,13 +11,11 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Or;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.Function3;
-import edu.colorado.phet.common.phetcommon.view.graphics.TriColorRoundGradientPaint;
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -39,7 +37,7 @@ public class KnobNode2 extends PComposite {
     // Class Data
     //-------------------------------------------------------------------------
 
-    public static final double DEFAULT_SIZE = 26;
+    public static final double DEFAULT_SIZE = 40;
     public static final Style DEFAULT_STYLE = Style.RECTANGLE;
 
     //-------------------------------------------------------------------------
@@ -74,41 +72,23 @@ public class KnobNode2 extends PComposite {
     }
 
     /**
-     * Creates an arrow button node with the arrow pointed in a particular direction
-     *
-     * @param width Width and Height of the button
+     * Primary constructor.
      */
-    public KnobNode2( final double width, Style style, ColorScheme colorScheme ) {
-
-        //---------------------------------------------------------------------
-        // Create the gradient paints used in the various states.
-        //---------------------------------------------------------------------
-
-        // gradient paints for different states
-        Function3<Color, Color, Color, TriColorRoundGradientPaint> createGradient = new Function3<Color, Color, Color, TriColorRoundGradientPaint>() {
-            public TriColorRoundGradientPaint apply( Color colors0, Color color1, Color color2 ) {
-                return new TriColorRoundGradientPaint( colors0, color1, color2, width / 2, width * 3 / 4, width / 2.5, width / 3 );
-            }
-        };
-        final TriColorRoundGradientPaint normalGradient = createGradient.apply( colorScheme.upInner, colorScheme.upMiddle, colorScheme.upOuter );
-        final TriColorRoundGradientPaint focusGradient = createGradient.apply( colorScheme.overInner, colorScheme.overMiddle, colorScheme.overOuter );
-        final TriColorRoundGradientPaint disabledGradient = createGradient.apply( colorScheme.disabledInner, colorScheme.disabledMiddle, colorScheme.disabledOuter );
+    public KnobNode2( final double width, Style style, final ColorScheme colorScheme ) {
 
         //---------------------------------------------------------------------
         // Create the components of the knob.
         //---------------------------------------------------------------------
 
-        // make the background (circular) part of the button
         Shape knobShape = createKnobShape( style, width );
         final PhetPPath knobShapeNode = new PhetPPath( knobShape ) {{
-            setPaint( normalGradient );
+            setPaint( colorScheme.enabledColor );
             setStroke( new BasicStroke( 2f ) );
 
-            //When enabled/disabled or focused/unfocused, change the stroke
+            //When enabled/disabled or focused/unfocused, change the appearance.
             new RichSimpleObserver() {
                 @Override public void update() {
-                    setPaint( !enabled.get() ? disabledGradient : ( focused.get() ? focusGradient : normalGradient ) );
-                    // TODO: Got rid of gradient here because it looked odd.
+                    setPaint( !enabled.get() ? colorScheme.disabledColor : ( focused.get() ? colorScheme.highlightedColor : colorScheme.enabledColor ) );
                     setStrokePaint( !enabled.get() ? Color.gray : focused.get() ?
                                                                   new Color( 160, 160, 160 ) :
                                                                   Color.lightGray );
@@ -276,47 +256,21 @@ public class KnobNode2 extends PComposite {
      * state.
      */
     public static class ColorScheme {
-        public final Color upInner;
-        public final Color upMiddle;
-        public final Color upOuter;
-
-        public final Color overInner;
-        public final Color overMiddle;
-        public final Color overOuter;
-
-        public final Color disabledInner;
-        public final Color disabledMiddle;
-        public final Color disabledOuter;
+        public final Color enabledColor;
+        public final Color disabledColor;
+        public final Color highlightedColor;
 
         /**
          * Convenience constructor that creates a ColorScheme based on a single central color
          *
-         * @param upMiddle
+         * @param enabledColor
          */
-        public ColorScheme( Color upMiddle ) {
-            this( add( upMiddle, -20, -20, -20 ), upMiddle, add( upMiddle, 35, 35, 35 ),
-                  add( upMiddle, -10, 30, 30 ), add( upMiddle, 10, 30, 30 ), add( upMiddle, 45, 45, 45 ),
-                  add( upMiddle, 35, 35, 35 ), add( upMiddle, 0, -20, -20 ), add( upMiddle, -20, -20, -20 ),
-                  Color.white, Color.lightGray, Color.white );
+        public ColorScheme( Color enabledColor ) {
+            this( enabledColor, ColorUtils.darkerColor( enabledColor, 0.5 ), ColorUtils.brighterColor( enabledColor, 0.5 ) );
         }
 
         /**
-         * Utility method to create a new color based on an old color and delta values for red, green and blue.
-         *
-         * @param color
-         * @param red
-         * @param green
-         * @param blue
-         * @return
-         */
-        private static Color add( Color color, int red, int green, int blue ) {
-            return new Color( MathUtil.clamp( 0, color.getRed() + red, 255 ),
-                              MathUtil.clamp( 0, color.getGreen() + green, 255 ),
-                              MathUtil.clamp( 0, color.getBlue() + blue, 255 ) );
-        }
-
-        /**
-         * The original gray color scheme.
+         * Default gray color scheme.
          */
         public ColorScheme() {
             this( new Color( 220, 220, 220 ) );
@@ -325,16 +279,10 @@ public class KnobNode2 extends PComposite {
         /**
          * Fully explicit constructor for the ColorScheme
          */
-        public ColorScheme( Color upInner, Color upMiddle, Color upOuter, Color overInner, Color overMiddle, Color overOuter, Color pressedInner, Color pressedMiddle, Color pressedOuter, Color disabledInner, Color disabledMiddle, Color disabledOuter ) {
-            this.upInner = upInner;
-            this.upMiddle = upMiddle;
-            this.upOuter = upOuter;
-            this.overInner = overInner;
-            this.overMiddle = overMiddle;
-            this.overOuter = overOuter;
-            this.disabledInner = disabledInner;
-            this.disabledMiddle = disabledMiddle;
-            this.disabledOuter = disabledOuter;
+        public ColorScheme( Color enabledColor, Color disabledColor, Color highlightedColor ) {
+            this.enabledColor = enabledColor;
+            this.disabledColor = disabledColor;
+            this.highlightedColor = highlightedColor;
         }
     }
 }
