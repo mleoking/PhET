@@ -5,6 +5,7 @@ import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
@@ -12,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.property.CompositeBooleanProper
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.fluidpressureandflow.pressure.view.FaucetPool;
@@ -114,6 +116,13 @@ public class SquarePool implements FaucetPool {
 
     public boolean isAbbreviatedUnits( final ImmutableVector2D sensorPosition, final double value ) {
         return getWaterShape().get().contains( sensorPosition.getX(), sensorPosition.getY() );
+    }
+
+    @Override public ArrayList<Pair<Double, Double>> getGrassSegments() {
+        return new ArrayList<Pair<Double, Double>>() {{
+            add( new Pair<Double, Double>( getContainerShape().getBounds2D().getMinX() - 100, getContainerShape().getBounds2D().getMinX() ) );
+            add( new Pair<Double, Double>( getContainerShape().getBounds2D().getMaxX(), getContainerShape().getBounds2D().getMaxX() + 100 ) );
+        }};
     }
 
     public void reset() {

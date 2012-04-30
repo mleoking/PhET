@@ -5,6 +5,7 @@ import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
@@ -12,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.property.CompositeBooleanProper
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -95,7 +97,7 @@ public class TrapezoidPool implements FaucetPool {
     }
 
     private Shape leftChamber() {
-        final ImmutableVector2D topLeft = new ImmutableVector2D( centerAtLeftChamberOpening - widthAtTop / 2, yAtTop );
+        final ImmutableVector2D topLeft = topLeftOfLeftChamber();
         final ImmutableVector2D topRight = topLeft.plus( widthAtTop, 0 );
         final ImmutableVector2D bottomLeft = new ImmutableVector2D( centerAtLeftChamberOpening - widthAtBottom / 2, yAtTop - height );
         final ImmutableVector2D bottomRight = bottomLeft.plus( widthAtBottom, 0 );
@@ -103,14 +105,18 @@ public class TrapezoidPool implements FaucetPool {
         return fromLines( topLeft, bottomLeft, bottomRight, topRight );
     }
 
+    private ImmutableVector2D topLeftOfLeftChamber() {return new ImmutableVector2D( centerAtLeftChamberOpening - widthAtTop / 2, yAtTop );}
+
     private Shape rightChamber() {
-        final ImmutableVector2D topLeft = new ImmutableVector2D( centerAtLeftChamberOpening + separation - widthAtBottom / 2, yAtTop );
+        final ImmutableVector2D topLeft = getTopLeftOfRightChamber();
         final ImmutableVector2D topRight = topLeft.plus( widthAtBottom, 0 );
         final ImmutableVector2D bottomLeft = new ImmutableVector2D( centerAtLeftChamberOpening + separation - widthAtTop / 2, yAtTop - height );
         final ImmutableVector2D bottomRight = bottomLeft.plus( widthAtTop, 0 );
 
         return fromLines( topLeft, bottomLeft, bottomRight, topRight );
     }
+
+    private ImmutableVector2D getTopLeftOfRightChamber() {return new ImmutableVector2D( centerAtLeftChamberOpening + separation - widthAtBottom / 2, yAtTop );}
 
     public double getHeight() {
         return getContainerShape().getBounds2D().getHeight();
@@ -164,6 +170,14 @@ public class TrapezoidPool implements FaucetPool {
 
     public boolean isAbbreviatedUnits( final ImmutableVector2D sensorPosition, final double value ) {
         return getWaterShape().get().contains( sensorPosition.getX(), sensorPosition.getY() );
+    }
+
+    @Override public ArrayList<Pair<Double, Double>> getGrassSegments() {
+        return new ArrayList<Pair<Double, Double>>() {{
+            add( new Pair<Double, Double>( topLeftOfLeftChamber().getX() - 100, topLeftOfLeftChamber().getX() ) );
+            add( new Pair<Double, Double>( topLeftOfLeftChamber().plus( widthAtTop, 0 ).getX(), getTopLeftOfRightChamber().getX() ) );
+            add( new Pair<Double, Double>( getContainerShape().getBounds2D().getMaxX(), getContainerShape().getBounds2D().getMaxX() + 100 ) );
+        }};
     }
 
     public void reset() {
