@@ -79,7 +79,8 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
             setBackground( new Color( 0, 0, 0, 0 ) );
         }};
         addChild( new PSwing( dotsCheckBox ) {{
-            setOffset( dropperNode.getFullBounds().getMaxX(), dropperNode.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
+            //Center on the body of the bulb (note this is different than centering on the full image because the bulb only takes up the top portion)
+            setOffset( dropperNode.getFullBounds().getMaxX(), dropperNode.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 - 23 );
         }} );
 
         //Ruler nodes, one for each unit set
