@@ -1,6 +1,9 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro.view;
 
+import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.RelativeDragHandler;
 import edu.colorado.phet.energyformsandchanges.intro.model.UserMovableModelElement;
@@ -24,8 +27,8 @@ public class ThermalItemDragHandler extends RelativeDragHandler {
      * @param node
      * @param transform
      */
-    public ThermalItemDragHandler( UserMovableModelElement modelElement, PNode node, ModelViewTransform transform ) {
-        super( node, transform, modelElement.position );
+    public ThermalItemDragHandler( UserMovableModelElement modelElement, PNode node, ModelViewTransform transform, Function1<Point2D, Point2D> constraint ) {
+        super( node, transform, modelElement.position, constraint );
         this.modelElement = modelElement;
     }
 
