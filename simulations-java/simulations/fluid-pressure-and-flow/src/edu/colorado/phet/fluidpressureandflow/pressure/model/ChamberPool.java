@@ -210,7 +210,7 @@ public class ChamberPool implements IPool {
         return getWaterShape().get().contains( sensorPosition.getX(), sensorPosition.getY() );
     }
 
-    @Override public ArrayList<Pair<Double, Double>> getGrassSegments() {
+    public ArrayList<Pair<Double, Double>> getGrassSegments() {
         return new ArrayList<Pair<Double, Double>>() {{
             add( new Pair<Double, Double>( leftOpening().getBounds2D().getX() - 100, leftOpening().getBounds2D().getX() ) );
             add( new Pair<Double, Double>( leftOpening().getBounds2D().getMaxX(), rightOpening().getBounds2D().getMinX() ) );
@@ -218,7 +218,7 @@ public class ChamberPool implements IPool {
         }};
     }
 
-    @Override public ArrayList<ArrayList<ImmutableVector2D>> getEdges() {
+    public ArrayList<ArrayList<ImmutableVector2D>> getEdges() {
         return new ArrayList<ArrayList<ImmutableVector2D>>() {{
             add( new ArrayList<ImmutableVector2D>( Arrays.asList( topLeft( leftOpening() ),
                                                                   bottomLeft( leftOpening() ),

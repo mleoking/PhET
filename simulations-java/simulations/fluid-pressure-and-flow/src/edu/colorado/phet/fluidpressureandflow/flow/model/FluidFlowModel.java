@@ -153,7 +153,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
         pipe.friction.addObserver( updatePressure );
     }
 
-    @Override public boolean isInWaterTowerWater( final double x, final double y ) {
+    public boolean isInWaterTowerWater( final double x, final double y ) {
         return false;
     }
 

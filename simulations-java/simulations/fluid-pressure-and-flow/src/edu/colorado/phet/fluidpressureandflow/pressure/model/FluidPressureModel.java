@@ -70,7 +70,7 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
         chamberPool.addPressureChangeObserver( updatePressure );
     }
 
-    @Override public boolean isInWaterTowerWater( final double x, final double y ) {
+    public boolean isInWaterTowerWater( final double x, final double y ) {
         return false;
     }
 

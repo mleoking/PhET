@@ -30,17 +30,17 @@ public class FluidPressureAndFlowApplication extends PiccoloPhetApplication {
         super( config );
         getPhetFrame().getDeveloperMenu().add( new JMenuItem( "Dirt top color" ) {{
             addActionListener( new ActionListener() {
-                @Override public void actionPerformed( final ActionEvent e ) {
+                public void actionPerformed( final ActionEvent e ) {
                     ColorChooserFactory.showDialog( "Dirt top color", getPhetFrame(), dirtTopColor.get(), new Listener() {
-                        @Override public void colorChanged( final Color color ) {
+                        public void colorChanged( final Color color ) {
                             dirtTopColor.set( color );
                         }
 
-                        @Override public void ok( final Color color ) {
+                        public void ok( final Color color ) {
                             dirtTopColor.set( color );
                         }
 
-                        @Override public void cancelled( final Color originalColor ) {
+                        public void cancelled( final Color originalColor ) {
                             dirtTopColor.set( originalColor );
                         }
                     }, true );
@@ -49,17 +49,17 @@ public class FluidPressureAndFlowApplication extends PiccoloPhetApplication {
         }} );
         getPhetFrame().getDeveloperMenu().add( new JMenuItem( "Dirt bottom color" ) {{
             addActionListener( new ActionListener() {
-                @Override public void actionPerformed( final ActionEvent e ) {
+                public void actionPerformed( final ActionEvent e ) {
                     ColorChooserFactory.showDialog( "Dirt bottom color", getPhetFrame(), dirtBottomColor.get(), new Listener() {
-                        @Override public void colorChanged( final Color color ) {
+                        public void colorChanged( final Color color ) {
                             dirtBottomColor.set( color );
                         }
 
-                        @Override public void ok( final Color color ) {
+                        public void ok( final Color color ) {
                             dirtBottomColor.set( color );
                         }
 
-                        @Override public void cancelled( final Color originalColor ) {
+                        public void cancelled( final Color originalColor ) {
                             dirtBottomColor.set( originalColor );
                         }
                     }, true );

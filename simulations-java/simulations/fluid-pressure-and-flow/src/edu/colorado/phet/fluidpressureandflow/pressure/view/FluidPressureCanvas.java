@@ -83,7 +83,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
             //Add grass and pool concrete
             addChild( new PNode() {{
                 module.model.pool.addObserver( new VoidFunction1<IPool>() {
-                    @Override public void apply( final IPool pool ) {
+                    public void apply( final IPool pool ) {
                         removeAllChildren();
                         ArrayList<Pair<Double, Double>> segments = pool.getGrassSegments();
                         for ( Pair<Double, Double> segment : segments ) {
