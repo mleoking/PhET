@@ -35,7 +35,7 @@ import static java.text.MessageFormat.format;
  * @author Sam Reid
  */
 public class MassNode extends PNode {
-    public MassNode( final ChamberPool pool, final Property<ObservableList<Mass>> masses, final Mass mass, final ModelViewTransform transform ) {
+    public MassNode( final ChamberPool pool, final Property<ObservableList<Mass>> masses, final Mass mass, final ModelViewTransform transform, final PNode parentNode ) {
 
         final Shape viewShape = transform.modelToView( mass.shape.getBounds2D() );
 
@@ -61,7 +61,8 @@ public class MassNode extends PNode {
 
             @Override protected void drag( final PInputEvent event ) {
                 super.drag( event );
-                final Dimension2D modelDelta = transform.viewToModelDelta( event.getDelta() );
+                final Dimension2D delta = event.getDeltaRelativeTo( parentNode );
+                final Dimension2D modelDelta = transform.viewToModelDelta( delta );
                 masses.set( masses.get().map( new Function1<Mass, Mass>() {
                     public Mass apply( final Mass mass ) {
                         Mass translatedMass = mass.translate( modelDelta );
