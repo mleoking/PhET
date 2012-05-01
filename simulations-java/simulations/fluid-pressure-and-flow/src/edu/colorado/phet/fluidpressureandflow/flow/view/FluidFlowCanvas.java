@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
@@ -12,10 +13,13 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.InjectorNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
+import edu.colorado.phet.common.piccolophet.nodes.background.GroundNode;
+import edu.colorado.phet.common.piccolophet.nodes.background.SkyNode;
+import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplication;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishRuler;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowCanvas;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowControlPanelNode;
+import edu.colorado.phet.fluidpressureandflow.common.view.GrassNode;
 import edu.colorado.phet.fluidpressureandflow.common.view.MeterStick;
 import edu.colorado.phet.fluidpressureandflow.flow.FluidFlowModule;
 import edu.colorado.phet.fluidpressureandflow.flow.model.FluidFlowModel;
@@ -46,7 +50,22 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
     public FluidFlowCanvas( final FluidFlowModule module ) {
         super( ModelViewTransform.createRectangleInvertedYMapping( new Rectangle2D.Double( -MODEL_WIDTH / 2, -MODEL_HEIGHT / 2 + PIPE_CENTER_Y + 0.75, MODEL_WIDTH, MODEL_HEIGHT ), new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ) ) );
 
-        addChild( new OutsideBackgroundNode( transform, 3, 1 ) );
+        //Show the sky, ground and grass, see similar code in FluidPressureCanvas
+        addChild( new PNode() {{
+            addChild( new SkyNode( transform, new Rectangle2D.Double( -1000, 0, 2000, 2000 ), 20 ) );
+
+            addChild( new PNode() {{
+                new RichSimpleObserver() {
+                    @Override public void update() {
+                        removeAllChildren();
+                        addChild( new GroundNode( transform, new Rectangle2D.Double( -1000, -2000, 2000, 2000 ), 5, FluidPressureAndFlowApplication.dirtTopColor.get(), FluidPressureAndFlowApplication.dirtBottomColor.get() ) );
+                    }
+                }.observe( FluidPressureAndFlowApplication.dirtTopColor, FluidPressureAndFlowApplication.dirtBottomColor );
+            }} );
+
+            //Add grass
+            addChild( GrassNode.GrassNode( transform, -100, 100 ) );
+        }} );
 
         addChild( new PipeBackNode( transform, module.model.pipe, module.model.liquidDensity ) );
 
