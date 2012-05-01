@@ -36,7 +36,7 @@ public class MassesLayer extends PNode {
                     addChild( new DottedLineDropRegion( pool, dragging, transform ) );
                 }
                 for ( Mass mass : masses ) {
-                    addChild( new MassNode( pool, massesProperty, mass, transform ) );
+                    addChild( new MassNode( pool, massesProperty, mass, transform, MassesLayer.this ) );
                 }
             }
         };

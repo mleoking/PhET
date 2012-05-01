@@ -1,3 +1,4 @@
+Pressure tab: Scene 3: Fixed: block dragging code doesn't have the right scale at full screen
 Pressure tab: Made pool background gray and textured like concrete
 Water tower tab: Reduce precision in pressure sensor when over the water tower water
 Added developer menu items for the dirt color
