@@ -4,18 +4,24 @@ package edu.colorado.phet.energyformsandchanges.intro.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.event.RelativeDragHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.intro.model.Thermometer;
+import edu.colorado.phet.energyformsandchanges.intro.model.UserMovableModelElement;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -80,7 +86,7 @@ public class ThermometerNode extends PComposite {
         addInputEventListener( new CursorHandler( CursorHandler.HAND ) );
 
         // Add the drag handler.
-        addInputEventListener( new MovableElementDragHandler( thermometer, this, mvt ) );
+        addInputEventListener( new DragHandler( thermometer, this, mvt ) );
 
         // Update the offset if and when the model position changes.
         thermometer.position.addObserver( new VoidFunction1<ImmutableVector2D>() {
@@ -102,5 +108,46 @@ public class ThermometerNode extends PComposite {
                 }
             }
         } );
+    }
+
+    /**
+     * Drag handler for thermometers.  This constrains the thermometer to the
+     * play area.
+     */
+    private static class DragHandler extends RelativeDragHandler {
+
+        private final UserMovableModelElement modelElement;
+
+        public DragHandler( UserMovableModelElement modelElement, PNode node, ModelViewTransform mvt ) {
+            super( node, mvt, modelElement.position, new ThermometerLocationConstraint( mvt ) );
+            this.modelElement = modelElement;
+        }
+
+        @Override public void mousePressed( PInputEvent event ) {
+            super.mousePressed( event );
+            modelElement.userControlled.set( true );
+        }
+
+        @Override public void mouseReleased( PInputEvent event ) {
+            super.mouseReleased( event );
+            modelElement.userControlled.set( false );
+        }
+    }
+
+    // Function that constrains the valid locations for the thermometers.
+    private static class ThermometerLocationConstraint implements Function1<Point2D, Point2D> {
+
+        private final ModelViewTransform mvt;
+
+        private ThermometerLocationConstraint( ModelViewTransform mvt ) {
+            this.mvt = mvt;
+        }
+
+        public Point2D apply( Point2D proposedModelPos ) {
+            // TODO: Needs to be enhanced to handle shape of object.
+            double constrainedXPos = MathUtil.clamp( mvt.viewToModelX( 0 ), proposedModelPos.getX(), mvt.viewToModelX( EFACIntroCanvas.STAGE_SIZE.getWidth() ) );
+            double constrainedYPos = MathUtil.clamp( mvt.viewToModelY( EFACIntroCanvas.STAGE_SIZE.getHeight() ), proposedModelPos.getY(), mvt.viewToModelY( 0 ) );
+            return new Point2D.Double( constrainedXPos, constrainedYPos );
+        }
     }
 }

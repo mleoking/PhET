@@ -4,6 +4,7 @@ package edu.colorado.phet.energyformsandchanges.intro.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Point;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -16,8 +17,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEFAULT_STAGE_SIZE;
-
 /**
  * Piccolo canvas for the "Intro" tab of the Energy Forms and Changes
  * simulation.
@@ -25,6 +24,8 @@ import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEF
  * @author John Blanco
  */
 public class EFACIntroCanvas extends PhetPCanvas {
+
+    public static Dimension2D STAGE_SIZE = CenteredStage.DEFAULT_STAGE_SIZE;
 
     /**
      * Constructor.
@@ -44,7 +45,7 @@ public class EFACIntroCanvas extends PhetPCanvas {
         // ones zoom in).
         final ModelViewTransform mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( DEFAULT_STAGE_SIZE.getWidth() * 0.5 ), (int) Math.round( DEFAULT_STAGE_SIZE.getHeight() * 0.93 ) ),
+                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.5 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.93 ) ),
                 2500 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         setBackground( new Color( 245, 246, 247 ) );
