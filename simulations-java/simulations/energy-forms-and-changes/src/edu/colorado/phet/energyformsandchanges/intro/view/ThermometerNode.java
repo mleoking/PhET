@@ -102,7 +102,7 @@ public class ThermometerNode extends PComposite {
         addInputEventListener( new CursorHandler( CursorHandler.HAND ) );
 
         // Add the drag handler.
-        addInputEventListener( new DragHandler( thermometer, this, mvt ) );
+        addInputEventListener( new DragHandler( thermometer, this, mvt, new ThermometerLocationConstraint( mvt, this, ThermometerLocationConstraint.calculateOffsetToNodeCenter( thermometer.position.get(), this, mvt ) ) ) );
 
         // Add a listener that detects the situation where the user has
         // released this thermometer over the tool box and, in response,
@@ -135,8 +135,8 @@ public class ThermometerNode extends PComposite {
          * @param node
          * @param mvt
          */
-        public DragHandler( UserMovableModelElement modelElement, PNode node, ModelViewTransform mvt ) {
-            super( node, mvt, modelElement.position, new ThermometerLocationConstraint( mvt, getNodeSize( node ), calculateOffsetToNodeCenter( modelElement.position.get(), node, mvt ) ) );
+        public DragHandler( UserMovableModelElement modelElement, PNode node, ModelViewTransform mvt, Function1<Point2D, Point2D> constraint ) {
+            super( node, mvt, modelElement.position, constraint );
             this.modelElement = modelElement;
         }
 
@@ -149,15 +149,6 @@ public class ThermometerNode extends PComposite {
             super.mouseReleased( event );
             modelElement.userControlled.set( false );
         }
-
-        private static Dimension2D getNodeSize( PNode pNode ) {
-            return new PDimension( pNode.getFullBoundsReference().width, pNode.getFullBoundsReference().height );
-        }
-
-        private static ImmutableVector2D calculateOffsetToNodeCenter( ImmutableVector2D modelPos, PNode node, ModelViewTransform mvt ) {
-            return new ImmutableVector2D( node.getFullBoundsReference().getCenterX() - mvt.modelToViewX( modelPos.getX() ),
-                                          node.getFullBoundsReference().getCenterY() - mvt.modelToViewY( modelPos.getY() ) );
-        }
     }
 
     // Function that constrains the valid locations for the thermometers.
@@ -165,7 +156,9 @@ public class ThermometerNode extends PComposite {
 
         private final Rectangle2D modelBounds;
 
-        private ThermometerLocationConstraint( ModelViewTransform mvt, Dimension2D nodeSize, ImmutableVector2D offsetPosToNodeCenter ) {
+        private ThermometerLocationConstraint( ModelViewTransform mvt, PNode node, ImmutableVector2D offsetPosToNodeCenter ) {
+
+            Dimension2D nodeSize = new PDimension( node.getFullBoundsReference().width, node.getFullBoundsReference().height );
 
             // Calculate the bounds based on the stage size of the canvas and
             // the nature of the provided node.
@@ -180,6 +173,11 @@ public class ThermometerNode extends PComposite {
             double constrainedXPos = MathUtil.clamp( modelBounds.getMinX(), proposedModelPos.getX(), modelBounds.getMaxX() );
             double constrainedYPos = MathUtil.clamp( modelBounds.getMinY(), proposedModelPos.getY(), modelBounds.getMaxY() );
             return new Point2D.Double( constrainedXPos, constrainedYPos );
+        }
+
+        private static ImmutableVector2D calculateOffsetToNodeCenter( ImmutableVector2D modelPos, PNode node, ModelViewTransform mvt ) {
+            return new ImmutableVector2D( node.getFullBoundsReference().getCenterX() - mvt.modelToViewX( modelPos.getX() ),
+                                          node.getFullBoundsReference().getCenterY() - mvt.modelToViewY( modelPos.getY() ) );
         }
     }
 }
