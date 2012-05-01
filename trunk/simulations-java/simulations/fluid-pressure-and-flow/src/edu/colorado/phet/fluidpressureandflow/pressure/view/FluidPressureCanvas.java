@@ -57,7 +57,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
     public FluidPressureCanvas( final FluidPressureModule module ) {
         super( ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width / 2, STAGE_SIZE.height / 2 - VIEW_OFFSET_Y ), STAGE_SIZE.height / MODEL_HEIGHT ) );
 
-        //Show the sky
+        //Show the sky, ground and grass
         addChild( new PNode() {{
             addChild( new SkyNode( transform, new Rectangle2D.Double( -1000, 0, 2000, 2000 ), 20 ) );
 
