@@ -141,8 +141,12 @@ object RPALAnalysisSummary {
       "minutes on meat + cheese sandwich" + summary(_.timeInTab0Sandwich("meatAndCheese")) +
       "\nTab 2\n" +
       "minutes on water" + summary(_.timeInTab1Reaction("water")) +
+      "spinner clicks on water" + summary(_.spinnerClicksWhileInTab1Reaction("water")) +
       "minutes on ammonia" + summary(_.timeInTab1Reaction("ammonia")) +
-      "minutes on methane" + summary(_.timeInTab1Reaction("methane"))
+      "spinner clicks on ammonia" + summary(_.spinnerClicksWhileInTab1Reaction("ammonia")) +
+      "minutes on methane" + summary(_.timeInTab1Reaction("methane")) +
+      "spinner clicks on methane" + summary(_.spinnerClicksWhileInTab1Reaction("methane")) +
+      "reaction transitions" + summary(_.userStates.count(e => e.start.tab1.reaction != e.end.tab1.reaction))
   }
 
   def main(args: Array[String]) {
