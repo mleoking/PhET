@@ -117,21 +117,28 @@ object RPALAnalysisSummary {
 
   class SummaryReport(name: String, logs: List[Log]) {
     val reports = logs.map(RPALAnalysis.toReport(_))
-    val minutesInTab1 = reports.map(report => report.minutesInTab(0))
-    val minutesInTab2 = reports.map(report => report.minutesInTab(1))
-    val minutesInTab3 = reports.map(report => report.minutesInTab(2))
-    val tabTransitions = reports.map(report => report.tabTransitions)
+    val minutesInTab1 = reports.map(_.minutesInTab(0))
+    val minutesInTab2 = reports.map(_.minutesInTab(1))
+    val minutesInTab3 = reports.map(_.minutesInTab(2))
+    val tabTransitions = reports.map(_.tabTransitions)
+    val spinnerClicksWhileOnCheeseSandwich = reports.map(_.spinnerClicksWhileInTab0Sandwich("cheese"))
+    val spinnerClicksWhileOnMeatAndCheeseSandwich = reports.map(_.spinnerClicksWhileInTab0Sandwich("meatAndCheese"))
 
     def average(values: List[Double]) = values.sum / values.length
 
-    def minMaxAverage(values: List[Double]) = values.min + "\t" + values.max + "\t" + average(values)
+    def summary(values: List[Double]) = "\t" + values.min + "\t" + values.max + "\t" + average(values) + "\n"
+
+    def summaryInt(values: List[Int]) = summary(values.map(_.toDouble))
 
     override def toString =
       "name\t" + name + "\n" +
-      "minutes in tab 1\t" + minMaxAverage(minutesInTab1) + "\n" +
-      "minutes in tab 2\t" + minMaxAverage(minutesInTab2) + "\n" +
-      "minutes in tab 3\t" + minMaxAverage(minutesInTab3) + "\n" +
-      "tab transitions\t" + minMaxAverage(tabTransitions.map(_.toDouble))
+      "minutes in tab 1" + summary(minutesInTab1) +
+      "minutes in tab 2" + summary(minutesInTab2) +
+      "minutes in tab 3" + summary(minutesInTab3) +
+      "tab transitions" + summaryInt(tabTransitions) +
+      //      "tab 1 sandwich transitions" + summaryInt(tabTransitions) +
+      "tab 1 spinner clicks while on cheese sandwich" + summary(spinnerClicksWhileOnCheeseSandwich) +
+      "tab 1 spinner clicks while on meat+cheese sandwich" + summary(spinnerClicksWhileOnMeatAndCheeseSandwich)
   }
 
   def main(args: Array[String]) {
