@@ -5,6 +5,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
@@ -89,12 +90,6 @@ public class ThermometerNode extends PComposite {
         // be at point (0, 0).
         addChild( new ZeroOffsetNode( rootNode ) );
 
-        // Add the cursor handler.
-        addInputEventListener( new CursorHandler( CursorHandler.HAND ) );
-
-        // Add the drag handler.
-        addInputEventListener( new DragHandler( thermometer, this, mvt ) );
-
         // Update the offset if and when the model position changes.
         thermometer.position.addObserver( new VoidFunction1<ImmutableVector2D>() {
             public void apply( ImmutableVector2D position ) {
@@ -103,9 +98,16 @@ public class ThermometerNode extends PComposite {
             }
         } );
 
+        // Add the cursor handler.
+        addInputEventListener( new CursorHandler( CursorHandler.HAND ) );
+
+        // Add the drag handler.
+        addInputEventListener( new DragHandler( thermometer, this, mvt ) );
+
         // Add a listener that detects the situation where the user has
         // released this thermometer over the tool box and, in response,
-        // resets the position.
+        // resets the thermometer's position, which is assumed to put it back
+        // into the tool box.
         thermometer.userControlled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean aBoolean ) {
                 if ( ThermometerNode.this.getFullBoundsReference().intersects( toolBoxNode.getFullBoundsReference() ) ) {
@@ -125,8 +127,16 @@ public class ThermometerNode extends PComposite {
 
         private final UserMovableModelElement modelElement;
 
+        /**
+         * Constructor.  The node must be property positioned before calling
+         * this, or it won't work correctly.
+         *
+         * @param modelElement
+         * @param node
+         * @param mvt
+         */
         public DragHandler( UserMovableModelElement modelElement, PNode node, ModelViewTransform mvt ) {
-            super( node, mvt, modelElement.position, new ThermometerLocationConstraint( mvt ) );
+            super( node, mvt, modelElement.position, new ThermometerLocationConstraint( mvt, getNodeSize( node ), calculateOffsetToNodeCenter( modelElement.position.get(), node, mvt ) ) );
             this.modelElement = modelElement;
         }
 
@@ -139,21 +149,36 @@ public class ThermometerNode extends PComposite {
             super.mouseReleased( event );
             modelElement.userControlled.set( false );
         }
+
+        private static Dimension2D getNodeSize( PNode pNode ) {
+            return new PDimension( pNode.getFullBoundsReference().width, pNode.getFullBoundsReference().height );
+        }
+
+        private static ImmutableVector2D calculateOffsetToNodeCenter( ImmutableVector2D modelPos, PNode node, ModelViewTransform mvt ) {
+            return new ImmutableVector2D( node.getFullBoundsReference().getCenterX() - mvt.modelToViewX( modelPos.getX() ),
+                                          node.getFullBoundsReference().getCenterY() - mvt.modelToViewY( modelPos.getY() ) );
+        }
     }
 
     // Function that constrains the valid locations for the thermometers.
     private static class ThermometerLocationConstraint implements Function1<Point2D, Point2D> {
 
-        private final ModelViewTransform mvt;
+        private final Rectangle2D modelBounds;
 
-        private ThermometerLocationConstraint( ModelViewTransform mvt ) {
-            this.mvt = mvt;
+        private ThermometerLocationConstraint( ModelViewTransform mvt, Dimension2D nodeSize, ImmutableVector2D offsetPosToNodeCenter ) {
+
+            // Calculate the bounds based on the stage size of the canvas and
+            // the nature of the provided node.
+            double boundsMinX = mvt.viewToModelX( nodeSize.getWidth() / 2 - offsetPosToNodeCenter.getX() );
+            double boundsMaxX = mvt.viewToModelX( EFACIntroCanvas.STAGE_SIZE.getWidth() - nodeSize.getWidth() / 2 - offsetPosToNodeCenter.getX() );
+            double boundsMinY = mvt.viewToModelY( EFACIntroCanvas.STAGE_SIZE.getHeight() - offsetPosToNodeCenter.getY() - nodeSize.getHeight() / 2 );
+            double boundsMaxY = mvt.viewToModelY( -offsetPosToNodeCenter.getY() + nodeSize.getHeight() / 2 );
+            modelBounds = new Rectangle2D.Double( boundsMinX, boundsMinY, boundsMaxX - boundsMinX, boundsMaxY - boundsMinY );
         }
 
         public Point2D apply( Point2D proposedModelPos ) {
-            // TODO: Needs to be enhanced to handle shape of object.
-            double constrainedXPos = MathUtil.clamp( mvt.viewToModelX( 0 ), proposedModelPos.getX(), mvt.viewToModelX( EFACIntroCanvas.STAGE_SIZE.getWidth() ) );
-            double constrainedYPos = MathUtil.clamp( mvt.viewToModelY( EFACIntroCanvas.STAGE_SIZE.getHeight() ), proposedModelPos.getY(), mvt.viewToModelY( 0 ) );
+            double constrainedXPos = MathUtil.clamp( modelBounds.getMinX(), proposedModelPos.getX(), modelBounds.getMaxX() );
+            double constrainedYPos = MathUtil.clamp( modelBounds.getMinY(), proposedModelPos.getY(), modelBounds.getMaxY() );
             return new Point2D.Double( constrainedXPos, constrainedYPos );
         }
     }
