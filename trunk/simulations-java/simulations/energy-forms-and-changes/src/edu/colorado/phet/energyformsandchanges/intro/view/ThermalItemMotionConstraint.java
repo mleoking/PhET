@@ -9,21 +9,29 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
+import edu.colorado.phet.energyformsandchanges.intro.model.UserMovableModelElement;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * This class defines the motion constraints for a model element, i.e. where
- * the model element may and may not move.  This is generally used in
- * conjunction with a drag handler.
+ * This class defines the motion constraints for the model elements that can
+ * be moved on and off the burners.  These elements are prevented from
+ * overlapping one another.
  *
  * @author John Blanco
  */
 public class ThermalItemMotionConstraint implements Function1<Point2D, Point2D> {
 
     private final Rectangle2D modelBounds;
+    private final EFACIntroModel model;
+    private final UserMovableModelElement modelElement;
 
-    public ThermalItemMotionConstraint( ModelViewTransform mvt, PNode node, ImmutableVector2D offsetPosToNodeCenter ) {
+    public ThermalItemMotionConstraint( EFACIntroModel model, UserMovableModelElement modelElement, PNode node,
+                                        ModelViewTransform mvt, ImmutableVector2D offsetPosToNodeCenter ) {
+
+        this.model = model;
+        this.modelElement = modelElement;
 
         Dimension2D nodeSize = new PDimension( node.getFullBoundsReference().width, node.getFullBoundsReference().height );
 
@@ -37,8 +45,12 @@ public class ThermalItemMotionConstraint implements Function1<Point2D, Point2D> 
     }
 
     public Point2D apply( Point2D proposedModelPos ) {
+        // Make sure the proposed position is on the stage.
         double constrainedXPos = MathUtil.clamp( modelBounds.getMinX(), proposedModelPos.getX(), modelBounds.getMaxX() );
         double constrainedYPos = MathUtil.clamp( modelBounds.getMinY(), proposedModelPos.getY(), modelBounds.getMaxY() );
-        return new Point2D.Double( constrainedXPos, constrainedYPos );
+        Point2D boundedToStagePos = new Point2D.Double( constrainedXPos, constrainedYPos );
+
+        // Return a position that is also validated by the model.
+        return model.validatePosition( modelElement, boundedToStagePos );
     }
 }

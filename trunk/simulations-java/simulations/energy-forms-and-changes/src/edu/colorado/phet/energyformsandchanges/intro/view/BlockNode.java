@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyformsandchanges.intro.model.Block;
+import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -41,7 +42,7 @@ public class BlockNode extends PComposite {
 
     private static final boolean SHOW_2D_REPRESENTATION = false;
 
-    public BlockNode( Block block, final ModelViewTransform mvt ) {
+    public BlockNode( EFACIntroModel model, Block block, final ModelViewTransform mvt ) {
 
         // Extract the scale transform from the MVT so that we can separate the
         // shape from the position of the block.
@@ -118,7 +119,7 @@ public class BlockNode extends PComposite {
         // Add the drag handler.
         ImmutableVector2D offsetPosToCenter = new ImmutableVector2D( getFullBoundsReference().getCenterX() - mvt.modelToViewX( block.position.get().getX() ),
                                                                      getFullBoundsReference().getCenterY() - mvt.modelToViewY( block.position.get().getY() ) );
-        addInputEventListener( new DragHandler( block, this, mvt, new ThermalItemMotionConstraint( mvt, this, offsetPosToCenter ) ) );
+        addInputEventListener( new DragHandler( block, this, mvt, new ThermalItemMotionConstraint( model, block, this, mvt, offsetPosToCenter ) ) );
     }
 
     /*

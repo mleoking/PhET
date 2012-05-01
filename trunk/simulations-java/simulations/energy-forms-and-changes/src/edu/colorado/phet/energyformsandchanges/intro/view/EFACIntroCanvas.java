@@ -87,9 +87,9 @@ public class EFACIntroCanvas extends PhetPCanvas {
         backLayer.addChild( new BurnerNode( model.getRightBurner(), mvt ) );
 
         // Add the movable objects.
-        final PNode brickNode = new BlockNode( model.getBrick(), mvt );
+        final PNode brickNode = new BlockNode( model, model.getBrick(), mvt );
         blockLayer.addChild( brickNode );
-        final PNode leadNode = new BlockNode( model.getLeadBlock(), mvt );
+        final PNode leadNode = new BlockNode( model, model.getLeadBlock(), mvt );
         blockLayer.addChild( leadNode );
         BeakerView beakerView = new BeakerView( model, this, mvt );
         frontLayer.addChild( beakerView.getFrontNode() );
