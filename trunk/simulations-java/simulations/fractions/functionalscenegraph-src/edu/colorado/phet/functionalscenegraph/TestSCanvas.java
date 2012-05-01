@@ -34,7 +34,7 @@ public class TestSCanvas {
 
     public static void main( String[] args ) {
         new JFrame( "Test" ) {{
-            final Property<State> model = new Property<State>( new State( new Vector2D( 50, 200 ), new Vector2D( 50, 50 ) ) );
+            final Property<State> model = new Property<State>( new State( new Vector2D( 50, 200 ), new Vector2D( 50, 50 ), 0 ) );
 //            model.trace( "model changed" );
             final SNode root = createRoot( model );
             setContentPane( new SCanvas( root ) {
@@ -85,10 +85,13 @@ public class TestSCanvas {
     public static @Data class State {
         public final Vector2D circlePosition;
         public final Vector2D textPosition;
+        public final double sliderValue;
 
-        public State withCirclePosition( final Vector2D circlePosition ) { return new State( circlePosition, textPosition ); }
+        public State withCirclePosition( final Vector2D circlePosition ) { return new State( circlePosition, textPosition, sliderValue ); }
 
-        public State withTextPosition( final Vector2D textPosition ) { return new State( circlePosition, textPosition ); }
+        public State withTextPosition( final Vector2D textPosition ) { return new State( circlePosition, textPosition, sliderValue ); }
+
+        public State withSliderValue( final double sliderValue ) { return new State( circlePosition, textPosition, sliderValue ); }
     }
 
     private static SNode createRoot( final Property<State> model ) {
@@ -124,6 +127,13 @@ public class TestSCanvas {
         list = list.cons( fillShape );
         list = list.cons( shape );
         list = list.cons( ellipse );
+        final SNode slider = SSliderNode.init( model.get().sliderValue );
+        list = list.cons( slider.translate( 200, 60 ).withDragEvent( new Effect<Vector2D>() {
+            @Override public void e( final Vector2D vector2D ) {
+                double dx = vector2D.getX() / 100;
+                model.set( model.get().withSliderValue( model.get().getSliderValue() + dx ) );
+            }
+        } ) );
 //        nodes.addAll( Arrays.asList( fillShape, shape, text, ellipse ) );
         return new SList( list );
 

@@ -42,4 +42,14 @@ public abstract @Data class SNode {
     public Cursor getCursor() { return Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ); }
 
     public SNode withDragEvent( final Effect<Vector2D> effect ) { return new WithDragEvent( effect, this ); }
+
+    //Assumes same coordinate frame
+    public SNode centeredOn( final SNode track ) { return centeredOn( new Vector2D( track.getBounds().getCenter() ) ); }
+
+    public SNode centeredOn( final Vector2D point ) { return translate( new Vector2D( point.toPoint2D(), getBounds().getCenter().toPoint2D() ) ); }
+
+    public Vector2D leftCenter() {
+        final ImmutableRectangle2D bounds = getBounds();
+        return new Vector2D( bounds.x, bounds.getCenter().getY() );
+    }
 }
