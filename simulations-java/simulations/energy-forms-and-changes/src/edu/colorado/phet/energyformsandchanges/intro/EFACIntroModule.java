@@ -1,10 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro;
 
-import java.awt.Color;
-
 import edu.colorado.phet.common.piccolophet.SimSharingPiccoloModule;
-import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
@@ -27,9 +24,7 @@ public class EFACIntroModule extends SimSharingPiccoloModule {
     private EFACIntroModule( EFACIntroModel model ) {
         super( EnergyFormsAndChangesSimSharing.UserComponents.introTab, EnergyFormsAndChangesResources.Strings.INTRO, model.getClock() );
         this.model = model;
-        setClockControlPanel( new PiccoloClockControlPanel( model.getClock() ) {{
-            setBackground( Color.GRAY );
-        }} );
+        setClockControlPanel( null );
         setSimulationPanel( new EFACIntroCanvas( model ) );
         reset();
     }
