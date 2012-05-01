@@ -2,6 +2,8 @@ package edu.colorado.phet.simsharinganalysis.scripts.rpal2012
 
 import java.io.File
 import edu.colorado.phet.simsharinganalysis.{Log, phet}
+import edu.colorado.phet.simsharinganalysis.scripts.rpal2012.RPALAnalysis.Report
+import scala._
 
 /**
  * In April 2012, Julia and Kelly requested the following summary analysis for RPAL:
@@ -117,12 +119,6 @@ object RPALAnalysisSummary {
 
   class SummaryReport(name: String, logs: List[Log]) {
     val reports = logs.map(RPALAnalysis.toReport(_))
-    val minutesInTab1 = reports.map(_.minutesInTab(0))
-    val minutesInTab2 = reports.map(_.minutesInTab(1))
-    val minutesInTab3 = reports.map(_.minutesInTab(2))
-    val tabTransitions = reports.map(_.tabTransitions)
-    val spinnerClicksWhileOnCheeseSandwich = reports.map(_.spinnerClicksWhileInTab0Sandwich("cheese"))
-    val spinnerClicksWhileOnMeatAndCheeseSandwich = reports.map(_.spinnerClicksWhileInTab0Sandwich("meatAndCheese"))
 
     def average(values: List[Double]) = values.sum / values.length
 
@@ -130,15 +126,23 @@ object RPALAnalysisSummary {
 
     def summaryInt(values: List[Int]) = summary(values.map(_.toDouble))
 
+    def summary(f: Report => Double): String = summary(reports.map(f))
+
     override def toString =
       "name\t" + name + "\n" +
-      "minutes in tab 1" + summary(minutesInTab1) +
-      "minutes in tab 2" + summary(minutesInTab2) +
-      "minutes in tab 3" + summary(minutesInTab3) +
-      "tab transitions" + summaryInt(tabTransitions) +
-      //      "tab 1 sandwich transitions" + summaryInt(tabTransitions) +
-      "tab 1 spinner clicks while on cheese sandwich" + summary(spinnerClicksWhileOnCheeseSandwich) +
-      "tab 1 spinner clicks while on meat+cheese sandwich" + summary(spinnerClicksWhileOnMeatAndCheeseSandwich)
+      "minutes in tab 1" + summary(_.minutesInTab(0)) +
+      "minutes in tab 2" + summary(_.minutesInTab(1)) +
+      "minutes in tab 3" + summary(_.minutesInTab(2)) +
+      "tab transitions" + summary(_.tabTransitions) +
+      "\nTab 1\n" +
+      "spinner clicks cheese sandwich" + summary(_.spinnerClicksWhileInTab0Sandwich("cheese")) +
+      "minutes on cheese sandwich" + summary(_.timeInTab0Sandwich("cheese")) +
+      "spinner clicks meat + cheese sandwich" + summary(_.spinnerClicksWhileInTab0Sandwich("meatAndCheese")) +
+      "minutes on meat + cheese sandwich" + summary(_.timeInTab0Sandwich("meatAndCheese")) +
+      "\nTab 2\n" +
+      "minutes on water" + summary(_.timeInTab1Reaction("water")) +
+      "minutes on ammonia" + summary(_.timeInTab1Reaction("ammonia")) +
+      "minutes on methane" + summary(_.timeInTab1Reaction("methane"))
   }
 
   def main(args: Array[String]) {
