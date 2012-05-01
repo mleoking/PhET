@@ -2,6 +2,7 @@
 package edu.colorado.phet.fluidpressureandflow.pressure.view;
 
 import java.awt.Color;
+import java.awt.TexturePaint;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import edu.colorado.phet.common.piccolophet.nodes.background.GroundNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.SkyNode;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplication;
+import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishRuler;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidDensityControl;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowCanvas;
@@ -109,7 +111,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
         //Add a background behind the pool so earth doesn't bleed through transparent pool
         addPoolSpecificNode( model, new Function1<IPool, PNode>() {
             public PNode apply( final IPool p ) {
-                return new PhetPPath( transform.modelToView( p.getContainerShape() ), Color.white );
+                return new PhetPPath( transform.modelToView( p.getContainerShape() ), new TexturePaint( Images.CEMENT_TEXTURE, new Rectangle2D.Double( 0, 0, Images.CEMENT_TEXTURE.getWidth(), Images.CEMENT_TEXTURE.getHeight() ) ) );
             }
         } );
 
