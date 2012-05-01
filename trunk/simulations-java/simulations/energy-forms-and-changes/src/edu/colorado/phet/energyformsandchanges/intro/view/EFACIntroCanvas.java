@@ -45,8 +45,8 @@ public class EFACIntroCanvas extends PhetPCanvas {
         // ones zoom in).
         final ModelViewTransform mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.5 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.93 ) ),
-                2500 ); // "Zoom factor" - smaller zooms out, larger zooms in.
+                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.5 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.82 ) ),
+                2200 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         setBackground( new Color( 245, 246, 247 ) );
 

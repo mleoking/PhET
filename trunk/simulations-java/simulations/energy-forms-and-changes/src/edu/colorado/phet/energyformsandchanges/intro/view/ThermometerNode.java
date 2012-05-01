@@ -37,7 +37,7 @@ public class ThermometerNode extends PComposite {
     // These values will need tweaking if the images used for the thermometer
     // are changed.
     private static final double TRIANGLE_SIDE_SIZE = 22; // In screen coordinates, which is close to pixels.
-    private static final Dimension2D TRIANGLE_TIP_OFFSET_FROM_THERMOMETER_CENTER = new PDimension( -44, 54 );
+    private static final Dimension2D TRIANGLE_TIP_OFFSET_FROM_THERMOMETER_CENTER = new PDimension( -40, 47 );
 
     /**
      * Constructor.
@@ -59,8 +59,15 @@ public class ThermometerNode extends PComposite {
         rootNode.addChild( frontLayer );
 
         // Add the images for the front and back of the thermometer.
-        backLayer.addChild( new PImage( EnergyFormsAndChangesResources.Images.THERMOMETER_BACK ) );
-        frontLayer.addChild( new PImage( EnergyFormsAndChangesResources.Images.THERMOMETER_FRONT ) );
+        {
+            final double imageScale = 0.85; // Tweak factor for sizing the thermometers.
+            backLayer.addChild( new PImage( EnergyFormsAndChangesResources.Images.THERMOMETER_BACK ) {{
+                setScale( imageScale );
+            }} );
+            frontLayer.addChild( new PImage( EnergyFormsAndChangesResources.Images.THERMOMETER_FRONT ) {{
+                setScale( imageScale );
+            }} );
+        }
 
         // Add the triangle that represents the point where the thermometer
         // touches the element whose temperature is being measured.  The
