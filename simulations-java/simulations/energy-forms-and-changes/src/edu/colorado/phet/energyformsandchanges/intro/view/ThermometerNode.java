@@ -99,7 +99,11 @@ public class ThermometerNode extends PComposite {
         addInputEventListener( new CursorHandler( CursorHandler.HAND ) );
 
         // Add the drag handler.
-        addInputEventListener( new DragHandler( thermometer, this, mvt, new ThermometerLocationConstraint( mvt, this, ThermometerLocationConstraint.calculateOffsetToNodeCenter( thermometer.position.get(), this, mvt ) ) ) );
+        {
+            ImmutableVector2D offsetPosToCenter = new ImmutableVector2D( getFullBoundsReference().getCenterX() - mvt.modelToViewX( thermometer.position.get().getX() ),
+                                                                         getFullBoundsReference().getCenterY() - mvt.modelToViewY( thermometer.position.get().getY() ) );
+            addInputEventListener( new DragHandler( thermometer, this, mvt, new ThermometerLocationConstraint( mvt, this, offsetPosToCenter ) ) );
+        }
 
         // Add a listener that detects the situation where the user has
         // released this thermometer over the tool box and, in response,
@@ -138,20 +142,6 @@ public class ThermometerNode extends PComposite {
             double constrainedXPos = MathUtil.clamp( modelBounds.getMinX(), proposedModelPos.getX(), modelBounds.getMaxX() );
             double constrainedYPos = MathUtil.clamp( modelBounds.getMinY(), proposedModelPos.getY(), modelBounds.getMaxY() );
             return new Point2D.Double( constrainedXPos, constrainedYPos );
-        }
-
-        /**
-         * Convenience function for determining the offset in view space from
-         * the "handle" of the node to its center.
-         *
-         * @param modelPos
-         * @param node
-         * @param mvt
-         * @return
-         */
-        private static ImmutableVector2D calculateOffsetToNodeCenter( ImmutableVector2D modelPos, PNode node, ModelViewTransform mvt ) {
-            return new ImmutableVector2D( node.getFullBoundsReference().getCenterX() - mvt.modelToViewX( modelPos.getX() ),
-                                          node.getFullBoundsReference().getCenterY() - mvt.modelToViewY( modelPos.getY() ) );
         }
     }
 }

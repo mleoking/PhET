@@ -116,8 +116,9 @@ public class BlockNode extends PComposite {
         addInputEventListener( new CursorHandler( CursorHandler.HAND ) );
 
         // Add the drag handler.
-//        addInputEventListener( new MovableElementDragHandler( block, this, mvt ) );
-        addInputEventListener( new ThermalItemDragHandler( block, this, mvt ) );
+        ImmutableVector2D offsetPosToCenter = new ImmutableVector2D( getFullBoundsReference().getCenterX() - mvt.modelToViewX( block.position.get().getX() ),
+                                                                     getFullBoundsReference().getCenterY() - mvt.modelToViewY( block.position.get().getY() ) );
+        addInputEventListener( new DragHandler( block, this, mvt, new ThermalItemMotionConstraint( mvt, this, offsetPosToCenter ) ) );
     }
 
     /*
