@@ -1,3 +1,4 @@
+Added original image assets for new textures
 # 0.00.56 (63862) Apr 30, 2012
 Added screenshot
 Removed @Override annotation for interface implementations to facilitate testing under Java 1.5
