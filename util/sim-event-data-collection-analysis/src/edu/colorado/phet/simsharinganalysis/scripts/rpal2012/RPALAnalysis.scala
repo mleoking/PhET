@@ -149,6 +149,7 @@ object RPALAnalysis extends StateMachine[SimState] {
 
   def displayReport(name: String, mylogs: List[Log]) {
     val logs = mylogs.filter(log => study(log.file.getName) == name)
+    println("total logs: " + mylogs.length + ", filtered logs = " + logs.length)
     val reports = logs.map(toReport(_))
     println("study\t" +
             "filename\t" +
@@ -174,8 +175,8 @@ object RPALAnalysis extends StateMachine[SimState] {
   }
 
   def main(args: Array[String]) {
-    displayReport("a1", phet load new File(args(0)))
-    displayReport("a2", phet load new File(args(0)))
+    displayReport("a1", phet load new File("C:\\Users\\Sam\\Desktop\\RPAL_logs\\A1 logs"))
+    displayReport("a2", phet load new File("C:\\Users\\Sam\\Desktop\\RPAL_logs\\A2 logs"))
 
     //    val log = phet parse new File("C:\\Users\\Sam\\Desktop\\jc-analysis-4-16\\s011_m1p_a1_c1_2012-04-16_13-10-03_4pkk224opf68l94ngdlooepjfh_s66f1ighvkbr9bf5trsqac8if4t.txt")
     //    val elapsed = log.endTime - log.startTime
@@ -205,7 +206,7 @@ object RPALAnalysis extends StateMachine[SimState] {
       size = new Dimension(1024, 768)
     }
 
-    val logs = phet load new File(args(0))
+    val logs = ( phet load new File("C:\\Users\\Sam\\Desktop\\RPAL_logs\\A1 logs") ) ::: ( phet load new File("C:\\Users\\Sam\\Desktop\\RPAL_logs\\A2 logs") )
     val longestRun = logs.map(log => log.endTime - log.startTime).max
     var i = 0;
     val separation = 100
