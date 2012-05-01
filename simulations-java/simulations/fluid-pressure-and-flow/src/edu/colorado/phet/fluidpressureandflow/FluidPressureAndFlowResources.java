@@ -77,6 +77,7 @@ public class FluidPressureAndFlowResources {
 
     //Images
     public static class Images {
+        public static final BufferedImage CEMENT_TEXTURE_DARK = RESOURCES.getImage( "cement-texture-dark.jpg" );
         public static final BufferedImage CEMENT_TEXTURE = RESOURCES.getImage( "cement-texture.jpg" );
         public static final BufferedImage DRAIN_FAUCET_ATTACHED = RESOURCES.getImage( "drain-faucet-attached.png" );
         public static final BufferedImage GRASS_TEXTURE = RESOURCES.getImage( "grass-texture.png" );

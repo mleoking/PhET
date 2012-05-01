@@ -1,18 +1,21 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.pressure.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.TexturePaint;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ValueEquals;
 import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.GroundNode;
@@ -70,7 +73,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
                 }.observe( FluidPressureAndFlowApplication.dirtTopColor, FluidPressureAndFlowApplication.dirtBottomColor );
             }} );
 
-            //Add grass
+            //Add grass and pool concrete
             addChild( new PNode() {{
                 module.model.pool.addObserver( new VoidFunction1<IPool>() {
                     @Override public void apply( final IPool pool ) {
@@ -78,6 +81,16 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
                         ArrayList<Pair<Double, Double>> segments = pool.getGrassSegments();
                         for ( Pair<Double, Double> segment : segments ) {
                             addChild( GrassNode.GrassNode( transform, segment._1, segment._2 ) );
+                        }
+
+                        ArrayList<ArrayList<ImmutableVector2D>> lineSets = pool.getEdges();
+                        for ( ArrayList<ImmutableVector2D> lines : lineSets ) {
+                            DoubleGeneralPath path = new DoubleGeneralPath( lines.get( 0 ) );
+                            for ( int i = 1; i < lines.size(); i++ ) {
+                                path.lineTo( lines.get( i ) );
+                            }
+                            addChild( new PhetPPath( transform.modelToView( new BasicStroke( 0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND ).createStrokedShape( path.getGeneralPath() ) ),
+                                                     new TexturePaint( Images.CEMENT_TEXTURE_DARK, new Rectangle2D.Double( 0, 0, Images.CEMENT_TEXTURE_DARK.getWidth(), Images.CEMENT_TEXTURE_DARK.getHeight() ) ) ) );
                         }
                     }
                 } );

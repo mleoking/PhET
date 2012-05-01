@@ -125,6 +125,17 @@ public class SquarePool implements FaucetPool {
         }};
     }
 
+    @Override public ArrayList<ArrayList<ImmutableVector2D>> getEdges() {
+        return new ArrayList<ArrayList<ImmutableVector2D>>() {{
+            add( new ArrayList<ImmutableVector2D>() {{
+                add( new ImmutableVector2D( getContainerShape().getBounds2D().getMinX(), getContainerShape().getBounds2D().getMaxY() ) );
+                add( new ImmutableVector2D( getContainerShape().getBounds2D().getMinX(), getContainerShape().getBounds2D().getMinY() ) );
+                add( new ImmutableVector2D( getContainerShape().getBounds2D().getMaxX(), getContainerShape().getBounds2D().getMinY() ) );
+                add( new ImmutableVector2D( getContainerShape().getBounds2D().getMaxX(), getContainerShape().getBounds2D().getMaxY() ) );
+            }} );
+        }};
+    }
+
     public void reset() {
         inputFlowRatePercentage.reset();
         waterVolume.reset();

@@ -6,6 +6,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -103,24 +104,25 @@ public class ChamberPool implements IPool {
         }};
     }
 
-    private Shape rightOpening() {
+    private Rectangle2D.Double rightOpening() {
         final double openingY = -height + CHAMBER_HEIGHT;
         final double openingHeight = height - CHAMBER_HEIGHT;
         return new Rectangle2D.Double( rightChamber().getBounds2D().getCenterX() - rightOpeningWidth / 2, openingY, rightOpeningWidth, openingHeight );
     }
 
-    private Shape leftOpening() {
-        return new Rectangle2D.Double( leftChamber().getBounds2D().getCenterX() - leftOpeningWidth / 2, -height, leftOpeningWidth, height );
+    private Rectangle2D.Double leftOpening() {
+        final double openingY = -height + CHAMBER_HEIGHT;
+        final double openingHeight = height - CHAMBER_HEIGHT;
+        return new Rectangle2D.Double( leftChamber().getBounds2D().getCenterX() - leftOpeningWidth / 2, openingY, leftOpeningWidth, openingHeight );
     }
 
-    private Shape horizontalPassage() {
-        final double separation = 3.9;
-        return new Rectangle2D.Double( centerAtLeftChamberOpening, -height + CHAMBER_HEIGHT / 2 - passageSize / 2, separation, passageSize );
+    private Rectangle2D.Double horizontalPassage() {
+        return new Rectangle2D.Double( leftChamber().getMaxX(), -height + CHAMBER_HEIGHT / 2 - passageSize / 2, rightChamber().getMinX() - leftChamber().getMaxX(), passageSize );
     }
 
-    private Shape leftChamber() { return new Rectangle2D.Double( -4.5, -3, 3, CHAMBER_HEIGHT ); }
+    private Rectangle2D.Double leftChamber() { return new Rectangle2D.Double( -4.5, -3, 3, CHAMBER_HEIGHT ); }
 
-    private Shape rightChamber() { return new Rectangle2D.Double( 0, -height, CHAMBER_HEIGHT, CHAMBER_HEIGHT ); }
+    private Rectangle2D.Double rightChamber() { return new Rectangle2D.Double( 0, -height, CHAMBER_HEIGHT, CHAMBER_HEIGHT ); }
 
     public double getHeight() { return height; }
 
@@ -216,6 +218,39 @@ public class ChamberPool implements IPool {
         }};
     }
 
+    @Override public ArrayList<ArrayList<ImmutableVector2D>> getEdges() {
+        return new ArrayList<ArrayList<ImmutableVector2D>>() {{
+            add( new ArrayList<ImmutableVector2D>( Arrays.asList( topLeft( leftOpening() ),
+                                                                  bottomLeft( leftOpening() ),
+                                                                  topLeft( leftChamber() ),
+                                                                  bottomLeft( leftChamber() ),
+                                                                  bottomRight( leftChamber() ),
+                                                                  bottomLeft( horizontalPassage() ),
+                                                                  bottomRight( horizontalPassage() ),
+                                                                  bottomLeft( rightChamber() ),
+                                                                  bottomRight( rightChamber() ),
+                                                                  topRight( rightChamber() ),
+                                                                  bottomRight( rightOpening() ),
+                                                                  topRight( rightOpening() ) ) ) );
+            add( new ArrayList<ImmutableVector2D>( Arrays.asList( topRight( leftOpening() ),
+                                                                  bottomRight( leftOpening() ),
+                                                                  topRight( leftChamber() ),
+                                                                  topLeft( horizontalPassage() ),
+                                                                  topRight( horizontalPassage() ),
+                                                                  topLeft( rightChamber() ),
+                                                                  bottomLeft( rightOpening() ),
+                                                                  topLeft( rightOpening() ) ) ) );
+        }};
+    }
+
+    private ImmutableVector2D topLeft( final Rectangle2D rectangle2D ) { return new ImmutableVector2D( rectangle2D.getMinX(), rectangle2D.getMaxY() ); }
+
+    private ImmutableVector2D bottomLeft( final Rectangle2D rectangle2D ) { return new ImmutableVector2D( rectangle2D.getMinX(), rectangle2D.getMinY() ); }
+
+    private ImmutableVector2D topRight( final Rectangle2D rectangle2D ) { return new ImmutableVector2D( rectangle2D.getMaxX(), rectangle2D.getMaxY() ); }
+
+    private ImmutableVector2D bottomRight( final Rectangle2D rectangle2D ) { return new ImmutableVector2D( rectangle2D.getMaxX(), rectangle2D.getMinY() ); }
+
     private ObservableList<Mass> updateMasses( final ObservableList<Mass> masses, final double dt ) {
         ObservableList<Mass> newList = new ObservableList<Mass>();
 
@@ -281,12 +316,12 @@ public class ChamberPool implements IPool {
         leftWaterHeight.reset();
     }
 
-    public Shape getLeftOpeningWaterShape() {
+    public Rectangle2D.Double getLeftOpeningWaterShape() {
         double openingY = 0 - height + CHAMBER_HEIGHT;
         return new Rectangle2D.Double( leftChamber().getBounds2D().getCenterX() - passageSize / 2, openingY, passageSize, leftWaterHeight.get() );
     }
 
-    public Shape getRightOpeningWaterShape() {
+    public Rectangle2D.Double getRightOpeningWaterShape() {
         double openingY = 0 - height + CHAMBER_HEIGHT;
         return new Rectangle2D.Double( rightChamber().getBounds2D().getCenterX() - rightOpeningWidth / 2, openingY, rightOpeningWidth, rightWaterHeight.get() );
     }
