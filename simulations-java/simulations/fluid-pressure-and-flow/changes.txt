@@ -1,3 +1,4 @@
+Pressure tab: Fixed cutaway earth graphics when atmosphere is off
 Pressure tab: Moved the grass down a little bit because there is a blue "air" gap between the grass and the ground
 Pressure tab: added border cement to the pools
 Flow tab: updated handle image to be more visible against the brown earth color
