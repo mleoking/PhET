@@ -1,3 +1,4 @@
+Added screenshot
 Removed @Override annotation for interface implementations to facilitate testing under Java 1.5
 Pressure tab: Fixed "seam" pattern in the grasses, visible when atmosphere was off
 Pressure tab: Fixed cutaway earth graphics when atmosphere is off
