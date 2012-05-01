@@ -32,5 +32,9 @@ public interface IPool {
 
     boolean isAbbreviatedUnits( ImmutableVector2D sensorPosition, double value );
 
+    //Get the list of grass segments (x dimension) to show on the ground
     ArrayList<Pair<Double, Double>> getGrassSegments();
+
+    //Get the points making up each continuous edge segment for drawing the cement boundaries of the pool
+    ArrayList<ArrayList<ImmutableVector2D>> getEdges();
 }

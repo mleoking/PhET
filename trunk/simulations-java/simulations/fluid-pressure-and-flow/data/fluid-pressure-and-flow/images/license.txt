@@ -1,6 +1,7 @@
 button_pressed.png source=PhET notes=copied from gene-network
 button_unpressed.png source=PhET notes=copied from gene-network
-cement-texture source=http://www.public-domain-image.com/full-image/textures-and-patterns-public-domain-images-pictures/concrete-texture-public-domain-images-pictures/cement-texture.jpg-royalty-free-stock-image.html license=public domain
+cement-texture.png source=http://www.public-domain-image.com/full-image/textures-and-patterns-public-domain-images-pictures/concrete-texture-public-domain-images-pictures/cement-texture.jpg-royalty-free-stock-image.html license=public domain
+cement-texture-dark source=updated by SR based on the above license=public domain
 grass-texture.png source=Open Clip Art notes=http://openclipart.org/detail/21212/grass-texture-by-rg1024-21212 as public domain
 handle.png source=PhET notes=drawn by NP
 handle_T.png source=PhET notes=drawn by NP

@@ -1,3 +1,4 @@
+Pressure tab: added border cement to the pools
 Flow tab: updated handle image to be more visible against the brown earth color
 Flow tab: Show earth cutaway
 Pressure tab: Scene 3: Fixed: block dragging code doesn't have the right scale at full screen
