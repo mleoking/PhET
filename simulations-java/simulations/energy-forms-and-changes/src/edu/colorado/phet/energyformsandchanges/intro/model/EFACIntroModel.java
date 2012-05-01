@@ -107,6 +107,17 @@ public class EFACIntroModel {
     //-------------------------------------------------------------------------
 
     /**
+     * Restore the initial conditions of the model.
+     */
+    public void reset() {
+        leadBlock.position.reset();
+        brick.position.reset();
+        beaker.position.reset();
+        thermometer1.position.reset();
+        thermometer2.position.reset();
+    }
+
+    /**
      * Update the state of the model.
      *
      * @param dt
@@ -150,12 +161,19 @@ public class EFACIntroModel {
         beaker.updateFluidLevel( Arrays.asList( brick.getRect(), leadBlock.getRect() ) );
     }
 
-    public void reset() {
-        leadBlock.position.reset();
-        brick.position.reset();
-        beaker.position.reset();
-        thermometer1.position.reset();
-        thermometer2.position.reset();
+    /**
+     * Validate the position being proposed for the given model element.  This
+     * evaluates whether the proposed position would cause the model element
+     * to move through another solid element, or the side of the beaker, or
+     * something that would look weird to the user and, if so, prevent the odd
+     * behavior from happening by returning a location that works better.
+     *
+     * @param modelElement
+     * @param proposedPosition
+     * @return
+     */
+    public Point2D validatePosition( UserMovableModelElement modelElement, Point2D proposedPosition ) {
+        return proposedPosition;
     }
 
     public IClock getClock() {
