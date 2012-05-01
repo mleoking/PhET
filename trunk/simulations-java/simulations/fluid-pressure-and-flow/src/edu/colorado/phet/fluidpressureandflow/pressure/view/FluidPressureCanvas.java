@@ -19,7 +19,6 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.GroundNode;
-import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.SkyNode;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplication;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images;
@@ -62,7 +61,15 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
 
         //Show the sky, ground and grass
         addChild( new PNode() {{
-            addChild( new SkyNode( transform, new Rectangle2D.Double( -1000, 0, 2000, 2000 ), 20 ) );
+            addChild( new PNode() {{
+                module.model.atmosphere.addObserver( new VoidFunction1<Boolean>() {
+                    public void apply( Boolean atmosphere ) {
+                        removeAllChildren();
+                        addChild( atmosphere ? new SkyNode( transform, new Rectangle2D.Double( -1000, 0, 2000, 2000 ), 20 )
+                                             : new SkyNode( transform, new Rectangle2D.Double( -1000, 0, 2000, 2000 ), 20, Color.black, Color.black ) );
+                    }
+                } );
+            }} );
 
             addChild( new PNode() {{
                 new RichSimpleObserver() {
@@ -95,21 +102,6 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
                     }
                 } );
             }} );
-
-            //Only show when there is an atmosphere
-            module.model.atmosphere.addObserver( new VoidFunction1<Boolean>() {
-                public void apply( Boolean atmosphere ) {
-                    setVisible( atmosphere );
-                }
-            } );
-        }} );
-
-        addChild( new OutsideBackgroundNode( transform, 3, 1, OutsideBackgroundNode.DEFAULT_MODEL_BOUNDS.toRectangle2D(), Color.black, Color.black ) {{
-            module.model.atmosphere.addObserver( new VoidFunction1<Boolean>() {
-                public void apply( Boolean atmosphere ) {
-                    setVisible( !atmosphere );
-                }
-            } );
         }} );
 
         //Variables for convenient access
