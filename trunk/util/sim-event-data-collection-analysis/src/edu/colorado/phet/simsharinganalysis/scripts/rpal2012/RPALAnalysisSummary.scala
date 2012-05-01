@@ -139,6 +139,7 @@ object RPALAnalysisSummary {
       "minutes on cheese sandwich" + summary(_.timeInTab0Sandwich("cheese")) +
       "spinner clicks meat + cheese sandwich" + summary(_.spinnerClicksWhileInTab0Sandwich("meatAndCheese")) +
       "minutes on meat + cheese sandwich" + summary(_.timeInTab0Sandwich("meatAndCheese")) +
+      "sandwich transitions" + summary(_.userStates.count(e => e.start.tab0.sandwich != e.end.tab0.sandwich)) +
       "\nTab 2\n" +
       "minutes on water" + summary(_.timeInTab1Reaction("water")) +
       "spinner clicks on water" + summary(_.spinnerClicksWhileInTab1Reaction("water")) +
@@ -146,7 +147,9 @@ object RPALAnalysisSummary {
       "spinner clicks on ammonia" + summary(_.spinnerClicksWhileInTab1Reaction("ammonia")) +
       "minutes on methane" + summary(_.timeInTab1Reaction("methane")) +
       "spinner clicks on methane" + summary(_.spinnerClicksWhileInTab1Reaction("methane")) +
-      "reaction transitions" + summary(_.userStates.count(e => e.start.tab1.reaction != e.end.tab1.reaction))
+      "reaction transitions" + summary(_.userStates.count(e => e.start.tab1.reaction != e.end.tab1.reaction)) +
+      "\nTab 3\n" +
+      "Number times started new game (all)" + summary(_.userStates.count(_.entry.matches("startGameButton", "pressed")))
   }
 
   def main(args: Array[String]) {
@@ -160,5 +163,10 @@ object RPALAnalysisSummary {
 
     println(a1Report)
     println(a2Report)
+
+    //    val single = phet load (new File("C:\\Users\\Sam\\Desktop\\RPAL_logs\\A1 logs\\s023_tu1p_a1_c15_2012-04-17_13-12-27_pt2sprblacbhm2gt5i92j6fs96_st1es89smt8alcq93vjn56mmf75.txt") :: Nil)
+    //    val report = RPALAnalysis.toReport(single.head)
+    //    val count = report.userStates.count(_.entry.matches("startGameButton","pressed"))
+    //    println(count)
   }
 }
