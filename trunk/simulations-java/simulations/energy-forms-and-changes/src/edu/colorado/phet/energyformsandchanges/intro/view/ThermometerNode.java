@@ -15,14 +15,11 @@ import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.event.RelativeDragHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.intro.model.Thermometer;
-import edu.colorado.phet.energyformsandchanges.intro.model.UserMovableModelElement;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -119,38 +116,6 @@ public class ThermometerNode extends PComposite {
         } );
     }
 
-    /**
-     * Drag handler for thermometers.  This constrains the thermometer to the
-     * play area.
-     */
-    private static class DragHandler extends RelativeDragHandler {
-
-        private final UserMovableModelElement modelElement;
-
-        /**
-         * Constructor.  The node must be property positioned before calling
-         * this, or it won't work correctly.
-         *
-         * @param modelElement
-         * @param node
-         * @param mvt
-         */
-        public DragHandler( UserMovableModelElement modelElement, PNode node, ModelViewTransform mvt, Function1<Point2D, Point2D> constraint ) {
-            super( node, mvt, modelElement.position, constraint );
-            this.modelElement = modelElement;
-        }
-
-        @Override public void mousePressed( PInputEvent event ) {
-            super.mousePressed( event );
-            modelElement.userControlled.set( true );
-        }
-
-        @Override public void mouseReleased( PInputEvent event ) {
-            super.mouseReleased( event );
-            modelElement.userControlled.set( false );
-        }
-    }
-
     // Function that constrains the valid locations for the thermometers.
     private static class ThermometerLocationConstraint implements Function1<Point2D, Point2D> {
 
@@ -175,6 +140,15 @@ public class ThermometerNode extends PComposite {
             return new Point2D.Double( constrainedXPos, constrainedYPos );
         }
 
+        /**
+         * Convenience function for determining the offset in view space from
+         * the "handle" of the node to its center.
+         *
+         * @param modelPos
+         * @param node
+         * @param mvt
+         * @return
+         */
         private static ImmutableVector2D calculateOffsetToNodeCenter( ImmutableVector2D modelPos, PNode node, ModelViewTransform mvt ) {
             return new ImmutableVector2D( node.getFullBoundsReference().getCenterX() - mvt.modelToViewX( modelPos.getX() ),
                                           node.getFullBoundsReference().getCenterY() - mvt.modelToViewY( modelPos.getY() ) );
