@@ -20,20 +20,22 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishMetricControlPanel;
 import edu.colorado.phet.fluidpressureandflow.common.view.FPAFCheckBox;
 import edu.colorado.phet.fluidpressureandflow.common.view.FPAFRadioButton;
 import edu.colorado.phet.fluidpressureandflow.watertower.WaterTowerModule;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys.isSelected;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes.icon;
-import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToHeight;
-import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.toBufferedImage;
+import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.*;
 import static edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents.*;
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.*;
 import static edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureControlPanel.RulerIcon;
@@ -96,9 +98,15 @@ public class WaterTowerControlPanel extends VerticalLayoutPanel {
     private JLabel HoseIcon( final WaterTowerModule module ) {
         final int width = 60;
         final int height = 14;
-        PNode node = new PhetPPath( new RoundRectangle2D.Double( 0, 0, width, height, 10, 10 ), Color.green, new BasicStroke( 1 ), Color.darkGray ) {{
-            //workaround the "edges get cut off in toImage" problem
-            setBounds( -1, -1, width + 2, height + 2 );
+        PNode node = new PNode() {{
+            final PhetPPath hosePart = new PhetPPath( new RoundRectangle2D.Double( 0, 0, width, height, 10, 10 ), Color.green, new BasicStroke( 1 ), Color.darkGray ) {{
+                //workaround the "edges get cut off in toImage" problem
+                setBounds( -1, -1, width + 2, height + 2 );
+            }};
+            addChild( hosePart );
+            addChild( new PImage( BufferedImageUtils.multiScaleToHeight( getRotatedImage( Images.NOZZLE, Math.PI / 2 ), (int) ( hosePart.getFullBounds().getHeight() + 4 ) ) ) {{
+                setOffset( hosePart.getFullBounds().getMaxX() - getFullBounds().getWidth() + 15, hosePart.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
+            }} );
         }};
         final ImageIcon imageIcon = new ImageIcon( node.toImage() );
 
