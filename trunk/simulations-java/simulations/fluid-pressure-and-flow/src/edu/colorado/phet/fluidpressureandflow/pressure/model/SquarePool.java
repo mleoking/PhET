@@ -118,14 +118,14 @@ public class SquarePool implements FaucetPool {
         return getWaterShape().get().contains( sensorPosition.getX(), sensorPosition.getY() );
     }
 
-    @Override public ArrayList<Pair<Double, Double>> getGrassSegments() {
+    public ArrayList<Pair<Double, Double>> getGrassSegments() {
         return new ArrayList<Pair<Double, Double>>() {{
             add( new Pair<Double, Double>( getContainerShape().getBounds2D().getMinX() - 100, getContainerShape().getBounds2D().getMinX() ) );
             add( new Pair<Double, Double>( getContainerShape().getBounds2D().getMaxX(), getContainerShape().getBounds2D().getMaxX() + 100 ) );
         }};
     }
 
-    @Override public ArrayList<ArrayList<ImmutableVector2D>> getEdges() {
+    public ArrayList<ArrayList<ImmutableVector2D>> getEdges() {
         return new ArrayList<ArrayList<ImmutableVector2D>>() {{
             add( new ArrayList<ImmutableVector2D>() {{
                 add( new ImmutableVector2D( getContainerShape().getBounds2D().getMinX(), getContainerShape().getBounds2D().getMaxY() ) );
@@ -153,17 +153,17 @@ public class SquarePool implements FaucetPool {
 
     public Point2D getTopRight() { return new Point2D.Double( getMaxX(), getMaxY() ); }
 
-    @Override public double getWaterOutputCenterX() { return getWaterShape().get().getBounds2D().getCenterX(); }
+    public double getWaterOutputCenterX() { return getWaterShape().get().getBounds2D().getCenterX(); }
 
-    @Override public ObservableProperty<Double> getWaterVolume() {return waterVolume;}
+    public ObservableProperty<Double> getWaterVolume() {return waterVolume;}
 
-    @Override public ObservableProperty<Boolean> getDrainFaucetEnabled() { return drainFaucetEnabled; }
+    public ObservableProperty<Boolean> getDrainFaucetEnabled() { return drainFaucetEnabled; }
 
-    @Override public Property<Double> getDrainFlowRate() { return drainFlowRate; }
+    public Property<Double> getDrainFlowRate() { return drainFlowRate; }
 
-    @Override public Property<Double> getInputFlowRatePercentage() { return inputFlowRatePercentage; }
+    public Property<Double> getInputFlowRatePercentage() { return inputFlowRatePercentage; }
 
-    @Override public ObservableProperty<Boolean> getInputFaucetEnabled() { return inputFaucetEnabled; }
+    public ObservableProperty<Boolean> getInputFaucetEnabled() { return inputFaucetEnabled; }
 
-    @Override public double getInputFaucetX() { return -3 + 0.2; }
+    public double getInputFaucetX() { return -3 + 0.2; }
 }

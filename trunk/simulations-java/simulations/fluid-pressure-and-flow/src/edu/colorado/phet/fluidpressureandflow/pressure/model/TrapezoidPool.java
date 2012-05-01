@@ -174,7 +174,7 @@ public class TrapezoidPool implements FaucetPool {
         return getWaterShape().get().contains( sensorPosition.getX(), sensorPosition.getY() );
     }
 
-    @Override public ArrayList<Pair<Double, Double>> getGrassSegments() {
+    public ArrayList<Pair<Double, Double>> getGrassSegments() {
         return new ArrayList<Pair<Double, Double>>() {{
             add( new Pair<Double, Double>( topLeftOfLeftChamber().getX() - 100, topLeftOfLeftChamber().getX() ) );
             add( new Pair<Double, Double>( topLeftOfLeftChamber().plus( widthAtTop, 0 ).getX(), getTopLeftOfRightChamber().getX() ) );
@@ -182,7 +182,7 @@ public class TrapezoidPool implements FaucetPool {
         }};
     }
 
-    @Override public ArrayList<ArrayList<ImmutableVector2D>> getEdges() {
+    public ArrayList<ArrayList<ImmutableVector2D>> getEdges() {
 
         //Left chamber
         final ImmutableVector2D topLeftA = topLeftOfLeftChamber();
@@ -220,17 +220,17 @@ public class TrapezoidPool implements FaucetPool {
         waterVolume.reset();
     }
 
-    @Override public double getWaterOutputCenterX() { return passage().getBounds2D().getCenterX() + 0.55; }
+    public double getWaterOutputCenterX() { return passage().getBounds2D().getCenterX() + 0.55; }
 
-    @Override public ObservableProperty<Double> getWaterVolume() { return waterVolume; }
+    public ObservableProperty<Double> getWaterVolume() { return waterVolume; }
 
-    @Override public ObservableProperty<Boolean> getDrainFaucetEnabled() { return drainFaucetEnabled; }
+    public ObservableProperty<Boolean> getDrainFaucetEnabled() { return drainFaucetEnabled; }
 
-    @Override public Property<Double> getDrainFlowRate() { return drainFlowRate; }
+    public Property<Double> getDrainFlowRate() { return drainFlowRate; }
 
-    @Override public Property<Double> getInputFlowRatePercentage() { return inputFlowRatePercentage; }
+    public Property<Double> getInputFlowRatePercentage() { return inputFlowRatePercentage; }
 
-    @Override public ObservableProperty<Boolean> getInputFaucetEnabled() { return inputFaucetEnabled; }
+    public ObservableProperty<Boolean> getInputFaucetEnabled() { return inputFaucetEnabled; }
 
-    @Override public double getInputFaucetX() { return centerAtLeftChamberOpening; }
+    public double getInputFaucetX() { return centerAtLeftChamberOpening; }
 }
