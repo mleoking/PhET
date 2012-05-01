@@ -8,6 +8,9 @@ import edu.colorado.phet.common.phetcommon.model.ResetModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.common.phetcommon.util.Option.None;
+import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -87,12 +90,12 @@ public abstract class FluidPressureAndFlowModel implements PressureSensor.Contex
      * Gets the pressure the specified location, overriden in subclasses to account for other water structures, etc.
      * The implementation here just returns the air pressure, or Double.NaN if the sample point is under y=0.
      */
-    public double getPressure( double x, double y ) {
+    public Option<Double> getPressure( double x, double y ) {
         if ( y >= 0 ) {
-            return getPressureFunction().evaluate( y );
+            return new Some<Double>( getPressureFunction().evaluate( y ) );
         }
         else {
-            return Double.NaN;
+            return new None<Double>();
         }
     }
 

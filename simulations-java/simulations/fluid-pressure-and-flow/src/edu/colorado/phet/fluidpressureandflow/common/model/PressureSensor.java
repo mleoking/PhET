@@ -2,6 +2,7 @@
 package edu.colorado.phet.fluidpressureandflow.common.model;
 
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -30,7 +31,7 @@ public class PressureSensor extends Sensor<Double> {
 
     //Context for pressure sensor, so when the environment changes, the value readout will update
     public static interface Context {
-        double getPressure( double x, double y );
+        Option<Double> getPressure( double x, double y );
 
         void addPressureChangeObserver( SimpleObserver updatePressure );
 

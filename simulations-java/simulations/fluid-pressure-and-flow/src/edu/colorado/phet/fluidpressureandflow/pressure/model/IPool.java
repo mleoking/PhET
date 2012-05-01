@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
@@ -22,7 +23,7 @@ public interface IPool {
 
     ObservableProperty<Shape> getWaterShape();
 
-    double getPressure( final double x, final double y, boolean atmosphere, double standardAirPressure, double liquidDensity, double gravity );
+    Option<Double> getPressure( final double x, final double y, boolean atmosphere, double standardAirPressure, double liquidDensity, double gravity );
 
     void stepInTime( double dt );
 

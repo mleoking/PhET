@@ -21,6 +21,7 @@ public class FluidPressureAndFlowResources {
         public static final String ATM = RESOURCES.getLocalizedString( "atm" );
         public static final String ATMOSPHERE = RESOURCES.getLocalizedString( "atmosphere" );
         public static final String ATMOSPHERES = RESOURCES.getLocalizedString( "atmospheres" );
+        public static final String DASH = RESOURCES.getLocalizedString( "dash" );
         public static final String DENSITY_UNITS_ENGLISH = RESOURCES.getLocalizedString( "densityUnitsEnglish" );
         public static final String DENSITY_UNITS_METRIC = RESOURCES.getLocalizedString( "densityUnitsMetric" );
         public static final String DOTS = RESOURCES.getLocalizedString( "dots" );
@@ -59,7 +60,6 @@ public class FluidPressureAndFlowResources {
         public static final String ON = RESOURCES.getLocalizedString( "on" );
         public static final String PRESSURE = RESOURCES.getLocalizedString( "pressure" );
         public static final String PSI = RESOURCES.getLocalizedString( "psi" );
-        public static final String QUESTION_MARK = RESOURCES.getLocalizedString( "questionMark" );
         public static final String RATE_UNITS_ENGLISH = RESOURCES.getLocalizedString( "rateUnitsEnglish" );
         public static final String RATE_UNITS_METRIC = RESOURCES.getLocalizedString( "rateUnitsMetric" );
         public static final String READOUT_FEET = RESOURCES.getLocalizedString( "readoutFeet" );

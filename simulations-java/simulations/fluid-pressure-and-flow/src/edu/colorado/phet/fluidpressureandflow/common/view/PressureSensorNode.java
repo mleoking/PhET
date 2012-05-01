@@ -12,8 +12,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.util.Option;
-import edu.colorado.phet.common.phetcommon.util.Option.None;
-import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -61,7 +59,8 @@ public class PressureSensorNode extends SensorNode {
         final PointSensor<Double> pointSensor = new PointSensor<Double>( 0, 0 );
 
         //Show the speedometer sensor and make top-center be 1.0 atm for the pressure sensor
-        final ZeroOffsetNode speedometerNode = new ZeroOffsetNode( new SpeedometerSensorNode( transform, pointSensor, PRESSURE, Units.ATMOSPHERE.toSI( 1.0 ) * 2 ) ) {{
+        final SpeedometerSensorNode speedometerSensorNode = new SpeedometerSensorNode( transform, pointSensor, PRESSURE, Units.ATMOSPHERE.toSI( 1.0 ) * 2 );
+        final ZeroOffsetNode speedometerNode = new ZeroOffsetNode( speedometerSensorNode ) {{
 
             //make the hot spot at the bottom center
             translate( -getFullWidth() / 2, -getFullBounds().getHeight() );
@@ -78,9 +77,7 @@ public class PressureSensorNode extends SensorNode {
 
         pressureSensor.addValueObserver( new SimpleObserver() {
             public void update() {
-                final Double v = pressureSensor.getValue();
-                Option<Double> value = Double.isNaN( v ) ? new None<Double>() : new Some<Double>( v );
-                pointSensor.value.set( value );
+                pointSensor.value.set( pressureSensor.getValue() );
             }
         } );
 
@@ -91,6 +88,7 @@ public class PressureSensorNode extends SensorNode {
                 textNode.setText( text.get() );
                 textNode.centerBoundsOnPoint( speedometerNode.getCenterX(), speedometerNode.getCenterY() + 30 );
                 textOutline.setPathTo( RectangleUtils.expand( textNode.getFullBounds(), 2, 0 ) );
+                textOutline.setVisible( !text.get().equals( DASH ) );
             }
         } );
 
@@ -111,19 +109,18 @@ public class PressureSensorNode extends SensorNode {
                 SimSharingManager.sendUserMessage( pressureSensor.userComponent, ComponentTypes.pressureSensor, UserActions.drag,
                                                    parameterSet( ParameterKeys.x, modelPoint.getX() ).
                                                            with( ParameterKeys.y, modelPoint.getY() ).
-                                                           with( pressure, pressureSensor.context.getPressure( modelPoint.getX(), modelPoint.getY() ) ) );
+                                                           with( pressure, pressureSensor.context.getPressure( modelPoint.getX(), modelPoint.getY() ).getOrElse( Double.NaN ) ) );
             }
         } );
     }
 
     //Use higher precision in the air since the pressure changes much more slowly there
-    @Override public String getDisplayString( Unit unit, double v ) {
+    @Override public String getDisplayString( Unit unit, Option<Double> x ) {
         String pattern = VALUE_WITH_UNITS_PATTERN;
-        String value = QUESTION_MARK;
-        if ( !Double.isNaN( v ) ) {
+        if ( x.isSome() ) {
 
             //For pascals, don’t show any decimal places because it already has enough precision
-            final boolean abbreviatedBasedOnPool = pool != null && pool.get().isAbbreviatedUnits( sensor.location.get(), v );
+            final boolean abbreviatedBasedOnPool = pool != null && pool.get().isAbbreviatedUnits( sensor.location.get(), x.get() );
 
             //Also, don't show extra decimal places if it is in the water of the water tank.
             final boolean abbreviatedBasedOnWaterTower = pressureSensor != null && pressureSensor.context != null && pressureSensor.context.isInWaterTowerWater( sensor.location.get().getX(), sensor.location.get().getY() );
@@ -132,9 +129,12 @@ public class PressureSensorNode extends SensorNode {
                                          unit == Units.KILOPASCAL && !showAbbreviated ? new DecimalFormat( "0.000" ) :
                                          showAbbreviated ? new DecimalFormat( "0.00" ) :
                                          new DecimalFormat( "0.0000" );
-            value = format.format( unit.siToUnit( v ) );
+            String value = format.format( unit.siToUnit( x.get() ) );
+            return format( pattern, value, unit.getAbbreviation() );
         }
-        return format( pattern, value, unit.getAbbreviation() );
+        else {
+            return DASH;
+        }
     }
 
     //Gets a property corresponding to the Pressure unit in a UnitSet, consider creating a class UnitSetProperty and moving this method there
