@@ -7,6 +7,7 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -230,12 +231,12 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
     }
 
     //Get the pressure at the specified point
-    @Override public double getPressure( double x, double y ) {
+    @Override public Option<Double> getPressure( double x, double y ) {
         if ( waterTower.getWaterShape().contains( x, y ) ) {
             final double waterTopY = waterTower.getWaterShape().getBounds2D().getMaxY();
             double distanceUnderwater = waterTopY - y;
-            double airPressureOnTop = super.getPressure( x, waterTopY );
-            return airPressureOnTop + liquidDensity.get() * gravity.get() * distanceUnderwater;
+            Option<Double> airPressureOnTop = super.getPressure( x, waterTopY );
+            return new Some<Double>( airPressureOnTop.get() + liquidDensity.get() * gravity.get() * distanceUnderwater );
         }
         else {
             return super.getPressure( x, y );

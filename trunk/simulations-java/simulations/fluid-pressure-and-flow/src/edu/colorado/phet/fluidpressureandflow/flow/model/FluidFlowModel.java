@@ -9,6 +9,8 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.common.phetcommon.util.Option.None;
+import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents;
@@ -92,16 +94,16 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
     }
 
     //Gets the pressure at the specified location
-    @Override public double getPressure( double x, double y ) {
+    @Override public Option<Double> getPressure( double x, double y ) {
         Option<ImmutableVector2D> velocity = getVelocity( x, y );
 
         double vSquared = velocity.isSome() ? velocity.get().getMagnitudeSq() : 0.0;
         double K = 101325;//choose a base value for pipe internal pressure, also ensure that pressure is never negative in the pipe in a narrow region
         if ( pipe.getShape().contains( x, y ) ) {
-            return K - 0.5 * liquidDensity.get() * vSquared - liquidDensity.get() * gravity.get() * y;
+            return new Some<Double>( K - 0.5 * liquidDensity.get() * vSquared - liquidDensity.get() * gravity.get() * y );
         }
         else if ( y < 0 ) {
-            return Double.NaN;
+            return new None<Double>();
         }
         else {
             return super.getPressure( x, y );

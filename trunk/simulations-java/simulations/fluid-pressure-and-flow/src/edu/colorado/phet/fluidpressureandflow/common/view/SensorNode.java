@@ -2,6 +2,7 @@
 package edu.colorado.phet.fluidpressureandflow.common.view;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -9,7 +10,7 @@ import edu.colorado.phet.fluidpressureandflow.common.model.Sensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Unit;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.QUESTION_MARK;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.DASH;
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.VALUE_WITH_UNITS_PATTERN;
 import static java.text.MessageFormat.format;
 
@@ -48,11 +49,11 @@ public abstract class SensorNode extends PNode {
     }
 
     //Function that transforms the value to the display readout
-    public String getDisplayString( Unit unit, double v ) {
+    public String getDisplayString( Unit unit, Option<Double> x ) {
         String pattern = VALUE_WITH_UNITS_PATTERN;
-        String value = QUESTION_MARK;
-        if ( !Double.isNaN( v ) ) {
-            value = unit.getDecimalFormat().format( unit.siToUnit( v ) );
+        String value = DASH;
+        if ( x.isSome() ) {
+            value = unit.getDecimalFormat().format( unit.siToUnit( x.get() ) );
         }
         return format( pattern, value, unit.getAbbreviation() );
     }

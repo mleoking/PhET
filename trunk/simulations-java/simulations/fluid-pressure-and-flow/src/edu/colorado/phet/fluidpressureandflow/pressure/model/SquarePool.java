@@ -13,6 +13,9 @@ import edu.colorado.phet.common.phetcommon.model.property.CompositeBooleanProper
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.common.phetcommon.util.Option.None;
+import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
@@ -74,9 +77,9 @@ public class SquarePool implements FaucetPool {
 
     public ObservableProperty<Shape> getWaterShape() { return waterShape; }
 
-    public double getPressure( final double x, final double y, final boolean atmosphere, final double standardAirPressure, final double liquidDensity, final double gravity ) {
+    public Option<Double> getPressure( final double x, final double y, final boolean atmosphere, final double standardAirPressure, final double liquidDensity, final double gravity ) {
         if ( y >= 0 ) {
-            return Pool.getPressureAboveGround( y, atmosphere, standardAirPressure, gravity );
+            return new Some<Double>( Pool.getPressureAboveGround( y, atmosphere, standardAirPressure, gravity ) );
         }
         else {
             //Under the ground
@@ -85,12 +88,12 @@ public class SquarePool implements FaucetPool {
 
             //In the ground, return 0.0 (no reading)
             if ( !containerShape.contains( x, y ) ) {
-                return 0.0;
+                return new None<Double>();
             }
 
             //in the container but not the water
             else if ( containerShape.contains( x, y ) && !waterShape.contains( x, y ) ) {
-                return Pool.getPressureAboveGround( y, atmosphere, standardAirPressure, gravity );
+                return new Some<Double>( Pool.getPressureAboveGround( y, atmosphere, standardAirPressure, gravity ) );
             }
 
             //In the water, but the container may not be completely full
@@ -101,7 +104,7 @@ public class SquarePool implements FaucetPool {
                 double y0 = -height + waterHeight;
                 double p0 = Pool.getPressureAboveGround( y0, atmosphere, standardAirPressure, gravity );
                 double distanceBelowWater = Math.abs( -y + y0 );
-                return p0 + liquidDensity * gravity * distanceBelowWater;
+                return new Some<Double>( p0 + liquidDensity * gravity * distanceBelowWater );
             }
         }
     }

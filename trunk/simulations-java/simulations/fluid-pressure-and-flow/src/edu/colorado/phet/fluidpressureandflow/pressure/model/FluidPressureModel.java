@@ -4,6 +4,7 @@ package edu.colorado.phet.fluidpressureandflow.pressure.model;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -75,7 +76,7 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
     }
 
     //Gets the pressure at the specified location.
-    @Override public double getPressure( double x, double y ) {
+    @Override public Option<Double> getPressure( double x, double y ) {
         return pool.get().getPressure( x, y, atmosphere.get(), standardAirPressure.get(), liquidDensity.get(), gravity.get() );
     }
 
