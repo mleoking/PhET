@@ -21,6 +21,10 @@ public class GrassNode {
         final BufferedImage grassTexture = BufferedImageUtils.multiScaleToHeight( Images.GRASS_TEXTURE, 15 );
         Rectangle2D grassRectangle = transform.modelToView( new Rectangle2D.Double( x0, 0, x1 - x0, 0.12 ) ).getBounds2D();
         ImmutableVector2D origin = transform.modelToView( ImmutableVector2D.ZERO );
-        return new PhetPPath( grassRectangle, new TexturePaint( grassTexture, new Rectangle2D.Double( origin.getX(), origin.getY(), grassTexture.getWidth(), grassTexture.getHeight() ) ) );
+        return new PhetPPath( grassRectangle, new TexturePaint( grassTexture, new Rectangle2D.Double( origin.getX(), origin.getY(), grassTexture.getWidth(), grassTexture.getHeight() ) ) ) {{
+
+            //Move it down a little bit because there is a blue "air" gap between the grass and the ground
+            translate( 0, 1 );
+        }};
     }
 }
