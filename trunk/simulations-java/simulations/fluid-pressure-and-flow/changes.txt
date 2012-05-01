@@ -1,3 +1,4 @@
+Pressure tab: Made pool background gray and textured like concrete
 Water tower tab: Reduce precision in pressure sensor when over the water tower water
 Added developer menu items for the dirt color
 Pressure tab: added grass for all scenes
