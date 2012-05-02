@@ -38,7 +38,7 @@ public class KnobNode2 extends PComposite {
     // Class Data
     //-------------------------------------------------------------------------
 
-    public static final double DEFAULT_SIZE = 40;
+    public static final double DEFAULT_SIZE = 30;
     public static final Style DEFAULT_STYLE = Style.RECTANGLE;
 
     //-------------------------------------------------------------------------
@@ -88,13 +88,15 @@ public class KnobNode2 extends PComposite {
         Shape knobShape = createKnobShape( style, width );
         final PhetPPath knobShapeNode = new PhetPPath( knobShape ) {{
             setPaint( colorScheme.enabledColor );
-            setStroke( new BasicStroke( 2f ) );
+            setStroke( new BasicStroke( 1f ) );
 
             //When enabled/disabled or focused/unfocused, change the appearance.
             new RichSimpleObserver() {
                 @Override public void update() {
-                    setPaint( !enabled.get() ? colorScheme.disabledColor : ( focused.get() ? colorScheme.highlightedColor : colorScheme.enabledColor ) );
-                    setStrokePaint( !enabled.get() ? Color.gray : focused.get() ? ColorUtils.darkerColor( Color.gray, 0.2 ) : Color.gray );
+                    setPaint( !enabled.get() ? colorScheme.disabledColor :
+                              ( focused.get() ? colorScheme.highlightedColor :
+                                colorScheme.enabledColor ) );
+                    setStrokePaint( enabled.get() ? Color.black : Color.gray );
                 }
             }.observe( enabled, focused );
         }};
@@ -159,14 +161,15 @@ public class KnobNode2 extends PComposite {
 
     private static Shape createKnobShape( Style knobStyle, final double width ) {
         Area knobShape = null;
+        final int fractionOfWidthToRound = 5;
         switch( knobStyle ) {
             case RECTANGLE:
-                knobShape = new Area( new RoundRectangle2D.Double( 0, 0, width, width * 0.4, width / 10, width / 10 ) );
+                knobShape = new Area( new RoundRectangle2D.Double( 0, 0, width, width * 0.4, width / fractionOfWidthToRound, width / fractionOfWidthToRound ) );
                 break;
             case POINTED_RECTANGLE: {
                 double unPointedProportion = 0.7;
                 double height = width * 0.5;
-                knobShape = new Area( new RoundRectangle2D.Double( 0, 0, width * unPointedProportion, height, width / 10, width / 10 ) );
+                knobShape = new Area( new RoundRectangle2D.Double( 0, 0, width * unPointedProportion, height, width / fractionOfWidthToRound, width / fractionOfWidthToRound ) );
                 DoubleGeneralPath pointerPath = new DoubleGeneralPath( width, height / 2 );
                 pointerPath.lineTo( width * unPointedProportion, 0 );
                 pointerPath.lineTo( width * 0.1, 0 );

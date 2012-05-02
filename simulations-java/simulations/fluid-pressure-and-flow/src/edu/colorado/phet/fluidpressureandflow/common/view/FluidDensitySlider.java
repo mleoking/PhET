@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.piccolophet.nodes.slider.KnobNode2.Style;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.ScaledDoubleProperty;
@@ -35,7 +36,7 @@ public class FluidDensitySlider<T extends FluidPressureAndFlowModel> extends PNo
             put( gasDensity, GASOLINE );
             put( waterDensity, WATER );
             put( honeyDensity, HONEY );
-        }}, new DecimalFormat( "0" ) ) {{
+        }}, new DecimalFormat( "0" ), Style.POINTED_RECTANGLE ) {{
             module.fluidDensityControlVisible.addObserver( new SimpleObserver() {
                 public void update() {
                     setVisible( maximized.get() );

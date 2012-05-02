@@ -28,8 +28,8 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserCompon
  */
 public class SliderControl extends PNode {
 
-    public SliderControl( IUserComponent userComponent, String title, String units, final double min, final double max, final Property<Double> property, final HashMap<Double, String> tickLabels, final DecimalFormat format ) {
-        HSliderNode2 slider = new HSliderNode2( chain( userComponent, UserComponents.slider ), min, max, new KnobNode2( Style.POINTED_RECTANGLE ), property, new Property<Boolean>( true ) );
+    public SliderControl( IUserComponent userComponent, String title, String units, final double min, final double max, final Property<Double> property, final HashMap<Double, String> tickLabels, final DecimalFormat format, Style style ) {
+        HSliderNode2 slider = new HSliderNode2( chain( userComponent, UserComponents.slider ), min, max, new KnobNode2( style ), property, new Property<Boolean>( true ) );
         for ( Double key : tickLabels.keySet() ) {
             slider.addLabel( key, new PText( tickLabels.get( key ) ) );
         }
