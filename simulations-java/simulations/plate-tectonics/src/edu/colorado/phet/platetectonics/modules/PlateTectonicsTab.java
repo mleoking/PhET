@@ -474,6 +474,9 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
             clock.stepByWallSeconds( timeElapsed );
         }
 
+        // force updating of matrices before the callbacks are run, so we have correct ray picking
+        loadCameraMatrices();
+
         beforeFrameRender.updateListeners();
 
         // Clear the screen and depth buffer
