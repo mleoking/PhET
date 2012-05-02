@@ -207,21 +207,21 @@ public class EFACIntroModel {
                     validatedPos.setLocation( beaker.getRect().getMaxX() + modelElement.getRect().getWidth() / 2, validatedPos.getY() );
                 }
             }
-            /*
-            if ( modelElement.position.get().getY() > beaker.getRect().getMaxY() && proposedTranslation.getY() < 0 ) {
+            if ( modelElement.position.get().getY() >= beaker.getRect().getMaxY() && proposedTranslation.getY() < 0 ) {
                 // Model element is above the beaker and is being dragged
                 // down towards it.
                 Line2D bottomEdge = new Line2D.Double( modelElement.getRect().getMinX(), modelElement.getRect().getMinY(), modelElement.getRect().getMaxX(), modelElement.getRect().getMinY() );
                 Shape bottomEdgeSmear = projectShapeFromLine( bottomEdge, proposedTranslation );
-                Line2D beakerLeftEdge = new Line2D.Double( beaker.getRect().getMinX(), beaker.getRect().getMinY(), beaker.getRect().getMinX(), beaker.getRect().getMaxY() );
-                Line2D beakerRightEdge = new Line2D.Double( beaker.getRect().getMaxX(), beaker.getRect().getMinY(), beaker.getRect().getMaxX(), beaker.getRect().getMaxY() );
-                if ( beakerLeftEdge.ibottomEdgeSmear.intersects( beakerLeftEdge ) ) {
-                    // The proposed motion would bump into the beaker in the
-                    // x direction, so limit the position.
-                    validatedPos.setLocation( beaker.getRect().getMinX() - modelElement.getRect().getWidth() / 2, validatedPos.getY() );
+                double testRectWidth = 1E-9;
+                Rectangle2D beakerLeftEdge = new Rectangle2D.Double( beaker.getRect().getMinX(), beaker.getRect().getMinY(), testRectWidth, beaker.getRect().getHeight() );
+                Rectangle2D beakerRightEdge = new Rectangle2D.Double( beaker.getRect().getMaxX(), beaker.getRect().getMinY(), testRectWidth, beaker.getRect().getHeight() );
+                if ( bottomEdgeSmear.intersects( beakerLeftEdge ) || bottomEdgeSmear.intersects( beakerRightEdge ) ) {
+                    // The proposed motion would bump into the top of one or
+                    // more of the beaker edges, so limit the Y position.
+                    validatedPos.setLocation( validatedPos.getX(), beaker.getRect().getMaxY() );
+                    System.out.println( "Limited y Position." );
                 }
             }
-            */
 
         }
 
