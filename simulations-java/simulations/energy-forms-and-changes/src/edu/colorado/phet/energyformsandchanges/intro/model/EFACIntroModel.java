@@ -1,6 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
+import java.awt.Shape;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
@@ -12,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 
 /**
@@ -172,8 +175,43 @@ public class EFACIntroModel {
      * @param proposedPosition
      * @return
      */
-    public Point2D validatePosition( UserMovableModelElement modelElement, Point2D proposedPosition ) {
-        return proposedPosition;
+    public Point2D validatePosition( RectangularMovableModelElement modelElement, Point2D proposedPosition ) {
+
+        Point2D validatedPos = new Point2D.Double( proposedPosition.getX(), proposedPosition.getY() );
+
+        // Validate against the sides of the beaker.
+        if ( modelElement != beaker ) {
+            ImmutableVector2D proposedTranslation = new ImmutableVector2D( proposedPosition ).getSubtractedInstance( modelElement.position.get() );
+            if ( modelElement.position.get().getX() < beaker.getRect().getMinX() &&
+                 proposedTranslation.getX() > 0 ) {
+                // Model element is on the left side of the beaker and is
+                // being moved towards the beaker.
+                Line2D rightEdge = new Line2D.Double( modelElement.getRect().getMaxX(), modelElement.getRect().getMinY(), modelElement.getRect().getMaxX(), modelElement.getRect().getMaxY() );
+                Shape rightEdgeSmear = projectShapeFromLine( rightEdge, proposedTranslation );
+                if ( rightEdgeSmear.intersects( beaker.getRect() ) ) {
+                    // The proposed motion would bump into the beaker in the
+                    // x direction, so limit the position.
+                    validatedPos.setLocation( beaker.getRect().getMinX() - modelElement.getRect().getWidth() / 2, validatedPos.getY() );
+                }
+            }
+        }
+
+        return validatedPos;
+    }
+
+    /**
+     * Project a line into a 2D shape based on the provided projection vector.
+     * This is a convenience function used by the code that detects potential
+     * collisions between the 2D objects in model space.
+     */
+    private Shape projectShapeFromLine( Line2D edge, ImmutableVector2D projection ) {
+        DoubleGeneralPath path = new DoubleGeneralPath();
+        path.moveTo( edge.getP1() );
+        path.lineTo( edge.getX1() + projection.getX(), edge.getY1() + projection.getY() );
+        path.lineTo( edge.getX2() + projection.getX(), edge.getY2() + projection.getY() );
+        path.lineTo( edge.getP2() );
+        path.closePath();
+        return path.getGeneralPath();
     }
 
     public IClock getClock() {

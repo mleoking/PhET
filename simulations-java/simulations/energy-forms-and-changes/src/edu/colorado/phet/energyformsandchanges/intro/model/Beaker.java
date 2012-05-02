@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 
@@ -10,13 +11,14 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Model element that represents a beaker in the model.
  *
  * @author John Blanco
  */
-public class Beaker extends UserMovableModelElement {
+public class Beaker extends RectangularMovableModelElement {
 
     //-------------------------------------------------------------------------
     // Class Data
@@ -74,11 +76,15 @@ public class Beaker extends UserMovableModelElement {
      *
      * @return
      */
-    public Rectangle2D getOutlineRect() {
+    public Rectangle2D getRect() {
         return new Rectangle2D.Double( position.get().getX() - WIDTH / 2,
                                        position.get().getY(),
                                        WIDTH,
                                        HEIGHT );
+    }
+
+    @Override public Dimension2D getSize() {
+        return new PDimension( WIDTH, HEIGHT );
     }
 
     /**
@@ -93,8 +99,8 @@ public class Beaker extends UserMovableModelElement {
 
         // Calculate the amount of overlap between the rectangle that
         // represents the fluid and the displacing rectangles.
-        Rectangle2D fluidRectangle = new Rectangle2D.Double( getOutlineRect().getX(),
-                                                             getOutlineRect().getY(),
+        Rectangle2D fluidRectangle = new Rectangle2D.Double( getRect().getX(),
+                                                             getRect().getY(),
                                                              WIDTH,
                                                              HEIGHT * fluidLevel.get() );
         double overlappingArea = 0;
@@ -123,11 +129,11 @@ public class Beaker extends UserMovableModelElement {
 
 
     private void updateSurfaces() {
-        topSurface.set( new HorizontalSurface( new DoubleRange( getOutlineRect().getMinX(), getOutlineRect().getMaxX() ),
-                                               getOutlineRect().getMinY() + MATERIAL_THICKNESS,
+        topSurface.set( new HorizontalSurface( new DoubleRange( getRect().getMinX(), getRect().getMaxX() ),
+                                               getRect().getMinY() + MATERIAL_THICKNESS,
                                                this ) );
-        bottomSurface.set( new HorizontalSurface( new DoubleRange( getOutlineRect().getMinX(), getOutlineRect().getMaxX() ),
-                                                  getOutlineRect().getMinY(),
+        bottomSurface.set( new HorizontalSurface( new DoubleRange( getRect().getMinX(), getRect().getMaxX() ),
+                                                  getRect().getMinY(),
                                                   this ) );
     }
 
