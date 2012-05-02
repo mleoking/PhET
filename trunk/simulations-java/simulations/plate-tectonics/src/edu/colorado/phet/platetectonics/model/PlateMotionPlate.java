@@ -6,6 +6,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
@@ -104,53 +105,95 @@ public class PlateMotionPlate extends Plate {
         final int crustLabelIndex = ( getCrust().getTopBoundary().samples.size() * ( getSide() == LEFT ? 5 : 1 ) ) / 6;
         final int lithosphereLabelIndex = ( getCrust().getTopBoundary().samples.size() * ( getSide() == LEFT ? 4 : 2 ) ) / 6;
 
+        final Property<ImmutableVector3F> crustTop = new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+            final Sample sample = getCrust().getTopBoundary().getSample( crustLabelIndex );
+            assert sample != null;
+            model.modelChanged.addUpdateListener(
+                    new UpdateListener() {
+                        public void update() {
+                            set( sample.getPosition() );
+                        }
+                    }, true );
+        }};
+
+        final Property<ImmutableVector3F> crustBottom = new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+            final Sample sample = getCrust().getBottomBoundary().getSample( crustLabelIndex );
+            assert sample != null;
+            model.modelChanged.addUpdateListener(
+                    new UpdateListener() {
+                        public void update() {
+                            set( sample.getPosition() );
+                        }
+                    }, true );
+        }};
+
+        final Property<ImmutableVector3F> lithosphereTop = new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+            final Sample sample = getCrust().getTopBoundary().getSample( lithosphereLabelIndex );
+            assert sample != null;
+            model.modelChanged.addUpdateListener(
+                    new UpdateListener() {
+                        public void update() {
+                            set( sample.getPosition() );
+                        }
+                    }, true );
+        }};
+
+        final Property<ImmutableVector3F> lithosphereBottom = new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+            final Sample sample = getLithosphere().getBottomBoundary().getSample( lithosphereLabelIndex );
+            assert sample != null;
+            model.modelChanged.addUpdateListener(
+                    new UpdateListener() {
+                        public void update() {
+                            set( sample.getPosition() );
+                        }
+                    }, true );
+        }};
+
         model.getRangeLabels().add( new RangeLabel(
-                new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
-                    final Sample sample = getCrust().getTopBoundary().getSample( crustLabelIndex );
-                    assert sample != null;
-                    model.modelChanged.addUpdateListener(
-                            new UpdateListener() {
-                                public void update() {
-                                    set( sample.getPosition() );
-                                }
-                            }, true );
-                }},
-                new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
-                    final Sample sample = getCrust().getBottomBoundary().getSample( crustLabelIndex );
-                    assert sample != null;
-                    model.modelChanged.addUpdateListener(
-                            new UpdateListener() {
-                                public void update() {
-                                    set( sample.getPosition() );
-                                }
-                            }, true );
-                }},
+                crustTop,
+                crustBottom,
                 type.getSpecificLabel(), this
         ) );
 
         model.getRangeLabels().add( new RangeLabel(
-                new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
-                    final Sample sample = getCrust().getTopBoundary().getSample( lithosphereLabelIndex );
-                    assert sample != null;
-                    model.modelChanged.addUpdateListener(
-                            new UpdateListener() {
-                                public void update() {
-                                    set( sample.getPosition() );
-                                }
-                            }, true );
-                }},
-                new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
-                    final Sample sample = getLithosphere().getBottomBoundary().getSample( lithosphereLabelIndex );
-                    assert sample != null;
-                    model.modelChanged.addUpdateListener(
-                            new UpdateListener() {
-                                public void update() {
-                                    set( sample.getPosition() );
-                                }
-                            }, true );
-                }},
+                lithosphereTop,
+                lithosphereBottom,
                 Strings.LITHOSPHERE, this
         ) );
+
+        final float mantleX = lithosphereBottom.get().getX();
+
+        model.getRangeLabels().add( new RangeLabel(
+                // calculate the y for a set x value for this
+                new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+                    lithosphereBottom.addObserver( new SimpleObserver() {
+                        public void update() {
+                            set( new ImmutableVector3F(
+                                    mantleX,
+                                    getLithosphere().getBottomBoundary().getApproximateYFromX( mantleX ),
+                                    lithosphereBottom.get().z
+                            ) );
+                        }
+                    } );
+                }},
+
+                // and set x/y here, however we need to keep up to date with z for the transform motion
+                new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+                    lithosphereBottom.addObserver( new SimpleObserver() {
+                        public void update() {
+                            set( new ImmutableVector3F(
+                                    mantleX,
+                                    ( lithosphereBottom.get().y - lithosphereTop.get().y ) * 20,
+                                    lithosphereBottom.get().z
+                            ) );
+                        }
+                    } );
+                }},
+                Strings.MANTLE, this
+        ) {{
+            setLimitToScreen( true );
+        }} );
+
     }
 
     public float getSimpleChunkWidth() {

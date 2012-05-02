@@ -10,10 +10,20 @@ public class RangeLabel {
     public final String label;
     public final PlateMotionPlate plate;
 
+    private boolean limitToScreen = false;
+
     public RangeLabel( Property<ImmutableVector3F> top, Property<ImmutableVector3F> bottom, String label, PlateMotionPlate plate ) {
         this.top = top;
         this.bottom = bottom;
         this.label = label;
         this.plate = plate;
+    }
+
+    public boolean isLimitToScreen() {
+        return limitToScreen;
+    }
+
+    public void setLimitToScreen( boolean limitToScreen ) {
+        this.limitToScreen = limitToScreen;
     }
 }
