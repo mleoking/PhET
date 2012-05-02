@@ -12,7 +12,8 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
  */
 public class FunctionModule extends PiccoloModule {
 
-    private static final Color CREAM = new Color( 247, 243, 183 );
+    //    private static final Color CREAM = new Color( 247, 243, 183 );
+    private static final Color CREAM = new Color( 255, 252, 209 );//a little brighter
 
     public FunctionModule( final String name ) {
         super( name, new ConstantDtClock() );
