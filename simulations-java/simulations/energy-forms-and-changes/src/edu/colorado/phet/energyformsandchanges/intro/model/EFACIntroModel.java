@@ -177,72 +177,92 @@ public class EFACIntroModel {
      */
     public Point2D validatePosition( RectangularMovableModelElement modelElement, Point2D proposedPosition ) {
 
-        double validXPos = proposedPosition.getX();
-        double validYPos = proposedPosition.getY();
+        System.out.println( "------------------------" );
+        System.out.println( "current position = " + modelElement.position.get() );
+        System.out.println( "proposedPosition = " + proposedPosition );
+
+        double xPos = proposedPosition.getX();
+        double yPos = proposedPosition.getY();
 
         // Clamp Y position to be positive.
-        validYPos = Math.max( validYPos, 0 );
+        yPos = Math.max( yPos, 0 );
 
         // Validate against the sides of the beaker.
         if ( modelElement != beaker ) {
             // Create three rectangle to represent the two sides and the top of
             // the beaker.
-            double testRectThickness = 1E-9;
+            double testRectThickness = 1E-3; // 1 mm thick walls.
             Rectangle2D beakerRect = beaker.getRect();
             Rectangle2D beakerLeftSide = new Rectangle2D.Double( beakerRect.getMinX(), beaker.getRect().getMinY(), testRectThickness, beaker.getRect().getHeight() );
             Rectangle2D beakerRightSide = new Rectangle2D.Double( beaker.getRect().getMaxX() - testRectThickness, beaker.getRect().getMinY(), testRectThickness, beaker.getRect().getHeight() );
             Rectangle2D beakerBottom = new Rectangle2D.Double( beaker.getRect().getMinX(), beaker.getRect().getMinY(), beaker.getRect().getWidth(), testRectThickness );
 
             ImmutableVector2D proposedTranslation = new ImmutableVector2D( proposedPosition ).getSubtractedInstance( modelElement.position.get() );
+
             if ( proposedTranslation.getX() > 0 ) {
+
                 // Check for collisions moving right.
-                Line2D rightEdge = new Line2D.Double( modelElement.getRect().getMaxX(), modelElement.getRect().getMinY(), modelElement.getRect().getMaxX(), modelElement.getRect().getMaxY() );
-                Shape rightEdgeSmear = projectShapeFromLine( rightEdge, proposedTranslation );
-                if ( rightEdgeSmear.intersects( beakerLeftSide ) ) {
+                Line2D elementRightEdge = new Line2D.Double( modelElement.getRect().getMaxX(), modelElement.getRect().getMinY(), modelElement.getRect().getMaxX(), modelElement.getRect().getMaxY() );
+                Shape rightEdgeSmear = projectShapeFromLine( elementRightEdge, proposedTranslation );
+
+                if ( elementRightEdge.getX1() <= beakerLeftSide.getMaxX() && rightEdgeSmear.intersects( beakerLeftSide ) ) {
                     // Collision detected, limit motion.
-                    validXPos = beakerLeftSide.getMinX() - modelElement.getRect().getWidth() / 2;
+                    xPos = beakerLeftSide.getMinX() - modelElement.getRect().getWidth() / 2;
+                    System.out.println( "Limiting X position to: " + xPos );
                 }
-                else if ( rightEdgeSmear.intersects( beakerRightSide ) ) {
+                else if ( elementRightEdge.getX1() <= beakerRightSide.getMaxX() && rightEdgeSmear.intersects( beakerRightSide ) ) {
                     // Collision detected, limit motion.
-                    validXPos = beakerRightSide.getMinX() - modelElement.getRect().getWidth() / 2;
+                    xPos = beakerRightSide.getMinX() - modelElement.getRect().getWidth() / 2;
                 }
             }
             else if ( proposedTranslation.getX() < 0 ) {
+
                 // Check for collisions moving left.
-                Line2D leftEdge = new Line2D.Double( modelElement.getRect().getMinX(), modelElement.getRect().getMinY(), modelElement.getRect().getMinX(), modelElement.getRect().getMaxY() );
-                Shape leftEdgeSmear = projectShapeFromLine( leftEdge, proposedTranslation );
-                if ( leftEdgeSmear.intersects( beakerLeftSide ) ) {
+                Line2D elementLeftEdge = new Line2D.Double( modelElement.getRect().getMinX(), modelElement.getRect().getMinY(), modelElement.getRect().getMinX(), modelElement.getRect().getMaxY() );
+                Shape leftEdgeSmear = projectShapeFromLine( elementLeftEdge, proposedTranslation );
+
+                if ( elementLeftEdge.getX1() >= beakerRightSide.getMinX() && leftEdgeSmear.intersects( beakerRightSide ) ) {
                     // Collision detected, limit motion.
-                    validXPos = beakerLeftSide.getMinX() - modelElement.getRect().getWidth() / 2;
+                    xPos = beakerRightSide.getMaxX() + modelElement.getRect().getWidth() / 2;
                 }
-                else if ( leftEdgeSmear.intersects( beakerRightSide ) ) {
+                else if ( elementLeftEdge.getX1() >= beakerLeftSide.getMinX() && leftEdgeSmear.intersects( beakerLeftSide ) ) {
                     // Collision detected, limit motion.
-                    validXPos = beakerRightSide.getMinX() - modelElement.getRect().getWidth() / 2;
+                    xPos = beakerLeftSide.getMaxX() + modelElement.getRect().getWidth() / 2;
                 }
             }
 
             if ( proposedTranslation.getY() > 0 ) {
+
                 // Check for collisions moving up.
-                Line2D topEdge = new Line2D.Double( modelElement.getRect().getMinX(), modelElement.getRect().getMinY(), modelElement.getRect().getMaxX(), modelElement.getRect().getMaxY() );
-                Shape topEdgeSmear = projectShapeFromLine( topEdge, proposedTranslation );
-                if ( topEdgeSmear.intersects( beakerBottom ) ) {
+                Line2D elementTopEdge = new Line2D.Double( modelElement.getRect().getMinX(), modelElement.getRect().getMaxY(), modelElement.getRect().getMaxX(), modelElement.getRect().getMaxY() );
+                Shape topEdgeSmear = projectShapeFromLine( elementTopEdge, proposedTranslation );
+
+                if ( elementTopEdge.getY1() <= beakerBottom.getMaxY() && topEdgeSmear.intersects( beakerBottom ) ) {
                     // Collision detected, limit motion.
-                    validYPos = beakerBottom.getMinY() - modelElement.getRect().getHeight();
+                    yPos = beakerBottom.getMinY() - modelElement.getRect().getHeight();
                 }
             }
             if ( proposedTranslation.getY() < 0 ) {
+
                 // Check for collisions moving down.
-                Line2D bottomEdge = new Line2D.Double( modelElement.getRect().getMinX(), modelElement.getRect().getMaxY(), modelElement.getRect().getMaxX(), modelElement.getRect().getMaxY() );
-                Shape bottomEdgeSmear = projectShapeFromLine( bottomEdge, proposedTranslation );
-                if ( bottomEdgeSmear.intersects( beakerLeftSide ) || bottomEdgeSmear.intersects( beakerRightSide ) ) {
-                    // Collision detected, limit motion.  NOTE: Assumes that
-                    // both sides are the same height.
-                    validYPos = beakerLeftSide.getMaxY();
+                Line2D elementBottomEdge = new Line2D.Double( modelElement.getRect().getMinX(), modelElement.getRect().getMinY(), modelElement.getRect().getMaxX(), modelElement.getRect().getMinY() );
+                Shape bottomEdgeSmear = projectShapeFromLine( elementBottomEdge, proposedTranslation );
+
+                // NOTE: The following assumes that the rectangles defining the
+                // two edges of the beaker are the same height.
+
+                if ( elementBottomEdge.getY1() >= beakerRightSide.getMaxY() && ( bottomEdgeSmear.intersects( beakerLeftSide ) || bottomEdgeSmear.intersects( beakerRightSide ) ) ) {
+                    // Collision detected, limit motion.
+                    yPos = beakerLeftSide.getMaxY();
+                }
+                else if ( elementBottomEdge.getY1() >= beakerBottom.getMinX() && bottomEdgeSmear.intersects( beakerBottom ) ) {
+                    yPos = beakerBottom.getMaxY();
                 }
             }
         }
 
-        return new Point2D.Double( validXPos, validYPos );
+        System.out.println( "xPos = " + xPos );
+        return new Point2D.Double( xPos, yPos );
     }
 
     /**
