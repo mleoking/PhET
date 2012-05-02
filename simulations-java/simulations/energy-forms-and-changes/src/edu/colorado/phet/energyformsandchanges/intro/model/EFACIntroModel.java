@@ -179,6 +179,9 @@ public class EFACIntroModel {
 
         Point2D validatedPos = new Point2D.Double( proposedPosition.getX(), proposedPosition.getY() );
 
+        // Clamp Y position to be positive.
+        validatedPos.setLocation( validatedPos.getX(), Math.max( validatedPos.getY(), 0 ) );
+
         // Validate against the sides of the beaker.
         if ( modelElement != beaker ) {
             ImmutableVector2D proposedTranslation = new ImmutableVector2D( proposedPosition ).getSubtractedInstance( modelElement.position.get() );
