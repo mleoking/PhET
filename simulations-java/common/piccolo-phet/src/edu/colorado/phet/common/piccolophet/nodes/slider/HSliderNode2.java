@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -46,22 +47,28 @@ public class HSliderNode2 extends SliderNode {
 
     public HSliderNode2( final IUserComponent userComponent, final double min, final double max, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
         this( userComponent, min, max, new KnobNode2( KnobNode2.DEFAULT_SIZE, KnobNode2.DEFAULT_STYLE, new KnobNode2.ColorScheme( new Color( 115, 217, 255 ) ) ),
-              DEFAULT_TRACK_THICKNESS, DEFAULT_TRACK_LENGTH, value, enabled );
+              DEFAULT_TRACK_THICKNESS, DEFAULT_TRACK_LENGTH, value, enabled, VSliderNode2.WHITE_TRACK_PAINT );
     }
 
     public HSliderNode2( final IUserComponent userComponent, final double min, final double max, final KnobNode2 knobNode, final SettableProperty<Double> value,
                          final ObservableProperty<Boolean> enabled ) {
-        this( userComponent, min, max, knobNode, DEFAULT_TRACK_THICKNESS, DEFAULT_TRACK_LENGTH, value, enabled );
+        this( userComponent, min, max, knobNode, DEFAULT_TRACK_THICKNESS, DEFAULT_TRACK_LENGTH, value, enabled, VSliderNode2.WHITE_TRACK_PAINT );
     }
 
     public HSliderNode2( final IUserComponent userComponent, final double min, final double max, final KnobNode2 knobNode,
                          double trackThickness, double trackLength, final SettableProperty<Double> value,
                          final ObservableProperty<Boolean> enabled ) {
+        this( userComponent, min, max, knobNode, trackThickness, trackLength, value, enabled, VSliderNode2.WHITE_TRACK_PAINT );
+    }
+
+    public HSliderNode2( final IUserComponent userComponent, final double min, final double max, final KnobNode2 knobNode,
+                         double trackThickness, double trackLength, final SettableProperty<Double> value,
+                         final ObservableProperty<Boolean> enabled, final Function1<Double, Paint> trackPaint ) {
         super( userComponent, min, max, value );
         this.trackLength = trackLength;
 
         //Create the vertical node that will be rotated by 90 degrees and delegated to
-        node = new VSliderNode2( userComponent, min, max, knobNode, trackThickness, trackLength, value, enabled ) {
+        node = new VSliderNode2( userComponent, min, max, knobNode, trackThickness, trackLength, value, enabled, trackPaint ) {
 
             protected Point2D.Double createEndPoint() {
                 return new Point2D.Double( trackNode.getFullBounds().getWidth(), 0 );

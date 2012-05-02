@@ -3,6 +3,7 @@ package edu.colorado.phet.common.piccolophet.nodes.slider;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.Paint;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -16,6 +17,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.Function1.Constant;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -50,7 +53,7 @@ public class VSliderNode2 extends SliderNode {
     public static final double DEFAULT_TRACK_LENGTH = 200;
 
     // Default paint for the track.
-    public static final Paint DEFAULT_TRACK_PAINT = Color.BLACK;
+    public static final Paint DEFAULT_TRACK_PAINT = Color.WHITE;
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -93,8 +96,16 @@ public class VSliderNode2 extends SliderNode {
     public VSliderNode2( IUserComponent userComponent, final double min, final double max, double trackThickness,
                          double trackLength, final SettableProperty<Double> value, final ObservableProperty<Boolean> enabled ) {
         this( userComponent, min, max, new KnobNode2( KnobNode2.DEFAULT_SIZE, KnobNode2.DEFAULT_STYLE, new KnobNode2.ColorScheme( new Color( 115, 217, 255 ) ) ),
-              trackThickness, trackLength, value, enabled );
+              trackThickness, trackLength, value, enabled, WHITE_TRACK_PAINT );
     }
+
+    public static final Function1<Double, Paint> GRADIENT_TRACK_PAINT = new Function1<Double, Paint>() {
+        @Override public Paint apply( final Double trackLength ) {
+            return new GradientPaint( 0, 0, new Color( 150, 150, 150 ), 0, trackLength.floatValue(), Color.white, false );
+        }
+    };
+
+    public static final Function1<Double, Paint> WHITE_TRACK_PAINT = new Constant<Double, Paint>( Color.white );
 
     /**
      * Main constructor.
@@ -109,7 +120,7 @@ public class VSliderNode2 extends SliderNode {
      */
     public VSliderNode2( IUserComponent userComponent, final double min, final double max, final KnobNode2 knobNode,
                          double trackThickness, double trackLength, final SettableProperty<Double> value,
-                         final ObservableProperty<Boolean> enabled ) {
+                         final ObservableProperty<Boolean> enabled, Function1<Double, Paint> trackPaint ) {
         super( userComponent, min, max, value );
         this.trackLength = trackLength;
         this.trackThickness = trackThickness;
@@ -120,7 +131,7 @@ public class VSliderNode2 extends SliderNode {
 
         // Create the track.
         final Rectangle2D.Double trackPath = new Rectangle2D.Double( 0, 0, trackThickness, trackLength );
-        trackNode = new PhetPPath( trackPath, DEFAULT_TRACK_PAINT, new BasicStroke( TRACK_STROKE_WIDTH ), Color.BLACK );
+        trackNode = new PhetPPath( trackPath, trackPaint.apply( trackLength ), new BasicStroke( TRACK_STROKE_WIDTH ), Color.BLACK );
 
         // Hook up observers to control the enabled state and position of the
         // knob.
@@ -278,7 +289,7 @@ public class VSliderNode2 extends SliderNode {
             }} );
 
             // Test case: Pointy knob, non-default track size.
-            addWorldChild( new VSliderNode2( new UserComponent( "mySlider" ), -1, +1, new KnobNode2( 40, KnobNode2.Style.POINTED_RECTANGLE ), 10, 80, sliderValue, new BooleanProperty( true ) ) {{
+            addWorldChild( new VSliderNode2( new UserComponent( "mySlider" ), -1, +1, new KnobNode2( 40, KnobNode2.Style.POINTED_RECTANGLE ), 10, 80, sliderValue, new BooleanProperty( true ), WHITE_TRACK_PAINT ) {{
                 setOffset( 250, 200 );
                 addLabel( +1, new PhetPText( "High", new PhetFont( 16 ) ) );
                 addLabel( 0.0, new PhetPText( "0", new PhetFont( 16 ) ) );
@@ -286,7 +297,7 @@ public class VSliderNode2 extends SliderNode {
             }} );
 
             // Test case: Helmet-style knob.
-            addWorldChild( new VSliderNode2( new UserComponent( "mySlider" ), -1, +1, new KnobNode2( 30, KnobNode2.Style.HELMET, new KnobNode2.ColorScheme( new Color( 0, 200, 0 ) ) ), 5, 150, sliderValue, new BooleanProperty( true ) ) {{
+            addWorldChild( new VSliderNode2( new UserComponent( "mySlider" ), -1, +1, new KnobNode2( 30, KnobNode2.Style.HELMET, new KnobNode2.ColorScheme( new Color( 0, 200, 0 ) ) ), 5, 150, sliderValue, new BooleanProperty( true ), WHITE_TRACK_PAINT ) {{
                 setOffset( 400, 200 );
                 addLabel( +1, new PhetPText( "Lots", new PhetFont( 16 ) ) );
                 addLabel( 0.0, new PhetPText( "0", new PhetFont( 16 ) ) );
