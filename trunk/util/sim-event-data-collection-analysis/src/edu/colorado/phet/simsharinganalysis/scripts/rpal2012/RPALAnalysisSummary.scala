@@ -154,7 +154,11 @@ object RPALAnalysisSummary {
       "Number times started new game (all)" + summary(_.userStates.count(_.entry.matches("startGameButton", "pressed"))) +
       "Number times started new game (nothing hidden)" + summary(_.userStates.count(state => state.entry.matches("startGameButton", "pressed") && state.start.tab2.hide == nothing)) +
       "Number times started new game (molecules hidden)" + summary(_.userStates.count(state => state.entry.matches("startGameButton", "pressed") && state.start.tab2.hide == molecules)) +
-      "Number times started new game (numbers hidden)" + summary(_.userStates.count(state => state.entry.matches("startGameButton", "pressed") && state.start.tab2.hide == numbers))
+      "Number times started new game (numbers hidden)" + summary(_.userStates.count(state => state.entry.matches("startGameButton", "pressed") && state.start.tab2.hide == numbers)) +
+      "Number times game completed (all)" + summary(_.gameResults.length) +
+      "Number times game completed (nothing hidden)" + summary(_.gameResults.count(_.hiding == nothing)) +
+      "Number times game completed (molecules hidden)" + summary(_.gameResults.count(_.hiding == molecules)) +
+      "Number times game completed (numbers hidden)" + summary(_.gameResults.count(_.hiding == numbers))
   }
 
   def main(args: Array[String]) {
