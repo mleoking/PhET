@@ -1,3 +1,4 @@
+# 0.00.35 (63911) May 2, 2012
 Fixed jitter on 1st tab labels during zoom
 Labeling on 2nd tab (demo version)
 # 0.00.34 (63770) Apr 26, 2012
