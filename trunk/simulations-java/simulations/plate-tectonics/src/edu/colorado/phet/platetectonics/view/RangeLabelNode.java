@@ -29,6 +29,9 @@ import static org.lwjgl.opengl.GL11.*;
  */
 public class RangeLabelNode extends GLNode {
 
+    public static final float POINT_LENGTH = 10;
+    public static final float POINT_OFFSET = 20;
+
     public static final float BAR_WIDTH = 7;
     public static final ImmutableVector3F NORMAL = ImmutableVector3F.Z_UNIT;
     public static final float PIXEL_SCALE = 3; // pixel up-scaling
@@ -43,6 +46,7 @@ public class RangeLabelNode extends GLNode {
     private final boolean dark;
     private Property<ImmutableVector3F> labelLocation;
     private PlanarComponentNode labelNode;
+    private GLNode labelNodeContainer;
     private Property<Float> scale;
     private PText labelPNode;
 
@@ -117,20 +121,6 @@ public class RangeLabelNode extends GLNode {
             top.addObserver( updateRotation );
             bottom.addObserver( updateRotation );
         }} ) {{
-            SimpleObserver updateObserver = new SimpleObserver() {
-                public void update() {
-                    transform.set( ImmutableMatrix4F.translation( labelLocation.get().x,
-                                                                  labelLocation.get().y,
-                                                                  labelLocation.get().z ) );
-                    transform.append( ImmutableMatrix4F.scaling( LABEL_SCALE * scale.get() ) );
-                    transform.append( ImmutableMatrix4F.translation( -getComponentWidth() / 2,
-                                                                     -getComponentHeight() / 2,
-                                                                     0 ) );
-                }
-            };
-            labelLocation.addObserver( updateObserver );
-            scale.addObserver( updateObserver );
-
             final PlanarPiccoloNode me = this;
             colorMode.addObserver( new SimpleObserver() {
                 public void update() {
@@ -148,7 +138,9 @@ public class RangeLabelNode extends GLNode {
                 }
             } );
         }};
-        addChild( labelNode );
+        labelNodeContainer = new GLNode();
+        labelNodeContainer.addChild( labelNode );
+        addChild( labelNodeContainer );
 
         requireDisabled( GL_DEPTH_TEST );
         requireEnabled( GL_BLEND );
@@ -169,26 +161,46 @@ public class RangeLabelNode extends GLNode {
         ImmutableVector3F topMiddle = middle.minus( topToBottom.times( labelAllowance ) );
         ImmutableVector3F bottomMiddle = middle.plus( topToBottom.times( labelAllowance ) );
 
-        boolean isDisplayable = topMiddle.minus( top.get() ).dot( topToBottom ) >= 0;
+        boolean labelFits = topMiddle.minus( top.get() ).dot( topToBottom ) >= 0;
 
-        labelNode.setVisible( isDisplayable );
-        if ( !isDisplayable ) {
-            return;
+        labelNode.transform.set( ImmutableMatrix4F.translation( labelLocation.get().x,
+                                                                labelLocation.get().y,
+                                                                labelLocation.get().z ) );
+        labelNode.transform.append( ImmutableMatrix4F.scaling( LABEL_SCALE * scale.get() ) );
+        labelNode.transform.append( ImmutableMatrix4F.translation( -labelNode.getComponentWidth() / 2,
+                                                                   -labelNode.getComponentHeight() / 2,
+                                                                   0 ) );
+
+        if ( labelFits ) {
+            labelNodeContainer.transform.set( ImmutableMatrix4F.IDENTITY );
+
+            glBegin( GL_LINES );
+            LWJGLUtils.color4f( hasDarkColor() ? DARK_LABEL : LIGHT_LABEL );
+            vertex3f( top.get().plus( perpendicular ) );
+            vertex3f( top.get().minus( perpendicular ) );
+
+            vertex3f( bottom.get().plus( perpendicular ) );
+            vertex3f( bottom.get().minus( perpendicular ) );
+
+            vertex3f( top.get() );
+            vertex3f( topMiddle );
+
+            vertex3f( bottomMiddle );
+            vertex3f( bottom.get() );
+            glEnd();
         }
+        else {
+            final float labelOffset = (float) ( labelPNode.getFullBounds().getWidth() / 2 ) * LABEL_SCALE * 1.1f * scale.get();
+            labelNodeContainer.transform.set( ImmutableMatrix4F.translation( ( POINT_LENGTH + POINT_OFFSET ) * scale.get() + labelOffset,
+                                                                             POINT_LENGTH * scale.get(), 0 ) );
 
-        glBegin( GL_LINES );
-        LWJGLUtils.color4f( hasDarkColor() ? DARK_LABEL : LIGHT_LABEL );
-        vertex3f( top.get().plus( perpendicular ) );
-        vertex3f( top.get().minus( perpendicular ) );
-
-        vertex3f( bottom.get().plus( perpendicular ) );
-        vertex3f( bottom.get().minus( perpendicular ) );
-
-        vertex3f( top.get() );
-        vertex3f( topMiddle );
-
-        vertex3f( bottomMiddle );
-        vertex3f( bottom.get() );
-        glEnd();
+            glBegin( GL_LINE_STRIP );
+            LWJGLUtils.color4f( hasDarkColor() ? DARK_LABEL : LIGHT_LABEL );
+            vertex3f( middle );
+            vertex3f( middle.plus( new ImmutableVector3F( POINT_LENGTH, POINT_LENGTH, 0 ).times( scale.get() ) ) );
+            vertex3f( middle.plus( new ImmutableVector3F( POINT_LENGTH + POINT_OFFSET,
+                                                          POINT_LENGTH, 0 ).times( scale.get() ) ) );
+            glEnd();
+        }
     }
 }
