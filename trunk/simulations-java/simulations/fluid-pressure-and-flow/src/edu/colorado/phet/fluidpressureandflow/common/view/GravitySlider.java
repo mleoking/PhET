@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.piccolophet.nodes.slider.KnobNode2.Style;
 import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
@@ -33,7 +34,7 @@ public class GravitySlider<T extends FluidPressureAndFlowModel> extends PNode {
             put( lowGravity, Strings.LOW );
             put( earthGravity, Strings.EARTH );
             put( highGravity, Strings.HIGH );
-        }}, new DecimalFormat( "0.0" ) ) {{
+        }}, new DecimalFormat( "0.0" ), Style.POINTED_RECTANGLE ) {{
             maximized.addObserver( new SimpleObserver() {
                 public void update() {
                     setVisible( maximized.get() );
