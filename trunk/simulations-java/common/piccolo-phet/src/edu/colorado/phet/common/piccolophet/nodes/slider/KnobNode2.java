@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.PComponent;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -63,6 +64,10 @@ public class KnobNode2 extends PComposite {
         this( DEFAULT_SIZE, Style.RECTANGLE );
     }
 
+    public KnobNode2( Style style ) {
+        this( style, new ColorScheme() );
+    }
+
     public KnobNode2( Style style, ColorScheme colorScheme ) {
         this( DEFAULT_SIZE, style, colorScheme );
     }
@@ -93,7 +98,9 @@ public class KnobNode2 extends PComposite {
                 }
             }.observe( enabled, focused );
         }};
-        addChild( knobShapeNode );
+
+        //Make sure the knob is centered (e.g. for tick marks)
+        addChild( new ZeroOffsetNode( knobShapeNode ) );
 
         //---------------------------------------------------------------------
         // Event handling
@@ -271,7 +278,9 @@ public class KnobNode2 extends PComposite {
          * Default gray color scheme.
          */
         public ColorScheme() {
-            this( new Color( 220, 220, 220 ) );
+            //this( new Color( 220, 220, 220 ) );//gray
+//            this( new Color( 197, 248, 243 ) );//sr
+            this( new Color( 142, 229, 238 ) );//jb
         }
 
         /**

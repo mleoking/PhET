@@ -10,7 +10,9 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
+import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode2;
+import edu.colorado.phet.common.piccolophet.nodes.slider.KnobNode2;
+import edu.colorado.phet.common.piccolophet.nodes.slider.KnobNode2.Style;
 import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents;
 import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -27,7 +29,7 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserCompon
 public class SliderControl extends PNode {
 
     public SliderControl( IUserComponent userComponent, String title, String units, final double min, final double max, final Property<Double> property, final HashMap<Double, String> tickLabels, final DecimalFormat format ) {
-        HSliderNode slider = new HSliderNode( chain( userComponent, UserComponents.slider ), min, max, property );
+        HSliderNode2 slider = new HSliderNode2( chain( userComponent, UserComponents.slider ), min, max, new KnobNode2( Style.POINTED_RECTANGLE ), property, new Property<Boolean>( true ) );
         for ( Double key : tickLabels.keySet() ) {
             slider.addLabel( key, new PText( tickLabels.get( key ) ) );
         }
