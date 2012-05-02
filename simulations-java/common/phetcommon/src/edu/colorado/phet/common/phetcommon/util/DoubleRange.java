@@ -162,14 +162,18 @@ public class DoubleRange {
     }
 
     /**
-     * Do the two ranges overlap with one another?
-     * reference: http://eli.thegreenplace.net/2008/08/15/intersection-of-1d-segments/
+     * Do the two ranges overlap with one another?  Note that this assumes that
+     * this is an open set (I think), hence the use of '>' and '<' instead of
+     * '>=' and '<='.  If this ever matters, we have have to get more specific
+     * about whether the ends of the range are open or closed.
+     * <p/>
+     * Algorithm reference: http://eli.thegreenplace.net/2008/08/15/intersection-of-1d-segments/
      *
      * @param xRange
      * @return
      */
     public boolean intersects( DoubleRange xRange ) {
-        return ( _max >= xRange.getMin() && xRange.getMax() >= _min );
+        return ( _max > xRange.getMin() && xRange.getMax() > _min );
     }
 
     /**
