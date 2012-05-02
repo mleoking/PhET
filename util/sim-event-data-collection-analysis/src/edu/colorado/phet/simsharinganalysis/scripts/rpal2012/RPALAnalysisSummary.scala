@@ -129,7 +129,7 @@ object RPALAnalysisSummary {
     def summary(f: Report => Double): String = summary(reports.map(f))
 
     override def toString =
-      "name\t" + name + "\n" +
+      "Group\t" + name + "\n" +
       "minutes in tab 1" + summary(_.minutesInTab(0)) +
       "minutes in tab 2" + summary(_.minutesInTab(1)) +
       "minutes in tab 3" + summary(_.minutesInTab(2)) +
@@ -153,8 +153,6 @@ object RPALAnalysisSummary {
   }
 
   def main(args: Array[String]) {
-    println("hello")
-
     val a1Logs = phet load new File("C:\\Users\\Sam\\Desktop\\RPAL_logs\\A1 logs")
     val a2Logs = phet load new File("C:\\Users\\Sam\\Desktop\\RPAL_logs\\A2 logs")
 
