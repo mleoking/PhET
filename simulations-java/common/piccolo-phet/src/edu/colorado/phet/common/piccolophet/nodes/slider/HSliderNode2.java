@@ -49,6 +49,11 @@ public class HSliderNode2 extends SliderNode {
               DEFAULT_TRACK_THICKNESS, DEFAULT_TRACK_LENGTH, value, enabled );
     }
 
+    public HSliderNode2( final IUserComponent userComponent, final double min, final double max, final KnobNode2 knobNode, final SettableProperty<Double> value,
+                         final ObservableProperty<Boolean> enabled ) {
+        this( userComponent, min, max, knobNode, DEFAULT_TRACK_THICKNESS, DEFAULT_TRACK_LENGTH, value, enabled );
+    }
+
     public HSliderNode2( final IUserComponent userComponent, final double min, final double max, final KnobNode2 knobNode,
                          double trackThickness, double trackLength, final SettableProperty<Double> value,
                          final ObservableProperty<Boolean> enabled ) {
