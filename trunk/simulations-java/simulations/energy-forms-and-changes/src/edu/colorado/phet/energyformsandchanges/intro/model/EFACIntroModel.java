@@ -179,6 +179,7 @@ public class EFACIntroModel {
 
         double xPos = proposedPosition.getX();
         double yPos = proposedPosition.getY();
+        ImmutableVector2D proposedTranslation = new ImmutableVector2D( proposedPosition ).getSubtractedInstance( modelElement.position.get() );
 
         // Clamp Y position to be positive.
         yPos = Math.max( yPos, 0 );
@@ -192,8 +193,6 @@ public class EFACIntroModel {
             Rectangle2D beakerLeftSide = new Rectangle2D.Double( beakerRect.getMinX(), beaker.getRect().getMinY(), testRectThickness, beaker.getRect().getHeight() );
             Rectangle2D beakerRightSide = new Rectangle2D.Double( beaker.getRect().getMaxX() - testRectThickness, beaker.getRect().getMinY(), testRectThickness, beaker.getRect().getHeight() );
             Rectangle2D beakerBottom = new Rectangle2D.Double( beaker.getRect().getMinX(), beaker.getRect().getMinY(), beaker.getRect().getWidth(), testRectThickness );
-
-            ImmutableVector2D proposedTranslation = new ImmutableVector2D( proposedPosition ).getSubtractedInstance( modelElement.position.get() );
 
             if ( proposedTranslation.getX() > 0 ) {
 
@@ -257,8 +256,90 @@ public class EFACIntroModel {
             }
         }
 
-        System.out.println( "xPos = " + xPos );
+        // Now check the motion against each of the blocks.
+        for ( Block block : Arrays.asList( leadBlock, brick ) ) {
+            if ( modelElement == block ) {
+                // Don't test against self.
+                continue;
+            }
+            if ( proposedTranslation.getX() > 0 ) {
+
+            }
+        }
+
         return new Point2D.Double( xPos, yPos );
+    }
+
+    /**
+     * Determine the portion of a proposed translation that may occur given
+     * a moving rectangle and a stationary rectangle that can block the moving
+     * one.
+     *
+     * @param movingRect
+     * @param stationaryRect
+     * @param proposedTranslation
+     * @return
+     */
+    private ImmutableVector2D determineAllowedTranslation( Rectangle2D movingRect, Rectangle2D stationaryRect, ImmutableVector2D proposedTranslation ) {
+
+        // Parameter checking.
+        if ( movingRect.intersects( stationaryRect ) ) {
+            System.out.println( getClass().getName() + " - Warning: Can't test blocking if rectangles already overlap, method is being misused." );
+            return new ImmutableVector2D( proposedTranslation );
+        }
+
+        double xTranslation = proposedTranslation.getX();
+        double yTranslation = proposedTranslation.getY();
+
+        // X direction.
+        if ( proposedTranslation.getX() > 0 ) {
+
+            // Check for collisions moving right.
+            Line2D rightEdge = new Line2D.Double( movingRect.getMaxX(), movingRect.getMinY(), movingRect.getMaxX(), movingRect.getMaxY() );
+            Shape rightEdgeSmear = projectShapeFromLine( rightEdge, proposedTranslation );
+
+            if ( rightEdge.getX1() <= stationaryRect.getMinX() && rightEdgeSmear.intersects( stationaryRect ) ) {
+                // Collision detected, limit motion.
+                xTranslation = stationaryRect.getMinX() - rightEdge.getX1();
+            }
+        }
+        else if ( proposedTranslation.getX() < 0 ) {
+
+            // Check for collisions moving left.
+            Line2D leftEdge = new Line2D.Double( movingRect.getMinX(), movingRect.getMinY(), movingRect.getMinX(), movingRect.getMaxY() );
+            Shape leftEdgeSmear = projectShapeFromLine( leftEdge, proposedTranslation );
+
+            if ( leftEdge.getX1() >= stationaryRect.getMaxX() && leftEdgeSmear.intersects( stationaryRect ) ) {
+                // Collision detected, limit motion.
+                xTranslation = leftEdge.getX1() - stationaryRect.getMaxX();
+            }
+        }
+
+        // Y direction.
+        if ( proposedTranslation.getY() > 0 ) {
+
+            // Check for collisions moving up.
+            Line2D movingTopEdge = new Line2D.Double( movingRect.getMinX(), movingRect.getMaxY(), movingRect.getMaxX(), movingRect.getMaxY() );
+            Shape topEdgeSmear = projectShapeFromLine( movingTopEdge, proposedTranslation );
+
+            if ( movingTopEdge.getY1() <= stationaryRect.getMinY() && topEdgeSmear.intersects( stationaryRect ) ) {
+                // Collision detected, limit motion.
+                yTranslation = stationaryRect.getMinY() - movingTopEdge.getY1();
+            }
+        }
+        if ( proposedTranslation.getY() < 0 ) {
+
+            // Check for collisions moving down.
+            Line2D movingBottomEdge = new Line2D.Double( movingRect.getMinX(), movingRect.getMinY(), movingRect.getMaxX(), movingRect.getMinY() );
+            Shape bottomEdgeSmear = projectShapeFromLine( movingBottomEdge, proposedTranslation );
+
+            if ( movingBottomEdge.getY1() >= stationaryRect.getMaxY() && bottomEdgeSmear.intersects( stationaryRect ) ) {
+                // Collision detected, limit motion.
+                yTranslation = movingBottomEdge.getY1() - stationaryRect.getMinY();
+            }
+        }
+
+        return new ImmutableVector2D( xTranslation, yTranslation );
     }
 
     /**
