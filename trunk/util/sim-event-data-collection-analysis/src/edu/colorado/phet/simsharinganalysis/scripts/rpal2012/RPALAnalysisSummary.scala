@@ -128,6 +128,8 @@ object RPALAnalysisSummary {
 
     def summary(f: Report => Double): String = summary(reports.map(f))
 
+    import Hiding._
+
     override def toString =
       "Group\t" + name + "\n" +
       "minutes in tab 1" + summary(_.minutesInTab(0)) +
@@ -149,7 +151,10 @@ object RPALAnalysisSummary {
       "spinner clicks on methane" + summary(_.spinnerClicksWhileInTab1Reaction("methane")) +
       "reaction transitions" + summary(_.userStates.count(e => e.start.tab1.reaction != e.end.tab1.reaction)) +
       "\nTab 3\n" +
-      "Number times started new game (all)" + summary(_.userStates.count(_.entry.matches("startGameButton", "pressed")))
+      "Number times started new game (all)" + summary(_.userStates.count(_.entry.matches("startGameButton", "pressed"))) +
+      "Number times started new game (nothing hidden)" + summary(_.userStates.count(state => state.entry.matches("startGameButton", "pressed") && state.start.tab2.hide == nothing)) +
+      "Number times started new game (molecules hidden)" + summary(_.userStates.count(state => state.entry.matches("startGameButton", "pressed") && state.start.tab2.hide == molecules)) +
+      "Number times started new game (numbers hidden)" + summary(_.userStates.count(state => state.entry.matches("startGameButton", "pressed") && state.start.tab2.hide == numbers))
   }
 
   def main(args: Array[String]) {
