@@ -1,3 +1,5 @@
+Fixed jitter on 1st tab labels during zoom
+Labeling on 2nd tab (demo version)
 # 0.00.34 (63770) Apr 26, 2012
 Initial density meter "scaling" based on zoom level.
 # 0.00.33 (63768) Apr 26, 2012
