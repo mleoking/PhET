@@ -24,6 +24,7 @@ public class PlateTectonicsResources {
         public static final String INNER_CORE = RESOURCES.getLocalizedString( "innerCore" );
         public static final String LEGEND = RESOURCES.getLocalizedString( "legend" );
         public static final String LESS_DENSE = RESOURCES.getLocalizedString( "lessDense" );
+        public static final String LITHOSPHERE = RESOURCES.getLocalizedString( "lithosphere" );
         public static final String LOWER_MANTLE = RESOURCES.getLocalizedString( "lowerMantle" );
         public static final String MANTLE = RESOURCES.getLocalizedString( "mantle" );
         public static final String MANUAL_MODE = RESOURCES.getLocalizedString( "manualMode" );

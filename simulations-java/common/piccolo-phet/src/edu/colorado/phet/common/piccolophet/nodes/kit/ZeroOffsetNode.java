@@ -24,6 +24,10 @@ public class ZeroOffsetNode extends RichPNode {
     public ZeroOffsetNode( PNode node ) {
         addChild( node );
 
+        zeroNodeOffset( node );
+    }
+
+    public static void zeroNodeOffset( PNode node ) {
         // The following line makes sure that the bounds of the PNode are accurate.  Usually this is superfluous, but
         // we have seen occasions where this was needed in order for this class to work as intended.
         node.getFullBoundsReference();

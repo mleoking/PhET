@@ -65,7 +65,7 @@ public class LWJGLCanvas extends Canvas {
     }
 
     public void initialize() {
-        renderThread = new Thread() {
+        renderThread = new Thread( "PhET LWJGL Main Loop Thread" ) {
             public void run() {
                 running = true;
                 try {

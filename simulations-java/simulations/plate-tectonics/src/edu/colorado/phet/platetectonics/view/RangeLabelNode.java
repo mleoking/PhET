@@ -8,6 +8,7 @@ import javax.swing.SwingUtilities;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
@@ -94,11 +95,22 @@ public class RangeLabelNode extends GLNode {
         labelNode = new PlanarPiccoloNode( new PNode() {{
             addChild( labelPNode );
 
+            final PNode nodeRef = this;
+
             SimpleObserver updateRotation = new SimpleObserver() {
                 public void update() {
-                    setTransform( new AffineTransform() );
-                    rotateAboutPoint( top.get().minus( bottom.get() ).angleBetween( new ImmutableVector3F( 0, 1, 0 ) ) * ( top.get().x > bottom.get().x ? 1 : -1 ),
-                                      labelPNode.getFullBounds().getWidth() / 2, labelPNode.getFullBounds().getHeight() / 2 );
+                    SwingUtilities.invokeLater( new Runnable() {
+                        public void run() {
+                            setTransform( new AffineTransform() );
+                            rotateAboutPoint( top.get().minus( bottom.get() ).angleBetween( new ImmutableVector3F( 0, 1, 0 ) ) * ( top.get().x > bottom.get().x ? 1 : -1 ),
+                                              labelPNode.getFullBounds().getWidth() / 2, labelPNode.getFullBounds().getHeight() / 2 );
+
+                            // rescale so we draw correctly in the canvas. we will be centered later
+                            ZeroOffsetNode.zeroNodeOffset( nodeRef );
+
+                            repaint();
+                        }
+                    } );
                 }
             };
 
@@ -119,9 +131,18 @@ public class RangeLabelNode extends GLNode {
             labelLocation.addObserver( updateObserver );
             scale.addObserver( updateObserver );
 
-            // update only after color changes
             final PlanarPiccoloNode me = this;
             colorMode.addObserver( new SimpleObserver() {
+                public void update() {
+                    me.update();
+                }
+            } );
+            top.addObserver( new SimpleObserver() {
+                public void update() {
+                    me.update();
+                }
+            } );
+            bottom.addObserver( new SimpleObserver() {
                 public void update() {
                     me.update();
                 }

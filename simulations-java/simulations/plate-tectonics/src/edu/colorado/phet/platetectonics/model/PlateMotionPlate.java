@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.model.behaviors.PlateBehavior;
 import edu.colorado.phet.platetectonics.model.regions.Boundary;
 import edu.colorado.phet.platetectonics.model.regions.Region;
@@ -100,10 +101,55 @@ public class PlateMotionPlate extends Plate {
             }
         }
 
+        final int crustLabelIndex = ( getCrust().getTopBoundary().samples.size() * ( getSide() == LEFT ? 5 : 1 ) ) / 6;
+        final int lithosphereLabelIndex = ( getCrust().getTopBoundary().samples.size() * ( getSide() == LEFT ? 4 : 2 ) ) / 6;
+
         model.getRangeLabels().add( new RangeLabel(
-                new Property<ImmutableVector3F>( getCrust().getTopBoundary().samples.get( getCrust().getTopBoundary().samples.size() / 2 ).getPosition() ),
-                new Property<ImmutableVector3F>( getCrust().getBottomBoundary().samples.get( getCrust().getBottomBoundary().samples.size() / 2 ).getPosition() ),
+                new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+                    final Sample sample = getCrust().getTopBoundary().getSample( crustLabelIndex );
+                    assert sample != null;
+                    model.modelChanged.addUpdateListener(
+                            new UpdateListener() {
+                                public void update() {
+                                    set( sample.getPosition() );
+                                }
+                            }, true );
+                }},
+                new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+                    final Sample sample = getCrust().getBottomBoundary().getSample( crustLabelIndex );
+                    assert sample != null;
+                    model.modelChanged.addUpdateListener(
+                            new UpdateListener() {
+                                public void update() {
+                                    set( sample.getPosition() );
+                                }
+                            }, true );
+                }},
                 type.getSpecificLabel(), this
+        ) );
+
+        model.getRangeLabels().add( new RangeLabel(
+                new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+                    final Sample sample = getCrust().getTopBoundary().getSample( lithosphereLabelIndex );
+                    assert sample != null;
+                    model.modelChanged.addUpdateListener(
+                            new UpdateListener() {
+                                public void update() {
+                                    set( sample.getPosition() );
+                                }
+                            }, true );
+                }},
+                new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+                    final Sample sample = getLithosphere().getBottomBoundary().getSample( lithosphereLabelIndex );
+                    assert sample != null;
+                    model.modelChanged.addUpdateListener(
+                            new UpdateListener() {
+                                public void update() {
+                                    set( sample.getPosition() );
+                                }
+                            }, true );
+                }},
+                Strings.LITHOSPHERE, this
         ) );
     }
 
