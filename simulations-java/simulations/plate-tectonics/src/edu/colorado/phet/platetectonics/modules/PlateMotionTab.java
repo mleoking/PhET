@@ -136,21 +136,30 @@ public class PlateMotionTab extends PlateTectonicsTab {
 
         rangeLabels.addElementAddedObserver( new VoidFunction1<RangeLabel>() {
             public void apply( final RangeLabel rangeLabel ) {
-                final RangeLabelNode node = new RangeLabelNode(
-                        new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
-                            beforeFrameRender.addUpdateListener( new UpdateListener() {
-                                                                     public void update() {
-                                                                         set( convertRadial( rangeLabel.top.get() ) );
-                                                                     }
-                                                                 }, true );
-                        }},
-                        new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
-                            beforeFrameRender.addUpdateListener( new UpdateListener() {
-                                                                     public void update() {
-                                                                         set( convertRadial( rangeLabel.bottom.get() ) );
-                                                                     }
-                                                                 }, true );
-                        }},
+                final Property<ImmutableVector3F> topProperty = new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+                    beforeFrameRender.addUpdateListener( new UpdateListener() {
+                                                             public void update() {
+                                                                 set( convertRadial( rangeLabel.top.get() ) );
+                                                             }
+                                                         }, true );
+                }};
+                final Property<ImmutableVector3F> bottomProperty = new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+                    beforeFrameRender.addUpdateListener( new UpdateListener() {
+                                                             public void update() {
+                                                                 set( convertRadial( rangeLabel.bottom.get() ) );
+                                                             }
+                                                         }, true );
+                }};
+                final RangeLabelNode node = rangeLabel.isLimitToScreen() ? new RangeLabelNode(
+                        topProperty,
+                        bottomProperty,
+                        rangeLabel.label,
+                        new Property<Float>( 1f ),
+                        colorMode, true,
+                        getLabelPosition( topProperty, bottomProperty, new Property<Float>( 1f ) )
+                ) : new RangeLabelNode(
+                        topProperty,
+                        bottomProperty,
                         rangeLabel.label,
                         new Property<Float>( 1f ),
                         colorMode, true

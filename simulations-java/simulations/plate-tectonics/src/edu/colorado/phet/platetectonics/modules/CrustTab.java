@@ -9,11 +9,9 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
@@ -112,44 +110,12 @@ public class CrustTab extends PlateTectonicsTab {
         }};
         final Property<ImmutableVector3F> upperMantleBottom = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 0, CrustModel.UPPER_LOWER_MANTLE_BOUNDARY_Y, 0 ) ) );
 
-        // TODO: refactor and cleanup
-        Function2<Property<ImmutableVector3F>, Property<ImmutableVector3F>, Property<ImmutableVector3F>> labelPositionFunction
-                = new Function2<Property<ImmutableVector3F>, Property<ImmutableVector3F>, Property<ImmutableVector3F>>() {
-            public Property<ImmutableVector3F> apply( final Property<ImmutableVector3F> aProp,
-                                                      final Property<ImmutableVector3F> bProp ) {
-                return new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
-                    final SimpleObserver observer = new SimpleObserver() {
-                        public void update() {
-                            ImmutableVector2F screenBottom = getBottomCenterPositionOnZPlane();
-                            if ( bProp.get().y < screenBottom.y ) {
-                                // use the screen bottom, the actual bottom is too low
-                                float averageY = ( screenBottom.y + aProp.get().y ) / 2;
-                                float ratio = ( averageY - aProp.get().y ) / ( bProp.get().y - aProp.get().y );
-                                set( aProp.get().times( 1 - ratio ).plus( bProp.get().times( ratio ) ) );
-                            }
-                            else {
-                                set( aProp.get().plus( bProp.get() ).times( 0.5f ) );
-                            }
-                        }
-                    };
-
-                    // TODO: debug listener ordering issue that is causing jittering when zooming in/out
-                    scaleProperty.addObserver( observer );
-                    beforeFrameRender.addUpdateListener( new UpdateListener() {
-                                                             public void update() {
-                                                                 observer.update();
-                                                             }
-                                                         }, false );
-                }};
-            }
-        };
-
         layerLabels.addChild( new RangeLabelNode(
                 upperMantleTop,
                 upperMantleBottom,
                 Strings.MANTLE, scaleProperty,
                 colorMode, true,
-                labelPositionFunction.apply( upperMantleTop, upperMantleBottom )
+                getLabelPosition( upperMantleTop, upperMantleBottom, scaleProperty )
         ) );
 
         Property<ImmutableVector3F> lowerMantleTop = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 150000, CrustModel.UPPER_LOWER_MANTLE_BOUNDARY_Y, 0 ) ) );
@@ -159,7 +125,7 @@ public class CrustTab extends PlateTectonicsTab {
                 lowerMantleBottom,
                 Strings.LOWER_MANTLE, scaleProperty,
                 colorMode, true,
-                labelPositionFunction.apply( lowerMantleTop, lowerMantleBottom )
+                getLabelPosition( lowerMantleTop, lowerMantleBottom, scaleProperty )
         ) );
 
         Property<ImmutableVector3F> outerCoreTop = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( -250000, CrustModel.MANTLE_CORE_BOUNDARY_Y, 0 ) ) );
@@ -169,7 +135,7 @@ public class CrustTab extends PlateTectonicsTab {
                 outerCoreBottom,
                 Strings.OUTER_CORE, scaleProperty,
                 colorMode, false,
-                labelPositionFunction.apply( outerCoreTop, outerCoreBottom )
+                getLabelPosition( outerCoreTop, outerCoreBottom, scaleProperty )
         ) );
 
         Property<ImmutableVector3F> innerCoreTop = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 250000, CrustModel.INNER_OUTER_CORE_BOUNDARY_Y, 0 ) ) );
@@ -179,7 +145,7 @@ public class CrustTab extends PlateTectonicsTab {
                 innerCoreBottom,
                 Strings.INNER_CORE, scaleProperty,
                 colorMode, false,
-                labelPositionFunction.apply( innerCoreTop, innerCoreBottom )
+                getLabelPosition( innerCoreTop, innerCoreBottom, scaleProperty )
         ) );
 
         /*---------------------------------------------------------------------------*

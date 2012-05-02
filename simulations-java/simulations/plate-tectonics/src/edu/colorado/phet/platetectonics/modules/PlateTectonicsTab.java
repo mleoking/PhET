@@ -710,6 +710,12 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         return new ImmutableVector2F( intersection.x, intersection.y );
     }
 
+    public ImmutableVector2F getBottomCenterPositionOnPlane( PlaneF plane ) {
+        Ray3F cameraRay = getCameraRay( canvasSize.get().width / 2, 0 );
+        final ImmutableVector3F intersection = plane.intersectWithRay( cameraRay );
+        return new ImmutableVector2F( intersection.x, intersection.y );
+    }
+
     public void addGuiNode( OrthoComponentNode node ) {
         guiLayer.addChild( node );
         guiNodes.add( node );
@@ -829,5 +835,35 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     // called when a mouse click is detected that isn't dragging a tool or manipulating a GUI
     protected void uncaughtMouseButton() {
 
+    }
+
+    // if the range of a label goes off of the screen, we center it within the on-screen portion
+    public Property<ImmutableVector3F> getLabelPosition( final Property<ImmutableVector3F> aProp,
+                                                         final Property<ImmutableVector3F> bProp,
+                                                         final Property<Float> scaleProperty ) {
+        return new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+            final SimpleObserver observer = new SimpleObserver() {
+                public void update() {
+                    final PlaneF plane = new PlaneF( new ImmutableVector3F( 0, 0, 1 ), aProp.get().getZ() );
+                    ImmutableVector2F screenBottom = getBottomCenterPositionOnPlane( plane );
+                    if ( bProp.get().y < screenBottom.y ) {
+                        // use the screen bottom, the actual bottom is too low
+                        float averageY = ( screenBottom.y + aProp.get().y ) / 2;
+                        float ratio = ( averageY - aProp.get().y ) / ( bProp.get().y - aProp.get().y );
+                        set( aProp.get().times( 1 - ratio ).plus( bProp.get().times( ratio ) ) );
+                    }
+                    else {
+                        set( aProp.get().plus( bProp.get() ).times( 0.5f ) );
+                    }
+                }
+            };
+
+            scaleProperty.addObserver( observer );
+            beforeFrameRender.addUpdateListener( new UpdateListener() {
+                                                     public void update() {
+                                                         observer.update();
+                                                     }
+                                                 }, false );
+        }};
     }
 }
