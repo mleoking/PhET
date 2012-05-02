@@ -4,6 +4,7 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Shape;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -12,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentTyp
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Class that represents a block in the model.  In the model, a block is two-
@@ -19,12 +21,34 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  *
  * @author John Blanco
  */
-public abstract class Block extends UserMovableModelElement {
+public abstract class Block extends RectangularMovableModelElement {
 
-    // Height and width of the face, which is square.
-    public static final double FACE_SIZE = 0.045; // In meters.
+    // Height and width of all block surfaces, since it is a cube.
+    public static final double SURFACE_WIDTH = 0.045; // In meter
+
     private final Property<HorizontalSurface> topSurface = new Property<HorizontalSurface>( null );
     private final Property<HorizontalSurface> bottomSurface = new Property<HorizontalSurface>( null );
+
+    /**
+     * Constructor.
+     *
+     * @param initialPosition
+     */
+    protected Block( ImmutableVector2D initialPosition ) {
+        super( initialPosition );
+
+        // Update the top an bottom surfaces whenever the position changes.
+        position.addObserver( new VoidFunction1<ImmutableVector2D>() {
+            public void apply( final ImmutableVector2D immutableVector2D ) {
+                updateTopSurfaceProperty();
+                updateBottomSurfaceProperty();
+            }
+        } );
+    }
+
+    @Override public Dimension2D getSize() {
+        return new PDimension( SURFACE_WIDTH, SURFACE_WIDTH );
+    }
 
     public abstract Color getColor();
 
@@ -63,18 +87,6 @@ public abstract class Block extends UserMovableModelElement {
 
     public abstract String getLabel();
 
-    protected Block( ImmutableVector2D initialPosition ) {
-        super( initialPosition );
-
-        // Update the top an bottom surfaces whenever the position changes.
-        position.addObserver( new VoidFunction1<ImmutableVector2D>() {
-            public void apply( final ImmutableVector2D immutableVector2D ) {
-                updateTopSurfaceProperty();
-                updateBottomSurfaceProperty();
-            }
-        } );
-    }
-
     public Property<HorizontalSurface> getTopSurfaceProperty() {
         return topSurface;
     }
@@ -91,10 +103,10 @@ public abstract class Block extends UserMovableModelElement {
      * @return
      */
     public Rectangle2D getRect() {
-        return new Rectangle2D.Double( position.get().getX() - FACE_SIZE / 2,
+        return new Rectangle2D.Double( position.get().getX() - SURFACE_WIDTH / 2,
                                        position.get().getY(),
-                                       FACE_SIZE,
-                                       FACE_SIZE );
+                                       SURFACE_WIDTH,
+                                       SURFACE_WIDTH );
     }
 
     private void updateTopSurfaceProperty() {
@@ -114,7 +126,7 @@ public abstract class Block extends UserMovableModelElement {
      * @return
      */
     public static Shape getRawShape() {
-        return new Rectangle2D.Double( -FACE_SIZE / 2, 0, FACE_SIZE, FACE_SIZE );
+        return new Rectangle2D.Double( -SURFACE_WIDTH / 2, 0, SURFACE_WIDTH, SURFACE_WIDTH );
     }
 
     @Override public IUserComponentType getUserComponentType() {

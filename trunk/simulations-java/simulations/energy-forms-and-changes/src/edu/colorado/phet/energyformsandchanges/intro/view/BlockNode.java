@@ -103,9 +103,9 @@ public class BlockNode extends PComposite {
         // Position and add the label.
         PText label = new PText( block.getLabel() );
         label.setFont( LABEL_FONT );
-        if ( label.getFullBoundsReference().width >= mvt.modelToViewDeltaX( Block.FACE_SIZE * 0.9 ) ) {
+        if ( label.getFullBoundsReference().width >= mvt.modelToViewDeltaX( Block.SURFACE_WIDTH * 0.9 ) ) {
             // Scale the label to fit on the face of the block.
-            double scale = ( mvt.modelToViewDeltaX( Block.FACE_SIZE * 0.9 ) / getFullBoundsReference().width );
+            double scale = ( mvt.modelToViewDeltaX( Block.SURFACE_WIDTH * 0.9 ) / getFullBoundsReference().width );
             label.setScale( scale );
         }
         double labelCenterX = ( upperLeftCornerOfFace.getX() + upperRightCornerOfFace.getX() ) / 2;

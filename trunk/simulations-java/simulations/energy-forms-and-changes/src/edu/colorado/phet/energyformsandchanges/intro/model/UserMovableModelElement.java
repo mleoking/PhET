@@ -1,12 +1,15 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
+import java.awt.geom.Dimension2D;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Base class for model elements that can be moved around by the user.
@@ -87,5 +90,10 @@ public abstract class UserMovableModelElement extends ModelElement {
 
     public void setX( final double x ) {
         position.set( new ImmutableVector2D( x, position.get().getY() ) );
+    }
+
+    public Dimension2D getSize() {
+        // Has no size by default.
+        return new PDimension( 0, 0 );
     }
 }
