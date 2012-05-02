@@ -122,6 +122,8 @@ object RPALAnalysisSummary {
 
     def average(values: List[Double]) = values.sum / values.length
 
+    def averageSkipNaN(values: List[Double]) = if ( values.length == 0 ) 0 else average(values)
+
     def summary(values: List[Double]) = "\t" + values.min + "\t" + values.max + "\t" + average(values) + "\n"
 
     def summaryInt(values: List[Int]) = summary(values.map(_.toDouble))
@@ -159,8 +161,21 @@ object RPALAnalysisSummary {
       "Number times game completed (nothing hidden)" + summary(_.gameResults.count(_.hiding == nothing)) +
       "Number times game completed (molecules hidden)" + summary(_.gameResults.count(_.hiding == molecules)) +
       "Number times game completed (numbers hidden)" + summary(_.gameResults.count(_.hiding == numbers)) +
-      "Number times aborted" + summary(_.abortedGames.length)
-
+      "Number times aborted" + summary(_.abortedGames.length) +
+      "\nNote the following is an average over averages\n" +
+      "Average of Scores on level 1 (all): " + summary(report => averageSkipNaN(report.gameResults.filter(_.level == 1).map(_.score))) +
+      "Average of Scores on level 1 (nothing hidden): " + summary(report => averageSkipNaN(report.gameResults.filter(result => result.level == 1 && result.hiding == nothing).map(_.score))) +
+      "Average of Scores on level 1 (molecules hidden): " + summary(report => averageSkipNaN(report.gameResults.filter(result => result.level == 1 && result.hiding == molecules).map(_.score))) +
+      "Average of Scores on level 1 (numbers hidden): " + summary(report => averageSkipNaN(report.gameResults.filter(result => result.level == 1 && result.hiding == numbers).map(_.score))) +
+      "Average of Scores on level 2 (all): " + summary(report => averageSkipNaN(report.gameResults.filter(_.level == 2).map(_.score))) +
+      "Average of Scores on level 2 (nothing hidden): " + summary(report => averageSkipNaN(report.gameResults.filter(result => result.level == 2 && result.hiding == nothing).map(_.score))) +
+      "Average of Scores on level 2 (molecules hidden): " + summary(report => averageSkipNaN(report.gameResults.filter(result => result.level == 2 && result.hiding == molecules).map(_.score))) +
+      "Average of Scores on level 2 (numbers hidden): " + summary(report => averageSkipNaN(report.gameResults.filter(result => result.level == 2 && result.hiding == numbers).map(_.score))) +
+      "Average of Scores on level 3 (all): " + summary(report => averageSkipNaN(report.gameResults.filter(_.level == 3).map(_.score))) +
+      "Average of Scores on level 3 (nothing hidden): " + summary(report => averageSkipNaN(report.gameResults.filter(result => result.level == 3 && result.hiding == nothing).map(_.score))) +
+      "Average of Scores on level 3 (molecules hidden): " + summary(report => averageSkipNaN(report.gameResults.filter(result => result.level == 3 && result.hiding == molecules).map(_.score))) +
+      "Average of Scores on level 3 (numbers hidden): " + summary(report => averageSkipNaN(report.gameResults.filter(result => result.level == 3 && result.hiding == numbers).map(_.score))) +
+      "Computers with a game in progress when sim closed: " + summary(report => if ( report.states.last.end.tab2.gameInProgress ) 1.0 else 0.0)
   }
 
   def main(args: Array[String]) {
@@ -169,6 +184,9 @@ object RPALAnalysisSummary {
 
     val a1Report = new SummaryReport("A1", a1Logs)
     val a2Report = new SummaryReport("A2", a2Logs)
+
+    //For debugging, show all of the levels played.  Turns out they are 1-3
+    //    a1Report.reports.map(_.gameResults.map(_.level)).foreach(println)
 
     println(a1Report)
     println(a2Report)
