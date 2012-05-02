@@ -177,10 +177,6 @@ public class EFACIntroModel {
      */
     public Point2D validatePosition( RectangularMovableModelElement modelElement, Point2D proposedPosition ) {
 
-        System.out.println( "------------------------" );
-        System.out.println( "current position = " + modelElement.position.get() );
-        System.out.println( "proposedPosition = " + proposedPosition );
-
         double xPos = proposedPosition.getX();
         double yPos = proposedPosition.getY();
 
