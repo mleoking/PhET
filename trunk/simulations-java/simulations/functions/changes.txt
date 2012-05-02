@@ -1,0 +1,1 @@
+Added stub project for generating templates and mockups
