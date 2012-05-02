@@ -228,6 +228,8 @@ public class PlateMotionModel extends PlateModel {
         resetPlates();
         resetTerrain();
 
+        getRangeLabels().clear();
+
         dropCrust( Side.LEFT, leftPlateType.get() );
         dropCrust( Side.RIGHT, rightPlateType.get() );
 
