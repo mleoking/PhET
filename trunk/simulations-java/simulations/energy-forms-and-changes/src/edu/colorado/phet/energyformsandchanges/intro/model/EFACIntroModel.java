@@ -185,8 +185,7 @@ public class EFACIntroModel {
         // Validate against the sides of the beaker.
         if ( modelElement != beaker ) {
             ImmutableVector2D proposedTranslation = new ImmutableVector2D( proposedPosition ).getSubtractedInstance( modelElement.position.get() );
-            if ( modelElement.position.get().getX() < beaker.getRect().getMinX() &&
-                 proposedTranslation.getX() > 0 ) {
+            if ( modelElement.position.get().getX() < beaker.getRect().getMinX() && proposedTranslation.getX() > 0 ) {
                 // Model element is on the left side of the beaker and is
                 // being moved towards the beaker.
                 Line2D rightEdge = new Line2D.Double( modelElement.getRect().getMaxX(), modelElement.getRect().getMinY(), modelElement.getRect().getMaxX(), modelElement.getRect().getMaxY() );
@@ -197,6 +196,33 @@ public class EFACIntroModel {
                     validatedPos.setLocation( beaker.getRect().getMinX() - modelElement.getRect().getWidth() / 2, validatedPos.getY() );
                 }
             }
+            else if ( modelElement.position.get().getX() > beaker.getRect().getMaxX() && proposedTranslation.getX() < 0 ) {
+                // Model element is on the right side of the beaker and is
+                // being moved towards the beaker.
+                Line2D leftEdge = new Line2D.Double( modelElement.getRect().getMinX(), modelElement.getRect().getMinY(), modelElement.getRect().getMinX(), modelElement.getRect().getMaxY() );
+                Shape leftEdgeSmear = projectShapeFromLine( leftEdge, proposedTranslation );
+                if ( leftEdgeSmear.intersects( beaker.getRect() ) ) {
+                    // The proposed motion would bump into the beaker in the
+                    // x direction, so limit the position.
+                    validatedPos.setLocation( beaker.getRect().getMaxX() + modelElement.getRect().getWidth() / 2, validatedPos.getY() );
+                }
+            }
+            /*
+            if ( modelElement.position.get().getY() > beaker.getRect().getMaxY() && proposedTranslation.getY() < 0 ) {
+                // Model element is above the beaker and is being dragged
+                // down towards it.
+                Line2D bottomEdge = new Line2D.Double( modelElement.getRect().getMinX(), modelElement.getRect().getMinY(), modelElement.getRect().getMaxX(), modelElement.getRect().getMinY() );
+                Shape bottomEdgeSmear = projectShapeFromLine( bottomEdge, proposedTranslation );
+                Line2D beakerLeftEdge = new Line2D.Double( beaker.getRect().getMinX(), beaker.getRect().getMinY(), beaker.getRect().getMinX(), beaker.getRect().getMaxY() );
+                Line2D beakerRightEdge = new Line2D.Double( beaker.getRect().getMaxX(), beaker.getRect().getMinY(), beaker.getRect().getMaxX(), beaker.getRect().getMaxY() );
+                if ( beakerLeftEdge.ibottomEdgeSmear.intersects( beakerLeftEdge ) ) {
+                    // The proposed motion would bump into the beaker in the
+                    // x direction, so limit the position.
+                    validatedPos.setLocation( beaker.getRect().getMinX() - modelElement.getRect().getWidth() / 2, validatedPos.getY() );
+                }
+            }
+            */
+
         }
 
         return validatedPos;
