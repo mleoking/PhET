@@ -158,7 +158,9 @@ object RPALAnalysisSummary {
       "Number times game completed (all)" + summary(_.gameResults.length) +
       "Number times game completed (nothing hidden)" + summary(_.gameResults.count(_.hiding == nothing)) +
       "Number times game completed (molecules hidden)" + summary(_.gameResults.count(_.hiding == molecules)) +
-      "Number times game completed (numbers hidden)" + summary(_.gameResults.count(_.hiding == numbers))
+      "Number times game completed (numbers hidden)" + summary(_.gameResults.count(_.hiding == numbers)) +
+      "Number times aborted" + summary(_.abortedGames.length)
+
   }
 
   def main(args: Array[String]) {
