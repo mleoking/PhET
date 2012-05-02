@@ -161,10 +161,5 @@ object RPALAnalysisSummary {
 
     println(a1Report)
     println(a2Report)
-
-    //    val single = phet load (new File("C:\\Users\\Sam\\Desktop\\RPAL_logs\\A1 logs\\s023_tu1p_a1_c15_2012-04-17_13-12-27_pt2sprblacbhm2gt5i92j6fs96_st1es89smt8alcq93vjn56mmf75.txt") :: Nil)
-    //    val report = RPALAnalysis.toReport(single.head)
-    //    val count = report.userStates.count(_.entry.matches("startGameButton","pressed"))
-    //    println(count)
   }
 }
