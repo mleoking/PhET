@@ -54,9 +54,9 @@ public class ChamberPool implements IPool {
     public final Property<ObservableList<Mass>> masses = new Property<ObservableList<Mass>>( new ObservableList<Mass>() {{
         double massOffset = -4.9;
         double separation = 0.05;
-        add( new Mass( UserComponents.mass1, new Rectangle2D.Double( massOffset + 0, 0, passageSize, passageSize ), false, 0.0, 500, Images.MASS ) );
-        add( new Mass( UserComponents.mass2, new Rectangle2D.Double( massOffset + passageSize + separation, 0, passageSize, passageSize / 2 ), false, 0.0, 250, Images.MASS ) );
-        add( new Mass( UserComponents.mass3, new Rectangle2D.Double( massOffset + passageSize * 2 + separation * 2, 0, passageSize, passageSize / 2 ), false, 0.0, 250, Images.MASS ) );
+        add( new Mass( UserComponents.mass1, new Rectangle2D.Double( massOffset + 0, 0, passageSize, passageSize ), false, 0.0, 500, Images.MASS ).withMinY( TOP_OF_GRASS ) );
+        add( new Mass( UserComponents.mass2, new Rectangle2D.Double( massOffset + passageSize + separation, 0, passageSize, passageSize / 2 ), false, 0.0, 250, Images.MASS ).withMinY( TOP_OF_GRASS ) );
+        add( new Mass( UserComponents.mass3, new Rectangle2D.Double( massOffset + passageSize * 2 + separation * 2, 0, passageSize, passageSize / 2 ), false, 0.0, 250, Images.MASS ).withMinY( TOP_OF_GRASS ) );
     }} );
     private final Property<Double> gravity;
     private final Property<Double> fluidDensity;
@@ -74,6 +74,7 @@ public class ChamberPool implements IPool {
 
     //Keep track of the last value for purposes of determining when at equilibrium, for showing the dotted drag line
     private double lastLeftDisplacement;
+    private static final double TOP_OF_GRASS = 0.025;
 
     public ChamberPool( Property<Double> gravity, Property<Double> fluidDensity ) {
         this.gravity = gravity;
@@ -257,20 +258,20 @@ public class ChamberPool implements IPool {
     private ObservableList<Mass> updateMasses( final ObservableList<Mass> masses, final double dt ) {
         ObservableList<Mass> newList = new ObservableList<Mass>();
 
-        final Double g = gravity.get();
+        final double g = gravity.get();
         ArrayList<Mass> stacked = getStackedMasses();
         for ( Mass mass : masses ) {
             if ( !stacked.contains( mass ) ) {
                 final double m = mass.mass;
-                if ( mass.getMinY() > 0.0 && !mass.dragging ) {
+                if ( mass.getMinY() > TOP_OF_GRASS && !mass.dragging ) {
                     double force = -m * g;
                     double acceleration = force / m;
                     double newVelocity = mass.velocity + acceleration * dt;
                     double newPosition = mass.getMinY() + newVelocity * dt;
-                    newList.add( mass.withMinY( Math.max( newPosition, 0.0 ) ).withVelocity( newVelocity ) );
+                    newList.add( mass.withMinY( Math.max( newPosition, TOP_OF_GRASS ) ).withVelocity( newVelocity ) );
                 }
                 else {
-                    newList.add( mass );
+                    newList.add( mass.withVelocity( 0.0 ) );
                 }
             }
         }
