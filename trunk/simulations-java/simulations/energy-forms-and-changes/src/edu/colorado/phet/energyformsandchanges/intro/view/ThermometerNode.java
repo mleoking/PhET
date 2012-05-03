@@ -102,7 +102,7 @@ public class ThermometerNode extends PComposite {
         {
             ImmutableVector2D offsetPosToCenter = new ImmutableVector2D( getFullBoundsReference().getCenterX() - mvt.modelToViewX( thermometer.position.get().getX() ),
                                                                          getFullBoundsReference().getCenterY() - mvt.modelToViewY( thermometer.position.get().getY() ) );
-            addInputEventListener( new DragHandler( thermometer, this, mvt, new ThermometerLocationConstraint( mvt, this, offsetPosToCenter ) ) );
+            addInputEventListener( new ThermalElementDragHandler( thermometer, this, mvt, new ThermometerLocationConstraint( mvt, this, offsetPosToCenter ) ) );
         }
 
         // Add a listener that detects the situation where the user has

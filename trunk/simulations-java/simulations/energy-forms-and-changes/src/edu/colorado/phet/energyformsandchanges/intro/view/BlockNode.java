@@ -119,7 +119,7 @@ public class BlockNode extends PComposite {
         // Add the drag handler.
         ImmutableVector2D offsetPosToCenter = new ImmutableVector2D( getFullBoundsReference().getCenterX() - mvt.modelToViewX( block.position.get().getX() ),
                                                                      getFullBoundsReference().getCenterY() - mvt.modelToViewY( block.position.get().getY() ) );
-        addInputEventListener( new DragHandler( block, this, mvt, new ThermalItemMotionConstraint( model, block, this, mvt, offsetPosToCenter ) ) );
+        addInputEventListener( new ThermalElementDragHandler( block, this, mvt, new ThermalItemMotionConstraint( model, block, this, mvt, offsetPosToCenter ) ) );
     }
 
     /*
