@@ -124,15 +124,16 @@ object RPALAnalysisSummary {
 
     def averageSkipNaN(values: List[Double]) = if ( values.length == 0 ) 0 else average(values)
 
-    def summary(values: List[Double]) = "\t" + values.min + "\t" + values.max + "\t" + average(values) + "\n"
+    def columns = "\tmin\tmax\taverage\tvalue[0]\tvalue[1]\t...\n"
 
-    def summaryInt(values: List[Int]) = summary(values.map(_.toDouble))
+    def summary(values: List[Double]) = "\t" + values.min + "\t" + values.max + "\t" + average(values) + values.mkString("\t") + "\n"
 
     def summary(f: Report => Double): String = summary(reports.map(f))
 
     import Hiding._
 
     override def toString =
+      "Columns" + columns +
       "Group\t" + name + "\n" +
       "minutes in tab 1" + summary(_.minutesInTab(0)) +
       "minutes in tab 2" + summary(_.minutesInTab(1)) +
