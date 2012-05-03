@@ -1,0 +1,55 @@
+PhET Weekly Progress Report
+John Blanco
+April 26th, 2012
+
+Time period covered: April 26th through May 3rd.
+
+Energy Forms and Changes - 19.5 hrs
+
+o	Created a 3D-ish thermometer using graphics supplied by Noah P.
+o	Added a tool box for the thermometers.
+o	Added motion constraints.
+    o Thermometers bounded to stage.
+    o Blocks and beaker bounded to space.
+    o Blocks and beaker can block one another (not yet complete).
+
+Gene Expression - 2.0 hrs
+
+o	Integrated slider with different knob.
+
+Beer's Law - 0.5 hrs
+
+o	Reverted change made for interviews last week.
+
+Nuclear Physics - 1.0 hrs
+
+o	Redeployed to production website, updated and closed tickets (see #3307).
+
+States of Matter - 1.0 hrs
+
+o	Redeployed to production server (had to revert previous attempt, this one worked).
+o	Updated ticket about the phase diagram, see #3287.
+
+Common Code - 5.0 hrs
+
+o	Worked on supporting different knob shapes on Piccolo-based sliders (in collaboration with Sam R).
+o	Discussed common background node that shows Earth and sky with Sam R.
+
+Web Site - 1.5 hrs
+
+o	Supported Cameron with some translation deployment issues that he encountered.
+
+Miscellaneous - 1.5 hrs
+
+o	Supported Jerry P on a paper he was writing (he needed help incorporating a PDF-based image).
+
+Meetings, Email, and Other Administrative Overhead - 5.0 hrs
+
+o	Weekly status meeting.
+o	Weekly status report.
+o	Review, prioritization, and updating of Unfuddle issues.
+o	Normal email and administrative overhead.
+
+Vacation and Holidays - 0 hrs
+
+o	Will probably take 1 day off next week.
