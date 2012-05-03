@@ -206,7 +206,16 @@ public class EFACIntroModel {
                 continue;
             }
 
+            double preCheckYTranslation = translation.getY();
             translation = determineAllowedTranslation( modelElement.getRect(), block.getRect(), translation );
+
+            // Special case handling: If a block's translation was limited in
+            // the up direction due to a block sitting on top of it, allow it
+            // to move.  This is basically a stack of blocks.
+            if ( preCheckYTranslation > 0 && translation.getY() < preCheckYTranslation && modelElement instanceof Block && block.isStackedUpon( modelElement ) ) {
+                // Restore translation in Y direction.
+                translation = new ImmutableVector2D( translation.getX(), preCheckYTranslation );
+            }
         }
 
         // Determine the new position based on the allowed translation.
