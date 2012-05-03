@@ -98,9 +98,11 @@ object RPALAnalysis extends StateMachine[SimState] {
       } ).toList
 
       //If a game was in progress, then add it to the list of game results
-      val state = userStates.last
-      if ( state.end.tab2.gameInProgress ) {
-        val unfinishedGame = GameResult(state.entry.time - state.start.tab2.gameStartTime.get, state.end.tab2.level,
+      if ( !userStates.isEmpty && userStates.last.end.tab2.gameInProgress ) {
+
+        val state = userStates.last
+        //Use the state.end time here to get the game start because it dosn't exist in start state (event created the game)
+        val unfinishedGame = GameResult(state.entry.time - state.end.tab2.gameStartTime.get, state.end.tab2.level,
                                         state.end.tab2.spinnerClicksInGame,
                                         //                                        state.entry("score").toDouble,
                                         None,
@@ -145,7 +147,8 @@ object RPALAnalysis extends StateMachine[SimState] {
                                                                  "\tscore: " + gameResults(i).score + "\n" +
                                                                  "\tfinished: " + gameResults(i).finished + "\n" +
                                                                  "\tchecks: " + gameResults(i).checks + "\n" +
-                                                                 "\tpoints: " + gameResults(i).points).mkString("\n") + "\n" +
+                                                                 "\tpoints: " + gameResults(i).points + "\n" +
+                                                                 "\tin progress: " + !gameResults(i).scoreIsSome).mkString("\n") + "\n" +
                             1.to(3).map(i => "Scores on level " + i + ": " + gameResults.filter(_.level == i).map(_.score)).mkString("\n") + "\n" +
                             0.until(abortedGames.length).map(i => "Score in aborted game " + i + ": " + abortedGames(i).score).mkString("\n") + "\n" +
                             "Game in progress: " + states.last.end.tab2.gameInProgress + "\n" +

@@ -1,3 +1,4 @@
+RPAL: Added support for in-progress games
 RPAL: Added outputs
 RPAL: started RPALAnalysisSummary
 RPAL: cut over to new directory structure
