@@ -205,11 +205,11 @@ public class EFACIntroModel {
                 // Don't test against self.
                 continue;
             }
-            if ( translation.getX() > 0 ) {
 
-            }
+            translation = determineAllowedTranslation( modelElement.getRect(), block.getRect(), translation );
         }
 
+        // Determine the new position based on the allowed translation.
         Vector2D newPosition = new Vector2D( modelElement.position.get().getAddedInstance( translation ) );
 
         // Clamp Y position to be positive.
