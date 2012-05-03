@@ -6,12 +6,13 @@ import edu.colorado.phet.simsharinganalysis.{phet, Entry, Log}
 import java.io.File
 import java.text.DecimalFormat
 import collection.mutable.ArrayBuffer
-import scala.Double
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
 import swing.{Component, Frame}
 import java.awt.Dimension
 import edu.umd.cs.piccolo.event.{PZoomEventHandler, PPanEventHandler}
 import edu.umd.cs.piccolo.nodes.PText
+import scala.Double
+import scala.Predef._
 
 /**
  * @author Sam Reid
@@ -63,7 +64,15 @@ object RPALAnalysis extends StateMachine[SimState] {
 
     import Hiding._
 
-    case class GameResult(time: Long, level: Int, spinnerClicks: Int, score: Double, finished: Boolean, hiding: Hiding, checks: List[Check]) {
+    //Find only the games that the user completed normally (no abort, and wasn't still in progress when sim closed)
+    lazy val completedGames = gameResults.filter(_.scoreIsSome).filter(_.finished)
+
+    case class GameResult(time: Long, level: Int, spinnerClicks: Int,
+
+                          //Score for the game (or none if game was in progress)
+                          score: Option[Double], finished: Boolean, hiding: Hiding, checks: List[Check]) {
+      lazy val scoreIsSome = score.isDefined
+
       def points = {
         val buffer = new ArrayBuffer[Int]
         for ( e <- checks ) {
@@ -81,13 +90,29 @@ object RPALAnalysis extends StateMachine[SimState] {
       }
     }
 
-    def gameResults: List[GameResult] = {
-      ( for ( state <- userStates if state.entry.matches("game", "aborted") || state.entry.matches("game", "completed") ) yield {
-        GameResult(state.entry.time - state.start.tab2.gameStartTime.get, state.end.tab2.level, state.end.tab2.spinnerClicksInGame, state.entry("score").toDouble, state.entry.action == "completed", state.start.tab2.hide, state.end.tab2.checks)
+    lazy val gameResults: List[GameResult] = {
+      val completedGames = ( for ( state <- userStates if state.entry.matches("game", "aborted") || state.entry.matches("game", "completed") ) yield {
+        GameResult(state.entry.time - state.start.tab2.gameStartTime.get, state.end.tab2.level,
+                   state.end.tab2.spinnerClicksInGame, Some(state.entry("score").toDouble),
+                   state.entry.action == "completed", state.start.tab2.hide, state.end.tab2.checks)
       } ).toList
+
+      //If a game was in progress, then add it to the list of game results
+      val state = userStates.last
+      if ( state.end.tab2.gameInProgress ) {
+        val unfinishedGame = GameResult(state.entry.time - state.start.tab2.gameStartTime.get, state.end.tab2.level,
+                                        state.end.tab2.spinnerClicksInGame,
+                                        //                                        state.entry("score").toDouble,
+                                        None,
+                                        state.entry.action == "completed", state.start.tab2.hide, state.end.tab2.checks)
+        println("unfinished game: " + unfinishedGame)
+        completedGames ::: ( unfinishedGame :: Nil )
+      } else {
+        completedGames
+      }
     }
 
-    val abortedGames = gameResults.filter(_.finished == false)
+    val abortedGames = gameResults.filter(_.finished == false).filter(_.score.isDefined)
 
     override def toString = "General:\n" +
                             "minutes in tab 1: " + minutesInTab(0) + "\n" +
