@@ -50,6 +50,8 @@ public class RangeLabelNode extends GLNode {
     private Property<Float> scale;
     private PText labelPNode;
 
+    private boolean shouldRotate = true;
+
     public RangeLabelNode( final Property<ImmutableVector3F> top, final Property<ImmutableVector3F> bottom, String label, Property<Float> scale, Property<ColorMode> colorMode, boolean isDark ) {
         // label is centered between the top and bottom
         this( top, bottom, label, scale, colorMode, isDark, new Property<ImmutableVector3F>( top.get().plus( bottom.get() ).times( 0.5f ) ) {{
@@ -106,9 +108,10 @@ public class RangeLabelNode extends GLNode {
                     SwingUtilities.invokeLater( new Runnable() {
                         public void run() {
                             setTransform( new AffineTransform() );
-                            rotateAboutPoint( top.get().minus( bottom.get() ).angleBetween( new ImmutableVector3F( 0, 1, 0 ) ) * ( top.get().x > bottom.get().x ? 1 : -1 ),
-                                              labelPNode.getFullBounds().getWidth() / 2, labelPNode.getFullBounds().getHeight() / 2 );
-
+                            if ( shouldRotate ) {
+                                rotateAboutPoint( top.get().minus( bottom.get() ).angleBetween( new ImmutableVector3F( 0, 1, 0 ) ) * ( top.get().x > bottom.get().x ? 1 : -1 ),
+                                                  labelPNode.getFullBounds().getWidth() / 2, labelPNode.getFullBounds().getHeight() / 2 );
+                            }
                             // rescale so we draw correctly in the canvas. we will be centered later
                             ZeroOffsetNode.zeroNodeOffset( nodeRef );
 
@@ -162,6 +165,8 @@ public class RangeLabelNode extends GLNode {
         ImmutableVector3F bottomMiddle = middle.plus( topToBottom.times( labelAllowance ) );
 
         boolean labelFits = topMiddle.minus( top.get() ).dot( topToBottom ) >= 0;
+
+        shouldRotate = labelFits;
 
         labelNode.transform.set( ImmutableMatrix4F.translation( labelLocation.get().x,
                                                                 labelLocation.get().y,
