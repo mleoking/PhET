@@ -33,6 +33,10 @@ public class EFACIntroModel {
     // Size of the lab table top.
     private static final double LAB_TABLE_WIDTH = 0.5; // In meters.
 
+    // Minimum distance allowed between two objects.  The basically prevents
+    // floating point issues.
+    private static final double MIN_INTER_ELEMENT_DISTANCE = 1E-9; // In meters.
+
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
@@ -244,7 +248,7 @@ public class EFACIntroModel {
 
             if ( rightEdge.getX1() <= stationaryRect.getMinX() && rightEdgeSmear.intersects( stationaryRect ) ) {
                 // Collision detected, limit motion.
-                xTranslation = stationaryRect.getMinX() - rightEdge.getX1();
+                xTranslation = stationaryRect.getMinX() - rightEdge.getX1() - MIN_INTER_ELEMENT_DISTANCE;
             }
         }
         else if ( proposedTranslation.getX() < 0 ) {
@@ -255,7 +259,7 @@ public class EFACIntroModel {
 
             if ( leftEdge.getX1() >= stationaryRect.getMaxX() && leftEdgeSmear.intersects( stationaryRect ) ) {
                 // Collision detected, limit motion.
-                xTranslation = stationaryRect.getMaxX() - leftEdge.getX1();
+                xTranslation = stationaryRect.getMaxX() - leftEdge.getX1() + MIN_INTER_ELEMENT_DISTANCE;
             }
         }
 
@@ -268,7 +272,7 @@ public class EFACIntroModel {
 
             if ( movingTopEdge.getY1() <= stationaryRect.getMinY() && topEdgeSmear.intersects( stationaryRect ) ) {
                 // Collision detected, limit motion.
-                yTranslation = stationaryRect.getMinY() - movingTopEdge.getY1();
+                yTranslation = stationaryRect.getMinY() - movingTopEdge.getY1() - MIN_INTER_ELEMENT_DISTANCE;
             }
         }
         if ( proposedTranslation.getY() < 0 ) {
@@ -279,7 +283,7 @@ public class EFACIntroModel {
 
             if ( movingBottomEdge.getY1() >= stationaryRect.getMaxY() && bottomEdgeSmear.intersects( stationaryRect ) ) {
                 // Collision detected, limit motion.
-                yTranslation = stationaryRect.getMaxY() - movingBottomEdge.getY1();
+                yTranslation = stationaryRect.getMaxY() - movingBottomEdge.getY1() + MIN_INTER_ELEMENT_DISTANCE;
             }
         }
 
