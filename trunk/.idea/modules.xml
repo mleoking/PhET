@@ -25,6 +25,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/capacitor-lab/capacitor-lab.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/capacitor-lab/capacitor-lab.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/charges-and-fields-scala/charges-and-fields-scala.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/charges-and-fields-scala/charges-and-fields-scala.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/charts/charts.iml" filepath="$PROJECT_DIR$/simulations-java/common/charts/charts.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/chemical-reactions/chemical-reactions.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/chemical-reactions/chemical-reactions.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/chemistry/chemistry.iml" filepath="$PROJECT_DIR$/simulations-java/common/chemistry/chemistry.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/circuit-construction-kit/circuit-construction-kit.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/circuit-construction-kit/circuit-construction-kit.iml" />
       <module fileurl="file://$PROJECT_DIR$/team/cmalley/cmalley.iml" filepath="$PROJECT_DIR$/team/cmalley/cmalley.iml" />
