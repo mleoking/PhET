@@ -14,9 +14,9 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * Drag handler for objects that can be moved by the user.  This is constructed
  * with a constraint function that defines where the model object can go.
  */
-class DragHandler extends RelativeDragHandler {
+class ThermalElementDragHandler extends RelativeDragHandler {
 
-    private final UserMovableModelElement modelElement;
+    private UserMovableModelElement modelElement;
 
     /**
      * Constructor.  The node must be property positioned before calling
@@ -26,7 +26,7 @@ class DragHandler extends RelativeDragHandler {
      * @param node
      * @param mvt
      */
-    public DragHandler( UserMovableModelElement modelElement, PNode node, ModelViewTransform mvt, Function1<Point2D, Point2D> constraint ) {
+    public ThermalElementDragHandler( UserMovableModelElement modelElement, PNode node, ModelViewTransform mvt, Function1<Point2D, Point2D> constraint ) {
         super( node, mvt, modelElement.position, constraint );
         this.modelElement = modelElement;
     }
@@ -39,5 +39,9 @@ class DragHandler extends RelativeDragHandler {
     @Override public void mouseReleased( PInputEvent event ) {
         super.mouseReleased( event );
         modelElement.userControlled.set( false );
+    }
+
+    protected void setControlledModelElement( UserMovableModelElement modelElement ) {
+        this.modelElement = modelElement;
     }
 }

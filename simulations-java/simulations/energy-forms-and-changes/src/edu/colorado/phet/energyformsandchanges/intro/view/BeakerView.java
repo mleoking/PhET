@@ -24,12 +24,10 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyformsandchanges.intro.model.Beaker;
 import edu.colorado.phet.energyformsandchanges.intro.model.Block;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
-import edu.colorado.phet.energyformsandchanges.intro.model.UserMovableModelElement;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Object that represents a beaker in the view.  This representation is split
@@ -46,6 +44,7 @@ public class BeakerView {
     private static final Font LABEL_FONT = new PhetFont( 32, false );
     private static final boolean SHOW_MODEL_RECT = false;
     private static final Color BEAKER_COLOR = new Color( 250, 250, 250, 100 );
+    private static final ImmutableVector2D BLOCK_OFFSET_POST_TO_CENTER = new ImmutableVector2D( 0, Block.SURFACE_WIDTH / 2 );
 
     private final PhetPCanvas canvas;
     private final ModelViewTransform mvt;
@@ -57,6 +56,7 @@ public class BeakerView {
 
         this.mvt = mvt;
         this.canvas = canvas;
+        final Beaker beaker = model.getBeaker();
 
         // Extract the scale transform from the MVT so that we can separate the
         // shape from the position.
@@ -82,7 +82,7 @@ public class BeakerView {
         frontNode.addChild( new PhetPPath( beakerBody, BEAKER_COLOR, OUTLINE_STROKE, OUTLINE_COLOR ) );
 
         // Add the water.  It will adjust its size based on the fluid level.
-        frontNode.addChild( new PerspectiveWaterNode( beakerViewRect, model.getBeaker().fluidLevel ) );
+        frontNode.addChild( new PerspectiveWaterNode( beakerViewRect, beaker.fluidLevel ) );
 
         // Add the top ellipse.  It is behind the water for proper Z-order behavior.
         backNode.addChild( new PhetPPath( topEllipse, BEAKER_COLOR, OUTLINE_STROKE, OUTLINE_COLOR ) );
@@ -100,7 +100,7 @@ public class BeakerView {
         }
 
         // Update the offset if and when the model position changes.
-        model.getBeaker().position.addObserver( new VoidFunction1<ImmutableVector2D>() {
+        beaker.position.addObserver( new VoidFunction1<ImmutableVector2D>() {
             public void apply( ImmutableVector2D position ) {
                 frontNode.setOffset( mvt.modelToView( position ).toPoint2D() );
                 backNode.setOffset( mvt.modelToView( position ).toPoint2D() );
@@ -112,9 +112,132 @@ public class BeakerView {
 
         // Add the drag handler.  This handler is a bit tricky, since it needs
         // to handle the case where a block is inside the beaker.
+        final ImmutableVector2D offsetPosToCenter = new ImmutableVector2D( frontNode.getFullBoundsReference().getCenterX() - mvt.modelToViewX( beaker.position.get().getX() ),
+                                                                           frontNode.getFullBoundsReference().getCenterY() - mvt.modelToViewY( beaker.position.get().getY() ) );
+
         frontNode.addInputEventListener( new PBasicInputEventHandler() {
 
-            UserMovableModelElement elementToMove = model.getBeaker();
+            // Handler to use when the beaker itself is being dragged.
+            ThermalElementDragHandler beakerDragHandler = new ThermalElementDragHandler( beaker,
+                                                                                         frontNode,
+                                                                                         mvt,
+                                                                                         new ThermalItemMotionConstraint( model,
+                                                                                                                          beaker,
+                                                                                                                          frontNode,
+                                                                                                                          mvt,
+                                                                                                                          offsetPosToCenter ) );
+
+            // Handler to use when block dragged from within beaker.
+            PBasicInputEventHandler blockDragHandler = null;
+
+            @Override public void mousePressed( PInputEvent event ) {
+                Block blockUnderCursor = null;
+                for ( Block block : model.getBlockList() ) {
+                    // If there is a block at the location inside the beaker
+                    // where the user has pressed the mouse, move that instead
+                    // of the beaker.
+                    if ( block.getRect().contains( convertCanvasPointToModelPoint( event.getCanvasPosition() ) ) ) {
+                        blockUnderCursor = block;
+                        break;
+                    }
+                }
+                if ( blockUnderCursor == null ) {
+                    // No blocks in the beaker where the user has clicked, so
+                    // the user is moving the beaker itself.
+                    frontNode.addInputEventListener( beakerDragHandler );
+                    beakerDragHandler.mousePressed( event );
+                }
+                else {
+                    // There is a block where the user has clicked, set up the
+                    // drag handler to allow the user to move it.
+                    blockDragHandler = new ThermalElementDragHandler( blockUnderCursor,
+                                                                      frontNode,
+                                                                      mvt,
+                                                                      new ThermalItemMotionConstraint( model,
+                                                                                                       blockUnderCursor,
+                                                                                                       frontNode,
+                                                                                                       mvt,
+                                                                                                       BLOCK_OFFSET_POST_TO_CENTER ) );
+                    frontNode.addInputEventListener( blockDragHandler );
+                    blockDragHandler.mousePressed( event );
+                }
+            }
+
+            @Override public void mouseDragged( PInputEvent event ) {
+                if ( blockDragHandler != null ) {
+                    blockDragHandler.mouseDragged( event );
+                }
+                else {
+                    beakerDragHandler.mouseDragged( event );
+                }
+            }
+
+            @Override public void mouseReleased( PInputEvent event ) {
+                if ( blockDragHandler != null ) {
+                    blockDragHandler.mouseReleased( event );
+                    frontNode.removeInputEventListener( blockDragHandler );
+                    blockDragHandler = null;
+                }
+                else {
+                    beakerDragHandler.mouseReleased( event );
+                    frontNode.removeInputEventListener( beakerDragHandler );
+                }
+            }
+        } );
+
+        /*
+        frontNode.addInputEventListener( new ThermalElementDragHandler( beaker, frontNode, mvt, new ThermalItemMotionConstraint( model, beaker, frontNode, mvt, offsetPosToCenter ) ) {
+
+            @Override
+            public void mousePressed( final PInputEvent event ) {
+                super.mousePressed( event );
+                // TODO: Sim sharing.  See ModelElementCreatorNode in Balance and Torque for an example.
+                UserMovableModelElement blockUnderCursor = null;
+                for ( Block block : model.getBlockList() ) {
+                    // If there is a block at the location inside the beaker
+                    // where the user has pressed the mouse, move that instead
+                    // of the beaker.
+                    if ( block.getRect().contains( convertCanvasPointToModelPoint( event.getCanvasPosition() ) ) ) {
+                        blockUnderCursor = block;
+                        break;
+                    }
+                }
+                if ( blockUnderCursor != null ) {
+                    setControlledModelElement( blockUnderCursor );
+                }
+                else {
+                    // No blocks found, make sure we are controlling this beaker.
+                    setControlledModelElement( beaker );
+                }
+                super.mousePressed( event );
+            }
+//
+//            @Override
+//            public void mouseDragged( PInputEvent event ) {
+//                super.mousePressed( event );
+//                // TODO: Sim sharing.  See ModelElementCreatorNode in Balance and Torque for an example.
+//                PDimension viewDelta = event.getDeltaRelativeTo( frontNode.getParent() );
+//                ImmutableVector2D modelDelta = mvt.viewToModelDelta( new ImmutableVector2D( viewDelta ) );
+//                elementToMove.translate( modelDelta );
+//            }
+//
+//            @Override
+//            public void mouseReleased( final PInputEvent event ) {
+//                // The user has released this node.
+//                super.mousePressed( event );
+//                // TODO: Sim sharing.  See ModelElementCreatorNode in Balance and Torque for an example.
+//                elementToMove.userControlled.set( false );
+//                if ( elementToMove != beaker ) {
+//                    elementToMove = beaker;
+//                }
+//            }
+        } );
+        */
+
+        /*
+        frontNode.addInputEventListener( new PBasicInputEventHandler() {
+
+            UserMovableModelElement elementToMove = beaker;
 
             @Override
             public void mousePressed( final PInputEvent event ) {
@@ -143,11 +266,12 @@ public class BeakerView {
                 // The user has released this node.
                 // TODO: Sim sharing.  See ModelElementCreatorNode in Balance and Torque for an example.
                 elementToMove.userControlled.set( false );
-                if ( elementToMove != model.getBeaker() ) {
-                    elementToMove = model.getBeaker();
+                if ( elementToMove != beaker ) {
+                    elementToMove = beaker;
                 }
             }
         } );
+        */
     }
 
     /**
