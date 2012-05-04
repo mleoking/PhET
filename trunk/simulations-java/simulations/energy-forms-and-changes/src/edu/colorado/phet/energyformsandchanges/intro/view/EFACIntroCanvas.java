@@ -8,6 +8,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
@@ -21,7 +22,9 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
+import edu.colorado.phet.energyformsandchanges.intro.model.Thermometer;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Piccolo canvas for the "Intro" tab of the Energy Forms and Changes
@@ -32,7 +35,8 @@ import edu.umd.cs.piccolo.PNode;
 public class EFACIntroCanvas extends PhetPCanvas {
 
     public static Dimension2D STAGE_SIZE = CenteredStage.DEFAULT_STAGE_SIZE;
-    public static double EDGE_INSET = 10;
+    private static double EDGE_INSET = 10;
+    private static final Color CONTROL_PANEL_COLOR = new Color( 255, 255, 224 );
 
     private final BooleanProperty showEnergyOfObjects = new BooleanProperty( false );
 
@@ -78,7 +82,7 @@ public class EFACIntroCanvas extends PhetPCanvas {
                                                                         "Show energy of objects",
                                                                         showEnergyOfObjects );
             showEnergyCheckBox.setFont( new PhetFont( 20 ) );
-            backLayer.addChild( new ControlPanelNode( showEnergyCheckBox ) {{
+            backLayer.addChild( new ControlPanelNode( new PSwing( showEnergyCheckBox ), CONTROL_PANEL_COLOR ) {{
                 setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - EDGE_INSET, EDGE_INSET );
             }} );
         }
@@ -104,9 +108,10 @@ public class EFACIntroCanvas extends PhetPCanvas {
         frontLayer.addChild( new ThermometerNode( model.getThermometer2(), mvt ) );
 
         // Add the tool box for the thermometers.
-        ThermometerToolBox thermometerToolBox = new ThermometerToolBox( model );
+        ThermometerToolBox thermometerToolBox = new ThermometerToolBox( model, mvt, CONTROL_PANEL_COLOR );
         thermometerToolBox.setOffset( EDGE_INSET, EDGE_INSET );
-        backLayer.addChild( new ThermometerToolBox( model ) );
+        backLayer.addChild( thermometerToolBox );
+
         /*
         {
             // TODO: i18n
@@ -163,18 +168,25 @@ public class EFACIntroCanvas extends PhetPCanvas {
     private static class ThermometerToolBox extends PNode {
 
         private static Font TITLE_FONT = new PhetFont( 20, false );
-        private static Color BACKGROUND_COLOR = Color.LIGHT_GRAY;
         private static int NUM_THERMOMETERS_SUPPORTED = 2;
 
         private final EFACIntroModel model;
+        private final ModelViewTransform mvt;
 
-        private ThermometerToolBox( EFACIntroModel model ) {
+        private ThermometerToolBox( EFACIntroModel model, ModelViewTransform mvt, Color backgroundColor ) {
             this.model = model;
+            this.mvt = mvt;
             PNode title = new PhetPText( "Tool Box", TITLE_FONT );
+            addChild( title );
             double thermometerHeight = EnergyFormsAndChangesResources.Images.THERMOMETER_BACK.getHeight( null );
             double thermometerWidth = EnergyFormsAndChangesResources.Images.THERMOMETER_BACK.getWidth( null );
             PhetPPath thermometerRegion = new PhetPPath( new Rectangle2D.Double( 0, 0, thermometerHeight * 1.1, thermometerWidth * 3 ), new Color( 0, 0, 0, 0 ) );
-            addChild( new ControlPanelNode( new VBox( 0, title, thermometerRegion ), BACKGROUND_COLOR ) );
+            addChild( new ControlPanelNode( new VBox( 0, title, thermometerRegion ), backgroundColor ) );
+        }
+
+        public void putThermometerInOpenSpot( Thermometer thermometer ) {
+            thermometer.position.set( new ImmutableVector2D( mvt.viewToModel( getFullBoundsReference().getCenter2D() ) ) );
+
         }
     }
 }
