@@ -17,7 +17,6 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN;
 import static edu.colorado.phet.common.piccolophet.PiccoloPhetApplication.RESOURCES;
 
 /**
@@ -32,11 +31,6 @@ public class SensorNode<T> extends ToolNode {
     public final ThreeImageNode bodyNode;
     public final PImage velocityPointNode;
     public final BufferedImage velocityPoint;
-    private final String title;
-
-    public SensorNode( final ModelViewTransform transform, final PointSensor<T> sensor, final ObservableProperty<Function1<T, String>> formatter, String title ) {
-        this( transform, sensor, formatter, PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN, title );
-    }
 
     public SensorNode( final ModelViewTransform transform,
                        final PointSensor<T> pointSensor,
@@ -46,7 +40,6 @@ public class SensorNode<T> extends ToolNode {
                        final String unknownDisplayString, String title ) {
         this.transform = transform;
         this.pointSensor = pointSensor;
-        this.title = title;
         final int titleOffsetY = 7;
         final int readoutOffsetY = 38;
 
@@ -55,7 +48,7 @@ public class SensorNode<T> extends ToolNode {
         addChild( bodyNode );
 
         //Add the title of the sensor, which remains centered in the top of the body
-        final PText titleNode = new PText( SensorNode.this.title ) {{
+        final PText titleNode = new PText( title ) {{
             setFont( new PhetFont( 22 ) );
             bodyNode.addCenterWidthObserver( new SimpleObserver() {
                 public void update() {
