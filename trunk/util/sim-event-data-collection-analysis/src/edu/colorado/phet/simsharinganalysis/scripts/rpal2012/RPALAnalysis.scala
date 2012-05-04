@@ -13,6 +13,7 @@ import edu.umd.cs.piccolo.event.{PZoomEventHandler, PPanEventHandler}
 import edu.umd.cs.piccolo.nodes.PText
 import scala.Double
 import scala.Predef._
+import edu.colorado.phet.simsharinganalysis.scripts.rpal2012.Hiding._
 
 /**
  * @author Sam Reid
@@ -62,33 +63,9 @@ object RPALAnalysis extends StateMachine[SimState] {
                                                                                                                                                      case _ => 0
                                                                                                                                                    }).sum
 
-    import Hiding._
 
     //Find only the games that the user completed normally (no abort, and wasn't still in progress when sim closed)
     lazy val completedGames = gameResults.filter(_.scoreIsSome).filter(_.finished)
-
-    case class GameResult(time: Long, level: Int, spinnerClicks: Int,
-
-                          //Score for the game (or none if game was in progress)
-                          score: Option[Double], finished: Boolean, hiding: Hiding, checks: List[Check]) {
-      lazy val scoreIsSome = score.isDefined
-
-      def points = {
-        val buffer = new ArrayBuffer[Int]
-        for ( e <- checks ) {
-
-          if ( e.correct ) {
-            if ( e.attempts == 1 ) buffer += 2
-            else if ( e.attempts == 2 ) buffer += 1
-            else throw new RuntimeException("?")
-          }
-          else if ( !e.correct && e.attempts == 2 ) {
-            buffer += 0
-          }
-        }
-        buffer.toList
-      }
-    }
 
     lazy val gameResults: List[GameResult] = {
       val completedGames = ( for ( state <- userStates if state.entry.matches("game", "aborted") || state.entry.matches("game", "completed") ) yield {
@@ -107,7 +84,7 @@ object RPALAnalysis extends StateMachine[SimState] {
                                         //                                        state.entry("score").toDouble,
                                         None,
                                         state.entry.action == "completed", state.start.tab2.hide, state.end.tab2.checks)
-        println("unfinished game: " + unfinishedGame)
+        //        println("unfinished game: " + unfinishedGame)
         completedGames ::: ( unfinishedGame :: Nil )
       } else {
         completedGames
@@ -291,5 +268,28 @@ object RPALAnalysis extends StateMachine[SimState] {
       val report = new Report(log)
       report.gameResults.map(_.hiding)
     }).foreach(println)
+  }
+}
+
+case class GameResult(time: Long, level: Int, spinnerClicks: Int,
+
+                      //Score for the game (or none if game was in progress)
+                      score: Option[Double], finished: Boolean, hiding: Hiding, checks: List[Check]) {
+  lazy val scoreIsSome = score.isDefined
+
+  def points = {
+    val buffer = new ArrayBuffer[Int]
+    for ( e <- checks ) {
+
+      if ( e.correct ) {
+        if ( e.attempts == 1 ) buffer += 2
+        else if ( e.attempts == 2 ) buffer += 1
+        else throw new RuntimeException("?")
+      }
+      else if ( !e.correct && e.attempts == 2 ) {
+        buffer += 0
+      }
+    }
+    buffer.toList
   }
 }
