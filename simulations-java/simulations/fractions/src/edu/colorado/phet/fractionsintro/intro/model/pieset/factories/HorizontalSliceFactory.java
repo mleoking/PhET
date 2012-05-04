@@ -39,7 +39,7 @@ public @Data class HorizontalSliceFactory extends SliceFactory {
         double desiredCenter = random.nextDouble() * ( rightEdgeBucketHole - leftEdgeBucketHole ) + leftEdgeBucketHole;
 
         //Stagger vertically in the bucket to make them more distinguishable
-        return cell.position( new Vector2D( desiredCenter, getBucketCenter().getY() + random.nextDouble() * yRange ) );
+        return cell.withPosition( new Vector2D( desiredCenter, getBucketCenter().getY() + random.nextDouble() * yRange ) );
     }
 
     private static final int NUM_BARS_PER_LINE = 3;

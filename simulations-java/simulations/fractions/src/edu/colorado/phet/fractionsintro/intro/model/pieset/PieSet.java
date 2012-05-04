@@ -59,7 +59,7 @@ import static fj.data.List.range;
     }
 
     //Copy methods
-    public PieSet slices( List<Slice> slices ) { return new PieSet( denominator, pies, slices, sliceFactory ); }
+    public PieSet withSlices( List<Slice> slices ) { return new PieSet( denominator, pies, slices, sliceFactory ); }
 
     //Find which cells are empty
     public List<Slice> getEmptyCells() {
@@ -116,7 +116,7 @@ import static fj.data.List.range;
                 return p._2();
             }
         } );
-        return slices( filtered );
+        return withSlices( filtered );
     }
 
     //True if a piece is in the cell, or animating toward the cell, but not if the user is dragging it (since it should not contribute to the sum if the user is dragging it)
@@ -192,7 +192,7 @@ import static fj.data.List.range;
         final Slice bucketSlice = bucketSlices.index( new Random( randomSeed ).nextInt( bucketSlices.length() ) );
 
         final Slice target = sliceFactory.createPieCell( pies.length(), emptyCell.container, emptyCell.cell, denominator );
-        return slices( slices.snoc( bucketSlice.animationTarget( target ) ) );
+        return withSlices( slices.snoc( bucketSlice.animationTarget( target ) ) );
     }
 
     private List<Slice> getBucketSlices() {
@@ -232,7 +232,7 @@ import static fj.data.List.range;
             }
         } );
 
-        return slices( newSlices );
+        return withSlices( newSlices );
     }
 
     //Find out whether the pie contains a movable slice instead of just empty cells--if so it will be drawn with a thicker darker background
@@ -276,7 +276,7 @@ import static fj.data.List.range;
 
     //Only keep pieces sitting in the cell, for the scaled representation in Equality Lab
     public PieSet createScaledCopy() {
-        return slices( slices.filter( new F<Slice, Boolean>() {
+        return withSlices( slices.filter( new F<Slice, Boolean>() {
             @Override public Boolean f( Slice s ) {
                 return sliceSittingInCell( s );
             }

@@ -43,19 +43,19 @@ public @Data class SetMaximum extends F<IntroState, IntroState> {
 
                 //TODO: improve readability
                 final Slice newPieSlice = factorySet.circularSliceFactory.createPieCell( s.maximum, cp.container, cp.cell, s.denominator );
-                newState = newState.pieSet( newState.pieSet.slices( newState.pieSet.slices.cons( newPieSlice ) ).animateSliceToBucket( newPieSlice, s.randomSeed ) );
+                newState = newState.pieSet( newState.pieSet.withSlices( newState.pieSet.slices.cons( newPieSlice ) ).animateSliceToBucket( newPieSlice, s.randomSeed ) );
 
                 final Slice newHorizontalSlice = factorySet.horizontalSliceFactory.createPieCell( s.maximum, cp.container, cp.cell, s.denominator );
-                newState = newState.horizontalBarSet( newState.horizontalBarSet.slices( newState.horizontalBarSet.slices.cons( newHorizontalSlice ) ).animateSliceToBucket( newHorizontalSlice, s.randomSeed ) );
+                newState = newState.horizontalBarSet( newState.horizontalBarSet.withSlices( newState.horizontalBarSet.slices.cons( newHorizontalSlice ) ).animateSliceToBucket( newHorizontalSlice, s.randomSeed ) );
 
                 final Slice newVerticalSlice = factorySet.verticalSliceFactory.createPieCell( s.maximum, cp.container, cp.cell, s.denominator );
-                newState = newState.verticalBarSet( newState.verticalBarSet.slices( newState.verticalBarSet.slices.cons( newVerticalSlice ) ).animateSliceToBucket( newVerticalSlice, s.randomSeed ) );
+                newState = newState.verticalBarSet( newState.verticalBarSet.withSlices( newState.verticalBarSet.slices.cons( newVerticalSlice ) ).animateSliceToBucket( newVerticalSlice, s.randomSeed ) );
 
                 final Slice newWaterSlice = factorySet.waterGlassSetFactory.createPieCell( s.maximum, cp.container, cp.cell, s.denominator );
-                newState = newState.waterGlassSet( newState.waterGlassSet.slices( newState.waterGlassSet.slices.cons( newWaterSlice ) ).animateSliceToBucket( newWaterSlice, s.randomSeed ) );
+                newState = newState.waterGlassSet( newState.waterGlassSet.withSlices( newState.waterGlassSet.slices.cons( newWaterSlice ) ).animateSliceToBucket( newWaterSlice, s.randomSeed ) );
 
                 final Slice newCakeSlice = factorySet.cakeSliceFactory.createPieCell( s.maximum, cp.container, cp.cell, s.denominator );
-                newState = newState.cakeSet( newState.cakeSet.slices( newState.cakeSet.slices.cons( newCakeSlice ) ).animateSliceToBucket( newCakeSlice, s.randomSeed ) );
+                newState = newState.cakeSet( newState.cakeSet.withSlices( newState.cakeSet.slices.cons( newCakeSlice ) ).animateSliceToBucket( newCakeSlice, s.randomSeed ) );
 
                 csx = csx.toggle( cp );
             }

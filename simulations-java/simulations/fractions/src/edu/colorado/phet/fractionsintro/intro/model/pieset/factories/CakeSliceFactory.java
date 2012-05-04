@@ -76,7 +76,7 @@ public @Data class CakeSliceFactory extends SliceFactory {
                 add( e );
             }
         }};
-        return p.slices( p.slices.sort( ord( new F<Slice, F<Slice, Ordering>>() {
+        return p.withSlices( p.slices.sort( ord( new F<Slice, F<Slice, Ordering>>() {
             @Override public F<Slice, Ordering> f( final Slice a ) {
                 return new F<Slice, Ordering>() {
                     @Override public Ordering f( Slice b ) {
