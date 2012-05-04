@@ -1,3 +1,4 @@
+Build a Fraction tab: Started canvas
 Prepended "with" to copy methods for lombok data classes
 Added a new (empty) tab for "Build a Fraction"
 Intro tab: Fixed: Bucket clipping area was omitted while fixing #3314
