@@ -1,3 +1,4 @@
+More tools tab: Fixed: Speed sensor resizes when readout changes
 # 1.02.00 (63000) Apr 3, 2012
 # 1.01.01 (62684) Mar 20, 2012
 > Intro: Fixed: #3139: Laser rotates into the medium

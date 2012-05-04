@@ -27,8 +27,9 @@ import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.
 public class VelocitySensorNode extends DraggableSensorNode<ImmutableVector2D> {
     private final VelocitySensor velocitySensor;
 
-    public VelocitySensorNode( final ModelViewTransform transform, final VelocitySensor velocitySensor, final double arrowScale, final ObservableProperty<Function1<ImmutableVector2D, String>> formatter ) {
-        this( transform, velocitySensor, arrowScale, formatter, new Function1.Identity<Point2D>(), PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN );
+    public VelocitySensorNode( final ModelViewTransform transform, final VelocitySensor velocitySensor, final double arrowScale, final ObservableProperty<Function1<ImmutableVector2D, String>> formatter,
+                               ImmutableVector2D valueWithLongestString ) {
+        this( transform, velocitySensor, arrowScale, formatter, new Function1.Identity<Point2D>(), PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN, valueWithLongestString );
     }
 
     public VelocitySensorNode( final ModelViewTransform transform,
@@ -40,8 +41,9 @@ public class VelocitySensorNode extends DraggableSensorNode<ImmutableVector2D> {
                                final Function1<Point2D, Point2D> boundedConstraint,
 
                                //Text to display when the value is None
-                               final String unknownDisplayString ) {
-        super( transform, velocitySensor, formatter, boundedConstraint, unknownDisplayString, PICCOLO_PHET_VELOCITY_SENSOR_NODE_SPEED );
+                               final String unknownDisplayString,
+                               final ImmutableVector2D valueWithLongestString ) {
+        super( transform, velocitySensor, formatter, boundedConstraint, unknownDisplayString, PICCOLO_PHET_VELOCITY_SENSOR_NODE_SPEED, valueWithLongestString );
         this.velocitySensor = velocitySensor;
 
         //Add an arrow that points in the direction of the velocity, with a magnitude proportional to the speed

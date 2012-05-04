@@ -59,6 +59,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
 
     //Transform from model to view
     protected final ModelViewTransform transform;
+    private final ImmutableVector2D maxVelocityVectorForSensorSize;
 
     //Stage where nodes are added and scaled up and down
     private final PNode rootNode;
@@ -82,8 +83,9 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         }
     };
 
-    public FluidPressureAndFlowCanvas( final ModelViewTransform transform ) {
+    public FluidPressureAndFlowCanvas( final ModelViewTransform transform, ImmutableVector2D maxVelocityVectorForSensorSize ) {
         this.transform = transform;
+        this.maxVelocityVectorForSensorSize = maxVelocityVectorForSensorSize;
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
 
         // Root of our scene graph
@@ -177,7 +179,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
                 public Point2D apply( Point2D point2D ) {
                     return visibleModelBounds.apply().getClosestPoint( point2D );
                 }
-            }, UNKNOWN_VELOCITY ) {
+            }, UNKNOWN_VELOCITY, maxVelocityVectorForSensorSize ) {
                 {
 
                     //Make sure the node moves to front when dragged, and that it snaps back to the control panel when dropped
@@ -236,7 +238,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
     //This is necessary since we want the pressure sensor to have the right readout within the control panel.
     //This also has the advantages of sizing the control panel so it will fit internationalized versions of the components
     public void addSensorToolboxNode( final FluidPressureAndFlowModel model, final FluidPressureAndFlowControlPanelNode controlPanelNode, Property<IPool> poolProperty ) {
-        final EmptyNode velocitySensorArea = new EmptyNode( model.getVelocitySensors().length > 0 ? new VelocitySensorNode( transform, model.getVelocitySensors()[0], 1, getVelocityFormatter( model ) ) : new PNode() );
+        final EmptyNode velocitySensorArea = new EmptyNode( model.getVelocitySensors().length > 0 ? new VelocitySensorNode( transform, model.getVelocitySensors()[0], 1, getVelocityFormatter( model ), maxVelocityVectorForSensorSize ) : new PNode() );
         final EmptyNode pressureSensorArea = new EmptyNode( new PressureSensorNode( transform, model.getPressureSensors()[0], new Property<UnitSet>( UnitSet.METRIC ), poolProperty, visibleModelBounds ) );
         final FluidPressureAndFlowControlPanelNode sensorToolBoxNode = new FluidPressureAndFlowControlPanelNode( new HBox( velocitySensorArea, pressureSensorArea ) ) {{
 

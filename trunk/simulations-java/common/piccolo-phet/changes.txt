@@ -1,3 +1,4 @@
+5/4/12 Fixed: Speed sensor resizes when readout changes
 4/25/12 Fixed: SensorNode jumps around, see #3318
 4/17/12 Performance improvements for PhetPText and PhetPPath, see #3309
 4/13/12 Scale down text on SpeedometerNode if it is too big

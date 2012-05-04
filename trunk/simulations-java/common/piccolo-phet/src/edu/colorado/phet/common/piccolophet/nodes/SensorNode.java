@@ -37,7 +37,11 @@ public class SensorNode<T> extends ToolNode {
                        final ObservableProperty<Function1<T, String>> formatter,
 
                        //Text to display when the value is None
-                       final String unknownDisplayString, String title ) {
+                       final String unknownDisplayString, String title,
+
+                       //The text area remains constant size based on the max of the width with this string or the title or the unknown value
+                       //Ignored safely if null
+                       final T valueWithLongestString ) {
         this.transform = transform;
         this.pointSensor = pointSensor;
         final int titleOffsetY = 7;
@@ -67,11 +71,30 @@ public class SensorNode<T> extends ToolNode {
                 }
             };
             bodyNode.addCenterWidthObserver( updateTextLocation );
+
+            //Size the text area so that it can accommodate the largest string (be it unknown or from a value), or the title, whichever is longer
+            new RichSimpleObserver() {
+                @Override public void update() {
+                    double largestValueWidth = 0;
+                    if ( valueWithLongestString != null ) {
+                        setText( formatter.get().apply( valueWithLongestString ) );
+                        largestValueWidth = getFullBounds().getWidth();
+                    }
+
+                    setText( unknownDisplayString );
+                    double unknownValueWidth = getFullBounds().getWidth();
+
+                    final double titleWidth = titleNode.getFullBounds().getWidth();
+
+                    bodyNode.setCenterWidth( Math.max( Math.max( titleWidth, largestValueWidth ), unknownValueWidth ) + 10 );
+                }
+            }.observe( formatter );
+
             new RichSimpleObserver() {
                 public void update() {
                     final Option<T> value = pointSensor.value.get();
+
                     setText( ( value.isNone() ) ? unknownDisplayString : formatter.get().apply( value.get() ) );
-                    bodyNode.setCenterWidth( Math.max( titleNode.getFullBounds().getWidth(), getFullBounds().getWidth() ) );
                     updateTextLocation.update();
                 }
             }.observe( formatter, pointSensor.value );
