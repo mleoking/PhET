@@ -31,13 +31,13 @@ import static edu.colorado.phet.fractionsintro.intro.model.pieset.AnimationTarge
     public final Color color;
 
     //Copy methods:
-    public Slice dragging( boolean dragging ) { return new Slice( position, angle, dragging, animationTarget, toShape, color ); }
+    public Slice withDragging( boolean dragging ) { return new Slice( position, angle, dragging, animationTarget, toShape, color ); }
 
-    public Slice angle( double angle ) { return new Slice( position, angle, dragging, animationTarget, toShape, color ); }
+    public Slice withAngle( double angle ) { return new Slice( position, angle, dragging, animationTarget, toShape, color ); }
 
-    public Slice position( Vector2D position ) { return new Slice( position, angle, dragging, animationTarget, toShape, color ); }
+    public Slice withPosition( Vector2D position ) { return new Slice( position, angle, dragging, animationTarget, toShape, color ); }
 
-    public Slice animationTarget( AnimationTarget animationTarget ) { return new Slice( position, angle, dragging, animationTarget, toShape, color ); }
+    public Slice withAnimationTarget( AnimationTarget animationTarget ) { return new Slice( position, angle, dragging, animationTarget, toShape, color ); }
 
     //Update methods
 
@@ -45,7 +45,7 @@ import static edu.colorado.phet.fractionsintro.intro.model.pieset.AnimationTarge
 
     public Slice translate( double dx, double dy ) { return new Slice( position.plus( dx, dy ), angle, dragging, animationTarget, toShape, color ); }
 
-    public Slice animationTarget( Slice target ) { return animationTarget( animateToSlice( target ) );}
+    public Slice animationTarget( Slice target ) { return withAnimationTarget( animateToSlice( target ) );}
 
     public Vector2D getCenter() {return new Vector2D( getShape().getBounds2D().getCenterX(), getShape().getBounds2D().getCenterY() );}
 
@@ -68,14 +68,14 @@ import static edu.colorado.phet.fractionsintro.intro.model.pieset.AnimationTarge
         double delta = targetAngle - s.angle;
         final double newAngle = s.angle + delta / 4.0;//This final term tuned so that pieces are rotated before they reach their destination
 
-        return angle( newAngle );
+        return withAngle( newAngle );
     }
 
     private Vector2D getVelocity() {return animationTarget.position.minus( position ).getInstanceOfMagnitude( 30 );}
 
     private Slice checkFinishAnimation() {
         if ( position.distance( animationTarget.position ) < getVelocity().getMagnitude() ) {
-            return position( animationTarget.position ).animationTarget( (AnimationTarget) null ).angle( animationTarget.angle );
+            return withPosition( animationTarget.position ).withAnimationTarget( (AnimationTarget) null ).withAngle( animationTarget.angle );
         }
         return this;
     }
@@ -84,7 +84,7 @@ import static edu.colorado.phet.fractionsintro.intro.model.pieset.AnimationTarge
 
     public boolean positionAndAngleEquals( Slice cell ) { return cell.position.equals( position ) && cell.angle == angle; }
 
-    public Slice moveTo( Slice target ) { return dragging( false ).angle( target.angle ).position( target.position );}
+    public Slice moveTo( Slice target ) { return withDragging( false ).withAngle( target.angle ).withPosition( target.position );}
 
     //Determine which cell would be occupied based on the angle, used to rotate the cake slice images
     public int cell( int denominator ) {

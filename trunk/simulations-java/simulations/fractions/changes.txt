@@ -1,3 +1,4 @@
+Prepended "with" to copy methods for lombok data classes
 Added a new (empty) tab for "Build a Fraction"
 Intro tab: Fixed: Bucket clipping area was omitted while fixing #3314
 # 0.00.63 (63725) Apr 24, 2012

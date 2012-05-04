@@ -45,10 +45,10 @@ public class MovableSliceNode extends PNode {
 
                     //If dragging from the bucket, do not delete the old piece (since bucket should always look like it has an infinite supply)
                     if ( state.isInBucket( slice ) ) {
-                        model.set( state.slices( state.slices.snoc( slice.dragging( true ) ) ) );
+                        model.set( state.withSlices( state.slices.snoc( slice.withDragging( true ) ) ) );
                     }
                     else {
-                        model.set( state.slices( state.slices.delete( slice, Equal.<Slice>anyEqual() ).snoc( slice.dragging( true ) ) ) );
+                        model.set( state.withSlices( state.slices.delete( slice, Equal.<Slice>anyEqual() ).snoc( slice.withDragging( true ) ) ) );
                     }
                 }
             }
@@ -59,7 +59,7 @@ public class MovableSliceNode extends PNode {
 
                 PieSet state = model.get();
                 final Dimension2D delta = event.getDeltaRelativeTo( rootNode );
-                PieSet newState = state.slices( state.slices.map( new F<Slice, Slice>() {
+                PieSet newState = state.withSlices( state.slices.map( new F<Slice, Slice>() {
                     public Slice f( Slice s ) {
                         return s.dragging ? s.translate( delta.getWidth(), delta.getHeight() ) : s;
                     }
@@ -79,11 +79,11 @@ public class MovableSliceNode extends PNode {
                     public Slice f( Slice s ) {
                         Slice target = state.getDropTarget( s );
                         return s.dragging && target != null ? s.moveTo( target ) :
-                               s.dragging ? s.dragging( false ).animationTarget( model.get().sliceFactory.createBucketSlice( model.get().denominator, System.currentTimeMillis() ) ) :
+                               s.dragging ? s.withDragging( false ).animationTarget( model.get().sliceFactory.createBucketSlice( model.get().denominator, System.currentTimeMillis() ) ) :
                                s;
                     }
                 } );
-                final PieSet newState = state.slices( newSlices );
+                final PieSet newState = state.withSlices( newSlices );
 
                 model.set( newState );
             }
