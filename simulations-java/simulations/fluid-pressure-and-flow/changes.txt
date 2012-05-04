@@ -1,3 +1,4 @@
+Pressure tab: Scene 3: Fixed: always repainting even if nothing has moved
 Changed the pool background cement to a solid color instead of textured
 Pressure tab: Scene 3: Have the masses sit atop the grass instead of in front of it
 Pressure tab: Scene 3: Fixed a bug which was preventing block velocity from going to zero when dropped on the ground (as seen in next drop)

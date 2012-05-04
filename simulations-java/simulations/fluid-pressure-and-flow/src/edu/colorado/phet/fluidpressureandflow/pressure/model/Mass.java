@@ -78,4 +78,39 @@ public class Mass {
     public Mass withShape( final Shape initialShape ) {
         return new Mass( component, this.initialShape, initialShape, dragging, velocity, mass, image );
     }
+
+    //IDEA generated on 5/3/2012
+    @Override
+    public boolean equals( final Object o ) {
+        if ( this == o ) { return true; }
+        if ( o == null || getClass() != o.getClass() ) { return false; }
+
+        final Mass mass1 = (Mass) o;
+
+        if ( dragging != mass1.dragging ) { return false; }
+        if ( Double.compare( mass1.mass, mass ) != 0 ) { return false; }
+        if ( Double.compare( mass1.velocity, velocity ) != 0 ) { return false; }
+        if ( !component.equals( mass1.component ) ) { return false; }
+        if ( !image.equals( mass1.image ) ) { return false; }
+        if ( !initialShape.equals( mass1.initialShape ) ) { return false; }
+        if ( !shape.equals( mass1.shape ) ) { return false; }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = initialShape.hashCode();
+        result = 31 * result + shape.hashCode();
+        result = 31 * result + ( dragging ? 1 : 0 );
+        temp = velocity != +0.0d ? Double.doubleToLongBits( velocity ) : 0L;
+        result = 31 * result + (int) ( temp ^ ( temp >>> 32 ) );
+        temp = mass != +0.0d ? Double.doubleToLongBits( mass ) : 0L;
+        result = 31 * result + (int) ( temp ^ ( temp >>> 32 ) );
+        result = 31 * result + image.hashCode();
+        result = 31 * result + component.hashCode();
+        return result;
+    }
 }
