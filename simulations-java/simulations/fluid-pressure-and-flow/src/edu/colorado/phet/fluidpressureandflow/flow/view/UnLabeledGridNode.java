@@ -3,6 +3,8 @@ package edu.colorado.phet.fluidpressureandflow.flow.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.text.DecimalFormat;
 
@@ -35,7 +37,7 @@ public class UnLabeledGridNode extends PropertyVisibleNode {
         final int labelX = 665;
         addChild( new PropertyVisibleNode( units.valueEquals( UnitSet.METRIC ) ) {{
             for ( double i = 0; i >= -10; i -= 0.5 ) {
-                final LineNode lineNode = new LineNode( i, transform );
+                final TwoToneLineNode lineNode = new TwoToneLineNode( i, transform );
                 addChild( lineNode );
                 if ( i == -3 ) {
                     addChild( createLabel( lineNode, format( READOUT_METERS, new DecimalFormat( "0" ).format( -i ) ), labelX ) );
@@ -46,7 +48,7 @@ public class UnLabeledGridNode extends PropertyVisibleNode {
         //Show feet if non-metric
         addChild( new PropertyVisibleNode( new Not( units.valueEquals( UnitSet.METRIC ) ) ) {{
             for ( int i = 0; i >= -10; i-- ) {
-                final LineNode lineNode = new LineNode( Units.feetToMeters( i ), transform );
+                final TwoToneLineNode lineNode = new TwoToneLineNode( Units.feetToMeters( i ), transform );
                 addChild( lineNode );
                 if ( i == -10 ) {
                     addChild( createLabel( lineNode, format( READOUT_FEET, new DecimalFormat( "0" ).format( -i ) ), labelX ) );
@@ -58,16 +60,21 @@ public class UnLabeledGridNode extends PropertyVisibleNode {
     }
 
     //Label the bottom tick mark
-    private ControlPanelNode createLabel( final LineNode lineNode, final String text, final int labelX ) {
+    private ControlPanelNode createLabel( final TwoToneLineNode lineNode, final String text, final int labelX ) {
         return new ControlPanelNode( new PhetPText( text, new PhetFont( 16 ), Color.black ), new Color( 103, 162, 87 ), null, null, 3 ) {{
             setOffset( labelX, lineNode.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
         }};
     }
 
-    public static class LineNode extends PNode {
-        public LineNode( final double meters, final ModelViewTransform transform ) {
-            final PhetPPath line = new PhetPPath( transform.modelToView( new Line2D.Double( -100, meters, 100, meters ) ), new BasicStroke( 1 ), Color.lightGray );
+
+    public static class TwoToneLineNode extends PNode {
+        public TwoToneLineNode( final double meters, final ModelViewTransform transform ) {
+            final PhetPPath line = new PhetPPath( transform.modelToView( new Line2D.Double( -100, meters, 100, meters ) ), new BasicStroke( 1.5f ), Color.lightGray );
+            final Shape b = transform.modelToView( new Line2D.Double( -100, meters, 100, meters ) );
+            Shape c = AffineTransform.getTranslateInstance( 0, 1 ).createTransformedShape( b );
+            final PhetPPath line2 = new PhetPPath( c, new BasicStroke( 1 ), Color.darkGray );
             addChild( line );
+            addChild( line2 );
         }
     }
 }

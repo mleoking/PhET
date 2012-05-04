@@ -1,3 +1,5 @@
+Pressure tab: Made grid lines easier to see by having dark/light shading on each line
+Pressure tab: Scene 1: Removed pool height side readout
 Fixed: Speed sensor resizes when readout changes
 # 0.00.58 (63939) May 4, 2012
 Pressure tab: Scene 3: Fixed: always repainting even if nothing has moved

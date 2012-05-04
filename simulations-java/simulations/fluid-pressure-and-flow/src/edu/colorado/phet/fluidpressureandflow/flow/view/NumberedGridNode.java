@@ -3,6 +3,8 @@ package edu.colorado.phet.fluidpressureandflow.flow.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.text.DecimalFormat;
 
@@ -49,10 +51,13 @@ public class NumberedGridNode extends PropertyVisibleNode {
 
     public static class LineNode extends PNode {
         public LineNode( String label, final double meters, final ModelViewTransform transform ) {
-            final PhetPPath line = new PhetPPath( transform.modelToView( new Line2D.Double( 0, meters, Pool.WIDTH, meters ) ), new BasicStroke( 2 ), Color.gray );
-            addChild( line );
+            final PNode line1 = new PhetPPath( transform.modelToView( new Line2D.Double( 0, meters, Pool.WIDTH, meters ) ), new BasicStroke( 1.5f ), Color.lightGray );
+            Shape c = AffineTransform.getTranslateInstance( 0, 1 ).createTransformedShape( transform.modelToView( new Line2D.Double( 0, meters, Pool.WIDTH, meters ) ) );
+            final PNode line2 = new PhetPPath( c, new BasicStroke( 1 ), Color.darkGray );
+            addChild( line1 );
+            addChild( line2 );
             PhetPText text = new PhetPText( label, new PhetFont( 16, true ) );
-            text.setOffset( line.getFullBounds().getX() - text.getFullBounds().getWidth(), line.getFullBounds().getCenterY() - text.getFullHeight() / 2 );
+            text.setOffset( line1.getFullBounds().getX() - text.getFullBounds().getWidth(), line1.getFullBounds().getCenterY() - text.getFullHeight() / 2 );
             addChild( text );
         }
     }
