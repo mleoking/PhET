@@ -7,8 +7,11 @@ import java.awt.Point;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
@@ -34,13 +37,15 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  *
  * @author John Blanco
  */
-public class EFACIntroCanvas extends PhetPCanvas {
+public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
 
     public static Dimension2D STAGE_SIZE = CenteredStage.DEFAULT_STAGE_SIZE;
     private static double EDGE_INSET = 10;
     private static final Color CONTROL_PANEL_COLOR = new Color( 255, 255, 224 );
 
     private final BooleanProperty showEnergyOfObjects = new BooleanProperty( false );
+
+    private final List<ThermometerNode> thermometerNodes = new ArrayList<ThermometerNode>();
 
     /**
      * Constructor.
@@ -111,12 +116,13 @@ public class EFACIntroCanvas extends PhetPCanvas {
         backLayer.addChild( thermometerToolBox );
 
         // Add the thermometers.
-        frontLayer.addChild( new ThermometerNode( model.getThermometer1(), mvt ) {{
-            addInputEventListener( new ThermometerReturner( thermometerToolBox, this ) );
-        }} );
-        frontLayer.addChild( new ThermometerNode( model.getThermometer2(), mvt ) {{
-            addInputEventListener( new ThermometerReturner( thermometerToolBox, this ) );
-        }} );
+        for ( Thermometer thermometer : model.getThermometers() ) {
+            ThermometerNode thermometerNode = new ThermometerNode( thermometer, mvt ) {{
+                addInputEventListener( new ThermometerReturner( thermometerToolBox, this ) );
+            }};
+            frontLayer.addChild( thermometerNode );
+            thermometerNodes.add( thermometerNode );
+        }
 
         /*
         {
@@ -168,6 +174,11 @@ public class EFACIntroCanvas extends PhetPCanvas {
         // of either changes.
         model.getBrick().position.addObserver( blockChangeObserver );
         model.getLeadBlock().position.addObserver( blockChangeObserver );
+    }
+
+    public void reset() {
+
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     // Class that defines the thermometer tool box.
