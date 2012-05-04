@@ -28,7 +28,6 @@ public class FluidPressureAndFlowApplication extends PiccoloPhetApplication {
 
     public FluidPressureAndFlowApplication( PhetApplicationConfig config ) {
         super( config );
-//        PDebug.debugRegionManagement=true;
         getPhetFrame().getDeveloperMenu().add( new JMenuItem( "Dirt top color" ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( final ActionEvent e ) {

@@ -117,7 +117,7 @@ public class MassNode extends PNode {
         ObservableList<Mass> output = new ObservableList<Mass>();
         Mass dragMass = null;
         for ( Mass origMass : origMasses ) {
-            if ( origMass == mass ) {
+            if ( origMass.equals( mass ) ) {
                 if ( dragMass != null ) { throw new RuntimeException( "two drag mass" ); }
                 dragMass = origMass.withDragging( true );
             }
