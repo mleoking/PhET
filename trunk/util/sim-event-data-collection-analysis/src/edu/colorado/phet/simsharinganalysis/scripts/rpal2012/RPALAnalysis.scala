@@ -3,7 +3,6 @@ package edu.colorado.phet.simsharinganalysis.scripts.rpal2012
 
 import edu.colorado.phet.simsharinganalysis.scripts.StateMachine
 import edu.colorado.phet.simsharinganalysis.{phet, Entry, Log}
-import java.io.File
 import java.text.DecimalFormat
 import collection.mutable.ArrayBuffer
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
@@ -14,6 +13,7 @@ import edu.umd.cs.piccolo.nodes.PText
 import scala.Double
 import scala.Predef._
 import edu.colorado.phet.simsharinganalysis.scripts.rpal2012.Hiding._
+import java.io.File
 
 /**
  * @author Sam Reid
@@ -277,6 +277,7 @@ case class GameResult(time: Long, level: Int, spinnerClicks: Int,
                       score: Option[Double], finished: Boolean, hiding: Hiding, checks: List[Check]) {
   lazy val scoreIsSome = score.isDefined
 
+  //Return a list of the scores so far for the game for completed problems
   def points = {
     val buffer = new ArrayBuffer[Int]
     for ( e <- checks ) {
