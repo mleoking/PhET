@@ -19,12 +19,14 @@ import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.
 public class DraggableSensorNode<T> extends SensorNode<T> {
     private final Function1<Point2D, Point2D> boundedConstraint;
 
-    public DraggableSensorNode( final ModelViewTransform transform, final PointSensor<T> tPointSensor, final ObservableProperty<Function1<T, String>> formatter, String title ) {
-        this( transform, tPointSensor, formatter, new Function1.Identity<Point2D>(), PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN, title );
+    public DraggableSensorNode( final ModelViewTransform transform, final PointSensor<T> tPointSensor, final ObservableProperty<Function1<T, String>> formatter, String title,
+                                T valueWithLongestString ) {
+        this( transform, tPointSensor, formatter, new Function1.Identity<Point2D>(), PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN, title, valueWithLongestString );
     }
 
-    public DraggableSensorNode( final ModelViewTransform transform, final PointSensor<T> tPointSensor, final ObservableProperty<Function1<T, String>> formatter, final Function1<Point2D, Point2D> boundedConstraint, final String unknownDisplayString, String title ) {
-        super( transform, tPointSensor, formatter, unknownDisplayString, title );
+    public DraggableSensorNode( final ModelViewTransform transform, final PointSensor<T> tPointSensor, final ObservableProperty<Function1<T, String>> formatter, final Function1<Point2D, Point2D> boundedConstraint, final String unknownDisplayString, String title,
+                                T valueWithLongestString ) {
+        super( transform, tPointSensor, formatter, unknownDisplayString, title, valueWithLongestString );
         this.boundedConstraint = boundedConstraint;
         addInteraction();
     }

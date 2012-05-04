@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -48,7 +49,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
     private static final double MODEL_WIDTH = MODEL_HEIGHT / STAGE_SIZE.getHeight() * STAGE_SIZE.getWidth();
 
     public FluidFlowCanvas( final FluidFlowModule module ) {
-        super( ModelViewTransform.createRectangleInvertedYMapping( new Rectangle2D.Double( -MODEL_WIDTH / 2, -MODEL_HEIGHT / 2 + PIPE_CENTER_Y + 0.75, MODEL_WIDTH, MODEL_HEIGHT ), new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ) ) );
+        super( ModelViewTransform.createRectangleInvertedYMapping( new Rectangle2D.Double( -MODEL_WIDTH / 2, -MODEL_HEIGHT / 2 + PIPE_CENTER_Y + 0.75, MODEL_WIDTH, MODEL_HEIGHT ), new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ) ), new ImmutableVector2D( 5, 5 ) );
 
         //Show the sky, ground and grass, see similar code in FluidPressureCanvas
         addChild( new PNode() {{

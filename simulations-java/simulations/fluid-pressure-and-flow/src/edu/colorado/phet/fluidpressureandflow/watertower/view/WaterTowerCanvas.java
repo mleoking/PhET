@@ -49,7 +49,7 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel
     public static final int FLOATING_BUTTON_FONT_SIZE = (int) ( FluidPressureCanvas.CONTROL_FONT.getSize() * 1.3 );
 
     public WaterTowerCanvas( final WaterTowerModule module ) {
-        super( createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.225, STAGE_SIZE.height * 0.75 ), SCALE ) );
+        super( createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.225, STAGE_SIZE.height * 0.75 ), SCALE ), new ImmutableVector2D( 20, 20 ) );
 
         addChild( new SkyNode( transform, new Rectangle2D.Double( -1000, 0, 2000, 2000 ), 20 ) );
 

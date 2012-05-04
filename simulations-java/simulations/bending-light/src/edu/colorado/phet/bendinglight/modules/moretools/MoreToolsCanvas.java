@@ -133,7 +133,7 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
         final NodeFactory velocityNodeFactory = new NodeFactory() {
             public VelocitySensorNode createNode( final ModelViewTransform transform, final Property<Boolean> showTool, final Point2D modelPt ) {
                 model.velocitySensor.position.set( new ImmutableVector2D( modelPt ) );
-                return new VelocitySensorNode( transform, model.velocitySensor, arrowScale, new Property<Function1<ImmutableVector2D, String>>( formatter ), getBoundedConstraint(), PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN ) {{
+                return new VelocitySensorNode( transform, model.velocitySensor, arrowScale, new Property<Function1<ImmutableVector2D, String>>( formatter ), getBoundedConstraint(), PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN, new ImmutableVector2D( 1.00, 0 ) ) {{
                     showTool.addObserver( new VoidFunction1<Boolean>() {
                         public void apply( Boolean visible ) {
                             setVisible( visible );
@@ -144,7 +144,7 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
         };
 
         //Create and return the tool for dragging out of the toolbox
-        final VelocitySensorNode thumbnailSensorNode = new VelocitySensorNode( transform, new VelocitySensor(), arrowScale, new Property<Function1<ImmutableVector2D, String>>( formatter ) );
+        final VelocitySensorNode thumbnailSensorNode = new VelocitySensorNode( transform, new VelocitySensor(), arrowScale, new Property<Function1<ImmutableVector2D, String>>( formatter ), new ImmutableVector2D( 1.00, 0 ) );
         final int velocityToolHeight = (int) ( thumbnailSensorNode.getFullBounds().getHeight() / thumbnailSensorNode.getFullBounds().getWidth() * ICON_WIDTH );
         return new ToolIconNode<BendingLightCanvas<MoreToolsModel>>( thumbnailSensorNode.toImage( ICON_WIDTH, velocityToolHeight, new Color( 0, 0, 0, 0 ) ), showVelocitySensor, transform, this, velocityNodeFactory, resetModel, getToolboxBounds() );
     }
