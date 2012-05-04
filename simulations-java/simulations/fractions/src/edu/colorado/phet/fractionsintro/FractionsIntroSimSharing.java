@@ -48,7 +48,7 @@ public class FractionsIntroSimSharing {
         matchingGameFraction,
 
         tryAgainButton, showAnswerButton, checkAnswerButton,
-        menuButton
+        buildAFractionTab, menuButton
     }
 
     //For chaining with component types

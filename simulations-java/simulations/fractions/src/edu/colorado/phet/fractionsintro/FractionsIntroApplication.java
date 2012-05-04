@@ -9,6 +9,7 @@ import javax.swing.JCheckBoxMenuItem;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.fractionsintro.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractionsintro.equalitylab.EqualityLabModule;
 import edu.colorado.phet.fractionsintro.intro.FractionsIntroModule;
 import edu.colorado.phet.fractionsintro.matchinggame.MatchingGameModule;
@@ -30,6 +31,7 @@ public class FractionsIntroApplication extends PiccoloPhetApplication {
         //Another way to do this would be to pass a FunctionInvoker to all the modules
         recordRegressionData = config.hasCommandLineArg( "-recordRegressionData" );
         addModule( new FractionsIntroModule() );
+        addModule( new BuildAFractionModule() );
         addModule( new EqualityLabModule() );
         addModule( new MatchingGameModule( config.isDev() ) );
 
