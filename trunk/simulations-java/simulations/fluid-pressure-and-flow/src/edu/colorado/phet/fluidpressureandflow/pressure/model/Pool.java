@@ -14,7 +14,6 @@ public class Pool {
 
     //10 foot deep pool, a customary depth for the deep end in the United States
     public static final double DEFAULT_HEIGHT = new Units().feetToMeters( 10 );
-    private static final double HEIGHT = DEFAULT_HEIGHT;
     public static final double WIDTH = 4;
 
     //Compute the pressure above the ground
