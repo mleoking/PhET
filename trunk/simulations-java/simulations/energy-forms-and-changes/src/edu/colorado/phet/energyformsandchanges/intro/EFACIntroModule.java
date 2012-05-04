@@ -15,21 +15,14 @@ import edu.colorado.phet.energyformsandchanges.intro.view.EFACIntroCanvas;
  */
 public class EFACIntroModule extends SimSharingPiccoloModule {
 
-    private EFACIntroModel model;
-
     public EFACIntroModule() {
         this( new EFACIntroModel() );
     }
 
     private EFACIntroModule( EFACIntroModel model ) {
         super( EnergyFormsAndChangesSimSharing.UserComponents.introTab, EnergyFormsAndChangesResources.Strings.INTRO, model.getClock() );
-        this.model = model;
         setClockControlPanel( null );
         setSimulationPanel( new EFACIntroCanvas( model ) );
         reset();
-    }
-
-    @Override public void reset() {
-        model.reset();
     }
 }

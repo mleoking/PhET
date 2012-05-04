@@ -7,8 +7,6 @@ import java.awt.Point;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
@@ -45,7 +43,8 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
 
     private final BooleanProperty showEnergyOfObjects = new BooleanProperty( false );
 
-    private final List<ThermometerNode> thermometerNodes = new ArrayList<ThermometerNode>();
+    private final EFACIntroModel model;
+    private ThermometerToolBox thermometerToolBox;
 
     /**
      * Constructor.
@@ -53,6 +52,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
      * @param model
      */
     public EFACIntroCanvas( final EFACIntroModel model ) {
+        this.model = model;
 
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new CenteredStage( this ) );
@@ -111,17 +111,24 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         backLayer.addChild( beakerView.getBackNode() );
 
         // Add the tool box for the thermometers.
-        final ThermometerToolBox thermometerToolBox = new ThermometerToolBox( model, mvt, CONTROL_PANEL_COLOR );
+        thermometerToolBox = new ThermometerToolBox( model, mvt, CONTROL_PANEL_COLOR );
         thermometerToolBox.setOffset( EDGE_INSET, EDGE_INSET );
         backLayer.addChild( thermometerToolBox );
 
         // Add the thermometers.
         for ( Thermometer thermometer : model.getThermometers() ) {
             ThermometerNode thermometerNode = new ThermometerNode( thermometer, mvt ) {{
-                addInputEventListener( new ThermometerReturner( thermometerToolBox, this ) );
+                addInputEventListener( new PBasicInputEventHandler() {
+                    // Put the thermometer into the tool box if dropped over it.
+                    @Override public void mouseReleased( PInputEvent event ) {
+                        if ( getFullBoundsReference().intersects( thermometerToolBox.getFullBoundsReference() ) ) {
+                            thermometerToolBox.putThermometerInOpenSpot( getThermometer() );
+                        }
+                    }
+                } );
             }};
             frontLayer.addChild( thermometerNode );
-            thermometerNodes.add( thermometerNode );
+            thermometerToolBox.putThermometerInOpenSpot( thermometer );
         }
 
         /*
@@ -177,8 +184,9 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
     }
 
     public void reset() {
-
-        //To change body of implemented methods use File | Settings | File Templates.
+        for ( Thermometer thermometer : model.getThermometers() ) {
+            thermometerToolBox.putThermometerInOpenSpot( thermometer );
+        }
     }
 
     // Class that defines the thermometer tool box.
