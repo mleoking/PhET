@@ -7,13 +7,16 @@ import java.awt.Point;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
+import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
 import edu.umd.cs.piccolo.PNode;
 
@@ -26,6 +29,9 @@ import edu.umd.cs.piccolo.PNode;
 public class EFACIntroCanvas extends PhetPCanvas {
 
     public static Dimension2D STAGE_SIZE = CenteredStage.DEFAULT_STAGE_SIZE;
+    public static double EDGE_INSET = 10;
+
+    private final BooleanProperty showEnergyOfObjects = new BooleanProperty( false );
 
     /**
      * Constructor.
@@ -78,6 +84,17 @@ public class EFACIntroCanvas extends PhetPCanvas {
             setOffset( mvt.modelToView( model.getThermometerToolBox().getMinX(), model.getThermometerToolBox().getMaxY() ) );
         }};
         backLayer.addChild( toolBoxNode );
+
+        // Add the control for showing/hiding object energy. TODO: i18n
+        {
+            PropertyCheckBox showEnergyCheckBox = new PropertyCheckBox( EnergyFormsAndChangesSimSharing.UserComponents.showEnergyCheckBox,
+                                                                        "Show energy of objects",
+                                                                        showEnergyOfObjects );
+            showEnergyCheckBox.setFont( new PhetFont( 20 ) );
+            backLayer.addChild( new ControlPanelNode( showEnergyCheckBox ) {{
+                setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - EDGE_INSET, EDGE_INSET );
+            }} );
+        }
 
         // Add the lab bench surface.
         backLayer.addChild( new ShelfNode( model.getLabBenchSurface(), mvt ) );
