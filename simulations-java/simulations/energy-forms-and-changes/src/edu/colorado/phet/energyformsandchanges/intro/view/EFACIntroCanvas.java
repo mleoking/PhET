@@ -1,11 +1,12 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro.view;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Point;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -16,6 +17,8 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
+import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
 import edu.umd.cs.piccolo.PNode;
@@ -69,22 +72,6 @@ public class EFACIntroCanvas extends PhetPCanvas {
         PNode frontLayer = new PNode();
         rootNode.addChild( frontLayer );
 
-        // Add the tool box for the thermometers.
-        ControlPanelNode toolBoxNode = new ControlPanelNode( new PhetPPath( mvt.modelToView( model.getThermometerToolBox() ), new BasicStroke( 0 ), new Color( 0, 0, 0, 0 ) ),
-                                                             Color.LIGHT_GRAY,
-                                                             new BasicStroke( 2 ),
-                                                             Color.BLACK,
-                                                             0 ) {{
-            PNode title = new PhetPText( "Tool Box", new PhetFont( 20, false ) );
-            if ( title.getFullBoundsReference().width > getFullBoundsReference().width ) {
-                title.setScale( getFullBoundsReference().width / title.getFullBoundsReference().width * 0.9 );
-            }
-            title.centerFullBoundsOnPoint( getCenterX(), title.getFullBoundsReference().height / 2 );
-            addChild( title );
-            setOffset( mvt.modelToView( model.getThermometerToolBox().getMinX(), model.getThermometerToolBox().getMaxY() ) );
-        }};
-        backLayer.addChild( toolBoxNode );
-
         // Add the control for showing/hiding object energy. TODO: i18n
         {
             PropertyCheckBox showEnergyCheckBox = new PropertyCheckBox( EnergyFormsAndChangesSimSharing.UserComponents.showEnergyCheckBox,
@@ -113,8 +100,37 @@ public class EFACIntroCanvas extends PhetPCanvas {
         backLayer.addChild( beakerView.getBackNode() );
 
         // Add the thermometers.
-        frontLayer.addChild( new ThermometerNode( model.getThermometer1(), mvt, toolBoxNode ) );
-        frontLayer.addChild( new ThermometerNode( model.getThermometer2(), mvt, toolBoxNode ) );
+        frontLayer.addChild( new ThermometerNode( model.getThermometer1(), mvt ) );
+        frontLayer.addChild( new ThermometerNode( model.getThermometer2(), mvt ) );
+
+        // Add the tool box for the thermometers.
+        ThermometerToolBox thermometerToolBox = new ThermometerToolBox( model );
+        thermometerToolBox.setOffset( EDGE_INSET, EDGE_INSET );
+        backLayer.addChild( new ThermometerToolBox( model ) );
+        /*
+        {
+            // TODO: i18n
+            PNode title = new PhetPText( "Tool Box", new PhetFont( 20, false ) );
+            double toolBoxHeight = 
+
+        }
+
+        ControlPanelNode thermometerToolBox = new ControlPanelNode( new PhetPPath( mvt.modelToView( model.getThermometerToolBox() ), new BasicStroke( 0 ), new Color( 0, 0, 0, 0 ) ),
+                                                                    Color.LIGHT_GRAY,
+                                                                    new BasicStroke( 2 ),
+                                                                    Color.BLACK,
+                                                                    0 ) {{
+            PNode title = new PhetPText( "Tool Box", new PhetFont( 20, false ) );
+            if ( title.getFullBoundsReference().width > getFullBoundsReference().width ) {
+                title.setScale( getFullBoundsReference().width / title.getFullBoundsReference().width * 0.9 );
+            }
+            title.centerFullBoundsOnPoint( getCenterX(), title.getFullBoundsReference().height / 2 );
+            addChild( title );
+            setOffset( mvt.modelToView( model.getThermometerToolBox().getMinX(), model.getThermometerToolBox().getMaxY() ) );
+        }};
+        backLayer.addChild( thermometerToolBox );
+        */
+
 
         // Create an observer that updates the Z-order of the blocks when the
         // user controlled state changes.
@@ -141,5 +157,24 @@ public class EFACIntroCanvas extends PhetPCanvas {
         // of either changes.
         model.getBrick().position.addObserver( blockChangeObserver );
         model.getLeadBlock().position.addObserver( blockChangeObserver );
+    }
+
+    // Class that defines the thermometer tool box.
+    private static class ThermometerToolBox extends PNode {
+
+        private static Font TITLE_FONT = new PhetFont( 20, false );
+        private static Color BACKGROUND_COLOR = Color.LIGHT_GRAY;
+        private static int NUM_THERMOMETERS_SUPPORTED = 2;
+
+        private final EFACIntroModel model;
+
+        private ThermometerToolBox( EFACIntroModel model ) {
+            this.model = model;
+            PNode title = new PhetPText( "Tool Box", TITLE_FONT );
+            double thermometerHeight = EnergyFormsAndChangesResources.Images.THERMOMETER_BACK.getHeight( null );
+            double thermometerWidth = EnergyFormsAndChangesResources.Images.THERMOMETER_BACK.getWidth( null );
+            PhetPPath thermometerRegion = new PhetPPath( new Rectangle2D.Double( 0, 0, thermometerHeight * 1.1, thermometerWidth * 3 ), new Color( 0, 0, 0, 0 ) );
+            addChild( new ControlPanelNode( new VBox( 0, title, thermometerRegion ), BACKGROUND_COLOR ) );
+        }
     }
 }

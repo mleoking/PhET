@@ -43,7 +43,7 @@ public class ThermometerNode extends PComposite {
      * @param thermometer
      * @param mvt
      */
-    public ThermometerNode( final Thermometer thermometer, final ModelViewTransform mvt, final PNode toolBoxNode ) {
+    public ThermometerNode( final Thermometer thermometer, final ModelViewTransform mvt ) {
 
         // Root node, all children should be added to this.
         PNode rootNode = new PNode();
@@ -104,20 +104,6 @@ public class ThermometerNode extends PComposite {
                                                                          getFullBoundsReference().getCenterY() - mvt.modelToViewY( thermometer.position.get().getY() ) );
             addInputEventListener( new ThermalElementDragHandler( thermometer, this, mvt, new ThermometerLocationConstraint( mvt, this, offsetPosToCenter ) ) );
         }
-
-        // Add a listener that detects the situation where the user has
-        // released this thermometer over the tool box and, in response,
-        // resets the thermometer's position, which is assumed to put it back
-        // into the tool box.
-        thermometer.userControlled.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean aBoolean ) {
-                if ( ThermometerNode.this.getFullBoundsReference().intersects( toolBoxNode.getFullBoundsReference() ) ) {
-                    // The user has released the thermometer node over the tool
-                    // box, so return the thermometer to its original position.
-                    thermometer.position.reset();
-                }
-            }
-        } );
     }
 
     // Function that constrains the valid locations for the thermometers.

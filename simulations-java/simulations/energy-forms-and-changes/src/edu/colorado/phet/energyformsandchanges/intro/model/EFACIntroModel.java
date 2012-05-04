@@ -56,9 +56,6 @@ public class EFACIntroModel {
     private final LeadBlock leadBlock;
     private final Beaker beaker;
 
-    // Themometer tool box.
-    private final Rectangle2D thermometerToolBox;
-
     // Thermometers.
     private final Thermometer thermometer1;
     private final Thermometer thermometer2;
@@ -95,19 +92,11 @@ public class EFACIntroModel {
         brick = new Brick( new ImmutableVector2D( -0.1, 0 ) );
         leadBlock = new LeadBlock( new ImmutableVector2D( -0.175, 0 ) );
 
-        // Add the thermometer tool box.  Tweak Alert: This is sized and
-        // positioned to be in a reasonable location and to contain the
-        // thermometer representation used in the view.
-        thermometerToolBox = new Rectangle2D.Double( -0.22, 0.17, 0.1, 0.08 );
-
-        // Add and position the thermometers.  They are initially positioned
-        // inside the tool box.  Some coordination is necessary with the view
-        // in order to make their initial positions look good.
-        {
-            double thermometerYPos = thermometerToolBox.getMinY() + 0.015;
-            thermometer1 = new Thermometer( new ImmutableVector2D( thermometerToolBox.getMinX() + thermometerToolBox.getWidth() * 0.1, thermometerYPos ) );
-            thermometer2 = new Thermometer( new ImmutableVector2D( thermometerToolBox.getMinX() + thermometerToolBox.getWidth() * 0.6, thermometerYPos ) );
-        }
+        // Add the thermometers.  They should reside in the tool box when
+        // the sim starts up or is reset, so their position here doesn't much
+        // matter, since it will be changed by the view.
+        thermometer1 = new Thermometer( new ImmutableVector2D( 0, 0 ) );
+        thermometer2 = new Thermometer( new ImmutableVector2D( 0, 0 ) );
     }
 
     //-------------------------------------------------------------------------
@@ -355,10 +344,6 @@ public class EFACIntroModel {
 
     public Thermometer getThermometer2() {
         return thermometer2;
-    }
-
-    public Rectangle2D getThermometerToolBox() {
-        return thermometerToolBox;
     }
 
     private Property<HorizontalSurface> findBestSupportSurface( UserMovableModelElement element ) {
