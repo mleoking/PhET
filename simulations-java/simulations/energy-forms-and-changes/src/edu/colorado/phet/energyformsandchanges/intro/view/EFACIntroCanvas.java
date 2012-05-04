@@ -24,6 +24,8 @@ import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
 import edu.colorado.phet.energyformsandchanges.intro.model.Thermometer;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -103,14 +105,18 @@ public class EFACIntroCanvas extends PhetPCanvas {
         frontLayer.addChild( beakerView.getFrontNode() );
         backLayer.addChild( beakerView.getBackNode() );
 
-        // Add the thermometers.
-        frontLayer.addChild( new ThermometerNode( model.getThermometer1(), mvt ) );
-        frontLayer.addChild( new ThermometerNode( model.getThermometer2(), mvt ) );
-
         // Add the tool box for the thermometers.
-        ThermometerToolBox thermometerToolBox = new ThermometerToolBox( model, mvt, CONTROL_PANEL_COLOR );
+        final ThermometerToolBox thermometerToolBox = new ThermometerToolBox( model, mvt, CONTROL_PANEL_COLOR );
         thermometerToolBox.setOffset( EDGE_INSET, EDGE_INSET );
         backLayer.addChild( thermometerToolBox );
+
+        // Add the thermometers.
+        frontLayer.addChild( new ThermometerNode( model.getThermometer1(), mvt ) {{
+            addInputEventListener( new ThermometerReturner( thermometerToolBox, this ) );
+        }} );
+        frontLayer.addChild( new ThermometerNode( model.getThermometer2(), mvt ) {{
+            addInputEventListener( new ThermometerReturner( thermometerToolBox, this ) );
+        }} );
 
         /*
         {
@@ -185,8 +191,40 @@ public class EFACIntroCanvas extends PhetPCanvas {
         }
 
         public void putThermometerInOpenSpot( Thermometer thermometer ) {
-            thermometer.position.set( new ImmutableVector2D( mvt.viewToModel( getFullBoundsReference().getCenter2D() ) ) );
+            // This is a little tweaky due to the relationship between the
+            // thermometer in the model and the view representation.
+            double xPos = 30;
+            double yPos = getFullBoundsReference().getMaxY() - 30;
+            boolean openLocationFound = false;
+            for ( int i = 0; i < NUM_THERMOMETERS_SUPPORTED && !openLocationFound; i++ ) {
+                xPos = getFullBoundsReference().width / NUM_THERMOMETERS_SUPPORTED * i + 20;
+                openLocationFound = true;
+                for ( Thermometer modelThermometer : model.getThermometers() ) {
+                    if ( modelThermometer.position.get().distance( new ImmutableVector2D( mvt.viewToModel( xPos, yPos ) ) ) < 1E-3 ) {
+                        openLocationFound = false;
+                        break;
+                    }
+                }
+            }
+            thermometer.position.set( new ImmutableVector2D( mvt.viewToModel( xPos, yPos ) ) );
+        }
+    }
 
+    // Event handler that returns thermometer to tool box if released above it.
+    private static class ThermometerReturner extends PBasicInputEventHandler {
+
+        private final ThermometerToolBox toolBox;
+        private final ThermometerNode thermometerNode;
+
+        private ThermometerReturner( ThermometerToolBox toolBox, ThermometerNode thermometerNode ) {
+            this.thermometerNode = thermometerNode;
+            this.toolBox = toolBox;
+        }
+
+        @Override public void mouseReleased( PInputEvent event ) {
+            if ( thermometerNode.getFullBoundsReference().intersects( toolBox.getFullBoundsReference() ) ) {
+                toolBox.putThermometerInOpenSpot( thermometerNode.getThermometer() );
+            }
         }
     }
 }
