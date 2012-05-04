@@ -1,3 +1,4 @@
+5/3/2012 #3320 Fixed: equality test is incorrect for ObservableList
 4/12/12 #3303 replace Java 1.6 calls with Java 1.5 workaround to implement nearest-neighbor rounding in DefaultDecimalFormat
 4/12/12 #3304 Fixed: Exception when attempting to authenticate mongodb when there is no internet connection, resolves #3304
 4/2/12 Added convenience method Pairs.pair so pairs can be constructed with "pair(a,b)" instead of "new Pair<MyLongTypeNameForTypeA,MyLongTypeNameForTypeB>(a,b)"
