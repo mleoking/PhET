@@ -1,3 +1,4 @@
+Switched from forked to master PhetAudioClip, which hopefully has better error handling, see #3317
 Removed unused and dead code
 # 1.05.00 (52302) May 23, 2011
 5/23/11 > Internationalized force panel strings, and renamed from "Advanced >>"/"Hide <<" to "Forces >>"/"Forces <<", resolves #2855
