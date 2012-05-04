@@ -186,36 +186,39 @@ public class EFACIntroModel {
 
         // Validate against the sides of the beaker.
         if ( modelElement != beaker ) {
-            // Create three rectangle to represent the two sides and the top of
-            // the beaker.
+            // Create three rectangles to represent the two sides and the top
+            // of the beaker.
             double testRectThickness = 1E-3; // 1 mm thick walls.
             Rectangle2D beakerRect = beaker.getRect();
             Rectangle2D beakerLeftSide = new Rectangle2D.Double( beakerRect.getMinX(), beaker.getRect().getMinY(), testRectThickness, beaker.getRect().getHeight() );
             Rectangle2D beakerRightSide = new Rectangle2D.Double( beaker.getRect().getMaxX() - testRectThickness, beaker.getRect().getMinY(), testRectThickness, beaker.getRect().getHeight() );
             Rectangle2D beakerBottom = new Rectangle2D.Double( beaker.getRect().getMinX(), beaker.getRect().getMinY(), beaker.getRect().getWidth(), testRectThickness );
 
-            translation = determineAllowedTranslation( modelElement.getRect(), beakerLeftSide, translation );
-            translation = determineAllowedTranslation( modelElement.getRect(), beakerRightSide, translation );
-            translation = determineAllowedTranslation( modelElement.getRect(), beakerBottom, translation );
+            // Do not restrict the model element's motion in positive Y
+            // direction if the beaker is sitting on top of the model element -
+            // the beaker will simply be lifted up.
+            boolean restrictPositiveY = !beaker.isStackedUpon( modelElement );
+
+            // Clamp the translation based on the beaker position.
+            translation = determineAllowedTranslation( modelElement.getRect(), beakerLeftSide, translation, restrictPositiveY );
+            translation = determineAllowedTranslation( modelElement.getRect(), beakerRightSide, translation, restrictPositiveY );
+            translation = determineAllowedTranslation( modelElement.getRect(), beakerBottom, translation, restrictPositiveY );
         }
 
-        // Now check the motion against each of the blocks.
+        // Now check the model element's motion against each of the blocks.
         for ( Block block : Arrays.asList( leadBlock, brick ) ) {
             if ( modelElement == block ) {
                 // Don't test against self.
                 continue;
             }
 
-            double preCheckYTranslation = translation.getY();
-            translation = determineAllowedTranslation( modelElement.getRect(), block.getRect(), translation );
+            // Do not restrict the model element's motion in positive Y
+            // direction if the tested block is sitting on top of the model
+            // element - the block will simply be lifted up.
+            boolean restrictPositiveY = !block.isStackedUpon( modelElement );
 
-            // Special case handling: If a block's translation was limited in
-            // the up direction due to a block sitting on top of it, allow it
-            // to move.  This is basically a stack of blocks.
-            if ( preCheckYTranslation > 0 && translation.getY() < preCheckYTranslation && modelElement instanceof Block && block.isStackedUpon( modelElement ) ) {
-                // Restore translation in Y direction.
-                translation = new ImmutableVector2D( translation.getX(), preCheckYTranslation );
-            }
+            // Clamp the translation based on the test block's position.
+            translation = determineAllowedTranslation( modelElement.getRect(), block.getRect(), translation, restrictPositiveY );
         }
 
         // Determine the new position based on the allowed translation.
@@ -235,9 +238,13 @@ public class EFACIntroModel {
      * @param movingRect
      * @param stationaryRect
      * @param proposedTranslation
+     * @param restrictPosY        Boolean that controls whether the positive Y
+     *                            direction is restricted.  This is often set
+     *                            false if there is another model element on
+     *                            top of the one being tested.
      * @return
      */
-    private ImmutableVector2D determineAllowedTranslation( Rectangle2D movingRect, Rectangle2D stationaryRect, ImmutableVector2D proposedTranslation ) {
+    private ImmutableVector2D determineAllowedTranslation( Rectangle2D movingRect, Rectangle2D stationaryRect, ImmutableVector2D proposedTranslation, boolean restrictPosY ) {
 
         // Parameter checking.
         if ( movingRect.intersects( stationaryRect ) ) {
@@ -273,7 +280,7 @@ public class EFACIntroModel {
         }
 
         // Y direction.
-        if ( proposedTranslation.getY() > 0 ) {
+        if ( proposedTranslation.getY() > 0 && restrictPosY ) {
 
             // Check for collisions moving up.
             Line2D movingTopEdge = new Line2D.Double( movingRect.getMinX(), movingRect.getMaxY(), movingRect.getMaxX(), movingRect.getMaxY() );
