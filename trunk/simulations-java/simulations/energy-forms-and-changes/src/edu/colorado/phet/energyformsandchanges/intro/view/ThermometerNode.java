@@ -37,6 +37,8 @@ public class ThermometerNode extends PComposite {
     private static final double TRIANGLE_SIDE_SIZE = 22; // In screen coordinates, which is close to pixels.
     private static final Dimension2D TRIANGLE_TIP_OFFSET_FROM_THERMOMETER_CENTER = new PDimension( -40, 47 );
 
+    private final Thermometer thermometer;
+
     /**
      * Constructor.
      *
@@ -44,6 +46,8 @@ public class ThermometerNode extends PComposite {
      * @param mvt
      */
     public ThermometerNode( final Thermometer thermometer, final ModelViewTransform mvt ) {
+
+        this.thermometer = thermometer;
 
         // Root node, all children should be added to this.
         PNode rootNode = new PNode();
@@ -104,6 +108,10 @@ public class ThermometerNode extends PComposite {
                                                                          getFullBoundsReference().getCenterY() - mvt.modelToViewY( thermometer.position.get().getY() ) );
             addInputEventListener( new ThermalElementDragHandler( thermometer, this, mvt, new ThermometerLocationConstraint( mvt, this, offsetPosToCenter ) ) );
         }
+    }
+
+    public Thermometer getThermometer() {
+        return thermometer;
     }
 
     // Function that constrains the valid locations for the thermometers.

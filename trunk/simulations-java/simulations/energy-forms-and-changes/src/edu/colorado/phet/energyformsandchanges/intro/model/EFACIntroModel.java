@@ -396,4 +396,8 @@ public class EFACIntroModel {
     private boolean isDirectlyAbove( HorizontalSurface s1, HorizontalSurface s2 ) {
         return s2.xRange.contains( s1.getCenterX() ) && s1.yPos > s2.yPos;
     }
+
+    public List<Thermometer> getThermometers() {
+        return Arrays.asList( thermometer1, thermometer2 );
+    }
 }
