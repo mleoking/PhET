@@ -17,14 +17,14 @@ import static edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFracti
  *
  * @author Sam Reid
  */
-public class DraggableBarNode extends PNode {
-    public DraggableBarNode( final ObjectID id, final BuildAFractionModel model, final BuildAFractionCanvas canvas ) {
+public class DraggablePieceNode extends PNode {
+    public DraggablePieceNode( final ObjectID id, final BuildAFractionModel model, final BuildAFractionCanvas canvas ) {
         model.addContainerListener( new ContainerObserver( id ) {
             @Override public void applyChange( final Option<Container> old, final Option<Container> newOne ) {
                 removeAllChildren();
                 if ( newOne.isSome() ) {
                     addChild( new PNode() {{
-                        addChild( BuildAFractionCanvas.barGraphic( newOne.some() ) );
+                        addChild( BuildAFractionCanvas.pieceGraphic( newOne.some() ) );
                         addInputEventListener( new CursorHandler() );
                         addInputEventListener( new PBasicInputEventHandler() {
                             @Override public void mousePressed( final PInputEvent event ) {
@@ -43,7 +43,7 @@ public class DraggableBarNode extends PNode {
                 }
                 else {
                     //If removed from model, remove this view class
-                    getParent().removeChild( DraggableBarNode.this );
+                    getParent().removeChild( DraggablePieceNode.this );
                     model.removeContainerListener( this );
                 }
             }
