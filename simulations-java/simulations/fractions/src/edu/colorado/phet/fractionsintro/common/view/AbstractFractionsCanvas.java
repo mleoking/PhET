@@ -18,7 +18,7 @@ public class AbstractFractionsCanvas extends PhetPCanvas {
     public static final Font CONTROL_FONT = new PhetFont( 20 );
 
     //Stage where nodes are added and scaled up and down
-    protected final PNode rootNode;
+    public final PNode rootNode;
 
     //Size for the stage, should have the right aspect ratio since it will always be visible
     //The dimension was determined by running on Windows and inspecting the dimension of the canvas after menubar and tabs are added
