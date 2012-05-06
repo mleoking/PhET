@@ -1,3 +1,4 @@
+Added draggable pieces
 # 0.00.64 (63963) May 5, 2012
 Added draggable containers
 Build a Fraction tab: Started canvas

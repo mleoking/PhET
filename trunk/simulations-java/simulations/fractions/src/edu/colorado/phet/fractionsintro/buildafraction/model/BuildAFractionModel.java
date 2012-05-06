@@ -6,7 +6,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.buildafraction.controller.ModelUpdate;
-import edu.colorado.phet.fractionsintro.buildafraction.view.ContainerID;
+import edu.colorado.phet.fractionsintro.buildafraction.view.ObjectID;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -21,9 +21,7 @@ public class BuildAFractionModel {
     public BuildAFractionModel() {
     }
 
-    public void update( ModelUpdate update ) {
-        state.set( update.update( state.get() ) );
-    }
+    public void update( ModelUpdate update ) { state.set( update.update( state.get() ) ); }
 
     public void drag( final PDimension delta ) {
         state.set( state.get().drag( new Vector2D( delta ) ) );
@@ -33,6 +31,12 @@ public class BuildAFractionModel {
 
     public void removeContainerListener( ContainerObserver observer ) { state.removeObserver( observer ); }
 
-    public void startDragging( final ContainerID container ) { state.set( state.get().startDragging( container ) ); }
+    public void startDragging( final ObjectID container ) {
+        update( new ModelUpdate() {
+            @Override public BuildAFractionState update( final BuildAFractionState state ) {
+                return state.startDragging( container );
+            }
+        } );
+    }
 
 }

@@ -7,7 +7,7 @@ import lombok.Data;
 
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.buildafraction.controller.ModelUpdate;
-import edu.colorado.phet.fractionsintro.buildafraction.view.ContainerID;
+import edu.colorado.phet.fractionsintro.buildafraction.view.ObjectID;
 
 /**
  * Immutable model state for build a fraction.
@@ -21,7 +21,7 @@ public @Data class BuildAFractionState {
 
     public BuildAFractionState withContainers( List<Container> containers ) { return new BuildAFractionState( containers ); }
 
-    public BuildAFractionState addEmptyContainer( final int numSegments, final Vector2D location ) { return addContainer( new Container( ContainerID.nextID(), numSegments, location, true ) ); }
+    public BuildAFractionState addEmptyContainer( final int numSegments, final Vector2D location ) { return addContainer( new Container( ObjectID.nextID(), numSegments, location, true ) ); }
 
     public BuildAFractionState addContainer( Container container ) { return withContainers( containers.cons( container ) ); }
 
@@ -49,7 +49,7 @@ public @Data class BuildAFractionState {
         } ) );
     }
 
-    public Option<Container> getContainer( final ContainerID id ) {
+    public Option<Container> getContainer( final ObjectID id ) {
         return containers.find( new F<Container, Boolean>() {
             @Override public Boolean f( final Container container ) {
                 return container.id.equals( id );
@@ -57,7 +57,7 @@ public @Data class BuildAFractionState {
         } );
     }
 
-    public BuildAFractionState startDragging( final ContainerID id ) {
+    public BuildAFractionState startDragging( final ObjectID id ) {
         return withContainers( containers.map( new F<Container, Container>() {
             @Override public Container f( final Container container ) {
                 return container.id.equals( id ) ? container.withDragging( true ) : container;

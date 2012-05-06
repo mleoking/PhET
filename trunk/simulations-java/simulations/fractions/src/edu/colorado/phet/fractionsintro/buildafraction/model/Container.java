@@ -3,13 +3,13 @@ package edu.colorado.phet.fractionsintro.buildafraction.model;
 import lombok.Data;
 
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
-import edu.colorado.phet.fractionsintro.buildafraction.view.ContainerID;
+import edu.colorado.phet.fractionsintro.buildafraction.view.ObjectID;
 
 /**
  * @author Sam Reid
  */
 public @Data class Container {
-    public final ContainerID id;
+    public final ObjectID id;
     public final int numSegments;
     public final Vector2D position;
     public final boolean dragging;
