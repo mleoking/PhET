@@ -76,7 +76,6 @@ public class FractionsIntroModel implements Serializable {
             addClockListener( new ClockAdapter() {
                 @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
                     final IntroState s = state.get();
-                    final double dt = clockEvent.getSimulationTimeChange();
                     final IntroState newState = s.updatePieSets( new F<PieSet, PieSet>() {
                         @Override public PieSet f( PieSet p ) {
                             return p.stepInTime();
@@ -84,8 +83,7 @@ public class FractionsIntroModel implements Serializable {
                     } );
 
                     //Fix the z-ordering for cake slices
-                    final IntroState sorted = newState.cakeSet( CakeSliceFactory.sort( newState.cakeSet ) );
-                    state.set( sorted );
+                    state.set( newState.cakeSet( CakeSliceFactory.sort( newState.cakeSet ) ) );
                 }
             } );
         }};
