@@ -13,12 +13,19 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-public class PieNode extends PNode {
+public class PieNode extends PNode implements IColor {
+    private final Color color;
+
     public PieNode( Property<ContainerSet> containerSet, Color color ) {
+        this.color = color;
 
         PieSetFractionNode pieSetFractionNode = new PieSetFractionNode( containerSet, new Property<Boolean>( true ), color );
         addChild( new ZeroOffsetNode( pieSetFractionNode ) );
 
         scale( 0.5 );
+    }
+
+    @Override public Color getColor() {
+        return color;
     }
 }

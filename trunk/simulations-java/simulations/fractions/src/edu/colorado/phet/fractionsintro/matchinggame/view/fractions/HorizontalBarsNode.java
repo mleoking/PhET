@@ -14,8 +14,11 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-public class HorizontalBarsNode extends PNode {
+public class HorizontalBarsNode extends PNode implements IColor {
+    private final Color color;
+
     public HorizontalBarsNode( final Fraction fraction, double scale, Color color ) {
+        this.color = color;
         scale( scale );
         double width = 75;
         double height = 75;
@@ -26,5 +29,9 @@ public class HorizontalBarsNode extends PNode {
         for ( int i = 0; i < numSlices; i++ ) {
             addChild( new PhetPPath( new Rectangle2D.Double( 0, i * sliceHeight, width, sliceHeight ), i < numFilledSlices ? color : Color.white, new BasicStroke( 1 ), Color.black ) );
         }
+    }
+
+    @Override public Color getColor() {
+        return color;
     }
 }

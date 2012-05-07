@@ -24,6 +24,7 @@ import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Polygon;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Pyramid;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.HorizontalBarsNode;
+import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.IColor;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PieNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.VerticalBarsNode;
@@ -355,6 +356,12 @@ public class Levels {
     //Create a MovableFraction for the given fraction at the specified cell
     private static MovableFraction fraction( int numerator, int denominator, Cell cell, final F<Fraction, PNode> node, IUserComponent userComponent ) {
 
+        //Find the color for the node.  Would be better to rewrite to pass this data directly, but I tried that and it turned out to be expensive and more complex than
+        //Adding the logic here.
+        PNode n = node.f( new Fraction( numerator, denominator ) );
+        Color color = n instanceof FractionNode ? Color.black :
+                      n instanceof IColor ? ( (IColor) n ).getColor() :
+                      Color.green;
         //Cache nodes as images to improve performance
         //TODO: could this put the same node at 2 places in the scene graph?  If so, what problems would that cause?
         return new MovableFraction( nextID(), new Vector2D( cell.rectangle.getCenter() ), numerator, denominator, false, cell, 1.0,
@@ -366,7 +373,7 @@ public class Levels {
                                     }
 //        )
                 ,
-                                    MoveToCell( cell ), false, userComponent );
+                                    MoveToCell( cell ), false, userComponent, color );
     }
 
     private List<MovableFraction> createLevel( F<Fraction, ArrayList<RepresentationType>> representations, List<Cell> _cells, Fraction[] a ) {

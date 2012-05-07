@@ -14,8 +14,11 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-public class VerticalBarsNode extends PNode {
+public class VerticalBarsNode extends PNode implements IColor {
+    private final Color color;
+
     public VerticalBarsNode( final Fraction fraction, double scale, Color color ) {
+        this.color = color;
         setScale( scale );
 
         double width = 75;
@@ -27,5 +30,9 @@ public class VerticalBarsNode extends PNode {
         for ( int i = 0; i < numSlices; i++ ) {
             addChild( new PhetPPath( new Rectangle2D.Double( i * sliceWidth, 0, sliceWidth, height ), i < numFilledSlices ? color : Color.white, new BasicStroke( 1 ), Color.black ) );
         }
+    }
+
+    @Override public Color getColor() {
+        return color;
     }
 }
