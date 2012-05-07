@@ -22,9 +22,7 @@ import static edu.colorado.phet.fractionsintro.common.util.DefaultP2.p2;
 public class FilledPattern {
     public final List<P2<Shape, Boolean>> shapes;
 
-    public FilledPattern( final List<P2<Shape, Boolean>> shapes ) {
-        this.shapes = shapes;
-    }
+    public FilledPattern( final List<P2<Shape, Boolean>> shapes ) { this.shapes = shapes; }
 
     public static FilledPattern sequentialFill( Pattern pattern, final int numFilled ) {
         return new FilledPattern( pattern.shapes.zipIndex().map( new F<P2<Shape, Integer>, P2<Shape, Boolean>>() {
