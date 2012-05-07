@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.fractionsintro.matchinggame;
+package edu.colorado.phet.fractionsintro.matchinggame.view;
 
 import fj.Effect;
 import fj.F;
@@ -41,13 +41,6 @@ import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameModel;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Mode;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MovableFraction;
-import edu.colorado.phet.fractionsintro.matchinggame.view.BarGraphNode;
-import edu.colorado.phet.fractionsintro.matchinggame.view.Button;
-import edu.colorado.phet.fractionsintro.matchinggame.view.ButtonArgs;
-import edu.colorado.phet.fractionsintro.matchinggame.view.EqualsSignNode;
-import edu.colorado.phet.fractionsintro.matchinggame.view.MovableFractionNode;
-import edu.colorado.phet.fractionsintro.matchinggame.view.Resample;
-import edu.colorado.phet.fractionsintro.matchinggame.view.ScoreboardNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 

@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.fractionsintro.matchinggame;
+package edu.colorado.phet.fractionsintro.matchinggame.view;
 
 import fj.F;
 
@@ -12,9 +12,6 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
-import edu.colorado.phet.fractionsintro.matchinggame.view.Button;
-import edu.colorado.phet.fractionsintro.matchinggame.view.ButtonArgs;
-import edu.colorado.phet.fractionsintro.matchinggame.view.CheckAnswer;
 import edu.colorado.phet.fractionsintro.matchinggame.view.Controller.Next;
 import edu.colorado.phet.fractionsintro.matchinggame.view.Controller.ShowAnswer;
 import edu.colorado.phet.fractionsintro.matchinggame.view.Controller.TryAgain;
