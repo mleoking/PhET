@@ -62,9 +62,13 @@ public abstract class UserMovableModelElement extends ModelElement {
     }
 
     @Override public void reset() {
+        if ( getSupportingSurface() != null ) {
+            getSupportingSurface().removeObserver( surfaceMotionObserver );
+        }
         userControlled.reset();
         position.reset();
         verticalVelocity.reset();
+        super.reset();
     }
 
     /**
