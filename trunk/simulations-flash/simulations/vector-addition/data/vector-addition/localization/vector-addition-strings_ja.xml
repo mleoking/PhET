@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--vector-addition-strings_ja.xml created Tue May 01 19:00:40 JST 2012 using: vector-addition 2.02.00 (52287), translation-utility 2.12.00 (57171) 10 4, 2011-->
+<SimStrings>
+<string key="showSum" value="合ベクトルの表示"/>
+<string key="translation.credits" value="Kochi Univeristy of Technology"/>
+<string key="simTitle" value="ベクトルの加算"/>
+<string key="grabOne" value="ベクトルを取る"/>
+<string key="clearAll" value="リセット"/>
+<string key="componentDisplay" value="成分の表示"/>
+<string key="style3" value="表示 形式３"/>
+<string key="none" value="なし"/>
+<string key="showGrid" value="補助目盛"/>
+<string key="style2" value="表示 形式 ２"/>
+<string key="style1" value="表示 形式１"/>
+</SimStrings>
