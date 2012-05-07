@@ -9,6 +9,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Stroke;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.Collection;
@@ -45,6 +46,10 @@ import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Componen
 import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.picturesRadioButton;
 import static edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionState.RELEASE_ALL;
 import static fj.data.List.range;
+import static java.awt.BasicStroke.CAP_ROUND;
+import static java.awt.BasicStroke.JOIN_MITER;
+import static java.awt.Color.black;
+import static java.awt.Color.red;
 
 /**
  * Main simulation canvas for "build a fraction" tab
@@ -146,7 +151,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                         return numberTool( i, model, BuildAFractionCanvas.this, i * 50 );
                     }
                 };
-                addChild( new FNode( range( 0, 10 ).map( toNumberTool ) ) {{
+                addChild( new FNode( range( 0, 10 ).map( toNumberTool ).cons( fractionTool( -50, model, BuildAFractionCanvas.this ) ) ) {{
                     centerFullBoundsOnPoint( border.getCenterX(), border.getCenterY() );
                 }} );
 
@@ -180,7 +185,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
             final double sliceWidth = barWidth / container.numSegments;
             List<PNode> nodes = range( 0, container.numSegments ).map( new F<Integer, PNode>() {
                 @Override public PNode f( final Integer i ) {
-                    return new PhetPPath( new Rectangle2D.Double( i * sliceWidth, 0, sliceWidth, barHeight ), TRANSPARENT, new BasicStroke( 1 ), Color.black );
+                    return new PhetPPath( new Rectangle2D.Double( i * sliceWidth, 0, sliceWidth, barHeight ), TRANSPARENT, new BasicStroke( 1 ), black );
                 }
             } );
             addChild( new FNode( nodes ) );
@@ -193,7 +198,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
             final double sliceWidth = barWidth / container.numSegments;
             List<PNode> nodes = range( 0, 1 ).map( new F<Integer, PNode>() {
                 @Override public PNode f( final Integer i ) {
-                    return new PhetPPath( new Rectangle2D.Double( i * sliceWidth, 0, sliceWidth, barHeight ), Color.green, new BasicStroke( 1 ), Color.black );
+                    return new PhetPPath( new Rectangle2D.Double( i * sliceWidth, 0, sliceWidth, barHeight ), Color.green, new BasicStroke( 1 ), black );
                 }
             } );
             addChild( new FNode( nodes ) );
@@ -218,7 +223,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                             return state.addContainer( c );
                         }
                     } );
-                    canvas.picturesContainerLayer.addChild( new DraggablePieceNode( c.getID(), model, canvas ) );
+                    canvas.numbersContainerLayer.addChild( new DraggablePieceNode( c.getID(), model, canvas ) );
                 }
 
                 @Override public void mouseReleased( final PInputEvent event ) {
@@ -249,7 +254,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                             return state.addContainer( c );
                         }
                     } );
-                    canvas.picturesContainerLayer.addChild( new DraggableBarNode( c.getID(), model, canvas ) );
+                    canvas.numbersContainerLayer.addChild( new DraggableBarNode( c.getID(), model, canvas ) );
                 }
 
                 @Override public void mouseReleased( final PInputEvent event ) {
@@ -298,6 +303,48 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
             setOffset( offsetX, 0 );
         }};
     }
+
+    public static PNode fractionTool( final int offsetX, final BuildAFractionModel model, final BuildAFractionCanvas canvas ) {
+        return new PNode() {{
+            addChild( emptyFractionGraphic() );
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new PBasicInputEventHandler() {
+                @Override public void mousePressed( final PInputEvent event ) {
+
+                    //Find out where to put the bar in stage coordinate frame, transform through the root node.
+                    PBounds bounds = getGlobalFullBounds();
+                    Rectangle2D localBounds = canvas.rootNode.globalToLocal( bounds );
+
+                    final DraggableFraction draggableFraction = new DraggableFraction( new DraggableObject( ObjectID.nextID(), new Vector2D( localBounds.getX(), localBounds.getY() ), true ) );
+
+                    //Adding this listener before calling the update allows us to get the ChangeObserver callback.
+                    canvas.picturesContainerLayer.addChild( new DraggableFractionNode( draggableFraction.getID(), model, canvas ) );
+
+                    //Change the model
+                    model.update( new ModelUpdate() {
+                        @Override public BuildAFractionState update( final BuildAFractionState state ) {
+                            return state.addDraggableFraction( draggableFraction );
+                        }
+                    } );
+                }
+
+                @Override public void mouseReleased( final PInputEvent event ) {
+                    model.update( RELEASE_ALL );
+                }
+
+                @Override public void mouseDragged( final PInputEvent event ) {
+                    model.dragFraction( event.getDeltaRelativeTo( canvas.rootNode ) );
+                }
+            } );
+            setOffset( offsetX, 0 );
+        }};
+    }
+
+    public static PNode emptyFractionGraphic() { return new VBox( box(), divisorLine(), box() ); }
+
+    private static PNode divisorLine() { return new PhetPPath( new Line2D.Double( 0, 0, 40, 0 ), new BasicStroke( 4, CAP_ROUND, JOIN_MITER ), black ); }
+
+    private static PhetPPath box() {return new PhetPPath( new Rectangle2D.Double( 0, 0, 30, 40 ), new BasicStroke( 1, BasicStroke.CAP_SQUARE, JOIN_MITER, 1, new float[] { 10, 3 }, 0 ), red );}
 
     private PNode radioButton( IUserComponent component, final String text, final SettableProperty<Mode> mode, Mode value ) {
         return new PSwing( new PropertyRadioButton<Mode>( component, text, mode, value ) {{

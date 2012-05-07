@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.buildafraction.controller.ModelUpdate;
+import edu.colorado.phet.fractionsintro.buildafraction.view.DraggableFraction;
 import edu.colorado.phet.fractionsintro.buildafraction.view.ObjectID;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -20,7 +21,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  */
 public class BuildAFractionModel {
-    public final Property<BuildAFractionState> state = new Property<BuildAFractionState>( new BuildAFractionState( List.<Container>nil(), List.<DraggableNumber>nil(), Mode.NUMBERS ) );
+    public final Property<BuildAFractionState> state = new Property<BuildAFractionState>( new BuildAFractionState( List.<Container>nil(), List.<DraggableNumber>nil(), List.<DraggableFraction>nil(), Mode.NUMBERS ) );
     public final ConstantDtClock clock = new ConstantDtClock();
 
     public BuildAFractionModel() {
@@ -28,17 +29,11 @@ public class BuildAFractionModel {
 
     public void update( ModelUpdate update ) { state.set( update.update( state.get() ) ); }
 
-    public void dragContainer( final PDimension delta ) {
-        state.set( state.get().dragContainers( new Vector2D( delta ) ) );
-    }
+    public void dragContainer( final PDimension delta ) { state.set( state.get().dragContainers( new Vector2D( delta ) ) ); }
 
-    //    public void addObserver( VoidFunction1<BuildAFractionState> observer ) { state.addObserver( observer ); }
-//
-//    public void removeObserver( VoidFunction1<BuildAFractionState> observer ) {state.removeObserver( observer );}
-//
-    public void addChangeObserver( ChangeObserver<BuildAFractionState> observer ) { state.addObserver( observer ); }
+    public void addObserver( ChangeObserver<BuildAFractionState> observer ) { state.addObserver( observer ); }
 
-    public void removeChangeObserver( ChangeObserver<BuildAFractionState> observer ) { state.removeObserver( observer ); }
+    public void removeObserver( ChangeObserver<BuildAFractionState> observer ) { state.removeObserver( observer ); }
 
     public void startDraggingContainer( final ObjectID container ) {
         update( new ModelUpdate() {
@@ -75,6 +70,14 @@ public class BuildAFractionModel {
         update( new ModelUpdate() {
             @Override public BuildAFractionState update( final BuildAFractionState state ) {
                 return state.dragNumbers( new Vector2D( deltaRelativeTo ) );
+            }
+        } );
+    }
+
+    public void dragFraction( final PDimension deltaRelativeTo ) {
+        update( new ModelUpdate() {
+            @Override public BuildAFractionState update( final BuildAFractionState state ) {
+                return state.dragFractions( new Vector2D( deltaRelativeTo ) );
             }
         } );
     }

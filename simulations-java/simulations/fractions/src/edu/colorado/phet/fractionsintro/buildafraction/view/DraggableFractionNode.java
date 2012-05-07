@@ -4,8 +4,7 @@ import fj.data.Option;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
-import edu.colorado.phet.fractionsintro.buildafraction.model.DraggableNumber;
-import edu.colorado.phet.fractionsintro.buildafraction.model.DraggableNumberObserver;
+import edu.colorado.phet.fractionsintro.buildafraction.model.DraggableFractionObserver;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -13,19 +12,17 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import static edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionState.RELEASE_ALL;
 
 /**
- * Bar node that the user can drag
- *
  * @author Sam Reid
  */
-public class DraggableNumberNode extends PNode {
-    public DraggableNumberNode( final ObjectID id, final BuildAFractionModel model, final BuildAFractionCanvas canvas ) {
-        final DraggableNumberObserver observer = new DraggableNumberObserver( id ) {
-            @Override public void applyChange( final Option<DraggableNumber> old, final Option<DraggableNumber> newOne ) {
+public class DraggableFractionNode extends PNode {
+    public DraggableFractionNode( final ObjectID id, final BuildAFractionModel model, final BuildAFractionCanvas canvas ) {
+        final DraggableFractionObserver observer = new DraggableFractionObserver( id ) {
+            @Override public void applyChange( final Option<DraggableFraction> old, final Option<DraggableFraction> newOne ) {
                 removeAllChildren();
                 if ( newOne.isSome() ) {
                     addChild( new PNode() {{
-                        final DraggableNumber some = newOne.some();
-                        addChild( BuildAFractionCanvas.numberGraphic( some.getNumber() ) );
+                        final DraggableFraction some = newOne.some();
+                        addChild( BuildAFractionCanvas.emptyFractionGraphic() );
                         setOffset( some.getDraggableObject().position.toPoint2D() );
                         addInputEventListener( new CursorHandler() );
                         addInputEventListener( new PBasicInputEventHandler() {
@@ -45,7 +42,7 @@ public class DraggableNumberNode extends PNode {
                 }
                 else {
                     //If removed from model, remove this view class
-                    getParent().removeChild( DraggableNumberNode.this );
+                    getParent().removeChild( DraggableFractionNode.this );
                     model.removeObserver( this );
                 }
             }
