@@ -4,6 +4,7 @@ package edu.colorado.phet.energyformsandchanges.intro.view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Point;
+import java.awt.Shape;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -92,6 +93,15 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
             backLayer.addChild( new ControlPanelNode( new PSwing( showEnergyCheckBox ), CONTROL_PANEL_COLOR ) {{
                 setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - EDGE_INSET, EDGE_INSET );
             }} );
+        }
+
+        // Add a node that will act as the background below the lab bench
+        // surface, basically like the side of the bench.
+        {
+            double width = model.getLabBenchSurface().getWidth() * 0.95;
+            double height = 1000; // Arbitrary large number, user should never see the bottom of this.
+            Shape benchSupportShape = new Rectangle2D.Double( -width / 2, -height, width, height );
+            backLayer.addChild( new PhetPPath( mvt.modelToView( benchSupportShape ), new Color( 100, 100, 100 ) ) );
         }
 
         // Add the lab bench surface.
