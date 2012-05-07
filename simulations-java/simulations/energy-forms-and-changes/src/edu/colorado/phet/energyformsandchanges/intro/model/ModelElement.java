@@ -86,7 +86,9 @@ public class ModelElement {
      * reset functionality for any state that they add.
      */
     public void reset() {
-        supportingSurface.removeAllObservers();
-        supportingSurface = null;
+        if ( supportingSurface != null ) {
+            supportingSurface.removeAllObservers();
+            supportingSurface = null;
+        }
     }
 }
