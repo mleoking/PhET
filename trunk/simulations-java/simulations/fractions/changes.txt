@@ -1,3 +1,4 @@
+Matching game: Removed unused code and renamed classes
 # 0.00.65 (63965) May 6, 2012
 Added draggable pieces
 # 0.00.64 (63963) May 5, 2012
