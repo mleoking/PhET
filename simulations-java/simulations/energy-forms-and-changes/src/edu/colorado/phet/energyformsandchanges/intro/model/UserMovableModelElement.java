@@ -61,6 +61,12 @@ public abstract class UserMovableModelElement extends ModelElement {
         }
     }
 
+    @Override public void reset() {
+        userControlled.reset();
+        position.reset();
+        verticalVelocity.reset();
+    }
+
     /**
      * Get the "user component" identifier.  This supports the sim sharing
      * feature.
