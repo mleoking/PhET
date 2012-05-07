@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--lunar-lander-strings_ja.xml created Wed May 02 12:34:49 JST 2012 using: lunar-lander 2.04.00 (53815), translation-utility 2.12.00 (57171) 10 4, 2011-->
+<SimStrings>
+<string key="help2" value="リセット"/>
+<string key="landingSpeedEq" value="着陸スピード ="/>
+<string key="help1" value="キーボード操作:"/>
+<string key="label7" value="燃料が切れる前に、いくつの平らな場所に降りられるか。軟着陸(v &lt; 2 m/s)=ボーナスPT,　激突着陸 (v &gt; 6 m/s)=ゲームオーバー。"/>
+<string key="label6" value="スペースキー = 最大推進力に切替"/>
+<string key="label5" value="右傾"/>
+<string key="label4" value="推力減"/>
+<string key="label3" value="左傾"/>
+<string key="unpause" value="停止解除"/>
+<string key="start" value="スタート"/>
+<string key="velVector" value="速度ベクトル"/>
+<string key="simTitle" value="月面着陸船"/>
+<string key="label2" value="推力増"/>
+<string key="accVector" value="加速度ベクトル"/>
+<string key="label1" value="キーボードで宇宙船を\n操作する"/>
+<string key="vectors" value="ベクトル"/>
+<string key="hitBoulder" value="岩に接触\n機体破損\n燃料損失"/>
+<string key="altitude" value="高度(m)"/>
+<string key="softLanding" value="軟着陸"/>
+<string key="sound" value="音"/>
+<string key="range" value="範囲(m)"/>
+<string key="hardLandingsColon" value="落下着陸:"/>
+<string key="help" value="ヘルプ／停止"/>
+<string key="longHelp" value="~ 燃料がある限り、より多くの平らな面に着陸を試みよう。\n~着陸後は 推進力を上げて離陸しよう。 \n~ 同じ場所に着陸してもポイントは入らない。\n~より小さい場所や難しい場所での着陸は、高得点:  \n   易しい大きな場所 = 5 ポイント～  超難所  = 50 ポイント\n~ 軟着陸( v &lt; 2 m/s)ならさらに10 ポイント\n~ 岩に接触したらゲームオーバー（岩の上には着陸不可能）\n~激突(v &gt; 12 m/s)したらゲームオーバー"/>
+<string key="score" value="スコア:"/>
+<string key="translation.credits" value="Kochi University of Technology"/>
+<string key="thrust" value="推進力(N)"/>
+<string key="crash2" value="激突着陸,乗組員死亡"/>
+<string key="softLandingsColon" value="軟着陸:"/>
+<string key="crash1" value="不時着,一部破損"/>
+<string key="paused" value="一時停止"/>
+<string key="reset" value="リセット"/>
+<string key="hardLanding" value="落下着陸"/>
+<string key="help3" value="一時停止"/>
+<string key="fuel" value="燃料(kg)"/>
+</SimStrings>
