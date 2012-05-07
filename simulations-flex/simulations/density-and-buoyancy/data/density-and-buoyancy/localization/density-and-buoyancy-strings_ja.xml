@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--density-and-buoyancy-strings_ja.xml created Wed May 02 12:15:19 JST 2012 using: density-and-buoyancy 1.05.00 (50250), translation-utility 2.12.00 (57171) 10 4, 2011-->
+<SimStrings>
+<string key="buoyancy.tab.intro" value="例題"/>
+<string key="properties.mass" value="質量"/>
+<string key="controlPanel.showVectorValues" value="力の大きさ"/>
+<string key="forceArrows.contact" value="接触力(垂直抗力）"/>
+<string key="mode.objectsOfSameVolume" value="同じ容量"/>
+<string key="mysteryObject.densityColumnHeader" value="密度({0})"/>
+<string key="material.aluminum" value="アルミニウム"/>
+<string key="material.air" value="空気"/>
+<string key="material.custom" value="実験用"/>
+<string key="material.gasoline" value="ガソリン"/>
+<string key="customObject.material" value="素材"/>
+<string key="mode.mysteryObjects" value="？"/>
+<string key="customObject.custom" value="ブロック"/>
+<string key="material.wood" value="木"/>
+<string key="mode.two" value="2"/>
+<string key="material.styrofoam" value="発泡スチロール"/>
+<string key="material.honey" value="はちみつ"/>
+<string key="material.apple" value="リンゴ"/>
+<string key="material.ice" value="氷"/>
+<string key="translation.credits" value="高知工科大学（高松）"/>
+<string key="buoyancy.tab.playground" value="浮力実験"/>
+<string key="fluid.controls.intro.label" value="溶液"/>
+<string key="material.diamond" value="ダイヤモンド"/>
+<string key="mode.title" value="ブロック"/>
+<string key="material.oliveOil" value="オリーブ油"/>
+<string key="material.lead" value="鉛"/>
+<string key="forceArrows.buoyancy" value="浮力"/>
+<string key="customObject.properties" value="性質"/>
+<string key="forceArrows.gravity" value="重力"/>
+<string key="mysteryObject.table.title" value="素材の密度"/>
+<string key="material.brick" value="レンガ"/>
+<string key="mysteryObject.material" value="素材"/>
+<string key="material.oil" value="油"/>
+<string key="mode.objectsOfSameDensity" value="同じ密度"/>
+<string key="density.simTitle" value="密度"/>
+<string key="controlPanel.readouts" value="大きさの表示"/>
+<string key="mode.customObject" value="カスタム"/>
+<string key="mode.objectsOfSameMass" value="同じ質量"/>
+<string key="application.resetAll" value="すべてリセット"/>
+<string key="material.gold" value="金"/>
+<string key="forceArrowControlPanelTitle" value="力のベクトル"/>
+<string key="customObject.name" value="名前"/>
+<string key="controlPanel.showMasses" value="質量"/>
+<string key="material.water" value="水"/>
+<string key="properties.density" value="密度"/>
+<string key="material.waterBalloon" value="水風船"/>
+<string key="mysteryObject.table.showTable" value="密度のデータ"/>
+<string key="mode.one" value="1"/>
+<string key="properties.volume" value="容量"/>
+<string key="buoyancy.simTitle" value="浮力"/>
+</SimStrings>
