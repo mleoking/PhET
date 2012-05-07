@@ -54,7 +54,8 @@ import static fj.data.List.range;
  */
 public class BuildAFractionCanvas extends AbstractFractionsCanvas {
     private static final Paint TRANSPARENT = new Color( 0, 0, 0, 0 );
-    private final RichPNode containerLayer;
+    private final RichPNode picturesContainerLayer;
+    private final RichPNode numbersContainerLayer;
 
     public BuildAFractionCanvas( final BuildAFractionModel model ) {
         final Stroke stroke = new BasicStroke( 2 );
@@ -89,74 +90,78 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
         }};
         addChild( rightControlPanel );
 
-        //When the mode changes, update the toolboxes
-        addChild( new UpdateNode(
-                new Effect<PNode>() {
-                    @Override public void e( final PNode node ) {
-
-                        if ( mode.get() == Mode.NUMBERS ) {
-                            //Add a piece container toolbox the user can use to get containers
-                            node.addChild( new RichPNode() {{
-                                final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 700, 125, 30, 30 ), stroke, Color.darkGray );
-                                addChild( border );
-                                final F<Integer, PNode> toBar = new F<Integer, PNode>() {
-                                    @Override public PNode f( final Integer i ) {
-                                        return barTool( new Container( new DraggableObject( ObjectID.nextID(), rowColumnToPoint( i % 2, i / 2 ), false ), i + 1 ), model, BuildAFractionCanvas.this );
-                                    }
-                                };
-                                addChild( new FNode( range( 0, 8 ).map( toBar ) ) {{
-                                    centerFullBoundsOnPoint( border.getCenterX(), border.getCenterY() );
-                                }} );
-                                setOffset( ( STAGE_SIZE.width - rightControlPanel.getFullWidth() ) / 2 - this.getFullWidth() / 2, STAGE_SIZE.height - INSET - this.getFullHeight() );
-                            }} );
-
-                            //Bucket view at the bottom of the screen
-                            node.addChild( new RichPNode() {{
-                                final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 700, 150, 30, 30 ), stroke, Color.darkGray );
-                                addChild( border );
-
-//            BucketView bucketView = new BucketView( new Bucket( 150, -50, new Dimension2DDouble( 200, 100 ), Color.blue, "pieces" ), ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 1, -1 ) );
-//            addChild( bucketView.getHoleNode() );
-//            addChild( bucketView.getFrontNode() );
-
-                                final F<Integer, PNode> toBar = new F<Integer, PNode>() {
-                                    @Override public PNode f( final Integer i ) {
-                                        return pieceTool( new Container( new DraggableObject( ObjectID.nextID(), rowColumnToPoint( i % 2, i / 2 ), false ), i + 1 ), model, BuildAFractionCanvas.this );
-                                    }
-                                };
-                                addChild( new FNode( range( 0, 8 ).map( toBar ) ) {{
-                                    centerFullBoundsOnPoint( border.getCenterX(), border.getCenterY() );
-                                }} );
-
-                                setOffset( ( STAGE_SIZE.width - rightControlPanel.getFullWidth() ) / 2 - this.getFullWidth() / 2, INSET );
-                            }} );
-                        }
-                        else if ( mode.get() == Mode.PICTURES ) {
-
-                            //Add a piece container toolbox the user can use to get containers
-                            node.addChild( new RichPNode() {{
-                                final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 700, 125, 30, 30 ), stroke, Color.darkGray );
-                                addChild( border );
-
-                                final F<Integer, PNode> toNumberTool = new F<Integer, PNode>() {
-                                    @Override public PNode f( final Integer i ) {
-                                        return numberTool( i, model, BuildAFractionCanvas.this, i * 50 );
-                                    }
-                                };
-                                addChild( new FNode( range( 0, 10 ).map( toNumberTool ) ) {{
-                                    centerFullBoundsOnPoint( border.getCenterX(), border.getCenterY() );
-                                }} );
-
-                                setOffset( ( STAGE_SIZE.width - rightControlPanel.getFullWidth() ) / 2 - this.getFullWidth() / 2, STAGE_SIZE.height - INSET - this.getFullHeight() );
-                            }} );
-                        }
-                    }
-                }
-                , mode ) );
-
         //The draggable containers
-        containerLayer = new RichPNode();
-        addChild( containerLayer );
+        picturesContainerLayer = new RichPNode();
+        numbersContainerLayer = new RichPNode();
+
+        //View to show when the user is guessing numbers (by creating pictures)
+        final PNode numberView = new PNode() {{
+            ////Add a piece container toolbox the user can use to get containers
+            addChild( new RichPNode() {{
+                final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 700, 125, 30, 30 ), stroke, Color.darkGray );
+                addChild( border );
+                final F<Integer, PNode> toBar = new F<Integer, PNode>() {
+                    @Override public PNode f( final Integer i ) {
+                        return barTool( new Container( new DraggableObject( ObjectID.nextID(), rowColumnToPoint( i % 2, i / 2 ), false ), i + 1 ), model, BuildAFractionCanvas.this );
+                    }
+                };
+                addChild( new FNode( range( 0, 8 ).map( toBar ) ) {{
+                    centerFullBoundsOnPoint( border.getCenterX(), border.getCenterY() );
+                }} );
+                setOffset( ( STAGE_SIZE.width - rightControlPanel.getFullWidth() ) / 2 - this.getFullWidth() / 2, STAGE_SIZE.height - INSET - this.getFullHeight() );
+            }} );
+
+            //Bucket view at the bottom of the screen
+            addChild( new RichPNode() {{
+                final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 700, 150, 30, 30 ), stroke, Color.darkGray );
+                addChild( border );
+
+                //            BucketView bucketView = new BucketView( new Bucket( 150, -50, new Dimension2DDouble( 200, 100 ), Color.blue, "pieces" ), ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 1, -1 ) );
+                //            addChild( bucketView.getHoleNode() );
+                //            addChild( bucketView.getFrontNode() );
+
+                final F<Integer, PNode> toBar = new F<Integer, PNode>() {
+                    @Override public PNode f( final Integer i ) {
+                        return pieceTool( new Container( new DraggableObject( ObjectID.nextID(), rowColumnToPoint( i % 2, i / 2 ), false ), i + 1 ), model, BuildAFractionCanvas.this );
+                    }
+                };
+                addChild( new FNode( range( 0, 8 ).map( toBar ) ) {{
+                    centerFullBoundsOnPoint( border.getCenterX(), border.getCenterY() );
+                }} );
+
+                setOffset( ( STAGE_SIZE.width - rightControlPanel.getFullWidth() ) / 2 - this.getFullWidth() / 2, INSET );
+            }} );
+
+            addChild( numbersContainerLayer );
+        }};
+
+        final PNode pictureView = new PNode() {{
+            //Add a piece container toolbox the user can use to get containers
+            addChild( new RichPNode() {{
+                final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 700, 125, 30, 30 ), stroke, Color.darkGray );
+                addChild( border );
+
+                final F<Integer, PNode> toNumberTool = new F<Integer, PNode>() {
+                    @Override public PNode f( final Integer i ) {
+                        return numberTool( i, model, BuildAFractionCanvas.this, i * 50 );
+                    }
+                };
+                addChild( new FNode( range( 0, 10 ).map( toNumberTool ) ) {{
+                    centerFullBoundsOnPoint( border.getCenterX(), border.getCenterY() );
+                }} );
+
+                setOffset( ( STAGE_SIZE.width - rightControlPanel.getFullWidth() ) / 2 - this.getFullWidth() / 2, STAGE_SIZE.height - INSET - this.getFullHeight() );
+            }} );
+
+            addChild( picturesContainerLayer );
+        }};
+
+        //When the mode changes, update the toolboxes
+        addChild( new UpdateNode( new Effect<PNode>() {
+            @Override public void e( final PNode node ) {
+                node.addChild( mode.get() == Mode.NUMBERS ? numberView : pictureView );
+            }
+        }, mode ) );
     }
 
     public static Vector2D rowColumnToPoint( int row, int column ) {
@@ -213,7 +218,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                             return state.addContainer( c );
                         }
                     } );
-                    canvas.containerLayer.addChild( new DraggablePieceNode( c.getID(), model, canvas ) );
+                    canvas.picturesContainerLayer.addChild( new DraggablePieceNode( c.getID(), model, canvas ) );
                 }
 
                 @Override public void mouseReleased( final PInputEvent event ) {
@@ -244,7 +249,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                             return state.addContainer( c );
                         }
                     } );
-                    canvas.containerLayer.addChild( new DraggableBarNode( c.getID(), model, canvas ) );
+                    canvas.picturesContainerLayer.addChild( new DraggableBarNode( c.getID(), model, canvas ) );
                 }
 
                 @Override public void mouseReleased( final PInputEvent event ) {
@@ -269,11 +274,10 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                     PBounds bounds = getGlobalFullBounds();
                     Rectangle2D localBounds = canvas.rootNode.globalToLocal( bounds );
 
-//                    final Container c = new Container( ObjectID.nextID(), container.numSegments, new Vector2D( localBounds.getX(), localBounds.getY() ), true );
                     final DraggableNumber draggableNumber = new DraggableNumber( new DraggableObject( ObjectID.nextID(), new Vector2D( localBounds.getX(), localBounds.getY() ), true ), number );
 
                     //Adding this listener before calling the update allows us to get the ChangeObserver callback.
-                    canvas.containerLayer.addChild( new DraggableNumberNode( draggableNumber.getID(), model, canvas ) );
+                    canvas.picturesContainerLayer.addChild( new DraggableNumberNode( draggableNumber.getID(), model, canvas ) );
 
                     //Change the model
                     model.update( new ModelUpdate() {
