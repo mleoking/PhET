@@ -41,7 +41,6 @@ import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameModel;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Mode;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MovableFraction;
-import edu.colorado.phet.fractionsintro.matchinggame.tests.MatchingGameCanvas;
 import edu.colorado.phet.fractionsintro.matchinggame.view.BarGraphNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.Button;
 import edu.colorado.phet.fractionsintro.matchinggame.view.ButtonArgs;
@@ -63,8 +62,10 @@ import static java.awt.Color.yellow;
  *
  * @author Sam Reid
  */
-public class ClientMatchingGameCanvas extends AbstractFractionsCanvas {
-    public ClientMatchingGameCanvas( final boolean dev, final MatchingGameModel model ) {
+public class MatchingGameCanvas extends AbstractFractionsCanvas {
+    public static final double GAME_UI_SCALE = 1.5;
+
+    public MatchingGameCanvas( final boolean dev, final MatchingGameModel model ) {
 
         //Game settings
         final GameSettings gameSettings = new GameSettings( new IntegerRange( 1, 6, 1 ), false, false );
@@ -82,7 +83,7 @@ public class ClientMatchingGameCanvas extends AbstractFractionsCanvas {
             }
         };
         final PSwing settingsDialog = new PSwing( new GameSettingsPanel( gameSettings, startGame ) ) {{
-            scale( MatchingGameCanvas.GAME_UI_SCALE );
+            scale( GAME_UI_SCALE );
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.height / 2 - getFullBounds().getHeight() / 2 );
 
             new CompositeBooleanProperty( new Function0<Boolean>() {
@@ -298,7 +299,7 @@ public class ClientMatchingGameCanvas extends AbstractFractionsCanvas {
                         if ( mode.get() == Mode.SHOWING_GAME_OVER_SCREEN ) {
                             MatchingGameState state = model.state.get();
                             addChild( new GameOverNode( state.info.level, state.info.score, 12, new DecimalFormat( "0" ), state.info.time, state.info.bestTime, state.info.time >= state.info.bestTime, state.info.timerVisible ) {{
-                                scale( MatchingGameCanvas.GAME_UI_SCALE );
+                                scale( GAME_UI_SCALE );
                                 centerFullBoundsOnPoint( STAGE_SIZE.getWidth() / 2, STAGE_SIZE.getHeight() / 2 );
                                 addGameOverListener( new GameOverListener() {
                                     @Override public void newGamePressed() {
