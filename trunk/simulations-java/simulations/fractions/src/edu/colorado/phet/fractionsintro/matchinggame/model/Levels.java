@@ -356,8 +356,8 @@ public class Levels {
     //Create a MovableFraction for the given fraction at the specified cell
     private static MovableFraction fraction( int numerator, int denominator, Cell cell, final F<Fraction, PNode> node, IUserComponent userComponent ) {
 
-        //Find the color for the node.  Would be better to rewrite to pass this data directly, but I tried that and it turned out to be expensive and more complex than
-        //Adding the logic here.
+        //Find the color for the node.
+        //TODO: consider creating class ColorNode extends PNode and use F<Fraction,ColorNode> everywhere.
         PNode n = node.f( new Fraction( numerator, denominator ) );
         Color color = n instanceof FractionNode ? Color.black :
                       n instanceof IColor ? ( (IColor) n ).getColor() :
