@@ -11,8 +11,10 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -51,6 +53,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
 
     private final EFACIntroModel model;
     private ThermometerToolBox thermometerToolBox;
+    private BooleanProperty normalSimSpeed = new BooleanProperty( true );
 
     /**
      * Constructor.
@@ -116,10 +119,15 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
 
         // Add the clock controls. TODO: i18n
         {
-            BooleanProperty slowMotionEnabled = new BooleanProperty( false );
             PNode clockControl = new SlowMotionNormalTimeControlPanel( slowMotionRadioButton, "Slow Motion", "Normal",
-                                                                       normalMotionRadioButton, slowMotionEnabled, model.getClock() );
+                                                                       normalMotionRadioButton, normalSimSpeed, model.getClock() );
             clockControl.centerFullBoundsOnPoint( STAGE_SIZE.getWidth() / 2, centerYBelowSurface );
+            normalSimSpeed.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean normalSimSpeed ) {
+                    ConstantDtClock clock = (ConstantDtClock) model.getClock();
+                    clock.setDt( normalSimSpeed ? EFACIntroModel.SIM_TIME_PER_TICK_NORMAL : EFACIntroModel.SIM_TIME_PER_TICK_SLOW_MOTION );
+                }
+            } );
             backLayer.addChild( clockControl );
         }
 
@@ -221,6 +229,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
     public void reset() {
         model.reset();
         showEnergyOfObjects.reset();
+        normalSimSpeed.reset();
         // Put the thermometers in the tool box.
         for ( Thermometer thermometer : model.getThermometers() ) {
             thermometerToolBox.putThermometerInOpenSpot( thermometer );
