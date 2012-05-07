@@ -4,8 +4,8 @@ import fj.data.Option;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
-import edu.colorado.phet.fractionsintro.buildafraction.model.Container;
-import edu.colorado.phet.fractionsintro.buildafraction.model.ContainerObserver;
+import edu.colorado.phet.fractionsintro.buildafraction.model.DraggableNumber;
+import edu.colorado.phet.fractionsintro.buildafraction.model.DraggableNumberObserver;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -17,22 +17,24 @@ import static edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFracti
  *
  * @author Sam Reid
  */
-public class DraggableBarNode extends PNode {
-    public DraggableBarNode( final ObjectID id, final BuildAFractionModel model, final BuildAFractionCanvas canvas ) {
-        model.addChangeObserver( new ContainerObserver( id ) {
-            @Override public void applyChange( final Option<Container> old, final Option<Container> newOne ) {
+public class DraggableNumberNode extends PNode {
+    public DraggableNumberNode( final ObjectID id, final BuildAFractionModel model, final BuildAFractionCanvas canvas ) {
+        final DraggableNumberObserver observer = new DraggableNumberObserver( id ) {
+            @Override public void applyChange( final Option<DraggableNumber> old, final Option<DraggableNumber> newOne ) {
                 removeAllChildren();
                 if ( newOne.isSome() ) {
                     addChild( new PNode() {{
-                        addChild( BuildAFractionCanvas.barGraphic( newOne.some() ) );
+                        final DraggableNumber some = newOne.some();
+                        addChild( BuildAFractionCanvas.numberGraphic( some.getNumber() ) );
+                        setOffset( some.getDraggableObject().position.toPoint2D() );
                         addInputEventListener( new CursorHandler() );
                         addInputEventListener( new PBasicInputEventHandler() {
                             @Override public void mousePressed( final PInputEvent event ) {
-                                model.startDraggingContainer( id );
+                                model.startDraggingNumber( id );
                             }
 
                             @Override public void mouseDragged( final PInputEvent event ) {
-                                model.dragContainer( event.getDeltaRelativeTo( canvas.rootNode ) );
+                                model.dragNumber( event.getDeltaRelativeTo( canvas.rootNode ) );
                             }
 
                             @Override public void mouseReleased( final PInputEvent event ) {
@@ -43,10 +45,11 @@ public class DraggableBarNode extends PNode {
                 }
                 else {
                     //If removed from model, remove this view class
-                    getParent().removeChild( DraggableBarNode.this );
+                    getParent().removeChild( DraggableNumberNode.this );
                     model.removeChangeObserver( this );
                 }
             }
-        } );
+        };
+        model.addChangeObserver( observer );
     }
 }
