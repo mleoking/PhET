@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--stern-gerlach-strings_in.xml created Fri May 04 21:09:44 ICT 2012 using: stern-gerlach 2.02.00 (52653), translation-utility 2.13.00 (59150) Dec 8, 2011-->
+<SimStrings>
+<string key="+z" value="+z"/>
+<string key="+x" value="+x"/>
+<string key="angle3" value="sudut 3"/>
+<string key="angle2" value="sudut 2"/>
+<string key="slow" value="pelan"/>
+<string key="randomXZ" value="acak xz"/>
+<string key="simTitle" value="eksperimen Stern-Gerlach"/>
+<string key="sternGerlachExperiment" value="eksperimen Stern-Gerlach"/>
+<string key="spinOrientation" value="spin / arah"/>
+<string key="on" value="on"/>
+<string key="up" value="turunkan"/>
+<string key="down" value="naikan"/>
+<string key="sound" value="sound"/>
+<string key="fast" value="cepat"/>
+<string key="numberOfMagnets" value="nomor magnet"/>
+<string key="-z" value="-z"/>
+<string key="autoFire" value="menembak otomatis"/>
+<string key="fireAtom" value="menembakan atom"/>
+<string key="angle" value="sudut"/>
+<string key="reset" value="atur ulang"/>
+<string key="resetCount" value="atur ulang penghitung"/>
+<string key="off" value="off"/>
+</SimStrings>
