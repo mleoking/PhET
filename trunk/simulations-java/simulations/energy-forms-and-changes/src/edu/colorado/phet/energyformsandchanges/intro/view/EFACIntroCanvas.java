@@ -205,6 +205,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
 
     public void reset() {
         model.reset();
+        showEnergyOfObjects.reset();
         // Put the thermometers in the tool box.
         for ( Thermometer thermometer : model.getThermometers() ) {
             thermometerToolBox.putThermometerInOpenSpot( thermometer );
