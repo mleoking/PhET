@@ -109,13 +109,17 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
             backLayer.addChild( new PhetPPath( mvt.modelToView( benchSupportShape ), new Color( 120, 120, 120 ) ) );
         }
 
+        // Add the lab bench surface.
+        final ShelfNode labBenchSurface = new ShelfNode( model.getLabBenchSurface(), mvt );
+        backLayer.addChild( labBenchSurface );
+        double centerYBelowSurface = ( STAGE_SIZE.getHeight() + labBenchSurface.getFullBoundsReference().getMaxY() ) / 2; // For layout below.
+
         // Add the clock controls. TODO: i18n
         {
             BooleanProperty slowMotionEnabled = new BooleanProperty( false );
             PNode clockControl = new SlowMotionNormalTimeControlPanel( slowMotionRadioButton, "Slow Motion", "Normal",
                                                                        normalMotionRadioButton, slowMotionEnabled, model.getClock() );
-            clockControl.setOffset( STAGE_SIZE.getWidth() / 2 - clockControl.getFullBoundsReference().width / 2,
-                                    STAGE_SIZE.getHeight() - clockControl.getFullBoundsReference().height );
+            clockControl.centerFullBoundsOnPoint( STAGE_SIZE.getWidth() / 2, centerYBelowSurface );
             backLayer.addChild( clockControl );
         }
 
@@ -124,12 +128,9 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
             ResetAllButtonNode resetButton = new ResetAllButtonNode( this, this, 20, Color.black, new Color( 255, 153, 0 ) );
             resetButton.setConfirmationEnabled( false );
             resetButton.setOffset( STAGE_SIZE.getWidth() - resetButton.getFullBoundsReference().width - 20,
-                                   STAGE_SIZE.getHeight() - resetButton.getFullBoundsReference().height - 20 );
+                                   centerYBelowSurface - resetButton.getFullBoundsReference().getHeight() / 2 );
             backLayer.addChild( resetButton );
         }
-
-        // Add the lab bench surface.
-        backLayer.addChild( new ShelfNode( model.getLabBenchSurface(), mvt ) );
 
         // Add the burners.
         backLayer.addChild( new BurnerNode( model.getLeftBurner(), mvt ) );
