@@ -21,6 +21,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.SlowMotionNormalTimeControlPanel;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
@@ -30,6 +31,9 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.pswing.PSwing;
+
+import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing.UserComponents.normalMotionRadioButton;
+import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing.UserComponents.slowMotionRadioButton;
 
 /**
  * Piccolo canvas for the "Intro" tab of the Energy Forms and Changes
@@ -105,8 +109,15 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
             backLayer.addChild( new PhetPPath( mvt.modelToView( benchSupportShape ), new Color( 120, 120, 120 ) ) );
         }
 
-        // Add the lab bench surface.
-        backLayer.addChild( new ShelfNode( model.getLabBenchSurface(), mvt ) );
+        // Add the clock controls. TODO: i18n
+        {
+            BooleanProperty slowMotionEnabled = new BooleanProperty( false );
+            PNode clockControl = new SlowMotionNormalTimeControlPanel( slowMotionRadioButton, "Slow Motion", "Normal",
+                                                                       normalMotionRadioButton, slowMotionEnabled, model.getClock() );
+            clockControl.setOffset( STAGE_SIZE.getWidth() / 2 - clockControl.getFullBoundsReference().width / 2,
+                                    STAGE_SIZE.getHeight() - clockControl.getFullBoundsReference().height );
+            backLayer.addChild( clockControl );
+        }
 
         // Add the reset button.
         {
@@ -116,6 +127,9 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
                                    STAGE_SIZE.getHeight() - resetButton.getFullBoundsReference().height - 20 );
             backLayer.addChild( resetButton );
         }
+
+        // Add the lab bench surface.
+        backLayer.addChild( new ShelfNode( model.getLabBenchSurface(), mvt ) );
 
         // Add the burners.
         backLayer.addChild( new BurnerNode( model.getLeftBurner(), mvt ) );
