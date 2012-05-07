@@ -1,3 +1,4 @@
+Matching game: Fixed: patterns scramble as you drag them
 Intro tab: Fixed: Number line doesn't show when selected
 Matching game: Removed unused code and renamed classes
 # 0.00.65 (63965) May 6, 2012
