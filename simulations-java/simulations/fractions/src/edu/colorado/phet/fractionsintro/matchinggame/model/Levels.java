@@ -48,16 +48,25 @@ import static fj.data.List.*;
  */
 public class Levels {
 
+    public static final Random random = new Random();
+
+    //Pattern for filling in shapes sequentially
     private static final F2<Pattern, Integer, FilledPattern> SEQUENTIAL = new F2<Pattern, Integer, FilledPattern>() {
         @Override public FilledPattern f( final Pattern pattern, final Integer numFilled ) {
             return sequentialFill( pattern, numFilled );
         }
     };
-    private static final F2<Pattern, Integer, FilledPattern> RANDOM = new F2<Pattern, Integer, FilledPattern>() {
-        @Override public FilledPattern f( final Pattern pattern, final Integer numFilled ) {
-            return randomFill( pattern, numFilled );
-        }
-    };
+
+    //Pattern for filling in shapes randomly with the specified random seed
+    public static F2<Pattern, Integer, FilledPattern> RANDOM() { return RANDOM( random.nextLong() ); }
+
+    public static F2<Pattern, Integer, FilledPattern> RANDOM( final long seed ) {
+        return new F2<Pattern, Integer, FilledPattern>() {
+            @Override public FilledPattern f( final Pattern pattern, final Integer numFilled ) {
+                return randomFill( pattern, numFilled, seed );
+            }
+        };
+    }
 
     public static F<Fraction, ArrayList<RepresentationType>> representationFunction( final List<RepresentationType> r ) {
         return new F<Fraction, ArrayList<RepresentationType>>() {
@@ -174,7 +183,7 @@ public class Levels {
         @Override public Pattern f( final Integer length ) {
             return Pattern.sixFlower( 25 );
         }
-    }, RANDOM );
+    }, RANDOM() );
 
     final RepresentationType interleavedLShapeSEQUENTIAL = createPatterns( "interleaved L shape, sequential", 8, 80, new F<Integer, Pattern>() {
         @Override public Pattern f( final Integer integer ) {
@@ -185,7 +194,7 @@ public class Levels {
         @Override public Pattern f( final Integer integer ) {
             return Pattern.interleavedLShape( 35, 2, 2 );
         }
-    }, RANDOM );
+    }, RANDOM() );
 
     final RepresentationType fourGridSEQUENTIAL = createPatterns( "four grid", 4, 100, new F<Integer, Pattern>() {
         @Override public Pattern f( final Integer length ) {
@@ -201,12 +210,12 @@ public class Levels {
         @Override public Pattern f( final Integer length ) {
             return new Grid( 2 );
         }
-    }, RANDOM );
+    }, RANDOM() );
     final RepresentationType nineGridRANDOM = createPatterns( "nine grid", 9, 50, new F<Integer, Pattern>() {
         @Override public Pattern f( final Integer length ) {
             return new Grid( 3 );
         }
-    }, RANDOM );
+    }, RANDOM() );
 
     final RepresentationType onePyramidSEQUENTIAL = createPatterns( "one pyramid", 1, 100, new F<Integer, Pattern>() {
         @Override public Pattern f( final Integer length ) {
@@ -227,17 +236,17 @@ public class Levels {
         @Override public Pattern f( final Integer length ) {
             return Pyramid.single( length );
         }
-    }, RANDOM );
+    }, RANDOM() );
     final RepresentationType fourPyramidRANDOM = createPatterns( "four pyramid", 4, 50, new F<Integer, Pattern>() {
         @Override public Pattern f( final Integer length ) {
             return Pyramid.four( length );
         }
-    }, RANDOM );
+    }, RANDOM() );
     final RepresentationType ninePyramidRANDOM = createPatterns( "nine pyramid", 9, 30, new F<Integer, Pattern>() {
         @Override public Pattern f( final Integer length ) {
             return Pyramid.nine( length );
         }
-    }, RANDOM );
+    }, RANDOM() );
 
     private RepresentationType createPatterns( String name, final int max, final int length, final F<Integer, Pattern> pattern, final F2<Pattern, Integer, FilledPattern> fill ) {
         return twoComposites( name, new F<Fraction, Boolean>() {
@@ -268,10 +277,10 @@ public class Levels {
                                                                            tetrisPiece( SEQUENTIAL ), elShapedPairs( 2, SEQUENTIAL ), elShapedPairs( 3, SEQUENTIAL ),
                                                                            sixFlowerSEQUENTIAL, interleavedLShapeSEQUENTIAL
     );
-    final List<RepresentationType> mediumRepresentationsRandom = list( makePlusses( 2, RANDOM ), makePlusses( 3, RANDOM ), makePlusses( 4, RANDOM ), makePlusses( 5, RANDOM ), makePlusses( 6, RANDOM ),
+    final List<RepresentationType> mediumRepresentationsRandom = list( makePlusses( 2, RANDOM() ), makePlusses( 3, RANDOM() ), makePlusses( 4, RANDOM() ), makePlusses( 5, RANDOM() ), makePlusses( 6, RANDOM() ),
                                                                        fourGridRANDOM, nineGridRANDOM, onePyramidRANDOM, fourPyramidRANDOM, ninePyramidRANDOM,
-                                                                       polygon( 4, RANDOM ), polygon( 5, RANDOM ), polygon( 6, RANDOM ), polygon( 7, RANDOM ), polygon( 8, RANDOM ),
-                                                                       tetrisPiece( RANDOM ), elShapedPairs( 2, RANDOM ), elShapedPairs( 3, RANDOM ),
+                                                                       polygon( 4, RANDOM() ), polygon( 5, RANDOM() ), polygon( 6, RANDOM() ), polygon( 7, RANDOM() ), polygon( 8, RANDOM() ),
+                                                                       tetrisPiece( RANDOM() ), elShapedPairs( 2, RANDOM() ), elShapedPairs( 3, RANDOM() ),
                                                                        sixFlowerRANDOM, interleavedLShapeRANDOM
     );
     final List<RepresentationType> easyScaledNumeric = list( scaledNumeric( 2 ), scaledNumeric( 3 ) );
@@ -281,8 +290,6 @@ public class Levels {
     private PNode myPieNode( final Fraction f, final Color color ) {
         return new PieNode( new Property<ContainerSet>( new ContainerSet( f.denominator, new Container[] { new Container( f.denominator, range( 0, f.numerator ) ) } ) ), color );
     }
-
-    public static final Random random = new Random();
 
     private ResultPair createPair( ArrayList<Fraction> fractions, ArrayList<Cell> cells, F<Fraction, ArrayList<RepresentationType>> representationPool, final List<ResultPair> alreadySelected ) {
 
