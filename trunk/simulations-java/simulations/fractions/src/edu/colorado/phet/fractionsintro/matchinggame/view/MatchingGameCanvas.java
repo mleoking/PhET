@@ -153,6 +153,11 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                     return model.state.get().info.time / 1000L;
                 }
             }, model.state );
+            final ObservableProperty<Double> barGraphAnimationTime = new CompositeProperty<Double>( new Function0<Double>() {
+                @Override public Double apply() {
+                    return model.state.get().barGraphAnimationTime;
+                }
+            }, model.state );
             final ObservableProperty<List<Integer>> fractionIDs = new CompositeProperty<List<Integer>>( new Function0<List<Integer>>() {
                 @Override public List<Integer> apply() {
                     return model.state.get().fractions.map( new F<MovableFraction, Integer>() {
@@ -163,14 +168,18 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                 }
             }, model.state );
 
-
+            //Time it takes to max out the bar graph bars.
+            final double MAX_BAR_GRAPH_ANIMATION_TIME = 0.6;
             addChild( new UpdateNode( new Effect<PNode>() {
                 @Override public void e( final PNode parent ) {
-                    parent.addChild( new ZeroOffsetNode( new BarGraphNode( leftScaleValue.get(), rightScaleValue.get(), revealClues.get() ) ) {{
+                    final double scale = Math.min( barGraphAnimationTime.get() / MAX_BAR_GRAPH_ANIMATION_TIME, 1.0 );
+                    parent.addChild( new ZeroOffsetNode( new BarGraphNode( leftScaleValue.get() * scale,
+                                                                           rightScaleValue.get() * scale,
+                                                                           revealClues.get() ) ) {{
                         setOffset( scalesNode.getFullBounds().getCenterX() - getFullWidth() / 2, scalesNode.getFullBounds().getCenterY() - getFullHeight() - 15 );
                     }} );
                 }
-            }, leftScaleValue, rightScaleValue, revealClues ) );
+            }, leftScaleValue, rightScaleValue, revealClues, barGraphAnimationTime ) );
 
             final FNode scoreCellsLayer = new FNode( model.state.get().scoreCells.map( new F<Cell, PNode>() {
                 @Override public PNode f( Cell c ) {
