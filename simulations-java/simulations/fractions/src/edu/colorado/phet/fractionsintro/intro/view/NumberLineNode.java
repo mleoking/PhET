@@ -13,6 +13,8 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
@@ -203,6 +205,13 @@ public class NumberLineNode extends PNode {
             }
         };
         mainObserver.observe( numerator, denominator, max );
+
+        //Also update if the visibility flag changes, since the graphics need to be reconstructed--see implementation in mainObserver
+        addPropertyChangeListener( PNode.PROPERTY_VISIBLE, new PropertyChangeListener() {
+            @Override public void propertyChange( final PropertyChangeEvent evt ) {
+                mainObserver.update();
+            }
+        } );
 
         //Green circle in the middle of it all
         final double w = 5;
