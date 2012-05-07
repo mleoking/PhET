@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JCheckBoxMenuItem;
 
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
@@ -79,7 +80,7 @@ public class FractionsIntroApplication extends PiccoloPhetApplication {
     }
 
     //Utility method for testing a single module
-    public static void runModule( String[] args, final MatchingGameModule module ) {
+    public static void runModule( String[] args, final Module module ) {
         final ApplicationConstructor constructor = new ApplicationConstructor() {
             @Override public PhetApplication getApplication( PhetApplicationConfig c ) {
                 return new PhetApplication( c ) {{addModule( module );}};
