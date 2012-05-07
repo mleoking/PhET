@@ -80,4 +80,13 @@ public class ModelElement {
             return getSupportingSurface().get().getOwner().isStackedUpon( element );
         }
     }
+
+    /**
+     * Reset the model element to its original state.  Subclasses must add
+     * reset functionality for any state that they add.
+     */
+    public void reset() {
+        supportingSurface.removeAllObservers();
+        supportingSurface = null;
+    }
 }

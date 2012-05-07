@@ -107,11 +107,11 @@ public class EFACIntroModel {
      * Restore the initial conditions of the model.
      */
     public void reset() {
-        leadBlock.position.reset();
-        brick.position.reset();
-        beaker.position.reset();
-        thermometer1.position.reset();
-        thermometer2.position.reset();
+        leadBlock.reset();
+        brick.reset();
+        beaker.reset();
+        thermometer1.reset();
+        thermometer2.reset();
     }
 
     /**
@@ -126,18 +126,23 @@ public class EFACIntroModel {
         // supporting surface.
         for ( UserMovableModelElement movableModelElement : Arrays.asList( leadBlock, brick, beaker ) ) {
             if ( !movableModelElement.userControlled.get() && movableModelElement.getSupportingSurface() == null && movableModelElement.position.get().getY() != 0 ) {
-                double acceleration = -9.8; // meters/s*s
-                double velocity = movableModelElement.verticalVelocity.get() + acceleration * dt;
-                double proposedYPos = movableModelElement.position.get().getY() + velocity * dt;
                 double minYPos = 0;
+
+                // Determine whether there is something below this element that
+                // it can land upon.
                 Property<HorizontalSurface> potentialSupportingSurface = findBestSupportSurface( movableModelElement );
                 if ( potentialSupportingSurface != null ) {
                     minYPos = potentialSupportingSurface.get().yPos;
 
-                    // Center the movableModelElement on its new parent
+                    // Center the movableModelElement above its new parent
                     double targetX = potentialSupportingSurface.get().getCenterX();
                     movableModelElement.setX( targetX );
                 }
+
+                // Calculate a proposed Y position based on gravitational falling.
+                double acceleration = -9.8; // meters/s*s
+                double velocity = movableModelElement.verticalVelocity.get() + acceleration * dt;
+                double proposedYPos = movableModelElement.position.get().getY() + velocity * dt;
                 if ( proposedYPos < minYPos ) {
                     // The element has landed on the ground or some other surface.
                     proposedYPos = minYPos;
