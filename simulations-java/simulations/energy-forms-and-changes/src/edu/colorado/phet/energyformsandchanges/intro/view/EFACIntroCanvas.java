@@ -20,6 +20,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
+import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
@@ -101,11 +102,20 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
             double width = model.getLabBenchSurface().getWidth() * 0.95;
             double height = 1000; // Arbitrary large number, user should never see the bottom of this.
             Shape benchSupportShape = new Rectangle2D.Double( -width / 2, -height, width, height );
-            backLayer.addChild( new PhetPPath( mvt.modelToView( benchSupportShape ), new Color( 100, 100, 100 ) ) );
+            backLayer.addChild( new PhetPPath( mvt.modelToView( benchSupportShape ), new Color( 120, 120, 120 ) ) );
         }
 
         // Add the lab bench surface.
         backLayer.addChild( new ShelfNode( model.getLabBenchSurface(), mvt ) );
+
+        // Add the reset button.
+        {
+            ResetAllButtonNode resetButton = new ResetAllButtonNode( this, this, 20, Color.black, new Color( 255, 153, 0 ) );
+            resetButton.setConfirmationEnabled( false );
+            resetButton.setOffset( STAGE_SIZE.getWidth() - resetButton.getFullBoundsReference().width - 20,
+                                   STAGE_SIZE.getHeight() - resetButton.getFullBoundsReference().height - 20 );
+            backLayer.addChild( resetButton );
+        }
 
         // Add the burners.
         backLayer.addChild( new BurnerNode( model.getLeftBurner(), mvt ) );
@@ -194,6 +204,8 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
     }
 
     public void reset() {
+        model.reset();
+        // Put the thermometers in the tool box.
         for ( Thermometer thermometer : model.getThermometers() ) {
             thermometerToolBox.putThermometerInOpenSpot( thermometer );
         }
