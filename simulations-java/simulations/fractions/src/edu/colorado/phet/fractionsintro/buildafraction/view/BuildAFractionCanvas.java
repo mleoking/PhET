@@ -1,6 +1,8 @@
 package edu.colorado.phet.fractionsintro.buildafraction.view;
 
+import fj.Effect;
 import fj.F;
+import fj.F2;
 import fj.data.List;
 
 import java.awt.BasicStroke;
@@ -11,8 +13,10 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.Collection;
 
-import javax.swing.JRadioButton;
-
+import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -25,7 +29,11 @@ import edu.colorado.phet.fractionsintro.buildafraction.controller.ModelUpdate;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionState;
 import edu.colorado.phet.fractionsintro.buildafraction.model.Container;
+import edu.colorado.phet.fractionsintro.buildafraction.model.DraggableNumber;
+import edu.colorado.phet.fractionsintro.buildafraction.model.DraggableObject;
+import edu.colorado.phet.fractionsintro.buildafraction.model.Mode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
+import edu.colorado.phet.fractionsintro.matchinggame.view.UpdateNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -33,6 +41,8 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.fractions.FractionsResources.Strings.MY_FRACTIONS;
+import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.numbersRadioButton;
+import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.picturesRadioButton;
 import static edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionState.RELEASE_ALL;
 import static fj.data.List.range;
 
@@ -44,15 +54,27 @@ import static fj.data.List.range;
  */
 public class BuildAFractionCanvas extends AbstractFractionsCanvas {
     private static final Paint TRANSPARENT = new Color( 0, 0, 0, 0 );
-    private final BuildAFractionModel model;
     private final RichPNode containerLayer;
 
     public BuildAFractionCanvas( final BuildAFractionModel model ) {
-        this.model = model;
         final Stroke stroke = new BasicStroke( 2 );
+
+        final SettableProperty<Mode> mode = model.toProperty(
+                new F<BuildAFractionState, Mode>() {
+                    @Override public Mode f( final BuildAFractionState s ) {
+                        return s.mode;
+                    }
+                },
+                new F2<BuildAFractionState, Mode, BuildAFractionState>() {
+                    @Override public BuildAFractionState f( final BuildAFractionState s, final Mode mode ) {
+                        return s.withMode( mode );
+                    }
+                }
+        );
+
         final VBox radioButtonControlPanel = new VBox( 0, VBox.LEFT_ALIGNED,
-                                                       radioButton( "Numbers" ),
-                                                       radioButton( "Pictures" ) );
+                                                       radioButton( numbersRadioButton, "Numbers", mode, Mode.NUMBERS ),
+                                                       radioButton( picturesRadioButton, "Pictures", mode, Mode.PICTURES ) );
 
         //IDEA: show the target in the box but grayed out and dotted line.  When the user has a match, it turns red dotted line.  When they drop it in, it fills in.
         //Would this have worked for build a molecule?
@@ -67,41 +89,70 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
         }};
         addChild( rightControlPanel );
 
-        //Add a piece container toolbox the user can use to get containers
-        addChild( new RichPNode() {{
-            final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 700, 125, 30, 30 ), stroke, Color.darkGray );
-            addChild( border );
-            final F<Integer, PNode> toBar = new F<Integer, PNode>() {
-                @Override public PNode f( final Integer i ) {
-                    return barTool( new Container( ObjectID.nextID(), i + 1, rowColumnToPoint( i % 2, i / 2 ), false ), model, BuildAFractionCanvas.this );
-                }
-            };
-            addChild( new FNode( range( 0, 8 ).map( toBar ) ) {{
-                centerFullBoundsOnPoint( border.getCenterX(), border.getCenterY() );
-            }} );
-            setOffset( ( STAGE_SIZE.width - rightControlPanel.getFullWidth() ) / 2 - this.getFullWidth() / 2, STAGE_SIZE.height - INSET - this.getFullHeight() );
-        }} );
+        //When the mode changes, update the toolboxes
+        addChild( new UpdateNode(
+                new Effect<PNode>() {
+                    @Override public void e( final PNode node ) {
 
-        //Bucket view at the bottom of the screen
-        addChild( new RichPNode() {{
-            final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 700, 150, 30, 30 ), stroke, Color.darkGray );
-            addChild( border );
+                        if ( mode.get() == Mode.NUMBERS ) {
+                            //Add a piece container toolbox the user can use to get containers
+                            node.addChild( new RichPNode() {{
+                                final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 700, 125, 30, 30 ), stroke, Color.darkGray );
+                                addChild( border );
+                                final F<Integer, PNode> toBar = new F<Integer, PNode>() {
+                                    @Override public PNode f( final Integer i ) {
+                                        return barTool( new Container( new DraggableObject( ObjectID.nextID(), rowColumnToPoint( i % 2, i / 2 ), false ), i + 1 ), model, BuildAFractionCanvas.this );
+                                    }
+                                };
+                                addChild( new FNode( range( 0, 8 ).map( toBar ) ) {{
+                                    centerFullBoundsOnPoint( border.getCenterX(), border.getCenterY() );
+                                }} );
+                                setOffset( ( STAGE_SIZE.width - rightControlPanel.getFullWidth() ) / 2 - this.getFullWidth() / 2, STAGE_SIZE.height - INSET - this.getFullHeight() );
+                            }} );
+
+                            //Bucket view at the bottom of the screen
+                            node.addChild( new RichPNode() {{
+                                final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 700, 150, 30, 30 ), stroke, Color.darkGray );
+                                addChild( border );
 
 //            BucketView bucketView = new BucketView( new Bucket( 150, -50, new Dimension2DDouble( 200, 100 ), Color.blue, "pieces" ), ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 1, -1 ) );
 //            addChild( bucketView.getHoleNode() );
 //            addChild( bucketView.getFrontNode() );
 
-            final F<Integer, PNode> toBar = new F<Integer, PNode>() {
-                @Override public PNode f( final Integer i ) {
-                    return pieceTool( new Container( ObjectID.nextID(), i + 1, rowColumnToPoint( i % 2, i / 2 ), false ), model, BuildAFractionCanvas.this );
-                }
-            };
-            addChild( new FNode( range( 0, 8 ).map( toBar ) ) {{
-                centerFullBoundsOnPoint( border.getCenterX(), border.getCenterY() );
-            }} );
+                                final F<Integer, PNode> toBar = new F<Integer, PNode>() {
+                                    @Override public PNode f( final Integer i ) {
+                                        return pieceTool( new Container( new DraggableObject( ObjectID.nextID(), rowColumnToPoint( i % 2, i / 2 ), false ), i + 1 ), model, BuildAFractionCanvas.this );
+                                    }
+                                };
+                                addChild( new FNode( range( 0, 8 ).map( toBar ) ) {{
+                                    centerFullBoundsOnPoint( border.getCenterX(), border.getCenterY() );
+                                }} );
 
-            setOffset( ( STAGE_SIZE.width - rightControlPanel.getFullWidth() ) / 2 - this.getFullWidth() / 2, INSET );
-        }} );
+                                setOffset( ( STAGE_SIZE.width - rightControlPanel.getFullWidth() ) / 2 - this.getFullWidth() / 2, INSET );
+                            }} );
+                        }
+                        else if ( mode.get() == Mode.PICTURES ) {
+
+                            //Add a piece container toolbox the user can use to get containers
+                            node.addChild( new RichPNode() {{
+                                final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 700, 125, 30, 30 ), stroke, Color.darkGray );
+                                addChild( border );
+
+                                final F<Integer, PNode> toNumberTool = new F<Integer, PNode>() {
+                                    @Override public PNode f( final Integer i ) {
+                                        return numberTool( i, model, BuildAFractionCanvas.this, i * 50 );
+                                    }
+                                };
+                                addChild( new FNode( range( 0, 10 ).map( toNumberTool ) ) {{
+                                    centerFullBoundsOnPoint( border.getCenterX(), border.getCenterY() );
+                                }} );
+
+                                setOffset( ( STAGE_SIZE.width - rightControlPanel.getFullWidth() ) / 2 - this.getFullWidth() / 2, STAGE_SIZE.height - INSET - this.getFullHeight() );
+                            }} );
+                        }
+                    }
+                }
+                , mode ) );
 
         //The draggable containers
         containerLayer = new RichPNode();
@@ -128,7 +179,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                 }
             } );
             addChild( new FNode( nodes ) );
-            setOffset( container.position.toPoint2D() );
+            setOffset( container.getPosition().toPoint2D() );
         }};
     }
 
@@ -141,7 +192,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                 }
             } );
             addChild( new FNode( nodes ) );
-            setOffset( container.position.toPoint2D() );
+            setOffset( container.getPosition().toPoint2D() );
         }};
     }
 
@@ -156,13 +207,13 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                     PBounds bounds = getGlobalFullBounds();
                     Rectangle2D localBounds = canvas.rootNode.globalToLocal( bounds );
 
-                    final Container c = new Container( ObjectID.nextID(), container.numSegments, new Vector2D( localBounds.getX(), localBounds.getY() ), true );
+                    final Container c = new Container( new DraggableObject( ObjectID.nextID(), new Vector2D( localBounds.getX(), localBounds.getY() ), true ), container.numSegments );
                     model.update( new ModelUpdate() {
                         @Override public BuildAFractionState update( final BuildAFractionState state ) {
                             return state.addContainer( c );
                         }
                     } );
-                    canvas.containerLayer.addChild( new DraggablePieceNode( c.id, model, canvas ) );
+                    canvas.containerLayer.addChild( new DraggablePieceNode( c.getID(), model, canvas ) );
                 }
 
                 @Override public void mouseReleased( final PInputEvent event ) {
@@ -170,7 +221,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                 }
 
                 @Override public void mouseDragged( final PInputEvent event ) {
-                    model.drag( event.getDeltaRelativeTo( canvas.rootNode ) );
+                    model.dragContainer( event.getDeltaRelativeTo( canvas.rootNode ) );
                 }
             } );
         }};
@@ -187,13 +238,13 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                     PBounds bounds = getGlobalFullBounds();
                     Rectangle2D localBounds = canvas.rootNode.globalToLocal( bounds );
 
-                    final Container c = new Container( ObjectID.nextID(), container.numSegments, new Vector2D( localBounds.getX(), localBounds.getY() ), true );
+                    final Container c = new Container( new DraggableObject( ObjectID.nextID(), new Vector2D( localBounds.getX(), localBounds.getY() ), true ), container.numSegments );
                     model.update( new ModelUpdate() {
                         @Override public BuildAFractionState update( final BuildAFractionState state ) {
                             return state.addContainer( c );
                         }
                     } );
-                    canvas.containerLayer.addChild( new DraggableBarNode( c.id, model, canvas ) );
+                    canvas.containerLayer.addChild( new DraggableBarNode( c.getID(), model, canvas ) );
                 }
 
                 @Override public void mouseReleased( final PInputEvent event ) {
@@ -201,16 +252,55 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                 }
 
                 @Override public void mouseDragged( final PInputEvent event ) {
-                    model.drag( event.getDeltaRelativeTo( canvas.rootNode ) );
+                    model.dragContainer( event.getDeltaRelativeTo( canvas.rootNode ) );
                 }
             } );
         }};
     }
 
-    private PNode radioButton( final String text ) {
-        return new PSwing( new JRadioButton( text ) {{
+    public static PNode numberTool( final int number, final BuildAFractionModel model, final BuildAFractionCanvas canvas, final int offsetX ) {
+        return new PNode() {{
+            addChild( numberGraphic( number ) );
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new PBasicInputEventHandler() {
+                @Override public void mousePressed( final PInputEvent event ) {
+
+                    //Find out where to put the bar in stage coordinate frame, transform through the root node.
+                    PBounds bounds = getGlobalFullBounds();
+                    Rectangle2D localBounds = canvas.rootNode.globalToLocal( bounds );
+
+//                    final Container c = new Container( ObjectID.nextID(), container.numSegments, new Vector2D( localBounds.getX(), localBounds.getY() ), true );
+                    final DraggableNumber draggableNumber = new DraggableNumber( new DraggableObject( ObjectID.nextID(), new Vector2D( localBounds.getX(), localBounds.getY() ), true ), number );
+
+                    //Adding this listener before calling the update allows us to get the ChangeObserver callback.
+                    canvas.containerLayer.addChild( new DraggableNumberNode( draggableNumber.getID(), model, canvas ) );
+
+                    //Change the model
+                    model.update( new ModelUpdate() {
+                        @Override public BuildAFractionState update( final BuildAFractionState state ) {
+                            return state.addNumber( draggableNumber );
+                        }
+                    } );
+                }
+
+                @Override public void mouseReleased( final PInputEvent event ) {
+                    model.update( RELEASE_ALL );
+                }
+
+                @Override public void mouseDragged( final PInputEvent event ) {
+                    model.dragNumber( event.getDeltaRelativeTo( canvas.rootNode ) );
+                }
+            } );
+            setOffset( offsetX, 0 );
+        }};
+    }
+
+    private PNode radioButton( IUserComponent component, final String text, final SettableProperty<Mode> mode, Mode value ) {
+        return new PSwing( new PropertyRadioButton<Mode>( component, text, mode, value ) {{
             setOpaque( false );
             setFont( AbstractFractionsCanvas.CONTROL_FONT );
         }} );
     }
+
+    public static PNode numberGraphic( final int some ) { return new PhetPText( "" + some, new PhetFont( 24, true ) ); }
 }

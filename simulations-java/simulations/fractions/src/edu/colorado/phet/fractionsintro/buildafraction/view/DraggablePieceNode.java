@@ -19,7 +19,7 @@ import static edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFracti
  */
 public class DraggablePieceNode extends PNode {
     public DraggablePieceNode( final ObjectID id, final BuildAFractionModel model, final BuildAFractionCanvas canvas ) {
-        model.addContainerListener( new ContainerObserver( id ) {
+        model.addChangeObserver( new ContainerObserver( id ) {
             @Override public void applyChange( final Option<Container> old, final Option<Container> newOne ) {
                 removeAllChildren();
                 if ( newOne.isSome() ) {
@@ -28,11 +28,11 @@ public class DraggablePieceNode extends PNode {
                         addInputEventListener( new CursorHandler() );
                         addInputEventListener( new PBasicInputEventHandler() {
                             @Override public void mousePressed( final PInputEvent event ) {
-                                model.startDragging( id );
+                                model.startDraggingContainer( id );
                             }
 
                             @Override public void mouseDragged( final PInputEvent event ) {
-                                model.drag( event.getDeltaRelativeTo( canvas.rootNode ) );
+                                model.dragContainer( event.getDeltaRelativeTo( canvas.rootNode ) );
                             }
 
                             @Override public void mouseReleased( final PInputEvent event ) {
@@ -44,7 +44,7 @@ public class DraggablePieceNode extends PNode {
                 else {
                     //If removed from model, remove this view class
                     getParent().removeChild( DraggablePieceNode.this );
-                    model.removeContainerListener( this );
+                    model.removeChangeObserver( this );
                 }
             }
         } );

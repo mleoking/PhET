@@ -13,7 +13,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class UpdateNode extends PNode {
-    UpdateNode( final Effect<PNode> block, ObservableProperty... p ) {
+    public UpdateNode( final Effect<PNode> block, ObservableProperty... p ) {
         new RichSimpleObserver() {
             @Override public void update() {
                 removeAllChildren();
