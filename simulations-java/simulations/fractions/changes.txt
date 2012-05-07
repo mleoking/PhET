@@ -1,3 +1,4 @@
+Matching game: Color each bar the same color as the corresponding representation
 Matching game: Animate bars when checking answer
 Matching game: Fixed: patterns scramble as you drag them
 Intro tab: Fixed: Number line doesn't show when selected

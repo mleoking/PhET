@@ -4,6 +4,7 @@ package edu.colorado.phet.fractionsintro.matchinggame.view;
 import fj.Effect;
 import fj.F;
 import fj.data.List;
+import fj.data.Option;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -173,11 +174,15 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
             addChild( new UpdateNode( new Effect<PNode>() {
                 @Override public void e( final PNode parent ) {
                     final double scale = Math.min( barGraphAnimationTime.get() / MAX_BAR_GRAPH_ANIMATION_TIME, 1.0 );
-                    parent.addChild( new ZeroOffsetNode( new BarGraphNode( leftScaleValue.get() * scale,
-                                                                           rightScaleValue.get() * scale,
-                                                                           revealClues.get() ) ) {{
-                        setOffset( scalesNode.getFullBounds().getCenterX() - getFullWidth() / 2, scalesNode.getFullBounds().getCenterY() - getFullHeight() - 15 );
-                    }} );
+                    final Option<MovableFraction> leftScaleFraction = model.state.get().getScaleFraction( model.state.get().leftScale );
+                    final Option<MovableFraction> rightScaleFraction = model.state.get().getScaleFraction( model.state.get().rightScale );
+                    if ( leftScaleFraction.isSome() && rightScaleFraction.isSome() ) {
+                        parent.addChild( new ZeroOffsetNode( new BarGraphNode( leftScaleValue.get() * scale, leftScaleFraction.some().color,
+                                                                               rightScaleValue.get() * scale, rightScaleFraction.some().color,
+                                                                               revealClues.get() ) ) {{
+                            setOffset( scalesNode.getFullBounds().getCenterX() - getFullWidth() / 2, scalesNode.getFullBounds().getCenterY() - getFullHeight() - 15 );
+                        }} );
+                    }
                 }
             }, leftScaleValue, rightScaleValue, revealClues, barGraphAnimationTime ) );
 
