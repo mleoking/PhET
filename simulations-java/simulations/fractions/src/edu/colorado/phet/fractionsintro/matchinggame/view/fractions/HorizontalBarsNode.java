@@ -27,8 +27,10 @@ public class HorizontalBarsNode extends PNode implements IColor {
         int numSlices = fraction.denominator;
         double sliceHeight = height / numSlices;
         for ( int i = 0; i < numSlices; i++ ) {
-            addChild( new PhetPPath( new Rectangle2D.Double( 0, i * sliceHeight, width, sliceHeight ), i < numFilledSlices ? color : Color.white, new BasicStroke( 1 ), Color.black ) );
+            addChild( new PhetPPath( new Rectangle2D.Double( 0, i * sliceHeight, width, sliceHeight ), i < numFilledSlices ? color : Color.white, new BasicStroke( 1 ), Color.darkGray ) );
         }
+        //darker border
+        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, width, height ), new BasicStroke( 1.7f ), Color.black ) );
     }
 
     @Override public Color getColor() {

@@ -28,8 +28,10 @@ public class VerticalBarsNode extends PNode implements IColor {
         int numSlices = fraction.denominator;
         double sliceWidth = width / numSlices;
         for ( int i = 0; i < numSlices; i++ ) {
-            addChild( new PhetPPath( new Rectangle2D.Double( i * sliceWidth, 0, sliceWidth, height ), i < numFilledSlices ? color : Color.white, new BasicStroke( 1 ), Color.black ) );
+            addChild( new PhetPPath( new Rectangle2D.Double( i * sliceWidth, 0, sliceWidth, height ), i < numFilledSlices ? color : Color.white, new BasicStroke( 1 ), Color.darkGray ) );
         }
+        //darker border
+        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, width, height ), new BasicStroke( 1.7f ), Color.black ) );
     }
 
     @Override public Color getColor() {
