@@ -124,7 +124,6 @@ public class CellProteinSynthesisSimulator {
     }
 
     public void setMrnaDegradationRate( double mrnaDegradationRate ) {
-        // TODO: Stubbed for now.
         assert MRNA_DEGRADATION_RATE_RANGE.contains( mrnaDegradationRate );
         _reactionProbabilities[9] = mrnaDegradationRate;
     }
