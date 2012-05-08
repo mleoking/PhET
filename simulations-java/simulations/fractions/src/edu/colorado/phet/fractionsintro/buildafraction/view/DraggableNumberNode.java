@@ -37,6 +37,10 @@ public class DraggableNumberNode extends PNode {
                             double offset = some.attachment.some()._2() ? -getFullBounds().getHeight() / 2 :
                                             getFullBounds().getHeight() / 2;
                             centerFullBoundsOnPoint( center2D.getX(), center2D.getY() + offset );
+
+                            //Disallow interaction when on a fraction, so mouse clicks will fall through to the fraction itself
+                            setPickable( false );
+                            setChildrenPickable( false );
                         }
                         else {
                             setOffset( some.getDraggableObject().position.toPoint2D() );
