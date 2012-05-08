@@ -4,6 +4,7 @@ import fj.F;
 import fj.F2;
 import fj.data.List;
 
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -18,8 +19,9 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Sam Reid
  */
-public class BuildAFractionModel {
-    public final Property<BuildAFractionState> state = new Property<BuildAFractionState>( new BuildAFractionState( List.<Container>nil(), List.<Piece>nil(), List.<DraggableNumber>nil(), List.<DraggableFraction>nil(), Mode.NUMBERS ) );
+public class BuildAFractionModel implements Resettable {
+    private final BuildAFractionState initialState = new BuildAFractionState( List.<Container>nil(), List.<Piece>nil(), List.<DraggableNumber>nil(), List.<DraggableFraction>nil(), Mode.NUMBERS );
+    public final Property<BuildAFractionState> state = new Property<BuildAFractionState>( initialState );
     public final ConstantDtClock clock = new ConstantDtClock();
 
     public BuildAFractionModel() {
@@ -96,4 +98,6 @@ public class BuildAFractionModel {
             }
         } );
     }
+
+    @Override public void reset() { state.set( initialState ); }
 }
