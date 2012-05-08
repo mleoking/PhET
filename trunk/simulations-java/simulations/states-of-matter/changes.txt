@@ -1,3 +1,4 @@
+Fixed an issue for a scenario involving blowing off the lid with very cold water, and then returning the lid.  See #3325.
 # 1.10.00 (63806) Apr 27, 2012
 4/27/12 >Redeploying to production server with several important fixes and enhancements.
 # 1.09.03 (63654) Apr 19, 2012
