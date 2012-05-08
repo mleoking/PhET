@@ -4,3 +4,4 @@ scale.png source=PhET author=Ariel
 water_glass.png source=phet author=noah P
 locked.png source=tango
 unlocked.png source=tango
+split-blue.png notes=copied from build a molecule
