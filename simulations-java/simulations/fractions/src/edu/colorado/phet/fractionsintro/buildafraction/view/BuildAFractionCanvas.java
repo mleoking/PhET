@@ -24,6 +24,7 @@ import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
+import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
@@ -179,6 +180,12 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                 node.addChild( mode.get() == Mode.NUMBERS ? numberView : pictureView );
             }
         }, mode ) );
+
+        //Reset all button
+        addChild( new ResetAllButtonNode( model, this, 18, Color.black, Color.orange ) {{
+            setConfirmationEnabled( false );
+            setOffset( STAGE_SIZE.width - this.getFullWidth() - INSET, STAGE_SIZE.height - this.getFullHeight() - INSET );
+        }} );
     }
 
     public static Vector2D rowColumnToPoint( int row, int column ) {
