@@ -142,6 +142,7 @@ public @Data class BuildAFractionState {
 
     public Option<Piece> getPiece( final ObjectID id ) { return pieces.find( matchID( id, Piece.ID ) ); }
 
+    //Remove the number from the model and signify that it is attached to the fraction.
     public BuildAFractionState attachNumberToFraction( final DraggableNumberID number, final FractionID fraction, final boolean numerator ) {
         return withDraggableFractions( draggableFractions.map( new F<DraggableFraction, DraggableFraction>() {
             @Override public DraggableFraction f( final DraggableFraction f ) {
