@@ -25,11 +25,12 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.Spacer;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractions.view.FNode;
+import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.colorado.phet.fractionsintro.buildafraction.controller.ModelUpdate;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionState;
@@ -43,16 +44,17 @@ import edu.colorado.phet.fractionsintro.buildafraction.model.FractionID;
 import edu.colorado.phet.fractionsintro.buildafraction.model.Mode;
 import edu.colorado.phet.fractionsintro.common.util.DefaultP2;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
+import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern;
 import edu.colorado.phet.fractionsintro.matchinggame.view.UpdateNode;
+import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern;
+import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-import static edu.colorado.phet.fractions.FractionsResources.Strings.*;
-import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.numbersRadioButton;
-import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.picturesRadioButton;
+import static edu.colorado.phet.fractions.FractionsResources.Strings.MY_FRACTIONS;
 import static edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionState.RELEASE_ALL;
 import static fj.data.List.range;
 import static java.awt.BasicStroke.CAP_ROUND;
@@ -90,31 +92,30 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                 }
         );
 
-        final VBox radioButtonControlPanel = new VBox( 0, VBox.LEFT_ALIGNED,
-                                                       radioButton( numbersRadioButton, NUMBERS, mode, Mode.NUMBERS ),
-                                                       radioButton( picturesRadioButton, PICTURES, mode, Mode.PICTURES ) );
-
-        List<PNode> scoreBoxes = range( 0, 3 ).map( new F<Integer, PNode>() {
-            @Override public PNode f( final Integer integer ) {
-
-                //If these representationBox are all the same size, then 2-column layout will work properly
-                PNode representationBox = new PhetPText( "3/7", new PhetFont( 28, true ) );
-                return new HBox( new PhetPPath( new RoundRectangle2D.Double( 0, 0, 160, 120, 30, 30 ), controlPanelStroke, Color.darkGray ),
-                                 representationBox );
-            }
-        } );
-        final Collection<PNode> nodes = scoreBoxes.toCollection();
-        final VBox rightControlPanel = new VBox( radioButtonControlPanel, new Spacer( 0, 0, 10, 10 ), new PhetPText( MY_FRACTIONS, CONTROL_FONT ), new VBox( nodes.toArray( new PNode[nodes.size()] ) ) ) {{
-            setOffset( STAGE_SIZE.width - getFullWidth() - INSET, INSET );
-        }};
-        addChild( rightControlPanel );
-
         //The draggable containers
         picturesContainerLayer = new RichPNode();
         numbersContainerLayer = new RichPNode();
 
         //View to show when the user is guessing numbers (by creating pictures)
         final PNode numberView = new PNode() {{
+
+            final PNode radioButtonControlPanel = createModeControlPanel( mode );
+
+            addChild( radioButtonControlPanel );
+            List<PNode> scoreBoxes = range( 0, 3 ).map( new F<Integer, PNode>() {
+                @Override public PNode f( final Integer integer ) {
+
+                    //If these representationBox are all the same size, then 2-column layout will work properly
+                    PNode representationBox = new PhetPText( "3/7", new PhetFont( 28, true ) );
+                    return new HBox( new PhetPPath( new RoundRectangle2D.Double( 0, 0, 160, 120, 30, 30 ), controlPanelStroke, Color.darkGray ), representationBox );
+                }
+            } );
+            final Collection<PNode> nodes = scoreBoxes.toCollection();
+            final VBox rightControlPanel = new VBox( new PhetPText( MY_FRACTIONS, CONTROL_FONT ), new VBox( nodes.toArray( new PNode[nodes.size()] ) ) ) {{
+                setOffset( STAGE_SIZE.width - getFullWidth() - INSET, STAGE_SIZE.height / 2 - this.getFullHeight() / 2 );
+            }};
+            addChild( rightControlPanel );
+
             ////Add a piece container toolbox the user can use to get containers
             addChild( new RichPNode() {{
                 final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 700, 125, 30, 30 ), controlPanelStroke, Color.darkGray );
@@ -148,13 +149,32 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                     centerFullBoundsOnPoint( border.getCenterX(), border.getCenterY() );
                 }} );
 
-                setOffset( ( STAGE_SIZE.width - rightControlPanel.getFullWidth() ) / 2 - this.getFullWidth() / 2, INSET );
+                setOffset( ( STAGE_SIZE.width - rightControlPanel.getFullWidth() ) / 2 - this.getFullWidth() / 2, radioButtonControlPanel.getFullBounds().getMaxY() + INSET );
             }} );
 
             addChild( numbersContainerLayer );
         }};
 
         final PNode pictureView = new PNode() {{
+
+            final PNode radioButtonControlPanel = createModeControlPanel( mode );
+            addChild( radioButtonControlPanel );
+
+            List<PNode> scoreBoxes = range( 0, 3 ).map( new F<Integer, PNode>() {
+                @Override public PNode f( final Integer integer ) {
+
+                    //If these representationBox are all the same size, then 2-column layout will work properly
+                    PNode representationBox = new PatternNode( FilledPattern.sequentialFill( Pattern.sixFlower( 18 ), integer + 1 ), Color.red );
+                    return new HBox( new PhetPPath( new RoundRectangle2D.Double( 0, 0, 140, 150, 30, 30 ), controlPanelStroke, Color.darkGray ),
+                                     representationBox );
+                }
+            } );
+            final Collection<PNode> nodes = scoreBoxes.toCollection();
+            final VBox rightControlPanel = new VBox( new PhetPText( MY_FRACTIONS, CONTROL_FONT ), new VBox( nodes.toArray( new PNode[nodes.size()] ) ) ) {{
+                setOffset( STAGE_SIZE.width - getFullWidth() - INSET, INSET );
+            }};
+            addChild( rightControlPanel );
+
             //Add a piece container toolbox the user can use to get containers
             addChild( new RichPNode() {{
                 final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 700, 160, 30, 30 ), controlPanelStroke, Color.darkGray );
@@ -189,6 +209,13 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
             setConfirmationEnabled( false );
             setOffset( STAGE_SIZE.width - this.getFullWidth() - INSET, STAGE_SIZE.height - this.getFullHeight() - INSET );
         }} );
+    }
+
+    private PNode createModeControlPanel( final SettableProperty<Mode> mode ) {
+        return new HBox( radioButton( Components.picturesRadioButton, Strings.PICTURES, mode, Mode.NUMBERS ),
+                         radioButton( Components.numbersRadioButton, Strings.NUMBERS, mode, Mode.PICTURES ) ) {{
+            setOffset( AbstractFractionsCanvas.INSET, AbstractFractionsCanvas.INSET );
+        }};
     }
 
     public static Vector2D rowColumnToPoint( int row, int column ) {
