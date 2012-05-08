@@ -40,7 +40,6 @@ public class GeneNode extends PNode {
         Shape regRegionShape = new RoundRectangle2D.Double( regRegionHighlightStartX, highlightStartY, regRegionWidth, highlightHeight, RECT_ROUNDING, RECT_ROUNDING );
         final PhetPPath regulatoryRegionNode = new PhetPPath( regRegionShape, gene.getRegulatoryRegionColor() );
         addChild( regulatoryRegionNode );
-        // TODO: i18n
         PNode regulatoryRegionCaption = new HTMLNode( GeneExpressionBasicsResources.Strings.REGULATORY_REGION ) {{
             setFont( REGION_LABEL_FONT );
             setOffset( regulatoryRegionNode.getFullBoundsReference().getCenterX() - getFullBoundsReference().width / 2,
@@ -54,7 +53,6 @@ public class GeneNode extends PNode {
         Shape transcribedRegionShape = new RoundRectangle2D.Double( transcribedRegionHighlightStartX, highlightStartY, transcribedRegionWidth, highlightHeight, RECT_ROUNDING, RECT_ROUNDING );
         final PhetPPath transcribedRegionNode = new PhetPPath( transcribedRegionShape, gene.getTranscribedRegionColor() );
         addChild( transcribedRegionNode );
-        // TODO: i18n
         PNode transcribedRegionCaption = new HTMLNode( GeneExpressionBasicsResources.Strings.TRANSCRIBED_REGION ) {{
             setFont( REGION_LABEL_FONT );
             setOffset( transcribedRegionNode.getFullBoundsReference().getCenterX() - getFullBoundsReference().width / 2,
