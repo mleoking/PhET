@@ -124,10 +124,15 @@ public @Data class BuildAFractionState {
 
     public Option<DraggableFraction> getDraggableFraction( final FractionID id ) { return draggableFractions.find( matchID( id, DraggableFraction.ID ) ); }
 
-    public BuildAFractionState dragFractions( final Vector2D delta ) {
+    public BuildAFractionState dragFraction( final FractionID fractionID, final Vector2D delta ) {
         return withDraggableFractions( draggableFractions.map( new F<DraggableFraction, DraggableFraction>() {
-            @Override public DraggableFraction f( final DraggableFraction draggableFraction ) {
-                return draggableFraction.isDragging() ? draggableFraction.translate( delta ) : draggableFraction;
+            @Override public DraggableFraction f( final DraggableFraction f ) {
+                return f.equalsID( fractionID ) ? f.translate( delta ) : f;
+            }
+        } ) ).withDraggableNumbers( draggableNumbers.map( new F<DraggableNumber, DraggableNumber>() {
+            @Override public DraggableNumber f( final DraggableNumber d ) {
+                return d.isAttachedTo( fractionID ) ? d.withPosition( getDraggableFraction( fractionID ).some().getPosition() ) :
+                       d;
             }
         } ) );
     }
@@ -135,7 +140,7 @@ public @Data class BuildAFractionState {
     public BuildAFractionState startDraggingFraction( final FractionID id ) {
         return withDraggableFractions( draggableFractions.map( new F<DraggableFraction, DraggableFraction>() {
             @Override public DraggableFraction f( final DraggableFraction f ) {
-                return f.getID().equals( id ) ? f.withDragging( true ) : f;
+                return f.equalsID( id ) ? f.withDragging( true ) : f;
             }
         } ) );
     }

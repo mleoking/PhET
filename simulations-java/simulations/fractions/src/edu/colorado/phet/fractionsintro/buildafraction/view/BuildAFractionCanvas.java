@@ -326,6 +326,9 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
             addChild( emptyFractionGraphic() );
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
+
+                private FractionID id;
+
                 @Override public void mousePressed( final PInputEvent event ) {
 
                     //Find out where to put the bar in stage coordinate frame, transform through the root node.
@@ -333,6 +336,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                     Rectangle2D localBounds = canvas.rootNode.globalToLocal( bounds );
 
                     final DraggableFraction draggableFraction = new DraggableFraction( FractionID.nextID(), new DraggableObject( new Vector2D( localBounds.getX(), localBounds.getY() ), true ), Option.<DraggableNumberID>none(), Option.<DraggableNumberID>none() );
+                    id = draggableFraction.getID();
 
                     //Adding this listener before calling the update allows us to get the ChangeObserver callback.
                     canvas.picturesContainerLayer.addChild( new DraggableFractionNode( draggableFraction.getID(), model, canvas ) );
@@ -345,13 +349,9 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                     } );
                 }
 
-                @Override public void mouseReleased( final PInputEvent event ) {
-                    model.update( RELEASE_ALL );
-                }
+                @Override public void mouseReleased( final PInputEvent event ) { model.update( RELEASE_ALL ); }
 
-                @Override public void mouseDragged( final PInputEvent event ) {
-                    model.dragFraction( event.getDeltaRelativeTo( canvas.rootNode ) );
-                }
+                @Override public void mouseDragged( final PInputEvent event ) { model.dragFraction( id, event.getDeltaRelativeTo( canvas.rootNode ) ); }
             } );
             setOffset( offsetX, 0 );
         }};
