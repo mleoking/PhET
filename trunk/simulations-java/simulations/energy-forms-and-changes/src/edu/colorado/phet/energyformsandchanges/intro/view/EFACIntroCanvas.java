@@ -174,31 +174,6 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
             thermometerToolBox.putThermometerInOpenSpot( thermometer );
         }
 
-        /*
-        {
-            // TODO: i18n
-            PNode title = new PhetPText( "Tool Box", new PhetFont( 20, false ) );
-            double toolBoxHeight = 
-
-        }
-
-        ControlPanelNode thermometerToolBox = new ControlPanelNode( new PhetPPath( mvt.modelToView( model.getThermometerToolBox() ), new BasicStroke( 0 ), new Color( 0, 0, 0, 0 ) ),
-                                                                    Color.LIGHT_GRAY,
-                                                                    new BasicStroke( 2 ),
-                                                                    Color.BLACK,
-                                                                    0 ) {{
-            PNode title = new PhetPText( "Tool Box", new PhetFont( 20, false ) );
-            if ( title.getFullBoundsReference().width > getFullBoundsReference().width ) {
-                title.setScale( getFullBoundsReference().width / title.getFullBoundsReference().width * 0.9 );
-            }
-            title.centerFullBoundsOnPoint( getCenterX(), title.getFullBoundsReference().height / 2 );
-            addChild( title );
-            setOffset( mvt.modelToView( model.getThermometerToolBox().getMinX(), model.getThermometerToolBox().getMaxY() ) );
-        }};
-        backLayer.addChild( thermometerToolBox );
-        */
-
-
         // Create an observer that updates the Z-order of the blocks when the
         // user controlled state changes.
         SimpleObserver blockChangeObserver = new SimpleObserver() {
