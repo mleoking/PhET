@@ -130,19 +130,6 @@ public class CellProteinSynthesisSimulator {
     }
 
     /**
-     * Moves forward one time step in the simulation
-     */
-    public void takeStep() {
-        double accumulatedTime = 0.0;
-        double timeIncrement = -1.0;
-        while ( accumulatedTime < _timeStep && timeIncrement != 0.0 ) {
-            timeIncrement = simulateOneReaction( _timeStep - accumulatedTime );
-            accumulatedTime += timeIncrement;
-        }
-        _currentTime += _timeStep;
-    }
-
-    /**
      * Moves forward one time step of specified length
      *
      * @param dt the length of this step through time
