@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.buildafraction.controller.ModelUpdate;
-import edu.colorado.phet.fractionsintro.buildafraction.view.DraggableFraction;
 import edu.colorado.phet.fractionsintro.buildafraction.view.ObjectID;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -21,7 +20,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  */
 public class BuildAFractionModel {
-    public final Property<BuildAFractionState> state = new Property<BuildAFractionState>( new BuildAFractionState( List.<Container>nil(), List.<DraggableNumber>nil(), List.<DraggableFraction>nil(), Mode.NUMBERS ) );
+    public final Property<BuildAFractionState> state = new Property<BuildAFractionState>( new BuildAFractionState( List.<Container>nil(), List.<Piece>nil(), List.<DraggableNumber>nil(), List.<DraggableFraction>nil(), Mode.NUMBERS ) );
     public final ConstantDtClock clock = new ConstantDtClock();
 
     public BuildAFractionModel() {
@@ -62,6 +61,14 @@ public class BuildAFractionModel {
         update( new ModelUpdate() {
             @Override public BuildAFractionState update( final BuildAFractionState state ) {
                 return state.startDraggingNumber( id );
+            }
+        } );
+    }
+
+    public void startDraggingFraction( final ObjectID id ) {
+        update( new ModelUpdate() {
+            @Override public BuildAFractionState update( final BuildAFractionState state ) {
+                return state.startDraggingFraction( id );
             }
         } );
     }

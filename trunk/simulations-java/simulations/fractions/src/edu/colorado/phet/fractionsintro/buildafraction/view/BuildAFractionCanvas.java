@@ -31,6 +31,7 @@ import edu.colorado.phet.fractionsintro.buildafraction.controller.ModelUpdate;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionState;
 import edu.colorado.phet.fractionsintro.buildafraction.model.Container;
+import edu.colorado.phet.fractionsintro.buildafraction.model.DraggableFraction;
 import edu.colorado.phet.fractionsintro.buildafraction.model.DraggableNumber;
 import edu.colorado.phet.fractionsintro.buildafraction.model.DraggableObject;
 import edu.colorado.phet.fractionsintro.buildafraction.model.Mode;
@@ -259,7 +260,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                             return state.addContainer( c );
                         }
                     } );
-                    canvas.numbersContainerLayer.addChild( new DraggableBarNode( c.getID(), model, canvas ) );
+                    canvas.numbersContainerLayer.addChild( new DraggableContainerNode( c.getID(), model, canvas ) );
                 }
 
                 @Override public void mouseReleased( final PInputEvent event ) {

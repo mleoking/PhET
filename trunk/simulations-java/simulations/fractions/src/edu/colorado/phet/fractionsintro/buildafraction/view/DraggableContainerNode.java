@@ -17,8 +17,8 @@ import static edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFracti
  *
  * @author Sam Reid
  */
-public class DraggableBarNode extends PNode {
-    public DraggableBarNode( final ObjectID id, final BuildAFractionModel model, final BuildAFractionCanvas canvas ) {
+public class DraggableContainerNode extends PNode {
+    public DraggableContainerNode( final ObjectID id, final BuildAFractionModel model, final BuildAFractionCanvas canvas ) {
         model.addObserver( new ContainerObserver( id ) {
             @Override public void applyChange( final Option<Container> old, final Option<Container> newOne ) {
                 removeAllChildren();
@@ -43,7 +43,7 @@ public class DraggableBarNode extends PNode {
                 }
                 else {
                     //If removed from model, remove this view class
-                    getParent().removeChild( DraggableBarNode.this );
+                    getParent().removeChild( DraggableContainerNode.this );
                     model.removeObserver( this );
                 }
             }

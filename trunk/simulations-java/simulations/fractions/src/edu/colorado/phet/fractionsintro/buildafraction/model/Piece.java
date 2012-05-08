@@ -7,14 +7,18 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.buildafraction.view.ObjectID;
 
 /**
+ * Pieces that go in containers.
+ *
  * @author Sam Reid
  */
-public @Data class Container {
+public @Data class Piece {
     public final DraggableObject draggableObject;
     public final int numSegments;
-    public static final F<Container, ObjectID> ID = new F<Container, ObjectID>() {
-        @Override public ObjectID f( final Container container ) {
-            return container.getID();
+
+    //Getter for the ID
+    public static final F<Piece, ObjectID> ID = new F<Piece, ObjectID>() {
+        @Override public ObjectID f( final Piece piece ) {
+            return piece.getID();
         }
     };
 
