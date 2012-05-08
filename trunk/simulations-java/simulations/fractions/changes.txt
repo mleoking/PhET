@@ -1,3 +1,4 @@
+Build a fraction: Fixed: Numbers should move when dragging a fraction
 Build a fraction: i18n
 Build a fraction: Fixed: draggable numbers don't attach to fraction directly from tool dragging
 Build a fraction: Make draggable numbers bigger, make draggable fraction bigger, center drag area on draggable fraction

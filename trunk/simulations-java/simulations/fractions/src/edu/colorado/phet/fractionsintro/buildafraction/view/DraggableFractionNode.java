@@ -36,7 +36,7 @@ public class DraggableFractionNode extends PNode {
                             }
 
                             @Override public void mouseDragged( final PInputEvent event ) {
-                                model.dragFraction( event.getDeltaRelativeTo( canvas.rootNode ) );
+                                model.dragFraction( id, event.getDeltaRelativeTo( canvas.rootNode ) );
                             }
 
                             @Override public void mouseReleased( final PInputEvent event ) {

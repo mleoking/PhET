@@ -33,4 +33,9 @@ public @Data class DraggableFraction {
     public DraggableFraction withDenominator( final Option<DraggableNumberID> denominator ) { return new DraggableFraction( id, draggableObject, numerator, denominator ); }
 
     public DraggableFraction withDragging( final boolean b ) { return withDraggableObject( draggableObject.withDragging( b ) ); }
+
+    //Determine whether the draggable fraction has the same ID as the one specified (i.e. that they are referring to the same model instance).
+    public boolean equalsID( final FractionID id ) { return this.id.equals( id ); }
+
+    public Vector2D getPosition() { return draggableObject.position; }
 }

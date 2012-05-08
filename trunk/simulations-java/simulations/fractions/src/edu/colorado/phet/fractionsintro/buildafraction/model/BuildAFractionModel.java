@@ -72,18 +72,18 @@ public class BuildAFractionModel {
         } );
     }
 
-    public void dragNumber( final PDimension deltaRelativeTo ) {
+    public void dragNumber( final PDimension delta ) {
         update( new ModelUpdate() {
             @Override public BuildAFractionState update( final BuildAFractionState state ) {
-                return state.dragNumbers( new Vector2D( deltaRelativeTo ) );
+                return state.dragNumbers( new Vector2D( delta ) );
             }
         } );
     }
 
-    public void dragFraction( final PDimension deltaRelativeTo ) {
+    public void dragFraction( final FractionID id, final PDimension delta ) {
         update( new ModelUpdate() {
             @Override public BuildAFractionState update( final BuildAFractionState state ) {
-                return state.dragFractions( new Vector2D( deltaRelativeTo ) );
+                return state.dragFraction( id, new Vector2D( delta ) );
             }
         } );
     }
