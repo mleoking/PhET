@@ -13,15 +13,16 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
-import static edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionState.RELEASE_ALL;
-
 /**
  * Bar node that the user can drag
  *
  * @author Sam Reid
  */
 public class DraggableNumberNode extends PNode {
+    public final DraggableNumberID id;
+
     public DraggableNumberNode( final DraggableNumberID id, final BuildAFractionModel model, final BuildAFractionCanvas canvas ) {
+        this.id = id;
         final DraggableNumberObserver observer = new DraggableNumberObserver( id ) {
             @Override public void applyChange( final Option<DraggableNumber> old, final Option<DraggableNumber> newOne ) {
                 removeAllChildren();
@@ -51,19 +52,7 @@ public class DraggableNumberNode extends PNode {
                             }
 
                             @Override public void mouseReleased( final PInputEvent event ) {
-                                Option<DraggableFractionNode> target = canvas.getDraggableNumberNodeDropTarget( DraggableNumberNode.this );
-//                                System.out.println( "target = " + target );
-                                if ( target.isSome() ) {
-                                    boolean numerator = DraggableNumberNode.this.getGlobalFullBounds().getCenterY() < target.some().getGlobalFullBounds().getCenterY();
-//                                    System.out.println( "attaching, numerator = " + numerator );
-
-                                    //TODO: make sure nothing already there
-                                    model.attachNumberToFraction( id, target.some().id, numerator );
-                                }
-                                else {
-                                    //                                model.draggableNumberNodeDropped( id );
-                                    model.update( RELEASE_ALL );
-                                }
+                                canvas.draggableNumberNodeReleased( DraggableNumberNode.this );
                             }
                         } );
                     }} );

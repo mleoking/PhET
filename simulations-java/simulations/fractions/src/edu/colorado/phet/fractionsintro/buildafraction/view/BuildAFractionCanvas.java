@@ -68,8 +68,10 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
     private final RichPNode picturesContainerLayer;
     private final RichPNode numbersContainerLayer;
     private static final Color CREAM = new Color( 251, 255, 218 );
+    private final BuildAFractionModel model;
 
     public BuildAFractionCanvas( final BuildAFractionModel model ) {
+        this.model = model;
         setBackground( CREAM );
         final Stroke stroke = new BasicStroke( 2 );
 
@@ -283,6 +285,9 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
             addChild( numberGraphic( number ) );
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
+
+                private DraggableNumberNode draggableNumberNode;
+
                 @Override public void mousePressed( final PInputEvent event ) {
 
                     //Find out where to put the bar in stage coordinate frame, transform through the root node.
@@ -292,7 +297,9 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                     final DraggableNumber draggableNumber = new DraggableNumber( DraggableNumberID.nextID(), new DraggableObject( new Vector2D( localBounds.getX(), localBounds.getY() ), true ), number, Option.<DefaultP2<FractionID, Boolean>>none() );
 
                     //Adding this listener before calling the update allows us to get the ChangeObserver callback.
-                    canvas.picturesContainerLayer.addChild( new DraggableNumberNode( draggableNumber.getID(), model, canvas ) );
+                    //Store a reference so that we can check for overlap on release
+                    draggableNumberNode = new DraggableNumberNode( draggableNumber.getID(), model, canvas );
+                    canvas.picturesContainerLayer.addChild( draggableNumberNode );
 
                     //Change the model
                     model.update( new ModelUpdate() {
@@ -303,7 +310,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                 }
 
                 @Override public void mouseReleased( final PInputEvent event ) {
-                    model.update( RELEASE_ALL );
+                    canvas.draggableNumberNodeReleased( draggableNumberNode );
                 }
 
                 @Override public void mouseDragged( final PInputEvent event ) {
@@ -402,5 +409,24 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
             }
         }
         throw new RuntimeException( "Not found" );
+    }
+
+    //When the user drops a DraggableNumberNode (either from dragging from the toolbox or from a draggable node), this code
+    //checks and attaches it to the target fractions (if any)
+    public void draggableNumberNodeReleased( DraggableNumberNode node ) {
+
+        Option<DraggableFractionNode> target = getDraggableNumberNodeDropTarget( node );
+//                                System.out.println( "target = " + target );
+        if ( target.isSome() ) {
+            boolean numerator = node.getGlobalFullBounds().getCenterY() < target.some().getGlobalFullBounds().getCenterY();
+//                                    System.out.println( "attaching, numerator = " + numerator );
+
+            //TODO: make sure nothing already there
+            model.attachNumberToFraction( node.id, target.some().id, numerator );
+        }
+        else {
+            //                                model.draggableNumberNodeDropped( id );
+            model.update( RELEASE_ALL );
+        }
     }
 }
