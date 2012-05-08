@@ -1,3 +1,4 @@
+Build a fraction: Make draggable numbers bigger, make draggable fraction bigger, center drag area on draggable fraction
 Build a fraction: Increased container size and removed stroke from pieces so they don't look like they are already in a container
 Build a fraction: Centered the drag area on the draggable fraction
 Build a fraction: Made the background cream

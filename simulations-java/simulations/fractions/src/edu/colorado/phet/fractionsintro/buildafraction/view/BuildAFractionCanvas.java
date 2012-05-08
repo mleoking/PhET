@@ -146,15 +146,17 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
         final PNode pictureView = new PNode() {{
             //Add a piece container toolbox the user can use to get containers
             addChild( new RichPNode() {{
-                final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 700, 125, 30, 30 ), stroke, Color.darkGray );
+                final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 700, 160, 30, 30 ), stroke, Color.darkGray );
                 addChild( border );
-
+                final double spacing = 60;
                 final F<Integer, PNode> toNumberTool = new F<Integer, PNode>() {
                     @Override public PNode f( final Integer i ) {
-                        return numberTool( i, model, BuildAFractionCanvas.this, i * 50 );
+                        return numberTool( i, model, BuildAFractionCanvas.this, i * spacing );
                     }
                 };
-                addChild( new FNode( range( 0, 10 ).map( toNumberTool ).cons( fractionTool( -50, model, BuildAFractionCanvas.this ) ) ) {{
+                final PNode fractionTool = fractionTool( -spacing, model, BuildAFractionCanvas.this );
+                fractionTool.translate( 0, -fractionTool.getFullBounds().getHeight() / 4 * 0.7 );//Fudge factor to line them up
+                addChild( new FNode( range( 0, 10 ).map( toNumberTool ).cons( fractionTool ) ) {{
                     centerFullBoundsOnPoint( border.getCenterX(), border.getCenterY() );
                 }} );
 
@@ -271,7 +273,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
         }};
     }
 
-    public static PNode numberTool( final int number, final BuildAFractionModel model, final BuildAFractionCanvas canvas, final int offsetX ) {
+    public static PNode numberTool( final int number, final BuildAFractionModel model, final BuildAFractionCanvas canvas, final double offsetX ) {
         return new PNode() {{
             addChild( numberGraphic( number ) );
             addInputEventListener( new CursorHandler() );
@@ -307,7 +309,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
         }};
     }
 
-    public static PNode fractionTool( final int offsetX, final BuildAFractionModel model, final BuildAFractionCanvas canvas ) {
+    public static PNode fractionTool( final double offsetX, final BuildAFractionModel model, final BuildAFractionCanvas canvas ) {
         return new PNode() {{
             addChild( emptyFractionGraphic() );
             addInputEventListener( new CursorHandler() );
@@ -351,9 +353,9 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
         return new RichPNode( background, box );
     }
 
-    private static PNode divisorLine() { return new PhetPPath( new Line2D.Double( 0, 0, 40, 0 ), new BasicStroke( 4, CAP_ROUND, JOIN_MITER ), black ); }
+    private static PNode divisorLine() { return new PhetPPath( new Line2D.Double( 0, 0, 50, 0 ), new BasicStroke( 4, CAP_ROUND, JOIN_MITER ), black ); }
 
-    private static PhetPPath box() {return new PhetPPath( new Rectangle2D.Double( 0, 0, 30, 40 ), new BasicStroke( 1, BasicStroke.CAP_SQUARE, JOIN_MITER, 1, new float[] { 10, 3 }, 0 ), red );}
+    private static PhetPPath box() {return new PhetPPath( new Rectangle2D.Double( 0, 0, 40, 50 ), new BasicStroke( 2, BasicStroke.CAP_SQUARE, JOIN_MITER, 1, new float[] { 10, 6 }, 0 ), red );}
 
     private PNode radioButton( IUserComponent component, final String text, final SettableProperty<Mode> mode, Mode value ) {
         return new PSwing( new PropertyRadioButton<Mode>( component, text, mode, value ) {{
@@ -362,5 +364,5 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
         }} );
     }
 
-    public static PNode numberGraphic( final int some ) { return new PhetPText( "" + some, new PhetFont( 24, true ) ); }
+    public static PNode numberGraphic( final int some ) { return new PhetPText( "" + some, new PhetFont( 64, true ) ); }
 }
