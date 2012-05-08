@@ -421,8 +421,21 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
             boolean numerator = node.getGlobalFullBounds().getCenterY() < target.some().getGlobalFullBounds().getCenterY();
 //                                    System.out.println( "attaching, numerator = " + numerator );
 
-            //TODO: make sure nothing already there
-            model.attachNumberToFraction( node.id, target.some().id, numerator );
+            //Don't allow zero to attach to denominator
+            final boolean triedToDivideByZero = !numerator && model.state.get().getDraggableNumber( node.id ).some().number == 0;
+
+            //Make sure nothing already there
+            final DraggableFraction targetModel = model.state.get().getDraggableFraction( target.some().id ).some();
+            final boolean somethingInNumerator = targetModel.numerator.isSome();
+            final boolean somethingInDenominator = targetModel.denominator.isSome();
+            boolean somethingAlreadyThere = ( numerator && somethingInNumerator ) || ( !numerator && somethingInDenominator );
+
+            if ( triedToDivideByZero || somethingAlreadyThere ) {
+                //illegal, do not do
+            }
+            else {
+                model.attachNumberToFraction( node.id, target.some().id, numerator );
+            }
         }
         else {
             //                                model.draggableNumberNodeDropped( id );
