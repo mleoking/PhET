@@ -4,6 +4,7 @@ import fj.Effect;
 import fj.F;
 import fj.F2;
 import fj.data.List;
+import fj.data.Option;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -31,10 +32,14 @@ import edu.colorado.phet.fractionsintro.buildafraction.controller.ModelUpdate;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionState;
 import edu.colorado.phet.fractionsintro.buildafraction.model.Container;
+import edu.colorado.phet.fractionsintro.buildafraction.model.ContainerID;
 import edu.colorado.phet.fractionsintro.buildafraction.model.DraggableFraction;
 import edu.colorado.phet.fractionsintro.buildafraction.model.DraggableNumber;
+import edu.colorado.phet.fractionsintro.buildafraction.model.DraggableNumberID;
 import edu.colorado.phet.fractionsintro.buildafraction.model.DraggableObject;
+import edu.colorado.phet.fractionsintro.buildafraction.model.FractionID;
 import edu.colorado.phet.fractionsintro.buildafraction.model.Mode;
+import edu.colorado.phet.fractionsintro.common.util.DefaultP2;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.matchinggame.view.UpdateNode;
 import edu.umd.cs.piccolo.PNode;
@@ -51,7 +56,6 @@ import static fj.data.List.range;
 import static java.awt.BasicStroke.CAP_ROUND;
 import static java.awt.BasicStroke.JOIN_MITER;
 import static java.awt.Color.black;
-import static java.awt.Color.red;
 
 /**
  * Main simulation canvas for "build a fraction" tab
@@ -111,7 +115,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                 addChild( border );
                 final F<Integer, PNode> toBar = new F<Integer, PNode>() {
                     @Override public PNode f( final Integer i ) {
-                        return barTool( new Container( new DraggableObject( ObjectID.nextID(), rowColumnToPoint( i % 2, i / 2 ), false ), i + 1 ), model, BuildAFractionCanvas.this );
+                        return barTool( new Container( ContainerID.nextID(), new DraggableObject( rowColumnToPoint( i % 2, i / 2 ), false ), i + 1 ), model, BuildAFractionCanvas.this );
                     }
                 };
                 addChild( new FNode( range( 0, 8 ).map( toBar ) ) {{
@@ -131,7 +135,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
 
                 final F<Integer, PNode> toBar = new F<Integer, PNode>() {
                     @Override public PNode f( final Integer i ) {
-                        return pieceTool( new Container( new DraggableObject( ObjectID.nextID(), rowColumnToPoint( i % 2, i / 2 ), false ), i + 1 ), model, BuildAFractionCanvas.this );
+                        return pieceTool( new Container( ContainerID.nextID(), new DraggableObject( rowColumnToPoint( i % 2, i / 2 ), false ), i + 1 ), model, BuildAFractionCanvas.this );
                     }
                 };
                 addChild( new FNode( range( 0, 8 ).map( toBar ) ) {{
@@ -223,7 +227,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                     PBounds bounds = getGlobalFullBounds();
                     Rectangle2D localBounds = canvas.rootNode.globalToLocal( bounds );
 
-                    final Container c = new Container( new DraggableObject( ObjectID.nextID(), new Vector2D( localBounds.getX(), localBounds.getY() ), true ), container.numSegments );
+                    final Container c = new Container( ContainerID.nextID(), new DraggableObject( new Vector2D( localBounds.getX(), localBounds.getY() ), true ), container.numSegments );
                     canvas.numbersContainerLayer.addChild( new DraggablePieceNode( c.getID(), model, canvas ) );
                     model.update( new ModelUpdate() {
                         @Override public BuildAFractionState update( final BuildAFractionState state ) {
@@ -254,7 +258,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                     PBounds bounds = getGlobalFullBounds();
                     Rectangle2D localBounds = canvas.rootNode.globalToLocal( bounds );
 
-                    final Container c = new Container( new DraggableObject( ObjectID.nextID(), new Vector2D( localBounds.getX(), localBounds.getY() ), true ), container.numSegments );
+                    final Container c = new Container( ContainerID.nextID(), new DraggableObject( new Vector2D( localBounds.getX(), localBounds.getY() ), true ), container.numSegments );
                     model.update( new ModelUpdate() {
                         @Override public BuildAFractionState update( final BuildAFractionState state ) {
                             return state.addContainer( c );
@@ -285,7 +289,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                     PBounds bounds = getGlobalFullBounds();
                     Rectangle2D localBounds = canvas.rootNode.globalToLocal( bounds );
 
-                    final DraggableNumber draggableNumber = new DraggableNumber( new DraggableObject( ObjectID.nextID(), new Vector2D( localBounds.getX(), localBounds.getY() ), true ), number );
+                    final DraggableNumber draggableNumber = new DraggableNumber( DraggableNumberID.nextID(), new DraggableObject( new Vector2D( localBounds.getX(), localBounds.getY() ), true ), number, Option.<DefaultP2<FractionID, Boolean>>none() );
 
                     //Adding this listener before calling the update allows us to get the ChangeObserver callback.
                     canvas.picturesContainerLayer.addChild( new DraggableNumberNode( draggableNumber.getID(), model, canvas ) );
@@ -321,7 +325,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                     PBounds bounds = getGlobalFullBounds();
                     Rectangle2D localBounds = canvas.rootNode.globalToLocal( bounds );
 
-                    final DraggableFraction draggableFraction = new DraggableFraction( new DraggableObject( ObjectID.nextID(), new Vector2D( localBounds.getX(), localBounds.getY() ), true ) );
+                    final DraggableFraction draggableFraction = new DraggableFraction( FractionID.nextID(), new DraggableObject( new Vector2D( localBounds.getX(), localBounds.getY() ), true ), Option.<DraggableNumberID>none(), Option.<DraggableNumberID>none() );
 
                     //Adding this listener before calling the update allows us to get the ChangeObserver callback.
                     canvas.picturesContainerLayer.addChild( new DraggableFractionNode( draggableFraction.getID(), model, canvas ) );
@@ -346,17 +350,23 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
         }};
     }
 
-    public static PNode emptyFractionGraphic() {
-        final VBox box = new VBox( box(), divisorLine(), box() );
+    public static PNode emptyFractionGraphic( boolean showNumeratorOutline, boolean showDenominatorOutline ) {
+        final VBox box = new VBox( box( showNumeratorOutline ), divisorLine(), box( showDenominatorOutline ) );
 
         //Show a background behind it to make the entire shape draggable
         final PhetPPath background = new PhetPPath( RectangleUtils.expand( box.getFullBounds(), 5, 5 ), TRANSPARENT );
         return new RichPNode( background, box );
     }
 
+    public static PNode emptyFractionGraphic() {
+        return emptyFractionGraphic( true, true );
+    }
+
     private static PNode divisorLine() { return new PhetPPath( new Line2D.Double( 0, 0, 50, 0 ), new BasicStroke( 4, CAP_ROUND, JOIN_MITER ), black ); }
 
-    private static PhetPPath box() {return new PhetPPath( new Rectangle2D.Double( 0, 0, 40, 50 ), new BasicStroke( 2, BasicStroke.CAP_SQUARE, JOIN_MITER, 1, new float[] { 10, 6 }, 0 ), red );}
+    private static PhetPPath box( boolean showOutline ) {
+        return new PhetPPath( new Rectangle2D.Double( 0, 0, 40, 50 ), new BasicStroke( 2, BasicStroke.CAP_SQUARE, JOIN_MITER, 1, new float[] { 10, 6 }, 0 ), showOutline ? Color.red : TRANSPARENT );
+    }
 
     private PNode radioButton( IUserComponent component, final String text, final SettableProperty<Mode> mode, Mode value ) {
         return new PSwing( new PropertyRadioButton<Mode>( component, text, mode, value ) {{
@@ -366,4 +376,31 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
     }
 
     public static PNode numberGraphic( final int some ) { return new PhetPText( "" + some, new PhetFont( 64, true ) ); }
+
+    //Find what draggable fraction node the specified DraggableNumberNode is over for purposes of snapping/attaching
+    public Option<DraggableFractionNode> getDraggableNumberNodeDropTarget( final DraggableNumberNode draggableNumberNode ) {
+        for ( PNode node : picturesContainerLayer.getChildren() ) {
+            //TODO: could split into 2 subnodes to segregate types
+            if ( node instanceof DraggableFractionNode ) {
+                DraggableFractionNode draggableFractionNode = (DraggableFractionNode) node;
+                if ( draggableFractionNode.getGlobalFullBounds().intersects( draggableNumberNode.getGlobalFullBounds() ) ) {
+                    return Option.some( draggableFractionNode );
+                }
+            }
+        }
+        return Option.none();
+    }
+
+    public DraggableFractionNode getDraggableFractionNode( final FractionID fractionID ) {
+        for ( PNode node : picturesContainerLayer.getChildren() ) {
+            //TODO: could split into 2 subnodes to segregate types
+            if ( node instanceof DraggableFractionNode ) {
+                DraggableFractionNode draggableFractionNode = (DraggableFractionNode) node;
+                if ( draggableFractionNode.id.equals( fractionID ) ) {
+                    return draggableFractionNode;
+                }
+            }
+        }
+        throw new RuntimeException( "Not found" );
+    }
 }

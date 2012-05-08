@@ -88,4 +88,13 @@ public class BuildAFractionModel {
             }
         } );
     }
+
+    //TODO: improve typing for the ObjectID?  Could have DraggableNumberID, etc.
+    public void attachNumberToFraction( final DraggableNumberID number, final FractionID fraction, final boolean numerator ) {
+        update( new ModelUpdate() {
+            @Override public BuildAFractionState update( final BuildAFractionState state ) {
+                return state.attachNumberToFraction( number, fraction, numerator );
+            }
+        } );
+    }
 }
