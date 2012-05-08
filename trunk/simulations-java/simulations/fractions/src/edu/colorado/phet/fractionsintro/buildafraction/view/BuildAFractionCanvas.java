@@ -26,6 +26,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
+import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractions.view.FNode;
@@ -74,7 +75,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
     public BuildAFractionCanvas( final BuildAFractionModel model ) {
         this.model = model;
         setBackground( CREAM );
-        final Stroke stroke = new BasicStroke( 2 );
+        final Stroke controlPanelStroke = new BasicStroke( 2 );
 
         final SettableProperty<Mode> mode = model.toProperty(
                 new F<BuildAFractionState, Mode>() {
@@ -93,11 +94,11 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                                                        radioButton( numbersRadioButton, NUMBERS, mode, Mode.NUMBERS ),
                                                        radioButton( picturesRadioButton, PICTURES, mode, Mode.PICTURES ) );
 
-        //IDEA: show the target in the box but grayed out and dotted line.  When the user has a match, it turns red dotted line.  When they drop it in, it fills in.
-        //Would this have worked for build a molecule?
-        List<PNode> scoreBoxes = range( 0, 4 ).map( new F<Integer, PNode>() {
+        List<PNode> scoreBoxes = range( 0, 3 ).map( new F<Integer, PNode>() {
             @Override public PNode f( final Integer integer ) {
-                return new PhetPPath( new RoundRectangle2D.Double( 0, 0, 120, 120, 30, 30 ), stroke, Color.darkGray );
+                PNode representationBox = new PhetPText( "3/7", new PhetFont( 28, true ) );
+                return new HBox( new PhetPPath( new RoundRectangle2D.Double( 0, 0, 160, 120, 30, 30 ), controlPanelStroke, Color.darkGray ),
+                                 representationBox );
             }
         } );
         final Collection<PNode> nodes = scoreBoxes.toCollection();
@@ -114,7 +115,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
         final PNode numberView = new PNode() {{
             ////Add a piece container toolbox the user can use to get containers
             addChild( new RichPNode() {{
-                final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 700, 125, 30, 30 ), stroke, Color.darkGray );
+                final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 700, 125, 30, 30 ), controlPanelStroke, Color.darkGray );
                 addChild( border );
                 final F<Integer, PNode> toBar = new F<Integer, PNode>() {
                     @Override public PNode f( final Integer i ) {
@@ -129,7 +130,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
 
             //Bucket view at the bottom of the screen
             addChild( new RichPNode() {{
-                final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 700, 150, 30, 30 ), stroke, Color.darkGray );
+                final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 700, 150, 30, 30 ), controlPanelStroke, Color.darkGray );
                 addChild( border );
 
                 //            BucketView bucketView = new BucketView( new Bucket( 150, -50, new Dimension2DDouble( 200, 100 ), Color.blue, "pieces" ), ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 1, -1 ) );
@@ -154,7 +155,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
         final PNode pictureView = new PNode() {{
             //Add a piece container toolbox the user can use to get containers
             addChild( new RichPNode() {{
-                final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 700, 160, 30, 30 ), stroke, Color.darkGray );
+                final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 700, 160, 30, 30 ), controlPanelStroke, Color.darkGray );
                 addChild( border );
                 final double spacing = 60;
                 final F<Integer, PNode> toNumberTool = new F<Integer, PNode>() {
