@@ -28,6 +28,9 @@ public class GeneExpressionBasicsResources {
         public static final String REGULATORY_REGION = RESOURCES.getLocalizedString( "regulatoryRegion" );
         public static final String RIBOSOME = RESOURCES.getLocalizedString( "ribosome" );
         public static final String RNA_POLYMERASE = RESOURCES.getLocalizedString( "rnaPolymerase" );
+        public static final String TAB__CELL_GENE_EXPRESSION = RESOURCES.getLocalizedString( "tab.cellGeneExpression" );
+        public static final String TAB__MESSENGER_RNA_PRODUCTION = RESOURCES.getLocalizedString( "tab.messengerRnaProduction" );
+        public static final String TAB__MULTIPLE_CELLS = RESOURCES.getLocalizedString( "tab.multipleCells" );
         public static final String TRANSCRIBED_REGION = RESOURCES.getLocalizedString( "transcribedRegion" );
         public static final String YOUR_PROTEIN_COLLECTION = RESOURCES.getLocalizedString( "yourProteinCollection" );
     }
