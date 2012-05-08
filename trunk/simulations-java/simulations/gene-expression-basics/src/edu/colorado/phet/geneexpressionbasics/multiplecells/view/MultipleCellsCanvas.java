@@ -30,6 +30,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
+import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources;
 import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsSimSharing.UserComponents;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.model.Cell;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.model.MultipleCellsModel;
@@ -37,6 +38,9 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
+
+import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources.Strings.MANY;
+import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources.Strings.ONE;
 
 /**
  * Main canvas for the Multiple Cells tab.
@@ -252,15 +256,12 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
 
             // Create the slider.
             IntegerHSliderNode sliderNode = new IntegerHSliderNode( UserComponents.numberOfCellsSlider, 1, MultipleCellsModel.MAX_CELLS, 4, 100, model.numberOfVisibleCells );
-            // TODO: i18n
-            sliderNode.addLabel( 1, new PLabel( "One", 14 ) );
-            // TODO: i18n
-            sliderNode.addLabel( (double) MultipleCellsModel.MAX_CELLS, new PLabel( "Many", 14 ) );
+            sliderNode.addLabel( 1, new PLabel( ONE, 14 ) );
+            sliderNode.addLabel( (double) MultipleCellsModel.MAX_CELLS, new PLabel( MANY, 14 ) );
 
             // Put the title and slider together in a box and add to the node
             // and enclose in a control panel.
-            // TODO: i18n
-            ControlPanelNode controlPanel = new ControlPanelNode( new VBox( new PhetPText( "Cells", new PhetFont( 16, true ) ), sliderNode ),
+            ControlPanelNode controlPanel = new ControlPanelNode( new VBox( new PhetPText( GeneExpressionBasicsResources.Strings.CELLS, new PhetFont( 16, true ) ), sliderNode ),
                                                                   new Color( 245, 205, 245 ) );
 
             // Add the control panel as a child.

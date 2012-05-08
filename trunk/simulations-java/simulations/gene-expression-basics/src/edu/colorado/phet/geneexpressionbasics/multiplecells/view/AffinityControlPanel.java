@@ -2,6 +2,7 @@
 package edu.colorado.phet.geneexpressionbasics.multiplecells.view;
 
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources;
 import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsSimSharing.UserComponents;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.model.CellProteinSynthesisSimulator;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.model.MultipleCellsModel;
@@ -15,19 +16,18 @@ import edu.colorado.phet.geneexpressionbasics.multiplecells.model.MultipleCellsM
 public class AffinityControlPanel extends CellParameterControlPanel {
 
     public AffinityControlPanel( MultipleCellsModel model ) {
-        // TODO: i18n
-        super( "Affinities", new VBox(
+        super( GeneExpressionBasicsResources.Strings.AFFINITIES, new VBox(
                 20,
                 new LogarithmicParameterSliderNode( UserComponents.transcriptionFactorAffinitySlider,
                                                     CellProteinSynthesisSimulator.TF_ASSOCIATION_PROBABILITY_RANGE.getMin(),
                                                     CellProteinSynthesisSimulator.TF_ASSOCIATION_PROBABILITY_RANGE.getMax(),
                                                     model.transcriptionFactorAssociationProbability,
-                                                    "Positive Transcription Factor" ),
+                                                    GeneExpressionBasicsResources.Strings.POSITIVE_TRANSCRIPTION_FACTOR ),
                 new DoubleParameterSliderNode( UserComponents.polymeraseAffinitySlider,
                                                CellProteinSynthesisSimulator.POLYMERASE_ASSOCIATION_PROBABILITY_RANGE.getMin(),
                                                CellProteinSynthesisSimulator.POLYMERASE_ASSOCIATION_PROBABILITY_RANGE.getMax(),
                                                model.polymeraseAssociationProbability,
-                                               "Polymerase" )
+                                               GeneExpressionBasicsResources.Strings.POLYMERASE )
         ) );
     }
 }
