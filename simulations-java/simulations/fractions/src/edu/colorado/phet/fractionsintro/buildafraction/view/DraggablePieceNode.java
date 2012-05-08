@@ -5,8 +5,8 @@ import fj.data.Option;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.buildafraction.model.Container;
+import edu.colorado.phet.fractionsintro.buildafraction.model.ContainerID;
 import edu.colorado.phet.fractionsintro.buildafraction.model.ContainerObserver;
-import edu.colorado.phet.fractionsintro.buildafraction.model.ObjectID;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -19,7 +19,7 @@ import static edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFracti
  * @author Sam Reid
  */
 public class DraggablePieceNode extends PNode {
-    public DraggablePieceNode( final ObjectID id, final BuildAFractionModel model, final BuildAFractionCanvas canvas ) {
+    public DraggablePieceNode( final ContainerID id, final BuildAFractionModel model, final BuildAFractionCanvas canvas ) {
         model.addObserver( new ContainerObserver( id ) {
             @Override public void applyChange( final Option<Container> old, final Option<Container> newOne ) {
                 removeAllChildren();

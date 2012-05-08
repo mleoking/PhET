@@ -33,7 +33,7 @@ public class BuildAFractionModel {
 
     public void removeObserver( ChangeObserver<BuildAFractionState> observer ) { state.removeObserver( observer ); }
 
-    public void startDraggingContainer( final ObjectID container ) {
+    public void startDraggingContainer( final ContainerID container ) {
         update( new ModelUpdate() {
             @Override public BuildAFractionState update( final BuildAFractionState state ) {
                 return state.startDraggingContainer( container );
@@ -56,7 +56,7 @@ public class BuildAFractionModel {
     }
 
     //TODO: should the argument type be DraggableNumber then extract the id from it?
-    public void startDraggingNumber( final ObjectID id ) {
+    public void startDraggingNumber( final DraggableNumberID id ) {
         update( new ModelUpdate() {
             @Override public BuildAFractionState update( final BuildAFractionState state ) {
                 return state.startDraggingNumber( id );
@@ -64,7 +64,7 @@ public class BuildAFractionModel {
         } );
     }
 
-    public void startDraggingFraction( final ObjectID id ) {
+    public void startDraggingFraction( final FractionID id ) {
         update( new ModelUpdate() {
             @Override public BuildAFractionState update( final BuildAFractionState state ) {
                 return state.startDraggingFraction( id );

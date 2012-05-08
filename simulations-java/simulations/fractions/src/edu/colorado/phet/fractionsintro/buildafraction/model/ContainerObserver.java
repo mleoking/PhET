@@ -11,9 +11,9 @@ import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
  * @author Sam Reid
  */
 public abstract class ContainerObserver implements ChangeObserver<BuildAFractionState> {
-    public final ObjectID id;
+    public final ContainerID id;
 
-    public ContainerObserver( final ObjectID id ) {this.id = id;}
+    public ContainerObserver( final ContainerID id ) {this.id = id;}
 
     @Override public void update( final BuildAFractionState newValue, final BuildAFractionState oldValue ) {
         final Option<Container> old = oldValue.getContainer( id );
