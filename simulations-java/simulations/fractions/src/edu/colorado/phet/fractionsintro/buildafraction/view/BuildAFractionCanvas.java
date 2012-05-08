@@ -180,15 +180,15 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
         return new Vector2D( x, y );
     }
 
-    final static double barWidth = 120;
-    static final double barHeight = 25;
+    final static double barWidth = 145;
+    static final double barHeight = 40;
 
     public static PNode barGraphic( final Container container ) {
         return new PNode() {{
             final double sliceWidth = barWidth / container.numSegments;
             List<PNode> nodes = range( 0, container.numSegments ).map( new F<Integer, PNode>() {
                 @Override public PNode f( final Integer i ) {
-                    return new PhetPPath( new Rectangle2D.Double( i * sliceWidth, 0, sliceWidth, barHeight ), TRANSPARENT, new BasicStroke( 1 ), black );
+                    return new PhetPPath( new Rectangle2D.Double( i * sliceWidth, 0, sliceWidth, barHeight ), TRANSPARENT, new BasicStroke( 2 ), black );
                 }
             } );
             addChild( new FNode( nodes ) );
@@ -201,7 +201,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
             final double sliceWidth = barWidth / container.numSegments;
             List<PNode> nodes = range( 0, 1 ).map( new F<Integer, PNode>() {
                 @Override public PNode f( final Integer i ) {
-                    return new PhetPPath( new Rectangle2D.Double( i * sliceWidth, 0, sliceWidth, barHeight ), Color.green, new BasicStroke( 1 ), black );
+                    return new PhetPPath( new Rectangle2D.Double( i * sliceWidth, 0, sliceWidth, barHeight ), Color.green );
                 }
             } );
             addChild( new FNode( nodes ) );
@@ -221,12 +221,12 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                     Rectangle2D localBounds = canvas.rootNode.globalToLocal( bounds );
 
                     final Container c = new Container( new DraggableObject( ObjectID.nextID(), new Vector2D( localBounds.getX(), localBounds.getY() ), true ), container.numSegments );
+                    canvas.numbersContainerLayer.addChild( new DraggablePieceNode( c.getID(), model, canvas ) );
                     model.update( new ModelUpdate() {
                         @Override public BuildAFractionState update( final BuildAFractionState state ) {
                             return state.addContainer( c );
                         }
                     } );
-                    canvas.numbersContainerLayer.addChild( new DraggablePieceNode( c.getID(), model, canvas ) );
                 }
 
                 @Override public void mouseReleased( final PInputEvent event ) {
