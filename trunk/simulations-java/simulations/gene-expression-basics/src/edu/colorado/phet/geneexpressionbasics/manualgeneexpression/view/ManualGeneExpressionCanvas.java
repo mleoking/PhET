@@ -45,6 +45,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.flipX;
 import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources.Images.GRAY_ARROW;
+import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources.Strings.ZOOM_OUT;
 
 /**
  * Primary canvas for the tab in which the user interacts with individual
@@ -353,7 +354,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
             } );
         }};
         frontControlsLayer.addChild( zoomInButton );
-        final PNode zoomOutButton = new TextButtonNode( "Zoom Out", new PhetFont( 18 ), Color.YELLOW ) {{
+        final PNode zoomOutButton = new TextButtonNode( ZOOM_OUT, new PhetFont( 18 ), Color.YELLOW ) {{
             centerFullBoundsOnPoint( previousGeneButton.getFullBoundsReference().getCenterX(), previousGeneButton.getFullBoundsReference().getMaxY() + 40 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {

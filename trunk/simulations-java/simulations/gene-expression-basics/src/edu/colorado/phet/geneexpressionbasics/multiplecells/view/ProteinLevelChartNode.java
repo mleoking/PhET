@@ -34,6 +34,9 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
+import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources.Strings.AVERAGE_PROTEIN_LEVEL_VS_TIME;
+import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources.Strings.TIME;
+
 /**
  * This class defines a PNode that displays the average protein level for a
  * population of cells.
@@ -56,11 +59,10 @@ public class ProteinLevelChartNode extends PNode {
     public ProteinLevelChartNode( final Property<Double> averageProteinLevelProperty, final IClock clock ) {
         XYDataset dataSet = new XYSeriesCollection( dataSeries );
         // Create the chart itself, i.e. the place where data will be shown.
-        // TODO: i18n
-        JFreeChart chart = createXYLineChart( "Average Protein Level vs. Time", "Time", null, dataSet, PlotOrientation.VERTICAL );
+        JFreeChart chart = createXYLineChart( AVERAGE_PROTEIN_LEVEL_VS_TIME, TIME, null, dataSet, PlotOrientation.VERTICAL );
 
         // Create and configure the x axis.
-        NumberAxis xAxis = new NumberAxis( "Time(s)" ); // TODO: i18n
+        NumberAxis xAxis = new NumberAxis( "TBD" ); // TODO: i18n
         xAxis.setRange( 0, TIME_SPAN );
         xAxis.setNumberFormatOverride( new DecimalFormat( "##" ) );
         xAxis.setLabelFont( new PhetFont( 12 ) );
@@ -190,7 +192,7 @@ public class ProteinLevelChartNode extends PNode {
 
             // Create the main label.
             // TODO: i18n
-            PNode mainLabel = new ZeroOffsetNode( new PText( "Average Protein Level" ) {{
+            PNode mainLabel = new ZeroOffsetNode( new PText( GeneExpressionBasicsResources.Strings.AVERAGE_PROTEIN_LEVEL ) {{
                 setFont( new PhetFont( 14 ) );
                 rotate( -Math.PI / 2 );
             }} );

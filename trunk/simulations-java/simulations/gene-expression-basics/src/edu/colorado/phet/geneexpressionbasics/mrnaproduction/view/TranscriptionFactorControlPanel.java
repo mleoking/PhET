@@ -52,12 +52,12 @@ public class TranscriptionFactorControlPanel extends PNode {
         final IntegerProperty tfLevelProperty;
         if ( transcriptionFactorConfig.isPositive ) {
             transcriptionFactorConfig = model.POSITIVE_TRANSCRIPTION_FACTOR_CONFIG;
-            titleText = "<center>Positive<br>Transcription Factor</center>";
+            titleText = GeneExpressionBasicsResources.Strings.POSITIVE_TRANSCRIPTION_FACTOR_HTML;
             tfLevelProperty = model.positiveTranscriptionFactorCount;
         }
         else {
             transcriptionFactorConfig = model.NEGATIVE_TRANSCRIPTION_FACTOR_CONFIG;
-            titleText = "<center>Negative<br>Transcription Factor</center>";
+            titleText = GeneExpressionBasicsResources.Strings.NEGATIVE_TRANSCRIPTION_FACTOR_HTML;
             tfLevelProperty = model.negativeTranscriptionFactorCount;
         }
 

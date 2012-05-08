@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.RnaPolymerase;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor;
@@ -48,7 +49,7 @@ public class PolymeraseAffinityControlPanel extends PNode {
     public PolymeraseAffinityControlPanel( TranscriptionFactorConfig tfConfig, double minHeight, Property<Double> polymeraseAffinityProperty ) {
 
         // Create the title.
-        PNode title = new PText( "RNA Polymerase" ) {{
+        PNode title = new PText( GeneExpressionBasicsResources.Strings.RNA_POLYMERASE ) {{
             setFont( new PhetFont( 16, true ) );
         }};
 

@@ -39,8 +39,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources.Strings.MANY;
-import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources.Strings.ONE;
+import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources.Strings.*;
 
 /**
  * Main canvas for the Multiple Cells tab.
@@ -163,7 +162,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         }};
 
         // Create button for showing a picture of real fluorescent cells.
-        PNode showRealCells = new HTMLImageButtonNode( "Show Real Cells", new PhetFont( 18 ), Color.YELLOW ) {{
+        PNode showRealCells = new HTMLImageButtonNode( SHOW_REAL_CELLS, new PhetFont( 18 ), Color.YELLOW ) {{
             centerFullBoundsOnPoint( concentrationControlPanel.getFullBoundsReference().getCenterX(), resetAllButton.getFullBoundsReference().getCenterY() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
