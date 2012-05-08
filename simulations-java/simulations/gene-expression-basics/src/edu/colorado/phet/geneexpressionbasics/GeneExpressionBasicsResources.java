@@ -15,7 +15,12 @@ public class GeneExpressionBasicsResources {
 
     //Strings
     public static class Strings {
-
+        public static final String BIOMOLECULE_TOOLBOX = RESOURCES.getLocalizedString( "biomoleculeToolbox" );
+        public static final String MRNA_DESTROYER = RESOURCES.getLocalizedString( "mrnaDestroyer" );
+        public static final String NEGATIVE_TRANSCRIPTION_FACTOR = RESOURCES.getLocalizedString( "negativeTranscriptionFactor" );
+        public static final String POSITIVE_TRANSCRIPTION_FACTOR = RESOURCES.getLocalizedString( "positiveTranscriptionFactor" );
+        public static final String RIBOSOME = RESOURCES.getLocalizedString( "ribosome" );
+        public static final String RNA_POLYMERASE = RESOURCES.getLocalizedString( "rnaPolymerase" );
     }
 
     //Images

@@ -19,7 +19,6 @@ public class ManualGeneExpressionModule extends Module {
     }
 
     private ManualGeneExpressionModule( String name, ManualGeneExpressionModel model ) {
-        // TODO: i18n
         super( name, model.getClock() );
         this.model = model;
         canvas = new ManualGeneExpressionCanvas( model );
