@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
+import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel;
@@ -28,6 +29,8 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Transcr
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.swing.SwingLayoutNode;
+
+import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources.Strings.*;
 
 /**
  * This class defines the box on the user interface from which the user can
@@ -54,8 +57,7 @@ public class BiomoleculeToolBoxNode extends PNode {
             constraints.gridx = 0;
             constraints.gridy = 0;
             constraints.gridwidth = 2;
-            // TODO: i18n
-            addChild( new PText( "Biomolecule Toolbox" ) {{
+            addChild( new PText( BIOMOLECULE_TOOLBOX ) {{
                 setFont( TITLE_FONT );
             }}, constraints );
 
@@ -70,8 +72,7 @@ public class BiomoleculeToolBoxNode extends PNode {
             // Positive transcription factor(s).
             for ( TranscriptionFactorConfig tfConfig : gene.getTranscriptionFactorConfigs() ) {
                 if ( tfConfig.isPositive ) {
-                    // TODO: i18n
-                    addChild( new RowLabel( "<center>Positive Transcription<br>Factor</center>" ), constraints );
+                    addChild( new RowLabel( POSITIVE_TRANSCRIPTION_FACTOR ), constraints );
                     constraints.gridx++;
                     constraints.insets.left = 20;
                     addChild( new HBox( addCreatorNode( new TranscriptionFactorCreatorNode( BiomoleculeToolBoxNode.this, tfConfig, true ) ) ), constraints );
@@ -82,8 +83,7 @@ public class BiomoleculeToolBoxNode extends PNode {
             }
 
             // Polymerase.
-            // TODO: i18n
-            addChild( new RowLabel( "RNA Polymerase" ), constraints );
+            addChild( new RowLabel( RNA_POLYMERASE ), constraints );
             constraints.gridx++;
             constraints.insets.left = 20;
             addChild( new HBox( addCreatorNode( new RnaPolymeraseCreatorNode( BiomoleculeToolBoxNode.this ) ),
@@ -94,8 +94,7 @@ public class BiomoleculeToolBoxNode extends PNode {
             constraints.gridx = 0;
             constraints.gridy++;
             constraints.insets.left = 0;
-            // TODO: i18n
-            addChild( new RowLabel( "Ribosome" ), constraints );
+            addChild( new RowLabel( GeneExpressionBasicsResources.Strings.RIBOSOME ), constraints );
 
             constraints.gridx++;
             constraints.insets.left = 20;
@@ -107,8 +106,7 @@ public class BiomoleculeToolBoxNode extends PNode {
             constraints.gridx = 0;
             constraints.gridy++;
             constraints.insets.left = 0;
-            // TODO: i18n
-            addChild( new RowLabel( "mRNA Destroyer" ), constraints );
+            addChild( new RowLabel( MRNA_DESTROYER ), constraints );
 
             constraints.gridx++;
             constraints.insets.left = 20;
@@ -122,8 +120,7 @@ public class BiomoleculeToolBoxNode extends PNode {
                     constraints.gridx = 0;
                     constraints.gridy++;
                     constraints.insets.left = 0;
-                    // TODO: i18n
-                    addChild( new RowLabel( "<center>Negative Transcription<br>Factor</center>" ), constraints );
+                    addChild( new RowLabel( GeneExpressionBasicsResources.Strings.NEGATIVE_TRANSCRIPTION_FACTOR ), constraints );
                     constraints.gridx++;
                     constraints.insets.left = 20;
                     addChild( new HBox( addCreatorNode( new TranscriptionFactorCreatorNode( BiomoleculeToolBoxNode.this, tfConfig, true ) ) ), constraints );
