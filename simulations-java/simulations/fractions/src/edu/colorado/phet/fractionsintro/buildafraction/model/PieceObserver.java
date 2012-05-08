@@ -11,15 +11,15 @@ import edu.colorado.phet.fractionsintro.buildafraction.view.ObjectID;
  *
  * @author Sam Reid
  */
-public abstract class DraggableFractionObserver implements ChangeObserver<BuildAFractionState> {
+public abstract class PieceObserver implements ChangeObserver<BuildAFractionState> {
     public final ObjectID id;
 
-    public DraggableFractionObserver( final ObjectID id ) {this.id = id;}
+    public PieceObserver( final ObjectID id ) {this.id = id;}
 
     @Override public void update( final BuildAFractionState newValue, final BuildAFractionState oldValue ) {
-        final Option<DraggableFraction> old = oldValue.getDraggableFraction( id );
-        final Option<DraggableFraction> newOne = newValue.getDraggableFraction( id );
-        boolean equal = Equal.optionEqual( Equal.<DraggableFraction>anyEqual() ).eq( newOne, old );
+        final Option<Piece> old = oldValue.getPiece( id );
+        final Option<Piece> newOne = newValue.getPiece( id );
+        boolean equal = Equal.optionEqual( Equal.<Piece>anyEqual() ).eq( newOne, old );
 
         //after detecting that a change occurred, call the listener method
         if ( !equal ) {
@@ -28,5 +28,5 @@ public abstract class DraggableFractionObserver implements ChangeObserver<BuildA
     }
 
     //Listener method called after change occurs
-    public abstract void applyChange( final Option<DraggableFraction> old, final Option<DraggableFraction> newOne );
+    public abstract void applyChange( final Option<Piece> old, final Option<Piece> newOne );
 }

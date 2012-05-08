@@ -4,6 +4,7 @@ import fj.data.Option;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
+import edu.colorado.phet.fractionsintro.buildafraction.model.DraggableFraction;
 import edu.colorado.phet.fractionsintro.buildafraction.model.DraggableFractionObserver;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -27,11 +28,11 @@ public class DraggableFractionNode extends PNode {
                         addInputEventListener( new CursorHandler() );
                         addInputEventListener( new PBasicInputEventHandler() {
                             @Override public void mousePressed( final PInputEvent event ) {
-                                model.startDraggingNumber( id );
+                                model.startDraggingFraction( id );
                             }
 
                             @Override public void mouseDragged( final PInputEvent event ) {
-                                model.dragNumber( event.getDeltaRelativeTo( canvas.rootNode ) );
+                                model.dragFraction( event.getDeltaRelativeTo( canvas.rootNode ) );
                             }
 
                             @Override public void mouseReleased( final PInputEvent event ) {
