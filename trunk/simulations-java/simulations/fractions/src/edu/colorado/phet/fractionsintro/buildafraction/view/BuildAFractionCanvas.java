@@ -62,7 +62,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
     private static final Paint TRANSPARENT = new Color( 0, 0, 0, 0 );
     private final RichPNode picturesContainerLayer;
     private final RichPNode numbersContainerLayer;
-    private static final Color CREAM = new Color( 255, 252, 209 );//a little brighter
+    private static final Color CREAM = new Color( 251, 255, 218 );
 
     public BuildAFractionCanvas( final BuildAFractionModel model ) {
         setBackground( CREAM );
