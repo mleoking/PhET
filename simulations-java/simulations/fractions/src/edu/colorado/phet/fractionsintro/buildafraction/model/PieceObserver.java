@@ -4,7 +4,6 @@ import fj.Equal;
 import fj.data.Option;
 
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
-import edu.colorado.phet.fractionsintro.buildafraction.view.ObjectID;
 
 /**
  * Provides a listener layer interface for listening to a specific container and whether it enters or leaves the model.

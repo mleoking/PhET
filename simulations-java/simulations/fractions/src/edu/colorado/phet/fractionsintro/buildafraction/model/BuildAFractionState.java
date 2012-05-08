@@ -7,7 +7,6 @@ import lombok.Data;
 
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.buildafraction.controller.ModelUpdate;
-import edu.colorado.phet.fractionsintro.buildafraction.view.ObjectID;
 
 /**
  * Immutable model state for build a fraction.
@@ -72,8 +71,13 @@ public @Data class BuildAFractionState {
             }
         } ) ).
                 withDraggableNumbers( draggableNumbers.map( new F<DraggableNumber, DraggableNumber>() {
-                    @Override public DraggableNumber f( final DraggableNumber draggableNumber ) {
-                        return draggableNumber.withDragging( false );
+                    @Override public DraggableNumber f( final DraggableNumber f ) {
+                        return f.withDragging( false );
+                    }
+                } ) ).
+                withDraggableFractions( draggableFractions.map( new F<DraggableFraction, DraggableFraction>() {
+                    @Override public DraggableFraction f( final DraggableFraction f ) {
+                        return f.withDragging( false );
                     }
                 } ) );
     }
