@@ -45,3 +45,7 @@ This sim uses single-line methods elsewhere ("simple methods in one line" in Int
 
 The animation is implemented in the model instead of piccolo because it is (a) conceptually natural (that the location of objects is in the model and not just how they look),
 (b) so that if we port it to another platform (such as Android), the model will still work properly and (c) it led to easy and uniform code
+
+Build a Fraction:
+ID's are used to identify objects over time, they were introduced to facilitate integration with piccolo.  One separate ClassID class is created for each model type that needs ID.
+Not sure if there is a way around this or a better way to do this.  This is a significant drawback, and a good argument in favor of doing imperative instead of functional programming.
