@@ -343,6 +343,7 @@ public class MultipleParticleModel implements Resettable {
 
         // Remove any particles that are outside of the container.  We work
         // with the normalized particles for this.
+        int particlesOutsideOfContainer = 0;
         int firstOutsideMoleculeIndex;
         do {
             for ( firstOutsideMoleculeIndex = 0; firstOutsideMoleculeIndex < m_moleculeDataSet.getNumberOfMolecules(); firstOutsideMoleculeIndex++ ) {
@@ -356,6 +357,7 @@ public class MultipleParticleModel implements Resettable {
             if ( firstOutsideMoleculeIndex < m_moleculeDataSet.getNumberOfMolecules() ) {
                 // Remove the particle that was found.
                 m_moleculeDataSet.removeMolecule( firstOutsideMoleculeIndex );
+                particlesOutsideOfContainer++;
             }
         }
         while ( firstOutsideMoleculeIndex != m_moleculeDataSet.getNumberOfMolecules() );
@@ -378,7 +380,9 @@ public class MultipleParticleModel implements Resettable {
         // kinetic energy of the particles causes an unreasonably high
         // temperature for the particles that remain in the container. Doing
         // this generally cools them down into a more manageable state.
-        m_phaseStateChanger.setPhase( PhaseStateChanger.PHASE_GAS );
+        if ( particlesOutsideOfContainer > 0 ) {
+            m_phaseStateChanger.setPhase( PhaseStateChanger.PHASE_GAS );
+        }
     }
 
     /**
