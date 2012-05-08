@@ -28,6 +28,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -165,9 +166,9 @@ public class ProteinLevelChartNode extends PNode {
         public YAxisLabel( final double height ) {
             // Labels for the top and bottom of the gradient key.
             // TODO: i18n
-            PText lotsLabel = new PText( "Lots" );
+            PText lotsLabel = new PText( GeneExpressionBasicsResources.Strings.LOTS );
             lotsLabel.setFont( new PhetFont( 12 ) );
-            PText noneLabel = new PText( "None" );
+            PText noneLabel = new PText( GeneExpressionBasicsResources.Strings.NONE );
             noneLabel.setFont( new PhetFont( 12 ) );
 
             // Create an invisible rectangle that will serve as a spacer for

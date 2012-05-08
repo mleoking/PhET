@@ -56,7 +56,7 @@ public class FluorescentCellsPictureDialog extends PaintImmediateDialog {
 
         // Caption
         // TODO: i18n.
-        JTextArea text = new JTextArea( "Green Fluorescent Protein being expressed in a group of E. Coli cells.  Image copyright Dennis Kunkel Microscopy, Inc." );
+        JTextArea text = new JTextArea( GeneExpressionBasicsResources.Strings.IMAGE_CAPTION + " " + GeneExpressionBasicsResources.Strings.IMAGE_ATTRIBUTION + " Dennis Kunkel Microscopy, Inc." );
         text.setFont( CAPTION_FONT );
         text.setColumns( 30 );
         text.setEditable( false );

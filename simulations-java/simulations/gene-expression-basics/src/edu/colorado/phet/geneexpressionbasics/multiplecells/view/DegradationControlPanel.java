@@ -2,6 +2,7 @@
 package edu.colorado.phet.geneexpressionbasics.multiplecells.view;
 
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources;
 import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsSimSharing.UserComponents;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.model.CellProteinSynthesisSimulator;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.model.MultipleCellsModel;
@@ -15,16 +16,15 @@ import edu.colorado.phet.geneexpressionbasics.multiplecells.model.MultipleCellsM
 public class DegradationControlPanel extends CellParameterControlPanel {
 
     public DegradationControlPanel( MultipleCellsModel model ) {
-        // TODO: i18n
-        super( "Degradation", new VBox(
+        super( GeneExpressionBasicsResources.Strings.DEGRADATION, new VBox(
                 20,
                 new DoubleParameterSliderNode( UserComponents.proteinDegradationRateSlider,
                                                CellProteinSynthesisSimulator.PROTEIN_DEGRADATION_RANGE.getMin(),
                                                CellProteinSynthesisSimulator.PROTEIN_DEGRADATION_RANGE.getMax(),
                                                model.proteinDegradationRate,
-                                               "Protein",
-                                               "Slow",
-                                               "Fast" )
+                                               GeneExpressionBasicsResources.Strings.PROTEIN,
+                                               GeneExpressionBasicsResources.Strings.SLOW,
+                                               GeneExpressionBasicsResources.Strings.FAST )
         ) );
     }
 }

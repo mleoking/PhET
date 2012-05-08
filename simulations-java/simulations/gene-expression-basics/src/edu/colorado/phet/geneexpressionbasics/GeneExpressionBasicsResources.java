@@ -15,19 +15,34 @@ public class GeneExpressionBasicsResources {
 
     //Strings
     public static class Strings {
+        public static final String AFFINITIES = RESOURCES.getLocalizedString( "affinities" );
         public static final String AFFINITY = RESOURCES.getLocalizedString( "affinity" );
         public static final String BIOMOLECULE_TOOLBOX = RESOURCES.getLocalizedString( "biomoleculeToolbox" );
+        public static final String CELLS = RESOURCES.getLocalizedString( "cells" );
+        public static final String CONCENTRATIONS = RESOURCES.getLocalizedString( "concentrations" );
+        public static final String DEGRADATION = RESOURCES.getLocalizedString( "degradation" );
+        public static final String FAST = RESOURCES.getLocalizedString( "fast" );
         public static final String GENE = RESOURCES.getLocalizedString( "gene" );
         public static final String HIGH = RESOURCES.getLocalizedString( "high" );
+        public static final String IMAGE_ATTRIBUTION = RESOURCES.getLocalizedString( "imageAttribution" );
+        public static final String IMAGE_CAPTION = RESOURCES.getLocalizedString( "imageCaption" );
+        public static final String LOTS = RESOURCES.getLocalizedString( "lots" );
         public static final String LOW = RESOURCES.getLocalizedString( "low" );
+        public static final String MANY = RESOURCES.getLocalizedString( "many" );
         public static final String MRNA_DESTROYER = RESOURCES.getLocalizedString( "mrnaDestroyer" );
-        public static final String NEGATIVE_TRANSCRIPTION_FACTOR = RESOURCES.getLocalizedString( "negativeTranscriptionFactor" );
+        public static final String NEGATIVE_TRANSCRIPTION_FACTOR_HTML = RESOURCES.getLocalizedString( "negativeTranscriptionFactorHtml" );
         public static final String NEXT_GENE = RESOURCES.getLocalizedString( "nextGene" );
+        public static final String NONE = RESOURCES.getLocalizedString( "none" );
+        public static final String ONE = RESOURCES.getLocalizedString( "one" );
+        public static final String POLYMERASE = RESOURCES.getLocalizedString( "polymerase" );
         public static final String POSITIVE_TRANSCRIPTION_FACTOR = RESOURCES.getLocalizedString( "positiveTranscriptionFactor" );
+        public static final String POSITIVE_TRANSCRIPTION_FACTOR_HTML = RESOURCES.getLocalizedString( "positiveTranscriptionFactorHtml" );
         public static final String PREVIOUS_GENE = RESOURCES.getLocalizedString( "previousGene" );
+        public static final String PROTEIN = RESOURCES.getLocalizedString( "protein" );
         public static final String REGULATORY_REGION = RESOURCES.getLocalizedString( "regulatoryRegion" );
         public static final String RIBOSOME = RESOURCES.getLocalizedString( "ribosome" );
         public static final String RNA_POLYMERASE = RESOURCES.getLocalizedString( "rnaPolymerase" );
+        public static final String SLOW = RESOURCES.getLocalizedString( "slow" );
         public static final String TAB__CELL_GENE_EXPRESSION = RESOURCES.getLocalizedString( "tab.cellGeneExpression" );
         public static final String TAB__MESSENGER_RNA_PRODUCTION = RESOURCES.getLocalizedString( "tab.messengerRnaProduction" );
         public static final String TAB__MULTIPLE_CELLS = RESOURCES.getLocalizedString( "tab.multipleCells" );

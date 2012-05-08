@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources;
 import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsSimSharing.UserComponents;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.StubGeneExpressionModel;
@@ -39,13 +40,13 @@ public class TranscriptionFactorControlPanel extends PNode {
 
     public static final double DNA_SCALE = 0.1;
     private static final ModelViewTransform DNA_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
-                                                                                                                                  new Point2D.Double( 0, 0 ),
-                                                                                                                                  DNA_SCALE );
+                                                                                                                 new Point2D.Double( 0, 0 ),
+                                                                                                                 DNA_SCALE );
 
     /**
      * Constructor.
      */
-    public TranscriptionFactorControlPanel( MessengerRnaProductionModel model, TranscriptionFactorConfig transcriptionFactorConfig, Property<Double> affinityProperty  ) {
+    public TranscriptionFactorControlPanel( MessengerRnaProductionModel model, TranscriptionFactorConfig transcriptionFactorConfig, Property<Double> affinityProperty ) {
 
         final String titleText;
         final IntegerProperty tfLevelProperty;
@@ -81,8 +82,7 @@ public class TranscriptionFactorControlPanel extends PNode {
     private static class ConcentrationController extends PNode {
 
         private ConcentrationController( TranscriptionFactorConfig transcriptionFactorConfig, IntegerProperty tfLevelProperty, int min, int max ) {
-            // TODO: i18n
-            PText caption = new PText( "Concentration" ) {{
+            PText caption = new PText( GeneExpressionBasicsResources.Strings.CONCENTRATIONS ) {{
                 setFont( new PhetFont( 14, false ) );
             }};
             PNode molecule = new MobileBiomoleculeNode( TRANSCRIPTION_FACTOR_MVT, new TranscriptionFactor( new StubGeneExpressionModel(), transcriptionFactorConfig ) );
@@ -93,30 +93,29 @@ public class TranscriptionFactorControlPanel extends PNode {
                                 molecule,
                                 new HorizontalSliderWithLabelsAtEnds( new UserComponent( UserComponents.transcriptionFactorLevelSlider ),
                                                                       new IntegerToDoublePropertyWrapper( tfLevelProperty ),
-                                                                      (double)min,
-                                                                      (double)max,
-                                                                      // TODO: i18n
-                                                                      "None",
-                                                                      "Lots " ) ) );
+                                                                      (double) min,
+                                                                      (double) max,
+                                                                      GeneExpressionBasicsResources.Strings.NONE,
+                                                                      GeneExpressionBasicsResources.Strings.LOTS ) ) );
         }
     }
 
     // Convenience class that connects an integer property to a double property.
     private static class IntegerToDoublePropertyWrapper extends DoubleProperty {
         private IntegerToDoublePropertyWrapper( final IntegerProperty integerProperty ) {
-            super( (double)integerProperty.get() );
+            super( (double) integerProperty.get() );
 
             // Connect from integer to double.
             integerProperty.addObserver( new VoidFunction1<Integer>() {
                 public void apply( Integer integerValue ) {
-                    set( (double)integerValue );
+                    set( (double) integerValue );
                 }
             } );
 
             // Connect from double to integer.
             addObserver( new VoidFunction1<Double>() {
                 public void apply( Double doubleValue ) {
-                    integerProperty.set( (int)Math.round( doubleValue ) );
+                    integerProperty.set( (int) Math.round( doubleValue ) );
                 }
             } );
         }

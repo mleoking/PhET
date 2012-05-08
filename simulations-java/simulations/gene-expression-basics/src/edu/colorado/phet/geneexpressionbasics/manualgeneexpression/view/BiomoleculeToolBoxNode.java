@@ -72,7 +72,7 @@ public class BiomoleculeToolBoxNode extends PNode {
             // Positive transcription factor(s).
             for ( TranscriptionFactorConfig tfConfig : gene.getTranscriptionFactorConfigs() ) {
                 if ( tfConfig.isPositive ) {
-                    addChild( new RowLabel( POSITIVE_TRANSCRIPTION_FACTOR ), constraints );
+                    addChild( new RowLabel( POSITIVE_TRANSCRIPTION_FACTOR_HTML ), constraints );
                     constraints.gridx++;
                     constraints.insets.left = 20;
                     addChild( new HBox( addCreatorNode( new TranscriptionFactorCreatorNode( BiomoleculeToolBoxNode.this, tfConfig, true ) ) ), constraints );
@@ -120,7 +120,7 @@ public class BiomoleculeToolBoxNode extends PNode {
                     constraints.gridx = 0;
                     constraints.gridy++;
                     constraints.insets.left = 0;
-                    addChild( new RowLabel( GeneExpressionBasicsResources.Strings.NEGATIVE_TRANSCRIPTION_FACTOR ), constraints );
+                    addChild( new RowLabel( GeneExpressionBasicsResources.Strings.NEGATIVE_TRANSCRIPTION_FACTOR_HTML ), constraints );
                     constraints.gridx++;
                     constraints.insets.left = 20;
                     addChild( new HBox( addCreatorNode( new TranscriptionFactorCreatorNode( BiomoleculeToolBoxNode.this, tfConfig, true ) ) ), constraints );
