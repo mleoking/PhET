@@ -85,11 +85,11 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
 
         // Create some PNodes that will act as layers in order to create the
         // needed Z-order behavior.
-        PNode backLayer = new PNode();
+        final PNode backLayer = new PNode();
         rootNode.addChild( backLayer );
         PNode blockLayer = new PNode();
         rootNode.addChild( blockLayer );
-        PNode frontLayer = new PNode();
+        final PNode frontLayer = new PNode();
         rootNode.addChild( frontLayer );
 
         // Add the control for showing/hiding object energy. TODO: i18n
@@ -160,18 +160,42 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
 
         // Add the thermometers.
         for ( Thermometer thermometer : model.getThermometers() ) {
-            ThermometerNode thermometerNode = new ThermometerNode( thermometer, mvt ) {{
-                addInputEventListener( new PBasicInputEventHandler() {
-                    // Put the thermometer into the tool box if dropped over it.
-                    @Override public void mouseReleased( PInputEvent event ) {
-                        if ( getFullBoundsReference().intersects( thermometerToolBox.getFullBoundsReference() ) ) {
-                            thermometerToolBox.putThermometerInOpenSpot( getThermometer() );
+            thermometerToolBox.putThermometerInOpenSpot( thermometer );
+            final ThermometerNode thermometerNode = new ThermometerNode( thermometer, mvt );
+            // Initially add to back layer.  It will move to front when removed from tool box.
+            backLayer.addChild( thermometerNode );
+            thermometerNode.addInputEventListener( new PBasicInputEventHandler() {
+
+                // Put the thermometer into the tool box if dropped over it.
+                @Override public void mouseReleased( PInputEvent event ) {
+                    if ( thermometerNode.getFullBoundsReference().intersects( thermometerToolBox.getFullBoundsReference() ) ) {
+                        thermometerToolBox.putThermometerInOpenSpot( thermometerNode.getThermometer() );
+
+                        // Move thermometer to the back layer so that it will
+                        // be behind things that are dragged over the tool box.
+                        if ( frontLayer.getAllNodes().contains( thermometerNode ) ) {
+                            frontLayer.removeChild( thermometerNode );
+                            backLayer.addChild( thermometerNode );
+                            System.out.println( "Moving thermometer to back." );
                         }
                     }
-                } );
-            }};
-            frontLayer.addChild( thermometerNode );
-            thermometerToolBox.putThermometerInOpenSpot( thermometer );
+                }
+            } );
+
+            thermometer.userControlled.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean userControlled ) {
+                    if ( userControlled ) {
+                        // Move the thermometer to the front when it becomes
+                        // user controlled.  It will remain in front until
+                        // returned to the tool box.
+                        if ( backLayer.getAllNodes().contains( thermometerNode ) ) {
+                            backLayer.removeChild( thermometerNode );
+                            frontLayer.addChild( thermometerNode );
+                            System.out.println( "Moving thermometer to front." );
+                        }
+                    }
+                }
+            } );
         }
 
         // Create an observer that updates the Z-order of the blocks when the

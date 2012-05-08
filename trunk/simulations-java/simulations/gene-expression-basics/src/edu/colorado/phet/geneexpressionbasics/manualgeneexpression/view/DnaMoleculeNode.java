@@ -12,9 +12,10 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.BasePair;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule.DnaStrandSegment;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+
+import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources.Strings.GENE;
 
 /**
  * Class that represents the DNA molecule in the view.
@@ -51,22 +52,20 @@ public class DnaMoleculeNode extends PNode {
         addChild( dnaBackboneFrontLayer );
 
         // Put the gene backgrounds and labels behind everything.
-        for ( int i = 0; i < dnaMolecule.getGenes().size(); i++ ){
-            // TODO: i18n
-            geneBackgroundLayer.addChild( new GeneNode( mvt, dnaMolecule.getGenes().get( i ), dnaMolecule, "Gene " + (i + 1), showGeneBracketLabels ) );
-
+        for ( int i = 0; i < dnaMolecule.getGenes().size(); i++ ) {
+            geneBackgroundLayer.addChild( new GeneNode( mvt, dnaMolecule.getGenes().get( i ), dnaMolecule, GENE + ( i + 1 ), showGeneBracketLabels ) );
         }
 
         // Add the first backbone strand.
         for ( DnaStrandSegment dnaStrandSegment : dnaMolecule.getStrand1Segments() ) {
             addStrand( mvt, dnaStrandSegment, new BasicStroke( backboneStrokeWidth ), STRAND_1_COLOR );
         }
-        
+
         // Add the other backbone strand.
         for ( DnaStrandSegment dnaStrandSegment : dnaMolecule.getStrand2Segments() ) {
             addStrand( mvt, dnaStrandSegment, new BasicStroke( backboneStrokeWidth ), STRAND_2_COLOR );
         }
-        
+
         // Add the base pairs.
         for ( BasePair basePair : dnaMolecule.getBasePairs() ) {
             basePairLayer.addChild( new PhetPPath( mvt.modelToView( basePair.getShape() ), Color.DARK_GRAY ) );
