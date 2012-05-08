@@ -9,6 +9,8 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.ManualGeneExp
 import edu.colorado.phet.geneexpressionbasics.mrnaproduction.MessengerRnaProductionModule;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.MultipleCellsModule;
 
+import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources.Strings.*;
+
 /**
  * Main application class for this simulation.
  *
@@ -29,9 +31,9 @@ public class GeneExpressionBasicsApplication extends PiccoloPhetApplication {
         super( config );
 
         // module(s)
-        addModule( new ManualGeneExpressionModule( "Cell Gene Expression" ) );
-        addModule( new MessengerRnaProductionModule( "Messenger RNA Production" ) );
-        addModule( new MultipleCellsModule( "Multiple Cells", getPhetFrame() ) );
+        addModule( new ManualGeneExpressionModule( TAB__CELL_GENE_EXPRESSION ) );
+        addModule( new MessengerRnaProductionModule( TAB__MESSENGER_RNA_PRODUCTION ) );
+        addModule( new MultipleCellsModule( TAB__MULTIPLE_CELLS, getPhetFrame() ) );
     }
 
     /**
