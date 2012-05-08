@@ -15,15 +15,21 @@ public class GeneExpressionBasicsResources {
 
     //Strings
     public static class Strings {
+        public static final String AFFINITY = RESOURCES.getLocalizedString( "affinity" );
         public static final String BIOMOLECULE_TOOLBOX = RESOURCES.getLocalizedString( "biomoleculeToolbox" );
         public static final String GENE = RESOURCES.getLocalizedString( "gene" );
+        public static final String HIGH = RESOURCES.getLocalizedString( "high" );
+        public static final String LOW = RESOURCES.getLocalizedString( "low" );
         public static final String MRNA_DESTROYER = RESOURCES.getLocalizedString( "mrnaDestroyer" );
         public static final String NEGATIVE_TRANSCRIPTION_FACTOR = RESOURCES.getLocalizedString( "negativeTranscriptionFactor" );
+        public static final String NEXT_GENE = RESOURCES.getLocalizedString( "nextGene" );
         public static final String POSITIVE_TRANSCRIPTION_FACTOR = RESOURCES.getLocalizedString( "positiveTranscriptionFactor" );
+        public static final String PREVIOUS_GENE = RESOURCES.getLocalizedString( "previousGene" );
         public static final String REGULATORY_REGION = RESOURCES.getLocalizedString( "regulatoryRegion" );
         public static final String RIBOSOME = RESOURCES.getLocalizedString( "ribosome" );
         public static final String RNA_POLYMERASE = RESOURCES.getLocalizedString( "rnaPolymerase" );
         public static final String TRANSCRIBED_REGION = RESOURCES.getLocalizedString( "transcribedRegion" );
+        public static final String YOUR_PROTEIN_COLLECTION = RESOURCES.getLocalizedString( "yourProteinCollection" );
     }
 
     //Images

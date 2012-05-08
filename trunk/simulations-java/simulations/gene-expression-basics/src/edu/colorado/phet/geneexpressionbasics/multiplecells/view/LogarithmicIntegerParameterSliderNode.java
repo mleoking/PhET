@@ -14,6 +14,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode2;
 import edu.colorado.phet.common.piccolophet.nodes.slider.KnobNode2;
+import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -77,11 +78,10 @@ class LogarithmicIntegerParameterSliderNode extends PNode {
         } );
 
         // Add the labels to the slider node.
-        // TODO: i18n
-        sliderNode.addLabel( sliderMin, new PText( "Low" ) {{
+        sliderNode.addLabel( sliderMin, new PText( GeneExpressionBasicsResources.Strings.LOW ) {{
             setFont( LABEL_FONT );
         }} );
-        sliderNode.addLabel( sliderMax, new PText( "High" ) {{
+        sliderNode.addLabel( sliderMax, new PText( GeneExpressionBasicsResources.Strings.HIGH ) {{
             setFont( LABEL_FONT );
         }} );
 

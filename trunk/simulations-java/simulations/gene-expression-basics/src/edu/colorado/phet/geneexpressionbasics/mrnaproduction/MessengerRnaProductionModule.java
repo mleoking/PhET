@@ -15,7 +15,6 @@ public class MessengerRnaProductionModule extends Module {
     }
 
     private MessengerRnaProductionModule( String name, MessengerRnaProductionModel model ) {
-        // TODO: i18n
         super( name, model.getClock() );
         setSimulationPanel( new MessengerRnaProductionCanvas( model ) );
         reset();

@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources;
 import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsSimSharing.UserComponents;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -27,8 +28,7 @@ class AffinityController extends PNode {
     private static final double ARROW_HEAD_HEIGHT = 10;
 
     AffinityController( PNode leftNode, PNode rightNode, Property<Double> affinityProperty ) {
-        // TODO: i18n
-        PText caption = new PText( "Affinity" ) {{
+        PText caption = new PText( GeneExpressionBasicsResources.Strings.AFFINITY ) {{
             setFont( new PhetFont( 14, false ) );
         }};
         PNode arrowNode = new DoubleArrowNode( new Point2D.Double( 0, 0 ), new Point2D.Double( ARROW_LENGTH, 0 ), ARROW_HEAD_HEIGHT / 2, ARROW_HEAD_HEIGHT, ARROW_HEAD_HEIGHT / 3 );
@@ -39,12 +39,11 @@ class AffinityController extends PNode {
         addChild( new VBox( 5,
                             caption,
                             affinityKey,
-                            // TODO: i18n
                             new HorizontalSliderWithLabelsAtEnds( new UserComponent( UserComponents.transcriptionFactorLevelSlider ),
                                                                   affinityProperty,
                                                                   0,
                                                                   1,
-                                                                  "Low",
-                                                                  "High " ) ) );
+                                                                  GeneExpressionBasicsResources.Strings.LOW,
+                                                                  GeneExpressionBasicsResources.Strings.HIGH ) ) );
     }
 }

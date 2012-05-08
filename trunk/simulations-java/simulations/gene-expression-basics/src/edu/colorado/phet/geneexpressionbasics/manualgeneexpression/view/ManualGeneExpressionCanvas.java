@@ -28,6 +28,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
+import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
@@ -255,8 +256,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         } );
 
         // Add buttons for moving to next and previous genes.
-        // TODO: i18n
-        final HTMLImageButtonNode nextGeneButton = new HTMLImageButtonNode( "Next Gene", GRAY_ARROW ) {{
+        final HTMLImageButtonNode nextGeneButton = new HTMLImageButtonNode( GeneExpressionBasicsResources.Strings.NEXT_GENE, GRAY_ARROW ) {{
             setTextPosition( TextPosition.LEFT );
             setFont( new PhetFont( 20 ) );
             setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - 20, mvt.modelToViewY( model.getDnaMolecule().getLeftEdgePos().getY() ) + 90 );
@@ -273,8 +273,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
             } );
         }};
         frontControlsLayer.addChild( nextGeneButton );
-        // TODO: i18n
-        final HTMLImageButtonNode previousGeneButton = new HTMLImageButtonNode( "Previous Gene", flipX( GRAY_ARROW ) ) {{
+        final HTMLImageButtonNode previousGeneButton = new HTMLImageButtonNode( GeneExpressionBasicsResources.Strings.PREVIOUS_GENE, flipX( GRAY_ARROW ) ) {{
             setTextPosition( TextPosition.RIGHT );
             setFont( new PhetFont( 20 ) );
             setOffset( 20, mvt.modelToViewY( model.getDnaMolecule().getLeftEdgePos().getY() ) + 90 );
