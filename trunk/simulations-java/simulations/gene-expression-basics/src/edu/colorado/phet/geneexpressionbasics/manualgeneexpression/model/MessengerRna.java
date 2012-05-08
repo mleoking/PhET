@@ -862,7 +862,7 @@ public class MessengerRna extends MobileBiomolecule {
         assert !mapRibosomeToShapeSegment.containsKey( ribosome ); // Shouldn't get redundant proposals from a ribosome.
         AttachmentSite returnValue = null;
 
-        // Make sure that this mRNA is not currently being destroyed.
+        // Can't consider proposal if currently being destroyed.
         if ( messengerRnaDestroyer == null ) {
             // See if the attachment site at the leading edge of the mRNA is
             // available.

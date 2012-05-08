@@ -38,6 +38,13 @@ public class RibosomeAttachmentStateMachine extends GenericAttachmentStateMachin
         attachedState = new RibosomeAttachedState();
     }
 
+    @Override public void forceImmediateUnattachedAndAvailable() {
+        if ( ribosome.getMessengerRnaBeingTranslated() != null ) {
+            ribosome.releaseMessengerRna();
+        }
+        super.forceImmediateUnattachedAndAvailable();
+    }
+
     /**
      * Class that defines what the ribosome does when attached to mRNA, which
      * is essentially to transcribe it.
