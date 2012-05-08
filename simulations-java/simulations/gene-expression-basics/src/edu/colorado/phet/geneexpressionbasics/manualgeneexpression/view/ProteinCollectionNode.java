@@ -22,6 +22,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Protein;
@@ -55,8 +56,7 @@ public class ProteinCollectionNode extends PNode {
 
     public ProteinCollectionNode( ManualGeneExpressionModel model, ModelViewTransform mvt ) {
         // Create the title and scale it if needed.
-        // TODO: i18n
-        PNode title = new HTMLNode( "<center>Your Protein<br>Collection:</center>", Color.BLACK, TITLE_FONT ) {{
+        PNode title = new HTMLNode( GeneExpressionBasicsResources.Strings.YOUR_PROTEIN_COLLECTION, Color.BLACK, TITLE_FONT ) {{
             if ( getFullBoundsReference().getWidth() > MAX_CONTENT_WIDTH ) {
                 // Scale title to fit.
                 setScale( MAX_CONTENT_WIDTH / getFullBoundsReference().width );

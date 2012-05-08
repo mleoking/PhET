@@ -15,6 +15,9 @@ import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode2;
 import edu.colorado.phet.common.piccolophet.nodes.slider.KnobNode2;
 import edu.umd.cs.piccolo.PNode;
 
+import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources.Strings.HIGH;
+import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources.Strings.LOW;
+
 /**
  * Class that depicts a slider that controls a parameter of type Double.
  *
@@ -39,8 +42,7 @@ class DoubleParameterSliderNode extends PNode {
      */
     DoubleParameterSliderNode( IUserComponent userComponent, double min, double max,
                                final SettableProperty<Double> settableProperty, String htmlLabelText ) {
-        // TODO: i18n
-        this( userComponent, min, max, settableProperty, htmlLabelText, "Low", "High" );
+        this( userComponent, min, max, settableProperty, htmlLabelText, LOW, HIGH );
     }
 
     /**

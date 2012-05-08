@@ -38,7 +38,6 @@ public class MultipleCellsModule extends Module {
      * @param model
      */
     private MultipleCellsModule( String name, MultipleCellsModel model, Frame parentFrame ) {
-        // TODO: i18n
         super( name, model.getClock() );
 
         // Keep reference to the model.
