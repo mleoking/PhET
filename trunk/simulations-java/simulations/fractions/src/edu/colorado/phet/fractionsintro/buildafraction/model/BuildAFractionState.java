@@ -90,9 +90,9 @@ public @Data class BuildAFractionState {
         } ) );
     }
 
-    public Option<Container> getContainer( final ObjectID id ) { return containers.find( matchID( id, Container.ID ) ); }
+    public Option<Container> getContainer( final ContainerID id ) { return containers.find( matchID( id, Container.ID ) ); }
 
-    public BuildAFractionState startDraggingContainer( final ObjectID id ) {
+    public BuildAFractionState startDraggingContainer( final ContainerID id ) {
         return withContainers( containers.map( new F<Container, Container>() {
             @Override public Container f( final Container container ) {
                 return container.getID().equals( id ) ? container.withDragging( true ) : container;
@@ -100,7 +100,7 @@ public @Data class BuildAFractionState {
         } ) );
     }
 
-    public BuildAFractionState startDraggingNumber( final ObjectID id ) {
+    public BuildAFractionState startDraggingNumber( final DraggableNumberID id ) {
         return withDraggableNumbers( draggableNumbers.map( new F<DraggableNumber, DraggableNumber>() {
             @Override public DraggableNumber f( final DraggableNumber container ) {
                 return container.getID().equals( id ) ? container.withDragging( true ) : container;
@@ -110,7 +110,7 @@ public @Data class BuildAFractionState {
 
     public BuildAFractionState addNumber( final DraggableNumber n ) { return withDraggableNumbers( draggableNumbers.snoc( n ) ); }
 
-    public Option<DraggableNumber> getDraggableNumber( final ObjectID id ) { return draggableNumbers.find( matchID( id, DraggableNumber.ID ) ); }
+    public Option<DraggableNumber> getDraggableNumber( final DraggableNumberID id ) { return draggableNumbers.find( matchID( id, DraggableNumber.ID ) ); }
 
     public BuildAFractionState dragNumbers( final Vector2D delta ) {
         return withDraggableNumbers( draggableNumbers.map( new F<DraggableNumber, DraggableNumber>() {
@@ -132,7 +132,7 @@ public @Data class BuildAFractionState {
         } ) );
     }
 
-    public BuildAFractionState startDraggingFraction( final ObjectID id ) {
+    public BuildAFractionState startDraggingFraction( final FractionID id ) {
         return withDraggableFractions( draggableFractions.map( new F<DraggableFraction, DraggableFraction>() {
             @Override public DraggableFraction f( final DraggableFraction f ) {
                 return f.getID().equals( id ) ? f.withDragging( true ) : f;
@@ -140,7 +140,7 @@ public @Data class BuildAFractionState {
         } ) );
     }
 
-    public Option<Piece> getPiece( final ObjectID id ) { return pieces.find( matchID( id, Piece.ID ) ); }
+    public Option<Piece> getPiece( final PieceID id ) { return pieces.find( matchID( id, Piece.ID ) ); }
 
     //Remove the number from the model and signify that it is attached to the fraction.
     public BuildAFractionState attachNumberToFraction( final DraggableNumberID number, final FractionID fraction, final boolean numerator ) {
