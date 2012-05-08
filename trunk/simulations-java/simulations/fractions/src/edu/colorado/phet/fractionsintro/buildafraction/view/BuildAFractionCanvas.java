@@ -18,11 +18,13 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
+import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractions.view.FNode;
@@ -61,8 +63,10 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
     private static final Paint TRANSPARENT = new Color( 0, 0, 0, 0 );
     private final RichPNode picturesContainerLayer;
     private final RichPNode numbersContainerLayer;
+    private static final Color CREAM = new Color( 255, 252, 209 );//a little brighter
 
     public BuildAFractionCanvas( final BuildAFractionModel model ) {
+        setBackground( CREAM );
         final Stroke stroke = new BasicStroke( 2 );
 
         final SettableProperty<Mode> mode = model.toProperty(
@@ -340,7 +344,13 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
         }};
     }
 
-    public static PNode emptyFractionGraphic() { return new VBox( box(), divisorLine(), box() ); }
+    public static PNode emptyFractionGraphic() {
+        final VBox box = new VBox( box(), divisorLine(), box() );
+
+        //Show a background behind it to make the entire shape draggable
+        final PhetPPath background = new PhetPPath( RectangleUtils.expand( box.getFullBounds(), 5, 5 ), TRANSPARENT );
+        return new RichPNode( new ZeroOffsetNode( background ), new ZeroOffsetNode( box ) );
+    }
 
     private static PNode divisorLine() { return new PhetPPath( new Line2D.Double( 0, 0, 40, 0 ), new BasicStroke( 4, CAP_ROUND, JOIN_MITER ), black ); }
 
