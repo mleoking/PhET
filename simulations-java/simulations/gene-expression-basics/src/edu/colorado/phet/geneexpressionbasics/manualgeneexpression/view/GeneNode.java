@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
 import edu.umd.cs.piccolo.PNode;
@@ -40,7 +41,7 @@ public class GeneNode extends PNode {
         final PhetPPath regulatoryRegionNode = new PhetPPath( regRegionShape, gene.getRegulatoryRegionColor() );
         addChild( regulatoryRegionNode );
         // TODO: i18n
-        PNode regulatoryRegionCaption = new HTMLNode( "<center>Regulatory<br>Region</center>" ) {{
+        PNode regulatoryRegionCaption = new HTMLNode( GeneExpressionBasicsResources.Strings.REGULATORY_REGION ) {{
             setFont( REGION_LABEL_FONT );
             setOffset( regulatoryRegionNode.getFullBoundsReference().getCenterX() - getFullBoundsReference().width / 2,
                        regulatoryRegionNode.getFullBoundsReference().getMaxY() );
@@ -54,7 +55,7 @@ public class GeneNode extends PNode {
         final PhetPPath transcribedRegionNode = new PhetPPath( transcribedRegionShape, gene.getTranscribedRegionColor() );
         addChild( transcribedRegionNode );
         // TODO: i18n
-        PNode transcribedRegionCaption = new HTMLNode( "<center>Transcribed<br>Region</center>" ) {{
+        PNode transcribedRegionCaption = new HTMLNode( GeneExpressionBasicsResources.Strings.TRANSCRIBED_REGION ) {{
             setFont( REGION_LABEL_FONT );
             setOffset( transcribedRegionNode.getFullBoundsReference().getCenterX() - getFullBoundsReference().width / 2,
                        transcribedRegionNode.getFullBoundsReference().getMaxY() );
@@ -74,7 +75,6 @@ public class GeneNode extends PNode {
             addChild( new PhetPPath( bracketPath.getGeneralPath(), new BasicStroke( 2 ), Color.BLACK ) );
 
             // And the textual label for the gene.
-            // TODO: i18n
             addChild( new PText( label ) {{
                 setFont( GENE_LABEL_FONT );
                 setOffset( bracketPath.getGeneralPath().getBounds2D().getCenterX() - getFullBoundsReference().width / 2,
