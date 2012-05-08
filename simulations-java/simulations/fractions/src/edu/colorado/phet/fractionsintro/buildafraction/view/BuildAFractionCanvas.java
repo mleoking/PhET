@@ -96,6 +96,8 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
 
         List<PNode> scoreBoxes = range( 0, 3 ).map( new F<Integer, PNode>() {
             @Override public PNode f( final Integer integer ) {
+
+                //If these representationBox are all the same size, then 2-column layout will work properly
                 PNode representationBox = new PhetPText( "3/7", new PhetFont( 28, true ) );
                 return new HBox( new PhetPPath( new RoundRectangle2D.Double( 0, 0, 160, 120, 30, 30 ), controlPanelStroke, Color.darkGray ),
                                  representationBox );
