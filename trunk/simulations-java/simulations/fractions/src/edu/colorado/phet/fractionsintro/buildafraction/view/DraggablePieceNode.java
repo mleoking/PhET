@@ -6,6 +6,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.buildafraction.model.Container;
 import edu.colorado.phet.fractionsintro.buildafraction.model.ContainerObserver;
+import edu.colorado.phet.fractionsintro.buildafraction.model.ObjectID;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;

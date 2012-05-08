@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.buildafraction.controller.ModelUpdate;
-import edu.colorado.phet.fractionsintro.buildafraction.view.ObjectID;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**

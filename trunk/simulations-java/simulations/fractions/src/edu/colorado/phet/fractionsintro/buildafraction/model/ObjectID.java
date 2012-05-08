@@ -1,4 +1,4 @@
-package edu.colorado.phet.fractionsintro.buildafraction.view;
+package edu.colorado.phet.fractionsintro.buildafraction.model;
 
 import lombok.Data;
 

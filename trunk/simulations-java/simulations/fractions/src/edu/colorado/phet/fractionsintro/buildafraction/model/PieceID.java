@@ -1,7 +1,5 @@
 package edu.colorado.phet.fractionsintro.buildafraction.model;
 
-import edu.colorado.phet.fractionsintro.buildafraction.view.ObjectID;
-
 /**
  * @author Sam Reid
  */

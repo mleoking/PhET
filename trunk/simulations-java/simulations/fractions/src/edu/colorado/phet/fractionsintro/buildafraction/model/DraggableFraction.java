@@ -5,7 +5,6 @@ import fj.data.Option;
 import lombok.Data;
 
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
-import edu.colorado.phet.fractionsintro.buildafraction.view.ObjectID;
 
 /**
  * @author Sam Reid

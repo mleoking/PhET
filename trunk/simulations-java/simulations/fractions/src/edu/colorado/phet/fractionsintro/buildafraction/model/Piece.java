@@ -4,7 +4,6 @@ import fj.F;
 import lombok.Data;
 
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
-import edu.colorado.phet.fractionsintro.buildafraction.view.ObjectID;
 
 /**
  * Pieces that go in containers.
