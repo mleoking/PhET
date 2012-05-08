@@ -24,7 +24,6 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.Spacer;
-import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractions.view.FNode;
@@ -349,7 +348,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
 
         //Show a background behind it to make the entire shape draggable
         final PhetPPath background = new PhetPPath( RectangleUtils.expand( box.getFullBounds(), 5, 5 ), TRANSPARENT );
-        return new RichPNode( new ZeroOffsetNode( background ), new ZeroOffsetNode( box ) );
+        return new RichPNode( background, box );
     }
 
     private static PNode divisorLine() { return new PhetPPath( new Line2D.Double( 0, 0, 40, 0 ), new BasicStroke( 4, CAP_ROUND, JOIN_MITER ), black ); }
