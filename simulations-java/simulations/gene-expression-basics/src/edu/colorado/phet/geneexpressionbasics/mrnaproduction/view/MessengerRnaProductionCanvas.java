@@ -20,6 +20,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
+import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
@@ -142,7 +143,7 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
         // negative transcription factor.
         BooleanProperty negativeTranscriptionFactorEnabled = new BooleanProperty( false );
         PNode negativeFactorEnabledCheckBox = new PropertyCheckBoxNode( negativeTranscriptionFactorCheckBox,
-                                                                        "Negative Transcription Factor",
+                                                                        GeneExpressionBasicsResources.Strings.NEGATIVE_TRANSCRIPTION_FACTOR,
                                                                         negativeTranscriptionFactorEnabled );
         controlsNode.addChild( negativeFactorEnabledCheckBox );
 

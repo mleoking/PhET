@@ -17,6 +17,8 @@ public class GeneExpressionBasicsResources {
     public static class Strings {
         public static final String AFFINITIES = RESOURCES.getLocalizedString( "affinities" );
         public static final String AFFINITY = RESOURCES.getLocalizedString( "affinity" );
+        public static final String AVERAGE_PROTEIN_LEVEL = RESOURCES.getLocalizedString( "averageProteinLevel" );
+        public static final String AVERAGE_PROTEIN_LEVEL_VS_TIME = RESOURCES.getLocalizedString( "averageProteinLevelVsTime" );
         public static final String BIOMOLECULE_TOOLBOX = RESOURCES.getLocalizedString( "biomoleculeToolbox" );
         public static final String CELLS = RESOURCES.getLocalizedString( "cells" );
         public static final String CONCENTRATIONS = RESOURCES.getLocalizedString( "concentrations" );
@@ -30,6 +32,7 @@ public class GeneExpressionBasicsResources {
         public static final String LOW = RESOURCES.getLocalizedString( "low" );
         public static final String MANY = RESOURCES.getLocalizedString( "many" );
         public static final String MRNA_DESTROYER = RESOURCES.getLocalizedString( "mrnaDestroyer" );
+        public static final String NEGATIVE_TRANSCRIPTION_FACTOR = RESOURCES.getLocalizedString( "negativeTranscriptionFactor" );
         public static final String NEGATIVE_TRANSCRIPTION_FACTOR_HTML = RESOURCES.getLocalizedString( "negativeTranscriptionFactorHtml" );
         public static final String NEXT_GENE = RESOURCES.getLocalizedString( "nextGene" );
         public static final String NONE = RESOURCES.getLocalizedString( "none" );
@@ -42,12 +45,16 @@ public class GeneExpressionBasicsResources {
         public static final String REGULATORY_REGION = RESOURCES.getLocalizedString( "regulatoryRegion" );
         public static final String RIBOSOME = RESOURCES.getLocalizedString( "ribosome" );
         public static final String RNA_POLYMERASE = RESOURCES.getLocalizedString( "rnaPolymerase" );
+        public static final String SHOW_REAL_CELLS = RESOURCES.getLocalizedString( "showRealCells" );
         public static final String SLOW = RESOURCES.getLocalizedString( "slow" );
         public static final String TAB__CELL_GENE_EXPRESSION = RESOURCES.getLocalizedString( "tab.cellGeneExpression" );
         public static final String TAB__MESSENGER_RNA_PRODUCTION = RESOURCES.getLocalizedString( "tab.messengerRnaProduction" );
         public static final String TAB__MULTIPLE_CELLS = RESOURCES.getLocalizedString( "tab.multipleCells" );
+        public static final String TIME = RESOURCES.getLocalizedString( "time" );
         public static final String TRANSCRIBED_REGION = RESOURCES.getLocalizedString( "transcribedRegion" );
+        public static final String UNITS__S = RESOURCES.getLocalizedString( "units.s" );
         public static final String YOUR_PROTEIN_COLLECTION = RESOURCES.getLocalizedString( "yourProteinCollection" );
+        public static final String ZOOM_OUT = RESOURCES.getLocalizedString( "zoomOut" );
     }
 
     //Images
