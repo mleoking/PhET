@@ -16,6 +16,8 @@ public class FractionsResources {
     //Strings
     public static class Strings {
         public static final String MY_FRACTIONS = RESOURCES.getLocalizedString( "myFractions" );
+        public static final String NUMBERS = RESOURCES.getLocalizedString( "numbers" );
+        public static final String PICTURES = RESOURCES.getLocalizedString( "pictures" );
     }
 
     //Images

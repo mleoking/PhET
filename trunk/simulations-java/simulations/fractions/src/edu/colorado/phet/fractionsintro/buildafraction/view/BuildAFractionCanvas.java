@@ -48,7 +48,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-import static edu.colorado.phet.fractions.FractionsResources.Strings.MY_FRACTIONS;
+import static edu.colorado.phet.fractions.FractionsResources.Strings.*;
 import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.numbersRadioButton;
 import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.picturesRadioButton;
 import static edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionState.RELEASE_ALL;
@@ -89,8 +89,8 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
         );
 
         final VBox radioButtonControlPanel = new VBox( 0, VBox.LEFT_ALIGNED,
-                                                       radioButton( numbersRadioButton, "Numbers", mode, Mode.NUMBERS ),
-                                                       radioButton( picturesRadioButton, "Pictures", mode, Mode.PICTURES ) );
+                                                       radioButton( numbersRadioButton, NUMBERS, mode, Mode.NUMBERS ),
+                                                       radioButton( picturesRadioButton, PICTURES, mode, Mode.PICTURES ) );
 
         //IDEA: show the target in the box but grayed out and dotted line.  When the user has a match, it turns red dotted line.  When they drop it in, it fills in.
         //Would this have worked for build a molecule?
