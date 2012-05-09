@@ -8,7 +8,8 @@ import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 
 /**
  * Color scheme for relating concentration to color.
- * The scheme also defines the concentration range for the solute, where maxConcentration is synonymous with "saturated".
+ * The scheme also defines the concentration range for the solute, where maxConcentration
+ * is synonymous with "saturated".
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

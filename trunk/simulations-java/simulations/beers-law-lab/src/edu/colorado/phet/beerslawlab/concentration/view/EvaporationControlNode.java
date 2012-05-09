@@ -15,7 +15,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * Evaporation control, appropriated from sugar-and-salt-solutions.
+ * Evaporation control, adapted from sugar-and-salt-solutions.
  *
  * @author Sam Reid
  * @author Chris Malley (cmalley@pixelzoom.com)

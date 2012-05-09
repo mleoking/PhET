@@ -21,15 +21,15 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 class ConcentrationControlNode extends PNode {
 
-    private static final PhetFont FONT = new PhetFont( BLLConstants.CONTROL_FONT_SIZE );
-
     public ConcentrationControlNode( Property<BeersLawSolution> solution ) {
 
+        final PhetFont font = new PhetFont( BLLConstants.CONTROL_FONT_SIZE );
+
         // nodes
-        PText labelNode = new PhetPText( MessageFormat.format( Strings.PATTERN_0LABEL, Strings.CONCENTRATION ), FONT );
+        PText labelNode = new PhetPText( MessageFormat.format( Strings.PATTERN_0LABEL, Strings.CONCENTRATION ), font );
         PNode sliderNode = new ZeroOffsetNode( new ConcentrationSliderNode( solution ) );
-        PNode textFieldNode = new PSwing( new ConcentrationTextField( solution, FONT ) );
-        PNode unitsNode = new ConcentrationUnitsNode( solution, FONT );
+        PNode textFieldNode = new PSwing( new ConcentrationTextField( solution, font ) );
+        PNode unitsNode = new ConcentrationUnitsNode( solution, font );
 
         // rendering order
         PNode parentNode = new PNode();

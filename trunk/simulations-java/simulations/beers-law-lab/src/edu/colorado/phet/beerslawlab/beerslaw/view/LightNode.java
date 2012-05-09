@@ -13,7 +13,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * Visual representation of the light in the Beer's Law tab.
- * Origin is at the right center, where the light comes out of the housing.
+ * Origin is at the right center, where the light comes out of the "housing".
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

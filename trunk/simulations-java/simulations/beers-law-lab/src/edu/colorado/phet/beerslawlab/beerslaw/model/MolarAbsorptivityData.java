@@ -6,9 +6,9 @@ import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 
 /**
  * Container for molar absorptivity data for the visible spectrum of light.
- * Integer precision is sufficient for wavelength, and facilitates lookup.
+ * Integer precision is sufficient for wavelength, and simplifies lookup.
  * Values were measured experimentally by Julia Chamberlain,
- * and were copy-&-pasted from doc/wavelength-to-molarAbsorptivity.csv.
+ * and were copy-&-pasted from beers-law-lab/doc/wavelength-to-molarAbsorptivity.csv.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

@@ -19,8 +19,6 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class SoluteItemNode extends PComposite {
 
-    private static final PhetFont ITEM_FONT = new PhetFont( BLLConstants.CONTROL_FONT_SIZE );
-
     public SoluteItemNode( final Property<Color> color, final String label ) {
 
         // solute color chip
@@ -31,7 +29,7 @@ public class SoluteItemNode extends PComposite {
         // solute label
         HTMLNode labelNode = new HTMLNode();
         labelNode.setHTML( label );
-        labelNode.setFont( ITEM_FONT );
+        labelNode.setFont( new PhetFont( BLLConstants.CONTROL_FONT_SIZE ) );
         addChild( labelNode );
 
         // layout, color chip to left of label, centers vertically aligned

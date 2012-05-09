@@ -17,7 +17,7 @@ public class Solvent implements IFluid {
 
     /*
      * Pure water is a type of solvent.
-     * Since Solvents are immutable, we could use one static instance on Water.
+     * Since Solvents are immutable, we could use one static instance of Water.
      * But that seems a bit precarious; if it's ever changed to mutable, it could make for some odd/difficult bugs.
      */
     public static class Water extends Solvent {

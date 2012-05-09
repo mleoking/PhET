@@ -34,6 +34,7 @@ class SolutionControlsNode extends ControlPanelNode {
         return contentBounds;
     }
 
+    // This node lays out the control panel.
     private static class LayoutNode extends PNode {
         public LayoutNode( ArrayList<BeersLawSolution> solutions, Property<BeersLawSolution> currentSolution ) {
 

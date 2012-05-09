@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BLLCanvas extends PhetPCanvas {
+public abstract class BLLCanvas extends PhetPCanvas {
 
     private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( BLLCanvas.class.getCanonicalName() );
 

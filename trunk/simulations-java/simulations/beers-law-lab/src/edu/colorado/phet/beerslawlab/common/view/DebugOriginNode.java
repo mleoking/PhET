@@ -38,6 +38,6 @@ public class DebugOriginNode extends PPath {
     }
 
     @Override public void setTransform( AffineTransform transform ) {
-        throw new UnsupportedOperationException( "don't translate me" );
+        throw new UnsupportedOperationException( "don't transform me" );
     }
 }
