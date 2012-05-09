@@ -1,10 +1,5 @@
 TODO list for beers-law-lab
 
-HIGH
-
-MEDIUM
 - common: #3195, odd looking slider knobs for faucets and Evaporation control
 - common: #3242, make combo box popup appear on top of everything in the scenegraph
 - common: #3199, bigger slider thumb on FaucetNode (#3195, change standard slider thumb)
-
-LOW
