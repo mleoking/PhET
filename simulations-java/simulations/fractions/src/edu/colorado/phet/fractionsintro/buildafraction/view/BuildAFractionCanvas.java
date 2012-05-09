@@ -17,6 +17,7 @@ import java.util.Collection;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
@@ -165,7 +166,15 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
 
                     //If these representationBox are all the same size, then 2-column layout will work properly
                     PNode representationBox = new PatternNode( FilledPattern.sequentialFill( Pattern.sixFlower( 18 ), integer + 1 ), Color.red );
-                    return new HBox( new PhetPPath( new RoundRectangle2D.Double( 0, 0, 140, 150, 30, 30 ), controlPanelStroke, Color.darkGray ),
+                    return new HBox( new PhetPPath( new RoundRectangle2D.Double( 0, 0, 140, 150, 30, 30 ), controlPanelStroke, Color.darkGray ) {{
+
+                        //Light up if the user matched
+                        model.addObserver( new VoidFunction1<BuildAFractionState>() {
+                            @Override public void apply( final BuildAFractionState state ) {
+                                setStrokePaint( state.containsMatch( integer + 1, 6 ) ? Color.red : Color.darkGray );
+                            }
+                        } );
+                    }},
                                      representationBox );
                 }
             } );

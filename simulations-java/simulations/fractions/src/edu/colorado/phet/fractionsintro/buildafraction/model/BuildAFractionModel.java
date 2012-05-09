@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.buildafraction.controller.ModelUpdate;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -30,6 +31,8 @@ public class BuildAFractionModel implements Resettable {
     public void update( ModelUpdate update ) { state.set( update.update( state.get() ) ); }
 
     public void dragContainer( final PDimension delta ) { state.set( state.get().dragContainers( new Vector2D( delta ) ) ); }
+
+    public void addObserver( VoidFunction1<BuildAFractionState> observer ) { state.addObserver( observer ); }
 
     public void addObserver( ChangeObserver<BuildAFractionState> observer ) { state.addObserver( observer ); }
 
