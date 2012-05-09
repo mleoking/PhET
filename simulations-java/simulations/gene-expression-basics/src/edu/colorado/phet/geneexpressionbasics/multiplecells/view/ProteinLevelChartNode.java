@@ -62,7 +62,7 @@ public class ProteinLevelChartNode extends PNode {
         JFreeChart chart = createXYLineChart( AVERAGE_PROTEIN_LEVEL_VS_TIME, TIME, null, dataSet, PlotOrientation.VERTICAL );
 
         // Create and configure the x axis.
-        NumberAxis xAxis = new NumberAxis( MessageFormat.format( PATTERN__0VALUE__1UNITS, GeneExpressionBasicsResources.Strings.TIME, GeneExpressionBasicsResources.Strings.UNITS__S ) ); // TODO: i18n
+        NumberAxis xAxis = new NumberAxis( MessageFormat.format( PATTERN__0VALUE__1UNITS, TIME, UNITS__S ) );
         xAxis.setRange( 0, TIME_SPAN );
         xAxis.setNumberFormatOverride( new DecimalFormat( "##" ) );
         xAxis.setLabelFont( new PhetFont( 12 ) );
