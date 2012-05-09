@@ -21,11 +21,20 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  */
 public class BuildAFractionModel implements Resettable {
-    private final BuildAFractionState initialState = new BuildAFractionState( List.<Container>nil(), List.<Piece>nil(), List.<DraggableNumber>nil(), List.<DraggableFraction>nil(), Mode.NUMBERS );
+    private final BuildAFractionState initialState = new BuildAFractionState( List.<Container>nil(), List.<Piece>nil(), List.<DraggableNumber>nil(), List.<DraggableFraction>nil(), Mode.NUMBERS, 0.0 );
     public final Property<BuildAFractionState> state = new Property<BuildAFractionState>( initialState );
     public final ConstantDtClock clock = new ConstantDtClock();
 
     public BuildAFractionModel() {
+        clock.addSimulationTimeChangeListener( new VoidFunction1<Double>() {
+            @Override public void apply( final Double dt ) {
+                update( new ModelUpdate() {
+                    @Override public BuildAFractionState update( final BuildAFractionState state ) {
+                        return state.stepInTime( dt );
+                    }
+                } );
+            }
+        } );
     }
 
     public void update( ModelUpdate update ) { state.set( update.update( state.get() ) ); }
