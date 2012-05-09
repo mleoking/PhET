@@ -29,6 +29,8 @@ public @Data class BuildAFractionState {
 
     public final Mode mode;
 
+    public final double time;
+
     public static final ModelUpdate RELEASE_ALL = new ModelUpdate() {
         @Override public BuildAFractionState update( final BuildAFractionState state ) {
             return state.releaseAll();
@@ -44,13 +46,15 @@ public @Data class BuildAFractionState {
         };
     }
 
-    public BuildAFractionState withContainers( List<Container> containers ) { return new BuildAFractionState( containers, pieces, draggableNumbers, draggableFractions, mode ); }
+    public BuildAFractionState withContainers( List<Container> containers ) { return new BuildAFractionState( containers, pieces, draggableNumbers, draggableFractions, mode, time ); }
 
-    public BuildAFractionState withDraggableNumbers( List<DraggableNumber> numbers ) { return new BuildAFractionState( containers, pieces, numbers, draggableFractions, mode );}
+    public BuildAFractionState withDraggableNumbers( List<DraggableNumber> numbers ) { return new BuildAFractionState( containers, pieces, numbers, draggableFractions, mode, time );}
 
-    public BuildAFractionState withDraggableFractions( List<DraggableFraction> draggableFractions ) { return new BuildAFractionState( containers, pieces, draggableNumbers, draggableFractions, mode );}
+    public BuildAFractionState withDraggableFractions( List<DraggableFraction> draggableFractions ) { return new BuildAFractionState( containers, pieces, draggableNumbers, draggableFractions, mode, time );}
 
-    public BuildAFractionState withMode( final Mode mode ) { return new BuildAFractionState( containers, pieces, draggableNumbers, draggableFractions, mode ); }
+    public BuildAFractionState withMode( final Mode mode ) { return new BuildAFractionState( containers, pieces, draggableNumbers, draggableFractions, mode, time ); }
+
+    public BuildAFractionState withTime( final double time ) { return new BuildAFractionState( containers, pieces, draggableNumbers, draggableFractions, mode, time ); }
 
     public BuildAFractionState addEmptyContainer( final int numSegments, final Vector2D location ) { return addContainer( new Container( ContainerID.nextID(), new DraggableObject( location, true ), numSegments ) ); }
 
@@ -208,4 +212,6 @@ public @Data class BuildAFractionState {
         }
         return Option.none();
     }
+
+    public BuildAFractionState stepInTime( final double dt ) { return withTime( time + dt ); }
 }

@@ -19,7 +19,7 @@ public class BuildAFractionModule extends AbstractFractionsModule {
 
     private BuildAFractionModule( BuildAFractionModel model ) {
         super( Components.buildAFractionTab, "Build a Fraction", model.clock );
-//        PDebug.debugRegionManagement=true;
+//        PDebug.debugRegionManagement = true;
         setSimulationPanel( new BuildAFractionCanvas( model ) );
     }
 
