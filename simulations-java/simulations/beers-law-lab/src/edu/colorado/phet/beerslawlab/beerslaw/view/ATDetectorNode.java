@@ -20,7 +20,7 @@ import edu.colorado.phet.beerslawlab.common.BLLSimSharing.ParameterKeys;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
 import edu.colorado.phet.beerslawlab.common.view.DebugOriginNode;
 import edu.colorado.phet.beerslawlab.common.view.MovableDragHandler;
-import edu.colorado.phet.beerslawlab.common.view.HorizontalTiledNode;
+import edu.colorado.phet.common.piccolophet.nodes.HorizontalTiledNode;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
