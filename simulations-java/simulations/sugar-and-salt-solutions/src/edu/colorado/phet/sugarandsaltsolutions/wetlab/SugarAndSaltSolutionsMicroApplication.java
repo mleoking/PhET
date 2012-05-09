@@ -23,7 +23,7 @@ public class SugarAndSaltSolutionsMicroApplication {
     public static String SINGLE_MICRO_KIT = "-singleMicroKit";
 
     public static void main( String[] args ) {
-        new PhetApplicationLauncher().launchSim( new PhetApplicationConfig( append( args, SINGLE_MICRO_KIT ), SugarAndSaltSolutionsResources.NAME, SugarAndSaltSolutionsMicroApplication.NAME ), SugarAndSaltSolutionsApplication.class );
+        new PhetApplicationLauncher().launchSim( new PhetApplicationConfig( append( args, SINGLE_MICRO_KIT ), SugarAndSaltSolutionsResources.PROJECT_NAME, SugarAndSaltSolutionsMicroApplication.NAME ), SugarAndSaltSolutionsApplication.class );
     }
 
     private static String[] append( String[] args, final String s ) {
