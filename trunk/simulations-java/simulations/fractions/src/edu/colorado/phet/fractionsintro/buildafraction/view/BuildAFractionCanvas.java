@@ -174,8 +174,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                                 setStrokePaint( state.containsMatch( integer + 1, 6 ) ? Color.red : Color.darkGray );
                             }
                         } );
-                    }},
-                                     representationBox );
+                    }}, representationBox );
                 }
             } );
             final Collection<PNode> nodes = scoreBoxes.toCollection();
