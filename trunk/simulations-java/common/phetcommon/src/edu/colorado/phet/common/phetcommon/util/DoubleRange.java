@@ -172,7 +172,7 @@ public class DoubleRange {
      * http://mathworld.wolfram.com/ClosedInterval.html
      *
      * @param xRange
-     * @return
+     * @return true if ranges intersect, false if not
      */
     public boolean intersects( DoubleRange xRange ) {
         return ( _max >= xRange.getMin() && xRange.getMax() >= _min );
@@ -189,7 +189,7 @@ public class DoubleRange {
      * http://mathworld.wolfram.com/OpenInterval.html
      *
      * @param xRange
-     * @return
+     * @return true if ranges intersect, false if not
      */
     public boolean intersectsExclusive( DoubleRange xRange ) {
         return ( _max > xRange.getMin() && xRange.getMax() > _min );
