@@ -1,3 +1,4 @@
+5/9/12 added HorizontalTiledNode, for creating a node by tiling a set of images, useful for images that need to adjust width for i18n
 5/4/12 Fixed: Speed sensor resizes when readout changes
 4/25/12 Fixed: SensorNode jumps around, see #3318
 4/17/12 Performance improvements for PhetPText and PhetPPath, see #3309

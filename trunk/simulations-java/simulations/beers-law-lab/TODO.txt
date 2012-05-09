@@ -8,8 +8,3 @@ MEDIUM
 - common: #3199, bigger slider thumb on FaucetNode (#3195, change standard slider thumb)
 
 LOW
-
-SIM-SHARING
-
-MIGRATE TO COMMON
-- HorizontalTiledNode to piccolo-phet
