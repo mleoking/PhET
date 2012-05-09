@@ -144,7 +144,8 @@ public class VSliderNode extends SliderNode {
     protected Point2D.Double createEndPoint() {return new Point2D.Double( 0, trackNode.getFullBounds().getHeight() );}
 
     protected double getViewY( double value ) {
-        return new Function.LinearFunction( max, min, trackNode.getFullBounds().getMinY(), trackNode.getFullBounds().getHeight() ).evaluate( value );
+        // Use trackLength in this mapping, because trackNode bounds doesn't account for track stroke width.
+        return new Function.LinearFunction( max, min, 0, trackLength ).evaluate( value );
     }
 
     //Add a label to appear under the slider at the specified location
