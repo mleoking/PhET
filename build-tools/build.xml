@@ -150,7 +150,7 @@
         <phet-build-gui/>
     </target>
 
-    <!--Default target, see description-->
+    <!--Use an automated build to build as many things as possible for continuous integration, see #3326-->
     <target name="build-all" depends="_init" description="Show the PhET Build GUI for testing and deploying sims">
         <phet-build-all/>
     </target>
