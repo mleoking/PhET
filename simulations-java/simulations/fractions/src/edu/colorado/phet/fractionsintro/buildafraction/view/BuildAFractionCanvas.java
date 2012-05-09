@@ -360,7 +360,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
 
     public static PNode fractionTool( final double offsetX, final BuildAFractionModel model, final BuildAFractionCanvas canvas ) {
         return new PNode() {{
-            addChild( emptyFractionGraphic() );
+            addChild( emptyFractionGraphic( false ) );
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PBasicInputEventHandler() {
 
@@ -402,9 +402,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
         return new RichPNode( background, box );
     }
 
-    public static PNode emptyFractionGraphic() {
-        return emptyFractionGraphic( true, true );
-    }
+    public static PNode emptyFractionGraphic( boolean isUserDraggingZero ) { return emptyFractionGraphic( true, !isUserDraggingZero ); }
 
     private static PNode divisorLine() { return new PhetPPath( new Line2D.Double( 0, 0, 50, 0 ), new BasicStroke( 4, CAP_ROUND, JOIN_MITER ), black ); }
 

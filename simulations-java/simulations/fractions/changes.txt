@@ -1,3 +1,4 @@
+Build a fraction: Hide the denominator dotted line when the user is dragging 0
 Build a fraction: Prevent putting 0 in denominator, prevent putting a number in numerator or denominator if already filled
 Build a fraction: Disable number pickability when on a fraction, so mouse clicks will fall through to the fraction itself
 Build a fraction: Fixed: Numbers should move when dragging a fraction
