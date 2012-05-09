@@ -32,6 +32,6 @@ public class SugarAndSaltSolutionsMacroApplication extends PiccoloPhetApplicatio
     }
 
     public static void main( String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, SugarAndSaltSolutionsResources.NAME, NAME, SugarAndSaltSolutionsMacroApplication.class );
+        new PhetApplicationLauncher().launchSim( args, SugarAndSaltSolutionsResources.PROJECT_NAME, NAME, SugarAndSaltSolutionsMacroApplication.class );
     }
 }
