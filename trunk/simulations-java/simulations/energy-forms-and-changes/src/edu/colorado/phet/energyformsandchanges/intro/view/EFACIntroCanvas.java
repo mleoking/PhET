@@ -32,6 +32,7 @@ import edu.colorado.phet.energyformsandchanges.intro.model.Thermometer;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing.UserComponents.normalMotionRadioButton;
@@ -103,19 +104,29 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
             }} );
         }
 
+        // Add the lab bench surface.
+        final PNode labBenchSurface = new PImage( EnergyFormsAndChangesResources.Images.SHELF_LONG );
+        labBenchSurface.setOffset( mvt.modelToViewX( 0 ) - labBenchSurface.getFullBoundsReference().getWidth() / 2,
+                                   mvt.modelToViewY( 0 ) - labBenchSurface.getFullBoundsReference().getHeight() / 2 + 10 ); // Slight tweak factor here due to nature of image.
+        backLayer.addChild( labBenchSurface );
+
         // Add a node that will act as the background below the lab bench
         // surface, basically like the side of the bench.
         {
-            double width = model.getLabBenchSurface().getWidth() * 0.95;
+            double width = labBenchSurface.getFullBoundsReference().getWidth() * 0.95;
             double height = 1000; // Arbitrary large number, user should never see the bottom of this.
-            Shape benchSupportShape = new Rectangle2D.Double( -width / 2, -height, width, height );
-            backLayer.addChild( new PhetPPath( mvt.modelToView( benchSupportShape ), new Color( 120, 120, 120 ) ) );
+            Shape benchSupportShape = new Rectangle2D.Double( labBenchSurface.getFullBoundsReference().getCenterX() - width / 2,
+                                                              labBenchSurface.getFullBoundsReference().getCenterY(),
+                                                              width,
+                                                              height );
+            PhetPPath labBenchSide = new PhetPPath( benchSupportShape, new Color( 120, 120, 120 ) );
+            backLayer.addChild( labBenchSide );
+            labBenchSide.moveToBack(); // Must be behind bench top.
         }
 
-        // Add the lab bench surface.
-        final ShelfNode labBenchSurface = new ShelfNode( model.getLabBenchSurface(), mvt );
-        backLayer.addChild( labBenchSurface );
-        double centerYBelowSurface = ( STAGE_SIZE.getHeight() + labBenchSurface.getFullBoundsReference().getMaxY() ) / 2; // For layout below.
+        // Calculate the vertical center between the lower edge of the top of
+        // the bench and the bottom of the canvas.  This is for layout.
+        double centerYBelowSurface = ( STAGE_SIZE.getHeight() + labBenchSurface.getFullBoundsReference().getMaxY() ) / 2;
 
         // Add the clock controls. TODO: i18n
         {
