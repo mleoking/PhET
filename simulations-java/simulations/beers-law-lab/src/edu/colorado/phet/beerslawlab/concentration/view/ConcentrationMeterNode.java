@@ -211,9 +211,7 @@ class ConcentrationMeterNode extends PhetPNode {
             this.drainFluidNode = drainFluidNode;
             this.stockSolutionNode = stockSolutionNode;
 
-            PImage imageNode = new PImage( Images.CONCENTRATION_METER_PROBE ) {{
-                scale( 0.5 );
-            }};
+            PImage imageNode = new PImage( Images.CONCENTRATION_METER_PROBE );
             addChild( imageNode );
             imageNode.setOffset( -imageNode.getFullBoundsReference().getWidth() / 2, -imageNode.getFullBoundsReference().getHeight() / 2 );
 
