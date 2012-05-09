@@ -4,6 +4,12 @@ Convention
 Property types (e.g. Property< Double > position) are public.  All other
 attributes of a class are private and are accessed via accessor methods.
 
+A convention used in this sim which is a bit unusual is that the position of a
+2D model object is the center bottom of the objects shape, i.e. the center of
+the shape in the x direction but the bottom of the shape in the Y direction.
+This was done to make it easier to detect when a model object is sitting on a
+surface.
+
 Tab 1
 
 Acceleration is used to make things fall to give it a more natural look.
