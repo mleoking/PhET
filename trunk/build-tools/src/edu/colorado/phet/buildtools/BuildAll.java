@@ -15,6 +15,13 @@ public class BuildAll extends Task {
     public void execute() throws BuildException {
         super.execute();
 
+        try {
+            System.setProperty( "java.awt.headless", "true" );
+        }
+        catch ( RuntimeException e ) {
+            System.err.println( "Failed to set headless property." );
+        }
+
         //Read the property for trunk.  Trunk is passed with a system property to make it compatible with
         //other clients such as jenkins, see #3326
         //See http://ant.1045680.n5.nabble.com/How-to-pass-Java-system-properties-to-a-task-defined-in-a-taskdef-td1354342.html
@@ -26,6 +33,9 @@ public class BuildAll extends Task {
         if ( !trunkFile.exists() ) {
             throw new BuildException( "No such trunk: " + trunkFile.getAbsolutePath() );
         }
+
+        //Have to init BuildLocalProperties
+        BuildLocalProperties.initRelativeToTrunk( trunkFile );
         PhetProject[] projects = PhetProject.getAllSimulationProjects( trunkFile );
         for ( PhetProject phetProject : projects ) {
             System.out.print( "Building " + phetProject.getName() + "..." );
