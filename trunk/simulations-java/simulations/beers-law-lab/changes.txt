@@ -1,3 +1,4 @@
+5/9/12 resize concentration meter probe image file, make probe appear slightly larger
 5/9/12 new image file for concentration meter probe, provided by NP
 4/27/12 Beers: Reverted units change in the concentration tab.
 # 1.00.04 (63704) Apr 24, 2012
