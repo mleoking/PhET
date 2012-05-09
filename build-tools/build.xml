@@ -102,6 +102,7 @@
 
     <!-- PhET task implementations -->
     <property name="phet-build-gui-classname" value="edu.colorado.phet.buildtools.gui.PhetBuildGUITask"/>
+    <property name="phet-build-all-classname" value="edu.colorado.phet.buildtools.BuildAll"/>
     <property name="phetbuild-classpath-jars"
               value="${proguard.jar}:${apache.commons.lang.jar}:${jsch.jar}:${scala-compiler.jar}:${scala-library.jar}:${yuicompressor.jar}:${junit.jar}:${jnlp.jar}:${jgit.jar}:${mongo.jar}"/>
     <property name="phetbuild-classpath" value="${phetbuild-classes-dir}:${phetbuild-classpath-jars}"/>
@@ -139,11 +140,19 @@
         <taskdef name="phet-build-gui"
                  classname="${phet-build-gui-classname}"
                  classpath="${phetbuild-classpath}"/>
+        <taskdef name="phet-build-all"
+                 classname="${phet-build-all-classname}"
+                 classpath="${phetbuild-classpath}"/>
     </target>
 
     <!--Default target, see description-->
     <target name="phet-build-gui" depends="_init" description="Show the PhET Build GUI for testing and deploying sims">
         <phet-build-gui/>
+    </target>
+
+    <!--Default target, see description-->
+    <target name="build-all" depends="_init" description="Show the PhET Build GUI for testing and deploying sims">
+        <phet-build-all/>
     </target>
 
     <target name="phet-build-gui-jar" depends="_build-phet-build">

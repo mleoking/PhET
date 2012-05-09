@@ -1,3 +1,4 @@
+Added build-all task for jenkins, see #3326
 Used sim-event-processor project as a library project from the command line, so do not discard any classes
 Added ability to specify "all-permissions" for individual flavors, see #3136
 Fixed build.xml to not require piccolo, see #3135, #3156
