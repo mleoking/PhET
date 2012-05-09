@@ -1,4 +1,4 @@
-5/9/12 rename TiledBackgroundNode to HorizontalTiledBackgroundNode
+5/9/12 rename TiledBackgroundNode to HorizontalTiledNode
 5/9/12 document workaround for WavelengthControl bounds issue
 5/9/12 minor documentation cleanup
 5/9/12 adjust offset of concentration probe image to account its new shape, so that origin is at center of crosshairs
