@@ -168,11 +168,13 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                     final int numerator = integer + 1;
                     PNode representationBox = new PatternNode( FilledPattern.sequentialFill( Pattern.sixFlower( 18 ), numerator ), Color.red );
                     return new HBox( new PhetPPath( new RoundRectangle2D.Double( 0, 0, 140, 150, 30, 30 ), controlPanelStroke, Color.darkGray ) {{
+
                         //Light up if the user matched
                         model.addObserver( new ChangeObserver<BuildAFractionState>() {
                             @Override public void update( final BuildAFractionState newValue, final BuildAFractionState oldValue ) {
                                 if ( newValue.containsMatch( numerator, 6 ) != oldValue.containsMatch( numerator, 6 ) ) {
                                     setStrokePaint( newValue.containsMatch( numerator, 6 ) ? Color.red : Color.darkGray );
+                                    setStroke( controlPanelStroke );
                                 }
                                 if ( newValue.containsMatch( numerator, 6 ) ) {
 //                                    System.out.println( "model.state.get().time = " + model.state.get().time );
