@@ -34,6 +34,9 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
+import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources.Strings.PROTEIN_COUNT_CAPTION_PART_1;
+import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources.Strings.PROTEIN_COUNT_CAPTION_PART_2;
+
 /**
  * A PNode that represents a labeled box where the user can collect protein
  * molecules.
@@ -122,9 +125,8 @@ public class ProteinCollectionNode extends PNode {
             removeAllChildren();
             PNode collectedQuantityIndicator = new VBox(
                     5,
-                    // TODO: i18n.
-                    new HBox( 4, new ReadoutPText( "You have: " ), new IntegerBox( numProteinTypesCollected ) ),
-                    new ReadoutPText( "of 3 protein types." ) {{
+                    new HBox( 4, new ReadoutPText( PROTEIN_COUNT_CAPTION_PART_1 ), new IntegerBox( numProteinTypesCollected ) ),
+                    new ReadoutPText( PROTEIN_COUNT_CAPTION_PART_2 ) {{
                         setFont( READOUT_FONT );
                     }}
 
