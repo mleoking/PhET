@@ -15,7 +15,10 @@ public class BuildAll extends Task {
     public void execute() throws BuildException {
         super.execute();
 
-        String trunk = System.getProperty( "trunk" );
+        //Read the property for trunk.  Trunk is passed with a system property to make it compatible with
+        //other clients such as jenkins, see #3326
+        //See http://ant.1045680.n5.nabble.com/How-to-pass-Java-system-properties-to-a-task-defined-in-a-taskdef-td1354342.html
+        String trunk = this.getOwningTarget().getProject().getProperty( "trunk" );
         if ( trunk == null ) {
             throw new BuildException( "Trunk must be passed as a system property, like -Dtrunk=/path/to/trunk" );
         }
