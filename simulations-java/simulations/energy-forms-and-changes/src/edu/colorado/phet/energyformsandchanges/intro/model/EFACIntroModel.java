@@ -16,7 +16,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
-import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 
 /**
  * Primary model class for the "Intro" tab of the Energy Forms and Changes
@@ -49,9 +48,6 @@ public class EFACIntroModel {
     // Main model clock.
     protected final ConstantDtClock clock = new ConstantDtClock( FRAMES_PER_SECOND );
 
-    // Surface of the lab bench.
-    private final Shelf labBenchSurface;
-
     // Burners.
     private final Burner leftBurner;
     private final Burner rightBurner;
@@ -76,15 +72,6 @@ public class EFACIntroModel {
                 stepInTime( clockEvent.getSimulationTimeChange() );
             }
         } );
-
-        // Add the main lab bench shelf.  The center of the shelf is the point
-        // (0, 0) in model space.
-        labBenchSurface = new Shelf( new Point2D.Double( -LAB_TABLE_WIDTH / 2, 0 ),
-                                     LAB_TABLE_WIDTH,
-                                     EnergyFormsAndChangesResources.Images.SHELF_LONG,
-                                     LAB_TABLE_WIDTH * 0.015,
-                                     LAB_TABLE_WIDTH * 0.05,
-                                     Math.PI / 2 );
 
         // Add the burners.
         rightBurner = new Burner( new Point2D.Double( 0.18, 0 ) );
@@ -322,10 +309,6 @@ public class EFACIntroModel {
 
     public IClock getClock() {
         return clock;
-    }
-
-    public Shelf getLabBenchSurface() {
-        return labBenchSurface;
     }
 
     public Brick getBrick() {
