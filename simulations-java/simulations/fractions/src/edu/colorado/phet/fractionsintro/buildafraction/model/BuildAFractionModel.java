@@ -100,4 +100,12 @@ public class BuildAFractionModel implements Resettable {
     }
 
     @Override public void reset() { state.set( initialState ); }
+
+    public void splitFraction( final FractionID id ) {
+        update( new ModelUpdate() {
+            @Override public BuildAFractionState update( final BuildAFractionState state ) {
+                return state.splitFraction( id );
+            }
+        } );
+    }
 }

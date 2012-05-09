@@ -50,3 +50,5 @@ Build a Fraction:
 ID's are used to identify objects over time, they were introduced to facilitate integration with piccolo.  One separate ClassID class is created for each model type that needs ID.
 Not sure if there is a way around this or a better way to do this.  This is a significant drawback, and a good argument in favor of doing imperative instead of functional programming.
 On the other hand, tracking objects around the screen has been a requested feature of sim sharing, and this would make it trivial.
+Referencing objects by ID's also has the following tradeoff: lots of .some() calls sprinkled in the model code (or checks for isSome()).  In reference/identity equality, we typically don't check
+to see that the instance is still contained in the model and hence sometimes erroneously act on model items that have been removed already.

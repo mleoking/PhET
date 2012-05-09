@@ -38,6 +38,7 @@ public class FractionsResources {
         public static final BufferedImage SCALE = RESOURCES.getImage( "scale.png" );
         public static final BufferedImage SOUND_MAX = RESOURCES.getImage( "sound-max.png" );
         public static final BufferedImage SOUND_MIN = RESOURCES.getImage( "sound-min.png" );
+        public static final BufferedImage SPLIT_BLUE = RESOURCES.getImage( "split-blue.png" );
         public static final BufferedImage UNLOCKED = RESOURCES.getImage( "unlocked.png" );
         public static final BufferedImage WATER_GLASS_BACK = RESOURCES.getImage( "water_glass_back.png" );
         public static final BufferedImage WATER_GLASS_FRONT = RESOURCES.getImage( "water_glass_front.png" );
