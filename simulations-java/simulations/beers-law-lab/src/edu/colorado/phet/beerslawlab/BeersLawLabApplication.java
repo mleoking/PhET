@@ -20,13 +20,17 @@ public class BeersLawLabApplication extends PiccoloPhetApplication {
 
     public BeersLawLabApplication( PhetApplicationConfig config ) {
         super( config );
+
         Frame parentFrame = getPhetFrame();
         addModule( new ConcentrationModule( parentFrame ) );
         addModule( new BeersLawModule( parentFrame ) );
 
-        //TODO delete this block when development is complete.
+        // Dev: Start with the module number specified on the command line.
         if ( isDeveloperControlsEnabled() ) {
-            setStartModule( getModule( 1 ) );
+            String startModuleNumber = config.getOptionArg( "-startModule" );
+            if ( startModuleNumber != null ) {
+                setStartModule( getModule( Integer.valueOf( startModuleNumber ) ) );
+            }
         }
     }
 
