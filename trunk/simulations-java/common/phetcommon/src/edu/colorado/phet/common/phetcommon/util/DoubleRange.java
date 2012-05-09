@@ -163,9 +163,24 @@ public class DoubleRange {
 
     /**
      * Do the two ranges overlap with one another?  Note that this assumes that
-     * this is an open interval, hence the use of '>' and '<' instead of '>='
-     * and '<='.  If this ever matters, we have have to get more specific about
-     * whether the ends of the range are open or closed.
+     * this is a closed interval.
+     * <p/>
+     * Algorithm reference:
+     * http://eli.thegreenplace.net/2008/08/15/intersection-of-1d-segments/
+     * <p/>
+     * Closed Interval definition reference:
+     * http://mathworld.wolfram.com/ClosedInterval.html
+     *
+     * @param xRange
+     * @return
+     */
+    public boolean intersects( DoubleRange xRange ) {
+        return ( _max >= xRange.getMin() && xRange.getMax() >= _min );
+    }
+
+    /**
+     * Do the two ranges overlap with one another?  Note that this assumes that
+     * this is a open interval.
      * <p/>
      * Algorithm reference:
      * http://eli.thegreenplace.net/2008/08/15/intersection-of-1d-segments/
@@ -176,7 +191,7 @@ public class DoubleRange {
      * @param xRange
      * @return
      */
-    public boolean intersects( DoubleRange xRange ) {
+    public boolean intersectsExclusive( DoubleRange xRange ) {
         return ( _max > xRange.getMin() && xRange.getMax() > _min );
     }
 

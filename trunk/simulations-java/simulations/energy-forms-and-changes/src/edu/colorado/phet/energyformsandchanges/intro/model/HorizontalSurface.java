@@ -22,7 +22,7 @@ public class HorizontalSurface {
     }
 
     public boolean overlapsWith( HorizontalSurface surface ) {
-        return ( xRange.intersects( surface.xRange ) );
+        return ( xRange.intersectsExclusive( surface.xRange ) );
     }
 
     public double getCenterX() {
