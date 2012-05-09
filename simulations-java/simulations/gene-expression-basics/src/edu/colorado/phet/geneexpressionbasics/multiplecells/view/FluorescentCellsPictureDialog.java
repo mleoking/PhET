@@ -55,7 +55,6 @@ public class FluorescentCellsPictureDialog extends PaintImmediateDialog {
         picture.setSize( image.getWidth(), image.getHeight() );
 
         // Caption
-        // TODO: i18n.
         JTextArea text = new JTextArea( GeneExpressionBasicsResources.Strings.IMAGE_CAPTION + " " + GeneExpressionBasicsResources.Strings.IMAGE_ATTRIBUTION + " Dennis Kunkel Microscopy, Inc." );
         text.setFont( CAPTION_FONT );
         text.setColumns( 30 );

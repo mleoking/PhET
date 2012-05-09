@@ -6,6 +6,7 @@ import java.awt.GradientPaint;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -34,8 +35,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources.Strings.AVERAGE_PROTEIN_LEVEL_VS_TIME;
-import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources.Strings.TIME;
+import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources.Strings.*;
 
 /**
  * This class defines a PNode that displays the average protein level for a
@@ -62,7 +62,7 @@ public class ProteinLevelChartNode extends PNode {
         JFreeChart chart = createXYLineChart( AVERAGE_PROTEIN_LEVEL_VS_TIME, TIME, null, dataSet, PlotOrientation.VERTICAL );
 
         // Create and configure the x axis.
-        NumberAxis xAxis = new NumberAxis( "TBD" ); // TODO: i18n
+        NumberAxis xAxis = new NumberAxis( MessageFormat.format( PATTERN__0VALUE__1UNITS, GeneExpressionBasicsResources.Strings.TIME, GeneExpressionBasicsResources.Strings.UNITS__S ) ); // TODO: i18n
         xAxis.setRange( 0, TIME_SPAN );
         xAxis.setNumberFormatOverride( new DecimalFormat( "##" ) );
         xAxis.setLabelFont( new PhetFont( 12 ) );
@@ -167,7 +167,6 @@ public class ProteinLevelChartNode extends PNode {
     public static class YAxisLabel extends PNode {
         public YAxisLabel( final double height ) {
             // Labels for the top and bottom of the gradient key.
-            // TODO: i18n
             PText lotsLabel = new PText( GeneExpressionBasicsResources.Strings.LOTS );
             lotsLabel.setFont( new PhetFont( 12 ) );
             PText noneLabel = new PText( GeneExpressionBasicsResources.Strings.NONE );
@@ -191,7 +190,6 @@ public class ProteinLevelChartNode extends PNode {
             proteinLevelColorKey.setPaint( new GradientPaint( 0, (float) height, ColorChangingCellNode.NOMINAL_FILL_COLOR, 0, 0, ColorChangingCellNode.FLORESCENT_FILL_COLOR ) );
 
             // Create the main label.
-            // TODO: i18n
             PNode mainLabel = new ZeroOffsetNode( new PText( GeneExpressionBasicsResources.Strings.AVERAGE_PROTEIN_LEVEL ) {{
                 setFont( new PhetFont( 14 ) );
                 rotate( -Math.PI / 2 );

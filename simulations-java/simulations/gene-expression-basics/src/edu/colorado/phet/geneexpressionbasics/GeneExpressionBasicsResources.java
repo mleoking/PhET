@@ -37,6 +37,7 @@ public class GeneExpressionBasicsResources {
         public static final String NEXT_GENE = RESOURCES.getLocalizedString( "nextGene" );
         public static final String NONE = RESOURCES.getLocalizedString( "none" );
         public static final String ONE = RESOURCES.getLocalizedString( "one" );
+        public static final String PATTERN__0VALUE__1UNITS = RESOURCES.getLocalizedString( "pattern.0value.1units" );
         public static final String POLYMERASE = RESOURCES.getLocalizedString( "polymerase" );
         public static final String POSITIVE_TRANSCRIPTION_FACTOR = RESOURCES.getLocalizedString( "positiveTranscriptionFactor" );
         public static final String POSITIVE_TRANSCRIPTION_FACTOR_HTML = RESOURCES.getLocalizedString( "positiveTranscriptionFactorHtml" );
