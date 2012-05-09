@@ -189,4 +189,23 @@ public @Data class BuildAFractionState {
             }
         } ) );
     }
+
+    public boolean containsMatch( final int numerator, final int denominator ) {
+        final double targetValue = ( (double) numerator ) / denominator;
+        return draggableFractions.exists( new F<DraggableFraction, Boolean>() {
+            @Override public Boolean f( final DraggableFraction f ) {
+                Option<Double> value = evaluate( f );
+                return value.isSome() && Math.abs( value.some() - targetValue ) < 1E-6;
+            }
+        } );
+    }
+
+    private Option<Double> evaluate( final DraggableFraction f ) {
+        if ( f.getNumerator().isSome() && f.getDenominator().isSome() ) {
+            double numerator = getDraggableNumber( f.getNumerator().some() ).some().number;
+            double denominator = getDraggableNumber( f.getDenominator().some() ).some().number;
+            return Option.some( numerator / denominator );
+        }
+        return Option.none();
+    }
 }
