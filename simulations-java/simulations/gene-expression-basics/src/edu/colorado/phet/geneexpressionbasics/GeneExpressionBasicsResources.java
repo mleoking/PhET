@@ -42,6 +42,8 @@ public class GeneExpressionBasicsResources {
         public static final String POSITIVE_TRANSCRIPTION_FACTOR_HTML = RESOURCES.getLocalizedString( "positiveTranscriptionFactorHtml" );
         public static final String PREVIOUS_GENE = RESOURCES.getLocalizedString( "previousGene" );
         public static final String PROTEIN = RESOURCES.getLocalizedString( "protein" );
+        public static final String PROTEIN_COUNT_CAPTION_PART_1 = RESOURCES.getLocalizedString( "proteinCountCaptionPart1" );
+        public static final String PROTEIN_COUNT_CAPTION_PART_2 = RESOURCES.getLocalizedString( "proteinCountCaptionPart2" );
         public static final String REGULATORY_REGION = RESOURCES.getLocalizedString( "regulatoryRegion" );
         public static final String RIBOSOME = RESOURCES.getLocalizedString( "ribosome" );
         public static final String RNA_POLYMERASE = RESOURCES.getLocalizedString( "rnaPolymerase" );
