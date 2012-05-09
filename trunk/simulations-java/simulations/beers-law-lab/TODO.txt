@@ -15,9 +15,6 @@ MEDIUM
 - BeersLawModel: compute drag bounds of various movable objects based on stage size
 
 LOW
-- nasty bounds hack in WavelengthControlNode
-- Concentration: shaker dispenses more than the max amount of solute, model doesn't keep track of solute falling from shaker
-- Concentration: use CompositeProperty for Shaker.dispensingRate?
 
 SIM-SHARING
 

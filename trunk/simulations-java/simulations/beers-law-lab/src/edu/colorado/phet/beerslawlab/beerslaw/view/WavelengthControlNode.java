@@ -81,8 +81,12 @@ class WavelengthControlNode extends PNode implements Resettable {
         parentNode.addChild( panelNode );
         parentNode.addChild( wavelengthWrapperNode );
 
-        //TODO this is really nasty
-        // The bounds of the wavelength control changes as the slider knob is dragged. Prevent the control panel from resizing.
+        /*
+         * WORKAROUND for #3327:
+         * The bounds of the wavelength control changes as the slider knob is dragged.
+         * To prevent the control panel from resizing, we determine the extents of the control's bounds,
+         * then add a horizontal strut to the control panel.
+         */
         {
             // remember the wavelength
             final double saveWavelength = light.wavelength.get();
