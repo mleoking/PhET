@@ -194,7 +194,7 @@ class ConcentrationMeterNode extends PhetPNode {
         }
     }
 
-    // Meter probe, origin at geometric center.
+    // Meter probe, origin at center of crosshairs.
     private static class ProbeNode extends PNode {
 
         private final ConcentrationMeter meter;
@@ -213,7 +213,8 @@ class ConcentrationMeterNode extends PhetPNode {
 
             PImage imageNode = new PImage( Images.CONCENTRATION_METER_PROBE );
             addChild( imageNode );
-            imageNode.setOffset( -imageNode.getFullBoundsReference().getWidth() / 2, -imageNode.getFullBoundsReference().getHeight() / 2 );
+            final double radius = imageNode.getFullBoundsReference().getHeight() / 2; // assumes that image height defines the radius
+            imageNode.setOffset( -radius, -radius );
 
             // probe location
             meter.probe.location.addObserver( new VoidFunction1<ImmutableVector2D>() {
