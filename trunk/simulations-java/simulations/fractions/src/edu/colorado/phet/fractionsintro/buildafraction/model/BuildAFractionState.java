@@ -161,4 +161,12 @@ public @Data class BuildAFractionState {
             }
         } ) );
     }
+
+    public boolean isUserDraggingZero() {
+        return draggableNumbers.exists( new F<DraggableNumber, Boolean>() {
+            @Override public Boolean f( final DraggableNumber draggableNumber ) {
+                return draggableNumber.isDragging() && draggableNumber.number == 0;
+            }
+        } );
+    }
 }
