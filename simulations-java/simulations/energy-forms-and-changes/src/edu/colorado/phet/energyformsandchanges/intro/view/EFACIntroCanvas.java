@@ -173,37 +173,13 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         for ( Thermometer thermometer : model.getThermometers() ) {
             thermometerToolBox.putThermometerInOpenSpot( thermometer );
             final ThermometerNode thermometerNode = new ThermometerNode( thermometer, mvt );
-            // Initially add to back layer.  It will move to front when removed from tool box.
-            backLayer.addChild( thermometerNode );
+            frontLayer.addChild( thermometerNode );
             thermometerNode.addInputEventListener( new PBasicInputEventHandler() {
 
                 // Put the thermometer into the tool box if dropped over it.
                 @Override public void mouseReleased( PInputEvent event ) {
                     if ( thermometerNode.getFullBoundsReference().intersects( thermometerToolBox.getFullBoundsReference() ) ) {
                         thermometerToolBox.putThermometerInOpenSpot( thermometerNode.getThermometer() );
-
-                        // Move thermometer to the back layer so that it will
-                        // be behind things that are dragged over the tool box.
-                        if ( frontLayer.getAllNodes().contains( thermometerNode ) ) {
-                            frontLayer.removeChild( thermometerNode );
-                            backLayer.addChild( thermometerNode );
-                            System.out.println( "Moving thermometer to back." );
-                        }
-                    }
-                }
-            } );
-
-            thermometer.userControlled.addObserver( new VoidFunction1<Boolean>() {
-                public void apply( Boolean userControlled ) {
-                    if ( userControlled ) {
-                        // Move the thermometer to the front when it becomes
-                        // user controlled.  It will remain in front until
-                        // returned to the tool box.
-                        if ( backLayer.getAllNodes().contains( thermometerNode ) ) {
-                            backLayer.removeChild( thermometerNode );
-                            frontLayer.addChild( thermometerNode );
-                            System.out.println( "Moving thermometer to front." );
-                        }
                     }
                 }
             } );
