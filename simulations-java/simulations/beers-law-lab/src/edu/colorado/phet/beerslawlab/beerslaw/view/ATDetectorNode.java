@@ -63,6 +63,7 @@ class ATDetectorNode extends PhetPNode {
         //NOTE: layout is handled by child nodes observing model elements.
     }
 
+    // The body of the detector, where A and T values are displayed.
     private static class BodyNode extends PNode {
 
         private static final double BUTTONS_X_MARGIN = 20;  // specific to image files
@@ -141,6 +142,7 @@ class ATDetectorNode extends PhetPNode {
         }
     }
 
+    // The probe, whose position indicates where the measurement is being made.
     private static class ProbeNode extends PNode {
 
         private static final double PROBE_CENTER_Y_OFFSET = 55; // specific to image file

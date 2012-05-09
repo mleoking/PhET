@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
- * A drag handler for something that is movable.
+ * A drag handler for something that is movable and constrained to some bounds.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

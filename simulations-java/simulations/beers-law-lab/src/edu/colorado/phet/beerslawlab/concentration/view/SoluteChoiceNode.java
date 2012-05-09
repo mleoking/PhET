@@ -28,14 +28,12 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 class SoluteChoiceNode extends PhetPNode {
 
-    private static final PhetFont LABEL_FONT = new PhetFont( BLLConstants.CONTROL_FONT_SIZE );
-
     private final SoluteComboBoxNode comboBoxNode; // keep a reference so we can add observers to ComboBoxNode.selectedItem
 
     public SoluteChoiceNode( ArrayList<Solute> solutes, final Property<Solute> currentSolute ) {
 
         PText labelNode = new PText( MessageFormat.format( Strings.PATTERN_0LABEL, BLLResources.Strings.SOLUTE ) ) {{
-            setFont( LABEL_FONT );
+            setFont( new PhetFont( BLLConstants.CONTROL_FONT_SIZE ) );
         }};
         addChild( labelNode );
 

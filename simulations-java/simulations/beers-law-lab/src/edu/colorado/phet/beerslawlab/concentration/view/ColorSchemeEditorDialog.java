@@ -40,6 +40,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Editor for color schemes that map concentration to color.
+ * This is a developer feature, and does not require i18n.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

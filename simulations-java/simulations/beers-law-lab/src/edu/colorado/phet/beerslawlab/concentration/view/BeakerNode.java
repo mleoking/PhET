@@ -27,7 +27,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 class BeakerNode extends PComposite {
 
-    public enum TicksLocation {LEFT, RIGHT} // which edge of the beaker are the ticks on?
+    // Which edge of the beaker are the ticks on? This flip-flopped a few times during development, so I chose to keep this feature for posterity.
+    public enum TicksLocation {LEFT, RIGHT}
 
     private static final double MAX_VOLUME = 1; // L
 
@@ -104,8 +105,10 @@ class BeakerNode extends PComposite {
     }
 
     private void updateTicks( TicksLocation ticksLocation ) {
+
         ticksNode.removeAllChildren();
-        int numberOfTicks = (int) Math.round( MAX_VOLUME / MINOR_TICK_SPACING );
+
+        final int numberOfTicks = (int) Math.round( MAX_VOLUME / MINOR_TICK_SPACING );
         final double leftX = -getOriginXOffset(); // don't use bounds or position will be off because of stroke width
         final double rightX = getOriginXOffset();
         final double bottomY = beaker.size.getHeight() - getOriginYOffset(); // don't use bounds or position will be off because of stroke width

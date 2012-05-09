@@ -10,6 +10,7 @@ import edu.umd.cs.piccolo.PNode;
 
 /**
  * Faucet with sim-sharing.
+ * Reuses the common-code faucet node via composition.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

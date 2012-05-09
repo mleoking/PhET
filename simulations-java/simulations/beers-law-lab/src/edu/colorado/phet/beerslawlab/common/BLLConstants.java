@@ -16,7 +16,7 @@ public class BLLConstants {
     public static final int TICK_LABEL_FONT_SIZE = 14;
     public static final Stroke FLUID_STROKE = new BasicStroke( 0.25f );
 
-    // Creates a stroke color that for a fluid color.
+    // Creates a stroke color for a fluid color.
     public static final Color createFluidStrokeColor( Color fluidColor ) {
         return fluidColor.darker().darker();
     }

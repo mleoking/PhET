@@ -13,7 +13,8 @@ import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * A ruler, constrained to drag within the bounds of the stage.
+ * Visual representation of the ruler.
+ * This is a wrapper around the common-code ruler node.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

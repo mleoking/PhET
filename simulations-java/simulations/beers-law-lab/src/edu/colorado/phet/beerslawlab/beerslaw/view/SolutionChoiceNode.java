@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution;
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
-import edu.colorado.phet.beerslawlab.common.BLLResources;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
 import edu.colorado.phet.beerslawlab.common.view.SoluteItemNode;
@@ -27,14 +26,12 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 class SolutionChoiceNode extends PhetPNode {
 
-    private static final PhetFont LABEL_FONT = new PhetFont( BLLConstants.CONTROL_FONT_SIZE );
-
     private final SolutionComboBoxNode comboBoxNode; // keep a reference so we can add observers to ComboBoxNode.selectedItem
 
     public SolutionChoiceNode( ArrayList<BeersLawSolution> solutions, final Property<BeersLawSolution> currentSolution ) {
 
         PText labelNode = new PText( MessageFormat.format( Strings.PATTERN_0LABEL, Strings.SOLUTION ) ) {{
-            setFont( LABEL_FONT );
+            setFont( new PhetFont( BLLConstants.CONTROL_FONT_SIZE ) );
         }};
         addChild( labelNode );
 

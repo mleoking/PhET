@@ -39,7 +39,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 /**
  * Concentration meter, with probe.
  * <p/>
- * The probe needs to register the concentration when of all possible fluids that it may contact, including:
+ * The probe registers the concentration of all possible fluids that it may contact, including:
  * <ul>
  * <li>solution in the beaker
  * <li>output of the solvent faucet

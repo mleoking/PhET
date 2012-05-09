@@ -1,3 +1,4 @@
+5/9/12 minor documentation cleanup
 5/9/12 adjust offset of concentration probe image to account its new shape, so that origin is at center of crosshairs
 5/9/12 resize concentration meter probe image file, make probe appear slightly larger
 5/9/12 new image file for concentration meter probe, provided by NP
