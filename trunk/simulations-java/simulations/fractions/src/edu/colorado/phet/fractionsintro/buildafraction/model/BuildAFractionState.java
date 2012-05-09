@@ -169,4 +169,24 @@ public @Data class BuildAFractionState {
             }
         } );
     }
+
+    //Takes a fraction that is part of this model and has both numerator and denominator and splits it up.
+    public BuildAFractionState splitFraction( final FractionID id ) {
+        //TODO: add error handling to check preconditions?
+        final DraggableFraction fraction = getDraggableFraction( id ).some();
+        final DraggableFraction newFraction = fraction.withNumerator( Option.<DraggableNumberID>none() ).withDenominator( Option.<DraggableNumberID>none() );
+        final DraggableNumber numerator = getDraggableNumber( fraction.getNumerator().some() ).some();
+        final DraggableNumber denominator = getDraggableNumber( fraction.getDenominator().some() ).some();
+        return withDraggableFractions( draggableFractions.map( new F<DraggableFraction, DraggableFraction>() {
+            @Override public DraggableFraction f( final DraggableFraction f ) {
+                return f == fraction ? newFraction : f;
+            }
+        } ) ).withDraggableNumbers( draggableNumbers.map( new F<DraggableNumber, DraggableNumber>() {
+            @Override public DraggableNumber f( final DraggableNumber n ) {
+                return n == numerator ? numerator.detach() :
+                       n == denominator ? denominator.detach() :
+                       n;
+            }
+        } ) );
+    }
 }

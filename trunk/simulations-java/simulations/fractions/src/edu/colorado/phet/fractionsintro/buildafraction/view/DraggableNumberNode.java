@@ -33,7 +33,7 @@ public class DraggableNumberNode extends PNode {
                         if ( some.attachment.isSome() ) {
 //                            System.out.println( "rendering number node with attachment, some= " + some );
                             final DraggableFractionNode draggableFractionNode = canvas.getDraggableFractionNode( some.attachment.some()._1() );
-                            final Point2D center2D = draggableFractionNode.getFullBounds().getCenter2D();
+                            final Point2D center2D = draggableFractionNode.getFractionCenter();
                             double offset = some.attachment.some()._2() ? -getFullBounds().getHeight() / 2 :
                                             getFullBounds().getHeight() / 2;
                             centerFullBoundsOnPoint( center2D.getX(), center2D.getY() + offset );

@@ -43,4 +43,6 @@ public @Data class DraggableNumber {
     public boolean isAttachedTo( final FractionID fractionID ) { return attachment.isSome() && attachment.some()._1().equals( fractionID ); }
 
     public DraggableNumber withPosition( final Vector2D position ) { return withDraggableObject( draggableObject.withPosition( position ) ); }
+
+    public DraggableNumber detach() { return withAttachment( Option.<DefaultP2<FractionID, Boolean>>none() ); }
 }
