@@ -12,4 +12,4 @@ LOW
 SIM-SHARING
 
 MIGRATE TO COMMON
-- HorizontalTiledBackgroundNode to piccolo-phet
+- HorizontalTiledNode to piccolo-phet
