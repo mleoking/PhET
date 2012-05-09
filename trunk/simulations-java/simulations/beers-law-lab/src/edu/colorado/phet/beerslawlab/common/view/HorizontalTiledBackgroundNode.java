@@ -7,17 +7,17 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
- * A background image that is created for a specific width by tiling a set of images.
+ * A background image that is created for a specific width by horizontally tiling a set of images.
  * The left and right images can be thought of as "book ends", with the center image tiled to fill the space in the middle.
  * This allows us to create (for example) control panels that have 3D-looking backgrounds, but can adjust to fit i18n.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TiledBackgroundNode extends PImage {
+public class HorizontalTiledBackgroundNode extends PImage {
 
     private static final double X_OVERLAP = 1; // overlap between tiles, to hide seams
 
-    public TiledBackgroundNode( double totalWidth, Image leftImage, Image centerImage, Image rightImage ) {
+    public HorizontalTiledBackgroundNode( double totalWidth, Image leftImage, Image centerImage, Image rightImage ) {
 
         PImage leftNode = new PImage( leftImage );
         PImage centerNode = new PImage( centerImage );
