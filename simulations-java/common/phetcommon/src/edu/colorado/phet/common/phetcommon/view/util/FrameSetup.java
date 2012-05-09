@@ -12,6 +12,11 @@ import static java.awt.Toolkit.getDefaultToolkit;
 
 /*
  * Strategies for setting up the size and location of a frame
+ * FrameSetup is called during the build phase of a simulation, and hence must run in headless mode without exception,
+ * so each of the getDefaultToolkit calls is in a try/catch that returns empty (0) values if there was a failure.
+ * The exception is:
+ * java.lang.InternalError: Can't connect to X11 window server using ':2000.0' as the value of the DISPLAY variable.
+ *
  * @author Sam Reid
  */
 public interface FrameSetup {
@@ -40,16 +45,31 @@ public interface FrameSetup {
 
         //Determines the width of the screen that is available for windowing, that is, the size without the insets.
         private int getAvailableWidth() {
-            return getDefaultToolkit().getScreenSize().width - getInsets().left - getInsets().right;
+            try {
+                return getDefaultToolkit().getScreenSize().width - getInsets().left - getInsets().right;
+            }
+            catch ( InternalError e ) {
+                return 0;
+            }
         }
 
         //Determines the width of the screen that is available for windowing, that is, the size without the insets.
         private int getAvailableHeight() {
-            return getDefaultToolkit().getScreenSize().height - getInsets().top - getInsets().bottom;
+            try {
+                return getDefaultToolkit().getScreenSize().height - getInsets().top - getInsets().bottom;
+            }
+            catch ( InternalError e ) {
+                return 0;
+            }
         }
 
         private Insets getInsets() {
-            return getDefaultToolkit().getScreenInsets( getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration() );
+            try {
+                return getDefaultToolkit().getScreenInsets( getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration() );
+            }
+            catch ( InternalError e ) {
+                return new Insets( 0, 0, 0, 0 );
+            }
         }
 
         //Determine the screen region that is not taken up by toolbars, etc.
