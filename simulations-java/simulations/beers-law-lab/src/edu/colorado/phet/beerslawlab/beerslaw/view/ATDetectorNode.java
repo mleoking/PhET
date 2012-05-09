@@ -20,7 +20,7 @@ import edu.colorado.phet.beerslawlab.common.BLLSimSharing.ParameterKeys;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
 import edu.colorado.phet.beerslawlab.common.view.DebugOriginNode;
 import edu.colorado.phet.beerslawlab.common.view.MovableDragHandler;
-import edu.colorado.phet.beerslawlab.common.view.TiledBackgroundNode;
+import edu.colorado.phet.beerslawlab.common.view.HorizontalTiledBackgroundNode;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -93,7 +93,7 @@ class ATDetectorNode extends PhetPNode {
 
             // background image, sized to fit
             double bodyWidth = buttonsNode.getFullBoundsReference().getWidth() + ( 2 * BUTTONS_X_MARGIN );
-            final PNode backgroundNode = new TiledBackgroundNode( bodyWidth, Images.AT_DETECTOR_BODY_LEFT, Images.AT_DETECTOR_BODY_CENTER, Images.AT_DETECTOR_BODY_RIGHT );
+            final PNode backgroundNode = new HorizontalTiledBackgroundNode( bodyWidth, Images.AT_DETECTOR_BODY_LEFT, Images.AT_DETECTOR_BODY_CENTER, Images.AT_DETECTOR_BODY_RIGHT );
 
             // rendering order
             addChild( backgroundNode );

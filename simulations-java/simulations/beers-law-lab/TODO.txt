@@ -1,21 +1,15 @@
 TODO list for beers-law-lab
 
-DEADLINES
-- 5/14/12: "feature complete dev version, ready for interviews and/or classroom testing"
-
-DESIGN
-- confusing to have different slider thumbs for Evaporation, Concentration and faucet sliders? (#3195, customize slider thumb)
-
 HIGH
 
 MEDIUM
+- common: #3195, odd looking slider knobs for faucets and Evaporation control
 - common: #3242, make combo box popup appear on top of everything in the scenegraph
 - common: #3199, bigger slider thumb on FaucetNode (#3195, change standard slider thumb)
-- BeersLawModel: compute drag bounds of various movable objects based on stage size
 
 LOW
 
 SIM-SHARING
 
 MIGRATE TO COMMON
-- TiledBackgroundNode to piccolo-phet
+- HorizontalTiledBackgroundNode to piccolo-phet
