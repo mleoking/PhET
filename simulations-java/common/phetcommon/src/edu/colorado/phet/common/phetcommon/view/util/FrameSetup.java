@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.common.phetcommon.view.util;
 
+import java.awt.HeadlessException;
 import java.awt.Insets;
 import java.awt.Rectangle;
 
@@ -16,6 +17,10 @@ import static java.awt.Toolkit.getDefaultToolkit;
  * so each of the getDefaultToolkit calls is in a try/catch that returns empty (0) values if there was a failure.
  * The exception is:
  * java.lang.InternalError: Can't connect to X11 window server using ':2000.0' as the value of the DISPLAY variable.
+ * ...
+ * Caused by: java.awt.HeadlessException
+ 	at sun.awt.HeadlessToolkit.getScreenSize(HeadlessToolkit.java:279)
+ 	at edu.colorado.phet.common.phetcommon.view.util.FrameSetup$CenteredWithSize.getAvailableWidth(FrameSetup.java:49)
  *
  * @author Sam Reid
  */
@@ -48,7 +53,7 @@ public interface FrameSetup {
             try {
                 return getDefaultToolkit().getScreenSize().width - getInsets().left - getInsets().right;
             }
-            catch ( InternalError e ) {
+            catch ( HeadlessException e ) {
                 return 0;
             }
         }
@@ -58,7 +63,7 @@ public interface FrameSetup {
             try {
                 return getDefaultToolkit().getScreenSize().height - getInsets().top - getInsets().bottom;
             }
-            catch ( InternalError e ) {
+            catch ( HeadlessException e ) {
                 return 0;
             }
         }
@@ -67,7 +72,7 @@ public interface FrameSetup {
             try {
                 return getDefaultToolkit().getScreenInsets( getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration() );
             }
-            catch ( InternalError e ) {
+            catch ( HeadlessException e ) {
                 return new Insets( 0, 0, 0, 0 );
             }
         }
