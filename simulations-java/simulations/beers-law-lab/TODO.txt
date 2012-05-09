@@ -9,7 +9,6 @@ DESIGN
 HIGH
 
 MEDIUM
-- common: EvaporationControlNode, tick lines don't line up with ends of slider track (due to HSliderNode changes in #3255)
 - common: meter bodies may run off right side of stage if text is too long
 - common: #3242, make combo box popup appear on top of everything in the scenegraph
 - common: #3199, bigger slider thumb on FaucetNode (#3195, change standard slider thumb)
@@ -17,7 +16,6 @@ MEDIUM
 
 LOW
 - nasty bounds hack in WavelengthControlNode
-- common: objects flicker/tear while dragging (dropper, shaker, probes, cuvette, ...)
 - Concentration: shaker dispenses more than the max amount of solute, model doesn't keep track of solute falling from shaker
 - Concentration: use CompositeProperty for Shaker.dispensingRate?
 
@@ -25,4 +23,3 @@ SIM-SHARING
 
 MIGRATE TO COMMON
 - TiledBackgroundNode to piccolo-phet
-- BLLWavelengthControl (adapter for using WavelengthControl with Property<Double>)
