@@ -28,17 +28,21 @@ public class BuildAll extends Task {
         }
         PhetProject[] projects = PhetProject.getAllSimulationProjects( trunkFile );
         for ( PhetProject phetProject : projects ) {
+            System.out.print( "Building " + phetProject.getName() + "..." );
             if ( phetProject instanceof JavaSimulationProject ) {
                 try {
                     boolean success = phetProject.build();
                     if ( !success ) {
+                        System.out.println();
                         throw new BuildException( "Build failure: " + phetProject.getName() );
                     }
                 }
                 catch ( Exception e ) {
+                    System.out.println();
                     throw new BuildException( "build exception: " + phetProject.getName(), e );
                 }
             }
+            System.out.println( "success!" );
         }
     }
 }
