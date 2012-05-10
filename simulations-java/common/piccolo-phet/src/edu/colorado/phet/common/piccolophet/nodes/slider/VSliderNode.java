@@ -68,7 +68,7 @@ public class VSliderNode extends SliderNode {
         final Rectangle2D.Double trackPath = new Rectangle2D.Double( 0, 0, trackThickness, trackLength );
         trackNode = new PhetPPath( trackPath, new GradientPaint( 0, 0, Color.gray, 0, (float) trackLength, Color.white, false ), new BasicStroke( 1 ), Color.BLACK );
         rootNode.addChild( trackNode );
-        knobNode = new ZeroOffsetNode( new KnobNode( KnobNode.DEFAULT_SIZE, new KnobNode.ColorScheme( new Color( 115, 217, 255 ) ) ) {{
+        knobNode = new ZeroOffsetNode( new KnobNode( KnobNode.DEFAULT_WIDTH, new KnobNode.ColorScheme( new Color( 115, 217, 255 ) ) ) {{
             rotate( Math.PI * 2 * 3.0 / 4.0 );
             enabled.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean enabled ) {
@@ -141,7 +141,9 @@ public class VSliderNode extends SliderNode {
         return leftKnobRect;
     }
 
-    protected Point2D.Double createEndPoint() {return new Point2D.Double( 0, trackNode.getFullBounds().getHeight() );}
+    protected Point2D.Double createEndPoint() {
+        return new Point2D.Double( 0, trackNode.getFullBounds().getHeight() );
+    }
 
     protected double getViewY( double value ) {
         // Use trackLength in this mapping, because trackNode bounds doesn't account for track stroke width.
