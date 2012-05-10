@@ -95,7 +95,22 @@ public class EFACIntroModel {
         thermometer2 = new Thermometer( new ImmutableVector2D( 0, 0 ) );
 
         // TODO: Temp for testing - add some initial energy chunks in random location.
-        energyChunkList.add( new EnergyChunk( 0, 0 ) );
+        // Beaker
+        energyChunkList.add( new EnergyChunk( 0, 0.01 ) );
+        energyChunkList.add( new EnergyChunk( -0.03, 0.02 ) );
+        energyChunkList.add( new EnergyChunk( 0.005, 0.03 ) );
+
+        // Air
+        energyChunkList.add( new EnergyChunk( 0.13, 0.175 ) );
+        energyChunkList.add( new EnergyChunk( -0.12, 0.15 ) );
+
+        // Brick
+        energyChunkList.add( new EnergyChunk( -0.1, 0.01 ) );
+        energyChunkList.add( new EnergyChunk( -0.11, 0.00 ) );
+
+        // Lead
+        energyChunkList.add( new EnergyChunk( -0.175, 0.03 ) );
+        energyChunkList.add( new EnergyChunk( -0.19, 0.005 ) );
     }
 
     //-------------------------------------------------------------------------
