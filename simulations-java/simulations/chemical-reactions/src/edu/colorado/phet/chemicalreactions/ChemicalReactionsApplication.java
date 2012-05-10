@@ -38,6 +38,7 @@ public class ChemicalReactionsApplication extends PiccoloPhetApplication {
 
         Module makeMoleculeModule = new ChemicalReactionsModule( parentFrame );
         addModule( makeMoleculeModule );
+//        addModule( new ChemicalReactionsModule( parentFrame ) );
     }
 
     /*

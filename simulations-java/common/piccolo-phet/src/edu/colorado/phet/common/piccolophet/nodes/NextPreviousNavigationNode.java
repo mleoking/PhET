@@ -1,28 +1,34 @@
 //  Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.buildamolecule.control;
+package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.*;
+import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * Shows a central node surrounded with next/previous arrows. Need to implement next(),previous(),
  * and when availability changes modify hasNext and hasPrevious
+ *
+ * @author Jonathan Olson
  */
 public abstract class NextPreviousNavigationNode extends PNode {
 
+    // what directions are currently able to be followed
     public final Property<Boolean> hasNext = new Property<Boolean>( false );
     public final Property<Boolean> hasPrevious = new Property<Boolean>( false );
 
     private static final double ARROW_PADDING = 8;
 
-    public NextPreviousNavigationNode( PNode centerNode, final Color arrowColor, final Color arrowStrokeColor, final double arrowWidth, final double arrowHeight ) {
+    public NextPreviousNavigationNode( PNode centerNode,
+                                       final Color arrowColor,
+                                       final Color arrowStrokeColor,
+                                       final double arrowWidth,
+                                       final double arrowHeight ) {
 
         /*---------------------------------------------------------------------------*
         * previous

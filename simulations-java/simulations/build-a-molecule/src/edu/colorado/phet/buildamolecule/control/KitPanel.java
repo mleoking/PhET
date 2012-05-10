@@ -15,6 +15,7 @@ import edu.colorado.phet.buildamolecule.model.Molecule;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.NextPreviousNavigationNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;

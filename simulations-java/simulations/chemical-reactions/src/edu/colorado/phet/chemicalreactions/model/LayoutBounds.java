@@ -1,0 +1,51 @@
+// Copyright 2002-2012, University of Colorado
+package edu.colorado.phet.chemicalreactions.model;
+
+import edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants;
+import edu.umd.cs.piccolo.util.PBounds;
+
+import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.MODEL_PADDING;
+import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.MODEL_SIZE;
+
+
+/**
+ * Contains layout information relevant to where the kits are placed, where molecules can exist in the play area, etc.
+ */
+public class LayoutBounds {
+    private PBounds availableKitBounds;
+    private PBounds availablePlayAreaBounds;
+
+    /**
+     * Construct the necessary layout. If wide is true, the collectionAreaModelWidth is ignored
+     */
+    public LayoutBounds() {
+        double availableWidth = MODEL_SIZE.getWidth() - 2 * ChemicalReactionsConstants.MODEL_PADDING; // minus padding
+        double halfWidth = availableWidth / 2;
+
+        double kitTop = MODEL_SIZE.getHeight() / 2 - MODEL_PADDING; // Y is up, so this is the top (max y) value for the rectangle
+        double kitHeight = 550;
+        double kitBottom = kitTop - kitHeight;
+
+        availableKitBounds = new PBounds( -halfWidth, kitBottom, availableWidth, kitHeight );
+
+        availablePlayAreaBounds = new PBounds(
+                -MODEL_SIZE.getWidth() / 2, // far left part of model
+                -MODEL_SIZE.getHeight() / 2 + MODEL_PADDING, // top of kit
+                availableKitBounds.width + MODEL_PADDING * 2, // add in padding, since there is padding in-between the kit and collection area
+                kitBottom - ( -MODEL_SIZE.getHeight() / 2 + MODEL_PADDING ) );
+    }
+
+    /**
+     * @return Where the kits are placed. Model coordinates
+     */
+    public PBounds getAvailableKitBounds() {
+        return availableKitBounds;
+    }
+
+    /**
+     * @return Where molecules can be placed in the play area. Model coordinates
+     */
+    public PBounds getAvailablePlayAreaBounds() {
+        return availablePlayAreaBounds;
+    }
+}

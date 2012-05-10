@@ -13,6 +13,15 @@ public class ChemicalReactionsResources {
 
     //Strings
     public static class Strings {
+        public static final String BUCKET___CL_2 = RESOURCES.getLocalizedString( "bucket.Cl2" );
+        public static final String BUCKET___H_2 = RESOURCES.getLocalizedString( "bucket.H2" );
+        public static final String BUCKET___H_2_O = RESOURCES.getLocalizedString( "bucket.H2O" );
+        public static final String BUCKET___H_CL = RESOURCES.getLocalizedString( "bucket.HCl" );
+        public static final String BUCKET___N_2 = RESOURCES.getLocalizedString( "bucket.N2" );
+        public static final String BUCKET___NH_3 = RESOURCES.getLocalizedString( "bucket.NH3" );
+        public static final String BUCKET___O_2 = RESOURCES.getLocalizedString( "bucket.O2" );
+        public static final String KIT__LABEL = RESOURCES.getLocalizedString( "kit.label" );
+        public static final String KIT__RESET_KIT = RESOURCES.getLocalizedString( "kit.resetKit" );
         public static final String TITLE__CHEMICAL_REACTIONS = RESOURCES.getLocalizedString( "title.chemicalReactions" );
     }
 
