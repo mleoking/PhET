@@ -1,0 +1,69 @@
+PhET Weekly Progress Report
+John Blanco
+May 10th, 2012
+
+Time period covered: May 3rd through May 9th.
+
+Energy Forms and Changes - 12.0 hrs
+
+o	Added interactions between blocks for blocking motion.
+o	Added handling for interaction between stacking and motion blocking.
+o	Added control for energy packet visibility.
+o	Improved handling of thermometer tool box.
+o	Added Reset button and got it working.
+o	Added floating clock controls below edge of table.
+o	Integrated wider shelf image.
+o	Worked on design of energy model.
+
+Gene Expression - 5.0 hrs
+
+o	Discussed low mRNA count values with George E.
+o	Passed off payment for the E. Coli image to Oliver.
+o	Tracked down and fixed an issue with grabbing and moving a ribosome right before it attaches to mRNA.
+o	Looked at some behaviors that Julia C noticed when preparing to use it for a talk.
+
+Balancing Act - 2.5 hrs
+
+o	Deployed version do dev with latest common code for testing.
+o	Tested, and recruited Ariel P to do so also.
+o	Deployed to production.  This version now includes the "Tip Prediction" challenge type in the game.
+
+States of Matter - 2.0 hrs
+
+o	Fixed issue, pointed out by Julia, with behavior of the "Return Lid" button when water is very cold.
+
+Beers Law - 0.5
+
+o	Created ticket for code review.
+
+Fractions - 1.5 hrs
+
+o	Discussion of design of "Build a Fraction" with Sam R.
+
+Common Code - 5.0 hrs
+
+o	Discussed the plan for piccolo-based slider nodes with Chris M and Sam R.
+
+New Sim Design - 1.0 hrs
+
+o	Brainstormed with Sam on design of function understanding simulation.
+
+Professional Development - 2.5 hrs
+
+o	Attended first portion of the SEI end-of-year event
+
+Environment - 3.0 hrs
+
+o	Set up a remote desktop server on Simian (in collaboration with Sam R).  This included researching the use of NX versus VNC.
+o	Discussed automated task management on Simian with Sam, using a platform called "Jenkins".
+
+Meetings, Email, and Other Administrative Overhead - 5.0 hrs
+
+o	Weekly status meeting.
+o	Weekly status report.
+o	Review, prioritization, and updating of Unfuddle issues.
+o	Normal email and administrative overhead.
+
+Vacation and Holidays - 0 hrs
+
+o	Half day tomorrow, May 11th.
