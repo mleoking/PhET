@@ -35,3 +35,23 @@ Regarding this latter point, it reduces to a pair of coupled equations:
 molesDissolved = f(volume) and volume = f(molesDissolved)
 
 For additional details, consult the class files in package edu.colorado.phet.beerslawlab.concentration.model.
+
+----
+
+Beer's Law tab:
+
+Molar absorptivity (a) is in units of 1/(cm*M), and varies with solution and wavelength.
+For the solutions in this sim, we measured molar absorptivity for visible wavelengths in the laboratory.
+That data is used in the sim, and can be found in Java class MolarAbsorptivityData and
+file beers-law-lab/doc/wavelength-to-molarAbsorptivity.csv
+
+Path length (b) is the amount of solution that the beam passes through, in units of cm.
+It depends on the width of the cuvette and the position of the detector probe.
+
+Concentration (C) is in units of M, and is the concentration of the solution in the cuvette.
+
+Absorbance model: A = abC
+
+Transmittance model: T = 10^A
+
+Transmittance varies between 0 (fully absorbed) and 1 (fully transmitted.) Multiplying by 100 gives "percent transmittance".
