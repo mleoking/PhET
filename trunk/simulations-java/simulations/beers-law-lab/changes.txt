@@ -1,3 +1,4 @@
+5/10/12 first pass at model.txt for Beer's Law tab
 5/10/12 cleaned up version of concentration probe from NP
 5/10/12 created screenshot for beers-law-lab (with JC)
 5/9/12 dev: start with the module number specified on the command line
