@@ -4,7 +4,7 @@ May 10th, 2012
 
 Time period covered: May 3rd through May 9th.
 
-Energy Forms and Changes - 12.0 hrs
+Energy Forms and Changes - 14.0 hrs
 
 o	Added interactions between blocks for blocking motion.
 o	Added handling for interaction between stacking and motion blocking.
@@ -40,7 +40,7 @@ Fractions - 1.5 hrs
 
 o	Discussion of design of "Build a Fraction" with Sam R.
 
-Common Code - 5.0 hrs
+Common Code - 2.0 hrs
 
 o	Discussed the plan for piccolo-based slider nodes with Chris M and Sam R.
 
@@ -48,9 +48,13 @@ New Sim Design - 1.0 hrs
 
 o	Brainstormed with Sam on design of function understanding simulation.
 
-Professional Development - 2.5 hrs
+Professional Development - 2.0 hrs
 
 o	Attended first portion of the SEI end-of-year event
+
+Build Tools - 1.5
+
+o	Investigated some issues with JAR signing, see #3324.
 
 Environment - 3.0 hrs
 
