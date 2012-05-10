@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
@@ -61,6 +62,9 @@ public class EFACIntroModel {
     private final Thermometer thermometer1;
     private final Thermometer thermometer2;
 
+    // List of energy chucks.
+    public final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
@@ -89,6 +93,9 @@ public class EFACIntroModel {
         // matter, since it will be changed by the view.
         thermometer1 = new Thermometer( new ImmutableVector2D( 0, 0 ) );
         thermometer2 = new Thermometer( new ImmutableVector2D( 0, 0 ) );
+
+        // TODO: Temp for testing - add some initial energy chunks in random location.
+        energyChunkList.add( new EnergyChunk( 0, 0 ) );
     }
 
     //-------------------------------------------------------------------------
