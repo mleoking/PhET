@@ -6,8 +6,8 @@ import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -111,15 +111,15 @@ public class KnobNode extends PNode {
         }
     }
 
-    public static final double DEFAULT_SIZE = 26;
+    public static final double DEFAULT_WIDTH = 18;
     private static final double ARROW_PRESS_OFFSET = 1;
 
     public KnobNode() {
-        this( DEFAULT_SIZE );
+        this( DEFAULT_WIDTH );
     }
 
     public KnobNode( ColorScheme colorScheme ) {
-        this( DEFAULT_SIZE, colorScheme );
+        this( DEFAULT_WIDTH, colorScheme );
     }
 
     public KnobNode( final double size ) {
@@ -133,9 +133,7 @@ public class KnobNode extends PNode {
      */
     public KnobNode( final double width, ColorScheme colorScheme ) {
 
-        // shape of the outer circle of the button
-        final double height = width * 1.2;
-        Ellipse2D.Double circle = new Ellipse2D.Double( 0, 0, width, height );
+        final double height = width * 1.6;
 
         /*---------------------------------------------------------------------------*
         * paints
@@ -158,25 +156,23 @@ public class KnobNode extends PNode {
         // add a spacer in the background so our full bounds don't change
         addChild( new Spacer( 0, 0, width + ARROW_PRESS_OFFSET, width + ARROW_PRESS_OFFSET ) );
 
-        // make the background (circular) part of the button
-        final Area knobShape = new Area( circle ) {{
+        Area knobShape;
+        {
+            double unPointedProportion = 0.7; // Adjust if necessary to change appearance of knob.
+            double proportionOfWidthToRound = 0.2;
+            knobShape = new Area( new RoundRectangle2D.Double( 0, 0, width, height * unPointedProportion, width * proportionOfWidthToRound, width * proportionOfWidthToRound ) );
+            DoubleGeneralPath pointerPath = new DoubleGeneralPath( 0, height * ( unPointedProportion * 0.95 ) );
+            pointerPath.lineTo( width / 2, height );
+            pointerPath.lineTo( width, height * ( unPointedProportion * 0.95 ) );
+            pointerPath.closePath();
+            knobShape.add( new Area( pointerPath.getGeneralPath() ) );
+        }
 
-            //Cut out a pointy part at the bottom
-            subtract( new Area( new DoubleGeneralPath( width / 2, height ) {{
-                lineToRelative( -width * 2, -width * 1.3 );
-                lineToRelative( 0, width * 4 );
-            }}.getGeneralPath() ) );
-
-            subtract( new Area( new DoubleGeneralPath( width / 2, height ) {{
-                lineToRelative( width * 2, -width * 1.3 );
-                lineToRelative( 0, width * 4 );
-            }}.getGeneralPath() ) );
-        }};
         final PhetPPath background = new PhetPPath( knobShape ) {{
             setPaint( normalGradient );
-            setStroke( new BasicStroke( 2f ) );
+            setStroke( new BasicStroke( 2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_BEVEL ) );
 
-            //When enabled/disabled or focused/unfocused, change the stroke
+            // When enabled/disabled or focused/unfocused, change the appearance.
             new RichSimpleObserver() {
                 @Override public void update() {
                     setPaint( !enabled.get() ? disabledGradient : ( focused.get() ? focusGradient : normalGradient ) );
