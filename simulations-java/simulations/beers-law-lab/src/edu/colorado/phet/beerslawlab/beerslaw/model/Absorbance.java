@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  * <ul>
  * <li>A is absorbance
  * <li>T is transmittance (1=fully transmitted, 0=fully absorbed)
- * <li>a is molar absorptivity (1/(cm*M)
+ * <li>a is molar absorptivity (1/(cm*M))
  * <li>b is path length (cm)
  * <li>C is concentration (M)
  * </ul>
