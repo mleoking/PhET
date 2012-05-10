@@ -3,3 +3,5 @@ TODO list for beers-law-lab
 - snapshots of 2 Google design docs
 - model.txt description for Beer's Law tab
 - modify build process to create "interview" link on dev pages
+- get cleaned up version of concentration probe from NP
+- publish 1.00
