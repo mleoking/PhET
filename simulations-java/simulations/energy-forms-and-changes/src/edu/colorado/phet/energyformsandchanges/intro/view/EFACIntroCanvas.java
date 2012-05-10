@@ -91,8 +91,12 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         rootNode.addChild( backLayer );
         PNode blockLayer = new PNode();
         rootNode.addChild( blockLayer );
-        final PNode frontLayer = new PNode();
-        rootNode.addChild( frontLayer );
+        final PNode beakerFrontLayer = new PNode();
+        rootNode.addChild( beakerFrontLayer );
+        final PNode energyChuckLayer = new PNode();
+        rootNode.addChild( energyChuckLayer );
+        final PNode thermometerLayer = new PNode();
+        rootNode.addChild( thermometerLayer );
 
         // Add the control for showing/hiding object energy. TODO: i18n
         {
@@ -162,7 +166,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         final PNode leadNode = new BlockNode( model, model.getLeadBlock(), mvt );
         blockLayer.addChild( leadNode );
         BeakerView beakerView = new BeakerView( model, this, mvt );
-        frontLayer.addChild( beakerView.getFrontNode() );
+        beakerFrontLayer.addChild( beakerView.getFrontNode() );
         backLayer.addChild( beakerView.getBackNode() );
 
         // Monitor the model for the comings and goings of energy chunks and
@@ -170,13 +174,20 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         model.energyChunkList.addElementAddedObserver( new VoidFunction1<EnergyChunk>() {
             public void apply( EnergyChunk energyChunk ) {
                 final PNode energyChunkNode = new EnergyChunkNode( energyChunk, mvt );
-                frontLayer.addChild( energyChunkNode );
+                energyChuckLayer.addChild( energyChunkNode );
                 model.energyChunkList.addElementRemovedObserver( new VoidFunction1<EnergyChunk>() {
                     public void apply( EnergyChunk energyChunk ) {
-                        frontLayer.removeChild( energyChunkNode );
+                        energyChuckLayer.removeChild( energyChunkNode );
                         model.energyChunkList.removeElementRemovedObserver( this );
                     }
                 } );
+            }
+        } );
+
+        // Control the visibility of the energy chunks.
+        showEnergyOfObjects.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean showEnergy ) {
+                energyChuckLayer.setVisible( showEnergy );
             }
         } );
 
@@ -189,7 +200,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         for ( Thermometer thermometer : model.getThermometers() ) {
             thermometerToolBox.putThermometerInOpenSpot( thermometer );
             final ThermometerNode thermometerNode = new ThermometerNode( thermometer, mvt );
-            frontLayer.addChild( thermometerNode );
+            beakerFrontLayer.addChild( thermometerNode );
             thermometerNode.addInputEventListener( new PBasicInputEventHandler() {
 
                 // Put the thermometer into the tool box if dropped over it.
