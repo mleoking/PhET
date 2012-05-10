@@ -28,6 +28,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
+import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.intro.model.Thermometer;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -163,6 +164,21 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         BeakerView beakerView = new BeakerView( model, this, mvt );
         frontLayer.addChild( beakerView.getFrontNode() );
         backLayer.addChild( beakerView.getBackNode() );
+
+        // Monitor the model for the comings and goings of energy chunks and
+        // add/remove view representations accordingly.
+        model.energyChunkList.addElementAddedObserver( new VoidFunction1<EnergyChunk>() {
+            public void apply( EnergyChunk energyChunk ) {
+                final PNode energyChunkNode = new EnergyChunkNode( energyChunk, mvt );
+                frontLayer.addChild( energyChunkNode );
+                model.energyChunkList.addElementRemovedObserver( new VoidFunction1<EnergyChunk>() {
+                    public void apply( EnergyChunk energyChunk ) {
+                        frontLayer.removeChild( energyChunkNode );
+                        model.energyChunkList.removeElementRemovedObserver( this );
+                    }
+                } );
+            }
+        } );
 
         // Add the tool box for the thermometers.
         thermometerToolBox = new ThermometerToolBox( model, mvt, CONTROL_PANEL_COLOR );
