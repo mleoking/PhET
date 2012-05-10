@@ -46,6 +46,10 @@ public class BucketView {
     private final PNode holeLayer = new PNode();
     private final PNode containerLayer = new PNode();
 
+    // keep track of the container shape so we can position labels correctly
+    // that are added later
+    private Shape scaledContainerShape;
+
     // ------------------------------------------------------------------------
     // Constructor(s)
     // ------------------------------------------------------------------------
@@ -62,7 +66,7 @@ public class BucketView {
 
         // Create the scaled shapes.
         Shape scaledHoleShape = scaleTransform.createTransformedShape( bucket.getHoleShape() );
-        Shape scaledContainerShape = scaleTransform.createTransformedShape( bucket.getContainerShape() );
+        scaledContainerShape = scaleTransform.createTransformedShape( bucket.getContainerShape() );
 
         // Create and add the container node.
         Paint containerPaint = new GradientPaint(
@@ -87,14 +91,7 @@ public class BucketView {
             PText caption = new PText( bucket.getCaptionText() );
             caption.setFont( labelFont );
             caption.setTextPaint( captionColor );
-            if ( caption.getFullBoundsReference().getWidth() > scaledContainerShape.getBounds().getWidth() * 0.8 ) {
-                // The caption must be scaled in order to fit on the container.
-                caption.scale( scaledContainerShape.getBounds().getWidth() * 0.8 / caption.getFullBoundsReference().getWidth() );
-            }
-            caption.setOffset(
-                    scaledContainerShape.getBounds2D().getCenterX() - caption.getFullBoundsReference().getWidth() / 2,
-                    scaledContainerShape.getBounds2D().getCenterY() - caption.getFullBoundsReference().getHeight() / 2 );
-            containerLayer.addChild( caption );
+            addLabelToContainer( caption );
         }
 
         setOffset( mvt.modelToView( bucket.getPosition() ) );
@@ -103,6 +100,17 @@ public class BucketView {
     // ------------------------------------------------------------------------
     // Methods
     // ------------------------------------------------------------------------
+
+    public void addLabelToContainer( PNode label ) {
+        if ( label.getFullBoundsReference().getWidth() > scaledContainerShape.getBounds().getWidth() * 0.8 ) {
+            // The caption must be scaled in order to fit on the container.
+            label.scale( scaledContainerShape.getBounds().getWidth() * 0.8 / label.getFullBoundsReference().getWidth() );
+        }
+        label.setOffset(
+                scaledContainerShape.getBounds2D().getCenterX() - label.getFullBoundsReference().getWidth() / 2,
+                scaledContainerShape.getBounds2D().getCenterY() - label.getFullBoundsReference().getHeight() / 2 );
+        containerLayer.addChild( label );
+    }
 
     public PNode getHoleNode() {
         return holeLayer;
