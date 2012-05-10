@@ -1,5 +1,4 @@
 TODO list for beers-law-lab
 
 - snapshots of 2 Google design docs
-- model.txt description for Beer's Law tab
 - publish 1.00
