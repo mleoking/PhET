@@ -8,7 +8,7 @@ import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * A movable model element.
- * Units are determined by the client.
+ * Semantics of units are determined by the client.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
