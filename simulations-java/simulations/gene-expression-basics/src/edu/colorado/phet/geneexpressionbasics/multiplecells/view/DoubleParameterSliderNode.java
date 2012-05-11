@@ -11,8 +11,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode2;
-import edu.colorado.phet.common.piccolophet.nodes.slider.KnobNode2;
+import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources.Strings.HIGH;
@@ -66,10 +65,7 @@ class DoubleParameterSliderNode extends PNode {
         }};
 
         // Create the slider node.
-        HSliderNode2 sliderNode = new HSliderNode2( userComponent, min, max,
-                                                    new KnobNode2( 30, KnobNode2.Style.POINTED_RECTANGLE, new KnobNode2.ColorScheme( new Color( 142, 229, 238 ) ) ),
-                                                    SLIDER_TRACK_THICKNESS, SLIDER_TRACK_LENGTH, settableProperty,
-                                                    new BooleanProperty( true ) ) {{
+        HSliderNode sliderNode = new HSliderNode( userComponent, min, max, SLIDER_TRACK_THICKNESS, SLIDER_TRACK_LENGTH, settableProperty, new BooleanProperty( true ) ) {{
             setTrackFillPaint( Color.black );
         }};
 
