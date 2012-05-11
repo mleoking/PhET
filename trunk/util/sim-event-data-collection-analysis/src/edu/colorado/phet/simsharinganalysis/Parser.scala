@@ -68,13 +68,6 @@ class Parser {
     new Log(file, machineID, sessionID, lines.toList)
   }
 
-  private def readValue(line: String): String = {
-    val stringTokenizer: StringTokenizer = new StringTokenizer(line, " ")
-    stringTokenizer.nextToken
-    stringTokenizer.nextToken
-    stringTokenizer.nextToken
-  }
-
   def parseParameters(line: String, delimiter: String): Array[Parameter] = {
     val st = new StringTokenizer(line, delimiter)
     val parameters = new ArrayList[Parameter]
