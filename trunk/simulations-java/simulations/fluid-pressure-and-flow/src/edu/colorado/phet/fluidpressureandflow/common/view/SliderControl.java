@@ -11,7 +11,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
-import edu.colorado.phet.common.piccolophet.nodes.slider.KnobNode2.Style;
 import edu.colorado.phet.common.piccolophet.nodes.slider.VSliderNode;
 import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents;
 import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureCanvas;
@@ -28,7 +27,7 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserCompon
  */
 public class SliderControl extends PNode {
 
-    public SliderControl( IUserComponent userComponent, String title, String units, final double min, final double max, final Property<Double> property, final HashMap<Double, String> tickLabels, final DecimalFormat format, Style style ) {
+    public SliderControl( IUserComponent userComponent, String title, String units, final double min, final double max, final Property<Double> property, final HashMap<Double, String> tickLabels, final DecimalFormat format ) {
         HSliderNode slider = new HSliderNode( chain( userComponent, UserComponents.slider ), min, max,
                                               VSliderNode.DEFAULT_TRACK_THICKNESS, VSliderNode.DEFAULT_TRACK_LENGTH, property, new Property<Boolean>( true ) );
 

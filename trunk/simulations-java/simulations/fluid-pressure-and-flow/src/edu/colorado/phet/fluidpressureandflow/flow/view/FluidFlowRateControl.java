@@ -6,7 +6,6 @@ import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.piccolophet.nodes.slider.KnobNode2.Style;
 import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents;
 import edu.colorado.phet.fluidpressureandflow.common.model.ScaledDoubleProperty;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
@@ -31,7 +30,7 @@ public class FluidFlowRateControl extends PNode {
             public UnitBasedSliderControl( IUserComponent userComponent, String title, final UnitSet units ) {
 
                 //If the max flow rate is too high, can create negative pressure situations, which should not occur
-                super( userComponent, title, units.flowRate.getAbbreviation(), units.flowRate.siToUnit( 1 ), units.flowRate.siToUnit( 10 ), new ScaledDoubleProperty( module.model.pipe.flowRate, units.flowRate.siToUnit( 1.0 ) ), new HashMap<Double, String>(), new DecimalFormat( "0" ), Style.RECTANGLE );
+                super( userComponent, title, units.flowRate.getAbbreviation(), units.flowRate.siToUnit( 1 ), units.flowRate.siToUnit( 10 ), new ScaledDoubleProperty( module.model.pipe.flowRate, units.flowRate.siToUnit( 1.0 ) ), new HashMap<Double, String>(), new DecimalFormat( "0" ) );
                 module.model.units.addObserver( new VoidFunction1<UnitSet>() {
                     public void apply( UnitSet unitSet ) {
                         setVisible( unitSet == units );
