@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
- * Measures the absorbance of light passing through a solution in a cuvette.
+ * Model for computing the absorbance (and transmittance) of light passing through a solution in a cuvette.
  * <p>
  * Absorbance model: A = abC
  * <p>
