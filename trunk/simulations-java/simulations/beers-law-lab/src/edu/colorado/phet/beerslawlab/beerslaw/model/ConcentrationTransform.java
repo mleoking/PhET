@@ -5,6 +5,7 @@ import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
 
 /**
  * Concentration is stored the same for all solutions in the model, in moles per liter (M).
+ * //REVIEW - Suggest improving following documentation.  Had to read several times to start to get it.
  * But each solution, this class specifies the units to be used for displaying the concentration in
  * the view (eg, mM, uM) and handles the conversion between model and view units.
  *
