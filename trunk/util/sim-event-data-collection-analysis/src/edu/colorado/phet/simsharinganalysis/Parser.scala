@@ -1,8 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simsharinganalysis
 
-// Copyright 2002-2011, University of Colorado
-
 import java.io.{File, FileReader, BufferedReader}
 import collection.mutable.{HashMap, ArrayBuffer}
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager
@@ -10,9 +8,9 @@ import java.util.{ArrayList, StringTokenizer}
 import edu.colorado.phet.common.phetcommon.simsharing.messages.{IParameterKey, Parameter}
 
 /**
+ * This parser loads a data file and turns it into a Log[Entry]
  * @author Sam Reid
  */
-
 class Parser {
   var machineID: String = _
   var sessionID: String = _
