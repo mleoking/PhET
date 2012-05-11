@@ -43,7 +43,6 @@ import edu.colorado.phet.common.piccolophet.nodes.toolbox.NodeFactory;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.ToolIconNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.bendinglight.BendingLightApplication.RESOURCES;
@@ -145,23 +144,12 @@ public class IntroCanvas<T extends IntroModel> extends BendingLightCanvas<T> {
             addChild( radioButtonPanel );
 
             //Add any additional controls (used in more tools tab)
-            final PNode additionalControl = additionalLaserControls.apply( model, 30.0, radioButtonPanel.getFullBounds().getMaxY() + 5 );
+            final PNode additionalControl = additionalLaserControls.apply( model, 0d, radioButtonPanel.getFullBounds().getMaxY() + 5 );
             addChild( additionalControl );
         }};
 
         //Embed in the a control panel node to get a border and background
-        final ControlPanelNode laserViewControlPanelNode = new ControlPanelNode( laserViewContentPane ) {
-            private PBounds layoutSize = null;//Store so only the original value is used
-
-            //In the laser view box, putting the wavelength slider all the way to red makes the box size change--this override ensures the control panel wide enough to hold the laser wavelength control, but not resize as controls move around.
-            @Override protected PBounds getControlPanelBounds( PNode content ) {
-                if ( layoutSize == null ) {
-                    final PBounds bounds = content.getFullBounds();
-                    layoutSize = new PBounds( bounds.getX(), bounds.getY(), bounds.getWidth() + 18, bounds.getHeight() );
-                }
-                return layoutSize;
-            }
-        };
+        final ControlPanelNode laserViewControlPanelNode = new ControlPanelNode( laserViewContentPane );
 
         //Set the location and add to the scene
         laserViewControlPanelNode.setOffset( 5, 5 );

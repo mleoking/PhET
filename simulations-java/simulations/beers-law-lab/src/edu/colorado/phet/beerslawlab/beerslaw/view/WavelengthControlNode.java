@@ -3,7 +3,6 @@ package edu.colorado.phet.beerslawlab.beerslaw.view;
 
 import java.awt.Dimension;
 import java.awt.Insets;
-import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 
 import javax.swing.JLabel;
@@ -23,13 +22,10 @@ import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Fill;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.WavelengthControl;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -73,42 +69,11 @@ class WavelengthControlNode extends PNode implements Resettable {
         // Wavelength control
         final BLLWavelengthControl wavelengthControl = new BLLWavelengthControl( WAVELENGTH_CONTROL_TRACK_SIZE, light.wavelength );
         final PNode wavelengthWrapperNode = new ZeroOffsetNode( wavelengthControl );
+        wavelengthWrapperNode.setOffset( panelNode.getXOffset(), panelNode.getFullBoundsReference().getMaxY() + 6 );
 
         final PNode parentNode = new PNode();
         parentNode.addChild( panelNode );
         parentNode.addChild( wavelengthWrapperNode );
-
-        //REVIEW: Why not fix the wavelength control so that it doesn't have this issue - otherwise others will hit it.  VSliderNode puts a transparent node behind it that is sized to account for the full bounds.
-        /*
-         * WORKAROUND for #3327:
-         * The bounds of the wavelength control changes as the slider knob is dragged.
-         * To prevent the control panel from resizing, we determine the extents of the control's bounds,
-         * then add a horizontal strut to the control panel.
-         */
-        {
-            // remember the wavelength
-            final double saveWavelength = light.wavelength.get();
-
-            // determine bounds at min and max wavelength settings
-            light.wavelength.set( VisibleColor.MIN_WAVELENGTH );
-            final PBounds minWavelengthBounds = wavelengthWrapperNode.getFullBounds();
-            light.wavelength.set( VisibleColor.MAX_WAVELENGTH );
-            final PBounds maxWavelengthBounds = wavelengthWrapperNode.getFullBounds();
-
-            // restore the wavelength
-            light.wavelength.set( saveWavelength );
-
-            final double xOffset = maxWavelengthBounds.getMinX() - minWavelengthBounds.getMinX() + 1;
-            wavelengthWrapperNode.setOffset( panelNode.getXOffset() + xOffset, panelNode.getFullBoundsReference().getMaxY() + 6 );
-
-            // add a horizontal strut
-            final double strutWidth = maxWavelengthBounds.getMaxX() - minWavelengthBounds.getMinX() + 1;
-            final PPath strutNode = new PPath( new Rectangle2D.Double( 0, 0, strutWidth, 1 ) ) {{
-                setPickable( false );
-                setStroke( null );
-            }};
-            parentNode.addChild( strutNode );
-        }
 
         // wrap the whole thing in a Piccolo control panel
         addChild( new ControlPanelNode( parentNode ) );
