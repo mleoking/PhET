@@ -19,6 +19,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyformsandchanges.intro.model.Block;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
+import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunk;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -42,7 +43,7 @@ public class BlockNode extends PComposite {
 
     private static final boolean SHOW_2D_REPRESENTATION = false;
 
-    public BlockNode( EFACIntroModel model, Block block, final ModelViewTransform mvt ) {
+    public BlockNode( final EFACIntroModel model, final Block block, final ModelViewTransform mvt ) {
 
         // Extract the scale transform from the MVT so that we can separate the
         // shape from the position of the block.
@@ -112,6 +113,21 @@ public class BlockNode extends PComposite {
         double labelCenterY = ( upperLeftCornerOfFace.getY() + label.getFullBoundsReference().height );
         label.centerFullBoundsOnPoint( labelCenterX, labelCenterY );
         addChild( label );
+
+        // Watch for energy chunks coming and going and add/remove nodes
+        // accordingly.
+        block.getEnergyChunkList().addElementAddedObserver( new VoidFunction1<EnergyChunk>() {
+            public void apply( EnergyChunk energyChunk ) {
+                final PNode energyChunkNode = new EnergyChunkNode( energyChunk, mvt );
+                addChild( energyChunkNode );
+                block.getEnergyChunkList().addElementRemovedObserver( new VoidFunction1<EnergyChunk>() {
+                    public void apply( EnergyChunk energyChunk ) {
+                        removeChild( energyChunkNode );
+                        block.getEnergyChunkList().removeElementRemovedObserver( this );
+                    }
+                } );
+            }
+        } );
 
         // Add the cursor handler.
         addInputEventListener( new CursorHandler( CursorHandler.HAND ) );

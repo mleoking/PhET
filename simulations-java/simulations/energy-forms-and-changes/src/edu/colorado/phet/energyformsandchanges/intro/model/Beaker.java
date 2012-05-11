@@ -6,10 +6,12 @@ import java.awt.geom.Rectangle2D;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -18,7 +20,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author John Blanco
  */
-public class Beaker extends RectangularMovableModelElement {
+public class Beaker extends RectangularMovableModelElement implements EnergyContainer {
 
     //-------------------------------------------------------------------------
     // Class Data
@@ -45,6 +47,8 @@ public class Beaker extends RectangularMovableModelElement {
     // on a burner, etc.
     private final Property<HorizontalSurface> bottomSurface = new Property<HorizontalSurface>( null );
 
+    private final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
@@ -64,6 +68,19 @@ public class Beaker extends RectangularMovableModelElement {
                 updateSurfaces();
             }
         } );
+
+        // Update positions of energy chunks when this moves.
+        position.addObserver( new ChangeObserver<ImmutableVector2D>() {
+            public void update( ImmutableVector2D newPosition, ImmutableVector2D oldPosition ) {
+                ImmutableVector2D movement = newPosition.getSubtractedInstance( oldPosition );
+                for ( EnergyChunk energyChunk : energyChunkList ) {
+                    energyChunk.position.set( energyChunk.position.get().getAddedInstance( movement ) );
+                }
+            }
+        } );
+
+        // TODO: Temp for prototyping.
+        energyChunkList.add( new EnergyChunk( initialPosition.getAddedInstance( 0.02, 0.01 ) ) );
     }
 
     //-------------------------------------------------------------------------
@@ -125,6 +142,10 @@ public class Beaker extends RectangularMovableModelElement {
      */
     public static final Rectangle2D getRawOutlineRect() {
         return new Rectangle2D.Double( -WIDTH / 2, 0, WIDTH, HEIGHT );
+    }
+
+    public ObservableList<EnergyChunk> getEnergyChunkList() {
+        return energyChunkList;
     }
 
 
