@@ -42,7 +42,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
- * Detector for absorbance (A) and transmittance (T).
+ * Detector for absorbance (A) and percent transmittance (%T).
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

@@ -55,6 +55,6 @@ Absorbance model: A = abC
 Transmittance model: T = 10^A
 
 Transmittance varies between 0 (fully absorbed) and 1 (fully transmitted.)
-Multiplying by 100 gives "percent transmittance".
+Multiplying by 100 gives percent transmittance (%T).
 
 For additional details, consult the class files in package edu.colorado.phet.beerslawlab.beerslaw.model.
