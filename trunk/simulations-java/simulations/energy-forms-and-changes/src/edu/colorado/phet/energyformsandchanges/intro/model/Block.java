@@ -8,10 +8,12 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -21,13 +23,15 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author John Blanco
  */
-public abstract class Block extends RectangularMovableModelElement {
+public abstract class Block extends RectangularMovableModelElement implements EnergyContainer {
 
     // Height and width of all block surfaces, since it is a cube.
     public static final double SURFACE_WIDTH = 0.045; // In meter
 
     private final Property<HorizontalSurface> topSurface = new Property<HorizontalSurface>( null );
     private final Property<HorizontalSurface> bottomSurface = new Property<HorizontalSurface>( null );
+
+    private final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
 
     /**
      * Constructor.
@@ -44,6 +48,21 @@ public abstract class Block extends RectangularMovableModelElement {
                 updateBottomSurfaceProperty();
             }
         } );
+
+        // Update positions of energy chunks when this moves.
+        position.addObserver( new ChangeObserver<ImmutableVector2D>() {
+            public void update( ImmutableVector2D newPosition, ImmutableVector2D oldPosition ) {
+                ImmutableVector2D movement = newPosition.getSubtractedInstance( oldPosition );
+                for ( EnergyChunk energyChunk : energyChunkList ) {
+//                    energyChunk.position.set( energyChunk.position.get().getAddedInstance( movement ) );
+//                    energyChunk.position.set( position.get() );
+                }
+            }
+        } );
+
+        // TODO: Temp for prototyping.
+//        energyChunkList.add( new EnergyChunk( initialPosition.getAddedInstance( 0.02, 0.01 ) ) );
+//        energyChunkList.add( new EnergyChunk( 0, 0 ) );
     }
 
     @Override public Dimension2D getSize() {
@@ -127,6 +146,10 @@ public abstract class Block extends RectangularMovableModelElement {
      */
     public static Shape getRawShape() {
         return new Rectangle2D.Double( -SURFACE_WIDTH / 2, 0, SURFACE_WIDTH, SURFACE_WIDTH );
+    }
+
+    public ObservableList<EnergyChunk> getEnergyChunkList() {
+        return energyChunkList;
     }
 
     @Override public IUserComponentType getUserComponentType() {
