@@ -1,23 +1,12 @@
-button_pressed.png source=PhET notes=copied from gene-network
-button_unpressed.png source=PhET notes=copied from gene-network
 cement-texture.png source=http://www.public-domain-image.com/full-image/textures-and-patterns-public-domain-images-pictures/concrete-texture-public-domain-images-pictures/cement-texture.jpg-royalty-free-stock-image.html license=public domain
-cement-texture-dark source=updated by SR based on the above license=public domain
+drain-faucet-attached.png source = PhET notes = created by SR from images provided by NP
 grass-texture.png source=Open Clip Art notes=http://openclipart.org/detail/21212/grass-texture-by-rg1024-21212 as public domain
 handle.png source=PhET notes=drawn by NP
-handle_T.png source=PhET notes=drawn by NP
 knob.png source=PhET notes=drawn by NP
+mass.png source=PhET notes=NP or AP
 nozzle.png source=PhET notes=created by SR based on work by NP
-output_drain source=PhET notes=created by SR based on work by NP
 panel.png source=PhET notes = created by SR
 pipe-left-back.png source=created by ON
 pipe-left-front.png source=created by ON
 pipe-middle.png source=PhET notes=created by ON
 pipe-right.png source=PhET notes=created by ON
-pressure_meter_center.png source=PhET notes=drawn by NP
-pressure_meter_left.png source=PhET notes=drawn by NP
-pressure_meter_right.png source=PhET notes=drawn by NP
-small-mass.png source=PhET notes=AP
-squeezer_background.png source=PhET notes=copied from gene-network
-man-standing.png source=PhET notes=copied from balance-and-torque
-potted-plant.png source=PhET notes=copied from balance-and-torque
-tall-mass.png source=PhET notes=AP

@@ -1,3 +1,4 @@
+Updated licenses.txt for images
 Switched from HSliderNode2 to HSliderNode1
 Added screenshot for "under pressure"
 # 0.00.60 (64116) May 11, 2012
