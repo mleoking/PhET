@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
+import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -59,12 +60,11 @@ public class LaserControlPanelNode extends ControlPanelNode {
                 setBorder( null );
 
                 //Layout
-                wavelengthControl.setOffset( 17, 0 );//move it to the right so the text label doesn't go off the control panel
                 PBounds bounds = wavelengthControl.getFullBounds();
-                setPreferredSize( new Dimension( (int) ( bounds.getWidth() + 40 ), (int) bounds.getHeight() ) );//make it a bit bigger than its default
+                setPreferredSize( new Dimension( (int) ( bounds.getWidth() ), (int) bounds.getHeight() ) );
 
                 //Add the wavelength control
-                getLayer().addChild( wavelengthControl );
+                getLayer().addChild( new ZeroOffsetNode( wavelengthControl ) );
             }} );
 
             //Add a radio button for "white light"

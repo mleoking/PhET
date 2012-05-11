@@ -18,6 +18,7 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
@@ -232,6 +233,33 @@ public class WavelengthControl extends PhetPNode {
 
         // Default state
         updateUI();
+
+        /*
+         * WORKAROUND for #3327:
+         * The horizontal bounds of the wavelength control changes as the slider knob is dragged.
+         * To prevent this, we determine the extents of the control's bounds, then add an invisible horizontal strut.
+         */
+        {
+            // remember the wavelength
+            final double saveWavelength = this.wavelength;
+
+            // determine bounds at min and max wavelength settings
+            setWavelength( minWavelength );
+            final double minX = getFullBoundsReference().getMinX();
+            setWavelength( maxWavelength );
+            final double maxX = getFullBoundsReference().getMaxX();
+
+            // restore the wavelength
+            setWavelength( saveWavelength );
+
+            // add a horizontal strut
+            final PPath strutNode = new PPath( new Line2D.Double( minX, 0, maxX, 0 ) ) {{
+                setPickable( false );
+                setStrokePaint( new Color( 0, 0, 0, 0 ) ); // use transparent color instead of null stroke, so that the strut has non-zero bounds
+            }};
+            addChild( strutNode );
+            strutNode.moveToBack();
+        }
     }
 
     //----------------------------------------------------------------------------
@@ -668,7 +696,7 @@ public class WavelengthControl extends PhetPNode {
             // Layout
             JPanel panel = new JPanel();
             EasyGridBagLayout layout = new EasyGridBagLayout( panel );
-            layout.setInsets( new Insets( 0, 3, 0, 0 ) );
+            layout.setInsets( new Insets( 0, 0, 0, 0 ) );
             panel.setLayout( layout );
             layout.setAnchor( GridBagConstraints.WEST );
             int row = 0;
