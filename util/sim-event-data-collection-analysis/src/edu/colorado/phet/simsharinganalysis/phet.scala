@@ -123,17 +123,22 @@ object phet {
   //Load all Logs within a directory recursively
   def load(dir: String): List[Log] = load(new File(dir))
 
-  def load(dir: File): List[Log] = {
+  def load(dir: File,
+           parser: File => Log = (f: File) => new Parser().parse(f))
+  : List[Log] = {
     if ( dir.exists && dir.isDirectory ) {
       val all = new ArrayBuffer[Log]
       for ( file <- dir.listFiles ) {
         if ( file.isFile ) {
           try {
-            val parsed = parse(file)
+            val parsed = parser(file)
             all += parsed
           }
           catch {
-            case x: Exception => println("failed to parse: " + file.getAbsolutePath + ", exception = " + x.getMessage)
+            case x: Exception => {
+              println("failed to parse: " + file.getAbsolutePath + ", message = " + x.getMessage + ", exception = " + x)
+              x.printStackTrace()
+            }
           }
         }
         else {

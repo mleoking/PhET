@@ -15,8 +15,8 @@ import java.awt.{Rectangle, BorderLayout, Dimension, Color}
 import edu.colorado.phet.common.piccolophet.nodes.layout.{HBox, VBox}
 import java.awt.event.{ComponentEvent, ComponentAdapter}
 
-class StudentActivityCanvas(path: String) extends PCanvas {
-  val all = phet load path
+class StudentActivityCanvas(all: List[Log]) extends PCanvas {
+
   val simTabs = HowMuchTimeSpentInTabs.simTabs
   val sims = all.map(_.simName).distinct
 
@@ -29,7 +29,8 @@ class StudentActivityCanvas(path: String) extends PCanvas {
   val colorMap = Map("Molecule Polarity" -> Color.red,
                      "Balancing Chemical Equations" -> Color.green,
                      "Molecule Shapes" -> new Color(156, 205, 255),
-                     "Acid-Base Solutions" -> Color.magenta)
+                     "Acid-Base Solutions" -> Color.magenta,
+                     "some name!?" -> Color.blue)
 
   //one plot section for each session
   //  for ( session: Session <- studySessionsNov2011.utahStudyMonday :: Nil; sessionLogs = all; if sessionLogs.length > 0 )
