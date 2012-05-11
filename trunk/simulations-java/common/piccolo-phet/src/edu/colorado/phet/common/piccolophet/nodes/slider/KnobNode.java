@@ -12,6 +12,7 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Or;
@@ -158,14 +159,19 @@ public class KnobNode extends PNode {
 
         Area knobShape;
         {
-            double unPointedProportion = 0.7; // Adjust if necessary to change appearance of knob.
-            double proportionOfWidthToRound = 0.2;
-            knobShape = new Area( new RoundRectangle2D.Double( 0, 0, width, height * unPointedProportion, width * proportionOfWidthToRound, width * proportionOfWidthToRound ) );
-            DoubleGeneralPath pointerPath = new DoubleGeneralPath( 0, height * ( unPointedProportion * 0.95 ) );
-            pointerPath.lineTo( width / 2, height );
-            pointerPath.lineTo( width, height * ( unPointedProportion * 0.95 ) );
-            pointerPath.closePath();
-            knobShape.add( new Area( pointerPath.getGeneralPath() ) );
+            // Draw a rounded rectangle for the 'body' of the knob.
+            double proportionOfWidthToRound = 0.25; // Adjust if necessary to change appearance of knob.
+            knobShape = new Area( new RoundRectangle2D.Double( 0, 0, width, height, width * proportionOfWidthToRound, width * proportionOfWidthToRound ) );
+
+            // Subtract off two triangles in order to create the point.
+            double pointerAngle = Math.PI / 2;     // Adjust if necessary to change appearance of knob.
+            DoubleGeneralPath pointerSubtractionPath = new DoubleGeneralPath( width / 2, height );
+            pointerSubtractionPath.lineToRelative( new ImmutableVector2D( 0, -height ).getRotatedInstance( pointerAngle / 2 ) );
+            pointerSubtractionPath.lineToRelative( 0, height );
+            pointerSubtractionPath.moveTo( width / 2, height );
+            pointerSubtractionPath.lineToRelative( new ImmutableVector2D( 0, -height ).getRotatedInstance( -pointerAngle / 2 ) );
+            pointerSubtractionPath.lineToRelative( 0, height );
+            knobShape.subtract( new Area( pointerSubtractionPath.getGeneralPath() ) );
         }
 
         final PhetPPath background = new PhetPPath( knobShape ) {{
