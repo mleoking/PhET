@@ -8,6 +8,11 @@ import edu.colorado.phet.beerslawlab.common.BLLSymbols;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
+//REVIEW - There only appears to be one solvent used in the sim: Water.  Why
+// not just have a class that represents water? My guess is that other solvents
+// were envisioned or are planned for the future.  Should probable either not
+// this, or just make this be water.
+
 /**
  * A solvent (in this case a liquid) that dissolves another liquid (the solute) to create a solution.
  *
@@ -15,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class Solvent implements IFluid {
 
+    //REVIEW: Style comment - seems a bit odd to have Water here at the top of the class.
     /*
      * Pure water is a type of solvent.
      * Since Solvents are immutable, we could use one static instance of Water.
@@ -43,6 +49,7 @@ public class Solvent implements IFluid {
         return color.get();
     }
 
+    //REVIEW: The color property is public, so why have this method?  This isn't done elsewhere, such as for the location property in Movable.
     public void addFluidColorObserver( SimpleObserver observer ) {
         color.addObserver( observer );
     }

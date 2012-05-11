@@ -4,8 +4,6 @@ package edu.colorado.phet.beerslawlab.beerslaw.view;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.geom.Rectangle2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.text.MessageFormat;
 
 import javax.swing.JLabel;
@@ -16,7 +14,6 @@ import edu.colorado.phet.beerslawlab.beerslaw.model.BeersLawSolution;
 import edu.colorado.phet.beerslawlab.beerslaw.model.Light;
 import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
-import edu.colorado.phet.beerslawlab.common.BLLSimSharing;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -81,6 +78,7 @@ class WavelengthControlNode extends PNode implements Resettable {
         parentNode.addChild( panelNode );
         parentNode.addChild( wavelengthWrapperNode );
 
+        //REVIEW: Why not fix the wavelength control so that it doesn't have this issue - otherwise others will hit it.  VSliderNode puts a transparent node behind it that is sized to account for the full bounds.
         /*
          * WORKAROUND for #3327:
          * The bounds of the wavelength control changes as the slider knob is dragged.
