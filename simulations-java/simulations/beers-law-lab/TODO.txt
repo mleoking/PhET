@@ -1,5 +1,4 @@
 TODO list for beers-law-lab
 
 - snapshots of 2 Google design docs
-- implementation-notes.txt
 - publish 1.00
