@@ -1,3 +1,4 @@
+Switched from HSliderNode2 to HSliderNode1
 Added screenshot for "under pressure"
 # 0.00.60 (64116) May 11, 2012
 Added "Under Pressure" standalone sim

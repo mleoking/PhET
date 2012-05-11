@@ -10,11 +10,9 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode2;
-import edu.colorado.phet.common.piccolophet.nodes.slider.KnobNode2;
+import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 import edu.colorado.phet.common.piccolophet.nodes.slider.KnobNode2.Style;
 import edu.colorado.phet.common.piccolophet.nodes.slider.VSliderNode;
-import edu.colorado.phet.common.piccolophet.nodes.slider.VSliderNode2;
 import edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents;
 import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -31,8 +29,8 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserCompon
 public class SliderControl extends PNode {
 
     public SliderControl( IUserComponent userComponent, String title, String units, final double min, final double max, final Property<Double> property, final HashMap<Double, String> tickLabels, final DecimalFormat format, Style style ) {
-        HSliderNode2 slider = new HSliderNode2( chain( userComponent, UserComponents.slider ), min, max, new KnobNode2( style ),
-                                                VSliderNode.DEFAULT_TRACK_THICKNESS, VSliderNode.DEFAULT_TRACK_LENGTH, property, new Property<Boolean>( true ), VSliderNode2.GRADIENT_TRACK_PAINT );
+        HSliderNode slider = new HSliderNode( chain( userComponent, UserComponents.slider ), min, max,
+                                              VSliderNode.DEFAULT_TRACK_THICKNESS, VSliderNode.DEFAULT_TRACK_LENGTH, property, new Property<Boolean>( true ) );
 
         for ( Double key : tickLabels.keySet() ) {
             slider.addLabel( key, new PText( tickLabels.get( key ) ) );
