@@ -35,8 +35,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-//REVIEW - Can and should this be abstract?  It seems like the intent is to always subclass it, so that could help to prevent misuse.
-public class BeersLawSolution implements Resettable {
+public abstract class BeersLawSolution implements Resettable {
 
     public final Solvent solvent;
     public final String name;
