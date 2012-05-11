@@ -17,8 +17,8 @@ public class FunctionsApplication extends PiccoloPhetApplication {
     public FunctionsApplication( PhetApplicationConfig config ) {
         super( config );
         addModule( new FunctionModule( "Intro" ) );
-        addModule( new FunctionModule( "Numbers" ) );
-        addModule( new FunctionModule( "Function Maker" ) );
+        addModule( new FunctionModule( "Multiple Inputs" ) );
+        addModule( new FunctionModule( "Build a Function" ) );
         addModule( new FunctionModule( "Game Maker" ) );
     }
 
