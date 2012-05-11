@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
- * A solvent.
+ * A solvent (in this case a liquid) that dissolves another liquid (the solute) to create a solution.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
