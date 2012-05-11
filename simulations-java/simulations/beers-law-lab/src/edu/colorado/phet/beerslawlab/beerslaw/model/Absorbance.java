@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
- * Measures the absorbance of a solution in a cuvette.
+ * Measures the absorbance of light passing through a solution in a cuvette.
  * <p>
  * Absorbance model: A = abC
  * <p>
@@ -33,7 +33,7 @@ public class Absorbance {
 
     public final CompositeProperty<Double> value;
 
-    public Absorbance( final Property<BeersLawSolution> solution, final Light light, final Cuvette cuvette ) {
+    public Absorbance( final Light light, final Property<BeersLawSolution> solution, final Cuvette cuvette ) {
 
         // a: molar absorptivity
         this.molarAbsorptivity = new CompositeProperty<Double>( new Function0<Double>() {
