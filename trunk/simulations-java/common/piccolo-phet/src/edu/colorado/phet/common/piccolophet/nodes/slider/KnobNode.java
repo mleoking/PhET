@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function3;
 import edu.colorado.phet.common.phetcommon.view.graphics.TriColorRoundGradientPaint;
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -71,7 +72,7 @@ public class KnobNode extends PNode {
             this( add( upMiddle, -20, -20, -20 ), upMiddle, add( upMiddle, 35, 35, 35 ),
                   add( upMiddle, -10, 30, 30 ), add( upMiddle, 10, 30, 30 ), add( upMiddle, 45, 45, 45 ),
                   add( upMiddle, 35, 35, 35 ), add( upMiddle, 0, -20, -20 ), add( upMiddle, -20, -20, -20 ),
-                  Color.white, Color.lightGray, Color.white );
+                  ColorUtils.darkerColor( Color.lightGray, 0.05 ), Color.lightGray, ColorUtils.brighterColor( Color.lightGray, 0.4 ) );
         }
 
         /**
@@ -264,6 +265,12 @@ public class KnobNode extends PNode {
         // the VSliderNode class as it looked at the time of this writing.
         canvas.addWorldChild( new KnobNode( new KnobNode.ColorScheme( new Color( 115, 217, 255 ) ) ) {{
             setOffset( 10, 50 );
+        }} );
+
+        // Add a disabled version that uses a common color scheme.
+        canvas.addWorldChild( new KnobNode( new KnobNode.ColorScheme( new Color( 115, 217, 255 ) ) ) {{
+            setOffset( 10, 90 );
+            setEnabled( false );
         }} );
 
         // Boiler plate app stuff.
