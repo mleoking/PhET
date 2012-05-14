@@ -1,4 +1,0 @@
-TODO list for beers-law-lab
-
-- snapshots of 2 Google design docs
-- publish 1.00
