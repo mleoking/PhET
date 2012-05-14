@@ -65,6 +65,7 @@ public class PolarizationPanel extends Canvas {
 
         //Set up polarization radio button box
         this.polarizationLabel = new NiceLabel( 12, polarization_str, true );
+        this.polarizationLabel.centerText();
         this.modeTypeHBox = new HBox();
         this.directionOfMode_rbg = new RadioButtonGroup();
         this.horizPolarizationButton = new RadioButton();
