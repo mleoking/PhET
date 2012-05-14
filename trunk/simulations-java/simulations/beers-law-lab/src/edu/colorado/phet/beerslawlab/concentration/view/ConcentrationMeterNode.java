@@ -128,8 +128,8 @@ class ConcentrationMeterNode extends PhetPNode {
 
         // image-specific locations and dimensions
         private static final double TITLE_Y_OFFSET = 12;
-        private static final double TEXT_X_MARGIN = 20;  // specific to image files
-        private static final double VALUE_X_MARGIN = 30; // specific to image files
+        private static final double TEXT_X_MARGIN = 25;  // specific to image files
+        private static final double VALUE_X_MARGIN = 25; // specific to image files
         private static final double VALUE_Y_OFFSET = 67; // specific to image files
 
         public BodyNode( final ConcentrationMeter meter ) {

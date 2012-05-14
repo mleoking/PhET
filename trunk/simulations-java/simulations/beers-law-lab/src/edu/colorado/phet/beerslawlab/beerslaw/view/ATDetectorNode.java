@@ -20,7 +20,6 @@ import edu.colorado.phet.beerslawlab.common.BLLSimSharing.ParameterKeys;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
 import edu.colorado.phet.beerslawlab.common.view.DebugOriginNode;
 import edu.colorado.phet.beerslawlab.common.view.MovableDragHandler;
-import edu.colorado.phet.common.piccolophet.nodes.HorizontalTiledNode;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -33,6 +32,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.HorizontalTiledNode;
 import edu.colorado.phet.common.piccolophet.simsharing.NonInteractiveEventHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -66,9 +66,9 @@ class ATDetectorNode extends PhetPNode {
     // The body of the detector, where A and T values are displayed.
     private static class BodyNode extends PNode {
 
-        private static final double BUTTONS_X_MARGIN = 20;  // specific to image files
+        private static final double BUTTONS_X_MARGIN = 25;  // specific to image files
         private static final double BUTTONS_Y_OFFSET = 17;  // specific to image files
-        private static final double VALUE_X_MARGIN = 30; // specific to image files
+        private static final double VALUE_X_MARGIN = 25; // specific to image files
         private static final double VALUE_Y_OFFSET = 87; // specific to image files
         private static final DecimalFormat ABSORBANCE_FORMAT = new DecimalFormat( "0.00" );
         private static final DecimalFormat TRANSMITTANCE_FORMAT = new DecimalFormat( "0.00" );
@@ -88,11 +88,11 @@ class ATDetectorNode extends PhetPNode {
                                         transmittanceButton.getFullBoundsReference().getMaxY() + 1 );
 
             // value display
-            final PText valueNode = new PText( NO_VALUE );
+            final PText valueNode = new PText( getFormattedTransmittance( 100 ) );
             valueNode.setFont( new PhetFont( 24 ) );
 
             // background image, sized to fit
-            double bodyWidth = buttonsNode.getFullBoundsReference().getWidth() + ( 2 * BUTTONS_X_MARGIN );
+            double bodyWidth = Math.max( buttonsNode.getFullBoundsReference().getWidth(), valueNode.getFullBoundsReference().getWidth() ) + ( 2 * BUTTONS_X_MARGIN );
             final PNode backgroundNode = new HorizontalTiledNode( bodyWidth, Images.AT_DETECTOR_BODY_LEFT, Images.AT_DETECTOR_BODY_CENTER, Images.AT_DETECTOR_BODY_RIGHT );
 
             // rendering order
@@ -122,13 +122,7 @@ class ATDetectorNode extends PhetPNode {
                                              valueNode.getYOffset() );
                     }
                     else {
-                        String text;
-                        if ( detector.mode.get() == ATDetectorMode.TRANSMITTANCE ) {
-                            text = MessageFormat.format( Strings.PATTERN_0PERCENT, TRANSMITTANCE_FORMAT.format( value ) );
-                        }
-                        else {
-                            text = ABSORBANCE_FORMAT.format( value );
-                        }
+                        String text = ( detector.mode.get() == ATDetectorMode.TRANSMITTANCE ) ? getFormattedTransmittance( value ) : getFormattedAbsorbance( value );
                         valueNode.setText( text );
                         // right justified
                         valueNode.setOffset( backgroundNode.getFullBoundsReference().getMaxX() - valueNode.getFullBoundsReference().getWidth() - VALUE_X_MARGIN,
@@ -139,6 +133,14 @@ class ATDetectorNode extends PhetPNode {
             observer.observe( detector.value, detector.mode );
 
             addInputEventListener( new NonInteractiveEventHandler( UserComponents.detectorBody ) );
+        }
+
+        private String getFormattedAbsorbance( double absorbance ) {
+            return ABSORBANCE_FORMAT.format( absorbance );
+        }
+
+        private String getFormattedTransmittance( double transmittance ) {
+            return MessageFormat.format( Strings.PATTERN_0PERCENT, TRANSMITTANCE_FORMAT.format( transmittance ) );
         }
     }
 
