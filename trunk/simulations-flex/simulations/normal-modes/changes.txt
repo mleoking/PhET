@@ -1,3 +1,5 @@
+# 0.00.49 (64150) May 14, 2012
+5/14/12 Minor changes. Centered text in Polarization Panel.
 # 0.00.48 (62879) Mar 29, 2012
 3/29/12 Final version, ready for publishing (I hope).
 # 0.00.47 (62827) Mar 27, 2012
