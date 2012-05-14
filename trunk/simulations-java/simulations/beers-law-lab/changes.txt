@@ -1,3 +1,4 @@
+5/11/12 #3330, fixed drain faucet issue by fixing a bug with piccolo-phet sliders
 5/11/12 #3327, migrate WavelengthControl bounds workaround to piccolo-phet
 5/11/12 #3322, code review: address comments in Solvent
 5/11/12 #3322, code review: improve javadoc for ConcentrationTransform
