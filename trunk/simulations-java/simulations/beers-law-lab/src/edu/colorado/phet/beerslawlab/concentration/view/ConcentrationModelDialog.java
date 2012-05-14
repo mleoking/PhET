@@ -21,11 +21,10 @@ import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
-//DOC - This is the actual dialog, not the button, right?
-
 /**
- * This button opens a debugging dialog that displays observable properties of ConcentrationModel.
+ * Dialog that displays observable properties of ConcentrationModel.
  * This is for developer use only, no i18n required.
+ * Inner class ConcentrationModelButton provides a button that opens the dialog.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
