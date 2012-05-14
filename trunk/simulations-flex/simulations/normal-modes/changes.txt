@@ -1,3 +1,5 @@
+# 1.00.00 (64155) May 14, 2012
+5/14/12 >initial deployment 
 # 0.00.49 (64150) May 14, 2012
 5/14/12 Minor changes. Centered text in Polarization Panel.
 # 0.00.48 (62879) Mar 29, 2012
