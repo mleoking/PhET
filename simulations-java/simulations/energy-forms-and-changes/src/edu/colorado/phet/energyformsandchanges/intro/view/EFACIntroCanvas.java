@@ -199,14 +199,32 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         // Add the thermometers.
         for ( Thermometer thermometer : model.getThermometers() ) {
             thermometerToolBox.putThermometerInOpenSpot( thermometer );
-            final ThermometerNode thermometerNode = new ThermometerNode( thermometer, mvt );
-            beakerFrontLayer.addChild( thermometerNode );
-            thermometerNode.addInputEventListener( new PBasicInputEventHandler() {
+            // Add one thermometer node to the front layer and one to the back,
+            // and control the visibility based on whether the thermometer is
+            // in the tool box.
+            final ThermometerNode frontThermometerNode = new ThermometerNode( thermometer, mvt );
+            thermometerLayer.addChild( frontThermometerNode );
+            final ThermometerNode backThermometerNode = new ThermometerNode( thermometer, mvt );
+            backLayer.addChild( backThermometerNode );
+            frontThermometerNode.addInputEventListener( new PBasicInputEventHandler() {
 
-                // Put the thermometer into the tool box if dropped over it.
                 @Override public void mouseReleased( PInputEvent event ) {
-                    if ( thermometerNode.getFullBoundsReference().intersects( thermometerToolBox.getFullBoundsReference() ) ) {
-                        thermometerToolBox.putThermometerInOpenSpot( thermometerNode.getThermometer() );
+                    if ( frontThermometerNode.getFullBoundsReference().intersects( thermometerToolBox.getFullBoundsReference() ) ) {
+                        // Released over tool box, so put the thermometer into it.
+                        thermometerToolBox.putThermometerInOpenSpot( frontThermometerNode.getThermometer() );
+                    }
+                }
+            } );
+
+            // Monitor the thermometer's position and move it to the back of
+            // the z-order when over the tool box.
+            thermometer.position.addObserver( new VoidFunction1<ImmutableVector2D>() {
+                public void apply( ImmutableVector2D position ) {
+                    if ( mvt.viewToModel( thermometerToolBox.getFullBoundsReference() ).contains( position.toPoint2D() ) && frontThermometerNode.getTransparency() > 0 ) {
+                        frontThermometerNode.setTransparency( 0 );
+                    }
+                    else if ( !mvt.viewToModel( thermometerToolBox.getFullBoundsReference() ).contains( position.toPoint2D() ) && frontThermometerNode.getTransparency() == 0 ) {
+                        frontThermometerNode.setTransparency( 1 );
                     }
                 }
             } );
