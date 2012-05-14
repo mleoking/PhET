@@ -90,30 +90,36 @@ public class VSliderNode extends SliderNode {
                 public Double startValue;
 
                 @Override public void startDrag( PInputEvent event ) {
-                    super.startDrag( event );
-                    dragStarted();
-                    startPoint = event.getPositionRelativeTo( VSliderNode.this );
-                    startValue = value.get();
+                    if ( enabled.get() ) {
+                        super.startDrag( event );
+                        dragStarted();
+                        startPoint = event.getPositionRelativeTo( VSliderNode.this );
+                        startValue = value.get();
+                    }
                 }
 
                 @Override public void drag( PInputEvent event ) {
-                    super.drag( event );
-                    dragged();
-                    Point2D point = event.getPositionRelativeTo( VSliderNode.this );
-                    final ImmutableVector2D vector = new ImmutableVector2D( startPoint, point );
+                    if ( enabled.get() ) {
+                        super.drag( event );
+                        dragged();
+                        Point2D point = event.getPositionRelativeTo( VSliderNode.this );
+                        final ImmutableVector2D vector = new ImmutableVector2D( startPoint, point );
 
-                    Point2D minGlobal = trackNode.localToGlobal( new Point2D.Double( 0, 0 ) );
-                    Point2D maxGlobal = trackNode.localToGlobal( createEndPoint() );
-                    final ImmutableVector2D unitVector = new ImmutableVector2D( minGlobal, maxGlobal ).getNormalizedInstance();
-                    double viewDelta = vector.dot( unitVector );
+                        Point2D minGlobal = trackNode.localToGlobal( new Point2D.Double( 0, 0 ) );
+                        Point2D maxGlobal = trackNode.localToGlobal( createEndPoint() );
+                        final ImmutableVector2D unitVector = new ImmutableVector2D( minGlobal, maxGlobal ).getNormalizedInstance();
+                        double viewDelta = vector.dot( unitVector );
 
-                    double modelDelta = ( min - max ) / trackNode.getFullBounds().getHeight() * viewDelta;
-                    value.set( MathUtil.clamp( min, startValue + modelDelta, max ) );
+                        double modelDelta = ( min - max ) / trackNode.getFullBounds().getHeight() * viewDelta;
+                        value.set( MathUtil.clamp( min, startValue + modelDelta, max ) );
+                    }
                 }
 
                 @Override protected void endDrag( PInputEvent event ) {
-                    super.endDrag( event );
-                    dragEnded();
+                    if ( enabled.get() ) {
+                        super.endDrag( event );
+                        dragEnded();
+                    }
                 }
             } );
         }};
