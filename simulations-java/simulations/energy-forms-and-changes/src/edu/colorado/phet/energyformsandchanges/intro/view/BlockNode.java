@@ -94,13 +94,6 @@ public class BlockNode extends PComposite {
             addChild( new PhetPPath( scaleTransform.createTransformedShape( Block.getRawShape() ), new BasicStroke( 1 ), Color.RED ) );
         }
 
-        // Update the offset if and when the model position changes.
-        block.position.addObserver( new VoidFunction1<ImmutableVector2D>() {
-            public void apply( ImmutableVector2D position ) {
-                setOffset( mvt.modelToView( position ).toPoint2D() );
-            }
-        } );
-
         // Position and add the label.
         PText label = new PText( block.getLabel() );
         label.setFont( LABEL_FONT );
@@ -114,18 +107,33 @@ public class BlockNode extends PComposite {
         label.centerFullBoundsOnPoint( labelCenterX, labelCenterY );
         addChild( label );
 
-        // Watch for energy chunks coming and going and add/remove nodes
-        // accordingly.
+        // Create a layer where energy chunks will be placed.
+        final PNode energyChunkLayer = new PNode();
+        addChild( energyChunkLayer );
+
+        // Watch for energy chunks coming and going and add/remove nodes accordingly.
         block.getEnergyChunkList().addElementAddedObserver( new VoidFunction1<EnergyChunk>() {
             public void apply( EnergyChunk energyChunk ) {
                 final PNode energyChunkNode = new EnergyChunkNode( energyChunk, mvt );
-                addChild( energyChunkNode );
+                energyChunkLayer.addChild( energyChunkNode );
                 block.getEnergyChunkList().addElementRemovedObserver( new VoidFunction1<EnergyChunk>() {
                     public void apply( EnergyChunk energyChunk ) {
-                        removeChild( energyChunkNode );
+                        energyChunkLayer.removeChild( energyChunkNode );
                         block.getEnergyChunkList().removeElementRemovedObserver( this );
                     }
                 } );
+            }
+        } );
+
+        // Update the offset if and when the model position changes.
+        block.position.addObserver( new VoidFunction1<ImmutableVector2D>() {
+            public void apply( ImmutableVector2D newPosition ) {
+
+                setOffset( mvt.modelToView( newPosition ).toPoint2D() );
+
+                // Compensate the energy chunk layer so that the energy chunk
+                // nodes can handle their own positioning.
+                energyChunkLayer.setOffset( mvt.modelToView( newPosition ).getRotatedInstance( Math.PI ).toPoint2D() );
             }
         } );
 
@@ -142,6 +150,7 @@ public class BlockNode extends PComposite {
     * Convenience method to avoid code duplication.  Adds a node of the given
     * shape, color, and texture (if a texture is specified).
     */
+
     private PNode createSurface( Shape blockFaceShape, Color fillColor, Image textureImage ) {
 
         PNode root = new PNode();

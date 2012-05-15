@@ -20,4 +20,8 @@ public class EnergyChunk {
     public EnergyChunk( ImmutableVector2D initialPosition ) {
         this.position = new Property<ImmutableVector2D>( initialPosition );
     }
+
+    public void translate( ImmutableVector2D movement ) {
+        position.set( position.get().getAddedInstance( movement ) );
+    }
 }
