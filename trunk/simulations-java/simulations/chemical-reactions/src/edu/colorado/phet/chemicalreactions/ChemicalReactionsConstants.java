@@ -32,4 +32,5 @@ public class ChemicalReactionsConstants {
     // padding between simulation edges and kit/collection areas
     public static final double VIEW_PADDING = 18;
     public static final double MODEL_PADDING = MODEL_VIEW_TRANSFORM.viewToModelDeltaX( VIEW_PADDING );
+    public static final int MODEL_ITERATIONS_PER_FRAME = 10;
 }

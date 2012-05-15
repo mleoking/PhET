@@ -15,6 +15,7 @@ import edu.colorado.phet.chemicalreactions.model.MoleculeBucket;
 import edu.colorado.phet.chemicalreactions.view.KitView;
 import edu.colorado.phet.chemicalreactions.view.MoleculeNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -26,7 +27,7 @@ public class ChemicalReactionsCanvas extends PhetPCanvas {
 
     private final PNode root = new PNode();
 
-    public ChemicalReactionsCanvas() {
+    public ChemicalReactionsCanvas( IClock clock ) {
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new CenteredStage( this, ChemicalReactionsConstants.STAGE_SIZE ) );
 

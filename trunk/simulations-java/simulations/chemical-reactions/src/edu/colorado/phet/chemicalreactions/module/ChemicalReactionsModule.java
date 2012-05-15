@@ -12,7 +12,7 @@ public class ChemicalReactionsModule extends PiccoloModule {
     public ChemicalReactionsModule( Frame parentFrame ) {
         super( Strings.TITLE__CHEMICAL_REACTIONS, new ConstantDtClock() );
 
-        setSimulationPanel( new ChemicalReactionsCanvas() );
+        setSimulationPanel( new ChemicalReactionsCanvas( getClock() ) );
         setClockControlPanel( null );
 
         setControlPanel( null );
