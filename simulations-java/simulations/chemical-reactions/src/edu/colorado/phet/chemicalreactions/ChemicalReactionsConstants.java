@@ -33,4 +33,6 @@ public class ChemicalReactionsConstants {
     public static final double VIEW_PADDING = 18;
     public static final double MODEL_PADDING = MODEL_VIEW_TRANSFORM.viewToModelDeltaX( VIEW_PADDING );
     public static final int MODEL_ITERATIONS_PER_FRAME = 10;
+
+    public static final boolean ENABLE_BOX2D_DEBUG_DRAW = true;
 }
