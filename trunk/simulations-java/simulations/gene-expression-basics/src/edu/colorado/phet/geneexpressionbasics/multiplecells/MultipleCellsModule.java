@@ -57,6 +57,5 @@ public class MultipleCellsModule extends Module {
 
     @Override public void reset() {
         model.reset();
-        canvas.reset();
     }
 }

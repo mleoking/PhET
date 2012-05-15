@@ -244,6 +244,9 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         concentrationControlPanel.setOpen( false );
         affinityControlPanel.setOpen( false );
         degradationParameterController.setOpen( false );
+
+        // Make sure that the clock is running.
+        clockRunning.set( true );
     }
 
     /**
