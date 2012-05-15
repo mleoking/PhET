@@ -6,6 +6,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
@@ -59,7 +60,7 @@ public class Beaker extends RectangularMovableModelElement implements EnergyCont
      * @param initialPosition The initial position in model space.  This is
      *                        the center bottom of the model element.
      */
-    public Beaker( ImmutableVector2D initialPosition ) {
+    public Beaker( ImmutableVector2D initialPosition, BooleanProperty energyChunksVisible ) {
         super( initialPosition );
 
         // Update the top and bottom surfaces whenever the position changes.
@@ -80,7 +81,7 @@ public class Beaker extends RectangularMovableModelElement implements EnergyCont
         } );
 
         // TODO: Temp for prototyping.
-        energyChunkList.add( new EnergyChunk( initialPosition.getAddedInstance( 0.02, 0.01 ) ) );
+        energyChunkList.add( new EnergyChunk( initialPosition.getAddedInstance( 0.02, 0.01 ), energyChunksVisible ) );
     }
 
     //-------------------------------------------------------------------------

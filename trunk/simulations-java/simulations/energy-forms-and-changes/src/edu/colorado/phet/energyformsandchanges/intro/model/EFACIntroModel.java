@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -65,6 +66,9 @@ public class EFACIntroModel {
     // List of energy chucks.
     public final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
 
+    // Boolean for tracking whether the energy chunks are visible to the user.
+    public final BooleanProperty energyChunksVisible = new BooleanProperty( false );
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
@@ -82,11 +86,11 @@ public class EFACIntroModel {
         leftBurner = new Burner( new Point2D.Double( 0.08, 0 ) );
 
         // Add and position the beaker.
-        beaker = new Beaker( new ImmutableVector2D( -0.015, 0 ) );
+        beaker = new Beaker( new ImmutableVector2D( -0.015, 0 ), energyChunksVisible );
 
         // Add and position the blocks
-        brick = new Brick( new ImmutableVector2D( -0.1, 0 ) );
-        leadBlock = new LeadBlock( new ImmutableVector2D( -0.175, 0 ) );
+        brick = new Brick( new ImmutableVector2D( -0.1, 0 ), energyChunksVisible );
+        leadBlock = new LeadBlock( new ImmutableVector2D( -0.175, 0 ), energyChunksVisible );
 
         // Add the thermometers.  They should reside in the tool box when
         // the sim starts up or is reset, so their position here doesn't much
@@ -128,6 +132,7 @@ public class EFACIntroModel {
         beaker.reset();
         thermometer1.reset();
         thermometer2.reset();
+        energyChunksVisible.reset();
     }
 
     /**
