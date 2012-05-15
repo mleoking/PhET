@@ -157,10 +157,6 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
 
                         // Set a new attachment site.
                         attachmentSite = attachmentSites.get( 0 );
-                        // TODO: Debug code for tracking down an issue with site ownership.  Problem believed to be solved, delete if problem does not recur.
-                        if ( attachmentSite.attachedOrAttachingMolecule.get() != null ) {
-                            System.out.println( "Error: Attachment site isn't really available." );
-                        }
                         assert attachmentSite.attachedOrAttachingMolecule.get() == null; // State checking - Make sure site is really available.
                         attachmentSite.attachedOrAttachingMolecule.set( biomolecule );
 
