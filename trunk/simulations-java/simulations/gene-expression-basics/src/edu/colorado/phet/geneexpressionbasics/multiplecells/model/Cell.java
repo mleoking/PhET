@@ -46,7 +46,6 @@ public class Cell extends ShapeChangingModelElement {
     // The reason that this is broken out into a separate class is that it was
     // supplied by someone outside of the PhET project, and this keeps it
     // encapsulated and thus easier for the original author to help maintain.
-    // TODO: I have no idea what the original ribosome count should be, so I'm just taking a wild guess here.
     private CellProteinSynthesisSimulator proteinSynthesisSimulator = new CellProteinSynthesisSimulator( 100 );
 
     // Property that indicates the current protein count in the cell.  This
@@ -96,7 +95,8 @@ public class Cell extends ShapeChangingModelElement {
     //-------------------------------------------------------------------------
 
     public void stepInTime( double dt ) {
-        // TODO: Multiplying time step, because the example used a large number.  Need to talk to George E to figure out units.
+        // NOTE: Multiplying time step, because it was necessary to get the
+        // model to run at the needed rate.
         proteinSynthesisSimulator.stepInTime( dt * 1000 );
         proteinCount.set( proteinSynthesisSimulator.getProteinCount() );
     }
@@ -126,16 +126,6 @@ public class Cell extends ShapeChangingModelElement {
 
     public void setTranscriptionFactorCount( int tfCount ) {
         proteinSynthesisSimulator.setTranscriptionFactorCount( tfCount );
-    }
-
-    // TODO: Temp for debug, remove eventually.
-    public int getTranscriptionFactorCount() {
-        return proteinSynthesisSimulator.getTranscriptionFactorCount();
-    }
-
-    // TODO: Temp for debug, remove eventually.
-    public void printCellDebugInfo() {
-        proteinSynthesisSimulator.printDebugInfo();
     }
 
     public void setPolymeraseCount( int polymeraseCount ) {

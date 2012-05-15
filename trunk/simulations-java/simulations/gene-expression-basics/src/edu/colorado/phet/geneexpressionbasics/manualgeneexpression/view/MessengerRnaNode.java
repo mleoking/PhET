@@ -8,7 +8,6 @@ import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -21,7 +20,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.PointMass;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ShapeSegment;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -145,27 +143,6 @@ public class MessengerRnaNode extends MobileBiomoleculeNode {
                     shapeSegmentNode.setPathTo( shape );
                 }
             } );
-        }
-    }
-
-    // TODO: Started on this, decided not to use it for now, delete if never used.  It is intended for debugging the mRNA shape.
-    private static class PointMassNode {
-        private static final int DIAMETER = 5;
-        private static final Shape SHAPE = new Ellipse2D.Double( -DIAMETER / 2, -DIAMETER / 2, DIAMETER, DIAMETER );
-        private static final Color COLOR = Color.RED;
-        public final PointMass pointMass;
-        private final ModelViewTransform mvt;
-        private final PNode representation;
-
-        public PointMassNode( PointMass pointMass, ModelViewTransform mvt ) {
-            this.pointMass = pointMass;
-            this.mvt = mvt;
-            representation = new PhetPPath( SHAPE, COLOR );
-            updatePosition();
-        }
-
-        public void updatePosition() {
-            representation.setOffset( mvt.modelToView( pointMass.getPosition() ) );
         }
     }
 
