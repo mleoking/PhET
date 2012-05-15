@@ -139,7 +139,6 @@ public abstract class Gene {
         return dnaMolecule.createDefaultAffinityAttachmentSite( dnaMolecule.getBasePairXOffsetByIndex( basePairIndex ) );
     }
 
-
     /**
      * Get the attachment site where RNA polymerase would start transcribing
      * the DNA.  This is assumes that there is only one such site on the

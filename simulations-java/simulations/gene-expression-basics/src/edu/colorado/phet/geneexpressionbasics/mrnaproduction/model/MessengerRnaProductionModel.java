@@ -74,6 +74,9 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
                                                                -NUM_BASE_PAIRS_ON_DNA_STRAND * DnaMolecule.DISTANCE_BETWEEN_BASE_PAIRS / 2,
                                                                true );
 
+    // The one gene that is on this DNA strand.
+    private final Gene gene;
+
     // List of mobile biomolecules in the model, excluding mRNA.
     public final ObservableList<MobileBiomolecule> mobileBiomoleculeList = new ObservableList<MobileBiomolecule>();
 
@@ -108,9 +111,6 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
     // generally populated by the view in order to keep biomolecules from
     // wandering over the tool boxes and such.
     private final List<Shape> offLimitsMotionSpaces = new ArrayList<Shape>();
-
-    // The one gene that is on this DNA strand.
-    private final Gene gene;
 
     // The bounds within which polymerase may be moved when recycled.
     private final Rectangle2D aboveDnaPolymeraseReturnBounds;
@@ -297,6 +297,9 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         mobileBiomoleculeList.clear();
         messengerRnaList.clear();
         dnaMolecule.reset();
+        gene.getPolymeraseAffinityProperty().reset();
+        gene.getTranscriptionFactorAffinityProperty( POSITIVE_TRANSCRIPTION_FACTOR_CONFIG ).reset();
+        gene.getTranscriptionFactorAffinityProperty( NEGATIVE_TRANSCRIPTION_FACTOR_CONFIG ).reset();
 
         // Add the polymerase molecules.  These don't come and go, the
         // concentration of these remains constant in this model.

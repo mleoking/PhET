@@ -55,6 +55,7 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas implements Resetta
     private final ModelViewTransform mvt;
     private final BooleanProperty clockRunning = new BooleanProperty( false );
     private PNode modelRootNode;
+    private final BooleanProperty negativeTranscriptionFactorEnabled = new BooleanProperty( false );
 
     /**
      * Constructor.
@@ -139,7 +140,6 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas implements Resetta
 
         // Add the check box for showing/hiding the control panel for the
         // negative transcription factor.
-        BooleanProperty negativeTranscriptionFactorEnabled = new BooleanProperty( false );
         PNode negativeFactorEnabledCheckBox = new PropertyCheckBoxNode( negativeTranscriptionFactorCheckBox,
                                                                         GeneExpressionBasicsResources.Strings.NEGATIVE_TRANSCRIPTION_FACTOR,
                                                                         negativeTranscriptionFactorEnabled );
@@ -257,6 +257,7 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas implements Resetta
 
     public void reset() {
         clockRunning.set( true );
+        negativeTranscriptionFactorEnabled.reset();
     }
 
     // Convenience class for check boxes, prevents code duplication.
@@ -268,5 +269,4 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas implements Resetta
             addChild( new PSwing( checkBox ) );
         }
     }
-
 }
