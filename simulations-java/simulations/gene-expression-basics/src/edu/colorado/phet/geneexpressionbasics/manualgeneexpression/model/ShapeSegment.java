@@ -75,8 +75,7 @@ public abstract class ShapeSegment {
     }
 
     public Rectangle2D getBounds() {
-        // TODO: Test this.  Not sure it will work correctly.
-        return (Rectangle2D) bounds.get().clone();
+        return new Rectangle2D.Double( bounds.get().getX(), bounds.get().getY(), bounds.get().getWidth(), bounds.get().getHeight() );
     }
 
     public boolean isFlat() {
