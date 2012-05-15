@@ -51,8 +51,6 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
     private static double EDGE_INSET = 10;
     private static final Color CONTROL_PANEL_COLOR = new Color( 255, 255, 224 );
 
-    private final BooleanProperty showEnergyOfObjects = new BooleanProperty( false );
-
     private final EFACIntroModel model;
     private ThermometerToolBox thermometerToolBox;
     private BooleanProperty normalSimSpeed = new BooleanProperty( true );
@@ -102,7 +100,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         {
             PropertyCheckBox showEnergyCheckBox = new PropertyCheckBox( EnergyFormsAndChangesSimSharing.UserComponents.showEnergyCheckBox,
                                                                         "Show energy of objects",
-                                                                        showEnergyOfObjects );
+                                                                        model.energyChunksVisible );
             showEnergyCheckBox.setFont( new PhetFont( 20 ) );
             backLayer.addChild( new ControlPanelNode( new PSwing( showEnergyCheckBox ), CONTROL_PANEL_COLOR ) {{
                 setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - EDGE_INSET, EDGE_INSET );
@@ -184,13 +182,6 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
             }
         } );
 
-        // Control the visibility of the energy chunks.
-        showEnergyOfObjects.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean showEnergy ) {
-                energyChuckLayer.setVisible( showEnergy );
-            }
-        } );
-
         // Add the tool box for the thermometers.
         thermometerToolBox = new ThermometerToolBox( model, mvt, CONTROL_PANEL_COLOR );
         thermometerToolBox.setOffset( EDGE_INSET, EDGE_INSET );
@@ -259,7 +250,6 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
 
     public void reset() {
         model.reset();
-        showEnergyOfObjects.reset();
         normalSimSpeed.reset();
         // Put the thermometers in the tool box.
         for ( Thermometer thermometer : model.getThermometers() ) {

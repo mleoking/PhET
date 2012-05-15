@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Image;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
@@ -14,8 +15,8 @@ import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
  */
 public class Brick extends Block {
 
-    protected Brick( ImmutableVector2D initialPosition ) {
-        super( initialPosition );
+    protected Brick( ImmutableVector2D initialPosition, BooleanProperty energyChunksVisible ) {
+        super( initialPosition, energyChunksVisible );
     }
 
     @Override public Image getFrontTextureImage() {

@@ -8,6 +8,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
@@ -32,14 +33,17 @@ public abstract class Block extends RectangularMovableModelElement implements En
     private final Property<HorizontalSurface> bottomSurface = new Property<HorizontalSurface>( null );
 
     private final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
+    protected final BooleanProperty energyChunksVisible;
 
     /**
      * Constructor.
      *
      * @param initialPosition
+     * @param energyChunksVisible
      */
-    protected Block( ImmutableVector2D initialPosition ) {
+    protected Block( ImmutableVector2D initialPosition, BooleanProperty energyChunksVisible ) {
         super( initialPosition );
+        this.energyChunksVisible = energyChunksVisible;
 
         // Update the top an bottom surfaces whenever the position changes.
         position.addObserver( new VoidFunction1<ImmutableVector2D>() {
@@ -60,7 +64,7 @@ public abstract class Block extends RectangularMovableModelElement implements En
         } );
 
         // TODO: Temp for prototyping.
-        energyChunkList.add( new EnergyChunk( initialPosition.getAddedInstance( 0.02, 0.01 ) ) );
+        energyChunkList.add( new EnergyChunk( initialPosition.getAddedInstance( 0.02, 0.01 ), energyChunksVisible ) );
 //        energyChunkList.add( new EnergyChunk( 0, 0 ) );
     }
 

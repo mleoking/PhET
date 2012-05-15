@@ -24,6 +24,14 @@ public class EnergyChunkNode extends PNode {
 
     public EnergyChunkNode( EnergyChunk energyChunk, final ModelViewTransform mvt ) {
 
+        // Control the overall visibility of this node.
+        energyChunk.visible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean visible ) {
+                setVisible( visible );
+            }
+        } );
+
+        // Add the image that represents this energy chunk.
         Image imageSource;
         if ( RAND.nextBoolean() ) {
             imageSource = EnergyFormsAndChangesResources.Images.E_THERM_OUTLINE;
