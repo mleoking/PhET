@@ -5,10 +5,8 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
-import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.World;
 
 import edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants;
@@ -17,7 +15,6 @@ import edu.colorado.phet.chemicalreactions.box2d.DebugHandler;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 
 import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.ENABLE_BOX2D_DEBUG_DRAW;
 import static edu.colorado.phet.chemicalreactions.model.MoleculeShape.*;
@@ -32,13 +29,7 @@ public class ChemicalReactionsModel {
     public final KitCollection kitCollection;
 
     public ChemicalReactionsModel( IClock clock, final LayoutBounds layoutBounds ) {
-        world = new World( new Vec2( 0, 0 ), true );
-
-        BodyModel bodyModel = new BodyModel( new BodyDef(), ModelViewTransform.createIdentity() );
-        addBody( bodyModel );
-        bodyModel.getBody().createFixture( new CircleShape(){{
-                                               m_radius = 1;
-                                           }}, 1 );
+        world = new World( new Vec2( 0, -9.8f ), true );
 
         kitCollection = new KitCollection() {{
             addKit( new Kit( layoutBounds,

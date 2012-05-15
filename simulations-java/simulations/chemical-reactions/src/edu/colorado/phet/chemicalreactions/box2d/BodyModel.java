@@ -1,8 +1,12 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.chemicalreactions.box2d;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
+import org.jbox2d.dynamics.FixtureDef;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
@@ -19,6 +23,8 @@ public class BodyModel {
     private final Property<Float> _angle = new Property<Float>( 0f );
     private final Property<Float> _angularVelocity = new Property<Float>( 0f ); // may have issues based on shears or scales
 
+    private final List<FixtureDef> fixtureDefs = new ArrayList<FixtureDef>();
+
     // public read-only copies
     public final ObservableProperty<ImmutableVector2D> position = _position;
     public final ObservableProperty<ImmutableVector2D> velocity = _velocity;
@@ -34,6 +40,10 @@ public class BodyModel {
         this.bodyToModelTransform = bodyToModelTransform;
     }
 
+    public void addFixtureDef( FixtureDef fixtureDef ) {
+        fixtureDefs.add( fixtureDef );
+    }
+
     public Body getBody() {
         return body;
     }
@@ -44,6 +54,9 @@ public class BodyModel {
 
     public void setBody( Body body ) {
         this.body = body;
+        for ( FixtureDef fixtureDef : fixtureDefs ) {
+            body.createFixture( fixtureDef );
+        }
     }
 
     public void setPosition( ImmutableVector2D p ) {
