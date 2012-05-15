@@ -60,5 +60,4 @@ public class ProteinC extends Protein {
         path.curveTo( -currentWidth * sideCurvesMultiplier, -currentHeight * 0.33, -currentWidth * sideCurvesMultiplier, currentHeight * 0.33, -currentWidth * 0.45, currentHeight * 0.45 );
         return path.getGeneralPath();
     }
-
 }

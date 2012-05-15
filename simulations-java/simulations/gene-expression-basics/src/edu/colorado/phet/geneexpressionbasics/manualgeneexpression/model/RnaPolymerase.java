@@ -67,9 +67,6 @@ public class RnaPolymerase extends MobileBiomolecule {
     // Instance Data
     //-------------------------------------------------------------------------
 
-    // TODO: Temp for working out conformed shape of polymerase, remove before publication.
-    public int seed = 0;
-
     // Copy of the attachment state machine reference from base class, but
     // with the more specific type.
     private final RnaPolymeraseAttachmentStateMachine rnaPolymeraseAttachmentStateMachine;
@@ -90,7 +87,6 @@ public class RnaPolymerase extends MobileBiomolecule {
         super( model, createShape(), NOMINAL_COLOR );
         rnaPolymeraseAttachmentStateMachine = (RnaPolymeraseAttachmentStateMachine) attachmentStateMachine;
         setPosition( position );
-        seed = 259;
     }
 
     //-------------------------------------------------------------------------
@@ -103,7 +99,7 @@ public class RnaPolymerase extends MobileBiomolecule {
     }
 
     @Override public void changeConformation( double changeFactor ) {
-        Shape newUntranslatedShape = BioShapeUtils.createdDistortedRoundedShapeFromPoints( shapePoints, changeFactor, seed );
+        Shape newUntranslatedShape = BioShapeUtils.createdDistortedRoundedShapeFromPoints( shapePoints, changeFactor, 259 ); // Seed value chosen by trial and error.
         Shape newTranslatedShape = AffineTransform.getTranslateInstance( getPosition().getX(), getPosition().getY() ).createTransformedShape( newUntranslatedShape );
         shapeProperty.set( newTranslatedShape );
         colorProperty.set( ColorUtils.interpolateRBGA( NOMINAL_COLOR, CONFORMED_COLOR, changeFactor ) );
