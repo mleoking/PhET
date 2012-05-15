@@ -20,7 +20,6 @@ public class GeneA extends Gene {
     private static final Color TRANSCRIBED_REGION_COLOR = new Color( 255, 165, 79, 150 );
     private static final int NUM_BASE_PAIRS_IN_REGULATORY_REGION = 16;
     private static final int NUM_BASE_PAIRS_IN_TRANSCRIBED_REGION = 100;
-    private static final int ID = 1; // TODO: Can this be done away with?
     public static final int NUM_BASE_PAIRS = NUM_BASE_PAIRS_IN_REGULATORY_REGION + NUM_BASE_PAIRS_IN_TRANSCRIBED_REGION;
 
     //-------------------------------------------------------------------------
@@ -30,10 +29,10 @@ public class GeneA extends Gene {
     /**
      * Constructor.
      *
-     * @param dnaMolecule            The DNA molecule within which this gene
-     *                               exists.
-     * @param initialBasePair        Location on the DNA strand where this gene
-     *                               starts.
+     * @param dnaMolecule     The DNA molecule within which this gene
+     *                        exists.
+     * @param initialBasePair Location on the DNA strand where this gene
+     *                        starts.
      */
     public GeneA( DnaMolecule dnaMolecule, int initialBasePair ) {
         super( dnaMolecule,
