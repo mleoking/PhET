@@ -29,7 +29,7 @@ public class ChemicalReactionsModel {
     public final KitCollection kitCollection;
 
     public ChemicalReactionsModel( IClock clock, final LayoutBounds layoutBounds ) {
-        world = new World( new Vec2( 0, -9.8f ), true );
+        world = new World( new Vec2( 0, 0 ), true );
 
         kitCollection = new KitCollection() {{
             addKit( new Kit( layoutBounds,
