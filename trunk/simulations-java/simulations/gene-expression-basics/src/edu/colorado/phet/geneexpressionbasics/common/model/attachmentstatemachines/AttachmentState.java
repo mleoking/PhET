@@ -37,17 +37,7 @@ public abstract class AttachmentState {
             // Make the biomolecule look for attachments.
             gsm.attachmentSite = gsm.biomolecule.proposeAttachments();
             if ( gsm.attachmentSite != null ) {
-                // An attachment proposal was accepted, so start heading towards
-                // the attachment site.
-//                gsm.biomolecule.setMotionStrategy( new MoveDirectlyToDestinationMotionStrategy( gsm.attachmentSite.locationProperty,
-//                                                                                                gsm.biomolecule.motionBoundsProperty,
-//                                                                                                gsm.destinationOffset ) );
-                // TODO: Debug code for tracking down an issue with site ownership.  Problem believed to be solved, delete if problem does not recur.
-                if ( gsm.attachmentSite.attachedOrAttachingMolecule.get() != null ) {
-                    System.out.println( "About to overwrite." );
-                }
-
-                // Mark the attachment site as being in use.
+                // A proposal was accepted.  Mark the attachment site as being in use.
                 gsm.attachmentSite.attachedOrAttachingMolecule.set( gsm.biomolecule );
 
                 // Start moving towards the site.
@@ -57,7 +47,6 @@ public abstract class AttachmentState {
 
                 // Update state.
                 gsm.setState( gsm.movingTowardsAttachmentState );
-
             }
         }
 
@@ -76,12 +65,6 @@ public abstract class AttachmentState {
 
             // Verify that state is consistent.
             assert gsm.attachmentSite != null;
-            // TODO: Debug code for tracking down an issue with site ownership.  Problem believed to be solved, delete if problem does not recur.
-            if ( gsm.attachmentSite.attachedOrAttachingMolecule.get() != gsm.biomolecule ) {
-                System.out.println( "Inconsistent attachment state during time step." );
-                System.out.println( "gsm.biomolecule = " + gsm.biomolecule );
-                System.out.println( "gsm.attachmentSite.attachedOrAttachingMolecule.get() = " + gsm.attachmentSite.attachedOrAttachingMolecule.get() );
-            }
             assert gsm.attachmentSite.attachedOrAttachingMolecule.get() == gsm.biomolecule;
 
             // Calculate the location where this biomolecule must be in order
@@ -100,12 +83,6 @@ public abstract class AttachmentState {
         @Override public void entered( AttachmentStateMachine enclosingStateMachine ) {
             // Allow user interaction.
             enclosingStateMachine.biomolecule.movableByUser.set( true );
-            // TODO: Debug code for tracking down an issue with site ownership.  Problem believed to be solved, delete if problem does not recur.
-            if ( enclosingStateMachine.attachmentSite.attachedOrAttachingMolecule.get() != enclosingStateMachine.biomolecule ) {
-                System.out.println( "Inconsistent attachment state at state entry." );
-                System.out.println( "enclosingStateMachine.biomolecule = " + enclosingStateMachine.biomolecule );
-                System.out.println( "enclosingStateMachine.attachmentSite.attachedOrAttachingMolecule.get() = " + enclosingStateMachine.attachmentSite.attachedOrAttachingMolecule.get() );
-            }
         }
     }
 
