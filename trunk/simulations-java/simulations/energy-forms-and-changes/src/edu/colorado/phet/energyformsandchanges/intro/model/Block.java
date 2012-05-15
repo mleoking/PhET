@@ -54,14 +54,13 @@ public abstract class Block extends RectangularMovableModelElement implements En
             public void update( ImmutableVector2D newPosition, ImmutableVector2D oldPosition ) {
                 ImmutableVector2D movement = newPosition.getSubtractedInstance( oldPosition );
                 for ( EnergyChunk energyChunk : energyChunkList ) {
-//                    energyChunk.position.set( energyChunk.position.get().getAddedInstance( movement ) );
-//                    energyChunk.position.set( position.get() );
+                    energyChunk.position.set( energyChunk.position.get().getAddedInstance( movement ) );
                 }
             }
         } );
 
         // TODO: Temp for prototyping.
-//        energyChunkList.add( new EnergyChunk( initialPosition.getAddedInstance( 0.02, 0.01 ) ) );
+        energyChunkList.add( new EnergyChunk( initialPosition.getAddedInstance( 0.02, 0.01 ) ) );
 //        energyChunkList.add( new EnergyChunk( 0, 0 ) );
     }
 
