@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants;
 import edu.colorado.phet.chemicalreactions.control.KitPanel;
 import edu.colorado.phet.chemicalreactions.model.Atom;
+import edu.colorado.phet.chemicalreactions.model.ChemicalReactionsModel;
 import edu.colorado.phet.chemicalreactions.model.Kit;
 import edu.colorado.phet.chemicalreactions.model.KitCollection;
 import edu.colorado.phet.chemicalreactions.model.LayoutBounds;
@@ -27,6 +28,8 @@ public class ChemicalReactionsCanvas extends PhetPCanvas {
 
     private final PNode root = new PNode();
 
+    private ChemicalReactionsModel model;
+
     public ChemicalReactionsCanvas( IClock clock ) {
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new CenteredStage( this, ChemicalReactionsConstants.STAGE_SIZE ) );
@@ -37,36 +40,11 @@ public class ChemicalReactionsCanvas extends PhetPCanvas {
 
         final LayoutBounds layoutBounds = new LayoutBounds();
 
-        final KitCollection kitCollection = new KitCollection() {{
-            addKit( new Kit( layoutBounds,
-                             // reactants
-                             new ArrayList<MoleculeBucket>() {{
-                                 add( new MoleculeBucket( O2, new Dimension( 600, 200 ) ) );
-                                 add( new MoleculeBucket( H2, new Dimension( 600, 200 ) ) );
-                             }},
+        model = new ChemicalReactionsModel( clock, layoutBounds );
 
-                             // products
-                             new ArrayList<MoleculeBucket>() {{
-                                 add( new MoleculeBucket( H2O, new Dimension( 600, 200 ) ) );
-                             }}
-            ) );
-            addKit( new Kit( layoutBounds,
-                             // reactants
-                             new ArrayList<MoleculeBucket>() {{
-                                 add( new MoleculeBucket( Cl2, new Dimension( 600, 200 ) ) );
-                                 add( new MoleculeBucket( H2, new Dimension( 600, 200 ) ) );
-                             }},
+        root.addChild( new KitPanel( model.getKitCollection(), layoutBounds.getAvailableKitBounds() ) );
 
-                             // products
-                             new ArrayList<MoleculeBucket>() {{
-                                 add( new MoleculeBucket( HCl, new Dimension( 600, 200 ) ) );
-                             }}
-            ) );
-        }};
-
-        root.addChild( new KitPanel( kitCollection, layoutBounds.getAvailableKitBounds() ) );
-
-        for ( Kit kit : kitCollection.getKits() ) {
+        for ( Kit kit : model.getKitCollection().getKits() ) {
             final KitView kitView = new KitView( kit, this );
 
             root.addChild( kitView.getBottomLayer() );

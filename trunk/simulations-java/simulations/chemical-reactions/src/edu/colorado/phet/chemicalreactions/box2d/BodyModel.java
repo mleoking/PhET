@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.chemicalreactions.model;
+package edu.colorado.phet.chemicalreactions.box2d;
 
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
