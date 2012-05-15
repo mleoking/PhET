@@ -41,7 +41,7 @@ import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsSimShar
  *
  * @author John Blanco
  */
-public class MessengerRnaProductionCanvas extends PhetPCanvas {
+public class MessengerRnaProductionCanvas extends PhetPCanvas implements Resettable {
 
     // Stage size, based on default screen size.
     private static final Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
@@ -53,9 +53,7 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
     private static final double INSET = 15;
 
     private final ModelViewTransform mvt;
-
-    // PNodes that are used as layers and that are involved in the zoom
-    // functionality.
+    private final BooleanProperty clockRunning = new BooleanProperty( false );
     private PNode modelRootNode;
 
     /**
@@ -161,7 +159,6 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
         } );
 
         // Add the floating clock control.
-        final BooleanProperty clockRunning = new BooleanProperty( false );
         final ConstantDtClock modelClock = (ConstantDtClock) model.getClock();
         clockRunning.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean isRunning ) {
@@ -182,7 +179,7 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
         } );
 
         // Add the Reset All button.
-        ResetAllButtonNode resetAllButton = new ResetAllButtonNode( new Resettable[] { model }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
+        ResetAllButtonNode resetAllButton = new ResetAllButtonNode( new Resettable[] { model, this }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
             setConfirmationEnabled( false );
         }};
         controlsNode.addChild( resetAllButton );
@@ -256,6 +253,10 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas {
                 } );
             }
         } );
+    }
+
+    public void reset() {
+        clockRunning.set( true );
     }
 
     // Convenience class for check boxes, prevents code duplication.
