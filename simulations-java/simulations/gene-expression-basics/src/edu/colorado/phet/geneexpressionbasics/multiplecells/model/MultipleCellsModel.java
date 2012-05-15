@@ -93,7 +93,6 @@ public class MultipleCellsModel implements Resettable {
 
         // Add and position the cells.
         long entryTime = System.nanoTime();
-        System.out.println( "System time before adding and positioning cells: " + entryTime );
         // Add the max number of cells to the list of invisible cells.
         while ( cellList.size() < MAX_CELLS ) {
             Cell newCell;
@@ -112,8 +111,6 @@ public class MultipleCellsModel implements Resettable {
             }
             cellList.add( newCell );
         }
-
-        System.out.println( "Duration of creation and placing: " + ( ( System.nanoTime() - entryTime ) / 1E9 ) );
 
         // Hook up the property that controls the number of visible cells.
         numberOfVisibleCells.addObserver( new VoidFunction1<Integer>() {
