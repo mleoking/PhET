@@ -206,8 +206,14 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas implements Resetta
         // others are handled as special cases.
         model.mobileBiomoleculeList.addElementAddedObserver( new VoidFunction1<MobileBiomolecule>() {
             public void apply( final MobileBiomolecule addedBiomolecule ) {
+
                 final PNode biomoleculeNode;
                 biomoleculeNode = new MobileBiomoleculeNode( mvt, addedBiomolecule );
+
+                // On this tab, users can't directly interact with individual biomolecules.
+                biomoleculeNode.setPickable( false );
+                biomoleculeNode.setChildrenPickable( false );
+
                 // Add a listener that moves the child on to a lower layer when
                 // it connects to the DNA so that we see the desired overlap
                 // behavior.
