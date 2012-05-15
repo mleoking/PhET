@@ -21,7 +21,6 @@ public class GeneB extends Gene {
     private static final int NUM_BASE_PAIRS_IN_REGULATORY_REGION = 28;
     private static final int NUM_BASE_PAIRS_IN_TRANSCRIBED_REGION = 150;
     public static final int NUM_BASE_PAIRS = NUM_BASE_PAIRS_IN_REGULATORY_REGION + NUM_BASE_PAIRS_IN_TRANSCRIBED_REGION;
-    private static final int ID = 2; // TODO: Can this be done away with?
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -30,10 +29,10 @@ public class GeneB extends Gene {
     /**
      * Constructor.
      *
-     * @param dnaMolecule            The DNA molecule within which this gene
-     *                               exists.
-     * @param initialBasePair        Location on the DNA strand where this gene
-     *                               starts.
+     * @param dnaMolecule     The DNA molecule within which this gene
+     *                        exists.
+     * @param initialBasePair Location on the DNA strand where this gene
+     *                        starts.
      */
     public GeneB( DnaMolecule dnaMolecule, int initialBasePair ) {
         super( dnaMolecule,
