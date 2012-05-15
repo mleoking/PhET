@@ -24,6 +24,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyformsandchanges.intro.model.Beaker;
 import edu.colorado.phet.energyformsandchanges.intro.model.Block;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
+import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunk;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -93,6 +94,24 @@ public class BeakerView {
         label.centerFullBoundsOnPoint( beakerViewRect.getCenterX(), beakerViewRect.getMinY() + label.getFullBoundsReference().height * 2 );
         frontNode.addChild( label );
 
+        // Create a layer where energy chunks will be placed.
+        final PNode energyChunkLayer = new PNode();
+        backNode.addChild( energyChunkLayer );
+
+        // Watch for energy chunks coming and going and add/remove nodes accordingly.
+        beaker.getEnergyChunkList().addElementAddedObserver( new VoidFunction1<EnergyChunk>() {
+            public void apply( EnergyChunk energyChunk ) {
+                final PNode energyChunkNode = new EnergyChunkNode( energyChunk, mvt );
+                energyChunkLayer.addChild( energyChunkNode );
+                beaker.getEnergyChunkList().addElementRemovedObserver( new VoidFunction1<EnergyChunk>() {
+                    public void apply( EnergyChunk energyChunk ) {
+                        energyChunkLayer.removeChild( energyChunkNode );
+                        beaker.getEnergyChunkList().removeElementRemovedObserver( this );
+                    }
+                } );
+            }
+        } );
+
         // If enabled, show the outline of the rectangle that represents the
         // beaker's position in the model.
         if ( SHOW_MODEL_RECT ) {
@@ -104,6 +123,9 @@ public class BeakerView {
             public void apply( ImmutableVector2D position ) {
                 frontNode.setOffset( mvt.modelToView( position ).toPoint2D() );
                 backNode.setOffset( mvt.modelToView( position ).toPoint2D() );
+                // Compensate the energy chunk layer so that the energy chunk
+                // nodes can handle their own positioning.
+                energyChunkLayer.setOffset( mvt.modelToView( position ).getRotatedInstance( Math.PI ).toPoint2D() );
             }
         } );
 
