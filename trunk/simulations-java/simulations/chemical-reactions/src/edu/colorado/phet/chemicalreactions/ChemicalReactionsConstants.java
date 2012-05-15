@@ -12,12 +12,15 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class ChemicalReactionsConstants {
     public static final Dimension2D STAGE_SIZE = new PDimension( 1008, 709 ); // change height to 679 once we have another tab
     public static final Color CANVAS_BACKGROUND_COLOR = new Color( 198, 226, 246 );
+    public static final Color PLAY_AREA_BACKGROUND_COLOR = Color.WHITE;
 
     public static final ModelViewTransform MODEL_VIEW_TRANSFORM = ModelViewTransform.createSinglePointScaleInvertedYMapping(
             new Point2D.Double( 0, 0 ),
             new Point( (int) Math.round( ChemicalReactionsConstants.STAGE_SIZE.getWidth() * 0.5 ),
                        (int) Math.round( ChemicalReactionsConstants.STAGE_SIZE.getHeight() * 0.5 ) ),
             0.3 ); // "Zoom factor" - smaller zooms out, larger zooms in.
+
+    public static final ModelViewTransform BOX2D_MODEL_TRANSFORM = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double(), 100, -100 );
 
     public static final Color KIT_BACKGROUND = Color.WHITE; // kit area background
     public static final Color KIT_BORDER = Color.BLACK; // border around the kit area
