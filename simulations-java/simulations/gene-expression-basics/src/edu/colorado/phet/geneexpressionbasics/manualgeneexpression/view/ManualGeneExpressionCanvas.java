@@ -208,15 +208,6 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         }};
         backControlsLayer.addChild( proteinCollectionNode );
 
-        // TODO: Temp for debug - show the protein capture area.  Remove eventually.
-//        final PPath proteinCaptureAreaNode = new PhetPPath( new BasicStroke( 5 ), Color.RED );
-//        model.proteinCaptureAreaProperty.addObserver( new VoidFunction1<Rectangle2D>() {
-//            public void apply( Rectangle2D proteinCaptureAreaBounds ) {
-//                proteinCaptureAreaNode.setPathTo( mvt.modelToView( proteinCaptureAreaBounds ) );
-//            }
-//        } );
-//        modelRootNode.addChild( proteinCaptureAreaNode );
-
         // Add any initial molecules.
         for ( MobileBiomolecule biomolecule : model.mobileBiomoleculeList ) {
             topBiomoleculeLayer.addChild( new MobileBiomoleculeNode( mvt, biomolecule ) );

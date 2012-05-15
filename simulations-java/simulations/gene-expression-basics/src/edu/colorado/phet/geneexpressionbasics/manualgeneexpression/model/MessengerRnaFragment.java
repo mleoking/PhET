@@ -238,7 +238,6 @@ public class MessengerRnaFragment extends MobileBiomolecule {
                     PointMass nextPoint = currentPoint.getNextPointMass();
                     // This is not the last point on the list, so go ahead and
                     // run the spring algorithm on it.
-                    // TODO: Check for performance and, if needed, all the memory allocations could be done once and reused.
                     ImmutableVector2D vectorToPreviousPoint = new ImmutableVector2D( previousPoint.getPosition() ).getSubtractedInstance( new ImmutableVector2D( currentPoint.getPosition() ) );
                     if ( vectorToPreviousPoint.getMagnitude() == 0 ) {
                         // This point is sitting on top of the previous point,

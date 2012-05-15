@@ -284,21 +284,4 @@ public class CellProteinSynthesisSimulator {
     public double getTime() {
         return _currentTime;
     }
-
-    // TODO: Temp for debugging, remove eventually.
-    public int getTranscriptionFactorCount() {
-        return _objectCounts[1];
-    }
-
-    public void printDebugInfo() {
-        System.out.println( "================ DEBUG INFO ======================= " );
-        System.out.println( " ---------------- reaction probs ------------------ " );
-        for ( int i = 0; i < _reactionProbabilities.length; i++ ) {
-            System.out.println( "_reactionProbabilities[" + i + "] = " + _reactionProbabilities[i] );
-        }
-        System.out.println( " ---------------- object counts ------------------ " );
-        for ( int i = 0; i < _objectCounts.length; i++ ) {
-            System.out.println( "_objectCounts[" + i + "] = " + _objectCounts[i] );
-        }
-    }
 }
