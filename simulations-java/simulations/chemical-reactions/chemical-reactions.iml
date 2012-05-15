@@ -18,6 +18,7 @@
     </orderEntry>
     <orderEntry type="module" module-name="chemistry" />
     <orderEntry type="module" module-name="piccolo-phet" />
+    <orderEntry type="module" module-name="jbox2d" />
   </component>
 </module>
 
