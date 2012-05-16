@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--normal-modes-strings_zh_CN.xml created Wed May 16 14:21:03 CST 2012 using: normal-modes 1.00.00 (64159), translation-utility 2.13.00 (59150) 十二月 8, 2011-->
+<SimStrings>
+<string key="modeSpectrumDisplay" value="显示振荡谱"/>
+<string key="phase:" value="位相:"/>
+<string key="minusPi" value="-π"/>
+<string key="zeroPositions" value="零点位置"/>
+<string key="start" value="开始"/>
+<string key="modeNumbersXY" value="模数 x, y."/>
+<string key="polarization:" value="极性&lt;br&gt;控制:"/>
+<string key="amplitude:" value="振幅:"/>
+<string key="plusPi" value="+π"/>
+<string key="modeSpectrum" value="标准振荡谱"/>
+<string key="frequency:" value="频率:"/>
+<string key="omega" value="ω"/>
+<string key="showPhases" value="显示时相"/>
+<string key="normal-modes.simTitle" value="标准振荡"/>
+<string key="stop" value="停止"/>
+<string key="showSprings" value="显示弹簧"/>
+<string key="resetPositions" value="初始位置"/>
+<string key="normalMode:" value="标准振荡:"/>
+<string key="translation.credits" value="陈江涛 华南师范大学 cjtmw@163.com"/>
+<string key="paused" value="暂停"/>
+</SimStrings>
