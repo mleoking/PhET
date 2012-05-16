@@ -37,7 +37,8 @@ public class ReactantsProductsAndLeftoversApplication extends PiccoloPhetApplica
         developerMenu.add( new DevTestGameRewardMenuItem() );
 
         // Teacher menu
-        getPhetFrame().addMenu( new RPALTeacherMenu() );
+// hide Teacher menu, pending resolution of #3334.
+//        getPhetFrame().addMenu( new RPALTeacherMenu() );
     }
 
     public static void main( final String[] args ) throws ClassNotFoundException {
