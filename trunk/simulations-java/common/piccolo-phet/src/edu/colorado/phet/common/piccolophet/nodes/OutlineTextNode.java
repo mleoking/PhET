@@ -30,7 +30,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author John Blanco
  * @author Sam Reid
  */
-public class OutlinePText extends PNode {
+public class OutlineTextNode extends PNode {
 
     // Font render context used for outline text.  Honestly, I (jblanco) don't
     // know much about font render contexts, but I found a Piccolo node called
@@ -49,7 +49,7 @@ public class OutlinePText extends PNode {
      * @param outlineColor
      * @param outlineStrokeWidth
      */
-    public OutlinePText( String text, Font font, Color fillColor, Color outlineColor, double outlineStrokeWidth ) {
+    public OutlineTextNode( String text, Font font, Color fillColor, Color outlineColor, double outlineStrokeWidth ) {
         this.font = font;
         textPPath = new PhetPPath( fillColor, new BasicStroke( (float) outlineStrokeWidth ), outlineColor );
         TextLayout textLayout = new TextLayout( text, font, SWING_FRC );
@@ -76,22 +76,22 @@ public class OutlinePText extends PNode {
         canvas.setWorldTransformStrategy( new PhetPCanvas.CenteredStage( canvas, STAGE_SIZE ) );
 
         // Add the text.
-        OutlinePText outlineTextNode1 = new OutlinePText( "36 point plain", new PhetFont( 36 ), Color.PINK, Color.BLACK, 1 );
+        OutlineTextNode outlineTextNode1 = new OutlineTextNode( "36 point plain", new PhetFont( 36 ), Color.PINK, Color.BLACK, 1 );
         outlineTextNode1.setOffset( 50, 50 );
         canvas.addWorldChild( outlineTextNode1 );
-        OutlinePText outlineTextNode2 = new OutlinePText( "48 point bold", new PhetFont( 48, true ), Color.YELLOW, Color.BLACK, 1 );
+        OutlineTextNode outlineTextNode2 = new OutlineTextNode( "48 point bold", new PhetFont( 48, true ), Color.YELLOW, Color.BLACK, 1 );
         outlineTextNode2.setOffset( 50, 100 );
         canvas.addWorldChild( outlineTextNode2 );
-        OutlinePText outlineTextNode3 = new OutlinePText( "24 point bold", new PhetFont( 24, true ), Color.GREEN, Color.BLACK, 1 );
+        OutlineTextNode outlineTextNode3 = new OutlineTextNode( "24 point bold", new PhetFont( 24, true ), Color.GREEN, Color.BLACK, 1 );
         outlineTextNode3.setOffset( 50, 150 );
         canvas.addWorldChild( outlineTextNode3 );
-        OutlinePText outlineTextNode4 = new OutlinePText( "72 point bold", new PhetFont( 72, true ), Color.MAGENTA, Color.BLACK, 2 );
+        OutlineTextNode outlineTextNode4 = new OutlineTextNode( "72 point bold", new PhetFont( 72, true ), Color.MAGENTA, Color.BLACK, 2 );
         outlineTextNode4.setOffset( 50, 250 );
         canvas.addWorldChild( outlineTextNode4 );
-        OutlinePText outlineTextNode5 = new OutlinePText( "\uFE9D\u06B0\u06AA\uFEB5", PhetFont.getPreferredFont( new Locale( "ar" ), Font.BOLD, 64 ), Color.ORANGE, Color.BLACK, 2 );
+        OutlineTextNode outlineTextNode5 = new OutlineTextNode( "\uFE9D\u06B0\u06AA\uFEB5", PhetFont.getPreferredFont( new Locale( "ar" ), Font.BOLD, 64 ), Color.ORANGE, Color.BLACK, 2 );
         outlineTextNode5.setOffset( 50, outlineTextNode4.getFullBoundsReference().getMaxY() );
         canvas.addWorldChild( outlineTextNode5 );
-        OutlinePText outlineTextNode6 = new OutlinePText( "\u4e2d\u56fd\u8bdd\u4e0d", PhetFont.getPreferredFont( new Locale( "zh" ), Font.BOLD, 64 ), Color.CYAN, Color.BLACK, 2 );
+        OutlineTextNode outlineTextNode6 = new OutlineTextNode( "\u4e2d\u56fd\u8bdd\u4e0d", PhetFont.getPreferredFont( new Locale( "zh" ), Font.BOLD, 64 ), Color.CYAN, Color.BLACK, 2 );
         outlineTextNode6.setOffset( 50, outlineTextNode5.getFullBoundsReference().getMaxY() + 20 );
         canvas.addWorldChild( outlineTextNode6 );
 

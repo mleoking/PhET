@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
-import edu.colorado.phet.common.piccolophet.nodes.OutlinePText;
+import edu.colorado.phet.common.piccolophet.nodes.OutlineTextNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
@@ -62,15 +62,15 @@ class SlopeInterceptEquationNode2 extends PhetPNode {
         // y = mx + b
         PText yNode = new PhetPText( "y", font );
         PText equalsNode = new PhetPText( "=", font );
-        final OutlinePText riseSignNode = new OutlinePText( "-", font, LGColors.SLOPE, Color.BLACK, 1 );
-        final OutlinePText runSignNode = new OutlinePText( "-", font, LGColors.SLOPE, Color.BLACK, 1 );
+        final OutlineTextNode riseSignNode = new OutlineTextNode( "-", font, LGColors.SLOPE, Color.BLACK, 1 );
+        final OutlineTextNode runSignNode = new OutlineTextNode( "-", font, LGColors.SLOPE, Color.BLACK, 1 );
         PNode riseNode = new ZeroOffsetNode( new SlopePickerNode( UserComponents.riseSpinner, this.rise, riseRange, font, FORMAT, true ) );
         PNode runNode = new ZeroOffsetNode( new SlopePickerNode( UserComponents.runSpinner, this.run, runRange, font, FORMAT, true ) );
         final PPath lineNode = new PPath( new Line2D.Double( 0, 0, maxSlopeWidth, 0 ) ) {{
             setStroke( new BasicStroke( 2f ) );
         }};
         PText xNode = new PhetPText( "x", font );
-        final OutlinePText interceptSignNode = new OutlinePText( "+", font, LGColors.INTERCEPT, Color.BLACK, 1 );
+        final OutlineTextNode interceptSignNode = new OutlineTextNode( "+", font, LGColors.INTERCEPT, Color.BLACK, 1 );
         PNode interceptNode = new ZeroOffsetNode( new InterceptPickerNode( UserComponents.interceptSpinner, this.intercept, interceptRange, font, FORMAT, true ) );
 
         // rendering order
@@ -98,7 +98,7 @@ class SlopeInterceptEquationNode2 extends PhetPNode {
             riseSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX(),
                                     equalsNode.getFullBoundsReference().getCenterY() - ySpacing - ( riseNode.getFullBoundsReference().getHeight() / 2 ) - ( riseSignNode.getFullBoundsReference().getHeight() / 2 ) + yFudgeFactor );
             runSignNode.setOffset( riseSignNode.getXOffset(),
-                                    equalsNode.getFullBoundsReference().getCenterY() + ySpacing + ( riseNode.getFullBoundsReference().getHeight() / 2 ) - ( runSignNode.getFullBoundsReference().getHeight() / 2 ) + yFudgeFactor );
+                                   equalsNode.getFullBoundsReference().getCenterY() + ySpacing + ( riseNode.getFullBoundsReference().getHeight() / 2 ) - ( runSignNode.getFullBoundsReference().getHeight() / 2 ) + yFudgeFactor );
             lineNode.setOffset( riseSignNode.getFullBoundsReference().getMaxX() + 2,
                                 equalsNode.getFullBoundsReference().getCenterY() + yFudgeFactor );
             riseNode.setOffset( lineNode.getFullBoundsReference().getMaxX() - riseNode.getFullBoundsReference().getWidth(),
