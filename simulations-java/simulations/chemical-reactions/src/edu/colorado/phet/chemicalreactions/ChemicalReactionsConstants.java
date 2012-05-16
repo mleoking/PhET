@@ -20,7 +20,7 @@ public class ChemicalReactionsConstants {
                        (int) Math.round( ChemicalReactionsConstants.STAGE_SIZE.getHeight() * 0.5 ) ),
             0.3 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
-    public static final ModelViewTransform BOX2D_MODEL_TRANSFORM = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double(), 100, -100 );
+    public static final ModelViewTransform BOX2D_MODEL_TRANSFORM = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double(), 200, 200 );
 
     public static final Color KIT_BACKGROUND = Color.WHITE; // kit area background
     public static final Color KIT_BORDER = Color.BLACK; // border around the kit area
@@ -35,7 +35,11 @@ public class ChemicalReactionsConstants {
     // padding between simulation edges and kit/collection areas
     public static final double VIEW_PADDING = 18;
     public static final double MODEL_PADDING = MODEL_VIEW_TRANSFORM.viewToModelDeltaX( VIEW_PADDING );
-    public static final int MODEL_ITERATIONS_PER_FRAME = 10;
+    public static final int MODEL_ITERATIONS_PER_STEP = 5;
+    public static final int STEPS_PER_FRAME = 5;
 
     public static final boolean ENABLE_BOX2D_DEBUG_DRAW = true;
+
+    public static final float BOX2D_DENSITY = 1;
+    public static final float BOX2D_WALL_THICKNESS = 4;
 }

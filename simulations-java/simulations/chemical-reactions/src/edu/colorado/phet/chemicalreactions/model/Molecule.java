@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
+import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.BOX2D_DENSITY;
 import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.BOX2D_MODEL_TRANSFORM;
 
 public class Molecule extends BodyModel {
@@ -45,7 +46,7 @@ public class Molecule extends BodyModel {
             atomMap.put( atom, spot );
 
             addFixtureDef( new FixtureDef() {{
-                density = 1;
+                density = BOX2D_DENSITY;
                 restitution = 1;
                 shape = new CircleShape() {{
                     m_radius = (float) BOX2D_MODEL_TRANSFORM.viewToModelDeltaX( atom.getRadius() );
