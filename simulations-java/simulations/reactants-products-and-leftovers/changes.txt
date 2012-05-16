@@ -1,3 +1,4 @@
+5/16/12 hide Teacher menu, pending resolution of #3334
 4/12/12 comment out study args in build.properties
 4/12/12 restore "Game" tab
 # 1.03.13 (63364) Apr 12, 2012
