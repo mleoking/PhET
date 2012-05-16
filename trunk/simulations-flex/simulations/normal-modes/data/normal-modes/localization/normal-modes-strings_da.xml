@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--normal-modes-strings_da.xml created Tue May 15 14:39:56 CEST 2012 using: normal-modes 1.00.00 (64159), translation-utility 2.13.00 (59150) dec 8, 2011-->
+<SimStrings>
+<string key="modeSpectrumDisplay" value="Tilstandsspektrum visning"/>
+<string key="phase:" value="Fase:"/>
+<string key="minusPi" value="-π"/>
+<string key="zeroPositions" value="Ligevægt"/>
+<string key="start" value="Start"/>
+<string key="modeNumbersXY" value="Sekvensnumre x, y."/>
+<string key="polarization:" value="Polarisations-&lt;br&gt;kontrol:"/>
+<string key="amplitude:" value="Amplitude:"/>
+<string key="plusPi" value="+π"/>
+<string key="modeSpectrum" value="Normaltilstands-spektrum"/>
+<string key="frequency:" value="Frekvens:"/>
+<string key="omega" value="ω"/>
+<string key="showPhases" value="Vis faser"/>
+<string key="normal-modes.simTitle" value="Normalindstillinger"/>
+<string key="stop" value="Stop"/>
+<string key="showSprings" value="Vis fjedre"/>
+<string key="resetPositions" value="Startindstillinger"/>
+<string key="normalMode:" value="Normal indstilling:"/>
+<string key="paused" value="Pause"/>
+</SimStrings>
