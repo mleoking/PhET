@@ -14,6 +14,7 @@ import edu.colorado.phet.chemicalreactions.model.Molecule;
 import edu.colorado.phet.chemicalreactions.model.MoleculeShape;
 import edu.colorado.phet.chemicalreactions.view.KitView;
 import edu.colorado.phet.chemicalreactions.view.MoleculeNode;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -54,11 +55,18 @@ public class ChemicalReactionsCanvas extends PhetPCanvas {
             root.addChild( kitView.getMetadataLayer() );
         }
 
-        final Molecule molecule = new Molecule( MoleculeShape.H2O );
-        model.addBody( molecule );
-        root.addChild( new MoleculeNode( molecule ) {{
-            scale( ChemicalReactionsConstants.MODEL_VIEW_TRANSFORM.modelToViewDeltaX( 1 ) );
-        }} );
+        {
+            final Molecule molecule = new Molecule( MoleculeShape.H2O );
+            model.addBody( molecule );
+            root.addChild( new MoleculeNode( molecule ) );
+        }
+
+        {
+            final Molecule molecule = new Molecule( MoleculeShape.H2O );
+            molecule.setPosition( new ImmutableVector2D( 0, 200 ) );
+            model.addBody( molecule );
+            root.addChild( new MoleculeNode( molecule ) );
+        }
 
         /*---------------------------------------------------------------------------*
         * temporary example molecules
