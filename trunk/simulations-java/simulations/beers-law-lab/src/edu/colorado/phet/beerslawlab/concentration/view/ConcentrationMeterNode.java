@@ -60,6 +60,7 @@ class ConcentrationMeterNode extends PhetPNode {
     private final ConcentrationSolution solution;
     private final Dropper dropper;
 
+    public final PNode bodyNode;
     private final ProbeNode probeNode;
 
     public ConcentrationMeterNode( ConcentrationMeter meter, ConcentrationSolution solution, Dropper dropper,
@@ -70,7 +71,7 @@ class ConcentrationMeterNode extends PhetPNode {
         this.dropper = dropper;
 
         // nodes
-        BodyNode bodyNode = new BodyNode( meter );
+        bodyNode = new BodyNode( meter );
         probeNode = new ProbeNode( meter, solutionNode, solventFluidNode, drainFluidNode, stockSolutionNode );
         PNode wireNode = new WireNode( probeNode, bodyNode );
 

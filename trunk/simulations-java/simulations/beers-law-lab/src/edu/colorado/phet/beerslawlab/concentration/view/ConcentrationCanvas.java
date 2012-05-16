@@ -12,6 +12,7 @@ import edu.colorado.phet.beerslawlab.concentration.view.BeakerNode.TicksLocation
 import edu.colorado.phet.beerslawlab.concentration.view.ColorSchemeEditorDialog.ColorSchemeEditorButton;
 import edu.colorado.phet.beerslawlab.concentration.view.ConcentrationModelDialog.ConcentrationModelButton;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -46,9 +47,8 @@ public class ConcentrationCanvas extends BLLCanvas {
         FaucetFluidNode drainFluidNode = new FaucetFluidNode( model.drainFaucet, model.solution, drainFaucetNode.getFluidWidth(), drainFluidHeight );
 
         // Meter
-        PNode concentrationMeterNode = new ConcentrationMeterNode( model.concentrationMeter, model.solution, model.dropper, solutionNode,
-                                                                   stockSolutionNode, solventFluidNode, drainFluidNode
-        );
+        ConcentrationMeterNode concentrationMeterNode = new ConcentrationMeterNode( model.concentrationMeter, model.solution, model.dropper, solutionNode,
+                                                                   stockSolutionNode, solventFluidNode, drainFluidNode );
 
         // Various controls
         PNode soluteControlNode = new SoluteControlsNode( model.getSolutes(), model.solute, model.soluteForm );
@@ -114,6 +114,14 @@ public class ConcentrationCanvas extends BLLCanvas {
             // to the left of the model button
             colorSchemeEditorButton.setOffset( modelButton.getFullBoundsReference().getMinX() - colorSchemeEditorButton.getFullBoundsReference().getWidth() - 5,
                                                modelButton.getYOffset() );
+        }
+
+        // #3322 - If the body of the concentration meter is not fully inside the stage, shift it to the left.
+        PNode bodyNode = concentrationMeterNode.bodyNode;
+        if ( bodyNode.getFullBoundsReference().getMaxX() > getStageSize().getWidth() ) {
+            final double x = getStageSize().getWidth() - bodyNode.getFullBoundsReference().getWidth() - 4;
+            final double y = model.concentrationMeter.body.location.get().getY();
+            model.concentrationMeter.body.location.set( new ImmutableVector2D( x, y ) );
         }
     }
 }
