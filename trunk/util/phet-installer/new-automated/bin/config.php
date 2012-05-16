@@ -83,10 +83,11 @@
     // User agent to use when ripping.  These are used to make the web site
     // react somewhat differently (generally filtering out some links) when it
     // is being ripped for the installers.
-    define("RIPPER_USER_AGENT_PHET",       '"httrack-web-offline-en"');
-    define("RIPPER_USER_AGENT_YF",         '"httrack-web-mirror-yf"');
-    define("RIPPER_USER_AGENT_KSU_LOCAL",  '"httrack-web-offline-ar_SA"');
-    define("RIPPER_USER_AGENT_KSU_WEB",    '"httrack-web-mirror-ar_SA"');
+    define("RIPPER_USER_AGENT_PHET",             '"httrack-web-offline-en"');
+    define("RIPPER_USER_AGENT_MULTI_LANGUAGE",   '"httrack-web-offline-en,es,zh_CN,ar_SA"');
+    define("RIPPER_USER_AGENT_YF",               '"httrack-web-mirror-yf"');
+    define("RIPPER_USER_AGENT_KSU_LOCAL",        '"httrack-web-offline-ar_SA"');
+    define("RIPPER_USER_AGENT_KSU_WEB",          '"httrack-web-mirror-ar_SA"');
 
     // Definition of the filters, which specify what to include/exclude from
     // the rip.  These filters are meant to capture the entire web site as
@@ -240,6 +241,7 @@
     define("RIPPER_OPTIONS", " -j %q0 -%e0 -r10 -s0 -A10000000000 --disable-security-limits ");
     define("RIPPER_ARGS_PHET", '"'.PHET_ROOT_URL.'" "'.PHET_SPONSOR_LIST_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER_PHET." -F ".RIPPER_USER_AGENT_PHET.RIPPER_OPTIONS);
     define("RIPPER_ARGS_PHET_WITH_ACTIVITIES", '"'.PHET_ROOT_URL.'" "'.PHET_SPONSOR_LIST_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER_PHET_WITH_ACTIVITIES." -F ".RIPPER_USER_AGENT_PHET.RIPPER_OPTIONS);
+    define("RIPPER_ARGS_MULTI_LANGUAGE", '"'.PHET_ROOT_URL.'" "'.PHET_SPONSOR_LIST_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER_PHET." -F ".RIPPER_USER_AGENT_MULTI_LANGUAGE.RIPPER_OPTIONS);
     define("RIPPER_ARGS_YF", '"'.PHET_ROOT_URL.'" "'.PHET_SPONSOR_LIST_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER_YF." -F ".RIPPER_USER_AGENT_YF.RIPPER_OPTIONS);
     define("RIPPER_ARGS_KSU_LOCAL_INSTALLER", '"'.PHET_ARABIC_WEBSITE_URL.'" "'.PHET_SPONSOR_LIST_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER_KSU_LOCAL_INSTALLER." -F ".RIPPER_USER_AGENT_KSU_LOCAL.RIPPER_OPTIONS);
     define("RIPPER_ARGS_KSU_WEB_INSTALLER", '"'.PHET_ARABIC_WEBSITE_URL.'" "'.PHET_SPONSOR_LIST_URL.'" -O "'.RIPPED_WEBSITE_ROOT.'" '.PHET_RIPPER_FILTER_KSU_WEB_INSTALLER." -F ".RIPPER_USER_AGENT_KSU_WEB.RIPPER_OPTIONS);
@@ -282,6 +284,7 @@
     define("BITROCK_KSU_WEB_MIRROR_BUILDFILE", file_cleanup_local_filename(BITROCK_BUILDFILE_DIR."ksu-web-mirror-installer-buildfile.xml"));
     define("BITROCK_KSU_LOCAL_MIRROR_BUILDFILE", file_cleanup_local_filename(BITROCK_BUILDFILE_DIR."ksu-local-mirror-installer-buildfile.xml"));
     define("BITROCK_PHET_LOCAL_MIRROR_BUILDFILE", file_cleanup_local_filename(BITROCK_BUILDFILE_DIR."phet-local-mirror-installer-buildfile.xml"));
+    define("BITROCK_MULTI_LANGUAGE_LOCAL_MIRROR_BUILDFILE", file_cleanup_local_filename(BITROCK_BUILDFILE_DIR."multi-language-local-mirror-buildfile.xml"));
     define("BITROCK_EXE_DIR",           file_cleanup_local_filename(BITROCK_DIR."bin/"));
     define("BITROCK_EXE_Linux",         "builder");
     define("BITROCK_EXE_WINNT",         "builder.exe");
