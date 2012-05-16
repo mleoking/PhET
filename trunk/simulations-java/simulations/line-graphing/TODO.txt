@@ -11,7 +11,7 @@ HIGH
 
 MEDIUM
 - replace shaped-based picker buttons with images to be provided by AP
-- outlined numbers (OutlinePText) can't be reliably centered in pickers and they are aliased
+- outlined numbers (OutlineTextNode) can't be reliably centered in pickers and they are aliased
 - when point tool is on a saved line, change the point tool highlighting when the user mouses over the saved line
 - don't like all the MathUtil.round that's going on
 - don't like having int methods in SlopeInterceptLine model
