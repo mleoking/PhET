@@ -48,10 +48,12 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 class ATDetectorNode extends PhetPNode {
 
+    public final PNode bodyNode;
+
     public ATDetectorNode( ATDetector detector, ModelViewTransform mvt ) {
 
         // nodes
-        PNode bodyNode = new BodyNode( detector, mvt );
+        bodyNode = new BodyNode( detector, mvt );
         PNode probeNode = new ProbeNode( detector, mvt );
         PNode wireNode = new WireNode( bodyNode, probeNode );
 
