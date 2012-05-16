@@ -23,6 +23,22 @@ public class EnergyExchangeArea implements EnergyContainer {
         energy = new Property<Double>( initialEnergy );
     }
 
+    public void changeEnergy( double deltaEnergy ) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public double getEnergy() {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public void reset() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public void exchangeEnergyWith( EnergyContainer energyContainer ) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     public ObservableList<EnergyChunk> getEnergyChunkList() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
