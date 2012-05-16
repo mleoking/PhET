@@ -35,7 +35,7 @@ public class ChemicalReactionsModel {
 
     public ChemicalReactionsModel( IClock clock, final LayoutBounds layoutBounds ) {
         this.layoutBounds = layoutBounds;
-        world = new World( new Vec2( 0, -0.5f ), true );
+        world = new World( new Vec2( 0, 0 ), true );
 
         setupWalls();
 

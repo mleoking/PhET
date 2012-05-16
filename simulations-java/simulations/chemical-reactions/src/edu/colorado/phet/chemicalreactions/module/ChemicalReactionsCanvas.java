@@ -55,17 +55,13 @@ public class ChemicalReactionsCanvas extends PhetPCanvas {
             root.addChild( kitView.getMetadataLayer() );
         }
 
-        {
-            final Molecule molecule = new Molecule( MoleculeShape.H2O );
-            model.addBody( molecule );
-            root.addChild( new MoleculeNode( molecule ) );
-        }
-
-        {
-            final Molecule molecule = new Molecule( MoleculeShape.H2O );
-            molecule.setPosition( new ImmutableVector2D( 0, 200 ) );
-            model.addBody( molecule );
-            root.addChild( new MoleculeNode( molecule ) );
+        for ( int y = -400; y <= 200; y += 200 ) {
+            for ( int x = 0; x <= 800; x += 400 ) {
+                final Molecule molecule = new Molecule( MoleculeShape.H2O );
+                molecule.setPosition( new ImmutableVector2D( x, y ) );
+                model.addBody( molecule );
+                root.addChild( new MoleculeNode( molecule ) );
+            }
         }
 
         /*---------------------------------------------------------------------------*

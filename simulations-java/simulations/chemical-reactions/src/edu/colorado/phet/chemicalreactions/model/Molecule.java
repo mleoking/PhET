@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.jbox2d.collision.shapes.CircleShape;
+import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
@@ -71,5 +72,18 @@ public class Molecule extends BodyModel {
 
     public List<Atom> getAtoms() {
         return atoms;
+    }
+
+    @Override public void intraStep() {
+        super.intraStep();
+        float multiplier = 3;
+        if ( !userControlled.get() ) {
+            final Vec2 v = getBody().getLinearVelocity();
+            final float r1 = (float) ( Math.random() - 0.5 ) * multiplier;
+            final float r2 = (float) ( Math.random() - 0.5 ) * multiplier;
+            final float r3 = (float) ( Math.random() - 0.5 ) * multiplier;
+            getBody().setLinearVelocity( new Vec2( v.x + r1 / 20, v.y + r2 / 20 ) );
+            getBody().setAngularVelocity( getBody().getAngularVelocity() + r3 / 100 );
+        }
     }
 }
