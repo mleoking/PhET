@@ -44,7 +44,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
-import edu.colorado.phet.common.piccolophet.nodes.OutlinePText;
+import edu.colorado.phet.common.piccolophet.nodes.OutlineTextNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.umd.cs.piccolo.PNode;
@@ -126,7 +126,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
     }};
 
     // Challenge title, may change for different challenge types.
-    private OutlinePText challengeTitleNode;
+    private OutlineTextNode challengeTitleNode;
 
     private ModelViewTransform mvt;
 
@@ -278,7 +278,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
 
         // Add the title.  It is blank to start with, and is updated later at
         // the appropriate state change.
-        challengeTitleNode = new OutlinePText( "Blank", new PhetFont( 64, true ), Color.WHITE, Color.BLACK, 1 );
+        challengeTitleNode = new OutlineTextNode( "Blank", new PhetFont( 64, true ), Color.WHITE, Color.BLACK, 1 );
         updateTitle();
         rootNode.addChild( challengeTitleNode );
 
@@ -633,13 +633,13 @@ public class BalanceGameCanvas extends PhetPCanvas {
     private static class SmileFaceWithScoreNode extends PNode {
 
         private static final Font SCORE_FONT = new PhetFont( 60, true );
-        private OutlinePText scoreNode;
+        private OutlineTextNode scoreNode;
         private FaceNode faceNode;
 
         private SmileFaceWithScoreNode() {
             faceNode = new FaceNode( FACE_DIAMETER, FACE_COLOR, EYE_AND_MOUTH_COLOR, EYE_AND_MOUTH_COLOR );
             addChild( faceNode );
-            scoreNode = new OutlinePText( "X", SCORE_FONT, Color.YELLOW, Color.BLACK, 1 );
+            scoreNode = new OutlineTextNode( "X", SCORE_FONT, Color.YELLOW, Color.BLACK, 1 );
             addChild( scoreNode );
         }
 

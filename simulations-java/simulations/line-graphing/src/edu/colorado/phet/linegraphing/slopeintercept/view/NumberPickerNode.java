@@ -39,7 +39,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.DynamicCursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.OutlinePText;
+import edu.colorado.phet.common.piccolophet.nodes.OutlineTextNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -96,10 +96,10 @@ public class NumberPickerNode extends PhetPNode {
         }
 
         public Paint getTopButtonPaint( double height ) {
-            return new GradientPaint( 0f, 0f, gradientEndsColor, 0f, (float)height, gradientCenterColor );
+            return new GradientPaint( 0f, 0f, gradientEndsColor, 0f, (float) height, gradientCenterColor );
         }
 
-         public Paint getBottomButtonPaint( double height ) {
+        public Paint getBottomButtonPaint( double height ) {
             return new GradientPaint( 0f, (float) height, gradientCenterColor, 0f, (float) ( 2 * height ), gradientEndsColor );
         }
     }
@@ -110,14 +110,15 @@ public class NumberPickerNode extends PhetPNode {
 
     /**
      * Constructor
+     *
      * @param userComponent identifier for data-collection messages
-     * @param value the value to display and modify
-     * @param range range of value, may change dynamically
-     * @param delta amount to increment or decrement
-     * @param abs true = display absolute value, false = display actual value, including minus sign
-     * @param font font used to display the value
-     * @param format formatter for the value
-     * @param colorScheme colors to use for the picker buttons
+     * @param value         the value to display and modify
+     * @param range         range of value, may change dynamically
+     * @param delta         amount to increment or decrement
+     * @param abs           true = display absolute value, false = display actual value, including minus sign
+     * @param font          font used to display the value
+     * @param format        formatter for the value
+     * @param colorScheme   colors to use for the picker buttons
      */
     public NumberPickerNode( IUserComponent userComponent,
                              final Property<Double> value, final Property<DoubleRange> range, final double delta, final boolean abs,
@@ -126,7 +127,7 @@ public class NumberPickerNode extends PhetPNode {
         topEnabled = new Property<Boolean>( true );
         bottomEnabled = new Property<Boolean>( true );
 
-        final OutlinePText numberNode = new OutlinePText( "?", font, colorScheme.numberColor, NUMBER_OUTLINE_COLOR, NUMBER_OUTLINE_WIDTH );
+        final OutlineTextNode numberNode = new OutlineTextNode( "?", font, colorScheme.numberColor, NUMBER_OUTLINE_COLOR, NUMBER_OUTLINE_WIDTH );
 
         // compute max number width, based on range
         numberNode.setText( "20" ); //TODO this assumes 2 digits, better to compute based on range but range is dynamic.
