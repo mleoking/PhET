@@ -1,3 +1,4 @@
+5/16/12 decided to use pickers instead of spinners, deleted version of interactive equation with spinners
 # 0.00.13 (63678) Apr 20, 2012
 4/19/12 fix sign on reduced equations when slope is an integer
 4/19/12 restore use of pickers
