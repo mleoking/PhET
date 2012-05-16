@@ -57,15 +57,41 @@ public class BodyModel {
         for ( FixtureDef fixtureDef : fixtureDefs ) {
             body.createFixture( fixtureDef );
         }
+        setPosition( position.get() );
+        setVelocity( velocity.get() );
+        setAngle( angle.get() );
+        setAngularVelocity( angularVelocity.get() );
     }
 
     public void setPosition( ImmutableVector2D p ) {
         assert body != null;
-        // TODO: consider not changing this until postStep()?
+        // TODO: consider not changing this until postStep()? (rounding issues from double->float?)
         _position.set( p );
         ImmutableVector2D boxPosition = bodyToModelTransform.viewToModel( p );
         body.getPosition().x = (float) boxPosition.getX();
         body.getPosition().y = (float) boxPosition.getY();
+    }
+
+    public void setVelocity( ImmutableVector2D v ) {
+        assert body != null;
+        // TODO: consider not changing this until postStep()? (rounding issues from double->float?)
+        _velocity.set( v );
+        ImmutableVector2D boxVelocity = bodyToModelTransform.viewToModelDelta( v );
+        body.getLinearVelocity().x = (float) boxVelocity.getX();
+        body.getLinearVelocity().y = (float) boxVelocity.getY();
+    }
+
+    public void setAngle( float theta ) {
+        assert body != null;
+        _angle.set( theta );
+        float boxAngle = inverseTransformAngle( theta );
+        body.setTransform( body.getPosition(), boxAngle );
+    }
+
+    public void setAngularVelocity( float omega ) {
+        assert body != null;
+        _angularVelocity.set( omega );
+        body.setAngularVelocity( omega );
     }
 
     public void postStep() {
@@ -82,6 +108,11 @@ public class BodyModel {
 
     private float transformAngle( float angle ) {
         ImmutableVector2D newVector = bodyToModelTransform.modelToViewDelta( new ImmutableVector2D( Math.cos( angle ), Math.sin( angle ) ) ).getNormalizedInstance();
+        return (float) Math.atan2( newVector.getY(), newVector.getX() );
+    }
+
+    private float inverseTransformAngle( float angle ) {
+        ImmutableVector2D newVector = bodyToModelTransform.viewToModelDelta( new ImmutableVector2D( Math.cos( angle ), Math.sin( angle ) ) ).getNormalizedInstance();
         return (float) Math.atan2( newVector.getY(), newVector.getX() );
     }
 }
