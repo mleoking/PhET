@@ -48,7 +48,7 @@ public class Kit {
         double usedWidth = 0;
 
         double BUCKET_PADDING_PLUS = 300;
-        double BUCKET_PADDING_ARROW = 400;
+        double BUCKET_PADDING_ARROW = 450;
 
         // lays out all of the buckets from the left to right
         for ( int i = 0; i < this.buckets.size(); i++ ) {
