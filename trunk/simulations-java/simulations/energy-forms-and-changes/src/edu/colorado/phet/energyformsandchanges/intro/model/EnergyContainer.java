@@ -39,5 +39,20 @@ public interface EnergyContainer {
      */
     void exchangeEnergyWith( EnergyContainer energyContainer );
 
+    /**
+     * Get the area that can be used to test whether one energy container is in
+     * thermal contact with another, and thus able to exchange energy.
+     *
+     * @return
+     */
+    ThermalContactArea getThermalContactArea();
+
+    /**
+     * Get the list of 'energy chunks' that are owned by this container.  These
+     * chunks will either be within the bounds of the container or on their way
+     * there.
+     *
+     * @return
+     */
     ObservableList<EnergyChunk> getEnergyChunkList();
 }
