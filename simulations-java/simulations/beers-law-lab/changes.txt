@@ -1,3 +1,4 @@
+# 1.02.00 (64232) May 17, 2012
 > minor layout fixes for translations
 5/16/12 #3332, if the body of a meter is not fully inside the stage,  move it so that it is
 5/14/12 #3322, code review: javadoc fix
