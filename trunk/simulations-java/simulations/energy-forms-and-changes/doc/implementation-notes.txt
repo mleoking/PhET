@@ -17,5 +17,9 @@ Acceleration is used to make things fall to give it a more natural look.
 Terms: A "resting surface" is a flat surface upon which other objects in the
 model can rest.
 
+The burners are modeled as an energy containing model element, such as a block
+of iron, but one that can increase or decrease its energy content based on the
+position of the burner.
+
 
 
