@@ -41,14 +41,28 @@ public class LayoutBounds {
     /**
      * @return Where the kits are placed. Model coordinates
      */
-    public PBounds getAvailableKitBounds() {
+    public PBounds getAvailableKitModelBounds() {
         return availableKitBounds;
     }
 
     /**
      * @return Where molecules can be placed in the play area. Model coordinates
      */
-    public PBounds getAvailablePlayAreaBounds() {
+    public PBounds getAvailablePlayAreaModelBounds() {
         return availablePlayAreaBounds;
+    }
+
+    /**
+     * @return Where the kits are placed. View coordinates
+     */
+    public PBounds getAvailableKitViewBounds() {
+        return new PBounds( ChemicalReactionsConstants.MODEL_VIEW_TRANSFORM.modelToView( availableKitBounds ).getBounds2D() );
+    }
+
+    /**
+     * @return Where molecules can be placed in the play area. View coordinates
+     */
+    public PBounds getAvailablePlayAreaViewBounds() {
+        return new PBounds( ChemicalReactionsConstants.MODEL_VIEW_TRANSFORM.modelToView( availablePlayAreaBounds ).getBounds2D() );
     }
 }

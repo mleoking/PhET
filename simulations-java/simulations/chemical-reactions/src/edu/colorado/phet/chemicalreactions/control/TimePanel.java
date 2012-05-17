@@ -1,7 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.chemicalreactions.control;
 
-import edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants;
 import edu.colorado.phet.chemicalreactions.model.LayoutBounds;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.PiccoloClockControlPanel;
@@ -15,6 +14,6 @@ public class TimePanel extends PNode {
         final PSwing timeNode = new PSwing( new PiccoloClockControlPanel( clock ) );
         addChild( timeNode );
 
-        setOffset( VIEW_PADDING, VIEW_PADDING * 2 + ChemicalReactionsConstants.MODEL_VIEW_TRANSFORM.modelToViewDeltaX( layoutBounds.getAvailableKitBounds().getHeight() ) );
+        setOffset( VIEW_PADDING, VIEW_PADDING * 2 + layoutBounds.getAvailableKitViewBounds().getHeight() );
     }
 }

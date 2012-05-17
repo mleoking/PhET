@@ -1,12 +1,22 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.chemicalreactions.view;
 
+import java.awt.BasicStroke;
+import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import edu.colorado.phet.chemicalreactions.model.Kit;
 import edu.colorado.phet.chemicalreactions.model.Molecule;
 import edu.colorado.phet.chemicalreactions.model.MoleculeBucket;
 import edu.colorado.phet.chemicalreactions.module.ChemicalReactionsCanvas;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
+
+import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.*;
 
 /**
  * Shows a kit (series of buckets full of different types of atoms)
@@ -20,6 +30,8 @@ public class KitView {
     private final Kit kit;
     private final ChemicalReactionsCanvas canvas;
 
+    private final Map<MoleculeBucket, MoleculeBucketNode> bucketMap = new HashMap<MoleculeBucket, MoleculeBucketNode>();
+
     // store the node-atom relationships
 //    private Map<Atom, LabeledAtomNode> atomNodeMap = new HashMap<Atom, LabeledAtomNode>();
 
@@ -29,70 +41,34 @@ public class KitView {
 
         for ( MoleculeBucket bucket : kit.getBuckets() ) {
             MoleculeBucketNode bucketView = new MoleculeBucketNode( bucket );
+            bucketMap.put( bucket, bucketView );
 
             topLayer.addChild( bucketView.getFrontNode() );
             bottomLayer.addChild( bucketView.getHoleNode() );
 
             for ( Molecule molecule : bucket.getMolecules() ) {
                 atomLayer.addChild( new MoleculeNode( molecule ) );
-
-
-//                PNode moleculeNode = new PNode();
-//                atomLayer.addChild( moleculeNode );
-//                for ( final Atom atom : molecule.getAtoms() ) {
-//                    final LabeledAtomNode atomNode = new LabeledAtomNode( atom.getElement() );
-//                    atomNodeMap.put( atom, atomNode );
-//                    moleculeNode.addChild( atomNode );
-//
-//                    // Add a drag listener that will move the model element when the user
-//                    // drags this atom.
-//                    atomNode.addInputEventListener( new PDragEventHandler() {
-//                        @Override
-//                        protected void startDrag( PInputEvent event ) {
-//                            super.startDrag( event );
-////                        atom.setUserControlled( true );
-//
-//                            // move the atom (and its entire molecule) to the front when it starts being dragged
-//                            Molecule molecule = kit.getMolecule( atom );
-//                            if ( molecule != null ) {
-//                                for ( Atom moleculeAtom : molecule.getAtoms() ) {
-//                                    atomNodeMap.get( moleculeAtom ).moveToFront();
-//                                }
-//                            }
-//                            else {
-//                                atomNode.moveToFront();
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void mouseDragged( PInputEvent event ) {
-//                            PDimension delta = event.getDeltaRelativeTo( atomNode.getParent() );
-//                            ImmutableVector2D modelDelta = MODEL_VIEW_TRANSFORM.viewToModelDelta( new ImmutableVector2D( delta.width, delta.height ) );
-////                        kit.atomDragged( atom, modelDelta );
-//                        }
-//
-//                        @Override
-//                        protected void endDrag( PInputEvent event ) {
-//                            super.endDrag( event );
-////                        atom.setUserControlled( false );
-//                        }
-//                    } );
-//                }
-//                moleculeNode.addInputEventListener( new CursorHandler() );
-//                moleculeNode.addInputEventListener( new PBasicInputEventHandler() {
-//                    @Override public void mouseDragged( PInputEvent event ) {
-//                        super.mouseDragged( event );
-//                    }
-//
-//                    @Override public void mousePressed( PInputEvent event ) {
-//                        super.mousePressed( event );
-//                    }
-//
-//                    @Override public void mouseReleased( PInputEvent event ) {
-//                        super.mouseReleased( event );
-//                    }
-//                } );
             }
+        }
+
+        // pluses between reactants
+        final List<MoleculeBucket> reactantBuckets = kit.getReactantBuckets();
+        for ( int i = 1; i < reactantBuckets.size(); i++ ) {
+            // get the space in between our reactants
+            double leftX = bucketMap.get( reactantBuckets.get( i - 1 ) ).getFrontNode().getFullBounds().getMaxX();
+            double rightX = bucketMap.get( reactantBuckets.get( i ) ).getFrontNode().getFullBounds().getMinX();
+
+            // center of the plus
+            final double centerX = ( leftX + rightX ) / 2;
+            final double centerY = kit.getLayoutBounds().getAvailableKitViewBounds().getCenterY();
+
+            // construct it from two areas
+            bottomLayer.addChild( new PhetPPath( new Area() {{
+                add( new Area( new Rectangle2D.Double( centerX - PLUS_VIEW_THICKNESS / 2, centerY - PLUS_VIEW_LENGTH / 2,
+                                                       PLUS_VIEW_THICKNESS, PLUS_VIEW_LENGTH ) ) );
+                add( new Area( new Rectangle2D.Double( centerX - PLUS_VIEW_LENGTH / 2, centerY - PLUS_VIEW_THICKNESS / 2,
+                                                       PLUS_VIEW_LENGTH, PLUS_VIEW_THICKNESS ) ) );
+            }}, PLUS_COLOR, new BasicStroke( 1 ), PLUS_BORDER_COLOR ) );
         }
 
         // update visibility based on the kit visibility
