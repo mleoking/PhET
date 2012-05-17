@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Set;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.umd.cs.piccolo.util.PBounds;
 
 public class Kit {
     private final List<MoleculeBucket> buckets;
@@ -43,18 +42,26 @@ public class Kit {
     }
 
     public void layout() {
-        double kitY = getAvailableKitBounds().getCenterY() - 20;
-        double kitXCenter = getAvailableKitBounds().getCenterX();
+        double kitY = getLayoutBounds().getAvailableKitModelBounds().getCenterY() - 20;
+        double kitXCenter = getLayoutBounds().getAvailableKitModelBounds().getCenterX();
 
         double usedWidth = 0;
 
-        double BUCKET_PADDING = 50;
+        double BUCKET_PADDING_PLUS = 300;
+        double BUCKET_PADDING_ARROW = 400;
 
         // lays out all of the buckets from the left to right
         for ( int i = 0; i < this.buckets.size(); i++ ) {
             MoleculeBucket bucket = this.buckets.get( i );
             if ( i != 0 ) {
-                usedWidth += BUCKET_PADDING;
+                if ( bucket == getProductBuckets().get( 0 ) ) {
+                    // padding between reactants and products
+                    usedWidth += BUCKET_PADDING_ARROW;
+                }
+                else {
+                    // padding between two reactants or two products (for plus)
+                    usedWidth += BUCKET_PADDING_PLUS;
+                }
             }
             bucket.setPosition( new Point2D.Double( usedWidth, kitY ) );
             usedWidth += bucket.getSize().getWidth();
@@ -118,12 +125,16 @@ public class Kit {
         moleculeListeners.remove( listener );
     }
 
-    public PBounds getAvailableKitBounds() {
-        return layoutBounds.getAvailableKitBounds();
+    public LayoutBounds getLayoutBounds() {
+        return layoutBounds;
     }
 
-    public PBounds getAvailablePlayAreaBounds() {
-        return layoutBounds.getAvailablePlayAreaBounds();
+    public List<MoleculeBucket> getProductBuckets() {
+        return productBuckets;
+    }
+
+    public List<MoleculeBucket> getReactantBuckets() {
+        return reactantBuckets;
     }
 
     public Molecule getMolecule( Atom atom ) {

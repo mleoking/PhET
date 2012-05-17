@@ -96,10 +96,10 @@ public class ChemicalReactionsModel {
     }
 
     private void setupWalls() {
-        final float left = (float) BOX2D_MODEL_TRANSFORM.viewToModelX( layoutBounds.getAvailablePlayAreaBounds().getMinX() );
-        final float right = (float) BOX2D_MODEL_TRANSFORM.viewToModelX( layoutBounds.getAvailablePlayAreaBounds().getMaxX() );
-        final float top = (float) BOX2D_MODEL_TRANSFORM.viewToModelY( layoutBounds.getAvailablePlayAreaBounds().getMaxY() );
-        final float bottom = (float) BOX2D_MODEL_TRANSFORM.viewToModelY( layoutBounds.getAvailablePlayAreaBounds().getMinY() );
+        final float left = (float) BOX2D_MODEL_TRANSFORM.viewToModelX( layoutBounds.getAvailablePlayAreaModelBounds().getMinX() );
+        final float right = (float) BOX2D_MODEL_TRANSFORM.viewToModelX( layoutBounds.getAvailablePlayAreaModelBounds().getMaxX() );
+        final float top = (float) BOX2D_MODEL_TRANSFORM.viewToModelY( layoutBounds.getAvailablePlayAreaModelBounds().getMaxY() );
+        final float bottom = (float) BOX2D_MODEL_TRANSFORM.viewToModelY( layoutBounds.getAvailablePlayAreaModelBounds().getMinY() );
 
         final float paddedLeft = left - BOX2D_WALL_THICKNESS;
         final float paddedRight = right + BOX2D_WALL_THICKNESS;

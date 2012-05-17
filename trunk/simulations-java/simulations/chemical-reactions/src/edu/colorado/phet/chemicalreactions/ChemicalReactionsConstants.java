@@ -42,4 +42,10 @@ public class ChemicalReactionsConstants {
 
     public static final float BOX2D_DENSITY = 1;
     public static final float BOX2D_WALL_THICKNESS = 4;
+
+    public static final float PLUS_VIEW_THICKNESS = 15;
+    public static final float PLUS_VIEW_LENGTH = 50;
+
+    public static final Color PLUS_COLOR = new Color( 160, 210, 255 );
+    public static final Color PLUS_BORDER_COLOR = new Color( 110, 160, 200 );
 }

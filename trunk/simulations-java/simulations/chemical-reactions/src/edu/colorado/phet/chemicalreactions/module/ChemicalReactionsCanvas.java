@@ -39,11 +39,11 @@ public class ChemicalReactionsCanvas extends PhetPCanvas {
         model = new ChemicalReactionsModel( clock, layoutBounds );
 
         // background for the play area
-        root.addChild( new PhetPPath( ChemicalReactionsConstants.MODEL_VIEW_TRANSFORM.modelToViewRectangle( layoutBounds.getAvailablePlayAreaBounds() ),
+        root.addChild( new PhetPPath( layoutBounds.getAvailablePlayAreaViewBounds(),
                                       ChemicalReactionsConstants.PLAY_AREA_BACKGROUND_COLOR,
                                       new BasicStroke( 3 ), Color.BLACK ) );
 
-        root.addChild( new KitPanel( model.getKitCollection(), layoutBounds.getAvailableKitBounds() ) );
+        root.addChild( new KitPanel( model.getKitCollection(), layoutBounds.getAvailableKitModelBounds() ) );
         root.addChild( new TimePanel( clock, layoutBounds ) );
 
         for ( Kit kit : model.getKitCollection().getKits() ) {
