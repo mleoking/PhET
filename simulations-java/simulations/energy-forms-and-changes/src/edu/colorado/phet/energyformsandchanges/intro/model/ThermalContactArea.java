@@ -13,8 +13,10 @@ import java.awt.geom.Rectangle2D;
 public class ThermalContactArea {
 
     private final Rectangle2D bounds = new Rectangle2D.Double();
+    private final boolean supportsImmersion;
 
-    public ThermalContactArea( Rectangle2D bounds, double initialEnergy ) {
+    public ThermalContactArea( Rectangle2D bounds, boolean supportsImmersion ) {
         this.bounds.setFrame( bounds );
+        this.supportsImmersion = supportsImmersion;
     }
 }
