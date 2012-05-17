@@ -37,14 +37,21 @@ public abstract class Block extends RectangularMovableModelElement implements En
 
     private double energy = 0; // TODO: Need to determine initial energy.
 
+    private final double density;
+    private final double specificHeat;
+
     /**
      * Constructor.
      *
      * @param initialPosition
+     * @param density
+     * @param specificHeat
      * @param energyChunksVisible
      */
-    protected Block( ImmutableVector2D initialPosition, BooleanProperty energyChunksVisible ) {
+    protected Block( ImmutableVector2D initialPosition, double density, double specificHeat, BooleanProperty energyChunksVisible ) {
         super( initialPosition );
+        this.density = density;
+        this.specificHeat = specificHeat;
         this.energyChunksVisible = energyChunksVisible;
 
         // Update the top an bottom surfaces whenever the position changes.
