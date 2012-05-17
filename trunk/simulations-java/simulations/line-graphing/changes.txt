@@ -1,3 +1,4 @@
+5/17/12 in computation of dynamics rise range, prevent slope=0/0
 5/17/12 cleanup of internal property observers in SlopeInterceptEquationNode
 5/16/12 rename SlopeInterceptEquationNode2 to SlopeInterceptEquationNode
 5/16/12 decided to use pickers instead of spinners, deleted version of interactive equation with spinners [64199]
