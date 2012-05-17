@@ -22,6 +22,7 @@ public class Burner extends ModelElement implements EnergyContainer {
 
     private static final double WIDTH = 0.075; // In meters.
     private static final double HEIGHT = WIDTH;
+    private static final double MAX_ENERGY_GENERATION_RATE = 1; // joules/sec TODO: Needs tweaking.
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -67,6 +68,10 @@ public class Burner extends ModelElement implements EnergyContainer {
                                        position.getY(),
                                        WIDTH,
                                        HEIGHT );
+    }
+
+    public void updateInternallyProducedEnergy( double dt ) {
+        energy += heatCoolLevel.get() * MAX_ENERGY_GENERATION_RATE * dt;
     }
 
     @Override public Property<HorizontalSurface> getTopSurfaceProperty() {

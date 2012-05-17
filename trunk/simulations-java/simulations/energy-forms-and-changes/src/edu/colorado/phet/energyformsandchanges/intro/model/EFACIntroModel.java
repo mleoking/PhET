@@ -182,6 +182,11 @@ public class EFACIntroModel {
         // Update the fluid level in the beaker, which could be displaced by
         // one or more of the blocks.
         beaker.updateFluidLevel( Arrays.asList( brick.getRect(), leadBlock.getRect() ) );
+
+        // Update the energy in the burners based on the amount that they are
+        // producing or consuming.
+        leftBurner.updateInternallyProducedEnergy( dt );
+        rightBurner.updateInternallyProducedEnergy( dt );
     }
 
     /**
