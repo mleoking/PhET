@@ -38,27 +38,19 @@ public class ThermalContactArea {
 
         double contactLength = 0;
         if ( this.supportsImmersion || that.supportsImmersion && ( this.bounds.intersects( that.bounds ) ) ) {
-            // One of the thermal contact areas is immersed within the other.
-            if ( this.bounds.contains( that.bounds ) ) {
-                contactLength = that.getPerimeter();
+            // One of the thermal contact areas is partially or fully immersed
+            // within the other.  Calculate the contact length of the immersed region.
+            Area immersionArea = new Area( this.bounds );
+            immersionArea.intersect( new Area( that.bounds ) );
+            Rectangle2D immersionRect = immersionArea.getBounds2D();
+            contactLength = immersionRect.getWidth() * 2 + immersionRect.getHeight() * 2;
+            if ( immersionRect.getWidth() != this.bounds.getWidth() && immersionRect.getWidth() != that.bounds.getWidth() ) {
+                // Not fully overlapping in X direction, so adjust contact length accordingly.
+                contactLength -= immersionRect.getHeight();
             }
-            else if ( that.bounds.contains( this.bounds ) ) {
-                contactLength = this.getPerimeter();
-            }
-            else {
-                // Partial immersion.  Calculate contact length of immersed region.
-                Area immersionArea = new Area( this.bounds );
-                immersionArea.intersect( new Area( that.bounds ) );
-                Rectangle2D immersionRect = immersionArea.getBounds2D();
-                if ( immersionRect.getWidth() == this.bounds.getWidth() || immersionRect.getWidth() == that.bounds.getWidth() ) {
-                    contactLength = immersionRect.getWidth() + immersionRect.getHeight() * 2;
-                }
-                else if ( immersionRect.getHeight() == this.bounds.getHeight() || immersionRect.getHeight() == that.bounds.getHeight() ) {
-                    contactLength = immersionRect.getWidth() * 2 + immersionRect.getHeight();
-                }
-                else {
-                    contactLength = immersionRect.getWidth() + immersionRect.getHeight();
-                }
+            if ( immersionRect.getHeight() != this.bounds.getHeight() && immersionRect.getHeight() != that.bounds.getHeight() ) {
+                // Not fully overlapping in Y direction, so adjust contact length accordingly.
+                contactLength -= immersionRect.getWidth();
             }
         }
         else {
