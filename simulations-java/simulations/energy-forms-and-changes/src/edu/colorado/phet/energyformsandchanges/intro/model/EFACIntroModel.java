@@ -71,13 +71,7 @@ public class EFACIntroModel {
     public final BooleanProperty energyChunksVisible = new BooleanProperty( false );
 
     // List of model element that can contain and exchange energy.
-    private List<EnergyContainer> energyContainerList = new ArrayList<EnergyContainer>() {{
-        add( leftBurner );
-        add( rightBurner );
-        add( brick );
-        add( leadBlock );
-        add( beaker );
-    }};
+    private List<EnergyContainer> energyContainerList = new ArrayList<EnergyContainer>();
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -102,11 +96,19 @@ public class EFACIntroModel {
         brick = new Brick( new ImmutableVector2D( -0.1, 0 ), energyChunksVisible );
         leadBlock = new LeadBlock( new ImmutableVector2D( -0.175, 0 ), energyChunksVisible );
 
+        // Put all the thermal containers on a list for easy iteration.
+        energyContainerList.add( leftBurner );
+        energyContainerList.add( rightBurner );
+        energyContainerList.add( brick );
+        energyContainerList.add( leadBlock );
+        energyContainerList.add( beaker );
+
         // Add the thermometers.  They should reside in the tool box when
         // the sim starts up or is reset, so their position here doesn't much
         // matter, since it will be changed by the view.
         thermometer1 = new Thermometer( new ImmutableVector2D( 0, 0 ) );
         thermometer2 = new Thermometer( new ImmutableVector2D( 0, 0 ) );
+
 
         // TODO: Temp for testing - add some initial energy chunks in random location.
         /*
