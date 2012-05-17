@@ -33,6 +33,9 @@ public class Beaker extends RectangularMovableModelElement implements EnergyCont
 
     private static final double NON_DISPLACED_FLUID_LEVEL = 0.5;
 
+    private static final double SPECIFIC_HEAT = 4.186; // In J/gK, source = design document.
+    private static final double DENSITY = 1.0; // In g/cm^3, source = design document (and common knowledge).
+
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
