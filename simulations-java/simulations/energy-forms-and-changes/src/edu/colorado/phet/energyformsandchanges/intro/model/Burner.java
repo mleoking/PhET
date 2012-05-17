@@ -87,7 +87,10 @@ public class Burner extends ModelElement implements EnergyContainer {
     }
 
     public void exchangeEnergyWith( EnergyContainer energyContainer ) {
-        System.out.println( "Stubbed method called in Beaker." );
+        double thermalContactLength = getThermalContactArea().getThermalContactLength( energyContainer.getThermalContactArea() );
+        if ( thermalContactLength > 0 ) {
+            System.out.println( "Non-zero thermalContactLength = " + thermalContactLength );
+        }
     }
 
     public ThermalContactArea getThermalContactArea() {
