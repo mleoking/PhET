@@ -1,7 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
-import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -40,9 +39,7 @@ public class ThermalContactArea {
         if ( this.supportsImmersion || that.supportsImmersion && ( this.bounds.intersects( that.bounds ) ) ) {
             // One of the thermal contact areas is partially or fully immersed
             // within the other.  Calculate the contact length of the immersed region.
-            Area immersionArea = new Area( this.bounds );
-            immersionArea.intersect( new Area( that.bounds ) );
-            Rectangle2D immersionRect = immersionArea.getBounds2D();
+            Rectangle2D immersionRect = this.bounds.createIntersection( that.bounds );
             contactLength = immersionRect.getWidth() * 2 + immersionRect.getHeight() * 2;
             if ( immersionRect.getWidth() != this.bounds.getWidth() && immersionRect.getWidth() != that.bounds.getWidth() ) {
                 // Not fully overlapping in X direction, so adjust contact length accordingly.
@@ -54,7 +51,7 @@ public class ThermalContactArea {
             }
         }
         else if ( !this.supportsImmersion && !that.supportsImmersion ) {
-            // Determine if there is any surfaces that are touching.
+            // Determine if there are any surfaces that are touching.
             double xOverlap = getHorizontalOverlap( this.bounds, that.bounds );
             double yOverlap = getVerticalOverlap( this.bounds, that.bounds );
             if ( xOverlap > 0 &&
