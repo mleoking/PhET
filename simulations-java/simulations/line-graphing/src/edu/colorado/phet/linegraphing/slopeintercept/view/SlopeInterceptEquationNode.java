@@ -43,9 +43,10 @@ class SlopeInterceptEquationNode extends PhetPNode {
                                        Property<DoubleRange> interceptRange,
                                        PhetFont font ) {
 
-        this.rise = new Property<Double>( interactiveLine.get().rise );
-        this.run = new Property<Double>( interactiveLine.get().run );
-        this.intercept = new Property<Double>( interactiveLine.get().intercept );
+        // Start with these values, so that layout of signs happens correctly.
+        this.rise = new Property<Double>( -1d );
+        this.run = new Property<Double>( -1d );
+        this.intercept = new Property<Double>( -1d );
 
         // determine the max width of the rise and run spinners, based on the extents of their range
         double maxSlopeWidth;
@@ -62,15 +63,15 @@ class SlopeInterceptEquationNode extends PhetPNode {
         // y = mx + b
         PText yNode = new PhetPText( "y", font );
         PText equalsNode = new PhetPText( "=", font );
-        final OutlineTextNode riseSignNode = new OutlineTextNode( "-", font, LGColors.SLOPE, Color.BLACK, 1 );
-        final OutlineTextNode runSignNode = new OutlineTextNode( "-", font, LGColors.SLOPE, Color.BLACK, 1 );
+        PNode riseSignNode = new SignNode( rise, font, LGColors.SLOPE, Color.BLACK, 1, false );
+        PNode runSignNode = new SignNode( run, font, LGColors.SLOPE, Color.BLACK, 1, false );
         PNode riseNode = new ZeroOffsetNode( new SlopePickerNode( UserComponents.riseSpinner, this.rise, riseRange, font, FORMAT, true ) );
         PNode runNode = new ZeroOffsetNode( new SlopePickerNode( UserComponents.runSpinner, this.run, runRange, font, FORMAT, true ) );
         final PPath lineNode = new PPath( new Line2D.Double( 0, 0, maxSlopeWidth, 0 ) ) {{
             setStroke( new BasicStroke( 2f ) );
         }};
         PText xNode = new PhetPText( "x", font );
-        final OutlineTextNode interceptSignNode = new OutlineTextNode( "+", font, LGColors.INTERCEPT, Color.BLACK, 1 );
+        PNode interceptSignNode = new SignNode( intercept, font, LGColors.INTERCEPT, Color.BLACK, 1, true );
         PNode interceptNode = new ZeroOffsetNode( new InterceptPickerNode( UserComponents.interceptSpinner, this.intercept, interceptRange, font, FORMAT, true ) );
 
         // rendering order
@@ -109,7 +110,7 @@ class SlopeInterceptEquationNode extends PhetPNode {
                              yNode.getYOffset() );
             interceptSignNode.setOffset( xNode.getFullBoundsReference().getMaxX() + 10,
                                          lineNode.getFullBoundsReference().getCenterY() - ( interceptSignNode.getFullBoundsReference().getHeight() / 2 ) );
-            interceptNode.setOffset( interceptSignNode.getFullBoundsReference().getMaxX() + 4,
+            interceptNode.setOffset( interceptSignNode.getFullBoundsReference().getMaxX() + 10,
                                      interceptSignNode.getFullBoundsReference().getCenterY() - ( interceptNode.getFullBoundsReference().getHeight() / 2 ) );
         }
 
@@ -117,9 +118,6 @@ class SlopeInterceptEquationNode extends PhetPNode {
         RichSimpleObserver lineUpdater = new RichSimpleObserver() {
             @Override public void update() {
                 interactiveLine.set( new SlopeInterceptLine( rise.get(), run.get(), intercept.get(), LGColors.INTERACTIVE_LINE ) );
-                riseSignNode.setText( rise.get() >= 0 ? " " : "-" );
-                runSignNode.setText( run.get() >= 0 ? " " : "-" );
-                interceptSignNode.setText( intercept.get() >= 0 ? "+" : "-" );
             }
         };
         lineUpdater.observe( rise, run, intercept );
@@ -132,5 +130,17 @@ class SlopeInterceptEquationNode extends PhetPNode {
                 intercept.set( line.intercept );
             }
         } );
+    }
+
+    // Displays the sign of a value.
+    private static class SignNode extends OutlineTextNode {
+        public SignNode( Property<Double> value, PhetFont font, Color fillColor, Color outlineColor, double outlineStrokeWidth, final boolean showPlusSign ) {
+            super( "-", font, fillColor, outlineColor, outlineStrokeWidth );
+            value.addObserver( new VoidFunction1<Double>() {
+                public void apply( Double value ) {
+                    setText( value < 0 ? "-" : ( showPlusSign ? "+" : " " ) );
+                }
+            } );
+        }
     }
 }
