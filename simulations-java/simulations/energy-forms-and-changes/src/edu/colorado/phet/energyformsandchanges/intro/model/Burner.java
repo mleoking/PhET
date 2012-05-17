@@ -110,10 +110,10 @@ public class Burner extends ModelElement implements EnergyContainer {
         // intended to be just above the top of the burner.  This has to be
         // coordinated a bit with the view.
         Rectangle2D burnerRect = getOutlineRect();
-        Rectangle2D thermalContactAreaRect = new Rectangle2D.Double( burnerRect.getCenterX() - burnerRect.getWidth() / 4,
+        Rectangle2D thermalContactAreaRect = new Rectangle2D.Double( burnerRect.getCenterX() - ENERGY_TRANSFER_AREA_WIDTH / 2,
                                                                      burnerRect.getCenterY(),
-                                                                     burnerRect.getWidth() / 2,
-                                                                     burnerRect.getHeight() / 2 );
+                                                                     ENERGY_TRANSFER_AREA_WIDTH,
+                                                                     ENERGY_TRANSFER_AREA_HEIGHT );
         return new ThermalContactArea( thermalContactAreaRect, true );
     }
 
