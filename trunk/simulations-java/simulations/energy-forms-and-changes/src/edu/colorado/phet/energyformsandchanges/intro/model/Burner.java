@@ -6,6 +6,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
 
 /**
  * Model element that represents a burner in the simulation.  The burner can
@@ -13,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
  *
  * @author John Blanco
  */
-public class Burner extends ModelElement {
+public class Burner extends ModelElement implements EnergyContainer {
 
     //-------------------------------------------------------------------------
     // Class Data
@@ -32,6 +33,8 @@ public class Burner extends ModelElement {
     // is being done.
     public final Property<Double> heatCoolLevel = new Property<Double>( 0.0 );
     private Property<HorizontalSurface> topSurface;
+
+    private double energy = 0; // TODO: Need to determine initial value.
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -68,5 +71,33 @@ public class Burner extends ModelElement {
 
     @Override public Property<HorizontalSurface> getTopSurfaceProperty() {
         return topSurface;
+    }
+
+    public void changeEnergy( double deltaEnergy ) {
+        energy += deltaEnergy;
+    }
+
+    public double getEnergy() {
+        return energy;
+    }
+
+    public void exchangeEnergyWith( EnergyContainer energyContainer ) {
+        System.out.println( "Stubbed method called in Beaker." );
+    }
+
+    public ThermalContactArea getThermalContactArea() {
+        // The thermal contact area for the burner a rectangular space that is
+        // intended to be just above the top of the burner.  This has to be
+        // coordinated a bit with the view.
+        Rectangle2D burnerRect = getOutlineRect();
+        Rectangle2D thermalContactAreaRect = new Rectangle2D.Double( burnerRect.getCenterX() - burnerRect.getWidth() / 4,
+                                                                     burnerRect.getCenterY(),
+                                                                     burnerRect.getWidth() / 2,
+                                                                     burnerRect.getHeight() / 2 );
+        return new ThermalContactArea( thermalContactAreaRect, true );
+    }
+
+    public ObservableList<EnergyChunk> getEnergyChunkList() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }
