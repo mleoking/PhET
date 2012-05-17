@@ -58,7 +58,7 @@ public abstract class Block extends RectangularMovableModelElement implements En
 
         initialThermalEnergy = Math.pow( SURFACE_WIDTH, 3 ) * density * specificHeat * EFACConstants.ROOM_TEMPERATURE;
 
-        // Update the top an bottom surfaces whenever the position changes.
+        // Update the top and bottom surfaces whenever the position changes.
         position.addObserver( new VoidFunction1<ImmutableVector2D>() {
             public void apply( final ImmutableVector2D immutableVector2D ) {
                 updateTopSurfaceProperty();
