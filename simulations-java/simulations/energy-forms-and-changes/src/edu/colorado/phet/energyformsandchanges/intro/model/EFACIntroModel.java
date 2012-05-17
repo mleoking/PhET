@@ -5,6 +5,7 @@ import java.awt.Shape;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -68,6 +69,15 @@ public class EFACIntroModel {
 
     // Boolean for tracking whether the energy chunks are visible to the user.
     public final BooleanProperty energyChunksVisible = new BooleanProperty( false );
+
+    // List of model element that can contain and exchange energy.
+    private List<EnergyContainer> energyContainerList = new ArrayList<EnergyContainer>() {{
+        add( leftBurner );
+        add( rightBurner );
+        add( brick );
+        add( leadBlock );
+        add( beaker );
+    }};
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -184,9 +194,17 @@ public class EFACIntroModel {
         beaker.updateFluidLevel( Arrays.asList( brick.getRect(), leadBlock.getRect() ) );
 
         // Update the energy in the burners based on the amount that they are
-        // producing or consuming.
+        // internally producing or consuming.
         leftBurner.updateInternallyProducedEnergy( dt );
         rightBurner.updateInternallyProducedEnergy( dt );
+
+        // Loop through all the energy containers and have them exchange energy
+        // with one another.
+        for ( EnergyContainer ec1 : energyContainerList ) {
+            for ( EnergyContainer ec2 : energyContainerList.subList( energyContainerList.indexOf( ec1 ) + 1, energyContainerList.size() ) ) {
+                ec1.exchangeEnergyWith( ec2 );
+            }
+        }
     }
 
     /**
