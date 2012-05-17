@@ -50,6 +50,8 @@ public class Beaker extends RectangularMovableModelElement implements EnergyCont
 
     private final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
 
+    private double energy = 0; // TODO: What should initial value be?
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
@@ -166,6 +168,23 @@ public class Beaker extends RectangularMovableModelElement implements EnergyCont
     @Override public Property<HorizontalSurface> getBottomSurfaceProperty() {
         return bottomSurface;
     }
+
+    public void changeEnergy( double deltaEnergy ) {
+        energy += deltaEnergy;
+    }
+
+    public void exchangeEnergyWith( EnergyContainer energyContainer ) {
+        System.out.println( "Call to stubbed routine." );
+    }
+
+    public double getEnergy() {
+        return energy;
+    }
+
+    public ThermalContactArea getThermalContactArea() {
+        return new ThermalContactArea( getRect(), false );
+    }
+
 
     @Override public IUserComponent getUserComponent() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.

@@ -35,6 +35,8 @@ public abstract class Block extends RectangularMovableModelElement implements En
     private final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
     protected final BooleanProperty energyChunksVisible;
 
+    private double energy = 0; // TODO: Need to determine initial energy.
+
     /**
      * Constructor.
      *
@@ -115,6 +117,22 @@ public abstract class Block extends RectangularMovableModelElement implements En
 
     @Override public Property<HorizontalSurface> getBottomSurfaceProperty() {
         return bottomSurface;
+    }
+
+    public void changeEnergy( double deltaEnergy ) {
+        energy += deltaEnergy;
+    }
+
+    public void exchangeEnergyWith( EnergyContainer energyContainer ) {
+        System.out.println( "Call to stubbed routine." );
+    }
+
+    public double getEnergy() {
+        return energy;
+    }
+
+    public ThermalContactArea getThermalContactArea() {
+        return new ThermalContactArea( getRect(), false );
     }
 
     /**
