@@ -3,6 +3,7 @@ package edu.colorado.phet.chemicalreactions.module;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.util.Random;
 
 import edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants;
 import edu.colorado.phet.chemicalreactions.control.KitPanel;
@@ -55,9 +56,16 @@ public class ChemicalReactionsCanvas extends PhetPCanvas {
             root.addChild( kitView.getMetadataLayer() );
         }
 
+        Random random = new Random( System.currentTimeMillis() );
+        final MoleculeShape[] moleculeShapeOptions = {
+                MoleculeShape.H2O, MoleculeShape.H2O,
+//                MoleculeShape.Cl2,
+//                MoleculeShape.HCl,
+//                MoleculeShape.N2
+        };
         for ( int y = -400; y <= 200; y += 200 ) {
             for ( int x = 0; x <= 800; x += 400 ) {
-                final Molecule molecule = new Molecule( MoleculeShape.H2O );
+                final Molecule molecule = new Molecule( moleculeShapeOptions[random.nextInt( moleculeShapeOptions.length )] );
                 molecule.setPosition( new ImmutableVector2D( x, y ) );
                 model.addBody( molecule );
                 root.addChild( new MoleculeNode( molecule ) );

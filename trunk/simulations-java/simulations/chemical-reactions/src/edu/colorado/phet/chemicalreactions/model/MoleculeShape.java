@@ -64,7 +64,7 @@ public class MoleculeShape {
 
     public static final MoleculeShape HCl = new MoleculeShape( Strings.BUCKET___H_CL, Arrays.asList(
             new AtomSpot( H, new ImmutableVector2D( -Cl.getRadius(), 0 ) ),
-            new AtomSpot( Cl, new ImmutableVector2D( -H.getRadius(), 0 ) )
+            new AtomSpot( Cl, new ImmutableVector2D( H.getRadius(), 0 ) )
     ) );
 
     public static final MoleculeShape NH3 = new MoleculeShape( Strings.BUCKET___NH_3, Arrays.asList(
