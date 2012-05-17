@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentTyp
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -35,6 +36,9 @@ public class Beaker extends RectangularMovableModelElement implements EnergyCont
 
     private static final double SPECIFIC_HEAT = 4.186; // In J/gK, source = design document.
     private static final double DENSITY = 1.0; // In g/cm^3, source = design document (and common knowledge).
+    private static final double FLUID_VOLUME = Math.PI * WIDTH / 2 * NON_DISPLACED_FLUID_LEVEL * HEIGHT;
+
+    private static final double INITIAL_THERMAL_ENERGY = DENSITY * FLUID_VOLUME * SPECIFIC_HEAT * EFACConstants.ROOM_TEMPERATURE;
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -53,7 +57,7 @@ public class Beaker extends RectangularMovableModelElement implements EnergyCont
 
     private final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
 
-    private double energy = 0; // TODO: What should initial value be?
+    private double energy = INITIAL_THERMAL_ENERGY; // In Joules
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -140,7 +144,6 @@ public class Beaker extends RectangularMovableModelElement implements EnergyCont
         fluidLevel.set( newFluidLevel );
     }
 
-
     /**
      * Get the untranslated rectangle that defines the shape of the beaker.
      *
@@ -188,6 +191,10 @@ public class Beaker extends RectangularMovableModelElement implements EnergyCont
         return new ThermalContactArea( getRect(), false );
     }
 
+    @Override public void reset() {
+        super.reset();
+        energy = INITIAL_THERMAL_ENERGY;
+    }
 
     @Override public IUserComponent getUserComponent() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.

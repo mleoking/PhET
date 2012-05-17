@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentType
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -35,10 +36,11 @@ public abstract class Block extends RectangularMovableModelElement implements En
     private final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
     protected final BooleanProperty energyChunksVisible;
 
-    private double energy = 0; // TODO: Need to determine initial energy.
+    private double energy = 0; // In Joules.
 
     private final double density;
     private final double specificHeat;
+    private final double initialThermalEnergy;
 
     /**
      * Constructor.
@@ -53,6 +55,8 @@ public abstract class Block extends RectangularMovableModelElement implements En
         this.density = density;
         this.specificHeat = specificHeat;
         this.energyChunksVisible = energyChunksVisible;
+
+        initialThermalEnergy = Math.pow( SURFACE_WIDTH, 3 ) * density * specificHeat * EFACConstants.ROOM_TEMPERATURE;
 
         // Update the top an bottom surfaces whenever the position changes.
         position.addObserver( new VoidFunction1<ImmutableVector2D>() {
@@ -140,6 +144,11 @@ public abstract class Block extends RectangularMovableModelElement implements En
 
     public ThermalContactArea getThermalContactArea() {
         return new ThermalContactArea( getRect(), false );
+    }
+
+    @Override public void reset() {
+        super.reset();
+        energy = initialThermalEnergy;
     }
 
     /**
