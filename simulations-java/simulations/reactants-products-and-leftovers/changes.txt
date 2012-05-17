@@ -1,3 +1,4 @@
+# 1.04.00 (64221) May 17, 2012
 > changed molecule representation to match other PhET chemistry sims
 > minor changes to colors
 # 1.03.14 (64209) May 16, 2012
