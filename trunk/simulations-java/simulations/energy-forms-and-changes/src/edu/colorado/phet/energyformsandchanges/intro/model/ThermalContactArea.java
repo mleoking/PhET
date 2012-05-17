@@ -53,12 +53,23 @@ public class ThermalContactArea {
                 contactLength -= immersionRect.getWidth();
             }
         }
-        else {
-            // Test for whether any surfaces are touching.
+        else if ( !this.supportsImmersion && !that.supportsImmersion ) {
+            // Determine if there is any surfaces that are touching.
+            double xOverlap = getHorizontalOverlap( this.bounds, that.bounds );
+            double yOverlap = getVerticalOverlap( this.bounds, that.bounds );
+            if ( xOverlap > 0 &&
+                 Math.abs( this.bounds.getMaxY() - that.bounds.getMinY() ) < TOUCH_DISTANCE_THRESHOLD ||
+                 Math.abs( this.bounds.getMinY() - that.bounds.getMaxY() ) < TOUCH_DISTANCE_THRESHOLD ) {
+                contactLength = xOverlap;
+            }
+            else if ( yOverlap > 0 &&
+                      Math.abs( this.bounds.getMaxX() - that.bounds.getMinX() ) < TOUCH_DISTANCE_THRESHOLD ||
+                      Math.abs( this.bounds.getMinX() - that.bounds.getMaxX() ) < TOUCH_DISTANCE_THRESHOLD ) {
+                contactLength = xOverlap;
+            }
         }
 
         return contactLength;
-
     }
 
     /**
@@ -68,5 +79,19 @@ public class ThermalContactArea {
      */
     public double getPerimeter() {
         return bounds.getWidth() * 2 + bounds.getHeight() * 2;
+    }
+
+    // Convenience method for determining overlap of rectangles in X dimension.
+    private double getHorizontalOverlap( Rectangle2D r1, Rectangle2D r2 ) {
+        double lowestMax = Math.min( r1.getMaxX(), r2.getMaxX() );
+        double highestMin = Math.max( r1.getMinX(), r2.getMinX() );
+        return Math.max( lowestMax - highestMin, 0 );
+    }
+
+    // Convenience method for determining overlap of rectangles in X dimension.
+    private double getVerticalOverlap( Rectangle2D r1, Rectangle2D r2 ) {
+        double lowestMax = Math.min( r1.getMaxY(), r2.getMaxY() );
+        double highestMin = Math.max( r1.getMinY(), r2.getMinY() );
+        return Math.max( lowestMax - highestMin, 0 );
     }
 }
