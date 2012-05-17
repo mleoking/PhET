@@ -25,7 +25,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author John Blanco
  */
-public abstract class Block extends RectangularMovableModelElement implements EnergyContainer {
+public abstract class Block extends RectangularMovableModelElement implements ThermalEnergyContainer {
 
     // Height and width of all block surfaces, since it is a cube.
     public static final double SURFACE_WIDTH = 0.045; // In meter
@@ -41,6 +41,7 @@ public abstract class Block extends RectangularMovableModelElement implements En
     private final double density;
     private final double specificHeat;
     private final double initialThermalEnergy;
+    private final double mass;
 
     /**
      * Constructor.
@@ -56,7 +57,8 @@ public abstract class Block extends RectangularMovableModelElement implements En
         this.specificHeat = specificHeat;
         this.energyChunksVisible = energyChunksVisible;
 
-        initialThermalEnergy = Math.pow( SURFACE_WIDTH, 3 ) * density * specificHeat * EFACConstants.ROOM_TEMPERATURE;
+        mass = Math.pow( SURFACE_WIDTH, 3 ) * density;
+        initialThermalEnergy = mass * specificHeat * EFACConstants.ROOM_TEMPERATURE;
 
         // Update the top and bottom surfaces whenever the position changes.
         position.addObserver( new VoidFunction1<ImmutableVector2D>() {
@@ -134,7 +136,7 @@ public abstract class Block extends RectangularMovableModelElement implements En
         energy += deltaEnergy;
     }
 
-    public void exchangeEnergyWith( EnergyContainer energyContainer ) {
+    public void exchangeEnergyWith( ThermalEnergyContainer energyContainer ) {
         System.out.println( "Call to stubbed routine." );
     }
 
@@ -144,6 +146,10 @@ public abstract class Block extends RectangularMovableModelElement implements En
 
     public ThermalContactArea getThermalContactArea() {
         return new ThermalContactArea( getRect(), false );
+    }
+
+    public double getTemperature() {
+        return energy / ( mass * specificHeat );
     }
 
     @Override public void reset() {

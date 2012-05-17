@@ -71,7 +71,7 @@ public class EFACIntroModel {
     public final BooleanProperty energyChunksVisible = new BooleanProperty( false );
 
     // List of model element that can contain and exchange energy.
-    private List<EnergyContainer> energyContainerList = new ArrayList<EnergyContainer>();
+    private List<ThermalEnergyContainer> energyContainerList = new ArrayList<ThermalEnergyContainer>();
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -202,8 +202,8 @@ public class EFACIntroModel {
 
         // Loop through all the energy containers and have them exchange energy
         // with one another.
-        for ( EnergyContainer ec1 : energyContainerList ) {
-            for ( EnergyContainer ec2 : energyContainerList.subList( energyContainerList.indexOf( ec1 ) + 1, energyContainerList.size() ) ) {
+        for ( ThermalEnergyContainer ec1 : energyContainerList ) {
+            for ( ThermalEnergyContainer ec2 : energyContainerList.subList( energyContainerList.indexOf( ec1 ) + 1, energyContainerList.size() ) ) {
                 ec1.exchangeEnergyWith( ec2 );
             }
         }

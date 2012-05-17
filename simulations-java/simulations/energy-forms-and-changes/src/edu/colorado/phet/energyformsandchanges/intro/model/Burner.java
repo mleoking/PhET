@@ -15,7 +15,7 @@ import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
  *
  * @author John Blanco
  */
-public class Burner extends ModelElement implements EnergyContainer {
+public class Burner extends ModelElement implements ThermalEnergyContainer {
 
     //-------------------------------------------------------------------------
     // Class Data
@@ -32,9 +32,9 @@ public class Burner extends ModelElement implements EnergyContainer {
     private static final double ENERGY_TRANSFER_AREA_WIDTH = WIDTH / 2;
     private static final double ENERGY_TRANSFER_AREA_HEIGHT = ENERGY_TRANSFER_AREA_WIDTH;
     private static final double DENSITY = 1; // In g/cm^3
+    private static final double MASS = ENERGY_TRANSFER_AREA_WIDTH * ENERGY_TRANSFER_AREA_WIDTH * ENERGY_TRANSFER_AREA_HEIGHT * DENSITY;
     private static final double SPECIFIC_HEAT = 4.186; // In J/gK
-    private static final double INITIAL_ENERGY = ENERGY_TRANSFER_AREA_WIDTH * ENERGY_TRANSFER_AREA_WIDTH *
-                                                 ENERGY_TRANSFER_AREA_HEIGHT * DENSITY * SPECIFIC_HEAT * EFACConstants.ROOM_TEMPERATURE;
+    private static final double INITIAL_ENERGY = MASS * SPECIFIC_HEAT * EFACConstants.ROOM_TEMPERATURE;
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -98,7 +98,7 @@ public class Burner extends ModelElement implements EnergyContainer {
         return energy;
     }
 
-    public void exchangeEnergyWith( EnergyContainer energyContainer ) {
+    public void exchangeEnergyWith( ThermalEnergyContainer energyContainer ) {
         double thermalContactLength = getThermalContactArea().getThermalContactLength( energyContainer.getThermalContactArea() );
         if ( thermalContactLength > 0 ) {
             System.out.println( "Non-zero thermalContactLength = " + thermalContactLength );
@@ -115,6 +115,10 @@ public class Burner extends ModelElement implements EnergyContainer {
                                                                      ENERGY_TRANSFER_AREA_WIDTH,
                                                                      ENERGY_TRANSFER_AREA_HEIGHT );
         return new ThermalContactArea( thermalContactAreaRect, true );
+    }
+
+    public double getTemperature() {
+        return energy / ( MASS * SPECIFIC_HEAT );
     }
 
     @Override public void reset() {

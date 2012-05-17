@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
  *
  * @author John Blanco
  */
-public interface EnergyContainer {
+public interface ThermalEnergyContainer {
 
     /**
      * Change the amount of energy contained.  This is used to both add and
@@ -37,7 +37,7 @@ public interface EnergyContainer {
      *
      * @param energyContainer
      */
-    void exchangeEnergyWith( EnergyContainer energyContainer );
+    void exchangeEnergyWith( ThermalEnergyContainer energyContainer );
 
     /**
      * Get the area that can be used to test whether one energy container is in
@@ -46,6 +46,13 @@ public interface EnergyContainer {
      * @return
      */
     ThermalContactArea getThermalContactArea();
+
+    /**
+     * Get the temperature of the element.
+     *
+     * @return
+     */
+    double getTemperature();
 
     /**
      * Get the list of 'energy chunks' that are owned by this container.  These

@@ -22,7 +22,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author John Blanco
  */
-public class Beaker extends RectangularMovableModelElement implements EnergyContainer {
+public class Beaker extends RectangularMovableModelElement implements ThermalEnergyContainer {
 
     //-------------------------------------------------------------------------
     // Class Data
@@ -34,11 +34,12 @@ public class Beaker extends RectangularMovableModelElement implements EnergyCont
 
     private static final double NON_DISPLACED_FLUID_LEVEL = 0.5;
 
-    private static final double SPECIFIC_HEAT = 4.186; // In J/gK, source = design document.
-    private static final double DENSITY = 1.0; // In g/cm^3, source = design document (and common knowledge).
+    private static final double FLUID_SPECIFIC_HEAT = 4.186; // In J/gK, source = design document.
+    private static final double FLUID_DENSITY = 1.0; // In g/cm^3, source = design document (and common knowledge).
     private static final double FLUID_VOLUME = Math.PI * WIDTH / 2 * NON_DISPLACED_FLUID_LEVEL * HEIGHT;
+    private static final double FLUID_MASS = FLUID_VOLUME * FLUID_DENSITY;
 
-    private static final double INITIAL_THERMAL_ENERGY = DENSITY * FLUID_VOLUME * SPECIFIC_HEAT * EFACConstants.ROOM_TEMPERATURE;
+    private static final double INITIAL_THERMAL_ENERGY = FLUID_DENSITY * FLUID_VOLUME * FLUID_SPECIFIC_HEAT * EFACConstants.ROOM_TEMPERATURE;
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -179,7 +180,7 @@ public class Beaker extends RectangularMovableModelElement implements EnergyCont
         energy += deltaEnergy;
     }
 
-    public void exchangeEnergyWith( EnergyContainer energyContainer ) {
+    public void exchangeEnergyWith( ThermalEnergyContainer energyContainer ) {
         System.out.println( "Call to stubbed routine." );
     }
 
@@ -189,6 +190,10 @@ public class Beaker extends RectangularMovableModelElement implements EnergyCont
 
     public ThermalContactArea getThermalContactArea() {
         return new ThermalContactArea( getRect(), false );
+    }
+
+    public double getTemperature() {
+        return energy / ( FLUID_MASS * FLUID_SPECIFIC_HEAT );
     }
 
     @Override public void reset() {
