@@ -7,6 +7,7 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
+import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 
 /**
  * Model element that represents a burner in the simulation.  The burner can
@@ -24,6 +25,17 @@ public class Burner extends ModelElement implements EnergyContainer {
     private static final double HEIGHT = WIDTH;
     private static final double MAX_ENERGY_GENERATION_RATE = 1; // joules/sec TODO: Needs tweaking.
 
+    // Constants that define the energy transfer behavior.  This is modeled as
+    // though there was a block just above the burner, and it heats up, and
+    // then transfers energy to anything on top of it and/or to the surrounding
+    // air.
+    private static final double ENERGY_TRANSFER_AREA_WIDTH = WIDTH / 2;
+    private static final double ENERGY_TRANSFER_AREA_HEIGHT = ENERGY_TRANSFER_AREA_WIDTH;
+    private static final double DENSITY = 1; // In g/cm^3
+    private static final double SPECIFIC_HEAT = 4.186; // In J/gK
+    private static final double INITIAL_ENERGY = ENERGY_TRANSFER_AREA_WIDTH * ENERGY_TRANSFER_AREA_WIDTH *
+                                                 ENERGY_TRANSFER_AREA_HEIGHT * DENSITY * SPECIFIC_HEAT * EFACConstants.ROOM_TEMPERATURE;
+
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
@@ -35,7 +47,7 @@ public class Burner extends ModelElement implements EnergyContainer {
     public final Property<Double> heatCoolLevel = new Property<Double>( 0.0 );
     private Property<HorizontalSurface> topSurface;
 
-    private double energy = 0; // TODO: Need to determine initial value.
+    private double energy = INITIAL_ENERGY;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -103,6 +115,11 @@ public class Burner extends ModelElement implements EnergyContainer {
                                                                      burnerRect.getWidth() / 2,
                                                                      burnerRect.getHeight() / 2 );
         return new ThermalContactArea( thermalContactAreaRect, true );
+    }
+
+    @Override public void reset() {
+        super.reset();
+        energy = INITIAL_ENERGY;
     }
 
     public ObservableList<EnergyChunk> getEnergyChunkList() {
