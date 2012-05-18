@@ -19,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 
 /**
  * Primary model class for the "Intro" tab of the Energy Forms and Changes
@@ -199,6 +200,30 @@ public class EFACIntroModel {
         // internally producing or consuming.
         leftBurner.updateInternallyProducedEnergy( dt );
         rightBurner.updateInternallyProducedEnergy( dt );
+
+        // Update the temperature seen by the thermometers.
+        for ( Thermometer thermometer : Arrays.asList( thermometer1, thermometer2 ) ) {
+            if ( beaker.getThermalContactArea().getBounds().contains( thermometer.position.get().toPoint2D() ) ) {
+                thermometer.sensedTemperature.set( beaker.getTemperature() );
+            }
+            else if ( brick.getRect().contains( thermometer.position.get().toPoint2D() ) ) {
+                thermometer.sensedTemperature.set( brick.getTemperature() );
+            }
+            else if ( leadBlock.getRect().contains( thermometer.position.get().toPoint2D() ) ) {
+                thermometer.sensedTemperature.set( brick.getTemperature() );
+            }
+            else if ( leftBurner.getThermalContactArea().getBounds().contains( thermometer.position.get().toPoint2D() ) ) {
+                thermometer.sensedTemperature.set( leftBurner.getTemperature() );
+            }
+            else if ( rightBurner.getThermalContactArea().getBounds().contains( thermometer.position.get().toPoint2D() ) ) {
+                thermometer.sensedTemperature.set( rightBurner.getTemperature() );
+            }
+            else {
+                // Not touching any elements, set to air temp.
+                // TODO: Need to use air temp instead of room temp eventually.
+                thermometer.sensedTemperature.set( EFACConstants.ROOM_TEMPERATURE );
+            }
+        }
 
         // Loop through all the energy containers and have them exchange energy
         // with one another.
