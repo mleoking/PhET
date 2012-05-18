@@ -23,6 +23,10 @@ public class ThermalContactArea {
         this.supportsImmersion = supportsImmersion;
     }
 
+    public Rectangle2D getBounds() {
+        return bounds;
+    }
+
     /**
      * Get the amount of thermal contact that exists between this and another
      * thermal area.  Since thermal contact areas are 2D, the amount of
