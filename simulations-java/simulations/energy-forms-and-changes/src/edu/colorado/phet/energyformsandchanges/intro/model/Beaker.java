@@ -181,7 +181,7 @@ public class Beaker extends RectangularMovableModelElement implements ThermalEne
     }
 
     public void exchangeEnergyWith( ThermalEnergyContainer energyContainer, double dt ) {
-        System.out.println( "Call to stubbed routine." );
+        // TODO: This is stubbed.
     }
 
     public double getEnergy() {

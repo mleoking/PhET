@@ -138,7 +138,7 @@ public abstract class Block extends RectangularMovableModelElement implements Th
     }
 
     public void exchangeEnergyWith( ThermalEnergyContainer energyContainer, double dt ) {
-        System.out.println( "Call to stubbed routine." );
+        // TODO: This is stubbed.
     }
 
     public double getEnergy() {
