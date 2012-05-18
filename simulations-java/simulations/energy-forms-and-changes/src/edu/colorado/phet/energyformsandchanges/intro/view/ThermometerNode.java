@@ -34,8 +34,8 @@ public class ThermometerNode extends PComposite {
     // Constants that define the size and relative position of the triangle.
     // These values will need tweaking if the images used for the thermometer
     // are changed.
-    private static final double TRIANGLE_SIDE_SIZE = 22; // In screen coordinates, which is close to pixels.
-    private static final Dimension2D TRIANGLE_TIP_OFFSET_FROM_THERMOMETER_CENTER = new PDimension( -40, 47 );
+    private static final double TRIANGLE_SIDE_SIZE = 15; // In screen coordinates, which is close to pixels.
+    private static final Dimension2D TRIANGLE_TIP_OFFSET_FROM_THERMOMETER_CENTER = new PDimension( -35, 47 );
 
     private final Thermometer thermometer;
 
