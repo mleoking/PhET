@@ -79,15 +79,6 @@ public class ThermalContactArea {
         return contactLength;
     }
 
-    /**
-     * Convenience function for getting outer perimeter of the bounds.
-     *
-     * @return
-     */
-    public double getPerimeter() {
-        return bounds.getWidth() * 2 + bounds.getHeight() * 2;
-    }
-
     // Convenience method for determining overlap of rectangles in X dimension.
     private double getHorizontalOverlap( Rectangle2D r1, Rectangle2D r2 ) {
         double lowestMax = Math.min( r1.getMaxX(), r2.getMaxX() );

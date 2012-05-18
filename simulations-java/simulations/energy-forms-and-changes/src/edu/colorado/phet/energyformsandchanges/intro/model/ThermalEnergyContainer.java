@@ -10,6 +10,9 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
  */
 public interface ThermalEnergyContainer {
 
+    // Threshold for deciding when two temperatures can be considered equal.
+    public static final double TEMPERATURES_EQUAL_THRESHOLD = 1E-6; // In Kelvin.
+
     /**
      * Change the amount of energy contained.  This is used to both add and
      * remove energy.

@@ -23,7 +23,7 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
 
     private static final double WIDTH = 0.075; // In meters.
     private static final double HEIGHT = WIDTH;
-    private static final double MAX_ENERGY_GENERATION_RATE = 1; // joules/sec TODO: Needs tweaking.
+    private static final double MAX_ENERGY_GENERATION_RATE = 0.01; // joules/sec TODO: Needs tweaking.
 
     // Constants that define the energy transfer behavior.  This is modeled as
     // though there was a block just above the burner, and it heats up, and
@@ -101,11 +101,16 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     public void exchangeEnergyWith( ThermalEnergyContainer energyContainer, double dt ) {
         double thermalContactLength = getThermalContactArea().getThermalContactLength( energyContainer.getThermalContactArea() );
         // TODO: The following is a first attempt and likely to need much adjustment.
-        double thermalEnergyGained = ( energyContainer.getTemperature() - getTemperature() ) * thermalContactLength * 1 * dt;
-        changeEnergy( thermalEnergyGained );
-        energyContainer.changeEnergy( -thermalEnergyGained );
-        if ( thermalEnergyGained != 0 ) {
-            System.out.println( "Non-zero energy transfer, thermalEnergyGained = " + thermalEnergyGained );
+        if ( thermalContactLength > 0 && Math.abs( energyContainer.getTemperature() - getTemperature() ) > TEMPERATURES_EQUAL_THRESHOLD ) {
+            // Exchange energy between the this and the other energy container.
+            System.out.println( "---------------" );
+            System.out.println( "Temperature delta exists for items in contact." );
+            System.out.println( "this.getTemperature() = " + this.getTemperature() );
+            System.out.println( "energyContainer.getTemperature() = " + energyContainer.getTemperature() );
+            double thermalEnergyGained = ( energyContainer.getTemperature() - getTemperature() ) * thermalContactLength * 0.01 * dt;
+            changeEnergy( thermalEnergyGained );
+            energyContainer.changeEnergy( -thermalEnergyGained );
+            System.out.println( "thermalEnergyGained = " + thermalEnergyGained );
         }
     }
 
