@@ -74,7 +74,7 @@ public class ThermometerNode extends PComposite {
 
         // Add the liquid shaft, the shape of which will indicate the temperature.
         {
-            final PPath liquidShaft = new PhetPPath( Color.RED );
+            final PPath liquidShaft = new PhetPPath( new Color( 237, 28, 36 ) );
             backLayer.addChild( liquidShaft );
             // There are some tweak factors in here used to position the shaft.
             final Point2D centerOfBulb = new Point2D.Double( thermometerBack.getFullBoundsReference().getCenterX(),
