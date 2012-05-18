@@ -140,6 +140,8 @@ public class EFACIntroModel {
      * Restore the initial conditions of the model.
      */
     public void reset() {
+        leftBurner.reset();
+        rightBurner.reset();
         leadBlock.reset();
         brick.reset();
         beaker.reset();
