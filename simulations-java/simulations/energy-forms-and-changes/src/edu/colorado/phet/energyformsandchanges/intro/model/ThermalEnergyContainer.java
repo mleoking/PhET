@@ -36,8 +36,9 @@ public interface ThermalEnergyContainer {
      * gradient and do the exchange based on these conditions.
      *
      * @param energyContainer
+     * @param dt
      */
-    void exchangeEnergyWith( ThermalEnergyContainer energyContainer );
+    void exchangeEnergyWith( ThermalEnergyContainer energyContainer, double dt );
 
     /**
      * Get the area that can be used to test whether one energy container is in

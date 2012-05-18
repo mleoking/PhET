@@ -98,10 +98,14 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
         return energy;
     }
 
-    public void exchangeEnergyWith( ThermalEnergyContainer energyContainer ) {
+    public void exchangeEnergyWith( ThermalEnergyContainer energyContainer, double dt ) {
         double thermalContactLength = getThermalContactArea().getThermalContactLength( energyContainer.getThermalContactArea() );
-        if ( thermalContactLength > 0 ) {
-            System.out.println( "Non-zero thermalContactLength = " + thermalContactLength );
+        // TODO: The following is a first attempt and likely to need much adjustment.
+        double thermalEnergyGained = ( energyContainer.getTemperature() - getTemperature() ) * thermalContactLength * 1 * dt;
+        changeEnergy( thermalEnergyGained );
+        energyContainer.changeEnergy( -thermalEnergyGained );
+        if ( thermalEnergyGained != 0 ) {
+            System.out.println( "Non-zero energy transfer, thermalEnergyGained = " + thermalEnergyGained );
         }
     }
 
