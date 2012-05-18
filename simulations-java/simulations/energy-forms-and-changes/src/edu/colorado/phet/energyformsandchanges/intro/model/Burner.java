@@ -100,17 +100,12 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
 
     public void exchangeEnergyWith( ThermalEnergyContainer energyContainer, double dt ) {
         double thermalContactLength = getThermalContactArea().getThermalContactLength( energyContainer.getThermalContactArea() );
-        // TODO: The following is a first attempt and likely to need much adjustment.
         if ( thermalContactLength > 0 && Math.abs( energyContainer.getTemperature() - getTemperature() ) > TEMPERATURES_EQUAL_THRESHOLD ) {
             // Exchange energy between the this and the other energy container.
-            System.out.println( "---------------" );
-            System.out.println( "Temperature delta exists for items in contact." );
-            System.out.println( "this.getTemperature() = " + this.getTemperature() );
-            System.out.println( "energyContainer.getTemperature() = " + energyContainer.getTemperature() );
+            // TODO: The following is a first attempt and likely to need much adjustment.
             double thermalEnergyGained = ( energyContainer.getTemperature() - getTemperature() ) * thermalContactLength * 0.01 * dt;
             changeEnergy( thermalEnergyGained );
             energyContainer.changeEnergy( -thermalEnergyGained );
-            System.out.println( "thermalEnergyGained = " + thermalEnergyGained );
         }
     }
 
