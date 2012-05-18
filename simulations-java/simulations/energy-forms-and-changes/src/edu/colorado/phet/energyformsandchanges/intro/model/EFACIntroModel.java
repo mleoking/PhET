@@ -203,24 +203,17 @@ public class EFACIntroModel {
 
         // Update the temperature seen by the thermometers.
         for ( Thermometer thermometer : Arrays.asList( thermometer1, thermometer2 ) ) {
-            if ( beaker.getThermalContactArea().getBounds().contains( thermometer.position.get().toPoint2D() ) ) {
-                thermometer.sensedTemperature.set( beaker.getTemperature() );
+            boolean touchingSomething = false;
+            for ( ThermalEnergyContainer element : Arrays.asList( beaker, brick, leadBlock, leftBurner, rightBurner ) ) {
+                if ( element.getThermalContactArea().getBounds().contains( thermometer.position.get().toPoint2D() ) ) {
+                    thermometer.sensedTemperature.set( element.getTemperature() );
+                    touchingSomething = true;
+                    break;
+                }
             }
-            else if ( brick.getRect().contains( thermometer.position.get().toPoint2D() ) ) {
-                thermometer.sensedTemperature.set( brick.getTemperature() );
-            }
-            else if ( leadBlock.getRect().contains( thermometer.position.get().toPoint2D() ) ) {
-                thermometer.sensedTemperature.set( brick.getTemperature() );
-            }
-            else if ( leftBurner.getThermalContactArea().getBounds().contains( thermometer.position.get().toPoint2D() ) ) {
-                thermometer.sensedTemperature.set( leftBurner.getTemperature() );
-            }
-            else if ( rightBurner.getThermalContactArea().getBounds().contains( thermometer.position.get().toPoint2D() ) ) {
-                thermometer.sensedTemperature.set( rightBurner.getTemperature() );
-            }
-            else {
-                // Not touching any elements, set to air temp.
-                // TODO: Need to use air temp instead of room temp eventually.
+
+            if ( !touchingSomething ) {
+                // Set to the air temperature.  TODO: Uses room temperature for now, will need air temp eventually.
                 thermometer.sensedTemperature.set( EFACConstants.ROOM_TEMPERATURE );
             }
         }
