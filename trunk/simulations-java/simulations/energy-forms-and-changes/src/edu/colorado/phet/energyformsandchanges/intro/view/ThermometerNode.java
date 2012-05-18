@@ -39,8 +39,8 @@ public class ThermometerNode extends PComposite {
     private static final Dimension2D TRIANGLE_TIP_OFFSET_FROM_THERMOMETER_CENTER = new PDimension( -35, 47 );
 
     // Temperature range handled by this thermometer.  Depiction is linear.
-    private static final double MIN_TEMPERATURE = 100; // In degrees Kelvin.
-    private static final double MAX_TEMPERATURE = 373; // In degrees Kelvin.
+    private static final double MIN_TEMPERATURE = 173; // In degrees Kelvin.
+    private static final double MAX_TEMPERATURE = 450; // In degrees Kelvin.
     private static final double TEMPERATURE_RANGE = MAX_TEMPERATURE - MIN_TEMPERATURE; // In degrees Kelvin.
 
     private final Thermometer thermometer;
