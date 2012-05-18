@@ -59,6 +59,7 @@ public abstract class Block extends RectangularMovableModelElement implements Th
 
         mass = Math.pow( SURFACE_WIDTH, 3 ) * density;
         initialThermalEnergy = mass * specificHeat * EFACConstants.ROOM_TEMPERATURE;
+        energy = initialThermalEnergy;
 
         // Update the top and bottom surfaces whenever the position changes.
         position.addObserver( new VoidFunction1<ImmutableVector2D>() {
@@ -136,7 +137,7 @@ public abstract class Block extends RectangularMovableModelElement implements Th
         energy += deltaEnergy;
     }
 
-    public void exchangeEnergyWith( ThermalEnergyContainer energyContainer ) {
+    public void exchangeEnergyWith( ThermalEnergyContainer energyContainer, double dt ) {
         System.out.println( "Call to stubbed routine." );
     }
 

@@ -180,7 +180,7 @@ public class Beaker extends RectangularMovableModelElement implements ThermalEne
         energy += deltaEnergy;
     }
 
-    public void exchangeEnergyWith( ThermalEnergyContainer energyContainer ) {
+    public void exchangeEnergyWith( ThermalEnergyContainer energyContainer, double dt ) {
         System.out.println( "Call to stubbed routine." );
     }
 

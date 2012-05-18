@@ -204,7 +204,7 @@ public class EFACIntroModel {
         // with one another.
         for ( ThermalEnergyContainer ec1 : energyContainerList ) {
             for ( ThermalEnergyContainer ec2 : energyContainerList.subList( energyContainerList.indexOf( ec1 ) + 1, energyContainerList.size() ) ) {
-                ec1.exchangeEnergyWith( ec2 );
+                ec1.exchangeEnergyWith( ec2, dt );
             }
         }
     }
