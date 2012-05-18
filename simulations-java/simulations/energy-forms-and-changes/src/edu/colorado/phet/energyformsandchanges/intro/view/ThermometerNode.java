@@ -21,6 +21,7 @@ import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.intro.model.Thermometer;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -36,6 +37,11 @@ public class ThermometerNode extends PComposite {
     // are changed.
     private static final double TRIANGLE_SIDE_SIZE = 15; // In screen coordinates, which is close to pixels.
     private static final Dimension2D TRIANGLE_TIP_OFFSET_FROM_THERMOMETER_CENTER = new PDimension( -35, 47 );
+
+    // Temperature range handled by this thermometer.  Depiction is linear.
+    private static final double MIN_TEMPERATURE = 100; // In degrees Kelvin.
+    private static final double MAX_TEMPERATURE = 373; // In degrees Kelvin.
+    private static final double TEMPERATURE_RANGE = MAX_TEMPERATURE - MIN_TEMPERATURE; // In degrees Kelvin.
 
     private final Thermometer thermometer;
 
@@ -60,16 +66,36 @@ public class ThermometerNode extends PComposite {
         PNode frontLayer = new PNode();
         rootNode.addChild( frontLayer );
 
-        // Add the images for the front and back of the thermometer.
+        // Add the back of the thermomether.
+        final double imageScale = 0.85; // Tweak factor for sizing the thermometers.
+        final PImage thermometerBack = new PImage( EnergyFormsAndChangesResources.Images.THERMOMETER_BACK );
+        thermometerBack.setScale( imageScale );
+        backLayer.addChild( thermometerBack );
+
+        // Add the liquid shaft, the shape of which will indicate the temperature.
         {
-            final double imageScale = 0.85; // Tweak factor for sizing the thermometers.
-            backLayer.addChild( new PImage( EnergyFormsAndChangesResources.Images.THERMOMETER_BACK ) {{
-                setScale( imageScale );
-            }} );
-            frontLayer.addChild( new PImage( EnergyFormsAndChangesResources.Images.THERMOMETER_FRONT ) {{
-                setScale( imageScale );
-            }} );
+            final PPath liquidShaft = new PhetPPath( Color.RED );
+            backLayer.addChild( liquidShaft );
+            // There are some tweak factors in here used to position the shaft.
+            final Point2D centerOfBulb = new Point2D.Double( thermometerBack.getFullBoundsReference().getCenterX(),
+                                                             thermometerBack.getFullBoundsReference().getMaxY() - thermometerBack.getFullBoundsReference().height * 0.1 );
+            final double liquidShaftWidth = thermometerBack.getFullBoundsReference().getWidth() * 0.45;
+            final double maxLiquidShaftHeight = centerOfBulb.getY() - thermometerBack.getFullBoundsReference().getMinY() + thermometerBack.getFullBoundsReference().height * 0.05;
+            thermometer.sensedTemperature.addObserver( new VoidFunction1<Double>() {
+                public void apply( Double temperature ) {
+                    double liquidShaftHeight = MathUtil.clamp( 0, ( ( temperature - MIN_TEMPERATURE ) / TEMPERATURE_RANGE ) * maxLiquidShaftHeight, maxLiquidShaftHeight );
+                    liquidShaft.setPathTo( new Rectangle2D.Double( centerOfBulb.getX() - liquidShaftWidth / 2 + 0.75,
+                                                                   centerOfBulb.getY() - liquidShaftHeight,
+                                                                   liquidShaftWidth,
+                                                                   liquidShaftHeight ) );
+                }
+            } );
         }
+
+        // Add the image for the front of the thermometer.
+        frontLayer.addChild( new PImage( EnergyFormsAndChangesResources.Images.THERMOMETER_FRONT ) {{
+            setScale( imageScale );
+        }} );
 
         // Add the triangle that represents the point where the thermometer
         // touches the element whose temperature is being measured.  The

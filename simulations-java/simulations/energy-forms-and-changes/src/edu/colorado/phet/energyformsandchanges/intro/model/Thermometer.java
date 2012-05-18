@@ -6,6 +6,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
+import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 
 /**
  * Class that represents a thermometer in the model.  The thermometer has
@@ -15,6 +16,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentType
  * @author John Blanco
  */
 public class Thermometer extends UserMovableModelElement {
+
+    public final Property<Double> sensedTemperature = new Property<Double>( EFACConstants.ROOM_TEMPERATURE );
 
     public Thermometer( ImmutableVector2D initialPosition ) {
         super( initialPosition );
