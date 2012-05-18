@@ -35,25 +35,35 @@ public class ThermalContactArea {
      */
     public double getThermalContactLength( ThermalContactArea that ) {
 
+        double xOverlap = getHorizontalOverlap( this.bounds, that.bounds );
+        double yOverlap = getVerticalOverlap( this.bounds, that.bounds );
+
         double contactLength = 0;
-        if ( this.supportsImmersion || that.supportsImmersion && ( this.bounds.intersects( that.bounds ) ) ) {
-            // One of the thermal contact areas is partially or fully immersed
-            // within the other.  Calculate the contact length of the immersed region.
-            Rectangle2D immersionRect = this.bounds.createIntersection( that.bounds );
-            contactLength = immersionRect.getWidth() * 2 + immersionRect.getHeight() * 2;
-            if ( immersionRect.getWidth() != this.bounds.getWidth() && immersionRect.getWidth() != that.bounds.getWidth() ) {
-                // Not fully overlapping in X direction, so adjust contact length accordingly.
-                contactLength -= immersionRect.getHeight();
+        if ( xOverlap > 0 && yOverlap > 0 ) {
+            // One of the areas is overlapping another.  This should be an
+            // 'immersion' situation, i.e. one is all or partially immersed in
+            // the other.
+            if ( this.supportsImmersion || that.supportsImmersion ) {
+                Rectangle2D immersionRect = this.bounds.createIntersection( that.bounds );
+                contactLength = immersionRect.getWidth() * 2 + immersionRect.getHeight() * 2;
+                if ( immersionRect.getWidth() != this.bounds.getWidth() && immersionRect.getWidth() != that.bounds.getWidth() ) {
+                    // Not fully overlapping in X direction, so adjust contact length accordingly.
+                    contactLength -= immersionRect.getHeight();
+                }
+                if ( immersionRect.getHeight() != this.bounds.getHeight() && immersionRect.getHeight() != that.bounds.getHeight() ) {
+                    // Not fully overlapping in Y direction, so adjust contact length accordingly.
+                    contactLength -= immersionRect.getWidth();
+                }
             }
-            if ( immersionRect.getHeight() != this.bounds.getHeight() && immersionRect.getHeight() != that.bounds.getHeight() ) {
-                // Not fully overlapping in Y direction, so adjust contact length accordingly.
-                contactLength -= immersionRect.getWidth();
+            else {
+                // TODO: Not sure if this will happen, so have a printout in
+                // place to see how often it does.  Remove if noisy.
+                System.out.println( getClass().getName() + "Double overlap detected in case where neither energy container supports immersion.  Ignoring." );
             }
         }
-        else if ( !this.supportsImmersion && !that.supportsImmersion ) {
-            // Determine if there are any surfaces that are touching.
-            double xOverlap = getHorizontalOverlap( this.bounds, that.bounds );
-            double yOverlap = getVerticalOverlap( this.bounds, that.bounds );
+        else {
+            // There is overlap in one dimension but not the other, so test to
+            // see if the two containers are touching.
             if ( xOverlap > 0 &&
                  Math.abs( this.bounds.getMaxY() - that.bounds.getMinY() ) < TOUCH_DISTANCE_THRESHOLD ||
                  Math.abs( this.bounds.getMinY() - that.bounds.getMaxY() ) < TOUCH_DISTANCE_THRESHOLD ) {
