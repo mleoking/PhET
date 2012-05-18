@@ -80,7 +80,7 @@ public class ThermometerNode extends PComposite {
             final Point2D centerOfBulb = new Point2D.Double( thermometerBack.getFullBoundsReference().getCenterX(),
                                                              thermometerBack.getFullBoundsReference().getMaxY() - thermometerBack.getFullBoundsReference().height * 0.1 );
             final double liquidShaftWidth = thermometerBack.getFullBoundsReference().getWidth() * 0.45;
-            final double maxLiquidShaftHeight = centerOfBulb.getY() - thermometerBack.getFullBoundsReference().getMinY() + thermometerBack.getFullBoundsReference().height * 0.05;
+            final double maxLiquidShaftHeight = centerOfBulb.getY() - thermometerBack.getFullBoundsReference().getMinY() - thermometerBack.getFullBoundsReference().height * 0.05;
             thermometer.sensedTemperature.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double temperature ) {
                     double liquidShaftHeight = MathUtil.clamp( 0, ( ( temperature - MIN_TEMPERATURE ) / TEMPERATURE_RANGE ) * maxLiquidShaftHeight, maxLiquidShaftHeight );
