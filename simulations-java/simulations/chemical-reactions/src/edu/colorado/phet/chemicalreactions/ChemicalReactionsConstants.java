@@ -15,7 +15,7 @@ public class ChemicalReactionsConstants {
     * debugging
     *----------------------------------------------------------------------------*/
 
-    public static final boolean ENABLE_BOX2D_DEBUG_DRAW = true;
+    public static final boolean ENABLE_BOX2D_DEBUG_DRAW = false;
 
     /*---------------------------------------------------------------------------*
     * colors
