@@ -59,6 +59,8 @@ public class ChemicalReactionsCanvas extends PhetPCanvas {
         Random random = new Random( System.currentTimeMillis() );
         final MoleculeShape[] moleculeShapeOptions = {
                 MoleculeShape.H2O, MoleculeShape.H2O,
+                MoleculeShape.H2, MoleculeShape.H2,
+                MoleculeShape.O2
 //                MoleculeShape.Cl2,
 //                MoleculeShape.HCl,
 //                MoleculeShape.N2
