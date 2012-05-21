@@ -13,8 +13,8 @@ import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
  */
 public class LeadBlock extends Block {
 
-    private static final double SPECIFIC_HEAT = 0.129; // In J/gK
-    private static final double DENSITY = 11.3; // In g/cm^3, source = design document.
+    private static final double SPECIFIC_HEAT = 129; // In J/kg-K
+    private static final double DENSITY = 11300; // In kg/m^3, source = design document.
 
     protected LeadBlock( ImmutableVector2D initialPosition, BooleanProperty energyChunksVisible ) {
         super( initialPosition, DENSITY, SPECIFIC_HEAT, energyChunksVisible );
