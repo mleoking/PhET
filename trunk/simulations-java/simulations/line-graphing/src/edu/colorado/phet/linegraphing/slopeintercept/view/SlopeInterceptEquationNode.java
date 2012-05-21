@@ -60,7 +60,7 @@ class SlopeInterceptEquationNode extends PhetPNode {
             maxSlopeWidth = Math.max( maxRiseWidth, maxRunWidth );
         }
 
-        // y = mx + b
+        // y = (rise/run)x + b
         PText yNode = new PhetPText( "y", font );
         PText equalsNode = new PhetPText( "=", font );
         PNode riseSignNode = new SignNode( rise, font, LGColors.SLOPE, Color.BLACK, 1, false );
