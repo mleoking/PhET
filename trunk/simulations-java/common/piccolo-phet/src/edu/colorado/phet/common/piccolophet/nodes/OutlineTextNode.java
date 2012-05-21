@@ -80,12 +80,13 @@ public class OutlineTextNode extends PNode {
         final Color fillColor = Color.YELLOW;
         final Color strokeColor = Color.BLACK;
         final double strokeWidth = 1;
+        final int smallestFontSize = 12; // display integer multiples of this font size
 
-        // English, all alphabetical and numeric chars in various font sizes
+        // English, all letters (upper and lowercase) and numbers, in various font sizes
         PNode lastNode = null;
         for ( int i = 0; i < 5; i++ ) {
 
-            PhetFont font = new PhetFont( ( i + 1 ) * 12 );
+            PhetFont font = new PhetFont( Font.PLAIN, ( i + 1 ) * smallestFontSize );
 
             OutlineTextNode uppercaseNode = new OutlineTextNode( "ABCDEFGHIJKLMNOPQRSTUVWXYZ", font, fillColor, strokeColor, strokeWidth );
             uppercaseNode.setOffset( xMargin, ( lastNode == null ) ? yMargin : lastNode.getFullBoundsReference().getMaxY() + ySpacing );
