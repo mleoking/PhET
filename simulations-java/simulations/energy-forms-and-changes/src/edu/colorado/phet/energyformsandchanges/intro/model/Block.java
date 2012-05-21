@@ -28,7 +28,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public abstract class Block extends RectangularMovableModelElement implements ThermalEnergyContainer {
 
     // Height and width of all block surfaces, since it is a cube.
-    public static final double SURFACE_WIDTH = 0.045; // In meter
+    public static final double SURFACE_WIDTH = 0.045; // In meters
 
     private final Property<HorizontalSurface> topSurface = new Property<HorizontalSurface>( null );
     private final Property<HorizontalSurface> bottomSurface = new Property<HorizontalSurface>( null );
@@ -38,26 +38,24 @@ public abstract class Block extends RectangularMovableModelElement implements Th
 
     private double energy = 0; // In Joules.
 
-    private final double density;
-    private final double specificHeat;
+    private final double specificHeat; // In J/gK
     private final double initialThermalEnergy;
-    private final double mass;
+    private final double mass; // In grams
 
     /**
      * Constructor.
      *
      * @param initialPosition
-     * @param density
-     * @param specificHeat
+     * @param density             In g/cm^3
+     * @param specificHeat        in J/g-K
      * @param energyChunksVisible
      */
     protected Block( ImmutableVector2D initialPosition, double density, double specificHeat, BooleanProperty energyChunksVisible ) {
         super( initialPosition );
-        this.density = density;
         this.specificHeat = specificHeat;
         this.energyChunksVisible = energyChunksVisible;
 
-        mass = Math.pow( SURFACE_WIDTH, 3 ) * density;
+        mass = Math.pow( SURFACE_WIDTH * 100, 3 ) * density;
         initialThermalEnergy = mass * specificHeat * EFACConstants.ROOM_TEMPERATURE;
         energy = initialThermalEnergy;
 
@@ -145,6 +143,8 @@ public abstract class Block extends RectangularMovableModelElement implements Th
             double thermalEnergyGained = ( energyContainer.getTemperature() - getTemperature() ) * thermalContactLength * 0.01 * dt;
             changeEnergy( thermalEnergyGained );
             energyContainer.changeEnergy( -thermalEnergyGained );
+            System.out.println( "thermalEnergyGained = " + thermalEnergyGained );
+
         }
     }
 
