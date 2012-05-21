@@ -87,19 +87,19 @@ public class OutlineTextNode extends PNode {
 
             PhetFont font = new PhetFont( ( i + 1 ) * 12 );
 
-            OutlineTextNode node1 = new OutlineTextNode( "ABCDEFGHIJKLMNOPQRSTUVWXYZ", font, fillColor, strokeColor, strokeWidth );
-            node1.setOffset( xMargin, ( lastNode == null ) ? yMargin : lastNode.getFullBoundsReference().getMaxY() + ySpacing );
-            canvas.addWorldChild( node1 );
+            OutlineTextNode uppercaseNode = new OutlineTextNode( "ABCDEFGHIJKLMNOPQRSTUVWXYZ", font, fillColor, strokeColor, strokeWidth );
+            uppercaseNode.setOffset( xMargin, ( lastNode == null ) ? yMargin : lastNode.getFullBoundsReference().getMaxY() + ySpacing );
+            canvas.addWorldChild( uppercaseNode );
 
-            OutlineTextNode node2 = new OutlineTextNode( "abcdefghijklmnopqrstuvwxyz", font, fillColor, strokeColor, strokeWidth );
-            node2.setOffset( xMargin, node1.getFullBoundsReference().getMaxY() + ySpacing );
-            canvas.addWorldChild( node2 );
+            OutlineTextNode lowercaseNode = new OutlineTextNode( "abcdefghijklmnopqrstuvwxyz", font, fillColor, strokeColor, strokeWidth );
+            lowercaseNode.setOffset( xMargin, uppercaseNode.getFullBoundsReference().getMaxY() + ySpacing );
+            canvas.addWorldChild( lowercaseNode );
 
-            OutlineTextNode node3 = new OutlineTextNode( "0123456789", font, fillColor, strokeColor, strokeWidth );
-            node3.setOffset( xMargin, node2.getFullBoundsReference().getMaxY() + ySpacing );
-            canvas.addWorldChild( node3 );
+            OutlineTextNode numbersNode = new OutlineTextNode( "0123456789", font, fillColor, strokeColor, strokeWidth );
+            numbersNode.setOffset( xMargin, lowercaseNode.getFullBoundsReference().getMaxY() + ySpacing );
+            canvas.addWorldChild( numbersNode );
 
-            lastNode = node3;
+            lastNode = numbersNode;
         }
 
         // Arabic
