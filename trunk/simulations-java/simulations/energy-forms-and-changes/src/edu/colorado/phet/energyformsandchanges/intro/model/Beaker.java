@@ -36,8 +36,8 @@ public class Beaker extends RectangularMovableModelElement implements ThermalEne
 
     private static final double FLUID_SPECIFIC_HEAT = 4.186; // In J/gK, source = design document.
     private static final double FLUID_DENSITY = 1.0; // In g/cm^3, source = design document (and common knowledge).
-    private static final double FLUID_VOLUME = Math.PI * WIDTH / 2 * NON_DISPLACED_FLUID_LEVEL * HEIGHT;
-    private static final double FLUID_MASS = FLUID_VOLUME * FLUID_DENSITY;
+    private static final double FLUID_VOLUME = Math.PI * Math.pow( WIDTH * 100 / 2, 2 ) * NON_DISPLACED_FLUID_LEVEL; // In cm^3
+    private static final double FLUID_MASS = FLUID_VOLUME * FLUID_DENSITY; // In grams (g)
 
     private static final double INITIAL_THERMAL_ENERGY = FLUID_DENSITY * FLUID_VOLUME * FLUID_SPECIFIC_HEAT * EFACConstants.ROOM_TEMPERATURE;
 
@@ -188,6 +188,7 @@ public class Beaker extends RectangularMovableModelElement implements ThermalEne
             double thermalEnergyGained = ( energyContainer.getTemperature() - getTemperature() ) * thermalContactLength * 0.01 * dt;
             changeEnergy( thermalEnergyGained );
             energyContainer.changeEnergy( -thermalEnergyGained );
+            System.out.println( "thermalEnergyGained = " + thermalEnergyGained );
         }
     }
 
