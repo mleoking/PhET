@@ -111,17 +111,5 @@ abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
             double rise = MathUtil.clamp( mvt.viewToModelDeltaY( pMouse.getY() - clickYOffset ) - line.get().intercept, riseRange.get() );
             line.set( new SlopeInterceptLine( rise, run, line.get().intercept, LGColors.INTERACTIVE_LINE ) );
         }
-
-        // Don't allow slope and intercept to overlap (slope=0/0), snap rise towards the origin (above or below intercept)
-        @Override protected void endDrag( PInputEvent event ) {
-            super.endDrag( event );
-            if ( line.get().rise == 0 && line.get().run == 0 ) {
-                double newRise = line.get().rise - 1;
-                if ( line.get().intercept < 0 ) {
-                    newRise = line.get().rise + 1;
-                }
-                line.set( new SlopeInterceptLine( newRise, line.get().run, line.get().intercept, LGColors.INTERACTIVE_LINE ) );
-            }
-        }
     }
 }

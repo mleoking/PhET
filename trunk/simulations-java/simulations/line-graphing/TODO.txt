@@ -7,7 +7,6 @@ DESIGN
 
 HIGH
 - implement Point-Slope tab
-- prevent slope=0/0 in the interactive equation by skipping over 0. This also affects dynamic range.
 
 MEDIUM
 - replace shaped-based picker buttons with images to be provided by AP

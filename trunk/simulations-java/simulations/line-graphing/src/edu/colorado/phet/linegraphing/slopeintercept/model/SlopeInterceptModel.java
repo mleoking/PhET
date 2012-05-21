@@ -44,7 +44,28 @@ public class SlopeInterceptModel implements Resettable {
         runRange = new Property<DoubleRange>( new DoubleRange( -10, 10, 2 ) );
         interceptRange = new Property<DoubleRange>( new DoubleRange( -10, 10, 2 ) );
 
-        interactiveLine = new Property<SlopeInterceptLine>( new SlopeInterceptLine( riseRange.get().getDefault(), runRange.get().getDefault(), interceptRange.get().getDefault(), LGColors.INTERACTIVE_LINE ) );
+        interactiveLine = new Property<SlopeInterceptLine>( new SlopeInterceptLine( riseRange.get().getDefault(), runRange.get().getDefault(), interceptRange.get().getDefault(), LGColors.INTERACTIVE_LINE ) ) {
+            @Override public void set( SlopeInterceptLine line ) {
+                double newRise = line.rise;
+                double newRun = line.run;
+                // Skip over values that would result in slope=0/0
+                if ( line.rise == 0 && line.run == 0 ) {
+                    if ( get().run != 0 ) {
+                        // run changed, skip over run = 0
+                        newRun = ( get().run > 0 ) ? -1 : 1;
+                    }
+                    else if ( get().rise != 0 ) {
+                        // rise changed, skip over rise = 0
+                        newRise = ( get().rise > 0 ) ? -1 : 1;
+                    }
+                    else {
+                        // rise and run haven't changed, arbitrarily move rise toward origin
+                        newRise = ( get().intercept > 0 ) ? -1 : 1;
+                    }
+                }
+                super.set( new SlopeInterceptLine( newRise, newRun, line.intercept, line.color, line.highlightColor ) );
+            }
+        };
         savedLines = new ObservableList<SlopeInterceptLine>();
         standardLines = new ObservableList<SlopeInterceptLine>();
 
