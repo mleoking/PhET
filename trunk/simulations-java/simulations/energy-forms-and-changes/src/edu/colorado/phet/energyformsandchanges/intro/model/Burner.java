@@ -106,10 +106,6 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
             double thermalEnergyGained = ( energyContainer.getTemperature() - getTemperature() ) * thermalContactLength * 2000 * dt;
             changeEnergy( thermalEnergyGained );
             energyContainer.changeEnergy( -thermalEnergyGained );
-            System.out.println( "-------------------------------" );
-            System.out.println( "burner temp = " + getTemperature() );
-            System.out.println( "temp of thing on burner = " + energyContainer.getTemperature() );
-            System.out.println( "temperature difference = " + ( getTemperature() - energyContainer.getTemperature() ) );
         }
     }
 
