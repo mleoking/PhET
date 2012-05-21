@@ -65,7 +65,7 @@ public class ThermalContactArea {
                 System.out.println( getClass().getName() + "Double overlap detected in case where neither energy container supports immersion.  Ignoring." );
             }
         }
-        else {
+        else if ( xOverlap > 0 || yOverlap > 0 ) {
             // There is overlap in one dimension but not the other, so test to
             // see if the two containers are touching.
             if ( xOverlap > 0 &&
