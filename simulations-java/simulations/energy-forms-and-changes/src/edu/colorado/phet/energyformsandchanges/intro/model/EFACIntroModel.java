@@ -33,9 +33,6 @@ public class EFACIntroModel {
     // Class Data
     //-------------------------------------------------------------------------
 
-    // Size of the lab table top.
-    private static final double LAB_TABLE_WIDTH = 0.5; // In meters.
-
     // Minimum distance allowed between two objects.  The basically prevents
     // floating point issues.
     private static final double MIN_INTER_ELEMENT_DISTANCE = 1E-9; // In meters.
