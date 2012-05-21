@@ -69,7 +69,7 @@ public class OutlineTextNode extends PNode {
      */
     public static void main( String[] args ) {
 
-        final Dimension stageSize = new Dimension( 1280, 600 );
+        final Dimension stageSize = new Dimension( 850, 700 );
         PhetPCanvas canvas = new PhetPCanvas();
         canvas.setPreferredSize( stageSize );
         canvas.setWorldTransformStrategy( new PhetPCanvas.CenteredStage( canvas, stageSize ) );
@@ -84,25 +84,31 @@ public class OutlineTextNode extends PNode {
         OutlineTextNode outlineTextNode1 = new OutlineTextNode( "The quick brown fox jumps over the lazy dog 0123456789", new PhetFont( 24 ), Color.PINK, Color.BLACK, 1 );
         outlineTextNode1.setOffset( xMargin, outlineTextNode0.getFullBoundsReference().getMaxY() + ySpacing );
         canvas.addWorldChild( outlineTextNode1 );
-        OutlineTextNode outlineTextNode2 = new OutlineTextNode( "The quick brown fox jumps over the lazy dog 0123456789", new PhetFont( Font.BOLD, 36 ), Color.YELLOW, Color.BLACK, 1 );
-        outlineTextNode2.setOffset( xMargin, outlineTextNode1.getFullBoundsReference().getMaxY() + ySpacing );
-        canvas.addWorldChild( outlineTextNode2 );
+        OutlineTextNode outlineTextNode2a = new OutlineTextNode( "The quick brown fox jumps over", new PhetFont( Font.BOLD, 36 ), Color.YELLOW, Color.BLACK, 1 );
+        outlineTextNode2a.setOffset( xMargin, outlineTextNode1.getFullBoundsReference().getMaxY() + ySpacing );
+        canvas.addWorldChild( outlineTextNode2a );
+         OutlineTextNode outlineTextNode2b = new OutlineTextNode( "the lazy dog 0123456789", new PhetFont( Font.BOLD, 36 ), Color.YELLOW, Color.BLACK, 1 );
+        outlineTextNode2b.setOffset( xMargin, outlineTextNode2a.getFullBoundsReference().getMaxY() + ySpacing );
+        canvas.addWorldChild( outlineTextNode2b );
         OutlineTextNode outlineTextNode3a = new OutlineTextNode( "The quick brown fox jumps over", new PhetFont( Font.BOLD, 48 ), Color.GREEN, Color.BLACK, 1 );
-        outlineTextNode3a.setOffset( xMargin, outlineTextNode2.getFullBoundsReference().getMaxY() + ySpacing );
+        outlineTextNode3a.setOffset( xMargin, outlineTextNode2b.getFullBoundsReference().getMaxY() + ySpacing );
         canvas.addWorldChild( outlineTextNode3a );
         OutlineTextNode outlineTextNode3b = new OutlineTextNode( "the lazy dog 0123456789", new PhetFont( Font.BOLD, 48 ), Color.GREEN, Color.BLACK, 1 );
         outlineTextNode3b.setOffset( xMargin, outlineTextNode3a.getFullBoundsReference().getMaxY() + ySpacing );
         canvas.addWorldChild( outlineTextNode3b );
-        OutlineTextNode outlineTextNode4a = new OutlineTextNode( "The quick brown fox jumps over", new PhetFont( Font.BOLD, 72 ), Color.MAGENTA, Color.BLACK, 2 );
+        OutlineTextNode outlineTextNode4a = new OutlineTextNode( "The quick brown fox", new PhetFont( Font.BOLD, 72 ), Color.MAGENTA, Color.BLACK, 2 );
         outlineTextNode4a.setOffset( xMargin, outlineTextNode3b.getFullBoundsReference().getMaxY() + ySpacing );
         canvas.addWorldChild( outlineTextNode4a );
-        OutlineTextNode outlineTextNode4b = new OutlineTextNode( "the lazy dog 0123456789", new PhetFont( Font.BOLD, 72 ), Color.MAGENTA, Color.BLACK, 2 );
+        OutlineTextNode outlineTextNode4b = new OutlineTextNode( "jumps over the lazy", new PhetFont( Font.BOLD, 72 ), Color.MAGENTA, Color.BLACK, 2 );
         outlineTextNode4b.setOffset( xMargin, outlineTextNode4a.getFullBoundsReference().getMaxY() + ySpacing );
         canvas.addWorldChild( outlineTextNode4b );
+        OutlineTextNode outlineTextNode4c = new OutlineTextNode( "dog 0123456789", new PhetFont( Font.BOLD, 72 ), Color.MAGENTA, Color.BLACK, 2 );
+        outlineTextNode4c.setOffset( xMargin, outlineTextNode4b.getFullBoundsReference().getMaxY() + ySpacing );
+        canvas.addWorldChild( outlineTextNode4c );
 
         // Arabic
         OutlineTextNode outlineTextNode5 = new OutlineTextNode( "\uFE9D\u06B0\u06AA\uFEB5", PhetFont.getPreferredFont( new Locale( "ar" ), Font.BOLD, 64 ), Color.ORANGE, Color.BLACK, 2 );
-        outlineTextNode5.setOffset( xMargin, outlineTextNode4b.getFullBoundsReference().getMaxY() + ySpacing );
+        outlineTextNode5.setOffset( xMargin, outlineTextNode4c.getFullBoundsReference().getMaxY() + ySpacing );
         canvas.addWorldChild( outlineTextNode5 );
 
         // Chinese
