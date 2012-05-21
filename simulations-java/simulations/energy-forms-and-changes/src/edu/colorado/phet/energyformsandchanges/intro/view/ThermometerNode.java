@@ -40,7 +40,7 @@ public class ThermometerNode extends PComposite {
 
     // Temperature range handled by this thermometer.  Depiction is linear.
     private static final double MIN_TEMPERATURE = 173; // In degrees Kelvin.
-    private static final double MAX_TEMPERATURE = 450; // In degrees Kelvin.
+    private static final double MAX_TEMPERATURE = 400; // In degrees Kelvin.
     private static final double TEMPERATURE_RANGE = MAX_TEMPERATURE - MIN_TEMPERATURE; // In degrees Kelvin.
 
     private final Thermometer thermometer;
