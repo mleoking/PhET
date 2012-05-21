@@ -3,11 +3,11 @@ package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Dimension2D;
 import java.util.Locale;
 
 import javax.swing.JFrame;
@@ -17,7 +17,6 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * PNode that represents outlined text.  This is often useful for making text
@@ -70,37 +69,51 @@ public class OutlineTextNode extends PNode {
      */
     public static void main( String[] args ) {
 
-        Dimension2D STAGE_SIZE = new PDimension( 800, 600 );
+        final Dimension stageSize = new Dimension( 1280, 600 );
         PhetPCanvas canvas = new PhetPCanvas();
-        // Set up the canvas-screen transform.
-        canvas.setWorldTransformStrategy( new PhetPCanvas.CenteredStage( canvas, STAGE_SIZE ) );
+        canvas.setPreferredSize( stageSize );
+        canvas.setWorldTransformStrategy( new PhetPCanvas.CenteredStage( canvas, stageSize ) );
 
-        // Add the text.
-        OutlineTextNode outlineTextNode1 = new OutlineTextNode( "36 point plain", new PhetFont( 36 ), Color.PINK, Color.BLACK, 1 );
-        outlineTextNode1.setOffset( 50, 50 );
+        final double xMargin = 5;
+        final double ySpacing = 5;
+
+        // English, all alphabetical and numeric chars in various font sizes
+        OutlineTextNode outlineTextNode0 = new OutlineTextNode( "The quick brown fox jumps over the lazy dog 0123456789", new PhetFont( 12 ), Color.ORANGE, Color.BLACK, 1 );
+        outlineTextNode0.setOffset( xMargin, 25 );
+        canvas.addWorldChild( outlineTextNode0 );
+        OutlineTextNode outlineTextNode1 = new OutlineTextNode( "The quick brown fox jumps over the lazy dog 0123456789", new PhetFont( 24 ), Color.PINK, Color.BLACK, 1 );
+        outlineTextNode1.setOffset( xMargin, outlineTextNode0.getFullBoundsReference().getMaxY() + ySpacing );
         canvas.addWorldChild( outlineTextNode1 );
-        OutlineTextNode outlineTextNode2 = new OutlineTextNode( "48 point bold", new PhetFont( 48, true ), Color.YELLOW, Color.BLACK, 1 );
-        outlineTextNode2.setOffset( 50, 100 );
+        OutlineTextNode outlineTextNode2 = new OutlineTextNode( "The quick brown fox jumps over the lazy dog 0123456789", new PhetFont( Font.BOLD, 36 ), Color.YELLOW, Color.BLACK, 1 );
+        outlineTextNode2.setOffset( xMargin, outlineTextNode1.getFullBoundsReference().getMaxY() + ySpacing );
         canvas.addWorldChild( outlineTextNode2 );
-        OutlineTextNode outlineTextNode3 = new OutlineTextNode( "24 point bold", new PhetFont( 24, true ), Color.GREEN, Color.BLACK, 1 );
-        outlineTextNode3.setOffset( 50, 150 );
-        canvas.addWorldChild( outlineTextNode3 );
-        OutlineTextNode outlineTextNode4 = new OutlineTextNode( "72 point bold", new PhetFont( 72, true ), Color.MAGENTA, Color.BLACK, 2 );
-        outlineTextNode4.setOffset( 50, 250 );
-        canvas.addWorldChild( outlineTextNode4 );
+        OutlineTextNode outlineTextNode3a = new OutlineTextNode( "The quick brown fox jumps over", new PhetFont( Font.BOLD, 48 ), Color.GREEN, Color.BLACK, 1 );
+        outlineTextNode3a.setOffset( xMargin, outlineTextNode2.getFullBoundsReference().getMaxY() + ySpacing );
+        canvas.addWorldChild( outlineTextNode3a );
+        OutlineTextNode outlineTextNode3b = new OutlineTextNode( "the lazy dog 0123456789", new PhetFont( Font.BOLD, 48 ), Color.GREEN, Color.BLACK, 1 );
+        outlineTextNode3b.setOffset( xMargin, outlineTextNode3a.getFullBoundsReference().getMaxY() + ySpacing );
+        canvas.addWorldChild( outlineTextNode3b );
+        OutlineTextNode outlineTextNode4a = new OutlineTextNode( "The quick brown fox jumps over", new PhetFont( Font.BOLD, 72 ), Color.MAGENTA, Color.BLACK, 2 );
+        outlineTextNode4a.setOffset( xMargin, outlineTextNode3b.getFullBoundsReference().getMaxY() + ySpacing );
+        canvas.addWorldChild( outlineTextNode4a );
+        OutlineTextNode outlineTextNode4b = new OutlineTextNode( "the lazy dog 0123456789", new PhetFont( Font.BOLD, 72 ), Color.MAGENTA, Color.BLACK, 2 );
+        outlineTextNode4b.setOffset( xMargin, outlineTextNode4a.getFullBoundsReference().getMaxY() + ySpacing );
+        canvas.addWorldChild( outlineTextNode4b );
+
+        // Arabic
         OutlineTextNode outlineTextNode5 = new OutlineTextNode( "\uFE9D\u06B0\u06AA\uFEB5", PhetFont.getPreferredFont( new Locale( "ar" ), Font.BOLD, 64 ), Color.ORANGE, Color.BLACK, 2 );
-        outlineTextNode5.setOffset( 50, outlineTextNode4.getFullBoundsReference().getMaxY() );
+        outlineTextNode5.setOffset( xMargin, outlineTextNode4b.getFullBoundsReference().getMaxY() + ySpacing );
         canvas.addWorldChild( outlineTextNode5 );
+
+        // Chinese
         OutlineTextNode outlineTextNode6 = new OutlineTextNode( "\u4e2d\u56fd\u8bdd\u4e0d", PhetFont.getPreferredFont( new Locale( "zh" ), Font.BOLD, 64 ), Color.CYAN, Color.BLACK, 2 );
-        outlineTextNode6.setOffset( 50, outlineTextNode5.getFullBoundsReference().getMaxY() + 20 );
+        outlineTextNode6.setOffset( xMargin, outlineTextNode5.getFullBoundsReference().getMaxY() + ySpacing );
         canvas.addWorldChild( outlineTextNode6 );
 
-        outlineTextNode1.setText( "New thing." );
-
         // Boiler plate Piccolo app stuff.
-        JFrame frame = new JFrame( "Outline Text Test" );
+        JFrame frame = new JFrame( "OutlineTextNode.main" );
         frame.setContentPane( canvas );
-        frame.setSize( (int) STAGE_SIZE.getWidth(), (int) STAGE_SIZE.getHeight() );
+        frame.pack();
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setLocationRelativeTo( null ); // Center.
         frame.setVisible( true );
