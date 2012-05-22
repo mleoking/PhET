@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--geometric-optics-strings_ar.xml created Thu May 17 09:14:44 GMT+01:00 2012 using: geometric-optics 2.05.00 (52650), translation-utility 2.13.00 (59150) déc. 8, 2011-->
+<SimStrings>
+<string key="draggableScreen" value="شاشة متحركة"/>
+<string key="draggableLens" value="عدسة متحركة"/>
+<string key="screen" value="شاشة"/>
+<string key="draggableRuler" value="مسطرة متحركة"/>
+<string key="simTitle" value="هندسة البصريات"/>
+<string key="showHelp" value="إاظهار المساعدة"/>
+<string key="moveMe" value="!تحريك"/>
+<string key="showGuides" value="إظهار التوجيه"/>
+<string key="diameter" value="قطر-متر"/>
+<string key="ruler" value="مسطرة"/>
+<string key="focalPoint" value="البؤرة"/>
+<string key="curvatureRadius" value="نصف قطر الانحناء-متر"/>
+<string key="changeObject" value="تغيير الجسم"/>
+<string key="principalRays" value="الأشعة الرئيسية"/>
+<string key="marginalRays" value="أشعة هامشية"/>
+<string key="virtualImage" value="صورة خيالية"/>
+<string key="noRays" value="بدون أشعة"/>
+<string key="secondSource" value="نقطة ثانية"/>
+<string key="hideHelp" value="إخفاء المساعدة"/>
+<string key="refractiveIndex" value="معامل الانكسار"/>
+<string key="translation.credits" value="عزيزة خرواع"/>
+<string key="manyRays" value="أشعة متعددة"/>
+</SimStrings>
