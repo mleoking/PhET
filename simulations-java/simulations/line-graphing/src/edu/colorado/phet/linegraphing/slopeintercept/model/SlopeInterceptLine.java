@@ -19,13 +19,14 @@ public class SlopeInterceptLine extends StraightLine {
 
     public final double intercept;
 
-    public SlopeInterceptLine( double rise, double run, double intercept, Color color ) {
-        this( rise, run, intercept, color, color );
-    }
-
     public SlopeInterceptLine( double rise, double run, double intercept, Color color, Color highlightColor ) {
         super( rise, run, color, highlightColor );
         this.intercept = intercept;
+    }
+
+    // Line with identical color and highlight color.
+    public SlopeInterceptLine( double rise, double run, double intercept, Color color ) {
+        this( rise, run, intercept, color, color );
     }
 
     // Duplicates a line with different colors
@@ -43,6 +44,11 @@ public class SlopeInterceptLine extends StraightLine {
     public double solveX( double y ) {
         assert ( rise != 0 && run != 0 );
         return ( y - intercept ) / ( rise / run );
+    }
+
+    // Gets the y intercept.
+    public double getIntercept() {
+        return intercept;
     }
 
     @Override public String toString() {

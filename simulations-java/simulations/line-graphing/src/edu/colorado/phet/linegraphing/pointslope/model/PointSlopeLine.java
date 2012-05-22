@@ -16,14 +16,15 @@ public class PointSlopeLine extends StraightLine {
 
     private final double x1, y1;
 
-    public PointSlopeLine( double x1, double y1, double rise, double run, Color color ) {
-        this( x1, y1, rise, run, color, color );
-    }
-
     public PointSlopeLine( double x1, double y1, double rise, double run, Color color, Color highlightColor ) {
         super( rise, run, color, highlightColor );
         this.x1 = x1;
         this.y1 = y1;
+    }
+
+    // Line with identical color and highlight color.
+    public PointSlopeLine( double x1, double y1, double rise, double run, Color color ) {
+        this( x1, y1, rise, run, color, color );
     }
 
     // Duplicates a line with different colors
@@ -41,6 +42,11 @@ public class PointSlopeLine extends StraightLine {
     public double solveX( double y ) {
         assert( rise != 0 && run != 0);
         return ( ( y - y1 ) / ( rise / run ) ) + x1;
+    }
+
+    // Gets the y intercept.
+    public double getIntercept() {
+        return solveY( 0 );
     }
 
     @Override public String toString() {
