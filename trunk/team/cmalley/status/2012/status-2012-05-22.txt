@@ -1,0 +1,45 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: May 8-22, 2011
+
+Beer's Law Lab
+- met with JC to discuss loose ends
+- addressed all code review comments, #3322
+- published 1.01 to PhET website, first public version
+- published 1.02 to PhET website with minor layout fixes for translations
+
+Reactants, Products and Leftovers
+- discussed changes that occurred during study
+- hid the "White Background" feature, pending more discussion, #3334
+- published 1.04 to PhET website
+
+Line Graphing
+- design meeting to discuss Game ideas
+- misc generalization, so that we can reuse most of 1st tab for 2nd tab
+
+Common Code
+- #3328, discussions/meetings/review to undo the forking of Piccolo slider code
+- #3337, documented issues with OutlineTextNode, improved test main
+
+Help
+- #3332, customer wanted to run PhET sims from HTML
+
+WHAT'S NEXT:
+
+- Line Graphing: implement "Point-Slope" tab, design "Game" tab
+- Beer's Law Lab: waiting for instructions
+- Molarity: republish version that works with Java 1.5
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- May 24-28 (family visiting, not working)
+- July 5-11 (CT, working reduced hours)
+- August 6-19 (vacation, not working)
+- October 10-23 (CT, working reduced hours)
+
+--
