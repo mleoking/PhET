@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--normal-modes-strings_vi.xml created Thu May 17 10:51:43 ICT 2012 using: normal-modes 1.00.00 (64159), translation-utility 2.13.00 (59150) thg 12 8, 2011-->
+<SimStrings>
+<string key="modeSpectrumDisplay" value="Hiển thị Phổ kiểu dao động"/>
+<string key="phase:" value="Pha:"/>
+<string key="minusPi" value="-π"/>
+<string key="zeroPositions" value="Vị trí 0"/>
+<string key="start" value="Bắt đầu"/>
+<string key="modeNumbersXY" value="Chỉ số kiểu x,y"/>
+<string key="polarization:" value="Điều khiển &lt;br&gt; sự phân cực:"/>
+<string key="amplitude:" value="Biên độ:"/>
+<string key="plusPi" value="+π"/>
+<string key="modeSpectrum" value="Phổ kiểu dao động chuẩn tắc"/>
+<string key="frequency:" value="Tần số:"/>
+<string key="omega" value="ω"/>
+<string key="showPhases" value="Hiển thị pha"/>
+<string key="normal-modes.simTitle" value="Kiểu dao động chuẩn tắc"/>
+<string key="stop" value="Ngừng"/>
+<string key="showSprings" value="Hiển thị lò xo"/>
+<string key="resetPositions" value="Vị trí ban đầu"/>
+<string key="normalMode:" value="Kiểu dao động chuẩn tắc:"/>
+<string key="translation.credits" value="Hoàng Nguyên PhET_VN"/>
+<string key="paused" value="Tạm dừng"/>
+</SimStrings>
