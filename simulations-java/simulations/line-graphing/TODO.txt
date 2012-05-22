@@ -17,10 +17,8 @@ MEDIUM
 - don't like having int methods in SlopeInterceptLine model
 
 LOW
-- equations on lines are sometimes difficult to read when they overlap with other things
 - grid node gets bigger when IntroModel.GRID_MODEL_UNITS gets smaller, size should remain constant
 - review internal duplication in GraphNode
-- create spinner buttons programmatically, so they look more like line manipulators
 
 SIM-SHARING
 
