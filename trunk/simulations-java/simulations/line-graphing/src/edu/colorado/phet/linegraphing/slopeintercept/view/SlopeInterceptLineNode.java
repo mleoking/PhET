@@ -47,40 +47,40 @@ class SlopeInterceptLineNode extends PComposite {
         if ( line.run == 0 ) {
             // x = 0
             tailX = 0;
-            tailY = graph.maxY + yExtent;
+            tailY = graph.yRange.getMax() + yExtent;
             tipX = 0;
-            tipY = graph.minY - yExtent;
+            tipY = graph.yRange.getMin() - yExtent;
         }
         else if ( line.rise == 0 ) {
             // y = b
-            tailX = graph.minX - xExtent;
+            tailX = graph.xRange.getMin() - xExtent;
             tailY = line.intercept;
-            tipX = graph.maxY + yExtent;
+            tipX = graph.xRange.getMax() + yExtent;
             tipY = line.intercept;
         }
         else {
 
             // tail is the left-most end point. Compute x such that the point is inside the grid.
-            tailX = graph.minX - xExtent;
+            tailX = graph.xRange.getMin() - xExtent;
             tailY = line.solveY( tailX );
-            if ( tailY < graph.minY - yExtent ) {
-                tailX = line.solveX( graph.minY - yExtent );
+            if ( tailY < graph.yRange.getMin() - yExtent ) {
+                tailX = line.solveX( graph.yRange.getMin() - yExtent );
                 tailY = line.solveY( tailX );
             }
-            else if ( tailY > graph.maxY + yExtent ) {
-                tailX = line.solveX( graph.maxY + yExtent );
+            else if ( tailY > graph.yRange.getMax() + yExtent ) {
+                tailX = line.solveX( graph.yRange.getMax() + yExtent );
                 tailY = line.solveY( tailX );
             }
 
             // tip is the right-most end point. Compute x such that the point is inside the grid.
-            tipX = graph.maxX + xExtent;
+            tipX = graph.xRange.getMax() + xExtent;
             tipY = line.solveY( tipX );
-            if ( tipY < graph.minY - yExtent ) {
-                tipX = line.solveX( graph.minY - yExtent );
+            if ( tipY < graph.yRange.getMin() - yExtent ) {
+                tipX = line.solveX( graph.yRange.getMin() - yExtent );
                 tipY = line.solveY( tipX );
             }
-            else if ( tipY > graph.maxY + yExtent ) {
-                tipX = line.solveX( graph.maxY + yExtent );
+            else if ( tipY > graph.yRange.getMax() + yExtent ) {
+                tipX = line.solveX( graph.yRange.getMax() + yExtent );
                 tipY = line.solveY( tipX );
             }
         }

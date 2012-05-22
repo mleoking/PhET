@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -250,7 +251,8 @@ class LineGraphNode extends GraphNode {
 
     // Creates an icon for a line between 2 points on a grid with fixed dimensions.
     public static Icon createIcon( double width, final Color color, int x1, int y1, int x2, int y2 ) {
-        final Graph graph = new Graph( -3, 3, -3, 3 );
+        IntegerRange axisRange = new IntegerRange( -3, 3 );
+        final Graph graph = new Graph( axisRange, axisRange );
         final ModelViewTransform mvt = ModelViewTransform.createOffsetScaleMapping( new Double( 0, 0 ), 15, -15 );
         GraphNode graphNode = new GraphNode( graph, mvt );
         Point2D p1 = mvt.modelToView( x1, y1 );

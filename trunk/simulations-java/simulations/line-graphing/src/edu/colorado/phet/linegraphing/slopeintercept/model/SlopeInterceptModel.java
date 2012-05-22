@@ -78,11 +78,11 @@ public class SlopeInterceptModel implements Resettable {
         interactiveLine.addObserver( new VoidFunction1<SlopeInterceptLine>() {
             public void apply( SlopeInterceptLine line ) {
                 // Constrain rise to prevent slope=0/0
-                final double minRise = ( line.run == 0 && line.intercept == graph.minY ) ? 1 : graph.minY - line.intercept;
-                final double maxRise = ( line.run == 0 && line.intercept == graph.maxY ) ? -1 : graph.maxY - line.intercept;
+                final double minRise = ( line.run == 0 && line.intercept == graph.yRange.getMin() ) ? 1 : graph.yRange.getMin() - line.intercept;
+                final double maxRise = ( line.run == 0 && line.intercept == graph.yRange.getMax() ) ? -1 : graph.yRange.getMax() - line.intercept;
                 riseRange.set( new DoubleRange( minRise, maxRise ) );
-                interceptRange.set( new DoubleRange( line.rise >= 0 ? graph.minY : graph.minY - line.rise,
-                                                     line.rise <= 0 ? graph.maxY : graph.maxY - line.rise ) );
+                interceptRange.set( new DoubleRange( line.rise >= 0 ? graph.yRange.getMin() : graph.yRange.getMin() - line.rise,
+                                                     line.rise <= 0 ? graph.yRange.getMax() : graph.yRange.getMax() - line.rise ) );
             }
         } );
     }

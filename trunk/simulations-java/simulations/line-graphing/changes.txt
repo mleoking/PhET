@@ -1,3 +1,4 @@
+5/22/12 simplify Graph model
 5/22/12 class hierarchy for lines
 5/21/12 prevent slope=0/0 by skipping over zero rise or run (depending which is changing), do this in the model
 5/17/12 in computation of dynamics rise range, prevent slope=0/0

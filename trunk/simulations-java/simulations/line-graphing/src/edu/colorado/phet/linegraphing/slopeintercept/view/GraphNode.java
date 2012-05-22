@@ -13,6 +13,8 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -64,7 +66,7 @@ class GraphNode extends PhetPNode {
 
     public GraphNode( Graph graph, ModelViewTransform mvt ) {
 
-        assert ( graph.maxX > 0 && graph.minX <= 0 && graph.maxY > 0 && graph.minY <= 0 ); // (0,0) and quadrant 1 is visible
+        assert ( graph.contains( new ImmutableVector2D( 0, 0 ) ) && graph.contains( new ImmutableVector2D( 1, 1 ) ) ); // (0,0) and quadrant 1 is visible
 
         addChild( new GridNode( graph, mvt ) );
         addChild( new XAxisNode( graph, mvt ) );
@@ -77,7 +79,7 @@ class GraphNode extends PhetPNode {
         public GridNode( Graph graph, ModelViewTransform mvt ) {
 
             // Background
-            PPath backgroundNode = new PPath( new Rectangle2D.Double( mvt.modelToViewX( graph.minX ), mvt.modelToViewY( graph.maxY ),
+            PPath backgroundNode = new PPath( new Rectangle2D.Double( mvt.modelToViewX( graph.xRange.getMin() ), mvt.modelToViewY( graph.yRange.getMax() ),
                                                                       mvt.modelToViewDeltaX( graph.getWidth() ), mvt.modelToViewDeltaY( -graph.getHeight() ) ) );
             backgroundNode.setPaint( GRID_BACKGROUND );
             backgroundNode.setStroke( null );
@@ -86,13 +88,13 @@ class GraphNode extends PhetPNode {
             // Horizontal grid lines
             PNode horizontalGridLinesNode = new PNode();
             addChild( horizontalGridLinesNode );
-            final int numberOfHorizontalGridLines = graph.maxX - graph.minX + 1;
+            final int numberOfHorizontalGridLines = graph.getHeight() + 1;
             {
-                final double minX = mvt.modelToViewX( graph.minX );
-                final double maxX = mvt.modelToViewX( graph.maxX );
+                final double minX = mvt.modelToViewX( graph.xRange.getMin() );
+                final double maxX = mvt.modelToViewX( graph.xRange.getMax() );
                 // add one line for each unit of grid spacing
                 for ( int i = 0; i < numberOfHorizontalGridLines; i++ ) {
-                    final int modelY = graph.minY + i;
+                    final int modelY = graph.yRange.getMin() + i;
                     if ( modelY != 0 ) { // skip origin, x axis will live here
                         final double yOffset = mvt.modelToViewY( modelY );
                         PPath gridLineNode = new PPath( new Line2D.Double( minX, yOffset, maxX, yOffset ) );
@@ -112,13 +114,13 @@ class GraphNode extends PhetPNode {
             // Vertical grid lines
             PNode verticalGridLinesNode = new PNode();
             addChild( verticalGridLinesNode );
-            final int numberOfVerticalGridLines = graph.maxX - graph.minX + 1;
+            final int numberOfVerticalGridLines = graph.getWidth() + 1;
             {
-                final double minY = mvt.modelToViewY( graph.maxY );
-                final double maxY = mvt.modelToViewY( graph.minY );
+                final double minY = mvt.modelToViewY( graph.yRange.getMax() );
+                final double maxY = mvt.modelToViewY( graph.yRange.getMin() );
                 // add one line for each unit of grid spacing
                 for ( int i = 0; i < numberOfVerticalGridLines; i++ ) {
-                    final double modelX = graph.minX + i;
+                    final double modelX = graph.xRange.getMin() + i;
                     if ( modelX != 0 ) { // skip origin, y axis will live here
                         final double xOffset = mvt.modelToViewX( modelX );
                         PPath gridLineNode = new PPath( new Line2D.Double( xOffset, minY, xOffset, maxY ) );
@@ -143,8 +145,8 @@ class GraphNode extends PhetPNode {
         public XAxisNode( Graph graph, ModelViewTransform mvt ) {
 
             // horizontal line with arrows at both ends
-            Point2D tailLocation = new Point2D.Double( mvt.modelToViewX( graph.minX - AXIS_EXTENT ), mvt.modelToViewY( 0 ) );
-            Point2D tipLocation = new Point2D.Double( mvt.modelToViewX( graph.maxX + AXIS_EXTENT ), mvt.modelToViewY( 0 ) );
+            Point2D tailLocation = new Point2D.Double( mvt.modelToViewX( graph.xRange.getMin() - AXIS_EXTENT ), mvt.modelToViewY( 0 ) );
+            Point2D tipLocation = new Point2D.Double( mvt.modelToViewX( graph.xRange.getMax() + AXIS_EXTENT ), mvt.modelToViewY( 0 ) );
             DoubleArrowNode lineNode = new DoubleArrowNode( tailLocation, tipLocation, AXIS_ARROW_SIZE.getHeight(), AXIS_ARROW_SIZE.getWidth(), AXIS_THICKNESS );
             lineNode.setPaint( AXIS_COLOR );
             lineNode.setStroke( null ); // DoubleArrowNode is a shape that we're filling, no need to stroke
@@ -158,9 +160,9 @@ class GraphNode extends PhetPNode {
                                  lineNode.getFullBoundsReference().getCenterY() - ( labelNode.getFullBoundsReference().getHeight() / 2 ) );
 
             // ticks
-            final int numberOfTicks = graph.maxX - graph.minX + 1;
+            final int numberOfTicks = graph.getWidth() + 1;
             for ( int i = 0; i < numberOfTicks; i++ ) {
-                final int modelX = graph.minX + i;
+                final int modelX = graph.xRange.getMin() + i;
                 if ( modelX != 0 ) { // skip the origin
                     final double x = mvt.modelToViewX( modelX );
                     final double y = mvt.modelToViewY( 0 );
@@ -198,8 +200,8 @@ class GraphNode extends PhetPNode {
         public YAxisNode( Graph graph, ModelViewTransform mvt ) {
 
             // horizontal line with arrows at both ends
-            Point2D tailLocation = new Point2D.Double( mvt.modelToViewX( 0 ), mvt.modelToViewY( graph.minY - AXIS_EXTENT ) );
-            Point2D tipLocation = new Point2D.Double( mvt.modelToViewX( 0 ), mvt.modelToViewY( graph.maxY + AXIS_EXTENT ) );
+            Point2D tailLocation = new Point2D.Double( mvt.modelToViewX( 0 ), mvt.modelToViewY( graph.yRange.getMin() - AXIS_EXTENT ) );
+            Point2D tipLocation = new Point2D.Double( mvt.modelToViewX( 0 ), mvt.modelToViewY( graph.yRange.getMax() + AXIS_EXTENT ) );
             DoubleArrowNode lineNode = new DoubleArrowNode( tailLocation, tipLocation, AXIS_ARROW_SIZE.getHeight(), AXIS_ARROW_SIZE.getWidth(), AXIS_THICKNESS );
             lineNode.setPaint( AXIS_COLOR );
             lineNode.setStroke( null ); // DoubleArrowNode is a shape that we're filling, no need to stroke
@@ -213,9 +215,9 @@ class GraphNode extends PhetPNode {
                                  lineNode.getFullBoundsReference().getMinY() - labelNode.getFullBoundsReference().getHeight() - AXIS_LABEL_SPACING );
 
             // ticks
-            final int numberOfTicks = graph.maxX - graph.minX + 1;
+            final int numberOfTicks = graph.getHeight() + 1;
             for ( int i = 0; i < numberOfTicks; i++ ) {
-                final int modelY = graph.minY + i;
+                final int modelY = graph.yRange.getMin() + i;
                 if ( modelY != 0 ) { // skip the origin
                     final double x = mvt.modelToViewX( 0 );
                     final double y = mvt.modelToViewY( modelY );
@@ -249,7 +251,8 @@ class GraphNode extends PhetPNode {
     // test
     public static void main( String[] args ) {
 
-        Graph graph = new Graph( -10, 10, -10, 10 );
+        IntegerRange axisRange = new IntegerRange( -10, 10 );
+        Graph graph = new Graph( axisRange, axisRange );
         ModelViewTransform mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 300, 300 ), 20, -20 );
 
         GraphNode graphNode = new GraphNode( graph, mvt );

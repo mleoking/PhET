@@ -11,29 +11,22 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
  */
 public class Graph {
 
-    public final int minX, maxX, minY, maxY;
+    public final IntegerRange xRange, yRange;
 
     public Graph( IntegerRange xRange, IntegerRange yRange ) {
-        this( xRange.getMin(), xRange.getMax(), yRange.getMin(), yRange.getMax() );
-    }
-
-    public Graph( int minX, int maxX, int minY, int maxY ) {
-        assert ( minX < maxX && minY < maxY ); // min is less than max
-        this.minX = minX;
-        this.maxX = maxX;
-        this.minY = minY;
-        this.maxY = maxY;
+        this.xRange = xRange;
+        this.yRange = yRange;
     }
 
     public int getWidth() {
-        return maxX - minX;
+        return xRange.getLength();
     }
 
     public int getHeight() {
-        return maxY - minY;
+        return yRange.getLength();
     }
 
     public boolean contains( ImmutableVector2D point ) {
-        return ( point.getX() >= minX && point.getX() <= maxX && point.getY() >= minY && point.getY() <= maxX );
+        return xRange.contains( point.getX() ) && yRange.contains( point.getY() );
     }
 }
