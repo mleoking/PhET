@@ -23,14 +23,21 @@ public abstract class StraightLine {
         this.highlightColor = highlightColor;
     }
 
+    // Given y, solve for x.
     public abstract double solveX( double y );
 
+    // Given x, solve for y.
     public abstract double solveY( double x );
 
+    // Gets the y intercept.
+    public abstract double getIntercept();
+
+    // Get the reduced form of the rise. For example, if rise/run=6/4, reduced slope=3/2, and reduced rise=3.
     public int getReducedRise() {
         return MathUtil.round( rise / getGCD() );
     }
 
+    // Get the reduced form of the rise. For example, if rise/run=6/4, reduced slope=3/2, and reduced run=3.
     public int getReducedRun() {
         return MathUtil.round( run / getGCD() );
     }
