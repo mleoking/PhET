@@ -6,7 +6,6 @@ import java.awt.Image;
 import java.awt.Shape;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
-import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -30,9 +29,6 @@ public abstract class Block extends RectangularMovableModelElement implements Th
 
     // Height and width of all block surfaces, since it is a cube.
     public static final double SURFACE_WIDTH = 0.045; // In meters
-
-    // Random number generate, used for positioning energy chunks.
-    public static final Random RAND = new Random();
 
     private final Property<HorizontalSurface> topSurface = new Property<HorizontalSurface>( null );
     private final Property<HorizontalSurface> bottomSurface = new Property<HorizontalSurface>( null );
@@ -210,8 +206,7 @@ public abstract class Block extends RectangularMovableModelElement implements Th
         while ( numChunks != energyChunkList.size() ) {
             if ( numChunks > energyChunkList.size() ) {
                 // Add a chunk at a random location in the block.
-                ImmutableVector2D randomOffset = new ImmutableVector2D( ( RAND.nextDouble() - 0.5 ) * SURFACE_WIDTH / 2, RAND.nextDouble() * SURFACE_WIDTH );
-                energyChunkList.add( new EnergyChunk( position.get().getAddedInstance( randomOffset ), energyChunksVisible ) );
+                energyChunkList.add( new EnergyChunk( position.get(), energyChunksVisible ) );
                 System.out.println( "Added a chunk" );
             }
             else {
@@ -219,6 +214,7 @@ public abstract class Block extends RectangularMovableModelElement implements Th
                 energyChunkList.remove( 0 );
                 System.out.println( "Removed a chunk" );
             }
+            EnergyChunkDistributor.distribute( getRect(), energyChunkList );
         }
     }
 
