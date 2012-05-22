@@ -165,6 +165,7 @@ public abstract class Block extends RectangularMovableModelElement implements Th
     @Override public void reset() {
         super.reset();
         energy = initialThermalEnergy;
+        updateEnergyChunks();
     }
 
     /**
