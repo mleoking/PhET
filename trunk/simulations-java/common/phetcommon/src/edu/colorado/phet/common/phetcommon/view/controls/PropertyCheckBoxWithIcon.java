@@ -36,7 +36,9 @@ public class PropertyCheckBoxWithIcon extends JPanel {
         }};
         iconLabel = new SimSharingIcon( UserComponentChain.chain( userComponent, "icon" ), icon, new VoidFunction0() {
             public void apply() {
-                property.set( !property.get() );
+                if ( isEnabled() ) {
+                    property.set( !property.get() );
+                }
             }
         } );
         add( checkBox );
