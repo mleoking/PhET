@@ -203,10 +203,11 @@ public abstract class Block extends RectangularMovableModelElement implements Th
         double multiplier = 0.0003;
         double minEnergy = 10000;
         int numChunks = (int) Math.round( Math.max( energy - minEnergy, 0 ) * multiplier );
+//        int numChunks = 1;
         while ( numChunks != energyChunkList.size() ) {
             if ( numChunks > energyChunkList.size() ) {
                 // Add a chunk at a random location in the block.
-                energyChunkList.add( new EnergyChunk( position.get(), energyChunksVisible ) );
+                energyChunkList.add( new EnergyChunk( EnergyChunkDistributor.generateRandomLocation( getRect() ), energyChunksVisible ) );
                 System.out.println( "Added a chunk" );
             }
             else {
