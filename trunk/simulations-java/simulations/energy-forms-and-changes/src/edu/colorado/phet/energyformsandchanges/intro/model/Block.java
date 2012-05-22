@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.Shape;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -29,6 +30,9 @@ public abstract class Block extends RectangularMovableModelElement implements Th
 
     // Height and width of all block surfaces, since it is a cube.
     public static final double SURFACE_WIDTH = 0.045; // In meters
+
+    // Random number generate, used for positioning energy chunks.
+    public static final Random RAND = new Random();
 
     private final Property<HorizontalSurface> topSurface = new Property<HorizontalSurface>( null );
     private final Property<HorizontalSurface> bottomSurface = new Property<HorizontalSurface>( null );
@@ -77,9 +81,8 @@ public abstract class Block extends RectangularMovableModelElement implements Th
             }
         } );
 
-        // TODO: Temp for prototyping.
-        energyChunkList.add( new EnergyChunk( initialPosition.getAddedInstance( 0.02, 0.01 ), energyChunksVisible ) );
-//        energyChunkList.add( new EnergyChunk( 0, 0 ) );
+        // Add the initial energy chunks.
+        updateEnergyChunks();
     }
 
     @Override public Dimension2D getSize() {
@@ -133,6 +136,7 @@ public abstract class Block extends RectangularMovableModelElement implements Th
 
     public void changeEnergy( double deltaEnergy ) {
         energy += deltaEnergy;
+        updateEnergyChunks();
     }
 
     public void exchangeEnergyWith( ThermalEnergyContainer energyContainer, double dt ) {
@@ -195,6 +199,26 @@ public abstract class Block extends RectangularMovableModelElement implements Th
      */
     public static Shape getRawShape() {
         return new Rectangle2D.Double( -SURFACE_WIDTH / 2, 0, SURFACE_WIDTH, SURFACE_WIDTH );
+    }
+
+    // Update the number and positions of the energy chunks.
+    private void updateEnergyChunks() {
+        double multiplier = 0.0003;
+        double minEnergy = 10000;
+        int numChunks = (int) Math.round( Math.max( energy - minEnergy, 0 ) * multiplier );
+        while ( numChunks != energyChunkList.size() ) {
+            if ( numChunks > energyChunkList.size() ) {
+                // Add a chunk at a random location in the block.
+                ImmutableVector2D randomOffset = new ImmutableVector2D( ( RAND.nextDouble() - 0.5 ) * SURFACE_WIDTH / 2, RAND.nextDouble() * SURFACE_WIDTH );
+                energyChunkList.add( new EnergyChunk( position.get().getAddedInstance( randomOffset ), energyChunksVisible ) );
+                System.out.println( "Added a chunk" );
+            }
+            else {
+                // Remove a chunk.
+                energyChunkList.remove( 0 );
+                System.out.println( "Removed a chunk" );
+            }
+        }
     }
 
     public ObservableList<EnergyChunk> getEnergyChunkList() {
