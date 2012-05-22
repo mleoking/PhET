@@ -2,15 +2,17 @@
 package edu.colorado.phet.linegraphing.pointslope.model;
 
 import java.awt.Color;
+import java.text.MessageFormat;
 
+import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptLine;
 
 /**
- * Model of a line in point-slope form: y = m(x - x1) + y1
+ * Model of a line in point-slope form: y = m(x-x1) + y1, or (y-y1) = m(x-x1)
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PointSlopeLine extends SlopeInterceptLine {
+public class PointSlopeLine extends StraightLine {
 
     private final double x1, y1;
 
@@ -19,7 +21,7 @@ public class PointSlopeLine extends SlopeInterceptLine {
     }
 
     public PointSlopeLine( double x1, double y1, double rise, double run, Color color, Color highlightColor ) {
-        super( rise, run, solveY( 0, x1, y1, rise, run ), color, highlightColor );
+        super( rise, run, color, highlightColor );
         this.x1 = x1;
         this.y1 = y1;
     }
@@ -30,14 +32,18 @@ public class PointSlopeLine extends SlopeInterceptLine {
     }
 
     // y = m(x - x1) + y1
-    private static double solveY( double x, double x1, double y1, double rise, double run ) {
+    public double solveY( double x ) {
         assert( run != 0 );
         return ( ( rise / run ) * ( x - x1 ) ) + y1;
     }
 
-    // x = (y - y1)/m + x1
-    private static double solveX( double y, double x1, double y1, double rise, double run ) {
-        assert( run != 0 && rise != 0 );
+    // x = ((y - y1)/m) + x1
+    public double solveX( double y ) {
+        assert( rise != 0 && run != 0);
         return ( ( y - y1 ) / ( rise / run ) ) + x1;
+    }
+
+    @Override public String toString() {
+        return MessageFormat.format( "y=({0}/{1})(x-{2})+{3}", rise, run, x1, y1 );
     }
 }
