@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--blackbody-spectrum-strings_ar.xml created Thu May 17 08:51:07 GMT+01:00 2012 using: blackbody-spectrum 2.02.00 (52705), translation-utility 2.13.00 (59150) déc. 8, 2011-->
+<SimStrings>
+<string key="r" value="أحمر"/>
+<string key="translation.credits" value="عزيزة خرواع"/>
+<string key="zoomIn" value="تكبير"/>
+<string key="intensity" value="كثافة"/>
+<string key="simTitle" value="طيف الجسم المظلم"/>
+<string key="zoomOut" value="تصغير"/>
+<string key="clear" value="مسح"/>
+<string key="g" value="أخضر"/>
+<string key="sun" value="شمس"/>
+<string key="tempInK" value="درجة الحرارة -كلفن"/>
+<string key="save" value="حفظ"/>
+<string key="showRuler" value="اظهار القياس"/>
+<string key="wavelength" value="طول الموجة"/>
+<string key="b" value="أزرق"/>
+<string key="oven" value="فرن"/>
+<string key="earth" value="أرض"/>
+<string key="lightBulb" value="مصباح ضوء"/>
+</SimStrings>
