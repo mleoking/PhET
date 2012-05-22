@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--normal-modes-strings_es_ES.xml created Sun May 20 18:53:20 COT 2012 using: normal-modes 1.00.00 (64159), translation-utility 2.13.00 (59150) dic 7, 2011-->
+<SimStrings>
+<string key="modeSpectrumDisplay" value="Mostrar Espectro de la frecuencia"/>
+<string key="phase:" value="Fase:"/>
+<string key="minusPi" value="-π"/>
+<string key="zeroPositions" value="Posiciones Cero"/>
+<string key="start" value="Iniciar"/>
+<string key="modeNumbersXY" value="Número de Frecuencias x, y."/>
+<string key="polarization:" value="Control de &lt;br&gt;Polarización"/>
+<string key="amplitude:" value="Amplitud:"/>
+<string key="plusPi" value="+π"/>
+<string key="modeSpectrum" value="Espectro de la Frecuencia Resonante"/>
+<string key="frequency:" value="Frecuencia:"/>
+<string key="omega" value="ω"/>
+<string key="showPhases" value="Mostrar Pases"/>
+<string key="normal-modes.simTitle" value="Frecuencias resonantes."/>
+<string key="stop" value="Parar"/>
+<string key="showSprings" value="Mostrar Resortes"/>
+<string key="resetPositions" value="Posiciones Iniciales"/>
+<string key="normalMode:" value="Frecuencia resonante:"/>
+<string key="translation.credits" value="Por Héctor R. MALLMA ALVARADO"/>
+<string key="paused" value="EN PAUSA"/>
+</SimStrings>
