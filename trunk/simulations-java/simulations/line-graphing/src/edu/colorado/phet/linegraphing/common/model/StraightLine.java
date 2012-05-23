@@ -50,7 +50,10 @@ public class StraightLine {
         this( line.rise, line.run, line.yIntercept, color, highlightColor );
     }
 
-    // Given x, solve y = m(x - x1) + y1
+    /*
+     * Given x, solve y = m(x - x1) + y1
+     * Returns Double.NaN if the slope is undefined.
+     */
     public double solveY( double x ) {
         if ( run == 0 ) {
             return Double.NaN;
@@ -60,7 +63,10 @@ public class StraightLine {
         }
     }
 
-    // Given y, solve x = ((y - y1)/m) + x1
+    /*
+     * Given y, solve x = ((y - y1)/m) + x1
+     * Returns Double.NaN if the slope is undefined or solution is not unique.
+     */
     public double solveX( double y ) {
         if ( rise == 0 || run == 0 ) {
             return Double.NaN;
