@@ -1,3 +1,5 @@
+5/23/12 move icon creation methods to GraphNode
+5/23/12 move view components used in tab 1 & 2 to linegraphing.common.view
 5/23/12 move PointTool to linegraphing.common.model
 5/23/12 change PointTool to use x1,y1 instead of yIntercept (more general)
 5/23/12 collapse StraightLine class hierarchy to one class with slope-intercept and point-slope constructors

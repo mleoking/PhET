@@ -1,6 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 
-package edu.colorado.phet.linegraphing.slopeintercept.view;
+package edu.colorado.phet.linegraphing.common.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -32,7 +32,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class RiseRunBracketNode extends PComposite {
+public class RiseRunBracketNode extends PComposite {
 
     public static enum Direction {LEFT, RIGHT, UP, DOWN} // direction that the open side of the bracket faces
 
