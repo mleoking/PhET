@@ -21,10 +21,10 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class ReducedSlopeInterceptEquationFactory {
+class SlopeInterceptEquationFactory {
 
     // not intended for instantiation
-    private ReducedSlopeInterceptEquationFactory() {}
+    private SlopeInterceptEquationFactory() {}
 
     public static ReducedSlopeInterceptEquationNode createNode( StraightLine line, PhetFont font ) {
         if ( MathUtil.round( line.run ) == 0 ) {
