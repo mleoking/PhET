@@ -17,11 +17,11 @@ public class StraightLine {
     public static final StraightLine Y_EQUALS_X_LINE = new StraightLine( 1, 1, 0, LGColors.Y_EQUALS_X, LGColors.Y_EQUALS_X );  // y = x
     public static final StraightLine Y_EQUALS_NEGATIVE_X_LINE = new StraightLine( -1, 1, 0, LGColors.Y_EQUALS_NEGATIVE_X, LGColors.Y_EQUALS_NEGATIVE_X ); // y = -x
 
-    public final double rise;
-    public final double run;
-    public final double x1, y1;
+    public final double rise; // vertical component of the slope
+    public final double run; // horizontal component of the slope
+    public final double x1, y1; // some point
     public final double yIntercept; // y intercept, Double.NaN if the line doesn't intersect the y axis
-    public final Color color, highlightColor;
+    public final Color color, highlightColor; // colors used for visualizing the line
 
     // slope-intercept form: y = mx + b
     public StraightLine( double rise, double run, double yIntercept, Color color, Color highlightColor ) {
