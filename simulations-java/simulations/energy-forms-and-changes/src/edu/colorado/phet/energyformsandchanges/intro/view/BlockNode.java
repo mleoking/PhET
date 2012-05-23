@@ -85,10 +85,33 @@ public class BlockNode extends PComposite {
         blockSidePath.lineTo( upperRightCornerOfFace );
         Shape blockSideShape = blockSidePath.getGeneralPath();
 
+        // Create a layer where energy chunks will be placed.
+        final PNode energyChunkLayer = new PNode();
+        addChild( energyChunkLayer );
+
+        // Watch for energy chunks coming and going and add/remove nodes accordingly.
+        block.getEnergyChunkList().addElementAddedObserver( new VoidFunction1<EnergyChunk>() {
+            public void apply( final EnergyChunk addedEnergyChunk ) {
+                final PNode energyChunkNode = new EnergyChunkNode( addedEnergyChunk, mvt );
+                energyChunkLayer.addChild( energyChunkNode );
+                block.getEnergyChunkList().addElementRemovedObserver( new VoidFunction1<EnergyChunk>() {
+                    public void apply( EnergyChunk removedEnergyChunk ) {
+                        if ( removedEnergyChunk == addedEnergyChunk ) {
+                            energyChunkLayer.removeChild( energyChunkNode );
+                            block.getEnergyChunkList().removeElementRemovedObserver( this );
+                        }
+                    }
+                } );
+            }
+        } );
+
         // Add the shapes that comprise the block representation.
-        addChild( createSurface( blockFaceShape, block.getColor(), block.getFrontTextureImage() ) );
-        addChild( createSurface( blockTopShape, block.getColor(), block.getTopTextureImage() ) );
-        addChild( createSurface( blockSideShape, block.getColor(), block.getSideTextureImage() ) );
+        final PNode blockFace = createSurface( blockFaceShape, block.getColor(), block.getFrontTextureImage() );
+        final PNode blockTop = createSurface( blockTopShape, block.getColor(), block.getTopTextureImage() );
+        final PNode blockSide = createSurface( blockSideShape, block.getColor(), block.getSideTextureImage() );
+        addChild( blockFace );
+        addChild( blockTop );
+        addChild( blockSide );
 
         if ( SHOW_2D_REPRESENTATION ) {
             addChild( new PhetPPath( scaleTransform.createTransformedShape( Block.getRawShape() ), new BasicStroke( 1 ), Color.RED ) );
@@ -107,23 +130,14 @@ public class BlockNode extends PComposite {
         label.centerFullBoundsOnPoint( labelCenterX, labelCenterY );
         addChild( label );
 
-        // Create a layer where energy chunks will be placed.
-        final PNode energyChunkLayer = new PNode();
-        addChild( energyChunkLayer );
-
-        // Watch for energy chunks coming and going and add/remove nodes accordingly.
-        block.getEnergyChunkList().addElementAddedObserver( new VoidFunction1<EnergyChunk>() {
-            public void apply( final EnergyChunk addedEnergyChunk ) {
-                final PNode energyChunkNode = new EnergyChunkNode( addedEnergyChunk, mvt );
-                energyChunkLayer.addChild( energyChunkNode );
-                block.getEnergyChunkList().addElementRemovedObserver( new VoidFunction1<EnergyChunk>() {
-                    public void apply( EnergyChunk removedEnergyChunk ) {
-                        if ( removedEnergyChunk == addedEnergyChunk ) {
-                            energyChunkLayer.removeChild( energyChunkNode );
-                            block.getEnergyChunkList().removeElementRemovedObserver( this );
-                        }
-                    }
-                } );
+        // Make the block be transparent when the energy chunks are visible so
+        // that it looks like they are in the block.
+        block.energyChunksVisible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean energyChunksVisible ) {
+                float opaqueness = energyChunksVisible ? 0.5f : 1.0f;
+                blockFace.setTransparency( opaqueness );
+                blockTop.setTransparency( opaqueness );
+                blockSide.setTransparency( opaqueness );
             }
         } );
 
