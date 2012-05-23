@@ -41,10 +41,10 @@ public class IntegerRange {
      */
     public IntegerRange( int min, int max, int defaultValue ) {
         if ( !( min <= max ) ) {
-            throw new IllegalArgumentException( "min must be <= max" );
+            throw new IllegalArgumentException( "min must be <= max: min = " + min + ", max = " + max );
         }
         if ( defaultValue < min || defaultValue > max ) {
-            throw new IllegalArgumentException( "defaultValue out of range" );
+            throw new IllegalArgumentException( "defaultValue out of range: min = " + min + ", max = " + max + ", defaultValue = " + defaultValue );
         }
         _min = min;
         _max = max;

@@ -54,10 +54,10 @@ public class DoubleRange {
      */
     public DoubleRange( double min, double max, double defaultValue, int significantDecimalPlaces ) {
         if ( !( min <= max ) ) {
-            throw new IllegalArgumentException( "min must be <= max" );
+            throw new IllegalArgumentException( "min must be <= max: min = " + min + ", max = " + max );
         }
         if ( defaultValue < min || defaultValue > max ) {
-            throw new IllegalArgumentException( "defaultValue out of range" );
+            throw new IllegalArgumentException( "defaultValue out of range: min = " + min + ", max = " + max + ", defaultValue = " + defaultValue );
         }
         if ( significantDecimalPlaces < 0 ) {
             throw new IllegalArgumentException( "significantDecimalPlaces < 0: " + significantDecimalPlaces );
