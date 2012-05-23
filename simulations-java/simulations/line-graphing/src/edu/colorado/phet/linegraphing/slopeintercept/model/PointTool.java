@@ -77,12 +77,12 @@ public class PointTool implements Resettable {
 
     // Is the point tool on this line?
     private boolean isOnLine( StraightLine line ) {
-        if ( line.run == 0 && location.get().getX() == 0 ) {
-            // undefined slope, tool is on the y axis
+        if ( line.run == 0 && location.get().getX() == line.x1 ) {
+            // slope is undefined, tool is on the line
             return true;
         }
-        else if ( line.rise == 0 && location.get().getY() == line.yIntercept ) {
-            // slope is zero and point tool in at intercept
+        else if ( line.rise == 0 && location.get().getY() == line.y1 ) {
+            // slope is zero, tool is on the line
             return true;
         }
         else if ( line.run != 0 && line.rise != 0 && location.get().getY() == line.solveY( location.get().getX() ) ) {
