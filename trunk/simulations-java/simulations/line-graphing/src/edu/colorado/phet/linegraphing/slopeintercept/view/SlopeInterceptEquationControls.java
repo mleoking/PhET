@@ -33,11 +33,11 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
- * Control panel for interacting with the line equation.
+ * Control panel for interacting with a line's equation in slope-intercept form.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class EquationControls extends PhetPNode {
+class SlopeInterceptEquationControls extends PhetPNode {
 
     private static final PhetFont EQUATION_FONT = new PhetFont( Font.BOLD, 38 );
 
@@ -47,13 +47,13 @@ class EquationControls extends PhetPNode {
                                                            Strings.SYMBOL_X,
                                                            Strings.SYMBOL_INTERCEPT );
 
-    public EquationControls( final Property<Boolean> maximized,
-                             final Property<StraightLine> interactiveLine,
-                             Property<DoubleRange> riseRange,
-                             Property<DoubleRange> runRange,
-                             Property<DoubleRange> interceptRange,
-                             final ObservableList<StraightLine> savedLines,
-                             final Property<Boolean> linesVisible ) {
+    public SlopeInterceptEquationControls( final Property<Boolean> maximized,
+                                           final Property<StraightLine> interactiveLine,
+                                           Property<DoubleRange> riseRange,
+                                           Property<DoubleRange> runRange,
+                                           Property<DoubleRange> interceptRange,
+                                           final ObservableList<StraightLine> savedLines,
+                                           final Property<Boolean> linesVisible ) {
 
         PNode titleNode = new PhetPText( TITLE, new PhetFont( Font.BOLD, 18 ), LGColors.INTERACTIVE_LINE );
         PNode minimizeMaximizeButtonNode = new ToggleButtonNode( UserComponents.equationMinimizeMaximizeButton, maximized, Images.MINIMIZE_BUTTON, Images.MAXIMIZE_BUTTON ) {
