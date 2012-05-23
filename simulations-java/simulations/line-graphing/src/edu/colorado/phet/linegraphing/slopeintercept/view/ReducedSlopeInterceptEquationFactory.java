@@ -254,6 +254,5 @@ class ReducedSlopeInterceptEquationFactory {
             interceptNode.setOffset( interceptSignNode.getFullBoundsReference().getMaxX() + X_SPACING,
                                      equalsNode.getYOffset() );
         }
-
     }
 }
