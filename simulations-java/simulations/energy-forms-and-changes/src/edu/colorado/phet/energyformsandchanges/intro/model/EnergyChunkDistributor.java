@@ -40,6 +40,8 @@ public class EnergyChunkDistributor {
         // Iterate on the positions of the point masses in order to
         // redistribute them.
         for ( int i = 0; i < NUM_TIME_STEPS; i++ ) {
+
+            // Update the forces acting on each point mass.
             for ( PointMass p : map.values() ) {
                 if ( rect.contains( p.position.toPoint2D() ) ) {
                     double distance;
@@ -86,9 +88,13 @@ public class EnergyChunkDistributor {
                     ImmutableVector2D vectorToCenter = new ImmutableVector2D( rect.getCenterX(), rect.getCenterY() ).getSubtractedInstance( p.position );
                     p.applyForce( vectorToCenter.getInstanceOfMagnitude( OUTSIDE_RECT_FORCE ) );
                 }
+            }
 
+            // Update the point mass positions.
+            for ( PointMass p : map.values() ) {
                 // Update the position of the point.
                 p.updatePosition( TIME_STEP );
+                p.clearAcceleration();
             }
         }
 
@@ -117,6 +123,10 @@ public class EnergyChunkDistributor {
 
         public void applyForce( ImmutableVector2D force ) {
             acceleration.add( force.getScaledInstance( force.getMagnitude() / MASS ) );
+        }
+
+        public void clearAcceleration() {
+            acceleration.setComponents( 0, 0 );
         }
 
         public void updatePosition( double dt ) {
