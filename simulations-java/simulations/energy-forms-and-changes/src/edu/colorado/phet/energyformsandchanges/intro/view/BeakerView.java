@@ -100,13 +100,15 @@ public class BeakerView {
 
         // Watch for energy chunks coming and going and add/remove nodes accordingly.
         beaker.getEnergyChunkList().addElementAddedObserver( new VoidFunction1<EnergyChunk>() {
-            public void apply( EnergyChunk energyChunk ) {
-                final PNode energyChunkNode = new EnergyChunkNode( energyChunk, mvt );
+            public void apply( final EnergyChunk addedEnergyChunk ) {
+                final PNode energyChunkNode = new EnergyChunkNode( addedEnergyChunk, mvt );
                 energyChunkLayer.addChild( energyChunkNode );
                 beaker.getEnergyChunkList().addElementRemovedObserver( new VoidFunction1<EnergyChunk>() {
-                    public void apply( EnergyChunk energyChunk ) {
-                        energyChunkLayer.removeChild( energyChunkNode );
-                        beaker.getEnergyChunkList().removeElementRemovedObserver( this );
+                    public void apply( EnergyChunk removedEnergyChunk ) {
+                        if ( removedEnergyChunk == addedEnergyChunk ) {
+                            energyChunkLayer.removeChild( energyChunkNode );
+                            beaker.getEnergyChunkList().removeElementRemovedObserver( this );
+                        }
                     }
                 } );
             }
