@@ -17,6 +17,7 @@ import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.colorado.phet.linegraphing.common.view.GraphNode;
+import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.RiseRunBracketNode;
 import edu.colorado.phet.linegraphing.slopeintercept.view.LineManipulatorDragHandler.InterceptDragHandler;
 import edu.colorado.phet.linegraphing.slopeintercept.view.LineManipulatorDragHandler.SlopeDragHandler;

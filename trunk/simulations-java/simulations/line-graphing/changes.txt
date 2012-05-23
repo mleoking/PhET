@@ -1,3 +1,4 @@
+5/23/12 moe more stuff to linegraphing.common.view
 5/23/12 move icon creation methods to GraphNode
 5/23/12 move view components used in tab 1 & 2 to linegraphing.common.view
 5/23/12 move PointTool to linegraphing.common.model

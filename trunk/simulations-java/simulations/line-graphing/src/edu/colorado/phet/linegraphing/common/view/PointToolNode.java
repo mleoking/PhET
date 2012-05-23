@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.linegraphing.slopeintercept.view;
+package edu.colorado.phet.linegraphing.common.view;
 
 import java.awt.Font;
 import java.awt.geom.Point2D;
@@ -39,7 +39,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class PointToolNode extends PhetPNode {
+public class PointToolNode extends PhetPNode {
 
     private static final NumberFormat COORDINATES_FORMAT = new DefaultDecimalFormat( "0" );
     private static final double COORDINATES_Y_CENTER = 21; // center of the display area, measured from the top of the unscaled image file
