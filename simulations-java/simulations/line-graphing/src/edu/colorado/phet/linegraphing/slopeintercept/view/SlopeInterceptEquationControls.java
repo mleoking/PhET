@@ -55,7 +55,7 @@ class SlopeInterceptEquationControls extends PhetPNode {
                                            final ObservableList<StraightLine> savedLines,
                                            final Property<Boolean> linesVisible ) {
 
-        PNode titleNode = new PhetPText( TITLE, new PhetFont( Font.BOLD, 18 ), LGColors.INTERACTIVE_LINE );
+        PNode titleNode = new PhetPText( TITLE, new PhetFont( Font.BOLD, 18 ), interactiveLine.get().color );
         PNode minimizeMaximizeButtonNode = new ToggleButtonNode( UserComponents.equationMinimizeMaximizeButton, maximized, Images.MINIMIZE_BUTTON, Images.MAXIMIZE_BUTTON ) {
             @Override protected ParameterSet getParameterSet() {
                 return super.getParameterSet().with( ParameterKeys.maximized, !maximized.get() );

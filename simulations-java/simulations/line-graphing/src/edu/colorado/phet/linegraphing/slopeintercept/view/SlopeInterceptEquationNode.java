@@ -124,7 +124,7 @@ class SlopeInterceptEquationNode extends PhetPNode {
         // sync the model with the controls
         RichSimpleObserver lineUpdater = new RichSimpleObserver() {
             @Override public void update() {
-                interactiveLine.set( new StraightLine( rise.get(), run.get(), intercept.get(), LGColors.INTERACTIVE_LINE, LGColors.INTERACTIVE_LINE ) );
+                interactiveLine.set( new StraightLine( rise.get(), run.get(), intercept.get(), interactiveLine.get().color, interactiveLine.get().highlightColor ) );
             }
         };
         lineUpdater.observe( rise, run, intercept );
