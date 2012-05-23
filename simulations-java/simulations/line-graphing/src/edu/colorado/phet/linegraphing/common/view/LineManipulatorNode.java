@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.linegraphing.slopeintercept.view;
+package edu.colorado.phet.linegraphing.common.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -11,7 +11,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ShadedSphereNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class LineManipulatorNode extends ShadedSphereNode {
+public class LineManipulatorNode extends ShadedSphereNode {
 
     private boolean dragging;
 
