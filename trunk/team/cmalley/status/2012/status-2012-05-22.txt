@@ -28,8 +28,6 @@ Help
 WHAT'S NEXT:
 
 - Line Graphing: implement "Point-Slope" tab, design "Game" tab
-- Beer's Law Lab: waiting for instructions
-- Molarity: republish version that works with Java 1.5
 
 ISSUES:
 
