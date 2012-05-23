@@ -24,7 +24,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
-import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptLine;
+import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.colorado.phet.linegraphing.slopeintercept.view.NumberPickerNode.InterceptPickerNode;
 import edu.colorado.phet.linegraphing.slopeintercept.view.NumberPickerNode.SlopePickerNode;
 import edu.umd.cs.piccolo.PNode;
@@ -45,7 +45,7 @@ class SlopeInterceptEquationNode extends PhetPNode {
 
     private final Property<Double> rise, run, intercept;
 
-    public SlopeInterceptEquationNode( final Property<SlopeInterceptLine> interactiveLine,
+    public SlopeInterceptEquationNode( final Property<StraightLine> interactiveLine,
                                        Property<DoubleRange> riseRange,
                                        Property<DoubleRange> runRange,
                                        Property<DoubleRange> interceptRange,
@@ -53,7 +53,7 @@ class SlopeInterceptEquationNode extends PhetPNode {
 
         this.rise = new Property<Double>( interactiveLine.get().rise );
         this.run = new Property<Double>( interactiveLine.get().run );
-        this.intercept = new Property<Double>( interactiveLine.get().intercept );
+        this.intercept = new Property<Double>( interactiveLine.get().yIntercept );
 
         // determine the max width of the rise and run spinners, based on the extents of their range
         double maxSlopeWidth;
@@ -124,24 +124,24 @@ class SlopeInterceptEquationNode extends PhetPNode {
         // sync the model with the controls
         RichSimpleObserver lineUpdater = new RichSimpleObserver() {
             @Override public void update() {
-                interactiveLine.set( new SlopeInterceptLine( rise.get(), run.get(), intercept.get(), LGColors.INTERACTIVE_LINE ) );
+                interactiveLine.set( new StraightLine( rise.get(), run.get(), intercept.get(), LGColors.INTERACTIVE_LINE, LGColors.INTERACTIVE_LINE ) );
             }
         };
         lineUpdater.observe( rise, run, intercept );
 
         // sync the controls with the model
-        interactiveLine.addObserver( new VoidFunction1<SlopeInterceptLine>() {
-            public void apply( SlopeInterceptLine line ) {
+        interactiveLine.addObserver( new VoidFunction1<StraightLine>() {
+            public void apply( StraightLine line ) {
 
                 // values
                 rise.set( line.rise );
                 run.set( line.run );
-                intercept.set( line.intercept );
+                intercept.set( line.yIntercept );
 
                 // signs
                 riseSignNode.setText( line.rise < 0 ? "-" : " " );
                 runSignNode.setText( line.run < 0 ? "-" : " " );
-                interceptSignNode.setText( line.intercept < 0 ? "-" : "+" ); // intercept shows '+' sign for positive values
+                interceptSignNode.setText( line.yIntercept < 0 ? "-" : "+" ); // intercept shows '+' sign for positive values
             }
         } );
     }
@@ -150,7 +150,7 @@ class SlopeInterceptEquationNode extends PhetPNode {
     public static void main( String[] args ) {
 
         // properties
-        Property<SlopeInterceptLine> interactiveLine = new Property<SlopeInterceptLine>( new SlopeInterceptLine( 1, 1, 1, Color.RED ) );
+        Property<StraightLine> interactiveLine = new Property<StraightLine>( new StraightLine( 1, 1, 1, Color.RED, Color.RED ) );
         Property<DoubleRange> riseRange = new Property<DoubleRange>( new DoubleRange( -10, 10 ) );
         Property<DoubleRange> runRange = new Property<DoubleRange>( new DoubleRange( -10, 10 ) );
         Property<DoubleRange> interceptRange = new Property<DoubleRange>( new DoubleRange( -10, 10 ) );

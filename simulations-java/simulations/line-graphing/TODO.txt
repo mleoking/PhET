@@ -6,7 +6,6 @@ DESIGN
 - spinners or pickers for interactive equation? (SlopeInterceptEquationNode or SlopeInterceptEquationNode2)
 
 HIGH
-- collapse StraightLine class hierarchy to one class with slope-intercept and point-slope constructors
 - implement Point-Slope tab
 
 MEDIUM

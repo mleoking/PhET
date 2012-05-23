@@ -21,7 +21,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
-import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptLine;
+import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents.*;
@@ -37,10 +37,10 @@ class GraphControls extends PNode {
     private static final String Y_EQUALS_X = MessageFormat.format( "{0} = {1}", Strings.SYMBOL_Y, Strings.SYMBOL_X );
     private static final String Y_EQUALS_NEGATIVE_X = MessageFormat.format( "{0} = -{1}", Strings.SYMBOL_Y, Strings.SYMBOL_X );
 
-    public GraphControls( final Property<Boolean> linesVisible, final Property<Boolean> slopeVisible, final ObservableList<SlopeInterceptLine> standardLines ) {
+    public GraphControls( final Property<Boolean> linesVisible, final Property<Boolean> slopeVisible, final ObservableList<StraightLine> standardLines ) {
 
-        final Property<Boolean> yEqualsXVisible = new Property<Boolean>( standardLines.contains( SlopeInterceptLine.Y_EQUALS_X_LINE ) );
-        final Property<Boolean> yEqualsNegativeXVisible = new Property<Boolean>( standardLines.contains( SlopeInterceptLine.Y_EQUALS_NEGATIVE_X_LINE ) );
+        final Property<Boolean> yEqualsXVisible = new Property<Boolean>( standardLines.contains( StraightLine.Y_EQUALS_X_LINE ) );
+        final Property<Boolean> yEqualsNegativeXVisible = new Property<Boolean>( standardLines.contains( StraightLine.Y_EQUALS_NEGATIVE_X_LINE ) );
 
         // components
         final JComponent linesCheckBox = new PropertyCheckBox( UserComponents.linesCheckBox, Strings.HIDE_LINES, new SettableNot( linesVisible ) );
@@ -77,10 +77,10 @@ class GraphControls extends PNode {
         yEqualsXVisible.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
                 if ( visible ) {
-                    standardLines.add( SlopeInterceptLine.Y_EQUALS_X_LINE );
+                    standardLines.add( StraightLine.Y_EQUALS_X_LINE );
                 }
                 else {
-                    standardLines.remove( SlopeInterceptLine.Y_EQUALS_X_LINE );
+                    standardLines.remove( StraightLine.Y_EQUALS_X_LINE );
                 }
             }
         } );
@@ -89,33 +89,33 @@ class GraphControls extends PNode {
         yEqualsNegativeXVisible.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
                 if ( visible ) {
-                    standardLines.add( SlopeInterceptLine.Y_EQUALS_NEGATIVE_X_LINE );
+                    standardLines.add( StraightLine.Y_EQUALS_NEGATIVE_X_LINE );
                 }
                 else {
-                    standardLines.remove( SlopeInterceptLine.Y_EQUALS_NEGATIVE_X_LINE );
+                    standardLines.remove( StraightLine.Y_EQUALS_NEGATIVE_X_LINE );
                 }
             }
         } );
 
         // Check boxes when standard lines are added
-        standardLines.addElementAddedObserver( new VoidFunction1<SlopeInterceptLine>() {
-            public void apply( SlopeInterceptLine line ) {
-                if ( line == SlopeInterceptLine.Y_EQUALS_X_LINE ) {
+        standardLines.addElementAddedObserver( new VoidFunction1<StraightLine>() {
+            public void apply( StraightLine line ) {
+                if ( line == StraightLine.Y_EQUALS_X_LINE ) {
                     yEqualsXVisible.set( true );
                 }
-                else if ( line == SlopeInterceptLine.Y_EQUALS_NEGATIVE_X_LINE ) {
+                else if ( line == StraightLine.Y_EQUALS_NEGATIVE_X_LINE ) {
                     yEqualsNegativeXVisible.set( true );
                 }
             }
         } );
 
         // Uncheck boxes when standard lines are removed
-        standardLines.addElementRemovedObserver( new VoidFunction1<SlopeInterceptLine>() {
-            public void apply( SlopeInterceptLine line ) {
-                if ( line == SlopeInterceptLine.Y_EQUALS_X_LINE ) {
+        standardLines.addElementRemovedObserver( new VoidFunction1<StraightLine>() {
+            public void apply( StraightLine line ) {
+                if ( line == StraightLine.Y_EQUALS_X_LINE ) {
                     yEqualsXVisible.set( false );
                 }
-                else if ( line == SlopeInterceptLine.Y_EQUALS_NEGATIVE_X_LINE ) {
+                else if ( line == StraightLine.Y_EQUALS_NEGATIVE_X_LINE ) {
                     yEqualsNegativeXVisible.set( false );
                 }
             }

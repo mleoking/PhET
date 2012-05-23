@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.model.Graph;
+import edu.colorado.phet.linegraphing.common.model.StraightLine;
 
 /**
  * Model for the "Intro" module.
@@ -30,9 +31,9 @@ public class SlopeInterceptModel implements Resettable {
 
     public final ModelViewTransform mvt;
     public final Property<DoubleRange> riseRange, runRange, interceptRange;
-    public final Property<SlopeInterceptLine> interactiveLine;
-    public final ObservableList<SlopeInterceptLine> savedLines;
-    public final ObservableList<SlopeInterceptLine> standardLines;
+    public final Property<StraightLine> interactiveLine;
+    public final ObservableList<StraightLine> savedLines;
+    public final ObservableList<StraightLine> standardLines;
     public final Graph graph;
     public final PointTool pointTool1, pointTool2;
 
@@ -44,8 +45,9 @@ public class SlopeInterceptModel implements Resettable {
         runRange = new Property<DoubleRange>( new DoubleRange( -10, 10, 2 ) );
         interceptRange = new Property<DoubleRange>( new DoubleRange( -10, 10, 2 ) );
 
-        interactiveLine = new Property<SlopeInterceptLine>( new SlopeInterceptLine( riseRange.get().getDefault(), runRange.get().getDefault(), interceptRange.get().getDefault(), LGColors.INTERACTIVE_LINE ) ) {
-            @Override public void set( SlopeInterceptLine line ) {
+        interactiveLine = new Property<StraightLine>( new StraightLine( riseRange.get().getDefault(), runRange.get().getDefault(), interceptRange.get().getDefault(),
+                                                                        LGColors.INTERACTIVE_LINE, LGColors.INTERACTIVE_LINE ) ) {
+            @Override public void set( StraightLine line ) {
                 double newRise = line.rise;
                 double newRun = line.run;
                 // Skip over values that would result in slope=0/0
@@ -60,14 +62,14 @@ public class SlopeInterceptModel implements Resettable {
                     }
                     else {
                         // rise and run haven't changed, arbitrarily move rise toward origin
-                        newRise = ( get().intercept > 0 ) ? -1 : 1;
+                        newRise = ( get().yIntercept > 0 ) ? -1 : 1;
                     }
                 }
-                super.set( new SlopeInterceptLine( newRise, newRun, line.intercept, line.color, line.highlightColor ) );
+                super.set( new StraightLine( newRise, newRun, line.yIntercept, line.color, line.highlightColor ) );
             }
         };
-        savedLines = new ObservableList<SlopeInterceptLine>();
-        standardLines = new ObservableList<SlopeInterceptLine>();
+        savedLines = new ObservableList<StraightLine>();
+        standardLines = new ObservableList<StraightLine>();
 
         graph = new Graph( X_RANGE, Y_RANGE );
 
@@ -75,11 +77,11 @@ public class SlopeInterceptModel implements Resettable {
         pointTool2 = new PointTool( pointTool1.location.get(), interactiveLine, savedLines, standardLines );
 
         // Dynamically set the rise and intercept ranges so that rise + intercept is constrained to the bounds of the graph
-        interactiveLine.addObserver( new VoidFunction1<SlopeInterceptLine>() {
-            public void apply( SlopeInterceptLine line ) {
+        interactiveLine.addObserver( new VoidFunction1<StraightLine>() {
+            public void apply( StraightLine line ) {
                 // Constrain rise to prevent slope=0/0
-                final double minRise = ( line.run == 0 && line.intercept == graph.yRange.getMin() ) ? 1 : graph.yRange.getMin() - line.intercept;
-                final double maxRise = ( line.run == 0 && line.intercept == graph.yRange.getMax() ) ? -1 : graph.yRange.getMax() - line.intercept;
+                final double minRise = ( line.run == 0 && line.yIntercept == graph.yRange.getMin() ) ? 1 : graph.yRange.getMin() - line.yIntercept;
+                final double maxRise = ( line.run == 0 && line.yIntercept == graph.yRange.getMax() ) ? -1 : graph.yRange.getMax() - line.yIntercept;
                 riseRange.set( new DoubleRange( minRise, maxRise ) );
                 interceptRange.set( new DoubleRange( line.rise >= 0 ? graph.yRange.getMin() : graph.yRange.getMin() - line.rise,
                                                      line.rise <= 0 ? graph.yRange.getMax() : graph.yRange.getMax() - line.rise ) );
