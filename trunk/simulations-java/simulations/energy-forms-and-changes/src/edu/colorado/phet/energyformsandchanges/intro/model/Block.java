@@ -34,7 +34,7 @@ public abstract class Block extends RectangularMovableModelElement implements Th
     private final Property<HorizontalSurface> bottomSurface = new Property<HorizontalSurface>( null );
 
     private final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
-    protected final BooleanProperty energyChunksVisible;
+    public final BooleanProperty energyChunksVisible;
 
     private double energy = 0; // In Joules.
 
