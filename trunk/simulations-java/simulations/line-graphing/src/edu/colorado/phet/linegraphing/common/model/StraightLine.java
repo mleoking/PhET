@@ -4,33 +4,71 @@ package edu.colorado.phet.linegraphing.common.model;
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.linegraphing.common.LGColors;
 
 /**
- * Base class for all straight lines.
+ * A straight line, which can be specified in slope-intercept or point-slope form.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class StraightLine {
+public class StraightLine {
+
+    // standard lines
+    public static final StraightLine Y_EQUALS_X_LINE = new StraightLine( 1, 1, 0, LGColors.Y_EQUALS_X, LGColors.Y_EQUALS_X );  // y = x
+    public static final StraightLine Y_EQUALS_NEGATIVE_X_LINE = new StraightLine( -1, 1, 0, LGColors.Y_EQUALS_NEGATIVE_X, LGColors.Y_EQUALS_NEGATIVE_X ); // y = -x
 
     public final double rise;
     public final double run;
+    public final double x1, y1;
+    public final double yIntercept; // y intercept, Double.NaN if the line doesn't intersect the y axis
     public final Color color, highlightColor;
 
-    public StraightLine( double rise, double run, Color color, Color highlightColor ) {
+    // slope-intercept form: y = mx + b
+    public StraightLine( double rise, double run, double yIntercept, Color color, Color highlightColor ) {
         this.rise = rise;
         this.run = run;
+        this.x1 = 0;
+        this.y1 = yIntercept;
+        this.yIntercept = yIntercept;
         this.color = color;
         this.highlightColor = highlightColor;
     }
 
-    // Given y, solve for x.
-    public abstract double solveX( double y );
+    // point-slope form: y = m(x-x1) + y1, or (y-y1) = m(x-x1)
+    public StraightLine( double rise, double run, double x1, double y1, Color color, Color highlightColor ) {
+        this.rise = rise;
+        this.run = run;
+        this.x1 = x1;
+        this.y1 = y1;
+        this.yIntercept = solveY( 0 );
+        this.color = color;
+        this.highlightColor = highlightColor;
+    }
 
-    // Given x, solve for y.
-    public abstract double solveY( double x );
+    // duplicates a line with different colors
+    public StraightLine( StraightLine line, Color color, Color highlightColor ) {
+        this( line.rise, line.run, line.yIntercept, color, highlightColor );
+    }
 
-    // Gets the y intercept.
-    public abstract double getIntercept();
+    // Given x, solve y = m(x - x1) + y1
+    public double solveY( double x ) {
+        if ( run == 0 ) {
+            return Double.NaN;
+        }
+        else {
+            return ( ( rise / run ) * ( x - x1 ) ) + y1;
+        }
+    }
+
+    // Given y, solve x = ((y - y1)/m) + x1
+    public double solveX( double y ) {
+        if ( rise == 0 || run == 0 ) {
+            return Double.NaN;
+        }
+        else {
+            return ( ( y - y1 ) / ( rise / run ) ) + x1;
+        }
+    }
 
     // Get the reduced form of the rise. For example, if rise/run=6/4, reduced slope=3/2, and reduced rise=3.
     public int getReducedRise() {

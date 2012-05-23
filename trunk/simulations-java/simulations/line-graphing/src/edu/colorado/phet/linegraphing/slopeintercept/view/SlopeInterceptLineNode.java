@@ -12,7 +12,7 @@ import edu.colorado.phet.common.piccolophet.event.HighlightHandler.FunctionHighl
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.linegraphing.common.model.Graph;
-import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptLine;
+import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.colorado.phet.linegraphing.slopeintercept.view.ReducedSlopeInterceptEquationFactory.ReducedSlopeInterceptEquationNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -31,11 +31,11 @@ class SlopeInterceptLineNode extends PComposite {
     private static final double LINE_EXTENT = 25; // how far the line extends past the grid
     private static final PhetFont EQUATION_FONT = new PhetFont( Font.BOLD, 18 );
 
-    public final SlopeInterceptLine line;
+    public final StraightLine line;
     private final DoubleArrowNode arrowNode;
     private final ReducedSlopeInterceptEquationNode equationNode;
 
-    public SlopeInterceptLineNode( final SlopeInterceptLine line, Graph graph, ModelViewTransform mvt ) {
+    public SlopeInterceptLineNode( final StraightLine line, Graph graph, ModelViewTransform mvt ) {
 
         this.line = line;
 
@@ -54,9 +54,9 @@ class SlopeInterceptLineNode extends PComposite {
         else if ( line.rise == 0 ) {
             // y = b
             tailX = graph.xRange.getMin() - xExtent;
-            tailY = line.intercept;
+            tailY = line.yIntercept;
             tipX = graph.xRange.getMax() + yExtent;
-            tipY = line.intercept;
+            tipY = line.yIntercept;
         }
         else {
 

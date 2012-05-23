@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.ParameterKeys;
-import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptLine;
+import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
@@ -25,10 +25,10 @@ abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
 
     protected final LineManipulatorNode manipulatorNode;
     protected final ModelViewTransform mvt;
-    protected final Property<SlopeInterceptLine> line;
+    protected final Property<StraightLine> line;
 
     public LineManipulatorDragHandler( IUserComponent userComponent, IUserComponentType componentType,
-                                       LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<SlopeInterceptLine> line ) {
+                                       LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<StraightLine> line ) {
         super( userComponent, componentType, true /* sendDragMessages */ );
         this.manipulatorNode = manipulatorNode;
         this.mvt = mvt;
@@ -44,14 +44,15 @@ abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
         super.endDrag( event );
         manipulatorNode.setDragging( false );
         // snap to grid
-        line.set( new SlopeInterceptLine( MathUtil.round( line.get().rise ), MathUtil.round( line.get().run ), MathUtil.round( line.get().intercept ), LGColors.INTERACTIVE_LINE ) );
+        line.set( new StraightLine( MathUtil.round( line.get().rise ), MathUtil.round( line.get().run ), MathUtil.round( line.get().yIntercept ),
+                                    LGColors.INTERACTIVE_LINE, LGColors.INTERACTIVE_LINE ) );
     }
 
     @Override protected ParameterSet getParametersForAllEvents( PInputEvent event ) {
         return new ParameterSet().
                 with( ParameterKeys.rise, line.get().rise ).
                 with( ParameterKeys.run, line.get().run ).
-                with( ParameterKeys.intercept, line.get().intercept ).
+                with( ParameterKeys.intercept, line.get().yIntercept ).
                 with( super.getParametersForAllEvents( event ) );
     }
 
@@ -62,7 +63,7 @@ abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
         private double clickYOffset; // offset of mouse click from dragNode's origin, in parent's coordinate frame
 
         public InterceptDragHandler( IUserComponent userComponent, IUserComponentType componentType,
-                                     LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<SlopeInterceptLine> line,
+                                     LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<StraightLine> line,
                                      Property<DoubleRange> interceptRange ) {
             super( userComponent, componentType, manipulatorNode, mvt, line );
             this.interceptRange = interceptRange;
@@ -71,14 +72,14 @@ abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
         @Override protected void startDrag( PInputEvent event ) {
             super.startDrag( event );
             Point2D pMouse = event.getPositionRelativeTo( manipulatorNode.getParent() );
-            clickYOffset = pMouse.getY() - mvt.modelToViewDeltaY( line.get().intercept );
+            clickYOffset = pMouse.getY() - mvt.modelToViewDeltaY( line.get().yIntercept );
         }
 
         @Override protected void drag( PInputEvent event ) {
             super.drag( event );
             Point2D pMouse = event.getPositionRelativeTo( manipulatorNode.getParent() );
             double intercept = MathUtil.clamp( mvt.viewToModelDeltaY( pMouse.getY() - clickYOffset ), interceptRange.get() );
-            line.set( new SlopeInterceptLine( line.get().rise, line.get().run, intercept, LGColors.INTERACTIVE_LINE ) );
+            line.set( new StraightLine( line.get().rise, line.get().run, intercept, LGColors.INTERACTIVE_LINE, LGColors.INTERACTIVE_LINE ) );
         }
     }
 
@@ -89,7 +90,7 @@ abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
         private double clickXOffset, clickYOffset; // offset of mouse click from dragNode's origin, in parent's coordinate frame
 
         public SlopeDragHandler( IUserComponent userComponent, IUserComponentType componentType,
-                                 LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<SlopeInterceptLine> line,
+                                 LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<StraightLine> line,
                                  Property<DoubleRange> riseRange,
                                  Property<DoubleRange> runRange ) {
             super( userComponent, componentType, manipulatorNode, mvt, line );
@@ -101,15 +102,15 @@ abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
             super.startDrag( event );
             Point2D pMouse = event.getPositionRelativeTo( manipulatorNode.getParent() );
             clickXOffset = pMouse.getX() - mvt.modelToViewDeltaX( line.get().run );
-            clickYOffset = pMouse.getY() - mvt.modelToViewDeltaY( line.get().rise + line.get().intercept );
+            clickYOffset = pMouse.getY() - mvt.modelToViewDeltaY( line.get().rise + line.get().yIntercept );
         }
 
         @Override protected void drag( PInputEvent event ) {
             super.drag( event );
             Point2D pMouse = event.getPositionRelativeTo( manipulatorNode.getParent() );
             double run = MathUtil.clamp( mvt.viewToModelDeltaX( pMouse.getX() - clickXOffset ), runRange.get() );
-            double rise = MathUtil.clamp( mvt.viewToModelDeltaY( pMouse.getY() - clickYOffset ) - line.get().intercept, riseRange.get() );
-            line.set( new SlopeInterceptLine( rise, run, line.get().intercept, LGColors.INTERACTIVE_LINE ) );
+            double rise = MathUtil.clamp( mvt.viewToModelDeltaY( pMouse.getY() - clickYOffset ) - line.get().yIntercept, riseRange.get() );
+            line.set( new StraightLine( rise, run, line.get().yIntercept, LGColors.INTERACTIVE_LINE, LGColors.INTERACTIVE_LINE ) );
         }
     }
 }

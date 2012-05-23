@@ -24,7 +24,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PadBoundsNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Graph;
-import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptLine;
+import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.colorado.phet.linegraphing.slopeintercept.view.LineManipulatorDragHandler.InterceptDragHandler;
 import edu.colorado.phet.linegraphing.slopeintercept.view.LineManipulatorDragHandler.SlopeDragHandler;
 import edu.colorado.phet.linegraphing.slopeintercept.view.RiseRunBracketNode.Direction;
@@ -51,9 +51,9 @@ class LineGraphNode extends GraphNode {
     private final Property<Boolean> linesVisible, interactiveLineVisible, slopeVisible;
 
     public LineGraphNode( final Graph graph, final ModelViewTransform mvt,
-                          Property<SlopeInterceptLine> interactiveLine,
-                          ObservableList<SlopeInterceptLine> savedLines,
-                          ObservableList<SlopeInterceptLine> standardLines,
+                          Property<StraightLine> interactiveLine,
+                          ObservableList<StraightLine> savedLines,
+                          ObservableList<StraightLine> standardLines,
                           Property<DoubleRange> riseRange,
                           Property<DoubleRange> runRange,
                           Property<DoubleRange> interceptRange,
@@ -92,32 +92,32 @@ class LineGraphNode extends GraphNode {
         addChild( slopeManipulatorNode ); // add slope after intercept, so that slope can be changed when x=0
 
         // Add/remove standard lines
-        standardLines.addElementAddedObserver( new VoidFunction1<SlopeInterceptLine>() {
-            public void apply( SlopeInterceptLine line ) {
+        standardLines.addElementAddedObserver( new VoidFunction1<StraightLine>() {
+            public void apply( StraightLine line ) {
                 addStandardLine( line );
             }
         } );
-        standardLines.addElementRemovedObserver( new VoidFunction1<SlopeInterceptLine>() {
-            public void apply( SlopeInterceptLine line ) {
+        standardLines.addElementRemovedObserver( new VoidFunction1<StraightLine>() {
+            public void apply( StraightLine line ) {
                 removeStandardLine( line );
             }
         } );
 
         // Add/remove saved lines
-        savedLines.addElementAddedObserver( new VoidFunction1<SlopeInterceptLine>() {
-            public void apply( SlopeInterceptLine line ) {
+        savedLines.addElementAddedObserver( new VoidFunction1<StraightLine>() {
+            public void apply( StraightLine line ) {
                 addSavedLine( line );
             }
         } );
-        savedLines.addElementRemovedObserver( new VoidFunction1<SlopeInterceptLine>() {
-            public void apply( SlopeInterceptLine line ) {
+        savedLines.addElementRemovedObserver( new VoidFunction1<StraightLine>() {
+            public void apply( StraightLine line ) {
                 removeSavedLine( line );
             }
         } );
 
         // When the interactive line changes, update the graph.
-        interactiveLine.addObserver( new VoidFunction1<SlopeInterceptLine>() {
-            public void apply( SlopeInterceptLine line ) {
+        interactiveLine.addObserver( new VoidFunction1<StraightLine>() {
+            public void apply( StraightLine line ) {
                 updateInteractiveLine( line, graph, mvt );
             }
         } );
@@ -150,23 +150,23 @@ class LineGraphNode extends GraphNode {
                                                                                   interceptManipulatorNode, mvt, interactiveLine, interceptRange ) );
     }
 
-    private void addStandardLine( SlopeInterceptLine line ) {
+    private void addStandardLine( StraightLine line ) {
         standardLinesParentNode.addChild( new SlopeInterceptLineNode( line, graph, mvt ) );
     }
 
-    private void removeStandardLine( SlopeInterceptLine line ) {
+    private void removeStandardLine( StraightLine line ) {
         removeLine( line, standardLinesParentNode );
     }
 
-    private void addSavedLine( SlopeInterceptLine line ) {
+    private void addSavedLine( StraightLine line ) {
         savedLinesParentNode.addChild( new SlopeInterceptLineNode( line, graph, mvt ) );
     }
 
-    private void removeSavedLine( SlopeInterceptLine line ) {
+    private void removeSavedLine( StraightLine line ) {
         removeLine( line, savedLinesParentNode );
     }
 
-    private static void removeLine( SlopeInterceptLine line, PNode parent ) {
+    private static void removeLine( StraightLine line, PNode parent ) {
         for ( int i = 0; i < parent.getChildrenCount(); i++ ) {
             PNode node = parent.getChild( i );
             if ( node instanceof SlopeInterceptLineNode ) {
@@ -196,7 +196,7 @@ class LineGraphNode extends GraphNode {
     }
 
     // Updates the line and its associated decorations
-    private void updateInteractiveLine( final SlopeInterceptLine line, final Graph graph, final ModelViewTransform mvt ) {
+    private void updateInteractiveLine( final StraightLine line, final Graph graph, final ModelViewTransform mvt ) {
 
         // replace the line node
         interactiveLineParentNode.removeAllChildren();
@@ -212,19 +212,19 @@ class LineGraphNode extends GraphNode {
             final Direction runDirection = line.rise >= 0 ? Direction.UP : Direction.DOWN;
             final RiseRunBracketNode runBracketNode = new RiseRunBracketNode( runDirection, mvt.modelToViewDeltaX( line.run ), line.run );
             bracketsParentNode.addChild( runBracketNode );
-            runBracketNode.setOffset( mvt.modelToViewX( 0 ), mvt.modelToViewY( line.intercept ) );
+            runBracketNode.setOffset( mvt.modelToViewX( 0 ), mvt.modelToViewY( line.yIntercept ) );
 
             // rise bracket
             if (  MathUtil.round( line.rise ) != 0  ) {
                 final Direction riseDirection = line.run > 0 ? Direction.LEFT : Direction.RIGHT;
                 final RiseRunBracketNode riseBracket = new RiseRunBracketNode( riseDirection, mvt.modelToViewDeltaX( line.rise ), line.rise );
                 bracketsParentNode.addChild( riseBracket );
-                riseBracket.setOffset( mvt.modelToViewX( line.run ), mvt.modelToViewY( line.intercept ) );
+                riseBracket.setOffset( mvt.modelToViewX( line.run ), mvt.modelToViewY( line.yIntercept ) );
             }
         }
 
         // move the manipulators
-        final double y = line.rise + line.intercept;
+        final double y = line.rise + line.yIntercept;
         double x;
         if ( line.run == 0 ) {
             x = 0;
@@ -236,7 +236,7 @@ class LineGraphNode extends GraphNode {
             x = line.solveX( y );
         }
         slopeManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( x, y ) ) );
-        interceptManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( 0, line.intercept ) ) );
+        interceptManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( 0, line.yIntercept ) ) );
     }
 
     // Creates an icon for the "y = +x" feature

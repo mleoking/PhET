@@ -20,14 +20,13 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.linegraphing.common.LGColors;
-import edu.colorado.phet.linegraphing.common.LGResources;
 import edu.colorado.phet.linegraphing.common.LGResources.Images;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.ParameterKeys;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Graph;
+import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.colorado.phet.linegraphing.slopeintercept.model.PointTool;
-import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptLine;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -86,7 +85,7 @@ class PointToolNode extends PhetPNode {
                     coordinatesNode.setText( MessageFormat.format( Strings.PATTERN_X_Y, COORDINATES_FORMAT.format( location.getX() ), COORDINATES_FORMAT.format( location.getY() ) ) );
                     if ( linesVisible.get() ) {
                         // use the line's color to highlight
-                        SlopeInterceptLine onLine = pointTool.onLine.get();
+                        StraightLine onLine = pointTool.onLine.get();
                         coordinatesNode.setTextPaint( onLine == null ? LGColors.POINT_TOOL_FOREGROUND_NORMAL_COLOR : LGColors.POINT_TOOL_FOREGROUND_HIGHLIGHT_COLOR );
                         backgroundNode.setPaint( onLine == null ? LGColors.POINT_TOOL_BACKGROUND_NORMAL_COLOR : onLine.color );
                     }

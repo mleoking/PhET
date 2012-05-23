@@ -28,7 +28,7 @@ import edu.colorado.phet.linegraphing.common.LGResources.Images;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.ParameterKeys;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
-import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptLine;
+import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -48,11 +48,11 @@ class EquationControls extends PhetPNode {
                                                            Strings.SYMBOL_INTERCEPT );
 
     public EquationControls( final Property<Boolean> maximized,
-                             final Property<SlopeInterceptLine> interactiveLine,
+                             final Property<StraightLine> interactiveLine,
                              Property<DoubleRange> riseRange,
                              Property<DoubleRange> runRange,
                              Property<DoubleRange> interceptRange,
-                             final ObservableList<SlopeInterceptLine> savedLines,
+                             final ObservableList<StraightLine> savedLines,
                              final Property<Boolean> linesVisible ) {
 
         PNode titleNode = new PhetPText( TITLE, new PhetFont( Font.BOLD, 18 ), LGColors.INTERACTIVE_LINE );
@@ -133,7 +133,7 @@ class EquationControls extends PhetPNode {
         // Save the current state of the interactive line.
         saveLineButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                savedLines.add( new SlopeInterceptLine( interactiveLine.get(), LGColors.SAVED_LINE_NORMAL, LGColors.SAVED_LINE_HIGHLIGHT ) );
+                savedLines.add( new StraightLine( interactiveLine.get(), LGColors.SAVED_LINE_NORMAL, LGColors.SAVED_LINE_HIGHLIGHT ) );
             }
         } );
 
@@ -153,8 +153,8 @@ class EquationControls extends PhetPNode {
         };
 
         // Enabled/disable buttons when saved lines are added/removed.
-        final VoidFunction1<SlopeInterceptLine> savedLinesChanged = new VoidFunction1<SlopeInterceptLine>() {
-            public void apply( SlopeInterceptLine line ) {
+        final VoidFunction1<StraightLine> savedLinesChanged = new VoidFunction1<StraightLine>() {
+            public void apply( StraightLine line ) {
                 enableButtons.apply();
             }
         };
