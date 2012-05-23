@@ -23,7 +23,7 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
 
     private static final double WIDTH = 0.075; // In meters.
     private static final double HEIGHT = WIDTH;
-    private static final double MAX_ENERGY_GENERATION_RATE = 2000; // joules/sec TODO: Needs tweaking.
+    private static final double MAX_ENERGY_GENERATION_RATE = 3000; // joules/sec TODO: Needs tweaking.
 
     // Constants that define the energy transfer behavior.  This is modeled as
     // though there was a block just above the burner, and it heats up, and
