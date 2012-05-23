@@ -13,7 +13,7 @@ import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
-import edu.colorado.phet.linegraphing.slopeintercept.view.ReducedSlopeInterceptEquationFactory.ReducedSlopeInterceptEquationNode;
+import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptEquationFactory.ReducedSlopeInterceptEquationNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -97,7 +97,7 @@ class SlopeInterceptLineNode extends PComposite {
         addChild( equationParentNode );
         equationParentNode.setOffset( tipLocation );
         equationParentNode.setRotation( line.run == 0 ? Math.PI / 2 : -Math.atan( line.rise / line.run ) );
-        equationNode = ReducedSlopeInterceptEquationFactory.createNode( line, EQUATION_FONT );
+        equationNode = SlopeInterceptEquationFactory.createNode( line, EQUATION_FONT );
         PNode zeroOffsetNode = new ZeroOffsetNode( equationNode );
         equationParentNode.addChild( zeroOffsetNode );
         zeroOffsetNode.setOffset( -zeroOffsetNode.getFullBoundsReference().getWidth() - 12,
