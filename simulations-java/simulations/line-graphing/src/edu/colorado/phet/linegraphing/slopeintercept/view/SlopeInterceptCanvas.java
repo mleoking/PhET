@@ -35,7 +35,7 @@ public class SlopeInterceptCanvas extends LGCanvas implements Resettable {
                                        interactiveEquationVisible, linesVisible, interactiveLineVisible, slopeVisible );
         PNode pointTool1 = new PointToolNode( model.pointTool1, model.mvt, model.graph, getStageBounds(), linesVisible );
         PNode pointTool2 = new PointToolNode( model.pointTool2, model.mvt, model.graph, getStageBounds(), linesVisible );
-        EquationControls equationControls = new EquationControls( interactiveEquationVisible, model.interactiveLine,
+        SlopeInterceptEquationControls equationControls = new SlopeInterceptEquationControls( interactiveEquationVisible, model.interactiveLine,
                                                                   model.riseRange, model.runRange, model.interceptRange,
                                                                   model.savedLines, linesVisible );
         PNode graphControls = new GraphControls( linesVisible, slopeVisible, model.standardLines );
