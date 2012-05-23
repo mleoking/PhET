@@ -59,7 +59,6 @@ class SlopeInterceptLineNode extends PComposite {
             tipY = line.yIntercept;
         }
         else {
-
             // tail is the left-most end point. Compute x such that the point is inside the grid.
             tailX = graph.xRange.getMin() - xExtent;
             tailY = line.solveY( tailX );
