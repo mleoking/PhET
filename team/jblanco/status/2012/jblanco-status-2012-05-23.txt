@@ -1,0 +1,72 @@
+PhET Weekly Progress Report
+John Blanco
+May 23rd, 2012
+
+Time period covered: May 10th through May 22nd.  This is 9 week days due to a cancelled meeting and a change to the meeting schedule.
+
+Energy Forms and Changes - 32.5 hrs
+
+o	Added representation of energy.
+o	Got energy chunks to be associated with thermal model elements.
+o	Made thermometers be in back of tool box when in tool box, in front of objects when out.
+o	Made visibility of energy chunks work.
+o	Implemented initial version of model for transfer of energy between thermal model elements.
+o	Added energy to all thermal objects for room temperature.
+o	Got the thermometers working.
+o	Reduced the size of the triangle on the thermometers (suggested at last group meeting).
+o	Got energy transfer working between burners, blocks, and beaker.
+o	Worked on algorithm for adding, removing, and distributing the energy chunks.
+
+Gene Expression - 8.0 hrs
+
+o	Cleaned up most TODOs in the code.
+o	Various pre-release testing.
+
+Beers Law - 3.0 hrs
+
+o	Performed code review.
+o	Verified bug related to fluid coming out of the drain when beaker is empty, see #3330.
+
+Fractions - 0.5 hrs
+
+o	Discussed in Physics Meeting.
+
+Line Graphing - 0.5 hrs
+
+o	Discussed in Physics Meeting.
+
+Functions - 0.5 hrs
+
+o	Discussed in Physics Meeting.
+
+Common Code - 2.5 hrs
+
+o	Changed slider knob in common sliders to be pointy.
+o	Cleaned up forked slider knob code.
+o	Fixed issue with gradient on new pointy knob.
+o	Verified #3277, released to data collection from the WavelengthControl.
+
+Installers - 8.0 hrs
+
+o	Created a version of the installer builder that creates a multi-language installer (in collaboration with JO), see #3331.
+
+Environment - 1.5 hrs
+
+o	Got VPN working from my home (had previously been an issue, required support from CU IT).
+o	Worked on getting sudo privileges for JO on Simian.
+
+Miscellaneous - 1.0 hrs
+
+o	Reviewed and provided feedback on video about using PhET in conjunction with clickers.
+
+Meetings, Email, and Other Administrative Overhead - 11.0 hrs
+
+o	Weekly status meeting.
+o	Weekly status report.
+o	Logged hours in tracking spreadsheet.
+o	Review, prioritization, and updating of Unfuddle issues.  Did a bunch of this.
+o	Normal email and administrative overhead.
+
+Vacation and Holidays - 3 hrs
+
+o	Took 3 hrs on 5/11/2012.
