@@ -84,7 +84,7 @@ abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
         }
     }
 
-    // Drag handler for run manipulator
+    // Drag handler for slope (rise/run) manipulator
     public static class SlopeDragHandler extends LineManipulatorDragHandler {
 
         private final Property<DoubleRange> riseRange, runRange;
