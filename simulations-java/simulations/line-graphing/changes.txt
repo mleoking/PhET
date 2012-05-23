@@ -1,3 +1,4 @@
+5/23/12 move PointTool to linegraphing.common.model
 5/23/12 change PointTool to use x1,y1 instead of yIntercept (more general)
 5/23/12 collapse StraightLine class hierarchy to one class with slope-intercept and point-slope constructors
 5/22/12 simplify Graph model
