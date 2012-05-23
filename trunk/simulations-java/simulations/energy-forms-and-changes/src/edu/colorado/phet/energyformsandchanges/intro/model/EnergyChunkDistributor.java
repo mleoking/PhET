@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 public class EnergyChunkDistributor {
 
     //    private static final double FORCE_CONSTANT = 100E-6; // Chosen empirically.
-    private static final double FORCE_CONSTANT = 0.01; // Chosen empirically.
+    private static final double FORCE_CONSTANT = 0.1; // Chosen empirically.
     private static final double OUTSIDE_RECT_FORCE = 10; // In Newtons.
     private static final double TIME_STEP = 1E-6; // In seconds, for algorithm that moves the points.
     private static final int NUM_TIME_STEPS = 100;
