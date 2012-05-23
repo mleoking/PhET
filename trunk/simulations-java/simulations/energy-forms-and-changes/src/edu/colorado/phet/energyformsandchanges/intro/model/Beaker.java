@@ -60,6 +60,8 @@ public class Beaker extends RectangularMovableModelElement implements ThermalEne
 
     private double energy = INITIAL_THERMAL_ENERGY; // In Joules
 
+    private BooleanProperty energyChunksVisible;
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
@@ -72,6 +74,7 @@ public class Beaker extends RectangularMovableModelElement implements ThermalEne
      */
     public Beaker( ImmutableVector2D initialPosition, BooleanProperty energyChunksVisible ) {
         super( initialPosition );
+        this.energyChunksVisible = energyChunksVisible;
 
         // Update the top and bottom surfaces whenever the position changes.
         position.addObserver( new VoidFunction1<ImmutableVector2D>() {
@@ -90,8 +93,8 @@ public class Beaker extends RectangularMovableModelElement implements ThermalEne
             }
         } );
 
-        // TODO: Temp for prototyping.
-        energyChunkList.add( new EnergyChunk( initialPosition.getAddedInstance( 0.02, 0.01 ), energyChunksVisible ) );
+        // Set initial number of energy chunks.
+        updateEnergyChunks();
     }
 
     //-------------------------------------------------------------------------
@@ -178,6 +181,7 @@ public class Beaker extends RectangularMovableModelElement implements ThermalEne
 
     public void changeEnergy( double deltaEnergy ) {
         energy += deltaEnergy;
+        updateEnergyChunks();
     }
 
     public void exchangeEnergyWith( ThermalEnergyContainer energyContainer, double dt ) {
@@ -197,7 +201,10 @@ public class Beaker extends RectangularMovableModelElement implements ThermalEne
     }
 
     public ThermalContactArea getThermalContactArea() {
-        return new ThermalContactArea( getRect(), true );
+        return new ThermalContactArea( new Rectangle2D.Double( position.get().getX() - WIDTH / 2,
+                                                               position.get().getY(),
+                                                               WIDTH,
+                                                               HEIGHT * fluidLevel.get() ), true );
     }
 
     public double getTemperature() {
@@ -215,5 +222,25 @@ public class Beaker extends RectangularMovableModelElement implements ThermalEne
 
     @Override public IUserComponentType getUserComponentType() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    // Update the number and positions of the energy chunks.
+    private void updateEnergyChunks() {
+        double multiplier = 0.0001;
+        double minEnergy = 10000;
+        int numChunks = (int) Math.round( Math.max( energy - minEnergy, 0 ) * multiplier );
+        while ( numChunks != energyChunkList.size() ) {
+            if ( numChunks > energyChunkList.size() ) {
+                // Add a chunk at a random location in the block.
+                energyChunkList.add( new EnergyChunk( EnergyChunkDistributor.generateRandomLocation( getThermalContactArea().getBounds() ), energyChunksVisible ) );
+                System.out.println( "Added a chunk" );
+            }
+            else {
+                // Remove a chunk.
+                energyChunkList.remove( 0 );
+                System.out.println( "Removed a chunk" );
+            }
+            EnergyChunkDistributor.distribute( getThermalContactArea().getBounds(), energyChunkList );
+        }
     }
 }

@@ -200,7 +200,7 @@ public abstract class Block extends RectangularMovableModelElement implements Th
 
     // Update the number and positions of the energy chunks.
     private void updateEnergyChunks() {
-        double multiplier = 0.0002;
+        double multiplier = 0.0001;
         double minEnergy = 10000;
         int numChunks = (int) Math.round( Math.max( energy - minEnergy, 0 ) * multiplier );
         while ( numChunks != energyChunkList.size() ) {
