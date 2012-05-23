@@ -25,7 +25,7 @@ Common Code
 Help
 - #3332, customer wanted to run PhET sims from HTML
 
-WHAT'S NEXT:
+WHAT'S NEXT:                                                                         '
 
 - Line Graphing: implement "Point-Slope" tab, design "Game" tab
 
