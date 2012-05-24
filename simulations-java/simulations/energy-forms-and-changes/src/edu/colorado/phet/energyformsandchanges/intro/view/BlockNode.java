@@ -120,7 +120,7 @@ public class BlockNode extends PComposite {
         }
 
         // Position and add the label.
-        PText label = new PText( block.getLabel() );
+        final PText label = new PText( block.getLabel() );
         label.setFont( LABEL_FONT );
         if ( label.getFullBoundsReference().width >= mvt.modelToViewDeltaX( Block.SURFACE_WIDTH * 0.9 ) ) {
             // Scale the label to fit on the face of the block.
@@ -140,6 +140,7 @@ public class BlockNode extends PComposite {
                 blockFace.setTransparency( opaqueness );
                 blockTop.setTransparency( opaqueness );
                 blockSide.setTransparency( opaqueness );
+                label.setTransparency( opaqueness );
             }
         } );
 
