@@ -56,7 +56,7 @@ public class EFACIntroModel {
 
     // Movable thermal model objects.
     private final Brick brick;
-    private final LeadBlock leadBlock;
+    private final IronBlock ironBlock;
     private final Beaker beaker;
 
     // Thermometers.
@@ -93,13 +93,13 @@ public class EFACIntroModel {
 
         // Add and position the blocks
         brick = new Brick( new ImmutableVector2D( -0.1, 0 ), energyChunksVisible );
-        leadBlock = new LeadBlock( new ImmutableVector2D( -0.175, 0 ), energyChunksVisible );
+        ironBlock = new IronBlock( new ImmutableVector2D( -0.175, 0 ), energyChunksVisible );
 
         // Put all the thermal containers on a list for easy iteration.
         energyContainerList.add( leftBurner );
         energyContainerList.add( rightBurner );
         energyContainerList.add( brick );
-        energyContainerList.add( leadBlock );
+        energyContainerList.add( ironBlock );
         energyContainerList.add( beaker );
 
         // Add the thermometers.  They should reside in the tool box when
@@ -119,7 +119,7 @@ public class EFACIntroModel {
     public void reset() {
         leftBurner.reset();
         rightBurner.reset();
-        leadBlock.reset();
+        ironBlock.reset();
         brick.reset();
         beaker.reset();
         thermometer1.reset();
@@ -137,7 +137,7 @@ public class EFACIntroModel {
         // Cause any user-movable model elements that are not supported by a
         // surface to fall (or, in some cases, jump up) towards the nearest
         // supporting surface.
-        for ( UserMovableModelElement movableModelElement : Arrays.asList( leadBlock, brick, beaker ) ) {
+        for ( UserMovableModelElement movableModelElement : Arrays.asList( ironBlock, brick, beaker ) ) {
             if ( !movableModelElement.userControlled.get() && movableModelElement.getSupportingSurface() == null && movableModelElement.position.get().getY() != 0 ) {
                 double minYPos = 0;
 
@@ -173,7 +173,7 @@ public class EFACIntroModel {
 
         // Update the fluid level in the beaker, which could be displaced by
         // one or more of the blocks.
-        beaker.updateFluidLevel( Arrays.asList( brick.getRect(), leadBlock.getRect() ) );
+        beaker.updateFluidLevel( Arrays.asList( brick.getRect(), ironBlock.getRect() ) );
 
         // Update the energy in the burners based on the amount that they are
         // internally producing or consuming.
@@ -183,7 +183,7 @@ public class EFACIntroModel {
         // Update the temperature seen by the thermometers.
         for ( Thermometer thermometer : Arrays.asList( thermometer1, thermometer2 ) ) {
             boolean touchingSomething = false;
-            for ( ThermalEnergyContainer element : Arrays.asList( beaker, brick, leadBlock, leftBurner, rightBurner ) ) {
+            for ( ThermalEnergyContainer element : Arrays.asList( beaker, brick, ironBlock, leftBurner, rightBurner ) ) {
                 if ( element.getThermalContactArea().getBounds().contains( thermometer.position.get().toPoint2D() ) ) {
                     thermometer.sensedTemperature.set( element.getTemperature() );
                     touchingSomething = true;
@@ -256,7 +256,7 @@ public class EFACIntroModel {
         }
 
         // Now check the model element's motion against each of the blocks.
-        for ( Block block : Arrays.asList( leadBlock, brick ) ) {
+        for ( Block block : Arrays.asList( ironBlock, brick ) ) {
             if ( modelElement == block ) {
                 // Don't test against self.
                 continue;
@@ -379,8 +379,8 @@ public class EFACIntroModel {
         return brick;
     }
 
-    public LeadBlock getLeadBlock() {
-        return leadBlock;
+    public IronBlock getIronBlock() {
+        return ironBlock;
     }
 
     public Burner getLeftBurner() {
@@ -408,7 +408,7 @@ public class EFACIntroModel {
 
         // Check each of the possible supporting elements in the model to see
         // if this element can go on top of it.
-        for ( ModelElement potentialSupportingElement : Arrays.asList( leftBurner, rightBurner, brick, leadBlock, beaker ) ) {
+        for ( ModelElement potentialSupportingElement : Arrays.asList( leftBurner, rightBurner, brick, ironBlock, beaker ) ) {
             if ( potentialSupportingElement == element || potentialSupportingElement.isStackedUpon( element ) ) {
                 // The potential supporting element is either the same as the
                 // test element or is sitting on top of the test element.  In
@@ -439,7 +439,7 @@ public class EFACIntroModel {
     }
 
     public List<Block> getBlockList() {
-        return Arrays.asList( brick, leadBlock );
+        return Arrays.asList( brick, ironBlock );
     }
 
     // Get the amount of overlap in the x direction between two horizontal surfaces.
