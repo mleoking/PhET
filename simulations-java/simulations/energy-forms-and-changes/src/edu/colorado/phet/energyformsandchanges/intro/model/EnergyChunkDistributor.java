@@ -29,7 +29,6 @@ public class EnergyChunkDistributor {
 
         // Limit distances to avoid moving too much in one time step.
         double minDistance = Math.min( rect.getWidth() / 100, rect.getHeight() / 100 );
-        double maxMovementPerStep = Math.min( rect.getWidth() / 4, rect.getHeight() / 4 );
 
         // Create a map that relates each energy chunk to a point mass.
         Map<EnergyChunk, PointMass> map = new HashMap<EnergyChunk, PointMass>();
@@ -153,7 +152,8 @@ public class EnergyChunkDistributor {
             */
             // Check that the velocity won't put the point outside of the container.
             if ( !containerRect.contains( position.getAddedInstance( velocity.getScaledInstance( dt ) ).toPoint2D() ) ) {
-                System.out.println( "Velocity would put" );
+                System.out.println( "Velocity would put point mass out of bounds, scaling down." );
+                velocity.setMagnitude( 0 );
             }
             position.add( velocity.getScaledInstance( dt ) );
         }
