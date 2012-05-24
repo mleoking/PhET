@@ -21,7 +21,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.SlowMotionNormalTimeControlPanel;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
@@ -269,12 +268,10 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         private ThermometerToolBox( EFACIntroModel model, ModelViewTransform mvt, Color backgroundColor ) {
             this.model = model;
             this.mvt = mvt;
-            PNode title = new PhetPText( "Tool Box", TITLE_FONT );
-            addChild( title );
             double thermometerHeight = EnergyFormsAndChangesResources.Images.THERMOMETER_BACK.getHeight( null );
             double thermometerWidth = EnergyFormsAndChangesResources.Images.THERMOMETER_BACK.getWidth( null );
             PhetPPath thermometerRegion = new PhetPPath( new Rectangle2D.Double( 0, 0, thermometerHeight * 1.1, thermometerWidth * 3 ), new Color( 0, 0, 0, 0 ) );
-            addChild( new ControlPanelNode( new VBox( 0, title, thermometerRegion ), backgroundColor ) );
+            addChild( new ControlPanelNode( new VBox( 0, thermometerRegion ), backgroundColor ) );
         }
 
         public void putThermometerInOpenSpot( Thermometer thermometer ) {
