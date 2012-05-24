@@ -21,7 +21,7 @@ public class PointMass {
 
     private double targetDistanceToPreviousPoint; // In picometers.
 
-    PointMass( Point2D initialPosition, double targetDistanceToPreviousPoint ) {
+    public PointMass( Point2D initialPosition, double targetDistanceToPreviousPoint ) {
         setPosition( initialPosition );
         this.targetDistanceToPreviousPoint = targetDistanceToPreviousPoint;
     }

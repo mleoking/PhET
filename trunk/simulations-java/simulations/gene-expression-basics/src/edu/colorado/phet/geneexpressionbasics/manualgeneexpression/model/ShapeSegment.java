@@ -8,6 +8,7 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
+import edu.colorado.phet.geneexpressionbasics.common.model.WindingBiomolecule;
 
 /**
  * This class defines a shape that encloses a segment of the mRNA.  These
@@ -102,7 +103,7 @@ public abstract class ShapeSegment {
      * @param length
      * @param shapeSegmentList
      */
-    public abstract void add( double length, MessengerRna.EnhancedObservableList<ShapeSegment> shapeSegmentList );
+    public abstract void add( double length, WindingBiomolecule.EnhancedObservableList<ShapeSegment> shapeSegmentList );
 
     /**
      * Remove the specified amount of mRNA from the segment.  This will
