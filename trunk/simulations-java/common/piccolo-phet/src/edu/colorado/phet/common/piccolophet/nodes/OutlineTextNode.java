@@ -34,7 +34,7 @@ public class OutlineTextNode extends PNode {
     // Font render context used for outline text.  Honestly, I (jblanco) don't
     // know much about font render contexts, but I found a Piccolo node called
     // PStyledText that did this, so I tried it, and it seems to work okay.
-    // It has been testing on Windows 7 and Mac and works well.
+    // It has been tested on Windows 7 and Mac and works well.
     private static FontRenderContext SWING_FRC = new FontRenderContext( null, true, false );
     private PPath textPPath;
     private Font font;
