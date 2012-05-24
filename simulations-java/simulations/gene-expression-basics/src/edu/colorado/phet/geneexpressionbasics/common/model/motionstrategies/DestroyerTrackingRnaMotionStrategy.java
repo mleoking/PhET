@@ -15,10 +15,8 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Messeng
  */
 public class DestroyerTrackingRnaMotionStrategy extends MotionStrategy {
     private final MessengerRna messengerRna;
-    private final MessengerRnaDestroyer messengerRnaDestroyer;
 
     public DestroyerTrackingRnaMotionStrategy( MessengerRnaDestroyer messengerRnaDestroyer ) {
-        this.messengerRnaDestroyer = messengerRnaDestroyer;
         this.messengerRna = messengerRnaDestroyer.getMessengerRnaBeingDestroyed();
     }
 

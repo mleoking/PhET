@@ -27,12 +27,8 @@ public class DnaMoleculeNode extends PNode {
     public static Color STRAND_1_COLOR = new Color( 31, 163, 223 );
     public static Color STRAND_2_COLOR = new Color( 214, 87, 107 );
 
-    // Layer where the gene nodes are placed.
-    private PNode geneBackgroundLayer = new PNode();
-
     // Layers for supporting the 3D look by allowing the "twist" to be depicted.
     private PNode dnaBackboneBackLayer = new PNode();
-    private PNode basePairLayer = new PNode();
     private PNode dnaBackboneFrontLayer = new PNode();
 
     /**
@@ -46,8 +42,10 @@ public class DnaMoleculeNode extends PNode {
 
         // Add the layers onto which the various nodes that represent parts of
         // the dna, the hints, etc. are placed.
+        PNode geneBackgroundLayer = new PNode();
         addChild( geneBackgroundLayer );
         addChild( dnaBackboneBackLayer );
+        PNode basePairLayer = new PNode();
         addChild( basePairLayer );
         addChild( dnaBackboneFrontLayer );
 
