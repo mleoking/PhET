@@ -27,6 +27,8 @@ public class EnergyChunkDistributor {
 
     public static void distribute( Rectangle2D rect, List<EnergyChunk> energyChunkList ) {
 
+        System.out.println( "-------- distribute called -----------" );
+
         // Limit distances to avoid moving too much in one time step.
         double minDistance = Math.min( rect.getWidth() / 100, rect.getHeight() / 100 );
 
@@ -72,6 +74,7 @@ public class EnergyChunkDistributor {
                         if ( vectorToOther.getMagnitude() < minDistance ) {
                             if ( vectorToOther.getMagnitude() == 0 ) {
                                 // Create a random vector of min distance.
+                                System.out.println( "Creating random vector" );
                                 double angle = RAND.nextDouble() * Math.PI * 2;
                                 vectorToOther = new ImmutableVector2D( minDistance * Math.cos( angle ), minDistance * Math.sin( angle ) );
                             }
@@ -137,6 +140,7 @@ public class EnergyChunkDistributor {
             velocity.add( acceleration.getScaledInstance( dt ) );
             if ( velocity.getMagnitude() * dt > maxDistancePerStep ) {
                 System.out.println( "Scaling velocity down, original magnitude = " + velocity.getMagnitude() );
+                System.out.println( "            -----------> vector = " + velocity );
                 velocity.setMagnitude( maxDistancePerStep / dt );
                 System.out.println( "            -----------> revised magnitude = " + velocity.getMagnitude() );
             }
