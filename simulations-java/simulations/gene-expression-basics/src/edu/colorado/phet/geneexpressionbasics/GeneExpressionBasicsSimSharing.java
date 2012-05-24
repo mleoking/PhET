@@ -6,7 +6,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 /**
  * Sim-sharing enums that are specific to this sims.
  *
- * @author Chris Malley (cmalley@pixelzoom.com)
+ * @author John Blanco
  */
 public class GeneExpressionBasicsSimSharing {
 
