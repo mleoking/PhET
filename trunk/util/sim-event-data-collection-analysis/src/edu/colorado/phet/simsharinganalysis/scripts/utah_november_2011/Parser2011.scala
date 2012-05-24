@@ -2,11 +2,11 @@
 package edu.colorado.phet.simsharinganalysis.scripts.utah_november_2011
 
 import java.io.{File, FileReader, BufferedReader}
-import collection.mutable.{HashMap, ArrayBuffer}
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager
 import java.util.{ArrayList, StringTokenizer}
 import edu.colorado.phet.common.phetcommon.simsharing.messages.{IParameterKey, Parameter}
 import edu.colorado.phet.simsharinganalysis.{Log, Entry}
+import collection.mutable.{HashMap, ArrayBuffer}
 
 /**
  * This parser loads a data file and turns it into a Log[Entry].
@@ -31,52 +31,53 @@ class Parser2011 {
 
   def parseLine(line: String) {
     if ( line.trim.length == 0 ) return
-    if ( new StringTokenizer(line, SimSharingManager.DELIMITER).countTokens() < 5 ) {
-      //one of the initial startup messages, will need to be parsed
-      if ( line startsWith "machineID = " ) {
-        machineID = getToken(line, 2)
-      } else if ( line startsWith "sessionID = " ) {
-        sessionID = getToken(line, 2)
-      } else if ( line startsWith "serverTime = " ) {
-        serverTime = getToken(line, 2).toLong
-      }
-    }
-    else {
+    //one of the initial startup messages, will need to be parsed
+    if ( line startsWith "machineID = " ) {
+      machineID = getToken(line, 2)
+    } else if ( line startsWith "sessionID = " ) {
+      sessionID = getToken(line, 2)
+    } else if ( line startsWith "serverTime = " ) {
+      serverTime = getToken(line, 2).toLong
+    } else if ( line.contains("connected to server") ) {
+      //don't worry about it
+    } else {
       lines += parseMessage(line)
     }
   }
 
   def parseMessage(line: String): Entry = {
     val tokenizer = new StringTokenizer(line, SimSharingManager.DELIMITER)
-    if ( tokenizer.countTokens() < 5 ) {
-      println("I predict parse error in your near future, line = " + line)
-    }
-    val time = java.lang.Long.parseLong(tokenizer.nextToken())
+    val time = java.lang.Long.parseLong(tokenizer.nextToken()) + serverTime
     val messageType = tokenizer.nextToken()
     val obj = tokenizer.nextToken()
-    val componentType = tokenizer.nextToken()
-    val event = tokenizer.nextToken()
-    val remainderOfLineBuf = new StringBuffer
-    while ( tokenizer.hasMoreTokens ) {
-      remainderOfLineBuf.append(tokenizer.nextToken)
-      remainderOfLineBuf.append(SimSharingManager.DELIMITER)
-    }
-    val remainderOfLine = remainderOfLineBuf.toString.trim
-    val parameters = parseParameters(remainderOfLine, SimSharingManager.DELIMITER)
-    val map = new HashMap[String, String]()
-    for ( p <- parameters ) {
-      if ( map.contains(p.name.toString) ) {
-        throw new RuntimeException("Duplicate string key for " + p.name)
-      }
-      map.put(p.name.toString, p.value)
-    }
-
     if ( messageType == "system" && obj == "started" ) {
-      new Entry(time, "system", "simsharingManager", "simsharingManager", "started", map.toMap.updated("name", "some name!?"))
-    }
-    else {
-      //make map immutable
-      new Entry(time, messageType, obj, componentType, event, map.toMap)
+      val remainderOfLineBuf = new StringBuffer
+      val remainderOfLine = remainderOfLineBuf.toString.trim
+      val parameters = parseParameters(remainderOfLine, SimSharingManager.DELIMITER)
+      val map = new HashMap[String, String]()
+      for ( p <- parameters ) {
+        if ( map.contains(p.name.toString) ) {
+          throw new RuntimeException("Duplicate string key for " + p.name)
+        }
+        map.put(p.name.toString, p.value)
+      }
+      new Entry(time, "system", "simsharingManager", "simsharingManager", "started", map.toMap.updated("name", "some name!?").updated("serverStartTime", serverTime.toString))
+    } else {
+      //      val componentType = tokenizer.nextToken()
+      //
+      val event = tokenizer.nextToken()
+
+      val remainderOfLineBuf = new StringBuffer
+      val remainderOfLine = remainderOfLineBuf.toString.trim
+      val parameters = parseParameters(remainderOfLine, SimSharingManager.DELIMITER)
+      val map = new HashMap[String, String]()
+      for ( p <- parameters ) {
+        if ( map.contains(p.name.toString) ) {
+          throw new RuntimeException("Duplicate string key for " + p.name)
+        }
+        map.put(p.name.toString, p.value)
+      }
+      new Entry(time, messageType, obj, "object type", event, map.toMap)
     }
   }
 
