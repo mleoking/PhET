@@ -19,7 +19,8 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ShapeSe
 
 /**
  * Biomolecule that is a represented as a wound up strand.  Generally, this
- * refers to some sort of RNA.
+ * refers to some sort of RNA.  The complicated part of this is the algorithm
+ * that is used to wind the strand.
  *
  * @author John Blanco
  */
