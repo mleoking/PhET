@@ -254,15 +254,13 @@ public class MessengerRna extends WindingBiomolecule {
      * translation channel should be in order to be correctly attached to
      * this strand of messenger RNA.  This allows the ribosome to "follow" the
      * mRNA if it is moving or changing shape.
-     * <p/>
-     * TODO: Consider making this a property.  Might be cleaner.
      *
      * @param ribosome
      * @return
      */
     public Point2D getRibosomeAttachmentLocation( Ribosome ribosome ) {
         if ( !mapRibosomeToShapeSegment.containsKey( ribosome ) ) {
-            System.out.println( getClass().getName() + " Warning: Ignoring attempt to obtain attachment point for non-attached ribosom." );
+            System.out.println( getClass().getName() + " Warning: Ignoring attempt to obtain attachment point for non-attached ribosome." );
             return null;
         }
         Point2D attachmentPoint;
