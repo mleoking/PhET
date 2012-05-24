@@ -34,7 +34,7 @@ public class EnergyChunkDistributor {
         // Create a map that relates each energy chunk to a point mass.
         Map<EnergyChunk, PointMass> map = new HashMap<EnergyChunk, PointMass>();
         for ( EnergyChunk energyChunk : energyChunkList ) {
-            map.put( energyChunk, new PointMass( energyChunk.position.get(), maxMovementPerStep ) );
+            map.put( energyChunk, new PointMass( energyChunk.position.get(), rect ) );
         }
 
         // Iterate on the positions of the point masses in order to
@@ -115,10 +115,15 @@ public class EnergyChunkDistributor {
         private Vector2D position = new Vector2D();
         private Vector2D velocity = new Vector2D( 0, 0 );
         private Vector2D acceleration = new Vector2D( 0, 0 );
+        private final Rectangle2D containerRect;
 
-        public PointMass( ImmutableVector2D initialPosition, double maxDistancePerStep ) {
-            this.maxDistancePerStep = maxDistancePerStep;
+        public PointMass( ImmutableVector2D initialPosition, Rectangle2D container ) {
+            this.containerRect = container;
             position.setValue( initialPosition );
+
+            // Since this is a repositioning algorithm, there shouldn't be much
+            // motion in a single step.
+            maxDistancePerStep = Math.min( container.getWidth() / 10, container.getHeight() / 10 );
         }
 
         public void applyForce( ImmutableVector2D force ) {
@@ -131,6 +136,12 @@ public class EnergyChunkDistributor {
 
         public void updatePosition( double dt ) {
             velocity.add( acceleration.getScaledInstance( dt ) );
+            if ( velocity.getMagnitude() * dt > maxDistancePerStep ) {
+                System.out.println( "Scaling velocity down, original magnitude = " + velocity.getMagnitude() );
+                velocity.setMagnitude( maxDistancePerStep / dt );
+                System.out.println( "            -----------> revised magnitude = " + velocity.getMagnitude() );
+            }
+            /*
             ImmutableVector2D dragForce = velocity.getRotatedInstance( Math.PI ).getScaledInstance( Math.pow( velocity.getMagnitude(), 2 ) * 0.5 );
             if ( dragForce.getScaledInstance( dt ).getMagnitude() > velocity.getMagnitude() ) {
                 // Drag force is too large.
@@ -139,10 +150,10 @@ public class EnergyChunkDistributor {
                 dragForce = dragForce.getInstanceOfMagnitude( ( velocity.getMagnitude() / dt ) / 2 );
             }
             velocity.add( dragForce.getScaledInstance( dt ) );
-            if ( velocity.getMagnitude() * dt > maxDistancePerStep ) {
-                // Velocity is too large, scaling down.
-                System.out.println( "Velocity is too large, scaling down, magnitude was " + velocity.getMagnitude() );
-                velocity.setMagnitude( maxDistancePerStep / dt );
+            */
+            // Check that the velocity won't put the point outside of the container.
+            if ( !containerRect.contains( position.getAddedInstance( velocity.getScaledInstance( dt ) ).toPoint2D() ) ) {
+                System.out.println( "Velocity would put" );
             }
             position.add( velocity.getScaledInstance( dt ) );
         }
