@@ -35,11 +35,13 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class BlockNode extends PComposite {
 
+    // Constants that define the 3D projection.  Public so that model can reference.
+    public static final double PERSPECTIVE_ANGLE = Math.PI / 4; // Positive is counterclockwise, a value of 0 produces a non-skewed rectangle.
+    public static final double PERSPECTIVE_EDGE_PROPORTION = 0.33;
+
     private static final Font LABEL_FONT = new PhetFont( 32, false );
     private static final Stroke OUTLINE_STROKE = new BasicStroke( 3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
     private static final Color OUTLINE_STROKE_COLOR = Color.DARK_GRAY;
-    private static final double PERSPECTIVE_ANGLE = Math.PI / 4; // Positive is counterclockwise, a value of 0 produces a non-skewed rectangle.
-    private static final double PERSPECTIVE_EDGE_PROPORTION = 0.33;
 
     private static final boolean SHOW_2D_REPRESENTATION = false;
 
