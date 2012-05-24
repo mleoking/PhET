@@ -134,8 +134,6 @@ public class MessengerRnaFragment extends MobileBiomolecule {
      * when it is being synthesized and when it is being transcribed.
      */
     private void windPointsThroughSegments() {
-        double handledLength = 0;
-
         randomizePointPositionsInRectangle( firstShapeDefiningPoint, lastShapeDefiningPoint, shapeSegment.getBounds() );
         runSpringAlgorithm( firstShapeDefiningPoint, lastShapeDefiningPoint, shapeSegment.getBounds() );
 
