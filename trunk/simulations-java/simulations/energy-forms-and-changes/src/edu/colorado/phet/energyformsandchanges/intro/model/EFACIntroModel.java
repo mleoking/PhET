@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
+import edu.colorado.phet.energyformsandchanges.intro.view.BlockNode;
 
 /**
  * Primary model class for the "Intro" tab of the Energy Forms and Changes
@@ -222,12 +223,25 @@ public class EFACIntroModel {
 
         // Validate against the sides of the beaker.
         if ( modelElement != beaker ) {
+
+            // Calculate an extension amount to apply to the rectangles that
+            // define the beaker collision areas.  This is done to avoid issues
+            // in the view with Z-order.  For now, this assumes only beakers
+            // and blocks in the model.
+            double extensionAmount = Block.SURFACE_WIDTH * BlockNode.PERSPECTIVE_EDGE_PROPORTION * Math.cos( BlockNode.PERSPECTIVE_ANGLE ) / 2;
+
             // Create three rectangles to represent the two sides and the top
             // of the beaker.
             double testRectThickness = 1E-3; // 1 mm thick walls.
             Rectangle2D beakerRect = beaker.getRect();
-            Rectangle2D beakerLeftSide = new Rectangle2D.Double( beakerRect.getMinX(), beaker.getRect().getMinY(), testRectThickness, beaker.getRect().getHeight() );
-            Rectangle2D beakerRightSide = new Rectangle2D.Double( beaker.getRect().getMaxX() - testRectThickness, beaker.getRect().getMinY(), testRectThickness, beaker.getRect().getHeight() );
+            Rectangle2D beakerLeftSide = new Rectangle2D.Double( beakerRect.getMinX() - extensionAmount,
+                                                                 beaker.getRect().getMinY(),
+                                                                 testRectThickness + extensionAmount * 2,
+                                                                 beaker.getRect().getHeight() + extensionAmount );
+            Rectangle2D beakerRightSide = new Rectangle2D.Double( beaker.getRect().getMaxX() - testRectThickness - extensionAmount,
+                                                                  beaker.getRect().getMinY(),
+                                                                  testRectThickness + extensionAmount * 2,
+                                                                  beaker.getRect().getHeight() + extensionAmount );
             Rectangle2D beakerBottom = new Rectangle2D.Double( beaker.getRect().getMinX(), beaker.getRect().getMinY(), beaker.getRect().getWidth(), testRectThickness );
 
             // Do not restrict the model element's motion in positive Y
