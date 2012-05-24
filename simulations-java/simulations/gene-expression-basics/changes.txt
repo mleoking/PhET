@@ -1,3 +1,5 @@
+Consolidated code for messenger RNA and the fragments produced.  This resulted in a change to the look of the mRNA fragments.
+Cleaned up TODOs in the code.
 Changed sliders to use a different knob - one that looks more professional.
 Changed the way parameters are grouped on the 3rd tab to be more oriented towards function (e.g. "Affinity") instead of biomolecule (e.g. "Transcription Factors").
 # 0.00.21 (63741) Apr 25, 2012
