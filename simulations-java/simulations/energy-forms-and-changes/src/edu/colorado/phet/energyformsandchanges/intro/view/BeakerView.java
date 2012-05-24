@@ -83,15 +83,16 @@ public class BeakerView {
         frontNode.addChild( new PhetPPath( beakerBody, BEAKER_COLOR, OUTLINE_STROKE, OUTLINE_COLOR ) );
 
         // Add the water.  It will adjust its size based on the fluid level.
-        frontNode.addChild( new PerspectiveWaterNode( beakerViewRect, beaker.fluidLevel ) );
+        final PerspectiveWaterNode water = new PerspectiveWaterNode( beakerViewRect, beaker.fluidLevel );
+        frontNode.addChild( water );
 
         // Add the top ellipse.  It is behind the water for proper Z-order behavior.
         backNode.addChild( new PhetPPath( topEllipse, BEAKER_COLOR, OUTLINE_STROKE, OUTLINE_COLOR ) );
 
         // Add the label.
-        PText label = new PText( "Water" );
+        final PText label = new PText( "Water" );
         label.setFont( LABEL_FONT );
-        label.centerFullBoundsOnPoint( beakerViewRect.getCenterX(), beakerViewRect.getMinY() + label.getFullBoundsReference().height * 2 );
+        label.centerFullBoundsOnPoint( beakerViewRect.getCenterX(), beakerViewRect.getMaxY() - label.getFullBoundsReference().height * 1.5 );
         frontNode.addChild( label );
 
         // Create a layer where energy chunks will be placed.
@@ -111,6 +112,15 @@ public class BeakerView {
                         }
                     }
                 } );
+            }
+        } );
+
+        // Adjust the transparency of the water and label based on energy
+        // chunk visibility.
+        model.energyChunksVisible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean energyChunksVisible ) {
+                label.setTransparency( energyChunksVisible ? 0.5f : 1f );
+                water.setTransparency( energyChunksVisible ? PerspectiveWaterNode.NOMINAL_OPAQUENESS / 2 : PerspectiveWaterNode.NOMINAL_OPAQUENESS );
             }
         } );
 
@@ -308,7 +318,8 @@ public class BeakerView {
     }
 
     private static class PerspectiveWaterNode extends PNode {
-        private static final Color WATER_COLOR = new Color( 175, 238, 238, 200 );
+        public static final float NOMINAL_OPAQUENESS = 0.75f;
+        private static final Color WATER_COLOR = new Color( 175, 238, 238, (int) ( Math.round( NOMINAL_OPAQUENESS * 255 ) ) );
         private static final Color WATER_OUTLINE_COLOR = ColorUtils.darkerColor( WATER_COLOR, 0.2 );
         private static final Stroke WATER_OUTLINE_STROKE = new BasicStroke( 2 );
 
