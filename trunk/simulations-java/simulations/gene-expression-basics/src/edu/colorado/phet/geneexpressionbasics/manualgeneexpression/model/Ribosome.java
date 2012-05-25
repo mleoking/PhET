@@ -52,14 +52,6 @@ public class Ribosome extends MobileBiomolecule {
         setPosition( position );
     }
 
-    public void setProteinGrowth( double growthFactor ) {
-        if ( proteinBeingSynthesized == null ) {
-            System.out.println( getClass().getName() + " - Warning - Ignoring attempt to grow non-existent protein." );
-            return;
-        }
-        proteinBeingSynthesized.setFullSizeProportion( growthFactor );
-    }
-
     public MessengerRna getMessengerRnaBeingTranslated() {
         return messengerRnaBeingTranslated;
     }
@@ -144,10 +136,6 @@ public class Ribosome extends MobileBiomolecule {
 
     public double getTranslationChannelLength() {
         return WIDTH;
-    }
-
-    public void setPositionOfTranslationChannel( Point2D position ) {
-        setPosition( new ImmutableVector2D( position ).getSubtractedInstance( OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE ).toPoint2D() );
     }
 
     /**

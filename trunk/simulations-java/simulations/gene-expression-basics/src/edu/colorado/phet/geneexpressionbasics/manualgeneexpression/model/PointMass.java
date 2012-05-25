@@ -42,10 +42,6 @@ public class PointMass {
         return new Point2D.Double( position.getX(), position.getY() );
     }
 
-    public void setVelocity( double x, double y ) {
-        velocity.setComponents( x, y );
-    }
-
     public ImmutableVector2D getVelocity() {
         return new ImmutableVector2D( velocity.getX(), velocity.getY() );
     }
