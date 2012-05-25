@@ -102,7 +102,8 @@ object PlotStudentActivity extends App {
     }
   }
 
-  def toX(dt: Long) = 200.0 + dt.toDouble / 1000.0 / 60.0 * 2.0 * 10.0
+  //Translate far to the right to accommodate long strings for acid base solution filenames
+  def toX(dt: Long) = 700.0 + dt.toDouble / 1000.0 / 60.0 * 2.0 * 10.0
 
   def toDeltaX(dt: Long) = toX(dt) - toX(0)
 }

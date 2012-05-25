@@ -53,6 +53,14 @@ class StudentActivityCanvas(all: List[Log]) extends PCanvas {
   def getColor(e: Entry) = {
     e match {
       case x: Entry if x.component == "system" => Color.yellow
+
+      //Color coding for ABS, 5/24/2012
+      case x: Entry if ( x.component == "strongBaseRadioButton" || x.component == "weakBaseRadioButton" ) && x.action == "pressed" => Color.red
+      case x: Entry if x.component == "showSolventCheckBox" && x.hasParameter("isSelected", "true") => Color.orange
+      case x: Entry if x.component == "phMeter" && x.hasParameter("isInSolution", "true") => Color.yellow
+      case x: Entry if x.component == "phPaper" && x.hasParameter("isSelected", "true") => Color.green
+      case x: Entry if x.component.startsWith("conductivityTester") && x.hasParameter("isCircuitCompleted", "true") => Color.blue
+
       case _ => Color.black
     }
   }
