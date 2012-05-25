@@ -6,7 +6,7 @@ import java.awt.ComponentOrientation;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
-import java.awt.Insets;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -20,7 +20,6 @@ import javax.swing.JTextArea;
 
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources;
 
@@ -65,6 +64,7 @@ public class FluorescentCellsPictureDialog extends PaintImmediateDialog {
         // correctly for right-to-left languages, see Unfuddle #2448 for more
         // information.
         if ( ComponentOrientation.getOrientation( PhetResources.readLocale() ).isLeftToRight() ) {
+            text.setFont( new PhetFont( 12 ) );
             text.setLineWrap( true );
             text.setWrapStyleWord( true );
         }
@@ -78,15 +78,20 @@ public class FluorescentCellsPictureDialog extends PaintImmediateDialog {
         } );
 
         // Panel
-        JPanel panel = new JPanel();
+        JPanel panel = new JPanel( new GridBagLayout() );
         panel.setBorder( BorderFactory.createEmptyBorder( 15, 15, 15, 15 ) ); // top, left, bottom, right
-        EasyGridBagLayout layout = new EasyGridBagLayout( panel );
-        layout.setInsets( new Insets( 10, 0, 10, 0 ) ); // top, left, bottom, right
-        layout.setAnchor( GridBagConstraints.CENTER );
-        panel.setLayout( layout );
-        layout.addComponent( picture, 0, 0 );
-        layout.addComponent( text, 1, 0 );
-        layout.addComponent( closeButton, 2, 0 );
+        GridBagConstraints constraints = new GridBagConstraints();
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.insets.top = 5;
+        constraints.insets.bottom = 5;
+        panel.add( picture, constraints );
+        constraints.gridy++;
+        constraints.insets.top = 15;
+        constraints.insets.bottom = 15;
+        panel.add( text, constraints );
+        constraints.gridy++;
+        panel.add( closeButton, constraints );
 
         // Add to the dialog
         getContentPane().add( panel );
