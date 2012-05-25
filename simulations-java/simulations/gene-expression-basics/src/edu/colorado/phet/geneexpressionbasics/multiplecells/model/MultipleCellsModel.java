@@ -296,42 +296,6 @@ public class MultipleCellsModel implements Resettable {
     }
 
     /**
-     * Sets the rate that transcription factors associate with genes for all
-     * cells in this population
-     *
-     * @param newRate
-     */
-    public void setGeneTranscriptionFactorAssociationRate( double newRate ) {
-        for ( Cell cell : visibleCellList ) {
-            cell.setGeneTranscriptionFactorAssociationRate( newRate );
-        }
-    }
-
-    /**
-     * Sets the rate constant for the polymerase to bind to the gene for all cells
-     * in this population
-     *
-     * @param newRate the rate for polymerase binding
-     */
-    public void setPolymeraseAssociationRate( double newRate ) {
-        for ( Cell cell : visibleCellList ) {
-            cell.setPolymeraseAssociationRate( newRate );
-        }
-    }
-
-    /**
-     * Sets the rate constant for RNA/ribosome association for all cells in
-     * this population
-     *
-     * @param newRate the rate at which RNA binds to a ribosome
-     */
-    public void setRNARibosomeAssociationRate( double newRate ) {
-        for ( Cell cell : visibleCellList ) {
-            cell.setRNARibosomeAssociationRate( newRate );
-        }
-    }
-
-    /**
      * Determine whether or not two rectangles that are positioned at arbitrary
      * rotations overlap.  The built-in facilities in Swing and Piccolo are
      * insufficient for this since they do not handle rotation.

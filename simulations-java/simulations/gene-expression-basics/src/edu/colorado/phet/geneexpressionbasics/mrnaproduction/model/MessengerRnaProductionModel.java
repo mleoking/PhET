@@ -314,25 +314,6 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
         }
     }
 
-    /**
-     * Add a space where the biomolecules should not be allowed to wander. This
-     * is generally used by the view to prevent biomolecules from moving over
-     * tool boxes and such.
-     *
-     * @param newOffLimitsSpace
-     */
-    public void addOffLimitsMotionSpace( Shape newOffLimitsSpace ) {
-        for ( Shape offLimitsMotionSpace : offLimitsMotionSpaces ) {
-            if ( offLimitsMotionSpace.equals( newOffLimitsSpace ) ) {
-                // An equivalent space already exists, so don't bother adding
-                // this one.
-                return;
-            }
-        }
-        // Add the new one to the list.
-        offLimitsMotionSpaces.add( newOffLimitsSpace );
-    }
-
     private void stepInTime( double dt ) {
 
         // Step all the contained biomolecules.

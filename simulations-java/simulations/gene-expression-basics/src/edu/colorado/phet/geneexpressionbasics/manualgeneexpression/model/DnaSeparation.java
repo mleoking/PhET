@@ -37,14 +37,6 @@ public class DnaSeparation {
         return amount;
     }
 
-    public void setAmount( double amount ) {
-        this.amount = Math.min( amount, targetAmount );
-    }
-
-    public boolean atTargetAmount() {
-        return amount == targetAmount;
-    }
-
     public void setProportionOfTargetAmount( double proportion ) {
         assert proportion >= 0 && proportion <= 1;
         amount = targetAmount * proportion;
