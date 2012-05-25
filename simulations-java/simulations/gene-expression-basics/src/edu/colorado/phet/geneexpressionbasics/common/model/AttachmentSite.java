@@ -67,7 +67,7 @@ public class AttachmentSite {
 
         AttachmentSite otherAttachmentSite = (AttachmentSite) obj;
 
-        return this.affinityProperty.get() == otherAttachmentSite.affinityProperty.get() &&
+        return this.affinityProperty.get().equals( otherAttachmentSite.affinityProperty.get() ) &&
                this.locationProperty.get().getX() == otherAttachmentSite.locationProperty.get().getX() &&
                this.locationProperty.get().getY() == otherAttachmentSite.locationProperty.get().getY();
     }
