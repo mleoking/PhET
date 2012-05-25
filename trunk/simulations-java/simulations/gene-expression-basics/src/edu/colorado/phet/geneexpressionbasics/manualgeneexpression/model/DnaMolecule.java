@@ -420,10 +420,6 @@ public class DnaMolecule {
         return new Point2D.Double( leftEdgeXOffset, Y_POS );
     }
 
-    public double getDiameter() {
-        return DIAMETER;
-    }
-
     /**
      * Consider an attachment proposal from a transcription factor instance.
      * To determine whether or not to accept or reject this proposal, the base

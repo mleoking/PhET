@@ -150,7 +150,7 @@ public class CellProteinSynthesisSimulator {
      * @param maxTime the maximum of time to wait for this reaction to occur
      * @return the amount of time evolved in the system
      */
-    public double simulateOneReaction( double maxTime ) {
+    double simulateOneReaction( double maxTime ) {
         double[] a = calculateA();
         double a0 = sum( a );
 

@@ -13,7 +13,7 @@ import edu.colorado.phet.geneexpressionbasics.multiplecells.model.MultipleCellsM
  *
  * @author John Blanco
  */
-public class AffinityControlPanel extends CellParameterControlPanel {
+class AffinityControlPanel extends CellParameterControlPanel {
 
     public AffinityControlPanel( MultipleCellsModel model ) {
         super( GeneExpressionBasicsResources.Strings.AFFINITIES, new VBox(

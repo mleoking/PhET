@@ -115,7 +115,7 @@ public abstract class ShapeSegment {
      * @param length
      * @param shapeSegmentList
      */
-    public abstract void remove( double length, MessengerRna.EnhancedObservableList<ShapeSegment> shapeSegmentList );
+    protected abstract void remove( double length, MessengerRna.EnhancedObservableList<ShapeSegment> shapeSegmentList );
 
     /**
      * Advance the mRNA through this shape segment.  This is what happens

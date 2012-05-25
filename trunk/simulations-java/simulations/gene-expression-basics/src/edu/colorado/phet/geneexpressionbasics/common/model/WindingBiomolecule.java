@@ -33,7 +33,7 @@ public abstract class WindingBiomolecule extends MobileBiomolecule {
     // Color used by this molecule.  Since mRNA is depicted as a line and not
     // as a closed shape, a transparent color is used.  This enables reuse of
     // generic biomolecule classes.
-    protected static final Color NOMINAL_COLOR = new Color( 0, 0, 0, 0 );
+    private static final Color NOMINAL_COLOR = new Color( 0, 0, 0, 0 );
 
     // Standard distance between points that define the shape.  This is done to
     // keep the number of points reasonable and make the shape-defining

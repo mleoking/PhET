@@ -21,7 +21,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author John Blanco
  */
-public class BiomoleculeCreatorNode extends PComposite {
+class BiomoleculeCreatorNode extends PComposite {
 
     private MobileBiomolecule biomolecule = null;
     private final ModelViewTransform mvt;

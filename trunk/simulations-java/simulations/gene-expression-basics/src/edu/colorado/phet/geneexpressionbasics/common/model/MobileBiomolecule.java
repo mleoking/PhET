@@ -52,7 +52,7 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     public final Property<Color> colorProperty = new Property<Color>( Color.BLACK );
 
     // Bounds within which this biomolecule is allowed to move.
-    public Property<MotionBounds> motionBoundsProperty = new Property<MotionBounds>( new MotionBounds() );
+    public final Property<MotionBounds> motionBoundsProperty = new Property<MotionBounds>( new MotionBounds() );
 
     // Motion strategy that governs how this biomolecule moves.  This changes
     // as the molecule interacts with other portions of the model.
@@ -66,7 +66,7 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     // Position on the Z axis.  This is handled much differently than for the
     // x and y axes, which can be set to any value.  The Z axis only goes
     // between 0 (all the way to the front) and -1 (all the way to the back).
-    public Property<Double> zPosition = new Property<Double>( 0.0 );
+    public final Property<Double> zPosition = new Property<Double>( 0.0 );
 
     // Flag that tracks whether motion in Z dimension is enabled.
     private boolean zMotionEnabled;

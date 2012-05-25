@@ -49,7 +49,7 @@ import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResourc
 public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
 
     // Stage size, based on default screen size.
-    private static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
+    private static final Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
 
     // For debug - shows bounding box for cells.
     private static final boolean SHOW_CELL_BOUNDING_BOX = false;
@@ -60,19 +60,19 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
 
     // Property that controls whether the clock is running, used in the
     // floating clock control.
-    BooleanProperty clockRunning = new BooleanProperty( false );
+    final BooleanProperty clockRunning = new BooleanProperty( false );
 
     // Local root node for all things in the "world", which in this case is
     // the set of cells.  This exists in order to support zooming.
     private final PNode localWorldRootNode = new PNode();
 
     // Chart that depicts the average protein level.
-    protected ProteinLevelChartNode proteinLevelChartNode;
+    protected final ProteinLevelChartNode proteinLevelChartNode;
 
     // Parameter control panels.
-    protected CollapsibleControlPanel concentrationControlPanel;
+    protected final CollapsibleControlPanel concentrationControlPanel;
+    protected final CollapsibleControlPanel degradationParameterController;
     protected CollapsibleControlPanel affinityControlPanel;
-    protected CollapsibleControlPanel degradationParameterController;
 
     /**
      * Constructor.

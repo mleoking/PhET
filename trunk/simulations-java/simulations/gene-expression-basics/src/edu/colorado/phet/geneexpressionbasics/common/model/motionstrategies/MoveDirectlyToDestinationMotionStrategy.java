@@ -35,16 +35,7 @@ public class MoveDirectlyToDestinationMotionStrategy extends MotionStrategy {
     private final ImmutableVector2D offsetFromDestinationProperty;
 
     // Scalar velocity with which the controlled item travels.
-    private double scalarVelocity2D;
-
-    public MoveDirectlyToDestinationMotionStrategy( Property<Point2D> destinationProperty, Property<MotionBounds> motionBoundsProperty ) {
-        this( destinationProperty, motionBoundsProperty, new ImmutableVector2D( 0, 0 ), DEFAULT_VELOCITY_2D );
-
-    }
-
-    public MoveDirectlyToDestinationMotionStrategy( Property<Point2D> destinationProperty, Property<MotionBounds> motionBoundsProperty, ImmutableVector2D destinationOffset ) {
-        this( destinationProperty, motionBoundsProperty, destinationOffset, DEFAULT_VELOCITY_2D );
-    }
+    private final double scalarVelocity2D;
 
     public MoveDirectlyToDestinationMotionStrategy( Property<Point2D> destinationProperty, Property<MotionBounds> motionBoundsProperty, ImmutableVector2D destinationOffset, double velocity ) {
         this.destinationProperty = destinationProperty;

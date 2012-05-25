@@ -84,7 +84,7 @@ public class ProteinCollectionNode extends PNode {
      */
     private static class CollectionCountIndicator extends PNode {
 
-        PNode collectionCompleteNode = new PText( "Collection Complete!" ) {{
+        final PNode collectionCompleteNode = new PText( "Collection Complete!" ) {{
             setFont( new PhetFont( 20 ) );
             if ( getFullBoundsReference().width > MAX_CONTENT_WIDTH ) {
                 // Scale to fit.
@@ -221,7 +221,7 @@ public class ProteinCollectionNode extends PNode {
     private static class ProteinCaptureNode extends PNode {
 
         private static final Color FLASH_COLOR = new Color( 173, 255, 47 );
-        protected static final double SCALE_FOR_FLASH_NODE = 1.5;
+        static final double SCALE_FOR_FLASH_NODE = 1.5;
 
         // Tweak warning: This is used to make sure that the counters on
         // the various protein nodes end up horizontally aligned.  This will
