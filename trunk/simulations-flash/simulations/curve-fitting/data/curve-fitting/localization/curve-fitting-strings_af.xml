@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--curve-fitting-strings_af.xml created Fri May 25 16:37:15 CAT 2012 using: curve-fitting 2.02.00 (52265), translation-utility 2.13.00 (59150) Dec 8, 2011-->
+<SimStrings>
+<string key="cEquals" value="c ="/>
+<string key="clearAll" value="Herstel alles"/>
+<string key="deviations" value="wys afwykings"/>
+<string key="bEquals" value="b ="/>
+<string key="aEquals" value="a ="/>
+<string key="quartic" value="Bikwadraties"/>
+<string key="simTitle" value="Krommepassing"/>
+<string key="bestFit" value="Beste Pas"/>
+<string key="quadratic" value="Kwadraties"/>
+<string key="bucketHelp2" value="of sit dit terug"/>
+<string key="bucketHelp1" value="Verkry punte.."/>
+<string key="cubic" value="Kubieke"/>
+<string key="noFit" value="Geen pas"/>
+<string key="eEquals" value="e ="/>
+<string key="dEquals" value="d ="/>
+<string key="adjustableFit2" value="Verstelbare Pas:"/>
+<string key="dataPointHelp" value="skuifbare fout stawe"/>
+<string key="bestFit2" value="Beste Pas:"/>
+<string key="correlation" value="korrelasie koëffisient"/>
+<string key="hideHelp" value="Verwyder Help"/>
+<string key="bucketLabel" value="Data Punte"/>
+<string key="chiSqHelp5" value=":   pas te goed (fout stawe te klein)"/>
+<string key="chiSqHelp4" value=":   goeie pas (groen sone)"/>
+<string key="chiSqHelp3" value=":   swak pas (rooi sone)"/>
+<string key="chiSqHelp2" value="N = hoeveelheid data punte \n f = hoeveelheid parameters in die pas \n (f = 4 vir 'n kubieke pas)"/>
+<string key="help" value="Help"/>
+<string key="chiSqHelp1" value="Die verminderde chi vierkantswortel statistiek is"/>
+<string key="adjustableFit" value="Verstelbare Pas"/>
+<string key="translation.credits" value="Gustav Janse van Rensburg - Skillspro"/>
+<string key="linear" value="Linieêr"/>
+</SimStrings>
