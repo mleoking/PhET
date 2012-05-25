@@ -110,6 +110,9 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
             addParticleNode( p );
         }
 
+        //Create and show the fluid density controls
+        addFluidDensityControl( module );
+
         //Add the front layer for the flux meter, so the particles will look like they go through the hoop
         addChild( new FluxMeterHoopNode( transform, module.model.fluxMeter, true ) );
 
@@ -117,9 +120,6 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
         //Add one for each unit set, to be shown only when that unit set is selected by the user
         addChild( new FluxMeterPanelNode( transform, module.model.fluxMeter, model.units, METRIC ) );
         addChild( new FluxMeterPanelNode( transform, module.model.fluxMeter, model.units, ENGLISH ) );
-
-        //Create and show the fluid density controls
-        addFluidDensityControl( module );
 
         //Add the floating clock controls and sim speed slider at the bottom of the screen
         addClockControls( module );
