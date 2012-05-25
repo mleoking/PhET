@@ -1,3 +1,4 @@
+Acid Base Solutions: Report times for certain events in the text report
 Acid Base Solutions: Added color coding for certain events on the line chart
 Translated line chart to the right to accommodate long filenames for Acid Base Solutions
 RPAL: added outputs for games
