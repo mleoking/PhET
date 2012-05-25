@@ -31,7 +31,7 @@ class GeneNode extends PNode {
     private static final double RECT_ROUNDING = 15;
 
     public GeneNode( final ModelViewTransform mvt, final Gene gene, DnaMolecule dnaMolecule, String label, boolean showBracketLabel ) {
-        double highlightHeight = -mvt.modelToViewDeltaY( dnaMolecule.DIAMETER * 1.5 );
+        double highlightHeight = -mvt.modelToViewDeltaY( DnaMolecule.DIAMETER * 1.5 );
         double highlightStartY = mvt.modelToViewY( dnaMolecule.getLeftEdgePos().getY() ) - highlightHeight / 2;
 
         // Add the highlight for the regulatory region.

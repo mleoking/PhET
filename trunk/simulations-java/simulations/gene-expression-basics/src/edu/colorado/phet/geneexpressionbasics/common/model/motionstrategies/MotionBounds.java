@@ -31,23 +31,11 @@ public class MotionBounds {
     }
 
     public boolean inBounds( Point2D p ) {
-        if ( boundsShape == null ) {
-            // No bounds means everything is in bounds.
-            return true;
-        }
-        else {
-            return boundsShape.contains( p );
-        }
+        return boundsShape == null || boundsShape.contains( p );
     }
 
     public boolean inBounds( Shape s ) {
-        if ( boundsShape == null ) {
-            // No bounds means everything is in bounds.
-            return true;
-        }
-        else {
-            return boundsShape.contains( s.getBounds2D() );
-        }
+        return boundsShape == null || boundsShape.contains( s.getBounds2D() );
     }
 
     public Shape getBounds() {

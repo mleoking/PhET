@@ -77,7 +77,7 @@ public class TranscriptionFactorAttachmentStateMachine extends GenericAttachment
                         }
                     }
 
-                    // Shuffle in order to produce ramdom-ish behavior.
+                    // Shuffle in order to produce random-ish behavior.
                     Collections.shuffle( attachmentSites );
 
                     if ( attachmentSites.size() == 0 ) {

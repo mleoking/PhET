@@ -158,7 +158,7 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas implements Resetta
         } );
 
         // Add the floating clock control.
-        final ConstantDtClock modelClock = (ConstantDtClock) model.getClock();
+        final ConstantDtClock modelClock = model.getClock();
         clockRunning.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean isRunning ) {
                 modelClock.setRunning( isRunning );

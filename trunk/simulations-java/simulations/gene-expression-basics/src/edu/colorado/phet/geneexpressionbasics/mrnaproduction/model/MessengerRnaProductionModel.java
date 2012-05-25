@@ -107,11 +107,6 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
     // Clock that drives all time-dependent behavior in this model.
     private final ConstantDtClock clock = new ConstantDtClock( 30.0 );
 
-    // List of areas where biomolecules should not be allowed.  These are
-    // generally populated by the view in order to keep biomolecules from
-    // wandering over the tool boxes and such.
-    private final List<Shape> offLimitsMotionSpaces = new ArrayList<Shape>();
-
     // The bounds within which polymerase may be moved when recycled.
     private final Rectangle2D aboveDnaPolymeraseReturnBounds;
     private final Rectangle2D belowDnaPolymeraseReturnBounds;
@@ -153,12 +148,6 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
             // Create the nominal rectangular bounds.
             Area bounds = new Area( new Rectangle2D.Double( minX, minY, maxX - minX, maxY - minY ) );
 
-            // Subtract off any off limits areas.
-            for ( Shape offLimitMotionSpace : offLimitsMotionSpaces ) {
-                if ( bounds.intersects( offLimitMotionSpace.getBounds2D() ) ) {
-                    bounds.subtract( new Area( offLimitMotionSpace ) );
-                }
-            }
             moleculeMotionBounds = new MotionBounds( bounds );
         }
 
