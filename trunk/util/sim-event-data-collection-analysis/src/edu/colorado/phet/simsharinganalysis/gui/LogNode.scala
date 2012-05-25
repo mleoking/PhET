@@ -108,13 +108,7 @@ class LogNode(log: Log,
     //Color based on user/system
     val system = entry.component == "system"
 
-    //TODO: Fix formatter
-    val width = if ( system ) {
-      0.15
-    }
-    else {
-      0.1
-    }
+    val width = if ( system ) 0.15 else 0.1
 
     val line = new PhetPPath(new Rectangle2D.Double(x, 0, width, stripeHeight), getColor(entry))
     lazy val label = {
