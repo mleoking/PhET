@@ -74,7 +74,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
             double max = 1 - min;
             double range = max - min;
 
-            addDrop( pipe.getMinX() + 1E-6, random.nextDouble() * range + min, 0.1, Color.red );
+            addDrop( pipe.getMinX() + 1E-6, random.nextDouble() * range + min, 0.1, Color.red, false );
         }
         ArrayList<Particle> toRemove = new ArrayList<Particle>();
         for ( Particle particle : particles ) {
@@ -171,7 +171,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
         //top
         for ( double x = x0; x <= x0 + width; x += delta * 2 ) {
             for ( double y = yMin + delta; y <= yMax - delta; y += delta ) {
-                addDrop( x, y, 0.05, Color.black );
+                addDrop( x, y, 0.05, Color.black, true );
             }
         }
     }
@@ -189,9 +189,9 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
     }
 
     //Add a drop at a random location
-    public void addDrop( final double x, double y, final double radius, final Paint paint ) {
+    public void addDrop( final double x, double y, final double radius, final Paint paint, boolean gridParticle ) {
 
-        final Particle newParticle = new Particle( x, y, pipe, radius, paint );
+        final Particle newParticle = new Particle( x, y, pipe, radius, paint, gridParticle );
         particles.add( newParticle );
         for ( VoidFunction1<Particle> particleAddedObserver : particleAddedObservers ) {
             particleAddedObserver.apply( newParticle );

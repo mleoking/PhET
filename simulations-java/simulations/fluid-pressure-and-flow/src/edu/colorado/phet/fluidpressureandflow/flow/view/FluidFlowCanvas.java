@@ -41,7 +41,10 @@ import static edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressure
  * @author Sam Reid
  */
 public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> {
-    private final PNode particleLayer;
+
+    //Layers for particles, black grid of particles should always go in front of red random particles
+    private final PNode redParticleLayer;
+    private final PNode blackParticleLayer;
     private final PNode foodColoringLayer;
 
     private static final double MODEL_HEIGHT = Pool.DEFAULT_HEIGHT * 3.2;
@@ -73,10 +76,12 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
         //Add the back layer for the flux meter, so the particles will look like they go through the hoop
         addChild( new FluxMeterHoopNode( transform, module.model.fluxMeter, false ) );
 
-        particleLayer = new PNode();
+        redParticleLayer = new PNode();
+        blackParticleLayer = new PNode();
         foodColoringLayer = new PNode();
         addChild( foodColoringLayer );
-        addChild( particleLayer );
+        addChild( redParticleLayer );
+        addChild( blackParticleLayer );
 
         final FluidFlowModel model = module.model;
 
@@ -154,10 +159,11 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
 
     private void addParticleNode( final Particle p ) {
         final ParticleNode node = new ParticleNode( transform, p );
-        particleLayer.addChild( node );
+        final PNode layer = p.gridParticle ? blackParticleLayer : redParticleLayer;
+        layer.addChild( node );
         p.addRemovalListener( new SimpleObserver() {
             public void update() {
-                particleLayer.removeChild( node );
+                layer.removeChild( node );
                 p.removeRemovalListener( this );
             }
         } );
