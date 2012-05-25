@@ -60,9 +60,8 @@ public class WanderInGeneralDirectionMotionStrategy extends MotionStrategy {
         }
 
         // Calculate the next location based on the motion vector.
-        Point2D nextLocation = new Point2D.Double( currentLocation.getX() + currentMotionVector.getX() * dt,
-                                                   currentLocation.getY() + currentMotionVector.getY() * dt );
-        return nextLocation;
+        return new Point2D.Double( currentLocation.getX() + currentMotionVector.getX() * dt,
+                                   currentLocation.getY() + currentMotionVector.getY() * dt );
     }
 
     @Override public Point3D getNextLocation3D( Point3D currentLocation, Shape shape, double dt ) {
