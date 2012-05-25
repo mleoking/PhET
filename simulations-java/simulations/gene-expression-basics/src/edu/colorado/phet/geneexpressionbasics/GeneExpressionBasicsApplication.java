@@ -3,7 +3,6 @@ package edu.colorado.phet.geneexpressionbasics;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.ManualGeneExpressionModule;
 import edu.colorado.phet.geneexpressionbasics.mrnaproduction.MessengerRnaProductionModule;
@@ -20,9 +19,6 @@ public class GeneExpressionBasicsApplication extends PiccoloPhetApplication {
 
     // Project name.
     private static final String NAME = "gene-expression-basics";
-
-    // Resource loader.
-    public static final PhetResources RESOURCES = new PhetResources( NAME );
 
     /**
      * Constructor.

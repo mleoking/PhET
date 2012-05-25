@@ -36,10 +36,10 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
 
     private static final Random RAND = new Random();
 
-    private AttachmentState attachedAndWanderingState = new AttachedToBasePair();
-    private AttachmentState attachedAndConformingState = new AttachedAndConformingState();
-    private AttachmentState attachedAndTranscribingState = new AttachedAndTranscribingState();
-    private AttachmentState attachedAndDeconformingState = new AttachedAndDeconformingState();
+    private final AttachmentState attachedAndWanderingState = new AttachedToBasePair();
+    private final AttachmentState attachedAndConformingState = new AttachedAndConformingState();
+    private final AttachmentState attachedAndTranscribingState = new AttachedAndTranscribingState();
+    private final AttachmentState attachedAndDeconformingState = new AttachedAndDeconformingState();
 
     // RNA polymerase that is being controlled by this state machine.
     private final RnaPolymerase rnaPolymerase;

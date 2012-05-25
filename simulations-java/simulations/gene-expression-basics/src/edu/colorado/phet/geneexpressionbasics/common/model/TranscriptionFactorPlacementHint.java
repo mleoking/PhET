@@ -24,10 +24,7 @@ public class TranscriptionFactorPlacementHint extends PlacementHint {
     }
 
     @Override public boolean isMatchingBiomolecule( MobileBiomolecule testBiomolecule ) {
-        if ( testBiomolecule instanceof TranscriptionFactor ) {
-            return ( (TranscriptionFactor) testBiomolecule ).getConfig().equals( tfConfig );
-        }
-        return false;
+        return testBiomolecule instanceof TranscriptionFactor && ( (TranscriptionFactor) testBiomolecule ).getConfig().equals( tfConfig );
     }
 
     public void activateIfConfigMatch( TranscriptionFactorConfig transcriptionFactorConfig ) {

@@ -40,9 +40,6 @@ public class Ribosome extends MobileBiomolecule {
     // Messenger RNA being translated, null if no translation is in progress.
     private MessengerRna messengerRnaBeingTranslated;
 
-    // Protein being synthesized, null if no synthesis in progress.
-    private final Protein proteinBeingSynthesized = null;
-
     public Ribosome( GeneExpressionModel model ) {
         this( model, new Point2D.Double( 0, 0 ) );
     }

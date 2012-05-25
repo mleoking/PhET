@@ -35,10 +35,6 @@ public class MultipleCellsModel implements Resettable {
 
     private static final long SIZE_AND_ORIENTATION_RANDOMIZER_SEED = 5;
 
-    // Threshold used to prevent floating point errors from not correctly
-    // identifying overlap.
-    private static final double FLOATING_POINT_THRESHOLD = 1E-10;
-
     // Clock that drives all time-dependent behavior in this model.
     private final ConstantDtClock clock = new ConstantDtClock( 30.0 );
 

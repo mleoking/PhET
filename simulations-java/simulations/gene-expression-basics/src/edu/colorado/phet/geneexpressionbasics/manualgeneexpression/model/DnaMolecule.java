@@ -229,36 +229,6 @@ public class DnaMolecule {
         return getBasePairXOffsetByIndex( getBasePairIndexFromXOffset( xPos ) );
     }
 
-    /**
-     * Generate a strand of the DNA molecule.  This is used during construction
-     * only and, since there are two strands, it is expected that it be called
-     * twice.  The input to this method is the set of shape-defining points.
-     * The output is a set of segments, each representing segments, each
-     * representing half a twist of the DNA strand in length.  The segments
-     * alternate front to back so that when drawn, the twisting nature of the
-     * DNA should be visible.
-     */
-    private static List<DnaStrandSegment> generateDnaStrand( List<Point2D> points, boolean initialInFront ) {
-        assert points.size() > 0; // Parameter checking.
-        List<DnaStrandSegment> strandSegments = new ArrayList<DnaStrandSegment>();
-
-        List<Point2D> segmentPoints = new ArrayList<Point2D>();
-        double segmentStartX = points.get( 0 ).getX();
-        boolean inFront = initialInFront;
-        for ( Point2D point : points ) {
-            segmentPoints.add( point );
-            if ( point.getX() - segmentStartX >= ( LENGTH_PER_TWIST / 2 ) ) {
-                // Time to add this segment and start a new one.
-                strandSegments.add( new DnaStrandSegment( BioShapeUtils.createCurvyLineFromPoints( segmentPoints ), inFront ) );
-                segmentPoints.clear();
-                segmentPoints.add( point ); // This point must be on this segment too in order to prevent gaps.
-                segmentStartX = point.getX();
-                inFront = !inFront;
-            }
-        }
-        return strandSegments;
-    }
-
     // Initialize the DNA stand segment lists.
     private void initializeStrandSegments() {
         assert strandPoints.size() > 0; // Parameter checking.
