@@ -89,7 +89,9 @@ public class BodyModel {
 
     public void setPosition( ImmutableVector2D p ) {
         // TODO: consider not changing this until postStep()? (rounding issues from double->float?)
-        _position.set( p );
+        if ( !p.equals( _position.get() ) ) { // check required since Property only checks for equality with "="
+            _position.set( p );
+        }
         if ( hasBody() ) {
             ImmutableVector2D boxPosition = bodyToModelTransform.viewToModel( p );
             body.setTransform( new Vec2( (float) boxPosition.getX(), (float) boxPosition.getY() ), body.getAngle() );
@@ -99,7 +101,9 @@ public class BodyModel {
 
     public void setVelocity( ImmutableVector2D v ) {
         // TODO: consider not changing this until postStep()? (rounding issues from double->float?)
-        _velocity.set( v );
+        if ( !v.equals( _velocity.get() ) ) { // check required since Property only checks for equality with "="
+            _velocity.set( v );
+        }
         if ( hasBody() ) {
             ImmutableVector2D boxVelocity = bodyToModelTransform.viewToModelDelta( v );
             body.setLinearVelocity( new Vec2( (float) boxVelocity.getX(), (float) boxVelocity.getY() ) );

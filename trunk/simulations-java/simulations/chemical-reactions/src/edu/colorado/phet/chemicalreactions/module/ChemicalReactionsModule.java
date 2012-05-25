@@ -10,7 +10,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 public class ChemicalReactionsModule extends PiccoloModule {
 
     public ChemicalReactionsModule( Frame parentFrame ) {
-        super( Strings.TITLE__CHEMICAL_REACTIONS, new ConstantDtClock() );
+        super( Strings.TITLE__CHEMICAL_REACTIONS, new ConstantDtClock( 60 ) );
 
         setSimulationPanel( new ChemicalReactionsCanvas( getClock() ) );
         setClockControlPanel( null );
