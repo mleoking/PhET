@@ -142,15 +142,24 @@ object AcidBaseSolutionSpring2012AnalysisReport {
     val allComponents = ABSSimSharing.interactive.toList.map(_.toString).toList
     writeLine("Type not used:\t" + allComponents.filter(e => !usedComponents.contains(e)).sorted)
 
-    val usedStrongBaseRadioButton = log.entries.filter(_.messageType == "user").filter(_.component == "strongBaseRadioButton").length > 0
-    val usedWeakBaseRadioButton = log.entries.filter(_.messageType == "user").filter(_.component == "weakBaseRadioButton").length > 0
-    val selectBase = usedStrongBaseRadioButton || usedWeakBaseRadioButton
-    writeLine("Select base:  \t" + selectBase)
-    val usedShowSolventCheckBox = log.userEntries.filter(_.component == "showSolventCheckBox").length > 0
-    writeLine("Show solvent:  \t" + usedShowSolventCheckBox)
-    writeLine("Dunk phMeter:  \t" + !log.filter(_.component == "phMeter").filter(_.hasParameter("isInSolution", "true")).filter(_.action == "drag").isEmpty)
-    writeLine("Dunk phPaper: \t" + !log.filter(_.component == "phPaper").filter(_.hasParameter("isInSolution", "true")).filter(_.action == "drag").isEmpty)
-    writeLine("Complete circuit:\t" + !log.userEntries.filter(e => e.hasParameter("isCircuitCompleted", "true")).isEmpty)
+    //for a given delta of time elapsed into the sim, output as a string with MM:SS
+    def toMinutes(t: Long) = {
+      val seconds = t / 1000.0
+      val minutes = seconds / 60.0
+      new DecimalFormat("0.00").format(minutes)
+    }
+
+    //Create a string for a list of entries indicating if has elements or not (true or false), and the times the event occurred.  The time should be the number of minutes into the sim run.
+    def indicator(entries: List[Entry]) = {
+      ( entries.length > 0 ).toString + "\t" + ( if ( entries.length > 0 ) entries.map(entry => toMinutes(entry.time - log.startTime)).mkString("\t") else "" )
+    }
+
+    val timesUsedStrongOrWeakBaseRadioButton = log.entries.filter(entry => entry.messageType == "user" && ( entry.component == "strongBaseRadioButton" || entry.component == "weakBaseRadioButton" ))
+    writeLine("Select base:  \t" + indicator(timesUsedStrongOrWeakBaseRadioButton))
+    writeLine("Show solvent:  \t" + indicator(log.userEntries.filter(_.component == "showSolventCheckBox")))
+    writeLine("Dunk phMeter:  \t" + indicator(log.filter(_.component == "phMeter").filter(_.hasParameter("isInSolution", "true")).filter(_.action == "drag")))
+    writeLine("Dunk phPaper: \t" + indicator(log.filter(_.component == "phPaper").filter(_.hasParameter("isInSolution", "true")).filter(_.action == "drag")))
+    writeLine("Complete circuit:\t" + indicator(log.userEntries.filter(e => e.hasParameter("isCircuitCompleted", "true"))))
 
     val states = getStates(log)
 
