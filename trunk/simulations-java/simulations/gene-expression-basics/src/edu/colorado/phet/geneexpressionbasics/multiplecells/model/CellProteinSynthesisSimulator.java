@@ -60,10 +60,6 @@ public class CellProteinSynthesisSimulator {
             DEFAULT_MRNA_DEGRADATION_RATE //mRNA degradation
     };
 
-    public CellProteinSynthesisSimulator() {
-        _currentTime = 0.0;
-    }
-
     public CellProteinSynthesisSimulator( int ribosomeCount ) {
         _objectCounts[6] = ribosomeCount;
         _currentTime = 0.0;
@@ -256,32 +252,5 @@ public class CellProteinSynthesisSimulator {
      */
     public int getProteinCount() {
         return _objectCounts[8];
-    }
-
-    /**
-     * Sets the amount of time simulated in every step.
-     *
-     * @param timeStep new amount of time between simulation steps
-     */
-    public void setTimeStep( double timeStep ) {
-        _timeStep = Math.abs( timeStep );
-    }
-
-    /**
-     * Gets the amount of time simulated in every step.
-     *
-     * @return the amount of time between each simulation step
-     */
-    public double getTimeStep() {
-        return _timeStep;
-    }
-
-    /**
-     * Gets the amount of total simulation time
-     *
-     * @return total time
-     */
-    public double getTime() {
-        return _currentTime;
     }
 }

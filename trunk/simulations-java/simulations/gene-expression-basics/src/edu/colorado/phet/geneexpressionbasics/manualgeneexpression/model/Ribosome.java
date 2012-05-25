@@ -79,14 +79,6 @@ public class Ribosome extends MobileBiomolecule {
         return attachmentSite;
     }
 
-    public void releaseProtein() {
-        if ( proteinBeingSynthesized == null ) {
-            System.out.println( getClass().getName() + " - Warning - Ignoring attempt to release non-existent protein." );
-            return;
-        }
-        proteinBeingSynthesized.release();
-    }
-
     public void releaseMessengerRna() {
         messengerRnaBeingTranslated.releaseFromRibosome( this );
         messengerRnaBeingTranslated = null;

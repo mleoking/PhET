@@ -18,8 +18,6 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  */
 public class MoveDirectlyToDestinationMotionStrategy extends MotionStrategy {
 
-    protected static final double DEFAULT_VELOCITY_2D = 500;  // Default velocity on the x-y plain, in picometers per second
-    private static final double DEFAULT_Z_VELOCITY = 0.3; // Default velocity in the z direction in normalized units.
     private static final double MAX_Z_VELOCITY = 10; // Max Z velocity in normalized units.
 
     private final Vector2D velocityVector2D = new Vector2D( 0, 0 );

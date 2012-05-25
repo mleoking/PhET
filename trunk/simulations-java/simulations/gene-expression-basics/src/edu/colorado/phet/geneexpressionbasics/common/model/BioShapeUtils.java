@@ -30,9 +30,6 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class BioShapeUtils {
 
-    private static final Random RAND = new Random();
-
-
     /* not intended for instantiation */
     private BioShapeUtils() {
     }
@@ -217,22 +214,6 @@ public class BioShapeUtils {
         ImmutableVector2D xy = y.getSubtractedInstance( x );
         ImmutableVector2D yz = z.getSubtractedInstance( y );
         return y.getAddedInstance( xy.getScaledInstance( 0.25 ).getAddedInstance( yz.getScaledInstance( 0.25 ) ) );
-    }
-
-    // First extrapolation attempt.  Should work well in theory, but didn't
-    // due to issues with angles, pi vs -pi, etc.
-    private static ImmutableVector2D extrapolateControlPoint2( ImmutableVector2D x, ImmutableVector2D y, ImmutableVector2D z ) {
-        Vector2D scaledYZ = new Vector2D( z.getSubtractedInstance( y ) ).scale( 0.33 );
-        double xyAngle = x.getSubtractedInstance( y ).getAngle();
-        if ( xyAngle < 0 ) {
-            xyAngle += Math.PI;
-        }
-        double zyAngle = z.getSubtractedInstance( y ).getAngle();
-        if ( zyAngle < 0 ) {
-            zyAngle += Math.PI;
-        }
-        double xyzAngle = xyAngle - zyAngle;
-        return y.getAddedInstance( scaledYZ.rotate( xyzAngle / 2 ) );
     }
 
     public static void main( String[] args ) {

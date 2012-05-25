@@ -63,16 +63,6 @@ public class Cell extends ShapeChangingModelElement {
     /**
      * Constructor.
      *
-     * @param seed - seed for random number generator, used to make the shape
-     *             of the cell be somewhat unique.
-     */
-    public Cell( long seed ) {
-        this( DEFAULT_CELL_SIZE, new Point2D.Double( 0, 0 ), 0, seed );
-    }
-
-    /**
-     * Constructor.
-     *
      * @param initialPosition - Initial location of this cell in model space.
      * @param seed            - Seed for the random number generator, used to give the
      *                        cell a somewhat unique shape.

@@ -707,30 +707,6 @@ public class DnaMolecule {
         return attachmentSites;
     }
 
-    public List<BasePair> getBasePairsWithinDistance( Point2D position, double distance ) {
-        List<BasePair> basePairList = new ArrayList<BasePair>();
-        for ( BasePair basePair : getBasePairs() ) {
-            if ( basePair.getCenterLocation().distance( position ) <= distance ) {
-                basePairList.add( basePair );
-            }
-        }
-        return basePairList;
-    }
-
-    /**
-     * Get a range of base pairs to scan for attachment sites given an X
-     * position in model space.
-     *
-     * @param xOffsetOnStrand
-     * @return - An integer range representing the indexes of the base pairs
-     *         on the DNA strand that match the criteria.
-     */
-    private IntegerRange getBasePairScanningRange( double xOffsetOnStrand ) {
-        int scanningRange = 2; // Pretty arbitrary, can adjust if needed.
-        int centerBasePairIndex = getBasePairIndexFromXOffset( xOffsetOnStrand );
-        return new IntegerRange( Math.max( 0, centerBasePairIndex - scanningRange ), Math.min( numBasePairs - 1, centerBasePairIndex + scanningRange ) );
-    }
-
     private Gene getGeneContainingBasePair( int basePairIndex ) {
         Gene geneContainingBasePair = null;
         for ( Gene gene : genes ) {

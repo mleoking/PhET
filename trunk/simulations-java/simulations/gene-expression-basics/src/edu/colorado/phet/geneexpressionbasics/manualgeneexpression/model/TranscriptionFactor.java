@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -37,30 +35,14 @@ public class TranscriptionFactor extends MobileBiomolecule {
 
     // Static definitions of all the transcription factor configurations that
     // are used by this sim.
-    public static final TranscriptionFactorConfig TRANSCRIPTION_FACTOR_CONFIG_GENE_1_POS = new TranscriptionFactorConfig( 1, BioShapeUtils.createRandomShape( SIZE, 1000 ), true, Color.yellow );
-    public static final TranscriptionFactorConfig TRANSCRIPTION_FACTOR_CONFIG_GENE_1_NEG = new TranscriptionFactorConfig( 1, BioShapeUtils.createRandomShape( SIZE, 2000 ), false, Color.red );
-    public static final TranscriptionFactorConfig TRANSCRIPTION_FACTOR_CONFIG_GENE_2_POS_1 = new TranscriptionFactorConfig( 2, BioShapeUtils.createRandomShape( SIZE, 3001 ), true, Color.orange );
-    public static final TranscriptionFactorConfig TRANSCRIPTION_FACTOR_CONFIG_GENE_2_POS_2 = new TranscriptionFactorConfig( 2, BioShapeUtils.createRandomShape( SIZE, 125 ), true, new Color( 0, 255, 127 ) );
-    public static final TranscriptionFactorConfig TRANSCRIPTION_FACTOR_CONFIG_GENE_2_NEG = new TranscriptionFactorConfig( 2, BioShapeUtils.createRandomShape( SIZE, 4000 ), false, new Color( 255, 255, 255 ) );
-    public static final TranscriptionFactorConfig TRANSCRIPTION_FACTOR_CONFIG_GENE_3_POS_1 = new TranscriptionFactorConfig( 3, BioShapeUtils.createRandomShape( SIZE, 57 ), true, new Color( 255, 127, 0 ) );
-    public static final TranscriptionFactorConfig TRANSCRIPTION_FACTOR_CONFIG_GENE_3_POS_2 = new TranscriptionFactorConfig( 3, BioShapeUtils.createRandomShape( SIZE, 88 ), true, new Color( 255, 99, 71 ) );
-    public static final TranscriptionFactorConfig TRANSCRIPTION_FACTOR_CONFIG_GENE_3_NEG = new TranscriptionFactorConfig( 3, BioShapeUtils.createRandomShape( SIZE, 40 ), false, Color.magenta );
-
-    /**
-     * This data structure contains the configuration information for all of the
-     * transcription factors used in this sim.
-     */
-    private static final List<TranscriptionFactorConfig> transcriptionFactorConfigurations = new ArrayList<TranscriptionFactorConfig>() {{
-        add( TRANSCRIPTION_FACTOR_CONFIG_GENE_1_POS );
-        add( TRANSCRIPTION_FACTOR_CONFIG_GENE_1_NEG );
-        add( TRANSCRIPTION_FACTOR_CONFIG_GENE_2_POS_1 );
-        add( TRANSCRIPTION_FACTOR_CONFIG_GENE_2_POS_2 );
-        add( TRANSCRIPTION_FACTOR_CONFIG_GENE_2_NEG );
-        add( TRANSCRIPTION_FACTOR_CONFIG_GENE_3_POS_1 );
-        add( TRANSCRIPTION_FACTOR_CONFIG_GENE_3_NEG );
-        // Default config used if no match found.
-        add( new TranscriptionFactorConfig( Integer.MAX_VALUE, BioShapeUtils.createRandomShape( SIZE, 123 ), false, Color.magenta ) );
-    }};
+    public static final TranscriptionFactorConfig TRANSCRIPTION_FACTOR_CONFIG_GENE_1_POS = new TranscriptionFactorConfig( BioShapeUtils.createRandomShape( SIZE, 1000 ), true, Color.yellow );
+    public static final TranscriptionFactorConfig TRANSCRIPTION_FACTOR_CONFIG_GENE_1_NEG = new TranscriptionFactorConfig( BioShapeUtils.createRandomShape( SIZE, 2000 ), false, Color.red );
+    public static final TranscriptionFactorConfig TRANSCRIPTION_FACTOR_CONFIG_GENE_2_POS_1 = new TranscriptionFactorConfig( BioShapeUtils.createRandomShape( SIZE, 3001 ), true, Color.orange );
+    public static final TranscriptionFactorConfig TRANSCRIPTION_FACTOR_CONFIG_GENE_2_POS_2 = new TranscriptionFactorConfig( BioShapeUtils.createRandomShape( SIZE, 125 ), true, new Color( 0, 255, 127 ) );
+    public static final TranscriptionFactorConfig TRANSCRIPTION_FACTOR_CONFIG_GENE_2_NEG = new TranscriptionFactorConfig( BioShapeUtils.createRandomShape( SIZE, 4000 ), false, new Color( 255, 255, 255 ) );
+    public static final TranscriptionFactorConfig TRANSCRIPTION_FACTOR_CONFIG_GENE_3_POS_1 = new TranscriptionFactorConfig( BioShapeUtils.createRandomShape( SIZE, 57 ), true, new Color( 255, 127, 0 ) );
+    public static final TranscriptionFactorConfig TRANSCRIPTION_FACTOR_CONFIG_GENE_3_POS_2 = new TranscriptionFactorConfig( BioShapeUtils.createRandomShape( SIZE, 88 ), true, new Color( 255, 99, 71 ) );
+    public static final TranscriptionFactorConfig TRANSCRIPTION_FACTOR_CONFIG_GENE_3_NEG = new TranscriptionFactorConfig( BioShapeUtils.createRandomShape( SIZE, 40 ), false, Color.magenta );
 
     // Random number generator.
     private static final Random RAND = new Random( System.currentTimeMillis() - 8 );
@@ -172,13 +154,11 @@ public class TranscriptionFactor extends MobileBiomolecule {
 
         public final Shape shape;
         public final Color baseColor;
-        public final int geneID;
         public final boolean isPositive;
 
-        TranscriptionFactorConfig( int geneID, Shape shape, boolean positive, Color baseColor ) {
+        TranscriptionFactorConfig( Shape shape, boolean positive, Color baseColor ) {
             this.shape = shape;
             this.baseColor = baseColor;
-            this.geneID = geneID;
             isPositive = positive;
         }
     }
