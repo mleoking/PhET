@@ -1,3 +1,4 @@
+# 0.00.61 (64362) May 25, 2012
 Flow tab: Fixed: the black dots when injected should probably always be in front of the red dots, it seems in some cases they can get covered by the red dots
 Flow tab: Moved the flux readout in front of the fluid density control
 Moved the ruler in front of other objects
