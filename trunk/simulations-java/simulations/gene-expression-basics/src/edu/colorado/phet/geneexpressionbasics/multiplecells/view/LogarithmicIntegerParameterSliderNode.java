@@ -19,7 +19,7 @@ class LogarithmicIntegerParameterSliderNode extends PNode {
     LogarithmicIntegerParameterSliderNode( IUserComponent userComponent, final int min, final int max, final SettableProperty<Integer> settableProperty, String htmlLabelText ) {
 
         // Connect the integer property to a double property.
-        final Property<Double> doubleProperty = new DoubleProperty( new Double( settableProperty.get() ) );
+        final Property<Double> doubleProperty = new DoubleProperty( (double) settableProperty.get() );
 
         doubleProperty.addObserver( new VoidFunction1<Double>() {
             public void apply( Double newValue ) {
@@ -29,7 +29,7 @@ class LogarithmicIntegerParameterSliderNode extends PNode {
 
         settableProperty.addObserver( new VoidFunction1<Integer>() {
             public void apply( Integer newValue ) {
-                doubleProperty.set( new Double( newValue ) );
+                doubleProperty.set( (double) newValue );
             }
         } );
 

@@ -138,7 +138,6 @@ public class BioShapeUtils {
 
     public static Shape createRandomShape( Dimension2D size, int seed ) {
         Random rand = new Random( seed );
-        DoubleGeneralPath path = new DoubleGeneralPath();
         List<Point2D> pointList = new ArrayList<Point2D>();
         // Create a series of points that will enclose a space.
         for ( double angle = 0; angle < 1.9 * Math.PI; angle += Math.PI / 10 + rand.nextDouble() * Math.PI / 10 ) {

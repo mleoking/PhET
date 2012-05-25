@@ -167,8 +167,8 @@ public class CellProteinSynthesisSimulator {
 
     private double sum( double[] toSum ) {
         double sum = 0.0;
-        for ( int i = 0; i < toSum.length; i++ ) {
-            sum += toSum[i];
+        for ( double aToSum : toSum ) {
+            sum += aToSum;
         }
         return sum;
     }

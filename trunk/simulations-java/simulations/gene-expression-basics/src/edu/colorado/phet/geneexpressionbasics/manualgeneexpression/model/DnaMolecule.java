@@ -852,11 +852,5 @@ public class DnaMolecule {
             double as2Factor = attachmentSite2.getAffinity() / Math.pow( attachLocation.distance( attachmentSite2.locationProperty.get() ), exponent );
             return Double.compare( as2Factor, as1Factor );
         }
-
-        public boolean equals( Object obj ) {
-            // Stubbed, because it isn't needed.
-            assert false; // Make sure no one calls this.
-            return false;
-        }
     }
 }
