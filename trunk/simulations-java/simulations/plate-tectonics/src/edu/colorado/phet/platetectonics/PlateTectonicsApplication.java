@@ -21,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PhetTabbedPane.TabbedModule;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
+import edu.colorado.phet.lwjglphet.LWJGLPhetApplication;
 import edu.colorado.phet.lwjglphet.StartupUtils;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.dev.PerformanceFrame;
@@ -30,7 +31,7 @@ import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
 /**
  * Main simulation entry point
  */
-public class PlateTectonicsApplication extends PhetApplication {
+public class PlateTectonicsApplication extends LWJGLPhetApplication {
 
     public static final Property<Boolean> showFPSMeter = new Property<Boolean>( false );
     public static final Property<Boolean> showDebuggingItems = new Property<Boolean>( false );
@@ -130,7 +131,7 @@ public class PlateTectonicsApplication extends PhetApplication {
         try {
             StartupUtils.setupLibraries();
         }
-        catch ( IOException e ) {
+        catch( IOException e ) {
             e.printStackTrace();
         }
 
