@@ -122,15 +122,6 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel
         //Create and show the fluid density controls
         addFluidDensityControl( module );
 
-        //Some nodes go behind the pool so that it looks like they submerge
-        final Point2D.Double rulerModelOrigin = new Point2D.Double( 0, 0 );
-        final MeterStick meterStick = new MeterStick( transform, module.meterStickVisible, module.rulerVisible, rulerModelOrigin, true, module.model, false );
-        final EnglishRuler englishRuler = new EnglishRuler( transform, module.yardStickVisible, module.rulerVisible, rulerModelOrigin, true, module.model, false );
-        synchronizeRulerLocations( meterStick, englishRuler );
-
-        addChild( meterStick );
-        addChild( englishRuler );
-
         measuringTape = new FPAFMeasuringTape( transform, module.measuringTapeVisible, module.model.units );
         addChild( measuringTape );
 
@@ -145,6 +136,15 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel
         //Add the sensor toolbox node, which also adds the velocity and pressure sensors
         //Doing this last ensures that the draggable sensors will appear in front of everything else
         addSensorToolboxNode( module.model, controlPanelNode, null );
+
+        //Some nodes go behind the pool so that it looks like they submerge
+        final Point2D.Double rulerModelOrigin = new Point2D.Double( 0, 0 );
+        final MeterStick meterStick = new MeterStick( transform, module.meterStickVisible, module.rulerVisible, rulerModelOrigin, true, module.model, false );
+        final EnglishRuler englishRuler = new EnglishRuler( transform, module.yardStickVisible, module.rulerVisible, rulerModelOrigin, true, module.model, false );
+        synchronizeRulerLocations( meterStick, englishRuler );
+
+        addChild( meterStick );
+        addChild( englishRuler );
     }
 
     //Additionally reset the measuring tape since not reset elsewhere
