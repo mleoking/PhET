@@ -11,6 +11,7 @@
     <orderEntry type="module" module-name="phetcommon" />
     <orderEntry type="module" module-name="piccolo-phet" />
     <orderEntry type="module" module-name="poly2tri-core" />
+    <orderEntry type="module" module-name="apple" />
   </component>
 </module>
 
