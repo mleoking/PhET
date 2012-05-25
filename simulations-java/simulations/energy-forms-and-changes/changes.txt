@@ -1,6 +1,10 @@
 Changed the clock control panel to have "Fast Forward" instead of "Slow Motion".
+Made water get more transparent when energy chunks are visible.
+Replaced lead block with iron block, since iron has a greater specific heat value.
+Removed label from thermometer tool box.
+Made labels get transparent when blocks and beakers become transparent.
 # 0.00.03 (64309) May 23, 2012
-5/23/12 Depolying to dev for review by design team.
+5/23/12 Deploying to dev for review by design team.
 Added thermometer tool box and made thermometer move to original location when dropped within the box.
 Removed the thermometer shelf.
 # 0.00.02 (63687) Apr 23, 2012
