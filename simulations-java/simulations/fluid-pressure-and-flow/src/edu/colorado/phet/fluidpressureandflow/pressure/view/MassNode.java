@@ -103,13 +103,13 @@ public class MassNode extends PNode {
                                 m = m.withMinY( dottedLineShape.getBounds2D().getMinY() ).withCenterX( dottedLineShape.getBounds2D().getCenterX() );
                                 intersected = true;
                             }
-                            else if ( m.getMinY() < 0 ) {
-                                m = m.withMinY( 0.0 );
+                            else if ( m.getMinY() < ChamberPool.TOP_OF_GRASS ) {
+                                m = m.withMinY( ChamberPool.TOP_OF_GRASS );
                             }
 
                             //if mass is over an opening, move it back to its initial position
                             if ( pool.isOverOpening( m ) && !intersected ) {
-                                m = m.withShape( m.initialShape );
+                                m = m.withShape( m.initialShape ).withMinY( ChamberPool.TOP_OF_GRASS );
                             }
                         }
 

@@ -74,7 +74,7 @@ public class ChamberPool implements IPool {
 
     //Keep track of the last value for purposes of determining when at equilibrium, for showing the dotted drag line
     private double lastLeftDisplacement;
-    private static final double TOP_OF_GRASS = 0.025;
+    public static final double TOP_OF_GRASS = 0.025;
 
     public ChamberPool( Property<Double> gravity, Property<Double> fluidDensity ) {
         this.gravity = gravity;
