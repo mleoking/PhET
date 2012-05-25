@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--density-and-buoyancy-strings_af.xml created Fri May 25 16:48:25 CAT 2012 using: density-and-buoyancy 1.05.00 (50250), translation-utility 2.13.00 (59150) Dec 8, 2011-->
+<SimStrings>
+<string key="buoyancy.tab.intro" value="Inleiding"/>
+<string key="properties.mass" value="Gewig"/>
+<string key="controlPanel.showVectorValues" value="Krag Waardes"/>
+<string key="forceArrows.contact" value="Kontak"/>
+<string key="mode.objectsOfSameVolume" value="Dieselfde Volume"/>
+<string key="mysteryObject.densityColumnHeader" value="Digtheid ({0})"/>
+<string key="material.aluminum" value="Aluminium"/>
+<string key="properties.massKilogram" value="kg"/>
+<string key="material.air" value="Lug"/>
+<string key="material.custom" value="My Blok"/>
+<string key="material.gasoline" value="Petrol"/>
+<string key="customObject.material" value="Materiaal"/>
+<string key="mode.mysteryObjects" value="Geheimsinnig"/>
+<string key="customObject.custom" value="My Blok"/>
+<string key="material.wood" value="Hout"/>
+<string key="properties.massKilogramValue" value="{0} kg"/>
+<string key="mode.two" value="Twee"/>
+<string key="material.styrofoam" value="Polistrieenskuim"/>
+<string key="material.honey" value="Huining"/>
+<string key="material.apple" value="Appel"/>
+<string key="blockName.b" value="B"/>
+<string key="blockName.a" value="A"/>
+<string key="material.ice" value="Ys"/>
+<string key="translation.credits" value="Gustav Janse van Rensburg - Skillspro"/>
+<string key="buoyancy.tab.playground" value="Dryfvermoë Speelplek"/>
+<string key="fluid.controls.intro.label" value="Vloeistof"/>
+<string key="mode.mysteryObjects.E" value="E"/>
+<string key="mode.mysteryObjects.D" value="D"/>
+<string key="mode.mysteryObjects.C" value="C"/>
+<string key="mode.mysteryObjects.B" value="B"/>
+<string key="material.diamond" value="Diamand"/>
+<string key="mode.mysteryObjects.A" value="A"/>
+<string key="mode.title" value="Blokke"/>
+<string key="material.oliveOil" value="Olyf Olie"/>
+<string key="material.lead" value="Lood"/>
+<string key="forceArrows.buoyancy" value="Dryfvermoë"/>
+<string key="properties.fluidDensity" value="Vloeistog Digtheid"/>
+<string key="mysteryObject.densityUnitsKgL" value="kg/l"/>
+<string key="customObject.properties" value="Eienskappe"/>
+<string key="forceArrows.gravity" value="Gravitasie"/>
+<string key="material.brick" value="Baksteen"/>
+<string key="mysteryObject.material" value="Materiaal"/>
+<string key="mysteryObject.table.title" value="Digtheid van Verskeie Materiale"/>
+<string key="properties.weightPoundValue" value="{0} lb"/>
+<string key="material.oil" value="Olie"/>
+<string key="properties.volumeLiterValue" value="{0} l"/>
+<string key="mode.objectsOfSameDensity" value="Dieselde Digtheid"/>
+<string key="density.simTitle" value="Digtheid"/>
+<string key="controlPanel.readouts" value="Lees blokke"/>
+<string key="properties.volumeMilliLiterValue" value="{0} ml"/>
+<string key="mode.customObject" value="Besluit self"/>
+<string key="mode.objectsOfSameMass" value="Dieselfde Gewig"/>
+<string key="application.resetAll" value="Herstel Alles"/>
+<string key="material.gold" value="Goud"/>
+<string key="properties.densityValue" value="{0} kg/l"/>
+<string key="forceArrowControlPanelTitle" value="Wys Kragte"/>
+<string key="properties.weightNewtonValue" value="{0} N"/>
+<string key="customObject.name" value="name"/>
+<string key="controlPanel.showMasses" value="Massas"/>
+<string key="material.water" value="Water"/>
+<string key="properties.massGramValue" value="{0} g"/>
+<string key="properties.density" value="Digtheid"/>
+<string key="material.waterBalloon" value="Water ballon"/>
+<string key="mysteryObject.table.showTable" value="Wys Tabel"/>
+<string key="mode.one" value="Een"/>
+<string key="properties.volume" value="Volume"/>
+<string key="buoyancy.simTitle" value="Dryfvermoë"/>
+<string key="properties.kilogramPerLiter" value="kg/l"/>
+<string key="properties.volumeLiter" value="l"/>
+</SimStrings>
