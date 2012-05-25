@@ -153,8 +153,7 @@ public class BioShapeUtils {
         // Scale the shape to the specified size.
         double horizontalScale = size.getWidth() / unscaledShape.getBounds2D().getWidth();
         double verticalScale = size.getHeight() / unscaledShape.getBounds2D().getHeight();
-        Shape scaledShape = AffineTransform.getScaleInstance( horizontalScale, verticalScale ).createTransformedShape( unscaledShape );
-        return scaledShape;
+        return AffineTransform.getScaleInstance( horizontalScale, verticalScale ).createTransformedShape( unscaledShape );
     }
 
     /**

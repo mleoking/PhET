@@ -128,7 +128,6 @@ public class BiomoleculeCreatorNode extends PComposite {
         Point2D worldPos = new Point2D.Double( canvasPos.getX(), canvasPos.getY() );
         canvas.getPhetRootNode().screenToWorld( worldPos );
         Point2D adjustedWorldPos = new Point2D.Double( worldPos.getX() - canvas.getViewportOffset().getX(), worldPos.getY() - canvas.getViewportOffset().getY() );
-        Point2D modelPos = mvt.viewToModel( adjustedWorldPos );
-        return modelPos;
+        return mvt.viewToModel( adjustedWorldPos );
     }
 }
