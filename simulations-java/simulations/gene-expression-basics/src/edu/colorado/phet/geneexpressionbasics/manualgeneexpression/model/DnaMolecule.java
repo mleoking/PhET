@@ -856,9 +856,7 @@ public class DnaMolecule {
             if ( Double.compare( that.strand2YPos, strand2YPos ) != 0 ) {
                 return false;
             }
-            if ( Double.compare( that.xPos, xPos ) != 0 ) { return false; }
-
-            return true;
+            return Double.compare( that.xPos, xPos ) == 0;
         }
     }
 

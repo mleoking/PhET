@@ -203,7 +203,6 @@ public class ProteinCollectionNode extends PNode {
                 catch ( Exception e ) {
                     System.out.println( "Exception thrown when instantiating protein, e = " + e );
                     e.printStackTrace();
-                    continue;
                 }
             }
 
