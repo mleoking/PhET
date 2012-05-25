@@ -55,17 +55,13 @@ public class Mass {
         return new Mass( component, initialShape, AffineTransform.getTranslateInstance( dim.getWidth(), dim.getHeight() ).createTransformedShape( shape ), dragging, velocity, mass, image );
     }
 
-    public double getMinY() {
-        return shape.getBounds2D().getMinY();
-    }
+    public double getMinY() { return shape.getBounds2D().getMinY(); }
 
-    public Mass withMinY( final double minY ) {
-        return translate( new Dimension2DDouble( 0, minY - getMinY() ) );
-    }
+    public double getCenterX() { return shape.getBounds2D().getCenterX(); }
 
-    public Mass withVelocity( final double newVelocity ) {
-        return new Mass( component, initialShape, shape, dragging, newVelocity, mass, image );
-    }
+    public Mass withMinY( final double minY ) { return translate( new Dimension2DDouble( 0, minY - getMinY() ) ); }
+
+    public Mass withVelocity( final double newVelocity ) { return new Mass( component, initialShape, shape, dragging, newVelocity, mass, image ); }
 
     public Mass withCenterX( final double centerX ) {
         return translate( new Dimension2DDouble( centerX - shape.getBounds2D().getCenterX(), 0 ) );
@@ -113,4 +109,5 @@ public class Mass {
         result = 31 * result + component.hashCode();
         return result;
     }
+
 }

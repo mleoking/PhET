@@ -66,6 +66,13 @@ public class MassNode extends PNode {
                 masses.set( masses.get().map( new Function1<Mass, Mass>() {
                     public Mass apply( final Mass mass ) {
                         Mass translatedMass = mass.translate( modelDelta );
+
+                        //Don't let the user drag the masses offscreen
+                        final double MAX_X = 4.7;
+                        final double MIN_X = -MAX_X;
+                        if ( translatedMass.getCenterX() < MIN_X ) { translatedMass = translatedMass.withCenterX( MIN_X ); }
+                        if ( translatedMass.getCenterX() > MAX_X ) { translatedMass = translatedMass.withCenterX( MAX_X ); }
+
                         return mass.dragging ? translatedMass : mass;
                     }
                 } ) );
