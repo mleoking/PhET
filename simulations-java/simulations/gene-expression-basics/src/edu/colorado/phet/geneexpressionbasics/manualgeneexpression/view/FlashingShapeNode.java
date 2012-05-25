@@ -23,12 +23,8 @@ public class FlashingShapeNode extends PNode {
     private static final Color INVISIBLE_COLOR = new Color( 0, 0, 0, 0 );
 
     private final FlashController flashController;
-    private final boolean visibleAtStart;
-    private final boolean visibleAtEnd;
 
     public FlashingShapeNode( Shape shape, Color flashColor, int onTime, int offTime, int numFlashes, boolean visibleAtStart, boolean visibleAtEnd ) {
-        this.visibleAtStart = visibleAtStart;
-        this.visibleAtEnd = visibleAtEnd;
         PPath flashingNode = new PhetPPath( shape, visibleAtStart ? flashColor : INVISIBLE_COLOR );
         addChild( flashingNode );
         flashController = new FlashController( flashingNode, INVISIBLE_COLOR, flashColor, onTime, offTime, numFlashes, visibleAtStart, visibleAtEnd );
