@@ -64,8 +64,6 @@ public class DnaMolecule {
     // Reference to the model in which this is contained.
     private final GeneExpressionModel model;
 
-    // Aspects of the DNA strand that are initialized at construction.
-    private final int numBasePairs;
     private final double moleculeLength;
     private final double numberOfTwists;
     private final double leftEdgeXOffset;
@@ -128,7 +126,6 @@ public class DnaMolecule {
      */
     public DnaMolecule( GeneExpressionModel model, int numBasePairs, double leftEdgeXOffset, boolean pursueAttachments ) {
         this.model = model;
-        this.numBasePairs = numBasePairs;
         this.leftEdgeXOffset = leftEdgeXOffset;
         this.pursueAttachments = pursueAttachments;
 
@@ -740,18 +737,18 @@ public class DnaMolecule {
      * @return Gene at the location, null if no gene exists.
      */
     public Gene getGeneAtLocation( Point2D location ) {
-        boolean isLocationOnMolecule = location.getX() >= leftEdgeXOffset && location.getX() <= leftEdgeXOffset + moleculeLength &&
-                                       location.getY() >= Y_POS - DIAMETER / 2 && location.getY() <= Y_POS + DIAMETER / 2;
-        assert isLocationOnMolecule; // At the time of this development, this method should never be called when not on the DNA molecule.
+        if ( !( location.getX() >= leftEdgeXOffset && location.getX() <= leftEdgeXOffset + moleculeLength &&
+                location.getY() >= Y_POS - DIAMETER / 2 && location.getY() <= Y_POS + DIAMETER / 2 ) ) {
+            System.out.println( getClass().getName() + " - Warning: Location for gene test is not on DNA molecule." );
+            return null;
+        }
         Gene geneAtLocation = null;
         int basePairIndex = getBasePairIndexFromXOffset( location.getX() );
-        if ( isLocationOnMolecule ) {
-            for ( Gene gene : genes ) {
-                if ( gene.containsBasePair( basePairIndex ) ) {
-                    // Found the corresponding gene.
-                    geneAtLocation = gene;
-                    break;
-                }
+        for ( Gene gene : genes ) {
+            if ( gene.containsBasePair( basePairIndex ) ) {
+                // Found the corresponding gene.
+                geneAtLocation = gene;
+                break;
             }
         }
         return geneAtLocation;
