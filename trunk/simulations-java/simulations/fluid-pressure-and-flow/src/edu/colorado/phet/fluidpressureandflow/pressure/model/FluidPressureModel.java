@@ -3,7 +3,6 @@ package edu.colorado.phet.fluidpressureandflow.pressure.model;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -30,7 +29,7 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
 
     //Flag indicating whether the atmosphere is enabled or not.  it's nice to be able to turn it off and just focus on the water.
     //It also emphasizes that the reason that p is not zero at the top of the water IS the atmosphere.
-    public SettableProperty<Boolean> atmosphere = new BooleanProperty( true );
+    public BooleanProperty atmosphere = new BooleanProperty( true );
 
     public FluidPressureModel() {
         super( METRIC );
@@ -57,6 +56,7 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
         squarePool.reset();
         trapezoidPool.reset();
         chamberPool.reset();
+        atmosphere.reset();
     }
 
     @Override public void addPressureChangeObserver( SimpleObserver updatePressure ) {

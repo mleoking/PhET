@@ -1,3 +1,4 @@
+Fixed: "Reset All" does not reset the atmosphere if it has been turned off
 Updated licenses.txt for images
 Switched from HSliderNode2 to HSliderNode1
 Added screenshot for "under pressure"
