@@ -124,17 +124,17 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas implements Resetta
         // affinities.
         TranscriptionFactorControlPanel positiveTranscriptionFactorControlPanel =
                 new TranscriptionFactorControlPanel( model,
-                                                     model.POSITIVE_TRANSCRIPTION_FACTOR_CONFIG,
-                                                     gene.getTranscriptionFactorAffinityProperty( model.POSITIVE_TRANSCRIPTION_FACTOR_CONFIG ) );
+                                                     MessengerRnaProductionModel.POSITIVE_TRANSCRIPTION_FACTOR_CONFIG,
+                                                     gene.getTranscriptionFactorAffinityProperty( MessengerRnaProductionModel.POSITIVE_TRANSCRIPTION_FACTOR_CONFIG ) );
         controlsNode.addChild( positiveTranscriptionFactorControlPanel );
-        PolymeraseAffinityControlPanel polymeraseAffinityControlPanel = new PolymeraseAffinityControlPanel( model.POSITIVE_TRANSCRIPTION_FACTOR_CONFIG,
+        PolymeraseAffinityControlPanel polymeraseAffinityControlPanel = new PolymeraseAffinityControlPanel( MessengerRnaProductionModel.POSITIVE_TRANSCRIPTION_FACTOR_CONFIG,
                                                                                                             positiveTranscriptionFactorControlPanel.getFullBoundsReference().height,
                                                                                                             gene.getPolymeraseAffinityProperty() );
         controlsNode.addChild( polymeraseAffinityControlPanel );
         final TranscriptionFactorControlPanel negativeTranscriptionFactorControlPanel =
                 new TranscriptionFactorControlPanel( model,
-                                                     model.NEGATIVE_TRANSCRIPTION_FACTOR_CONFIG,
-                                                     gene.getTranscriptionFactorAffinityProperty( model.NEGATIVE_TRANSCRIPTION_FACTOR_CONFIG ) );
+                                                     MessengerRnaProductionModel.NEGATIVE_TRANSCRIPTION_FACTOR_CONFIG,
+                                                     gene.getTranscriptionFactorAffinityProperty( MessengerRnaProductionModel.NEGATIVE_TRANSCRIPTION_FACTOR_CONFIG ) );
         controlsNode.addChild( negativeTranscriptionFactorControlPanel );
 
         // Add the check box for showing/hiding the control panel for the
