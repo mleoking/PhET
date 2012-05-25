@@ -28,7 +28,7 @@ public class ProteinA extends Protein {
         return createShape( growthFactor );
     }
 
-    @Override public Protein createInstance( GeneExpressionModel model, Ribosome parentRibosome ) {
+    @Override public Protein createInstance( Ribosome parentRibosome ) {
         return new ProteinA( this.model );
     }
 
