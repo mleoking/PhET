@@ -142,9 +142,9 @@ object AcidBaseSolutionSpring2012AnalysisReport {
     val allComponents = ABSSimSharing.interactive.toList.map(_.toString).toList
     writeLine("Type not used:\t" + allComponents.filter(e => !usedComponents.contains(e)).sorted)
 
-    val usedStringBaseRadioButton = log.entries.filter(_.messageType == "user").filter(_.component == "strongBaseRadioButton").length > 0
+    val usedStrongBaseRadioButton = log.entries.filter(_.messageType == "user").filter(_.component == "strongBaseRadioButton").length > 0
     val usedWeakBaseRadioButton = log.entries.filter(_.messageType == "user").filter(_.component == "weakBaseRadioButton").length > 0
-    val selectBase = usedStringBaseRadioButton || usedWeakBaseRadioButton
+    val selectBase = usedStrongBaseRadioButton || usedWeakBaseRadioButton
     writeLine("Select base:  \t" + selectBase)
     val usedShowSolventCheckBox = log.userEntries.filter(_.component == "showSolventCheckBox").length > 0
     writeLine("Show solvent:  \t" + usedShowSolventCheckBox)
