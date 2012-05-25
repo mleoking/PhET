@@ -1,3 +1,5 @@
+Acid Base Solutions: Added color coding for certain events on the line chart
+Translated line chart to the right to accommodate long filenames for Acid Base Solutions
 RPAL: added outputs for games
 # 00.00.37 (63920) May 3, 2012
 # 00.00.36 (63919) May 3, 2012
