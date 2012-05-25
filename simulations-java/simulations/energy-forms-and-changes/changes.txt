@@ -1,3 +1,4 @@
+Changed the clock control panel to have "Fast Forward" instead of "Slow Motion".
 # 0.00.03 (64309) May 23, 2012
 5/23/12 Depolying to dev for review by design team.
 Added thermometer tool box and made thermometer move to original location when dropped within the box.
