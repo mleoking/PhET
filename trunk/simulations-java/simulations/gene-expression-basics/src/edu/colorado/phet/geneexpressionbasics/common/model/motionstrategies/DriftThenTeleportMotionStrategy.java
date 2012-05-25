@@ -28,8 +28,6 @@ public class DriftThenTeleportMotionStrategy extends MotionStrategy {
     private static final double PRE_TELEPORT_VELOCITY = 100; // In picometers per second.
     private static final Random RAND = new Random();
 
-    private final ImmutableVector2D wanderDirection;
-
     // List of valid places where the item can teleport.
     private final List<Rectangle2D> destinationZones;
 
@@ -39,7 +37,6 @@ public class DriftThenTeleportMotionStrategy extends MotionStrategy {
 
     public DriftThenTeleportMotionStrategy( ImmutableVector2D wanderDirection, List<Rectangle2D> destinationZones, Property<MotionBounds> motionBoundsProperty ) {
         this.destinationZones = destinationZones;
-        this.wanderDirection = wanderDirection;
         motionBoundsProperty.addObserver( new VoidFunction1<MotionBounds>() {
             public void apply( MotionBounds motionBounds ) {
                 DriftThenTeleportMotionStrategy.this.motionBounds = motionBounds;

@@ -451,8 +451,8 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
     // Convenience function for checking if an item is contained in an array.
     private boolean arrayContainsItem( Object[] array, Object item ) {
         boolean contained = false;
-        for ( int i = 0; i < array.length; i++ ) {
-            if ( item == array[i] ) {
+        for ( Object arrayElement : array ) {
+            if ( item == arrayElement ) {
                 contained = true;
                 break;
             }
