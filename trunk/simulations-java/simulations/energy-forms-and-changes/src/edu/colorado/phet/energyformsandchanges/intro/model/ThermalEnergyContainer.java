@@ -44,6 +44,35 @@ public interface ThermalEnergyContainer {
     void exchangeEnergyWith( ThermalEnergyContainer energyContainer, double dt );
 
     /**
+     * Find out if this energy container is low on energy chunks.
+     *
+     * @return True if the energy level in this container is at a value the
+     *         indicates that one or more energy chuck is needed.
+     */
+    boolean needsEnergyChunk();
+
+    /**
+     * Find out if the energy container has extra energy chunks.
+     *
+     * @return
+     */
+    boolean hasExcessEnergyChunks();
+
+    /**
+     * Add an energy chunk to this container.
+     *
+     * @param ec
+     */
+    void addEnergyChunk( EnergyChunk ec );
+
+    /**
+     * Remove an energy chunk from this container.
+     *
+     * @return
+     */
+    EnergyChunk removeEnergyChunk();
+
+    /**
      * Get the area that can be used to test whether one energy container is in
      * thermal contact with another, and thus able to exchange energy.
      *
