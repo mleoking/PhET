@@ -43,7 +43,7 @@ import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResourc
  *
  * @author John Blanco
  */
-public class ProteinCollectionNode extends PNode {
+class ProteinCollectionNode extends PNode {
 
     // Upper limit on the width of the PNodes contained in this control panel.
     // This prevents translations from making this box too large.

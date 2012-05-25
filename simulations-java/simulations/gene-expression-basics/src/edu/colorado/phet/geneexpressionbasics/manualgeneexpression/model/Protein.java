@@ -24,7 +24,7 @@ public abstract class Protein extends MobileBiomolecule {
     //-------------------------------------------------------------------------
 
     // Max value for the growth factor, indicates that it is fully grown.
-    public static final double MAX_GROWTH_FACTOR = 1;
+    private static final double MAX_GROWTH_FACTOR = 1;
 
     //-------------------------------------------------------------------------
     // Instance Data

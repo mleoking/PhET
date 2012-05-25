@@ -13,7 +13,7 @@ import edu.colorado.phet.geneexpressionbasics.multiplecells.model.MultipleCellsM
  *
  * @author John Blanco
  */
-public class ConcentrationsControlPanel extends CellParameterControlPanel {
+class ConcentrationsControlPanel extends CellParameterControlPanel {
 
     public ConcentrationsControlPanel( MultipleCellsModel model ) {
         super( GeneExpressionBasicsResources.Strings.CONCENTRATIONS, new VBox(

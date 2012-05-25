@@ -13,7 +13,7 @@ import edu.colorado.phet.geneexpressionbasics.multiplecells.model.MultipleCellsM
  *
  * @author John Blanco
  */
-public class DegradationControlPanel extends CellParameterControlPanel {
+class DegradationControlPanel extends CellParameterControlPanel {
 
     public DegradationControlPanel( MultipleCellsModel model ) {
         super( GeneExpressionBasicsResources.Strings.DEGRADATION, new VBox(

@@ -56,23 +56,23 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
     private final PPath cellBoundingBox = new PhetPPath( new BasicStroke( 5f ), Color.red );
 
     private final ModelViewTransform mvt;
-    final MultipleCellsModel model;
+    private final MultipleCellsModel model;
 
     // Property that controls whether the clock is running, used in the
     // floating clock control.
-    final BooleanProperty clockRunning = new BooleanProperty( false );
+    private final BooleanProperty clockRunning = new BooleanProperty( false );
 
     // Local root node for all things in the "world", which in this case is
     // the set of cells.  This exists in order to support zooming.
     private final PNode localWorldRootNode = new PNode();
 
     // Chart that depicts the average protein level.
-    protected final ProteinLevelChartNode proteinLevelChartNode;
+    private final ProteinLevelChartNode proteinLevelChartNode;
 
     // Parameter control panels.
-    protected final CollapsibleControlPanel concentrationControlPanel;
-    protected final CollapsibleControlPanel degradationParameterController;
-    protected CollapsibleControlPanel affinityControlPanel;
+    private final CollapsibleControlPanel concentrationControlPanel;
+    private final CollapsibleControlPanel degradationParameterController;
+    private CollapsibleControlPanel affinityControlPanel;
 
     /**
      * Constructor.

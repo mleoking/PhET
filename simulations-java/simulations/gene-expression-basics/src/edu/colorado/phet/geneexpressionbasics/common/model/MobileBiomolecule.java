@@ -96,7 +96,7 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
      * @param initialShape
      * @param baseColor
      */
-    public MobileBiomolecule( GeneExpressionModel model, Shape initialShape, Color baseColor ) {
+    protected MobileBiomolecule( GeneExpressionModel model, Shape initialShape, Color baseColor ) {
         super( initialShape );
         this.model = model;
         this.attachmentStateMachine = createAttachmentStateMachine();

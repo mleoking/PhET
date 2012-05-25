@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author John Blanco
  */
-public class FlashingShapeNode extends PNode {
+class FlashingShapeNode extends PNode {
 
     private static final Color INVISIBLE_COLOR = new Color( 0, 0, 0, 0 );
 

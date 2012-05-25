@@ -59,7 +59,7 @@ public abstract class WindingBiomolecule extends MobileBiomolecule {
      *
      * @param initialShape
      */
-    public WindingBiomolecule( GeneExpressionModel model, Shape initialShape, Point2D position ) {
+    protected WindingBiomolecule( GeneExpressionModel model, Shape initialShape, Point2D position ) {
         super( model, initialShape, NOMINAL_COLOR );
 
         // Add first shape defining point to the point list.

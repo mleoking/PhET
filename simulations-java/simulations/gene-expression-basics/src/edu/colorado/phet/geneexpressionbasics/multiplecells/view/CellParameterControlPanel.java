@@ -14,12 +14,12 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author John Blanco
  */
-public class CellParameterControlPanel extends CollapsibleControlPanel {
+class CellParameterControlPanel extends CollapsibleControlPanel {
 
     private static final Font TITLE_LABEL_FONT = new PhetFont( 16, true );
     private static final Color BACKGROUND_COLOR = new Color( 220, 236, 255 );
 
-    public CellParameterControlPanel( String title, PNode controls ) {
+    CellParameterControlPanel( String title, PNode controls ) {
         super( BACKGROUND_COLOR, title, TITLE_LABEL_FONT, controls );
     }
 }
