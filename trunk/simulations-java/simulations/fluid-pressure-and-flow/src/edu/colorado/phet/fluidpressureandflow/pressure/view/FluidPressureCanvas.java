@@ -144,16 +144,6 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
 
         final ValueEquals<IPool> squarePool = model.pool.valueEquals( model.squarePool );
 
-        //Show the ruler
-        //Some nodes go behind the pool so that it looks like they submerge
-        //Position the meter stick so that its origin is at the top of the pool since the rulers measure down in this tab
-        final Point2D.Double rulerModelOrigin = new Point2D.Double( model.squarePool.getMinX(), model.squarePool.getMinY() );
-        final MeterStick meterStick = new MeterStick( transform, module.meterStickVisible, module.rulerVisible, new Point2D.Double( rulerModelOrigin.getX(), model.squarePool.getMaxY() - MeterStick.LENGTH_SMALL ), model, true );
-        final EnglishRuler englishRuler = new EnglishRuler( transform, module.yardStickVisible, module.rulerVisible, rulerModelOrigin, model, true );
-        synchronizeRulerLocations( meterStick, englishRuler );
-        addChild( meterStick );
-        addChild( englishRuler );
-
         //Show the pool itself
         addPoolSpecificNode( model, new Function1<IPool, PNode>() {
             public PNode apply( final IPool p ) {
@@ -213,6 +203,16 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
             setOffset( INSET, INSET );
         }};
         addChild( fluidPressureRadioButtonStrip );
+
+        //Show the ruler
+        //Some nodes go behind the pool so that it looks like they submerge
+        //Position the meter stick so that its origin is at the top of the pool since the rulers measure down in this tab
+        final Point2D.Double rulerModelOrigin = new Point2D.Double( model.squarePool.getMinX(), model.squarePool.getMinY() );
+        final MeterStick meterStick = new MeterStick( transform, module.meterStickVisible, module.rulerVisible, new Point2D.Double( rulerModelOrigin.getX(), model.squarePool.getMaxY() - MeterStick.LENGTH_SMALL ), model, true );
+        final EnglishRuler englishRuler = new EnglishRuler( transform, module.yardStickVisible, module.rulerVisible, rulerModelOrigin, model, true );
+        synchronizeRulerLocations( meterStick, englishRuler );
+        addChild( meterStick );
+        addChild( englishRuler );
     }
 
     //When the pool changes, replace the existing node with one for the given pool.

@@ -1,3 +1,4 @@
+Moved the ruler in front of other objects
 Fixed: In Scene 3, when the masses are dragged into the earth and released, or into the pool and released, they reappear level with the ground, not on top of the grass as they initially appear
 Fixed: In Scene 3, if the masses are dragged off screen and released they disappear
 Fixed: "Reset All" does not reset the atmosphere if it has been turned off

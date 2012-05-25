@@ -104,14 +104,6 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
             setOffset( dropperNode.getFullBounds().getMaxX(), dropperNode.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 - 23 );
         }} );
 
-        //Ruler nodes, one for each unit set
-        final Point2D.Double rulerModelOrigin = new Point2D.Double( 0, 0 );
-        final MeterStick meterStick = new MeterStick( transform, module.meterStickVisible, module.rulerVisible, rulerModelOrigin, model, false );
-        final EnglishRuler englishRuler = new EnglishRuler( transform, module.yardStickVisible, module.rulerVisible, rulerModelOrigin, model, false );
-        synchronizeRulerLocations( meterStick, englishRuler );
-        addChild( meterStick );
-        addChild( englishRuler );
-
         //Add pipe front after other controls so the drag handles can't get lost behind clock control panel and other control panels
         addChild( new PipeFrontNode( transform, module.model.pipe ) );
         for ( final Particle p : module.model.getParticles() ) {
@@ -150,6 +142,14 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
         //Add the sensor toolbox node, which also adds the velocity and pressure sensors
         //Doing this last ensures that the draggable sensors will appear in front of everything else
         addSensorToolboxNode( model, controlPanelNode, null );
+
+        //Ruler nodes, one for each unit set
+        final Point2D.Double rulerModelOrigin = new Point2D.Double( 0, 0 );
+        final MeterStick meterStick = new MeterStick( transform, module.meterStickVisible, module.rulerVisible, rulerModelOrigin, model, false );
+        final EnglishRuler englishRuler = new EnglishRuler( transform, module.yardStickVisible, module.rulerVisible, rulerModelOrigin, model, false );
+        synchronizeRulerLocations( meterStick, englishRuler );
+        addChild( meterStick );
+        addChild( englishRuler );
     }
 
     private void addParticleNode( final Particle p ) {
