@@ -167,9 +167,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     FluorescentCellsPictureDialog dialog = new FluorescentCellsPictureDialog( parentFrame );
-                    if ( dialog != null ) {
-                        SwingUtils.centerInParent( dialog );
-                    }
+                    SwingUtils.centerInParent( dialog );
                     dialog.setVisible( true );
                 }
             } );

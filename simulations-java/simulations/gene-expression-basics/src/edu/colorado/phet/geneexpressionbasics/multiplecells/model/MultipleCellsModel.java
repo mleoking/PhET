@@ -351,10 +351,6 @@ public class MultipleCellsModel implements Resettable {
     }
 
     private static double sideSign( Vector2D edge, Point2D pointOnEdge, Point2D testPoint ) {
-        double value = edge.getX() * ( testPoint.getX() - pointOnEdge.getX() ) + edge.getY() * ( testPoint.getY() - pointOnEdge.getY() );
-        if ( value < FLOATING_POINT_THRESHOLD ) {
-            value = 0;
-        }
         return Math.signum( edge.getX() * ( testPoint.getX() - pointOnEdge.getX() ) + edge.getY() * ( testPoint.getY() - pointOnEdge.getY() ) );
     }
 

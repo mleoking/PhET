@@ -24,15 +24,14 @@ public class TranscriptionFactorPlacementHint extends PlacementHint {
     }
 
     @Override public boolean isMatchingBiomolecule( MobileBiomolecule testBiomolecule ) {
-        if ( testBiomolecule instanceof TranscriptionFactor ){
-            // Configuration of transcription factor must match.
-            return ((TranscriptionFactor)testBiomolecule).getConfig().equals( tfConfig );
+        if ( testBiomolecule instanceof TranscriptionFactor ) {
+            return ( (TranscriptionFactor) testBiomolecule ).getConfig().equals( tfConfig );
         }
         return false;
     }
 
-    public void activateIfConfigMatch( TranscriptionFactorConfig transcriptionFactorConfig ){
-        if ( this.tfConfig.equals( transcriptionFactorConfig )){
+    public void activateIfConfigMatch( TranscriptionFactorConfig transcriptionFactorConfig ) {
+        if ( this.tfConfig.equals( transcriptionFactorConfig ) ) {
             active.set( true );
         }
     }

@@ -164,7 +164,7 @@ public class BioShapeUtils {
         assert points.size() > 0;
 
         // Control points, used throughout the code below for curving the line.
-        ImmutableVector2D cp1, cp2;
+        ImmutableVector2D cp1;
 
         DoubleGeneralPath path = new DoubleGeneralPath();
         path.moveTo( points.get( 0 ) );

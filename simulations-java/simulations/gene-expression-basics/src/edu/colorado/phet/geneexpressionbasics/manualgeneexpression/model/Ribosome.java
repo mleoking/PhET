@@ -138,10 +138,7 @@ public class Ribosome extends MobileBiomolecule {
      */
     public boolean advanceMessengerRnaTranslation( double amount ) {
         assert messengerRnaBeingTranslated != null; // Verify expected state.
-        if ( messengerRnaBeingTranslated != null ) {
-            return messengerRnaBeingTranslated.advanceTranslation( this, amount );
-        }
-        return false;
+        return messengerRnaBeingTranslated != null && messengerRnaBeingTranslated.advanceTranslation( this, amount );
     }
 
     /**

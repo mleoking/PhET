@@ -58,7 +58,7 @@ public class MessengerRnaNode extends MobileBiomoleculeNode {
                 if ( beingSynthesized ) {
                     label.startFadeIn( 3000 ); // Fade time chosen empirically.
                 }
-                else if ( !beingSynthesized ) {
+                else {
                     label.startFadeOut( 1000 ); // Fade time chosen empirically.
                 }
             }
