@@ -72,7 +72,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
     // Parameter control panels.
     private final CollapsibleControlPanel concentrationControlPanel;
     private final CollapsibleControlPanel degradationParameterController;
-    private CollapsibleControlPanel affinityControlPanel;
+    private final CollapsibleControlPanel affinityControlPanel;
 
     /**
      * Constructor.

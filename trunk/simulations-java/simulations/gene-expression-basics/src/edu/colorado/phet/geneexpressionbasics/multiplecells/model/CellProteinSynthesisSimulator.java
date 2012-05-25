@@ -32,8 +32,6 @@ public class CellProteinSynthesisSimulator {
     public static final DoubleRange MRNA_DEGRADATION_RATE_RANGE = new DoubleRange( DEFAULT_MRNA_DEGRADATION_RATE / 1000, DEFAULT_MRNA_DEGRADATION_RATE * 1000 );
 
     private final Random _random = new Random();
-    private double _timeStep = 5e2;
-    private double _currentTime;
 
     private final int[] _objectCounts = {
             20, //gene count
@@ -62,7 +60,6 @@ public class CellProteinSynthesisSimulator {
 
     public CellProteinSynthesisSimulator( int ribosomeCount ) {
         _objectCounts[6] = ribosomeCount;
-        _currentTime = 0.0;
     }
 
     /**
@@ -136,7 +133,6 @@ public class CellProteinSynthesisSimulator {
             timeIncrement = simulateOneReaction( dt - accumulatedTime );
             accumulatedTime += timeIncrement;
         }
-        _currentTime += dt;
     }
 
     /**
