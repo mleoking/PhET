@@ -31,12 +31,16 @@ public class Particle {
     private final ArrayList<SimpleObserver> removalListeners = new ArrayList<SimpleObserver>();
     public final Paint color;
 
-    public Particle( double x, double fractionUpPipe, Pipe container, double radius, Paint color ) {
+    //True if the particle is on the grid of black particles
+    public final boolean gridParticle;
+
+    public Particle( double x, double fractionUpPipe, Pipe container, double radius, Paint color, boolean gridParticle ) {
         this.x = x;
         this.fractionUpPipe = fractionUpPipe;
         this.container = container;
         this.radius = radius;
         this.color = color;
+        this.gridParticle = gridParticle;
     }
 
     public double getX() {
