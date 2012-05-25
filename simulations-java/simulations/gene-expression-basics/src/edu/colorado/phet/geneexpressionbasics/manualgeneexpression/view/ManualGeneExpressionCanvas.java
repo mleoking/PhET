@@ -86,7 +86,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
 
     // PNodes that are used as layers and that are involved in the zoom
     // functionality.
-    private PNode backgroundCellLayer;
+    private final PNode backgroundCellLayer;
     private final PNode modelRootNode;
 
     // Background cell that the user zooms in and out of.

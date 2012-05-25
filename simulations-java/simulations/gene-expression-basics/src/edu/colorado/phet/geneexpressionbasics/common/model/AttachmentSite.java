@@ -21,14 +21,14 @@ public class AttachmentSite {
     // Location of this attachment site.  It is a property so that it can be
     // followed in the event that the biomolecule upon which it exists is
     // moving.
-    public Property<Point2D> locationProperty = new Property<Point2D>( new Point2D.Double( 0, 0 ) );
+    public final Property<Point2D> locationProperty = new Property<Point2D>( new Point2D.Double( 0, 0 ) );
 
     // Property that represents the affinity of the attachment site.
     public final Property<Double> affinityProperty;
 
     // A property that tracks which if any biomolecule is attached to or moving
     // towards attachment with this site.
-    public Property<MobileBiomolecule> attachedOrAttachingMolecule = new Property<MobileBiomolecule>( null );
+    public final Property<MobileBiomolecule> attachedOrAttachingMolecule = new Property<MobileBiomolecule>( null );
 
     /**
      * Constructor.

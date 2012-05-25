@@ -16,7 +16,7 @@ public abstract class AttachmentState {
 
     // Distance within which a molecule is considered to be attached to an
     // attachment site.  This essentially avoids floating point issues.
-    private static double ATTACHED_DISTANCE_THRESHOLD = 1; // In picometers.
+    private static final double ATTACHED_DISTANCE_THRESHOLD = 1; // In picometers.
 
     public void stepInTime( AttachmentStateMachine enclosingStateMachine, double dt ) {
         // By default does nothing, override to implement unique behavior.

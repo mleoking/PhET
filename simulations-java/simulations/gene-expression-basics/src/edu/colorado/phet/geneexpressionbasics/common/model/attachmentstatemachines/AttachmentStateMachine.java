@@ -36,7 +36,7 @@ public abstract class AttachmentStateMachine {
     // Offset to use when moving towards attachment sites.  This is used when
     // the molecule attaches to an attachment site at some location other than
     // its geometric center.
-    protected Vector2D destinationOffset = new Vector2D( 0, 0 );
+    protected final Vector2D destinationOffset = new Vector2D( 0, 0 );
 
     //-------------------------------------------------------------------------
     // Constructor(s)

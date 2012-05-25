@@ -63,7 +63,7 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
     // it has completed transcription.
     private boolean recycleMode = false;
 
-    private List<Rectangle2D> recycleReturnZones = new ArrayList<Rectangle2D>();
+    private final List<Rectangle2D> recycleReturnZones = new ArrayList<Rectangle2D>();
 
     /**
      * Constructor.
