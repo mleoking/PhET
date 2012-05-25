@@ -38,17 +38,12 @@ public class EFACIntroModel {
     // floating point issues.
     private static final double MIN_INTER_ELEMENT_DISTANCE = 1E-9; // In meters.
 
-    // DT values for normal and slow motion.
-    private static final double FRAMES_PER_SECOND = 30.0;
-    public static final double SIM_TIME_PER_TICK_NORMAL = 1 / FRAMES_PER_SECOND;
-    public static final double SIM_TIME_PER_TICK_SLOW_MOTION = SIM_TIME_PER_TICK_NORMAL / 4;
-
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
 
     // Main model clock.
-    protected final ConstantDtClock clock = new ConstantDtClock( FRAMES_PER_SECOND );
+    protected final ConstantDtClock clock = new ConstantDtClock( EFACConstants.FRAMES_PER_SECOND );
 
     // Burners.
     private final Burner leftBurner;
