@@ -77,7 +77,7 @@ public class RibosomeAttachmentStateMachine extends GenericAttachmentStateMachin
         @Override public void entered( AttachmentStateMachine asm ) {
             ribosome.initiateTranslation();
             ribosome.setMotionStrategy( new RibosomeTranslatingRnaMotionStrategy( ribosome ) );
-            proteinBeingSynthesized = ribosome.getMessengerRnaBeingTranslated().getProteinPrototype().createInstance( ribosome );
+            proteinBeingSynthesized = ribosome.getMessengerRnaBeingTranslated().getProteinPrototype().createInstance();
             proteinBeingSynthesized.setAttachmentPointPosition( ribosome.getProteinAttachmentPoint() );
             ribosome.getModel().addMobileBiomolecule( proteinBeingSynthesized );
             // Prevent user interaction while translating.
