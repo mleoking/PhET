@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--normal-modes-strings_it.xml created Fri May 25 15:33:47 CEST 2012 using: normal-modes 1.00.00 (64159), translation-utility 2.13.00 (59150) dic 8, 2011-->
+<SimStrings>
+<string key="start" value="Via"/>
+<string key="amplitude:" value="Ampiezza:"/>
+<string key="translation.credits" value="Vito Garganese &lt;br&gt; vito.garganese@alice.it"/>
+<string key="phase:" value="Fase:"/>
+<string key="showSprings" value="Mostra le molle"/>
+<string key="modeSpectrum" value="Spettro dei modi normali di vibrazione"/>
+<string key="resetPositions" value="Posizione iniziale"/>
+<string key="frequency:" value="Frequenza"/>
+<string key="normalMode:" value="Modi normali di vibrazione:"/>
+<string key="modeSpectrumDisplay" value="Visualizza lo spettro dei modi"/>
+<string key="normal-modes.simTitle" value="Modi normali di vibrazione (Risonanza)"/>
+<string key="modeNumbersXY" value="Numeri modali x, y."/>
+<string key="polarization:" value="Polarizzazione"/>
+<string key="zeroPositions" value="Posizioni a riposo"/>
+<string key="paused" value="PAUSA"/>
+<string key="showPhases" value="Mostra le fasi"/>
+</SimStrings>
