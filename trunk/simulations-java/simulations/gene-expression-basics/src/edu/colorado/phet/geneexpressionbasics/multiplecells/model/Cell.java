@@ -46,15 +46,15 @@ public class Cell extends ShapeChangingModelElement {
     // The reason that this is broken out into a separate class is that it was
     // supplied by someone outside of the PhET project, and this keeps it
     // encapsulated and thus easier for the original author to help maintain.
-    private CellProteinSynthesisSimulator proteinSynthesisSimulator = new CellProteinSynthesisSimulator( 100 );
+    private final CellProteinSynthesisSimulator proteinSynthesisSimulator = new CellProteinSynthesisSimulator( 100 );
 
     // Property that indicates the current protein count in the cell.  This
     // should not be set by external users, only monitored.
-    public Property<Integer> proteinCount = new Property<Integer>( 0 );
+    public final Property<Integer> proteinCount = new Property<Integer>( 0 );
 
     // List of the vertices that define the enclosing rectangular shape of
     // this cell.  This is generally used for overlap testing.
-    private List<Point2D> enclosingRectVertices = new ArrayList<Point2D>( 4 );
+    private final List<Point2D> enclosingRectVertices = new ArrayList<Point2D>( 4 );
 
     //-------------------------------------------------------------------------
     // Constructor(s)

@@ -56,7 +56,7 @@ public class CollapsibleControlPanel extends PNode {
     private double minWidth = 0;
 
     // Button that also tracks the open/closed state.
-    private OpenCloseButton openCloseButton;
+    private final OpenCloseButton openCloseButton;
 
     //-------------------------------------------------------------------------
     // Constructor(s)

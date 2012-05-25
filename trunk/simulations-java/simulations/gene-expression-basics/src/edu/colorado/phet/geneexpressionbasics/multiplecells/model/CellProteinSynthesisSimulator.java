@@ -31,11 +31,11 @@ public class CellProteinSynthesisSimulator {
     public static final double DEFAULT_MRNA_DEGRADATION_RATE = 0.01;
     public static final DoubleRange MRNA_DEGRADATION_RATE_RANGE = new DoubleRange( DEFAULT_MRNA_DEGRADATION_RATE / 1000, DEFAULT_MRNA_DEGRADATION_RATE * 1000 );
 
-    private Random _random = new Random();
+    private final Random _random = new Random();
     private double _timeStep = 5e2;
     private double _currentTime;
 
-    private int[] _objectCounts = {
+    private final int[] _objectCounts = {
             20, //gene count
             DEFAULT_TRANSCRIPTION_FACTOR_COUNT, //free transcription factor count
             5000, //polymerase count
@@ -47,7 +47,7 @@ public class CellProteinSynthesisSimulator {
             0 //protein count
     };
 
-    private double[] _reactionProbabilities = {
+    private final double[] _reactionProbabilities = {
             DEFAULT_TF_ASSOCIATION_PROBABILITY, //gene, TF association
             0.0009f, //gene-TF degradation
             DEFAULT_POLYMERASE_ASSOCIATION_PROBABILITY, //gene-TF-polymerase association
