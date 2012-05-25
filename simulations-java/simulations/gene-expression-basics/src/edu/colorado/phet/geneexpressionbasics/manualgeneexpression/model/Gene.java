@@ -51,7 +51,7 @@ public abstract class Gene {
 
     // Property that determines the affinity of the site where polymerase
     // attaches when the transcription factors support transcription.
-    private Property<Double> polymeraseAffinityProperty = new Property<Double>( 1.0 );
+    private final Property<Double> polymeraseAffinityProperty = new Property<Double>( 1.0 );
 
     /**
      * Constructor.

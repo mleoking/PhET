@@ -31,7 +31,7 @@ public abstract class Protein extends MobileBiomolecule {
     //-------------------------------------------------------------------------
 
     // Property that gets set when this protein is fully formed and released.
-    public BooleanProperty fullGrown = new BooleanProperty( false );
+    public final BooleanProperty fullGrown = new BooleanProperty( false );
 
     // A value between 0 and 1 that defines how fully developed, or "grown"
     // this protein is.

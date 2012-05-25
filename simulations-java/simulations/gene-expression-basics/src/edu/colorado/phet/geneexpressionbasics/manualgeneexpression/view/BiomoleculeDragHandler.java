@@ -12,7 +12,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 /**
  * @author John Blanco
  */
-public class BiomoleculeDragHandler extends PDragEventHandler {
+class BiomoleculeDragHandler extends PDragEventHandler {
     private final MobileBiomolecule biomolecule;
     private final PNode pNode;
     private final ModelViewTransform mvt;

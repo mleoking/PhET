@@ -57,7 +57,7 @@ import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResourc
 public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettable {
 
     // Stage size, based on default screen size.
-    private static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
+    private static final Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
 
     // Constants the define the zoom range.
     private static final double MIN_ZOOM = 0.005;
@@ -87,10 +87,10 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
     // PNodes that are used as layers and that are involved in the zoom
     // functionality.
     private PNode backgroundCellLayer;
-    private PNode modelRootNode;
+    private final PNode modelRootNode;
 
     // Background cell that the user zooms in and out of.
-    protected BackgroundCellNode backgroundCell;
+    private final BackgroundCellNode backgroundCell;
 
     /**
      * Constructor.

@@ -124,10 +124,6 @@ public class TranscriptionFactor extends MobileBiomolecule {
         return config.isPositive;
     }
 
-    @Override public void stepInTime( double dt ) {
-        super.stepInTime( dt );
-    }
-
     // Overridden in order to provide some unique behavior for transcription
     // factors.
     @Override protected AttachmentStateMachine createAttachmentStateMachine() {

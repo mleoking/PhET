@@ -55,15 +55,6 @@ public abstract class MotionStrategy {
     }
 
     /**
-     * Set a new value for the motion bounds.
-     *
-     * @param motionBounds
-     */
-    public void setMotionBounds( MotionBounds motionBounds ) {
-        this.motionBounds = motionBounds;
-    }
-
-    /**
      * This utility method will return a motion vector that reflects a "bounce"
      * in the x, y, or both directions based on which type of bounce will yield
      * a next location for the shape that is within the motion bounds.  If no
@@ -109,10 +100,6 @@ public abstract class MotionStrategy {
 
     private AffineTransform getMotionTransform( ImmutableVector2D motionVector, double dt ) {
         return AffineTransform.getTranslateInstance( motionVector.getX() * dt, motionVector.getY() * dt );
-    }
-
-    protected static ImmutableVector2D getVectorTowardsDestination( Point2D currentLocation, Point2D destination, double velocity ) {
-        return new ImmutableVector2D( currentLocation, destination ).getInstanceOfMagnitude( velocity );
     }
 
     // Utility function for determining if ranges overlap.

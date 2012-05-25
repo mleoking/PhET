@@ -75,7 +75,7 @@ public class BiomoleculeToolBoxNode extends PNode {
                     addChild( new RowLabel( POSITIVE_TRANSCRIPTION_FACTOR_HTML ), constraints );
                     constraints.gridx++;
                     constraints.insets.left = 20;
-                    addChild( new HBox( addCreatorNode( new TranscriptionFactorCreatorNode( BiomoleculeToolBoxNode.this, tfConfig, true ) ) ), constraints );
+                    addChild( new HBox( addCreatorNode( new TranscriptionFactorCreatorNode( BiomoleculeToolBoxNode.this, tfConfig ) ) ), constraints );
                     constraints.gridx = 0;
                     constraints.gridy++;
                     constraints.insets.left = 0;
@@ -123,7 +123,7 @@ public class BiomoleculeToolBoxNode extends PNode {
                     addChild( new RowLabel( GeneExpressionBasicsResources.Strings.NEGATIVE_TRANSCRIPTION_FACTOR_HTML ), constraints );
                     constraints.gridx++;
                     constraints.insets.left = 20;
-                    addChild( new HBox( addCreatorNode( new TranscriptionFactorCreatorNode( BiomoleculeToolBoxNode.this, tfConfig, true ) ) ), constraints );
+                    addChild( new HBox( addCreatorNode( new TranscriptionFactorCreatorNode( BiomoleculeToolBoxNode.this, tfConfig ) ) ), constraints );
                 }
             }
         }};
@@ -231,7 +231,7 @@ public class BiomoleculeToolBoxNode extends PNode {
         private static final double SCALING_FACTOR = 0.07;
         private static final ModelViewTransform SCALING_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), SCALING_FACTOR );
 
-        private TranscriptionFactorCreatorNode( final BiomoleculeToolBoxNode biomoleculeBoxNode, final TranscriptionFactorConfig tfConfig, final boolean positive ) {
+        private TranscriptionFactorCreatorNode( final BiomoleculeToolBoxNode biomoleculeBoxNode, final TranscriptionFactorConfig tfConfig ) {
             super( new MobileBiomoleculeNode( SCALING_MVT, new TranscriptionFactor( new StubGeneExpressionModel(), tfConfig, new Point2D.Double( 0, 0 ) ) ),
                    biomoleculeBoxNode.canvas,
                    biomoleculeBoxNode.mvt,

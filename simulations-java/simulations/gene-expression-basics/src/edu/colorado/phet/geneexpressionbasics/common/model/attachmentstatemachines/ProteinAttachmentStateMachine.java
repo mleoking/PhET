@@ -24,11 +24,6 @@ public class ProteinAttachmentStateMachine extends GenericAttachmentStateMachine
     // Subclass of the "attached" state.
     protected class ProteinAttachedToRibosomeState extends AttachmentState {
 
-        @Override public void stepInTime( AttachmentStateMachine asm, double dt ) {
-            // Does nothing, since it is being synthesized and the ribosome
-            // controls its state and location.
-        }
-
         @Override public void entered( AttachmentStateMachine asm ) {
             biomolecule.setMotionStrategy( new StillnessMotionStrategy() );
             // Prevent user interaction while the protein is growing.

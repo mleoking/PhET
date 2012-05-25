@@ -33,7 +33,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class TranscriptionFactorControlPanel extends PNode {
 
-    public static final double TRANSCRIPTION_FACTOR_SCALE = 0.08;
+    private static final double TRANSCRIPTION_FACTOR_SCALE = 0.08;
     private static final ModelViewTransform TRANSCRIPTION_FACTOR_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
                                                                                                                                   new Point2D.Double( 0, 0 ),
                                                                                                                                   TRANSCRIPTION_FACTOR_SCALE );

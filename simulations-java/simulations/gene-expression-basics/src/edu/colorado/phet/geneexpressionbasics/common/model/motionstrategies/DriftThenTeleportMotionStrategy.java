@@ -30,11 +30,11 @@ public class DriftThenTeleportMotionStrategy extends MotionStrategy {
 
     private final ImmutableVector2D wanderDirection;
 
-    // List of valid places where the item can teleport. 
+    // List of valid places where the item can teleport.
     private final List<Rectangle2D> destinationZones;
 
     private double countdown = PRE_TELEPORT_TIME;
-    private ImmutableVector2D velocityXY;
+    private final ImmutableVector2D velocityXY;
     private double velocityZ = 0;
 
     public DriftThenTeleportMotionStrategy( ImmutableVector2D wanderDirection, List<Rectangle2D> destinationZones, Property<MotionBounds> motionBoundsProperty ) {

@@ -23,7 +23,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  * sequential collection of base pairs, this node is basically something that
  * highlights and labels the appropriate areas on the DNA strand.
  */
-public class GeneNode extends PNode {
+class GeneNode extends PNode {
 
     private static final Font REGION_LABEL_FONT = new PhetFont( 11 );
     private static final Font GENE_LABEL_FONT = new PhetFont( 16 );
@@ -31,7 +31,7 @@ public class GeneNode extends PNode {
     private static final double RECT_ROUNDING = 15;
 
     public GeneNode( final ModelViewTransform mvt, final Gene gene, DnaMolecule dnaMolecule, String label, boolean showBracketLabel ) {
-        double highlightHeight = -mvt.modelToViewDeltaY( dnaMolecule.getDiameter() * 1.5 );
+        double highlightHeight = -mvt.modelToViewDeltaY( dnaMolecule.DIAMETER * 1.5 );
         double highlightStartY = mvt.modelToViewY( dnaMolecule.getLeftEdgePos().getY() ) - highlightHeight / 2;
 
         // Add the highlight for the regulatory region.

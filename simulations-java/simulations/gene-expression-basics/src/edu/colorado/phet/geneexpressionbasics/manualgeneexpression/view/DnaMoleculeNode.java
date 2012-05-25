@@ -24,12 +24,12 @@ import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResourc
  */
 public class DnaMoleculeNode extends PNode {
 
-    public static Color STRAND_1_COLOR = new Color( 31, 163, 223 );
-    public static Color STRAND_2_COLOR = new Color( 214, 87, 107 );
+    public static final Color STRAND_1_COLOR = new Color( 31, 163, 223 );
+    public static final Color STRAND_2_COLOR = new Color( 214, 87, 107 );
 
     // Layers for supporting the 3D look by allowing the "twist" to be depicted.
-    private PNode dnaBackboneBackLayer = new PNode();
-    private PNode dnaBackboneFrontLayer = new PNode();
+    private final PNode dnaBackboneBackLayer = new PNode();
+    private final PNode dnaBackboneFrontLayer = new PNode();
 
     /**
      * Constructor.

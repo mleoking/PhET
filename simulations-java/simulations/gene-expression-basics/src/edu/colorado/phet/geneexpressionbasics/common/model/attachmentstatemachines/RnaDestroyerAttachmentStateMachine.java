@@ -21,12 +21,12 @@ public class RnaDestroyerAttachmentStateMachine extends GenericAttachmentStateMa
     private static final double RNA_DESTRUCTION_RATE = 750; // Picometers per second.
 
     // Range of lengths for mRNA fragments.
-    private static DoubleRange MRNA_FRAGMENT_LENGTH_RANGE = new DoubleRange( 100, 400 ); // In picometers.
+    private static final DoubleRange MRNA_FRAGMENT_LENGTH_RANGE = new DoubleRange( 100, 400 ); // In picometers.
 
     private static final Random RAND = new Random();
 
     // Reference back to the mRNA destroyer that is controlled by this state machine.
-    protected final MessengerRnaDestroyer mRnaDestroyer;
+    private final MessengerRnaDestroyer mRnaDestroyer;
 
     public RnaDestroyerAttachmentStateMachine( MobileBiomolecule biomolecule ) {
         super( biomolecule );

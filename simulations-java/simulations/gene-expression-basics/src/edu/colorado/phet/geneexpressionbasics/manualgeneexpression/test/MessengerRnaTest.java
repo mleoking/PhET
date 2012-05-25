@@ -22,7 +22,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class MessengerRnaTest {
 
-    private static Dimension2D STAGE_SIZE = new PDimension( 800, 480 );
+    private static final Dimension2D STAGE_SIZE = new PDimension( 800, 480 );
 
     /**
      * Main routine that constructs a PhET Piccolo canvas in a window and puts
