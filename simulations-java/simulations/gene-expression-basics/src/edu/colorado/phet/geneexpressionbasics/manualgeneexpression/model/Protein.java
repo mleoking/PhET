@@ -96,7 +96,7 @@ public abstract class Protein extends MobileBiomolecule {
         return getUntranslatedShape( MAX_GROWTH_FACTOR );
     }
 
-    public abstract Protein createInstance( GeneExpressionModel model, Ribosome parentRibosome );
+    public abstract Protein createInstance( Ribosome parentRibosome );
 
     /**
      * Release this protein from the ribosome and allow it to drift around in

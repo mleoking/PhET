@@ -8,7 +8,6 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
-import edu.colorado.phet.geneexpressionbasics.multiplecells.view.ColorChangingCellNode;
 
 /**
  * @author John Blanco
@@ -31,7 +30,7 @@ public class ProteinB extends Protein {
         return createShape( growthFactor );
     }
 
-    @Override public Protein createInstance( GeneExpressionModel model, Ribosome parentRibosome ) {
+    @Override public Protein createInstance( Ribosome parentRibosome ) {
         return new ProteinB( this.model );
     }
 
