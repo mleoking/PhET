@@ -12,7 +12,7 @@ import java.text.DecimalFormat
 
 //Prints the report on all logs within a directory to the console
 object RunIt extends App {
-  AcidBaseSolutionSpring2012AnalysisReport.report(new File("C:\\Users\\Sam\\Desktop\\kelly-data"), println)
+  AcidBaseSolutionSpring2012AnalysisReport.report(new File("C:\\Users\\Sam\\Desktop\\abs-study-data"), println)
 }
 
 object AcidBaseSolutionSpring2012AnalysisReport {

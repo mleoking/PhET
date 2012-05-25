@@ -5,5 +5,5 @@ package edu.colorado.phet.simsharinganalysis.scripts.acidbasesolutionsspring2012
 import java.io.File
 
 object AcidBaseSolutionSpring2012Analysis extends App {
-  AcidBaseSolutionSpring2012AnalysisReport.report(new File("C:\\Users\\Sam\\Desktop\\jc"), println)
+  AcidBaseSolutionSpring2012AnalysisReport.report(new File("C:\\Users\\Sam\\Desktop\\abs-study-data"), println)
 }
