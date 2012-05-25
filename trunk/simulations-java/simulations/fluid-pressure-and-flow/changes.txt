@@ -1,3 +1,4 @@
+Changed mass readouts to be "kg" instead of "N"
 Water tower tab: Moved ruler in front of speed and pressure toolbox
 Changed gravity label from m/s/s to m/s2
 # 0.00.61 (64362) May 25, 2012
