@@ -110,7 +110,7 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel
         } );
 
         // Control Panel
-        final FluidPressureAndFlowControlPanelNode controlPanelNode = new FluidPressureAndFlowControlPanelNode( new WaterTowerControlPanel( module, transform ) ) {{
+        final FluidPressureAndFlowControlPanelNode controlPanelNode = new FluidPressureAndFlowControlPanelNode( new WaterTowerControlPanel( module ) ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - INSET, INSET );
         }};
         addChild( controlPanelNode );

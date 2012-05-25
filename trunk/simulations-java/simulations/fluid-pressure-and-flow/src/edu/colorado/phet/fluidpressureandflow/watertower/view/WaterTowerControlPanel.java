@@ -47,7 +47,7 @@ import static edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressure
  * @author Sam Reid
  */
 public class WaterTowerControlPanel extends VerticalLayoutPanel {
-    public WaterTowerControlPanel( final WaterTowerModule module, final ModelViewTransform transform ) {
+    public WaterTowerControlPanel( final WaterTowerModule module ) {
 
         //Measuring devices
         add( new JPanel( new GridBagLayout() ) {{
