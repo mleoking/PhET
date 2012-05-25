@@ -22,7 +22,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author John Blanco
  */
-public class BackgroundCellNode extends PNode {
+class BackgroundCellNode extends PNode {
 
     // Default size in screen coordinates, which are pretty close to pixels
     // when there is no zoom in effect.  Size was empirically determined to

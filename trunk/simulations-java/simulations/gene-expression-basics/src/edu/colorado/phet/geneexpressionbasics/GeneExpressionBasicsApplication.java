@@ -19,7 +19,7 @@ import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResourc
 public class GeneExpressionBasicsApplication extends PiccoloPhetApplication {
 
     // Project name.
-    public static final String NAME = "gene-expression-basics";
+    private static final String NAME = "gene-expression-basics";
 
     // Resource loader.
     public static final PhetResources RESOURCES = new PhetResources( NAME );

@@ -38,7 +38,7 @@ public class TranscriptionFactorControlPanel extends PNode {
                                                                                                                                   new Point2D.Double( 0, 0 ),
                                                                                                                                   TRANSCRIPTION_FACTOR_SCALE );
 
-    public static final double DNA_SCALE = 0.1;
+    private static final double DNA_SCALE = 0.1;
     private static final ModelViewTransform DNA_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
                                                                                                                  new Point2D.Double( 0, 0 ),
                                                                                                                  DNA_SCALE );

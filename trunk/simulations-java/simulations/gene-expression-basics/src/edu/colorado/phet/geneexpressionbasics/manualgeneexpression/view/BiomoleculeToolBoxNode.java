@@ -41,7 +41,7 @@ import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResourc
 public class BiomoleculeToolBoxNode extends PNode {
 
     private static final Font TITLE_FONT = new PhetFont( 20, true );
-    protected final ManualGeneExpressionModel model;
+    private final ManualGeneExpressionModel model;
     private final ManualGeneExpressionCanvas canvas;
     protected final ModelViewTransform mvt;
     private final List<BiomoleculeCreatorNode> biomoleculeCreatorNodeList = new ArrayList<BiomoleculeCreatorNode>();

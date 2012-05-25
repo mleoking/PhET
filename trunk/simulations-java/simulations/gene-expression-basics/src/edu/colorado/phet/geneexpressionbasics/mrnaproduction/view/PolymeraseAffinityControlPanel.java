@@ -34,11 +34,11 @@ public class PolymeraseAffinityControlPanel extends PNode {
     // Class Data
     //-------------------------------------------------------------------------
 
-    public static final double POLYMERASE_SCALE = 0.08;
+    private static final double POLYMERASE_SCALE = 0.08;
     private static final ModelViewTransform POLYMERASE_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
                                                                                                                         new Point2D.Double( 0, 0 ),
                                                                                                                         POLYMERASE_SCALE );
-    public static final double DNA_AND_TF_SCALE = 0.08;
+    private static final double DNA_AND_TF_SCALE = 0.08;
     private static final ModelViewTransform DNA_AND_TF_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
                                                                                                                         new Point2D.Double( 0, 0 ),
                                                                                                                         DNA_AND_TF_SCALE );

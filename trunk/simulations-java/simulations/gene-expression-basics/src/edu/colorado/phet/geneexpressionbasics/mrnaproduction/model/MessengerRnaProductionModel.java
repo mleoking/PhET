@@ -58,7 +58,7 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
     public static final int MAX_TRANSCRIPTION_FACTOR_COUNT = 8;
 
     // Number of RNA polymerase molecules present.
-    public static final int RNA_POLYMERASE_COUNT = 7;
+    private static final int RNA_POLYMERASE_COUNT = 7;
 
     // etc.
     private static final Random RAND = new Random();
@@ -69,10 +69,10 @@ public class MessengerRnaProductionModel extends GeneExpressionModel implements 
 
     // DNA strand, which is where the genes reside, where the polymerase does
     // its transcription, and where a lot of the action takes place.
-    protected final DnaMolecule dnaMolecule = new DnaMolecule( this,
-                                                               NUM_BASE_PAIRS_ON_DNA_STRAND,
-                                                               -NUM_BASE_PAIRS_ON_DNA_STRAND * DnaMolecule.DISTANCE_BETWEEN_BASE_PAIRS / 2,
-                                                               true );
+    private final DnaMolecule dnaMolecule = new DnaMolecule( this,
+                                                             NUM_BASE_PAIRS_ON_DNA_STRAND,
+                                                             -NUM_BASE_PAIRS_ON_DNA_STRAND * DnaMolecule.DISTANCE_BETWEEN_BASE_PAIRS / 2,
+                                                             true );
 
     // The one gene that is on this DNA strand.
     private final Gene gene;

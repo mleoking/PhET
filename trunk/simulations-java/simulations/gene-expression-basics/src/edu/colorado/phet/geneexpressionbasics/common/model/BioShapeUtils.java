@@ -37,7 +37,7 @@ public class BioShapeUtils {
     private BioShapeUtils() {
     }
 
-    public static Shape createShapeFromPoints( List<Point2D> points ) {
+    private static Shape createShapeFromPoints( List<Point2D> points ) {
         DoubleGeneralPath path = new DoubleGeneralPath();
         path.moveTo( points.get( 0 ) );
         for ( Point2D point : points ) {
@@ -116,7 +116,7 @@ public class BioShapeUtils {
      * @param seed
      * @return
      */
-    public static Shape createRandomShapeFromPoints( List<Point2D> points, int seed ) {
+    private static Shape createRandomShapeFromPoints( List<Point2D> points, int seed ) {
         Random rand = new Random( seed );
         DoubleGeneralPath path = new DoubleGeneralPath();
         path.moveTo( points.get( 0 ) );
@@ -291,7 +291,7 @@ public class BioShapeUtils {
      * @param seed
      * @return
      */
-    public static Shape createCurvyEnclosedShape( Rectangle2D bounds, double variationFactor, long seed ) {
+    private static Shape createCurvyEnclosedShape( Rectangle2D bounds, double variationFactor, long seed ) {
 
         // Limit the variation to the allowed range.
         assert variationFactor >= 0 && variationFactor <= 1; // Catch incorrect uses when debugging.
