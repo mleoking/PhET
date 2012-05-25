@@ -51,12 +51,12 @@ public class TranscriptionFactorControlPanel extends PNode {
         final String titleText;
         final IntegerProperty tfLevelProperty;
         if ( transcriptionFactorConfig.isPositive ) {
-            transcriptionFactorConfig = model.POSITIVE_TRANSCRIPTION_FACTOR_CONFIG;
+            transcriptionFactorConfig = MessengerRnaProductionModel.POSITIVE_TRANSCRIPTION_FACTOR_CONFIG;
             titleText = GeneExpressionBasicsResources.Strings.POSITIVE_TRANSCRIPTION_FACTOR_HTML;
             tfLevelProperty = model.positiveTranscriptionFactorCount;
         }
         else {
-            transcriptionFactorConfig = model.NEGATIVE_TRANSCRIPTION_FACTOR_CONFIG;
+            transcriptionFactorConfig = MessengerRnaProductionModel.NEGATIVE_TRANSCRIPTION_FACTOR_CONFIG;
             titleText = GeneExpressionBasicsResources.Strings.NEGATIVE_TRANSCRIPTION_FACTOR_HTML;
             tfLevelProperty = model.negativeTranscriptionFactorCount;
         }
@@ -70,7 +70,7 @@ public class TranscriptionFactorControlPanel extends PNode {
         PNode contents = new VBox(
                 20,
                 title,
-                new ConcentrationController( transcriptionFactorConfig, tfLevelProperty, 0, model.MAX_TRANSCRIPTION_FACTOR_COUNT ),
+                new ConcentrationController( transcriptionFactorConfig, tfLevelProperty, 0, MessengerRnaProductionModel.MAX_TRANSCRIPTION_FACTOR_COUNT ),
                 new AffinityController( transcriptionFactorNode, dnaFragmentNode, affinityProperty )
         );
 
