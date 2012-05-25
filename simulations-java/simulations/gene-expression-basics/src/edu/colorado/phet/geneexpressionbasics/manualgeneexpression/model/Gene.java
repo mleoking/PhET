@@ -150,7 +150,7 @@ public abstract class Gene {
         return polymeraseAttachmentSite;
     }
 
-    public void stepInTime( double dt ) {
+    public void updateAffinities() {
         // Update the affinity of the polymerase attachment site based upon the
         // state of the transcription factors.
         if ( transcriptionFactorsSupportTranscription() ) {
