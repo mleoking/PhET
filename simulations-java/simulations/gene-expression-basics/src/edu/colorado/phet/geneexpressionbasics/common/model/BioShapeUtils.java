@@ -225,6 +225,7 @@ public class BioShapeUtils {
             add( new Point2D.Double( -20, -10 ) );
         }};
 
+        /*
         List<Point2D> squarePointList = new ArrayList<Point2D>() {{
             add( new Point2D.Double( 0, 0 ) );
             add( new Point2D.Double( 20, 0 ) );
@@ -236,6 +237,7 @@ public class BioShapeUtils {
 //            add( new Point2D.Double( 1, -1 ) );
 //            add( new Point2D.Double( 0, -1 ) );
         }};
+        */
 
         // Add the shapes.  Many are translated somewhat to avoid overlap.
         PCanvas canvas = new PCanvas();
