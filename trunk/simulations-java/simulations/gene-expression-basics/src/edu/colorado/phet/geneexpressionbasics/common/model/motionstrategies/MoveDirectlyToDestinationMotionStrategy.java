@@ -23,7 +23,6 @@ public class MoveDirectlyToDestinationMotionStrategy extends MotionStrategy {
     private static final double MAX_Z_VELOCITY = 10; // Max Z velocity in normalized units.
 
     private final Vector2D velocityVector2D = new Vector2D( 0, 0 );
-    private double zVelocity = DEFAULT_Z_VELOCITY;
 
     // Destination to which this motion strategy moves.  Note that it is
     // potentially a moving target.
@@ -79,6 +78,7 @@ public class MoveDirectlyToDestinationMotionStrategy extends MotionStrategy {
         // Make the Z velocity such that the front (i.e. z = 0) will be reached
         // at the same time as the destination in XY space.
         double distanceToDestination2D = currentLocation2D.distance( destinationProperty.get() );
+        double zVelocity;
         if ( distanceToDestination2D > 0 ) {
             zVelocity = Math.min( Math.abs( currentLocation3D.getZ() ) / ( currentLocation2D.distance( destinationProperty.get() ) / scalarVelocity2D ), MAX_Z_VELOCITY );
         }

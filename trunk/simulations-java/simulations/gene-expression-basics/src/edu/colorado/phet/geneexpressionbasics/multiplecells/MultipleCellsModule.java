@@ -19,7 +19,6 @@ public class MultipleCellsModule extends Module {
     //-------------------------------------------------------------------------
 
     private final MultipleCellsModel model;
-    private final MultipleCellsCanvas canvas;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -44,8 +43,7 @@ public class MultipleCellsModule extends Module {
         this.model = model;
 
         // Create canvas.
-        canvas = new MultipleCellsCanvas( model, parentFrame );
-        setSimulationPanel( canvas );
+        setSimulationPanel( new MultipleCellsCanvas( model, parentFrame ) );
 
         // Set initial state.
         reset();

@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.PNode;
 public class PlacementHintNode extends PNode {
 
     private static final Stroke HINT_STROKE = new BasicStroke( 2f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 5.0f, new float[] { 5f, 5f }, 0f );
-    private final Color HINT_STROKE_COLOR = new Color( 0, 0, 0, 100 ); // Somewhat transparent stroke.
+    private static final Color HINT_STROKE_COLOR = new Color( 0, 0, 0, 100 ); // Somewhat transparent stroke.
 
     /**
      * Constructor.
