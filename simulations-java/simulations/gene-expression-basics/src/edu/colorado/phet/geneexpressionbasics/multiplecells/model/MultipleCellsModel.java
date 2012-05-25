@@ -74,11 +74,6 @@ public class MultipleCellsModel implements Resettable {
     // components.
     public final Property<Double> averageProteinLevel = new Property<Double>( 0.0 );
 
-    // Random number generators, used to vary the shape and position of the
-    // cells.  Seeds are chosen based on experimentation.
-    private Random sizeAndRotationRandomizer = new Random( SIZE_AND_ORIENTATION_RANDOMIZER_SEED );
-    private Random positionRandomizer = new Random( POSITION_RANDOMIZER_SEED );
-
     /**
      * Constructor.
      */
@@ -91,8 +86,11 @@ public class MultipleCellsModel implements Resettable {
             }
         } );
 
-        // Add and position the cells.
-        long entryTime = System.nanoTime();
+        // Random number generators, used to vary the shape and position of the
+        // cells.  Seeds are chosen based on experimentation.
+        Random sizeAndRotationRandomizer = new Random( SIZE_AND_ORIENTATION_RANDOMIZER_SEED );
+        Random positionRandomizer = new Random( POSITION_RANDOMIZER_SEED );
+
         // Add the max number of cells to the list of invisible cells.
         while ( cellList.size() < MAX_CELLS ) {
             Cell newCell;

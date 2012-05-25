@@ -54,7 +54,6 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas implements Resetta
 
     private final ModelViewTransform mvt;
     private final BooleanProperty clockRunning = new BooleanProperty( false );
-    private PNode modelRootNode;
     private final BooleanProperty negativeTranscriptionFactorEnabled = new BooleanProperty( false );
 
     /**
@@ -82,7 +81,7 @@ public class MessengerRnaProductionCanvas extends PhetPCanvas implements Resetta
 
         // Set up the root node for all model objects.  Nodes placed under
         // this one will scroll when the user moves along the DNA strand.
-        modelRootNode = new PNode();
+        PNode modelRootNode = new PNode();
         addWorldChild( modelRootNode );
 
         // Add some layers for enforcing some z-order relationships needed in
