@@ -22,10 +22,10 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.SlowMotionNormalTimeControlPanel;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
+import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
 import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.intro.model.Thermometer;
@@ -34,9 +34,6 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing.UserComponents.normalMotionRadioButton;
-import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing.UserComponents.slowMotionRadioButton;
 
 /**
  * Piccolo canvas for the "Intro" tab of the Energy Forms and Changes
@@ -132,13 +129,12 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
 
         // Add the clock controls. TODO: i18n
         {
-            PNode clockControl = new SlowMotionNormalTimeControlPanel( slowMotionRadioButton, "Slow Motion", "Normal",
-                                                                       normalMotionRadioButton, normalSimSpeed, model.getClock() );
+            PNode clockControl = new NormalAndFastForwardTimeControlPanel( normalSimSpeed, model.getClock() );
             clockControl.centerFullBoundsOnPoint( STAGE_SIZE.getWidth() / 2, centerYBelowSurface );
             normalSimSpeed.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean normalSimSpeed ) {
                     ConstantDtClock clock = (ConstantDtClock) model.getClock();
-                    clock.setDt( normalSimSpeed ? EFACIntroModel.SIM_TIME_PER_TICK_NORMAL : EFACIntroModel.SIM_TIME_PER_TICK_SLOW_MOTION );
+                    clock.setDt( normalSimSpeed ? EFACConstants.SIM_TIME_PER_TICK_NORMAL : EFACConstants.SIM_TIME_PER_TICK_FAST_FORWARD );
                 }
             } );
             backLayer.addChild( clockControl );
