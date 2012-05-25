@@ -83,15 +83,6 @@ public abstract class Protein extends MobileBiomolecule {
         return fullSizeProportion;
     }
 
-    public void grow( double growthAmount ) {
-        assert growthAmount >= 0;
-        if ( growthAmount < 0 ) {
-            // Ignore this.
-            return;
-        }
-        setFullSizeProportion( Math.min( fullSizeProportion + growthAmount, 1 ) );
-    }
-
     protected abstract Shape getUntranslatedShape( double growthFactor );
 
     /**

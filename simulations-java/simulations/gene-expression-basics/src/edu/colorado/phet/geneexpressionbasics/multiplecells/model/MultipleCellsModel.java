@@ -263,33 +263,6 @@ public class MultipleCellsModel implements Resettable {
         System.out.println( "Warning: Exiting placement loop without having found open location." );
     }
 
-    // Find a location for the given cell that doesn't overlap with any of the
-    // other cells on the list.
-    private static void placeCellInOpenLocationOldCircular( Cell cell, List<Cell> cellList, Random positionRandomizer ) {
-        // Loop, randomly generating positions of increasing distance from the
-        // center, until the cell is positioned in a place that does not
-        // overlap with the existing cells.
-        for ( int i = 0; i < (int) Math.ceil( Math.sqrt( cellList.size() ) ); i++ ) {
-            double radius = ( i + 1 ) * Cell.DEFAULT_CELL_SIZE.getWidth() * ( positionRandomizer.nextDouble() / 2 + .75 );
-            for ( int j = 0; j < radius * Math.PI / ( Cell.DEFAULT_CELL_SIZE.getHeight() * 2 ); j++ ) {
-                double angle = positionRandomizer.nextDouble() * 2 * Math.PI;
-                cell.setPosition( radius * Math.cos( angle ), radius * Math.sin( angle ) );
-                boolean overlapDetected = false;
-                for ( Cell existingCell : cellList ) {
-                    if ( rectanglesOverlap( cell.getEnclosingRectVertices(), existingCell.getEnclosingRectVertices() ) ) {
-                        overlapDetected = true;
-                        break;
-                    }
-                }
-                if ( !overlapDetected ) {
-                    // Found an open spot.
-                    return;
-                }
-            }
-        }
-        System.out.println( "Warning: Exiting placement loop without having found open location." );
-    }
-
     /**
      * Get a rectangle in model space that is centered at coordinates (0, 0)
      * and that is large enough to contain all of the visible cells.
@@ -320,17 +293,6 @@ public class MultipleCellsModel implements Resettable {
             }
         }
         return new Rectangle2D.Double( minX, minY, maxX - minX, maxY - minY );
-    }
-
-    /**
-     * Sets the number of polymerases for all cells in this population
-     *
-     * @param polymeraseCount number of polymerases
-     */
-    public void setPolymeraseCount( int polymeraseCount ) {
-        for ( Cell cell : visibleCellList ) {
-            cell.setPolymeraseCount( polymeraseCount );
-        }
     }
 
     /**

@@ -11,10 +11,6 @@ import java.awt.geom.Point2D;
  */
 public class StillnessMotionStrategy extends MotionStrategy {
 
-    public Point2D getNextLocation( Point2D currentLocation, double dt ) {
-        return new Point2D.Double( currentLocation.getX(), currentLocation.getY() );
-    }
-
     @Override public Point2D getNextLocation( Point2D currentLocation, Shape shape, double dt ) {
         return new Point2D.Double( currentLocation.getX(), currentLocation.getY() );
     }

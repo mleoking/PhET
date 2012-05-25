@@ -38,12 +38,6 @@ public class RnaPolymerase extends MobileBiomolecule {
     // empirically, and may need to change if the shape is changed.
     public static final ImmutableVector2D MESSENGER_RNA_GENERATION_OFFSET = new ImmutableVector2D( -WIDTH * 0.4, HEIGHT * 0.4 );
 
-    // This the threshold for the affinity which triggers the polymerase to
-    // start transcribing.  Not sure if this is a reasonable thing to do, or
-    // if the attachment site should explicitly say whether the transcription
-    // factors are present.  For now at least, this works.
-    private static final double START_TRANSCRIPTION_THRESHOLD = 0.9;
-
     // Set of points that outline the basic, non-distorted shape of this
     // molecule.  The shape is meant to look like illustrations in "The
     // Machinery of Life" by David Goodsell.

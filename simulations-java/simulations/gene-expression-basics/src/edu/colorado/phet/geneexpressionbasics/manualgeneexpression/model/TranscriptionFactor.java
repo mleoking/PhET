@@ -151,38 +151,6 @@ public class TranscriptionFactor extends MobileBiomolecule {
         return RAND.nextBoolean() ? new ImmutableVector2D( 0, 1 ) : new ImmutableVector2D( 0, -1 );
     }
 
-    /**
-     * Static factory method that generates an instance of a transcription
-     * factor for the specified gene and of the specified polarity (i.e.
-     * positive or negative).
-     *
-     * @param geneID
-     * @param positive
-     * @param initialPosition
-     * @return
-     */
-    public static TranscriptionFactor generateTranscriptionFactor( GeneExpressionModel model, int geneID, boolean positive, Point2D initialPosition ) {
-        TranscriptionFactorConfig config = null;
-        for ( TranscriptionFactorConfig tfc : transcriptionFactorConfigurations ) {
-            if ( tfc.geneID == geneID && tfc.isPositive == positive ) {
-                // Matching configuration found.
-                config = tfc;
-                break;
-            }
-        }
-        // Make it clear that there is a problem if no configuration is found.
-        if ( config == null ) {
-            System.out.println( "No config found temp debug." );
-        }
-        assert config != null;
-        if ( config == null ) {
-            System.out.println( "Error: No transcription factor information for specified parameters, using default." );
-            config = transcriptionFactorConfigurations.get( transcriptionFactorConfigurations.size() - 1 );
-        }
-        // Create the transcription factor instance.
-        return new TranscriptionFactor( model, config, initialPosition );
-    }
-
     @Override public AttachmentSite proposeAttachments() {
         // Transcription factors only attach to DNA.
         return model.getDnaMolecule().considerProposalFrom( this );
