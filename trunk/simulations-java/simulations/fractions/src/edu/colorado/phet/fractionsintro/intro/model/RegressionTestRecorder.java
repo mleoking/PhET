@@ -159,12 +159,12 @@ public class RegressionTestRecorder<A, B> extends F<A, B> {
         try {
             File testDir = new File( "C:\\Users\\Sam\\Desktop\\tests" );
             File[] children = testDir.listFiles( new FilenameFilter() {
-                @Override public boolean accept( final File dir, final String name ) {
+                public boolean accept( final File dir, final String name ) {
                     return name.endsWith( ".xml" );
                 }
             } );
             Arrays.sort( children, new Comparator<File>() {
-                @Override public int compare( final File o1, final File o2 ) {
+                public int compare( final File o1, final File o2 ) {
                     return Double.compare( o1.lastModified(), o2.lastModified() );
                 }
             } );

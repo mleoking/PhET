@@ -27,9 +27,9 @@ public class BuildAFractionModel implements Resettable {
 
     public BuildAFractionModel() {
         clock.addSimulationTimeChangeListener( new VoidFunction1<Double>() {
-            @Override public void apply( final Double dt ) {
+            public void apply( final Double dt ) {
                 update( new ModelUpdate() {
-                    @Override public BuildAFractionState update( final BuildAFractionState state ) {
+                    public BuildAFractionState update( final BuildAFractionState state ) {
                         return state.stepInTime( dt );
                     }
                 } );
@@ -49,7 +49,7 @@ public class BuildAFractionModel implements Resettable {
 
     public void startDraggingContainer( final ContainerID container ) {
         update( new ModelUpdate() {
-            @Override public BuildAFractionState update( final BuildAFractionState state ) {
+            public BuildAFractionState update( final BuildAFractionState state ) {
                 return state.startDraggingContainer( container );
             }
         } );
@@ -62,7 +62,7 @@ public class BuildAFractionModel implements Resettable {
             @Override public Mode get() { return getter.f( state.get() ); }
         };
         state.addObserver( new SimpleObserver() {
-            @Override public void update() {
+            public void update() {
                 settableProperty.notifyIfChanged();
             }
         } );
@@ -72,7 +72,7 @@ public class BuildAFractionModel implements Resettable {
     //TODO: should the argument type be DraggableNumber then extract the id from it?
     public void startDraggingNumber( final DraggableNumberID id ) {
         update( new ModelUpdate() {
-            @Override public BuildAFractionState update( final BuildAFractionState state ) {
+            public BuildAFractionState update( final BuildAFractionState state ) {
                 return state.startDraggingNumber( id );
             }
         } );
@@ -80,7 +80,7 @@ public class BuildAFractionModel implements Resettable {
 
     public void startDraggingFraction( final FractionID id ) {
         update( new ModelUpdate() {
-            @Override public BuildAFractionState update( final BuildAFractionState state ) {
+            public BuildAFractionState update( final BuildAFractionState state ) {
                 return state.startDraggingFraction( id );
             }
         } );
@@ -88,7 +88,7 @@ public class BuildAFractionModel implements Resettable {
 
     public void dragNumber( final PDimension delta ) {
         update( new ModelUpdate() {
-            @Override public BuildAFractionState update( final BuildAFractionState state ) {
+            public BuildAFractionState update( final BuildAFractionState state ) {
                 return state.dragNumbers( new Vector2D( delta ) );
             }
         } );
@@ -96,7 +96,7 @@ public class BuildAFractionModel implements Resettable {
 
     public void dragFraction( final FractionID id, final PDimension delta ) {
         update( new ModelUpdate() {
-            @Override public BuildAFractionState update( final BuildAFractionState state ) {
+            public BuildAFractionState update( final BuildAFractionState state ) {
                 return state.dragFraction( id, new Vector2D( delta ) );
             }
         } );
@@ -105,17 +105,17 @@ public class BuildAFractionModel implements Resettable {
     //TODO: improve typing for the ObjectID?  Could have DraggableNumberID, etc.
     public void attachNumberToFraction( final DraggableNumberID number, final FractionID fraction, final boolean numerator ) {
         update( new ModelUpdate() {
-            @Override public BuildAFractionState update( final BuildAFractionState state ) {
+            public BuildAFractionState update( final BuildAFractionState state ) {
                 return state.attachNumberToFraction( number, fraction, numerator );
             }
         } );
     }
 
-    @Override public void reset() { state.set( initialState ); }
+    public void reset() { state.set( initialState ); }
 
     public void splitFraction( final FractionID id ) {
         update( new ModelUpdate() {
-            @Override public BuildAFractionState update( final BuildAFractionState state ) {
+            public BuildAFractionState update( final BuildAFractionState state ) {
                 return state.splitFraction( id );
             }
         } );

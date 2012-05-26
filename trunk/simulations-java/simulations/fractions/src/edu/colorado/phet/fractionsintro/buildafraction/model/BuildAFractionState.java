@@ -32,7 +32,7 @@ public @Data class BuildAFractionState {
     public final double time;
 
     public static final ModelUpdate RELEASE_ALL = new ModelUpdate() {
-        @Override public BuildAFractionState update( final BuildAFractionState state ) {
+        public BuildAFractionState update( final BuildAFractionState state ) {
             return state.releaseAll();
         }
     };

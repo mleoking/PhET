@@ -68,7 +68,7 @@ public class SpinnerButtonNode extends PNode {
         }.observe( this.enabled, pressed );
 
         enabled.addObserver( new VoidFunction1<Boolean>() {
-            @Override public void apply( final Boolean enabled ) {
+            public void apply( final Boolean enabled ) {
                 if ( !enabled && pressed.get() ) {
                     pressed.set( false );
                 }

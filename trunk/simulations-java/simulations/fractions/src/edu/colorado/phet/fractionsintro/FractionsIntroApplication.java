@@ -44,7 +44,7 @@ public class FractionsIntroApplication extends PiccoloPhetApplication {
 //        PDebug.debugBounds = true;
         getPhetFrame().getDeveloperMenu().add( new JCheckBoxMenuItem( "PDebug.regionManagement", PDebug.debugRegionManagement ) {{
             addActionListener( new ActionListener() {
-                @Override public void actionPerformed( final ActionEvent e ) {
+                public void actionPerformed( final ActionEvent e ) {
                     PDebug.debugRegionManagement = isSelected();
                 }
             } );
@@ -52,7 +52,7 @@ public class FractionsIntroApplication extends PiccoloPhetApplication {
 
         getPhetFrame().getDeveloperMenu().add( new JCheckBoxMenuItem( "PDebug.debugFullBounds", PDebug.debugFullBounds ) {{
             addActionListener( new ActionListener() {
-                @Override public void actionPerformed( final ActionEvent e ) {
+                public void actionPerformed( final ActionEvent e ) {
                     PDebug.debugFullBounds = isSelected();
                 }
             } );
@@ -60,7 +60,7 @@ public class FractionsIntroApplication extends PiccoloPhetApplication {
 
         getPhetFrame().getDeveloperMenu().add( new JCheckBoxMenuItem( "PDebug.debugBounds", PDebug.debugBounds ) {{
             addActionListener( new ActionListener() {
-                @Override public void actionPerformed( final ActionEvent e ) {
+                public void actionPerformed( final ActionEvent e ) {
                     PDebug.debugBounds = isSelected();
                 }
             } );
@@ -68,7 +68,7 @@ public class FractionsIntroApplication extends PiccoloPhetApplication {
 
         getPhetFrame().getDeveloperMenu().add( new JCheckBoxMenuItem( "PDebug.debugPaintCalls", PDebug.debugPaintCalls ) {{
             addActionListener( new ActionListener() {
-                @Override public void actionPerformed( final ActionEvent e ) {
+                public void actionPerformed( final ActionEvent e ) {
                     PDebug.debugPaintCalls = isSelected();
                 }
             } );
@@ -82,7 +82,7 @@ public class FractionsIntroApplication extends PiccoloPhetApplication {
     //Utility method for testing a single module
     public static void runModule( String[] args, final Module module ) {
         final ApplicationConstructor constructor = new ApplicationConstructor() {
-            @Override public PhetApplication getApplication( PhetApplicationConfig c ) {
+            public PhetApplication getApplication( PhetApplicationConfig c ) {
                 return new PhetApplication( c ) {{addModule( module );}};
             }
         };
