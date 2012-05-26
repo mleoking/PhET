@@ -72,12 +72,11 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
     private static final Paint TRANSPARENT = new Color( 0, 0, 0, 0 );
     private final RichPNode picturesContainerLayer;
     private final RichPNode numbersContainerLayer;
-    private static final Color CREAM = new Color( 251, 255, 218 );
     private final BuildAFractionModel model;
 
     public BuildAFractionCanvas( final BuildAFractionModel model ) {
         this.model = model;
-        setBackground( CREAM );
+        setBackground( Color.white );
         final Stroke controlPanelStroke = new BasicStroke( 2 );
 
         final SettableProperty<Mode> mode = model.toProperty(
@@ -171,7 +170,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
 
                         //Light up if the user matched
                         model.addObserver( new ChangeObserver<BuildAFractionState>() {
-                            @Override public void update( final BuildAFractionState newValue, final BuildAFractionState oldValue ) {
+                            public void update( final BuildAFractionState newValue, final BuildAFractionState oldValue ) {
                                 if ( newValue.containsMatch( numerator, 6 ) != oldValue.containsMatch( numerator, 6 ) ) {
                                     setStrokePaint( newValue.containsMatch( numerator, 6 ) ? Color.red : Color.darkGray );
                                     setStroke( controlPanelStroke );
@@ -285,7 +284,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                     final Container c = new Container( ContainerID.nextID(), new DraggableObject( new Vector2D( localBounds.getX(), localBounds.getY() ), true ), container.numSegments );
                     canvas.numbersContainerLayer.addChild( new DraggablePieceNode( c.getID(), model, canvas ) );
                     model.update( new ModelUpdate() {
-                        @Override public BuildAFractionState update( final BuildAFractionState state ) {
+                        public BuildAFractionState update( final BuildAFractionState state ) {
                             return state.addContainer( c );
                         }
                     } );
@@ -315,7 +314,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
 
                     final Container c = new Container( ContainerID.nextID(), new DraggableObject( new Vector2D( localBounds.getX(), localBounds.getY() ), true ), container.numSegments );
                     model.update( new ModelUpdate() {
-                        @Override public BuildAFractionState update( final BuildAFractionState state ) {
+                        public BuildAFractionState update( final BuildAFractionState state ) {
                             return state.addContainer( c );
                         }
                     } );
@@ -356,7 +355,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
 
                     //Change the model
                     model.update( new ModelUpdate() {
-                        @Override public BuildAFractionState update( final BuildAFractionState state ) {
+                        public BuildAFractionState update( final BuildAFractionState state ) {
                             return state.addNumber( draggableNumber );
                         }
                     } );
@@ -396,7 +395,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
 
                     //Change the model
                     model.update( new ModelUpdate() {
-                        @Override public BuildAFractionState update( final BuildAFractionState state ) {
+                        public BuildAFractionState update( final BuildAFractionState state ) {
                             return state.addDraggableFraction( draggableFraction );
                         }
                     } );
