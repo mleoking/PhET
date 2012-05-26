@@ -86,7 +86,7 @@ public class FractionsIntroSimSharing {
 
     public static RichVoidFunction1<Boolean> sendMessage( final IUserComponent component, final IUserComponentType type, final IUserAction action, final Function1<Boolean, ParameterSet> parameters ) {
         return new RichVoidFunction1<Boolean>() {
-            @Override public void apply( final Boolean autoSpin ) {
+            public void apply( final Boolean autoSpin ) {
                 sendUserMessage( component, type, action, parameters.apply( autoSpin ) );
             }
         };
@@ -98,7 +98,7 @@ public class FractionsIntroSimSharing {
 
     public static Function1<Boolean, ParameterSet> newValue( final ParameterKeys key, final IntegerProperty value, final int delta ) {
         return new Function1<Boolean, ParameterSet>() {
-            @Override public ParameterSet apply( Boolean doAutoSpin ) {
+            public ParameterSet apply( Boolean doAutoSpin ) {
                 return parameterSet( key, value.get() + delta ).with( autoSpin, doAutoSpin );
             }
         };

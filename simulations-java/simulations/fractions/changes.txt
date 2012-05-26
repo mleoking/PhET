@@ -1,3 +1,4 @@
+Switched to language level 5.0
 Build a fraction: Changed background to white
 # 0.00.66 (64062) May 9, 2012
 Build a fraction: Hide the denominator dotted line when the user is dragging 0
