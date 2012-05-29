@@ -1,3 +1,4 @@
+# 00.00.39 (64403) May 29, 2012
 Acid Base Solutions: Updated color coding as requested by KL, and changed time stamps to be based on first click time, not log start time
 # 00.00.38 (64354) May 25, 2012
 Acid Base Solutions: Report times for certain events in the text report
