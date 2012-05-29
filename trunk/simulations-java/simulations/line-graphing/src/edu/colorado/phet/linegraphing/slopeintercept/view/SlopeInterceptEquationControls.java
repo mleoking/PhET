@@ -39,6 +39,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 class SlopeInterceptEquationControls extends PhetPNode {
 
+    private static final boolean USE_SPINNERS = false; // spinners vs pickers for interactive equation
+
     private static final PhetFont EQUATION_FONT = new PhetFont( Font.BOLD, 38 );
 
     private static String TITLE = MessageFormat.format( "{0} = {1}{2} + {3}", // y = mx + b,
@@ -61,7 +63,9 @@ class SlopeInterceptEquationControls extends PhetPNode {
                 return super.getParameterSet().with( ParameterKeys.maximized, !maximized.get() );
             }
         };
-        final PNode equationNode = new ZeroOffsetNode( new SlopeInterceptEquationNode( interactiveLine, riseRange, runRange, interceptRange, EQUATION_FONT ) );
+        final PNode equationNode = new ZeroOffsetNode( USE_SPINNERS ?
+                                                       new SlopeInterceptEquationNode2( interactiveLine, riseRange, runRange, interceptRange, EQUATION_FONT ) :
+                                                       new SlopeInterceptEquationNode( interactiveLine, riseRange, runRange, interceptRange, EQUATION_FONT ) );
         final TextButtonNode saveLineButton = new TextButtonNode( Strings.SAVE_LINE, LGConstants.CONTROL_FONT, LGColors.SAVE_LINE_BUTTON ) {{
             setUserComponent( UserComponents.saveLineButton );
         }};
