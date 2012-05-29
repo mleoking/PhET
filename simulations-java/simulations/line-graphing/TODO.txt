@@ -23,7 +23,7 @@ MEDIUM
 LOW
 - grid node gets bigger when IntroModel.GRID_MODEL_UNITS gets smaller, size should remain constant
 - review internal duplication in GraphNode
-- delete spinner-based equation and associated image files
+- delete used interactive equation implementation(s) and associated image files
 
 SIM-SHARING
 
