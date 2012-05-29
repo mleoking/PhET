@@ -48,7 +48,6 @@ class SlopeInterceptEquationFactory extends EquationNodeFactory {
     private static class SlopeZeroNode extends ReducedEquationNode {
 
         public SlopeZeroNode( StraightLine line, PhetFont font ) {
-            setPickable( false );
 
             // y = b
             PText yNode = new PhetPText( Strings.SYMBOL_Y, font, line.color );

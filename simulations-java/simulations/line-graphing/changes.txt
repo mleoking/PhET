@@ -1,3 +1,4 @@
+5/29/12 implement factory method for simplest form of point-slope, for debugging
 5/29/12 flesh out point-slope specializations
 5/29/12 more base class extraction
 5/29/12 extract base class for line graph view, specialize for different line forms
