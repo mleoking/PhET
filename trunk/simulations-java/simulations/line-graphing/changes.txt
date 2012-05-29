@@ -1,3 +1,4 @@
+5/29/12 reduced point-slope form when rise=0
 5/29/12 when run=0, position line at (x1); when rise=0, position line at y1
 5/29/12 first pass at (x1,y1) manipulator, not quite right
 5/29/12 adjust rise/run bracket placement to account for (x1,y1)

@@ -27,12 +27,12 @@ class PointSlopeEquationFactory extends EquationNodeFactory {
         if ( MathUtil.round( line.run ) == 0 ) {
             return new SlopeUndefinedNode( line, font );
         }
+        else if ( MathUtil.round( line.rise ) == 0 ) {
+            return new SlopeZeroNode( line, font );
+        }
         else {
             return new VerboseNode( line, font ); //TODO this is for debugging, remove when other reductions are implemented
         }
-//        else if ( MathUtil.round( line.rise ) == 0 ) {
-//            return new SlopeZeroNode( line, font );
-//        }
 //        else if ( Math.abs( line.getReducedRise() ) == Math.abs( line.getReducedRun() ) ) {
 //            return new SlopeOneNode( line, font );
 //        }
@@ -51,30 +51,28 @@ class PointSlopeEquationFactory extends EquationNodeFactory {
         }
     }
 
-    //TODO this is slope-intercept, change to point-slope
     /*
      * Forms when slope is zero.
-     * y = b
-     * y = -b
+     * y = y1
      */
     private static class SlopeZeroNode extends ReducedEquationNode {
 
         public SlopeZeroNode( StraightLine line, PhetFont font ) {
 
-            // y = b
+            // y = y1
             PText yNode = new PhetPText( Strings.SYMBOL_Y, font, line.color );
             PText equalsNode = new PhetPText( "=", font, line.color );
-            PText interceptNode = new PhetPText( String.valueOf( MathUtil.round( line.yIntercept ) ), font, line.color );
+            PText y1Node = new PhetPText( String.valueOf( MathUtil.round( line.y1 ) ), font, line.color );
 
             // rendering order
             addChild( yNode );
             addChild( equalsNode );
-            addChild( interceptNode );
+            addChild( y1Node );
 
             // layout
             yNode.setOffset( 0, 0 );
             equalsNode.setOffset( yNode.getFullBoundsReference().getWidth() + X_SPACING, yNode.getYOffset() );
-            interceptNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING, equalsNode.getYOffset() );
+            y1Node.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING, equalsNode.getYOffset() );
         }
     }
 
