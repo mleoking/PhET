@@ -71,7 +71,7 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
         this.energyChunksVisible = energyChunksVisible;
         topSurface = new Property<HorizontalSurface>( new HorizontalSurface( new DoubleRange( getOutlineRect().getMinX(), getOutlineRect().getMaxX() ), getOutlineRect().getMaxY(), this ) );
         clock.addClockListener( new ClockAdapter() {
-            @Override public void simulationTimeChanged( ClockEvent clockEvent ) {
+            @Override public void clockTicked( ClockEvent clockEvent ) {
                 stepInTime( clockEvent.getSimulationTimeChange() );
             }
         } );
