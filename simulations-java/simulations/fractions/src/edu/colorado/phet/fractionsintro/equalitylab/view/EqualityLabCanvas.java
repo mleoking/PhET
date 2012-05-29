@@ -65,7 +65,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         final double representationControlPanelScale = 1.0;
         final int padding = 7;
         final RichPNode leftRepresentationControlPanel = new ZeroOffsetNode( new RadioButtonStripControlPanelNode<Representation>( leftRepresentation, getIcons( leftRepresentation, FractionsIntroSimSharing.green ), padding ) {{ scale( representationControlPanelScale ); }} ) {{
-            setOffset( 114, INSET );
+            setOffset( 50, INSET );
         }};
 
         // Instead of "same" and "number line" radio buttons, what we envisioned on the right hand side
