@@ -1,0 +1,71 @@
+<?xml version="1.0" ?>
+<SimStrings>
+    <string key="simTitle" value="Collision Lab"/>
+    <string key="introductionTab" value="Introduction"/>
+    <string key="advancedTab" value="Advanced"/>
+
+    <string key="PlayPauseButtons.rewind" value="Restart"/>
+    <string key="PlayPauseButtons.back" value="Back"/>
+    <string key="PlayPauseButtons.play" value="Play"/>
+    <string key="PlayPauseButtons.pause" value="Pause"/>
+    <string key="PlayPauseButtons.step" value="Step"/>
+
+
+    <string key="DataTable.addBall" value="Add Ball"/>
+    <string key="DataTable.removeBall" value="Remove Ball"/>
+    <string key="DataTable.moreData" value="More Data"/>
+    <string key="DataTable.lessData" value="Less Data"/>
+    <string key="DataTable.ball" value="Ball"/>
+    <string key="DataTable.x" value="x"/>
+    <string key="DataTable.y" value="y"/>
+    <string key="DataTable.vx" value="Vx"/>
+    <string key="DataTable.vy" value="Vy"/>
+    <string key="DataTable.px" value="Px"/>
+    <string key="DataTable.py" value="Py"/>
+    <string key="DataTable.mass" value="Mass"/>
+    <string key="DataTable.massWithUnits" value="Mass (kg)"/>
+    <string key="DataTable.position" value="Position"/>
+    <string key="DataTable.positionWithUnits" value="Position (m)"/>
+    <string key="DataTable.velocity" value="Velocity"/>
+    <string key="DataTable.velocityWithUnits" value="Velocity (m/s)"/>
+    <string key="DataTable.momentum" value="Momentum"/>
+    <string key="DataTable.momentumWithUnits" value="Momentum (kg m/s)"/>
+    <string key="DataTable.units.kilograms" value="kg"/>
+    <string key="DataTable.units.meters" value="m"/>
+    <string key="DataTable.units.metersPerSecond" value="m/s"/>
+    <string key="DataTable.units.kilogramMetersPerSecond" value="kg m/s"/>
+
+    <string key="MomentumView.momenta" value="Momenta"/>
+    <string key="MomentumView.tipToTail" value="tip-to-tail"/>
+    <string key="MomentumView.total" value="tot"/>
+
+    <string key="ControlPanel.1d" value="1 Dimension"/>
+    <string key="ControlPanel.2d" value="2 Dimensions"/>
+    <string key="ControlPanel.resetAll" value="Reset All"/>
+    <string key="ControlPanel.showVelocities" value="Velocity Vectors"/>
+    <string key="ControlPanel.showMomentumVectors" value="Momentum Vectors"/>
+    <string key="ControlPanel.showCenterOfMass" value="Center of Mass"/>
+    <string key="ControlPanel.reflectingBorder" value="Reflecting Border"/>
+    <string key="ControlPanel.momentaDiagram" value="Momenta Diagram"/>
+    <string key="ControlPanel.showPaths" value="Show Paths"/>
+    <string key="ControlPanel.showValues" value="Show Values"/>
+    <string key="ControlPanel.sound" value="Sound"/>
+    <string key="ControlPanel.elasticity" value="Elasticity"/>
+    <string key="ControlPanel.elasticityReadout" value="Elasticity {0}%"/>
+    <string key="ControlPanel.zeroPercent" value="Sticky"/>
+    <string key="ControlPanel.oneHundredPercent" value="Bouncy"/>
+    <string key="ControlPanel.kineticEnergy" value="Kinetic Energy"/>
+
+    <string key="TableView.kineticEnergy" value="Kinetic Energy = {0} J"/>
+    <string key="TableView.timeRate" value="Sim Speed"/>
+    <string key="TableView.time" value="Time = {0} s"/>
+    <string key="TableView.returnBalls" value="Return Balls"/>
+
+    <string key="ShowValues.velocityCaption" value="Velocity (m/s)"/>
+    <string key="ShowValues.velocityReadout" value="v = {0}"/>
+    <string key="ShowValues.speedCaption" value="Speed (m/s)"/>
+    <string key="ShowValues.speedReadout" value="| v | = {0}"/>
+    <string key="ShowValues.momentumCaption" value="Momentum (kg m/s)"/>
+    <string key="ShowValues.momentumReadout" value="p = {0}"/>
+    <string key="ShowValues.absoluteMomentumReadout" value="| p | = {0}"/>
+</SimStrings>
