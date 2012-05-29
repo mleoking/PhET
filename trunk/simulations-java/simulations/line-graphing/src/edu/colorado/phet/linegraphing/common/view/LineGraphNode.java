@@ -169,14 +169,14 @@ public abstract class LineGraphNode extends GraphNode {
             final Direction runDirection = line.rise >= 0 ? Direction.UP : Direction.DOWN;
             final RiseRunBracketNode runBracketNode = new RiseRunBracketNode( runDirection, mvt.modelToViewDeltaX( line.run ), line.run );
             bracketsParentNode.addChild( runBracketNode );
-            runBracketNode.setOffset( mvt.modelToViewX( 0 ), mvt.modelToViewY( line.yIntercept ) );
+            runBracketNode.setOffset( mvt.modelToViewX( line.x1 ), mvt.modelToViewY( line.y1 ) );
 
             // rise bracket
             if (  MathUtil.round( line.rise ) != 0  ) {
                 final Direction riseDirection = line.run > 0 ? Direction.LEFT : Direction.RIGHT;
                 final RiseRunBracketNode riseBracket = new RiseRunBracketNode( riseDirection, mvt.modelToViewDeltaX( line.rise ), line.rise );
                 bracketsParentNode.addChild( riseBracket );
-                riseBracket.setOffset( mvt.modelToViewX( line.run ), mvt.modelToViewY( line.yIntercept ) );
+                riseBracket.setOffset( mvt.modelToViewX( line.x1 + line.run ), mvt.modelToViewY( line.y1 ) );
             }
         }
     }
