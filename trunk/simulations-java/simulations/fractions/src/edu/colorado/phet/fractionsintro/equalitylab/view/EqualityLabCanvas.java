@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.equalitylab.view;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
@@ -9,20 +8,16 @@ import java.util.Arrays;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
-import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.RadioButtonStripControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.RadioButtonStripControlPanelNode.Element;
 import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing;
@@ -44,16 +39,7 @@ import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.Nu
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.PieIcon;
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.WaterGlassIcon;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.nodes.PImage;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.pressed;
-import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScale;
-import static edu.colorado.phet.fractions.FractionsResources.Images.LOCKED;
-import static edu.colorado.phet.fractions.FractionsResources.Images.UNLOCKED;
-import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ComponentTypes.spriteCheckBox;
 import static edu.colorado.phet.fractionsintro.equalitylab.model.EqualityLabModel.scaledFactorySet;
 import static edu.colorado.phet.fractionsintro.intro.view.Representation.*;
 import static edu.colorado.phet.fractionsintro.intro.view.pieset.PieSetNode.CreateEmptyCellsNode;
@@ -77,46 +63,18 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         //Make the control panels a little smaller in this one so that we have more vertical space for representations
         final double representationControlPanelScale = 0.80;
         final int padding = 7;
-        final RichPNode leftRepresentationControlPanel = new ZeroOffsetNode( new RadioButtonStripControlPanelNode<Representation>( leftRepresentation, getIcons( leftRepresentation, Colors.LIGHT_GREEN, FractionsIntroSimSharing.green ), padding ) {{ scale( representationControlPanelScale ); }} ) {{
+        final RichPNode leftRepresentationControlPanel = new ZeroOffsetNode( new RadioButtonStripControlPanelNode<Representation>( leftRepresentation, getIcons( leftRepresentation, FractionsIntroSimSharing.green ), padding ) {{ scale( representationControlPanelScale ); }} ) {{
             setOffset( 114, INSET );
         }};
 
-        final RichPNode rightRepresentationControlPanel = new ZeroOffsetNode( new RadioButtonStripControlPanelNode<Representation>( model.rightRepresentation, getIcons( model.rightRepresentation, Colors.LIGHT_BLUE, FractionsIntroSimSharing.blue ), padding ) {{
-            scale( representationControlPanelScale );
-        }} ) {{
-            setOffset( STAGE_SIZE.getWidth() - getFullWidth() - 30 - 84, INSET );
+        final SettableProperty<Boolean> sameAsLeft = new Property<Boolean>( true );
+        final RichPNode rightRepresentationControlPanel = new ZeroOffsetNode( new VBox( 0, VBox.LEFT_ALIGNED,
+                                                                                        new RadioButton( Components.sameRepresentationRadioButton, "Same", sameAsLeft, true ),
+                                                                                        new RadioButton( Components.numberLineRepresentationRadioButton, "Number Line", sameAsLeft, false ) ) ) {{
+            setOffset( leftRepresentationControlPanel.getMaxX() + 120, leftRepresentationControlPanel.getCenterY() - getFullBounds().getHeight() / 2 );
         }};
 
-        //Bridge for the lock to sit on
-        final int g = 250;
-        addChild( new ZeroOffsetNode( new ControlPanelNode( new PhetPPath( new Rectangle2D.Double( 0, 0, 200, 30 ), null, null, null ), new Color( g, g, g ), new BasicStroke( 1 ), Color.lightGray ) ) {{
-            setOffset( ( leftRepresentationControlPanel.getCenterX() + rightRepresentationControlPanel.getCenterX() ) / 2 - getFullBounds().getWidth() / 2, leftRepresentationControlPanel.getCenterY() - getFullBounds().getHeight() / 2 );
-            model.locked.addObserver( new VoidFunction1<Boolean>() {
-                @Override public void apply( final Boolean locked ) {
-                    setVisible( locked );
-                }
-            } );
-        }} );
-
         addChildren( leftRepresentationControlPanel, rightRepresentationControlPanel );
-
-        //Toggle to lock/unlock representations
-        addChild( new PImage( multiScale( LOCKED, 0.4 ) ) {{
-            model.locked.addObserver( new VoidFunction1<Boolean>() {
-                @Override public void apply( final Boolean locked ) {
-                    setImage( multiScale( locked ? LOCKED : UNLOCKED, 0.4 ) );
-                }
-            } );
-            addInputEventListener( new CursorHandler() );
-            addInputEventListener( new PBasicInputEventHandler() {
-                @Override public void mousePressed( final PInputEvent event ) {
-                    final boolean newValue = !model.locked.get();
-                    SimSharingManager.sendUserMessage( Components.lock, spriteCheckBox, pressed, parameterSet( ParameterKeys.value, newValue ) );
-                    model.locked.set( newValue );
-                }
-            } );
-            setOffset( ( leftRepresentationControlPanel.getCenterX() + rightRepresentationControlPanel.getCenterX() ) / 2 - getFullBounds().getWidth() / 2, leftRepresentationControlPanel.getCenterY() - getFullBounds().getHeight() / 2 );
-        }} );
 
         ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( new Resettable() {
             public void reset() {
@@ -136,7 +94,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         //Show the pie set node when selected for the right-side
         addChild( new RepresentationNode( rightRepresentation, PIE, new PNode() {{
             model.scaledPieSet.addObserver( new SimpleObserver() {
-                @Override public void update() {
+                public void update() {
                     removeAllChildren();
                     addChild( CreateEmptyCellsNode.f( model.scaledPieSet.get() ) );
                     addChild( new MovableSliceLayer( model.scaledPieSet.get(), NodeToShape, model.scaledPieSet, rootNode, null ) );
@@ -148,7 +106,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         //Show the horizontal bar set node when selected for the right-side
         addChild( new RepresentationNode( rightRepresentation, HORIZONTAL_BAR, new PNode() {{
             model.rightHorizontalBars.addObserver( new SimpleObserver() {
-                @Override public void update() {
+                public void update() {
                     removeAllChildren();
                     addChild( CreateEmptyCellsNode.f( model.rightHorizontalBars.get() ) );
                     addChild( new MovableSliceLayer( model.rightHorizontalBars.get(), NodeToShape, model.rightHorizontalBars, rootNode, null ) );
@@ -160,7 +118,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         //Show the water glasses when selected for the right-side
         addChild( new RepresentationNode( rightRepresentation, WATER_GLASSES, new PNode() {{
             model.rightWaterGlasses.addObserver( new SimpleObserver() {
-                @Override public void update() {
+                public void update() {
                     removeAllChildren();
                     final Shape shape = scaledFactorySet.waterGlassSetFactory.createSlicesForBucket( model.denominator.get(), 1, model.getRandomSeed() ).head().getShape();
                     addChild( WaterGlassSetNode.createEmptyCellsNode( Colors.LIGHT_BLUE, shape.getBounds2D().getWidth(), shape.getBounds2D().getHeight() ).f( model.rightWaterGlasses.get() ) );
@@ -219,10 +177,10 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         }} );
     }
 
-    private List<Element<Representation>> getIcons( SettableProperty<Representation> representation, Color color, String type ) {
-        return Arrays.asList( new Element<Representation>( new PieIcon( representation, color ), PIE, UserComponentChain.chain( Components.pieRadioButton, type ) ),
-                              new Element<Representation>( new HorizontalBarIcon( representation, color ) {{scale( 0.8 );}}, HORIZONTAL_BAR, UserComponentChain.chain( Components.horizontalBarRadioButton, type ) ),
-                              new Element<Representation>( new WaterGlassIcon( representation, color ) {{scale( 0.8 );}}, WATER_GLASSES, UserComponentChain.chain( Components.waterGlassesRadioButton, type ) ),
+    private List<Element<Representation>> getIcons( SettableProperty<Representation> representation, String type ) {
+        return Arrays.asList( new Element<Representation>( new PieIcon( representation, Colors.CIRCLE_COLOR ), PIE, UserComponentChain.chain( Components.pieRadioButton, type ) ),
+                              new Element<Representation>( new HorizontalBarIcon( representation, Colors.HORIZONTAL_SLICE_COLOR ) {{scale( 0.8 );}}, HORIZONTAL_BAR, UserComponentChain.chain( Components.horizontalBarRadioButton, type ) ),
+                              new Element<Representation>( new WaterGlassIcon( representation, Colors.CUP_COLOR ) {{scale( 0.8 );}}, WATER_GLASSES, UserComponentChain.chain( Components.waterGlassesRadioButton, type ) ),
                               new Element<Representation>( new NumberLineIcon( representation ), NUMBER_LINE, UserComponentChain.chain( Components.numberLineRadioButton, type ) ) );
     }
 }
