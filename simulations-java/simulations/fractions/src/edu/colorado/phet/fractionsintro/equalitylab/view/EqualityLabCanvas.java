@@ -62,8 +62,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         final SettableProperty<Boolean> sameAsLeft = model.sameAsLeft;
 
         //Control panel for choosing different representations, can be split into separate controls for each display
-        //Make the control panels a little smaller in this one so that we have more vertical space for representations
-        final double representationControlPanelScale = 0.80;
+        final double representationControlPanelScale = 1.0;
         final int padding = 7;
         final RichPNode leftRepresentationControlPanel = new ZeroOffsetNode( new RadioButtonStripControlPanelNode<Representation>( leftRepresentation, getIcons( leftRepresentation, FractionsIntroSimSharing.green ), padding ) {{ scale( representationControlPanelScale ); }} ) {{
             setOffset( 114, INSET );
