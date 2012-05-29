@@ -3,6 +3,7 @@ package edu.colorado.phet.linegraphing.pointslope.view;
 
 import java.awt.BasicStroke;
 import java.awt.geom.Line2D;
+import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -26,20 +27,31 @@ class PointSlopeEquationFactory extends EquationNodeFactory {
         if ( MathUtil.round( line.run ) == 0 ) {
             return new SlopeUndefinedNode( line, font );
         }
-        else if ( MathUtil.round( line.rise ) == 0 ) {
-            return new SlopeZeroNode( line, font );
-        }
-        else if ( Math.abs( line.getReducedRise() ) == Math.abs( line.getReducedRun() ) ) {
-            return new SlopeOneNode( line, font );
-        }
-        else if ( Math.abs( line.getReducedRun() ) == 1 ) {
-            return new SlopeIntegerNode( line, font );
-        }
         else {
-            return new SlopeFractionFraction( line, font );
+            return new VerboseNode( line, font ); //TODO this is for debugging, remove when other reductions are implemented
+        }
+//        else if ( MathUtil.round( line.rise ) == 0 ) {
+//            return new SlopeZeroNode( line, font );
+//        }
+//        else if ( Math.abs( line.getReducedRise() ) == Math.abs( line.getReducedRun() ) ) {
+//            return new SlopeOneNode( line, font );
+//        }
+//        else if ( Math.abs( line.getReducedRun() ) == 1 ) {
+//            return new SlopeIntegerNode( line, font );
+//        }
+//        else {
+//            return new SlopeFractionFraction( line, font );
+//        }
+    }
+
+    // Verbose form of point-slope, not reduced, for debugging.
+    private static class VerboseNode extends ReducedEquationNode {
+        public VerboseNode( StraightLine line, PhetFont font ) {
+            addChild( new PhetPText( MessageFormat.format( "(y - {0}) = ({1}/{2})(x - {3})", line.y1, line.rise, line.run, line.x1 ), font, line.color ) );
         }
     }
 
+    //TODO this is slope-intercept, change to point-slope
     /*
      * Forms when slope is zero.
      * y = b
@@ -48,7 +60,6 @@ class PointSlopeEquationFactory extends EquationNodeFactory {
     private static class SlopeZeroNode extends ReducedEquationNode {
 
         public SlopeZeroNode( StraightLine line, PhetFont font ) {
-            setPickable( false );
 
             // y = b
             PText yNode = new PhetPText( Strings.SYMBOL_Y, font, line.color );
@@ -67,6 +78,7 @@ class PointSlopeEquationFactory extends EquationNodeFactory {
         }
     }
 
+    //TODO this is slope-intercept, change to point-slope
     /*
      * Forms where abs slope is 1.
      * y = x
@@ -107,6 +119,7 @@ class PointSlopeEquationFactory extends EquationNodeFactory {
         }
     }
 
+    //TODO this is slope-intercept, change to point-slope
     /*
      * Forms where the slope is an integer.
      * y = rise x
@@ -148,6 +161,7 @@ class PointSlopeEquationFactory extends EquationNodeFactory {
         }
     }
 
+    //TODO this is slope-intercept, change to point-slope
     /*
     * Forms where the slope is a fraction.
     * y = (rise/run) x + b
