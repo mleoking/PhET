@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--collision-lab-strings_cy.xml created Wed Oct 27 12:00:46 BST 2010 using: collision-lab 0.01.00 (45337), translation-utility 2.09.00 (44031) Sep 13, 2010-->
+<SimStrings>
+<string key="ControlPanel.reflectingBorder" value="Border Adlewyrchol"/>
+<string key="MomentumView.tipToTail" value="pen-i-sawdl"/>
+<string key="PlayPauseButtons.pause" value="Aros"/>
+<string key="PlayPauseButtons.rewind" value="Ailddirwyn"/>
+<string key="PlayPauseButtons.step" value="Cam"/>
+<string key="MomentumView.total" value="Swm"/>
+<string key="simTitle" value="Lab Gwrthdrawiadau"/>
+<string key="ControlPanel.momentaDiagram" value="Diagram Momenta"/>
+<string key="DataTable.mass" value="más"/>
+<string key="DataTable.lessData" value="Llai o Ddata"/>
+<string key="DataTable.removeBall" value="Diddymu Pêl"/>
+<string key="ControlPanel.1d" value="1 Dimensiwn"/>
+<string key="DataTable.moreData" value="Mwy o Ddata"/>
+<string key="DataTable.ball" value="Pêl"/>
+<string key="ControlPanel.showMomentumVectors" value="Fectorau Momentwm"/>
+<string key="TableView.kineticEnergy" value="Egni CInetig = {0} J"/>
+<string key="MomentumView.momenta" value="Momenta"/>
+<string key="ControlPanel.showPaths" value="Dangos Llwybrau"/>
+<string key="TableView.timeRate" value="Cyfradd Ams"/>
+<string key="DataTable.addBall" value="Adio Pêl"/>
+<string key="ControlPanel.elasticity" value="Elastigedd"/>
+<string key="PlayPauseButtons.back" value="Yn ôl"/>
+<string key="ControlPanel.2d" value="2 Dimensiwn"/>
+<string key="ControlPanel.showVelocities" value="Fectorau Cyflymder"/>
+<string key="ControlPanel.sound" value="Sain"/>
+<string key="ControlPanel.resetAll" value="Ail-osod"/>
+<string key="PlayPauseButtons.play" value="Chwarae"/>
+<string key="TableView.time" value="Amser = {0} s"/>
+<string key="ControlPanel.showCenterOfMass" value="Craidd Más"/>
+</SimStrings>
