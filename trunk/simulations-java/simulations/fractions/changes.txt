@@ -1,3 +1,4 @@
+# 0.00.67 (64410) May 29, 2012
 Equality lab tab: Make representation control panel a little bigger to use up space freed up from reducing right hand side representations.
 Equality lab tab: Wired up "same as left" representation vs "number line" buttons
 Equality lab tab: Made representations different colors and added radio buttons
