@@ -9,6 +9,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -57,8 +59,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
     public EqualityLabCanvas( final EqualityLabModel model ) {
 
         final SettableProperty<Representation> leftRepresentation = model.leftRepresentation;
-        final SettableProperty<Representation> rightRepresentation = model.rightRepresentation;
-        final SettableProperty<Boolean> sameAsLeft = model.sameAsLeft;
+        final ObservableProperty<Representation> rightRepresentation = model.rightRepresentation;
 
         //Control panel for choosing different representations, can be split into separate controls for each display
         final double representationControlPanelScale = 1.0;
@@ -76,15 +77,22 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
                 public void apply( final Representation representation ) {
                     removeAllChildren();
 
-                    final List<Element<Representation>> icons = getIcons( leftRepresentation, FractionsIntroSimSharing.blue );
-                    final List<Element<Representation>> keepIcons = new ArrayList<Element<Representation>>();
-                    for ( Element<Representation> icon : icons ) {
-                        if ( icon.value == model.leftRepresentation.get() || icon.value == NUMBER_LINE ) {
-                            keepIcons.add( icon );
-                        }
+                    final List<Element<Boolean>> icons = new ArrayList<Element<Boolean>>();
+                    if ( representation == PIE ) {
+                        icons.add( new Element<Boolean>( new PieIcon( new Property<Representation>( PIE ), Colors.CIRCLE_COLOR ), true, UserComponentChain.chain( Components.pieRadioButton, FractionsIntroSimSharing.blue ) ) );
                     }
-                    PNode content = new RadioButtonStripControlPanelNode<Representation>( leftRepresentation, keepIcons, padding ) {{ scale( representationControlPanelScale ); }};
-                    addChild( content );
+                    else if ( representation == HORIZONTAL_BAR ) {
+                        icons.add( new Element<Boolean>( new HorizontalBarIcon( new Property<Representation>( HORIZONTAL_BAR ), Colors.HORIZONTAL_SLICE_COLOR ) {{scale( 0.8 );}}, true, UserComponentChain.chain( Components.horizontalBarRadioButton, FractionsIntroSimSharing.blue ) ) );
+                    }
+                    else if ( representation == WATER_GLASSES ) {
+                        icons.add( new Element<Boolean>( new WaterGlassIcon( new Property<Representation>( WATER_GLASSES ), Colors.CUP_COLOR ) {{scale( 0.8 );}}, true, UserComponentChain.chain( Components.waterGlassesRadioButton, FractionsIntroSimSharing.blue ) ) );
+                    }
+                    else if ( representation == NUMBER_LINE ) {
+                        icons.add( new Element<Boolean>( new NumberLineIcon( new Property<Representation>( NUMBER_LINE ) ), true, UserComponentChain.chain( Components.numberLineRadioButton, FractionsIntroSimSharing.blue ) ) );
+                    }
+
+                    icons.add( new Element<Boolean>( new NumberLineIcon( new Property<Representation>( NUMBER_LINE ) ), false, UserComponentChain.chain( Components.numberLineRadioButton, FractionsIntroSimSharing.green ) ) );
+                    addChild( new RadioButtonStripControlPanelNode<Boolean>( model.sameAsLeft, icons, padding ) {{ scale( representationControlPanelScale ); }} );
                 }
             } );
         }} ) {{

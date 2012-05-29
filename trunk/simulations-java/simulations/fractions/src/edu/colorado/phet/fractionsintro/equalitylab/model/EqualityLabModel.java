@@ -5,6 +5,7 @@ import fj.F;
 import fj.Unit;
 
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
@@ -115,15 +116,15 @@ public class EqualityLabModel {
     //Flag indicating whether the right representation mirrors the left or not.  If not, then it is a number line.
     public final Property<Boolean> sameAsLeft = new Property<Boolean>( true );
 
-    public final Property<Representation> rightRepresentation = new Property<Representation>( leftRepresentation.get() ) {{
+    public final ObservableProperty<Representation> rightRepresentation = new Property<Representation>( leftRepresentation.get() ) {{
         leftRepresentation.addObserver( new VoidFunction1<Representation>() {
             public void apply( final Representation r ) {
                 if ( sameAsLeft.get() ) { set( r ); }
             }
         } );
         sameAsLeft.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( final Boolean locked ) {
-                if ( locked ) { set( leftRepresentation.get() ); }
+            public void apply( final Boolean sameAsLeft ) {
+                if ( sameAsLeft ) { set( leftRepresentation.get() ); }
                 else { set( Representation.NUMBER_LINE );}
             }
         } );
@@ -163,7 +164,6 @@ public class EqualityLabModel {
     public void resetAll() {
         model.resetAll();
         scale.reset();
-        rightRepresentation.reset();
         sameAsLeft.reset();
     }
 }
