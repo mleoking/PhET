@@ -36,6 +36,7 @@ public abstract class FluidPressureAndFlowModel implements PressureSensor.Contex
 
     //Model values
     private final ConstantDtClock clock = new ConstantDtClock( 30 );
+    public final double defaultDT = clock.getDt();
     private final ArrayList<PressureSensor> pressureSensors = new ArrayList<PressureSensor>();
     private final ArrayList<FPAFVelocitySensor> velocitySensors = new ArrayList<FPAFVelocitySensor>();
     public final Property<Double> gravity = new Property<Double>( EARTH_GRAVITY );

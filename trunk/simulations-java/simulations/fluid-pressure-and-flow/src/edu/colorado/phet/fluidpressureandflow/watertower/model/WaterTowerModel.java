@@ -74,10 +74,29 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
     }
 
     //Update the simulation when the clock ticks
-    private void stepInTime( double dt ) {
+    //Usually, the simulation model supports varying degrees of dt.  However, for the water tower module the water drop size depends on the amount of fluid that leaves the water tower in each time step
+    //So changing DT in this case makes the water drops change size, because they are still emitted at each time step.
+    //To avoid this problem, we use a different approach for slowing down the time.
+    //Since the UI only supports "slow motion" and "normal" we can just skip some of the frames and get the desired behavior.
+    //It is not as smooth as having dt/n updates every n time steps, but is guaranteed to have the same observable behavior as the physical model.
+    //I don't know if there is a practical way to have the best of both worlds--a continuous dt paired with correct drop sizes, maybe if drops weren't emitted at every time step,
+    //But this seems very difficult to get it exactly right.
+    //Note this approach also has the undesirable behavior that the slowdown factor has to be an integer.  For instance, if the team requested us to go from 33% speed to 30% speed, we would need to do something differently.
+    private int count = 0;
 
-        //Update water tower
-        double origFluidVolume = updateWaterTower();
+    private void stepInTime( double dt ) {
+        count++;
+        if ( Math.abs( dt - defaultDT ) < 1E-6 ) {
+            stepOnce( defaultDT );
+        }
+        else if ( count % 3 == 0 ) {
+            stepOnce( defaultDT );
+        }
+    }
+
+    //Update the simulation when the clock ticks, see the note for stepInTime
+    private void stepOnce( double dt ) {//Update water tower
+        double origFluidVolume = updateWaterTower( dt );
 
         //Update faucet
         updateFaucet( dt, origFluidVolume );
@@ -89,18 +108,19 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
     }
 
     //Allow water to flow out of the water tower if there is any water left, and if the door is open
-    private double updateWaterTower() {
-
+    private double updateWaterTower( double dt ) {
         //Compute the velocity of water leaving the water tower at the bottom from Toricelli's theorem, one of the main learning goals of this tab
         final double waterHeight = waterTower.getWaterLevel();
-        double velocity = !hose.enabled.get() ? sqrt( 2 * EARTH_GRAVITY * waterHeight ) : sqrt( 2 * EARTH_GRAVITY * ( waterHeight + waterTower.tankBottomCenter.get().getY() - hose.y.get() ) );
+        double velocity = !hose.enabled.get() ? sqrt( 2 * EARTH_GRAVITY * waterHeight ) :
+                          sqrt( 2 * EARTH_GRAVITY * ( waterHeight + waterTower.tankBottomCenter.get().getY() - hose.y.get() ) );
 
         //If the user moved the hose above the water level, then do not let any water flow out of the hose
         if ( velocity > 0 ) {
 
             //Determine how much fluid should leave, and how much will be left
             //Since water is incompressible, the volume that can flow out per second is proportional to the expelled velocity
-            double waterVolumeExpelled = velocity / 10;
+            final double timeFactor = dt / defaultDT;
+            double waterVolumeExpelled = velocity / 10 * timeFactor;
             double remainingVolume = waterTower.fluidVolume.get();
 
             //the decrease in volume of the water tower should be proportional to the velocity at the output hole
