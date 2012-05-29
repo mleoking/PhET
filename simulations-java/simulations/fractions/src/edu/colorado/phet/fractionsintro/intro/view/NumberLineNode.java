@@ -208,7 +208,7 @@ public class NumberLineNode extends PNode {
 
         //Also update if the visibility flag changes, since the graphics need to be reconstructed--see implementation in mainObserver
         addPropertyChangeListener( PNode.PROPERTY_VISIBLE, new PropertyChangeListener() {
-            @Override public void propertyChange( final PropertyChangeEvent evt ) {
+            public void propertyChange( final PropertyChangeEvent evt ) {
                 mainObserver.update();
             }
         } );
