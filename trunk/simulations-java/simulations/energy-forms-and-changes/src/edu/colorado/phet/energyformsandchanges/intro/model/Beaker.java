@@ -163,6 +163,20 @@ public class Beaker extends RectangularThermalMovableModelElement {
         }
     }
 
+    // Had to override due to construction order issues.
+    @Override protected void addInitialEnergyChunks() {
+        int targetNumChunks = calculateNeededNumEnergyChunks();
+        Rectangle2D energyChunkBounds = new Rectangle2D.Double( position.get().getX() - WIDTH / 2,
+                                                                position.get().getY(),
+                                                                WIDTH,
+                                                                HEIGHT * NON_DISPLACED_FLUID_LEVEL );
+        while ( targetNumChunks != getEnergyChunkList().size() ) {
+            // Add a chunk at a random location in the beaker.
+            addEnergyChunk( new EnergyChunk( EnergyChunkDistributor.generateRandomLocation( energyChunkBounds ), energyChunksVisible ) );
+        }
+        EnergyChunkDistributor.distribute( getRect(), getEnergyChunkList() );
+    }
+
     public ThermalContactArea getThermalContactArea() {
         return new ThermalContactArea( new Rectangle2D.Double( position.get().getX() - WIDTH / 2,
                                                                position.get().getY(),
