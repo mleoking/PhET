@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.linegraphing.slopeintercept.view;
+package edu.colorado.phet.linegraphing.pointslope.view;
 
 import java.awt.BasicStroke;
 import java.awt.geom.Line2D;
@@ -16,11 +16,11 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * Factory that creates a node for displaying a slope-intercept equation in reduced form.
+ * Factory that creates a node for displaying a point-slope equation in reduced form.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class SlopeInterceptEquationFactory extends EquationNodeFactory {
+class PointSlopeEquationFactory extends EquationNodeFactory {
 
     public EquationNode createNode( StraightLine line, PhetFont font ) {
         if ( MathUtil.round( line.run ) == 0 ) {

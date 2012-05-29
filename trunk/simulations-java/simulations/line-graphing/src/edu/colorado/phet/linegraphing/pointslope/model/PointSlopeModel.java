@@ -45,8 +45,8 @@ public class PointSlopeModel implements Resettable {
 
         riseRange = new Property<DoubleRange>( new DoubleRange( -10, 10, 2 ) );
         runRange = new Property<DoubleRange>( new DoubleRange( -10, 10, 2 ) );
-        x1Range = new Property<DoubleRange>( new DoubleRange( -10, 10, 2 ) );
-        y1Range = new Property<DoubleRange>( new DoubleRange( -10, 10, 2 ) );
+        x1Range = new Property<DoubleRange>( new DoubleRange( -10, 10, -2 ) );
+        y1Range = new Property<DoubleRange>( new DoubleRange( -10, 10, -2 ) );
 
         interactiveLine = new Property<StraightLine>( new StraightLine( riseRange.get().getDefault(), runRange.get().getDefault(), x1Range.get().getDefault(), y1Range.get().getDefault(),
                                                                         LGColors.INTERACTIVE_LINE, LGColors.INTERACTIVE_LINE ) ) {
@@ -69,7 +69,7 @@ public class PointSlopeModel implements Resettable {
 //                        newRise = ( get().yIntercept > 0 ) ? -1 : 1;
 //                    }
 //                }
-                super.set( new StraightLine( newRise, newRun, line.yIntercept, line.color, line.highlightColor ) );
+                super.set( new StraightLine( newRise, newRun, line.x1,  line.y1, line.color, line.highlightColor ) );
             }
         };
         savedLines = new ObservableList<StraightLine>();
@@ -80,7 +80,7 @@ public class PointSlopeModel implements Resettable {
         pointTool1 = new PointTool( new ImmutableVector2D( X_RANGE.getMax() + 2.75, Y_RANGE.getMin() - 2 ), interactiveLine, savedLines, standardLines );
         pointTool2 = new PointTool( pointTool1.location.get(), interactiveLine, savedLines, standardLines );
 
-        // Dynamically set the rise and y1 ranges so that points are constrained to the bounds of the graph
+        // Dynamically set the ranges so that points are constrained to the bounds of the graph
         interactiveLine.addObserver( new VoidFunction1<StraightLine>() {
             public void apply( StraightLine line ) {
                 //TODO implement this for point-slope form
