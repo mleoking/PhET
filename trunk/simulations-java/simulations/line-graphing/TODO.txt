@@ -17,7 +17,6 @@ HIGH
 
 MEDIUM
 - Point-Slope: 2 variations of point-slope form
-- Point-Slope: lighter blue for (x1,y1) manipulator
 - outlined numbers (OutlineTextNode) in pickers are aliased
 - numbers in pickers aren't always centered
 - when point tool is on a saved line, change the point tool highlighting when the user mouses over the saved line
