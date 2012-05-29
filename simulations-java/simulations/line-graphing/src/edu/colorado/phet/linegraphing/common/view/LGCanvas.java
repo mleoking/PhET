@@ -5,6 +5,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
@@ -17,7 +18,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class LGCanvas extends PhetPCanvas {
+public abstract class LGCanvas extends PhetPCanvas implements Resettable {
 
     private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( LGCanvas.class.getCanonicalName() );
 
@@ -72,4 +73,6 @@ public class LGCanvas extends PhetPCanvas {
             rootNode.scale( scale );
         }
     }
+
+    public void reset() {}
 }

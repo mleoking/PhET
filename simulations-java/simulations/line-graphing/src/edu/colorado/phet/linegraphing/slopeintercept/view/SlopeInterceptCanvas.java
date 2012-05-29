@@ -19,25 +19,23 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SlopeInterceptCanvas extends LGCanvas implements Resettable {
+public class SlopeInterceptCanvas extends LGCanvas {
 
     private final Property<Boolean> linesVisible = new Property<Boolean>( true );
     private final Property<Boolean> interactiveLineVisible = new Property<Boolean>( true );
     private final Property<Boolean> interactiveEquationVisible = new Property<Boolean>( true );
     private final Property<Boolean> slopeVisible = new Property<Boolean>( true );
 
-    private final LineGraphNode graphNode;
-
     public SlopeInterceptCanvas( final SlopeInterceptModel model ) {
 
-        graphNode = new LineGraphNode( model.graph, model.mvt, model.interactiveLine, model.savedLines, model.standardLines,
-                                       model.riseRange, model.runRange, model.interceptRange,
-                                       interactiveEquationVisible, linesVisible, interactiveLineVisible, slopeVisible );
+        PNode graphNode = new LineGraphNode( model.graph, model.mvt, model.interactiveLine, model.savedLines, model.standardLines,
+                                             model.riseRange, model.runRange, model.interceptRange,
+                                             interactiveEquationVisible, linesVisible, interactiveLineVisible, slopeVisible );
         PNode pointTool1 = new PointToolNode( model.pointTool1, model.mvt, model.graph, getStageBounds(), linesVisible );
         PNode pointTool2 = new PointToolNode( model.pointTool2, model.mvt, model.graph, getStageBounds(), linesVisible );
         SlopeInterceptEquationControls equationControls = new SlopeInterceptEquationControls( interactiveEquationVisible, model.interactiveLine,
-                                                                  model.riseRange, model.runRange, model.interceptRange,
-                                                                  model.savedLines, linesVisible );
+                                                                                              model.riseRange, model.runRange, model.interceptRange,
+                                                                                              model.savedLines, linesVisible );
         PNode graphControls = new GraphControls( linesVisible, slopeVisible, model.standardLines );
         PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, LGColors.RESET_ALL_BUTTON ) {{
             setConfirmationEnabled( false );
