@@ -80,8 +80,8 @@ public class EFACIntroModel {
         } );
 
         // Add the burners.
-        rightBurner = new Burner( new Point2D.Double( 0.18, 0 ) );
-        leftBurner = new Burner( new Point2D.Double( 0.08, 0 ) );
+        rightBurner = new Burner( new ImmutableVector2D( 0.18, 0 ), energyChunksVisible );
+        leftBurner = new Burner( new ImmutableVector2D( 0.08, 0 ), energyChunksVisible );
 
         // Add and position the beaker.
         beaker = new Beaker( new ImmutableVector2D( -0.015, 0 ), energyChunksVisible );

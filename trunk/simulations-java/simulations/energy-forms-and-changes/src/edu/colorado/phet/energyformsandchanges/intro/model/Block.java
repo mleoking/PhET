@@ -200,9 +200,7 @@ public abstract class Block extends RectangularMovableModelElement implements Th
 
     // Update the number and positions of the energy chunks.
     private void updateEnergyChunks() {
-        double multiplier = 0.0001;
-        double minEnergy = 10000;
-        int numChunks = (int) Math.round( Math.max( energy - minEnergy, 0 ) * multiplier );
+        int numChunks = (int) Math.round( Math.max( energy - EFACConstants.MIN_ENERGY, 0 ) * EFACConstants.ENERGY_CHUNK_MULTIPLIER );
         while ( numChunks != energyChunkList.size() ) {
             if ( numChunks > energyChunkList.size() ) {
                 // Add a chunk at a random location in the block.
@@ -223,19 +221,23 @@ public abstract class Block extends RectangularMovableModelElement implements Th
     }
 
     public boolean needsEnergyChunk() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return calculateNeededNumEnergyChunks() > energyChunkList.size();
     }
 
     public boolean hasExcessEnergyChunks() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return calculateNeededNumEnergyChunks() < energyChunkList.size();
     }
 
     public void addEnergyChunk( EnergyChunk ec ) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        energyChunkList.add( ec );
     }
 
     public EnergyChunk removeEnergyChunk() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return energyChunkList.remove( energyChunkList.size() - 1 );
+    }
+
+    private int calculateNeededNumEnergyChunks() {
+        return (int) Math.round( Math.max( energy - EFACConstants.MIN_ENERGY, 0 ) * EFACConstants.ENERGY_CHUNK_MULTIPLIER );
     }
 
     @Override public IUserComponentType getUserComponentType() {
