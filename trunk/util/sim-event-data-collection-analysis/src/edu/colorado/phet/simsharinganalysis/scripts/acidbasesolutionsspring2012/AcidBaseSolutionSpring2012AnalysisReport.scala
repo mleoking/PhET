@@ -151,7 +151,9 @@ object AcidBaseSolutionSpring2012AnalysisReport {
 
     //Create a string for a list of entries indicating if has elements or not (true or false), and the times the event occurred.  The time should be the number of minutes into the sim run.
     def indicator(entries: List[Entry]) = {
-      ( entries.length > 0 ).toString + "\t" + ( if ( entries.length > 0 ) entries.map(entry => toMinutes(entry.time - log.startTime)).mkString("\t") else "" )
+
+      //- use times in minutes since the *first click*
+      ( entries.length > 0 ).toString + "\t" + ( if ( entries.length > 0 ) entries.map(entry => toMinutes(entry.time - clicks.head.time)).mkString("\t") else "" )
     }
 
     val timesUsedStrongOrWeakBaseRadioButton = log.entries.filter(entry => entry.messageType == "user" && ( entry.component == "strongBaseRadioButton" || entry.component == "weakBaseRadioButton" ))
