@@ -18,5 +18,5 @@ public class EFACConstants {
     // Constants that define the number of energy chunks in energy-containing
     // model elements.
     public static final double MIN_ENERGY = 10000;   // Min energy before any chunks are depicted (in Joules).
-    public static final double ENERGY_CHUNK_MULTIPLIER = 0.0001;  // Chunks per Joule.
+    public static final double ENERGY_CHUNK_MULTIPLIER = 0.000075;  // Chunks per Joule.
 }
