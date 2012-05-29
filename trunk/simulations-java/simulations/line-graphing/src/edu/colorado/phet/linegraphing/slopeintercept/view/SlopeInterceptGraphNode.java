@@ -20,7 +20,7 @@ import edu.colorado.phet.linegraphing.slopeintercept.view.LineManipulatorDragHan
 import edu.colorado.phet.linegraphing.slopeintercept.view.LineManipulatorDragHandler.SlopeDragHandler;
 
 /**
- * Specialization of LineGraphNode that provides direct manipulation of a line in slope-intercept form.
+ * Graph that provides direct manipulation of a line in slope-intercept form.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -59,6 +59,7 @@ public class SlopeInterceptGraphNode extends LineGraphNode {
         addChild( slopeManipulatorNode ); // add slope after intercept, so that slope can be changed when x=0
     }
 
+    // Hides the manipulators at appropriate times (when dragging or based on visibility of lines).
     @Override protected void updateLinesVisibility( boolean linesVisible, boolean interactiveLineVisible, boolean slopeVisible ) {
         super.updateLinesVisibility( linesVisible, interactiveLineVisible, slopeVisible );
         if ( slopeManipulatorNode != null && interceptManipulatorNode != null ) {
@@ -67,7 +68,7 @@ public class SlopeInterceptGraphNode extends LineGraphNode {
         }
     }
 
-    // Updates the line and its associated decorations
+    // Updates the positions of the manipulators
     @Override protected void updateInteractiveLine( final StraightLine line, final Graph graph, final ModelViewTransform mvt ) {
         super.updateInteractiveLine( line, graph, mvt );
         if ( slopeManipulatorNode != null && interceptManipulatorNode != null ) {
@@ -88,6 +89,7 @@ public class SlopeInterceptGraphNode extends LineGraphNode {
         }
     }
 
+    // True if either manipulator is in use.
     protected boolean isInteracting() {
         if ( slopeManipulatorNode != null && interceptManipulatorNode != null ) {
             return slopeManipulatorNode.isDragging() || interceptManipulatorNode.isDragging();
@@ -97,6 +99,7 @@ public class SlopeInterceptGraphNode extends LineGraphNode {
         }
     }
 
+    // Creates a node that displays the line in slope-intercept form.
     protected StraightLineNode createLineNode( StraightLine line, Graph graph, ModelViewTransform mvt ) {
        return new SlopeInterceptLineNode( line, graph, mvt );
     }

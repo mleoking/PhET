@@ -11,10 +11,10 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
+import edu.colorado.phet.linegraphing.common.view.EquationNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Factory that creates a node for displaying a slope-intercept equation in reduced form.
@@ -47,7 +47,7 @@ class SlopeInterceptEquationFactory {
     /*
      * Base class for all forms of the equation.
      */
-    public static abstract class ReducedSlopeInterceptEquationNode extends PComposite {
+    public static abstract class ReducedSlopeInterceptEquationNode extends EquationNode {
 
         protected static final double X_SPACING = 3;
         protected static final double Y_SPACING = 0;
