@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -40,6 +39,8 @@ import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.Pi
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.WaterGlassIcon;
 import edu.umd.cs.piccolo.PNode;
 
+import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.numberLineRepresentationRadioButton;
+import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.sameRepresentationRadioButton;
 import static edu.colorado.phet.fractionsintro.equalitylab.model.EqualityLabModel.scaledFactorySet;
 import static edu.colorado.phet.fractionsintro.intro.view.Representation.*;
 import static edu.colorado.phet.fractionsintro.intro.view.pieset.PieSetNode.CreateEmptyCellsNode;
@@ -58,6 +59,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
 
         final SettableProperty<Representation> leftRepresentation = model.leftRepresentation;
         final SettableProperty<Representation> rightRepresentation = model.rightRepresentation;
+        final SettableProperty<Boolean> sameAsLeft = model.sameAsLeft;
 
         //Control panel for choosing different representations, can be split into separate controls for each display
         //Make the control panels a little smaller in this one so that we have more vertical space for representations
@@ -67,10 +69,9 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
             setOffset( 114, INSET );
         }};
 
-        final SettableProperty<Boolean> sameAsLeft = new Property<Boolean>( true );
         final RichPNode rightRepresentationControlPanel = new ZeroOffsetNode( new VBox( 0, VBox.LEFT_ALIGNED,
-                                                                                        new RadioButton( Components.sameRepresentationRadioButton, "Same", sameAsLeft, true ),
-                                                                                        new RadioButton( Components.numberLineRepresentationRadioButton, "Number Line", sameAsLeft, false ) ) ) {{
+                                                                                        new RadioButton( sameRepresentationRadioButton, "Same", sameAsLeft, true ),
+                                                                                        new RadioButton( numberLineRepresentationRadioButton, "Number Line", sameAsLeft, false ) ) ) {{
             setOffset( leftRepresentationControlPanel.getMaxX() + 120, leftRepresentationControlPanel.getCenterY() - getFullBounds().getHeight() / 2 );
         }};
 

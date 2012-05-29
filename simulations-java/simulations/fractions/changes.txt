@@ -1,3 +1,4 @@
+Equality lab tab: Wired up "same as left" representation vs "number line" buttons
 Equality lab tab: Made representations different colors and added radio buttons
 Switched to language level 5.0
 Build a fraction: Changed background to white
