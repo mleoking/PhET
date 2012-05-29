@@ -1,3 +1,4 @@
+Water tower tab: Fixed: Using Match leakage, switching from Slow mo to Normal speed causes a change in height of the water in the tower
 # 0.00.62 (64396) May 25, 2012
 Changed mass readouts to be "kg" instead of "N"
 Water tower tab: Moved ruler in front of speed and pressure toolbox

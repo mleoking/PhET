@@ -13,7 +13,7 @@ public class FaucetFlowRate {
     //Rate of flow from the faucet into the water tower.
     public final Property<Double> flow = new Property<Double>( 0.0 );
 
-    //If automatic, it will fill up as much as flows out to keep a constant rate
+    //If automatic, it will fill up as much as flows out to keep a constant rate.  This is labeled as "match leakage"
     public final Property<Boolean> automatic = new Property<Boolean>( false );
 
     public void reset() {
