@@ -4,6 +4,7 @@ package edu.colorado.phet.fractionsintro.equalitylab.view;
 import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,12 +12,12 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.RadioButtonStripControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.RadioButtonStripControlPanelNode.Element;
 import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing;
@@ -39,8 +40,6 @@ import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.Pi
 import edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel.WaterGlassIcon;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.numberLineRepresentationRadioButton;
-import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.sameRepresentationRadioButton;
 import static edu.colorado.phet.fractionsintro.equalitylab.model.EqualityLabModel.scaledFactorySet;
 import static edu.colorado.phet.fractionsintro.intro.view.Representation.*;
 import static edu.colorado.phet.fractionsintro.intro.view.pieset.PieSetNode.CreateEmptyCellsNode;
@@ -68,9 +67,27 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
             setOffset( 114, INSET );
         }};
 
-        final RichPNode rightRepresentationControlPanel = new ZeroOffsetNode( new VBox( 0, VBox.LEFT_ALIGNED,
-                                                                                        new RadioButton( sameRepresentationRadioButton, "Same", sameAsLeft, true ),
-                                                                                        new RadioButton( numberLineRepresentationRadioButton, "Number Line", sameAsLeft, false ) ) ) {{
+        // Instead of "same" and "number line" radio buttons, what we envisioned on the right hand side
+        // was one button that is the same as the representation on the left, and another that was the number line.
+        // So for instance if you were on the green circle, and clicked on the red square,
+        // the button on the right would change to the red square.
+        final RichPNode rightRepresentationControlPanel = new ZeroOffsetNode( new PNode() {{
+            leftRepresentation.addObserver( new VoidFunction1<Representation>() {
+                public void apply( final Representation representation ) {
+                    removeAllChildren();
+
+                    final List<Element<Representation>> icons = getIcons( leftRepresentation, FractionsIntroSimSharing.blue );
+                    final List<Element<Representation>> keepIcons = new ArrayList<Element<Representation>>();
+                    for ( Element<Representation> icon : icons ) {
+                        if ( icon.value == model.leftRepresentation.get() || icon.value == NUMBER_LINE ) {
+                            keepIcons.add( icon );
+                        }
+                    }
+                    PNode content = new RadioButtonStripControlPanelNode<Representation>( leftRepresentation, keepIcons, padding ) {{ scale( representationControlPanelScale ); }};
+                    addChild( content );
+                }
+            } );
+        }} ) {{
             setOffset( leftRepresentationControlPanel.getMaxX() + 120, leftRepresentationControlPanel.getCenterY() - getFullBounds().getHeight() / 2 );
         }};
 
