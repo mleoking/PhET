@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fractions.util.immutable.Dimension2D;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
+import edu.colorado.phet.fractionsintro.common.view.Colors;
 import edu.colorado.phet.fractionsintro.intro.model.FractionsIntroModel;
 import edu.colorado.phet.fractionsintro.intro.model.IntroState;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
@@ -27,7 +28,6 @@ import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.VerticalSli
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 
 import static edu.colorado.phet.fractionsintro.common.view.Colors.LIGHT_BLUE;
-import static edu.colorado.phet.fractionsintro.common.view.Colors.LIGHT_GREEN;
 
 /**
  * Model for the Equality Lab tab.  Reuses lots of code from the Intro tab by composition for displaying and allowing interaction with the representations.
@@ -55,12 +55,12 @@ public class EqualityLabModel {
 
             //Use little buckets for everything so it will fit, but not for vertical bars, which are too wide for the little bucket
             Dimension2D littleBucket = new Dimension2D( 250, 100 );
-            return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, littleBucket, pieDiameter, pieX, pieY, siteMap, LIGHT_GREEN ),
-                                   new StackedHorizontalSliceFactory( bucketPosition.plus( -20, 0 ), littleBucket, LIGHT_GREEN, 125 + 114, horizontalSliceY, false ),
-                                   new VerticalSliceFactory( 0, 125, 225, false, bucketPosition, littleBucket, LIGHT_GREEN, distanceBetweenBars ),
+            return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, littleBucket, pieDiameter, pieX, pieY, siteMap, Colors.CIRCLE_COLOR ),
+                                   new StackedHorizontalSliceFactory( bucketPosition.plus( -20, 0 ), littleBucket, Colors.HORIZONTAL_SLICE_COLOR, 125 + 114, horizontalSliceY, false ),
+                                   new VerticalSliceFactory( 0, 125, 225, false, bucketPosition, littleBucket, Colors.VERTICAL_SLICE_COLOR, distanceBetweenBars ),
 
                                    //Align the right side of the water glasses with the right edge of the representation control panel
-                                   new VerticalSliceFactory( -117, 100, 200, true, bucketPosition, littleBucket, LIGHT_GREEN, distanceBetweenBars ),
+                                   new VerticalSliceFactory( -117, 100, 200, true, bucketPosition, littleBucket, Colors.CUP_COLOR, distanceBetweenBars ),
                                    new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ), littleBucket ) );
 
         }
@@ -115,17 +115,17 @@ public class EqualityLabModel {
     public final SettableProperty<Representation> leftRepresentation = model.representation;
     public final Property<Representation> rightRepresentation = new Property<Representation>( leftRepresentation.get() ) {{
         addObserver( new VoidFunction1<Representation>() {
-            @Override public void apply( final Representation r ) {
+            public void apply( final Representation r ) {
                 if ( locked.get() ) { leftRepresentation.set( r ); }
             }
         } );
         leftRepresentation.addObserver( new VoidFunction1<Representation>() {
-            @Override public void apply( final Representation r ) {
+            public void apply( final Representation r ) {
                 if ( locked.get() ) { set( r ); }
             }
         } );
         locked.addObserver( new VoidFunction1<Boolean>() {
-            @Override public void apply( final Boolean locked ) {
+            public void apply( final Boolean locked ) {
                 if ( locked ) { set( leftRepresentation.get() ); }
             }
         } );
@@ -134,7 +134,7 @@ public class EqualityLabModel {
     //Optionally scaled pies shown on the right
     public final SettableProperty<PieSet> scaledPieSet = new Property<PieSet>( pieSet.get() ) {{
         final SimpleObserver observer = new SimpleObserver() {
-            @Override public void update() {
+            public void update() {
                 set( scaledFactorySet.circularSliceFactory.fromContainerSetState( pieSet.get().toLazyContainerSet().scale( scale.get() ) ).createScaledCopy() );
             }
         };
@@ -143,7 +143,7 @@ public class EqualityLabModel {
     }};
     public final SettableProperty<PieSet> rightHorizontalBars = new Property<PieSet>( horizontalBarSet.get() ) {{
         final SimpleObserver observer = new SimpleObserver() {
-            @Override public void update() {
+            public void update() {
                 set( scaledFactorySet.horizontalSliceFactory.fromContainerSetState( horizontalBarSet.get().toLazyContainerSet().scale( scale.get() ) ).createScaledCopy() );
             }
         };
@@ -152,7 +152,7 @@ public class EqualityLabModel {
     }};
     public final SettableProperty<PieSet> rightWaterGlasses = new Property<PieSet>( waterGlassSet.get() ) {{
         final SimpleObserver observer = new SimpleObserver() {
-            @Override public void update() {
+            public void update() {
                 set( scaledFactorySet.waterGlassSetFactory.fromContainerSetState( waterGlassSet.get().toLazyContainerSet().scale( scale.get() ) ).createScaledCopy() );
             }
         };

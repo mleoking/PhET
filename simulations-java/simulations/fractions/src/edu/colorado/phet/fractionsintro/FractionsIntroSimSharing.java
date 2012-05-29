@@ -25,6 +25,8 @@ import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Paramete
  */
 public class FractionsIntroSimSharing {
     public enum Components implements IUserComponent {
+        sameRepresentationRadioButton,
+        numberLineRepresentationRadioButton,
         numbersRadioButton,
         picturesRadioButton,
         matchingGameTab, equalityLabTab, introTab,
