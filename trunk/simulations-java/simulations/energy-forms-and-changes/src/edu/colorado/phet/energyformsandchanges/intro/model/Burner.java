@@ -109,6 +109,22 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
         }
     }
 
+    public boolean needsEnergyChunk() {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public boolean hasExcessEnergyChunks() {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public void addEnergyChunk( EnergyChunk ec ) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public EnergyChunk removeEnergyChunk() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     public ThermalContactArea getThermalContactArea() {
         // The thermal contact area for the burner a rectangular space that is
         // intended to be just above the top of the burner.  This has to be

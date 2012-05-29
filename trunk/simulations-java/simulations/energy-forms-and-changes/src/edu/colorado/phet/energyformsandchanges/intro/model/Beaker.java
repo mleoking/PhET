@@ -216,6 +216,22 @@ public class Beaker extends RectangularMovableModelElement implements ThermalEne
         energy = INITIAL_THERMAL_ENERGY;
     }
 
+    public boolean needsEnergyChunk() {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public boolean hasExcessEnergyChunks() {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public void addEnergyChunk( EnergyChunk ec ) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public EnergyChunk removeEnergyChunk() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     @Override public IUserComponent getUserComponent() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }

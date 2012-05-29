@@ -222,6 +222,22 @@ public abstract class Block extends RectangularMovableModelElement implements Th
         return energyChunkList;
     }
 
+    public boolean needsEnergyChunk() {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public boolean hasExcessEnergyChunks() {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public void addEnergyChunk( EnergyChunk ec ) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public EnergyChunk removeEnergyChunk() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     @Override public IUserComponentType getUserComponentType() {
         // Movable elements are considered sprites.
         return UserComponentTypes.sprite;
