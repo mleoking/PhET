@@ -2,6 +2,7 @@
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
 import java.awt.geom.Rectangle2D;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -39,6 +40,9 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     private static final double MASS = ENERGY_TRANSFER_AREA_WIDTH * ENERGY_TRANSFER_AREA_WIDTH * ENERGY_TRANSFER_AREA_HEIGHT * DENSITY;
     private static final double SPECIFIC_HEAT = 129; // In J/kg-K
     private static final double INITIAL_ENERGY = MASS * SPECIFIC_HEAT * EFACConstants.ROOM_TEMPERATURE;
+
+    // Random number generator, used for initial postions of energy chunks.
+    private static final Random RAND = new Random();
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -127,8 +131,12 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
             // See if the other element needs energy chunks.
             if ( energyContainer.needsEnergyChunk() ) {
                 // Create an energy chunk and give it to the model element.
-                // TODO: Probably need a random algorithm that defines where energy chunks originate.
-                energyContainer.addEnergyChunk( new EnergyChunk( position, energyChunksVisible ) );
+                // Position the chunk inside the flame.  The other model
+                // element is responsible for animating it to the right
+                // location.
+                double xPos = position.getX() + ( RAND.nextDouble() - 0.5 ) * WIDTH / 3;
+                double yPos = HEIGHT * 0.6; // Tweaked to work well with the view.
+                energyContainer.addEnergyChunk( new EnergyChunk( new ImmutableVector2D( xPos, yPos ), energyChunksVisible ) );
             }
         }
     }
