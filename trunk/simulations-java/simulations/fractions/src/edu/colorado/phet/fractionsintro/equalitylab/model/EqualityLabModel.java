@@ -5,7 +5,6 @@ import fj.F;
 import fj.Unit;
 
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
@@ -36,7 +35,6 @@ import static edu.colorado.phet.fractionsintro.common.view.Colors.LIGHT_BLUE;
  */
 public class EqualityLabModel {
 
-    public final BooleanProperty locked = new BooleanProperty( true );
     public static final double pieY = 225 - 12.5;
     public static final double pieDiameter = 135;
     public static final double distanceBetweenBars = 5;
@@ -113,20 +111,20 @@ public class EqualityLabModel {
     public final IntegerProperty maximum = model.maximum;
     public final SettableProperty<PieSet> waterGlassSet = model.waterGlassSet;
     public final SettableProperty<Representation> leftRepresentation = model.representation;
+
+    //Flag indicating whether the right representation mirrors the left or not.  If not, then it is a number line.
+    public final Property<Boolean> sameAsLeft = new Property<Boolean>( true );
+
     public final Property<Representation> rightRepresentation = new Property<Representation>( leftRepresentation.get() ) {{
-        addObserver( new VoidFunction1<Representation>() {
-            public void apply( final Representation r ) {
-                if ( locked.get() ) { leftRepresentation.set( r ); }
-            }
-        } );
         leftRepresentation.addObserver( new VoidFunction1<Representation>() {
             public void apply( final Representation r ) {
-                if ( locked.get() ) { set( r ); }
+                if ( sameAsLeft.get() ) { set( r ); }
             }
         } );
-        locked.addObserver( new VoidFunction1<Boolean>() {
+        sameAsLeft.addObserver( new VoidFunction1<Boolean>() {
             public void apply( final Boolean locked ) {
                 if ( locked ) { set( leftRepresentation.get() ); }
+                else { set( Representation.NUMBER_LINE );}
             }
         } );
     }};
@@ -166,6 +164,6 @@ public class EqualityLabModel {
         model.resetAll();
         scale.reset();
         rightRepresentation.reset();
-        locked.reset();
+        sameAsLeft.reset();
     }
 }
