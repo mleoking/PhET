@@ -1,9 +1,10 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
@@ -40,7 +41,7 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     // Instance Data
     //-------------------------------------------------------------------------
 
-    private final Point2D position = new Point2D.Double( 0, 0 );
+    private final ImmutableVector2D position;
 
     // Property that is used to control the amount of heating or cooling that
     // is being done.
@@ -48,6 +49,8 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     private Property<HorizontalSurface> topSurface;
 
     private double energy = INITIAL_ENERGY;
+
+    private final BooleanProperty energyChunksVisible;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -60,8 +63,9 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
      *                 By convention for this simulation, the position is
      *                 defined as the bottom center of the model element.
      */
-    public Burner( Point2D position ) {
-        this.position.setLocation( position );
+    public Burner( ImmutableVector2D position, BooleanProperty energyChunksVisible ) {
+        this.position = new ImmutableVector2D( position );
+        this.energyChunksVisible = energyChunksVisible;
         topSurface = new Property<HorizontalSurface>( new HorizontalSurface( new DoubleRange( getOutlineRect().getMinX(), getOutlineRect().getMaxX() ), getOutlineRect().getMaxY(), this ) );
     }
 
@@ -100,12 +104,24 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
 
     public void exchangeEnergyWith( ThermalEnergyContainer energyContainer, double dt ) {
         double thermalContactLength = getThermalContactArea().getThermalContactLength( energyContainer.getThermalContactArea() );
-        if ( thermalContactLength > 0 && Math.abs( energyContainer.getTemperature() - getTemperature() ) > TEMPERATURES_EQUAL_THRESHOLD ) {
-            // Exchange energy between the this and the other energy container.
-            // TODO: The following is a first attempt and likely to need much adjustment.
-            double thermalEnergyGained = ( energyContainer.getTemperature() - getTemperature() ) * thermalContactLength * 2000 * dt;
-            changeEnergy( thermalEnergyGained );
-            energyContainer.changeEnergy( -thermalEnergyGained );
+
+        if ( thermalContactLength > 0 ) {
+
+            // The burner is in contact with this item.  Exchange energy.
+            if ( Math.abs( energyContainer.getTemperature() - getTemperature() ) > TEMPERATURES_EQUAL_THRESHOLD ) {
+                // Exchange energy between the this and the other energy container.
+                // TODO: The following is a first attempt and likely to need much adjustment.
+                double thermalEnergyGained = ( energyContainer.getTemperature() - getTemperature() ) * thermalContactLength * 2000 * dt;
+                changeEnergy( thermalEnergyGained );
+                energyContainer.changeEnergy( -thermalEnergyGained );
+            }
+
+            // See if the other element needs energy chunks.
+            if ( energyContainer.needsEnergyChunk() ) {
+                // Create an energy chunk and give it to the model element.
+                // TODO: Probably need a random algorithm that defines where energy chunks originate.
+                energyContainer.addEnergyChunk( new EnergyChunk( position, energyChunksVisible ) );
+            }
         }
     }
 
