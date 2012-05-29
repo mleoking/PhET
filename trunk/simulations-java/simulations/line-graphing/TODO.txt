@@ -6,7 +6,6 @@ DESIGN
 - controls for interactive equation (spinners, pickers, ...)
 
 HIGH
-- Point-Slope: reduced forms of equation (PointSlopeEquationFactory)
 - Point-Slope: interactive equation and control panel
 - duplication: SlopeInterceptDragHandler, PointSlopeDragHandler
 - duplication: SlopeInterceptCanvas, PointSlopeCanvas
