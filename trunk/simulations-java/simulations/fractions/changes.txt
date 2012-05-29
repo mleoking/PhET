@@ -1,3 +1,4 @@
+Equality lab tab: Improved control panel location
 # 0.00.68 (64419) May 29, 2012
 Equality lab tab: Changed from text radio buttons to icon radio button strip
 # 0.00.67 (64410) May 29, 2012
