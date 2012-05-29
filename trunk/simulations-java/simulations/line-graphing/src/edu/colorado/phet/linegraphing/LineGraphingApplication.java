@@ -18,9 +18,18 @@ public class LineGraphingApplication extends PiccoloPhetApplication {
 
     public LineGraphingApplication( PhetApplicationConfig config ) {
         super( config );
+
         addModule( new SlopeInterceptModule() );
         addModule( new PointSlopeModule() );
         addModule( new LineGameModule() );
+
+        // Dev: Start with the module number specified on the command line.
+        if ( isDeveloperControlsEnabled() ) {
+            String startModuleNumber = config.getOptionArg( "-startModule" );
+            if ( startModuleNumber != null ) {
+                setStartModule( getModule( Integer.valueOf( startModuleNumber ) ) );
+            }
+        }
     }
 
     public static void main( final String[] args ) {
