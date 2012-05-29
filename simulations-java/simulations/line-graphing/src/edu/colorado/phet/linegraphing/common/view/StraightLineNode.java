@@ -45,17 +45,17 @@ public abstract class StraightLineNode extends PComposite {
 
         if ( line.run == 0 ) {
             // x = 0
-            tailX = 0;
+            tailX = line.x1;
             tailY = graph.yRange.getMax() + yExtent;
-            tipX = 0;
+            tipX = line.x1;
             tipY = graph.yRange.getMin() - yExtent;
         }
         else if ( line.rise == 0 ) {
             // y = b
             tailX = graph.xRange.getMin() - xExtent;
-            tailY = line.yIntercept;
+            tailY = line.y1;
             tipX = graph.xRange.getMax() + yExtent;
-            tipY = line.yIntercept;
+            tipY = line.y1;
         }
         else {
             // tail is the left-most end point. Compute x such that the point is inside the grid.
