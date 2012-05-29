@@ -112,9 +112,10 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
 
     protected void addInitialEnergyChunks() {
         int targetNumChunks = calculateNeededNumEnergyChunks();
+        Rectangle2D energyChunkBounds = getThermalContactArea().getBounds();
         while ( targetNumChunks != getEnergyChunkList().size() ) {
             // Add a chunk at a random location in the block.
-            addEnergyChunk( new EnergyChunk( EnergyChunkDistributor.generateRandomLocation( getRect() ), energyChunksVisible ) );
+            addEnergyChunk( new EnergyChunk( EnergyChunkDistributor.generateRandomLocation( energyChunkBounds ), energyChunksVisible ) );
             System.out.println( "Added a chunk" );
         }
         EnergyChunkDistributor.distribute( getRect(), getEnergyChunkList() );
