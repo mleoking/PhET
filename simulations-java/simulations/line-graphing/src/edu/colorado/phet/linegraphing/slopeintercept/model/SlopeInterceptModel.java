@@ -80,9 +80,13 @@ public class SlopeInterceptModel implements Resettable {
         // Dynamically set ranges so that variables are constrained to the bounds of the graph, and slope is not 0/0.
         interactiveLine.addObserver( new VoidFunction1<StraightLine>() {
             public void apply( StraightLine line ) {
+
+                // rise
                 final double minRise = ( line.run == 0 && line.yIntercept == graph.yRange.getMin() ) ? 1 : graph.yRange.getMin() - line.yIntercept;
                 final double maxRise = ( line.run == 0 && line.yIntercept == graph.yRange.getMax() ) ? -1 : graph.yRange.getMax() - line.yIntercept;
                 riseRange.set( new DoubleRange( minRise, maxRise ) );
+
+                // y intercept
                 final double minIntercept = ( line.rise >= 0 ) ? graph.yRange.getMin() : graph.yRange.getMin() - line.rise;
                 final double maxIntercept = ( line.rise <= 0 ) ? graph.yRange.getMax() : graph.yRange.getMax() - line.rise;
                 interceptRange.set( new DoubleRange( minIntercept, maxIntercept ) );
