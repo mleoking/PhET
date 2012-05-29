@@ -18,13 +18,13 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
  */
 public class EnergyChunkDistributor {
 
-    //    private static final double FORCE_CONSTANT = 100E-6; // Chosen empirically.
-    private static final double FORCE_CONSTANT = 1; // Chosen empirically.
-    private static final double OUTSIDE_RECT_FORCE = 10; // In Newtons.
+    private static final double FORCE_CONSTANT = 0.0001; // Chosen empirically.
+    private static final double OUTSIDE_RECT_FORCE = 1; // In Newtons.
     private static final double TIME_STEP = 1E-6; // In seconds, for algorithm that moves the points.
     private static final int NUM_TIME_STEPS = 100;
     private static final Random RAND = new Random();
 
+    // TODO: This method may be obsolete, but if not, it should probably call the method with the time step.  For efficiency, I could have a common method that takes a list of points.
     public static void distribute( Rectangle2D rect, List<EnergyChunk> energyChunkList ) {
 
         System.out.println( "-------- distribute called -----------" );
@@ -109,14 +109,14 @@ public class EnergyChunkDistributor {
 
     public static void updatePositions( List<EnergyChunk> energyChunkList, Rectangle2D enclosingRect, double dt ) {
 
-        // Limit distances to avoid moving too much in one time step.
-        double minDistance = Math.min( enclosingRect.getWidth() / 100, enclosingRect.getHeight() / 100 );
-
         // Create a map that relates each energy chunk to a point mass.
         Map<EnergyChunk, PointMass> map = new HashMap<EnergyChunk, PointMass>();
         for ( EnergyChunk energyChunk : energyChunkList ) {
             map.put( energyChunk, new PointMass( energyChunk.position.get(), enclosingRect ) );
         }
+
+        // Limit minimum distances to avoid forces that are too large.
+        double minDistance = Math.min( enclosingRect.getWidth() / 20, enclosingRect.getHeight() / 20 );
 
         // Update the forces acting on each point mass.
         for ( PointMass p : map.values() ) {
@@ -160,6 +160,7 @@ public class EnergyChunkDistributor {
             }
             else {
                 // Point is outside container, move it towards center of rectangle.
+                System.out.println( "Point detected outside of container." );
                 ImmutableVector2D vectorToCenter = new ImmutableVector2D( enclosingRect.getCenterX(), enclosingRect.getCenterY() ).getSubtractedInstance( p.position );
                 p.applyForce( vectorToCenter.getInstanceOfMagnitude( OUTSIDE_RECT_FORCE ) );
             }
@@ -168,7 +169,7 @@ public class EnergyChunkDistributor {
         // Update the point mass positions.
         for ( PointMass p : map.values() ) {
             // Update the position of the point.
-            p.updatePosition( TIME_STEP );
+            p.updatePosition( dt );
             p.clearAcceleration();
         }
 
@@ -234,3 +235,4 @@ public class EnergyChunkDistributor {
         }
     }
 }
+
