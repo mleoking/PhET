@@ -16,8 +16,8 @@ import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.colorado.phet.linegraphing.common.view.LineGraphNode;
 import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.StraightLineNode;
-import edu.colorado.phet.linegraphing.common.view.LineManipulatorDragHandler.InterceptDragHandler;
-import edu.colorado.phet.linegraphing.common.view.LineManipulatorDragHandler.SlopeDragHandler;
+import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptDragHandler.InterceptDragHandler;
+import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptDragHandler.SlopeDragHandler;
 
 /**
  * Graph that provides direct manipulation of a line in slope-intercept form.

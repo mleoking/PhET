@@ -14,9 +14,10 @@ import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.colorado.phet.linegraphing.common.view.LineGraphNode;
-import edu.colorado.phet.linegraphing.common.view.LineManipulatorDragHandler.SlopeDragHandler;
 import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.StraightLineNode;
+import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeDragHandler.SlopeDragHandler;
+import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeDragHandler.X1Y1DragHandler;
 
 /**
  * Graph that provides direct manipulation of a line in point-slope form.
@@ -44,17 +45,16 @@ public class PointSlopeGraphNode extends LineGraphNode {
         // Manipulators for the interactive line
         final double manipulatorDiameter = mvt.modelToViewDeltaX( MANIPULATOR_DIAMETER );
 
+        // interactivity for point (x1,y1) manipulator
+        pointManipulator = new LineManipulatorNode( manipulatorDiameter, LGColors.POINT_X1_Y1 );
+        pointManipulator.addInputEventListener( new CursorHandler() );
+        pointManipulator.addInputEventListener( new X1Y1DragHandler( UserComponents.interceptManipulator, UserComponentTypes.sprite,
+                                                                     pointManipulator, mvt, interactiveLine, x1Range, y1Range ) );
         // interactivity for slope manipulator
         slopeManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.SLOPE );
         slopeManipulatorNode.addInputEventListener( new CursorHandler() );
         slopeManipulatorNode.addInputEventListener( new SlopeDragHandler( UserComponents.slopeManipulator, UserComponentTypes.sprite,
                                                                           slopeManipulatorNode, mvt, interactiveLine, riseRange, runRange ) );
-        // interactivity for point manipulator
-        pointManipulator = new LineManipulatorNode( manipulatorDiameter, LGColors.POINT_X1_Y1 );
-        pointManipulator.addInputEventListener( new CursorHandler() );
-        //TODO create PointX1Y1DragHandler
-//        pointManipulator.addInputEventListener( new InterceptDragHandler( UserComponents.interceptManipulator, UserComponentTypes.sprite,
-//                                                                                  interceptManipulatorNode, mvt, interactiveLine, interceptRange ) );
 
         addChild( pointManipulator );
         addChild( slopeManipulatorNode ); // add slope after intercept, so that slope can be changed when x=0
