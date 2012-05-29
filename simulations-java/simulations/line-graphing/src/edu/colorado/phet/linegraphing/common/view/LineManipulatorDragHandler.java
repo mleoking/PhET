@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.linegraphing.slopeintercept.view;
+package edu.colorado.phet.linegraphing.common.view;
 
 import java.awt.geom.Point2D;
 
@@ -13,7 +13,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.ParameterKeys;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
-import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
@@ -21,7 +20,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
+public abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
 
     protected final LineManipulatorNode manipulatorNode;
     protected final ModelViewTransform mvt;
