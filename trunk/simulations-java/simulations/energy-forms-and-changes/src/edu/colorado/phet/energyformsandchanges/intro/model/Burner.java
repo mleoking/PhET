@@ -4,6 +4,9 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -59,14 +62,19 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     /**
      * Constructor.
      *
+     * @param clock
      * @param position The position in model space where this burner exists.
      *                 By convention for this simulation, the position is
-     *                 defined as the bottom center of the model element.
      */
-    public Burner( ImmutableVector2D position, BooleanProperty energyChunksVisible ) {
+    public Burner( ConstantDtClock clock, ImmutableVector2D position, BooleanProperty energyChunksVisible ) {
         this.position = new ImmutableVector2D( position );
         this.energyChunksVisible = energyChunksVisible;
         topSurface = new Property<HorizontalSurface>( new HorizontalSurface( new DoubleRange( getOutlineRect().getMinX(), getOutlineRect().getMaxX() ), getOutlineRect().getMaxY(), this ) );
+        clock.addClockListener( new ClockAdapter() {
+            @Override public void simulationTimeChanged( ClockEvent clockEvent ) {
+                stepInTime( clockEvent.getSimulationTimeChange() );
+            }
+        } );
     }
 
     //-------------------------------------------------------------------------
@@ -164,5 +172,9 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
 
     public ObservableList<EnergyChunk> getEnergyChunkList() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    private void stepInTime( double dt ) {
+        updateInternallyProducedEnergy( dt );
     }
 }
