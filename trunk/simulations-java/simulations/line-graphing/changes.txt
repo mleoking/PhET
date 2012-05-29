@@ -1,3 +1,4 @@
+5/29/12 populate point-slope model and view, with considerable duplication to start
 5/29/12 resurrect spinner-based equation from [64199]
 5/23/12 get colors from modified line, instead of using color constants
 5/23/12 rename ReducedSlopeInterceptEquationFactory to SlopeInterceptEquationFactory
