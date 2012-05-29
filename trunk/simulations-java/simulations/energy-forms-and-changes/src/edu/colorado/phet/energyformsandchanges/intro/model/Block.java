@@ -78,7 +78,7 @@ public abstract class Block extends RectangularMovableModelElement implements Th
         } );
 
         // Add the initial energy chunks.
-        updateEnergyChunks();
+        addInitialEnergyChunks();
     }
 
     @Override public Dimension2D getSize() {
@@ -132,7 +132,6 @@ public abstract class Block extends RectangularMovableModelElement implements Th
 
     public void changeEnergy( double deltaEnergy ) {
         energy += deltaEnergy;
-        updateEnergyChunks();
     }
 
     public void exchangeEnergyWith( ThermalEnergyContainer energyContainer, double dt ) {
@@ -161,7 +160,17 @@ public abstract class Block extends RectangularMovableModelElement implements Th
     @Override public void reset() {
         super.reset();
         energy = initialThermalEnergy;
-        updateEnergyChunks();
+        addInitialEnergyChunks();
+    }
+
+    private void addInitialEnergyChunks() {
+        int targetNumChunks = calculateNeededNumEnergyChunks();
+        while ( targetNumChunks != energyChunkList.size() ) {
+            // Add a chunk at a random location in the block.
+            energyChunkList.add( new EnergyChunk( EnergyChunkDistributor.generateRandomLocation( getRect() ), energyChunksVisible ) );
+            System.out.println( "Added a chunk" );
+        }
+        EnergyChunkDistributor.distribute( getRect(), energyChunkList );
     }
 
     /**
@@ -196,24 +205,6 @@ public abstract class Block extends RectangularMovableModelElement implements Th
      */
     public static Shape getRawShape() {
         return new Rectangle2D.Double( -SURFACE_WIDTH / 2, 0, SURFACE_WIDTH, SURFACE_WIDTH );
-    }
-
-    // Update the number and positions of the energy chunks.
-    private void updateEnergyChunks() {
-        int numChunks = (int) Math.round( Math.max( energy - EFACConstants.MIN_ENERGY, 0 ) * EFACConstants.ENERGY_CHUNK_MULTIPLIER );
-        while ( numChunks != energyChunkList.size() ) {
-            if ( numChunks > energyChunkList.size() ) {
-                // Add a chunk at a random location in the block.
-                energyChunkList.add( new EnergyChunk( EnergyChunkDistributor.generateRandomLocation( getRect() ), energyChunksVisible ) );
-                System.out.println( "Added a chunk" );
-            }
-            else {
-                // Remove a chunk.
-                energyChunkList.remove( 0 );
-                System.out.println( "Removed a chunk" );
-            }
-            EnergyChunkDistributor.distribute( getRect(), energyChunkList );
-        }
     }
 
     public ObservableList<EnergyChunk> getEnergyChunkList() {
