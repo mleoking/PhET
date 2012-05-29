@@ -226,8 +226,8 @@ public class EnergyChunkDistributor {
             }
             velocity.add( dragForce.getScaledInstance( dt ) );
             */
-            // Check that the velocity won't put the point outside of the container.
-            if ( !containerRect.contains( position.getAddedInstance( velocity.getScaledInstance( dt ) ).toPoint2D() ) ) {
+            // Check that the velocity won't move the point outside of the container.
+            if ( containerRect.contains( position.toPoint2D() ) && !containerRect.contains( position.getAddedInstance( velocity.getScaledInstance( dt ) ).toPoint2D() ) ) {
                 System.out.println( "Velocity would put point mass out of bounds, scaling down." );
                 velocity.setMagnitude( 0 );
             }
