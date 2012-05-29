@@ -2,7 +2,6 @@
 package edu.colorado.phet.energyformsandchanges.intro.view;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Point;
 import java.awt.Shape;
 import java.awt.geom.Dimension2D;
@@ -255,7 +254,6 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
     // Class that defines the thermometer tool box.
     private static class ThermometerToolBox extends PNode {
 
-        private static Font TITLE_FONT = new PhetFont( 20, false );
         private static int NUM_THERMOMETERS_SUPPORTED = 2;
 
         private final EFACIntroModel model;
