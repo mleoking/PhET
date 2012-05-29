@@ -37,7 +37,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class SlopeInterceptEquationNode extends PhetPNode {
+class SlopeInterceptEquationNodePickers extends PhetPNode {
 
     private static final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
     private static final double SIGN_STROKE_WIDTH = 1;
@@ -45,11 +45,11 @@ class SlopeInterceptEquationNode extends PhetPNode {
 
     private final Property<Double> rise, run, intercept;
 
-    public SlopeInterceptEquationNode( final Property<StraightLine> interactiveLine,
-                                       Property<DoubleRange> riseRange,
-                                       Property<DoubleRange> runRange,
-                                       Property<DoubleRange> interceptRange,
-                                       PhetFont font ) {
+    public SlopeInterceptEquationNodePickers( final Property<StraightLine> interactiveLine,
+                                              Property<DoubleRange> riseRange,
+                                              Property<DoubleRange> runRange,
+                                              Property<DoubleRange> interceptRange,
+                                              PhetFont font ) {
 
         this.rise = new Property<Double>( interactiveLine.get().rise );
         this.run = new Property<Double>( interactiveLine.get().run );
@@ -156,7 +156,7 @@ class SlopeInterceptEquationNode extends PhetPNode {
         Property<DoubleRange> interceptRange = new Property<DoubleRange>( new DoubleRange( -10, 10 ) );
 
         // equation
-        SlopeInterceptEquationNode equationNode = new SlopeInterceptEquationNode( interactiveLine,riseRange,runRange,interceptRange, new PhetFont( Font.BOLD, 38 ));
+        SlopeInterceptEquationNodePickers equationNode = new SlopeInterceptEquationNodePickers( interactiveLine,riseRange,runRange,interceptRange, new PhetFont( Font.BOLD, 38 ));
         equationNode.setOffset( 100, 100 );
 
         // canvas
