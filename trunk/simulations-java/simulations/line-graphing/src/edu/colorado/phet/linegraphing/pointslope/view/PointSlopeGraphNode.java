@@ -65,26 +65,26 @@ public class PointSlopeGraphNode extends LineGraphNode {
     // Hides the manipulators at appropriate times (when dragging or based on visibility of lines).
     @Override protected void updateLinesVisibility( boolean linesVisible, boolean interactiveLineVisible, boolean slopeVisible ) {
         super.updateLinesVisibility( linesVisible, interactiveLineVisible, slopeVisible );
-        if ( slopeManipulatorNode != null && pointManipulator != null ) {
-            slopeManipulatorNode.setVisible( linesVisible && interactiveLineVisible );
+        if ( pointManipulator != null && slopeManipulatorNode != null ) {
             pointManipulator.setVisible( linesVisible && interactiveLineVisible );
+            slopeManipulatorNode.setVisible( linesVisible && interactiveLineVisible );
         }
     }
 
     // Updates the positions of the manipulators
     @Override protected void updateInteractiveLine( final StraightLine line, final Graph graph, final ModelViewTransform mvt ) {
         super.updateInteractiveLine( line, graph, mvt );
-        if ( slopeManipulatorNode != null && pointManipulator != null ) {
+        if ( pointManipulator != null && slopeManipulatorNode != null ) {
             // move the manipulators
-            slopeManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( line.x1 + line.run, line.x1 + line.rise ) ) );
             pointManipulator.setOffset( mvt.modelToView( new Point2D.Double( line.x1, line.y1 ) ) );
+            slopeManipulatorNode.setOffset( mvt.modelToView( new Point2D.Double( line.x1 + line.run, line.y1 + line.rise ) ) );
         }
     }
 
     // True if either manipulator is in use.
     protected boolean isInteracting() {
-        if ( slopeManipulatorNode != null && pointManipulator != null ) {
-            return slopeManipulatorNode.isDragging() || pointManipulator.isDragging();
+        if ( pointManipulator != null && slopeManipulatorNode != null ) {
+            return pointManipulator.isDragging() || slopeManipulatorNode.isDragging();
         }
         else {
             return false;
