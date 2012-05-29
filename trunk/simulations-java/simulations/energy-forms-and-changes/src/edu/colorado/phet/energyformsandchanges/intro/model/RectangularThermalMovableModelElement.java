@@ -83,7 +83,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
     }
 
     protected void stepInTime( double dt ) {
-        // TODO: Update the positions of the energy chunks.
+        EnergyChunkDistributor.updatePositions( energyChunkList, getThermalContactArea().getBounds(), dt );
     }
 
     public ObservableList<EnergyChunk> getEnergyChunkList() {
@@ -118,6 +118,6 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
             addEnergyChunk( new EnergyChunk( EnergyChunkDistributor.generateRandomLocation( energyChunkBounds ), energyChunksVisible ) );
             System.out.println( "Added a chunk" );
         }
-        EnergyChunkDistributor.distribute( getRect(), getEnergyChunkList() );
+//        EnergyChunkDistributor.distribute( getRect(), getEnergyChunkList() );
     }
 }

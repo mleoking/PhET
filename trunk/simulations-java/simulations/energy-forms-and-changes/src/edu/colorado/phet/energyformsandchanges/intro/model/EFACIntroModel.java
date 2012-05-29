@@ -62,7 +62,7 @@ public class EFACIntroModel {
     public final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
 
     // Boolean for tracking whether the energy chunks are visible to the user.
-    public final BooleanProperty energyChunksVisible = new BooleanProperty( false );
+    public final BooleanProperty energyChunksVisible = new BooleanProperty( true );
 
     // List of model element that can contain and exchange energy.
     private List<ThermalEnergyContainer> energyContainerList = new ArrayList<ThermalEnergyContainer>();

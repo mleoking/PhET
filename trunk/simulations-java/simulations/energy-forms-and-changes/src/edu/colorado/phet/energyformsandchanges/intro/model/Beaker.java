@@ -174,7 +174,7 @@ public class Beaker extends RectangularThermalMovableModelElement {
             // Add a chunk at a random location in the beaker.
             addEnergyChunk( new EnergyChunk( EnergyChunkDistributor.generateRandomLocation( energyChunkBounds ), energyChunksVisible ) );
         }
-        EnergyChunkDistributor.distribute( getRect(), getEnergyChunkList() );
+//        EnergyChunkDistributor.distribute( getRect(), getEnergyChunkList() );
     }
 
     public ThermalContactArea getThermalContactArea() {
