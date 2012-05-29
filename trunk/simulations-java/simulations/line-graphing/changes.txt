@@ -1,3 +1,4 @@
+5/29/12 move SpinnerNode and subclasses to linegraphing.common.view
 5/29/12 point-slope: factory for creating reduced forms of (y-y1)=m(x-x1)
 5/29/12 point-slope: skip over values that would result in slope=0/0
 5/29/12 add -startModule command line dev arg
