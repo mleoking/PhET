@@ -28,9 +28,9 @@ public class SlopeInterceptCanvas extends LGCanvas {
 
     public SlopeInterceptCanvas( final SlopeInterceptModel model ) {
 
-        PNode graphNode = new LineGraphNode( model.graph, model.mvt, model.interactiveLine, model.savedLines, model.standardLines,
-                                             model.riseRange, model.runRange, model.interceptRange,
-                                             interactiveEquationVisible, linesVisible, interactiveLineVisible, slopeVisible );
+        PNode graphNode = new SlopeInterceptGraphNode( model.graph, model.mvt, model.interactiveLine, model.savedLines, model.standardLines,
+                                                       model.riseRange, model.runRange, model.interceptRange,
+                                                       interactiveEquationVisible, linesVisible, interactiveLineVisible, slopeVisible );
         PNode pointTool1 = new PointToolNode( model.pointTool1, model.mvt, model.graph, getStageBounds(), linesVisible );
         PNode pointTool2 = new PointToolNode( model.pointTool2, model.mvt, model.graph, getStageBounds(), linesVisible );
         SlopeInterceptEquationControls equationControls = new SlopeInterceptEquationControls( interactiveEquationVisible, model.interactiveLine,

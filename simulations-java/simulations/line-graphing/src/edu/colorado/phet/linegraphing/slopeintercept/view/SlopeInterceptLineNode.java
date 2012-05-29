@@ -13,10 +13,10 @@ import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.linegraphing.common.model.Graph;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
+import edu.colorado.phet.linegraphing.common.view.StraightLineNode;
 import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptEquationFactory.ReducedSlopeInterceptEquationNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
-import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Visual representation of a line in slope-intercept form (y = mx + b), with arrows on both ends.
@@ -24,20 +24,18 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class SlopeInterceptLineNode extends PComposite {
+class SlopeInterceptLineNode extends StraightLineNode {
 
     private static final PDimension ARROW_HEAD_SIZE = new PDimension( 10, 10 );
     private static final double LINE_THICKNESS = 3;
     private static final double LINE_EXTENT = 25; // how far the line extends past the grid
     private static final PhetFont EQUATION_FONT = new PhetFont( Font.BOLD, 18 );
 
-    public final StraightLine line;
     private final DoubleArrowNode arrowNode;
     private final ReducedSlopeInterceptEquationNode equationNode;
 
     public SlopeInterceptLineNode( final StraightLine line, Graph graph, ModelViewTransform mvt ) {
-
-        this.line = line;
+        super(line);
 
         final double xExtent = mvt.viewToModelDeltaX( LINE_EXTENT );
         final double yExtent = Math.abs( mvt.viewToModelDeltaY( LINE_EXTENT ) );
