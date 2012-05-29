@@ -24,7 +24,6 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
     public final BooleanProperty energyChunksVisible;
     protected double energy = 0; // In Joules.
     protected final double specificHeat; // In J/kg-K
-    protected final double initialThermalEnergy; // In Joules
     protected final double mass; // In kg
 
     /**
@@ -35,7 +34,8 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
         this.mass = mass;
         this.specificHeat = specificHeat;
         this.energyChunksVisible = energyChunksVisible;
-        this.initialThermalEnergy = mass * specificHeat * EFACConstants.ROOM_TEMPERATURE;
+
+        energy = mass * specificHeat * EFACConstants.ROOM_TEMPERATURE;
 
         // Hook up to the clock for time dependent behavior.
         clock.addClockListener( new ClockAdapter() {
