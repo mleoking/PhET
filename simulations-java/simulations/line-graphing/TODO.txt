@@ -3,12 +3,21 @@ TODO list for line-graphing
 DEADLINES
 
 DESIGN
-- controls for interactive equation (spinners, pickers,...)
+- controls for interactive equation (spinners, pickers, ...)
 
 HIGH
-- implement Point-Slope tab
+- Point-Slope: slope drag manipulator not working correctly (PointSlopeGrapNode, PointSlopeDragHandler)
+- Point-Slope: dynamically adjust ranges for rise, run, x1, x2 (PointSlopeModel)
+- Point-Slope: skip over values that would result in slope=0/0 (PointSlopeModel)
+- Point-Slope: reduced forms of equation (PointSlopeEquationFactory)
+- Point-Slope: interactive equation and control panel
+- duplication: SlopeInterceptDragHandler, PointSlopeDragHandler
+- duplication: SlopeInterceptCanvas, PointSlopeCanvas
+- duplication: SlopeInterceptModel, PointSlopeModel
 
 MEDIUM
+- Point-Slope: 2 variations of point-slope form
+- Point-Slope: lighter blue for (x1,y1) manipulator
 - outlined numbers (OutlineTextNode) in pickers are aliased
 - numbers in pickers aren't always centered
 - when point tool is on a saved line, change the point tool highlighting when the user mouses over the saved line
