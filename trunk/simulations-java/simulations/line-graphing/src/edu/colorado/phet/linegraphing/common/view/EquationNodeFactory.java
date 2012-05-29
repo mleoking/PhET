@@ -49,8 +49,8 @@ public abstract class EquationNodeFactory {
     /*
      * Slope is undefined.
      */
-    protected static class SlopeUndefinedNode extends ReducedEquationNode {
-        public SlopeUndefinedNode( StraightLine line, PhetFont font ) {
+    protected static class UndefinedSlopeNode extends ReducedEquationNode {
+        public UndefinedSlopeNode( StraightLine line, PhetFont font ) {
             setPickable( false );
             addChild( new PhetPText( Strings.SLOPE_UNDEFINED, font, line.color ) );
         }

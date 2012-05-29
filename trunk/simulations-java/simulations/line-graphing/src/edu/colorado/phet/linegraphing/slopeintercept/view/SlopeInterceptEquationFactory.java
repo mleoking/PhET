@@ -3,6 +3,7 @@ package edu.colorado.phet.linegraphing.slopeintercept.view;
 
 import java.awt.BasicStroke;
 import java.awt.geom.Line2D;
+import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -24,19 +25,26 @@ class SlopeInterceptEquationFactory extends EquationNodeFactory {
 
     public EquationNode createNode( StraightLine line, PhetFont font ) {
         if ( MathUtil.round( line.run ) == 0 ) {
-            return new SlopeUndefinedNode( line, font );
+            return new UndefinedSlopeNode( line, font );
         }
         else if ( MathUtil.round( line.rise ) == 0 ) {
-            return new SlopeZeroNode( line, font );
+            return new ZeroSlopeNode( line, font );
         }
         else if ( Math.abs( line.getReducedRise() ) == Math.abs( line.getReducedRun() ) ) {
-            return new SlopeOneNode( line, font );
+            return new UnitSlopeNode( line, font );
         }
         else if ( Math.abs( line.getReducedRun() ) == 1 ) {
-            return new SlopeIntegerNode( line, font );
+            return new IntegerSlopeNode( line, font );
         }
         else {
-            return new SlopeFractionFraction( line, font );
+            return new FractionSlopeNode( line, font );
+        }
+    }
+
+    // Verbose form of slope-intercept, not reduced, for debugging.
+    private static class VerboseNode extends ReducedEquationNode {
+        public VerboseNode( StraightLine line, PhetFont font ) {
+            addChild( new PhetPText( MessageFormat.format( "y = ({0}/{1})x + {2})", line.rise, line.run, line.yIntercept ), font, line.color ) );
         }
     }
 
@@ -45,9 +53,9 @@ class SlopeInterceptEquationFactory extends EquationNodeFactory {
      * y = b
      * y = -b
      */
-    private static class SlopeZeroNode extends ReducedEquationNode {
+    private static class ZeroSlopeNode extends ReducedEquationNode {
 
-        public SlopeZeroNode( StraightLine line, PhetFont font ) {
+        public ZeroSlopeNode( StraightLine line, PhetFont font ) {
 
             // y = b
             PText yNode = new PhetPText( Strings.SYMBOL_Y, font, line.color );
@@ -61,7 +69,7 @@ class SlopeInterceptEquationFactory extends EquationNodeFactory {
 
             // layout
             yNode.setOffset( 0, 0 );
-            equalsNode.setOffset( yNode.getFullBoundsReference().getWidth() + X_SPACING, yNode.getYOffset() );
+            equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
             interceptNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING, equalsNode.getYOffset() );
         }
     }
@@ -75,9 +83,9 @@ class SlopeInterceptEquationFactory extends EquationNodeFactory {
      * y = -x + b
      * y = -x - b
     */
-    private static class SlopeOneNode extends ReducedEquationNode {
+    private static class UnitSlopeNode extends ReducedEquationNode {
 
-        public SlopeOneNode( StraightLine line, PhetFont font ) {
+        public UnitSlopeNode( StraightLine line, PhetFont font ) {
 
             final boolean slopeIsPositive = ( line.rise * line.run ) >= 0;
 
@@ -99,7 +107,7 @@ class SlopeInterceptEquationFactory extends EquationNodeFactory {
 
             // layout
             yNode.setOffset( 0, 0 );
-            equalsNode.setOffset( yNode.getFullBoundsReference().getWidth() + X_SPACING, yNode.getYOffset() );
+            equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
             xNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING, equalsNode.getYOffset() );
             interceptSignNode.setOffset( xNode.getFullBoundsReference().getMaxX() + X_SPACING, equalsNode.getYOffset() );
             interceptNode.setOffset( interceptSignNode.getFullBoundsReference().getMaxX() + X_SPACING, equalsNode.getYOffset() );
@@ -108,16 +116,16 @@ class SlopeInterceptEquationFactory extends EquationNodeFactory {
 
     /*
      * Forms where the slope is an integer.
-     * y = rise x
-     * y = -rise x
-     * y = rise x + b
-     * y = rise x - b
-     * y = -rise x + b
-     * y = -rise x - b
+     * y = mx
+     * y = -mx
+     * y = mx + b
+     * y = mx - b
+     * y = -mx + b
+     * y = -mx - b
      */
-    private static class SlopeIntegerNode extends ReducedEquationNode {
+    private static class IntegerSlopeNode extends ReducedEquationNode {
 
-        public SlopeIntegerNode( StraightLine line, PhetFont font ) {
+        public IntegerSlopeNode( StraightLine line, PhetFont font ) {
 
             // y = rise x + b
             PText yNode = new PhetPText( Strings.SYMBOL_Y, font, line.color );
@@ -139,7 +147,7 @@ class SlopeInterceptEquationFactory extends EquationNodeFactory {
 
             // layout
             yNode.setOffset( 0, 0 );
-            equalsNode.setOffset( yNode.getFullBoundsReference().getWidth() + X_SPACING, yNode.getYOffset() );
+            equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
             riseNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING, equalsNode.getYOffset() );
             xNode.setOffset( riseNode.getFullBoundsReference().getMaxX() + X_SPACING, equalsNode.getYOffset() );
             signNode.setOffset( xNode.getFullBoundsReference().getMaxX() + X_SPACING, equalsNode.getYOffset() );
@@ -154,9 +162,9 @@ class SlopeInterceptEquationFactory extends EquationNodeFactory {
     * y = -(rise/run) x + b
     * y = -(rise/run) x - b
     */
-    private static class SlopeFractionFraction extends ReducedEquationNode {
+    private static class FractionSlopeNode extends ReducedEquationNode {
 
-        public SlopeFractionFraction( StraightLine line, PhetFont font ) {
+        public FractionSlopeNode( StraightLine line, PhetFont font ) {
 
             final int reducedRise = Math.abs( line.getReducedRise() );
             final int reducedRun = Math.abs( line.getReducedRun() );
@@ -191,7 +199,7 @@ class SlopeInterceptEquationFactory extends EquationNodeFactory {
             // layout
             final double yFudgeFactor = 2; // fudge factor to align fraction dividing line with the center of the equals sign, visually tweaked
             yNode.setOffset( 0, 0 );
-            equalsNode.setOffset( yNode.getFullBoundsReference().getWidth() + X_SPACING, yNode.getYOffset() );
+            equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
             if ( !slopeIsPositive ) {
                 slopeSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING,
                                          equalsNode.getYOffset() - ( slopeSignNode.getFullBoundsReference().getHeight() / 2 ) + yFudgeFactor );
