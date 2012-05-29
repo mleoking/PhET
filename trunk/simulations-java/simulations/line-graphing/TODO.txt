@@ -3,13 +3,12 @@ TODO list for line-graphing
 DEADLINES
 
 DESIGN
-- spinners or pickers for interactive equation? (SlopeInterceptEquationNode or SlopeInterceptEquationNode2)
+- controls for interactive equation (spinners, pickers,...)
 
 HIGH
 - implement Point-Slope tab
 
 MEDIUM
-- replace shaped-based picker buttons with images to be provided by AP
 - outlined numbers (OutlineTextNode) in pickers are aliased
 - numbers in pickers aren't always centered
 - when point tool is on a saved line, change the point tool highlighting when the user mouses over the saved line
