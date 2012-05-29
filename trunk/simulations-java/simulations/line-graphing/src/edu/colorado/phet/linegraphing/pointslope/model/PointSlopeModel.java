@@ -80,16 +80,29 @@ public class PointSlopeModel implements Resettable {
         pointTool1 = new PointTool( new ImmutableVector2D( X_RANGE.getMax() + 2.75, Y_RANGE.getMin() - 2 ), interactiveLine, savedLines, standardLines );
         pointTool2 = new PointTool( pointTool1.location.get(), interactiveLine, savedLines, standardLines );
 
-        // Dynamically set the ranges so that points are constrained to the bounds of the graph
+        // Dynamically set ranges so that variables are constrained to the bounds of the graph.
         interactiveLine.addObserver( new VoidFunction1<StraightLine>() {
             public void apply( StraightLine line ) {
-                //TODO implement this for point-slope form
-                // Constrain rise to prevent slope=0/0
-//                final double minRise = ( line.run == 0 && line.yIntercept == graph.yRange.getMin() ) ? 1 : graph.yRange.getMin() - line.yIntercept;
-//                final double maxRise = ( line.run == 0 && line.yIntercept == graph.yRange.getMax() ) ? -1 : graph.yRange.getMax() - line.yIntercept;
-//                riseRange.set( new DoubleRange( minRise, maxRise ) );
-//                interceptRange.set( new DoubleRange( line.rise >= 0 ? graph.yRange.getMin() : graph.yRange.getMin() - line.rise,
-//                                                     line.rise <= 0 ? graph.yRange.getMax() : graph.yRange.getMax() - line.rise ) );
+
+                // rise
+                final double minRise = graph.yRange.getMin() - line.y1;
+                final double maxRise = graph.yRange.getMax() - line.y1;
+                riseRange.set( new DoubleRange( minRise, maxRise ) );
+
+                // run
+                final double minRun = graph.xRange.getMin() - line.x1;
+                final double maxRun = graph.xRange.getMax() - line.x1;
+                runRange.set( new DoubleRange( minRun, maxRun ) );
+
+                // x1
+                final double minX1 = Math.max( graph.xRange.getMin(), graph.xRange.getMin() - line.run );
+                final double maxX1 = Math.min( graph.xRange.getMax(), graph.xRange.getMax() - line.run );
+                x1Range.set( new DoubleRange( minX1, maxX1 ) );
+
+                // y1
+                final double minY1 = Math.max( graph.yRange.getMin(), graph.yRange.getMin() - line.rise );
+                final double maxY1 = Math.min( graph.yRange.getMax(), graph.yRange.getMax() - line.rise );
+                y1Range.set( new DoubleRange( minY1, maxY1 ) );
             }
         } );
     }
