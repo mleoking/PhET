@@ -53,22 +53,21 @@ public class PointSlopeModel implements Resettable {
             @Override public void set( StraightLine line ) {
                 double newRise = line.rise;
                 double newRun = line.run;
-                //TODO implement this for point-slope form
-//                // Skip over values that would result in slope=0/0
-//                if ( line.rise == 0 && line.run == 0 ) {
-//                    if ( get().run != 0 ) {
-//                        // run changed, skip over run = 0
-//                        newRun = ( get().run > 0 ) ? -1 : 1;
-//                    }
-//                    else if ( get().rise != 0 ) {
-//                        // rise changed, skip over rise = 0
-//                        newRise = ( get().rise > 0 ) ? -1 : 1;
-//                    }
-//                    else {
-//                        // rise and run haven't changed, arbitrarily move rise toward origin
-//                        newRise = ( get().yIntercept > 0 ) ? -1 : 1;
-//                    }
-//                }
+                // Skip over values that would result in slope=0/0
+                if ( line.rise == 0 && line.run == 0 ) {
+                    if ( get().run != 0 ) {
+                        // run changed, skip over run = 0
+                        newRun = ( get().run > 0 ) ? -1 : 1;
+                    }
+                    else if ( get().rise != 0 ) {
+                        // rise changed, skip over rise = 0
+                        newRise = ( get().rise > 0 ) ? -1 : 1;
+                    }
+                    else {
+                        // rise and run haven't changed, arbitrarily move rise toward origin
+                        newRise = ( get().y1 > 0 ) ? -1 : 1;
+                    }
+                }
                 super.set( new StraightLine( newRise, newRun, line.x1,  line.y1, line.color, line.highlightColor ) );
             }
         };

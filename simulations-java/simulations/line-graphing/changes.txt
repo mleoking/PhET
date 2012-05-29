@@ -1,3 +1,4 @@
+5/29/12 point-slope: skip over values that would result in slope=0/0
 5/29/12 add -startModule command line dev arg
 5/29/12 point-slope: dynamically adjust ranges for rise, run, x1, x2
 5/29/12 slope-intercept: don't bother with slope=0/0 when adjusting ranges, handle post manipulation
