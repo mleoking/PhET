@@ -13,6 +13,7 @@ HIGH
 - duplication: SlopeInterceptModel, PointSlopeModel
 
 MEDIUM
+- better handling and testing of adjustment to avoid slope=0/0
 - Point-Slope: 2 variations of point-slope form
 - outlined numbers (OutlineTextNode) in pickers are aliased
 - numbers in pickers aren't always centered

@@ -23,25 +23,24 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 class PointSlopeEquationFactory extends EquationNodeFactory {
 
+    private static final boolean SHOW_ZEROS = true; // shows values of x1 and y1 that are zero
+
     public EquationNode createNode( StraightLine line, PhetFont font ) {
         if ( MathUtil.round( line.run ) == 0 ) {
-            return new SlopeUndefinedNode( line, font );
+            return new UndefinedSlopeNode( line, font );
         }
         else if ( MathUtil.round( line.rise ) == 0 ) {
-            return new SlopeZeroNode( line, font );
+            return new ZeroSlopeNode( line, font );
+        }
+        else if ( Math.abs( line.getReducedRise() ) == Math.abs( line.getReducedRun() ) ) {
+            return new UnitSlopeNode( line, font );
+        }
+        else if ( Math.abs( line.getReducedRun() ) == 1 ) {
+            return new IntegerSlopeNode( line, font );
         }
         else {
-            return new VerboseNode( line, font ); //TODO this is for debugging, remove when other reductions are implemented
+            return new FractionSlopeNode( line, font );
         }
-//        else if ( Math.abs( line.getReducedRise() ) == Math.abs( line.getReducedRun() ) ) {
-//            return new SlopeOneNode( line, font );
-//        }
-//        else if ( Math.abs( line.getReducedRun() ) == 1 ) {
-//            return new SlopeIntegerNode( line, font );
-//        }
-//        else {
-//            return new SlopeFractionFraction( line, font );
-//        }
     }
 
     // Verbose form of point-slope, not reduced, for debugging.
@@ -55,9 +54,9 @@ class PointSlopeEquationFactory extends EquationNodeFactory {
      * Forms when slope is zero.
      * y = y1
      */
-    private static class SlopeZeroNode extends ReducedEquationNode {
+    private static class ZeroSlopeNode extends ReducedEquationNode {
 
-        public SlopeZeroNode( StraightLine line, PhetFont font ) {
+        public ZeroSlopeNode( StraightLine line, PhetFont font ) {
 
             // y = y1
             PText yNode = new PhetPText( Strings.SYMBOL_Y, font, line.color );
@@ -71,120 +70,86 @@ class PointSlopeEquationFactory extends EquationNodeFactory {
 
             // layout
             yNode.setOffset( 0, 0 );
-            equalsNode.setOffset( yNode.getFullBoundsReference().getWidth() + X_SPACING, yNode.getYOffset() );
-            y1Node.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING, equalsNode.getYOffset() );
+            equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
+            y1Node.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
         }
     }
 
-    //TODO this is slope-intercept, change to point-slope
     /*
      * Forms where abs slope is 1.
-     * y = x
-     * y = -x
-     * y = x + b
-     * y = x - b
-     * y = -x + b
-     * y = -x - b
-    */
-    private static class SlopeOneNode extends ReducedEquationNode {
+     * (y - y1) = (x - x1)
+     * (y - y1) = -(x - x1)
+     */
+    private static class UnitSlopeNode extends ReducedEquationNode {
 
-        public SlopeOneNode( StraightLine line, PhetFont font ) {
+        public UnitSlopeNode( StraightLine line, PhetFont font ) {
 
-            final boolean slopeIsPositive = ( line.rise * line.run ) >= 0;
-
-            // y = x + b
-            PText yNode = new PhetPText( Strings.SYMBOL_Y, font, line.color );
+            PText yNode = new PhetPText( getYText( line.y1 ), font, line.color );
             PText equalsNode = new PhetPText( "=", font, line.color );
-            PText xNode = new PhetPText( slopeIsPositive ? Strings.SYMBOL_X : "-" + Strings.SYMBOL_X, font, line.color );
-            PText interceptSignNode = new PhetPText( line.yIntercept > 0 ? "+" : "-", font, line.color );
-            PText interceptNode = new PhetPText( String.valueOf( MathUtil.round( Math.abs( line.yIntercept ) ) ), font, line.color );
+            String slopeText = ( line.rise * line.run >= 0 ) ? "" : "-";
+            PText xNode = new PhetPText( slopeText + getXText( line.x1 ), font, line.color );
 
             // rendering order
             addChild( yNode );
             addChild( equalsNode );
             addChild( xNode );
-            if ( line.yIntercept != 0 ) {
-                addChild( interceptSignNode );
-                addChild( interceptNode );
-            }
 
             // layout
             yNode.setOffset( 0, 0 );
-            equalsNode.setOffset( yNode.getFullBoundsReference().getWidth() + X_SPACING, yNode.getYOffset() );
-            xNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING, equalsNode.getYOffset() );
-            interceptSignNode.setOffset( xNode.getFullBoundsReference().getMaxX() + X_SPACING, equalsNode.getYOffset() );
-            interceptNode.setOffset( interceptSignNode.getFullBoundsReference().getMaxX() + X_SPACING, equalsNode.getYOffset() );
+            equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
+            xNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
         }
     }
 
-    //TODO this is slope-intercept, change to point-slope
     /*
      * Forms where the slope is an integer.
-     * y = rise x
-     * y = -rise x
-     * y = rise x + b
-     * y = rise x - b
-     * y = -rise x + b
-     * y = -rise x - b
+     * (y - y1) = m(x - x1)
+     * (y - y1) = -m(x - x1)
      */
-    private static class SlopeIntegerNode extends ReducedEquationNode {
+    private static class IntegerSlopeNode extends ReducedEquationNode {
 
-        public SlopeIntegerNode( StraightLine line, PhetFont font ) {
+        public IntegerSlopeNode( StraightLine line, PhetFont font ) {
 
-            // y = rise x + b
-            PText yNode = new PhetPText( Strings.SYMBOL_Y, font, line.color );
+            PText yNode = new PhetPText( getYText( line.y1 ), font, line.color );
             PText equalsNode = new PhetPText( "=", font, line.color );
-            PText riseNode = new PhetPText( String.valueOf( line.getReducedRise() / line.getReducedRun() ), font, line.color );
-            PText xNode = new PhetPText( Strings.SYMBOL_X, font, line.color );
-            PText signNode = new PhetPText( line.yIntercept > 0 ? "+" : "-", font, line.color );
-            PText interceptNode = new PhetPText( String.valueOf( MathUtil.round( Math.abs( line.yIntercept ) ) ), font, line.color );
+            PText slopeNode = new PhetPText( String.valueOf( line.getReducedRise() / line.getReducedRun() ), font, line.color );
+            PText xNode = new PhetPText( getXText( line.x1 ), font, line.color );
 
             // rendering order
             addChild( yNode );
             addChild( equalsNode );
-            addChild( riseNode );
+            addChild( slopeNode );
             addChild( xNode );
-            if ( line.yIntercept != 0 ) {
-                addChild( signNode );
-                addChild( interceptNode );
-            }
 
             // layout
             yNode.setOffset( 0, 0 );
-            equalsNode.setOffset( yNode.getFullBoundsReference().getWidth() + X_SPACING, yNode.getYOffset() );
-            riseNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING, equalsNode.getYOffset() );
-            xNode.setOffset( riseNode.getFullBoundsReference().getMaxX() + X_SPACING, equalsNode.getYOffset() );
-            signNode.setOffset( xNode.getFullBoundsReference().getMaxX() + X_SPACING, equalsNode.getYOffset() );
-            interceptNode.setOffset( signNode.getFullBoundsReference().getMaxX() + X_SPACING, equalsNode.getYOffset() );
+            equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
+            slopeNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
+            xNode.setOffset( slopeNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
         }
     }
 
-    //TODO this is slope-intercept, change to point-slope
     /*
     * Forms where the slope is a fraction.
-    * y = (rise/run) x + b
-    * y = (rise/run) x - b
-    * y = -(rise/run) x + b
-    * y = -(rise/run) x - b
+    * (y - y1) = (rise/run)(x - x1)
+    * (y - y1) = -(rise/run)(x - x1)
     */
-    private static class SlopeFractionFraction extends ReducedEquationNode {
+    private static class FractionSlopeNode extends ReducedEquationNode {
 
-        public SlopeFractionFraction( StraightLine line, PhetFont font ) {
+        public FractionSlopeNode( StraightLine line, PhetFont font ) {
 
             final int reducedRise = Math.abs( line.getReducedRise() );
             final int reducedRun = Math.abs( line.getReducedRun() );
             final boolean slopeIsPositive = ( line.rise * line.run ) >= 0;
 
             // y = -(reducedRise/reducedRun)x + b
-            PText yNode = new PhetPText( Strings.SYMBOL_Y, font, line.color );
+            PText yNode = new PhetPText( getYText( line.y1 ), font, line.color );
             PText equalsNode = new PhetPText( "=", font, line.color );
             PText slopeSignNode = new PhetPText( slopeIsPositive ? "" : "-", font, line.color );
             PText riseNode = new PhetPText( String.valueOf( Math.abs( reducedRise ) ), font, line.color );
             PText runNode = new PhetPText( String.valueOf( Math.abs( reducedRun ) ), font, line.color );
             PPath lineNode = new PhetPPath( new Line2D.Double( 0, 0, Math.max( riseNode.getFullBoundsReference().getWidth(), runNode.getFullBoundsReference().getHeight() ), 0 ), new BasicStroke( 1f ), line.color );
-            PText xNode = new PhetPText( Strings.SYMBOL_X, font, line.color );
-            PText interceptSignNode = new PhetPText( line.yIntercept > 0 ? "+" : "-", font, line.color );
-            PText interceptNode = new PhetPText( String.valueOf( MathUtil.round( Math.abs( line.yIntercept ) ) ), font, line.color );
+            PText xNode = new PhetPText( getXText( line.x1 ), font, line.color );
 
             // rendering order
             addChild( yNode );
@@ -196,15 +161,11 @@ class PointSlopeEquationFactory extends EquationNodeFactory {
             addChild( lineNode );
             addChild( runNode );
             addChild( xNode );
-            if ( line.yIntercept != 0 ) {
-                addChild( interceptSignNode );
-                addChild( interceptNode );
-            }
 
             // layout
             final double yFudgeFactor = 2; // fudge factor to align fraction dividing line with the center of the equals sign, visually tweaked
             yNode.setOffset( 0, 0 );
-            equalsNode.setOffset( yNode.getFullBoundsReference().getWidth() + X_SPACING, yNode.getYOffset() );
+            equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + X_SPACING, yNode.getYOffset() );
             if ( !slopeIsPositive ) {
                 slopeSignNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + X_SPACING,
                                          equalsNode.getYOffset() - ( slopeSignNode.getFullBoundsReference().getHeight() / 2 ) + yFudgeFactor );
@@ -220,11 +181,27 @@ class PointSlopeEquationFactory extends EquationNodeFactory {
             runNode.setOffset( lineNode.getFullBoundsReference().getCenterX() - ( runNode.getFullBoundsReference().getWidth() / 2 ),
                                lineNode.getFullBoundsReference().getMaxY() + Y_SPACING );
             xNode.setOffset( lineNode.getFullBoundsReference().getMaxX() + X_SPACING,
-                             equalsNode.getYOffset() );
-            interceptSignNode.setOffset( xNode.getFullBoundsReference().getMaxX() + X_SPACING,
-                                         equalsNode.getYOffset() );
-            interceptNode.setOffset( interceptSignNode.getFullBoundsReference().getMaxX() + X_SPACING,
-                                     equalsNode.getYOffset() );
+                             yNode.getYOffset() );
+        }
+    }
+
+    // (x-x1)
+    private static String getXText( double x1 ) {
+        if ( x1 == 0 && !SHOW_ZEROS ) {
+            return MessageFormat.format( "{0}", Strings.SYMBOL_X );
+        }
+        else {
+            return MessageFormat.format( "({0}{1}{2})", Strings.SYMBOL_X, x1 < 0 ? "+" : "-", MathUtil.round( Math.abs( x1 ) ) );
+        }
+    }
+
+    // (y-y1)
+    private static String getYText( double y1 ) {
+        if ( y1 == 0 && !SHOW_ZEROS ) {
+            return MessageFormat.format( "{0}", Strings.SYMBOL_Y );
+        }
+        else {
+            return MessageFormat.format( "({0}{1}{2})", Strings.SYMBOL_Y, y1 < 0 ? "+" : "-", MathUtil.round( Math.abs( y1 ) ) );
         }
     }
 }
