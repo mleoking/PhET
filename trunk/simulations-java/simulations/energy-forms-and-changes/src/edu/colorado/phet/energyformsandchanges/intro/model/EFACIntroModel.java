@@ -84,7 +84,7 @@ public class EFACIntroModel {
         leftBurner = new Burner( clock, new ImmutableVector2D( 0.08, 0 ), energyChunksVisible );
 
         // Add and position the beaker.
-        beaker = new Beaker( new ImmutableVector2D( -0.015, 0 ), energyChunksVisible );
+        beaker = new Beaker( clock, new ImmutableVector2D( -0.015, 0 ), energyChunksVisible );
 
         // Add and position the blocks
         brick = new Brick( clock, new ImmutableVector2D( -0.1, 0 ), energyChunksVisible );
@@ -207,7 +207,7 @@ public class EFACIntroModel {
      * @param proposedPosition
      * @return
      */
-    public Point2D validatePosition( RectangularMovableModelElement modelElement, Point2D proposedPosition ) {
+    public Point2D validatePosition( RectangularThermalMovableModelElement modelElement, Point2D proposedPosition ) {
 
         ImmutableVector2D translation = new ImmutableVector2D( proposedPosition ).getSubtractedInstance( modelElement.position.get() );
 

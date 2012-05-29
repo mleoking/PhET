@@ -8,18 +8,13 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
-import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
-import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -28,22 +23,13 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author John Blanco
  */
-public abstract class Block extends RectangularMovableModelElement implements ThermalEnergyContainer {
+public abstract class Block extends RectangularThermalMovableModelElement {
 
     // Height and width of all block surfaces, since it is a cube.
     public static final double SURFACE_WIDTH = 0.045; // In meters
 
     private final Property<HorizontalSurface> topSurface = new Property<HorizontalSurface>( null );
     private final Property<HorizontalSurface> bottomSurface = new Property<HorizontalSurface>( null );
-
-    private final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
-    public final BooleanProperty energyChunksVisible;
-
-    private double energy = 0; // In Joules.
-
-    private final double specificHeat; // In J/kg-K
-    private final double initialThermalEnergy; // In Joules
-    private final double mass; // In kg
 
     /**
      * Constructor.
@@ -55,20 +41,7 @@ public abstract class Block extends RectangularMovableModelElement implements Th
      * @param energyChunksVisible
      */
     protected Block( ConstantDtClock clock, ImmutableVector2D initialPosition, double density, double specificHeat, BooleanProperty energyChunksVisible ) {
-        super( initialPosition );
-        this.specificHeat = specificHeat;
-        this.energyChunksVisible = energyChunksVisible;
-
-        mass = Math.pow( SURFACE_WIDTH, 3 ) * density;
-        initialThermalEnergy = mass * specificHeat * EFACConstants.ROOM_TEMPERATURE;
-        energy = initialThermalEnergy;
-
-        // Hook up to the clock for time dependent behavior.
-        clock.addClockListener( new ClockAdapter() {
-            @Override public void clockTicked( ClockEvent clockEvent ) {
-                stepInTime( clockEvent.getSimulationTimeChange() );
-            }
-        } );
+        super( clock, initialPosition, Math.pow( SURFACE_WIDTH, 3 ) * density, specificHeat, energyChunksVisible );
 
         // Update the top and bottom surfaces whenever the position changes.
         position.addObserver( new VoidFunction1<ImmutableVector2D>() {
@@ -77,19 +50,6 @@ public abstract class Block extends RectangularMovableModelElement implements Th
                 updateBottomSurfaceProperty();
             }
         } );
-
-        // Update positions of energy chunks when this moves.
-        position.addObserver( new ChangeObserver<ImmutableVector2D>() {
-            public void update( ImmutableVector2D newPosition, ImmutableVector2D oldPosition ) {
-                ImmutableVector2D movement = newPosition.getSubtractedInstance( oldPosition );
-                for ( EnergyChunk energyChunk : energyChunkList ) {
-                    energyChunk.position.set( energyChunk.position.get().getAddedInstance( movement ) );
-                }
-            }
-        } );
-
-        // Add the initial energy chunks.
-        addInitialEnergyChunks();
     }
 
     @Override public Dimension2D getSize() {
@@ -141,10 +101,7 @@ public abstract class Block extends RectangularMovableModelElement implements Th
         return bottomSurface;
     }
 
-    public void changeEnergy( double deltaEnergy ) {
-        energy += deltaEnergy;
-    }
-
+    // TODO: May be able to move this up to parent class.  Would be shared with beaker, though, so needs investigating.
     public void exchangeEnergyWith( ThermalEnergyContainer energyContainer, double dt ) {
         double thermalContactLength = getThermalContactArea().getThermalContactLength( energyContainer.getThermalContactArea() );
         if ( thermalContactLength > 0 && Math.abs( energyContainer.getTemperature() - getTemperature() ) > TEMPERATURES_EQUAL_THRESHOLD ) {
@@ -156,32 +113,8 @@ public abstract class Block extends RectangularMovableModelElement implements Th
         }
     }
 
-    public double getEnergy() {
-        return energy;
-    }
-
     public ThermalContactArea getThermalContactArea() {
         return new ThermalContactArea( getRect(), false );
-    }
-
-    public double getTemperature() {
-        return energy / ( mass * specificHeat );
-    }
-
-    @Override public void reset() {
-        super.reset();
-        energy = initialThermalEnergy;
-        addInitialEnergyChunks();
-    }
-
-    private void addInitialEnergyChunks() {
-        int targetNumChunks = calculateNeededNumEnergyChunks();
-        while ( targetNumChunks != energyChunkList.size() ) {
-            // Add a chunk at a random location in the block.
-            energyChunkList.add( new EnergyChunk( EnergyChunkDistributor.generateRandomLocation( getRect() ), energyChunksVisible ) );
-            System.out.println( "Added a chunk" );
-        }
-        EnergyChunkDistributor.distribute( getRect(), energyChunkList );
     }
 
     /**
@@ -196,10 +129,6 @@ public abstract class Block extends RectangularMovableModelElement implements Th
                                        position.get().getY(),
                                        SURFACE_WIDTH,
                                        SURFACE_WIDTH );
-    }
-
-    private void stepInTime( double dt ) {
-        // TODO: Update the positions of the energy chunks.
     }
 
     private void updateTopSurfaceProperty() {
@@ -220,30 +149,6 @@ public abstract class Block extends RectangularMovableModelElement implements Th
      */
     public static Shape getRawShape() {
         return new Rectangle2D.Double( -SURFACE_WIDTH / 2, 0, SURFACE_WIDTH, SURFACE_WIDTH );
-    }
-
-    public ObservableList<EnergyChunk> getEnergyChunkList() {
-        return energyChunkList;
-    }
-
-    public boolean needsEnergyChunk() {
-        return calculateNeededNumEnergyChunks() > energyChunkList.size();
-    }
-
-    public boolean hasExcessEnergyChunks() {
-        return calculateNeededNumEnergyChunks() < energyChunkList.size();
-    }
-
-    public void addEnergyChunk( EnergyChunk ec ) {
-        energyChunkList.add( ec );
-    }
-
-    public EnergyChunk removeEnergyChunk() {
-        return energyChunkList.remove( energyChunkList.size() - 1 );
-    }
-
-    private int calculateNeededNumEnergyChunks() {
-        return (int) Math.round( Math.max( energy - EFACConstants.MIN_ENERGY, 0 ) * EFACConstants.ENERGY_CHUNK_MULTIPLIER );
     }
 
     @Override public IUserComponentType getUserComponentType() {

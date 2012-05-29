@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
-import edu.colorado.phet.energyformsandchanges.intro.model.RectangularMovableModelElement;
+import edu.colorado.phet.energyformsandchanges.intro.model.RectangularThermalMovableModelElement;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -25,9 +25,9 @@ public class ThermalItemMotionConstraint implements Function1<Point2D, Point2D> 
 
     private final Rectangle2D modelBounds;
     private final EFACIntroModel model;
-    private final RectangularMovableModelElement modelElement;
+    private final RectangularThermalMovableModelElement modelElement;
 
-    public ThermalItemMotionConstraint( EFACIntroModel model, RectangularMovableModelElement modelElement, PNode node,
+    public ThermalItemMotionConstraint( EFACIntroModel model, RectangularThermalMovableModelElement modelElement, PNode node,
                                         ModelViewTransform mvt, ImmutableVector2D offsetPosToNodeCenter ) {
 
         this.model = model;
