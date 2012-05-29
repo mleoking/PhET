@@ -17,7 +17,7 @@ public class LeadBlock extends Block {
     private static final double DENSITY = 11300; // In kg/m^3, source = design document.
 
     protected LeadBlock( ImmutableVector2D initialPosition, BooleanProperty energyChunksVisible ) {
-        super( initialPosition, DENSITY, SPECIFIC_HEAT, energyChunksVisible );
+        super( clock, initialPosition, DENSITY, SPECIFIC_HEAT, energyChunksVisible );
     }
 
     @Override public Color getColor() {

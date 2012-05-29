@@ -8,6 +8,9 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -45,12 +48,13 @@ public abstract class Block extends RectangularMovableModelElement implements Th
     /**
      * Constructor.
      *
+     * @param clock
      * @param initialPosition
      * @param density             In kg/m^3
      * @param specificHeat        in J/kg-K
      * @param energyChunksVisible
      */
-    protected Block( ImmutableVector2D initialPosition, double density, double specificHeat, BooleanProperty energyChunksVisible ) {
+    protected Block( ConstantDtClock clock, ImmutableVector2D initialPosition, double density, double specificHeat, BooleanProperty energyChunksVisible ) {
         super( initialPosition );
         this.specificHeat = specificHeat;
         this.energyChunksVisible = energyChunksVisible;
@@ -58,6 +62,13 @@ public abstract class Block extends RectangularMovableModelElement implements Th
         mass = Math.pow( SURFACE_WIDTH, 3 ) * density;
         initialThermalEnergy = mass * specificHeat * EFACConstants.ROOM_TEMPERATURE;
         energy = initialThermalEnergy;
+
+        // Hook up to the clock for time dependent behavior.
+        clock.addClockListener( new ClockAdapter() {
+            @Override public void clockTicked( ClockEvent clockEvent ) {
+                stepInTime( clockEvent.getSimulationTimeChange() );
+            }
+        } );
 
         // Update the top and bottom surfaces whenever the position changes.
         position.addObserver( new VoidFunction1<ImmutableVector2D>() {
@@ -185,6 +196,10 @@ public abstract class Block extends RectangularMovableModelElement implements Th
                                        position.get().getY(),
                                        SURFACE_WIDTH,
                                        SURFACE_WIDTH );
+    }
+
+    private void stepInTime( double dt ) {
+        // TODO: Update the positions of the energy chunks.
     }
 
     private void updateTopSurfaceProperty() {
