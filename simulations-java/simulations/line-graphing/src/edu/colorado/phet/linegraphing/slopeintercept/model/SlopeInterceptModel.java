@@ -77,10 +77,9 @@ public class SlopeInterceptModel implements Resettable {
         pointTool1 = new PointTool( new ImmutableVector2D( X_RANGE.getMax() + 2.75, Y_RANGE.getMin() - 2 ), interactiveLine, savedLines, standardLines );
         pointTool2 = new PointTool( pointTool1.location.get(), interactiveLine, savedLines, standardLines );
 
-        // Dynamically set the rise and intercept ranges so that rise + intercept is constrained to the bounds of the graph
+        // Dynamically set ranges so that variables are constrained to the bounds of the graph, and slope is not 0/0.
         interactiveLine.addObserver( new VoidFunction1<StraightLine>() {
             public void apply( StraightLine line ) {
-                // Constrain to prevent slope=0/0
                 final double minRise = ( line.run == 0 && line.yIntercept == graph.yRange.getMin() ) ? 1 : graph.yRange.getMin() - line.yIntercept;
                 final double maxRise = ( line.run == 0 && line.yIntercept == graph.yRange.getMax() ) ? -1 : graph.yRange.getMax() - line.yIntercept;
                 riseRange.set( new DoubleRange( minRise, maxRise ) );
