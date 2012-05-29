@@ -8,7 +8,6 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
-import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
@@ -70,17 +69,6 @@ public class Beaker extends RectangularThermalMovableModelElement {
         position.addObserver( new VoidFunction1<ImmutableVector2D>() {
             public void apply( final ImmutableVector2D immutableVector2D ) {
                 updateSurfaces();
-            }
-        } );
-
-        // TODO: This may be able to move up class hierarchy (I think).
-        // Update positions of energy chunks when this moves.
-        position.addObserver( new ChangeObserver<ImmutableVector2D>() {
-            public void update( ImmutableVector2D newPosition, ImmutableVector2D oldPosition ) {
-                ImmutableVector2D movement = newPosition.getSubtractedInstance( oldPosition );
-                for ( EnergyChunk energyChunk : energyChunkList ) {
-                    energyChunk.position.set( energyChunk.position.get().getAddedInstance( movement ) );
-                }
             }
         } );
     }
