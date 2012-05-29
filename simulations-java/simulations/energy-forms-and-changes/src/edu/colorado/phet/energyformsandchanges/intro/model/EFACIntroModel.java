@@ -80,8 +80,8 @@ public class EFACIntroModel {
         } );
 
         // Add the burners.
-        rightBurner = new Burner( new ImmutableVector2D( 0.18, 0 ), energyChunksVisible );
-        leftBurner = new Burner( new ImmutableVector2D( 0.08, 0 ), energyChunksVisible );
+        rightBurner = new Burner( clock, new ImmutableVector2D( 0.18, 0 ), energyChunksVisible );
+        leftBurner = new Burner( clock, new ImmutableVector2D( 0.08, 0 ), energyChunksVisible );
 
         // Add and position the beaker.
         beaker = new Beaker( new ImmutableVector2D( -0.015, 0 ), energyChunksVisible );
@@ -169,11 +169,6 @@ public class EFACIntroModel {
         // Update the fluid level in the beaker, which could be displaced by
         // one or more of the blocks.
         beaker.updateFluidLevel( Arrays.asList( brick.getRect(), ironBlock.getRect() ) );
-
-        // Update the energy in the burners based on the amount that they are
-        // internally producing or consuming.
-        leftBurner.updateInternallyProducedEnergy( dt );
-        rightBurner.updateInternallyProducedEnergy( dt );
 
         // Update the temperature seen by the thermometers.
         for ( Thermometer thermometer : Arrays.asList( thermometer1, thermometer2 ) ) {
