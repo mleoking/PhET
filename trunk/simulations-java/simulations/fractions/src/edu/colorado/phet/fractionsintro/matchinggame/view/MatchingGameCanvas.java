@@ -170,7 +170,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
             }, model.state );
 
             //Time it takes to max out the bar graph bars.
-            final double MAX_BAR_GRAPH_ANIMATION_TIME = 0.6;
+            final double MAX_BAR_GRAPH_ANIMATION_TIME = 0.3;
             addChild( new UpdateNode( new Effect<PNode>() {
                 @Override public void e( final PNode parent ) {
                     final double scale = Math.min( barGraphAnimationTime.get() / MAX_BAR_GRAPH_ANIMATION_TIME, 1.0 );
