@@ -100,63 +100,29 @@ public class Levels {
                                      } );
     }
 
-    final RepresentationType horizontalBars4 = createPatterns( "horizontal bars", 4, 100, new F<Integer, Pattern>() {
-        @Override public Pattern f( final Integer integer ) {
-            return Pattern.horizontalBars( 4 );
-        }
-    }, SEQUENTIAL );
-    final RepresentationType horizontalBars3 = createPatterns( "horizontal bars", 3, 100, new F<Integer, Pattern>() {
-        @Override public Pattern f( final Integer integer ) {
-            return Pattern.horizontalBars( 3 );
-        }
-    }, SEQUENTIAL );
-    final RepresentationType horizontalBars2 = createPatterns( "horizontal bars", 2, 100, new F<Integer, Pattern>() {
-        @Override public Pattern f( final Integer integer ) {
-            return Pattern.horizontalBars( 2 );
-        }
-    }, SEQUENTIAL );
-    final RepresentationType horizontalBars1 = createPatterns( "horizontal bars", 1, 100, new F<Integer, Pattern>() {
-        @Override public Pattern f( final Integer integer ) {
-            return Pattern.horizontalBars( 1 );
-        }
-    }, SEQUENTIAL );
+    public RepresentationType horizontalBars( final int numberBars, F2<Pattern, Integer, FilledPattern> fill ) {
+        return createPatterns( "horizontal bars", numberBars, 100, new F<Integer, Pattern>() {
+            @Override public Pattern f( final Integer integer ) {
+                return Pattern.horizontalBars( numberBars );
+            }
+        }, fill );
+    }
 
-    final RepresentationType verticalBars4 = createPatterns( "vertical bars", 4, 100, new F<Integer, Pattern>() {
-        @Override public Pattern f( final Integer integer ) {
-            return Pattern.verticalBars( 4 );
-        }
-    }, SEQUENTIAL );
-    final RepresentationType verticalBars3 = createPatterns( "vertical bars", 3, 100, new F<Integer, Pattern>() {
-        @Override public Pattern f( final Integer integer ) {
-            return Pattern.verticalBars( 3 );
-        }
-    }, SEQUENTIAL );
-    final RepresentationType verticalBars2 = createPatterns( "vertical bars", 2, 100, new F<Integer, Pattern>() {
-        @Override public Pattern f( final Integer integer ) {
-            return Pattern.verticalBars( 2 );
-        }
-    }, SEQUENTIAL );
+    public RepresentationType verticalBars( final int numberBars, F2<Pattern, Integer, FilledPattern> fill ) {
+        return createPatterns( "vertical bars", numberBars, 100, new F<Integer, Pattern>() {
+            @Override public Pattern f( final Integer integer ) {
+                return Pattern.verticalBars( numberBars );
+            }
+        }, fill );
+    }
 
-    final RepresentationType pies4 = createPatterns( "pies", 4, 100, new F<Integer, Pattern>() {
-        @Override public Pattern f( final Integer integer ) {
-            return Pattern.pie( 4 );
-        }
-    }, SEQUENTIAL );
-    final RepresentationType pies3 = createPatterns( "pies", 3, 100, new F<Integer, Pattern>() {
-        @Override public Pattern f( final Integer integer ) {
-            return Pattern.pie( 3 );
-        }
-    }, SEQUENTIAL );
-    final RepresentationType pies2 = createPatterns( "pies", 2, 100, new F<Integer, Pattern>() {
-        @Override public Pattern f( final Integer integer ) {
-            return Pattern.pie( 2 );
-        }
-    }, SEQUENTIAL );
-    final RepresentationType pies1 = createPatterns( "pies", 1, 100, new F<Integer, Pattern>() {
-        @Override public Pattern f( final Integer integer ) {
-            return Pattern.pie( 1 );
-        }
-    }, SEQUENTIAL );
+    public RepresentationType pies( final int numPies, F2<Pattern, Integer, FilledPattern> fill ) {
+        return createPatterns( "pies", numPies, 100, new F<Integer, Pattern>() {
+            @Override public Pattern f( final Integer integer ) {
+                return Pattern.pie( numPies );
+            }
+        }, fill );
+    }
 
     public RepresentationType polygon( final int numSides, F2<Pattern, Integer, FilledPattern> fill ) {
         return createPatterns( numSides + " polygon", numSides, 80, new F<Integer, Pattern>() {
@@ -286,18 +252,27 @@ public class Levels {
     public static Levels Levels = new Levels();
 
     @SuppressWarnings("unchecked")
-    final List<RepresentationType> easyRepresentations = list( numeric, horizontalBars1, horizontalBars2, horizontalBars3, horizontalBars4, verticalBars2, verticalBars3, verticalBars4, pies1, pies2, pies3, pies4 );
+    final List<RepresentationType> easyRepresentations = list( numeric,
+                                                               horizontalBars( 1, SEQUENTIAL ), horizontalBars( 2, SEQUENTIAL ), horizontalBars( 3, SEQUENTIAL ), horizontalBars( 4, SEQUENTIAL ),
+                                                               verticalBars( 1, SEQUENTIAL ), verticalBars( 2, SEQUENTIAL ), verticalBars( 3, SEQUENTIAL ), verticalBars( 4, SEQUENTIAL ),
+                                                               pies( 1, SEQUENTIAL ), pies( 2, SEQUENTIAL ), pies( 3, SEQUENTIAL ), pies( 4, SEQUENTIAL ) );
     final List<RepresentationType> mediumRepresentationsSequential = list( makePlusses( 2, SEQUENTIAL ), makePlusses( 3, SEQUENTIAL ), makePlusses( 4, SEQUENTIAL ), makePlusses( 5, SEQUENTIAL ), makePlusses( 6, SEQUENTIAL ),
                                                                            fourGridSEQUENTIAL, nineGridSEQUENTIAL, onePyramidSEQUENTIAL, fourPyramidSEQUENTIAL, ninePyramidSEQUENTIAL,
                                                                            polygon( 4, SEQUENTIAL ), polygon( 5, SEQUENTIAL ), polygon( 6, SEQUENTIAL ), polygon( 7, SEQUENTIAL ), polygon( 8, SEQUENTIAL ),
                                                                            tetrisPiece( SEQUENTIAL ), elShapedPairs( 2, SEQUENTIAL ), elShapedPairs( 3, SEQUENTIAL ),
-                                                                           sixFlowerSEQUENTIAL, interleavedLShapeSEQUENTIAL
+                                                                           sixFlowerSEQUENTIAL, interleavedLShapeSEQUENTIAL,
+                                                                           horizontalBars( 5, SEQUENTIAL ), horizontalBars( 6, SEQUENTIAL ), horizontalBars( 7, SEQUENTIAL ), horizontalBars( 8, SEQUENTIAL ),
+                                                                           verticalBars( 5, SEQUENTIAL ), verticalBars( 6, SEQUENTIAL ), verticalBars( 7, SEQUENTIAL ), verticalBars( 8, SEQUENTIAL ),
+                                                                           pies( 5, SEQUENTIAL ), pies( 6, SEQUENTIAL ), pies( 7, SEQUENTIAL ), pies( 8, SEQUENTIAL )
     );
     final List<RepresentationType> mediumRepresentationsRandom = list( makePlusses( 2, RANDOM() ), makePlusses( 3, RANDOM() ), makePlusses( 4, RANDOM() ), makePlusses( 5, RANDOM() ), makePlusses( 6, RANDOM() ),
                                                                        fourGridRANDOM, nineGridRANDOM, onePyramidRANDOM, fourPyramidRANDOM, ninePyramidRANDOM,
                                                                        polygon( 4, RANDOM() ), polygon( 5, RANDOM() ), polygon( 6, RANDOM() ), polygon( 7, RANDOM() ), polygon( 8, RANDOM() ),
                                                                        tetrisPiece( RANDOM() ), elShapedPairs( 2, RANDOM() ), elShapedPairs( 3, RANDOM() ),
-                                                                       sixFlowerRANDOM, interleavedLShapeRANDOM
+                                                                       sixFlowerRANDOM, interleavedLShapeRANDOM,
+                                                                       horizontalBars( 5, RANDOM() ), horizontalBars( 6, RANDOM() ), horizontalBars( 7, RANDOM() ), horizontalBars( 8, RANDOM() ),
+                                                                       verticalBars( 5, RANDOM() ), verticalBars( 6, RANDOM() ), verticalBars( 7, RANDOM() ), verticalBars( 8, RANDOM() ),
+                                                                       pies( 5, RANDOM() ), pies( 6, RANDOM() ), pies( 7, RANDOM() ), pies( 8, RANDOM() )
     );
     final List<RepresentationType> easyScaledNumeric = list( scaledNumeric( 2 ), scaledNumeric( 3 ) );
     final List<RepresentationType> difficultScaledNumeric = list( scaledNumeric( 4 ), scaledNumeric( 5 ) );

@@ -1,3 +1,4 @@
+Matching game tab: Added random fill for pies and horizontal/vertical slices
 Matching game tab: Fixed buggy outline for triangles
 Matching game tab: Fixed buggy outline for circles
 Matching game tab: Made outline stroke thicker than slice stroke
