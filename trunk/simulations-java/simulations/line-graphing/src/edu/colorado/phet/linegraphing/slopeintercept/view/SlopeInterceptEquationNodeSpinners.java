@@ -2,8 +2,14 @@
 package edu.colorado.phet.linegraphing.slopeintercept.view;
 
 import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.geom.Line2D;
 import java.text.NumberFormat;
+
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
@@ -11,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
@@ -19,6 +26,7 @@ import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode.InterceptSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode.RiseSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode.RunSpinnerNode;
+import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -106,7 +114,6 @@ class SlopeInterceptEquationNodeSpinners extends PhetPNode {
         RichSimpleObserver lineUpdater = new RichSimpleObserver() {
             @Override public void update() {
                 interactiveLine.set( new StraightLine( rise.get(), run.get(), intercept.get(), interactiveLine.get().color, interactiveLine.get().highlightColor ) );
-                interceptSignNode.setText( intercept.get() >= 0 ? "+" : "-" );
             }
         };
         lineUpdater.observe( rise, run, intercept );
@@ -114,10 +121,39 @@ class SlopeInterceptEquationNodeSpinners extends PhetPNode {
         // sync the controls with the model
         interactiveLine.addObserver( new VoidFunction1<StraightLine>() {
             public void apply( StraightLine line ) {
+
+                // values
                 rise.set( line.rise );
                 run.set( line.run );
                 intercept.set( line.yIntercept );
+
+                // signs
+                interceptSignNode.setText( intercept.get() >= 0 ? "+" : "-" );
             }
         } );
+    }
+
+    // test
+    public static void main( String[] args ) {
+
+        // model
+        SlopeInterceptModel model = new SlopeInterceptModel();
+
+        // equation
+        SlopeInterceptEquationNodeSpinners equationNode =
+                new SlopeInterceptEquationNodeSpinners( model.interactiveLine, model.riseRange, model.runRange, model.interceptRange, new PhetFont( Font.BOLD, 38 ) );
+        equationNode.setOffset( 100, 100 );
+
+        // canvas
+        PhetPCanvas canvas = new PhetPCanvas();
+        canvas.setPreferredSize( new Dimension( 600, 400 ) );
+        canvas.getLayer().addChild( equationNode );
+
+        // frame
+        JFrame frame = new JFrame();
+        frame.setContentPane( canvas );
+        frame.pack();
+        frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+        frame.setVisible( true );
     }
 }
