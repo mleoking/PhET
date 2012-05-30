@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--collision-lab-strings_hu.xml created Sun May 01 18:47:54 CEST 2011 using: collision-lab 0.01.00 (45337), translation-utility 2.10.00 (48775) Feb 9, 2011-->
+<SimStrings>
+<string key="ControlPanel.reflectingBorder" value="Mandinerrel"/>
+<string key="MomentumView.tipToTail" value="Hegyét a végéhez"/>
+<string key="PlayPauseButtons.pause" value=" "/>
+<string key="PlayPauseButtons.rewind" value=" "/>
+<string key="PlayPauseButtons.step" value=" "/>
+<string key="MomentumView.total" value="összeg"/>
+<string key="simTitle" value="Ütközések (légkorong)"/>
+<string key="ControlPanel.momentaDiagram" value="Impulzusgrafikon"/>
+<string key="DataTable.mass" value="tömeg"/>
+<string key="DataTable.lessData" value="Kevesebbet"/>
+<string key="DataTable.removeBall" value="-1 korong"/>
+<string key="ControlPanel.1d" value="1 D"/>
+<string key="DataTable.moreData" value="Több adatot"/>
+<string key="DataTable.ball" value="korong"/>
+<string key="ControlPanel.showMomentumVectors" value="Impulzusvektorok"/>
+<string key="TableView.kineticEnergy" value="Mozgási energia = {0} J"/>
+<string key="MomentumView.momenta" value="Impulzusok"/>
+<string key="ControlPanel.showPaths" value="Nyomvonalat mutat"/>
+<string key="TableView.timeRate" value="Időmúlás"/>
+<string key="DataTable.addBall" value="+1 korong"/>
+<string key="ControlPanel.elasticity" value="Rugalmasság"/>
+<string key="PlayPauseButtons.back" value=" "/>
+<string key="ControlPanel.2d" value="2 D"/>
+<string key="ControlPanel.showVelocities" value="Sebességvektorok"/>
+<string key="ControlPanel.sound" value="Hang"/>
+<string key="ControlPanel.resetAll" value="Előről"/>
+<string key="PlayPauseButtons.play" value=" "/>
+<string key="translation.credits" value="&lt;html&gt;&lt;a href=&quot;http://nasa.web.elte.hu/defhu.htm&quot;&gt;Nagy Sándor&lt;/a&gt;&lt;br&gt;ELTE, &lt;a href=&quot;http://www.chem.elte.hu/pr/&quot;&gt;Kémiai Intézet&lt;/a&gt;, Budapest&lt;/html&gt;"/>
+<string key="TableView.time" value="Idő = {0} s"/>
+<string key="ControlPanel.showCenterOfMass" value="Tömegközéppont"/>
+</SimStrings>
