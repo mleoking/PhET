@@ -101,33 +101,6 @@ public abstract class Block extends RectangularThermalMovableModelElement {
         return bottomSurface;
     }
 
-    // TODO: May be able to move this up to parent class.  Would be shared with beaker, though, so needs investigating.
-    public void exchangeEnergyWith( ThermalEnergyContainer otherEnergyContainer, double dt ) {
-        double thermalContactLength = getThermalContactArea().getThermalContactLength( otherEnergyContainer.getThermalContactArea() );
-        if ( thermalContactLength > 0 ) {
-
-            if ( Math.abs( otherEnergyContainer.getTemperature() - getTemperature() ) > TEMPERATURES_EQUAL_THRESHOLD ) {
-                // Exchange energy between the this and the other energy container.
-                // TODO: The following is a first attempt and likely to need much adjustment.  Transfer constant was empirically chosen
-                double thermalEnergyGained = ( otherEnergyContainer.getTemperature() - getTemperature() ) * thermalContactLength * 1000 * dt;
-                changeEnergy( thermalEnergyGained );
-                otherEnergyContainer.changeEnergy( -thermalEnergyGained );
-            }
-
-            // Exchange energy chunks.
-            if ( otherEnergyContainer.needsEnergyChunk() && hasExcessEnergyChunks() ) {
-                // The other energy container needs an energy chunk, and this
-                // container has excess, so transfer one.
-                otherEnergyContainer.addEnergyChunk( removeEnergyChunk() );
-            }
-            else if ( otherEnergyContainer.hasExcessEnergyChunks() && needsEnergyChunk() ) {
-                // This energy container needs a chunk, and the other has
-                // excess, so take one.
-                energyChunkList.add( otherEnergyContainer.removeEnergyChunk() );
-            }
-        }
-    }
-
     public ThermalContactArea getThermalContactArea() {
         return new ThermalContactArea( getRect(), false );
     }
