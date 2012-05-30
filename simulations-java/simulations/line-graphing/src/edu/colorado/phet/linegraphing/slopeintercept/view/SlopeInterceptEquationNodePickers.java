@@ -27,6 +27,7 @@ import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.colorado.phet.linegraphing.common.view.NumberPickerNode.InterceptPickerNode;
 import edu.colorado.phet.linegraphing.common.view.NumberPickerNode.SlopePickerNode;
+import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -149,14 +150,12 @@ class SlopeInterceptEquationNodePickers extends PhetPNode {
     // test
     public static void main( String[] args ) {
 
-        // properties
-        Property<StraightLine> interactiveLine = new Property<StraightLine>( new StraightLine( 1, 1, 1, Color.RED, Color.RED ) );
-        Property<DoubleRange> riseRange = new Property<DoubleRange>( new DoubleRange( -10, 10 ) );
-        Property<DoubleRange> runRange = new Property<DoubleRange>( new DoubleRange( -10, 10 ) );
-        Property<DoubleRange> interceptRange = new Property<DoubleRange>( new DoubleRange( -10, 10 ) );
+        // model
+        SlopeInterceptModel model = new SlopeInterceptModel();
 
         // equation
-        SlopeInterceptEquationNodePickers equationNode = new SlopeInterceptEquationNodePickers( interactiveLine,riseRange,runRange,interceptRange, new PhetFont( Font.BOLD, 38 ));
+        SlopeInterceptEquationNodePickers equationNode =
+                new SlopeInterceptEquationNodePickers( model.interactiveLine, model.riseRange, model.runRange, model.interceptRange, new PhetFont( Font.BOLD, 38 ));
         equationNode.setOffset( 100, 100 );
 
         // canvas
