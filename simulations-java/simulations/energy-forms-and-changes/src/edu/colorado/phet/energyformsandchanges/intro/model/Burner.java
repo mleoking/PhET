@@ -10,10 +10,10 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 
 /**
@@ -91,9 +91,9 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
 
         // Watch our own heat/cool level and set the energy back to the nominal
         // amount when no heating or cooling is in progress.
-        heatCoolLevel.addObserver( new VoidFunction1<Double>() {
-            public void apply( Double heatCoolAmount ) {
-                if ( heatCoolAmount == 0 ) {
+        heatCoolLevel.addObserver( new ChangeObserver<Double>() {
+            public void update( Double newValue, Double oldValue ) {
+                if ( newValue == 0 || ( Math.signum( newValue ) != Math.signum( oldValue ) ) ) {
                     energy = INITIAL_ENERGY;
                 }
             }
