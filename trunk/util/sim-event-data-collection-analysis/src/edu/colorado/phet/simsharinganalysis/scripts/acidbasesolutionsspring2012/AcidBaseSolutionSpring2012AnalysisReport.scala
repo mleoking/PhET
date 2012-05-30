@@ -156,7 +156,7 @@ object AcidBaseSolutionSpring2012AnalysisReport {
       ( entries.length > 0 ).toString + "\t" + ( if ( entries.length > 0 ) entries.map(entry => toMinutes(entry.time - clicks.head.time)).mkString("\t") else "" )
     }
 
-    val timesUsedStrongOrWeakBaseRadioButton = log.entries.filter(entry => entry.messageType == "user" && ( entry.component == "strongBaseRadioButton" || entry.component == "weakBaseRadioButton" ))
+    val timesUsedStrongOrWeakBaseRadioButton = log.entries.filter(entry => entry.messageType == "user" && ( entry.component == "strongBaseRadioButton" || entry.component == "weakBaseRadioButton" || entry.component == "baseRadioButton" ))
     writeLine("Select base:  \t" + indicator(timesUsedStrongOrWeakBaseRadioButton))
     writeLine("Show solvent:  \t" + indicator(log.userEntries.filter(_.component == "showSolventCheckBox")))
     writeLine("Dunk phMeter:  \t" + indicator(log.filter(_.component == "phMeter").filter(_.hasParameter("isInSolution", "true")).filter(_.action == "drag")))
