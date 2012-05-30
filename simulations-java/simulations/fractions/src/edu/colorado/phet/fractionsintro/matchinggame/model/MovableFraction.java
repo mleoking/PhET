@@ -54,20 +54,21 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.Stilln
     private static int count;
 
     public final Color color;
+    public final String representationName;
 
     public MovableFraction translate( double dx, double dy ) { return position( position.plus( dx, dy ) ); }
 
     public MovableFraction translate( Vector2D v ) { return translate( v.getX(), v.getY() ); }
 
-    public MovableFraction dragging( boolean dragging ) { return new MovableFraction( id, position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent, color );}
+    public MovableFraction dragging( boolean dragging ) { return new MovableFraction( id, position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent, color, representationName );}
 
-    public MovableFraction position( Vector2D position ) { return new MovableFraction( id, position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent, color );}
+    public MovableFraction position( Vector2D position ) { return new MovableFraction( id, position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent, color, representationName );}
 
-    public MovableFraction scale( double scale ) { return new MovableFraction( id, position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent, color );}
+    public MovableFraction scale( double scale ) { return new MovableFraction( id, position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent, color, representationName );}
 
-    public MovableFraction motion( F<UpdateArgs, MovableFraction> motion ) { return new MovableFraction( id, position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent, color );}
+    public MovableFraction motion( F<UpdateArgs, MovableFraction> motion ) { return new MovableFraction( id, position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent, color, representationName );}
 
-    public MovableFraction scored( boolean scored ) { return new MovableFraction( id, position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent, color );}
+    public MovableFraction scored( boolean scored ) { return new MovableFraction( id, position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent, color, representationName );}
 
     public Fraction fraction() { return new Fraction( numerator, denominator );}
 
