@@ -27,7 +27,7 @@ public class PatternNode extends PNode implements IColor {
         }
     }
 
-    @Override public Color getColor() {
+    public Color getColor() {
         return color;
     }
 }
