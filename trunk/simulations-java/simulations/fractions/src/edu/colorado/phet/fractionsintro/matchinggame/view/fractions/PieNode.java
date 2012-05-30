@@ -3,7 +3,6 @@ package edu.colorado.phet.fractionsintro.matchinggame.view.fractions;
 
 import java.awt.Color;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractionsintro.intro.model.containerset.ContainerSet;
 import edu.umd.cs.piccolo.PNode;
@@ -16,10 +15,10 @@ import edu.umd.cs.piccolo.PNode;
 public class PieNode extends PNode implements IColor {
     private final Color color;
 
-    public PieNode( Property<ContainerSet> containerSet, Color color ) {
+    public PieNode( ContainerSet containerSet, Color color ) {
         this.color = color;
 
-        PieSetFractionNode pieSetFractionNode = new PieSetFractionNode( containerSet, new Property<Boolean>( true ), color );
+        PieSetFractionNode pieSetFractionNode = new PieSetFractionNode( containerSet, color );
         addChild( new ZeroOffsetNode( pieSetFractionNode ) );
 
         scale( 0.5 );
