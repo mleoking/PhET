@@ -1,3 +1,4 @@
+Made number toolbox light gray
 Removed fraction skeleton from toolbox, moved to play area
 # 0.00.71 (64503) May 30, 2012
 Matching game tab: Improved performance/smoothness for bar animation and fly back animation

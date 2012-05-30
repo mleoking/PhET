@@ -74,6 +74,9 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
     private final RichPNode numbersContainerLayer;
     private final BuildAFractionModel model;
 
+    private static final int rgb = 240;
+    private static final Color CONTROL_PANEL_BACKGROUND = new Color( rgb, rgb, rgb );
+
     public BuildAFractionCanvas( final BuildAFractionModel model ) {
         this.model = model;
         setBackground( Color.white );
@@ -118,7 +121,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
 
             ////Add a piece container toolbox the user can use to get containers
             addChild( new RichPNode() {{
-                final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 700, 125, 30, 30 ), controlPanelStroke, Color.darkGray );
+                final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 700, 125, 30, 30 ), CONTROL_PANEL_BACKGROUND, controlPanelStroke, Color.darkGray );
                 addChild( border );
                 final F<Integer, PNode> toBar = new F<Integer, PNode>() {
                     @Override public PNode f( final Integer i ) {
@@ -192,7 +195,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
 
             //Add a piece container toolbox the user can use to get containers
             addChild( new RichPNode() {{
-                final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 700, 160, 30, 30 ), controlPanelStroke, Color.darkGray );
+                final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 700, 160, 30, 30 ), CONTROL_PANEL_BACKGROUND, controlPanelStroke, Color.darkGray );
                 addChild( border );
                 final double spacing = 60;
                 final F<Integer, PNode> toNumberTool = new F<Integer, PNode>() {
