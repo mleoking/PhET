@@ -6,10 +6,11 @@ DESIGN
 - controls for interactive equation (spinners, pickers, ...)
 
 HIGH
-- Point-Slope: interactive equation and control panel
+- Point-Slope: reduced form equation of saved lines is incorrect
 - duplication: SlopeInterceptDragHandler, PointSlopeDragHandler
 - duplication: SlopeInterceptCanvas, PointSlopeCanvas
 - duplication: SlopeInterceptModel, PointSlopeModel
+- duplication: SlopeInterceptEquationControls, PointSlopeEquationControls
 
 MEDIUM
 - better handling and testing of adjustment to avoid slope=0/0
