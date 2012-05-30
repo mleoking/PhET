@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 
 /**
@@ -39,7 +40,7 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     private static final double ENERGY_TRANSFER_AREA_HEIGHT = ENERGY_TRANSFER_AREA_WIDTH;
     private static final double DENSITY = 11300; // In kg/m^3  TODO: Not sure what to use for this.
     private static final double MASS = ENERGY_TRANSFER_AREA_WIDTH * ENERGY_TRANSFER_AREA_WIDTH * ENERGY_TRANSFER_AREA_HEIGHT * DENSITY;
-    private static final double SPECIFIC_HEAT = 129; // In J/kg-K
+    private static final double SPECIFIC_HEAT = 10; // In J/kg-K
     private static final double INITIAL_ENERGY = MASS * SPECIFIC_HEAT * EFACConstants.ROOM_TEMPERATURE;
 
     // Random number generator, used for initial positions of energy chunks.
@@ -57,14 +58,11 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     // Property that is used to control the amount of heating or cooling that
     // is being done.
     public final Property<Double> heatCoolLevel = new Property<Double>( 0.0 );
+
     private Property<HorizontalSurface> topSurface;
-
     private double energy = INITIAL_ENERGY;
-
     private final BooleanProperty energyChunksVisible;
-
     private final ConstantDtClock clock;
-
     private final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
 
     //-------------------------------------------------------------------------
@@ -83,9 +81,21 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
         this.position = new ImmutableVector2D( position );
         this.energyChunksVisible = energyChunksVisible;
         topSurface = new Property<HorizontalSurface>( new HorizontalSurface( new DoubleRange( getOutlineRect().getMinX(), getOutlineRect().getMaxX() ), getOutlineRect().getMaxY(), this ) );
+
+        // Listen to the clock in order to implement time-dependent behavior.
         clock.addClockListener( new ClockAdapter() {
             @Override public void clockTicked( ClockEvent clockEvent ) {
                 stepInTime( clockEvent.getSimulationTimeChange() );
+            }
+        } );
+
+        // Watch our own heat/cool level and set the energy back to the nominal
+        // amount when no heating or cooling is in progress.
+        heatCoolLevel.addObserver( new VoidFunction1<Double>() {
+            public void apply( Double heatCoolAmount ) {
+                if ( heatCoolAmount == 0 ) {
+                    energy = INITIAL_ENERGY;
+                }
             }
         } );
     }
@@ -126,7 +136,7 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     public void exchangeEnergyWith( ThermalEnergyContainer otherEnergyContainer, double dt ) {
         double thermalContactLength = getThermalContactArea().getThermalContactLength( otherEnergyContainer.getThermalContactArea() );
 
-        if ( thermalContactLength > 0 ) {
+        if ( heatCoolLevel.get() != 0 && thermalContactLength > 0 ) {
 
             // The burner is in contact with this item.  Exchange energy.
             if ( Math.abs( otherEnergyContainer.getTemperature() - getTemperature() ) > TEMPERATURES_EQUAL_THRESHOLD ) {
@@ -137,7 +147,7 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
                 otherEnergyContainer.changeEnergy( -thermalEnergyGained );
             }
 
-            // See if the other element needs energy chunks.
+            // Exchange energy chunks.
             if ( otherEnergyContainer.needsEnergyChunk() ) {
                 // The other energy container needs an energy chunk, so create
                 // one for it.  It is the other container's responsibility to
