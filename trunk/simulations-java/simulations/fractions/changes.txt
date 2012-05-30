@@ -1,3 +1,4 @@
+Matching game tab: Make sure not all representations are numeric
 # 0.00.70 (64490) May 30, 2012
 Matching game tab: Added random fill for pies and horizontal/vertical slices
 Matching game tab: Fixed buggy outline for triangles

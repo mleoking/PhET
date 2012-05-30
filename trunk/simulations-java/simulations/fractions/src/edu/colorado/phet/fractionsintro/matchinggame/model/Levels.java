@@ -312,7 +312,7 @@ public class Levels {
         RepresentationType representationSetA = representations.get( random.nextInt( representations.size() ) );
         final Cell cellA = cells.get( random.nextInt( cells.size() ) );
         final F<Fraction, PNode> representationA = representationSetA.chooseOne();
-        MovableFraction fractionA = fraction( fraction, cellA, representationA, createUserComponent( fraction, representationSetA ) );
+        MovableFraction fractionA = fraction( fraction, cellA, representationA, createUserComponent( fraction, representationSetA ), representationSetA.name );
 
         //Don't use the same representation for the 2nd one, and put it in a new cell
         while ( representations.contains( representationSetA ) ) {
@@ -323,7 +323,7 @@ public class Levels {
         final Cell cellB = cells.get( random.nextInt( cells.size() ) );
         RepresentationType representationSetB = representations.get( random.nextInt( representations.size() ) );
         final F<Fraction, PNode> representationB = representationSetB.chooseOne();
-        MovableFraction fractionB = fraction( fraction, cellB, representationB, createUserComponent( fraction, representationSetB ) );
+        MovableFraction fractionB = fraction( fraction, cellB, representationB, createUserComponent( fraction, representationSetB ), representationSetB.name );
 
         cells.remove( cellB );
 
@@ -334,12 +334,12 @@ public class Levels {
         return chain( chain( matchingGameFraction, fraction.numerator + "/" + fraction.denominator ), representationType.name );
     }
 
-    private static MovableFraction fraction( Fraction fraction, Cell cell, final F<Fraction, PNode> node, IUserComponent userComponent ) {
-        return fraction( fraction.numerator, fraction.denominator, cell, node, userComponent );
+    private static MovableFraction fraction( Fraction fraction, Cell cell, final F<Fraction, PNode> node, IUserComponent userComponent, String representationName ) {
+        return fraction( fraction.numerator, fraction.denominator, cell, node, userComponent, representationName );
     }
 
     //Create a MovableFraction for the given fraction at the specified cell
-    private static MovableFraction fraction( int numerator, int denominator, Cell cell, final F<Fraction, PNode> node, IUserComponent userComponent ) {
+    private static MovableFraction fraction( int numerator, int denominator, Cell cell, final F<Fraction, PNode> node, IUserComponent userComponent, String representationName ) {
 
         //Find the color for the node.
         //TODO: consider creating class ColorNode extends PNode and use F<Fraction,ColorNode> everywhere.
@@ -358,10 +358,30 @@ public class Levels {
                                     }
 //        )
                 ,
-                                    MoveToCell( cell ), false, userComponent, color );
+                                    MoveToCell( cell ), false, userComponent, color, representationName );
     }
 
     private List<MovableFraction> createLevel( F<Fraction, ArrayList<RepresentationType>> representations, List<Cell> _cells, Fraction[] a ) {
+        for ( int i = 0; i < 100; i++ ) {
+            List<MovableFraction> fractions = createLevelInstance( representations, _cells, a );
+            if ( isOkay( fractions ) ) { return fractions; }
+        }
+        return createLevelInstance( representations, _cells, a );
+    }
+
+    //Validate the specified fractions, making sure there is a mixed batch of numbers/pictures
+    private boolean isOkay( final List<MovableFraction> fractions ) {
+        int numNumeric = fractions.filter( new F<MovableFraction, Boolean>() {
+            @Override public Boolean f( final MovableFraction movableFraction ) {
+                return movableFraction.representationName.equals( "numeric" );
+            }
+        } ).length();
+        boolean problematic = numNumeric == fractions.length() || numNumeric == 0;
+        return !problematic;
+    }
+
+    //Samples one level
+    private List<MovableFraction> createLevelInstance( F<Fraction, ArrayList<RepresentationType>> representations, List<Cell> _cells, Fraction[] a ) {
         assert _cells.length() % 2 == 0;
         ArrayList<Fraction> fractions = new ArrayList<Fraction>( Arrays.asList( a ) );
 
