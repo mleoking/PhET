@@ -43,13 +43,17 @@ public class Pattern {
     public final Shape outline;
     public final List<Shape> shapes;
 
+    //Create one pattern with the given shapes, uses Area composition to identify the outline (only works right for some shapes)
     public Pattern( final List<Shape> shapes ) {
-        Area area = new Area() {{
+        this( new Area() {{
             for ( Shape shape : shapes ) {
                 add( new Area( shape ) );
             }
-        }};
-        this.outline = area;
+        }}, shapes );
+    }
+
+    public Pattern( Shape outline, final List<Shape> shapes ) {
+        this.outline = outline;
         this.shapes = shapes;
     }
 
@@ -158,7 +162,7 @@ public class Pattern {
             shapes.add( shape );
         }
 
-        return new Pattern( iterableList( shapes ) );
+        return new Pattern( new Ellipse2D.Double( area.x, area.y, area.width, area.height ), iterableList( shapes ) );
     }
 
     public static class Direction {
