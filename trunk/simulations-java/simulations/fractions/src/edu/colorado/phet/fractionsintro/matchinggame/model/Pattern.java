@@ -122,6 +122,16 @@ public class Pattern {
         } ).reverse() );
     }
 
+    public static Pattern verticalBars( final int numBars ) {
+        final int height = 70;
+        final int sliceWidth = height / numBars;
+        return new Pattern( range( 0, numBars ).map( new F<Integer, Shape>() {
+            @Override public Shape f( final Integer index ) {
+                return new Rectangle2D.Double( index * sliceWidth, 0, sliceWidth, height );
+            }
+        } ).reverse() );
+    }
+
     public static class Direction {
         public static Direction RIGHT = new Direction( 1, 0 );
         public static Direction LEFT = new Direction( -1, 0 );
