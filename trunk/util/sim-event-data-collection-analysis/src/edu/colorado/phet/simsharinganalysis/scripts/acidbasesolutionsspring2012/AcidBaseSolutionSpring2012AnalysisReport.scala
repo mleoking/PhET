@@ -243,7 +243,8 @@ object AcidBaseSolutionSpring2012AnalysisReport {
 
     val usedStringBaseRadioButton = log.entries.filter(_.messageType == "user").filter(_.component == "strongBaseRadioButton").length > 0
     val usedWeakBaseRadioButton = log.entries.filter(_.messageType == "user").filter(_.component == "weakBaseRadioButton").length > 0
-    val selectedBase = usedStringBaseRadioButton || usedWeakBaseRadioButton
+    val usedBaseRadioButton = log.entries.filter(_.messageType == "user").filter(_.component == "baseRadioButton").length > 0
+    val selectedBase = usedStringBaseRadioButton || usedWeakBaseRadioButton || usedBaseRadioButton
     val showedSolvent = log.userEntries.filter(_.component == "showSolventCheckBox").length > 0
     val dunkedPHMeter = !log.filter(_.component == "phMeter").filter(_.hasParameter("isInSolution", "true")).filter(_.action == "drag").isEmpty
     val dunkedPHPaper = !log.filter(_.component == "phPaper").filter(_.hasParameter("isInSolution", "true")).filter(_.action == "drag").isEmpty
