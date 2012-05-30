@@ -202,8 +202,14 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
         for ( EnergyChunk energyChunk : new ArrayList<EnergyChunk>( energyChunkList ) ) {
             if ( energyChunk.getExistenceStrength().get() > 0 ) {
                 // Move the chunk.
-                ImmutableVector2D motion = new ImmutableVector2D( position.getX(), position.getY() + HEIGHT / 2 ).getSubtractedInstance( energyChunk.position.get() ).getInstanceOfMagnitude( ENERGY_CHUNK_VELOCITY * dt );
-                energyChunk.translate( motion );
+                ImmutableVector2D destination = new ImmutableVector2D( position.getX(), position.getY() + HEIGHT * 0.6 ); // Must be coordinated with view for proper effect.
+                if ( energyChunk.position.get().distance( destination ) > dt * ENERGY_CHUNK_VELOCITY ) {
+                    ImmutableVector2D motion = destination.getSubtractedInstance( energyChunk.position.get() ).getInstanceOfMagnitude( dt * ENERGY_CHUNK_VELOCITY );
+                    energyChunk.translate( motion );
+                }
+                else {
+                    energyChunk.position.set( destination );
+                }
             }
             else {
                 // This chunk has faded to nothing, so remove it.
