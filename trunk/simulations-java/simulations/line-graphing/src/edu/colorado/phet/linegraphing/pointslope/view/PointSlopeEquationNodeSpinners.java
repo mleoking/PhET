@@ -2,8 +2,13 @@
 package edu.colorado.phet.linegraphing.pointslope.view;
 
 import java.awt.BasicStroke;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.geom.Line2D;
 import java.text.NumberFormat;
+
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
@@ -11,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
@@ -20,6 +26,7 @@ import edu.colorado.phet.linegraphing.common.view.SpinnerNode.RiseSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode.RunSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode.X1SpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode.Y1SpinnerNode;
+import edu.colorado.phet.linegraphing.pointslope.model.PointSlopeModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -148,5 +155,29 @@ class PointSlopeEquationNodeSpinners extends PhetPNode {
                 y1.set( line.y1 );
             }
         } );
+    }
+
+    // test
+    public static void main( String[] args ) {
+
+        // model
+        PointSlopeModel model = new PointSlopeModel();
+
+        // equation
+        PointSlopeEquationNodeSpinners equationNode =
+                new PointSlopeEquationNodeSpinners( model.interactiveLine, model.riseRange, model.runRange, model.x1Range, model.y1Range, new PhetFont( Font.BOLD, 38 ) );
+        equationNode.setOffset( 50, 100 );
+
+        // canvas
+        PhetPCanvas canvas = new PhetPCanvas();
+        canvas.setPreferredSize( new Dimension( 600, 400 ) );
+        canvas.getLayer().addChild( equationNode );
+
+        // frame
+        JFrame frame = new JFrame();
+        frame.setContentPane( canvas );
+        frame.pack();
+        frame.setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
+        frame.setVisible( true );
     }
 }
