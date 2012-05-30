@@ -4,7 +4,7 @@ DEADLINES
 
 DESIGN
 - controls for interactive equation (spinners, pickers, ...)
-- point-slope: when x1=y1 (eg) should "(y - 2) = (x-2)" be reduced to "y=x"?
+- point-slope: when x1=y1, should "(y-y1) = m(x-x1)" be reduced to "y=mx"? eg, (y-2)=2(x-2) -> y=2x
 
 HIGH
 - Point-Slope: reduced form equation of saved lines is incorrect
