@@ -1,3 +1,4 @@
+Reverse merged with 63022, to the version before study specific changes were made
 # 1.00.27 (63660) Apr 19, 2012
 More bugfixes
 # 1.00.26 (63658) Apr 19, 2012

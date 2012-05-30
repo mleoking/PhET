@@ -1,5 +1,4 @@
 package edu.colorado.phet.collisionlab.control {
-import edu.colorado.phet.collisionlab.CollisionLab;
 import edu.colorado.phet.collisionlab.constants.CLConstants;
 import edu.colorado.phet.collisionlab.model.Model;
 import edu.colorado.phet.collisionlab.util.Util;
@@ -54,20 +53,18 @@ public class DataTable extends Sprite {
 
     private const ballColumnNbr: int = 0;
     private const massColumnNbr: int = 1;
-//    private const xColumnNbr: int = 2;
-    private const vxColumnNbr: int = 2;
-    private const pxColumnNbr: int = 3;
-//    private const initialPositionColumnNbr: int = 5;
-    private const initialVelocityColumnNbr: int = 4;
-
-    private const separatorPaddingSize: int = 20;
+    private const xColumnNbr: int = 2;
+    private const yColumnNbr: int = 3; // only in intro
+    private const vyColumnNbr: int = 5; // only in intro
+    private const pyColumnNbr: int = 7; // only in intro
 
     private const highlightColor: int = 0xffff33;
     private const unhighlightColor: int = 0xffffff;
 
     public function DataTable( myModel: Model, myMainView: MainView ) {
         this.myModel = myModel;
-        colWidth = 100;
+//        colWidth = myModel.isIntro ? 90 : 80; SIZE
+        colWidth = myModel.isIntro ? 80 : 70;
         myModel.registerView( this );
         this.myMainView = myMainView;
         nbrBalls = this.myModel.nbrBalls;
@@ -163,29 +160,29 @@ public class DataTable extends Sprite {
                 }
 
                 // decrease width (and thus position) for the ball column
-                text_arr[row][col].x = (col == 0) ? 0 : (col * colWidth - (colWidth - ballColWidth)) + (col > pxColumnNbr ? separatorPaddingSize : 0);
+                text_arr[row][col].x = (col == 0) ? 0 : (col * colWidth - (colWidth - ballColWidth));
                 text_arr[row][col].y = 0;
                 text_arr[row][col].text = "row" + row;
                 text_arr[row][col].width = (col == 0) ? (ballColWidth - 5) : (colWidth - 5);
                 text_arr[row][col].height = rowHeight - 5;
                 text_arr[row][col].border = false;
                 //Not user-settable: ballnbr, mass, px, py
-                if ( row <= unitsRowNbr || col == 0 || col == pxColumnNbr ) {
+                if ( row <= unitsRowNbr || col == 0 || col == pxColumnNbr || col == pyColumnNbr ) {
                     text_arr[row][col].type = TextFieldType.DYNAMIC;
                     text_arr[row][col].selectable = false;
                 }
                 else {
-                    if ( col == massColumnNbr ) {
+                    if ( col > 0 && col < (myModel.isIntro ? 3 : 4) ) {
                         dressInputTextField( row, col );
                         text_arr[row][col].restrict = "0-9.";
                     }
                     else {
-                        if ( col == vxColumnNbr ) {
+                        if ( col == vxColumnNbr || (!myModel.isIntro && col == vyColumnNbr) ) {
                             dressInputTextField( row, col );
                             text_arr[row][col].restrict = "0-9.\\-";  //velocities can be negative
                         }
                         else {
-//                            trace( "ERROR in DataTable.initialize. Invalid value of col" );
+                            trace( "ERROR in DataTable.initialize. Invalid value of col" );
                         }
                     }
                 }
@@ -219,7 +216,7 @@ public class DataTable extends Sprite {
     }
 
     public function get nbrColumns(): int {
-        return 5;
+        return myModel.isIntro ? 5 : 8;
     }
 
     /**
@@ -243,35 +240,28 @@ public class DataTable extends Sprite {
         var del: Number = bWidth / 2;
 
         // how much we need to chop off the top in the Intro tab when we are not showing more. top row shouldn't be visible
+        //var offTopOffset = (!showingMore && myModel.isIntro) ? rowHeight : 0;
         var offTopOffset: Number = 0;
 
         g.clear();
         g.lineStyle( bWidth, 0x2222ff );
         g.beginFill( 0xffff99 );
-        var areaHeight: Number = nbrRows * rowHeight + 2 * del - offTopOffset;
-        g.drawRect( -del, -del + offTopOffset, rowWidth + 2 * del + (showingMore ? separatorPaddingSize : 0), areaHeight );
+        g.drawRect( -del, -del + offTopOffset, rowWidth + 2 * del, nbrRows * rowHeight + 2 * del - offTopOffset );
         g.endFill();
 
         var gI: Graphics = invisibleBorder.graphics;
         gI.clear();
         gI.lineStyle( bWidth, 0x000000, 0 );
-        gI.drawRect( -del, -del + offTopOffset, rowWidth + 2 * del + (showingMore ? separatorPaddingSize : 0), nbrRows * rowHeight + 2 * del - offTopOffset );
-
-        if ( showingMore ) {
-            var separatorX: Number = (pxColumnNbr + 1) * colWidth - (colWidth - ballColWidth) + separatorPaddingSize / 2;
-            g.lineStyle( bWidth, 0x2222ff );
-            g.moveTo( separatorX, -del + offTopOffset );
-            g.lineTo( separatorX, -del + offTopOffset + areaHeight );
-        }
+        gI.drawRect( -del, -del + offTopOffset, rowWidth + 2 * del, nbrRows * rowHeight + 2 * del - offTopOffset );
     }
 
-//    public function get vxColumnNbr(): int {
-//        return 3;
-//    }
-//
-//    public function get pxColumnNbr(): int {
-//        return 4;
-//    }
+    public function get vxColumnNbr(): int {
+        return myModel.isIntro ? 3 : 4;
+    }
+
+    public function get pxColumnNbr(): int {
+        return myModel.isIntro ? 4 : 6;
+    }
 
     /**
      * Row number of the main header row
@@ -294,23 +284,46 @@ public class DataTable extends Sprite {
     //header row is
     //ball	mass	x	y	vx	vy	px	py,   no radius for now
     private function makeHeaderRow(): void {
-        // add a column above the main header row
-        text_arr[0][ballColumnNbr].text = SimStrings.get( "DataTable.ball", "Ball" );
-        text_arr[0][massColumnNbr].text = SimStrings.get( "DataTable.mass", "Mass" );
-//        text_arr[0][xColumnNbr].text = SimStrings.get( "DataTable.position", "Position" );
-        text_arr[0][vxColumnNbr].text = SimStrings.get( "DataTable.velocity", "Velocity" );
-        text_arr[0][pxColumnNbr].text = SimStrings.get( "DataTable.momentum", "Momentum" );
-//        text_arr[0][initialPositionColumnNbr].text = SimStrings.get( "DataTable.initialVelocity", "Initial Position" );
-        text_arr[0][initialVelocityColumnNbr].text = SimStrings.get( "DataTable.initialMomentum", "Initial Velocity" );
+        if ( myModel.isIntro ) {
+            // add a column above the main header row
+            text_arr[0][ballColumnNbr].text = SimStrings.get( "DataTable.ball", "Ball" );
+            text_arr[0][massColumnNbr].text = SimStrings.get( "DataTable.mass", "Mass" );
+            text_arr[0][xColumnNbr].text = SimStrings.get( "DataTable.position", "Position" );
+            text_arr[0][vxColumnNbr].text = SimStrings.get( "DataTable.velocity", "Velocity" );
+            text_arr[0][pxColumnNbr].text = SimStrings.get( "DataTable.momentum", "Momentum" );
 
-        text_arr[1][ballColumnNbr].text = "";
-        text_arr[1][massColumnNbr].text = SimStrings.get( "DataTable.units.kilograms", "kg" );
-//        text_arr[1][xColumnNbr].text = SimStrings.get( "DataTable.units.meters", "m" );
-        text_arr[1][vxColumnNbr].text = SimStrings.get( "DataTable.units.metersPerSecond", "m/s" );
-        text_arr[1][pxColumnNbr].text = SimStrings.get( "DataTable.units.kilogramMetersPerSecond", "kg m/s" );
-//        text_arr[1][initialPositionColumnNbr].text = SimStrings.get( "DataTable.units.meters", "m" );
-        text_arr[1][initialVelocityColumnNbr].text = SimStrings.get( "DataTable.units.metersPerSecond", "m/s" );
+            text_arr[1][ballColumnNbr].text = "";
+            text_arr[1][massColumnNbr].text = SimStrings.get( "DataTable.units.kilograms", "kg" );
+            text_arr[1][xColumnNbr].text = SimStrings.get( "DataTable.units.meters", "m" );
+            text_arr[1][vxColumnNbr].text = SimStrings.get( "DataTable.units.metersPerSecond", "m/s" );
+            text_arr[1][pxColumnNbr].text = SimStrings.get( "DataTable.units.kilogramMetersPerSecond", "kg m/s" );
+        }
+        else {
+            // advanced-only headers
+            text_arr[0][ballColumnNbr].text = SimStrings.get( "DataTable.ball", "Ball" );
+            text_arr[0][massColumnNbr].text = SimStrings.get( "DataTable.massWithUnits", "Mass (kg)" );
 
+            text_arr[0][xColumnNbr].width = text_arr[0][xColumnNbr].width * 2;
+            text_arr[0][xColumnNbr].text = SimStrings.get( "DataTable.positionWithUnits", "Position (m)" );
+            text_arr[0][yColumnNbr].text = "";
+
+            text_arr[0][vxColumnNbr].width = text_arr[0][vxColumnNbr].width * 2;
+            text_arr[0][vxColumnNbr].text = SimStrings.get( "DataTable.velocityWithUnits", "Velocity (m/s)" );
+            text_arr[0][vyColumnNbr].text = "";
+
+            text_arr[0][pxColumnNbr].width = text_arr[0][pxColumnNbr].width * 2;
+            text_arr[0][pxColumnNbr].text = SimStrings.get( "DataTable.momentumWithUnits", "Momentum (kg m/s)" );
+            text_arr[0][pyColumnNbr].text = "";
+
+            text_arr[1][ballColumnNbr].text = "";
+            text_arr[1][massColumnNbr].text = "";
+            text_arr[1][xColumnNbr].text = SimStrings.get( "DataTable.x", "x" );
+            text_arr[1][vxColumnNbr].text = SimStrings.get( "DataTable.vx", "Vx" );
+            text_arr[1][pxColumnNbr].text = SimStrings.get( "DataTable.px", "Px" );
+            text_arr[1][yColumnNbr].text = SimStrings.get( "DataTable.y", "y" );
+            text_arr[1][vyColumnNbr].text = SimStrings.get( "DataTable.vy", "Vy" );
+            text_arr[1][pyColumnNbr].text = SimStrings.get( "DataTable.py", "Py" );
+        }
         tFormat.bold = true;
         for ( var row: int = 0; row < maxRows; row++ ) {
             if ( row >= headerOffset ) {text_arr[row][0].text = row - headerOffset + 1;}
@@ -323,22 +336,35 @@ public class DataTable extends Sprite {
 
         TextFieldUtils.resizeText( text_arr[headerRowNbr][ballColumnNbr], TextFieldAutoSize.CENTER );
         TextFieldUtils.resizeText( text_arr[headerRowNbr][massColumnNbr], TextFieldAutoSize.CENTER );
-//        TextFieldUtils.resizeText( text_arr[headerRowNbr][xColumnNbr], TextFieldAutoSize.CENTER );
+        TextFieldUtils.resizeText( text_arr[headerRowNbr][xColumnNbr], TextFieldAutoSize.CENTER );
         TextFieldUtils.resizeText( text_arr[headerRowNbr][vxColumnNbr], TextFieldAutoSize.CENTER );
         TextFieldUtils.resizeText( text_arr[headerRowNbr][pxColumnNbr], TextFieldAutoSize.CENTER );
-//        TextFieldUtils.resizeText( text_arr[headerRowNbr][initialPositionColumnNbr], TextFieldAutoSize.CENTER );
-        TextFieldUtils.resizeText( text_arr[headerRowNbr][initialVelocityColumnNbr], TextFieldAutoSize.CENTER );
-//        TextFieldUtils.resizeText( text_arr[0][xColumnNbr], TextFieldAutoSize.CENTER );
-        TextFieldUtils.resizeText( text_arr[0][vxColumnNbr], TextFieldAutoSize.CENTER );
-        TextFieldUtils.resizeText( text_arr[0][pxColumnNbr], TextFieldAutoSize.CENTER );
-//        TextFieldUtils.resizeText( text_arr[0][initialPositionColumnNbr], TextFieldAutoSize.CENTER );
-        TextFieldUtils.resizeText( text_arr[0][initialVelocityColumnNbr], TextFieldAutoSize.CENTER );
+        if ( myModel.isIntro ) {
+            TextFieldUtils.resizeText( text_arr[0][xColumnNbr], TextFieldAutoSize.CENTER );
+            TextFieldUtils.resizeText( text_arr[0][vxColumnNbr], TextFieldAutoSize.CENTER );
+            TextFieldUtils.resizeText( text_arr[0][pxColumnNbr], TextFieldAutoSize.CENTER );
+        }
+        else {
+            TextFieldUtils.resizeText( text_arr[headerRowNbr][yColumnNbr], TextFieldAutoSize.CENTER );
+            TextFieldUtils.resizeText( text_arr[headerRowNbr][vyColumnNbr], TextFieldAutoSize.CENTER );
+            TextFieldUtils.resizeText( text_arr[headerRowNbr][pyColumnNbr], TextFieldAutoSize.CENTER );
+        }
     }
 
 
     public function positionButtons(): void {
-        moreDataButton_sp.x += 200;
-        moreDataButton_sp.y = invisibleBorder.height + 15;
+        if ( myModel.isIntro ) {
+            moreDataButton_sp.x += 200;
+            moreDataButton_sp.y = invisibleBorder.height + 15;
+        }
+        else {
+            addBallButton_sp.x = addBallButton_sp.width / 2 - 10;
+            addBallButton_sp.y = addBallButton_sp.height / 2;
+            removeBallButton_sp.x = removeBallButton_sp.width / 2 - 10;
+            removeBallButton_sp.y = removeBallButton_sp.height / 2 + addBallButton_sp.y + addBallButton_sp.height / 2 + 5;
+            moreDataButton_sp.x = moreDataButton_sp.width / 2 - 10;
+            moreDataButton_sp.y = moreDataButton_sp.height / 2 + removeBallButton_sp.y + removeBallButton_sp.height / 2 + 5;
+        }
 
         // less button is where the more button is (they just toggle visibility)
         lessDataButton_sp.x = moreDataButton_sp.x;
@@ -394,27 +420,41 @@ public class DataTable extends Sprite {
                 if ( col == massColumnNbr ) {
                     text_arr[row][col].addEventListener( Event.CHANGE, changeMassListener );
                 }
-//                if ( col == xColumnNbr ) {
-//                    text_arr[row][col].addEventListener( Event.CHANGE, changeXListener );
-//                }
+                if ( col == xColumnNbr ) {
+                    text_arr[row][col].addEventListener( Event.CHANGE, changeXListener );
+                }
                 if ( col == vxColumnNbr ) {
                     text_arr[row][col].addEventListener( Event.CHANGE, changeVXListener );
+                }
+                if ( !myModel.isIntro ) {
+                    if ( col == yColumnNbr ) {
+                        text_arr[row][col].addEventListener( Event.CHANGE, changeYListener );
+                    }
+                    if ( col == vyColumnNbr ) {
+                        text_arr[row][col].addEventListener( Event.CHANGE, changeVYListener );
+                    }
                 }
             }
         }
     }
 
     public function setPositionHighlight( ballIndex: int, highlighted: Boolean ): void {
-//        text_arr[rowOfBall( ballIndex )][xColumnNbr].backgroundColor = highlighted ? highlightColor : unhighlightColor;
+        text_arr[rowOfBall( ballIndex )][xColumnNbr].backgroundColor = highlighted ? highlightColor : unhighlightColor;
+        if ( !myModel.isIntro ) {
+            text_arr[rowOfBall( ballIndex )][yColumnNbr].backgroundColor = highlighted ? highlightColor : unhighlightColor;
+        }
     }
 
     public function setVelocityHighlight( ballIndex: int, highlighted: Boolean ): void {
         text_arr[rowOfBall( ballIndex )][vxColumnNbr].backgroundColor = highlighted ? highlightColor : unhighlightColor;
+        if ( !myModel.isIntro ) {
+            text_arr[rowOfBall( ballIndex )][vyColumnNbr].backgroundColor = highlighted ? highlightColor : unhighlightColor;
+        }
     }
 
     private function changeMassListener( evt: Event ): void {
         manualUpdating = true;
-        var mass: Number = evtTextToNumber( evt );
+        var mass: Number = Number( evt.target.text );
         var row: Number = Number( evt.target.name );  //first ball is ball 1, is Model.ball_arr[0]
         var ballNum: int = ballNbr( row );
         myModel.setMass( ballNum, mass );
@@ -460,31 +500,36 @@ public class DataTable extends Sprite {
     }
 
 
-    private function evtTextToNumber( evt: Event, single = false ): Number {
+    private function evtTextToNumber( evt: Event ): Number {
         var inputText: String = evt.target.text;
+        var outputNumber: Number;
         if ( inputText == "." ) {
             evt.target.text = "0.";
             evt.target.setSelection( 2, 2 ); //sets cursor at end of line
-            return 0;
+            outputNumber = 0;
         }
-        if ( inputText == "-" ) {
-            return 0;
+        else {
+            if ( inputText == "-" ) {
+                outputNumber = 0;
+            }
+            else {
+                if ( inputText == "-." ) {
+                    evt.target.text = "-0.";
+                    evt.target.setSelection( 3, 3 ); //sets cursor at end of line
+                    outputNumber = 0;
+                }
+                else {
+                    if ( isNaN( Number( inputText ) ) ) {
+                        evt.target.text = "0";
+                        outputNumber = 0;
+                    }
+                    else {
+                        outputNumber = Number( inputText );
+                    }
+                }
+            }
         }
-        if ( inputText == "-." ) {
-            evt.target.text = "-0.";
-            evt.target.setSelection( 3, 3 ); //sets cursor at end of line
-            return 0;
-        }
-
-        // remove anything after the ten's digit
-        if ( inputText.indexOf( "." ) != -1 && inputText.indexOf( "." ) < inputText.length - 2 ) {
-            evt.target.text = inputText = inputText.substr( 0, inputText.indexOf( "." ) + 2 );
-        }
-        if ( isNaN( Number( inputText ) ) ) {
-            evt.target.text = "0";
-            return 0;
-        }
-        return Number( inputText );
+        return outputNumber;
     }
 
     private function massSliderListener( evt: SliderEvent ): void {
@@ -546,7 +591,7 @@ public class DataTable extends Sprite {
     }
 
     private function get generalPrecision(): int {
-        return 2;
+        return myModel.isIntro ? 2 : 3;
     }
 
     private function get massPrecision(): int {
@@ -558,29 +603,31 @@ public class DataTable extends Sprite {
         var row: int;
         var col: int;
         var mass: Number;
-        var yVel: Number;
         if ( !manualUpdating ) {   //do not update if user is manually filling textFields
             for ( row = headerOffset; row < maxRows; row++ ) {  //skip header row
                 var ballNum: int = ballNbr( row );
                 for ( col = 0; col < nbrColumns; col++ ) {
                     if ( col == massColumnNbr ) { // mass in kg
                         mass = myModel.ball_arr[ballNum].getMass();
-                        text_arr[row][col].text = round( mass, 1 ); //round(mass, 1);
+                        text_arr[row][col].text = mass.toFixed( massPrecision ); //round(mass, 1);
                     }
-//                    if ( col == xColumnNbr ) { //x position in m
-//                        var xPos: Number = myModel.ball_arr[ballNum].position.getX();
-//                        text_arr[row][col].text = round( xPos, generalPrecision ); //round(xPos, nbrPlaces);
-//                    }
+                    if ( col == xColumnNbr ) { //x position in m
+                        var xPos: Number = myModel.ball_arr[ballNum].position.getX();
+                        text_arr[row][col].text = xPos.toFixed( generalPrecision ); //round(xPos, nbrPlaces);
+                    }
                     if ( col == vxColumnNbr ) { // v_x in m/s
                         var xVel: Number = myModel.ball_arr[ballNum].velocity.getX();
-                        text_arr[row][col].text = round( xVel, 2 );
-//                        text_arr[row][col].text = xVel.toFixed( generalPrecision ); //round(xVel, nbrPlaces);
+                        text_arr[row][col].text = xVel.toFixed( generalPrecision ); //round(xVel, nbrPlaces);
                     }
-//                    if ( col == initialPositionColumnNbr ) {
-//                        text_arr[row][col].text = round( myModel.ball_arr[ballNum].initialPosition.getX(), generalPrecision );
-//                    }
-                    if ( col == initialVelocityColumnNbr ) {
-                        text_arr[row][col].text = round( myModel.ball_arr[ballNum].initialVelocity.getX(), 1 );
+                    if ( !myModel.isIntro ) { // y position in m
+                        if ( col == yColumnNbr ) {
+                            var yPos: Number = myModel.ball_arr[ballNum].position.getY();
+                            text_arr[row][col].text = yPos.toFixed( generalPrecision ); //round(yPos, nbrPlaces);
+                        }
+                        if ( col == vyColumnNbr ) { // v_y in m/s
+                            var yVel: Number = myModel.ball_arr[ballNum].velocity.getY();
+                            text_arr[row][col].text = yVel.toFixed( generalPrecision ); //round(yVel, nbrPlaces);
+                        }
                     }
                 }
             }
@@ -606,6 +653,10 @@ public class DataTable extends Sprite {
 
             var xMom: Number = mass * xVel;
             text_arr[row][pxColumnNbr].text = xMom.toFixed( generalPrecision );
+            if ( !myModel.isIntro ) {
+                var yMom: Number = mass * yVel;
+                text_arr[row][pyColumnNbr].text = yMom.toFixed( generalPrecision ); //round(yMom, nbrPlaces);
+            }
         }
     }
 
@@ -618,11 +669,11 @@ public class DataTable extends Sprite {
     }
 
     //round decimal number to n places; made obsolete by toFixed() Number function
-    private function round( input: Number, nPlaces: int ): String {
+    private function round( input: Number, nPlaces: int ): Number {
         var result: Number;
         var factor: Number = Math.pow( 10, nPlaces );
         result = Math.round( factor * input ) / factor;
-        return result.toFixed( nPlaces );
+        return result
     }
 
 }

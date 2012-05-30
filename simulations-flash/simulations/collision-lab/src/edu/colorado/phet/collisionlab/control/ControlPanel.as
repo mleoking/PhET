@@ -1,5 +1,4 @@
 package edu.colorado.phet.collisionlab.control {
-import edu.colorado.phet.collisionlab.CollisionLab;
 import edu.colorado.phet.collisionlab.model.Model;
 import edu.colorado.phet.collisionlab.util.Util;
 import edu.colorado.phet.collisionlab.view.BallImage;
@@ -91,14 +90,8 @@ public class ControlPanel extends Sprite {
 
     public function initializeStrings(): void {
         // hook together the buttons (check boxes in this case) with their labels
-        if ( CollisionLab.isStudyVersion ) {
-            TextFieldUtils.initLabelButtonI18NLeft( "key doesn't exist", "Show Velocity", sub_showVelocities_label, sub_showVelocities_cb );
-            TextFieldUtils.initLabelButtonI18NLeft( "key doesn't exist", "Show Momentum", sub_showMomentumVectors_label, sub_showMomentumVectors_cb );
-        }
-        else {
-            TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.showVelocities", "Velocity Vectors", sub_showVelocities_label, sub_showVelocities_cb );
-            TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.showMomentumVectors", "Momentum Vectors", sub_showMomentumVectors_label, sub_showMomentumVectors_cb );
-        }
+        TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.showVelocities", "Velocity Vectors", sub_showVelocities_label, sub_showVelocities_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.showMomentumVectors", "Momentum Vectors", sub_showMomentumVectors_label, sub_showMomentumVectors_cb );
         TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.showCenterOfMass", "Center of Mass", sub_showCM_label, sub_showCM_cb );
         TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.momentaDiagram", "Momenta Diagram", sub_showMomenta_label, sub_showMomenta_cb );
         TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.sound", "Sound", sub_sound_label, sub_sound_cb );
@@ -150,9 +143,6 @@ public class ControlPanel extends Sprite {
         this.myModel.soundOn = false;
         this.sub_elasticitySlider.value = 1;
         this.myModel.setElasticity( 1 );
-        if ( CollisionLab.isStudyVersion ) {
-            this.myModel.setElasticity( 0 );
-        }
         updateElasticityValueLabel();
 
         myMainView.module.resetAll(); // TODO: convert to where this is the main reset
@@ -217,7 +207,7 @@ public class ControlPanel extends Sprite {
         this.myModel.setElasticity( elasticity );
 
         // disable the "back" button if we go under 100% elasticity
-        if ( elasticity < 1 ) {
+        if( elasticity < 1 ) {
             myMainView.myTableView.playButtons.updateBackEnabled( false );
         }
         updateElasticityValueLabel();
