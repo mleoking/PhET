@@ -33,7 +33,7 @@ public class HorizontalBarsNode extends PNode implements IColor {
         addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, width, height ), new BasicStroke( 1.7f ), Color.black ) );
     }
 
-    @Override public Color getColor() {
+    public Color getColor() {
         return color;
     }
 }

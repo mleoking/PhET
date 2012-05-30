@@ -25,7 +25,7 @@ public class PieNode extends PNode implements IColor {
         scale( 0.5 );
     }
 
-    @Override public Color getColor() {
+    public Color getColor() {
         return color;
     }
 }
