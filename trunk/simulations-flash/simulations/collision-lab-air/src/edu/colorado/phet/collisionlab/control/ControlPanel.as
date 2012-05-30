@@ -1,3 +1,4 @@
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.collisionlab.control {
 import edu.colorado.phet.collisionlab.model.Model;
 import edu.colorado.phet.collisionlab.util.Util;
@@ -86,6 +87,8 @@ public class ControlPanel extends Sprite {
             showKineticEnergy( e.target.selected );
         } );
 
+        this.scaleX = 1.2;
+        this.scaleY = 1.2;
     }
 
     public function initializeStrings(): void {

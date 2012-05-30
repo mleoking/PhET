@@ -1,2 +1,3 @@
+Made control panel 20% bigger
 Changed FLA to build for AIR iOS
 Fork for AIR version

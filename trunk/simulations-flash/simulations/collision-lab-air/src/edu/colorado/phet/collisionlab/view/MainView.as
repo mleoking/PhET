@@ -76,7 +76,7 @@ public class MainView extends Sprite {
         }
         //this.controlPanel.sub_background.width = 170;
         //this.controlPanel.sub_background.height = 330;
-        this.controlPanel.x = this.stageW - 0.75 * this.controlPanel.width;
+        this.controlPanel.x = this.stageW - 0.75 * this.controlPanel.width*this.controlPanel.scaleX + 60;
         this.controlPanel.y = 30 + paddingForTabs;
         this.momentumView.x = 0;
         this.momentumView.y = 0;
