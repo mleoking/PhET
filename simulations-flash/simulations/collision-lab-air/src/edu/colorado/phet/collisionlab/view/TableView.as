@@ -1,10 +1,11 @@
-//View of "Pool Table" containing balls
+﻿//View of "Pool Table" containing balls
 package edu.colorado.phet.collisionlab.view {
 import edu.colorado.phet.collisionlab.constants.CLConstants;
 import edu.colorado.phet.collisionlab.control.PlayPauseButtons;
 import edu.colorado.phet.collisionlab.model.Model;
 import edu.colorado.phet.collisionlab.util.Util;
 import edu.colorado.phet.flashcommon.SimStrings;
+import edu.colorado.phet.collisionlab.CollisionLab;
 
 import fl.controls.*;
 import fl.events.*;
@@ -261,6 +262,8 @@ public class TableView extends Sprite {
     }
 
     private function setupSlider(): void {
+        timeRate_slider.getChildAt( 1 ).width = CollisionLab.KNOB_SIZE;
+        timeRate_slider.getChildAt( 1 ).height = CollisionLab.KNOB_SIZE;
         timeRate_slider.direction = SliderDirection.HORIZONTAL;
         timeRate_slider.minimum = 0.01;
         timeRate_slider.maximum = 1;

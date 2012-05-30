@@ -1,8 +1,9 @@
-package edu.colorado.phet.collisionlab.view {
+﻿package edu.colorado.phet.collisionlab.view {
 import edu.colorado.phet.collisionlab.constants.CLConstants;
 import edu.colorado.phet.collisionlab.model.Model;
 import edu.colorado.phet.collisionlab.util.Util;
 import edu.colorado.phet.flashcommon.SimStrings;
+import edu.colorado.phet.collisionlab.CollisionLab;
 import edu.colorado.phet.flashcommon.TextFieldUtils;
 
 import fl.controls.*;
@@ -197,6 +198,8 @@ public class MomentumView extends Sprite {
     }//end of setupCheckBox
 
     private function setupSlider(): void {
+        this.scale_slider.getChildAt( 1 ).width = CollisionLab.KNOB_SIZE;
+        this.scale_slider.getChildAt( 1 ).height = CollisionLab.KNOB_SIZE;
         this.scale_slider.direction = SliderDirection.VERTICAL;
         this.scale_slider.minimum = 0;
         this.scale_slider.maximum = 1;

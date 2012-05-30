@@ -1,9 +1,10 @@
-// Copyright 2002-2012, University of Colorado
+﻿// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.collisionlab.control {
 import edu.colorado.phet.collisionlab.model.Model;
 import edu.colorado.phet.collisionlab.util.Util;
 import edu.colorado.phet.collisionlab.view.BallImage;
 import edu.colorado.phet.collisionlab.view.MainView;
+import edu.colorado.phet.collisionlab.CollisionLab;
 import edu.colorado.phet.flashcommon.AboutDialog;
 import edu.colorado.phet.flashcommon.SimStrings;
 import edu.colorado.phet.flashcommon.TextFieldUtils;
@@ -89,6 +90,9 @@ public class ControlPanel extends Sprite {
 
         this.scaleX = 1.2;
         this.scaleY = 1.2;
+
+        sub_elasticitySlider.getChildAt( 1 ).width = CollisionLab.KNOB_SIZE;
+        sub_elasticitySlider.getChildAt( 1 ).height = CollisionLab.KNOB_SIZE;
     }
 
     public function initializeStrings(): void {
