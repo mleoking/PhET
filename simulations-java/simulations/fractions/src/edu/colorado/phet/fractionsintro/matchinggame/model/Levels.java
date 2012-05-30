@@ -25,7 +25,6 @@ import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPatter
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.IColor;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PieNode;
-import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.VerticalBarsNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -119,19 +118,28 @@ public class Levels {
             return Pattern.horizontalBars( 2 );
         }
     }, SEQUENTIAL );
+    final RepresentationType horizontalBars1 = createPatterns( "horizontal bars", 1, 100, new F<Integer, Pattern>() {
+        @Override public Pattern f( final Integer integer ) {
+            return Pattern.horizontalBars( 1 );
+        }
+    }, SEQUENTIAL );
 
-    final RepresentationType verticalBars = twoComposites( "vertical bars", all,
-                                                           new F<Fraction, PNode>() {
-                                                               @Override public PNode f( Fraction f ) {
-                                                                   return new VerticalBarsNode( f, 0.9, LIGHT_GREEN );
-                                                               }
-                                                           },
-                                                           new F<Fraction, PNode>() {
-                                                               @Override public PNode f( Fraction f ) {
-                                                                   return new VerticalBarsNode( f, 0.9, LIGHT_BLUE );
-                                                               }
-                                                           }
-    );
+    final RepresentationType verticalBars4 = createPatterns( "vertical bars", 4, 100, new F<Integer, Pattern>() {
+        @Override public Pattern f( final Integer integer ) {
+            return Pattern.verticalBars( 4 );
+        }
+    }, SEQUENTIAL );
+    final RepresentationType verticalBars3 = createPatterns( "vertical bars", 3, 100, new F<Integer, Pattern>() {
+        @Override public Pattern f( final Integer integer ) {
+            return Pattern.verticalBars( 3 );
+        }
+    }, SEQUENTIAL );
+    final RepresentationType verticalBars2 = createPatterns( "vertical bars", 2, 100, new F<Integer, Pattern>() {
+        @Override public Pattern f( final Integer integer ) {
+            return Pattern.verticalBars( 2 );
+        }
+    }, SEQUENTIAL );
+
     final RepresentationType pies = twoComposites( "pies", all,
                                                    new F<Fraction, PNode>() {
                                                        @Override public PNode f( Fraction f ) {
@@ -288,7 +296,7 @@ public class Levels {
     public static Levels Levels = new Levels();
 
     @SuppressWarnings("unchecked")
-    final List<RepresentationType> easyRepresentations = list( numeric, horizontalBars2, horizontalBars3, horizontalBars4, verticalBars, pies );
+    final List<RepresentationType> easyRepresentations = list( numeric, horizontalBars2, horizontalBars3, horizontalBars4, verticalBars2, verticalBars3, verticalBars4, pies );
     final List<RepresentationType> mediumRepresentationsSequential = list( makePlusses( 2, SEQUENTIAL ), makePlusses( 3, SEQUENTIAL ), makePlusses( 4, SEQUENTIAL ), makePlusses( 5, SEQUENTIAL ), makePlusses( 6, SEQUENTIAL ),
                                                                            fourGridSEQUENTIAL, nineGridSEQUENTIAL, onePyramidSEQUENTIAL, fourPyramidSEQUENTIAL, ninePyramidSEQUENTIAL,
                                                                            polygon( 4, SEQUENTIAL ), polygon( 5, SEQUENTIAL ), polygon( 6, SEQUENTIAL ), polygon( 7, SEQUENTIAL ), polygon( 8, SEQUENTIAL ),
