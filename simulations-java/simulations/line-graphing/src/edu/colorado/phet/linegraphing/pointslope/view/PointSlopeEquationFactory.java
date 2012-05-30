@@ -23,7 +23,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 class PointSlopeEquationFactory extends EquationNodeFactory {
 
-    private static final boolean SHOW_ZEROS = true; // shows values of x1 and y1 that are zero
+    private static final boolean SHOW_ZEROS = false; // shows values of x1 and y1 that are zero
 
     public EquationNode createNode( StraightLine line, PhetFont font ) {
         if ( MathUtil.round( line.run ) == 0 ) {
