@@ -136,7 +136,6 @@ class PointSlopeEquationControls extends PhetPNode {
         // Save the current state of the interactive line.
         saveLineButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                System.out.println( "saved line = " + interactiveLine.get().toString() ); //XXX
                 savedLines.add( new StraightLine( interactiveLine.get(), LGColors.SAVED_LINE_NORMAL, LGColors.SAVED_LINE_HIGHLIGHT ) );
             }
         } );
