@@ -31,6 +31,13 @@ public class EnergyChunkNode extends PNode {
             }
         } );
 
+        // Control the transparency of this node.
+        energyChunk.getExistenceStrength().addObserver( new VoidFunction1<Double>() {
+            public void apply( Double existenceStrength ) {
+                setTransparency( existenceStrength.floatValue() );
+            }
+        } );
+
         // Add the image that represents this energy chunk.
         Image imageSource;
         if ( RAND.nextBoolean() ) {
