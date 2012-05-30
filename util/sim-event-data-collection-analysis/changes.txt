@@ -1,3 +1,4 @@
+# 00.00.41 (64498) May 30, 2012
 Added "baseRadioButton" as a way of selecting bases in the group comparison report
 # 00.00.40 (64494) May 30, 2012
 Added "baseRadioButton" as an indicator variable in the text report
