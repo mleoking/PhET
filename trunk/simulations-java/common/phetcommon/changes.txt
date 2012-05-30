@@ -1,3 +1,4 @@
+5/29/12 #3166 removed check for -sponsorPrototype command line arg, presence of sponsor.properties alone will trigger feature
 5/29/12 #3166 i18n of sponsor feature
 5/8/2012 #3326 Converted from InternalError to HeadlessException in catch block
 5/8/2012 #3326 Provide headless support for FrameSetup so that it can be created without crashing the build process on Ubuntu
