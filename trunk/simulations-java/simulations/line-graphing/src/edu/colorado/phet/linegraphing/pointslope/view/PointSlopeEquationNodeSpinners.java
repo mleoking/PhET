@@ -133,8 +133,8 @@ class PointSlopeEquationNodeSpinners extends PhetPNode {
         RichSimpleObserver lineUpdater = new RichSimpleObserver() {
             @Override public void update() {
                 interactiveLine.set( new StraightLine( rise.get(), run.get(), x1.get(), y1.get(), interactiveLine.get().color, interactiveLine.get().highlightColor ) );
-                y1SignNode.setText( y1.get() > 0 ? "-" : "+" );
-                x1SignNode.setText( x1.get() > 0 ? "-" : "+" );
+                y1SignNode.setText( y1.get() >= 0 ? "-" : "+" );
+                x1SignNode.setText( x1.get() >= 0 ? "-" : "+" );
             }
         };
         lineUpdater.observe( rise, run, x1, y1 );
