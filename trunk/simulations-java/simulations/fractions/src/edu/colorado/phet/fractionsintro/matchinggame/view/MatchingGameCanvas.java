@@ -23,7 +23,9 @@ import edu.colorado.phet.common.games.GameSettingsPanel;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeBooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
+import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.Min;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -171,6 +173,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
 
             //Time it takes to max out the bar graph bars.
             final double MAX_BAR_GRAPH_ANIMATION_TIME = 0.3;
+            Min min = new Min( barGraphAnimationTime, new Property<Double>( MAX_BAR_GRAPH_ANIMATION_TIME ) );
             addChild( new UpdateNode( new Effect<PNode>() {
                 @Override public void e( final PNode parent ) {
                     final double scale = Math.min( barGraphAnimationTime.get() / MAX_BAR_GRAPH_ANIMATION_TIME, 1.0 );
@@ -180,11 +183,12 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                         parent.addChild( new ZeroOffsetNode( new BarGraphNode( leftScaleValue.get() * scale, leftScaleFraction.some().color,
                                                                                rightScaleValue.get() * scale, rightScaleFraction.some().color,
                                                                                revealClues.get() ) ) {{
+                            setOffset( scalesNode.getFullBounds().getCenterX() - 100, scalesNode.getFullBounds().getCenterY() - 15 - 400 );
                             setOffset( scalesNode.getFullBounds().getCenterX() - getFullWidth() / 2, scalesNode.getFullBounds().getCenterY() - getFullHeight() - 15 );
                         }} );
                     }
                 }
-            }, leftScaleValue, rightScaleValue, revealClues, barGraphAnimationTime ) );
+            }, leftScaleValue, rightScaleValue, revealClues, min ) );
 
             final FNode scoreCellsLayer = new FNode( model.state.get().scoreCells.map( new F<Cell, PNode>() {
                 @Override public PNode f( Cell c ) {
