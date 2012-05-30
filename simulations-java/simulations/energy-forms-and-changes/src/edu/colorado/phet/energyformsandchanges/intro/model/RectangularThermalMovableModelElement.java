@@ -113,6 +113,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
     }
 
     protected void addInitialEnergyChunks() {
+        energyChunkList.clear();
         int targetNumChunks = calculateNeededNumEnergyChunks();
         Rectangle2D energyChunkBounds = getThermalContactArea().getBounds();
         while ( targetNumChunks != getEnergyChunkList().size() ) {

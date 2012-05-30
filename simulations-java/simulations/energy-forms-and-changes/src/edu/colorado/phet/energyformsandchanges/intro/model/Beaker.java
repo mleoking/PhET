@@ -165,6 +165,7 @@ public class Beaker extends RectangularThermalMovableModelElement {
 
     // Had to override due to construction order issues.
     @Override protected void addInitialEnergyChunks() {
+        energyChunkList.clear();
         int targetNumChunks = calculateNeededNumEnergyChunks();
         Rectangle2D energyChunkBounds = new Rectangle2D.Double( position.get().getX() - WIDTH / 2,
                                                                 position.get().getY(),
