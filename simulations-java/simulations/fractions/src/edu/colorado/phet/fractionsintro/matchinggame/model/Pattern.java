@@ -242,18 +242,18 @@ public class Pattern {
 
         public static Pattern four( double length ) {
             final double h = getHeight( length );
-            return new Pattern( single( length ).shapes.append( list( triangle( length, new Vector2D( -length / 2, h ), UP ),
-                                                                      triangle( length, new Vector2D( 0, h * 2 ), DOWN ),
-                                                                      triangle( length, new Vector2D( length / 2, h ), UP ) ) ) );
+            return new Pattern( single( length * 2 ).outline, single( length ).shapes.append( list( triangle( length, new Vector2D( -length / 2, h ), UP ),
+                                                                                                    triangle( length, new Vector2D( 0, h * 2 ), DOWN ),
+                                                                                                    triangle( length, new Vector2D( length / 2, h ), UP ) ) ) );
         }
 
         public static Pattern nine( double length ) {
             final double h = getHeight( length );
-            return new Pattern( four( length ).shapes.append( list( triangle( length, new Vector2D( -length, h * 2 ), UP ),
-                                                                    triangle( length, new Vector2D( -length / 2, h * 3 ), DOWN ),
-                                                                    triangle( length, new Vector2D( 0, h * 2 ), UP ),
-                                                                    triangle( length, new Vector2D( length / 2, h * 3 ), DOWN ),
-                                                                    triangle( length, new Vector2D( length, h * 2 ), UP ) ) ) );
+            return new Pattern( single( length * 3 ).outline, four( length ).shapes.append( list( triangle( length, new Vector2D( -length, h * 2 ), UP ),
+                                                                                                  triangle( length, new Vector2D( -length / 2, h * 3 ), DOWN ),
+                                                                                                  triangle( length, new Vector2D( 0, h * 2 ), UP ),
+                                                                                                  triangle( length, new Vector2D( length / 2, h * 3 ), DOWN ),
+                                                                                                  triangle( length, new Vector2D( length, h * 2 ), UP ) ) ) );
         }
     }
 
@@ -285,14 +285,18 @@ public class Pattern {
                     setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
                     setSize( 1024, 768 );
                     getCanvas().getLayer().addChild( new FNode() {{
-                        for ( int i = 4; i <= 8; i++ ) {
-                            final int finalI = i;
-                            addChild( new PatternNode( FilledPattern.sequentialFill( Polygon.create( 50, finalI ), finalI / 2 ), Color.red ) {{translate( 200 + finalI * 60, 200 );}} );
-                        }
-                        addChild( new PatternNode( FilledPattern.sequentialFill( tetrisPiece( 50 ), 4 ), Color.red ) {{translate( 200, 400 );}} );
-                        addChild( new PatternNode( FilledPattern.sequentialFill( letterLShapedDiagonal( 10, 2 ), 4 ), Color.red ) {{translate( 200, 500 );}} );
-                        addChild( new PatternNode( FilledPattern.sequentialFill( sixFlower( 50 ), 4 ), Color.red ) {{translate( 300, 500 );}} );
-                        addChild( new PatternNode( FilledPattern.sequentialFill( interleavedLShape( 80, 2, 2 ), 6 ), Color.red ) {{translate( 400, 500 );}} );
+
+                        addChild( new PatternNode( FilledPattern.sequentialFill( Pyramid.nine( 100 ), 3 ), Color.yellow ) {{
+                            setOffset( 200, 200 );
+                        }} );
+//                        for ( int i = 4; i <= 8; i++ ) {
+//                            final int finalI = i;
+//                            addChild( new PatternNode( FilledPattern.sequentialFill( Polygon.create( 50, finalI ), finalI / 2 ), Color.red ) {{translate( 200 + finalI * 60, 200 );}} );
+//                        }
+//                        addChild( new PatternNode( FilledPattern.sequentialFill( tetrisPiece( 50 ), 4 ), Color.red ) {{translate( 200, 400 );}} );
+//                        addChild( new PatternNode( FilledPattern.sequentialFill( letterLShapedDiagonal( 10, 2 ), 4 ), Color.red ) {{translate( 200, 500 );}} );
+//                        addChild( new PatternNode( FilledPattern.sequentialFill( sixFlower( 50 ), 4 ), Color.red ) {{translate( 300, 500 );}} );
+//                        addChild( new PatternNode( FilledPattern.sequentialFill( interleavedLShape( 80, 2, 2 ), 6 ), Color.red ) {{translate( 400, 500 );}} );
                     }} );
                 }}.setVisible( true );
             }
