@@ -5,9 +5,13 @@ import fj.F;
 import fj.data.List;
 
 import java.awt.Color;
+import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Arc2D;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RectangularShape;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
@@ -130,6 +134,23 @@ public class Pattern {
                 return new Rectangle2D.Double( index * sliceWidth, 0, sliceWidth, height );
             }
         } ).reverse() );
+    }
+
+    public static Pattern pie( int numSlices ) {
+        double degreesPerSlice = 360.0 / numSlices;
+        final Rectangle area = new Rectangle( 0, 0, 70, 70 );
+
+        ArrayList<Shape> shapes = new ArrayList<Shape>();
+        for ( int i = 0; i < numSlices; i++ ) {
+            double startDegrees = i * degreesPerSlice;
+            double extentDegrees = degreesPerSlice;
+            final Arc2D.Double arc = new Arc2D.Double( area.getX(), area.getY(), area.getWidth(), area.getHeight(), startDegrees, extentDegrees, Arc2D.Double.PIE );
+            final Ellipse2D.Double ellipse = new Ellipse2D.Double( area.getX(), area.getY(), area.getWidth(), area.getHeight() );
+            final RectangularShape shape = numSlices <= 1 ? ellipse : arc;
+            shapes.add( shape );
+        }
+
+        return new Pattern( iterableList( shapes ) );
     }
 
     public static class Direction {

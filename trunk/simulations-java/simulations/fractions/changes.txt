@@ -1,3 +1,4 @@
+Matching game tab: Converted PiesSetNode to Pattern
 Matching game tab: Converted VerticalBarsNode to Pattern
 Matching game tab: Converted HorizontalBarsNode to Pattern
 Matching game tab: Fixed: The "diagonal interleaving L shape" is too bit big on the lower levels when there are 6 L's (level 2)
