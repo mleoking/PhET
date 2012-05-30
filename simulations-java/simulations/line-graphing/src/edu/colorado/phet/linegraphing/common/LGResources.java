@@ -27,7 +27,9 @@ public class LGResources {
         public static final String SAVE_LINE = RESOURCES.getLocalizedString( "saveLine" );
 
         public static final String SYMBOL_X = RESOURCES.getLocalizedString( "symbol.x" );
+        public static final String SYMBOL_X1 = RESOURCES.getLocalizedString( "symbol.x1" );
         public static final String SYMBOL_Y = RESOURCES.getLocalizedString( "symbol.y" );
+        public static final String SYMBOL_Y1 = RESOURCES.getLocalizedString( "symbol.y1" );
         public static final String SYMBOL_SLOPE = RESOURCES.getLocalizedString( "symbol.slope" );
         public static final String SYMBOL_INTERCEPT = RESOURCES.getLocalizedString( "symbol.intercept" );
 

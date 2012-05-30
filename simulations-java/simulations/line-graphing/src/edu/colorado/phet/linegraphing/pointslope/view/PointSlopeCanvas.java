@@ -2,7 +2,6 @@
 package edu.colorado.phet.linegraphing.pointslope.view;
 
 import java.awt.Color;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -14,7 +13,6 @@ import edu.colorado.phet.linegraphing.common.view.LGCanvas;
 import edu.colorado.phet.linegraphing.common.view.PointToolNode;
 import edu.colorado.phet.linegraphing.pointslope.model.PointSlopeModel;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
 
 //TODO lots of duplication with SlopeInterceptCanvas
 
@@ -32,17 +30,15 @@ public class PointSlopeCanvas extends LGCanvas {
 
     public PointSlopeCanvas( final PointSlopeModel model ) {
 
-        //TODO create PointSlopeLineGraphNode
+        // nodes
         PNode graphNode = new PointSlopeGraphNode( model.graph, model.mvt, model.interactiveLine, model.savedLines, model.standardLines,
                                                    model.riseRange, model.runRange, model.x1Range, model.y1Range,
                                                    interactiveEquationVisible, linesVisible, interactiveLineVisible, slopeVisible );
         PNode pointTool1 = new PointToolNode( model.pointTool1, model.mvt, model.graph, getStageBounds(), linesVisible );
         PNode pointTool2 = new PointToolNode( model.pointTool2, model.mvt, model.graph, getStageBounds(), linesVisible );
-        //TODO create PointSlopeEquationControls
-        PNode equationControls = new PPath( new Rectangle2D.Double( 0, 0, 300, 200 ) );
-//        SlopeInterceptEquationControls equationControls = new SlopeInterceptEquationControls( interactiveEquationVisible, model.interactiveLine,
-//                                                                                              model.riseRange, model.runRange, model.interceptRange,
-//                                                                                              model.savedLines, linesVisible );
+        PNode equationControls = new PointSlopeEquationControls( interactiveEquationVisible, model.interactiveLine,
+                                                                                              model.riseRange, model.runRange, model.x1Range, model.y1Range,
+                                                                                              model.savedLines, linesVisible );
         PNode graphControls = new GraphControls( linesVisible, slopeVisible, model.standardLines );
         PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, LGColors.RESET_ALL_BUTTON ) {{
             setConfirmationEnabled( false );

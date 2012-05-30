@@ -1,3 +1,4 @@
+5/29/12 point-slope: first pass at interactive equation (uses spinners)
 5/29/12 rename interactive equation node implementations to indicate what type of controls they use (spinners, pickers,...)
 5/29/12 move SpinnerNode and subclasses to linegraphing.common.view
 5/29/12 point-slope: factory for creating reduced forms of (y-y1)=m(x-x1)
