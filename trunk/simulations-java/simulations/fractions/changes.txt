@@ -1,3 +1,4 @@
+Matching game tab: Made outline stroke thicker than slice stroke
 Matching game tab: Converted PiesSetNode to Pattern
 Matching game tab: Converted VerticalBarsNode to Pattern
 Matching game tab: Converted HorizontalBarsNode to Pattern

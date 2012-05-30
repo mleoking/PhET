@@ -23,8 +23,10 @@ public class PatternNode extends PNode implements IColor {
         for ( P2<Shape, Boolean> o : representation.shapes ) {
 
             //Using a stroke more than 1 here prevents the right side from getting trimmed off during toImage
-            addChild( new PhetPPath( o._1(), o._2() ? color : Color.white, new BasicStroke( 1.2f ), Color.black ) );
+            addChild( new PhetPPath( o._1(), o._2() ? color : Color.white, new BasicStroke( 1f ), Color.black ) );
         }
+
+        addChild( new PhetPPath( representation.outline, new BasicStroke( 2f ), Color.black ) );
     }
 
     public Color getColor() {
