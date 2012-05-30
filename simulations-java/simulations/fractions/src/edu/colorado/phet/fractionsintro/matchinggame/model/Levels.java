@@ -14,8 +14,6 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
-import edu.colorado.phet.fractionsintro.intro.model.containerset.Container;
-import edu.colorado.phet.fractionsintro.intro.model.containerset.ContainerSet;
 import edu.colorado.phet.fractionsintro.intro.view.FractionNode;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Grid;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.PlusSigns;
@@ -24,7 +22,6 @@ import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Pyramid;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.IColor;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
-import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PieNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -140,18 +137,26 @@ public class Levels {
         }
     }, SEQUENTIAL );
 
-    final RepresentationType pies = twoComposites( "pies", all,
-                                                   new F<Fraction, PNode>() {
-                                                       @Override public PNode f( Fraction f ) {
-                                                           return myPieNode( f, LIGHT_GREEN );
-                                                       }
-                                                   },
-                                                   new F<Fraction, PNode>() {
-                                                       @Override public PNode f( Fraction f ) {
-                                                           return myPieNode( f, LIGHT_BLUE );
-                                                       }
-                                                   }
-    );
+    final RepresentationType pies4 = createPatterns( "pies", 4, 100, new F<Integer, Pattern>() {
+        @Override public Pattern f( final Integer integer ) {
+            return Pattern.pie( 4 );
+        }
+    }, SEQUENTIAL );
+    final RepresentationType pies3 = createPatterns( "pies", 3, 100, new F<Integer, Pattern>() {
+        @Override public Pattern f( final Integer integer ) {
+            return Pattern.pie( 3 );
+        }
+    }, SEQUENTIAL );
+    final RepresentationType pies2 = createPatterns( "pies", 2, 100, new F<Integer, Pattern>() {
+        @Override public Pattern f( final Integer integer ) {
+            return Pattern.pie( 2 );
+        }
+    }, SEQUENTIAL );
+    final RepresentationType pies1 = createPatterns( "pies", 1, 100, new F<Integer, Pattern>() {
+        @Override public Pattern f( final Integer integer ) {
+            return Pattern.pie( 1 );
+        }
+    }, SEQUENTIAL );
 
     public RepresentationType polygon( final int numSides, F2<Pattern, Integer, FilledPattern> fill ) {
         return createPatterns( numSides + " polygon", numSides, 80, new F<Integer, Pattern>() {
@@ -296,7 +301,7 @@ public class Levels {
     public static Levels Levels = new Levels();
 
     @SuppressWarnings("unchecked")
-    final List<RepresentationType> easyRepresentations = list( numeric, horizontalBars2, horizontalBars3, horizontalBars4, verticalBars2, verticalBars3, verticalBars4, pies );
+    final List<RepresentationType> easyRepresentations = list( numeric, horizontalBars1, horizontalBars2, horizontalBars3, horizontalBars4, verticalBars2, verticalBars3, verticalBars4, pies1, pies2, pies3, pies4 );
     final List<RepresentationType> mediumRepresentationsSequential = list( makePlusses( 2, SEQUENTIAL ), makePlusses( 3, SEQUENTIAL ), makePlusses( 4, SEQUENTIAL ), makePlusses( 5, SEQUENTIAL ), makePlusses( 6, SEQUENTIAL ),
                                                                            fourGridSEQUENTIAL, nineGridSEQUENTIAL, onePyramidSEQUENTIAL, fourPyramidSEQUENTIAL, ninePyramidSEQUENTIAL,
                                                                            polygon( 4, SEQUENTIAL ), polygon( 5, SEQUENTIAL ), polygon( 6, SEQUENTIAL ), polygon( 7, SEQUENTIAL ), polygon( 8, SEQUENTIAL ),
@@ -311,11 +316,6 @@ public class Levels {
     );
     final List<RepresentationType> easyScaledNumeric = list( scaledNumeric( 2 ), scaledNumeric( 3 ) );
     final List<RepresentationType> difficultScaledNumeric = list( scaledNumeric( 4 ), scaledNumeric( 5 ) );
-
-    //Convenience Wrapper to create PieNodes
-    private PNode myPieNode( final Fraction f, final Color color ) {
-        return new PieNode( new ContainerSet( f.denominator, new Container[] { new Container( f.denominator, range( 0, f.numerator ) ) } ), color );
-    }
 
     private ResultPair createPair( ArrayList<Fraction> fractions, ArrayList<Cell> cells, F<Fraction, ArrayList<RepresentationType>> representationPool, final List<ResultPair> alreadySelected ) {
 
