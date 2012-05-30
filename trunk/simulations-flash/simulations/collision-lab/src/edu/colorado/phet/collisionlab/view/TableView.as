@@ -57,7 +57,7 @@ public class TableView extends Sprite {
         makeTimeLabel();
         makeTotKELabel();
         makeTimeRateLabel();
-//        canvas.addChild( timeRate_slider );
+        canvas.addChild( timeRate_slider );
         myModel.registerView( this );
         showingPaths = false;
         myTrajectories = new Trajectories( myModel, this );
@@ -158,8 +158,6 @@ public class TableView extends Sprite {
         timeRateText.y = H + 10;
         timeRateText.x = timeRate_slider.x + (timeRate_slider.width / 2) - (timeRateText.width / 2);
 
-        timeRateText.visible = false;
-
         //positon KE label
         if ( myModel.isIntro ) {
             // intro tab. position KE at top middle
@@ -221,7 +219,7 @@ public class TableView extends Sprite {
         tFormat.size = 16;
         timeText.defaultTextFormat = tFormat;
         //timeText.setTextFormat(tFormat);
-//        canvas.addChild( timeText );
+        canvas.addChild( timeText );
     }
 
     public function setTotalKEVisible( visible: Boolean ): void {
@@ -259,7 +257,7 @@ public class TableView extends Sprite {
         tFormat.size = 12;
         timeRateText.defaultTextFormat = tFormat;
         //timeText.setTextFormat(tFormat);
-//        canvas.addChild( timeRateText );
+        canvas.addChild( timeRateText );
     }
 
     private function setupSlider(): void {

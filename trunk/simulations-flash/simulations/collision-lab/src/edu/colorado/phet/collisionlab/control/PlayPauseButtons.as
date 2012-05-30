@@ -26,9 +26,6 @@ public class PlayPauseButtons extends Sprite {
         this.initializeLabels();
         this.paused = true;
         myModel.registerView( this );
-
-        this.buttonView.myStepBackButton.visible = false;
-        this.buttonView.stepBackLabel.visible = false;
     }//end of constructor
 
     public function initializeButtons(): void {

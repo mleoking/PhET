@@ -11,8 +11,6 @@ public class Ball {
     public var position: TwoVector;
     public var velocity: TwoVector;
     public var momentum: TwoVector;
-    public var initialPosition: TwoVector;
-    public var initialVelocity: TwoVector;
 
     public function Ball( mass: Number, position: TwoVector, velocity: TwoVector ) {
         this.mass = mass;
@@ -23,13 +21,7 @@ public class Ball {
         this.position = position;
         this.velocity = velocity;
         this.momentum = new TwoVector( this.mass * this.velocity.getX(), this.mass * this.velocity.getY() );
-        setAsInitialState();
     }//end of constructor
-
-    public function setAsInitialState(): void {
-        initialPosition = new TwoVector( position.getX(), position.getY() );
-        initialVelocity = new TwoVector( velocity.getX(), velocity.getY() );
-    }
 
     //reset position to position at previous timestep
     public function backupOneStep(): void {
@@ -43,7 +35,6 @@ public class Ball {
         this.position = position;
         this.velocity = velocity;
         this.momentum = new TwoVector( this.mass * this.velocity.getX(), this.mass * this.velocity.getY() );
-        setAsInitialState();
     }
 
     public function setMass( mass: Number ): void {
