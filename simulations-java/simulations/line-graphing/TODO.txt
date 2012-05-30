@@ -7,7 +7,6 @@ DESIGN
 - point-slope: when x1=y1, should "(y-y1) = m(x-x1)" be reduced to "y=mx"? eg, (y-2)=2(x-2) -> y=2x
 
 HIGH
-- Point-Slope: reduced form equation of saved lines is incorrect
 - Point-Slope: using interactive equation skips over values that would produce slope=0/0, but value in equation isn't updated
 - duplication: SlopeInterceptDragHandler, PointSlopeDragHandler
 - duplication: SlopeInterceptCanvas, PointSlopeCanvas

@@ -1,3 +1,4 @@
+5/30/12 fix copy constructor for StraightLine
 5/30/12 point-slope: hide zeros when reducing equations
 5/29/12 point-slope: first pass at interactive equation (uses spinners)
 5/29/12 rename interactive equation node implementations to indicate what type of controls they use (spinners, pickers,...)
