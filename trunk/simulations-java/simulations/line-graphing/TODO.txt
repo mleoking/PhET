@@ -4,11 +4,11 @@ DEADLINES
 
 DESIGN
 - controls for interactive equation (spinners, pickers, ...)
+- point-slope: when x1=y1 (eg) should "(y - 2) = (x-2)" be reduced to "y=x"?
 
 HIGH
 - Point-Slope: reduced form equation of saved lines is incorrect
 - Point-Slope: using interactive equation skips over values that would produce slope=0/0, but value in equation isn't updated
-- Point-Slope: reduced form of standard lines should be y=x, not (y-0)=(x-0)
 - duplication: SlopeInterceptDragHandler, PointSlopeDragHandler
 - duplication: SlopeInterceptCanvas, PointSlopeCanvas
 - duplication: SlopeInterceptModel, PointSlopeModel
