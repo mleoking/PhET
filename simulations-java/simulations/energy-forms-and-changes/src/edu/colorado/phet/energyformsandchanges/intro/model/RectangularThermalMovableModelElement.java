@@ -25,12 +25,14 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
     protected double energy = 0; // In Joules.
     protected final double specificHeat; // In J/kg-K
     protected final double mass; // In kg
+    protected final ConstantDtClock clock;
 
     /**
      * Constructor.
      */
     public RectangularThermalMovableModelElement( ConstantDtClock clock, ImmutableVector2D initialPosition, double mass, double specificHeat, BooleanProperty energyChunksVisible ) {
         super( initialPosition );
+        this.clock = clock;
         this.mass = mass;
         this.specificHeat = specificHeat;
         this.energyChunksVisible = energyChunksVisible;
@@ -115,9 +117,8 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
         Rectangle2D energyChunkBounds = getThermalContactArea().getBounds();
         while ( targetNumChunks != getEnergyChunkList().size() ) {
             // Add a chunk at a random location in the block.
-            addEnergyChunk( new EnergyChunk( EnergyChunkDistributor.generateRandomLocation( energyChunkBounds ), energyChunksVisible ) );
+            addEnergyChunk( new EnergyChunk( clock, EnergyChunkDistributor.generateRandomLocation( energyChunkBounds ), energyChunksVisible, false ) );
             System.out.println( "Added a chunk" );
         }
-//        EnergyChunkDistributor.distribute( getRect(), getEnergyChunkList() );
     }
 }
