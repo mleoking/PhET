@@ -11,6 +11,7 @@ import javax.swing.JDialog;
 import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 
 /**
  * Menu item for displaying simulation sponsor.
@@ -22,7 +23,7 @@ public class SponsorMenuItem extends JMenuItem {
     private JDialog dialog;
 
     public SponsorMenuItem( final PhetApplicationConfig config, final Frame frame ) {
-        super( "Sponsor..." ); //TODO i18n
+        super( PhetCommonResources.getString( "Sponsor.sponsorMenuItem" ) );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( dialog == null ) {

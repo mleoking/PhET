@@ -13,6 +13,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPane;
@@ -24,10 +25,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class SponsorPanel extends GridPanel {
-
-    //TODO i18n
-    private static final String SPONSORED_BY = "Sponsored by";
-    private static final String SINCE_DATE = "(since {0})";
 
     public SponsorPanel( PhetApplicationConfig config ) {
 
@@ -46,7 +43,7 @@ public class SponsorPanel extends GridPanel {
         setBorder( new CompoundBorder( new LineBorder( Color.BLACK, 1 ), new EmptyBorder( yMargin, xMargin, yMargin, xMargin ) ) );
         setGridX( 0 ); // vertical
         setAnchor( Anchor.CENTER );
-        add( new JLabel( SPONSORED_BY ) {{
+        add( new JLabel( PhetCommonResources.getString( "Sponsor.sponsoredBy" ) ) {{
             setFont( new PhetFont( 18 ) );
         }} );
         add( Box.createVerticalStrut( 15 ) );
@@ -62,7 +59,7 @@ public class SponsorPanel extends GridPanel {
         add( Box.createVerticalStrut( 15 ) );
         // since date
         if ( sinceDate != null ) {
-            add( new JLabel( MessageFormat.format( SINCE_DATE, sinceDate ) ) {{
+            add( new JLabel( MessageFormat.format( PhetCommonResources.getString( "Sponsor.sinceDate" ), sinceDate ) ) {{
                 setFont( new PhetFont( 10 ) );
             }} );
         }
