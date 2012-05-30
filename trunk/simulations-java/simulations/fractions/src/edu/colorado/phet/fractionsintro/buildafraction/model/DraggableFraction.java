@@ -22,8 +22,6 @@ public @Data class DraggableFraction {
 
     public FractionID getID() { return id; }
 
-    public boolean isDragging() { return draggableObject.dragging; }
-
     public DraggableFraction translate( final Vector2D delta ) { return withDraggableObject( draggableObject.translate( delta ) ); }
 
     public DraggableFraction withDraggableObject( final DraggableObject draggableObject ) { return new DraggableFraction( id, draggableObject, numerator, denominator ); }
