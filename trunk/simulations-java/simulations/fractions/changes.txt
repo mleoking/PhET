@@ -1,3 +1,4 @@
+Matching game tab: Fixed buggy outline for triangles
 Matching game tab: Fixed buggy outline for circles
 Matching game tab: Made outline stroke thicker than slice stroke
 Matching game tab: Converted PiesSetNode to Pattern
