@@ -1,3 +1,4 @@
+5/29/12 #3166, deleted sponsor prototype files
 # 3.20.03 (61560) Feb 21, 2012
 2/21/12 new dev version for sponsor prototype, KD was having problems running the previous version
 2/21/12 #3166, create a separate flavor for sponsor prototype, so we don't have to keep enabling/disabling in circuit-construction-kit-build.properties

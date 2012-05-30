@@ -92,7 +92,6 @@ public class SponsorDialog extends JDialog {
     public static boolean shouldShow( PhetApplicationConfig config ) {
         boolean isFeatureEnabled = config.isSponsorFeatureEnabled();
         boolean isWellFormed = new SponsorProperties( config ).isWellFormed();
-        boolean hasProgramArg = config.hasCommandLineArg( "-sponsorPrototype" ); //TODO delete this after prototyping
-        return isFeatureEnabled && isWellFormed && hasProgramArg;
+        return isFeatureEnabled && isWellFormed;
     }
 }
