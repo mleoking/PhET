@@ -4,11 +4,17 @@ DEADLINES
 
 DESIGN
 - controls for interactive equation (spinners, pickers, ...)
-- point-slope: when x1=y1, should "(y-y1) = m(x-x1)" be reduced to "y=mx"? eg, (y-2)=2(x-2) -> y=2x
+- point-slope: which forms? "(y-y1)=m(x-x1)", "y=m(x-x1)+y1", "m=(y-y1)/(x-x1)"; why and what benefit? only the first of these is really point-slope form
+- point-slope: how to present x1 and y1 in interactive equation?
+- point-slope: how to label lines on graph? reduced slope-intercept form? reduced point-sloped form (whatever that is)?
+- point-slope: if we label lines with slope-intercept equations, should intercept be proper or improper fraction?
+- point-slope: check box to hide equations on lines in graph
 - point-slope: should blue manipulator be labeled (x1,y1)?
 - move "lines" control panel closer to graph, into space reserved for moving point tools?
+- interactive parts of equation different colors from static parts?
 
 HIGH
+- point-slope: radio buttons in close label for choosing point-slope variant
 - Point-Slope: using interactive equation skips over values that would produce slope=0/0, but value in equation isn't updated
 - duplication: SlopeInterceptDragHandler, PointSlopeDragHandler
 - duplication: SlopeInterceptCanvas, PointSlopeCanvas
@@ -16,6 +22,8 @@ HIGH
 - duplication: SlopeInterceptEquationControls, PointSlopeEquationControls
 
 MEDIUM
+- make division line between rise and run thicker in interactive equations (4f)
+- subscripts on x1 and y1
 - better handling and testing of adjustment to avoid slope=0/0
 - Point-Slope: 2 variations of point-slope form
 - outlined numbers (OutlineTextNode) in pickers are aliased
