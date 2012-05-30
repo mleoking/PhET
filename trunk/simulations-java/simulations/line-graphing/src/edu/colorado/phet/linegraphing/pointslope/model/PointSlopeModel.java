@@ -76,7 +76,7 @@ public class PointSlopeModel implements Resettable {
 
         graph = new Graph( X_RANGE, Y_RANGE );
 
-        pointTool1 = new PointTool( new ImmutableVector2D( X_RANGE.getMax() + 2.75, Y_RANGE.getMin() - 2 ), interactiveLine, savedLines, standardLines );
+        pointTool1 = new PointTool( new ImmutableVector2D( X_RANGE.getMax() + 4, Y_RANGE.getMin() - 2 ), interactiveLine, savedLines, standardLines );
         pointTool2 = new PointTool( pointTool1.location.get(), interactiveLine, savedLines, standardLines );
 
         // Dynamically set ranges so that variables are constrained to the bounds of the graph.
