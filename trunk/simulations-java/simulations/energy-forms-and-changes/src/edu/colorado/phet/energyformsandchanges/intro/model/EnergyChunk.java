@@ -50,13 +50,14 @@ public class EnergyChunk {
     private void stepInTime( double dt ) {
         switch( fadeState ) {
             case FADING_IN:
-                existenceStrength.set( Math.max( existenceStrength.get() + FADE_RATE * dt, 1 ) );
+                System.out.println( "existenceStrength = " + existenceStrength.get() );
+                existenceStrength.set( Math.min( existenceStrength.get() + FADE_RATE * dt, 1 ) );
                 if ( existenceStrength.get() == 1 ) {
                     fadeState = FadeState.FULLY_FADED_IN;
                 }
                 break;
             case FADING_OUT:
-                existenceStrength.set( Math.min( existenceStrength.get() - FADE_RATE * dt, 0 ) );
+                existenceStrength.set( Math.max( existenceStrength.get() - FADE_RATE * dt, 0 ) );
                 if ( existenceStrength.get() == 0 ) {
                     fadeState = FadeState.FULLY_FADED_OUT;
                 }
