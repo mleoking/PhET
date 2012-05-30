@@ -2,7 +2,6 @@
 package edu.colorado.phet.energyformsandchanges.intro.view;
 
 import java.awt.Image;
-import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -20,7 +19,6 @@ import edu.umd.cs.piccolo.nodes.PImage;
 public class EnergyChunkNode extends PNode {
 
     private static final double WIDTH = 24; // In screen coords, which is close to pixels.
-    private static final Random RAND = new Random( 1962 );
 
     public EnergyChunkNode( EnergyChunk energyChunk, final ModelViewTransform mvt ) {
 
@@ -40,12 +38,7 @@ public class EnergyChunkNode extends PNode {
 
         // Add the image that represents this energy chunk.
         Image imageSource;
-        if ( RAND.nextBoolean() ) {
-            imageSource = EnergyFormsAndChangesResources.Images.E_THERM_OUTLINE;
-        }
-        else {
-            imageSource = EnergyFormsAndChangesResources.Images.E_THERM_OUTLINE_BLACK;
-        }
+        imageSource = EnergyFormsAndChangesResources.Images.E_THERM_OUTLINE;
         PImage image = new PImage( imageSource );
         image.setScale( WIDTH / image.getFullBoundsReference().width );
         image.setOffset( -image.getFullBoundsReference().width / 2, -image.getFullBoundsReference().height / 2 );
