@@ -12,7 +12,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
-import edu.colorado.phet.linegraphing.common.view.EquationNodeFactory;
+import edu.colorado.phet.linegraphing.common.view.EquationFactory;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -21,7 +21,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class SlopeInterceptEquationFactory extends EquationNodeFactory {
+class SlopeInterceptEquationFactory extends EquationFactory {
 
     public EquationNode createNode( StraightLine line, PhetFont font ) {
         if ( MathUtil.round( line.run ) == 0 ) {

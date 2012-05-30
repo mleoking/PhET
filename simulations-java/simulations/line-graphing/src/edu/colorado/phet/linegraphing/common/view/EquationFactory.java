@@ -12,11 +12,11 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * Base class for all factories that creates a node for displaying an equation in reduced form.
+ * Base class for all factories that create nodes for equations in reduced form.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class EquationNodeFactory {
+public abstract class EquationFactory {
 
     protected static final double X_SPACING = 3;
     protected static final double Y_SPACING = 0;

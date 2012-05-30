@@ -5,6 +5,8 @@ DEADLINES
 DESIGN
 - controls for interactive equation (spinners, pickers, ...)
 - point-slope: when x1=y1, should "(y-y1) = m(x-x1)" be reduced to "y=mx"? eg, (y-2)=2(x-2) -> y=2x
+- point-slope: should blue manipulator be labeled (x1,y1)?
+- move "lines" control panel closer to graph, into space reserved for moving point tools?
 
 HIGH
 - Point-Slope: using interactive equation skips over values that would produce slope=0/0, but value in equation isn't updated
