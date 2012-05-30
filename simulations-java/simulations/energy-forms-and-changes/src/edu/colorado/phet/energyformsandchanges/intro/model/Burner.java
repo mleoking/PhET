@@ -2,6 +2,7 @@
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -41,8 +42,11 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     private static final double SPECIFIC_HEAT = 129; // In J/kg-K
     private static final double INITIAL_ENERGY = MASS * SPECIFIC_HEAT * EFACConstants.ROOM_TEMPERATURE;
 
-    // Random number generator, used for initial postions of energy chunks.
+    // Random number generator, used for initial positions of energy chunks.
     private static final Random RAND = new Random();
+
+    // Rate at which energy chunks travel when returning to the burner during cooling.
+    private static final double ENERGY_CHUNK_VELOCITY = 0.03; // In meters per second.
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -60,6 +64,8 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     private final BooleanProperty energyChunksVisible;
 
     private final ConstantDtClock clock;
+
+    private final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -117,29 +123,35 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
         return energy;
     }
 
-    public void exchangeEnergyWith( ThermalEnergyContainer energyContainer, double dt ) {
-        double thermalContactLength = getThermalContactArea().getThermalContactLength( energyContainer.getThermalContactArea() );
+    public void exchangeEnergyWith( ThermalEnergyContainer otherEnergyContainer, double dt ) {
+        double thermalContactLength = getThermalContactArea().getThermalContactLength( otherEnergyContainer.getThermalContactArea() );
 
         if ( thermalContactLength > 0 ) {
 
             // The burner is in contact with this item.  Exchange energy.
-            if ( Math.abs( energyContainer.getTemperature() - getTemperature() ) > TEMPERATURES_EQUAL_THRESHOLD ) {
+            if ( Math.abs( otherEnergyContainer.getTemperature() - getTemperature() ) > TEMPERATURES_EQUAL_THRESHOLD ) {
                 // Exchange energy between this and the other energy container.
                 // TODO: The following is a first attempt and likely to need much adjustment.
-                double thermalEnergyGained = ( energyContainer.getTemperature() - getTemperature() ) * thermalContactLength * 2000 * dt;
+                double thermalEnergyGained = ( otherEnergyContainer.getTemperature() - getTemperature() ) * thermalContactLength * 2000 * dt;
                 changeEnergy( thermalEnergyGained );
-                energyContainer.changeEnergy( -thermalEnergyGained );
+                otherEnergyContainer.changeEnergy( -thermalEnergyGained );
             }
 
             // See if the other element needs energy chunks.
-            if ( energyContainer.needsEnergyChunk() ) {
-                // Create an energy chunk and give it to the model element.
-                // Position the chunk inside the flame.  The other model
-                // element is responsible for animating it to the right
-                // location.
+            if ( otherEnergyContainer.needsEnergyChunk() ) {
+                // The other energy container needs an energy chunk, so create
+                // one for it.  It is the other container's responsibility to
+                // animate it to the right place.
                 double xPos = position.getX() + ( RAND.nextDouble() - 0.5 ) * WIDTH / 3;
                 double yPos = HEIGHT * 0.6; // Tweaked to work well with the view.
-                energyContainer.addEnergyChunk( new EnergyChunk( clock, new ImmutableVector2D( xPos, yPos ), energyChunksVisible, true ) );
+                otherEnergyContainer.addEnergyChunk( new EnergyChunk( clock, new ImmutableVector2D( xPos, yPos ), energyChunksVisible, true ) );
+            }
+            else if ( otherEnergyContainer.hasExcessEnergyChunks() ) {
+                // The other energy container needs to get rid of an energy
+                // chunk, so take one off of its hands.
+                EnergyChunk ec = otherEnergyContainer.removeEnergyChunk();
+                ec.startFadeOut();
+                energyChunkList.add( ec );
             }
         }
     }
@@ -182,10 +194,21 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     }
 
     public ObservableList<EnergyChunk> getEnergyChunkList() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return energyChunkList;
     }
 
     private void stepInTime( double dt ) {
         updateInternallyProducedEnergy( dt );
+        for ( EnergyChunk energyChunk : new ArrayList<EnergyChunk>( energyChunkList ) ) {
+            if ( energyChunk.getExistenceStrength().get() > 0 ) {
+                // Move the chunk.
+                ImmutableVector2D motion = new ImmutableVector2D( position.getX(), position.getY() + HEIGHT / 2 ).getSubtractedInstance( energyChunk.position.get() ).getInstanceOfMagnitude( ENERGY_CHUNK_VELOCITY * dt );
+                energyChunk.translate( motion );
+            }
+            else {
+                // This chunk has faded to nothing, so remove it.
+                energyChunkList.remove( energyChunk );
+            }
+        }
     }
 }

@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  */
 public class EnergyChunk {
 
-    public static final double FADE_RATE = 1; // Proportion per second.
+    public static final double FADE_RATE = 0.5; // Proportion per second.
 
     public final Property<ImmutableVector2D> position;
     public final BooleanProperty visible;
@@ -79,5 +79,9 @@ public class EnergyChunk {
 
     public ObservableProperty<Double> getExistenceStrength() {
         return existenceStrength;
+    }
+
+    public void startFadeOut() {
+        fadeState = FadeState.FADING_OUT;
     }
 }
