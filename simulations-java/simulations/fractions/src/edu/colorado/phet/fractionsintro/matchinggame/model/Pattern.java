@@ -112,6 +112,16 @@ public class Pattern {
         } ) );
     }
 
+    public static Pattern horizontalBars( int numBars ) {
+        final int width = 70;
+        final int sliceHeight = width / numBars;
+        return new Pattern( range( 0, numBars ).map( new F<Integer, Shape>() {
+            @Override public Shape f( final Integer index ) {
+                return new Rectangle2D.Double( 0, index * sliceHeight, width, sliceHeight );
+            }
+        } ).reverse() );
+    }
+
     public static class Direction {
         public static Direction RIGHT = new Direction( 1, 0 );
         public static Direction LEFT = new Direction( -1, 0 );
