@@ -1,4 +1,4 @@
-package edu.colorado.phet.collisionlab.control {
+﻿package edu.colorado.phet.collisionlab.control {
 import edu.colorado.phet.collisionlab.constants.CLConstants;
 import edu.colorado.phet.collisionlab.model.Model;
 import edu.colorado.phet.collisionlab.util.Util;
@@ -6,6 +6,7 @@ import edu.colorado.phet.collisionlab.view.BallImage;
 import edu.colorado.phet.collisionlab.view.MainView;
 import edu.colorado.phet.flashcommon.SimStrings;
 import edu.colorado.phet.flashcommon.TextFieldUtils;
+import edu.colorado.phet.collisionlab.CollisionLab;
 
 import fl.controls.*;
 import fl.events.*;
@@ -83,6 +84,8 @@ public class DataTable extends Sprite {
             if ( row > headerRowNbr ) {
                 var ballNum: int = ballNbr( row );
                 massSlider_arr[ballNum] = new Slider();
+                massSlider_arr[ballNum].getChildAt( 1 ).width = CollisionLab.KNOB_SIZE;
+                massSlider_arr[ballNum].getChildAt( 1 ).height = CollisionLab.KNOB_SIZE;
                 massSlider_arr[ballNum].name = ballNum; //label slider with ball number: 0, 1, ..
                 setupSlider( this.massSlider_arr[ballNum] );
             }

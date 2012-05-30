@@ -24,6 +24,8 @@ public class CollisionLab extends Sprite {  //should the main class extend Movie
     private var tabBar: TabBar;
     private var phetIcon: PhetIcon;
 
+    public static const KNOB_SIZE:Number = 24;
+
     public function CollisionLab() {
         SimStrings.init( loaderInfo );
         //stage width and height hard-coded for now
