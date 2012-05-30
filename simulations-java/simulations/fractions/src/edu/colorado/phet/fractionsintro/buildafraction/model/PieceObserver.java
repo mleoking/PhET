@@ -15,7 +15,7 @@ public abstract class PieceObserver implements ChangeObserver<BuildAFractionStat
 
     public PieceObserver( final PieceID id ) {this.id = id;}
 
-    @Override public void update( final BuildAFractionState newValue, final BuildAFractionState oldValue ) {
+    public void update( final BuildAFractionState newValue, final BuildAFractionState oldValue ) {
         final Option<Piece> old = oldValue.getPiece( id );
         final Option<Piece> newOne = newValue.getPiece( id );
         boolean equal = Equal.optionEqual( Equal.<Piece>anyEqual() ).eq( newOne, old );

@@ -200,9 +200,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                         return numberTool( i, model, BuildAFractionCanvas.this, i * spacing );
                     }
                 };
-                final PNode fractionTool = fractionTool( -spacing, model, BuildAFractionCanvas.this );
-                fractionTool.translate( 0, -fractionTool.getFullBounds().getHeight() / 4 * 0.7 );//Fudge factor to line them up
-                addChild( new FNode( range( 0, 10 ).map( toNumberTool ).cons( fractionTool ) ) {{
+                addChild( new FNode( range( 0, 10 ).map( toNumberTool ) ) {{
                     centerFullBoundsOnPoint( border.getCenterX(), border.getCenterY() );
                 }} );
 
@@ -211,6 +209,17 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
 
             addChild( picturesContainerLayer );
         }};
+
+        //Adding this listener before calling the update allows us to get the ChangeObserver callback.
+        final DraggableFraction draggableFraction = new DraggableFraction( FractionID.nextID(), new DraggableObject( new Vector2D( 350, 350 ), true ), Option.<DraggableNumberID>none(), Option.<DraggableNumberID>none() );
+        picturesContainerLayer.addChild( new DraggableFractionNode( draggableFraction.getID(), model, this ) );
+
+        //Change the model
+        model.update( new ModelUpdate() {
+            public BuildAFractionState update( final BuildAFractionState state ) {
+                return state.addDraggableFraction( draggableFraction );
+            }
+        } );
 
         //When the mode changes, update the toolboxes
         addChild( new UpdateNode( new Effect<PNode>() {
@@ -373,42 +382,6 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
         }};
     }
 
-    public static PNode fractionTool( final double offsetX, final BuildAFractionModel model, final BuildAFractionCanvas canvas ) {
-        return new PNode() {{
-            addChild( emptyFractionGraphic( false ) );
-            addInputEventListener( new CursorHandler() );
-            addInputEventListener( new PBasicInputEventHandler() {
-
-                private FractionID id;
-
-                @Override public void mousePressed( final PInputEvent event ) {
-
-                    //Find out where to put the bar in stage coordinate frame, transform through the root node.
-                    PBounds bounds = getGlobalFullBounds();
-                    Rectangle2D localBounds = canvas.rootNode.globalToLocal( bounds );
-
-                    final DraggableFraction draggableFraction = new DraggableFraction( FractionID.nextID(), new DraggableObject( new Vector2D( localBounds.getX(), localBounds.getY() ), true ), Option.<DraggableNumberID>none(), Option.<DraggableNumberID>none() );
-                    id = draggableFraction.getID();
-
-                    //Adding this listener before calling the update allows us to get the ChangeObserver callback.
-                    canvas.picturesContainerLayer.addChild( new DraggableFractionNode( draggableFraction.getID(), model, canvas ) );
-
-                    //Change the model
-                    model.update( new ModelUpdate() {
-                        public BuildAFractionState update( final BuildAFractionState state ) {
-                            return state.addDraggableFraction( draggableFraction );
-                        }
-                    } );
-                }
-
-                @Override public void mouseReleased( final PInputEvent event ) { model.update( RELEASE_ALL ); }
-
-                @Override public void mouseDragged( final PInputEvent event ) { model.dragFraction( id, event.getDeltaRelativeTo( canvas.rootNode ) ); }
-            } );
-            setOffset( offsetX, 0 );
-        }};
-    }
-
     public static PNode emptyFractionGraphic( boolean showNumeratorOutline, boolean showDenominatorOutline ) {
         final VBox box = new VBox( box( showNumeratorOutline ), divisorLine(), box( showDenominatorOutline ) );
 
@@ -416,8 +389,6 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
         final PhetPPath background = new PhetPPath( RectangleUtils.expand( box.getFullBounds(), 5, 5 ), TRANSPARENT );
         return new RichPNode( background, box );
     }
-
-    public static PNode emptyFractionGraphic( boolean isUserDraggingZero ) { return emptyFractionGraphic( true, !isUserDraggingZero ); }
 
     private static PNode divisorLine() { return new PhetPPath( new Line2D.Double( 0, 0, 50, 0 ), new BasicStroke( 4, CAP_ROUND, JOIN_MITER ), black ); }
 

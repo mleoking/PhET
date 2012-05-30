@@ -86,14 +86,6 @@ public @Data class BuildAFractionState {
                 } ) );
     }
 
-    public BuildAFractionState replaceContainer( final Container c, final Container replacement ) {
-        return withContainers( containers.map( new F<Container, Container>() {
-            @Override public Container f( final Container container ) {
-                return container == c ? replacement : container;
-            }
-        } ) );
-    }
-
     public Option<Container> getContainer( final ContainerID id ) { return containers.find( matchID( id, Container.ID ) ); }
 
     public BuildAFractionState startDraggingContainer( final ContainerID id ) {
