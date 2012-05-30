@@ -227,7 +227,7 @@ public class Pattern {
 
     public static void main( String[] args ) throws InvocationTargetException, InterruptedException {
         SwingUtilities.invokeAndWait( new Runnable() {
-            @Override public void run() {
+            public void run() {
                 new PFrame() {{
                     setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
                     setSize( 1024, 768 );
