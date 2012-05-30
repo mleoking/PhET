@@ -21,15 +21,19 @@ import static edu.colorado.phet.fractionsintro.common.util.DefaultP2.p2;
  */
 public class FilledPattern {
     public final List<P2<Shape, Boolean>> shapes;
+    public final Shape outline;
 
-    public FilledPattern( final List<P2<Shape, Boolean>> shapes ) { this.shapes = shapes; }
+    public FilledPattern( final List<P2<Shape, Boolean>> shapes, Shape outline ) {
+        this.shapes = shapes;
+        this.outline = outline;
+    }
 
     public static FilledPattern sequentialFill( Pattern pattern, final int numFilled ) {
         return new FilledPattern( pattern.shapes.zipIndex().map( new F<P2<Shape, Integer>, P2<Shape, Boolean>>() {
             @Override public P2<Shape, Boolean> f( final P2<Shape, Integer> p ) {
                 return p2( p._1(), p._2() < numFilled );
             }
-        } ) );
+        } ), pattern.outline );
     }
 
     public static FilledPattern randomFill( Pattern pattern, final int numFilled, final long seed ) {
@@ -41,6 +45,6 @@ public class FilledPattern {
             @Override public P2<Shape, Boolean> f( final P2<Shape, Integer> p ) {
                 return p2( p._1(), elm.toCollection().contains( p._2() ) );
             }
-        } ) );
+        } ), pattern.outline );
     }
 }

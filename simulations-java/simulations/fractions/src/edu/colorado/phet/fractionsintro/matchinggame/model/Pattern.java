@@ -9,6 +9,7 @@ import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Arc2D;
+import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RectangularShape;
@@ -39,9 +40,16 @@ import static fj.data.List.*;
  * @author Sam Reid
  */
 public class Pattern {
+    public final Shape outline;
     public final List<Shape> shapes;
 
-    public Pattern( List<Shape> shapes ) {
+    public Pattern( final List<Shape> shapes ) {
+        Area area = new Area() {{
+            for ( Shape shape : shapes ) {
+                add( new Area( shape ) );
+            }
+        }};
+        this.outline = area;
         this.shapes = shapes;
     }
 
