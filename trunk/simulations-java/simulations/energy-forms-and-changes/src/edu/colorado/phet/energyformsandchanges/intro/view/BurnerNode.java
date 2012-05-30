@@ -12,12 +12,14 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HeaterCoolerNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyformsandchanges.intro.model.Burner;
+import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunk;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -60,6 +62,23 @@ public class BurnerNode extends PNode {
 
         // Add the top of the burner stand.
         addChild( new BurnerStandTop( new Point2D.Double( burnerViewRect.getX(), burnerViewRect.getY() ), burnerViewRect.getWidth() ) );
+
+        // Watch for energy chunks coming and going and add/remove nodes accordingly.
+        burner.getEnergyChunkList().addElementAddedObserver( new VoidFunction1<EnergyChunk>() {
+            public void apply( final EnergyChunk addedEnergyChunk ) {
+                final PNode energyChunkNode = new EnergyChunkNode( addedEnergyChunk, mvt );
+                addChild( energyChunkNode );
+                burner.getEnergyChunkList().addElementRemovedObserver( new VoidFunction1<EnergyChunk>() {
+                    public void apply( EnergyChunk removedEnergyChunk ) {
+                        if ( removedEnergyChunk == addedEnergyChunk ) {
+                            removeChild( energyChunkNode );
+                            burner.getEnergyChunkList().removeElementRemovedObserver( this );
+                        }
+                    }
+                } );
+            }
+        } );
+
     }
 
     private static class BurnerStandSide extends PNode {
