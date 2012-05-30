@@ -95,4 +95,8 @@ public class StraightLine {
     private int getGCD() {
         return MathUtil.getGreatestCommonDivisor( MathUtil.round( Math.abs( rise ) ), MathUtil.round( Math.abs( run ) ) );
     }
+
+    @Override public String toString() {
+        return "rise=" + rise + ",run=" + run + ",x1=" + x1 + ",y1=" + y1 + ",yIntercept=" + yIntercept;
+    }
 }

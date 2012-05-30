@@ -6,6 +6,8 @@ import java.awt.Image;
 import java.awt.geom.Rectangle2D;
 import java.text.NumberFormat;
 
+import org.eclipse.swt.internal.win32.POINT;
+
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
@@ -34,6 +36,8 @@ public abstract class SpinnerNode extends PNode {
     private static final ButtonsLocation RISE_BUTTONS_LOCATION = ButtonsLocation.RIGHT;
     private static final ButtonsLocation RUN_BUTTONS_LOCATION = ButtonsLocation.RIGHT;
     private static final ButtonsLocation INTERCEPT_BUTTONS_LOCATION = ButtonsLocation.RIGHT;
+    private static final ButtonsLocation X1_BUTTONS_LOCATION = ButtonsLocation.RIGHT;
+    private static final ButtonsLocation Y1_BUTTONS_LOCATION = ButtonsLocation.RIGHT;
 
     private static final boolean DEBUG_BOUNDS = false;
 
@@ -182,6 +186,31 @@ public abstract class SpinnerNode extends PNode {
                    Images.SPINNER_UP_UNPRESSED_YELLOW, Images.SPINNER_UP_PRESSED_YELLOW, Images.SPINNER_UP_GRAY,
                    Images.SPINNER_DOWN_UNPRESSED_YELLOW, Images.SPINNER_DOWN_PRESSED_YELLOW, Images.SPINNER_DOWN_GRAY,
                    value, range, font, format, true /* abs */, INTERCEPT_BUTTONS_LOCATION );
+        }
+    }
+
+    // Base class that is color-coded for point in point-slope form
+    private abstract static class PointSpinnerNode extends SpinnerNode {
+        public PointSpinnerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format, ButtonsLocation buttonsLocation ) {
+            super( userComponent,
+                   //TODO create blue button images for point spinner
+                   Images.SPINNER_UP_UNPRESSED_YELLOW, Images.SPINNER_UP_PRESSED_YELLOW, Images.SPINNER_UP_GRAY,
+                   Images.SPINNER_DOWN_UNPRESSED_YELLOW, Images.SPINNER_DOWN_PRESSED_YELLOW, Images.SPINNER_DOWN_GRAY,
+                   value, range, font, format, true /* abs */, buttonsLocation );
+        }
+    }
+
+    // x1 spinner
+    public static class X1SpinnerNode extends PointSpinnerNode {
+        public X1SpinnerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format  ) {
+            super( userComponent, value, range, font, format, X1_BUTTONS_LOCATION );
+        }
+    }
+
+    // y1 spinner
+    public static class Y1SpinnerNode extends PointSpinnerNode {
+        public Y1SpinnerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format  ) {
+            super( userComponent, value, range, font, format, Y1_BUTTONS_LOCATION );
         }
     }
 }
