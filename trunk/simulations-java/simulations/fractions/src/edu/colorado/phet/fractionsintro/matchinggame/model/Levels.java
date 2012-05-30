@@ -22,7 +22,6 @@ import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.PlusSigns;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Polygon;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Pyramid;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern;
-import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.HorizontalBarsNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.IColor;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PieNode;
@@ -105,18 +104,22 @@ public class Levels {
                                      } );
     }
 
-    final RepresentationType horizontalBars = twoComposites( "horizontal bars", all,
-                                                             new F<Fraction, PNode>() {
-                                                                 @Override public PNode f( Fraction f ) {
-                                                                     return new HorizontalBarsNode( f, 0.9, LIGHT_GREEN );
-                                                                 }
-                                                             },
-                                                             new F<Fraction, PNode>() {
-                                                                 @Override public PNode f( Fraction f ) {
-                                                                     return new HorizontalBarsNode( f, 0.9, LIGHT_BLUE );
-                                                                 }
-                                                             }
-    );
+    final RepresentationType horizontalBars4 = createPatterns( "horizontal bars", 4, 100, new F<Integer, Pattern>() {
+        @Override public Pattern f( final Integer integer ) {
+            return Pattern.horizontalBars( 4 );
+        }
+    }, SEQUENTIAL );
+    final RepresentationType horizontalBars3 = createPatterns( "horizontal bars", 3, 100, new F<Integer, Pattern>() {
+        @Override public Pattern f( final Integer integer ) {
+            return Pattern.horizontalBars( 3 );
+        }
+    }, SEQUENTIAL );
+    final RepresentationType horizontalBars2 = createPatterns( "horizontal bars", 2, 100, new F<Integer, Pattern>() {
+        @Override public Pattern f( final Integer integer ) {
+            return Pattern.horizontalBars( 2 );
+        }
+    }, SEQUENTIAL );
+
     final RepresentationType verticalBars = twoComposites( "vertical bars", all,
                                                            new F<Fraction, PNode>() {
                                                                @Override public PNode f( Fraction f ) {
@@ -248,6 +251,21 @@ public class Levels {
         }
     }, RANDOM() );
 
+    private RepresentationType createPatterns( String name, F<Fraction, Boolean> accept, final int length, final F<Integer, Pattern> pattern, final F2<Pattern, Integer, FilledPattern> fill ) {
+        return twoComposites( name, accept,
+                              new F<Fraction, PNode>() {
+                                  @Override public PNode f( Fraction f ) {
+                                      return new PatternNode( fill.f( pattern.f( length ), f.numerator ), LIGHT_GREEN );
+                                  }
+                              },
+                              new F<Fraction, PNode>() {
+                                  @Override public PNode f( Fraction f ) {
+                                      return new PatternNode( fill.f( pattern.f( length ), f.numerator ), LIGHT_BLUE );
+                                  }
+                              }
+        );
+    }
+
     private RepresentationType createPatterns( String name, final int max, final int length, final F<Integer, Pattern> pattern, final F2<Pattern, Integer, FilledPattern> fill ) {
         return twoComposites( name, new F<Fraction, Boolean>() {
                                   @Override public Boolean f( final Fraction fraction ) {
@@ -270,7 +288,7 @@ public class Levels {
     public static Levels Levels = new Levels();
 
     @SuppressWarnings("unchecked")
-    final List<RepresentationType> easyRepresentations = list( numeric, horizontalBars, verticalBars, pies );
+    final List<RepresentationType> easyRepresentations = list( numeric, horizontalBars2, horizontalBars3, horizontalBars4, verticalBars, pies );
     final List<RepresentationType> mediumRepresentationsSequential = list( makePlusses( 2, SEQUENTIAL ), makePlusses( 3, SEQUENTIAL ), makePlusses( 4, SEQUENTIAL ), makePlusses( 5, SEQUENTIAL ), makePlusses( 6, SEQUENTIAL ),
                                                                            fourGridSEQUENTIAL, nineGridSEQUENTIAL, onePyramidSEQUENTIAL, fourPyramidSEQUENTIAL, ninePyramidSEQUENTIAL,
                                                                            polygon( 4, SEQUENTIAL ), polygon( 5, SEQUENTIAL ), polygon( 6, SEQUENTIAL ), polygon( 7, SEQUENTIAL ), polygon( 8, SEQUENTIAL ),
