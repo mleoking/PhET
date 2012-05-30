@@ -1,3 +1,4 @@
+Matching game tab: Fixed: The "diagonal interleaving L shape" is too bit big on the lower levels when there are 6 L's (level 2)
 Matching game tab: Animate the bars 2x as fast
 # 0.00.69 (64421) May 29, 2012
 Equality lab tab: Improved control panel location

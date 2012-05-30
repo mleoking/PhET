@@ -152,9 +152,9 @@ public class Levels {
     }
 
     public RepresentationType elShapedPairs( final int numPairs, F2<Pattern, Integer, FilledPattern> fill ) {
-        return createPatterns( numPairs + " L-shaped diagonal", numPairs, 80, new F<Integer, Pattern>() {
+        return createPatterns( numPairs + " L-shaped diagonal", numPairs, 60, new F<Integer, Pattern>() {
             @Override public Pattern f( final Integer integer ) {
-                return Pattern.letterLShapedDiagonal( 20, numPairs );
+                return Pattern.letterLShapedDiagonal( 14, numPairs );
             }
         }, fill );
     }
