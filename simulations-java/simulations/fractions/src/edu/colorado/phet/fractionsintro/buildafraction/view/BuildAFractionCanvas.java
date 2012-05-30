@@ -224,7 +224,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
         //When the mode changes, update the toolboxes
         addChild( new UpdateNode( new Effect<PNode>() {
             @Override public void e( final PNode node ) {
-                node.addChild( mode.get() == Mode.NUMBERS ? numberView : pictureView );
+                node.addChild( mode.get() == Mode.PICTURES ? numberView : pictureView );
             }
         }, mode ) );
 
@@ -236,8 +236,8 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
     }
 
     private PNode createModeControlPanel( final SettableProperty<Mode> mode ) {
-        return new HBox( radioButton( Components.picturesRadioButton, Strings.PICTURES, mode, Mode.NUMBERS ),
-                         radioButton( Components.numbersRadioButton, Strings.NUMBERS, mode, Mode.PICTURES ) ) {{
+        return new HBox( radioButton( Components.picturesRadioButton, Strings.PICTURES, mode, Mode.PICTURES ),
+                         radioButton( Components.numbersRadioButton, Strings.NUMBERS, mode, Mode.NUMBERS ) ) {{
             setOffset( AbstractFractionsCanvas.INSET, AbstractFractionsCanvas.INSET );
         }};
     }
