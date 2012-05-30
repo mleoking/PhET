@@ -59,6 +59,8 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
 
     private final BooleanProperty energyChunksVisible;
 
+    private final ConstantDtClock clock;
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
@@ -71,6 +73,7 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
      *                 By convention for this simulation, the position is
      */
     public Burner( ConstantDtClock clock, ImmutableVector2D position, BooleanProperty energyChunksVisible ) {
+        this.clock = clock;
         this.position = new ImmutableVector2D( position );
         this.energyChunksVisible = energyChunksVisible;
         topSurface = new Property<HorizontalSurface>( new HorizontalSurface( new DoubleRange( getOutlineRect().getMinX(), getOutlineRect().getMaxX() ), getOutlineRect().getMaxY(), this ) );
@@ -121,7 +124,7 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
 
             // The burner is in contact with this item.  Exchange energy.
             if ( Math.abs( energyContainer.getTemperature() - getTemperature() ) > TEMPERATURES_EQUAL_THRESHOLD ) {
-                // Exchange energy between the this and the other energy container.
+                // Exchange energy between this and the other energy container.
                 // TODO: The following is a first attempt and likely to need much adjustment.
                 double thermalEnergyGained = ( energyContainer.getTemperature() - getTemperature() ) * thermalContactLength * 2000 * dt;
                 changeEnergy( thermalEnergyGained );
@@ -136,7 +139,7 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
                 // location.
                 double xPos = position.getX() + ( RAND.nextDouble() - 0.5 ) * WIDTH / 3;
                 double yPos = HEIGHT * 0.6; // Tweaked to work well with the view.
-                energyContainer.addEnergyChunk( new EnergyChunk( new ImmutableVector2D( xPos, yPos ), energyChunksVisible ) );
+                energyContainer.addEnergyChunk( new EnergyChunk( clock, new ImmutableVector2D( xPos, yPos ), energyChunksVisible, true ) );
             }
         }
     }
