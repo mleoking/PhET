@@ -1,3 +1,4 @@
+Initial mini-thermometers shown to scale, but with threading issues
 Added initial version of thermometer wrapping, rewrote temperature handling
 Added in the correct radial mapping inverse for sensors, so they function normally when zoomed out
 Fixed temperature issue where it went below absolute zero in the atmosphere
