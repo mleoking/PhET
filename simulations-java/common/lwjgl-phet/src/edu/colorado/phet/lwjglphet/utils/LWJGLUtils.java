@@ -77,7 +77,7 @@ public class LWJGLUtils {
     }
 
     public static boolean isLWJGLRendererThread() {
-        return Thread.currentThread().getName().equals( "LWJGL Renderer Thread" );
+        return Thread.currentThread().getName().equals( LWJGLCanvas.LWJGL_THREAD_NAME );
     }
 
     public static SimpleObserver swingObserver( final Runnable runnable ) {

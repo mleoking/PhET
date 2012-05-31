@@ -5,8 +5,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
 
-import javax.swing.*;
-
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
@@ -24,8 +22,7 @@ import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
-import edu.colorado.phet.lwjglphet.nodes.PlanarPiccoloNode;
-import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
+import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
@@ -37,7 +34,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 /**
  * Displays a ruler in the 3D play area space
  */
-public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableTool2D {
+public class ThermometerNode3D extends ThreadedPlanarPiccoloNode implements DraggableTool2D {
 
     // how much we subsample the piccolo ruler in texture construction
     public static final float PICCOLO_PIXELS_TO_VIEW_UNIT = 3;
@@ -89,20 +86,16 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
         } );
 
         // since we are using the node in the main scene, mouse events don't get passed in, and we need to set our cursor manually
-        getCanvas().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+        setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
 
         model.modelChanged.addUpdateListener( new UpdateListener() {
             public void update() {
                 final double temp = getTemperatureValue();
-                SwingUtilities.invokeLater( new Runnable() {
-                    public void run() {
-                        updateLiquidHeight( temp );
-                    }
-                } );
+                updateLiquidHeight( temp );
             }
         }, true );
 
-        updateOnEvent( tab.beforeFrameRender );
+        repaintOnEvent( tab.beforeFrameRender );
     }
 
     private float getTemperatureScale() {
@@ -122,24 +115,14 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
         this.transform.prepend( ImmutableMatrix4F.translation( delta.x, delta.y, 0 ) );
         draggedPosition = draggedPosition.plus( delta );
         final double temp = getTemperatureValue();
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                updateLiquidHeight( temp );
-            }
-        } );
+        updateLiquidHeight( temp );
 //        tab.getModel().debugPing.updateListeners( getSensorModelPosition() );
     }
 
     private void updateLiquidHeight( double temperature ) {
         final ThermometerNode2D node = (ThermometerNode2D) getNode();
         node.setTemperature( temperature );
-
-        // after updating the node, make sure we queue up a node repaint
-        LWJGLUtils.invoke( new Runnable() {
-            public void run() {
-                repaint();
-            }
-        } );
+        repaint();
     }
 
     private Double getTemperatureValue() {
@@ -233,13 +216,11 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
             for ( int i = 0; i < extraThermometerQuantity; i++ ) {
                 final int finalI = i;
                 extraThermometerHolderNode.addChild( new LiquidExpansionThermometerNode( THERMOMETER_DIMENSION ) {{
-                    setOffset( 45 + ( finalI / 4 ) * 20, ( finalI % 4 ) * 30 );
-                    scale( 0.15 );
+                    setOffset( 45 + ( finalI / 4 ) * 20, ( finalI % 4 ) * 40 );
+                    scale( 0.2 );
                     setLiquidHeight( THERMOMETER_MAX );
                 }} );
             }
-
-            repaint();
         }
     }
 }

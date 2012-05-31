@@ -61,19 +61,6 @@ public class ComponentImage extends TextureImage {
         } );
     }
 
-    public ImmutableVector2F localToComponentCoordinates( ImmutableVector2F localCoordinates ) {
-        Point2D swingPoint;
-        try {
-            swingPoint = getImageTransform().inverseTransform( new Point2D.Float( localCoordinates.x, localCoordinates.y ), new Point2D.Float() );
-        }
-        catch ( NoninvertibleTransformException e ) {
-            throw new RuntimeException( e );
-        }
-        final double x = swingPoint.getX();
-        final double y = swingPoint.getY();
-        return new ImmutableVector2F( x, y );
-    }
-
     public void handleMouseEvent( int rawX, int rawY ) {
         ImmutableVector2F swingPoint = localToComponentCoordinates( new ImmutableVector2F( rawX, rawY ) );
         final double x = swingPoint.x;
@@ -107,7 +94,7 @@ public class ComponentImage extends TextureImage {
         } );
     }
 
-    public void repaint() {
+    @Override public void repaint() {
         dirty = true;
     }
 

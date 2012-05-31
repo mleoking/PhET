@@ -17,7 +17,7 @@ import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
-import edu.colorado.phet.lwjglphet.nodes.PlanarPiccoloNode;
+import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
@@ -27,7 +27,7 @@ import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
 /**
  * Displays a ruler in the 3D play area space
  */
-public class RulerNode3D extends PlanarPiccoloNode implements DraggableTool2D {
+public class RulerNode3D extends ThreadedPlanarPiccoloNode implements DraggableTool2D {
 
     // how much we subsample the piccolo ruler in texture construction
     private static final float PICCOLO_PIXELS_TO_VIEW_UNIT = 4;
@@ -57,7 +57,7 @@ public class RulerNode3D extends PlanarPiccoloNode implements DraggableTool2D {
 //                repaint();
 
                     // TODO: ideally, only repaint() here. why wasn't that working?
-                    rebuildComponentImage();
+                    repaint();
                 }
 
                 final ImmutableMatrix4F scaling = ImmutableMatrix4F.scaling( zoomMultiplier / PICCOLO_PIXELS_TO_VIEW_UNIT );
@@ -75,7 +75,7 @@ public class RulerNode3D extends PlanarPiccoloNode implements DraggableTool2D {
         //scale( ( ( tab instanceof PlateMotionTab ) ? 4 : 1 ) / PICCOLO_PIXELS_TO_VIEW_UNIT );
 
         // since we are using the node in the main scene, mouse events don't get passed in, and we need to set our cursor manually
-        getCanvas().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+        setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
     }
 
     public int getScale() {

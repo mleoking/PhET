@@ -8,7 +8,13 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.PixelFormat;
 
+/**
+ * Main rendering area for an LWJGL-based simulation. Native code will take over painting of this
+ * canvas with the OpenGL accelerated view.
+ */
 public class LWJGLCanvas extends Canvas {
+
+    public static final String LWJGL_THREAD_NAME = "PhET LWJGL Main Loop Thread";
 
     private Thread renderThread;
     private boolean running;
@@ -65,7 +71,7 @@ public class LWJGLCanvas extends Canvas {
     }
 
     public void initialize() {
-        renderThread = new Thread( "PhET LWJGL Main Loop Thread" ) {
+        renderThread = new Thread( LWJGLCanvas.LWJGL_THREAD_NAME ) {
             public void run() {
                 running = true;
                 try {
