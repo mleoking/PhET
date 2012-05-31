@@ -2,7 +2,6 @@
 package edu.colorado.phet.linegraphing.slopeintercept.view;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.geom.Line2D;
@@ -71,10 +70,10 @@ class SlopeInterceptEquationNodeSpinners extends PhetPNode {
         PNode riseNode = new ZeroOffsetNode( new RiseSpinnerNode( UserComponents.riseSpinner, this.rise, riseRange, font, FORMAT ) );
         PNode runNode = new ZeroOffsetNode( new RunSpinnerNode( UserComponents.runSpinner, this.run, runRange, font, FORMAT ) );
         final PPath lineNode = new PPath( new Line2D.Double( 0, 0, maxSlopeWidth, 0 ) ) {{
-            setStroke( new BasicStroke( 2f ) );
+            setStroke( new BasicStroke( 3f ) );
         }};
         PText xNode = new PhetPText( "x", font );
-        final PText interceptSignNode = new PhetPText( "+", font );
+        final PText interceptSignNode = new PhetPText( "-", font );
         PNode interceptNode = new ZeroOffsetNode( new InterceptSpinnerNode( UserComponents.interceptSpinner, this.intercept, interceptRange, font, FORMAT ) );
 
         // rendering order
@@ -107,7 +106,7 @@ class SlopeInterceptEquationNodeSpinners extends PhetPNode {
             interceptSignNode.setOffset( xNode.getFullBoundsReference().getMaxX() + 10,
                                          xNode.getYOffset() );
             interceptNode.setOffset( interceptSignNode.getFullBoundsReference().getMaxX() + 2,
-                                     xNode.getFullBoundsReference().getMaxY() - interceptNode.getFullBoundsReference().getHeight() );
+                                     xNode.getFullBoundsReference().getCenterY() - ( interceptNode.getFullBoundsReference().getHeight() / 2 ) );
         }
 
         // sync the model with the controls
@@ -121,14 +120,9 @@ class SlopeInterceptEquationNodeSpinners extends PhetPNode {
         // sync the controls with the model
         interactiveLine.addObserver( new VoidFunction1<StraightLine>() {
             public void apply( StraightLine line ) {
-
-                // values
                 rise.set( line.rise );
                 run.set( line.run );
                 intercept.set( line.yIntercept );
-
-                // signs
-                interceptSignNode.setText( intercept.get() >= 0 ? "+" : "-" );
             }
         } );
     }

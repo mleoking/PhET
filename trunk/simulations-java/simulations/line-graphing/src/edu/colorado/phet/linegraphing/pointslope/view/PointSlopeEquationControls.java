@@ -40,8 +40,6 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 class PointSlopeEquationControls extends PhetPNode {
 
-    private static final PhetFont EQUATION_FONT = new PhetFont( Font.BOLD, 24 );
-
     private static String TITLE = MessageFormat.format( "({0}-{1}) = {2}({3}-{4})", // (y-y1)=m(x-x1),
                                                            Strings.SYMBOL_Y,
                                                            Strings.SYMBOL_Y1,
@@ -64,7 +62,7 @@ class PointSlopeEquationControls extends PhetPNode {
                 return super.getParameterSet().with( ParameterKeys.maximized, !maximized.get() );
             }
         };
-        final PNode equationNode = new ZeroOffsetNode(new PointSlopeEquationNodeSpinners( interactiveLine, riseRange, runRange, x1Range, y1Range, EQUATION_FONT ) );
+        final PNode equationNode = new ZeroOffsetNode(new PointSlopeEquationNodeSpinners( interactiveLine, riseRange, runRange, x1Range, y1Range, LGConstants.INTERACTIVE_EQUATION_FONT ) );
         final TextButtonNode saveLineButton = new TextButtonNode( Strings.SAVE_LINE, LGConstants.CONTROL_FONT, LGColors.SAVE_LINE_BUTTON ) {{
             setUserComponent( UserComponents.saveLineButton );
         }};
