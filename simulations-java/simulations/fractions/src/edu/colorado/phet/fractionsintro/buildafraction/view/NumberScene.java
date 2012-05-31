@@ -48,8 +48,8 @@ import static java.awt.BasicStroke.CAP_ROUND;
 /**
  * @author Sam Reid
  */
-public class PictureView extends PNode {
-    public PictureView( final BuildAFractionModel model, final SettableProperty<Mode> mode, final BuildAFractionCanvas canvas ) {
+public class NumberScene extends PNode {
+    public NumberScene( final BuildAFractionModel model, final SettableProperty<Mode> mode, final BuildAFractionCanvas canvas ) {
 
         final PNode radioButtonControlPanel = BuildAFractionCanvas.createModeControlPanel( mode );
         addChild( radioButtonControlPanel );

@@ -81,8 +81,8 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
         numbersContainerLayer = new RichPNode();
 
         //View to show when the user is guessing numbers (by creating pictures)
-        final PNode numberView = new NumberView( model, mode, this );
-        final PNode pictureView = new PictureView( model, mode, this );
+        final PNode pictureScene = new PictureScene( model, mode, this );
+        final PNode numberScene = new NumberScene( model, mode, this );
 
         //Adding this listener before calling the update allows us to get the ChangeObserver callback.
         final DraggableFraction draggableFraction = new DraggableFraction( FractionID.nextID(), new DraggableObject( new Vector2D( 350, 350 ), true ), Option.<DefaultP2<DraggableNumberID, Double>>none(), Option.<DefaultP2<DraggableNumberID, Double>>none() );
@@ -98,7 +98,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
         //When the mode changes, update the toolboxes
         addChild( new UpdateNode( new Effect<PNode>() {
             @Override public void e( final PNode node ) {
-                node.addChild( mode.get() == Mode.PICTURES ? numberView : pictureView );
+                node.addChild( mode.get() == Mode.PICTURES ? pictureScene : numberScene );
             }
         }, mode ) );
 

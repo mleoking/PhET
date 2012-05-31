@@ -25,7 +25,7 @@ public class DraggableContainerNode extends PNode {
                 removeAllChildren();
                 if ( newOne.isSome() ) {
                     addChild( new PNode() {{
-                        addChild( NumberView.barGraphic( newOne.some() ) );
+                        addChild( PictureScene.barGraphic( newOne.some() ) );
                         addInputEventListener( new CursorHandler() );
                         addInputEventListener( new PBasicInputEventHandler() {
                             @Override public void mousePressed( final PInputEvent event ) {
