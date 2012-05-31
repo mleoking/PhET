@@ -37,7 +37,7 @@ public class DraggableFractionNode extends PNode {
         };
         model.addObserver( observer );
         model.addObserver( new ChangeObserver<BuildAFractionState>() {
-            @Override public void update( final BuildAFractionState newValue, final BuildAFractionState oldValue ) {
+            public void update( final BuildAFractionState newValue, final BuildAFractionState oldValue ) {
                 if ( oldValue.isUserDraggingZero() != newValue.isUserDraggingZero() ) {
                     redraw( newValue.getDraggableFraction( id ), model, canvas, observer );
                 }
