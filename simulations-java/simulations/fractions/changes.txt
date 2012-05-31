@@ -1,5 +1,6 @@
-Made number toolbox light gray
-Removed fraction skeleton from toolbox, moved to play area
+Build a fraction tab: Fixed: Score cell should pulsate then stay highlighted
+Build a fraction tab: Made number toolbox light gray
+Build a fraction tab: Removed fraction skeleton from toolbox, moved to play area
 # 0.00.71 (64503) May 30, 2012
 Matching game tab: Improved performance/smoothness for bar animation and fly back animation
 Matching game tab: Make sure not all representations are numeric and not all non-numeric

@@ -3,6 +3,7 @@ package edu.colorado.phet.fractionsintro.buildafraction.view;
 import fj.Effect;
 import fj.F;
 import fj.F2;
+import fj.Ord;
 import fj.data.List;
 import fj.data.Option;
 
@@ -179,8 +180,13 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                                     setStroke( controlPanelStroke );
                                 }
                                 if ( newValue.containsMatch( numerator, 6 ) ) {
-//                                    System.out.println( "model.state.get().time = " + model.state.get().time );
-                                    setStroke( new BasicStroke( 4, CAP_ROUND, BasicStroke.JOIN_ROUND, 1f, new float[] { 20, 10 }, (float) ( model.state.get().time * 60 ) ) );
+
+                                    //Pulsate for a few seconds then stay highlighted.
+                                    double matchTime = newValue.getMatchTimes( numerator, 6 ).maximum( Ord.<Double>comparableOrd() );
+                                    final double timeSinceMatch = newValue.time - matchTime;
+                                    final float strokeWidth = timeSinceMatch < 2 ? 2 + 8 * (float) Math.abs( Math.sin( model.state.get().time * 4 ) ) :
+                                                              2 + 4;
+                                    setStroke( new BasicStroke( strokeWidth, CAP_ROUND, BasicStroke.JOIN_ROUND, 1f ) );
                                 }
                             }
                         } );
@@ -214,7 +220,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
         }};
 
         //Adding this listener before calling the update allows us to get the ChangeObserver callback.
-        final DraggableFraction draggableFraction = new DraggableFraction( FractionID.nextID(), new DraggableObject( new Vector2D( 350, 350 ), true ), Option.<DraggableNumberID>none(), Option.<DraggableNumberID>none() );
+        final DraggableFraction draggableFraction = new DraggableFraction( FractionID.nextID(), new DraggableObject( new Vector2D( 350, 350 ), true ), Option.<DefaultP2<DraggableNumberID, Double>>none(), Option.<DefaultP2<DraggableNumberID, Double>>none() );
         picturesContainerLayer.addChild( new DraggableFractionNode( draggableFraction.getID(), model, this ) );
 
         //Change the model
