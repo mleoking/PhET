@@ -1,3 +1,4 @@
+# 0.00.72 (64542) May 31, 2012
 Build a fraction tab: Block against unnecessary repainting for target cell highlighting
 Build a fraction tab: Fixed: Score cell should pulsate then stay highlighted
 Build a fraction tab: Made number toolbox light gray
