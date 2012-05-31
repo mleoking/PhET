@@ -4,8 +4,6 @@ package edu.colorado.phet.platetectonics.control;
 import java.awt.Cursor;
 import java.text.MessageFormat;
 
-import javax.swing.SwingUtilities;
-
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
@@ -24,8 +22,7 @@ import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
-import edu.colorado.phet.lwjglphet.nodes.PlanarPiccoloNode;
-import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
+import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
 import edu.colorado.phet.platetectonics.model.PlateModel;
@@ -37,7 +34,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 /**
  * Displays a speedometer-style draggable readout.
  */
-public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableTool2D {
+public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements DraggableTool2D {
 
     // how much we subsample the piccolo ruler in texture construction
     public static final float PICCOLO_PIXELS_TO_VIEW_UNIT = 3;
@@ -76,19 +73,16 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
                 if ( changed ) {
                     updateReadout();
 
-                    SwingUtilities.invokeLater( new Runnable() {
-                        public void run() {
-                            final DensitySensorNode2D node = (DensitySensorNode2D) getNode();
-                            node.setMultiplier( scaleFactor );
-                            node.repaint();
-                        }
-                    } );
+                    final DensitySensorNode2D node = (DensitySensorNode2D) getNode();
+                    node.setMultiplier( scaleFactor );
+                    node.repaint();
+                    repaint();
                 }
             }
         } );
 
         // since we are using the node in the main scene, mouse events don't get passed in, and we need to set our cursor manually
-        getCanvas().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+        setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
 
         model.modelChanged.addUpdateListener( new UpdateListener() {
             public void update() {
@@ -96,7 +90,7 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
             }
         }, true );
 
-        updateOnEvent( tab.beforeFrameRender );
+        repaintOnEvent( tab.beforeFrameRender );
     }
 
     private float getScale() {
@@ -120,16 +114,8 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
         final Double density = getDensityValue();
         final DensitySensorNode2D node = (DensitySensorNode2D) getNode();
         final double densityToShow = density / ( (float) scaleFactor );
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                node.pointSensor.value.set( new Option.Some<Double>( densityToShow ) );
-                LWJGLUtils.invoke( new Runnable() {
-                    public void run() {
-                        repaint();
-                    }
-                } );
-            }
-        } );
+        node.pointSensor.value.set( new Option.Some<Double>( densityToShow ) );
+        repaint();
     }
 
     private Double getDensityValue() {

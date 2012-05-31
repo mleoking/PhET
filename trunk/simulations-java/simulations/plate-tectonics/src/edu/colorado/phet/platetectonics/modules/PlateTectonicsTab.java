@@ -47,7 +47,7 @@ import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.GuiNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoComponentNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
-import edu.colorado.phet.lwjglphet.nodes.PlanarComponentNode;
+import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
 import edu.colorado.phet.lwjglphet.shapes.UnitMarker;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.PlateTectonicsApplication;
@@ -298,7 +298,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                     public void update() {
                         // on left mouse button change
                         if ( Mouse.getEventButton() == 0 ) {
-                            PlanarComponentNode toolCollision = getToolUnder( Mouse.getEventX(), Mouse.getEventY() );
+                            ThreadedPlanarPiccoloNode toolCollision = getToolUnder( Mouse.getEventX(), Mouse.getEventY() );
                             OrthoComponentNode guiCollision = getGuiUnder( Mouse.getEventX(), Mouse.getEventY() );
 
                             // if mouse is down
@@ -747,10 +747,10 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         }};
     }
 
-    public PlanarComponentNode getToolUnder( int x, int y ) {
+    public ThreadedPlanarPiccoloNode getToolUnder( int x, int y ) {
         // iterate through the tools in reverse (front-to-back) order
         for ( GLNode node : getToolNodes() ) {
-            PlanarComponentNode tool = (PlanarComponentNode) node;
+            ThreadedPlanarPiccoloNode tool = (ThreadedPlanarPiccoloNode) node;
             Ray3F cameraRay = getCameraRay( x, y );
             Ray3F localRay = tool.transform.inverseRay( cameraRay );
             if ( tool.doesLocalRayHit( localRay ) ) {
@@ -764,14 +764,13 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     public void updateCursor() {
         final Canvas canvas = getCanvas();
 
-        final PlanarComponentNode toolCollision = getToolUnder( Mouse.getEventX(), Mouse.getEventY() );
+        final ThreadedPlanarPiccoloNode toolCollision = getToolUnder( Mouse.getEventX(), Mouse.getEventY() );
         final OrthoComponentNode guiCollision = getGuiUnder( Mouse.getEventX(), Mouse.getEventY() );
 
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                Component toolComponent = toolCollision == null ? null : toolCollision.getComponent().getComponent( 0 );
-                if ( toolComponent != null ) {
-                    canvas.setCursor( toolComponent.getCursor() );
+                if ( toolCollision != null ) {
+                    canvas.setCursor( toolCollision.getCursor() );
                 }
                 else {
                     // this component is actually possibly a sub-component
@@ -860,10 +859,10 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
 
             scaleProperty.addObserver( observer );
             beforeFrameRender.addUpdateListener( new UpdateListener() {
-                                                     public void update() {
-                                                         observer.update();
-                                                     }
-                                                 }, false );
+                public void update() {
+                    observer.update();
+                }
+            }, false );
         }};
     }
 }

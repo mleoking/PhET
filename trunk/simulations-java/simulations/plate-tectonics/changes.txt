@@ -1,3 +1,6 @@
+Integration of same-thread Piccolo rendering for tools so they don't lag by multiple frames
+Fixed multiple bugs with the thermometer node and the "mini" thermometers
+Fixed temperature model for the 1st (crust) tab
 Initial mini-thermometers shown to scale, but with threading issues
 Added initial version of thermometer wrapping, rewrote temperature handling
 Added in the correct radial mapping inverse for sensors, so they function normally when zoomed out

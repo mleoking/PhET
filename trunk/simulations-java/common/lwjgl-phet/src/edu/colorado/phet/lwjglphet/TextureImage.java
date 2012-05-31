@@ -4,13 +4,20 @@ package edu.colorado.phet.lwjglphet;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 
+import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 
 import static org.lwjgl.opengl.GL11.*;
 
+/**
+ * Creates an OpenGL texture that is backed by a BufferedImage, and is updated with a
+ * paint() call that allows arbitrary Graphics2D calls.
+ */
 public abstract class TextureImage {
     private BufferedImage paintableImage;
     private ByteBuffer buffer;
@@ -66,7 +73,7 @@ public abstract class TextureImage {
         final byte data[] = (byte[]) paintableImage.getRaster().getDataElements( 0, 0, paintableImage.getWidth(), paintableImage.getHeight(), null );
 
         // then transfer the image data during the LWJGL thread
-        LWJGLCanvas.addTask( new Runnable() {
+        Runnable updateTextureRunnable = new Runnable() {
             public void run() {
                 // make sure to lock this instance so we don't read the buffer while it is being written to
                 synchronized ( TextureImage.this ) {
@@ -86,7 +93,17 @@ public abstract class TextureImage {
                     glTexImage2D( GL_TEXTURE_2D, 0, 4, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer );
                 }
             }
-        } );
+        };
+
+        // only delay execution if we are in the Swing EDT.
+        if ( LWJGLUtils.isLWJGLRendererThread() ) {
+            // in LWJGL, so we can update the texture without causing threading issues
+            updateTextureRunnable.run();
+        }
+        else {
+            // must delay execution
+            LWJGLCanvas.addTask( updateTextureRunnable );
+        }
     }
 
     public void useTexture() {
@@ -98,6 +115,9 @@ public abstract class TextureImage {
             }
         }
     }
+
+    // override this to notify the image that it needs to be repainted before being drawn again
+    public abstract void repaint();
 
     // override this to define how to paint the image
     public abstract void paint( Graphics2D graphicsContext );
@@ -119,5 +139,18 @@ public abstract class TextureImage {
             textureInitialized = false;
             glDeleteTextures( textureId );
         }
+    }
+
+    public ImmutableVector2F localToComponentCoordinates( ImmutableVector2F localCoordinates ) {
+        Point2D swingPoint;
+        try {
+            swingPoint = getImageTransform().inverseTransform( new Point2D.Float( localCoordinates.x, localCoordinates.y ), new Point2D.Float() );
+        }
+        catch ( NoninvertibleTransformException e ) {
+            throw new RuntimeException( e );
+        }
+        final double x = swingPoint.getX();
+        final double y = swingPoint.getY();
+        return new ImmutableVector2F( x, y );
     }
 }
