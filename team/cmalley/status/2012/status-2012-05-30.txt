@@ -1,0 +1,31 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: May 23-30, 2011
+
+Line Graphing
+- design meeting to discuss Game tab
+- implemented the Point-Slope tab
+- met with AP to discuss issues with Point-Slope tab
+
+Sponsor feature
+- completed loose ends in preparation for TI sponsor deployment, #3166
+
+Environment
+- configure development machine to use CU Network Connect for VPN
+
+WHAT'S NEXT:                                                                         '
+
+- Line Graphing: implement "Point-Slope" tab, design "Game" tab
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- July 5-11 (CT, working reduced hours)
+- August 6-19 (vacation, not working)
+- October 10-23 (CT, working reduced hours)
+
+--
