@@ -54,10 +54,7 @@ abstract class PointSlopeDragHandler extends SimSharingDragHandler {
     @Override protected void endDrag( PInputEvent event ) {
         super.endDrag( event );
         manipulatorNode.setDragging( false );
-        // snap to grid
-        if ( !LGConstants.SNAP_TO_GRID_WHILE_DRAGGING ) {
-            updateLine( MathUtil.round( line.get().rise ), MathUtil.round( line.get().run ), MathUtil.round( line.get().x1 ), MathUtil.round( line.get().y1 ) );
-        }
+        updateLine( MathUtil.round( line.get().rise ), MathUtil.round( line.get().run ), MathUtil.round( line.get().x1 ), MathUtil.round( line.get().y1 ) );
     }
 
     @Override protected ParameterSet getParametersForAllEvents( PInputEvent event ) {
