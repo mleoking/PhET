@@ -181,10 +181,8 @@ public class NumberScene extends PNode {
     public void draggableNumberNodeReleased( DraggableNumberNode node ) {
 
         Option<DraggableFractionNode> target = getDraggableNumberNodeDropTarget( node );
-//                                System.out.println( "target = " + target );
         if ( target.isSome() ) {
             boolean numerator = node.getGlobalFullBounds().getCenterY() < target.some().getGlobalFullBounds().getCenterY();
-//                                    System.out.println( "attaching, numerator = " + numerator );
 
             //Don't allow zero to attach to denominator
             final boolean triedToDivideByZero = !numerator && model.state.get().getDraggableNumber( node.id ).some().number == 0;
