@@ -29,7 +29,7 @@ public class DraggableNumberNode extends PNode {
                 if ( newOne.isSome() ) {
                     addChild( new PNode() {{
                         final DraggableNumber some = newOne.some();
-                        addChild( BuildAFractionCanvas.numberGraphic( some.getNumber() ) );
+                        addChild( PictureView.numberGraphic( some.getNumber() ) );
                         if ( some.attachment.isSome() ) {
 //                            System.out.println( "rendering number node with attachment, some= " + some );
                             final DraggableFractionNode draggableFractionNode = canvas.getDraggableFractionNode( some.attachment.some()._1() );

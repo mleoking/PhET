@@ -25,7 +25,7 @@ public class DraggablePieceNode extends PNode {
                 removeAllChildren();
                 if ( newOne.isSome() ) {
                     addChild( new PNode() {{
-                        addChild( BuildAFractionCanvas.pieceGraphic( newOne.some() ) );
+                        addChild( NumberView.pieceGraphic( newOne.some() ) );
                         addInputEventListener( new CursorHandler() );
                         addInputEventListener( new PBasicInputEventHandler() {
                             @Override public void mousePressed( final PInputEvent event ) {
