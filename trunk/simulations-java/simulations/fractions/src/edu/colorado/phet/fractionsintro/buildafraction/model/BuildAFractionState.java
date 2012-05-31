@@ -7,6 +7,7 @@ import lombok.Data;
 
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.buildafraction.controller.ModelUpdate;
+import edu.colorado.phet.fractionsintro.common.util.DefaultP2;
 
 /**
  * Immutable model state for build a fraction.
@@ -29,7 +30,7 @@ public @Data class BuildAFractionState {
 
     public final Mode mode;
 
-    public final double time;
+    public final double time;//Consider making this extrinsic
 
     public static final ModelUpdate RELEASE_ALL = new ModelUpdate() {
         public BuildAFractionState update( final BuildAFractionState state ) {
@@ -147,8 +148,8 @@ public @Data class BuildAFractionState {
     public BuildAFractionState attachNumberToFraction( final DraggableNumberID number, final FractionID fraction, final boolean numerator ) {
         return withDraggableFractions( draggableFractions.map( new F<DraggableFraction, DraggableFraction>() {
             @Override public DraggableFraction f( final DraggableFraction f ) {
-                return f.getID().equals( fraction ) && numerator ? f.withNumerator( Option.some( number ) ) :
-                       f.getID().equals( fraction ) && !numerator ? f.withDenominator( Option.some( number ) ) :
+                return f.getID().equals( fraction ) && numerator ? f.withNumerator( Option.some( new DefaultP2<DraggableNumberID, Double>( number, time ) ) ) :
+                       f.getID().equals( fraction ) && !numerator ? f.withDenominator( Option.some( new DefaultP2<DraggableNumberID, Double>( number, time ) ) ) :
                        f;
             }
         } ) ).withDraggableNumbers( draggableNumbers.map( new F<DraggableNumber, DraggableNumber>() {
@@ -170,9 +171,9 @@ public @Data class BuildAFractionState {
     public BuildAFractionState splitFraction( final FractionID id ) {
         //TODO: add error handling to check preconditions?
         final DraggableFraction fraction = getDraggableFraction( id ).some();
-        final DraggableFraction newFraction = fraction.withNumerator( Option.<DraggableNumberID>none() ).withDenominator( Option.<DraggableNumberID>none() );
-        final DraggableNumber numerator = getDraggableNumber( fraction.getNumerator().some() ).some();
-        final DraggableNumber denominator = getDraggableNumber( fraction.getDenominator().some() ).some();
+        final DraggableFraction newFraction = fraction.withNumerator( Option.<DefaultP2<DraggableNumberID, Double>>none() ).withDenominator( Option.<DefaultP2<DraggableNumberID, Double>>none() );
+        final DraggableNumber numerator = getDraggableNumber( fraction.getNumerator().some()._1() ).some();
+        final DraggableNumber denominator = getDraggableNumber( fraction.getDenominator().some()._1() ).some();
         return withDraggableFractions( draggableFractions.map( new F<DraggableFraction, DraggableFraction>() {
             @Override public DraggableFraction f( final DraggableFraction f ) {
                 return f == fraction ? newFraction : f;
@@ -196,10 +197,24 @@ public @Data class BuildAFractionState {
         } );
     }
 
+    public List<Double> getMatchTimes( final int numerator, final int denominator ) {
+        final double targetValue = ( (double) numerator ) / denominator;
+        return draggableFractions.filter( new F<DraggableFraction, Boolean>() {
+            @Override public Boolean f( final DraggableFraction f ) {
+                Option<Double> value = evaluate( f );
+                return value.isSome() && Math.abs( value.some() - targetValue ) < 1E-6;
+            }
+        } ).map( new F<DraggableFraction, Double>() {
+            @Override public Double f( final DraggableFraction draggableFraction ) {
+                return draggableFraction.getLastConnectionTime().orSome( 0.0 );
+            }
+        } );
+    }
+
     private Option<Double> evaluate( final DraggableFraction f ) {
         if ( f.getNumerator().isSome() && f.getDenominator().isSome() ) {
-            double numerator = getDraggableNumber( f.getNumerator().some() ).some().number;
-            double denominator = getDraggableNumber( f.getDenominator().some() ).some().number;
+            double numerator = getDraggableNumber( f.getNumerator().some()._1() ).some().number;
+            double denominator = getDraggableNumber( f.getDenominator().some()._1() ).some().number;
             return Option.some( numerator / denominator );
         }
         return Option.none();
