@@ -14,6 +14,7 @@ DESIGN
 - interactive parts of equation different colors from static parts?
 
 HIGH
+- implement new control for changing values in interactive equation
 - point-slope: radio buttons in close label for choosing point-slope variant
 - Point-Slope: using interactive equation skips over values that would produce slope=0/0, but value in equation isn't updated
 - duplication: SlopeInterceptDragHandler, PointSlopeDragHandler
