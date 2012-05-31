@@ -1,3 +1,5 @@
+# 0.00.04 (64564) May 31, 2012
+5/31/12 Snapshot for testing and review.
 Changed the clock control panel to have "Fast Forward" instead of "Slow Motion".
 Made water get more transparent when energy chunks are visible.
 Replaced lead block with iron block, since iron has a greater specific heat value.
