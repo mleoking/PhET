@@ -54,9 +54,7 @@ abstract class SlopeInterceptDragHandler extends SimSharingDragHandler {
         super.endDrag( event );
         manipulatorNode.setDragging( false );
         // snap to grid
-        if ( !LGConstants.SNAP_TO_GRID_WHILE_DRAGGING ) {
-            updateLine( MathUtil.round( line.get().rise ), MathUtil.round( line.get().run ), MathUtil.round( line.get().yIntercept ) );
-        }
+        updateLine( MathUtil.round( line.get().rise ), MathUtil.round( line.get().run ), MathUtil.round( line.get().yIntercept ) );
     }
 
     @Override protected ParameterSet getParametersForAllEvents( PInputEvent event ) {
