@@ -219,6 +219,10 @@ public abstract class PlateModel {
 
     /*---------------------------------------------------------------------------*
     * earth curvature computations
+    *
+    * The conversion is basically using spherical coordinates, but slightly renamed.
+    * Essentially any point on (0,y,0) is mapped to itself, and any further away on
+    * x and z is curved into a ball with the earth's radius where y == radius.
     *----------------------------------------------------------------------------*/
 
     public static final float EARTH_RADIUS = 6371000;
