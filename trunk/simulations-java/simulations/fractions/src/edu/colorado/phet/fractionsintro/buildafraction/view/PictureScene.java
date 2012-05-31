@@ -43,8 +43,11 @@ import static fj.data.List.range;
  * @author Sam Reid
  */
 public class PictureScene extends PNode {
+    public final RichPNode picturesContainerLayer;
+
     public PictureScene( final BuildAFractionModel model, final SettableProperty<Mode> mode, final BuildAFractionCanvas canvas ) {
 
+        picturesContainerLayer = new RichPNode();
         final PNode radioButtonControlPanel = createModeControlPanel( mode );
 
         addChild( radioButtonControlPanel );
@@ -68,7 +71,7 @@ public class PictureScene extends PNode {
             addChild( border );
             final F<Integer, PNode> toBar = new F<Integer, PNode>() {
                 @Override public PNode f( final Integer i ) {
-                    return barTool( new Container( ContainerID.nextID(), new DraggableObject( rowColumnToPoint( i % 2, i / 2 ), false ), i + 1 ), model, canvas );
+                    return barTool( new Container( ContainerID.nextID(), new DraggableObject( rowColumnToPoint( i % 2, i / 2 ), false ), i + 1 ), model, canvas, picturesContainerLayer );
                 }
             };
             addChild( new FNode( range( 0, 8 ).map( toBar ) ) {{
@@ -88,7 +91,7 @@ public class PictureScene extends PNode {
 
             final F<Integer, PNode> toBar = new F<Integer, PNode>() {
                 @Override public PNode f( final Integer i ) {
-                    return pieceTool( new Container( ContainerID.nextID(), new DraggableObject( rowColumnToPoint( i % 2, i / 2 ), false ), i + 1 ), model, canvas );
+                    return pieceTool( new Container( ContainerID.nextID(), new DraggableObject( rowColumnToPoint( i % 2, i / 2 ), false ), i + 1 ), model, canvas, picturesContainerLayer );
                 }
             };
             addChild( new FNode( range( 0, 8 ).map( toBar ) ) {{
@@ -98,10 +101,10 @@ public class PictureScene extends PNode {
             setOffset( ( STAGE_SIZE.width - rightControlPanel.getFullWidth() ) / 2 - this.getFullWidth() / 2, radioButtonControlPanel.getFullBounds().getMaxY() + INSET );
         }} );
 
-        addChild( canvas.numbersContainerLayer );
+        addChild( picturesContainerLayer );
     }
 
-    public static PNode barTool( final Container container, final BuildAFractionModel model, final BuildAFractionCanvas canvas ) {
+    public static PNode barTool( final Container container, final BuildAFractionModel model, final BuildAFractionCanvas canvas, final PNode picturesContainerLayer ) {
         return new PNode() {{
             addChild( barGraphic( container ) );
             addInputEventListener( new CursorHandler() );
@@ -118,7 +121,7 @@ public class PictureScene extends PNode {
                             return state.addContainer( c );
                         }
                     } );
-                    canvas.numbersContainerLayer.addChild( new DraggableContainerNode( c.getID(), model, canvas ) );
+                    picturesContainerLayer.addChild( new DraggableContainerNode( c.getID(), model, canvas ) );
                 }
 
                 @Override public void mouseReleased( final PInputEvent event ) {
@@ -161,7 +164,7 @@ public class PictureScene extends PNode {
         }};
     }
 
-    public static PNode pieceTool( final Container container, final BuildAFractionModel model, final BuildAFractionCanvas canvas ) {
+    public static PNode pieceTool( final Container container, final BuildAFractionModel model, final BuildAFractionCanvas canvas, final PNode picturesContainerLayer ) {
         return new PNode() {{
             addChild( pieceGraphic( container ) );
             addInputEventListener( new CursorHandler() );
@@ -173,7 +176,7 @@ public class PictureScene extends PNode {
                     Rectangle2D localBounds = canvas.rootNode.globalToLocal( bounds );
 
                     final Container c = new Container( ContainerID.nextID(), new DraggableObject( new Vector2D( localBounds.getX(), localBounds.getY() ), true ), container.numSegments );
-                    canvas.numbersContainerLayer.addChild( new DraggablePieceNode( c.getID(), model, canvas ) );
+                    picturesContainerLayer.addChild( new DraggablePieceNode( c.getID(), model, canvas ) );
                     model.update( new ModelUpdate() {
                         public BuildAFractionState update( final BuildAFractionState state ) {
                             return state.addContainer( c );
