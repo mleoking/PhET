@@ -69,7 +69,7 @@ class PointSlopeEquationNodeSpinners extends PhetPNode {
 
         // (y-y1) = m(x-x1)
         PText yNode = new PhetPText( "y", font );
-        final PText y1SignNode = new PhetPText( "+", font );
+        final PText y1SignNode = new PhetPText( "-", font );
         PNode y1Node = new ZeroOffsetNode( new Y1SpinnerNode( UserComponents.y1Spinner, this.y1, y1Range, font, FORMAT ) );
         PText equalsNode = new PhetPText( "=", font );
         PNode riseNode = new ZeroOffsetNode( new RiseSpinnerNode( UserComponents.riseSpinner, this.rise, riseRange, font, FORMAT ) );
@@ -78,7 +78,7 @@ class PointSlopeEquationNodeSpinners extends PhetPNode {
             setStroke( new BasicStroke( 3f ) );
         }};
         PText xNode = new PhetPText( "x", font );
-        final PText x1SignNode = new PhetPText( "+", font );
+        final PText x1SignNode = new PhetPText( "-", font );
         PNode x1Node = new ZeroOffsetNode( new X1SpinnerNode( UserComponents.x1Spinner, this.x1, x1Range, font, FORMAT ) );
         PText yLeftParenNode = new PhetPText( "(", font );
         PText yRightParenNode = new PhetPText( ")", font );
@@ -112,7 +112,7 @@ class PointSlopeEquationNodeSpinners extends PhetPNode {
                              yLeftParenNode.getYOffset() );
             y1SignNode.setOffset( yNode.getFullBoundsReference().getMaxX() + 5,
                                   yNode.getYOffset() );
-            y1Node.setOffset( y1SignNode.getFullBoundsReference().getMaxX() + 3,
+            y1Node.setOffset( y1SignNode.getFullBoundsReference().getMaxX() + 5,
                                   yNode.getFullBoundsReference().getCenterY() - ( y1Node.getFullBoundsReference().getHeight() / 2 ) );
             yRightParenNode.setOffset( y1Node.getFullBoundsReference().getMaxX() + 2,
                                        yNode.getYOffset() );
@@ -130,7 +130,7 @@ class PointSlopeEquationNodeSpinners extends PhetPNode {
                              yNode.getYOffset() );
             x1SignNode.setOffset( xNode.getFullBoundsReference().getMaxX() + 10,
                                   xNode.getYOffset() );
-            x1Node.setOffset( x1SignNode.getFullBoundsReference().getMaxX() + 2,
+            x1Node.setOffset( x1SignNode.getFullBoundsReference().getMaxX() + 5,
                               xNode.getFullBoundsReference().getCenterY() - ( x1Node.getFullBoundsReference().getHeight() / 2 ) );
             xRightParenNode.setOffset( x1Node.getFullBoundsReference().getMaxX() + 2,
                                       yNode.getYOffset() );
@@ -140,8 +140,6 @@ class PointSlopeEquationNodeSpinners extends PhetPNode {
         RichSimpleObserver lineUpdater = new RichSimpleObserver() {
             @Override public void update() {
                 interactiveLine.set( new StraightLine( rise.get(), run.get(), x1.get(), y1.get(), interactiveLine.get().color, interactiveLine.get().highlightColor ) );
-                y1SignNode.setText( y1.get() >= 0 ? "-" : "+" );
-                x1SignNode.setText( x1.get() >= 0 ? "-" : "+" );
             }
         };
         lineUpdater.observe( rise, run, x1, y1 );
