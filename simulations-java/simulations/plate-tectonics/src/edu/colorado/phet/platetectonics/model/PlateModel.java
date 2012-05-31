@@ -162,7 +162,9 @@ public abstract class PlateModel {
         // simplified model! see http://www.engineeringtoolbox.com/air-altitude-temperature-d_461.html
 
         assert y >= 0; // water/land below 0
-        return ZERO_CELSIUS + 15 - 15 * y / 2500; // approximately zero celsius at 2500m (8000ft)
+
+        // added check so we don't go below absolute zero. this model isn't quite accurate for high elevations
+        return Math.max( 0, ZERO_CELSIUS + 15 - 15 * y / 2500 ); // approximately zero celsius at 2500m (8000ft)
     }
 
     public static double getAirDensity( double y ) {
@@ -270,6 +272,20 @@ public abstract class PlateModel {
         float phi = (float) Math.PI / 2 - z / EARTH_RADIUS; // dividing by the radius actually gets us the correct angle
         float sinPhi = (float) Math.sin( phi );
         return new ImmutableVector3F( sinPhi, sinPhi, (float) Math.cos( phi ) );
+    }
+
+    public static ImmutableVector3F convertToPlanar( ImmutableVector3F radial ) {
+        ImmutableVector3F fromCenter = radial.minus( EARTH_CENTER );
+        float radius = fromCenter.magnitude();
+        float phi = ( (float) Math.acos( fromCenter.z / radius ) );
+        float theta = (float) Math.atan2( fromCenter.y, fromCenter.x );
+        double mappedTheta = ( Math.PI / 2 ) - theta;
+        if ( mappedTheta > Math.PI ) {
+            mappedTheta -= 2 * Math.PI;
+        }
+        return new ImmutableVector3F( (float) ( mappedTheta * EARTH_RADIUS ),
+                                      radius - EARTH_RADIUS,
+                                      (float) ( ( ( Math.PI / 2 ) - phi ) * EARTH_RADIUS ) );
     }
 
     public List<Region> getRegions() {
