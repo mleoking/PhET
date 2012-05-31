@@ -41,8 +41,6 @@ class SlopeInterceptEquationControls extends PhetPNode {
 
     private static final boolean USE_SPINNERS = true; // spinners vs pickers for interactive equation
 
-    private static final PhetFont EQUATION_FONT = new PhetFont( Font.BOLD, 38 );
-
     private static String TITLE = MessageFormat.format( "{0} = {1}{2} + {3}", // y = mx + b,
                                                            Strings.SYMBOL_Y,
                                                            Strings.SYMBOL_SLOPE,
@@ -64,8 +62,8 @@ class SlopeInterceptEquationControls extends PhetPNode {
             }
         };
         final PNode equationNode = new ZeroOffsetNode( USE_SPINNERS ?
-                                                       new SlopeInterceptEquationNodeSpinners( interactiveLine, riseRange, runRange, interceptRange, EQUATION_FONT ) :
-                                                       new SlopeInterceptEquationNodePickers( interactiveLine, riseRange, runRange, interceptRange, EQUATION_FONT ) );
+                                                       new SlopeInterceptEquationNodeSpinners( interactiveLine, riseRange, runRange, interceptRange, LGConstants.INTERACTIVE_EQUATION_FONT ) :
+                                                       new SlopeInterceptEquationNodePickers( interactiveLine, riseRange, runRange, interceptRange, LGConstants.INTERACTIVE_EQUATION_FONT ) );
         final TextButtonNode saveLineButton = new TextButtonNode( Strings.SAVE_LINE, LGConstants.CONTROL_FONT, LGColors.SAVE_LINE_BUTTON ) {{
             setUserComponent( UserComponents.saveLineButton );
         }};

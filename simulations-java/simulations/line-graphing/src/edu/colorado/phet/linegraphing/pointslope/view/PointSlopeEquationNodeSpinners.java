@@ -75,7 +75,7 @@ class PointSlopeEquationNodeSpinners extends PhetPNode {
         PNode riseNode = new ZeroOffsetNode( new RiseSpinnerNode( UserComponents.riseSpinner, this.rise, riseRange, font, FORMAT ) );
         PNode runNode = new ZeroOffsetNode( new RunSpinnerNode( UserComponents.runSpinner, this.run, runRange, font, FORMAT ) );
         final PPath lineNode = new PPath( new Line2D.Double( 0, 0, maxSlopeWidth, 0 ) ) {{
-            setStroke( new BasicStroke( 2f ) );
+            setStroke( new BasicStroke( 3f ) );
         }};
         PText xNode = new PhetPText( "x", font );
         final PText x1SignNode = new PhetPText( "+", font );

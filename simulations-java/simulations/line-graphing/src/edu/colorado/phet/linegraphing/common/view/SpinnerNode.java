@@ -185,7 +185,7 @@ public abstract class SpinnerNode extends PNode {
             super( userComponent,
                    Images.SPINNER_UP_UNPRESSED_YELLOW, Images.SPINNER_UP_PRESSED_YELLOW, Images.SPINNER_UP_GRAY,
                    Images.SPINNER_DOWN_UNPRESSED_YELLOW, Images.SPINNER_DOWN_PRESSED_YELLOW, Images.SPINNER_DOWN_GRAY,
-                   value, range, font, format, true /* abs */, INTERCEPT_BUTTONS_LOCATION );
+                   value, range, font, format, false /* abs */, INTERCEPT_BUTTONS_LOCATION );
         }
     }
 
