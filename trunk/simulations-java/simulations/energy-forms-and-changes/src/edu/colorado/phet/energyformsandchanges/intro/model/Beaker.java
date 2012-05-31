@@ -63,7 +63,7 @@ public class Beaker extends RectangularThermalMovableModelElement {
      * @param initialPosition The initial position in model space.  This is
      */
     public Beaker( ConstantDtClock clock, ImmutableVector2D initialPosition, BooleanProperty energyChunksVisible ) {
-        super( clock, initialPosition, FLUID_MASS, FLUID_SPECIFIC_HEAT, energyChunksVisible );
+        super( clock, initialPosition, WIDTH, HEIGHT * NON_DISPLACED_FLUID_LEVEL, FLUID_MASS, FLUID_SPECIFIC_HEAT, energyChunksVisible );
 
         // Update the top and bottom surfaces whenever the position changes.
         position.addObserver( new VoidFunction1<ImmutableVector2D>() {

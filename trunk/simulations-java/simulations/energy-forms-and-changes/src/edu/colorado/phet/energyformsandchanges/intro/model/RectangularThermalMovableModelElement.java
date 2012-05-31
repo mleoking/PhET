@@ -26,14 +26,18 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
     protected final double specificHeat; // In J/kg-K
     protected final double mass; // In kg
     protected final ConstantDtClock clock;
+    protected final double width;
+    protected final double height;
 
     /**
      * Constructor.
      */
-    public RectangularThermalMovableModelElement( ConstantDtClock clock, ImmutableVector2D initialPosition, double mass, double specificHeat, BooleanProperty energyChunksVisible ) {
+    public RectangularThermalMovableModelElement( ConstantDtClock clock, ImmutableVector2D initialPosition, double width, double height, double mass, double specificHeat, BooleanProperty energyChunksVisible ) {
         super( initialPosition );
         this.clock = clock;
         this.mass = mass;
+        this.width = width;
+        this.height = height;
         this.specificHeat = specificHeat;
         this.energyChunksVisible = energyChunksVisible;
 
@@ -104,8 +108,18 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
         energyChunkList.add( ec );
     }
 
-    public EnergyChunk removeEnergyChunk() {
-        return energyChunkList.remove( energyChunkList.size() - 1 );
+    public EnergyChunk extractClosestEnergyChunk( ImmutableVector2D point ) {
+        EnergyChunk closestEnergyChunk = energyChunkList.isEmpty() ? null : energyChunkList.get( 0 );
+        for ( EnergyChunk energyChunk : energyChunkList ) {
+            if ( energyChunk.position.get().distance( point ) < closestEnergyChunk.position.get().distance( point ) ) {
+                // New closest chunk.
+                closestEnergyChunk = energyChunk;
+            }
+        }
+        if ( closestEnergyChunk != null ) {
+            energyChunkList.remove( closestEnergyChunk );
+        }
+        return closestEnergyChunk;
     }
 
     protected int calculateNeededNumEnergyChunks() {
@@ -139,13 +153,17 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
             if ( otherEnergyContainer.needsEnergyChunk() && hasExcessEnergyChunks() ) {
                 // The other energy container needs an energy chunk, and this
                 // container has excess, so transfer one.
-                otherEnergyContainer.addEnergyChunk( removeEnergyChunk() );
+                otherEnergyContainer.addEnergyChunk( extractClosestEnergyChunk( otherEnergyContainer.getCenterPoint() ) );
             }
             else if ( otherEnergyContainer.hasExcessEnergyChunks() && needsEnergyChunk() ) {
                 // This energy container needs a chunk, and the other has
                 // excess, so take one.
-                energyChunkList.add( otherEnergyContainer.removeEnergyChunk() );
+                energyChunkList.add( otherEnergyContainer.extractClosestEnergyChunk( getCenterPoint() ) );
             }
         }
+    }
+
+    public ImmutableVector2D getCenterPoint() {
+        return new ImmutableVector2D( position.get().getX(), position.get().getY() + height / 2 );
     }
 }

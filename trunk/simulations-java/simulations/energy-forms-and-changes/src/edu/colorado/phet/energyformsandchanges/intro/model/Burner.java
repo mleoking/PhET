@@ -149,6 +149,7 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
 
             // Exchange energy chunks.
             if ( otherEnergyContainer.needsEnergyChunk() ) {
+                System.out.println( "giving chunk to otherEnergyContainer = " + otherEnergyContainer );
                 // The other energy container needs an energy chunk, so create
                 // one for it.  It is the other container's responsibility to
                 // animate it to the right place.
@@ -159,7 +160,7 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
             else if ( otherEnergyContainer.hasExcessEnergyChunks() ) {
                 // The other energy container needs to get rid of an energy
                 // chunk, so take one off of its hands.
-                EnergyChunk ec = otherEnergyContainer.removeEnergyChunk();
+                EnergyChunk ec = otherEnergyContainer.extractClosestEnergyChunk( getCenterPoint() );
                 ec.startFadeOut();
                 energyChunkList.add( ec );
             }
@@ -167,19 +168,27 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     }
 
     public boolean needsEnergyChunk() {
+        // TODO
         return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public boolean hasExcessEnergyChunks() {
+        // TODO
         return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     public void addEnergyChunk( EnergyChunk ec ) {
+        // TODO
         //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public EnergyChunk removeEnergyChunk() {
+    public EnergyChunk extractClosestEnergyChunk( ImmutableVector2D point ) {
+        // TODO
         return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public ImmutableVector2D getCenterPoint() {
+        return new ImmutableVector2D( position.getX(), position.getY() + HEIGHT / 2 );
     }
 
     public ThermalContactArea getThermalContactArea() {
