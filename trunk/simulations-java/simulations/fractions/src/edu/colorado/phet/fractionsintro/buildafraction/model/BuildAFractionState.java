@@ -87,6 +87,14 @@ public @Data class BuildAFractionState {
                 } ) );
     }
 
+    public BuildAFractionState releaseFraction( final FractionID id ) {
+        return withDraggableFractions( draggableFractions.map( new F<DraggableFraction, DraggableFraction>() {
+            @Override public DraggableFraction f( final DraggableFraction d ) {
+                return d.equalsID( id ) ? d.withDragging( false ) : d;
+            }
+        } ) );
+    }
+
     public Option<Container> getContainer( final ContainerID id ) { return containers.find( matchID( id, Container.ID ) ); }
 
     public BuildAFractionState startDraggingContainer( final ContainerID id ) {

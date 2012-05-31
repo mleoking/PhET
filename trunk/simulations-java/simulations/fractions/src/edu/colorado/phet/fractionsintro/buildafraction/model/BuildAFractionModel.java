@@ -120,4 +120,6 @@ public class BuildAFractionModel implements Resettable {
             }
         } );
     }
+
+    public void releaseFraction( final FractionID id ) { state.set( state.get().releaseFraction( id ) ); }
 }
