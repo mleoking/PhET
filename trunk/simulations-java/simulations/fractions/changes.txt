@@ -1,3 +1,4 @@
+Build a fraction tab: Block against unnecessary repainting for target cell highlighting
 Build a fraction tab: Fixed: Score cell should pulsate then stay highlighted
 Build a fraction tab: Made number toolbox light gray
 Build a fraction tab: Removed fraction skeleton from toolbox, moved to play area

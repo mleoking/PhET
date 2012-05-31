@@ -186,7 +186,12 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
                                     final double timeSinceMatch = newValue.time - matchTime;
                                     final float strokeWidth = timeSinceMatch < 2 ? 2 + 8 * (float) Math.abs( Math.sin( model.state.get().time * 4 ) ) :
                                                               2 + 4;
-                                    setStroke( new BasicStroke( strokeWidth, CAP_ROUND, BasicStroke.JOIN_ROUND, 1f ) );
+
+                                    //Block against unnecessary repainting for target cell highlighting
+                                    float originalWidth = ( (BasicStroke) getStroke() ).getLineWidth();
+                                    if ( originalWidth != strokeWidth ) {
+                                        setStroke( new BasicStroke( strokeWidth, CAP_ROUND, BasicStroke.JOIN_ROUND, 1f ) );
+                                    }
                                 }
                             }
                         } );
