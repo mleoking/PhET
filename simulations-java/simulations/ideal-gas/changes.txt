@@ -1,3 +1,4 @@
+# 3.14.02 (64552) May 31, 2012
 # 3.14.01 (58842) Nov 29, 2011
 > added "Return Lid" feature
 11/29/11 #3136, added "Return Lid" button: empties the chamber, closes the lid, and (if relevant) ensures that the balloon is inside the chamber
