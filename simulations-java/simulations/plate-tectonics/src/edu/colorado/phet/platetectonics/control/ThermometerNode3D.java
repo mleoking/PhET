@@ -5,6 +5,8 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Cursor;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
@@ -23,11 +25,13 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.PlanarPiccoloNode;
+import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
 import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -43,6 +47,12 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
 
     // how much larger should the ruler construction values be to get a good look? we scale by the inverse to remain the correct size
     public static final float PIXEL_SCALE = 3f;
+
+    // lowest value that can be passed in
+    public static final double THERMOMETER_MIN = 0.2;
+
+    // largest value that can be passed in
+    public static final double THERMOMETER_MAX = 0.9;
 
     private final LWJGLTransform modelViewTransform;
     private final PlateTectonicsTab tab;
@@ -83,7 +93,12 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
 
         model.modelChanged.addUpdateListener( new UpdateListener() {
             public void update() {
-                updateLiquidHeight();
+                final double temp = getTemperatureValue();
+                SwingUtilities.invokeLater( new Runnable() {
+                    public void run() {
+                        updateLiquidHeight( temp );
+                    }
+                } );
             }
         }, true );
 
@@ -106,30 +121,25 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
     public void dragDelta( ImmutableVector2F delta ) {
         this.transform.prepend( ImmutableMatrix4F.translation( delta.x, delta.y, 0 ) );
         draggedPosition = draggedPosition.plus( delta );
-        updateLiquidHeight();
+        final double temp = getTemperatureValue();
+        SwingUtilities.invokeLater( new Runnable() {
+            public void run() {
+                updateLiquidHeight( temp );
+            }
+        } );
 //        tab.getModel().debugPing.updateListeners( getSensorModelPosition() );
     }
 
-    private void updateLiquidHeight() {
-        // get model coordinates
-        // TODO: improve model/view and listening for sensor location
-        final Double temp = getTemperatureValue();
-        final double relativeTemp = ( temp - PlateModel.ZERO_CELSIUS ) / DEGREES_C_IN_THERMOMETER;
+    private void updateLiquidHeight( double temperature ) {
+        final ThermometerNode2D node = (ThermometerNode2D) getNode();
+        node.setTemperature( temperature );
 
-        // lowest value that can be passed in
-        final double thermometerBottom = 0.2;
-
-        // largest value that can be passed in
-        final double thermometerTop = 0.9;
-
-        double liquidHeight = MathUtil.clamp( thermometerBottom,
-                                              new Function.LinearFunction( 0, 1, thermometerBottom, 0.9 ).evaluate( relativeTemp % 1 ),
-                                              thermometerTop );
-
-        final LiquidExpansionThermometerNode node = (LiquidExpansionThermometerNode) getNode();
-        node.setLiquidHeight( liquidHeight );
-        node.repaint();
-        repaint();
+        // after updating the node, make sure we queue up a node repaint
+        LWJGLUtils.invoke( new Runnable() {
+            public void run() {
+                repaint();
+            }
+        } );
     }
 
     private Double getTemperatureValue() {
@@ -177,13 +187,17 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
         // TODO: change this to a 2D offset
         public final double sensorVerticalOffset;
 
+        private final PNode extraThermometerHolderNode = new PNode();
+
+        private static final PDimension THERMOMETER_DIMENSION = new PDimension( 50 * 0.8, 150 * 0.8 );
+
         /**
          * @param kmToViewUnit Number of view units (in 3D JME) that correspond to 1 km in the model. Extracted into
          *                     a parameter so that we can add a 2D version to the toolbox that is unaffected by future
          *                     model-view-transform size changes.
          */
         public ThermometerNode2D( float kmToViewUnit ) {
-            super( new PDimension( 50 * 0.8, 150 * 0.8 ) );
+            super( THERMOMETER_DIMENSION );
 
             // add in an arrow to show where we are sensing the temperature
             final double sensorHeight = getFullBounds().getHeight() - getBulbDiameter() / 2;
@@ -193,6 +207,8 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
                 lineToRelative( -5, 5 );
             }}.getGeneralPath(), Color.RED, new BasicStroke( 1 ), Color.BLACK ) );
 
+            addChild( extraThermometerHolderNode );
+
             // scale it so that we achieve adherence to the model scale
             scale( PICCOLO_PIXELS_TO_VIEW_UNIT * kmToViewUnit / PIXEL_SCALE );
 
@@ -200,6 +216,30 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
 
             // give it the "Hand" cursor
             addInputEventListener( new LWJGLCursorHandler() );
+        }
+
+        public void setTemperature( double temperature ) {
+            final double relativeTemp = ( temperature - PlateModel.ZERO_CELSIUS ) / DEGREES_C_IN_THERMOMETER;
+
+            int extraThermometerQuantity = (int) Math.floor( relativeTemp );
+
+            double liquidHeight = MathUtil.clamp( THERMOMETER_MIN,
+                                                  new Function.LinearFunction( 0, 1, THERMOMETER_MIN, 0.9 ).evaluate( relativeTemp % 1 ),
+                                                  THERMOMETER_MAX );
+
+            setLiquidHeight( liquidHeight );
+
+            extraThermometerHolderNode.removeAllChildren();
+            for ( int i = 0; i < extraThermometerQuantity; i++ ) {
+                final int finalI = i;
+                extraThermometerHolderNode.addChild( new LiquidExpansionThermometerNode( THERMOMETER_DIMENSION ) {{
+                    setOffset( 45 + ( finalI / 4 ) * 20, ( finalI % 4 ) * 30 );
+                    scale( 0.15 );
+                    setLiquidHeight( THERMOMETER_MAX );
+                }} );
+            }
+
+            repaint();
         }
     }
 }
