@@ -143,14 +143,12 @@ public abstract class SpinnerNode extends PNode {
         }
 
         // when the value changes, update the display
-        final double minusWidth = new PhetPText( "-", font ).getFullBoundsReference().getWidth();
         value.addObserver( new VoidFunction1<Double>() {
             public void apply( Double value ) {
                 // displayed value
                 textNode.setText( format.format( abs ? Math.abs( value ) : value ) );
-                // centered, adjusting for minus sign in negative values
-                final double minusXOffset = ( textNode.getText().startsWith( "-" ) ) ? ( minusWidth / 2 ) : 0;
-                textNode.setOffset( ( ( maxWidth - textNode.getFullBoundsReference().getWidth() ) / 2 ) - minusXOffset, textNode.getYOffset() );
+                // right justified
+                textNode.setOffset( maxWidth - textNode.getFullBoundsReference().getWidth() - 3, textNode.getYOffset() );
             }
         } );
     }

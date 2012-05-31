@@ -1,3 +1,4 @@
+5/31/12 right justify numbers in spinners
 5/31/12 point-slope: don't change sign in static part of interactive equation for spinners implementation
 5/31/12 slope-intercept: don't change sign in static part of interactive equation for spinners implementation
 5/31/12 increase stroke width of dividing line in interactive equations, standarize font size
