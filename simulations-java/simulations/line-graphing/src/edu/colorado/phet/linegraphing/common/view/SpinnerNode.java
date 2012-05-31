@@ -196,7 +196,7 @@ public abstract class SpinnerNode extends PNode {
                    //TODO create blue button images for point spinner
                    Images.SPINNER_UP_UNPRESSED_YELLOW, Images.SPINNER_UP_PRESSED_YELLOW, Images.SPINNER_UP_GRAY,
                    Images.SPINNER_DOWN_UNPRESSED_YELLOW, Images.SPINNER_DOWN_PRESSED_YELLOW, Images.SPINNER_DOWN_GRAY,
-                   value, range, font, format, true /* abs */, buttonsLocation );
+                   value, range, font, format, false /* abs */, buttonsLocation );
         }
     }
 
