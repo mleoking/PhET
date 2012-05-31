@@ -91,10 +91,10 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
         getCanvas().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
 
         model.modelChanged.addUpdateListener( new UpdateListener() {
-                                                  public void update() {
-                                                      updateReadout();
-                                                  }
-                                              }, true );
+            public void update() {
+                updateReadout();
+            }
+        }, true );
 
         updateOnEvent( tab.beforeFrameRender );
     }
@@ -138,7 +138,9 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
     }
 
     public ImmutableVector3F getSensorModelPosition() {
-        return modelViewTransform.inversePosition( new ImmutableVector3F( draggedPosition.x, draggedPosition.y, 0 ) );
+        return PlateModel.convertToPlanar(
+                modelViewTransform.inversePosition(
+                        new ImmutableVector3F( draggedPosition.x, draggedPosition.y, 0 ) ) );
     }
 
     private float getSensorXOffset() {
@@ -190,9 +192,9 @@ public class DensitySensorNode3D extends PlanarPiccoloNode implements DraggableT
         public DensitySensorNode2D( float kmToViewUnit, PlateTectonicsTab tab ) {
             super( ModelViewTransform.createIdentity(), new PointSensor<Double>( 0, 0 ) {{
 
-                       //Start by showing needle at 0.0 instead of hiding it
-                       value.set( new Some<Double>( 0.0 ) );
-                   }}, "Density", 3500 );
+                //Start by showing needle at 0.0 instead of hiding it
+                value.set( new Some<Double>( 0.0 ) );
+            }}, "Density", 3500 );
 
             w = getFullBounds().getWidth();
             h = getFullBounds().getHeight();

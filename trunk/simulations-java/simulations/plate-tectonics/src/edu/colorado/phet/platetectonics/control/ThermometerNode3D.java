@@ -38,6 +38,9 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
     // how much we subsample the piccolo ruler in texture construction
     public static final float PICCOLO_PIXELS_TO_VIEW_UNIT = 3;
 
+    // how much "temperature" fits in each thermometer
+    public static final double DEGREES_C_IN_THERMOMETER = 2000;
+
     // how much larger should the ruler construction values be to get a good look? we scale by the inverse to remain the correct size
     public static final float PIXEL_SCALE = 3f;
 
@@ -79,16 +82,17 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
         getCanvas().setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
 
         model.modelChanged.addUpdateListener( new UpdateListener() {
-                                                  public void update() {
-                                                      updateLiquidHeight();
-                                                  }
-                                              }, true );
+            public void update() {
+                updateLiquidHeight();
+            }
+        }, true );
 
         updateOnEvent( tab.beforeFrameRender );
     }
 
     private float getTemperatureScale() {
-        return 1 + ( tab.getSceneDistanceZoomFactor() - 1 ) / 8;
+        return 1;
+//        return 1 + ( tab.getSceneDistanceZoomFactor() - 1 ) / 8;
     }
 
     private float getScale() {
@@ -110,7 +114,18 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
         // get model coordinates
         // TODO: improve model/view and listening for sensor location
         final Double temp = getTemperatureValue();
-        double liquidHeight = MathUtil.clamp( 0.2, new Function.LinearFunction( 290, 2000, 0.2, 0.8 ).evaluate( temp / getTemperatureScale() ), 1 );
+        final double relativeTemp = ( temp - PlateModel.ZERO_CELSIUS ) / DEGREES_C_IN_THERMOMETER;
+
+        // lowest value that can be passed in
+        final double thermometerBottom = 0.2;
+
+        // largest value that can be passed in
+        final double thermometerTop = 0.9;
+
+        double liquidHeight = MathUtil.clamp( thermometerBottom,
+                                              new Function.LinearFunction( 0, 1, thermometerBottom, 0.9 ).evaluate( relativeTemp % 1 ),
+                                              thermometerTop );
+
         final LiquidExpansionThermometerNode node = (LiquidExpansionThermometerNode) getNode();
         node.setLiquidHeight( liquidHeight );
         node.repaint();
@@ -123,7 +138,9 @@ public class ThermometerNode3D extends PlanarPiccoloNode implements DraggableToo
     }
 
     public ImmutableVector3F getSensorModelPosition() {
-        return modelViewTransform.inversePosition( new ImmutableVector3F( draggedPosition.x, draggedPosition.y, 0 ) );
+        return PlateModel.convertToPlanar(
+                modelViewTransform.inversePosition(
+                        new ImmutableVector3F( draggedPosition.x, draggedPosition.y, 0 ) ) );
     }
 
     public ParameterSet getCustomParameters() {

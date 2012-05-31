@@ -1,3 +1,7 @@
+Added initial version of thermometer wrapping, rewrote temperature handling
+Added in the correct radial mapping inverse for sensors, so they function normally when zoomed out
+Fixed temperature issue where it went below absolute zero in the atmosphere
+Performance improvements
 # 0.00.36 (63925) May 3, 2012
 # 0.00.35 (63911) May 2, 2012
 Fixed jitter on 1st tab labels during zoom
