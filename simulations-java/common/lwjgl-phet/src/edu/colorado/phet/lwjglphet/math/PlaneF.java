@@ -21,4 +21,15 @@ public class PlaneF {
     public ImmutableVector3F intersectWithRay( Ray3F ray ) {
         return ray.pointAtDistance( ray.distanceToPlane( this ) );
     }
+
+    // NOTE: will return null if points are collinear
+    public static PlaneF fromTriangle( ImmutableVector3F a, ImmutableVector3F b, ImmutableVector3F c ) {
+        ImmutableVector3F normal = ( c.minus( a ) ).cross( b.minus( a ) );
+        if ( normal.magnitude() == 0 ) {
+            return null;
+        }
+        normal = normal.normalized();
+
+        return new PlaneF( normal, normal.dot( a ) );
+    }
 }

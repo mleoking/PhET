@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.LiquidExpansionThermometerNode;
@@ -134,6 +135,12 @@ public class ThermometerNode3D extends ThreadedPlanarPiccoloNode implements Drag
         return PlateModel.convertToPlanar(
                 modelViewTransform.inversePosition(
                         new ImmutableVector3F( draggedPosition.x, draggedPosition.y, 0 ) ) );
+    }
+
+    public Option<ImmutableVector3F> getSensorTerrainPosition() {
+        // TODO: actually do this!
+//        return new None<ImmutableVector3F>();
+        throw new RuntimeException( "not implemented" );
     }
 
     public ParameterSet getCustomParameters() {
