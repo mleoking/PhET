@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
+import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.ParameterKeys;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
@@ -35,6 +36,15 @@ abstract class SlopeInterceptDragHandler extends SimSharingDragHandler {
         this.line = line;
     }
 
+    protected void updateLine( double rise, double run, double yIntercept ) {
+        if ( LGConstants.SNAP_TO_GRID_WHILE_DRAGGING ) {
+            line.set( new StraightLine( MathUtil.round( rise ), MathUtil.round( run ), MathUtil.round( yIntercept ), line.get().color, line.get().highlightColor ) );
+        }
+        else {
+            line.set( new StraightLine( rise, run, yIntercept, line.get().color, line.get().highlightColor ) );
+        }
+    }
+
     @Override protected void startDrag( PInputEvent event ) {
         super.startDrag( event );
         manipulatorNode.setDragging( true );
@@ -44,8 +54,9 @@ abstract class SlopeInterceptDragHandler extends SimSharingDragHandler {
         super.endDrag( event );
         manipulatorNode.setDragging( false );
         // snap to grid
-        line.set( new StraightLine( MathUtil.round( line.get().rise ), MathUtil.round( line.get().run ), MathUtil.round( line.get().yIntercept ),
-                                    line.get().color, line.get().highlightColor ) );
+        if ( !LGConstants.SNAP_TO_GRID_WHILE_DRAGGING ) {
+            updateLine( MathUtil.round( line.get().rise ), MathUtil.round( line.get().run ), MathUtil.round( line.get().yIntercept ) );
+        }
     }
 
     @Override protected ParameterSet getParametersForAllEvents( PInputEvent event ) {
@@ -79,7 +90,7 @@ abstract class SlopeInterceptDragHandler extends SimSharingDragHandler {
             super.drag( event );
             Point2D pMouse = event.getPositionRelativeTo( manipulatorNode.getParent() );
             double intercept = MathUtil.clamp( mvt.viewToModelDeltaY( pMouse.getY() - clickYOffset ), interceptRange.get() );
-            line.set( new StraightLine( line.get().rise, line.get().run, intercept, line.get().color, line.get().highlightColor ) );
+            updateLine( line.get().rise, line.get().run, intercept );
         }
     }
 
@@ -110,7 +121,7 @@ abstract class SlopeInterceptDragHandler extends SimSharingDragHandler {
             Point2D pMouse = event.getPositionRelativeTo( manipulatorNode.getParent() );
             double run = MathUtil.clamp( mvt.viewToModelDeltaX( pMouse.getX() - clickXOffset ), runRange.get() );
             double rise = MathUtil.clamp( mvt.viewToModelDeltaY( pMouse.getY() - clickYOffset ) - line.get().yIntercept, riseRange.get() );
-            line.set( new StraightLine( rise, run, line.get().yIntercept, line.get().color, line.get().highlightColor ) );
+            updateLine( rise, run, line.get().yIntercept );
         }
     }
 }
