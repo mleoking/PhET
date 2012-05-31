@@ -20,6 +20,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.fractions.util.FJUtils;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractions.view.FNode;
 import edu.colorado.phet.fractionsintro.buildafraction.controller.ModelUpdate;
@@ -54,6 +55,7 @@ public class NumberScene extends PNode {
 
     public final RichPNode numbersContainerLayer;
     private final BuildAFractionModel model;
+    private final List<PNode> scoreBoxes;
 
     public NumberScene( final BuildAFractionModel model, final SettableProperty<Mode> mode, final BuildAFractionCanvas canvas ) {
         this.model = model;
@@ -64,7 +66,7 @@ public class NumberScene extends PNode {
         final PNode radioButtonControlPanel = BuildAFractionCanvas.createModeControlPanel( mode );
         addChild( radioButtonControlPanel );
 
-        List<PNode> scoreBoxes = range( 0, 3 ).map( new F<Integer, PNode>() {
+        scoreBoxes = range( 0, 3 ).map( new F<Integer, PNode>() {
             @Override public PNode f( final Integer integer ) {
 
                 //If these representationBox are all the same size, then 2-column layout will work properly
@@ -178,7 +180,7 @@ public class NumberScene extends PNode {
 
     //When the user drops a DraggableNumberNode (either from dragging from the toolbox or from a draggable node), this code
     //checks and attaches it to the target fractions (if any)
-    public void draggableNumberNodeReleased( DraggableNumberNode node ) {
+    public void draggableNumberNodeReleased( final DraggableNumberNode node ) {
 
         Option<DraggableFractionNode> target = getDraggableNumberNodeDropTarget( node );
         if ( target.isSome() ) {
@@ -233,4 +235,24 @@ public class NumberScene extends PNode {
         throw new RuntimeException( "Not found" );
     }
 
+    public void fractionNodeDropped( final FractionID id ) {
+        //see if it overlaps a target cell
+        model.releaseFraction( id );
+
+        final DraggableFractionNode node = getDraggableFractionNode( id );
+        PNode scoreBox = scoreBoxes.filter( new F<PNode, Boolean>() {
+            @Override public Boolean f( final PNode scoreCell ) {
+                return scoreCell.getGlobalFullBounds().intersects( node.getGlobalFullBounds() );
+            }
+        } ).sort( FJUtils.ord( new F<PNode, Double>() {
+            @Override public Double f( final PNode scoreCell ) {
+                return area( scoreCell.getGlobalFullBounds().createIntersection( node.getGlobalFullBounds() ) );
+            }
+        } ) ).reverse().head();
+
+        //TODO: update the model instead of the view
+        node.centerFullBoundsOnPoint( scoreBox.getGlobalFullBounds().getCenterX(), scoreBox.getGlobalFullBounds().getCenterY() );
+    }
+
+    private double area( final Rectangle2D rectangle2D ) { return rectangle2D.getWidth() * rectangle2D.getHeight(); }
 }

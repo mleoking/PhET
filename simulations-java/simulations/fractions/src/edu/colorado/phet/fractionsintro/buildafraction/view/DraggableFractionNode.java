@@ -17,8 +17,6 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-import static edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionState.RELEASE_ALL;
-
 /**
  * @author Sam Reid
  */
@@ -77,7 +75,9 @@ public class DraggableFractionNode extends PNode {
                     }
 
                     @Override public void mouseReleased( final PInputEvent event ) {
-                        model.update( RELEASE_ALL );
+
+                        //Send the message through the view so it can check for score cell hits
+                        canvas.numberScene.fractionNodeDropped( id );
                     }
                 } );
             }} );
