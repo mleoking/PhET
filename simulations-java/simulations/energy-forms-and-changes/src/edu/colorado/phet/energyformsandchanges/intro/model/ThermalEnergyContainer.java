@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 
 /**
@@ -66,11 +67,20 @@ public interface ThermalEnergyContainer {
     void addEnergyChunk( EnergyChunk ec );
 
     /**
-     * Remove an energy chunk from this container.
+     * Locate the energy chunk that is closest to the specified location,
+     * remove it from this container, and return it to the caller.
      *
      * @return
      */
-    EnergyChunk removeEnergyChunk();
+    EnergyChunk extractClosestEnergyChunk( ImmutableVector2D point );
+
+    /**
+     * Get a point that represents the 2D center in model space of the energy
+     * container.
+     *
+     * @return
+     */
+    ImmutableVector2D getCenterPoint();
 
     /**
      * Get the area that can be used to test whether one energy container is in

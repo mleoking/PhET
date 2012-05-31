@@ -41,7 +41,7 @@ public abstract class Block extends RectangularThermalMovableModelElement {
      * @param energyChunksVisible
      */
     protected Block( ConstantDtClock clock, ImmutableVector2D initialPosition, double density, double specificHeat, BooleanProperty energyChunksVisible ) {
-        super( clock, initialPosition, Math.pow( SURFACE_WIDTH, 3 ) * density, specificHeat, energyChunksVisible );
+        super( clock, initialPosition, SURFACE_WIDTH, SURFACE_WIDTH, Math.pow( SURFACE_WIDTH, 3 ) * density, specificHeat, energyChunksVisible );
 
         // Update the top and bottom surfaces whenever the position changes.
         position.addObserver( new VoidFunction1<ImmutableVector2D>() {

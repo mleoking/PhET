@@ -38,7 +38,7 @@ public class EnergyChunkNode extends PNode {
 
         // Add the image that represents this energy chunk.
         Image imageSource;
-        imageSource = EnergyFormsAndChangesResources.Images.E_THERM_OUTLINE;
+        imageSource = EnergyFormsAndChangesResources.Images.ENERGY_CHUNKS_WHITE;
         PImage image = new PImage( imageSource );
         image.setScale( WIDTH / image.getFullBoundsReference().width );
         image.setOffset( -image.getFullBoundsReference().width / 2, -image.getFullBoundsReference().height / 2 );
