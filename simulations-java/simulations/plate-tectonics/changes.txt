@@ -1,3 +1,4 @@
+# 0.00.37 (64541) May 31, 2012
 Integration of same-thread Piccolo rendering for tools so they don't lag by multiple frames
 Fixed multiple bugs with the thermometer node and the "mini" thermometers
 Fixed temperature model for the 1st (crust) tab
