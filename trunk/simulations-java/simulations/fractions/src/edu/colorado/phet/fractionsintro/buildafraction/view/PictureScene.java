@@ -42,8 +42,8 @@ import static fj.data.List.range;
 /**
  * @author Sam Reid
  */
-public class NumberView extends PNode {
-    public NumberView( final BuildAFractionModel model, final SettableProperty<Mode> mode, final BuildAFractionCanvas canvas ) {
+public class PictureScene extends PNode {
+    public PictureScene( final BuildAFractionModel model, final SettableProperty<Mode> mode, final BuildAFractionCanvas canvas ) {
 
         final PNode radioButtonControlPanel = createModeControlPanel( mode );
 
