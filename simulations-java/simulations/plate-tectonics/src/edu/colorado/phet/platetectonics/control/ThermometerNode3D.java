@@ -223,8 +223,8 @@ public class ThermometerNode3D extends ThreadedPlanarPiccoloNode implements Drag
             for ( int i = 0; i < extraThermometerQuantity; i++ ) {
                 final int finalI = i;
                 extraThermometerHolderNode.addChild( new LiquidExpansionThermometerNode( THERMOMETER_DIMENSION ) {{
-                    setOffset( 45 + ( finalI / 4 ) * 20, ( finalI % 4 ) * 40 );
-                    scale( 0.2 );
+                    setOffset( 45 + finalI * 30, 0 );
+                    scale( 0.4 );
                     setLiquidHeight( THERMOMETER_MAX );
                 }} );
             }
