@@ -1,3 +1,4 @@
+Improved performance when animating bar chart bars
 # 0.00.73 (64573) Jun 1, 2012
 Renamed "Fraction Matching Game" to "Fraction Matcher"
 Added new sim for "Fraction Matching Game"

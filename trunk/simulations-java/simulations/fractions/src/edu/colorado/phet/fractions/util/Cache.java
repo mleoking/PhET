@@ -40,4 +40,10 @@ public class Cache<T, U> extends F<T, U> {
     public static <T, U> Cache<T, U> cache( F<T, U> f ) { return new Cache<T, U>( f, false ); }
 
     public static <T, U> Cache<T, U> cache( F<T, U> f, boolean debug ) { return new Cache<T, U>( f, debug ); }
+
+    public void checkAndClearCache() {
+        if ( map.size() > 100 ) {
+            map.clear();
+        }
+    }
 }
