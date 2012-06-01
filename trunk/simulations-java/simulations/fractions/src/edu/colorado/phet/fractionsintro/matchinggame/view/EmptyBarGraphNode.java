@@ -4,7 +4,6 @@ package edu.colorado.phet.fractionsintro.matchinggame.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -16,8 +15,8 @@ import edu.colorado.phet.fractions.view.FNode;
  *
  * @author Sam Reid
  */
-public class BarGraphNode extends FNode {
-    public BarGraphNode( double leftScaleValue, Color leftColor, double rightScaleValue, Color rightColor, final boolean showBars ) {
+public class EmptyBarGraphNode extends FNode {
+    public EmptyBarGraphNode() {
         double majorWidth = 90;
         double minorWidth = 70;
         double innerWidth = 50;
@@ -31,15 +30,6 @@ public class BarGraphNode extends FNode {
         addLine( 175, innerWidth, 1 );
         addLine( 200, majorWidth, 2, "0" );
         addChild( new PhetPPath( new Line2D.Double( 0, -15, 0, 200 ), new BasicStroke( 2 ), Color.black ) );
-
-        if ( showBars ) {
-            final double leftBarHeight = leftScaleValue * 100;
-            final int barWidth = 17;
-            addChild( new PhetPPath( new Rectangle2D.Double( -20, 200 - leftBarHeight, barWidth, leftBarHeight ), leftColor, new BasicStroke( 1 ), Color.black ) );
-
-            final double rightBarHeight = rightScaleValue * 100;
-            addChild( new PhetPPath( new Rectangle2D.Double( 0, 200 - rightBarHeight, barWidth, rightBarHeight ), rightColor, new BasicStroke( 1 ), Color.black ) );
-        }
     }
 
     private void addLine( double y, double width, float strokeWidth ) {

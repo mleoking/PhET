@@ -63,6 +63,8 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
 
     public MatchingGameCanvas( final boolean dev, final MatchingGameModel model ) {
 
+        final PNode emptyBarGraphNode = new EmptyBarGraphNode();
+
         //Game settings
         final GameSettings gameSettings = new GameSettings( new IntegerRange( 1, 6, 1 ), false, false );
         final VoidFunction0 startGame = new VoidFunction0() {
@@ -180,9 +182,14 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                     final Option<MovableFraction> leftScaleFraction = model.state.get().getScaleFraction( model.state.get().leftScale );
                     final Option<MovableFraction> rightScaleFraction = model.state.get().getScaleFraction( model.state.get().rightScale );
                     if ( leftScaleFraction.isSome() && rightScaleFraction.isSome() ) {
-                        parent.addChild( new ZeroOffsetNode( new BarGraphNode( leftScaleValue.get() * scale, leftScaleFraction.some().color,
-                                                                               rightScaleValue.get() * scale, rightScaleFraction.some().color,
-                                                                               revealClues.get() ) ) {{
+                        parent.addChild( new ZeroOffsetNode( new PNode() {{
+                            addChild( emptyBarGraphNode );
+                            if ( revealClues.get() ) {
+                                addChild( new BarGraphNodeBars( leftScaleValue.get() * scale, leftScaleFraction.some().color,
+                                                                rightScaleValue.get() * scale, rightScaleFraction.some().color
+                                ) );
+                            }
+                        }} ) {{
                             setOffset( scalesNode.getFullBounds().getCenterX() - 100, scalesNode.getFullBounds().getCenterY() - 15 - 400 );
                             setOffset( scalesNode.getFullBounds().getCenterX() - getFullWidth() / 2, scalesNode.getFullBounds().getCenterY() - getFullHeight() - 15 );
                         }} );
