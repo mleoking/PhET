@@ -156,7 +156,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
 
         // Add developer control for printing out energy values.
         {
-            final TextButtonNode dumpEnergiesButton = new TextButtonNode( "Dump Energy", new PhetFont( 14 ) );
+            final TextButtonNode dumpEnergiesButton = new TextButtonNode( "Dump Energies", new PhetFont( 14 ) );
             dumpEnergiesButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     model.dumpEnergies();
