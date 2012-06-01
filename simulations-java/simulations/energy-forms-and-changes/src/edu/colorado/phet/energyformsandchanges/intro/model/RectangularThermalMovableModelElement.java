@@ -74,7 +74,6 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
 
     public void changeEnergy( double deltaEnergy ) {
         energy += deltaEnergy;
-        System.out.println( getClass().getName() + " energy level = " + energy );
     }
 
     public double getEnergy() {
