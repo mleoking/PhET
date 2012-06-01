@@ -1,3 +1,5 @@
+Adjusted the thermometers to work better with the temperature range.
+Added limits to the burner to prevent it from over heating or over cooling items.
 # 0.00.04 (64564) May 31, 2012
 5/31/12 Snapshot for testing and review.
 Changed the clock control panel to have "Fast Forward" instead of "Slow Motion".
