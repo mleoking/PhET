@@ -9,6 +9,8 @@ package edu.colorado.phet.energyformsandchanges.common;
 public class EFACConstants {
 
     public static final double ROOM_TEMPERATURE = 296; // In Kelvin.
+    public static final double FREEZING_POINT_TEMPERATURE = 273.15; // In Kelvin.
+    public static final double BOILING_POINT_TEMPERATURE = 373.15; // In Kelvin.
 
     // Time values for normal and fast-forward motion.
     public static final double FRAMES_PER_SECOND = 30.0;
