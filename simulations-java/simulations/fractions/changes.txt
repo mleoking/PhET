@@ -1,3 +1,4 @@
+# 0.00.75 (64581) Jun 1, 2012
 Improved performance when animating bar chart bars even further
 # 0.00.74 (64576) Jun 1, 2012
 Improved performance when animating bar chart bars
