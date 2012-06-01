@@ -390,7 +390,10 @@ public class BallImage extends Sprite {
                 if ( modelRef.atInitialConfig ) {
                     modelRef.initPos[indx].setXY( ballX, ballY );
                 }
-                modelRef.updateViews();
+
+                //SR: This is a performance improvement that doesn't seem to cause any disadvanages.  On iOS with 5 balls in advanced tab, when paused, this line was causing 1 frame per 10 seconds.
+                //After commenting it out, it drags at about 5 fps.
+//                modelRef.updateViews();
                 evt.updateAfterEvent();
             }
         }
