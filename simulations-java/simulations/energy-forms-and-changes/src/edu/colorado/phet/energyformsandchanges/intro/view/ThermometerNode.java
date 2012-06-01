@@ -18,6 +18,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
+import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.intro.model.Thermometer;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -39,8 +40,8 @@ public class ThermometerNode extends PComposite {
     private static final Dimension2D TRIANGLE_TIP_OFFSET_FROM_THERMOMETER_CENTER = new PDimension( -35, 47 );
 
     // Temperature range handled by this thermometer.  Depiction is linear.
-    private static final double MIN_TEMPERATURE = 173; // In degrees Kelvin.
-    private static final double MAX_TEMPERATURE = 400; // In degrees Kelvin.
+    private static final double MIN_TEMPERATURE = EFACConstants.FREEZING_POINT_TEMPERATURE; // In degrees Kelvin.
+    private static final double MAX_TEMPERATURE = EFACConstants.BOILING_POINT_TEMPERATURE + 10; // In degrees Kelvin.
     private static final double TEMPERATURE_RANGE = MAX_TEMPERATURE - MIN_TEMPERATURE; // In degrees Kelvin.
 
     private final Thermometer thermometer;
@@ -66,7 +67,7 @@ public class ThermometerNode extends PComposite {
         PNode frontLayer = new PNode();
         rootNode.addChild( frontLayer );
 
-        // Add the back of the thermomether.
+        // Add the back of the thermometer.
         final double imageScale = 0.85; // Tweak factor for sizing the thermometers.
         final PImage thermometerBack = new PImage( EnergyFormsAndChangesResources.Images.THERMOMETER_BACK );
         thermometerBack.setScale( imageScale );
@@ -81,9 +82,11 @@ public class ThermometerNode extends PComposite {
                                                              thermometerBack.getFullBoundsReference().getMaxY() - thermometerBack.getFullBoundsReference().height * 0.1 );
             final double liquidShaftWidth = thermometerBack.getFullBoundsReference().getWidth() * 0.45;
             final double maxLiquidShaftHeight = centerOfBulb.getY() - thermometerBack.getFullBoundsReference().getMinY() - thermometerBack.getFullBoundsReference().height * 0.05;
+            final double minLiquidShaftHeight = thermometerBack.getFullBoundsReference().width * 0.75; // Assumes round bulb that defines the width.
             thermometer.sensedTemperature.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double temperature ) {
-                    double liquidShaftHeight = MathUtil.clamp( 0, ( ( temperature - MIN_TEMPERATURE ) / TEMPERATURE_RANGE ) * maxLiquidShaftHeight, maxLiquidShaftHeight );
+                    double proportion = MathUtil.clamp( 0, ( temperature - MIN_TEMPERATURE ) / TEMPERATURE_RANGE, 1 );
+                    double liquidShaftHeight = minLiquidShaftHeight + ( maxLiquidShaftHeight - minLiquidShaftHeight ) * proportion;
                     liquidShaft.setPathTo( new Rectangle2D.Double( centerOfBulb.getX() - liquidShaftWidth / 2 + 0.75,
                                                                    centerOfBulb.getY() - liquidShaftHeight,
                                                                    liquidShaftWidth,
