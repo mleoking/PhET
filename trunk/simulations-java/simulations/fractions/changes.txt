@@ -1,3 +1,4 @@
+# 0.00.74 (64576) Jun 1, 2012
 Improved performance when animating bar chart bars
 # 0.00.73 (64573) Jun 1, 2012
 Renamed "Fraction Matching Game" to "Fraction Matcher"
