@@ -153,7 +153,7 @@ public class TableView extends Sprite {
         //position slider
         timeRate_slider.x = W - timeRate_slider.width - timeText.width - 5;
         //        ; //- 1.7*timeText.width;
-        timeRate_slider.y = H + 30;
+        timeRate_slider.y = H + 40;
 
         //position slider label
         timeRateText.y = H + 10;
