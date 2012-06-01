@@ -1,6 +1,9 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.common;
 
+import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
+
 /**
  * Shared constants used in multiple locations within the sim.
  *
@@ -17,8 +20,12 @@ public class EFACConstants {
     public static final double SIM_TIME_PER_TICK_NORMAL = 1 / FRAMES_PER_SECOND;
     public static final double SIM_TIME_PER_TICK_FAST_FORWARD = SIM_TIME_PER_TICK_NORMAL * 4;
 
-    // Constants that define the number of energy chunks in energy-containing
-    // model elements.
-    public static final double MIN_ENERGY = 10000;   // Min energy before any chunks are depicted (in Joules).
-    public static final double ENERGY_CHUNK_MULTIPLIER = 0.000075;  // Chunks per Joule.
+    // Constant function for mapping energy level to number of energy chunks.
+    public static Function1<Double, Integer> ENERGY_TO_NUM_CHUNKS_MAPPER = new Function1<Double, Integer>() {
+        private Function.LinearFunction MAPPER_TO_DOUBLE = new Function.LinearFunction( 40000, 400000, 1, 23 );
+
+        public Integer apply( Double energy ) {
+            return (int) Math.round( MAPPER_TO_DOUBLE.evaluate( energy ) );
+        }
+    };
 }
