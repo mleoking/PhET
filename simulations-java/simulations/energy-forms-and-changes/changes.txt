@@ -1,3 +1,4 @@
+Added a developer control that hides/shows a button that will dump the energies of the thermal objects to the console.
 Adjusted the thermometers to work better with the temperature range.
 Added limits to the burner to prevent it from over heating or over cooling items.
 # 0.00.04 (64564) May 31, 2012
