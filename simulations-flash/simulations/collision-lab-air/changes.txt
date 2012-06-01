@@ -1,3 +1,6 @@
+Centered slider knobs on the track
+Pointed slider knobs down (to point at labels)
+Moved labels so they don't interfere with larger slider knobs
 Increased the size of slider knobs
 Made control panel 20% bigger
 Changed FLA to build for AIR iOS
