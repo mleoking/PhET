@@ -12,6 +12,8 @@ import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 
+import static edu.colorado.phet.energyformsandchanges.common.EFACConstants.ENERGY_TO_NUM_CHUNKS_MAPPER;
+
 /**
  * A movable model element that contains thermal energy and that, at least in
  * the model, has an overall shape that can be represented as a rectangle.
@@ -72,6 +74,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
 
     public void changeEnergy( double deltaEnergy ) {
         energy += deltaEnergy;
+        System.out.println( getClass().getName() + " energy level = " + energy );
     }
 
     public double getEnergy() {
@@ -97,11 +100,11 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
     }
 
     public boolean needsEnergyChunk() {
-        return calculateNeededNumEnergyChunks() > energyChunkList.size();
+        return ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy ) > energyChunkList.size();
     }
 
     public boolean hasExcessEnergyChunks() {
-        return calculateNeededNumEnergyChunks() < energyChunkList.size();
+        return ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy ) < energyChunkList.size();
     }
 
     public void addEnergyChunk( EnergyChunk ec ) {
@@ -122,13 +125,9 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
         return closestEnergyChunk;
     }
 
-    protected int calculateNeededNumEnergyChunks() {
-        return (int) Math.round( Math.max( energy - EFACConstants.MIN_ENERGY, 0 ) * EFACConstants.ENERGY_CHUNK_MULTIPLIER );
-    }
-
     protected void addInitialEnergyChunks() {
         energyChunkList.clear();
-        int targetNumChunks = calculateNeededNumEnergyChunks();
+        int targetNumChunks = ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy );
         Rectangle2D energyChunkBounds = getThermalContactArea().getBounds();
         while ( targetNumChunks != getEnergyChunkList().size() ) {
             // Add a chunk at a random location in the block.

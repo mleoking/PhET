@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -153,7 +154,7 @@ public class Beaker extends RectangularThermalMovableModelElement {
     // Had to override due to construction order issues.
     @Override protected void addInitialEnergyChunks() {
         energyChunkList.clear();
-        int targetNumChunks = calculateNeededNumEnergyChunks();
+        int targetNumChunks = EFACConstants.ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy );
         Rectangle2D energyChunkBounds = new Rectangle2D.Double( position.get().getX() - WIDTH / 2,
                                                                 position.get().getY(),
                                                                 WIDTH,

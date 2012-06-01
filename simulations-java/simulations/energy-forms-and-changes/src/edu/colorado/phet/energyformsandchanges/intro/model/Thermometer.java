@@ -34,6 +34,7 @@ public class Thermometer extends UserMovableModelElement {
     }
 
     @Override public Property<HorizontalSurface> getBottomSurfaceProperty() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        // Can't actually be set on anything, so returns null.
+        return null;
     }
 }
