@@ -1,3 +1,4 @@
+Moved ruler units label to work around layout issue
 # 0.00.38 (64551) May 31, 2012
 Thermometer "roll-over" style changes (larger, and to the side)
 # 0.00.37 (64541) May 31, 2012
