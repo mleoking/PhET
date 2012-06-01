@@ -274,6 +274,12 @@ public class EFACIntroModel {
         return newPosition.toPoint2D();
     }
 
+    public void dumpEnergies() {
+        for ( ThermalEnergyContainer thermalEnergyContainer : Arrays.asList( ironBlock, brick, beaker ) ) {
+            System.out.println( thermalEnergyContainer.getClass().getName() + " - energy = " + thermalEnergyContainer.getEnergy() );
+        }
+    }
+
     /**
      * Determine the portion of a proposed translation that may occur given
      * a moving rectangle and a stationary rectangle that can block the moving

@@ -4,6 +4,8 @@ package edu.colorado.phet.energyformsandchanges.intro.view;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.Shape;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -155,6 +157,11 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         // Add developer control for printing out energy values.
         {
             final TextButtonNode dumpEnergiesButton = new TextButtonNode( "Dump Energy", new PhetFont( 14 ) );
+            dumpEnergiesButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    model.dumpEnergies();
+                }
+            } );
             dumpEnergiesButton.setOffset( 20, centerYBelowSurface - dumpEnergiesButton.getFullBoundsReference().getHeight() / 2 );
             backLayer.addChild( dumpEnergiesButton );
 
