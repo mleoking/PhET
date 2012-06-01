@@ -21,6 +21,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
@@ -45,6 +46,9 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
     public static Dimension2D STAGE_SIZE = CenteredStage.DEFAULT_STAGE_SIZE;
     private static double EDGE_INSET = 10;
     private static final Color CONTROL_PANEL_COLOR = new Color( 255, 255, 224 );
+
+    // Boolean property for showing/hiding developer control for dumping energy levels.
+    public static final BooleanProperty showDumpEnergiesButton = new BooleanProperty( false );
 
     private final EFACIntroModel model;
     private ThermometerToolBox thermometerToolBox;
@@ -146,6 +150,20 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
             resetButton.setOffset( STAGE_SIZE.getWidth() - resetButton.getFullBoundsReference().width - 20,
                                    centerYBelowSurface - resetButton.getFullBoundsReference().getHeight() / 2 );
             backLayer.addChild( resetButton );
+        }
+
+        // Add developer control for printing out energy values.
+        {
+            final TextButtonNode dumpEnergiesButton = new TextButtonNode( "Dump Energy", new PhetFont( 14 ) );
+            dumpEnergiesButton.setOffset( 20, centerYBelowSurface - dumpEnergiesButton.getFullBoundsReference().getHeight() / 2 );
+            backLayer.addChild( dumpEnergiesButton );
+
+            // Control the visibility of this button.
+            showDumpEnergiesButton.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean visible ) {
+                    dumpEnergiesButton.setVisible( visible );
+                }
+            } );
         }
 
         // Add the burners.
