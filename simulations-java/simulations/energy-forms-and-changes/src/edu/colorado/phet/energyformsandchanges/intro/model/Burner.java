@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -57,7 +58,7 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
 
     // Property that is used to control the amount of heating or cooling that
     // is being done.
-    public final Property<Double> heatCoolLevel = new Property<Double>( 0.0 );
+    public final BoundedDoubleProperty heatCoolLevel = new BoundedDoubleProperty( 0.0, -1, 1 );
 
     private Property<HorizontalSurface> topSurface;
     private double energy = INITIAL_ENERGY;
@@ -134,35 +135,55 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     }
 
     public void exchangeEnergyWith( ThermalEnergyContainer otherEnergyContainer, double dt ) {
+
+        // Get the amount of thermal contact with the other container.
         double thermalContactLength = getThermalContactArea().getThermalContactLength( otherEnergyContainer.getThermalContactArea() );
 
-        if ( heatCoolLevel.get() != 0 && thermalContactLength > 0 ) {
+        if ( thermalContactLength > 0 ) {
 
-            // The burner is in contact with this item.  Exchange energy.
-            if ( Math.abs( otherEnergyContainer.getTemperature() - getTemperature() ) > TEMPERATURES_EQUAL_THRESHOLD ) {
-                // Exchange energy between this and the other energy container.
-                // TODO: The following is a first attempt and likely to need much adjustment.
-                double thermalEnergyGained = ( otherEnergyContainer.getTemperature() - getTemperature() ) * thermalContactLength * 2000 * dt;
-                changeEnergy( thermalEnergyGained );
-                otherEnergyContainer.changeEnergy( -thermalEnergyGained );
+            // The burner is in contact with this item.  First, check that the
+            // item is allowed to be heated or cooled any more.
+            if ( otherEnergyContainer.getTemperature() >= EFACConstants.BOILING_POINT_TEMPERATURE ) {
+                // No more heat allowed.
+                heatCoolLevel.setMax( 0 );
+            }
+            else if ( otherEnergyContainer.getTemperature() <= EFACConstants.FREEZING_POINT_TEMPERATURE ) {
+                // No more cooling allowed.
+                heatCoolLevel.setMin( 0 );
+            }
+            else {
+                // Heating and cooling allowed.
+                heatCoolLevel.setRange( -1, 1 );
             }
 
-            // Exchange energy chunks.
-            if ( otherEnergyContainer.needsEnergyChunk() ) {
-                System.out.println( "giving chunk to otherEnergyContainer = " + otherEnergyContainer );
-                // The other energy container needs an energy chunk, so create
-                // one for it.  It is the other container's responsibility to
-                // animate it to the right place.
-                double xPos = position.getX() + ( RAND.nextDouble() - 0.5 ) * WIDTH / 3;
-                double yPos = HEIGHT * 0.6; // Tweaked to work well with the view.
-                otherEnergyContainer.addEnergyChunk( new EnergyChunk( clock, new ImmutableVector2D( xPos, yPos ), energyChunksVisible, true ) );
-            }
-            else if ( otherEnergyContainer.hasExcessEnergyChunks() ) {
-                // The other energy container needs to get rid of an energy
-                // chunk, so take one off of its hands.
-                EnergyChunk ec = otherEnergyContainer.extractClosestEnergyChunk( getCenterPoint() );
-                ec.startFadeOut();
-                energyChunkList.add( ec );
+            if ( heatCoolLevel.get() != 0 ) {
+
+                // Exchange energy chunks if there is a temperature gradient.
+                if ( Math.abs( otherEnergyContainer.getTemperature() - getTemperature() ) > TEMPERATURES_EQUAL_THRESHOLD && heatCoolLevel.get() != 0 ) {
+                    // Exchange energy between this and the other energy container.
+                    // TODO: Need to look up exchange constant.
+                    double thermalEnergyGained = ( otherEnergyContainer.getTemperature() - getTemperature() ) * thermalContactLength * 2000 * dt;
+                    changeEnergy( thermalEnergyGained );
+                    otherEnergyContainer.changeEnergy( -thermalEnergyGained );
+                }
+
+                // Exchange energy chunks as needed.
+                if ( otherEnergyContainer.needsEnergyChunk() ) {
+                    System.out.println( "giving chunk to otherEnergyContainer = " + otherEnergyContainer );
+                    // The other energy container needs an energy chunk, so create
+                    // one for it.  It is the other container's responsibility to
+                    // animate it to the right place.
+                    double xPos = position.getX() + ( RAND.nextDouble() - 0.5 ) * WIDTH / 3;
+                    double yPos = HEIGHT * 0.6; // Tweaked to work well with the view.
+                    otherEnergyContainer.addEnergyChunk( new EnergyChunk( clock, new ImmutableVector2D( xPos, yPos ), energyChunksVisible, true ) );
+                }
+                else if ( otherEnergyContainer.hasExcessEnergyChunks() ) {
+                    // The other energy container needs to get rid of an energy
+                    // chunk, so take one off of its hands.
+                    EnergyChunk ec = otherEnergyContainer.extractClosestEnergyChunk( getCenterPoint() );
+                    ec.startFadeOut();
+                    energyChunkList.add( ec );
+                }
             }
         }
     }
@@ -234,6 +255,46 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
                 // This chunk has faded to nothing, so remove it.
                 energyChunkList.remove( energyChunk );
             }
+        }
+    }
+
+    private static class BoundedDoubleProperty extends Property<Double> {
+
+        private DoubleRange bounds;
+
+        /**
+         * Create a property with the specified initial value
+         *
+         * @param value
+         */
+        public BoundedDoubleProperty( Double value, double minValue, double maxValue ) {
+            super( value );
+            bounds = new DoubleRange( minValue, maxValue );
+        }
+
+        @Override public void set( Double value ) {
+            double boundedValue = MathUtil.clamp( bounds.getMin(), value, bounds.getMax() );
+            super.set( boundedValue );
+        }
+
+        public void setMin( double min ) {
+            bounds = new DoubleRange( min, bounds.getMax() );
+            update();
+        }
+
+        public void setMax( double max ) {
+            bounds = new DoubleRange( bounds.getMin(), max );
+            update();
+        }
+
+        public void setRange( double min, double max ) {
+            bounds = new DoubleRange( min, max );
+            update();
+        }
+
+        // Make sure that the current value is within the range.
+        private void update() {
+            set( get() );
         }
     }
 }
