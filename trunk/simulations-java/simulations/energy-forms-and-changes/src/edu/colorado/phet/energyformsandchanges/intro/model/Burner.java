@@ -139,51 +139,33 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
         // Get the amount of thermal contact with the other container.
         double thermalContactLength = getThermalContactArea().getThermalContactLength( otherEnergyContainer.getThermalContactArea() );
 
-        if ( thermalContactLength > 0 ) {
+        if ( thermalContactLength > 0 && heatCoolLevel.get() != 0 ) {
 
-            // The burner is in contact with this item.  First, check that the
-            // item is allowed to be heated or cooled any more.
-            if ( otherEnergyContainer.getTemperature() >= EFACConstants.BOILING_POINT_TEMPERATURE ) {
-                // No more heat allowed.
-                heatCoolLevel.setMax( 0 );
-            }
-            else if ( otherEnergyContainer.getTemperature() <= EFACConstants.FREEZING_POINT_TEMPERATURE ) {
-                // No more cooling allowed.
-                heatCoolLevel.setMin( 0 );
-            }
-            else {
-                // Heating and cooling allowed.
-                heatCoolLevel.setRange( -1, 1 );
+            // Exchange energy chunks if there is a temperature gradient.
+            if ( Math.abs( otherEnergyContainer.getTemperature() - getTemperature() ) > TEMPERATURES_EQUAL_THRESHOLD && heatCoolLevel.get() != 0 ) {
+                // Exchange energy between this and the other energy container.
+                // TODO: Need to look up exchange constant.
+                double thermalEnergyGained = ( otherEnergyContainer.getTemperature() - getTemperature() ) * thermalContactLength * 2000 * dt;
+                changeEnergy( thermalEnergyGained );
+                otherEnergyContainer.changeEnergy( -thermalEnergyGained );
             }
 
-            if ( heatCoolLevel.get() != 0 ) {
-
-                // Exchange energy chunks if there is a temperature gradient.
-                if ( Math.abs( otherEnergyContainer.getTemperature() - getTemperature() ) > TEMPERATURES_EQUAL_THRESHOLD && heatCoolLevel.get() != 0 ) {
-                    // Exchange energy between this and the other energy container.
-                    // TODO: Need to look up exchange constant.
-                    double thermalEnergyGained = ( otherEnergyContainer.getTemperature() - getTemperature() ) * thermalContactLength * 2000 * dt;
-                    changeEnergy( thermalEnergyGained );
-                    otherEnergyContainer.changeEnergy( -thermalEnergyGained );
-                }
-
-                // Exchange energy chunks as needed.
-                if ( otherEnergyContainer.needsEnergyChunk() ) {
-                    System.out.println( "giving chunk to otherEnergyContainer = " + otherEnergyContainer );
-                    // The other energy container needs an energy chunk, so create
-                    // one for it.  It is the other container's responsibility to
-                    // animate it to the right place.
-                    double xPos = position.getX() + ( RAND.nextDouble() - 0.5 ) * WIDTH / 3;
-                    double yPos = HEIGHT * 0.6; // Tweaked to work well with the view.
-                    otherEnergyContainer.addEnergyChunk( new EnergyChunk( clock, new ImmutableVector2D( xPos, yPos ), energyChunksVisible, true ) );
-                }
-                else if ( otherEnergyContainer.hasExcessEnergyChunks() ) {
-                    // The other energy container needs to get rid of an energy
-                    // chunk, so take one off of its hands.
-                    EnergyChunk ec = otherEnergyContainer.extractClosestEnergyChunk( getCenterPoint() );
-                    ec.startFadeOut();
-                    energyChunkList.add( ec );
-                }
+            // Exchange energy chunks as needed.
+            if ( otherEnergyContainer.needsEnergyChunk() ) {
+                System.out.println( "giving chunk to otherEnergyContainer = " + otherEnergyContainer );
+                // The other energy container needs an energy chunk, so create
+                // one for it.  It is the other container's responsibility to
+                // animate it to the right place.
+                double xPos = position.getX() + ( RAND.nextDouble() - 0.5 ) * WIDTH / 3;
+                double yPos = HEIGHT * 0.6; // Tweaked to work well with the view.
+                otherEnergyContainer.addEnergyChunk( new EnergyChunk( clock, new ImmutableVector2D( xPos, yPos ), energyChunksVisible, true ) );
+            }
+            else if ( otherEnergyContainer.hasExcessEnergyChunks() ) {
+                // The other energy container needs to get rid of an energy
+                // chunk, so take one off of its hands.
+                EnergyChunk ec = otherEnergyContainer.extractClosestEnergyChunk( getCenterPoint() );
+                ec.startFadeOut();
+                energyChunkList.add( ec );
             }
         }
     }
@@ -231,6 +213,42 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     @Override public void reset() {
         super.reset();
         energy = INITIAL_ENERGY;
+    }
+
+    /**
+     * Update the limits on heating and cooling based on which model element,
+     * if any, is in contact with the burner.  This is necessary to prevent the
+     * burner from overheating or over cooling another element.
+     *
+     * @param thermalEnergyContainers List of all thermal energy containers
+     *                                that could possible be on the burner.
+     */
+    public void updateHeatCoolLimits( ThermalEnergyContainer... thermalEnergyContainers ) {
+
+        // Clear out any existing limits.
+        heatCoolLevel.setRange( -1, 1 );
+
+        for ( ThermalEnergyContainer otherEnergyContainer : thermalEnergyContainers ) {
+
+            assert otherEnergyContainer != this; // Make sure this method isn't being misused.
+
+            if ( otherEnergyContainer.getThermalContactArea().getThermalContactLength( getThermalContactArea() ) > 0 ) {
+
+                // The burner is in contact with this item.  Adjust the limits
+                // based on the item's temperature.
+                if ( otherEnergyContainer.getTemperature() >= EFACConstants.BOILING_POINT_TEMPERATURE ) {
+                    // No more heat allowed.
+                    heatCoolLevel.setMax( 0 );
+                }
+                else if ( otherEnergyContainer.getTemperature() <= EFACConstants.FREEZING_POINT_TEMPERATURE ) {
+                    // No more cooling allowed.
+                    heatCoolLevel.setMin( 0 );
+                }
+
+                // Only one item can be in contact at once, so we're done.
+                break;
+            }
+        }
     }
 
     public ObservableList<EnergyChunk> getEnergyChunkList() {
