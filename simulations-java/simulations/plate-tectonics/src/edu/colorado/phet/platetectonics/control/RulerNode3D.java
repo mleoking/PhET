@@ -8,7 +8,6 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
-import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
@@ -23,6 +22,10 @@ import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
 import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
+import edu.umd.cs.piccolo.nodes.PText;
+
+import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.map;
+import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.rangeInclusive;
 
 /**
  * Displays a ruler in the 3D play area space
@@ -139,14 +142,25 @@ public class RulerNode3D extends ThreadedPlanarPiccoloNode implements DraggableT
 
     public static class RulerNode2D extends RulerNode {
 
+        private static final int FONT_SIZE = 9;
+
+        private static final double RULER_PICCOLO_HEIGHT = 100 * RulerNode3D.RULER_PIXEL_SCALE;
+        private static final double RULER_PICCOLO_WIDTH = 10 * RulerNode3D.RULER_PIXEL_SCALE;
+
         /**
          * @param kmToViewUnit Number of view units (in 3D JME) that correspond to 1 km in the model. Extracted into
          *                     a parameter so that we can add a 2D version to the toolbox that is unaffected by future
          *                     model-view-transform size changes.
          */
         public RulerNode2D( float kmToViewUnit, final PlateTectonicsTab tab ) {
-            super( 100 * RulerNode3D.RULER_PIXEL_SCALE, 10 * RulerNode3D.RULER_PIXEL_SCALE, getLabels( scaleMultiplier( tab ) ),
-                   Strings.RULER_UNITS, 1, 9 );
+            super( RULER_PICCOLO_HEIGHT, RULER_PICCOLO_WIDTH, getLabels( scaleMultiplier( tab ) ),
+                   "", 1, FONT_SIZE );
+
+            addChild( new PText( Strings.RULER_UNITS ) {{
+                setFont( createDefaultFont( FONT_SIZE ) );
+                rotate( Math.PI / 2 );
+                setOffset( RULER_PICCOLO_HEIGHT - 5, ( RULER_PICCOLO_WIDTH - getFullBounds().getWidth() ) / 2 );
+            }} );
 
             // make it vertical
             rotate( -Math.PI / 2 );
@@ -168,7 +182,7 @@ public class RulerNode3D extends ThreadedPlanarPiccoloNode implements DraggableT
     }
 
     private static String[] getLabels( final int multiplier ) {
-        List<String> labels = FunctionalUtils.map( FunctionalUtils.rangeInclusive( 0, 10 ), new Function1<Integer, String>() {
+        List<String> labels = map( rangeInclusive( 0, 10 ), new Function1<Integer, String>() {
             public String apply( Integer integer ) {
                 return Integer.toString( integer * 10 * multiplier );
             }
