@@ -133,7 +133,7 @@ public class Levels {
     }
 
     public RepresentationType elShapedPairs( final int numPairs, F2<Pattern, Integer, FilledPattern> fill ) {
-        return createPatterns( numPairs + " L-shaped diagonal", numPairs, 60, new F<Integer, Pattern>() {
+        return createPatterns( numPairs + " L-shaped diagonal", numPairs * 2, 60, new F<Integer, Pattern>() {
             @Override public Pattern f( final Integer integer ) {
                 return Pattern.letterLShapedDiagonal( 14, numPairs );
             }
@@ -230,10 +230,10 @@ public class Levels {
         }
     }, RANDOM() );
 
-    private RepresentationType createPatterns( String name, final int max, final int length, final F<Integer, Pattern> pattern, final F2<Pattern, Integer, FilledPattern> fill ) {
+    private RepresentationType createPatterns( String name, final int denominator, final int length, final F<Integer, Pattern> pattern, final F2<Pattern, Integer, FilledPattern> fill ) {
         return twoComposites( name, new F<Fraction, Boolean>() {
                                   @Override public Boolean f( final Fraction fraction ) {
-                                      return fraction.denominator == max;
+                                      return fraction.denominator == denominator;
                                   }
                               },
                               new F<Fraction, PNode>() {
