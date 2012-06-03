@@ -27,7 +27,7 @@ import static edu.colorado.phet.common.piccolophet.PiccoloPhetApplication.RESOUR
 public class SpeedometerSensorNode extends ToolNode {
     public final ModelViewTransform transform;
     public final PointSensor<Double> pointSensor;
-    public final PNode bodyNode;
+    public final SpeedometerNode bodyNode;
     public final PImage velocityPointNode;
     public final BufferedImage velocityPoint;
 
