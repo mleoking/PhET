@@ -43,8 +43,6 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
     private final PlateTectonicsTab tab;
     private final PlateModel model;
 
-    private int scaleFactor = 1;
-
     public ImmutableVector2F draggedPosition = new ImmutableVector2F();
 
     public DensitySensorNode3D( final LWJGLTransform modelViewTransform, final PlateTectonicsTab tab, PlateModel model ) {
@@ -66,18 +64,6 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
                                                                                      draggedPosition.y,
                                                                                      0 );
                 transform.set( translation.times( scaling ) );
-
-                final int newScaleFactor = (int) Math.floor( ( tab.getSceneDistanceZoomFactor() - 1 ) / 10 ) + 1;
-                final boolean changed = newScaleFactor != scaleFactor;
-                scaleFactor = newScaleFactor;
-                if ( changed ) {
-                    updateReadout();
-
-                    final DensitySensorNode2D node = (DensitySensorNode2D) getNode();
-                    node.setMultiplier( scaleFactor );
-                    node.repaint();
-                    repaint();
-                }
             }
         } );
 
@@ -113,8 +99,8 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
         // TODO: improve model/view and listening for sensor location
         final Double density = getDensityValue();
         final DensitySensorNode2D node = (DensitySensorNode2D) getNode();
-        final double densityToShow = density / ( (float) scaleFactor );
-        node.pointSensor.value.set( new Option.Some<Double>( densityToShow ) );
+        System.out.println( density );
+        node.pointSensor.value.set( new Option.Some<Double>( density ) );
         repaint();
     }
 
