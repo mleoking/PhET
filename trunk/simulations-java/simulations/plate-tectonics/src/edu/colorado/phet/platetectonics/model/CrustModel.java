@@ -4,6 +4,7 @@ package edu.colorado.phet.platetectonics.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -415,6 +416,32 @@ public class CrustModel extends PlateModel {
         return mantleDepthDensity[mantleDepthDensity.length - 1];
     }
 
+    private static final LinearFunction OUTER_CORE_DENSITY_FUNCTION =
+            new LinearFunction( INNER_OUTER_CORE_BOUNDARY_Y, MANTLE_CORE_BOUNDARY_Y,
+                                INNER_OUTER_CORE_BOUNDARY_DENSITY, CORE_BOUNDARY_DENSITY );
+
+    private static final LinearFunction INNER_CORE_DENSITY_FUNCTION =
+            new LinearFunction( CENTER_OF_EARTH_Y, INNER_OUTER_CORE_BOUNDARY_Y,
+                                CENTER_DENSITY, INNER_OUTER_CORE_BOUNDARY_DENSITY );
+
+    public static float getCoreDensity( float y ) {
+        if ( y > INNER_OUTER_CORE_BOUNDARY_Y ) {
+            return (float) OUTER_CORE_DENSITY_FUNCTION.evaluate( y );
+        }
+        else {
+            return (float) INNER_CORE_DENSITY_FUNCTION.evaluate( y );
+        }
+    }
+
+    public static float getMantleOrCoreDensity( double y ) {
+        if ( y > MANTLE_CORE_BOUNDARY_Y ) {
+            return getMantleDensity( (float) y );
+        }
+        else {
+            return getCoreDensity( (float) y );
+        }
+    }
+
     private static <T, U> U[] map( T[] array, Function1<? super T, ? extends U> mapper, U[] resultArray ) {
         assert resultArray.length >= array.length;
 
@@ -538,7 +565,7 @@ public class CrustModel extends PlateModel {
                 return LEFT_OCEANIC_DENSITY;
             }
             else {
-                return MANTLE_DENSITY;
+                return getMantleOrCoreDensity( y );
             }
         }
         else if ( x > RIGHT_BOUNDARY ) {
@@ -549,7 +576,7 @@ public class CrustModel extends PlateModel {
                 return RIGHT_CONTINENTAL_DENSITY;
             }
             else {
-                return MANTLE_DENSITY;
+                return getMantleOrCoreDensity( y );
             }
         }
         else if ( y > getCenterCrustElevation() ) {
@@ -564,7 +591,7 @@ public class CrustModel extends PlateModel {
             return getCenterCrustDensity();
         }
         else {
-            return MANTLE_DENSITY;
+            return getMantleOrCoreDensity( y );
         }
     }
 

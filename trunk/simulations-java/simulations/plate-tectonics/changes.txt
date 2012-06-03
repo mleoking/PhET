@@ -1,3 +1,4 @@
+Fixed mantle and core density scale to realistic values (was just a constant for mantle density)
 Moved ruler units label to work around layout issue
 # 0.00.38 (64551) May 31, 2012
 Thermometer "roll-over" style changes (larger, and to the side)
