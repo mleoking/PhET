@@ -39,6 +39,8 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
     // how much we subsample the piccolo ruler in texture construction
     public static final float PICCOLO_PIXELS_TO_VIEW_UNIT = 3;
 
+    public static final float MAX_SPEEDOMETER_DENSITY = 3500;
+
     private final LWJGLTransform modelViewTransform;
     private final PlateTectonicsTab tab;
     private final PlateModel model;
@@ -99,7 +101,6 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
         // TODO: improve model/view and listening for sensor location
         final Double density = getDensityValue();
         final DensitySensorNode2D node = (DensitySensorNode2D) getNode();
-        System.out.println( density );
         node.pointSensor.value.set( new Option.Some<Double>( density ) );
         repaint();
     }
@@ -152,7 +153,6 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
         // TODO: change this to a 2D offset
         public final double horizontalSensorOffset;
 
-        final PText modifierText;
         public static double w;
         public static double h;
 
@@ -166,16 +166,10 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
 
                 //Start by showing needle at 0.0 instead of hiding it
                 value.set( new Some<Double>( 0.0 ) );
-            }}, "Density", 3500 );
+            }}, Strings.DENSITY_VIEW, MAX_SPEEDOMETER_DENSITY );
 
             w = getFullBounds().getWidth();
             h = getFullBounds().getHeight();
-
-            modifierText = new PText( "" ) {{
-                setFont( new PhetFont( 16, true ) );
-            }};
-            addChild( modifierText );
-            positionText();
 
             // scale it so that we achieve adherence to the model scale
             scale( ThermometerNode3D.PICCOLO_PIXELS_TO_VIEW_UNIT * kmToViewUnit / ThermometerNode3D.PIXEL_SCALE );
@@ -184,16 +178,6 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
 
             // give it the "Hand" cursor
             addInputEventListener( new LWJGLCursorHandler() );
-        }
-
-        public void positionText() {
-            modifierText.setOffset( w / 2 - modifierText.getFullBounds().getWidth() / 2,
-                                    h * 6 / 11 );
-        }
-
-        public void setMultiplier( int multiplier ) {
-            modifierText.setText( multiplier == 1 ? "" : MessageFormat.format( Strings.SENSOR_MULTIPLIER, multiplier ) );
-            positionText();
         }
     }
 }
