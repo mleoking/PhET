@@ -16,13 +16,12 @@ import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
  */
 public class Brick extends Block {
 
-    private static final double SPECIFIC_HEAT = 840; // In J/kg-K, source = design document.
+    private static final double SPECIFIC_HEAT = 800; // In J/kg-K, source = design document.
     private static final double DENSITY = 2000; // In kg/m^3, source = design document.
 
     protected Brick( ConstantDtClock clock, ImmutableVector2D initialPosition, BooleanProperty energyChunksVisible ) {
         super( clock, initialPosition, DENSITY, SPECIFIC_HEAT, energyChunksVisible );
     }
-
 
     @Override public Image getFrontTextureImage() {
         return EnergyFormsAndChangesResources.Images.BRICK_TEXTURE_FRONT;
