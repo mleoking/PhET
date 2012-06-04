@@ -1,3 +1,4 @@
+# 0.00.03 (64629) Jun 4, 2012
 Increased acceleration
 Added mode 4
 # 0.00.02 (64614) Jun 4, 2012
