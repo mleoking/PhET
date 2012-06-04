@@ -11,7 +11,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 /**
  * @author Sam Reid
  */
-public class ForcesAndMotionBasicsCanvas extends PhetPCanvas {
+public class AbstractForcesAndMotionBasicsCanvas extends PhetPCanvas {
     public static final Font CONTROL_FONT = new PhetFont( 20 );
 
     //Stage where nodes are added and scaled up and down
@@ -24,7 +24,7 @@ public class ForcesAndMotionBasicsCanvas extends PhetPCanvas {
     //Default inset between edges, etc.
     public static final double INSET = 10;
 
-    public ForcesAndMotionBasicsCanvas() {
+    public AbstractForcesAndMotionBasicsCanvas() {
 
         setWorldTransformStrategy( new CenteredStage( this, STAGE_SIZE ) );
 
