@@ -11,9 +11,9 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 public class ForcesAndMotionBasicsApplication extends PiccoloPhetApplication {
     public ForcesAndMotionBasicsApplication( PhetApplicationConfig config ) {
         super( config );
-        addModule( new ForcesAndMotionBasicsModule( new Mode1() ) );
-        addModule( new ForcesAndMotionBasicsModule( new Mode2() ) );
-        addModule( new ForcesAndMotionBasicsModule( new Mode3() ) );
+        addModule( new ForcesAndMotionBasicsModule( MyMode.mode1 ) );
+        addModule( new ForcesAndMotionBasicsModule( MyMode.mode2 ) );
+        addModule( new ForcesAndMotionBasicsModule( MyMode.mode3 ) );
     }
 
     public static void main( String[] args ) {

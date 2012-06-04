@@ -17,7 +17,7 @@ public class ForcesAndMotionBasicsModel {
     public final Property<Boolean> rightPressed = new Property<Boolean>( false );
     public final double acceleration = 0.03;
 
-    public ForcesAndMotionBasicsModel( final IClock clock, final PositionMap mode ) {
+    public ForcesAndMotionBasicsModel( final IClock clock, final MyMode mode ) {
         clock.addClockListener( new ClockAdapter() {
             @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
                 super.simulationTimeChanged( clockEvent );
@@ -30,10 +30,10 @@ public class ForcesAndMotionBasicsModel {
                 }
                 blockPosition.set( blockPosition.get() + blockVelocity.get() * clockEvent.getSimulationTimeChange() );
 
-                if ( mode instanceof Mode1 ) {
+                if ( mode == MyMode.mode1 ) {
                     cameraPosition.set( blockPosition.get() );
                 }
-                else if ( mode instanceof Mode2 ) {
+                else if ( mode == MyMode.mode2 ) {
                     //if the block has gone out of range, move the camera to keep up.
                     if ( blockPosition.get() > cameraPosition.get() + 2 ) {
                         cameraPosition.set( blockPosition.get() - 2 );
@@ -41,6 +41,11 @@ public class ForcesAndMotionBasicsModel {
                     if ( blockPosition.get() < cameraPosition.get() - 2 ) {
                         cameraPosition.set( blockPosition.get() + 2 );
                     }
+                }
+                else if ( mode == MyMode.mode3 ) {
+                    double displacement = Math.atan( blockVelocity.get() );
+//                    System.out.println( "displacement = " + displacement );
+                    cameraPosition.set( blockPosition.get() - displacement );
                 }
             }
         } );
