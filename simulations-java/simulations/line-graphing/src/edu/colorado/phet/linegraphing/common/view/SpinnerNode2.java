@@ -7,7 +7,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -71,11 +73,19 @@ public class SpinnerNode2 extends PNode {
         final double backgroundHeight = textNode.getFullBoundsReference().getHeight() + ( 2 * yMargin );
 
         final double backgroundOverlap = 0.5;
-        PPath incrementBackgroundNode = new PPath( new Rectangle2D.Double( 0, 0, backgroundWidth, ( backgroundHeight / 2 ) + backgroundOverlap ) ) {{
+        final double cornerRadius = 10;
+        Area roundRect = new Area( new RoundRectangle2D.Double( 0, 0, backgroundWidth, backgroundHeight, cornerRadius, cornerRadius) );
+
+        Area incrementShape = new Area( roundRect );
+        incrementShape.subtract( new Area( new Rectangle2D.Double( 0, ( backgroundHeight / 2 ) - backgroundOverlap, backgroundWidth, backgroundHeight )));
+        PPath incrementBackgroundNode = new PPath( incrementShape ) {{
             setStroke( null );
             setPaint( BACKGROUND_UNARMED );
         }};
-        PNode decrementBackgroundNode = new PPath( new Rectangle2D.Double( 0, 0, backgroundWidth, ( backgroundHeight / 2 ) + backgroundOverlap ) ) {{
+
+        Area decrementShape = new Area( roundRect );
+        decrementShape.subtract( new Area( new Rectangle2D.Double( 0, 0, backgroundWidth, ( backgroundHeight / 2 ) - backgroundOverlap )));
+        PNode decrementBackgroundNode = new PPath( decrementShape ) {{
             setStroke( null );
             setPaint( BACKGROUND_UNARMED );
         }};
@@ -166,8 +176,7 @@ public class SpinnerNode2 extends PNode {
 
         // layout
         incrementBackgroundNode.setOffset( 0, 0 );
-        decrementBackgroundNode.setOffset( incrementBackgroundNode.getXOffset(),
-                                           incrementBackgroundNode.getFullBoundsReference().getMaxY() - backgroundOverlap );
+        decrementBackgroundNode.setOffset( 0, 0 );
         textNode.setOffset( 0,
                             ( backgroundHeight - textNode.getFullBoundsReference().getHeight() ) / 2 );
         incrementButton.setOffset( incrementBackgroundNode.getFullBoundsReference().getCenterX() - ( incrementButton.getFullBoundsReference().getWidth() / 2 ),
