@@ -4,6 +4,7 @@ package edu.colorado.phet.linegraphing.common;
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 
 /**
  * Colors used throughout this project.
@@ -28,4 +29,6 @@ public class LGColors {
     public static final Color POINT_TOOL_FOREGROUND_NORMAL_COLOR = Color.BLACK;
     public static final Color POINT_TOOL_BACKGROUND_NORMAL_COLOR = Color.WHITE;
     public static final Color POINT_TOOL_FOREGROUND_HIGHLIGHT_COLOR = Color.WHITE;
+
+    public static final Color STATIC_EQUATION_ELEMENT = ColorUtils.gray( 100 );
 }
