@@ -130,4 +130,13 @@ public class ColorUtils {
     public static final boolean isIR( double wavelength ) {
         return ( wavelength > VisibleColor.MAX_WAVELENGTH );
     }
+
+    /**
+     * Greats a shade of gray, where RGB channels are all the same value.
+     * @param rgb
+     * @return
+     */
+    public static final Color gray( int rgb ) {
+        return new Color( rgb, rgb, rgb );
+    }
 }
