@@ -1,3 +1,5 @@
+# 0.00.05 (64635) Jun 4, 2012
+6/4/12 Snapshot for testing and reviewing changes to the behavior of the energy chunks.
 Adjusted specific heats and energy-to-chunk mapping function to the point where energy chunk numbers look reasonably good.  This may be temporary.
 Modified the energy chunk distribution algorithm to work without "jitter" at high densities and when Fast Forward is enabled.
 Added a developer control that hides/shows a button that will dump the energies of the thermal objects to the console.
