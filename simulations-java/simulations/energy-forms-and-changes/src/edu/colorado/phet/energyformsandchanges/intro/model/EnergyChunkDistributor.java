@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
  */
 public class EnergyChunkDistributor {
 
-    private static final double FORCE_CONSTANT = 0.00003; // Chosen empirically.
+    private static final double FORCE_CONSTANT = 0.00005; // Chosen empirically.
     private static final double OUTSIDE_RECT_FORCE = 1; // In Newtons.
     private static final double TIME_STEP = 1E-6; // In seconds, for algorithm that moves the points.
     private static final int NUM_TIME_STEPS = 100;
@@ -184,7 +184,6 @@ public class EnergyChunkDistributor {
 
     private static class PointMass {
         private static final double MASS = 1; // In kg.
-        private final double maxDistancePerStep;
         private Vector2D position = new Vector2D();
         private Vector2D velocity = new Vector2D( 0, 0 );
         private Vector2D acceleration = new Vector2D( 0, 0 );
@@ -193,10 +192,6 @@ public class EnergyChunkDistributor {
         public PointMass( ImmutableVector2D initialPosition, Rectangle2D container ) {
             this.containerRect = container;
             position.setValue( initialPosition );
-
-            // Since this is a repositioning algorithm, there shouldn't be much
-            // motion in a single step.
-            maxDistancePerStep = Math.min( container.getWidth() / 10, container.getHeight() / 10 );
         }
 
         public void applyForce( ImmutableVector2D force ) {
@@ -215,7 +210,7 @@ public class EnergyChunkDistributor {
             if ( containerRect.contains( position.toPoint2D() ) ) {
                 // Limit the velocity.  This acts much like a drag force that
                 // gets stronger as the velocity gets bigger.
-                double maxVelocity = 0.15;
+                double maxVelocity = Math.min( containerRect.getWidth(), containerRect.getHeight() ) / 10 / dt;
                 velocity.setMagnitude( maxVelocity * velocity.getMagnitude() / ( velocity.getMagnitude() + maxVelocity ) );
 
                 // Check that the velocity won't move the point outside of the container.
