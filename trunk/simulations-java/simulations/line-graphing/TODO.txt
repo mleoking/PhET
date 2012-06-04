@@ -9,7 +9,6 @@ DESIGN
 
 new spinner design:
 - color that ties spinner to manipulator isn't visible until you mouse over
-- should there be a color change or other feedback when pressed?
 - should we use images files for buttons?
 
 HIGH
