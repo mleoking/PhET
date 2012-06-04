@@ -13,7 +13,7 @@ import flash.events.Event;
 import mx.containers.Canvas;
 
 public class RadiatingChargeCanvas extends Canvas {
-    public function radiatingchargeCanvas() {
+    public function RadiatingChargeCanvas() {
     }//end constructor
 
     private var RENDER_WIDTH: int = 1024;
