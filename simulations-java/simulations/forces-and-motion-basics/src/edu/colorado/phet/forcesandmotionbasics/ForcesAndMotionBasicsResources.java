@@ -20,6 +20,7 @@ public class ForcesAndMotionBasicsResources {
 
     //Images
     public static class Images {
+        public static final BufferedImage CLOUD1 = RESOURCES.getImage( "cloud1.png" );
         public static final BufferedImage MYSTERY_BOX = RESOURCES.getImage( "mystery-box.png" );
     }
 }
