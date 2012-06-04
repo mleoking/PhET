@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
  */
 public class EnergyChunkDistributor {
 
-    private static final double FORCE_CONSTANT = 0.0001; // Chosen empirically.
+    private static final double FORCE_CONSTANT = 0.00003; // Chosen empirically.
     private static final double OUTSIDE_RECT_FORCE = 1; // In Newtons.
     private static final double TIME_STEP = 1E-6; // In seconds, for algorithm that moves the points.
     private static final int NUM_TIME_STEPS = 100;
@@ -26,8 +26,6 @@ public class EnergyChunkDistributor {
 
     // TODO: This method may be obsolete, but if not, it should probably call the method with the time step.  For efficiency, I could have a common method that takes a list of points.
     public static void distribute( Rectangle2D rect, List<EnergyChunk> energyChunkList ) {
-
-        System.out.println( "-------- distribute called -----------" );
 
         // Limit distances to avoid moving too much in one time step.
         double minDistance = Math.min( rect.getWidth() / 100, rect.getHeight() / 100 );
@@ -166,7 +164,8 @@ public class EnergyChunkDistributor {
             }
         }
 
-        // Update the point mass positions.
+        // Update the positions of the point masses and the corresponding
+        // energy chunks.
         for ( PointMass p : map.values() ) {
             // Update the position of the point.
             p.updatePosition( dt );
@@ -209,28 +208,23 @@ public class EnergyChunkDistributor {
         }
 
         public void updatePosition( double dt ) {
+
+            // Update the velocity based on previous velocity and current acceleration.
             velocity.add( acceleration.getScaledInstance( dt ) );
-            if ( velocity.getMagnitude() * dt > maxDistancePerStep ) {
-                System.out.println( "Scaling velocity down, original magnitude = " + velocity.getMagnitude() );
-                System.out.println( "            -----------> vector = " + velocity );
-                velocity.setMagnitude( maxDistancePerStep / dt );
-                System.out.println( "            -----------> revised magnitude = " + velocity.getMagnitude() );
+
+            if ( containerRect.contains( position.toPoint2D() ) ) {
+                // Limit the velocity.  This acts much like a drag force that
+                // gets stronger as the velocity gets bigger.
+                double maxVelocity = 0.15;
+                velocity.setMagnitude( maxVelocity * velocity.getMagnitude() / ( velocity.getMagnitude() + maxVelocity ) );
+
+                // Check that the velocity won't move the point outside of the container.
+                if ( containerRect.contains( position.toPoint2D() ) && !containerRect.contains( position.getAddedInstance( velocity.getScaledInstance( dt ) ).toPoint2D() ) ) {
+                    velocity.setMagnitude( 0 );
+                }
             }
-            /*
-            ImmutableVector2D dragForce = velocity.getRotatedInstance( Math.PI ).getScaledInstance( Math.pow( velocity.getMagnitude(), 2 ) * 0.5 );
-            if ( dragForce.getScaledInstance( dt ).getMagnitude() > velocity.getMagnitude() ) {
-                // Drag force is too large.
-                // TODO: Possibly can remove printout when algorithm is fully functional
-                System.out.println( "Error: Drag force is too large.  This needs to be fixed." );
-                dragForce = dragForce.getInstanceOfMagnitude( ( velocity.getMagnitude() / dt ) / 2 );
-            }
-            velocity.add( dragForce.getScaledInstance( dt ) );
-            */
-            // Check that the velocity won't move the point outside of the container.
-            if ( containerRect.contains( position.toPoint2D() ) && !containerRect.contains( position.getAddedInstance( velocity.getScaledInstance( dt ) ).toPoint2D() ) ) {
-                System.out.println( "Velocity would put point mass out of bounds, scaling down." );
-                velocity.setMagnitude( 0 );
-            }
+
+            // Update the position.
             position.add( velocity.getScaledInstance( dt ) );
         }
     }
