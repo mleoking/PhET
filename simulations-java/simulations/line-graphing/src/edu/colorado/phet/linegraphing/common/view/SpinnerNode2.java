@@ -20,10 +20,12 @@ import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
@@ -83,15 +85,33 @@ public class SpinnerNode2 extends PNode {
               new DownArrowNode( highlightedColor ).toImage(),
               new DownArrowNode( pressedColor ).toImage(),
               new DownArrowNode( disabledColor, false ).toImage(),
-              BACKGROUND_INACTIVE, highlightedColor, pressedColor,
+              BACKGROUND_INACTIVE, highlightedColor, pressedColor, BACKGROUND_INACTIVE,
               value, range, font, format );
     }
 
     public SpinnerNode2( IUserComponent userComponent,
                          final Image upInactiveImage, final Image upHighlightImage, final Image upPressedImage, final Image upDisabledImage,
                          final Image downInactiveImage, final Image downHighlightImage, final Image downPressedImage, final Image downDisabledImage,
-                         final Color backgroundInactive, final Color backgroundHighlighted, final Color backgroundPressed,
+                         final Color backgroundInactive, final Color backgroundHighlighted, final Color backgroundPressed, final Color backgroundDisabled,
                          final Property<Double> value, final Property<DoubleRange> range, PhetFont font, final NumberFormat format ) {
+
+        final BooleanProperty upPressed = new BooleanProperty( false );
+        final BooleanProperty downPressed = new BooleanProperty( false );
+        final CompositeProperty upEnabled = new CompositeProperty<Boolean>(
+                new Function0<Boolean>() {
+                    public Boolean apply() {
+                        return value.get() < range.get().getMax();
+                    }
+                }, value, range );
+
+        final BooleanProperty upInside = new BooleanProperty( false );
+        final BooleanProperty downInside = new BooleanProperty( false );
+        final CompositeProperty downEnabled = new CompositeProperty<Boolean>(
+                new Function0<Boolean>() {
+                    public Boolean apply() {
+                        return value.get() > range.get().getMin();
+                    }
+                }, value, range );
 
         final PText textNode = new PhetPText( font );
         textNode.setPickable( false );
@@ -127,54 +147,37 @@ public class SpinnerNode2 extends PNode {
             setPaint( backgroundInactive );
         }};
 
-        final BooleanProperty upPressed = new BooleanProperty( false );
-        final BooleanProperty downPressed = new BooleanProperty( false );
-        final BooleanProperty upInside = new BooleanProperty( false );
-        final BooleanProperty downInside = new BooleanProperty( false );
-
         incrementBackgroundNode.addInputEventListener( new DynamicCursorHandler() );
         incrementBackgroundNode.addInputEventListener(
-                new BackgroundMouseHandler( incrementBackgroundNode, new PDimension( backgroundWidth, backgroundHeight ), upPressed, upInside,
-                                            backgroundInactive, backgroundHighlighted, backgroundPressed ) );
+                new BackgroundMouseHandler( incrementBackgroundNode, new PDimension( backgroundWidth, backgroundHeight ),
+                                            upPressed, upInside, upEnabled,
+                                            backgroundInactive, backgroundHighlighted, backgroundPressed, backgroundDisabled ) );
 
         decrementBackgroundNode.addInputEventListener( new DynamicCursorHandler() );
         decrementBackgroundNode.addInputEventListener(
-                new BackgroundMouseHandler( decrementBackgroundNode, new PDimension( backgroundWidth, backgroundHeight ), downPressed, downInside,
-                                            backgroundInactive, backgroundHighlighted, backgroundPressed ) );
+                new BackgroundMouseHandler( decrementBackgroundNode, new PDimension( backgroundWidth, backgroundHeight ),
+                                            downPressed, downInside, downEnabled,
+                                            backgroundInactive, backgroundHighlighted, backgroundPressed, backgroundDisabled ) );
 
         SpinnerButtonNode2 incrementButton = new SpinnerButtonNode2<Double>( UserComponentChain.chain( userComponent, "up" ),
-                                                                             upInactiveImage, upHighlightImage, upPressedImage, upDisabledImage,
+                                                                             upInactiveImage, upHighlightImage,upPressedImage, upDisabledImage,
+                                                                             upPressed, upInside, upEnabled,
                                                                              value,
-                                                                             // increment the value
                                                                              new Function0<Double>() {
                                                                                  public Double apply() {
                                                                                      return value.get() + 1;
                                                                                  }
-                                                                             },
-                                                                             // enabled the button if value < range.max
-                                                                             new CompositeProperty<Boolean>( new Function0<Boolean>() {
-                                                                                 public Boolean apply() {
-                                                                                     return value.get() < range.get().getMax();
-                                                                                 }
-                                                                             }, value, range ),
-                                                                             upPressed, upInside );
+                                                                             } );
 
         SpinnerButtonNode2 decrementButton = new SpinnerButtonNode2<Double>( UserComponentChain.chain( userComponent, "down" ),
                                                                              downInactiveImage, downHighlightImage, downPressedImage, downDisabledImage,
+                                                                             downPressed, downInside, downEnabled,
                                                                              value,
-                                                                             // decrement the value
                                                                              new Function0<Double>() {
                                                                                  public Double apply() {
                                                                                      return value.get() - 1;
                                                                                  }
-                                                                             },
-                                                                             // enabled the button if value > range.min
-                                                                             new CompositeProperty<Boolean>( new Function0<Boolean>() {
-                                                                                 public Boolean apply() {
-                                                                                     return value.get() > range.get().getMin();
-                                                                                 }
-                                                                             }, value, range ),
-                                                                             downPressed, downInside );
+                                                                             } );
 
         // rendering order
         addChild( incrementBackgroundNode );
@@ -204,49 +207,62 @@ public class SpinnerNode2 extends PNode {
         } );
     }
 
-    //TODO add sim-sharing support
     private static class BackgroundMouseHandler extends PBasicInputEventHandler {
 
         final PNode backgroundNode;
         final PDimension buttonSize;
         final BooleanProperty pressed, inside;
-        final Color inactiveColor, highlightColor, pressedColor;
+        final ObservableProperty<Boolean> enabled;
+        final Color inactiveColor, highlightColor, pressedColor, disabledColor;
         final IBackgroundPaintStrategy paintStrategy;
 
-        public BackgroundMouseHandler( PNode backgroundNode, PDimension buttonSize, BooleanProperty pressed, BooleanProperty inside, Color inactiveColor, Color highlightColor, Color pressedColor ) {
+        public BackgroundMouseHandler( PNode backgroundNode, PDimension buttonSize,
+                                       BooleanProperty pressed, BooleanProperty inside, ObservableProperty<Boolean> enabled,
+                                       Color inactiveColor, Color highlightColor, Color pressedColor, Color disabledColor ) {
+
             this.backgroundNode = backgroundNode;
             this.buttonSize = buttonSize;
+
             this.pressed = pressed;
             this.inside = inside;
+            this.enabled = enabled;
+
             this.inactiveColor = inactiveColor;
             this.highlightColor = highlightColor;
             this.pressedColor = pressedColor;
+            this.disabledColor = disabledColor;
             this.paintStrategy = new GradientColorStrategy();
+
+            RichSimpleObserver observer = new RichSimpleObserver() {
+                @Override public void update() {
+                    updatePaint();
+                }
+            };
+            observer.observe( pressed, inside, enabled );
         }
 
         @Override public void mousePressed( PInputEvent event ) {
             pressed.set( true );
-            update();
         }
 
         @Override public void mouseReleased( PInputEvent event ) {
             pressed.set( false );
-            update();
         }
 
         @Override public void mouseEntered( PInputEvent event ) {
             inside.set( true );
-            update();
         }
 
         @Override public void mouseExited( PInputEvent event ) {
             inside.set( false );
-            update();
         }
 
-        private void update() {
+        private void updatePaint() {
             Paint paint;
-            if ( pressed.get() ) {
+            if ( !enabled.get() ) {
+                paint = disabledColor;
+            }
+            else if ( pressed.get() ) {
                 paint = paintStrategy.createPaint( pressedColor, buttonSize );
             }
             else if ( inside.get() ) {

@@ -40,19 +40,19 @@ public class SpinnerButtonNode2<T> extends PNode {
     /**
      * Constructor
      * @param userComponent component identifier for user data-collection message
-     * @param unpressedImage
-     * @param pressedImage
+     * @param inactiveImage
      * @param highlightedImage
+     * @param pressedImage
      * @param disabledImage
-     * @param newValueFunction function that computes the new value when the button fires
+     * @param pressed
+     * @param inside
      * @param enabled property that controls whether the button is enabled
+     * @param newValueFunction function that computes the new value when the button fires
      */
     public SpinnerButtonNode2( final IUserComponent userComponent,
-                               final Image unpressedImage, final Image highlightedImage, final Image pressedImage, final Image disabledImage,
-                               final Property<T> value, final Function0<T> newValueFunction,
-                               final ObservableProperty<Boolean> enabled,
-                               final Property<Boolean> pressed,
-                               final Property<Boolean> inside ) {
+                               final Image inactiveImage, final Image highlightedImage, final Image pressedImage, final Image disabledImage,
+                               final Property<Boolean> pressed, final Property<Boolean> inside, final ObservableProperty<Boolean> enabled,
+                               final Property<T> value, final Function0<T> newValueFunction ) {
 
         final DynamicCursorHandler cursorHandler = new DynamicCursorHandler();
         final PImage imageNode = new PImage();
@@ -101,7 +101,7 @@ public class SpinnerButtonNode2<T> extends PNode {
                                 return highlightedImage;
                             }
                             else {
-                                return unpressedImage;
+                                return inactiveImage;
                             }
                         }
                     }
