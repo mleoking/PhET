@@ -3,6 +3,7 @@ package edu.colorado.phet.fractionsintro.buildafraction.model;
 import fj.F;
 import fj.F2;
 import fj.data.List;
+import fj.data.Option;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -13,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.buildafraction.controller.ModelUpdate;
+import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -94,6 +96,12 @@ public class BuildAFractionModel implements Resettable {
         } );
     }
 
+    public void setFractionLocation( final FractionID id, final Vector2D position ) {
+        Option<DraggableFraction> x = state.get().getDraggableFraction( id );
+        final Vector2D delta = position.minus( x.some().draggableObject.position );
+        dragFraction( id, new PDimension( delta.x, delta.y ) );
+    }
+
     public void dragFraction( final FractionID id, final PDimension delta ) {
         update( new ModelUpdate() {
             public BuildAFractionState update( final BuildAFractionState state ) {
@@ -122,4 +130,6 @@ public class BuildAFractionModel implements Resettable {
     }
 
     public void releaseFraction( final FractionID id ) { state.set( state.get().releaseFraction( id ) ); }
+
+    public Fraction getFractionValue( final FractionID id ) { return state.get().getFractionValue( id );}
 }

@@ -1,24 +1,20 @@
 package edu.colorado.phet.fractionsintro.buildafraction.view;
 
 import fj.F;
-import fj.Ord;
 import fj.data.List;
 import fj.data.Option;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.Collection;
 
-import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
-import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.util.FJUtils;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
@@ -46,7 +42,6 @@ import static edu.colorado.phet.fractions.FractionsResources.Strings.MY_FRACTION
 import static edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionState.RELEASE_ALL;
 import static edu.colorado.phet.fractionsintro.buildafraction.view.BuildAFractionCanvas.controlPanelStroke;
 import static fj.data.List.range;
-import static java.awt.BasicStroke.CAP_ROUND;
 
 /**
  * @author Sam Reid
@@ -55,7 +50,7 @@ public class NumberScene extends PNode {
 
     public final RichPNode numbersContainerLayer;
     private final BuildAFractionModel model;
-    private final List<PNode> scoreBoxes;
+    private final List<ScoreBoxNode> scoreBoxes;
 
     public NumberScene( final BuildAFractionModel model, final SettableProperty<Mode> mode, final BuildAFractionCanvas canvas ) {
         this.model = model;
@@ -66,41 +61,16 @@ public class NumberScene extends PNode {
         final PNode radioButtonControlPanel = BuildAFractionCanvas.createModeControlPanel( mode );
         addChild( radioButtonControlPanel );
 
-        scoreBoxes = range( 0, 3 ).map( new F<Integer, PNode>() {
-            @Override public PNode f( final Integer integer ) {
+        scoreBoxes = range( 0, 3 ).map( new F<Integer, ScoreBoxNode>() {
+            @Override public ScoreBoxNode f( final Integer integer ) {
 
                 //If these representationBox are all the same size, then 2-column layout will work properly
                 final int numerator = integer + 1;
                 PNode representationBox = new PatternNode( FilledPattern.sequentialFill( Pattern.sixFlower( 18 ), numerator ), Color.red );
-                return new HBox( new PhetPPath( new RoundRectangle2D.Double( 0, 0, 140, 150, 30, 30 ), controlPanelStroke, Color.darkGray ) {{
-
-                    //Light up if the user matched
-                    model.addObserver( new ChangeObserver<BuildAFractionState>() {
-                        public void update( final BuildAFractionState newValue, final BuildAFractionState oldValue ) {
-                            if ( newValue.containsMatch( numerator, 6 ) != oldValue.containsMatch( numerator, 6 ) ) {
-                                setStrokePaint( newValue.containsMatch( numerator, 6 ) ? Color.red : Color.darkGray );
-                                setStroke( controlPanelStroke );
-                            }
-                            if ( newValue.containsMatch( numerator, 6 ) ) {
-
-                                //Pulsate for a few seconds then stay highlighted.
-                                double matchTime = newValue.getMatchTimes( numerator, 6 ).maximum( Ord.<Double>comparableOrd() );
-                                final double timeSinceMatch = newValue.time - matchTime;
-                                final float strokeWidth = timeSinceMatch < 2 ? 2 + 8 * (float) Math.abs( Math.sin( model.state.get().time * 4 ) ) :
-                                                          2 + 4;
-
-                                //Block against unnecessary repainting for target cell highlighting
-                                float originalWidth = ( (BasicStroke) getStroke() ).getLineWidth();
-                                if ( originalWidth != strokeWidth ) {
-                                    setStroke( new BasicStroke( strokeWidth, CAP_ROUND, BasicStroke.JOIN_ROUND, 1f ) );
-                                }
-                            }
-                        }
-                    } );
-                }}, representationBox );
+                return new ScoreBoxNode( numerator, 6, representationBox, model );
             }
         } );
-        final Collection<PNode> nodes = scoreBoxes.toCollection();
+        final Collection<ScoreBoxNode> nodes = scoreBoxes.toCollection();
         final VBox rightControlPanel = new VBox( new PhetPText( MY_FRACTIONS, AbstractFractionsCanvas.CONTROL_FONT ), new VBox( nodes.toArray( new PNode[nodes.size()] ) ) ) {{
             setOffset( AbstractFractionsCanvas.STAGE_SIZE.width - getFullWidth() - AbstractFractionsCanvas.INSET, AbstractFractionsCanvas.INSET );
         }};
@@ -240,18 +210,24 @@ public class NumberScene extends PNode {
         model.releaseFraction( id );
 
         final DraggableFractionNode node = getDraggableFractionNode( id );
-        PNode scoreBox = scoreBoxes.filter( new F<PNode, Boolean>() {
-            @Override public Boolean f( final PNode scoreCell ) {
+        final List<ScoreBoxNode> matches = scoreBoxes.filter( new F<ScoreBoxNode, Boolean>() {
+            @Override public Boolean f( final ScoreBoxNode scoreCell ) {
                 return scoreCell.getGlobalFullBounds().intersects( node.getGlobalFullBounds() );
             }
-        } ).sort( FJUtils.ord( new F<PNode, Double>() {
-            @Override public Double f( final PNode scoreCell ) {
+        } ).sort( FJUtils.ord( new F<ScoreBoxNode, Double>() {
+            @Override public Double f( final ScoreBoxNode scoreCell ) {
                 return area( scoreCell.getGlobalFullBounds().createIntersection( node.getGlobalFullBounds() ) );
             }
-        } ) ).reverse().head();
+        } ) ).reverse();
+        if ( matches.isNotEmpty() ) {
+            ScoreBoxNode scoreBox = matches.head();
 
-        //TODO: update the model instead of the view
-        node.centerFullBoundsOnPoint( scoreBox.getGlobalFullBounds().getCenterX(), scoreBox.getGlobalFullBounds().getCenterY() );
+            if ( scoreBox.fraction.approxEquals( model.getFractionValue( id ) ) ) {
+
+                //TODO: update the model instead of the view
+                model.setFractionLocation( id, new Vector2D( scoreBox.getGlobalFullBounds().getCenterX(), scoreBox.getGlobalFullBounds().getCenterY() ) );
+            }
+        }
     }
 
     private double area( final Rectangle2D rectangle2D ) { return rectangle2D.getWidth() * rectangle2D.getHeight(); }

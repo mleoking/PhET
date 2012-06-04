@@ -53,7 +53,7 @@ public class DraggableFractionNode extends PNode {
                 addChild( fractionGraphic );
                 if ( some.numerator.isSome() && some.denominator.isSome() ) {
                     addChild( new PImage( Images.SPLIT_BLUE ) {{
-                        translate( -getFullBounds().getWidth() * 2, -getFullBounds().getHeight() * 2 );
+                        translate( fractionGraphic.getFullBounds().getWidth(), fractionGraphic.getFullBounds().getHeight() / 2 - getFullBounds().getHeight() / 2 );
                         addInputEventListener( new CursorHandler() );
                         addInputEventListener( new PBasicInputEventHandler() {
                             @Override public void mousePressed( final PInputEvent event ) {

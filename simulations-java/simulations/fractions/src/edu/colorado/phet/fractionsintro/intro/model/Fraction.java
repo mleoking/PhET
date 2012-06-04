@@ -15,4 +15,7 @@ public @Data class Fraction {
     public double toDouble() {
         return (double) numerator / denominator;
     }
+
+    //Returns true of the fractions have the same numeric value (i.e. are reducible to the same value)
+    public boolean approxEquals( final Fraction fractionValue ) { return Math.abs( toDouble() - fractionValue.toDouble() ) < 1E-6; }
 }
