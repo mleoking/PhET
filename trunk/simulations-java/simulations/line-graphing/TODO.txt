@@ -11,7 +11,6 @@ new spinner design:
 - color that ties spinner to manipulator isn't visible until you mouse over
 - should there be a color change or other feedback when pressed?
 - should the background (top/bottom) behind the number change color on mouse over?
-- rounded corners on the background? (requires CAG)
 - should we use images files for buttons?
 
 HIGH
