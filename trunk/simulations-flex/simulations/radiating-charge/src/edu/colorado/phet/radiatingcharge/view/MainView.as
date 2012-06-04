@@ -28,7 +28,7 @@ import mx.controls.sliderClasses.Slider;
 public class MainView extends Canvas {
     private var tabBar: TabBar;
 
-    public var oneDMode:Boolean;       //true if in 1D mode, false if in 2D mode
+//    public var oneDMode:Boolean;       //true if in 1D mode, false if in 2D mode
 //    public var myModel1: Model1;       //model for 1D array of masses and springs
 //    public var myModel2: Model2;       //model for 2D array of masses and springs
 //    public var myView1: View1;         //view for Model1
@@ -46,14 +46,14 @@ public class MainView extends Canvas {
     public var stageW: Number;
 
     //Internalized strings are located at:
-    //ControlPanel, PausedSign, SliderArrayPanel, SloMoStepControl, PolarizationPanel, ButtonArrayPanel
+    //
 
     public function MainView( stageW: Number, stageH: Number ) {
         percentWidth = 100;
         percentHeight = 100;
         this.stageH = stageH;
         this.stageW = stageW;
-        this.oneDMode = true;       //start up in 1D mode
+//        this.oneDMode = true;       //start up in 1D mode
 
         var oneDHolder:Canvas = new Canvas();
         var twoDHolder:Canvas = new Canvas();
