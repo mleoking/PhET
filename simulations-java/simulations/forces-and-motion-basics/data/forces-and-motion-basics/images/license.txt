@@ -1,1 +1,3 @@
 cloud1.png notes = http://openclipart.org/detail/99229/landscape-by-rg1024
+DrakoonSonne.png notes = http://openclipart.org/detail/166921/drakoon-sun-by-jogdragoon
+brick-tile.png notes = http://openclipart.org/detail/9523/-by--9523
