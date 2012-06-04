@@ -8,6 +8,7 @@ import lombok.Data;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.buildafraction.controller.ModelUpdate;
 import edu.colorado.phet.fractionsintro.common.util.DefaultP2;
+import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 
 /**
  * Immutable model state for build a fraction.
@@ -229,4 +230,10 @@ public @Data class BuildAFractionState {
     }
 
     public BuildAFractionState stepInTime( final double dt ) { return withTime( time + dt ); }
+
+    public Fraction getFractionValue( final FractionID id ) {
+        DraggableFraction fraction = getDraggableFraction( id ).some();
+        return new Fraction( getDraggableNumber( fraction.numerator.some()._1() ).some().number,
+                             getDraggableNumber( fraction.denominator.some()._1() ).some().number );
+    }
 }

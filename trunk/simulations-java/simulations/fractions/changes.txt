@@ -1,3 +1,4 @@
+Only collect a fraction if the value is correct
 # 0.00.76 (64594) Jun 1, 2012
 Fixed: Tetris "L" shapes are off by a factor of 2 for equality tests
 Increased bar animation time by 25% (from 0.3 sec to 0.375 sec)
