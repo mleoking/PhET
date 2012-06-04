@@ -5,7 +5,7 @@
  * Time: 5:39 AM
  * To change this template use File | Settings | File Templates.
  */
-package edu.colorado.phet.normalmodes.NiceComponents {
+package edu.colorado.phet.flashcommon.controls {
 import flash.display.CapsStyle;
 import flash.display.Graphics;
 import flash.display.JointStyle;

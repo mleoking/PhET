@@ -1,8 +1,8 @@
 package edu.colorado.phet.normalmodes.control {
 import edu.colorado.phet.flexcommon.FlexSimStrings;
-import edu.colorado.phet.normalmodes.NiceComponents.HorizontalSlider;
-import edu.colorado.phet.normalmodes.NiceComponents.NiceButton2;
-import edu.colorado.phet.normalmodes.NiceComponents.NiceLabel;
+import edu.colorado.phet.flashcommon.controls.HorizontalSlider;
+import edu.colorado.phet.flashcommon.controls.NiceButton2;
+import edu.colorado.phet.flashcommon.controls.NiceLabel;
 import edu.colorado.phet.normalmodes.model.Model1;
 import edu.colorado.phet.normalmodes.model.Model2;
 import edu.colorado.phet.normalmodes.util.SpriteUIComponent;

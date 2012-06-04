@@ -9,7 +9,7 @@
 package edu.colorado.phet.normalmodes.control {
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.normalmodes.*;
-import edu.colorado.phet.normalmodes.NiceComponents.NiceLabel;
+import edu.colorado.phet.flashcommon.controls.NiceLabel;
 import edu.colorado.phet.normalmodes.model.Model2;
 import edu.colorado.phet.normalmodes.util.SpriteUIComponent;
 import edu.colorado.phet.normalmodes.util.SpriteUIComponent;
