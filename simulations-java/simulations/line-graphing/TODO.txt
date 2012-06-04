@@ -15,7 +15,6 @@ new spinner design:
 - should we use images files for buttons?
 
 HIGH
-- implement new control for changing values in interactive equation
 - using interactive equation skips over values that would produce slope=0/0, but value in equation isn't updated
 - duplication: SlopeInterceptDragHandler, PointSlopeDragHandler
 - duplication: SlopeInterceptCanvas, PointSlopeCanvas
