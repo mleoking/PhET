@@ -13,8 +13,8 @@ public class ForcesAndMotionBasicsModule extends Module {
 
     public ForcesAndMotionBasicsModule( PositionMap map ) {
         super( map.name, new ConstantDtClock() );
-        ForcesAndMotionBasicsModel model = new ForcesAndMotionBasicsModel( getClock() );
-        canvas = new DefaultForcesAndMotionBasicsCanvas( model, map );
+        ForcesAndMotionBasicsModel model = new ForcesAndMotionBasicsModel( getClock(), map );
+        canvas = new DefaultForcesAndMotionBasicsCanvas( model );
         canvas.requestFocusInWindow();
         setSimulationPanel( canvas );
         setClockControlPanel( null );
