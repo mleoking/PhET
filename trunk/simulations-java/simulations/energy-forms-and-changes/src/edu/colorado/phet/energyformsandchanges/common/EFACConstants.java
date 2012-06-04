@@ -23,8 +23,8 @@ public class EFACConstants {
     // Constant function for mapping energy level to number of energy chunks.
     public static Function1<Double, Integer> ENERGY_TO_NUM_CHUNKS_MAPPER = new Function1<Double, Integer>() {
         //        private Function.LinearFunction MAPPER_TO_DOUBLE = new Function.LinearFunction( 42000, 400000, 2, 25 );
-//        private Function.LinearFunction MAPPER_TO_DOUBLE = new Function.LinearFunction( 0, 414000, 0, 25 ); // Linear from absolute zero.
-        private Function.LinearFunction MAPPER_TO_DOUBLE = new Function.LinearFunction( 40000, 43000, 1, 2 ); // Brick - 1 at 0 C, 2 at room temp.
+        private Function.LinearFunction MAPPER_TO_DOUBLE = new Function.LinearFunction( 0, 414000, 0, 25 ); // Linear from absolute zero.
+//        private Function.LinearFunction MAPPER_TO_DOUBLE = new Function.LinearFunction( 40000, 43000, 1, 2 ); // Brick has 1 at 0 C, 2 at room temp.
 
         public Integer apply( Double energy ) {
             return (int) Math.round( MAPPER_TO_DOUBLE.evaluate( energy ) );
