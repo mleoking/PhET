@@ -11,11 +11,13 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 public class ForcesAndMotionBasicsModel {
     public final Property<Double> blockPosition = new Property<Double>( 0.0 );
     public final Property<Double> blockVelocity = new Property<Double>( 0.0 );
+    public final Property<Double> cameraPosition = new Property<Double>( 0.0 );
+    public final Property<Double> cameraVelocity = new Property<Double>( 0.0 );
     public final Property<Boolean> leftPressed = new Property<Boolean>( false );
     public final Property<Boolean> rightPressed = new Property<Boolean>( false );
     public final double acceleration = 0.03;
 
-    public ForcesAndMotionBasicsModel( final IClock clock ) {
+    public ForcesAndMotionBasicsModel( final IClock clock, final PositionMap mode ) {
         clock.addClockListener( new ClockAdapter() {
             @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
                 super.simulationTimeChanged( clockEvent );
@@ -27,6 +29,19 @@ public class ForcesAndMotionBasicsModel {
                     blockVelocity.set( blockVelocity.get() - 1 * acceleration );
                 }
                 blockPosition.set( blockPosition.get() + blockVelocity.get() * clockEvent.getSimulationTimeChange() );
+
+                if ( mode instanceof Mode1 ) {
+                    cameraPosition.set( blockPosition.get() );
+                }
+                else if ( mode instanceof Mode2 ) {
+                    //if the block has gone out of range, move the camera to keep up.
+                    if ( blockPosition.get() > cameraPosition.get() + 2 ) {
+                        cameraPosition.set( blockPosition.get() - 2 );
+                    }
+                    if ( blockPosition.get() < cameraPosition.get() - 2 ) {
+                        cameraPosition.set( blockPosition.get() + 2 );
+                    }
+                }
             }
         } );
     }
