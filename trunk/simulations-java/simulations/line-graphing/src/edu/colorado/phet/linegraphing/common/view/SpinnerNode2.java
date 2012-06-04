@@ -4,12 +4,13 @@ package edu.colorado.phet.linegraphing.common.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Image;
 import java.awt.Paint;
-import java.awt.geom.Area;
+import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
@@ -31,6 +32,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.DynamicCursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PadBoundsNode;
@@ -51,6 +53,8 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class SpinnerNode2 extends PNode {
+
+    private static enum ArrowOrientation {UP,DOWN}
 
     private static final PDimension BUTTON_SIZE = new PDimension( 20, 4 );
 
@@ -73,18 +77,19 @@ public class SpinnerNode2 extends PNode {
 
     private static final Color BACKGROUND_INACTIVE = new Color( 245, 245, 245 );
 
+    // Constructor that creates default up/down arrow images using the specified colors.
     public SpinnerNode2( IUserComponent userComponent,
                          Color inactiveColor, Color highlightedColor, Color pressedColor, Color disabledColor,
                          final Property<Double> value, final Property<DoubleRange> range, PhetFont font, final NumberFormat format ) {
         this( userComponent,
-              new UpArrowNode( inactiveColor ).toImage(),
-              new UpArrowNode( highlightedColor ).toImage(),
-              new UpArrowNode( pressedColor ).toImage(),
-              new UpArrowNode( disabledColor, false ).toImage(),
-              new DownArrowNode( inactiveColor ).toImage(),
-              new DownArrowNode( highlightedColor ).toImage(),
-              new DownArrowNode( pressedColor ).toImage(),
-              new DownArrowNode( disabledColor, false ).toImage(),
+              new ArrowButtonNode( inactiveColor, ArrowOrientation.UP, BUTTON_SIZE ).toImage(),
+              new ArrowButtonNode( highlightedColor, ArrowOrientation.UP, BUTTON_SIZE ).toImage(),
+              new ArrowButtonNode( pressedColor, ArrowOrientation.UP, BUTTON_SIZE ).toImage(),
+              new ArrowButtonNode( disabledColor, ArrowOrientation.UP, BUTTON_SIZE, false ).toImage(),
+              new ArrowButtonNode( inactiveColor, ArrowOrientation.DOWN, BUTTON_SIZE ).toImage(),
+              new ArrowButtonNode( highlightedColor, ArrowOrientation.DOWN, BUTTON_SIZE ).toImage(),
+              new ArrowButtonNode( pressedColor, ArrowOrientation.DOWN, BUTTON_SIZE ).toImage(),
+              new ArrowButtonNode( disabledColor, ArrowOrientation.DOWN, BUTTON_SIZE, false ).toImage(),
               BACKGROUND_INACTIVE, highlightedColor, pressedColor, BACKGROUND_INACTIVE,
               value, range, font, format );
     }
@@ -95,6 +100,7 @@ public class SpinnerNode2 extends PNode {
                          final Color backgroundInactive, final Color backgroundHighlighted, final Color backgroundPressed, final Color backgroundDisabled,
                          final Property<Double> value, final Property<DoubleRange> range, PhetFont font, final NumberFormat format ) {
 
+        // properties for the "up" (increment) control
         final BooleanProperty upPressed = new BooleanProperty( false );
         final BooleanProperty downPressed = new BooleanProperty( false );
         final CompositeProperty upEnabled = new CompositeProperty<Boolean>(
@@ -104,6 +110,7 @@ public class SpinnerNode2 extends PNode {
                     }
                 }, value, range );
 
+        // properties for the "down" (decrement) control
         final BooleanProperty upInside = new BooleanProperty( false );
         final BooleanProperty downInside = new BooleanProperty( false );
         final CompositeProperty downEnabled = new CompositeProperty<Boolean>(
@@ -125,76 +132,68 @@ public class SpinnerNode2 extends PNode {
         final double yMargin = 3;
         final double backgroundWidth = Math.max( minValueWidth, maxValueWidth ) + ( 2 * xMargin );
         final double backgroundHeight = textNode.getFullBoundsReference().getHeight() + ( 2 * yMargin );
-
         final double backgroundOverlap = 0.5;
-        final double cornerRadius = 10;
-        final Area roundRect = new Area( new RoundRectangle2D.Double( 0, 0, backgroundWidth, backgroundHeight, cornerRadius, cornerRadius ) );
+        final double backgroundCornerRadius = 10;
+        final Shape backgroundShape = new RoundRectangle2D.Double( 0, 0, backgroundWidth, backgroundHeight, backgroundCornerRadius, backgroundCornerRadius );
 
-        final PPath incrementBackgroundNode = new PPath() {{
-            Area incrementShape = new Area( roundRect );
-            incrementShape.subtract( new Area( new Rectangle2D.Double( 0, ( backgroundHeight / 2 ) - backgroundOverlap, backgroundWidth, backgroundHeight ) ) );
-            setPathTo( incrementShape );
+        // top half of the background, for "up"
+        final PPath upBackgroundNode = new PPath() {{
+            setPathTo( ShapeUtils.subtract( backgroundShape, new Rectangle2D.Double( 0, ( backgroundHeight / 2 ) - backgroundOverlap, backgroundWidth, backgroundHeight ) ) );
             setStroke( null );
             setPaint( backgroundInactive );
+            addInputEventListener( new BackgroundMouseHandler( this, new PDimension( backgroundWidth, backgroundHeight ),
+                                                               upPressed, upInside, upEnabled,
+                                                               backgroundInactive, backgroundHighlighted, backgroundPressed, backgroundDisabled ) );
         }};
 
-
-        final PNode decrementBackgroundNode = new PPath() {{
-            Area decrementShape = new Area( roundRect );
-            decrementShape.subtract( new Area( new Rectangle2D.Double( 0, 0, backgroundWidth, ( backgroundHeight / 2 ) - backgroundOverlap ) ) );
-            setPathTo( decrementShape );
+        // bottom half of the background, for "down"
+        final PNode downBackgroundNode = new PPath() {{
+            setPathTo( ShapeUtils.subtract( backgroundShape, new Rectangle2D.Double( 0, 0, backgroundWidth, ( backgroundHeight / 2 ) - backgroundOverlap ) ) );
             setStroke( null );
             setPaint( backgroundInactive );
+            addInputEventListener( new BackgroundMouseHandler( this, new PDimension( backgroundWidth, backgroundHeight ),
+                                                               downPressed, downInside, downEnabled,
+                                                               backgroundInactive, backgroundHighlighted, backgroundPressed, backgroundDisabled ) );
         }};
 
-        incrementBackgroundNode.addInputEventListener( new DynamicCursorHandler() );
-        incrementBackgroundNode.addInputEventListener(
-                new BackgroundMouseHandler( incrementBackgroundNode, new PDimension( backgroundWidth, backgroundHeight ),
-                                            upPressed, upInside, upEnabled,
-                                            backgroundInactive, backgroundHighlighted, backgroundPressed, backgroundDisabled ) );
+        // up (increment) button
+        SpinnerButtonNode2 upButton = new SpinnerButtonNode2<Double>( UserComponentChain.chain( userComponent, "up" ),
+                                                                      upInactiveImage, upHighlightImage, upPressedImage, upDisabledImage,
+                                                                      upPressed, upInside, upEnabled,
+                                                                      value,
+                                                                      new Function0<Double>() {
+                                                                          public Double apply() {
+                                                                              return value.get() + 1;
+                                                                          }
+                                                                      } );
 
-        decrementBackgroundNode.addInputEventListener( new DynamicCursorHandler() );
-        decrementBackgroundNode.addInputEventListener(
-                new BackgroundMouseHandler( decrementBackgroundNode, new PDimension( backgroundWidth, backgroundHeight ),
-                                            downPressed, downInside, downEnabled,
-                                            backgroundInactive, backgroundHighlighted, backgroundPressed, backgroundDisabled ) );
-
-        SpinnerButtonNode2 incrementButton = new SpinnerButtonNode2<Double>( UserComponentChain.chain( userComponent, "up" ),
-                                                                             upInactiveImage, upHighlightImage,upPressedImage, upDisabledImage,
-                                                                             upPressed, upInside, upEnabled,
-                                                                             value,
-                                                                             new Function0<Double>() {
-                                                                                 public Double apply() {
-                                                                                     return value.get() + 1;
-                                                                                 }
-                                                                             } );
-
-        SpinnerButtonNode2 decrementButton = new SpinnerButtonNode2<Double>( UserComponentChain.chain( userComponent, "down" ),
-                                                                             downInactiveImage, downHighlightImage, downPressedImage, downDisabledImage,
-                                                                             downPressed, downInside, downEnabled,
-                                                                             value,
-                                                                             new Function0<Double>() {
-                                                                                 public Double apply() {
-                                                                                     return value.get() - 1;
-                                                                                 }
-                                                                             } );
+        // down (decrement) button
+        SpinnerButtonNode2 downButton = new SpinnerButtonNode2<Double>( UserComponentChain.chain( userComponent, "down" ),
+                                                                        downInactiveImage, downHighlightImage, downPressedImage, downDisabledImage,
+                                                                        downPressed, downInside, downEnabled,
+                                                                        value,
+                                                                        new Function0<Double>() {
+                                                                            public Double apply() {
+                                                                                return value.get() - 1;
+                                                                            }
+                                                                        } );
 
         // rendering order
-        addChild( incrementBackgroundNode );
-        addChild( decrementBackgroundNode );
-        addChild( incrementButton );
-        addChild( decrementButton );
+        addChild( upBackgroundNode );
+        addChild( downBackgroundNode );
+        addChild( upButton );
+        addChild( downButton );
         addChild( textNode );
 
         // layout
-        incrementBackgroundNode.setOffset( 0, 0 );
-        decrementBackgroundNode.setOffset( 0, 0 );
+        upBackgroundNode.setOffset( 0, 0 );
+        downBackgroundNode.setOffset( 0, 0 );
         textNode.setOffset( 0,
                             ( backgroundHeight - textNode.getFullBoundsReference().getHeight() ) / 2 );
-        incrementButton.setOffset( incrementBackgroundNode.getFullBoundsReference().getCenterX() - ( incrementButton.getFullBoundsReference().getWidth() / 2 ),
-                                   incrementBackgroundNode.getFullBoundsReference().getMinY() - incrementButton.getFullBoundsReference().getHeight() );
-        decrementButton.setOffset( decrementBackgroundNode.getFullBoundsReference().getCenterX() - ( decrementButton.getFullBoundsReference().getWidth() / 2 ),
-                                   decrementBackgroundNode.getFullBoundsReference().getMaxY() );
+        upButton.setOffset( upBackgroundNode.getFullBoundsReference().getCenterX() - ( upButton.getFullBoundsReference().getWidth() / 2 ),
+                                   upBackgroundNode.getFullBoundsReference().getMinY() - upButton.getFullBoundsReference().getHeight() );
+        downButton.setOffset( downBackgroundNode.getFullBoundsReference().getCenterX() - ( downButton.getFullBoundsReference().getWidth() / 2 ),
+                                   downBackgroundNode.getFullBoundsReference().getMaxY() );
 
         // when the value changes, update the display
         value.addObserver( new VoidFunction1<Double>() {
@@ -207,6 +206,10 @@ public class SpinnerNode2 extends PNode {
         } );
     }
 
+    /*
+     * Handler for a segment of the background that appears behind the spinner value.
+     * This segment behaves like a button.
+     */
     private static class BackgroundMouseHandler extends PBasicInputEventHandler {
 
         final PNode backgroundNode;
@@ -215,13 +218,14 @@ public class SpinnerNode2 extends PNode {
         final ObservableProperty<Boolean> enabled;
         final Color inactiveColor, highlightColor, pressedColor, disabledColor;
         final IBackgroundPaintStrategy paintStrategy;
+        final DynamicCursorHandler cursorHandler;
 
-        public BackgroundMouseHandler( PNode backgroundNode, PDimension buttonSize,
+        public BackgroundMouseHandler( PNode backgroundNode, PDimension backgroundSize,
                                        BooleanProperty pressed, BooleanProperty inside, ObservableProperty<Boolean> enabled,
                                        Color inactiveColor, Color highlightColor, Color pressedColor, Color disabledColor ) {
 
             this.backgroundNode = backgroundNode;
-            this.buttonSize = buttonSize;
+            this.buttonSize = backgroundSize;
 
             this.pressed = pressed;
             this.inside = inside;
@@ -239,6 +243,14 @@ public class SpinnerNode2 extends PNode {
                 }
             };
             observer.observe( pressed, inside, enabled );
+
+            // manage the cursor
+            backgroundNode.addInputEventListener( cursorHandler = new DynamicCursorHandler() );
+            enabled.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean enabled ) {
+                    cursorHandler.setCursor( enabled ? Cursor.HAND_CURSOR : Cursor.DEFAULT_CURSOR );
+                }
+            } );
         }
 
         @Override public void mousePressed( PInputEvent event ) {
@@ -275,59 +287,54 @@ public class SpinnerNode2 extends PNode {
         }
     }
 
+    // Strategy for creating the paint for a background.
     private static interface IBackgroundPaintStrategy {
         public Paint createPaint( Color baseColor, PDimension buttonSize );
     }
 
+    // Creates a solid color background paint.
     private static class SolidColorStrategy implements IBackgroundPaintStrategy {
         public Paint createPaint( Color baseColor, PDimension buttonSize ) {
             return baseColor;
         }
     }
 
+    // Creates a gradient background paint, opaque at the top and bottom, transparent in the center.
     private static class GradientColorStrategy implements IBackgroundPaintStrategy {
         public Paint createPaint( Color baseColor, PDimension buttonSize ) {
             return new GradientPaint( 0f, 0f, baseColor, 0f, (float) ( buttonSize.getHeight() / 2 ), ColorUtils.createColor( baseColor, 0 ), true );
         }
     }
 
-    private static class UpArrowNode extends PadBoundsNode {
+    // Base class for arrow buttons
+    private static class ArrowButtonNode extends PPath {
 
-        public UpArrowNode( final Color color ) {
-            this( color, true );
+        public ArrowButtonNode( final Color color, ArrowOrientation orientation, PDimension size ) {
+            this( color, orientation, size, true );
         }
 
-        public UpArrowNode( final Color color, boolean outlined ) {
-            PPath node = new PPath( new DoubleGeneralPath() {{
-                moveTo( 0, BUTTON_SIZE.getHeight() );
-                lineTo( BUTTON_SIZE.getWidth() / 2, 0 );
-                lineTo( BUTTON_SIZE.getWidth(), BUTTON_SIZE.getHeight() );
+        public ArrowButtonNode( final Color color, final ArrowOrientation orientation, final PDimension size, boolean outlined ) {
+            setPathTo( new DoubleGeneralPath() {{
+                if ( orientation == ArrowOrientation.UP ) {
+                    moveTo( 0, size.getHeight() );
+                    lineTo( size.getWidth() / 2, 0 );
+                    lineTo( size.getWidth(), size.getHeight() );
+                }
+                else {
+                    moveTo( 0, 0 );
+                    lineTo( size.getWidth() / 2, size.getHeight() );
+                    lineTo( size.getWidth(), 0 );
+                }
                 closePath();
             }}.getGeneralPath() );
-            node.setPaint( color );
-            node.setStroke( new BasicStroke( 0.25f ) );
-            node.setStrokePaint( outlined ? Color.BLACK : color );
-            addChild( node );
-        }
-    }
-
-    private static class DownArrowNode extends PadBoundsNode {
-
-        public DownArrowNode( final Color color ) {
-            this( color, true );
+            setPaint( color );
+            setStroke( new BasicStroke( 0.25f ) );
+            setStrokePaint( outlined ? Color.BLACK : color ); // stroke with the fill color, so the arrow doesn't appear to shrink
         }
 
-        public DownArrowNode( final Color color, boolean outlined ) {
-            PPath node = new PPath( new DoubleGeneralPath() {{
-                moveTo( 0, 0 );
-                lineTo( BUTTON_SIZE.getWidth() / 2, BUTTON_SIZE.getHeight() );
-                lineTo( BUTTON_SIZE.getWidth(), 0 );
-                closePath();
-            }}.getGeneralPath() );
-            node.setPaint( color );
-            node.setStroke( new BasicStroke( 0.5f ) );
-            node.setStrokePaint( outlined ? Color.BLACK : color );
-            addChild( node );
+        // WORKAROUND for #558
+        @Override public Image toImage() {
+            return new PadBoundsNode( this ).toImage();
         }
     }
 
