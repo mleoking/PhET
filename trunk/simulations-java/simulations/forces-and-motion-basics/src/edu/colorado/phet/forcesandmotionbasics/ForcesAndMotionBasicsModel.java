@@ -46,6 +46,10 @@ public class ForcesAndMotionBasicsModel {
                     double displacement = 1.5 * Math.atan( blockVelocity.get() );
                     cameraPosition.set( blockPosition.get() - displacement );
                 }
+                else if ( mode == MyMode.mode4 ) {
+                    double displacement = 1.5 * 0.5 * ( Math.atan( blockVelocity.get() + 5 ) + Math.atan( blockVelocity.get() - 5 ) );
+                    cameraPosition.set( blockPosition.get() - displacement );
+                }
             }
         } );
     }
