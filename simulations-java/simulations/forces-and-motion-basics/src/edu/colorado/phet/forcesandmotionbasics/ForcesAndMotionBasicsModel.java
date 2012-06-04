@@ -44,7 +44,6 @@ public class ForcesAndMotionBasicsModel {
                 }
                 else if ( mode == MyMode.mode3 ) {
                     double displacement = 1.5 * Math.atan( blockVelocity.get() );
-//                    System.out.println( "velocity = "+blockVelocity.get()+", displacement = " + displacement );
                     cameraPosition.set( blockPosition.get() - displacement );
                 }
             }
