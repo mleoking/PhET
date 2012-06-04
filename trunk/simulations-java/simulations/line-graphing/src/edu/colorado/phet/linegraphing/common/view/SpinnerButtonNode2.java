@@ -48,7 +48,7 @@ public class SpinnerButtonNode2<T> extends PNode {
      * @param enabled property that controls whether the button is enabled
      */
     public SpinnerButtonNode2( final IUserComponent userComponent,
-                               final Image unpressedImage, final Image pressedImage, final Image highlightedImage, final Image disabledImage,
+                               final Image unpressedImage, final Image highlightedImage, final Image pressedImage, final Image disabledImage,
                                final Property<T> value, final Function0<T> newValueFunction,
                                final ObservableProperty<Boolean> enabled,
                                final Property<Boolean> pressed,

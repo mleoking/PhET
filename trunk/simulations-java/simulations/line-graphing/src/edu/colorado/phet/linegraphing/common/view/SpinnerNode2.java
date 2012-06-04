@@ -6,7 +6,9 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GradientPaint;
 import java.awt.Image;
+import java.awt.Paint;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
@@ -24,6 +26,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChai
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -37,7 +40,6 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -48,15 +50,47 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class SpinnerNode2 extends PNode {
 
-    private static final boolean DEBUG_BOUNDS = false;
-
-    private static final Color BACKGROUND_UNARMED = new Color( 245, 245, 245 );
-    private static final Color DISABLED_BUTTON_COLOR = new Color( 190, 190, 190 );
     private static final PDimension BUTTON_SIZE = new PDimension( 20, 4 );
 
+    private static final Color DISABLED_COLOR = new Color( 190, 190, 190 );
+
+    private static final Color SLOPE_INACTIVE = LGColors.SLOPE.darker();
+    private static final Color SLOPE_HIGHLIGHTED = LGColors.SLOPE;
+    private static final Color SLOPE_PRESSED = LGColors.SLOPE.darker();
+    private static final Color SLOPE_DISABLED = DISABLED_COLOR;
+
+    private static final Color INTERCEPT_INACTIVE = LGColors.INTERCEPT.darker();
+    private static final Color INTERCEPT_HIGHLIGHTED = LGColors.INTERCEPT;
+    private static final Color INTERCEPT_PRESSED = LGColors.INTERCEPT.darker();
+    private static final Color INTERCEPT_DISABLED = DISABLED_COLOR;
+
+    private static final Color POINT_INACTIVE = LGColors.POINT_X1_Y1.darker();
+    private static final Color POINT_HIGHLIGHTED = LGColors.POINT_X1_Y1;
+    private static final Color POINT_PRESSED = LGColors.POINT_X1_Y1.darker();
+    private static final Color POINT_DISABLED = DISABLED_COLOR;
+
+    private static final Color BACKGROUND_INACTIVE = new Color( 245, 245, 245 );
+
     public SpinnerNode2( IUserComponent userComponent,
-                         final Image upUnpressedImage, final Image upPressedImage, final Image upHighlightImage, final Image upDisabledImage,
-                         final Image downUnpressedImage, final Image downPressedImage, final Image downHighlightImage, final Image downDisabledImage,
+                         Color inactiveColor, Color highlightedColor, Color pressedColor, Color disabledColor,
+                         final Property<Double> value, final Property<DoubleRange> range, PhetFont font, final NumberFormat format ) {
+        this( userComponent,
+              new UpArrowNode( inactiveColor ).toImage(),
+              new UpArrowNode( highlightedColor ).toImage(),
+              new UpArrowNode( pressedColor ).toImage(),
+              new UpArrowNode( disabledColor, false ).toImage(),
+              new DownArrowNode( inactiveColor ).toImage(),
+              new DownArrowNode( highlightedColor ).toImage(),
+              new DownArrowNode( pressedColor ).toImage(),
+              new DownArrowNode( disabledColor, false ).toImage(),
+              BACKGROUND_INACTIVE, highlightedColor, pressedColor,
+              value, range, font, format );
+    }
+
+    public SpinnerNode2( IUserComponent userComponent,
+                         final Image upInactiveImage, final Image upHighlightImage, final Image upPressedImage, final Image upDisabledImage,
+                         final Image downInactiveImage, final Image downHighlightImage, final Image downPressedImage, final Image downDisabledImage,
+                         final Color backgroundInactive, final Color backgroundHighlighted, final Color backgroundPressed,
                          final Property<Double> value, final Property<DoubleRange> range, PhetFont font, final NumberFormat format ) {
 
         final PText textNode = new PhetPText( font );
@@ -74,20 +108,23 @@ public class SpinnerNode2 extends PNode {
 
         final double backgroundOverlap = 0.5;
         final double cornerRadius = 10;
-        Area roundRect = new Area( new RoundRectangle2D.Double( 0, 0, backgroundWidth, backgroundHeight, cornerRadius, cornerRadius) );
+        final Area roundRect = new Area( new RoundRectangle2D.Double( 0, 0, backgroundWidth, backgroundHeight, cornerRadius, cornerRadius ) );
 
-        Area incrementShape = new Area( roundRect );
-        incrementShape.subtract( new Area( new Rectangle2D.Double( 0, ( backgroundHeight / 2 ) - backgroundOverlap, backgroundWidth, backgroundHeight )));
-        PPath incrementBackgroundNode = new PPath( incrementShape ) {{
+        final PPath incrementBackgroundNode = new PPath() {{
+            Area incrementShape = new Area( roundRect );
+            incrementShape.subtract( new Area( new Rectangle2D.Double( 0, ( backgroundHeight / 2 ) - backgroundOverlap, backgroundWidth, backgroundHeight ) ) );
+            setPathTo( incrementShape );
             setStroke( null );
-            setPaint( BACKGROUND_UNARMED );
+            setPaint( backgroundInactive );
         }};
 
-        Area decrementShape = new Area( roundRect );
-        decrementShape.subtract( new Area( new Rectangle2D.Double( 0, 0, backgroundWidth, ( backgroundHeight / 2 ) - backgroundOverlap )));
-        PNode decrementBackgroundNode = new PPath( decrementShape ) {{
+
+        final PNode decrementBackgroundNode = new PPath() {{
+            Area decrementShape = new Area( roundRect );
+            decrementShape.subtract( new Area( new Rectangle2D.Double( 0, 0, backgroundWidth, ( backgroundHeight / 2 ) - backgroundOverlap ) ) );
+            setPathTo( decrementShape );
             setStroke( null );
-            setPaint( BACKGROUND_UNARMED );
+            setPaint( backgroundInactive );
         }};
 
         final BooleanProperty upPressed = new BooleanProperty( false );
@@ -96,45 +133,17 @@ public class SpinnerNode2 extends PNode {
         final BooleanProperty downInside = new BooleanProperty( false );
 
         incrementBackgroundNode.addInputEventListener( new DynamicCursorHandler() );
-        incrementBackgroundNode.addInputEventListener( new PBasicInputEventHandler() {
-            @Override public void mousePressed( PInputEvent event ) {
-                upPressed.set( true );
-            }
-
-            @Override public void mouseReleased( PInputEvent event ) {
-                upPressed.set( false );
-            }
-
-            @Override public void mouseEntered( PInputEvent event ) {
-                upInside.set( true );
-            }
-
-            @Override public void mouseExited( PInputEvent event ) {
-                upInside.set( false );
-            }
-        } );
+        incrementBackgroundNode.addInputEventListener(
+                new BackgroundMouseHandler( incrementBackgroundNode, new PDimension( backgroundWidth, backgroundHeight ), upPressed, upInside,
+                                            backgroundInactive, backgroundHighlighted, backgroundPressed ) );
 
         decrementBackgroundNode.addInputEventListener( new DynamicCursorHandler() );
-        decrementBackgroundNode.addInputEventListener( new PBasicInputEventHandler() {
-            @Override public void mousePressed( PInputEvent event ) {
-                downPressed.set( true );
-            }
-
-            @Override public void mouseReleased( PInputEvent event ) {
-                downPressed.set( false );
-            }
-
-            @Override public void mouseEntered( PInputEvent event ) {
-                downInside.set( true );
-            }
-
-            @Override public void mouseExited( PInputEvent event ) {
-                downInside.set( false );
-            }
-        } );
+        decrementBackgroundNode.addInputEventListener(
+                new BackgroundMouseHandler( decrementBackgroundNode, new PDimension( backgroundWidth, backgroundHeight ), downPressed, downInside,
+                                            backgroundInactive, backgroundHighlighted, backgroundPressed ) );
 
         SpinnerButtonNode2 incrementButton = new SpinnerButtonNode2<Double>( UserComponentChain.chain( userComponent, "up" ),
-                                                                             upUnpressedImage, upPressedImage, upHighlightImage, upDisabledImage,
+                                                                             upInactiveImage, upHighlightImage, upPressedImage, upDisabledImage,
                                                                              value,
                                                                              // increment the value
                                                                              new Function0<Double>() {
@@ -151,7 +160,7 @@ public class SpinnerNode2 extends PNode {
                                                                              upPressed, upInside );
 
         SpinnerButtonNode2 decrementButton = new SpinnerButtonNode2<Double>( UserComponentChain.chain( userComponent, "down" ),
-                                                                             downUnpressedImage, downPressedImage, downHighlightImage, downDisabledImage,
+                                                                             downInactiveImage, downHighlightImage, downPressedImage, downDisabledImage,
                                                                              value,
                                                                              // decrement the value
                                                                              new Function0<Double>() {
@@ -184,12 +193,6 @@ public class SpinnerNode2 extends PNode {
         decrementButton.setOffset( decrementBackgroundNode.getFullBoundsReference().getCenterX() - ( decrementButton.getFullBoundsReference().getWidth() / 2 ),
                                    decrementBackgroundNode.getFullBoundsReference().getMaxY() );
 
-        // show bounds, for debugging
-        if ( DEBUG_BOUNDS ) {
-            PBounds b = getFullBoundsReference();
-            addChild( new PPath( new Rectangle2D.Double( b.getX(), b.getY(), b.getWidth(), b.getHeight() ) ) );
-        }
-
         // when the value changes, update the display
         value.addObserver( new VoidFunction1<Double>() {
             public void apply( Double value ) {
@@ -199,6 +202,77 @@ public class SpinnerNode2 extends PNode {
                 textNode.setOffset( ( backgroundWidth - textNode.getFullBoundsReference().getWidth() ) / 2, textNode.getYOffset() );
             }
         } );
+    }
+
+    //TODO add sim-sharing support
+    private static class BackgroundMouseHandler extends PBasicInputEventHandler {
+
+        final PNode backgroundNode;
+        final PDimension buttonSize;
+        final BooleanProperty pressed, inside;
+        final Color inactiveColor, highlightColor, pressedColor;
+        final IBackgroundPaintStrategy paintStrategy;
+
+        public BackgroundMouseHandler( PNode backgroundNode, PDimension buttonSize, BooleanProperty pressed, BooleanProperty inside, Color inactiveColor, Color highlightColor, Color pressedColor ) {
+            this.backgroundNode = backgroundNode;
+            this.buttonSize = buttonSize;
+            this.pressed = pressed;
+            this.inside = inside;
+            this.inactiveColor = inactiveColor;
+            this.highlightColor = highlightColor;
+            this.pressedColor = pressedColor;
+            this.paintStrategy = new GradientColorStrategy();
+        }
+
+        @Override public void mousePressed( PInputEvent event ) {
+            pressed.set( true );
+            update();
+        }
+
+        @Override public void mouseReleased( PInputEvent event ) {
+            pressed.set( false );
+            update();
+        }
+
+        @Override public void mouseEntered( PInputEvent event ) {
+            inside.set( true );
+            update();
+        }
+
+        @Override public void mouseExited( PInputEvent event ) {
+            inside.set( false );
+            update();
+        }
+
+        private void update() {
+            Paint paint;
+            if ( pressed.get() ) {
+                paint = paintStrategy.createPaint( pressedColor, buttonSize );
+            }
+            else if ( inside.get() ) {
+                paint = paintStrategy.createPaint( highlightColor, buttonSize );
+            }
+            else {
+                paint = inactiveColor;
+            }
+            backgroundNode.setPaint( paint );
+        }
+    }
+
+    private static interface IBackgroundPaintStrategy {
+        public Paint createPaint( Color baseColor, PDimension buttonSize );
+    }
+
+    private static class SolidColorStrategy implements IBackgroundPaintStrategy {
+        public Paint createPaint( Color baseColor, PDimension buttonSize ) {
+            return baseColor;
+        }
+    }
+
+    private static class GradientColorStrategy implements IBackgroundPaintStrategy {
+        public Paint createPaint( Color baseColor, PDimension buttonSize ) {
+            return new GradientPaint( 0f, 0f, baseColor, 0f, (float) ( buttonSize.getHeight() / 2 ), ColorUtils.createColor( baseColor, 0 ), true );
+        }
     }
 
     private static class UpArrowNode extends PadBoundsNode {
@@ -244,16 +318,7 @@ public class SpinnerNode2 extends PNode {
     // Base class that is color-coded for slope
     private abstract static class SlopeSpinnerNode2 extends SpinnerNode2 {
         public SlopeSpinnerNode2( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
-            super( userComponent,
-                   new UpArrowNode( LGColors.SLOPE.darker() ).toImage(),
-                   new UpArrowNode( LGColors.SLOPE ).toImage(),
-                   new UpArrowNode( LGColors.SLOPE ).toImage(),
-                   new UpArrowNode( DISABLED_BUTTON_COLOR, false ).toImage(),
-                   new DownArrowNode( LGColors.SLOPE.darker() ).toImage(),
-                   new DownArrowNode( LGColors.SLOPE ).toImage(),
-                   new DownArrowNode( LGColors.SLOPE ).toImage(),
-                   new DownArrowNode( DISABLED_BUTTON_COLOR, false ).toImage(),
-                   value, range, font, format );
+            super( userComponent, SLOPE_INACTIVE, SLOPE_HIGHLIGHTED, SLOPE_PRESSED, SLOPE_DISABLED, value, range, font, format );
         }
     }
 
@@ -274,32 +339,14 @@ public class SpinnerNode2 extends PNode {
     // Intercept spinner
     public static class InterceptSpinnerNode2 extends SpinnerNode2 {
         public InterceptSpinnerNode2( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
-            super( userComponent,
-                   new UpArrowNode( LGColors.INTERCEPT.darker() ).toImage(),
-                   new UpArrowNode( LGColors.INTERCEPT ).toImage(),
-                   new UpArrowNode( LGColors.INTERCEPT ).toImage(),
-                   new UpArrowNode( DISABLED_BUTTON_COLOR, false ).toImage(),
-                   new DownArrowNode( LGColors.INTERCEPT.darker() ).toImage(),
-                   new DownArrowNode( LGColors.INTERCEPT ).toImage(),
-                   new DownArrowNode( LGColors.INTERCEPT ).toImage(),
-                   new DownArrowNode( DISABLED_BUTTON_COLOR, false ).toImage(),
-                   value, range, font, format );
+            super( userComponent, INTERCEPT_INACTIVE, INTERCEPT_HIGHLIGHTED, INTERCEPT_PRESSED, INTERCEPT_DISABLED, value, range, font, format );
         }
     }
 
     // Base class that is color-coded for point in point-slope form
     private abstract static class PointSpinnerNode2 extends SpinnerNode2 {
         public PointSpinnerNode2( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
-            super( userComponent,
-                   new UpArrowNode( LGColors.POINT_X1_Y1.darker() ).toImage(),
-                   new UpArrowNode( LGColors.POINT_X1_Y1 ).toImage(),
-                   new UpArrowNode( LGColors.POINT_X1_Y1 ).toImage(),
-                   new UpArrowNode( DISABLED_BUTTON_COLOR, false ).toImage(),
-                   new DownArrowNode( LGColors.POINT_X1_Y1.darker() ).toImage(),
-                   new DownArrowNode( LGColors.POINT_X1_Y1 ).toImage(),
-                   new DownArrowNode( LGColors.POINT_X1_Y1 ).toImage(),
-                   new DownArrowNode( DISABLED_BUTTON_COLOR, false ).toImage(),
-                   value, range, font, format );
+            super( userComponent, POINT_INACTIVE, POINT_HIGHLIGHTED, POINT_PRESSED, POINT_DISABLED, value, range, font, format );
         }
     }
 

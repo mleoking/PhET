@@ -1,3 +1,4 @@
+6/4/12 add paint strategies (solid & gradient) to spinner background
 6/4/12 add rounded corners to background areas of spinners, using CAG
 # 0.00.14 (64615) Jun 4, 2012
 6/4/12 first pass at new spinner design in interactive equations
