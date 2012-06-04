@@ -48,7 +48,7 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     private static final Random RAND = new Random();
 
     // Rate at which energy chunks travel when returning to the burner during cooling.
-    private static final double ENERGY_CHUNK_VELOCITY = 0.03; // In meters per second.
+    private static final double ENERGY_CHUNK_VELOCITY = 0.06; // In meters per second.
 
     //-------------------------------------------------------------------------
     // Instance Data
