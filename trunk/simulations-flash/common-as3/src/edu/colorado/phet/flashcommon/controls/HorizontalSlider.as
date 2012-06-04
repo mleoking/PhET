@@ -1,8 +1,6 @@
 //horizontal slider component
 
-package edu.colorado.phet.normalmodes.NiceComponents {
-import edu.colorado.phet.normalmodes.*;
-import edu.colorado.phet.normalmodes.*;
+package edu.colorado.phet.flashcommon.controls {
 
 import flash.display.*;
 import flash.events.*;

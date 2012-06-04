@@ -8,7 +8,7 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.normalmodes.control {
-import edu.colorado.phet.normalmodes.NiceComponents.NiceLabel;
+import edu.colorado.phet.flashcommon.controls.NiceLabel;
 import edu.colorado.phet.normalmodes.control.MiniTabBar;
 import edu.colorado.phet.normalmodes.util.TwoHeadedArrow;
 
