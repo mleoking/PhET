@@ -15,7 +15,7 @@ public class ForcesAndMotionBasicsModel {
     public final Property<Double> cameraVelocity = new Property<Double>( 0.0 );
     public final Property<Boolean> leftPressed = new Property<Boolean>( false );
     public final Property<Boolean> rightPressed = new Property<Boolean>( false );
-    public final double acceleration = 0.03;
+    public final double acceleration = 0.03 * 2.5;
 
     public ForcesAndMotionBasicsModel( final IClock clock, final MyMode mode ) {
         clock.addClockListener( new ClockAdapter() {
