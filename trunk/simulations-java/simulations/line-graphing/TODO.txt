@@ -7,6 +7,13 @@ DESIGN
 - move "lines" control panel closer to graph, into space reserved for moving point tools?
 - interactive parts of equation different colors from static parts?
 
+new spinner design:
+- color that ties spinner to manipulator isn't visible until you mouse over
+- should there be a color change or other feedback when pressed?
+- should the background (top/bottom) behind the number change color on mouse over?
+- rounded corners on the background? (requires CAG)
+- should we use images files for buttons?
+
 HIGH
 - implement new control for changing values in interactive equation
 - using interactive equation skips over values that would produce slope=0/0, but value in equation isn't updated
