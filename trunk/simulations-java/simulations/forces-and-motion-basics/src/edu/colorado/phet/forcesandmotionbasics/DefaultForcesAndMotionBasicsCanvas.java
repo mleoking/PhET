@@ -25,7 +25,7 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.m
 public class DefaultForcesAndMotionBasicsCanvas extends AbstractForcesAndMotionBasicsCanvas {
     private boolean inited = false;
 
-    public DefaultForcesAndMotionBasicsCanvas( final ForcesAndMotionBasicsModel model ) {
+    public DefaultForcesAndMotionBasicsCanvas( final ForcesAndMotionBasicsModel model, final PositionMap map ) {
 
         final ModelViewTransform transform = createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.getWidth() / 2, STAGE_SIZE.getHeight() * 0.8 ), 100 );
         addChild( new OutsideBackgroundNode( transform, 10, 1 ) );
@@ -36,10 +36,9 @@ public class DefaultForcesAndMotionBasicsCanvas extends AbstractForcesAndMotionB
         for ( int i = -50; i <= 50; i++ ) {
             final int finalI = i;
             addChild( new PImage( tile ) {{
-
                 model.blockPosition.addObserver( new VoidFunction1<Double>() {
                     public void apply( final Double x ) {
-                        setOffset( transform.modelToView( -x, 0 ) );
+                        setOffset( transform.modelToView( map.getTilePosition( x ), 0 ) );
                         translate( finalI * tile.getWidth(), 0 );
                     }
                 } );
@@ -49,7 +48,7 @@ public class DefaultForcesAndMotionBasicsCanvas extends AbstractForcesAndMotionB
         addChild( new PImage( Images.MYSTERY_BOX ) {{
             model.blockPosition.addObserver( new VoidFunction1<Double>() {
                 public void apply( final Double x ) {
-                    final Point2D point = transform.modelToView( 0, 0 );
+                    final Point2D point = transform.modelToView( map.getBlockPosition( x ), 0 );
                     setOffset( point );
                     translate( -getFullBounds().getWidth() / 2, -getFullBounds().getHeight() );
                 }
@@ -60,7 +59,7 @@ public class DefaultForcesAndMotionBasicsCanvas extends AbstractForcesAndMotionB
             addChild( new PImage( Images.CLOUD1 ) {{
                 model.blockPosition.addObserver( new VoidFunction1<Double>() {
                     public void apply( final Double x ) {
-                        setOffset( transform.modelToView( -x / 4 + finalI * 10, 6 ) );
+                        setOffset( transform.modelToView( map.getCloudPosition( x ) + finalI * 10, 6 ) );
                     }
                 } );
             }} );

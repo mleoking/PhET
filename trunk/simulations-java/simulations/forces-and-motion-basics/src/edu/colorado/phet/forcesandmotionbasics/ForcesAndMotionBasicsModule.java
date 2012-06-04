@@ -11,10 +11,10 @@ public class ForcesAndMotionBasicsModule extends Module {
 
     private final DefaultForcesAndMotionBasicsCanvas canvas;
 
-    public ForcesAndMotionBasicsModule() {
-        super( "forces-and-motion-basics", new ConstantDtClock() );
+    public ForcesAndMotionBasicsModule( PositionMap map ) {
+        super( map.name, new ConstantDtClock() );
         ForcesAndMotionBasicsModel model = new ForcesAndMotionBasicsModel( getClock() );
-        canvas = new DefaultForcesAndMotionBasicsCanvas( model );
+        canvas = new DefaultForcesAndMotionBasicsCanvas( model, map );
         canvas.requestFocusInWindow();
         setSimulationPanel( canvas );
         setClockControlPanel( null );
@@ -25,5 +25,6 @@ public class ForcesAndMotionBasicsModule extends Module {
         super.activate();
         canvas.requestFocusInWindow();
         canvas.requestFocus();
+        System.out.println( "ForcesAndMotionBasicsModule.activate" );
     }
 }
