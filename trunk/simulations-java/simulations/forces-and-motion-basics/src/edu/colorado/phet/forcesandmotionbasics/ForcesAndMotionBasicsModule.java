@@ -10,6 +10,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 public class ForcesAndMotionBasicsModule extends Module {
     public ForcesAndMotionBasicsModule() {
         super( "forces-and-motion-basics", new ConstantDtClock() );
-        setSimulationPanel( new ForcesAndMotionBasicsCanvas() );
+        setSimulationPanel( new DefaultForcesAndMotionBasicsCanvas() );
+        setClockControlPanel( null );
+        getModulePanel().setLogoPanel( null );
     }
 }
