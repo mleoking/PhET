@@ -14,7 +14,10 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  */
 public class NumberNode extends PNode {
+    public final int number;
+
     public NumberNode( final int number, final DragContext context ) {
+        this.number = number;
         addChild( new PhetPText( number + "", new PhetFont( 64, true ) ) );
         addInputEventListener( new SimSharingDragHandler( null, true ) {
             @Override protected void drag( final PInputEvent event ) {
