@@ -20,8 +20,6 @@ HIGH
 - check interactive equation minus signs on Win7
 
 MEDIUM
-- make division line between rise and run thicker in interactive equations (4f)
-- subscripts on x1 and y1
 - better handling and testing of adjustment to avoid slope=0/0
 - Point-Slope: 2 variations of point-slope form
 - outlined numbers (OutlineTextNode) in pickers are aliased

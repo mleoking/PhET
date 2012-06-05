@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.ToggleButtonNode;
@@ -56,7 +57,7 @@ class PointSlopeEquationControls extends PhetPNode {
                                        final ObservableList<StraightLine> savedLines,
                                        final Property<Boolean> linesVisible ) {
 
-        PNode titleNode = new PhetPText( TITLE, new PhetFont( Font.BOLD, 18 ), interactiveLine.get().color );
+        PNode titleNode = new HTMLNode( TITLE, interactiveLine.get().color, new PhetFont( Font.BOLD, 18 ) );
         PNode minimizeMaximizeButtonNode = new ToggleButtonNode( UserComponents.equationMinimizeMaximizeButton, maximized, Images.MINIMIZE_BUTTON, Images.MAXIMIZE_BUTTON ) {
             @Override protected ParameterSet getParameterSet() {
                 return super.getParameterSet().with( ParameterKeys.maximized, !maximized.get() );
