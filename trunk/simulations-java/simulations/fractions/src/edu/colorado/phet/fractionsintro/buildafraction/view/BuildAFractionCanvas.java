@@ -1,21 +1,32 @@
 package edu.colorado.phet.fractionsintro.buildafraction.view;
 
+import fj.F;
+import fj.Ord;
+import fj.data.List;
+import lombok.Data;
+
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Paint;
+import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
-import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
+import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern;
+import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern;
+import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.util.PBounds;
 
 import static edu.colorado.phet.fractions.FractionsResources.Strings.MY_FRACTIONS;
-import static edu.colorado.phet.fractionsintro.buildafraction_functional.view.BuildAFractionCanvas.controlPanelStroke;
 
 /**
  * Canvas for the build a fraction tab.
@@ -25,28 +36,66 @@ import static edu.colorado.phet.fractionsintro.buildafraction_functional.view.Bu
 public class BuildAFractionCanvas extends AbstractFractionsCanvas implements DragContext {
     public static final Paint TRANSPARENT = new Color( 0, 0, 0, 0 );
     private final FractionGraphic emptyFractionGraphic;
+    public static final Stroke controlPanelStroke = new BasicStroke( 2 );
 
     public BuildAFractionCanvas( final BuildAFractionModel model ) {
-//        scoreBoxes = model.state.get().targetCells.map( new F<TargetCell, ScoreBoxNode>() {
-//            @Override public ScoreBoxNode f( final TargetCell targetCell ) {
-//
-//                //If these representationBox are all the same size, then 2-column layout will work properly
-//                final int numerator = targetCell.index + 1;
-//                PNode representationBox = new PatternNode( FilledPattern.sequentialFill( Pattern.sixFlower( 18 ), numerator ), Color.red );
-//                return new ScoreBoxNode( numerator, 6, representationBox, model, targetCell );
-//            }
-//        } );
-//        final Collection<ScoreBoxNode> nodes = scoreBoxes.toCollection();
-        final VBox rightControlPanel = new VBox( new PhetPText( MY_FRACTIONS, AbstractFractionsCanvas.CONTROL_FONT ) ) {{
-            setOffset( AbstractFractionsCanvas.STAGE_SIZE.width - getFullWidth() - AbstractFractionsCanvas.INSET, AbstractFractionsCanvas.INSET );
-        }};
-        addChild( rightControlPanel );
+
+        @Data class Pair {
+            public final PNode targetCell;
+            public final PNode patternNode;
+        }
+
+//        ArrayList<PNode> scoreBoxes = new ArrayList<PNode>();
+        ArrayList<Pair> pairs = new ArrayList<Pair>();
+        for ( int i = 0; i < 3; i++ ) {
+            final int numerator = i + 1;
+            final PatternNode patternNode = new PatternNode( FilledPattern.sequentialFill( Pattern.sixFlower( 18 ), numerator ), Color.red );
+            PNode boxNode = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 140, 150, 30, 30 ), controlPanelStroke, Color.darkGray );
+            pairs.add( new Pair( new ZeroOffsetNode( boxNode ), new ZeroOffsetNode( patternNode ) ) );
+        }
+        final PhetPText title = new PhetPText( MY_FRACTIONS, AbstractFractionsCanvas.CONTROL_FONT );
+        List<Pair> p = List.iterableList( pairs );
+        List<PNode> patterns = p.map( new F<Pair, PNode>() {
+            @Override public PNode f( final Pair pair ) {
+                return pair.patternNode;
+            }
+        } );
+        double maxWidth = patterns.map( new F<PNode, Double>() {
+            @Override public Double f( final PNode pNode ) {
+                return pNode.getFullBounds().getWidth();
+            }
+        } ).maximum( Ord.doubleOrd );
+        double maxHeight = patterns.map( new F<PNode, Double>() {
+            @Override public Double f( final PNode pNode ) {
+                return pNode.getFullBounds().getHeight();
+            }
+        } ).maximum( Ord.doubleOrd );
+
+        double separation = 5;
+        double rightInset = 10;
+        final PBounds targetCellBounds = pairs.get( 0 ).getTargetCell().getFullBounds();
+        double offsetX = AbstractFractionsCanvas.STAGE_SIZE.width - maxWidth - separation - targetCellBounds.getWidth() - rightInset;
+        double offsetY = title.getFullHeight() + 5;
+        double insetY = 5;
+        addChild( title );
+        for ( Pair pair : pairs ) {
+
+            pair.targetCell.setOffset( offsetX, offsetY );
+            pair.patternNode.setOffset( offsetX + targetCellBounds.getWidth() + separation, offsetY + targetCellBounds.getHeight() / 2 - maxHeight / 2 );
+            addChild( pair.targetCell );
+            addChild( pair.patternNode );
+
+            offsetY += Math.max( maxHeight, targetCellBounds.getHeight() ) + insetY;
+        }
+
+        //Center title above the "my fractions" scoring cell boxes
+        title.setOffset( pairs.get( 0 ).getTargetCell().getFullBounds().getCenterX() - title.getFullWidth() / 2, pairs.get( 0 ).getTargetCell().getFullBounds().getY() - title.getFullHeight() );
 
         //Add a piece container toolbox the user can use to get containers
         final RichPNode toolboxNode = new RichPNode() {{
             final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 700, 160, 30, 30 ), edu.colorado.phet.fractionsintro.buildafraction_functional.view.BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND, controlPanelStroke, Color.darkGray );
             addChild( border );
-            setOffset( ( AbstractFractionsCanvas.STAGE_SIZE.width - rightControlPanel.getFullWidth() ) / 2 - this.getFullWidth() / 2, AbstractFractionsCanvas.STAGE_SIZE.height - AbstractFractionsCanvas.INSET - this.getFullHeight() );
+            setOffset( ( AbstractFractionsCanvas.STAGE_SIZE.width - 150 ) / 2 - this.getFullWidth() / 2, AbstractFractionsCanvas.STAGE_SIZE.height - AbstractFractionsCanvas.INSET - this.getFullHeight() );
         }};
         addChild( toolboxNode );
 
