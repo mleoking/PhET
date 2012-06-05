@@ -173,6 +173,10 @@ public class Beaker extends RectangularThermalMovableModelElement {
                                                                HEIGHT * fluidLevel.get() ), true );
     }
 
+    public EnergyContainerCategory getEnergyContainerCategory() {
+        return EnergyContainerCategory.WATER;
+    }
+
     @Override public IUserComponent getUserComponent() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }

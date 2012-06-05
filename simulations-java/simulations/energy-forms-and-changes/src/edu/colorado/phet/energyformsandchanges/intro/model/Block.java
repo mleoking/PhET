@@ -105,6 +105,10 @@ public abstract class Block extends RectangularThermalMovableModelElement {
         return new ThermalContactArea( getRect(), false );
     }
 
+    public EnergyContainerCategory getEnergyContainerCategory() {
+        return EnergyContainerCategory.SOLID;
+    }
+
     /**
      * Get a rectangle the defines the current shape in model space.  By
      * convention for this simulation, the position is the middle of the

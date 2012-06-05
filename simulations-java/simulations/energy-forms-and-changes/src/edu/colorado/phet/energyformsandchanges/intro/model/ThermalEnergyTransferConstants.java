@@ -11,27 +11,27 @@ import java.util.Map;
  * @author John Blanco
  */
 public class ThermalEnergyTransferConstants {
-    public static final double OBJECT_OBJECT_HEAT_TRANSFER_FACTOR = 0.1;
-    public static final double OBJECT_WATER_HEAT_TRANSFER_FACTOR = 0.1;
-    public static final double OBJECT_AIR_HEAT_TRANSFER_FACTOR = 0.1;
-    public static final double WATER_AIR_HEAT_TRANSFER_FACTOR = 0.1;
+    public static final double OBJECT_OBJECT_HEAT_TRANSFER_FACTOR = 1000;
+    public static final double OBJECT_WATER_HEAT_TRANSFER_FACTOR = 1000;
+    public static final double OBJECT_AIR_HEAT_TRANSFER_FACTOR = 1000;
+    public static final double WATER_AIR_HEAT_TRANSFER_FACTOR = 1000;
 
     private static final Map<ThermalEnergyContainer.EnergyContainerCategory, Double> HEAT_TRANSFER_FACTORS_FOR_OBJECTS = new HashMap<ThermalEnergyContainer.EnergyContainerCategory, Double>() {{
-        put( ThermalEnergyContainer.EnergyContainerCategory.OBJECT, OBJECT_OBJECT_HEAT_TRANSFER_FACTOR );
+        put( ThermalEnergyContainer.EnergyContainerCategory.SOLID, OBJECT_OBJECT_HEAT_TRANSFER_FACTOR );
         put( ThermalEnergyContainer.EnergyContainerCategory.WATER, OBJECT_WATER_HEAT_TRANSFER_FACTOR );
         put( ThermalEnergyContainer.EnergyContainerCategory.AIR, OBJECT_AIR_HEAT_TRANSFER_FACTOR );
     }};
     private static final Map<ThermalEnergyContainer.EnergyContainerCategory, Double> HEAT_TRANSFER_FACTORS_FOR_WATER = new HashMap<ThermalEnergyContainer.EnergyContainerCategory, Double>() {{
-        put( ThermalEnergyContainer.EnergyContainerCategory.OBJECT, OBJECT_WATER_HEAT_TRANSFER_FACTOR );
+        put( ThermalEnergyContainer.EnergyContainerCategory.SOLID, OBJECT_WATER_HEAT_TRANSFER_FACTOR );
         put( ThermalEnergyContainer.EnergyContainerCategory.AIR, WATER_AIR_HEAT_TRANSFER_FACTOR );
     }};
     private static final Map<ThermalEnergyContainer.EnergyContainerCategory, Double> HEAT_TRANSFER_FACTORS_FOR_AIR = new HashMap<ThermalEnergyContainer.EnergyContainerCategory, Double>() {{
-        put( ThermalEnergyContainer.EnergyContainerCategory.OBJECT, OBJECT_AIR_HEAT_TRANSFER_FACTOR );
+        put( ThermalEnergyContainer.EnergyContainerCategory.SOLID, OBJECT_AIR_HEAT_TRANSFER_FACTOR );
         put( ThermalEnergyContainer.EnergyContainerCategory.WATER, WATER_AIR_HEAT_TRANSFER_FACTOR );
     }};
 
     private static final Map<ThermalEnergyContainer.EnergyContainerCategory, Map<ThermalEnergyContainer.EnergyContainerCategory, Double>> CONTAINER_CATEGORY_MAP = new HashMap<ThermalEnergyContainer.EnergyContainerCategory, Map<ThermalEnergyContainer.EnergyContainerCategory, Double>>() {{
-        put( ThermalEnergyContainer.EnergyContainerCategory.OBJECT, HEAT_TRANSFER_FACTORS_FOR_OBJECTS );
+        put( ThermalEnergyContainer.EnergyContainerCategory.SOLID, HEAT_TRANSFER_FACTORS_FOR_OBJECTS );
         put( ThermalEnergyContainer.EnergyContainerCategory.WATER, HEAT_TRANSFER_FACTORS_FOR_WATER );
         put( ThermalEnergyContainer.EnergyContainerCategory.AIR, HEAT_TRANSFER_FACTORS_FOR_AIR );
     }};
