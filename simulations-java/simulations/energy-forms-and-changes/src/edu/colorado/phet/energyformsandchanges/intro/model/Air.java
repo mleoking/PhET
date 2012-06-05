@@ -14,6 +14,7 @@ import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.energyformsandchanges.common.EFACConstants.ENERGY_TO_NUM_CHUNKS_MAPPER;
+import static edu.colorado.phet.energyformsandchanges.intro.model.ThermalEnergyTransferConstants.getHeatTransferFactor;
 
 /**
  * Class that represents the air in the model.  Air can hold heat, and can
@@ -34,7 +35,7 @@ public class Air implements ThermalEnergyContainer {
 
     // The thickness of the slice of air being modeled.  This is basically the
     // z dimension, and is used solely for volume calculations.
-    private static final double DEPTH = 0.1;
+    private static final double DEPTH = 0.1; // In meters.
 
     // Constants that define the heat carrying capacity of the air.
     private static final double SPECIFIC_HEAT = 1012; // In J/kg-K, source = design document.
@@ -115,8 +116,29 @@ public class Air implements ThermalEnergyContainer {
         addInitialEnergyChunks();
     }
 
-    public void exchangeEnergyWith( ThermalEnergyContainer energyContainer, double dt ) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void exchangeEnergyWith( ThermalEnergyContainer otherEnergyContainer, double dt ) {
+        double thermalContactLength = getThermalContactArea().getThermalContactLength( otherEnergyContainer.getThermalContactArea() );
+        if ( thermalContactLength > 0 ) {
+            if ( Math.abs( otherEnergyContainer.getTemperature() - getTemperature() ) > TEMPERATURES_EQUAL_THRESHOLD ) {
+                // Exchange energy between the this and the other energy container.
+                double heatTransferConstant = getHeatTransferFactor( this.getEnergyContainerCategory(), otherEnergyContainer.getEnergyContainerCategory() );
+                double thermalEnergyGained = ( otherEnergyContainer.getTemperature() - getTemperature() ) * thermalContactLength * heatTransferConstant * dt;
+                changeEnergy( thermalEnergyGained );
+                otherEnergyContainer.changeEnergy( -thermalEnergyGained );
+            }
+
+            // Exchange energy chunks.
+            if ( otherEnergyContainer.needsEnergyChunk() ) {
+                // The other energy container needs an energy chunk.
+                // TODO: For now, always creates one and hands it to the container.
+                otherEnergyContainer.addEnergyChunk( new EnergyChunk( clock, 0, SIZE.getHeight(), energyChunksVisible, false ) );
+            }
+            else if ( otherEnergyContainer.hasExcessEnergyChunks() ) {
+                // This energy container needs a chunk, and the other has
+                // excess, so take one.
+                energyChunkList.add( otherEnergyContainer.extractClosestEnergyChunk( getCenterPoint() ) );
+            }
+        }
     }
 
     public boolean needsEnergyChunk() {
@@ -144,7 +166,7 @@ public class Air implements ThermalEnergyContainer {
     }
 
     public double getTemperature() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return energy / ( MASS * SPECIFIC_HEAT );
     }
 
     public ObservableList<EnergyChunk> getEnergyChunkList() {
@@ -152,6 +174,6 @@ public class Air implements ThermalEnergyContainer {
     }
 
     public EnergyContainerCategory getEnergyContainerCategory() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return EnergyContainerCategory.AIR;
     }
 }
