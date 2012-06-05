@@ -31,7 +31,7 @@ public class DraggableNumberNode extends PNode {
                         final DraggableNumber some = newOne.some();
                         addChild( NumberScene.numberGraphic( some.getNumber() ) );
                         if ( some.attachment.isSome() ) {
-//                            System.out.println( "rendering number node with attachment, some= " + some );
+                            System.out.println( "rendering number node with attachment, some= " + some );
                             final DraggableFractionNode draggableFractionNode = canvas.numberScene.getDraggableFractionNode( some.attachment.some()._1() );
                             final Point2D center2D = draggableFractionNode.getFractionCenter();
                             double offset = some.attachment.some()._2() ? -getFullBounds().getHeight() / 2 :

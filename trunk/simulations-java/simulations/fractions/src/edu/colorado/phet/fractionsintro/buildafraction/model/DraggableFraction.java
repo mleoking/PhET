@@ -49,4 +49,10 @@ public @Data class DraggableFraction {
         if ( denominator.isSome() ) { times = times.cons( denominator.some()._2() ); }
         return times.length() > 0 ? Option.some( times.maximum( Ord.<Double>comparableOrd() ) ) : Option.<Double>none();
     }
+
+    public static DraggableFraction createDefault() {
+        return new DraggableFraction( FractionID.nextID(), new DraggableObject( new Vector2D( 350, 350 ), false ),
+                                      Option.<DefaultP2<DraggableNumberID, Double>>none(),
+                                      Option.<DefaultP2<DraggableNumberID, Double>>none() );
+    }
 }

@@ -15,7 +15,7 @@ public abstract class DraggableNumberObserver implements ChangeObserver<BuildAFr
 
     public DraggableNumberObserver( final DraggableNumberID id ) {this.id = id;}
 
-    @Override public void update( final BuildAFractionState newValue, final BuildAFractionState oldValue ) {
+    public void update( final BuildAFractionState newValue, final BuildAFractionState oldValue ) {
         final Option<DraggableNumber> old = oldValue.getDraggableNumber( id );
         final Option<DraggableNumber> newOne = newValue.getDraggableNumber( id );
         boolean equal = Equal.optionEqual( Equal.<DraggableNumber>anyEqual() ).eq( newOne, old );

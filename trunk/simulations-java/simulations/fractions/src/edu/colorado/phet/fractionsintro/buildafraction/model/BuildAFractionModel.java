@@ -23,7 +23,12 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  */
 public class BuildAFractionModel implements Resettable {
-    private final BuildAFractionState initialState = new BuildAFractionState( List.<Container>nil(), List.<Piece>nil(), List.<DraggableNumber>nil(), List.<DraggableFraction>nil(), Mode.NUMBERS, 0.0 );
+    private final BuildAFractionState initialState = new BuildAFractionState( List.<Container>nil(), List.<Piece>nil(), List.<DraggableNumber>nil(), List.<DraggableFraction>nil(), Mode.NUMBERS, 0.0,
+                                                                              List.range( 0, 3 ).map( new F<Integer, TargetCell>() {
+                                                                                  @Override public TargetCell f( final Integer index ) {
+                                                                                      return new TargetCell( index, Option.<FractionID>none() );
+                                                                                  }
+                                                                              } ) );
     public final Property<BuildAFractionState> state = new Property<BuildAFractionState>( initialState );
     public final ConstantDtClock clock = new ConstantDtClock();
 
@@ -96,12 +101,6 @@ public class BuildAFractionModel implements Resettable {
         } );
     }
 
-    public void setFractionLocation( final FractionID id, final Vector2D position ) {
-        Option<DraggableFraction> x = state.get().getDraggableFraction( id );
-        final Vector2D delta = position.minus( x.some().draggableObject.position );
-        dragFraction( id, new PDimension( delta.x, delta.y ) );
-    }
-
     public void dragFraction( final FractionID id, final PDimension delta ) {
         update( new ModelUpdate() {
             public BuildAFractionState update( final BuildAFractionState state ) {
@@ -132,4 +131,12 @@ public class BuildAFractionModel implements Resettable {
     public void releaseFraction( final FractionID id ) { state.set( state.get().releaseFraction( id ) ); }
 
     public Fraction getFractionValue( final FractionID id ) { return state.get().getFractionValue( id );}
+
+    public void moveFractionToTargetCell( final FractionID id, final Vector2D position, final TargetCell targetCell ) {
+        update( new ModelUpdate() {
+            public BuildAFractionState update( final BuildAFractionState state ) {
+                return state.moveFractionToTargetCell( id, position, targetCell );
+            }
+        } );
+    }
 }

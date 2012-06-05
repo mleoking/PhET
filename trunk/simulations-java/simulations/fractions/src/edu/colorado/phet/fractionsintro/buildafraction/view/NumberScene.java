@@ -5,8 +5,10 @@ import fj.data.List;
 import fj.data.Option;
 
 import java.awt.Color;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
@@ -28,6 +30,7 @@ import edu.colorado.phet.fractionsintro.buildafraction.model.DraggableNumberID;
 import edu.colorado.phet.fractionsintro.buildafraction.model.DraggableObject;
 import edu.colorado.phet.fractionsintro.buildafraction.model.FractionID;
 import edu.colorado.phet.fractionsintro.buildafraction.model.Mode;
+import edu.colorado.phet.fractionsintro.buildafraction.model.TargetCell;
 import edu.colorado.phet.fractionsintro.common.util.DefaultP2;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern;
@@ -48,26 +51,29 @@ import static fj.data.List.range;
  */
 public class NumberScene extends PNode {
 
-    public final RichPNode numbersContainerLayer;
+    //The draggable containers
+    public final RichPNode fractionLayer = new RichPNode();
+
+    //The draggable numbers
+    public final RichPNode numberLayer = new RichPNode();
+
+    //The model
     private final BuildAFractionModel model;
     private final List<ScoreBoxNode> scoreBoxes;
 
     public NumberScene( final BuildAFractionModel model, final SettableProperty<Mode> mode, final BuildAFractionCanvas canvas ) {
         this.model = model;
 
-        //The draggable containers
-        numbersContainerLayer = new RichPNode();
-
         final PNode radioButtonControlPanel = BuildAFractionCanvas.createModeControlPanel( mode );
         addChild( radioButtonControlPanel );
 
-        scoreBoxes = range( 0, 3 ).map( new F<Integer, ScoreBoxNode>() {
-            @Override public ScoreBoxNode f( final Integer integer ) {
+        scoreBoxes = model.state.get().targetCells.map( new F<TargetCell, ScoreBoxNode>() {
+            @Override public ScoreBoxNode f( final TargetCell targetCell ) {
 
                 //If these representationBox are all the same size, then 2-column layout will work properly
-                final int numerator = integer + 1;
+                final int numerator = targetCell.index + 1;
                 PNode representationBox = new PatternNode( FilledPattern.sequentialFill( Pattern.sixFlower( 18 ), numerator ), Color.red );
-                return new ScoreBoxNode( numerator, 6, representationBox, model );
+                return new ScoreBoxNode( numerator, 6, representationBox, model, targetCell );
             }
         } );
         final Collection<ScoreBoxNode> nodes = scoreBoxes.toCollection();
@@ -83,7 +89,7 @@ public class NumberScene extends PNode {
             final double spacing = 60;
             final F<Integer, PNode> toNumberTool = new F<Integer, PNode>() {
                 @Override public PNode f( final Integer i ) {
-                    return numberTool( i, model, canvas, i * spacing, numbersContainerLayer );
+                    return numberTool( i, model, canvas, i * spacing, numberLayer );
                 }
             };
             addChild( new FNode( range( 0, 10 ).map( toNumberTool ) ) {{
@@ -94,15 +100,16 @@ public class NumberScene extends PNode {
         }} );
 
         //Adding this listener before calling the update allows us to get the ChangeObserver callback.
-        final DraggableFraction draggableFraction = new DraggableFraction( FractionID.nextID(), new DraggableObject( new Vector2D( 350, 350 ), true ), Option.<DefaultP2<DraggableNumberID, Double>>none(), Option.<DefaultP2<DraggableNumberID, Double>>none() );
-        numbersContainerLayer.addChild( new DraggableFractionNode( draggableFraction.getID(), model, canvas ) );
+        final DraggableFraction draggableFraction = DraggableFraction.createDefault();
+        fractionLayer.addChild( new DraggableFractionNode( draggableFraction.getID(), model, canvas ) );
         model.update( new ModelUpdate() {
             public BuildAFractionState update( final BuildAFractionState state ) {
                 return state.addDraggableFraction( draggableFraction );
             }
         } );
 
-        addChild( numbersContainerLayer );
+        addChild( fractionLayer );
+        addChild( numberLayer );
     }
 
     public static PNode numberTool( final int number, final BuildAFractionModel model, final BuildAFractionCanvas canvas, final double offsetX, final PNode numberContainersLayer ) {
@@ -180,29 +187,34 @@ public class NumberScene extends PNode {
 
     //Find what draggable fraction node the specified DraggableNumberNode is over for purposes of snapping/attaching
     public Option<DraggableFractionNode> getDraggableNumberNodeDropTarget( final DraggableNumberNode draggableNumberNode ) {
-        for ( PNode node : numbersContainerLayer.getChildren() ) {
-            //TODO: could split into 2 subnodes to segregate types
-            if ( node instanceof DraggableFractionNode ) {
-                DraggableFractionNode draggableFractionNode = (DraggableFractionNode) node;
-                if ( draggableFractionNode.getGlobalFullBounds().intersects( draggableNumberNode.getGlobalFullBounds() ) ) {
-                    return Option.some( draggableFractionNode );
-                }
+        for ( PNode node : fractionLayer.getChildren() ) {
+            DraggableFractionNode draggableFractionNode = (DraggableFractionNode) node;
+            if ( draggableFractionNode.getGlobalFullBounds().intersects( draggableNumberNode.getGlobalFullBounds() ) ) {
+                return Option.some( draggableFractionNode );
             }
         }
         return Option.none();
     }
 
     public DraggableFractionNode getDraggableFractionNode( final FractionID fractionID ) {
-        for ( PNode node : numbersContainerLayer.getChildren() ) {
-            //TODO: could split into 2 subnodes to segregate types
-            if ( node instanceof DraggableFractionNode ) {
-                DraggableFractionNode draggableFractionNode = (DraggableFractionNode) node;
-                if ( draggableFractionNode.id.equals( fractionID ) ) {
-                    return draggableFractionNode;
-                }
+        System.out.println( "getExistingIDs() = " + getExistingIDs() );
+
+        for ( PNode node : fractionLayer.getChildren() ) {
+            DraggableFractionNode draggableFractionNode = (DraggableFractionNode) node;
+            if ( draggableFractionNode.id.equals( fractionID ) ) {
+                return draggableFractionNode;
             }
         }
-        throw new RuntimeException( "Not found" );
+
+        throw new RuntimeException( "No graphic found for FractionID = " + fractionID + ", existing existingIDs: " + getExistingIDs() );
+    }
+
+    private ArrayList<FractionID> getExistingIDs() {
+        ArrayList<FractionID> existingIDs = new ArrayList<FractionID>();
+        for ( PNode node : fractionLayer.getChildren() ) {
+            existingIDs.add( ( (DraggableFractionNode) node ).id );
+        }
+        return existingIDs;
     }
 
     public void fractionNodeDropped( final FractionID id ) {
@@ -224,8 +236,11 @@ public class NumberScene extends PNode {
 
             if ( scoreBox.fraction.approxEquals( model.getFractionValue( id ) ) ) {
 
-                //TODO: update the model instead of the view
-                model.setFractionLocation( id, new Vector2D( scoreBox.getGlobalFullBounds().getCenterX(), scoreBox.getGlobalFullBounds().getCenterY() ) );
+                Point2D point = new Point2D.Double( scoreBox.getGlobalFullBounds().getCenterX(), scoreBox.getGlobalFullBounds().getCenterY() );
+                point = globalToLocal( point );
+
+                //TODO: figure out coordinate frames to get rid of magic numbers
+                model.moveFractionToTargetCell( id, new Vector2D( point ).minus( new Vector2D( 60, 65 ) ), scoreBox.targetCell );
             }
         }
     }
