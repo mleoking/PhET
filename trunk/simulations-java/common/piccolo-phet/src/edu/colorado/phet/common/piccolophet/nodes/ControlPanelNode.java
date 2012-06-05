@@ -38,6 +38,10 @@ public class ControlPanelNode extends RichPNode {
         this( new PSwing( jComponent ) );
     }
 
+    public ControlPanelNode( JComponent jComponent, Color backgroundColor ) {
+        this( new PSwing( jComponent ), backgroundColor );
+    }
+
     public ControlPanelNode( final PNode content ) {
         this( content, DEFAULT_BACKGROUND_COLOR );
     }
