@@ -1,3 +1,4 @@
+Fixed: Multiple score cells light up when one match is made
 Removed split button and interactivity when fraction entered into scoring cell
 Drag fraction after assembly
 Animate stroke on score box when a match is made

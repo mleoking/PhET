@@ -110,7 +110,7 @@ public class NumberSceneNode extends PNode implements DragContext {
         addChild( fractionGraphic );
         fractionGraphics.add( fractionGraphic );
 
-        int numCopies = 1;
+        int numCopies = 2;
         for ( int i = 0; i < 10; i++ ) {
             for ( int k = 0; k < numCopies; k++ ) {
                 PNode numberNode = new NumberNode( i, this );
