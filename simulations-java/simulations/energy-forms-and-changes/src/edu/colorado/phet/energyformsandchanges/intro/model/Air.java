@@ -2,6 +2,7 @@
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -11,6 +12,8 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.umd.cs.piccolo.util.PDimension;
+
+import static edu.colorado.phet.energyformsandchanges.common.EFACConstants.ENERGY_TO_NUM_CHUNKS_MAPPER;
 
 /**
  * Class that represents the air in the model.  Air can hold heat, and can
@@ -41,6 +44,11 @@ public class Air implements ThermalEnergyContainer {
     private static final double VOLUME = SIZE.getWidth() * SIZE.getHeight() * DEPTH;
     private static final double MASS = VOLUME * DENSITY;
     private static final double INITIAL_ENERGY = MASS * SPECIFIC_HEAT * EFACConstants.ROOM_TEMPERATURE;
+    private static final ThermalContactArea THERMAL_CONTACT_AREA = new ThermalContactArea( new Rectangle2D.Double( -SIZE.getWidth() / 2,
+                                                                                                                   0,
+                                                                                                                   SIZE.getWidth(),
+                                                                                                                   SIZE.getHeight() ),
+                                                                                           true );
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -49,6 +57,7 @@ public class Air implements ThermalEnergyContainer {
     private double energy = INITIAL_ENERGY;
     private ConstantDtClock clock;
     private BooleanProperty energyChunksVisible;
+    protected final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -57,7 +66,7 @@ public class Air implements ThermalEnergyContainer {
     /**
      * Constructor.
      */
-    public Air( ConstantDtClock clock, double mass, double specificHeat, BooleanProperty energyChunksVisible ) {
+    public Air( ConstantDtClock clock, BooleanProperty energyChunksVisible ) {
 
         this.clock = clock;
         this.energyChunksVisible = energyChunksVisible;
@@ -82,7 +91,13 @@ public class Air implements ThermalEnergyContainer {
     }
 
     private void addInitialEnergyChunks() {
-
+        energyChunkList.clear();
+        int targetNumChunks = ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy );
+        Rectangle2D energyChunkBounds = getThermalContactArea().getBounds();
+        while ( targetNumChunks != getEnergyChunkList().size() ) {
+            // Add a chunk at a random location.
+            addEnergyChunk( new EnergyChunk( clock, EnergyChunkDistributor.generateRandomLocation( energyChunkBounds ), energyChunksVisible, false ) );
+        }
     }
 
     public void changeEnergy( double deltaEnergy ) {
@@ -122,7 +137,7 @@ public class Air implements ThermalEnergyContainer {
     }
 
     public ThermalContactArea getThermalContactArea() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return THERMAL_CONTACT_AREA;
     }
 
     public double getTemperature() {
@@ -130,7 +145,7 @@ public class Air implements ThermalEnergyContainer {
     }
 
     public ObservableList<EnergyChunk> getEnergyChunkList() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return energyChunkList;
     }
 
     public EnergyContainerCategory getEnergyContainerCategory() {
