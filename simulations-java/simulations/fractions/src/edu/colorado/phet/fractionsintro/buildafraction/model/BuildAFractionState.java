@@ -248,6 +248,6 @@ public @Data class BuildAFractionState {
                     @Override public TargetCell f( final TargetCell t ) {
                         return targetCell == t ? t.withFraction( id ) : t;
                     }
-                } ) ).withDraggableFractions( List.single( DraggableFraction.createDefault() ) );
+                } ) ).withDraggableFractions( draggableFractions.cons( DraggableFraction.createDefault() ) );
     }
 }

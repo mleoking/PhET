@@ -8,6 +8,8 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -66,7 +68,11 @@ public class NumberScene extends PNode {
 
         final PNode radioButtonControlPanel = BuildAFractionCanvas.createModeControlPanel( mode );
         addChild( radioButtonControlPanel );
-
+        fractionLayer.addPropertyChangeListener( PNode.PROPERTY_CHILDREN, new PropertyChangeListener() {
+            public void propertyChange( final PropertyChangeEvent evt ) {
+                System.out.println( "evt = " + evt );
+            }
+        } );
         scoreBoxes = model.state.get().targetCells.map( new F<TargetCell, ScoreBoxNode>() {
             @Override public ScoreBoxNode f( final TargetCell targetCell ) {
 
