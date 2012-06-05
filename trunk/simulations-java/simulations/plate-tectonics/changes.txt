@@ -1,3 +1,4 @@
+# 0.00.40 (64654) Jun 5, 2012
 Changed density meter to have smaller "sensitive" dial and larger "less sensitive" dial (experimental)
 # 0.00.39 (64652) Jun 4, 2012
 Added density "roll-over" style with miniature density meters
