@@ -5,15 +5,19 @@ import fj.Ord;
 import fj.data.List;
 import lombok.Data;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.RichPNode;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern;
@@ -22,6 +26,7 @@ import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.fractions.FractionsResources.Strings.MY_FRACTIONS;
 
@@ -133,6 +138,21 @@ public class NumberSceneNode extends PNode implements DragContext {
         emptyFractionGraphic.setTarget( box, numberNode );
         if ( emptyFractionGraphic.isComplete() ) {
             model.addCreatedValue( emptyFractionGraphic.getValue() );
+            //create an invisible overlay that allows dragging all parts together
+            PBounds topBounds = emptyFractionGraphic.getTopNumber().getFullBounds();
+            PBounds bottomBounds = emptyFractionGraphic.getBottomNumber().getFullBounds();
+            Rectangle2D divisorBounds = emptyFractionGraphic.localToParent( emptyFractionGraphic.divisorLine.getFullBounds() );
+            Rectangle2D union = topBounds.createUnion( bottomBounds ).createUnion( divisorBounds );
+            final PhetPPath path = new PhetPPath( RectangleUtils.expand( union, 2, 2 ), BuildAFractionCanvas.TRANSPARENT, new BasicStroke( 1 ), Color.yellow );
+            path.addInputEventListener( new CursorHandler() );
+            path.addInputEventListener( new SimSharingDragHandler( null, true ) {
+                @Override protected void drag( final PInputEvent event ) {
+                    final PDimension delta = event.getDeltaRelativeTo( rootNode );
+                    emptyFractionGraphic.translateAll( delta );
+                    path.translate( delta.getWidth(), delta.getHeight() );
+                }
+            } );
+            addChild( path );
         }
     }
 

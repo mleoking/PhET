@@ -14,6 +14,7 @@ import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PDimension;
 
 import static java.awt.BasicStroke.CAP_ROUND;
 import static java.awt.BasicStroke.JOIN_MITER;
@@ -69,4 +70,14 @@ public class FractionGraphic extends PNode {
     public boolean isComplete() { return topTarget != null && bottomTarget != null; }
 
     public Fraction getValue() { return new Fraction( topTarget.number, bottomTarget.number ); }
+
+    public PNode getTopNumber() {return topTarget;}
+
+    public PNode getBottomNumber() {return bottomTarget;}
+
+    public void translateAll( final PDimension delta ) {
+        translate( delta.getWidth(), delta.getHeight() );
+        if ( topTarget != null ) { topTarget.translate( delta.getWidth(), delta.getHeight() ); }
+        if ( bottomTarget != null ) { bottomTarget.translate( delta.getWidth(), delta.getHeight() ); }
+    }
 }
