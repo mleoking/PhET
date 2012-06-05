@@ -33,6 +33,8 @@ import edu.umd.cs.piccolo.util.PDimension;
 import static edu.colorado.phet.fractions.FractionsResources.Strings.MY_FRACTIONS;
 
 /**
+ * Node for the scene when the user is contructing fractions with numbers.
+ *
  * @author Sam Reid
  */
 public class NumberSceneNode extends PNode implements DragContext {
