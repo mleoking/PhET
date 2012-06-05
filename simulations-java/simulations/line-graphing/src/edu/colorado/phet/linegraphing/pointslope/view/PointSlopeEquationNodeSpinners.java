@@ -21,6 +21,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
+import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode2.RiseSpinnerNode2;
@@ -69,23 +70,23 @@ class PointSlopeEquationNodeSpinners extends PhetPNode {
         }
 
         // (y-y1) = m(x-x1)
-        PText yNode = new PhetPText( "y", font, LGColors.STATIC_EQUATION_ELEMENT );
-        final PText y1SignNode = new PhetPText( "-", font, LGColors.STATIC_EQUATION_ELEMENT );
+        PText yNode = new PhetPText( "y", LGConstants.STATIC_EQUATION_FONT, LGColors.STATIC_EQUATION_ELEMENT );
+        final PText y1SignNode = new PhetPText( "-", LGConstants.STATIC_EQUATION_FONT, LGColors.STATIC_EQUATION_ELEMENT );
         PNode y1Node = new ZeroOffsetNode( new Y1SpinnerNode2( UserComponents.y1Spinner, this.y1, y1Range, font, FORMAT ) );
-        PText equalsNode = new PhetPText( "=", font, LGColors.STATIC_EQUATION_ELEMENT );
+        PText equalsNode = new PhetPText( "=", LGConstants.STATIC_EQUATION_FONT, LGColors.STATIC_EQUATION_ELEMENT );
         PNode riseNode = new ZeroOffsetNode( new RiseSpinnerNode2( UserComponents.riseSpinner, this.rise, riseRange, font, FORMAT ) );
         PNode runNode = new ZeroOffsetNode( new RunSpinnerNode2( UserComponents.runSpinner, this.run, runRange, font, FORMAT ) );
         final PPath lineNode = new PPath( new Line2D.Double( 0, 0, maxSlopeWidth, 0 ) ) {{
             setStroke( new BasicStroke( 3f ) );
             setStrokePaint( LGColors.STATIC_EQUATION_ELEMENT );
         }};
-        PText xNode = new PhetPText( "x", font, LGColors.STATIC_EQUATION_ELEMENT );
-        final PText x1SignNode = new PhetPText( "-", font, LGColors.STATIC_EQUATION_ELEMENT );
+        PText xNode = new PhetPText( "x", LGConstants.STATIC_EQUATION_FONT, LGColors.STATIC_EQUATION_ELEMENT );
+        final PText x1SignNode = new PhetPText( "-", LGConstants.STATIC_EQUATION_FONT, LGColors.STATIC_EQUATION_ELEMENT );
         PNode x1Node = new ZeroOffsetNode( new X1SpinnerNode2( UserComponents.x1Spinner, this.x1, x1Range, font, FORMAT ) );
-        PText yLeftParenNode = new PhetPText( "(", font, LGColors.STATIC_EQUATION_ELEMENT );
-        PText yRightParenNode = new PhetPText( ")", font, LGColors.STATIC_EQUATION_ELEMENT );
-        PText xLeftParenNode = new PhetPText( "(", font, LGColors.STATIC_EQUATION_ELEMENT );
-        PText xRightParenNode = new PhetPText( ")", font, LGColors.STATIC_EQUATION_ELEMENT );
+        PText yLeftParenNode = new PhetPText( "(", LGConstants.STATIC_EQUATION_FONT, LGColors.STATIC_EQUATION_ELEMENT );
+        PText yRightParenNode = new PhetPText( ")", LGConstants.STATIC_EQUATION_FONT, LGColors.STATIC_EQUATION_ELEMENT );
+        PText xLeftParenNode = new PhetPText( "(", LGConstants.STATIC_EQUATION_FONT, LGColors.STATIC_EQUATION_ELEMENT );
+        PText xRightParenNode = new PhetPText( ")", LGConstants.STATIC_EQUATION_FONT, LGColors.STATIC_EQUATION_ELEMENT );
 
         // rendering order
         {
