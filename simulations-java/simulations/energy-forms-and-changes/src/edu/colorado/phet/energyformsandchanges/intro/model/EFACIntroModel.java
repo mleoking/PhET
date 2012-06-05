@@ -118,6 +118,7 @@ public class EFACIntroModel {
      * Restore the initial conditions of the model.
      */
     public void reset() {
+        air.reset();
         leftBurner.reset();
         rightBurner.reset();
         ironBlock.reset();
@@ -281,7 +282,7 @@ public class EFACIntroModel {
     }
 
     public void dumpEnergies() {
-        for ( ThermalEnergyContainer thermalEnergyContainer : Arrays.asList( ironBlock, brick, beaker ) ) {
+        for ( ThermalEnergyContainer thermalEnergyContainer : Arrays.asList( ironBlock, brick, beaker, air ) ) {
             System.out.println( thermalEnergyContainer.getClass().getName() + " - energy = " + thermalEnergyContainer.getEnergy() );
         }
     }
