@@ -25,6 +25,7 @@ import static edu.colorado.phet.fractionsintro.buildafraction_functional.view.Bu
 public class ScoreBoxNode extends PNode {
     public final Fraction fraction;
     public final PhetPPath path;
+    private boolean completed;
 
     public ScoreBoxNode( final int numerator, final int denominator, final Property<List<Fraction>> matches ) {
         this.path = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 140, 150, 30, 30 ), controlPanelStroke, Color.darkGray ) {{
@@ -40,7 +41,7 @@ public class ScoreBoxNode extends PNode {
                         @Override public Boolean f( final Fraction f ) {
                             return f.approxEquals( fraction );
                         }
-                    } ).isSome() ) {
+                    } ).isSome() && !completed ) {
                         setStrokePaint( Color.red );
                         final PInterpolatingActivity ta = new PInterpolatingActivity( 2000, PUtil.DEFAULT_ACTIVITY_STEP_RATE ) {
                             public void setRelativeTargetValue( final float zeroToOne ) {
@@ -59,5 +60,6 @@ public class ScoreBoxNode extends PNode {
 
     public void completed() {
         path.setStrokePaint( Color.darkGray );
+        this.completed = true;
     }
 }
