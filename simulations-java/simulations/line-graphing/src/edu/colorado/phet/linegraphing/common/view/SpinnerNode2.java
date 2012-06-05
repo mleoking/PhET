@@ -60,17 +60,17 @@ public class SpinnerNode2 extends PNode {
 
     private static final Color BUTTON_DISABLED_COLOR = new Color( 190, 190, 190 );
 
-    private static final Color SLOPE_INACTIVE = LGColors.SLOPE.darker();
+    private static final Color SLOPE_INACTIVE = LGColors.SLOPE;
     private static final Color SLOPE_HIGHLIGHTED = LGColors.SLOPE;
     private static final Color SLOPE_PRESSED = LGColors.SLOPE.darker();
     private static final Color SLOPE_DISABLED = BUTTON_DISABLED_COLOR;
 
-    private static final Color INTERCEPT_INACTIVE = LGColors.INTERCEPT.darker();
+    private static final Color INTERCEPT_INACTIVE = LGColors.INTERCEPT;
     private static final Color INTERCEPT_HIGHLIGHTED = LGColors.INTERCEPT;
     private static final Color INTERCEPT_PRESSED = LGColors.INTERCEPT.darker();
     private static final Color INTERCEPT_DISABLED = BUTTON_DISABLED_COLOR;
 
-    private static final Color POINT_INACTIVE = LGColors.POINT_X1_Y1.darker();
+    private static final Color POINT_INACTIVE = LGColors.POINT_X1_Y1;
     private static final Color POINT_HIGHLIGHTED = LGColors.POINT_X1_Y1;
     private static final Color POINT_PRESSED = LGColors.POINT_X1_Y1.darker();
     private static final Color POINT_DISABLED = BUTTON_DISABLED_COLOR;
@@ -188,12 +188,11 @@ public class SpinnerNode2 extends PNode {
         // layout
         upBackgroundNode.setOffset( 0, 0 );
         downBackgroundNode.setOffset( 0, 0 );
-        textNode.setOffset( 0,
-                            ( backgroundHeight - textNode.getFullBoundsReference().getHeight() ) / 2 );
+        textNode.setOffset( 0, ( backgroundHeight - textNode.getFullBoundsReference().getHeight() ) / 2 );
         upButton.setOffset( upBackgroundNode.getFullBoundsReference().getCenterX() - ( upButton.getFullBoundsReference().getWidth() / 2 ),
-                                   upBackgroundNode.getFullBoundsReference().getMinY() - upButton.getFullBoundsReference().getHeight() );
+                            upBackgroundNode.getFullBoundsReference().getMinY() - upButton.getFullBoundsReference().getHeight() - 1 );
         downButton.setOffset( downBackgroundNode.getFullBoundsReference().getCenterX() - ( downButton.getFullBoundsReference().getWidth() / 2 ),
-                                   downBackgroundNode.getFullBoundsReference().getMaxY() );
+                              downBackgroundNode.getFullBoundsReference().getMaxY() );
 
         // when the value changes, update the display
         value.addObserver( new VoidFunction1<Double>() {
