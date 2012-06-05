@@ -15,7 +15,7 @@ public class LGConstants {
     public static final int CONTROL_FONT_SIZE = 18;
     public static final PhetFont CONTROL_FONT = new PhetFont( CONTROL_FONT_SIZE );
 
-    public static final PhetFont INTERACTIVE_EQUATION_FONT = new PhetFont( Font.BOLD, 24 );
+    public static final PhetFont INTERACTIVE_EQUATION_FONT = new PhetFont( Font.BOLD, 28 );
 
     public static final boolean SNAP_TO_GRID_WHILE_DRAGGING = true;
 }

@@ -1,3 +1,4 @@
+6/5/12 increase equation font size to 28 pt
 # 0.00.15 (64643) Jun 4, 2012
 6/4/12 refinements to new spinners in interactive equations
 6/4/12 fix width of slope spinners
