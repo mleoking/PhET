@@ -124,13 +124,10 @@ public class SpinnerNode2 extends PNode {
         textNode.setPickable( false );
 
         // compute dimensions of the background behind the numeric value
-        textNode.setText( format.format( range.get().getMin() ) );
-        double minValueWidth = textNode.getFullBoundsReference().getWidth();
-        textNode.setText( format.format( range.get().getMax() ) );
-        double maxValueWidth = textNode.getFullBoundsReference().getWidth();
+        textNode.setText( "-20" );
         final double xMargin = 3;
         final double yMargin = 3;
-        final double backgroundWidth = Math.max( minValueWidth, maxValueWidth ) + ( 2 * xMargin );
+        final double backgroundWidth = textNode.getFullBoundsReference().getWidth() + ( 2 * xMargin );
         final double backgroundHeight = textNode.getFullBoundsReference().getHeight() + ( 2 * yMargin );
         final double backgroundOverlap = 0.5;
         final double backgroundCornerRadius = 10;
