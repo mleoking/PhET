@@ -1,3 +1,4 @@
+Added support for different heat transfer constants between the different categories of model elements, e.g. block to water, water to air, etc.
 # 0.00.05 (64635) Jun 4, 2012
 6/4/12 Snapshot for testing and reviewing changes to the behavior of the energy chunks.
 Adjusted specific heats and energy-to-chunk mapping function to the point where energy chunk numbers look reasonably good.  This may be temporary.
