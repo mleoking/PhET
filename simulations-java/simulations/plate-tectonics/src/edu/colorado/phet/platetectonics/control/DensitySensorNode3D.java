@@ -1,11 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.control;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.geom.Arc2D;
-import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -17,7 +13,6 @@ import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PointSensor;
 import edu.colorado.phet.common.piccolophet.nodes.SpeedometerNode;
 import edu.colorado.phet.common.piccolophet.nodes.SpeedometerSensorNode;
@@ -34,7 +29,6 @@ import edu.colorado.phet.platetectonics.model.ToolboxState;
 import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * Displays a speedometer-style draggable readout.
@@ -162,6 +156,8 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
         public static double h;
 
         private final PNode extraHolderNode = new PNode();
+        private final SpeedometerNode miniGauge;
+        private Property<Option<Double>> miniGaugeDensity;
 
         /**
          * @param kmToViewUnit Number of view units (in 3D JME) that correspond to 1 km in the model. Extracted into
@@ -180,6 +176,13 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
 
             addChild( extraHolderNode );
 
+            miniGaugeDensity = new Property<Option<Double>>( new Some<Double>( (double) 0 ) );
+            miniGauge = new SpeedometerNode( "", 100, miniGaugeDensity, MAX_SPEEDOMETER_DENSITY ) {{
+                double scale = 0.3;
+                setOffset( 50 - 50 * scale, 60 );
+                scale( scale );
+            }};
+
             // scale it so that we achieve adherence to the model scale
             scale( ThermometerNode3D.PICCOLO_PIXELS_TO_VIEW_UNIT * kmToViewUnit / ThermometerNode3D.PIXEL_SCALE );
 
@@ -189,66 +192,77 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
             addInputEventListener( new LWJGLCursorHandler() );
         }
 
+//        public void setDensity( double density ) {
+//            // reference into the speedometer to change it
+//            pointSensor.value.set( new Option.Some<Double>( density ) );
+//
+//            // calculate using the speedometer what the angles are at 0 and max
+//            // speedometer returns angles that are actually the opposite (negative) of what is usually used in the cartesian plane
+//            final double minAngle = -bodyNode.speedToAngle( 0 );
+//            final double maxAngle = -bodyNode.speedToAngle( MAX_SPEEDOMETER_DENSITY );
+//
+//            // reverse the linear transformation to figure out how much density we need to wrap all the way around
+//            final double anglePerUnitDensity = Math.abs( minAngle - maxAngle ) / MAX_SPEEDOMETER_DENSITY;
+//            final double wrapAroundDensityAmount = 2 * Math.PI / anglePerUnitDensity;
+//
+//            int overflowQuantity = (int) Math.floor( density / wrapAroundDensityAmount );
+//
+//            extraHolderNode.removeAllChildren();
+//            for ( int i = 0; i < overflowQuantity; i++ ) {
+//                final int finalI = i;
+//
+//                // "wrapped around" image
+//                extraHolderNode.addChild( new SpeedometerNode( "", 100, new Property<Option<Double>>( new Some<Double>( (double) 0 ) ), MAX_SPEEDOMETER_DENSITY ) {{
+//                    setOffset( 110 + finalI * 50, 0 );
+//                    scale( 0.4 );
+//
+//                    final double centerX = 50;
+//                    final double centerY = 50;
+//
+//                    final double radius = 30;
+//
+//                    double angularGap = 0.8;
+//
+//                    final double angleAtEnd = minAngle + angularGap / 2;
+//
+//                    addChild( new PhetPPath( new Arc2D.Double( centerX - radius, centerY - radius, // center
+//                                                               radius * 2, radius * 2,
+//                                                               Math.toDegrees( angleAtEnd ),
+//                                                               Math.toDegrees( 2 * Math.PI - angularGap ),
+//                                                               Arc2D.OPEN ),
+//                                             null, new BasicStroke( 3 ), Color.RED ) );
+//
+//                    addChild( new PPath() {{
+//                        GeneralPath path = new GeneralPath();
+//                        double pointAngle = angleAtEnd - 0.1;
+//                        double backAngle = angleAtEnd + 0.4;
+//                        path.moveTo( Math.cos( pointAngle ) * radius,
+//                                     -Math.sin( pointAngle ) * radius );
+//
+//                        path.lineTo( Math.cos( backAngle ) * radius * 0.75,
+//                                     -Math.sin( backAngle ) * radius * 0.75 );
+//
+//                        path.lineTo( Math.cos( backAngle ) * radius * 1.25,
+//                                     -Math.sin( backAngle ) * radius * 1.25 );
+//
+//                        setPathTo( path );
+//                        setOffset( centerX, centerY );
+//                        setPaint( Color.RED );
+//                        setStrokePaint( null );
+//                    }} );
+//                }} );
+//            }
+//        }
+
         public void setDensity( double density ) {
-            // reference into the speedometer to change it
-            pointSensor.value.set( new Option.Some<Double>( density ) );
-
-            // calculate using the speedometer what the angles are at 0 and max
-            // speedometer returns angles that are actually the opposite (negative) of what is usually used in the cartesian plane
-            final double minAngle = -bodyNode.speedToAngle( 0 );
-            final double maxAngle = -bodyNode.speedToAngle( MAX_SPEEDOMETER_DENSITY );
-
-            // reverse the linear transformation to figure out how much density we need to wrap all the way around
-            final double anglePerUnitDensity = Math.abs( minAngle - maxAngle ) / MAX_SPEEDOMETER_DENSITY;
-            final double wrapAroundDensityAmount = 2 * Math.PI / anglePerUnitDensity;
-
-            int overflowQuantity = (int) Math.floor( density / wrapAroundDensityAmount );
-
-            extraHolderNode.removeAllChildren();
-            for ( int i = 0; i < overflowQuantity; i++ ) {
-                final int finalI = i;
-
-                // "wrapped around" image
-                extraHolderNode.addChild( new SpeedometerNode( "", 100, new Property<Option<Double>>( new Some<Double>( (double) 0 ) ), MAX_SPEEDOMETER_DENSITY ) {{
-                    setOffset( 110 + finalI * 50, 0 );
-                    scale( 0.4 );
-
-                    final double centerX = 50;
-                    final double centerY = 50;
-
-                    final double radius = 30;
-
-                    double angularGap = 0.8;
-
-                    final double angleAtEnd = minAngle + angularGap / 2;
-
-                    addChild( new PhetPPath( new Arc2D.Double( centerX - radius, centerY - radius, // center
-                                                               radius * 2, radius * 2,
-                                                               Math.toDegrees( angleAtEnd ),
-                                                               Math.toDegrees( 2 * Math.PI - angularGap ),
-                                                               Arc2D.OPEN ),
-                                             null, new BasicStroke( 3 ), Color.RED ) );
-
-                    addChild( new PPath() {{
-                        GeneralPath path = new GeneralPath();
-                        double pointAngle = angleAtEnd - 0.1;
-                        double backAngle = angleAtEnd + 0.4;
-                        path.moveTo( Math.cos( pointAngle ) * radius,
-                                     -Math.sin( pointAngle ) * radius );
-
-                        path.lineTo( Math.cos( backAngle ) * radius * 0.75,
-                                     -Math.sin( backAngle ) * radius * 0.75 );
-
-                        path.lineTo( Math.cos( backAngle ) * radius * 1.25,
-                                     -Math.sin( backAngle ) * radius * 1.25 );
-
-                        setPathTo( path );
-                        setOffset( centerX, centerY );
-                        setPaint( Color.RED );
-                        setStrokePaint( null );
-                    }} );
-                }} );
+            // don't add this into the toolbox version
+            if ( miniGauge.getParent() == null ) {
+                addChild( miniGauge );
             }
+
+            // reference into the speedometer to change it
+            pointSensor.value.set( new Option.Some<Double>( density / 4 ) );
+            miniGaugeDensity.set( new Some<Double>( density * 4 ) );
         }
     }
 }
