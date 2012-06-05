@@ -29,7 +29,7 @@ public class EFACConstants {
 //        private Function.LinearFunction MAPPER_TO_DOUBLE = new Function.LinearFunction( 74500, 80000, 3, 4 ); // Brick has 1 at 0 C, 2 at room temp.  Brick SH = 800
 
         public Integer apply( Double energy ) {
-            return (int) Math.round( MAPPER_TO_DOUBLE.evaluate( energy ) );
+            return Math.max( (int) Math.round( MAPPER_TO_DOUBLE.evaluate( energy ) ), 0 );
         }
     };
 }

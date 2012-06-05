@@ -58,6 +58,9 @@ public class EFACIntroModel {
     private final Thermometer thermometer1;
     private final Thermometer thermometer2;
 
+    // Air.
+    private final Air air;
+
     // List of energy chucks.
     public final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
 
@@ -78,6 +81,9 @@ public class EFACIntroModel {
                 stepInTime( clockEvent.getSimulationTimeChange() );
             }
         } );
+
+        // Add the air.
+        air = new Air( clock, energyChunksVisible );
 
         // Add the burners.
         rightBurner = new Burner( clock, new ImmutableVector2D( 0.18, 0 ), energyChunksVisible );
@@ -395,12 +401,8 @@ public class EFACIntroModel {
         return beaker;
     }
 
-    public Thermometer getThermometer1() {
-        return thermometer1;
-    }
-
-    public Thermometer getThermometer2() {
-        return thermometer2;
+    public Air getAir() {
+        return air;
     }
 
     private Property<HorizontalSurface> findBestSupportSurface( UserMovableModelElement element ) {
