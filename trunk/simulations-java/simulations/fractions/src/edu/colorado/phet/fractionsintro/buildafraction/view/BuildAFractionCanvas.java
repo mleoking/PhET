@@ -38,14 +38,16 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Dra
     private final FractionGraphic emptyFractionGraphic;
     public static final Stroke controlPanelStroke = new BasicStroke( 2 );
 
+    @Data class Pair {
+        public final PNode targetCell;
+        public final PNode patternNode;
+    }
+
     public BuildAFractionCanvas( final BuildAFractionModel model ) {
 
-        @Data class Pair {
-            public final PNode targetCell;
-            public final PNode patternNode;
-        }
+        final PhetPText title = new PhetPText( MY_FRACTIONS, AbstractFractionsCanvas.CONTROL_FONT );
 
-//        ArrayList<PNode> scoreBoxes = new ArrayList<PNode>();
+        //Create the scoring cells with target patterns
         ArrayList<Pair> pairs = new ArrayList<Pair>();
         for ( int i = 0; i < 3; i++ ) {
             final int numerator = i + 1;
@@ -53,7 +55,6 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Dra
             PNode boxNode = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 140, 150, 30, 30 ), controlPanelStroke, Color.darkGray );
             pairs.add( new Pair( new ZeroOffsetNode( boxNode ), new ZeroOffsetNode( patternNode ) ) );
         }
-        final PhetPText title = new PhetPText( MY_FRACTIONS, AbstractFractionsCanvas.CONTROL_FONT );
         List<Pair> p = List.iterableList( pairs );
         List<PNode> patterns = p.map( new F<Pair, PNode>() {
             @Override public PNode f( final Pair pair ) {
@@ -71,6 +72,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Dra
             }
         } ).maximum( Ord.doubleOrd );
 
+        //Layout for the scoring cells and target patterns
         double separation = 5;
         double rightInset = 10;
         final PBounds targetCellBounds = pairs.get( 0 ).getTargetCell().getFullBounds();
