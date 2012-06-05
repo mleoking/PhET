@@ -5,13 +5,13 @@ DEADLINES
 DESIGN
 - point-slope: should blue manipulator be labeled (x1,y1)?
 - move "lines" control panel closer to graph, into space reserved for moving point tools?
-- interactive parts of equation different colors from static parts?
 
 new spinner design:
 - color that ties spinner to manipulator isn't visible until you mouse over
 - should we use images files for buttons?
 
 HIGH
+- decide which controls to use for interactive equations, then delete the ones that aren't used
 - using interactive equation skips over values that would produce slope=0/0, but value in equation isn't updated
 - duplication: SlopeInterceptDragHandler, PointSlopeDragHandler
 - duplication: SlopeInterceptCanvas, PointSlopeCanvas
@@ -31,7 +31,6 @@ MEDIUM
 LOW
 - grid node gets bigger when IntroModel.GRID_MODEL_UNITS gets smaller, size should remain constant
 - review internal duplication in GraphNode
-- delete used interactive equation implementation(s) and associated classes and image files
 
 SIM-SHARING
 
