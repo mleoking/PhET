@@ -43,7 +43,7 @@ public class ForcesAndMotionBasicsModel {
                     }
                 }
                 else if ( mode == MyMode.mode3 ) {
-                    double displacement = 1.5 * Math.atan( blockVelocity.get() );
+                    double displacement = 1.5 * Math.atan( blockVelocity.get() * clockEvent.getSimulationTimeChange() * 2 );
                     cameraPosition.set( blockPosition.get() - displacement );
                 }
                 else if ( mode == MyMode.mode4 ) {
@@ -52,5 +52,14 @@ public class ForcesAndMotionBasicsModel {
                 }
             }
         } );
+    }
+
+    public void resetAll() {
+        blockPosition.reset();
+        blockVelocity.reset();
+        cameraPosition.reset();
+        cameraVelocity.reset();
+        leftPressed.reset();
+        rightPressed.reset();
     }
 }
