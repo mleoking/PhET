@@ -198,12 +198,19 @@ public class EFACIntroModel {
         leftBurner.updateHeatCoolLimits( ironBlock, brick, beaker );
         rightBurner.updateHeatCoolLimits( ironBlock, brick, beaker );
 
-        // Loop through all the energy containers and have them exchange energy
-        // with one another.
+        // Loop through all the energy containers (except for air) and have
+        // them exchange energy with one another.
         for ( ThermalEnergyContainer ec1 : energyContainerList ) {
             for ( ThermalEnergyContainer ec2 : energyContainerList.subList( energyContainerList.indexOf( ec1 ) + 1, energyContainerList.size() ) ) {
                 ec1.exchangeEnergyWith( ec2, dt );
             }
+        }
+
+        // Have the air exchange energy with the other energy containers.
+        // This needs to be done after the other containers have exchanged with
+        // each other.
+        for ( ThermalEnergyContainer ec : energyContainerList ) {
+            air.exchangeEnergyWith( ec, dt );
         }
     }
 
