@@ -1,3 +1,4 @@
+6/5/12 use neutral blue for background of graph controls
 6/5/12 subscripts on x1 and y1
 6/5/12 add whitespace to formatting of point-slope equation in title bar of equation control panel
 6/5/12 use low-sautration magenta for x1,y1 point color
