@@ -56,4 +56,8 @@ public class ScoreBoxNode extends PNode {
         this.fraction = new Fraction( numerator, denominator );
         addChild( this.path );
     }
+
+    public void completed() {
+        path.setStrokePaint( Color.darkGray );
+    }
 }
