@@ -38,7 +38,7 @@ import static edu.colorado.phet.fractions.FractionsResources.Strings.MY_FRACTION
  * @author Sam Reid
  */
 public class NumberSceneNode extends PNode implements DragContext {
-    private final FractionGraphic fractionGraphic;
+    private final ArrayList<FractionGraphic> fractionGraphics = new ArrayList<FractionGraphic>();
     private final PNode rootNode;
     private final BuildAFractionModel model;
     private final List<Pair> pairList;
@@ -106,10 +106,9 @@ public class NumberSceneNode extends PNode implements DragContext {
         }};
         addChild( toolboxNode );
 
-        fractionGraphic = new FractionGraphic() {{
-            setOffset( 300, 300 );
-        }};
+        final FractionGraphic fractionGraphic = createDefaultFractionGraphic();
         addChild( fractionGraphic );
+        fractionGraphics.add( fractionGraphic );
 
         int numCopies = 1;
         for ( int i = 0; i < 10; i++ ) {
@@ -119,21 +118,30 @@ public class NumberSceneNode extends PNode implements DragContext {
                 addChild( numberNode );
             }
         }
+    }
 
+    private FractionGraphic createDefaultFractionGraphic() {
+        return new FractionGraphic() {{
+            setOffset( 300, 300 );
+        }};
     }
 
     public void endDrag( final NumberNode numberNode, final PInputEvent event ) {
-        final PhetPPath topBox = fractionGraphic.topBox;
-        final PhetPPath bottomBox = fractionGraphic.bottomBox;
-        if ( numberNode.getGlobalFullBounds().intersects( topBox.getGlobalFullBounds() ) && topBox.getVisible() ) {
-            numberDroppedOnFraction( numberNode, topBox );
-        }
-        else if ( numberNode.getGlobalFullBounds().intersects( bottomBox.getGlobalFullBounds() ) && bottomBox.getVisible() ) {
-            numberDroppedOnFraction( numberNode, bottomBox );
+        for ( FractionGraphic fractionGraphic : fractionGraphics ) {
+            final PhetPPath topBox = fractionGraphic.topBox;
+            final PhetPPath bottomBox = fractionGraphic.bottomBox;
+            if ( numberNode.getGlobalFullBounds().intersects( topBox.getGlobalFullBounds() ) && topBox.getVisible() ) {
+                numberDroppedOnFraction( fractionGraphic, numberNode, topBox );
+                break;
+            }
+            if ( numberNode.getGlobalFullBounds().intersects( bottomBox.getGlobalFullBounds() ) && bottomBox.getVisible() ) {
+                numberDroppedOnFraction( fractionGraphic, numberNode, bottomBox );
+                break;
+            }
         }
     }
 
-    private void numberDroppedOnFraction( final NumberNode numberNode, final PhetPPath box ) {
+    private void numberDroppedOnFraction( final FractionGraphic fractionGraphic, final NumberNode numberNode, final PhetPPath box ) {
         centerOnBox( numberNode, box );
         box.setVisible( false );
         numberNode.setPickable( false );
@@ -169,7 +177,6 @@ public class NumberSceneNode extends PNode implements DragContext {
                     for ( ScoreBoxNode scoreCell : scoreCells ) {
                         if ( path.getFullBounds().intersects( scoreCell.getFullBounds() ) && scoreCell.fraction.approxEquals( fractionGraphic.getValue() ) ) {
                             //Lock in target cell
-                            System.out.println( "scoreCell = " + scoreCell );
                             Point2D center = path.getFullBounds().getCenter2D();
                             Point2D targetCenter = scoreCell.getFullBounds().getCenter2D();
                             Vector2D delta = new Vector2D( targetCenter, center );
@@ -179,6 +186,14 @@ public class NumberSceneNode extends PNode implements DragContext {
                             fractionGraphic.splitButton.setVisible( false );
                             removeChild( path );
                             fractionGraphic.setAllPickable( false );
+
+                            scoreCell.completed();
+
+                            //Add a new fraction skeleton when the previous one is completed
+                            //TODO: if all filled up, then add a "next" button instead
+                            final FractionGraphic fractionGraphic = createDefaultFractionGraphic();
+                            addChild( fractionGraphic );
+                            fractionGraphics.add( fractionGraphic );
                         }
                     }
                 }
