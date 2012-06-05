@@ -63,7 +63,7 @@ class PointSlopeEquationControls extends PhetPNode {
                 return super.getParameterSet().with( ParameterKeys.maximized, !maximized.get() );
             }
         };
-        final PNode equationNode = new ZeroOffsetNode(new PointSlopeEquationNodeSpinners( interactiveLine, riseRange, runRange, x1Range, y1Range, LGConstants.INTERACTIVE_EQUATION_FONT ) );
+        final PNode equationNode = new ZeroOffsetNode( new PointSlopeEquationNodeSpinners( interactiveLine, riseRange, runRange, x1Range, y1Range ) );
         final TextButtonNode saveLineButton = new TextButtonNode( Strings.SAVE_LINE, LGConstants.CONTROL_FONT, LGColors.SAVE_LINE_BUTTON ) {{
             setUserComponent( UserComponents.saveLineButton );
         }};

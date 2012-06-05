@@ -62,7 +62,7 @@ class SlopeInterceptEquationControls extends PhetPNode {
             }
         };
         final PNode equationNode = new ZeroOffsetNode( USE_SPINNERS ?
-                                                       new SlopeInterceptEquationNodeSpinners( interactiveLine, riseRange, runRange, interceptRange, LGConstants.INTERACTIVE_EQUATION_FONT ) :
+                                                       new SlopeInterceptEquationNodeSpinners( interactiveLine, riseRange, runRange, interceptRange ) :
                                                        new SlopeInterceptEquationNodePickers( interactiveLine, riseRange, runRange, interceptRange, LGConstants.INTERACTIVE_EQUATION_FONT ) );
         final TextButtonNode saveLineButton = new TextButtonNode( Strings.SAVE_LINE, LGConstants.CONTROL_FONT, LGColors.SAVE_LINE_BUTTON ) {{
             setUserComponent( UserComponents.saveLineButton );
