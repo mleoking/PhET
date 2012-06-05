@@ -11,6 +11,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionState;
+import edu.colorado.phet.fractionsintro.buildafraction.model.TargetCell;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
 
@@ -24,8 +25,9 @@ import static java.awt.BasicStroke.CAP_ROUND;
  */
 public class ScoreBoxNode extends HBox {
     public final Fraction fraction;
+    public final TargetCell targetCell;
 
-    public ScoreBoxNode( final int numerator, final int denominator, final PNode representationBox, final BuildAFractionModel model ) {
+    public ScoreBoxNode( final int numerator, final int denominator, final PNode representationBox, final BuildAFractionModel model, TargetCell targetCell ) {
         super( new PhetPPath( new RoundRectangle2D.Double( 0, 0, 140, 150, 30, 30 ), controlPanelStroke, Color.darkGray ) {{
 
             //Light up if the user matched
@@ -52,6 +54,7 @@ public class ScoreBoxNode extends HBox {
                 }
             } );
         }}, representationBox );
+        this.targetCell = targetCell;
         this.fraction = new Fraction( numerator, denominator );
     }
 }

@@ -33,6 +33,9 @@ public @Data class BuildAFractionState {
 
     public final double time;//Consider making this extrinsic
 
+    //Target cells where the filled-in fractions can be deposited
+    public final List<TargetCell> targetCells;
+
     public static final ModelUpdate RELEASE_ALL = new ModelUpdate() {
         public BuildAFractionState update( final BuildAFractionState state ) {
             return state.releaseAll();
@@ -48,19 +51,21 @@ public @Data class BuildAFractionState {
         };
     }
 
-    public BuildAFractionState withContainers( List<Container> containers ) { return new BuildAFractionState( containers, pieces, draggableNumbers, draggableFractions, mode, time ); }
+    public BuildAFractionState withContainers( List<Container> containers ) { return new BuildAFractionState( containers, pieces, draggableNumbers, draggableFractions, mode, time, targetCells ); }
 
-    public BuildAFractionState withDraggableNumbers( List<DraggableNumber> numbers ) { return new BuildAFractionState( containers, pieces, numbers, draggableFractions, mode, time );}
+    public BuildAFractionState withDraggableNumbers( List<DraggableNumber> numbers ) { return new BuildAFractionState( containers, pieces, numbers, draggableFractions, mode, time, targetCells );}
 
-    public BuildAFractionState withDraggableFractions( List<DraggableFraction> draggableFractions ) { return new BuildAFractionState( containers, pieces, draggableNumbers, draggableFractions, mode, time );}
+    public BuildAFractionState withDraggableFractions( List<DraggableFraction> draggableFractions ) { return new BuildAFractionState( containers, pieces, draggableNumbers, draggableFractions, mode, time, targetCells );}
 
-    public BuildAFractionState withMode( final Mode mode ) { return new BuildAFractionState( containers, pieces, draggableNumbers, draggableFractions, mode, time ); }
+    public BuildAFractionState withMode( final Mode mode ) { return new BuildAFractionState( containers, pieces, draggableNumbers, draggableFractions, mode, time, targetCells ); }
 
-    public BuildAFractionState withTime( final double time ) { return new BuildAFractionState( containers, pieces, draggableNumbers, draggableFractions, mode, time ); }
+    public BuildAFractionState withTime( final double time ) { return new BuildAFractionState( containers, pieces, draggableNumbers, draggableFractions, mode, time, targetCells ); }
 
     public BuildAFractionState addEmptyContainer( final int numSegments, final Vector2D location ) { return addContainer( new Container( ContainerID.nextID(), new DraggableObject( location, true ), numSegments ) ); }
 
     public BuildAFractionState addContainer( Container container ) { return withContainers( containers.cons( container ) ); }
+
+    public BuildAFractionState withTargetCells( final List<TargetCell> targetCells ) { return new BuildAFractionState( containers, pieces, draggableNumbers, draggableFractions, mode, time, targetCells ); }
 
     public BuildAFractionState dragContainers( final Vector2D delta ) {
         return withContainers( containers.map( new F<Container, Container>() {
@@ -235,5 +240,14 @@ public @Data class BuildAFractionState {
         DraggableFraction fraction = getDraggableFraction( id ).some();
         return new Fraction( getDraggableNumber( fraction.numerator.some()._1() ).some().number,
                              getDraggableNumber( fraction.denominator.some()._1() ).some().number );
+    }
+
+    public BuildAFractionState moveFractionToTargetCell( final FractionID id, final Vector2D position, final TargetCell targetCell ) {
+        return dragFraction( id, position.minus( getDraggableFraction( id ).some().draggableObject.position ) ).
+                withTargetCells( targetCells.map( new F<TargetCell, TargetCell>() {
+                    @Override public TargetCell f( final TargetCell t ) {
+                        return targetCell == t ? t.withFraction( id ) : t;
+                    }
+                } ) ).withDraggableFractions( List.single( DraggableFraction.createDefault() ) );
     }
 }
