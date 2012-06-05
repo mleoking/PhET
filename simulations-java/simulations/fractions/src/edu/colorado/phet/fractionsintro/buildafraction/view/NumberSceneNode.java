@@ -36,7 +36,7 @@ import static edu.colorado.phet.fractions.FractionsResources.Strings.MY_FRACTION
  * @author Sam Reid
  */
 public class NumberSceneNode extends PNode implements DragContext {
-    private final FractionGraphic emptyFractionGraphic;
+    private final FractionGraphic fractionGraphic;
     private final PNode rootNode;
     private final BuildAFractionModel model;
     private final List<Pair> pairList;
@@ -104,10 +104,10 @@ public class NumberSceneNode extends PNode implements DragContext {
         }};
         addChild( toolboxNode );
 
-        emptyFractionGraphic = new FractionGraphic() {{
+        fractionGraphic = new FractionGraphic() {{
             setOffset( 300, 300 );
         }};
-        addChild( emptyFractionGraphic );
+        addChild( fractionGraphic );
 
         int numCopies = 1;
         for ( int i = 0; i < 10; i++ ) {
@@ -121,8 +121,8 @@ public class NumberSceneNode extends PNode implements DragContext {
     }
 
     public void endDrag( final NumberNode numberNode, final PInputEvent event ) {
-        final PhetPPath topBox = emptyFractionGraphic.topBox;
-        final PhetPPath bottomBox = emptyFractionGraphic.bottomBox;
+        final PhetPPath topBox = fractionGraphic.topBox;
+        final PhetPPath bottomBox = fractionGraphic.bottomBox;
         if ( numberNode.getGlobalFullBounds().intersects( topBox.getGlobalFullBounds() ) && topBox.getVisible() ) {
             numberDroppedOnFraction( numberNode, topBox );
         }
@@ -136,14 +136,14 @@ public class NumberSceneNode extends PNode implements DragContext {
         box.setVisible( false );
         numberNode.setPickable( false );
         numberNode.setChildrenPickable( false );
-        emptyFractionGraphic.splitButton.setVisible( true );
-        emptyFractionGraphic.setTarget( box, numberNode );
-        if ( emptyFractionGraphic.isComplete() ) {
-            model.addCreatedValue( emptyFractionGraphic.getValue() );
+        fractionGraphic.splitButton.setVisible( true );
+        fractionGraphic.setTarget( box, numberNode );
+        if ( fractionGraphic.isComplete() ) {
+            model.addCreatedValue( fractionGraphic.getValue() );
             //create an invisible overlay that allows dragging all parts together
-            PBounds topBounds = emptyFractionGraphic.getTopNumber().getFullBounds();
-            PBounds bottomBounds = emptyFractionGraphic.getBottomNumber().getFullBounds();
-            Rectangle2D divisorBounds = emptyFractionGraphic.localToParent( emptyFractionGraphic.divisorLine.getFullBounds() );
+            PBounds topBounds = fractionGraphic.getTopNumber().getFullBounds();
+            PBounds bottomBounds = fractionGraphic.getBottomNumber().getFullBounds();
+            Rectangle2D divisorBounds = fractionGraphic.localToParent( fractionGraphic.divisorLine.getFullBounds() );
             Rectangle2D union = topBounds.createUnion( bottomBounds ).createUnion( divisorBounds );
             final PhetPPath path = new PhetPPath( RectangleUtils.expand( union, 2, 2 ), BuildAFractionCanvas.TRANSPARENT, new BasicStroke( 1 ), Color.yellow );
             path.addInputEventListener( new CursorHandler() );
@@ -151,7 +151,7 @@ public class NumberSceneNode extends PNode implements DragContext {
                 @Override protected void drag( final PInputEvent event ) {
                     super.drag( event );
                     final PDimension delta = event.getDeltaRelativeTo( rootNode );
-                    emptyFractionGraphic.translateAll( delta );
+                    fractionGraphic.translateAll( delta );
                     path.translate( delta.getWidth(), delta.getHeight() );
                 }
 
@@ -165,18 +165,18 @@ public class NumberSceneNode extends PNode implements DragContext {
                         }
                     } );
                     for ( ScoreBoxNode scoreCell : scoreCells ) {
-                        if ( path.getFullBounds().intersects( scoreCell.getFullBounds() ) && scoreCell.fraction.approxEquals( emptyFractionGraphic.getValue() ) ) {
+                        if ( path.getFullBounds().intersects( scoreCell.getFullBounds() ) && scoreCell.fraction.approxEquals( fractionGraphic.getValue() ) ) {
                             //Lock in target cell
                             System.out.println( "scoreCell = " + scoreCell );
                             Point2D center = path.getFullBounds().getCenter2D();
                             Point2D targetCenter = scoreCell.getFullBounds().getCenter2D();
                             Vector2D delta = new Vector2D( targetCenter, center );
-                            emptyFractionGraphic.translateAll( delta.toDimension() );
+                            fractionGraphic.translateAll( delta.toDimension() );
                             path.translate( delta.x, delta.y );
 
-                            emptyFractionGraphic.splitButton.setVisible( false );
+                            fractionGraphic.splitButton.setVisible( false );
                             removeChild( path );
-                            emptyFractionGraphic.setAllPickable( false );
+                            fractionGraphic.setAllPickable( false );
                         }
                     }
                 }

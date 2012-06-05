@@ -82,9 +82,9 @@ public class FractionGraphic extends PNode {
     }
 
     public void setAllPickable( final boolean b ) {
-        setPickable( false );
-        setChildrenPickable( false );
-        if ( topTarget != null ) { topTarget.setAllPickable( false );}
-        if ( bottomTarget != null ) { bottomTarget.setAllPickable( false );}
+        setPickable( b );
+        setChildrenPickable( b );
+        if ( topTarget != null ) { topTarget.setAllPickable( b );}
+        if ( bottomTarget != null ) { bottomTarget.setAllPickable( b );}
     }
 }
