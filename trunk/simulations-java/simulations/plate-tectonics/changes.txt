@@ -1,3 +1,4 @@
+# 0.00.39 (64652) Jun 4, 2012
 Added density "roll-over" style with miniature density meters
 Fixed mantle and core density scale to realistic values (was just a constant for mantle density)
 Moved ruler units label to work around layout issue
