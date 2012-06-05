@@ -105,4 +105,12 @@ public interface ThermalEnergyContainer {
      * @return
      */
     ObservableList<EnergyChunk> getEnergyChunkList();
+
+    /**
+     * Types of thermal energy containers, primarily used for determining the
+     * rate at which heat is transferred between different items.
+     */
+    enum EnergyContainerCategory {
+        OBJECT, WATER, AIR
+    }
 }
