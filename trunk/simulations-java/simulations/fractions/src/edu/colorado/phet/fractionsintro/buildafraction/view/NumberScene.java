@@ -1,5 +1,6 @@
 package edu.colorado.phet.fractionsintro.buildafraction.view;
 
+import fj.Equal;
 import fj.F;
 import fj.data.List;
 import fj.data.Option;
@@ -13,6 +14,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
@@ -111,6 +113,25 @@ public class NumberScene extends PNode {
         model.update( new ModelUpdate() {
             public BuildAFractionState update( final BuildAFractionState state ) {
                 return state.addDraggableFraction( draggableFraction );
+            }
+        } );
+
+        //instead of these passive observers, register for a callback on the FractionID added method on the model
+        model.addObserver( new ChangeObserver<BuildAFractionState>() {
+            public void update( final BuildAFractionState newValue, final BuildAFractionState oldValue ) {
+                //find what added
+                final F<DraggableFraction, FractionID> getID = new F<DraggableFraction, FractionID>() {
+                    @Override public FractionID f( final DraggableFraction draggableFraction ) {
+                        return draggableFraction.id;
+                    }
+                };
+                List<FractionID> orig = oldValue.draggableFractions.map( getID );
+                List<FractionID> next = newValue.draggableFractions.map( getID );
+                List<FractionID> added = next.minus( Equal.<FractionID>anyEqual(), orig );
+                System.out.println( "added = " + added );
+                for ( FractionID id : added ) {
+                    fractionLayer.addChild( new DraggableFractionNode( id, model, canvas ) );
+                }
             }
         } );
 
