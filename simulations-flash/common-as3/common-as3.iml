@@ -7,11 +7,16 @@
     <option name="TARGET_PLAYER_VERSION" value="9.0.124" />
     <option name="VERSION" value="3" />
   </component>
-  <component name="FlexBuildConfigurationManager" active="Unnamed">
+  <component name="FlexBuildConfigurationManager" active="common-as3">
     <configurations>
-      <configuration skip-build="true">
+      <configuration name="common-as3" output-type="Library" output-file=".swc" output-folder="$MODULE_DIR$/../../../out/common-as3">
         <dependencies target-player="9">
-          <sdk name="flex_sdk_3.4.1.10084" />
+          <entries>
+            <entry module-name="aswing-a3" build-configuration-name="aswing-a3">
+              <dependency linkage="Include" />
+            </entry>
+          </entries>
+          <sdk name="flex_sdk_3.4.1.10084A" />
         </dependencies>
         <compiler-options />
         <packaging-air-desktop />
@@ -26,9 +31,9 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="flex_sdk_3.4.1.10084A" jdkType="Flex SDK Type (new)" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="aswing-a3" />
+    <orderEntry type="module" module-name="aswing-a3" exported="" />
   </component>
 </module>
 
