@@ -58,22 +58,22 @@ public class SpinnerNode2 extends PNode {
 
     private static final PDimension BUTTON_SIZE = new PDimension( 20, 4 );
 
-    private static final Color DISABLED_COLOR = new Color( 190, 190, 190 );
+    private static final Color BUTTON_DISABLED_COLOR = new Color( 190, 190, 190 );
 
     private static final Color SLOPE_INACTIVE = LGColors.SLOPE.darker();
     private static final Color SLOPE_HIGHLIGHTED = LGColors.SLOPE;
     private static final Color SLOPE_PRESSED = LGColors.SLOPE.darker();
-    private static final Color SLOPE_DISABLED = DISABLED_COLOR;
+    private static final Color SLOPE_DISABLED = BUTTON_DISABLED_COLOR;
 
     private static final Color INTERCEPT_INACTIVE = LGColors.INTERCEPT.darker();
     private static final Color INTERCEPT_HIGHLIGHTED = LGColors.INTERCEPT;
     private static final Color INTERCEPT_PRESSED = LGColors.INTERCEPT.darker();
-    private static final Color INTERCEPT_DISABLED = DISABLED_COLOR;
+    private static final Color INTERCEPT_DISABLED = BUTTON_DISABLED_COLOR;
 
     private static final Color POINT_INACTIVE = LGColors.POINT_X1_Y1.darker();
     private static final Color POINT_HIGHLIGHTED = LGColors.POINT_X1_Y1;
     private static final Color POINT_PRESSED = LGColors.POINT_X1_Y1.darker();
-    private static final Color POINT_DISABLED = DISABLED_COLOR;
+    private static final Color POINT_DISABLED = BUTTON_DISABLED_COLOR;
 
     private static final Color BACKGROUND_INACTIVE = new Color( 245, 245, 245 );
 
