@@ -1,3 +1,4 @@
+Drag fraction after assembly
 Animate stroke on score box when a match is made
 Center "my fractions" text above the target boxes
 Only collect a fraction if the value is correct
