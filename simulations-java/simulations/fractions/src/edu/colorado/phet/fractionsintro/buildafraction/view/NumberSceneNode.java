@@ -14,6 +14,7 @@ import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern;
@@ -30,15 +31,16 @@ import static edu.colorado.phet.fractions.FractionsResources.Strings.MY_FRACTION
 public class NumberSceneNode extends PNode implements DragContext {
     private final FractionGraphic emptyFractionGraphic;
     private final PNode rootNode;
-
+    private final BuildAFractionModel model;
 
     @Data class Pair {
         public final PNode targetCell;
         public final PNode patternNode;
     }
 
-    public NumberSceneNode( PNode rootNode ) {
+    public NumberSceneNode( final PNode rootNode, final BuildAFractionModel model ) {
         this.rootNode = rootNode;
+        this.model = model;
         final PhetPText title = new PhetPText( MY_FRACTIONS, AbstractFractionsCanvas.CONTROL_FONT );
 
         //Create the scoring cells with target patterns
@@ -46,7 +48,7 @@ public class NumberSceneNode extends PNode implements DragContext {
         for ( int i = 0; i < 3; i++ ) {
             final int numerator = i + 1;
             final PatternNode patternNode = new PatternNode( FilledPattern.sequentialFill( Pattern.sixFlower( 18 ), numerator ), Color.red );
-            PNode boxNode = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 140, 150, 30, 30 ), BuildAFractionCanvas.controlPanelStroke, Color.darkGray );
+            PNode boxNode = new ScoreBoxNode( numerator, 6, model.createdFractions );
             pairs.add( new Pair( new ZeroOffsetNode( boxNode ), new ZeroOffsetNode( patternNode ) ) );
         }
         List<Pair> p = List.iterableList( pairs );
@@ -112,19 +114,25 @@ public class NumberSceneNode extends PNode implements DragContext {
     }
 
     public void endDrag( final NumberNode numberNode, final PInputEvent event ) {
-        if ( numberNode.getGlobalFullBounds().intersects( emptyFractionGraphic.topBox.getGlobalFullBounds() ) && emptyFractionGraphic.topBox.getVisible() ) {
-            centerOnBox( numberNode, emptyFractionGraphic.topBox );
-            emptyFractionGraphic.topBox.setVisible( false );
-            numberNode.setPickable( false );
-            numberNode.setChildrenPickable( false );
-            emptyFractionGraphic.splitButton.setVisible( true );
+        final PhetPPath topBox = emptyFractionGraphic.topBox;
+        final PhetPPath bottomBox = emptyFractionGraphic.bottomBox;
+        if ( numberNode.getGlobalFullBounds().intersects( topBox.getGlobalFullBounds() ) && topBox.getVisible() ) {
+            droppedInto( numberNode, topBox );
         }
-        else if ( numberNode.getGlobalFullBounds().intersects( emptyFractionGraphic.bottomBox.getGlobalFullBounds() ) && emptyFractionGraphic.bottomBox.getVisible() ) {
-            centerOnBox( numberNode, emptyFractionGraphic.bottomBox );
-            emptyFractionGraphic.bottomBox.setVisible( false );
-            numberNode.setPickable( false );
-            numberNode.setChildrenPickable( false );
-            emptyFractionGraphic.splitButton.setVisible( true );
+        else if ( numberNode.getGlobalFullBounds().intersects( bottomBox.getGlobalFullBounds() ) && bottomBox.getVisible() ) {
+            droppedInto( numberNode, bottomBox );
+        }
+    }
+
+    private void droppedInto( final NumberNode numberNode, final PhetPPath box ) {
+        centerOnBox( numberNode, box );
+        box.setVisible( false );
+        numberNode.setPickable( false );
+        numberNode.setChildrenPickable( false );
+        emptyFractionGraphic.splitButton.setVisible( true );
+        emptyFractionGraphic.setTarget( box, numberNode );
+        if ( emptyFractionGraphic.isComplete() ) {
+            model.addCreatedValue( emptyFractionGraphic.getValue() );
         }
     }
 
