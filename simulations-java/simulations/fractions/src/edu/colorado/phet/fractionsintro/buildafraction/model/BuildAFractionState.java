@@ -243,11 +243,12 @@ public @Data class BuildAFractionState {
     }
 
     public BuildAFractionState moveFractionToTargetCell( final FractionID id, final Vector2D position, final TargetCell targetCell ) {
-        return dragFraction( id, position.minus( getDraggableFraction( id ).some().draggableObject.position ) ).
-                withTargetCells( targetCells.map( new F<TargetCell, TargetCell>() {
-                    @Override public TargetCell f( final TargetCell t ) {
-                        return targetCell == t ? t.withFraction( id ) : t;
-                    }
-                } ) ).withDraggableFractions( draggableFractions.cons( DraggableFraction.createDefault() ) );
+        return withTargetCells( targetCells.map( new F<TargetCell, TargetCell>() {
+            @Override public TargetCell f( final TargetCell t ) {
+                return targetCell == t ? t.withFraction( id ) : t;
+            }
+        } ) ).
+                withDraggableFractions( draggableFractions.snoc( DraggableFraction.createDefault() ) ).
+                dragFraction( id, position.minus( getDraggableFraction( id ).some().draggableObject.position ) );
     }
 }

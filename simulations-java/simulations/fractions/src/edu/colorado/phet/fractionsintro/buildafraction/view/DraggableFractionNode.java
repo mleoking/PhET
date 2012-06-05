@@ -41,6 +41,7 @@ public class DraggableFractionNode extends PNode {
                 }
             }
         } );
+        redraw( model.state.get().getDraggableFraction( id ), model, canvas, observer );
     }
 
 
@@ -83,10 +84,12 @@ public class DraggableFractionNode extends PNode {
             }} );
         }
         else {
-            //If removed from model, remove this view class
-            //TODO: this is a problem because this gets called before numbers get removed, and they still want a reference to it.
-            getParent().removeChild( DraggableFractionNode.this );
-            model.removeObserver( draggableFractionObserver );
+            if ( getParent() != null && getParent().getChildrenReference().contains( this ) ) {
+                //If removed from model, remove this view class
+                //TODO: this is a problem because this gets called before numbers get removed, and they still want a reference to it.
+                getParent().removeChild( DraggableFractionNode.this );
+                model.removeObserver( draggableFractionObserver );
+            }
         }
     }
 
