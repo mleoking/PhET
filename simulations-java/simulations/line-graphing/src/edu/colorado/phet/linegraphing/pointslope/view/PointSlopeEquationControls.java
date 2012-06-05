@@ -40,7 +40,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 class PointSlopeEquationControls extends PhetPNode {
 
-    private static String TITLE = MessageFormat.format( "({0}-{1}) = {2}({3}-{4})", // (y-y1)=m(x-x1),
+    private static String TITLE = MessageFormat.format( "({0} - {1}) = {2}({3} - {4})", // (y-y1)=m(x-x1),
                                                            Strings.SYMBOL_Y,
                                                            Strings.SYMBOL_Y1,
                                                            Strings.SYMBOL_SLOPE,

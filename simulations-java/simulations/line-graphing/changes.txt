@@ -1,3 +1,4 @@
+6/5/12 add whitespace to formatting of point-slope equation in title bar of equation control panel
 6/5/12 use low-sautration magenta for x1,y1 point color
 6/5/12 make spinner arrows slight wider (20->26)
 6/5/12 use plain font style for static elements of interactive equations
