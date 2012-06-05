@@ -84,6 +84,7 @@ public class DraggableFractionNode extends PNode {
         }
         else {
             //If removed from model, remove this view class
+            //TODO: this is a problem because this gets called before numbers get removed, and they still want a reference to it.
             getParent().removeChild( DraggableFractionNode.this );
             model.removeObserver( draggableFractionObserver );
         }

@@ -15,7 +15,7 @@ public abstract class DraggableFractionObserver implements ChangeObserver<BuildA
 
     public DraggableFractionObserver( final FractionID id ) {this.id = id;}
 
-    @Override public void update( final BuildAFractionState newValue, final BuildAFractionState oldValue ) {
+    public void update( final BuildAFractionState newValue, final BuildAFractionState oldValue ) {
         final Option<DraggableFraction> old = oldValue.getDraggableFraction( id );
         final Option<DraggableFraction> newOne = newValue.getDraggableFraction( id );
         boolean equal = Equal.optionEqual( Equal.<DraggableFraction>anyEqual() ).eq( newOne, old );
