@@ -255,6 +255,10 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
         return energyChunkList;
     }
 
+    public EnergyContainerCategory getEnergyContainerCategory() {
+        return EnergyContainerCategory.SOLID;
+    }
+
     private void stepInTime( double dt ) {
         updateInternallyProducedEnergy( dt );
         for ( EnergyChunk energyChunk : new ArrayList<EnergyChunk>( energyChunkList ) ) {

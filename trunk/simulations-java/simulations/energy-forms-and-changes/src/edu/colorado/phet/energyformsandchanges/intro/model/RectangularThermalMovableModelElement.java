@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 
 import static edu.colorado.phet.energyformsandchanges.common.EFACConstants.ENERGY_TO_NUM_CHUNKS_MAPPER;
+import static edu.colorado.phet.energyformsandchanges.intro.model.ThermalEnergyTransferConstants.getHeatTransferFactor;
 
 /**
  * A movable model element that contains thermal energy and that, at least in
@@ -141,8 +142,8 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
         if ( thermalContactLength > 0 ) {
             if ( Math.abs( otherEnergyContainer.getTemperature() - getTemperature() ) > TEMPERATURES_EQUAL_THRESHOLD ) {
                 // Exchange energy between the this and the other energy container.
-                // TODO: The following is a first attempt and likely to need much adjustment.  Transfer constant was empirically chosen
-                double thermalEnergyGained = ( otherEnergyContainer.getTemperature() - getTemperature() ) * thermalContactLength * 1000 * dt;
+                double heatTransferConstant = getHeatTransferFactor( this.getEnergyContainerCategory(), otherEnergyContainer.getEnergyContainerCategory() );
+                double thermalEnergyGained = ( otherEnergyContainer.getTemperature() - getTemperature() ) * thermalContactLength * heatTransferConstant * dt;
                 changeEnergy( thermalEnergyGained );
                 otherEnergyContainer.changeEnergy( -thermalEnergyGained );
             }

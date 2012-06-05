@@ -107,10 +107,18 @@ public interface ThermalEnergyContainer {
     ObservableList<EnergyChunk> getEnergyChunkList();
 
     /**
+     * Get the category or type of container.  See the definition of the return
+     * type for a greater understanding of what this means.
+     *
+     * @return
+     */
+    EnergyContainerCategory getEnergyContainerCategory();
+
+    /**
      * Types of thermal energy containers, primarily used for determining the
      * rate at which heat is transferred between different items.
      */
     enum EnergyContainerCategory {
-        OBJECT, WATER, AIR
+        SOLID, WATER, AIR
     }
 }
