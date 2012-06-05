@@ -1,5 +1,12 @@
 While functional programming worked well for the other tabs in Fractions Introduction, it is proving more problematic for the "build a fraction" tab for the following reasons:
 1. Graph-like structures (instead of tree-like) have led to creating a family of EntityID classes, which seems like a bad tradeoff
 2. Creating/moving/changing lots of different data types is leading to tricky handling with piccolo code, in particular, when an object looks similar but behaves differently, should a different PNode be created?
+3. It wasn't clear how to efficiently convert model changes into view observer events--my current implementation observes for state changes and checks to see what changed--a more efficient and straightforward implementation
+may be to just fire those on the change methods themselves.
 
-So I am going to try a more imperative approach for this model and see if it goes more smoothly.  I think functional programming should be reconsidered (a) for treelike models (b) if/when we get a scene graph that works better with a functional model (c) if/when we need more powerful simsharing or sim-event-data-collection (d) if/when we want to be able to record a test suite of function invocations for regression testing.
+So I am going to try a more imperative approach for this model and see if it goes more smoothly.  I think functional programming should be reconsidered
+(a) for treelike models
+(b) if/when we get a scene graph that works better with a functional model
+(c) if/when we need more powerful simsharing or sim-event-data-collection
+(d) if/when we want to be able to record a test suite of function invocations for regression testing
+(e) if/when we start using languages or libraries that are more supportive of functional programming (e.g. scala or lombok-pg)
