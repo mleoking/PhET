@@ -30,7 +30,7 @@ public class Air implements ThermalEnergyContainer {
     // 2D size of the air.  It is sized such that it will extend off the left,
     // right, and top edges of screen for the most common aspect ratios of the
     // view.
-    private static final Dimension2D SIZE = new PDimension( 0.20, 0.20 );
+    private static final Dimension2D SIZE = new PDimension( 0.45, 0.25 );
 
     // The thickness of the slice of air being modeled.  This is basically the
     // z dimension, and is used solely for volume calculations.
@@ -38,7 +38,8 @@ public class Air implements ThermalEnergyContainer {
 
     // Constants that define the heat carrying capacity of the air.
     private static final double SPECIFIC_HEAT = 1012; // In J/kg-K, source = design document.
-    private static final double DENSITY = 1; // In kg/m^3, source = design document (and common knowledge).
+    //    private static final double DENSITY = 1; // In kg/m^3, source = design document (and common knowledge).
+    private static final double DENSITY = 10; // In kg/m^3, TODO tweaked version of this constant for experimenting.
 
     // Derived constants.
     private static final double VOLUME = SIZE.getWidth() * SIZE.getHeight() * DEPTH;
@@ -94,7 +95,7 @@ public class Air implements ThermalEnergyContainer {
         energyChunkList.clear();
         int targetNumChunks = ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy );
         Rectangle2D energyChunkBounds = getThermalContactArea().getBounds();
-        while ( targetNumChunks != getEnergyChunkList().size() ) {
+        while ( targetNumChunks != energyChunkList.size() ) {
             // Add a chunk at a random location.
             addEnergyChunk( new EnergyChunk( clock, EnergyChunkDistributor.generateRandomLocation( energyChunkBounds ), energyChunksVisible, false ) );
         }
@@ -110,6 +111,8 @@ public class Air implements ThermalEnergyContainer {
 
     public void reset() {
         energy = INITIAL_ENERGY;
+        energyChunkList.clear();
+        addInitialEnergyChunks();
     }
 
     public void exchangeEnergyWith( ThermalEnergyContainer energyContainer, double dt ) {
@@ -125,7 +128,7 @@ public class Air implements ThermalEnergyContainer {
     }
 
     public void addEnergyChunk( EnergyChunk ec ) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        energyChunkList.add( ec );
     }
 
     public EnergyChunk extractClosestEnergyChunk( ImmutableVector2D point ) {
