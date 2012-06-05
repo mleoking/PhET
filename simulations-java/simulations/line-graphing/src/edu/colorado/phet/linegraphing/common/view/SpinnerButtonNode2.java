@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Timer;
 
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
@@ -116,17 +115,12 @@ public class SpinnerButtonNode2<T> extends PNode {
                 public void update() {
                     if ( pressed.get() ) {
                         if ( enabled.get() ) {
+                            buttonAction.apply();
                             timer.start();
                         }
                     }
                     else {
                         timer.stop();
-                        if ( enabled.get() && inside.get() ) {
-                            // Perform the action only if the user didn't hold down long enough to start spinning continuously.
-                            if ( !spinContinuously ) {
-                                buttonAction.apply();
-                            }
-                        }
                         spinContinuously = false;
                     }
                 }
