@@ -7,6 +7,7 @@ import lombok.Data;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
+import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern;
@@ -37,9 +39,10 @@ public class NumberSceneNode extends PNode implements DragContext {
     private final FractionGraphic emptyFractionGraphic;
     private final PNode rootNode;
     private final BuildAFractionModel model;
+    private final List<Pair> pairList;
 
     @Data class Pair {
-        public final PNode targetCell;
+        public final ScoreBoxNode targetCell;
         public final PNode patternNode;
     }
 
@@ -53,11 +56,10 @@ public class NumberSceneNode extends PNode implements DragContext {
         for ( int i = 0; i < 3; i++ ) {
             final int numerator = i + 1;
             final PatternNode patternNode = new PatternNode( FilledPattern.sequentialFill( Pattern.sixFlower( 18 ), numerator ), Color.red );
-            PNode boxNode = new ScoreBoxNode( numerator, 6, model.createdFractions );
-            pairs.add( new Pair( new ZeroOffsetNode( boxNode ), new ZeroOffsetNode( patternNode ) ) );
+            pairs.add( new Pair( new ScoreBoxNode( numerator, 6, model.createdFractions ), new ZeroOffsetNode( patternNode ) ) );
         }
-        List<Pair> p = List.iterableList( pairs );
-        List<PNode> patterns = p.map( new F<Pair, PNode>() {
+        pairList = List.iterableList( pairs );
+        List<PNode> patterns = pairList.map( new F<Pair, PNode>() {
             @Override public PNode f( final Pair pair ) {
                 return pair.patternNode;
             }
@@ -122,14 +124,14 @@ public class NumberSceneNode extends PNode implements DragContext {
         final PhetPPath topBox = emptyFractionGraphic.topBox;
         final PhetPPath bottomBox = emptyFractionGraphic.bottomBox;
         if ( numberNode.getGlobalFullBounds().intersects( topBox.getGlobalFullBounds() ) && topBox.getVisible() ) {
-            droppedInto( numberNode, topBox );
+            numberDroppedOnFraction( numberNode, topBox );
         }
         else if ( numberNode.getGlobalFullBounds().intersects( bottomBox.getGlobalFullBounds() ) && bottomBox.getVisible() ) {
-            droppedInto( numberNode, bottomBox );
+            numberDroppedOnFraction( numberNode, bottomBox );
         }
     }
 
-    private void droppedInto( final NumberNode numberNode, final PhetPPath box ) {
+    private void numberDroppedOnFraction( final NumberNode numberNode, final PhetPPath box ) {
         centerOnBox( numberNode, box );
         box.setVisible( false );
         numberNode.setPickable( false );
@@ -147,9 +149,36 @@ public class NumberSceneNode extends PNode implements DragContext {
             path.addInputEventListener( new CursorHandler() );
             path.addInputEventListener( new SimSharingDragHandler( null, true ) {
                 @Override protected void drag( final PInputEvent event ) {
+                    super.drag( event );
                     final PDimension delta = event.getDeltaRelativeTo( rootNode );
                     emptyFractionGraphic.translateAll( delta );
                     path.translate( delta.getWidth(), delta.getHeight() );
+                }
+
+                @Override protected void endDrag( final PInputEvent event ) {
+                    super.endDrag( event );
+
+                    //Snap to a scoring cell or go back to the play area.
+                    List<ScoreBoxNode> scoreCells = pairList.map( new F<Pair, ScoreBoxNode>() {
+                        @Override public ScoreBoxNode f( final Pair pair ) {
+                            return pair.targetCell;
+                        }
+                    } );
+                    for ( ScoreBoxNode scoreCell : scoreCells ) {
+                        if ( path.getFullBounds().intersects( scoreCell.getFullBounds() ) && scoreCell.fraction.approxEquals( emptyFractionGraphic.getValue() ) ) {
+                            //Lock in target cell
+                            System.out.println( "scoreCell = " + scoreCell );
+                            Point2D center = path.getFullBounds().getCenter2D();
+                            Point2D targetCenter = scoreCell.getFullBounds().getCenter2D();
+                            Vector2D delta = new Vector2D( targetCenter, center );
+                            emptyFractionGraphic.translateAll( delta.toDimension() );
+                            path.translate( delta.x, delta.y );
+
+                            emptyFractionGraphic.splitButton.setVisible( false );
+                            removeChild( path );
+                            emptyFractionGraphic.setAllPickable( false );
+                        }
+                    }
                 }
             } );
             addChild( path );
