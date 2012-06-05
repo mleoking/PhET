@@ -1,3 +1,5 @@
+6/5/12 make spinner arrows slight wider (20->26)
+6/5/12 use plain font style for static elements of interactive equations
 6/5/12 increase equation font size to 28 pt
 # 0.00.15 (64643) Jun 4, 2012
 6/4/12 refinements to new spinners in interactive equations

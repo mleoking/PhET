@@ -56,7 +56,7 @@ public class SpinnerNode2 extends PNode {
 
     private static enum ArrowOrientation {UP,DOWN}
 
-    private static final PDimension BUTTON_SIZE = new PDimension( 20, 4 );
+    private static final PDimension BUTTON_SIZE = new PDimension( 26, 4 );
 
     private static final Color BUTTON_DISABLED_COLOR = new Color( 190, 190, 190 );
 

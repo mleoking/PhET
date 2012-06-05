@@ -17,6 +17,7 @@ HIGH
 - duplication: SlopeInterceptCanvas, PointSlopeCanvas
 - duplication: SlopeInterceptModel, PointSlopeModel
 - duplication: SlopeInterceptEquationControls, PointSlopeEquationControls
+- check interactive equation minus signs on Win7
 
 MEDIUM
 - make division line between rise and run thicker in interactive equations (4f)

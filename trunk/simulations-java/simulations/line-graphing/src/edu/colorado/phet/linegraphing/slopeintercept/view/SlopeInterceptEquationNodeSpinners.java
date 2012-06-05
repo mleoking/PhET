@@ -21,6 +21,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
+import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode2.InterceptSpinnerNode2;
@@ -66,16 +67,16 @@ class SlopeInterceptEquationNodeSpinners extends PhetPNode {
         }
 
         // y = mx + b
-        PText yNode = new PhetPText( "y", font, LGColors.STATIC_EQUATION_ELEMENT );
-        PText equalsNode = new PhetPText( "=", font, LGColors.STATIC_EQUATION_ELEMENT );
+        PText yNode = new PhetPText( "y", LGConstants.STATIC_EQUATION_FONT, LGColors.STATIC_EQUATION_ELEMENT );
+        PText equalsNode = new PhetPText( "=", LGConstants.STATIC_EQUATION_FONT, LGColors.STATIC_EQUATION_ELEMENT );
         PNode riseNode = new ZeroOffsetNode( new RiseSpinnerNode2( UserComponents.riseSpinner, this.rise, riseRange, font, FORMAT ) );
         PNode runNode = new ZeroOffsetNode( new RunSpinnerNode2( UserComponents.runSpinner, this.run, runRange, font, FORMAT ) );
         final PPath lineNode = new PPath( new Line2D.Double( 0, 0, maxSlopeWidth, 0 ) ) {{
             setStroke( new BasicStroke( 3f ) );
             setStrokePaint( LGColors.STATIC_EQUATION_ELEMENT );
         }};
-        PText xNode = new PhetPText( "x", font, LGColors.STATIC_EQUATION_ELEMENT );
-        final PText interceptSignNode = new PhetPText( "-", font, LGColors.STATIC_EQUATION_ELEMENT );
+        PText xNode = new PhetPText( "x", LGConstants.STATIC_EQUATION_FONT, LGColors.STATIC_EQUATION_ELEMENT );
+        final PText interceptSignNode = new PhetPText( "-", LGConstants.STATIC_EQUATION_FONT, LGColors.STATIC_EQUATION_ELEMENT );
         PNode interceptNode = new ZeroOffsetNode( new InterceptSpinnerNode2( UserComponents.interceptSpinner, this.intercept, interceptRange, font, FORMAT ) );
 
         // rendering order
