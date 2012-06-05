@@ -80,4 +80,11 @@ public class FractionGraphic extends PNode {
         if ( topTarget != null ) { topTarget.translate( delta.getWidth(), delta.getHeight() ); }
         if ( bottomTarget != null ) { bottomTarget.translate( delta.getWidth(), delta.getHeight() ); }
     }
+
+    public void setAllPickable( final boolean b ) {
+        setPickable( false );
+        setChildrenPickable( false );
+        if ( topTarget != null ) { topTarget.setAllPickable( false );}
+        if ( bottomTarget != null ) { bottomTarget.setAllPickable( false );}
+    }
 }

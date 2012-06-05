@@ -1,3 +1,4 @@
+Removed split button and interactivity when fraction entered into scoring cell
 Drag fraction after assembly
 Animate stroke on score box when a match is made
 Center "my fractions" text above the target boxes

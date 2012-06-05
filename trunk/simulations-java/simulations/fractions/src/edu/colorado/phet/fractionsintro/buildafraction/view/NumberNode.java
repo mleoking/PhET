@@ -33,4 +33,9 @@ public class NumberNode extends PNode {
         } );
         addInputEventListener( new CursorHandler() );
     }
+
+    public void setAllPickable( final boolean b ) {
+        setPickable( b );
+        setChildrenPickable( b );
+    }
 }

@@ -80,6 +80,8 @@ import static java.lang.Math.sin;
 
     public static Vector2D polar( double radius, double angle ) { return new Vector2D( cos( angle ) * radius, sin( angle ) * radius ); }
 
+    public PDimension toDimension() { return new PDimension( x, y ); }
+
     //A unit vector
     public static final class UnitVector2D extends Vector2D {
 
