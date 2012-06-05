@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class ThermalEnergyTransferConstants {
     public static final double OBJECT_OBJECT_HEAT_TRANSFER_FACTOR = 1000;
-    public static final double OBJECT_WATER_HEAT_TRANSFER_FACTOR = 1000;
+    public static final double OBJECT_WATER_HEAT_TRANSFER_FACTOR = 4000;
     public static final double OBJECT_AIR_HEAT_TRANSFER_FACTOR = 1000;
     public static final double WATER_AIR_HEAT_TRANSFER_FACTOR = 1000;
 
