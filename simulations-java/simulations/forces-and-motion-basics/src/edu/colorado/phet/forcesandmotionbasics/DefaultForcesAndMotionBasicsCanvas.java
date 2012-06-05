@@ -1,5 +1,6 @@
 package edu.colorado.phet.forcesandmotionbasics;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -9,9 +10,11 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.Timer;
 
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.colorado.phet.forcesandmotionbasics.ForcesAndMotionBasicsResources.Images;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -93,5 +96,11 @@ public class DefaultForcesAndMotionBasicsCanvas extends AbstractForcesAndMotionB
                 }
             }
         } ).start();
+
+        addChild( new ResetAllButtonNode( new Resettable() {
+            public void reset() {
+                model.resetAll();
+            }
+        }, this, 18, Color.black, Color.yellow ) );
     }
 }
