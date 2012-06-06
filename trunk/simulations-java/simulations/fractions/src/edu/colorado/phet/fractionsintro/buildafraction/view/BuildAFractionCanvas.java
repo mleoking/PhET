@@ -20,6 +20,6 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas {
     public static final Stroke controlPanelStroke = new BasicStroke( 2 );
 
     public BuildAFractionCanvas( final BuildAFractionModel model ) {
-        addChild( new VisibilityNode( model.selectedScene.valueEquals( Scene.numbers ), new NumberSceneNode( rootNode, model ) ) );
+        addChild( new VisibilityNode( model.selectedScene.valueEquals( Scene.numbers ), new NumberSceneNode( rootNode, model, STAGE_SIZE ) ) );
     }
 }
