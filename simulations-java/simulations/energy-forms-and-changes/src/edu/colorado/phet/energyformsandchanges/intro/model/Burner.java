@@ -256,7 +256,7 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     }
 
     public EnergyContainerCategory getEnergyContainerCategory() {
-        return EnergyContainerCategory.SOLID;
+        return EnergyContainerCategory.BURNER;
     }
 
     private void stepInTime( double dt ) {
