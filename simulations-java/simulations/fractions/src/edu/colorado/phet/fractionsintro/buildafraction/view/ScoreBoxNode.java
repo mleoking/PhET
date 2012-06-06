@@ -37,7 +37,7 @@ public class ScoreBoxNode extends PNode {
 
                 //Light up if the user matched
                 public void apply( final List<Fraction> fractions ) {
-                    if ( fractions.find( new F<Fraction, Boolean>() {
+                    if ( fraction != null && fractions.find( new F<Fraction, Boolean>() {
                         @Override public Boolean f( final Fraction f ) {
                             return f.approxEquals( fraction );
                         }
