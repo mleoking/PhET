@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
+import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Pyramid;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern;
 
 import static edu.colorado.phet.fractionsintro.buildafraction.view.Target.target;
@@ -45,7 +46,21 @@ public class BuildAFractionModel {
             return sequentialFill( pie( f.denominator ), f.numerator );
         }
     };
-
+    public static F<Fraction, FilledPattern> pyramid1 = new F<Fraction, FilledPattern>() {
+        @Override public FilledPattern f( final Fraction f ) {
+            return sequentialFill( Pyramid.single(), f.numerator );
+        }
+    };
+    public static F<Fraction, FilledPattern> pyramid4 = new F<Fraction, FilledPattern>() {
+        @Override public FilledPattern f( final Fraction f ) {
+            return sequentialFill( Pyramid.four(), f.numerator );
+        }
+    };
+    public static F<Fraction, FilledPattern> pyramid9 = new F<Fraction, FilledPattern>() {
+        @Override public FilledPattern f( final Fraction f ) {
+            return sequentialFill( Pyramid.nine(), f.numerator );
+        }
+    };
     public static F<Fraction, FilledPattern> flower = new F<Fraction, FilledPattern>() {
         @Override public FilledPattern f( final Fraction f ) {
             return sequentialFill( sixFlower(), f.numerator );
@@ -81,16 +96,22 @@ public class BuildAFractionModel {
                  i == 1 ? new Level( list( 1, 1, 2, 2, 3, 3, 4, 4, 5, 5 ), list( target( 2, 3, red, pie ),
                                                                                  target( 3, 4, green, pie ),
                                                                                  target( 4, 5, lightBlue, pie ) ) ) :
-                 i == 2 ? new Level( list( 0, 1, 2, 3, 3, 3, 4, 5, 6, 7, 8, 9 ), list( target( 2, 6, red, flower ),
+                 i == 2 ? new Level( list( 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5 ), list( target( 2, 3, red, pie ),
+                                                                                    target( 3, 4, green, pie ),
+                                                                                    target( 4, 5, lightBlue, pie ) ) ) :
+                 i == 3 ? new Level( list( 0, 1, 2, 3, 3, 3, 4, 5, 6, 7, 8, 9 ), list( target( 2, 6, red, flower ),
                                                                                        target( 3, 6, green, flower ),
                                                                                        target( 4, 6, lightBlue, flower ) ) ) :
+                 i == 4 ? new Level( list( 0, 1, 1, 2, 3, 3, 3, 4, 5, 6, 7, 8, 9 ), list( target( 1, 1, red, pyramid1 ),
+                                                                                          target( 3, 4, green, pyramid4 ),
+                                                                                          target( 5, 9, lightBlue, pyramid9 ) ) ) :
                  new Level( list( 4, 3, 3, 2, 2, 1, 0, 5, 6, 7, 8, 9 ), list( target( 4, 3, red, pie ),
                                                                               target( 3, 2, green, pie ),
                                                                               target( 2, 1, lightBlue, pie ) ) )
             );
         }
     }};
-    public final Property<Integer> level = new Property<Integer>( 3 );
+    public final Property<Integer> level = new Property<Integer>( 4 );
 
     public void resetAll() {
         selectedScene.reset();
