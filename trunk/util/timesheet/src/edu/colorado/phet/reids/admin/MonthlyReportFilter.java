@@ -154,6 +154,7 @@ public class MonthlyReportFilter {
         if ( category.equals( "ksu-translation-credits" ) ) { return mapCategory( "KSU Translation Credits" ); }
         if ( category.equals( "piccolo" ) ) { return mapCategory( "piccolo-phet" ); }
         if ( category.equals( "piccolo-phet" ) ) { return mapCategory( "Common Code" ); }
+        if ( category.equals( "physics-meeting" ) ) { return mapCategory( "meetings" ); }
         if ( category.equals( "isotopes" ) ) { return mapCategory( "isotopes-and-atomic-mass" ); }
         if ( category.equals( "phet-help" ) ) { return mapCategory( "Customer Support" ); }
         if ( category.equals( "phethelp" ) ) { return mapCategory( "Customer Support" ); }
@@ -167,8 +168,12 @@ public class MonthlyReportFilter {
         if ( category.equals( "javafx" ) ) { return mapCategory( "Miscellaneous" ); }
         if ( category.equals( "developer-meeting" ) ) { return mapCategory( "Administrative/Documentation" ); }
         if ( category.equals( "sponsor" ) ) { return mapCategory( "sponsorship" ); }
+        if ( category.equals( "tablet investigation" ) ) { return mapCategory( "ipad" ); }
+        if ( category.equals( "tablet-investigation" ) ) { return mapCategory( "ipad" ); }
         if ( category.equals( "sim-event-data-collection" ) ) { return mapCategory( "Sim data collection/processing" ); }
         if ( category.equals( "sim-event-collection" ) ) { return mapCategory( "Sim data collection/processing" ); }
+        if ( category.equals( "server" ) ) { return mapCategory( "misc" ); }
+        if ( category.equals( "gas-properties" ) ) { return mapCategory( "ideal-gas" ); }
 
         System.out.println( "No match found for the category: " + category );
         return "unknown: " + category;
