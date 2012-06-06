@@ -7,8 +7,12 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
+import edu.colorado.phet.lwjglphet.math.PlaneF;
+import edu.colorado.phet.lwjglphet.math.Ray3F;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
 import edu.colorado.phet.platetectonics.model.regions.Region;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
@@ -63,6 +67,30 @@ public abstract class PlateModel {
     public abstract double getDensity( double x, double y ); // z = 0 (cross section plate)
 
     public abstract double getTemperature( double x, double y ); // z = 0 (cross section plate), in...
+
+    public double rayTraceDensity( Ray3F ray, LWJGLTransform modelViewTransform, boolean useWaterDensity ) {
+        for ( Terrain terrain : terrains ) {
+            Option<ImmutableVector3F> hitOption = terrain.intersectWithRay( ray, modelViewTransform );
+            if ( hitOption.isSome() ) {
+                ImmutableVector3F modelPosition = PlateModel.convertToPlanar( modelViewTransform.inversePosition( hitOption.get() ) );
+                if ( modelPosition.y < 0 ) {
+                    if ( useWaterDensity ) {
+                        // underwater, return water density at the surface
+                        return PlateModel.getWaterDensity( 0 );
+                    }
+                    else {
+                        // otherwise, return average surface-crust density
+                        return 2720;
+                    }
+                }
+                else {
+                    // otherwise, return average surface-crust density
+                    return 2720;
+                }
+            }
+        }
+        return 0;
+    }
 
     public Bounds3D getBounds() {
         return bounds;
@@ -176,7 +204,8 @@ public abstract class PlateModel {
         final double M = 0.0289644;
         final double g = 9.8;
         final double pressure = p0 * Math.pow( 1 - ( L * y / T0 ), g * M / ( R * L ) );
-        return pressure * M / ( R * getAirTemperature( y ) );
+        double density = pressure * M / ( R * getAirTemperature( y ) );
+        return Double.isNaN( density ) ? 0 : density; // extra check since we can be essentially dividing by zero
     }
 
     public static double getWaterDensity( double y ) {
