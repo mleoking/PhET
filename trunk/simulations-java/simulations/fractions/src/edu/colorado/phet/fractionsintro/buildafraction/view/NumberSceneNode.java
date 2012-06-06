@@ -27,6 +27,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
+import edu.colorado.phet.fractionsintro.buildafraction.model.Level;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
@@ -120,14 +121,18 @@ public class NumberSceneNode extends PNode implements DragContext {
         addChild( fractionGraphic );
         fractionGraphics.add( fractionGraphic );
 
-        int numCopies = 2;
-        for ( int i = 0; i < 10; i++ ) {
-            for ( int k = 0; k < numCopies; k++ ) {
-                NumberNode numberNode = new NumberNode( i, this );
-                numberNode.setInitialPosition( toolboxNode.getFullBounds().getX() + toolboxNode.getFullWidth() * ( i + 1 ) / 11.0 - numberNode.getFullBounds().getWidth() / 2, toolboxNode.getCenterY() - numberNode.getFullBounds().getHeight() / 2 );
-                addChild( numberNode );
-            }
+        Level myLevel = model.getLevel( level );
+        for ( Integer number : myLevel.numbers ) {
+            NumberNode numberNode = new NumberNode( number, this );
+            numberNode.setInitialPosition( toolboxNode.getFullBounds().getX() + toolboxNode.getFullWidth() * ( number + 1 ) / 11.0 - numberNode.getFullBounds().getWidth() / 2, toolboxNode.getCenterY() - numberNode.getFullBounds().getHeight() / 2 );
+            addChild( numberNode );
         }
+//        int numCopies = 2;
+//        for ( int i = 0; i < 10; i++ ) {
+//            for ( int k = 0; k < numCopies; k++ ) {
+//
+//            }
+//        }
     }
 
     private FractionGraphic createDefaultFractionGraphic() {
