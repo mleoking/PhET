@@ -133,9 +133,10 @@ public class NumberSceneNode extends PNode implements DragContext {
     }
 
     private FractionGraphic createDefaultFractionGraphic() {
-        return new FractionGraphic() {{
+        final FractionGraphic fractionGraphic = new FractionGraphic() {{
             setOffset( toolboxNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, 300 );
         }};
+        return fractionGraphic;
     }
 
     public void endDrag( final NumberNode numberNode, final PInputEvent event ) {
@@ -215,6 +216,8 @@ public class NumberSceneNode extends PNode implements DragContext {
                             if ( !allTargetsComplete() ) {
                                 final FractionGraphic fractionGraphic = createDefaultFractionGraphic();
                                 addChild( fractionGraphic );
+                                fractionGraphic.setTransparency( 0.0f );
+                                fractionGraphic.animateToTransparency( 1.0f, 1000 );
                                 fractionGraphics.add( fractionGraphic );
                             }
 
