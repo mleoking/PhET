@@ -90,7 +90,8 @@ public class PlateMotionTab extends PlateTectonicsTab {
         super( canvas, Strings.PLATE_MOTION_TAB, 0.5f );
     }
 
-    @Override public void initialize() {
+    @Override
+    public void initialize() {
         super.initialize();
 
         crustPieceLayer = new GuiNode( this );
@@ -138,17 +139,17 @@ public class PlateMotionTab extends PlateTectonicsTab {
             public void apply( final RangeLabel rangeLabel ) {
                 final Property<ImmutableVector3F> topProperty = new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
                     beforeFrameRender.addUpdateListener( new UpdateListener() {
-                                                             public void update() {
-                                                                 set( convertRadial( rangeLabel.top.get() ) );
-                                                             }
-                                                         }, true );
+                        public void update() {
+                            set( convertRadial( rangeLabel.top.get() ) );
+                        }
+                    }, true );
                 }};
                 final Property<ImmutableVector3F> bottomProperty = new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
                     beforeFrameRender.addUpdateListener( new UpdateListener() {
-                                                             public void update() {
-                                                                 set( convertRadial( rangeLabel.bottom.get() ) );
-                                                             }
-                                                         }, true );
+                        public void update() {
+                            set( convertRadial( rangeLabel.bottom.get() ) );
+                        }
+                    }, true );
                 }};
                 final RangeLabelNode node = rangeLabel.isLimitToScreen() ? new RangeLabelNode(
                         topProperty,
@@ -206,18 +207,18 @@ public class PlateMotionTab extends PlateTectonicsTab {
         }} );
 
         mouseEventNotifier.addUpdateListener( new UpdateListener() {
-                                                  public void update() {
-                                                      if ( draggedCrustPiece == null || isMouseOverCrustChooser() ) {
-                                                          leftHighlightColor.set( regularHighlightColor );
-                                                          rightHighlightColor.set( regularHighlightColor );
-                                                      }
-                                                      else {
-                                                          boolean overLeft = isMouseOverLeftSide();
-                                                          leftHighlightColor.set( overLeft ? overHighlightColor : regularHighlightColor );
-                                                          rightHighlightColor.set( !overLeft ? overHighlightColor : regularHighlightColor );
-                                                      }
-                                                  }
-                                              }, false );
+            public void update() {
+                if ( draggedCrustPiece == null || isMouseOverCrustChooser() ) {
+                    leftHighlightColor.set( regularHighlightColor );
+                    rightHighlightColor.set( regularHighlightColor );
+                }
+                else {
+                    boolean overLeft = isMouseOverLeftSide();
+                    leftHighlightColor.set( overLeft ? overHighlightColor : regularHighlightColor );
+                    rightHighlightColor.set( !overLeft ? overHighlightColor : regularHighlightColor );
+                }
+            }
+        }, false );
 
         /*---------------------------------------------------------------------------*
          * manual / automatic switch
@@ -331,11 +332,11 @@ public class PlateMotionTab extends PlateTectonicsTab {
                                                                                 this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ),
                                                                                 mouseEventNotifier ) {{
             onResize.addUpdateListener( new UpdateListener() {
-                                            public void update() {
-                                                position.set( new ImmutableVector2D( getStageSize().width - getComponentWidth(),
-                                                                                     0 ) );
-                                            }
-                                        }, true );
+                public void update() {
+                    position.set( new ImmutableVector2D( getStageSize().width - getComponentWidth(),
+                                                         0 ) );
+                }
+            }, true );
 
             updateOnEvent( beforeFrameRender );
 
@@ -424,12 +425,18 @@ public class PlateMotionTab extends PlateTectonicsTab {
                 }, false );
 
         guiLayer.addChild( createFPSReadout( Color.BLACK ) );
+
+        showWater.addObserver( new ChangeObserver<Boolean>() {
+            public void update( Boolean newValue, Boolean oldValue ) {
+                getModel().modelChanged.updateListeners();
+            }
+        } );
     }
 
     private void manualHandleDragTimeChange( float timeChange ) {
         if ( !Float.isNaN( timeChange ) ) {
             SimSharingManager.sendUserMessage( UserComponents.handle, UserComponentTypes.sprite, edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.drag,
-                                               new ParameterSet( new Parameter[] {
+                                               new ParameterSet( new Parameter[]{
                                                        new Parameter( ParameterKeys.timeChangeMillionsOfYears, timeChange ),
                                                        new Parameter( ParameterKeys.motionType, getPlateMotionModel().motionType.get().toString() )
                                                } ) );
@@ -463,7 +470,8 @@ public class PlateMotionTab extends PlateTectonicsTab {
         return (PlateMotionModel) getModel();
     }
 
-    @Override public void droppedCrustPiece( OrthoPiccoloNode crustPieceNode ) {
+    @Override
+    public void droppedCrustPiece( OrthoPiccoloNode crustPieceNode ) {
         PlateMotionModel model = getPlateMotionModel();
         CrustPieceNode piece = (CrustPieceNode) crustPieceNode.getNode();
 
@@ -507,7 +515,8 @@ public class PlateMotionTab extends PlateTectonicsTab {
         crustPieceGLNode.setVisible( false );
     }
 
-    @Override public void resetAll() {
+    @Override
+    public void resetAll() {
         super.resetAll();
 
         // TODO: this is probably buggy?
@@ -534,7 +543,8 @@ public class PlateMotionTab extends PlateTectonicsTab {
         return isGuiUnder( crustChooserNode, Mouse.getEventX(), Mouse.getEventY() );
     }
 
-    @Override public ImmutableMatrix4F getSceneModelViewMatrix() {
+    @Override
+    public ImmutableMatrix4F getSceneModelViewMatrix() {
         ImmutableMatrix4F regularView = super.getSceneModelViewMatrix();
 
         // calculated this as a debug matrix by camera manipulation, then dumping and inputting here
@@ -588,12 +598,14 @@ public class PlateMotionTab extends PlateTectonicsTab {
     }
 
     // do not allow automatic clock progress when in manual mode
-    @Override public boolean allowClockTickOnFrame() {
+    @Override
+    public boolean allowClockTickOnFrame() {
         return isAutoMode.get();
     }
 
     // show the hand cursor instead of the "default" when over the play area (AND plates exist)
-    @Override protected void uncaughtCursor() {
+    @Override
+    protected void uncaughtCursor() {
         // TODO: use a closed-hand grab cursor instead?
         final Ray3F ray = getCameraRay( Mouse.getEventX(), Mouse.getEventY() );
         final boolean hitsRightHandle = isOverRightHandle( ray );
@@ -610,7 +622,8 @@ public class PlateMotionTab extends PlateTectonicsTab {
         return rightHandle.isVisible() && rightHandle.intersectRay( ray );
     }
 
-    @Override protected void uncaughtMouseButton() {
+    @Override
+    protected void uncaughtMouseButton() {
         if ( !isAutoMode.get() ) {
             final Ray3F ray = getCameraRay( Mouse.getEventX(), Mouse.getEventY() );
             final boolean overLeft = isOverLeftHandle( ray );
@@ -645,5 +658,10 @@ public class PlateMotionTab extends PlateTectonicsTab {
 
     public IUserComponent getUserComponent() {
         return PlateTectonicsSimSharing.UserComponents.plateMotionTab;
+    }
+
+    @Override
+    public boolean isWaterVisible() {
+        return showWater.get();
     }
 }

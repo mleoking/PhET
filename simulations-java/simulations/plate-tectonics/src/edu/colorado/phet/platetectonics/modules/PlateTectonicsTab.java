@@ -156,7 +156,8 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         canvasTransform = new StageCenteringCanvasTransform( canvasSize, stageSize );
 
         clock.addClockListener( new ClockAdapter() {
-            @Override public void clockTicked( ClockEvent clockEvent ) {
+            @Override
+            public void clockTicked( ClockEvent clockEvent ) {
                 if ( getModel() != null ) {
                     double timeChange = clockEvent.getSimulationTimeChange();
                     getModel().update( timeChange );
@@ -177,7 +178,8 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                 requireEnabled( GL_DEPTH_TEST );
             }
 
-            @Override protected void preRender( GLOptions options ) {
+            @Override
+            protected void preRender( GLOptions options ) {
                 super.preRender( options );
 
                 loadCameraMatrices();
@@ -190,7 +192,8 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                 requireEnabled( GL_BLEND );
             }
 
-            @Override protected void preRender( GLOptions options ) {
+            @Override
+            protected void preRender( GLOptions options ) {
                 super.preRender( options );
 
                 loadCameraMatrices();
@@ -435,7 +438,8 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         this.model = model;
     }
 
-    @Override public void start() {
+    @Override
+    public void start() {
         if ( !initialized ) {
             initialize();
             initialized = true;
@@ -448,7 +452,8 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         return true;
     }
 
-    @Override public void loop() {
+    @Override
+    public void loop() {
         // delay if we need to, limiting our FPS
         Display.sync( framesPerSecondLimit.get() );
 
@@ -522,7 +527,8 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         Display.update();
     }
 
-    @Override public void stop() {
+    @Override
+    public void stop() {
     }
 
     public LWJGLTransform getModelViewTransform() {
@@ -531,6 +537,15 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
 
     public CanvasTransform getCanvasTransform() {
         return canvasTransform;
+    }
+
+    public ImmutableVector3F viewToPlanarModel( ImmutableVector3F position ) {
+        // TODO: turn these into a sub-class of LWJGLTransform that applies the planar/radial transform
+        return PlateModel.convertToPlanar( modelViewTransform.inversePosition( position ) );
+    }
+
+    public ImmutableVector3F planarModelToView( ImmutableVector3F position ) {
+        return getModelViewTransform().transformPosition( PlateModel.convertToRadial( position ) );
     }
 
     public float getTimeElapsed() {
@@ -609,6 +624,11 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                                            0, 0, -1, 0 );
     }
 
+    // in view coordinates
+    public ImmutableVector3F getCameraPosition() {
+        return sceneModelViewTransform.getInverse().times( new ImmutableVector3F( 0, 0, 0 ) );
+    }
+
     public Ray3F getCameraRay( int mouseX, int mouseY ) {
         ImmutableVector3F normalizedDeviceCoordinates = new ImmutableVector3F(
                 2 * mouseX / (float) getCanvasWidth() - 1,
@@ -640,10 +660,10 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                                       2 * screenCoordinates.z - 1 );
     }
 
-    private FloatBuffer specular = LWJGLUtils.floatBuffer( new float[] { 0, 0, 0, 0 } );
-    private FloatBuffer shininess = LWJGLUtils.floatBuffer( new float[] { 50 } );
-    private FloatBuffer sunDirection = LWJGLUtils.floatBuffer( new float[] { 1, 3, 2, 0 } );
-    private FloatBuffer moonDirection = LWJGLUtils.floatBuffer( new float[] { -2, 1, -1, 0 } );
+    private FloatBuffer specular = LWJGLUtils.floatBuffer( new float[]{0, 0, 0, 0} );
+    private FloatBuffer shininess = LWJGLUtils.floatBuffer( new float[]{50} );
+    private FloatBuffer sunDirection = LWJGLUtils.floatBuffer( new float[]{1, 3, 2, 0} );
+    private FloatBuffer moonDirection = LWJGLUtils.floatBuffer( new float[]{-2, 1, -1, 0} );
 
     public void loadLighting() {
         /*
@@ -864,5 +884,9 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                 }
             }, false );
         }};
+    }
+
+    public boolean isWaterVisible() {
+        return true;
     }
 }

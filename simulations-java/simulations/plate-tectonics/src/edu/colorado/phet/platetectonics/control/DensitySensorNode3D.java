@@ -17,10 +17,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PointSensor;
 import edu.colorado.phet.common.piccolophet.nodes.SpeedometerNode;
 import edu.colorado.phet.common.piccolophet.nodes.SpeedometerSensorNode;
 import edu.colorado.phet.lwjglphet.LWJGLCursorHandler;
-import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
-import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
+import edu.colorado.phet.lwjglphet.math.*;
 import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
@@ -106,13 +103,23 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
 
     private Double getDensityValue() {
         ImmutableVector3F modelSensorPosition = getSensorModelPosition();
-        return model.getDensity( modelSensorPosition.getX(), modelSensorPosition.getY() );
+        double density = model.getDensity( modelSensorPosition.getX(), modelSensorPosition.getY() );
+        if ( density < 50 ) {
+            // i.e. it hit air. let's see if we can ray-trace to see what terrain it hit
+            ImmutableVector3F cameraViewPosition = tab.getCameraPosition();
+            ImmutableVector3F viewSamplePosition = getViewSensorPosition();
+            Ray3F ray = new Ray3F( cameraViewPosition, viewSamplePosition.minus( cameraViewPosition ).normalized() );
+            density = model.rayTraceDensity( ray, modelViewTransform, tab.isWaterVisible() );
+        }
+        return density;
     }
 
     public ImmutableVector3F getSensorModelPosition() {
-        return PlateModel.convertToPlanar(
-                modelViewTransform.inversePosition(
-                        new ImmutableVector3F( draggedPosition.x, draggedPosition.y, 0 ) ) );
+        return PlateModel.convertToPlanar( modelViewTransform.inversePosition( getViewSensorPosition() ) );
+    }
+
+    private ImmutableVector3F getViewSensorPosition() {
+        return new ImmutableVector3F( draggedPosition.x, draggedPosition.y, 0 );
     }
 
     private float getSensorXOffset() {
