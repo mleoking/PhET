@@ -1,5 +1,6 @@
 package edu.colorado.phet.fractionsintro.buildafraction.model;
 
+import fj.Equal;
 import fj.data.List;
 
 import java.util.ArrayList;
@@ -17,6 +18,11 @@ public class BuildAFractionModel {
 
     public void nextLevel() {
         level.set( level.get() + 1 );
+    }
+
+    public void removeCreatedValue( final Fraction value ) {
+        final Property<List<Fraction>> fractions = levels.get( level.get() ).createdFractions;
+        fractions.set( fractions.get().delete( value, Equal.<Fraction>anyEqual() ) );
     }
 
     static class Level {

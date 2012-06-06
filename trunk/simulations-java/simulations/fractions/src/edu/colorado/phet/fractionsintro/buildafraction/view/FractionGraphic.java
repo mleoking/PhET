@@ -1,10 +1,14 @@
 package edu.colorado.phet.fractionsintro.buildafraction.view;
 
+import fj.data.Option;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -13,6 +17,8 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -33,6 +39,7 @@ public class FractionGraphic extends PNode {
     public final PImage splitButton;
     private NumberNode topTarget;
     private NumberNode bottomTarget;
+    private ArrayList<VoidFunction1<Option<Fraction>>> splitListeners = new ArrayList<VoidFunction1<Option<Fraction>>>();
 
     public FractionGraphic() {
         topBox = box( true );
@@ -49,6 +56,26 @@ public class FractionGraphic extends PNode {
         bounds = box.localToParent( bounds );
         splitButton.setOffset( bounds.getMaxX() + 2, bounds.getCenterY() - splitButton.getFullBounds().getHeight() / 2 );
         splitButton.addInputEventListener( new CursorHandler() );
+        splitButton.addInputEventListener( new PBasicInputEventHandler() {
+            @Override public void mousePressed( final PInputEvent event ) {
+                Option<Fraction> value = isComplete() ? Option.some( getValue() ) : Option.<Fraction>none();
+                //TODO simsharing message
+                if ( topTarget != null ) {
+                    topTarget.animateHome();
+                    topTarget = null;
+                    topBox.setVisible( true );
+                }
+                if ( bottomTarget != null ) {
+                    bottomTarget.animateHome();
+                    bottomTarget = null;
+                    bottomBox.setVisible( true );
+                }
+                splitButton.setVisible( false );
+                for ( VoidFunction1<Option<Fraction>> splitListener : splitListeners ) {
+                    splitListener.apply( value );
+                }
+            }
+        } );
         splitButton.setVisible( false );
         addChild( splitButton );
     }
@@ -87,4 +114,6 @@ public class FractionGraphic extends PNode {
         if ( topTarget != null ) { topTarget.setAllPickable( b );}
         if ( bottomTarget != null ) { bottomTarget.setAllPickable( b );}
     }
+
+    public void addSplitListener( final VoidFunction1<Option<Fraction>> listener ) { splitListeners.add( listener ); }
 }

@@ -15,6 +15,8 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class NumberNode extends PNode {
     public final int number;
+    private double initialX;
+    private double initialY;
 
     public NumberNode( final int number, final DragContext context ) {
         this.number = number;
@@ -38,4 +40,16 @@ public class NumberNode extends PNode {
         setPickable( b );
         setChildrenPickable( b );
     }
+
+    public void setInitialPosition( final double x, final double y ) {
+        this.initialX = x;
+        this.initialY = y;
+        setOffset( x, y );
+    }
+
+    public double getInitialX() { return initialX; }
+
+    public double getInitialY() { return initialY; }
+
+    public void animateHome() { animateToPositionScaleRotation( getInitialX(), getInitialY(), 1, 0, 1000 ); }
 }

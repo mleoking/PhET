@@ -3,6 +3,7 @@ package edu.colorado.phet.fractionsintro.buildafraction.view;
 import fj.F;
 import fj.Ord;
 import fj.data.List;
+import fj.data.Option;
 import lombok.Data;
 
 import java.awt.BasicStroke;
@@ -14,6 +15,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -27,6 +29,7 @@ import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
+import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
@@ -122,8 +125,8 @@ public class NumberSceneNode extends PNode implements DragContext {
         int numCopies = 2;
         for ( int i = 0; i < 10; i++ ) {
             for ( int k = 0; k < numCopies; k++ ) {
-                PNode numberNode = new NumberNode( i, this );
-                numberNode.setOffset( toolboxNode.getFullBounds().getX() + toolboxNode.getFullWidth() * ( i + 1 ) / 11.0 - numberNode.getFullBounds().getWidth() / 2, toolboxNode.getCenterY() - numberNode.getFullBounds().getHeight() / 2 );
+                NumberNode numberNode = new NumberNode( i, this );
+                numberNode.setInitialPosition( toolboxNode.getFullBounds().getX() + toolboxNode.getFullWidth() * ( i + 1 ) / 11.0 - numberNode.getFullBounds().getWidth() / 2, toolboxNode.getCenterY() - numberNode.getFullBounds().getHeight() / 2 );
                 addChild( numberNode );
             }
         }
@@ -136,17 +139,24 @@ public class NumberSceneNode extends PNode implements DragContext {
     }
 
     public void endDrag( final NumberNode numberNode, final PInputEvent event ) {
+        boolean hitFraction = false;
         for ( FractionGraphic fractionGraphic : fractionGraphics ) {
             final PhetPPath topBox = fractionGraphic.topBox;
             final PhetPPath bottomBox = fractionGraphic.bottomBox;
             if ( numberNode.getGlobalFullBounds().intersects( topBox.getGlobalFullBounds() ) && topBox.getVisible() ) {
                 numberDroppedOnFraction( fractionGraphic, numberNode, topBox );
+                hitFraction = true;
                 break;
             }
             if ( numberNode.getGlobalFullBounds().intersects( bottomBox.getGlobalFullBounds() ) && bottomBox.getVisible() ) {
                 numberDroppedOnFraction( fractionGraphic, numberNode, bottomBox );
+                hitFraction = true;
                 break;
             }
+        }
+        //If it didn't hit a fraction, send back to its starting place--the user is not allowed to have free floating numbers in the play area
+        if ( !hitFraction ) {
+            numberNode.animateHome();
         }
     }
 
@@ -221,6 +231,14 @@ public class NumberSceneNode extends PNode implements DragContext {
                 }
             } );
             addChild( path );
+            fractionGraphic.addSplitListener( new VoidFunction1<Option<Fraction>>() {
+                public void apply( final Option<Fraction> fractions ) {
+                    removeChild( path );
+                    if ( fractions.isSome() ) {
+                        model.removeCreatedValue( fractions.some() );
+                    }
+                }
+            } );
         }
     }
 
