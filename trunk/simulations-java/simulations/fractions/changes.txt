@@ -1,3 +1,4 @@
+# 0.00.77 (64713) Jun 6, 2012
 Added reset all button
 Randomized level 0
 Added fractions >1
