@@ -22,20 +22,19 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
     public static final Stroke controlPanelStroke = new BasicStroke( 2 );
     private final PNode currentNumberSceneLevel;
     private final BuildAFractionModel model;
-    private int stage = 0;
 
     public BuildAFractionCanvas( final BuildAFractionModel model ) {
         this.model = model;
         currentNumberSceneLevel = new PNode();
-        currentNumberSceneLevel.addChild( new NumberSceneNode( rootNode, model, STAGE_SIZE, this ) );
+        currentNumberSceneLevel.addChild( new NumberSceneNode( model.level.get(), rootNode, model, STAGE_SIZE, this ) );
         addChild( new VisibilityNode( model.selectedScene.valueEquals( Scene.numbers ), currentNumberSceneLevel ) );
     }
 
     public void goToNext() {
-        stage = stage + 1;
-        currentNumberSceneLevel.addChild( new NumberSceneNode( rootNode, model, STAGE_SIZE, this ) {{
-            setOffset( STAGE_SIZE.getWidth() * stage, 0 );
+        model.nextLevel();
+        currentNumberSceneLevel.addChild( new NumberSceneNode( model.level.get(), rootNode, model, STAGE_SIZE, this ) {{
+            setOffset( STAGE_SIZE.getWidth() * model.level.get(), 0 );
         }} );
-        currentNumberSceneLevel.animateToTransform( AffineTransform.getTranslateInstance( -STAGE_SIZE.getWidth() * stage, 0 ), 1000 );
+        currentNumberSceneLevel.animateToTransform( AffineTransform.getTranslateInstance( -STAGE_SIZE.getWidth() * model.level.get(), 0 ), 1000 );
     }
 }
