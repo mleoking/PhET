@@ -47,6 +47,7 @@ public class NumberSceneNode extends PNode implements DragContext {
     private final PNode rootNode;
     private final BuildAFractionModel model;
     private final PDimension STAGE_SIZE;
+    private final NumberSceneContext context;
     private final List<Pair> pairList;
 
     @Data class Pair {
@@ -54,10 +55,11 @@ public class NumberSceneNode extends PNode implements DragContext {
         public final PNode patternNode;
     }
 
-    public NumberSceneNode( final PNode rootNode, final BuildAFractionModel model, PDimension STAGE_SIZE ) {
+    public NumberSceneNode( final PNode rootNode, final BuildAFractionModel model, PDimension STAGE_SIZE, NumberSceneContext context ) {
         this.rootNode = rootNode;
         this.model = model;
         this.STAGE_SIZE = STAGE_SIZE;
+        this.context = context;
         final PhetPText title = new PhetPText( MY_FRACTIONS, AbstractFractionsCanvas.CONTROL_FONT );
 
         //Create the scoring cells with target patterns
@@ -208,7 +210,7 @@ public class NumberSceneNode extends PNode implements DragContext {
                                 addChild( new VBox( new FaceNode( 300 ), new HTMLImageButtonNode( "Next", Color.orange ) {{
                                     addActionListener( new ActionListener() {
                                         public void actionPerformed( final ActionEvent e ) {
-                                            goToNext();
+                                            context.goToNext();
                                         }
                                     } );
                                 }}
@@ -220,10 +222,6 @@ public class NumberSceneNode extends PNode implements DragContext {
             } );
             addChild( path );
         }
-    }
-
-    private void goToNext() {
-
     }
 
     private boolean allTargetsComplete() {
