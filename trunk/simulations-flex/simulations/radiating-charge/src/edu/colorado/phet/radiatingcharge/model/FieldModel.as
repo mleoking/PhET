@@ -8,14 +8,95 @@
 package edu.colorado.phet.radiatingcharge.model {
 import edu.colorado.phet.radiatingcharge.view.MainView;
 
+import flash.events.TimerEvent;
+
+import flash.utils.Timer;
+
+//model of radiating E-field from a moving point charge
 public class FieldModel {
 
     public var views_arr:Array;     //views associated with this model
     public var myMainView:MainView;
 
+    private var _c:Number;  //speed of light, charge cannot moving faster than c
+    private var _xC:Number; //x-position of charge in pixels
+    private var _yC:Number; //y-position of charge in pixels
+
+    private var _t:Number;  //time in arbitrary units
+    private var lastTime: Number;	//time in previous timeStep
+    private var tRate: Number;	    //1 = real time; 0.25 = 1/4 of real time, etc.
+    private var dt: Number;  	    //default time step in seconds
+    private var msTimer: Timer;	    //millisecond timer
+
+
     public function FieldModel( myMainView ) {
         this.myMainView = myMainView;
+        this.views_arr = new Array();
+        this._c = 1;
+        this.initialize();
     }//end constructor
+
+    private function initialize():void{
+        this._t = 0;
+        //this.tInt = 1;              //testing only
+        this.dt = 0.2;
+        this.tRate = 1;
+        this.msTimer = new Timer( this.dt * 1000 );   //argument of Timer constructor is time step in ms
+        this.msTimer.addEventListener( TimerEvent.TIMER, stepForward );
+        this.startRadiation();
+    }
+
+    public function get t():Number{
+        return this._t;
+    }
+
+    public function get xC():Number{
+        return this._xC;
+    }
+
+    public function get yC():Number{
+        return this._yC;
+    }
+
+    public function set xC(xPos:Number):void{
+        this._xC = xPos;
+    }
+
+    public function set yC(yPos:Number):void{
+        this._yC = yPos;
+    }
+
+    public function setXY( xPos:Number, yPos:Number ):void{
+        this._xC = xPos;
+        this._yC = yPos;
+        this.updateViews();
+    }
+
+    public function registerView( view: Object ): void {
+        this.views_arr.push( view );
+    }
+
+    public function unregisterView( view: Object ):void{
+        var indexLocation:int = -1;
+        indexLocation = this.views_arr.indexOf( view );
+        if( indexLocation != -1 ){
+            this.views_arr.splice( indexLocation, 1 )
+        }
+    }
+
+    private function stepForward( evt: TimerEvent ):void{
+        this._t += this.dt;
+        //trace("time = "+this._t) ;
+        //evt.updateAfterEvent();
+    }
+
+    public function startRadiation():void{
+        this.msTimer.start();
+    }
+
+    public function stopRadiation():void{
+        this.msTimer.stop();
+    }
 
     public function updateViews(): void {
         for(var i:int = 0; i < this.views_arr.length; i++){
