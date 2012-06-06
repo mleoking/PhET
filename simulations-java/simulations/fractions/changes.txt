@@ -1,3 +1,4 @@
+Animate new fractions
 Wired up "split fraction" button
 Numbers go back to their starting location when dropped in the toolbox or in an empty region of the play area
 Added multiple levels
