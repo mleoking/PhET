@@ -6,7 +6,6 @@ import fj.data.List;
 import fj.data.Option;
 import lombok.Data;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -52,6 +51,7 @@ public class NumberSceneNode extends PNode implements DragContext {
     private final PDimension STAGE_SIZE;
     private final NumberSceneContext context;
     private final List<Pair> pairList;
+    private final RichPNode toolboxNode;
 
     @Data class Pair {
         public final ScoreBoxNode targetCell;
@@ -111,7 +111,7 @@ public class NumberSceneNode extends PNode implements DragContext {
         title.setOffset( pairs.get( 0 ).getTargetCell().getFullBounds().getCenterX() - title.getFullWidth() / 2, pairs.get( 0 ).getTargetCell().getFullBounds().getY() - title.getFullHeight() );
 
         //Add a piece container toolbox the user can use to get containers
-        final RichPNode toolboxNode = new RichPNode() {{
+        toolboxNode = new RichPNode() {{
             final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 700, 160, 30, 30 ), edu.colorado.phet.fractionsintro.buildafraction_functional.view.BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND, BuildAFractionCanvas.controlPanelStroke, Color.darkGray );
             addChild( border );
             setOffset( ( AbstractFractionsCanvas.STAGE_SIZE.width - 150 ) / 2 - this.getFullWidth() / 2, AbstractFractionsCanvas.STAGE_SIZE.height - AbstractFractionsCanvas.INSET - this.getFullHeight() );
@@ -134,7 +134,7 @@ public class NumberSceneNode extends PNode implements DragContext {
 
     private FractionGraphic createDefaultFractionGraphic() {
         return new FractionGraphic() {{
-            setOffset( 300, 300 );
+            setOffset( toolboxNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, 300 );
         }};
     }
 
@@ -174,7 +174,10 @@ public class NumberSceneNode extends PNode implements DragContext {
             PBounds bottomBounds = fractionGraphic.getBottomNumber().getFullBounds();
             Rectangle2D divisorBounds = fractionGraphic.localToParent( fractionGraphic.divisorLine.getFullBounds() );
             Rectangle2D union = topBounds.createUnion( bottomBounds ).createUnion( divisorBounds );
-            final PhetPPath path = new PhetPPath( RectangleUtils.expand( union, 2, 2 ), BuildAFractionCanvas.TRANSPARENT, new BasicStroke( 1 ), Color.yellow );
+
+            //For debugging, show a yellow border
+//            final PhetPPath path = new PhetPPath( RectangleUtils.expand( union, 2, 2 ), BuildAFractionCanvas.TRANSPARENT, new BasicStroke( 1 ), Color.yellow );
+            final PhetPPath path = new PhetPPath( RectangleUtils.expand( union, 2, 2 ), BuildAFractionCanvas.TRANSPARENT );
             path.addInputEventListener( new CursorHandler() );
             path.addInputEventListener( new SimSharingDragHandler( null, true ) {
                 @Override protected void drag( final PInputEvent event ) {
