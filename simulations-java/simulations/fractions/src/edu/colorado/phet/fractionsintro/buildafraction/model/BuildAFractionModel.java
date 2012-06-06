@@ -96,13 +96,10 @@ public class BuildAFractionModel {
                  i == 1 ? new Level( list( 1, 1, 2, 2, 3, 3, 4, 4, 5, 5 ), list( target( 2, 3, red, pie ),
                                                                                  target( 3, 4, green, pie ),
                                                                                  target( 4, 5, lightBlue, pie ) ) ) :
-                 i == 2 ? new Level( list( 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5 ), list( target( 2, 3, red, pie ),
-                                                                                    target( 3, 4, green, pie ),
-                                                                                    target( 4, 5, lightBlue, pie ) ) ) :
-                 i == 3 ? new Level( list( 0, 1, 2, 3, 3, 3, 4, 5, 6, 7, 8, 9 ), list( target( 2, 6, red, flower ),
+                 i == 2 ? new Level( list( 0, 1, 2, 3, 3, 3, 4, 5, 6, 7, 8, 9 ), list( target( 2, 6, red, flower ),
                                                                                        target( 3, 6, green, flower ),
                                                                                        target( 4, 6, lightBlue, flower ) ) ) :
-                 i == 4 ? new Level( list( 0, 1, 1, 2, 3, 3, 3, 4, 5, 6, 7, 8, 9 ), list( target( 1, 1, red, pyramid1 ),
+                 i == 3 ? new Level( list( 0, 1, 1, 2, 3, 3, 3, 4, 5, 6, 7, 8, 9 ), list( target( 1, 1, red, pyramid1 ),
                                                                                           target( 3, 4, green, pyramid4 ),
                                                                                           target( 5, 9, lightBlue, pyramid9 ) ) ) :
                  new Level( list( 4, 3, 3, 2, 2, 1, 0, 5, 6, 7, 8, 9 ), list( target( 4, 3, red, pie ),
@@ -111,7 +108,7 @@ public class BuildAFractionModel {
             );
         }
     }};
-    public final Property<Integer> level = new Property<Integer>( 4 );
+    public final Property<Integer> level = new Property<Integer>( 0 );
 
     public void resetAll() {
         selectedScene.reset();
