@@ -147,6 +147,10 @@ public class BuildAFractionModel {
     public void resetAll() {
         selectedScene.reset();
         clock.resetSimulationTime();
+        level.reset();
+        for ( Level x : levels ) {
+            x.resetAll();
+        }
     }
 
     public void addCreatedValue( final Fraction value ) {

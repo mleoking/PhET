@@ -27,4 +27,6 @@ public class Level {
     public Target getTarget( final int i ) {
         return targets.index( i );
     }
+
+    public void resetAll() { createdFractions.reset(); }
 }
