@@ -1,3 +1,4 @@
+Added multiple levels
 Added ability to go to next level after one complete
 If all targets filled up, then add a "next" button
 Fixed: Multiple score cells light up when one match is made

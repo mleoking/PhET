@@ -55,7 +55,7 @@ public class NumberSceneNode extends PNode implements DragContext {
         public final PNode patternNode;
     }
 
-    public NumberSceneNode( final PNode rootNode, final BuildAFractionModel model, PDimension STAGE_SIZE, NumberSceneContext context ) {
+    public NumberSceneNode( int level, final PNode rootNode, final BuildAFractionModel model, PDimension STAGE_SIZE, NumberSceneContext context ) {
         this.rootNode = rootNode;
         this.model = model;
         this.STAGE_SIZE = STAGE_SIZE;
@@ -67,7 +67,7 @@ public class NumberSceneNode extends PNode implements DragContext {
         for ( int i = 0; i < 3; i++ ) {
             final int numerator = i + 1;
             final PatternNode patternNode = new PatternNode( FilledPattern.sequentialFill( Pattern.sixFlower( 18 ), numerator ), Color.red );
-            pairs.add( new Pair( new ScoreBoxNode( numerator, 6, model.createdFractions ), new ZeroOffsetNode( patternNode ) ) );
+            pairs.add( new Pair( new ScoreBoxNode( numerator, 6, model.getCreatedFractions( level ) ), new ZeroOffsetNode( patternNode ) ) );
         }
         pairList = List.iterableList( pairs );
         List<PNode> patterns = pairList.map( new F<Pair, PNode>() {
