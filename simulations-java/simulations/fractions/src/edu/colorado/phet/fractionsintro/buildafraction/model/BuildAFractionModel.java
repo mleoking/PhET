@@ -3,11 +3,18 @@ package edu.colorado.phet.fractionsintro.buildafraction.model;
 import fj.Equal;
 import fj.data.List;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.fractionsintro.buildafraction.view.Target;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
+import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern;
+
+import static edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern.sequentialFill;
+import static java.awt.Color.green;
+import static java.awt.Color.red;
 
 /**
  * Model for the Build a Fraction tab.
@@ -25,15 +32,20 @@ public class BuildAFractionModel {
         fractions.set( fractions.get().delete( value, Equal.<Fraction>anyEqual() ) );
     }
 
-    static class Level {
-        public final Property<List<Fraction>> createdFractions = new Property<List<Fraction>>( List.<Fraction>nil() );
-    }
-
     public final ConstantDtClock clock = new ConstantDtClock();
     public final Property<Scene> selectedScene = new Property<Scene>( Scene.numbers );
     public final ArrayList<Level> levels = new ArrayList<Level>() {{
         for ( int i = 0; i < 10; i++ ) {
-            add( new Level() );
+            final Color lightBlue = new Color( 100, 100, 255 );
+            add( new Level( i == 0 ? List.list( new Target( new Fraction( 1, 2 ), red, sequentialFill( Pattern.pie( 2 ), 1 ) ),
+                                                new Target( new Fraction( 1, 3 ), green, sequentialFill( Pattern.pie( 3 ), 1 ) ),
+                                                new Target( new Fraction( 2, 3 ), lightBlue, sequentialFill( Pattern.pie( 3 ), 2 ) ) ) :
+                            i == 1 ? List.list( new Target( new Fraction( 2, 3 ), red, sequentialFill( Pattern.pie( 3 ), 2 ) ),
+                                                new Target( new Fraction( 3, 4 ), green, sequentialFill( Pattern.pie( 4 ), 3 ) ),
+                                                new Target( new Fraction( 4, 5 ), lightBlue, sequentialFill( Pattern.pie( 5 ), 4 ) ) ) :
+                            List.list( new Target( new Fraction( 1, 2 ), red, sequentialFill( Pattern.pie( 2 ), 1 ) ),
+                                       new Target( new Fraction( 1, 3 ), green, sequentialFill( Pattern.pie( 3 ), 1 ) ),
+                                       new Target( new Fraction( 2, 3 ), lightBlue, sequentialFill( Pattern.pie( 3 ), 2 ) ) ) ) );
         }
     }};
     public final Property<Integer> level = new Property<Integer>( 0 );
@@ -51,4 +63,6 @@ public class BuildAFractionModel {
     public Property<List<Fraction>> getCreatedFractions( final int level ) {
         return levels.get( level ).createdFractions;
     }
+
+    public Level getLevel( final int level ) { return levels.get( level ); }
 }

@@ -29,8 +29,6 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
-import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern;
-import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -68,9 +66,9 @@ public class NumberSceneNode extends PNode implements DragContext {
         //Create the scoring cells with target patterns
         ArrayList<Pair> pairs = new ArrayList<Pair>();
         for ( int i = 0; i < 3; i++ ) {
-            final int numerator = i + 1;
-            final PatternNode patternNode = new PatternNode( FilledPattern.sequentialFill( Pattern.sixFlower( 18 ), numerator ), Color.red );
-            pairs.add( new Pair( new ScoreBoxNode( numerator, 6, model.getCreatedFractions( level ) ), new ZeroOffsetNode( patternNode ) ) );
+            Target target = model.getLevel( level ).getTarget( i );
+            final PatternNode patternNode = new PatternNode( target.filledPattern, target.color );
+            pairs.add( new Pair( new ScoreBoxNode( target.fraction.numerator, target.fraction.denominator, model.getCreatedFractions( level ) ), new ZeroOffsetNode( patternNode ) ) );
         }
         pairList = List.iterableList( pairs );
         List<PNode> patterns = pairList.map( new F<Pair, PNode>() {
