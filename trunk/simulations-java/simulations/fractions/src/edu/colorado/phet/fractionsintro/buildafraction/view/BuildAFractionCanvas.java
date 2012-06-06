@@ -7,12 +7,17 @@ import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.buildafraction.model.Scene;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.intro.view.VisibilityNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Canvas for the build a fraction tab.
@@ -41,6 +46,22 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
         }, this, 18, Color.black, Color.orange ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - INSET, STAGE_SIZE.getHeight() - getFullBounds().getHeight() - INSET );
         }} );
+
+        addChild( new HBox( new PSwing( radioButton( model, "Pictures", Scene.pictures ) ),
+                            new PSwing( radioButton( model, "Numbers", Scene.numbers ) ) ) );
+
+        model.selectedScene.addObserver( new VoidFunction1<Scene>() {
+            public void apply( final Scene scene ) {
+
+            }
+        } );
+    }
+
+    private PropertyRadioButton<Scene> radioButton( final BuildAFractionModel model, final String text, Scene scene ) {
+        return new PropertyRadioButton<Scene>( null, text, model.selectedScene, scene ) {{
+            setFont( new PhetFont( 24 ) );
+            setOpaque( false );
+        }};
     }
 
     public void goToNext() {
