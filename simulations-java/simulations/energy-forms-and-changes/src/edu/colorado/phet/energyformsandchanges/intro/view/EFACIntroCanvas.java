@@ -173,12 +173,12 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
             } );
         }
 
-        // Add the air.
-        backLayer.addChild( new AirNode( model.getAir(), mvt ) );
-
         // Add the burners.
         backLayer.addChild( new BurnerNode( model.getLeftBurner(), mvt ) );
         backLayer.addChild( new BurnerNode( model.getRightBurner(), mvt ) );
+
+        // Add the air.
+        backLayer.addChild( new AirNode( model.getAir(), mvt ) );
 
         // Add the movable objects.
         final PNode brickNode = new BlockNode( model, model.getBrick(), mvt );
