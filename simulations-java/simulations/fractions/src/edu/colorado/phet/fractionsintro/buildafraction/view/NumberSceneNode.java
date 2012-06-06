@@ -23,6 +23,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
@@ -68,7 +69,12 @@ public class NumberSceneNode extends PNode implements DragContext {
         ArrayList<Pair> pairs = new ArrayList<Pair>();
         for ( int i = 0; i < 3; i++ ) {
             Target target = model.getLevel( level ).getTarget( i );
-            final PatternNode patternNode = new PatternNode( target.filledPattern, target.color );
+
+            ArrayList<PatternNode> nodes = new ArrayList<PatternNode>();
+            for ( int k = 0; k < target.filledPattern.length(); k++ ) {
+                nodes.add( new PatternNode( target.filledPattern.index( k ), target.color ) );
+            }
+            HBox patternNode = new HBox( nodes.toArray( new PNode[nodes.size()] ) );
             pairs.add( new Pair( new ScoreBoxNode( target.fraction.numerator, target.fraction.denominator, model.getCreatedFractions( level ) ), new ZeroOffsetNode( patternNode ) ) );
         }
         pairList = List.iterableList( pairs );
