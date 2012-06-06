@@ -89,7 +89,7 @@ public class Air implements ThermalEnergyContainer {
     //-------------------------------------------------------------------------
 
     private void stepInTime( double dt ) {
-        System.out.println( "Air SIT is stubbed. Temp = " + getTemperature() );
+//        System.out.println( "Air SIT is stubbed. Temp = " + getTemperature() );
     }
 
     private void addInitialEnergyChunks() {
@@ -142,7 +142,6 @@ public class Air implements ThermalEnergyContainer {
     }
 
     public boolean needsEnergyChunk() {
-        System.out.println( "Needs energy chunk: " + ( ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy ) > energyChunkList.size() ) );
         return ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy ) > energyChunkList.size();
     }
 
