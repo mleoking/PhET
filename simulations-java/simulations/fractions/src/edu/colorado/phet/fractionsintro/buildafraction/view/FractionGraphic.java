@@ -62,11 +62,13 @@ public class FractionGraphic extends PNode {
                 //TODO simsharing message
                 if ( topTarget != null ) {
                     topTarget.animateHome();
+                    topTarget.setAllPickable( true );
                     topTarget = null;
                     topBox.setVisible( true );
                 }
                 if ( bottomTarget != null ) {
                     bottomTarget.animateHome();
+                    bottomTarget.setAllPickable( true );
                     bottomTarget = null;
                     bottomBox.setVisible( true );
                 }
