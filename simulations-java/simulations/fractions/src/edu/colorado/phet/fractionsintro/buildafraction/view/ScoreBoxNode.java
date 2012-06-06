@@ -62,4 +62,6 @@ public class ScoreBoxNode extends PNode {
         path.setStrokePaint( Color.darkGray );
         this.completed = true;
     }
+
+    public boolean isCompleted() { return completed; }
 }

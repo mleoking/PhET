@@ -1,3 +1,4 @@
+If all targets filled up, then add a "next" button
 Fixed: Multiple score cells light up when one match is made
 Removed split button and interactivity when fraction entered into scoring cell
 Drag fraction after assembly

@@ -7,6 +7,8 @@ import lombok.Data;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
@@ -15,9 +17,12 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
@@ -41,6 +46,7 @@ public class NumberSceneNode extends PNode implements DragContext {
     private final ArrayList<FractionGraphic> fractionGraphics = new ArrayList<FractionGraphic>();
     private final PNode rootNode;
     private final BuildAFractionModel model;
+    private final PDimension STAGE_SIZE;
     private final List<Pair> pairList;
 
     @Data class Pair {
@@ -48,9 +54,10 @@ public class NumberSceneNode extends PNode implements DragContext {
         public final PNode patternNode;
     }
 
-    public NumberSceneNode( final PNode rootNode, final BuildAFractionModel model ) {
+    public NumberSceneNode( final PNode rootNode, final BuildAFractionModel model, PDimension STAGE_SIZE ) {
         this.rootNode = rootNode;
         this.model = model;
+        this.STAGE_SIZE = STAGE_SIZE;
         final PhetPText title = new PhetPText( MY_FRACTIONS, AbstractFractionsCanvas.CONTROL_FONT );
 
         //Create the scoring cells with target patterns
@@ -190,16 +197,45 @@ public class NumberSceneNode extends PNode implements DragContext {
                             scoreCell.completed();
 
                             //Add a new fraction skeleton when the previous one is completed
-                            //TODO: if all filled up, then add a "next" button instead
-                            final FractionGraphic fractionGraphic = createDefaultFractionGraphic();
-                            addChild( fractionGraphic );
-                            fractionGraphics.add( fractionGraphic );
+                            if ( !allTargetsComplete() ) {
+                                final FractionGraphic fractionGraphic = createDefaultFractionGraphic();
+                                addChild( fractionGraphic );
+                                fractionGraphics.add( fractionGraphic );
+                            }
+
+                            //but if all filled up, then add a "next" button
+                            else {
+                                addChild( new VBox( new FaceNode( 300 ), new HTMLImageButtonNode( "Next", Color.orange ) {{
+                                    addActionListener( new ActionListener() {
+                                        public void actionPerformed( final ActionEvent e ) {
+                                            goToNext();
+                                        }
+                                    } );
+                                }}
+                                ) {{setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2 - 100, STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 - 100 );}} );
+                            }
                         }
                     }
                 }
             } );
             addChild( path );
         }
+    }
+
+    private void goToNext() {
+
+    }
+
+    private boolean allTargetsComplete() {
+        return pairList.map( new F<Pair, Boolean>() {
+            @Override public Boolean f( final Pair pair ) {
+                return pair.targetCell.isCompleted();
+            }
+        } ).filter( new F<Boolean, Boolean>() {
+            @Override public Boolean f( final Boolean b ) {
+                return b;
+            }
+        } ).length() == pairList.length();
     }
 
     private void centerOnBox( final NumberNode numberNode, final PhetPPath box ) {
