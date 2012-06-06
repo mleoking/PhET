@@ -12,6 +12,7 @@ import edu.colorado.phet.fractionsintro.buildafraction.view.Target;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern;
 
+import static edu.colorado.phet.fractionsintro.buildafraction.view.Target.newTarget;
 import static edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern.sequentialFill;
 import static java.awt.Color.green;
 import static java.awt.Color.red;
@@ -37,22 +38,22 @@ public class BuildAFractionModel {
     public final ArrayList<Level> levels = new ArrayList<Level>() {{
         for ( int i = 0; i < 10; i++ ) {
             final Color lightBlue = new Color( 100, 100, 255 );
-            add( i == 0 ? new Level( List.list( 1, 1, 2, 2, 3, 3 ), List.list( new Target( new Fraction( 1, 2 ), red, sequentialFill( Pattern.pie( 2 ), 1 ) ),
-                                                                               new Target( new Fraction( 1, 3 ), green, sequentialFill( Pattern.pie( 3 ), 1 ) ),
-                                                                               new Target( new Fraction( 2, 3 ), lightBlue, sequentialFill( Pattern.pie( 3 ), 2 ) ) ) ) :
-                 i == 1 ? new Level( List.list( 1, 1, 2, 2, 3, 3, 4, 4, 5, 5 ), List.list( new Target( new Fraction( 2, 3 ), red, sequentialFill( Pattern.pie( 3 ), 2 ) ),
-                                                                                           new Target( new Fraction( 3, 4 ), green, sequentialFill( Pattern.pie( 4 ), 3 ) ),
-                                                                                           new Target( new Fraction( 4, 5 ), lightBlue, sequentialFill( Pattern.pie( 5 ), 4 ) ) ) ) :
-                 i == 2 ? new Level( List.list( 0, 1, 2, 3, 3, 4, 5, 6, 7, 8, 9 ), List.list( new Target( new Fraction( 2, 6 ), red, sequentialFill( Pattern.sixFlower(), 2 ) ),
-                                                                                              new Target( new Fraction( 3, 6 ), green, sequentialFill( Pattern.sixFlower(), 3 ) ),
-                                                                                              new Target( new Fraction( 4, 6 ), lightBlue, sequentialFill( Pattern.sixFlower(), 4 ) ) ) ) :
-                 new Level( List.list( 0, 1, 2, 3, 3, 4, 5, 6, 7, 8, 9 ), List.list( new Target( new Fraction( 2, 6 ), red, sequentialFill( Pattern.sixFlower(), 2 ) ),
-                                                                                     new Target( new Fraction( 3, 6 ), green, sequentialFill( Pattern.sixFlower(), 3 ) ),
-                                                                                     new Target( new Fraction( 4, 6 ), lightBlue, sequentialFill( Pattern.sixFlower(), 4 ) ) ) )
+            add( i == 0 ? new Level( List.list( 1, 1, 2, 2, 3, 3 ), List.list( newTarget( new Fraction( 1, 2 ), red, sequentialFill( Pattern.pie( 2 ), 1 ) ),
+                                                                               newTarget( new Fraction( 1, 3 ), green, sequentialFill( Pattern.pie( 3 ), 1 ) ),
+                                                                               newTarget( new Fraction( 2, 3 ), lightBlue, sequentialFill( Pattern.pie( 3 ), 2 ) ) ) ) :
+                 i == 1 ? new Level( List.list( 1, 1, 2, 2, 3, 3, 4, 4, 5, 5 ), List.list( newTarget( new Fraction( 2, 3 ), red, sequentialFill( Pattern.pie( 3 ), 2 ) ),
+                                                                                           newTarget( new Fraction( 3, 4 ), green, sequentialFill( Pattern.pie( 4 ), 3 ) ),
+                                                                                           newTarget( new Fraction( 4, 5 ), lightBlue, sequentialFill( Pattern.pie( 5 ), 4 ) ) ) ) :
+                 i == 2 ? new Level( List.list( 0, 1, 2, 3, 3, 4, 5, 6, 7, 8, 9 ), List.list( newTarget( new Fraction( 2, 6 ), red, sequentialFill( Pattern.sixFlower(), 2 ) ),
+                                                                                              newTarget( new Fraction( 3, 6 ), green, sequentialFill( Pattern.sixFlower(), 3 ) ),
+                                                                                              newTarget( new Fraction( 4, 6 ), lightBlue, sequentialFill( Pattern.sixFlower(), 4 ) ) ) ) :
+                 new Level( List.list( 4, 3, 3, 2, 2, 1, 0, 5, 6, 7, 8, 9 ), List.list( new Target( new Fraction( 4, 3 ), red, List.list( sequentialFill( Pattern.pie( 3 ), 3 ), sequentialFill( Pattern.pie( 3 ), 1 ) ) ),
+                                                                                        new Target( new Fraction( 3, 2 ), green, List.list( sequentialFill( Pattern.pie( 2 ), 2 ), sequentialFill( Pattern.pie( 2 ), 1 ) ) ),
+                                                                                        new Target( new Fraction( 2, 1 ), lightBlue, List.list( sequentialFill( Pattern.pie( 1 ), 1 ), sequentialFill( Pattern.pie( 1 ), 1 ) ) ) ) )
             );
         }
     }};
-    public final Property<Integer> level = new Property<Integer>( 0 );
+    public final Property<Integer> level = new Property<Integer>( 4 );
 
     public void resetAll() {
         selectedScene.reset();

@@ -1,3 +1,4 @@
+Added fractions >1
 Fixed: number should become pickable after splitting a fraction
 Animate new fractions
 Wired up "split fraction" button
