@@ -21,7 +21,7 @@ public class RadiatingChargeCanvas extends Canvas {
 
     public function init(): void {
         //trace("radiatingchargeCanvas.init() called");
-        setStyle( "backgroundColor", 0xf1f191 );  //build an atom color:  0xffff99
+        setStyle( "backgroundColor", 0xf0e68c );  //build an atom color is 0xffff99
         percentWidth = 100;
         percentHeight = 100;
         //const res: radiatingcharge = new radiatingcharge( RENDER_WIDTH, RENDER_HEIGHT );//todo: compare to Util
