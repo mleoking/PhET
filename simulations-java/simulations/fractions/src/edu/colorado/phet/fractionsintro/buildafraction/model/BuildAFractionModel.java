@@ -6,19 +6,18 @@ import fj.data.List;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
+import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Pyramid;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern;
 
 import static edu.colorado.phet.fractionsintro.buildafraction.view.Target.target;
-import static edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.pie;
-import static edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.sixFlower;
 import static edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern.sequentialFill;
-import static fj.data.List.list;
-import static fj.data.List.nil;
+import static fj.data.List.*;
 import static java.awt.Color.green;
 import static java.awt.Color.red;
 
@@ -28,6 +27,7 @@ import static java.awt.Color.red;
  * @author Sam Reid
  */
 public class BuildAFractionModel {
+    public static final Color lightBlue = new Color( 100, 100, 255 );
 
     public void nextLevel() {
         level.set( level.get() + 1 );
@@ -43,7 +43,17 @@ public class BuildAFractionModel {
 
     public static F<Fraction, FilledPattern> pie = new F<Fraction, FilledPattern>() {
         @Override public FilledPattern f( final Fraction f ) {
-            return sequentialFill( pie( f.denominator ), f.numerator );
+            return sequentialFill( Pattern.pie( f.denominator ), f.numerator );
+        }
+    };
+    public static F<Fraction, FilledPattern> horizontalBar = new F<Fraction, FilledPattern>() {
+        @Override public FilledPattern f( final Fraction f ) {
+            return sequentialFill( Pattern.horizontalBars( f.denominator ), f.numerator );
+        }
+    };
+    public static F<Fraction, FilledPattern> verticalBar = new F<Fraction, FilledPattern>() {
+        @Override public FilledPattern f( final Fraction f ) {
+            return sequentialFill( Pattern.verticalBars( f.denominator ), f.numerator );
         }
     };
     public static F<Fraction, FilledPattern> pyramid1 = new F<Fraction, FilledPattern>() {
@@ -63,7 +73,7 @@ public class BuildAFractionModel {
     };
     public static F<Fraction, FilledPattern> flower = new F<Fraction, FilledPattern>() {
         @Override public FilledPattern f( final Fraction f ) {
-            return sequentialFill( sixFlower(), f.numerator );
+            return sequentialFill( Pattern.sixFlower(), f.numerator );
         }
     };
 
@@ -89,10 +99,7 @@ public class BuildAFractionModel {
 
     public final ArrayList<Level> levels = new ArrayList<Level>() {{
         for ( int i = 0; i < 10; i++ ) {
-            final Color lightBlue = new Color( 100, 100, 255 );
-            add( i == 0 ? new Level( list( 1, 1, 2, 2, 3, 3 ), list( target( 1, 2, red, pie ),
-                                                                     target( 1, 3, green, pie ),
-                                                                     target( 2, 3, lightBlue, pie ) ) ) :
+            add( i == 0 ? level0() :
                  i == 1 ? new Level( list( 1, 1, 2, 2, 3, 3, 4, 4, 5, 5 ), list( target( 2, 3, red, pie ),
                                                                                  target( 3, 4, green, pie ),
                                                                                  target( 4, 5, lightBlue, pie ) ) ) :
@@ -108,6 +115,26 @@ public class BuildAFractionModel {
             );
         }
     }};
+
+    //Choose a representation, pies or bars, but use the same representation for all things
+    private Level level0() {
+        F<Fraction, FilledPattern> representation = new Distribution<F<Fraction, FilledPattern>>() {{
+            put( pie, 60 );
+            put( horizontalBar, 20 );
+            put( verticalBar, 20 );
+        }}.draw();
+        List<Color> colors = shuffle( list( red, green, lightBlue ) );
+        return new Level( list( 1, 1, 2, 2, 3, 3 ), shuffle( list( target( 1, 2, colors.index( 0 ), representation ),
+                                                                   target( 1, 3, colors.index( 1 ), representation ),
+                                                                   target( 2, 3, colors.index( 2 ), representation ) ) ) );
+    }
+
+    private static <T> List<T> shuffle( final List<T> list ) {
+        ArrayList<T> collection = new ArrayList<T>( list.toCollection() );
+        Collections.shuffle( collection );
+        return iterableList( collection );
+    }
+
     public final Property<Integer> level = new Property<Integer>( 0 );
 
     public void resetAll() {
