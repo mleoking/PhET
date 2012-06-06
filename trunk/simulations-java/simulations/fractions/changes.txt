@@ -1,3 +1,4 @@
+Fixed: number should become pickable after splitting a fraction
 Animate new fractions
 Wired up "split fraction" button
 Numbers go back to their starting location when dropped in the toolbox or in an empty region of the play area
