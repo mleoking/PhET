@@ -13,10 +13,10 @@ import java.util.Map;
 public class ThermalEnergyTransferConstants {
     public static final double SOLID_SOLID_HEAT_TRANSFER_FACTOR = 1000;
     public static final double SOLID_WATER_HEAT_TRANSFER_FACTOR = 4000;
-    public static final double SOLID_AIR_HEAT_TRANSFER_FACTOR = 10;
+    public static final double SOLID_AIR_HEAT_TRANSFER_FACTOR = 1;
     public static final double SOLID_BURNER_TRANSFER_FACTOR = 1000;
     public static final double WATER_AIR_HEAT_TRANSFER_FACTOR = 10;
-    public static final double WATER_BURNER_TRANSFER_FACTOR = 1000;
+    public static final double WATER_BURNER_TRANSFER_FACTOR = 1;
     public static final double AIR_BURNER_TRANSFER_FACTOR = 1000;
 
     private static final Map<ThermalEnergyContainer.EnergyContainerCategory, Double> HEAT_TRANSFER_FACTORS_FOR_SOLIDS = new HashMap<ThermalEnergyContainer.EnergyContainerCategory, Double>() {{

@@ -141,7 +141,7 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
 
         if ( thermalContactLength > 0 && heatCoolLevel.get() != 0 ) {
 
-            // Exchange energy chunks if there is a temperature gradient.
+            // Exchange energy if there is a temperature gradient.
             if ( Math.abs( otherEnergyContainer.getTemperature() - getTemperature() ) > TEMPERATURES_EQUAL_THRESHOLD && heatCoolLevel.get() != 0 ) {
                 // Exchange energy between this and the other energy container.
                 // TODO: Need to look up exchange constant.
@@ -171,23 +171,28 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     }
 
     public boolean needsEnergyChunk() {
-        // TODO
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        // If cooling, the burner will always accept energy chunks.
+        return heatCoolLevel.get() < 0;
     }
 
     public boolean hasExcessEnergyChunks() {
-        // TODO
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        // If heating, the burner can provide energy chunks.
+        return heatCoolLevel.get() > 0;
     }
 
     public void addEnergyChunk( EnergyChunk ec ) {
-        // TODO
-        //To change body of implemented methods use File | Settings | File Templates.
+        energyChunkList.add( ec );
     }
 
     public EnergyChunk extractClosestEnergyChunk( ImmutableVector2D point ) {
-        // TODO
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        if ( heatCoolLevel.get() > 0 ) {
+            // Create an energy chunk.
+            return new EnergyChunk( clock, getCenterPoint(), energyChunksVisible, true );
+        }
+        else {
+            System.out.println( getClass().getName() + " - Warning: Request for energy chunk from burner when not in heat mode, returning null" );
+            return null;
+        }
     }
 
     public ImmutableVector2D getCenterPoint() {
@@ -260,7 +265,18 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     }
 
     private void stepInTime( double dt ) {
+
+        // Update internal energy based on whether flame or ice are turned on.
         updateInternallyProducedEnergy( dt );
+
+        // Generate energy chunks if needed.
+        if ( needsEnergyChunk() && heatCoolLevel.get() > 0 ) {
+            ImmutableVector2D initialChunkPosition = new ImmutableVector2D( getThermalContactArea().getBounds().getCenterX(), getThermalContactArea().getBounds().getCenterY() );
+            EnergyChunk ec = new EnergyChunk( clock, initialChunkPosition, energyChunksVisible, true );
+            energyChunkList.add( ec );
+        }
+
+        // Animate energy chunks.
         for ( EnergyChunk energyChunk : new ArrayList<EnergyChunk>( energyChunkList ) ) {
             if ( energyChunk.getExistenceStrength().get() > 0 ) {
                 // Move the chunk.
@@ -280,6 +296,7 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
         }
     }
 
+    // Convenience class - a Property<Double> with a limited range.
     private static class BoundedDoubleProperty extends Property<Double> {
 
         private DoubleRange bounds;

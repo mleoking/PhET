@@ -21,5 +21,10 @@ The burners are modeled as an energy containing model element, such as a block
 of iron, but one that can increase or decrease its energy content based on the
 position of the burner.
 
+Also, burners generate or absorb energy chunks as needed by the other energy
+containers when in the appropriate state (i.e. heating or cooling).  Unlike
+the other energy containers, they don't calculate whether they have excess or
+a deficit of energy chunks.
+
 
 

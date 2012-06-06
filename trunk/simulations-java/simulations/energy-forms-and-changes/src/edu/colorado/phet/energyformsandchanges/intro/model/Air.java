@@ -89,7 +89,7 @@ public class Air implements ThermalEnergyContainer {
     //-------------------------------------------------------------------------
 
     private void stepInTime( double dt ) {
-        System.out.println( "Air SIT is stubbed." );
+        System.out.println( "Air SIT is stubbed. Temp = " + getTemperature() );
     }
 
     private void addInitialEnergyChunks() {
@@ -128,25 +128,26 @@ public class Air implements ThermalEnergyContainer {
             }
 
             // Exchange energy chunks.
-            if ( otherEnergyContainer.needsEnergyChunk() ) {
-                // The other energy container needs an energy chunk.
-                // TODO: For now, always creates one and hands it to the container.
-                otherEnergyContainer.addEnergyChunk( new EnergyChunk( clock, 0, SIZE.getHeight(), energyChunksVisible, false ) );
+            if ( needsEnergyChunk() ) {
+                if ( otherEnergyContainer.hasExcessEnergyChunks() ) {
+                    energyChunkList.add( otherEnergyContainer.extractClosestEnergyChunk( getCenterPoint() ) );
+                }
             }
-            else if ( otherEnergyContainer.hasExcessEnergyChunks() ) {
-                // This energy container needs a chunk, and the other has
-                // excess, so take one.
-                energyChunkList.add( otherEnergyContainer.extractClosestEnergyChunk( getCenterPoint() ) );
+            else if ( hasExcessEnergyChunks() ) {
+                if ( otherEnergyContainer.needsEnergyChunk() ) {
+                    otherEnergyContainer.addEnergyChunk( extractClosestEnergyChunk( otherEnergyContainer.getCenterPoint() ) );
+                }
             }
         }
     }
 
     public boolean needsEnergyChunk() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        System.out.println( "Needs energy chunk: " + ( ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy ) > energyChunkList.size() ) );
+        return ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy ) > energyChunkList.size();
     }
 
     public boolean hasExcessEnergyChunks() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy ) < energyChunkList.size();
     }
 
     public void addEnergyChunk( EnergyChunk ec ) {
@@ -154,11 +155,17 @@ public class Air implements ThermalEnergyContainer {
     }
 
     public EnergyChunk extractClosestEnergyChunk( ImmutableVector2D point ) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        EnergyChunk closestChunk = null;
+        for ( EnergyChunk energyChunk : energyChunkList ) {
+            if ( closestChunk == null || closestChunk.position.get().distance( point ) > energyChunk.position.get().distance( point ) ) {
+                closestChunk = energyChunk;
+            }
+        }
+        return closestChunk;
     }
 
     public ImmutableVector2D getCenterPoint() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return new ImmutableVector2D( 0, SIZE.getHeight() / 2 );
     }
 
     public ThermalContactArea getThermalContactArea() {
