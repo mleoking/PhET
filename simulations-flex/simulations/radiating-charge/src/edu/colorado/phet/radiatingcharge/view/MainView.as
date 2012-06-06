@@ -23,9 +23,12 @@ import flash.display.Sprite;
 import mx.containers.Canvas;
 import mx.controls.sliderClasses.Slider;
 
+//main view and communications hub for Radiating Charge sim
 public class MainView extends Canvas {
 
     public var myFieldModel:FieldModel;
+    public var myChargeView:ChargeView;
+    public var myFieldView:FieldView;
 //    public var myControlPanel:ControlPanel;
 
     public var phetLogo: Sprite;
@@ -41,39 +44,18 @@ public class MainView extends Canvas {
         this.stageH = stageH;
         this.stageW = stageW;
         this.myFieldModel = new FieldModel(this);
+        this.myChargeView = new ChargeView( this, myFieldModel ) ;
+        this.myFieldView = new FieldView(this, myFieldModel );
 
-//        var oneDHolder:Canvas = new Canvas();
-//        var twoDHolder:Canvas = new Canvas();
-//        addChild( oneDHolder );
-//        addChild( twoDHolder  );
-
-//        tabBar = new TabBar();
-//        var oneDTab: Tab = new Tab( "1 Dimension  ", tabBar );
-//        var twoDTab: Tab = new Tab( "2 Dimensions  ", tabBar );
-//        tabBar.addTab( oneDTab );
-//        tabBar.addTab( twoDTab );
-//
-//        tabBar.selectedTab = oneDTab;
-//
-//        tabBar.addListener( function(): void {
-//            if ( tabBar.selectedTab == oneDTab ) {
-//                set1DOr2D( 1 );
-//            }
-//            else { // advanced tab
-//                set1DOr2D( 2 );
-//            }
-//        } );
-//
-//        this.addChild( new SpriteUIComponent( tabBar ));
-
-
+        this.addChild( new SpriteUIComponent( this.myChargeView ));
+        this.addChild( new SpriteUIComponent( this.myFieldView ));
 
         this.phetLogo = new PhetIcon();
 
         this.phetLogo.x = stageW - 2.0 * this.phetLogo.width;
         this.phetLogo.y = 0;// stageH - 1.5 * this.phetLogo.height;
 
-
+        //trace( "stageW:" + stageW + "   stageH:" +stageH );
 
         //phetLogo now in tab area
         this.addChild( new SpriteUIComponent( phetLogo ) );
@@ -81,14 +63,10 @@ public class MainView extends Canvas {
     }//end of constructor
 
 
-
-
-
-
     public function initializeAll(): void {
 //        this.myModel.pauseSim();
 
-    }
+    }//end of initializeAll()
 
 
 
