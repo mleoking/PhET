@@ -1,3 +1,5 @@
+Wired up "split fraction" button
+Numbers go back to their starting location when dropped in the toolbox or in an empty region of the play area
 Added multiple levels
 Added ability to go to next level after one complete
 If all targets filled up, then add a "next" button
