@@ -99,10 +99,18 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.Stilln
         return scale( this.scale + ds );
     }
 
+    //Cache the node so that it only has to get created once
+    private PNode m_node = null;
+
     public PNode toNode() {
-        final PNode node = this.node.f( fraction() );
-        node.setScale( scale );
-        return node;
+        if ( m_node == null ) {
+            this.m_node = this.node.f( fraction() );
+        }
+
+        //But do update the scale and make sure parent is non-null (otherwise disappears on click)
+        m_node.setScale( scale );
+        m_node.setParent( null );
+        return m_node;
     }
 
     public static int nextID() {

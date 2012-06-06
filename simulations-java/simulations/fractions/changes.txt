@@ -1,3 +1,4 @@
+Matching Game Tab: Performance improvements for fraction representations flying back to their containers or to the match containers
 # 0.00.77 (64713) Jun 6, 2012
 Added reset all button
 Randomized level 0
