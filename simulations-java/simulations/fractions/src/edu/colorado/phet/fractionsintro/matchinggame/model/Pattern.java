@@ -117,6 +117,8 @@ public class Pattern {
         }}.getGeneralPath();
     }
 
+    public static Pattern sixFlower() { return sixFlower( 18 ); }
+
     public static Pattern sixFlower( final Integer length ) {
         final double angle = Math.PI * 2 / 6;
         return new Pattern( range( 0, 6 ).map( new F<Integer, Shape>() {

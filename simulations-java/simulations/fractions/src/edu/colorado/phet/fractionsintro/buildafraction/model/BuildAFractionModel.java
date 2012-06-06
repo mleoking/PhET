@@ -43,9 +43,12 @@ public class BuildAFractionModel {
                  i == 1 ? new Level( List.list( 1, 1, 2, 2, 3, 3, 4, 4, 5, 5 ), List.list( new Target( new Fraction( 2, 3 ), red, sequentialFill( Pattern.pie( 3 ), 2 ) ),
                                                                                            new Target( new Fraction( 3, 4 ), green, sequentialFill( Pattern.pie( 4 ), 3 ) ),
                                                                                            new Target( new Fraction( 4, 5 ), lightBlue, sequentialFill( Pattern.pie( 5 ), 4 ) ) ) ) :
-                 new Level( List.list( 1, 2, 3, 4, 5, 6, 7, 8, 9 ), List.list( new Target( new Fraction( 1, 2 ), red, sequentialFill( Pattern.pie( 2 ), 1 ) ),
-                                                                               new Target( new Fraction( 1, 3 ), green, sequentialFill( Pattern.pie( 3 ), 1 ) ),
-                                                                               new Target( new Fraction( 2, 3 ), lightBlue, sequentialFill( Pattern.pie( 3 ), 2 ) ) ) )
+                 i == 2 ? new Level( List.list( 0, 1, 2, 3, 3, 4, 5, 6, 7, 8, 9 ), List.list( new Target( new Fraction( 2, 6 ), red, sequentialFill( Pattern.sixFlower(), 2 ) ),
+                                                                                              new Target( new Fraction( 3, 6 ), green, sequentialFill( Pattern.sixFlower(), 3 ) ),
+                                                                                              new Target( new Fraction( 4, 6 ), lightBlue, sequentialFill( Pattern.sixFlower(), 4 ) ) ) ) :
+                 new Level( List.list( 0, 1, 2, 3, 3, 4, 5, 6, 7, 8, 9 ), List.list( new Target( new Fraction( 2, 6 ), red, sequentialFill( Pattern.sixFlower(), 2 ) ),
+                                                                                     new Target( new Fraction( 3, 6 ), green, sequentialFill( Pattern.sixFlower(), 3 ) ),
+                                                                                     new Target( new Fraction( 4, 6 ), lightBlue, sequentialFill( Pattern.sixFlower(), 4 ) ) ) )
             );
         }
     }};
