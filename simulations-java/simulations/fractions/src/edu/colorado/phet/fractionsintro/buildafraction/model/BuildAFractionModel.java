@@ -115,23 +115,22 @@ public class BuildAFractionModel {
     }};
 
     private Level level1() {
-        List<Color> colors = shuffledColors();
-        return new Level( list( 1, 1, 2, 2, 3, 3, 4, 4, 5, 5 ), shuffle( list( target( 2, 3, colors.index( 0 ), pie ),
-                                                                               target( 3, 4, colors.index( 1 ), pie ),
-                                                                               target( 4, 5, colors.index( 2 ), pie ) ) ) );
-    }
-
-    //Choose a representation, pies or bars, but use the same representation for all things
-    private Level level0() {
         F<Fraction, FilledPattern> representation = new Distribution<F<Fraction, FilledPattern>>() {{
-            put( pie, 60 );
             put( horizontalBar, 20 );
             put( verticalBar, 20 );
         }}.draw();
         List<Color> colors = shuffledColors();
-        return new Level( list( 1, 1, 2, 2, 3, 3 ), shuffle( list( target( 1, 2, colors.index( 0 ), representation ),
-                                                                   target( 1, 3, colors.index( 1 ), representation ),
-                                                                   target( 2, 3, colors.index( 2 ), representation ) ) ) );
+        return new Level( list( 1, 1, 2, 2, 3, 3, 4, 4, 5, 5 ), shuffle( list( target( 2, 3, colors.index( 0 ), representation ),
+                                                                               target( 3, 4, colors.index( 1 ), representation ),
+                                                                               target( 4, 5, colors.index( 2 ), representation ) ) ) );
+    }
+
+    //Choose a representation, pies or bars, but use the same representation for all things
+    private Level level0() {
+        List<Color> colors = shuffledColors();
+        return new Level( list( 1, 1, 2, 2, 3, 3 ), shuffle( list( target( 1, 2, colors.index( 0 ), pie ),
+                                                                   target( 1, 3, colors.index( 1 ), pie ),
+                                                                   target( 2, 3, colors.index( 2 ), pie ) ) ) );
     }
 
     private List<Color> shuffledColors() {return shuffle( list( red, green, lightBlue ) );}
