@@ -238,6 +238,14 @@ public class Pattern {
         //The height of an equilateral triangle with side length given
         private static double getHeight( final double length ) {return Math.sqrt( 3 ) / 2.0 * length;}
 
+        public static final double DEFAULT_SIZE = 80;
+
+        public static Pattern single() { return single( DEFAULT_SIZE ); }
+
+        public static Pattern four() { return four( DEFAULT_SIZE / 2 ); }
+
+        public static Pattern nine() { return nine( DEFAULT_SIZE / 3 ); }
+
         public static Pattern single( double length ) {
             return new Pattern( List.single( triangle( length, new Vector2D( 0, 0 ), UP ) ) );
         }
