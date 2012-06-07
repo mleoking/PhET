@@ -1,8 +1,9 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.platetectonics.model;
+package edu.colorado.phet.platetectonics.model.labels;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
 
 public class RangeLabel {
     public final Property<ImmutableVector3F> top;

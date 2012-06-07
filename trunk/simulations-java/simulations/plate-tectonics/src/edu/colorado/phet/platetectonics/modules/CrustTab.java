@@ -27,7 +27,7 @@ import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.view.ColorMode;
 import edu.colorado.phet.platetectonics.view.PlateView;
-import edu.colorado.phet.platetectonics.view.RangeLabelNode;
+import edu.colorado.phet.platetectonics.view.labels.RangeLabelNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings.CONTINENTAL_CRUST;

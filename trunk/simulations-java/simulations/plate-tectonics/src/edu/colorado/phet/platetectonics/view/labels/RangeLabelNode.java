@@ -1,9 +1,10 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.platetectonics.view;
+package edu.colorado.phet.platetectonics.view.labels;
 
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -16,18 +17,22 @@ import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.PlanarComponentNode;
 import edu.colorado.phet.lwjglphet.nodes.PlanarPiccoloNode;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
+import edu.colorado.phet.platetectonics.view.ColorMode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.lwjglphet.utils.LWJGLUtils.vertex3f;
-import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.DARK_LABEL;
-import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.LIGHT_LABEL;
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
+import static org.lwjgl.opengl.GL11.GL_LINES;
+import static org.lwjgl.opengl.GL11.GL_LINE_STRIP;
+import static org.lwjgl.opengl.GL11.glBegin;
+import static org.lwjgl.opengl.GL11.glEnd;
 
 /**
  * A label that shows a range that it is associated with (usually a top and bottom point)
  */
-public class RangeLabelNode extends GLNode {
+public class RangeLabelNode extends BaseLabelNode {
 
     public static final float POINT_LENGTH = 10;
     public static final float POINT_OFFSET = 20;
@@ -42,8 +47,6 @@ public class RangeLabelNode extends GLNode {
     private final Property<ImmutableVector3F> top;
     private final Property<ImmutableVector3F> bottom;
     private final String label;
-    private final Property<ColorMode> colorMode;
-    private final boolean dark;
     private Property<ImmutableVector3F> labelLocation;
     private PlanarComponentNode labelNode;
     private GLNode labelNodeContainer;
@@ -75,11 +78,10 @@ public class RangeLabelNode extends GLNode {
      * @param labelLocation The position of the label (3d point)
      */
     public RangeLabelNode( final Property<ImmutableVector3F> top, final Property<ImmutableVector3F> bottom, String label, final Property<Float> scale, final Property<ColorMode> colorMode, final boolean isDark, final Property<ImmutableVector3F> labelLocation ) {
+        super( colorMode, isDark );
         this.top = top;
         this.bottom = bottom;
         this.label = label;
-        this.colorMode = colorMode;
-        dark = isDark;
         this.labelLocation = labelLocation;
         this.scale = scale;
 
@@ -88,10 +90,10 @@ public class RangeLabelNode extends GLNode {
             scale( PIXEL_SCALE );
             colorMode.addObserver( new SimpleObserver() {
                 public void update() {
-                    final boolean black = hasDarkColor();
+                    final Color color = getColor();
                     SwingUtilities.invokeLater( new Runnable() {
                         public void run() {
-                            setTextPaint( black ? DARK_LABEL : LIGHT_LABEL );
+                            setTextPaint( color );
                             repaint();
                         }
                     } );
@@ -149,11 +151,8 @@ public class RangeLabelNode extends GLNode {
         requireEnabled( GL_BLEND );
     }
 
-    private boolean hasDarkColor() {
-        return dark == ( RangeLabelNode.this.colorMode.get() == ColorMode.DENSITY );
-    }
-
-    @Override public void renderSelf( GLOptions options ) {
+    @Override
+    public void renderSelf( GLOptions options ) {
         ImmutableVector3F topToBottom = bottom.get().minus( top.get() ).normalized();
         ImmutableVector3F crossed = topToBottom.cross( NORMAL ).normalized();
         ImmutableVector3F perpendicular = crossed.times( scale.get() * BAR_WIDTH / 2 );
@@ -180,7 +179,7 @@ public class RangeLabelNode extends GLNode {
             labelNodeContainer.transform.set( ImmutableMatrix4F.IDENTITY );
 
             glBegin( GL_LINES );
-            LWJGLUtils.color4f( hasDarkColor() ? DARK_LABEL : LIGHT_LABEL );
+            LWJGLUtils.color4f( getColor() );
             vertex3f( top.get().plus( perpendicular ) );
             vertex3f( top.get().minus( perpendicular ) );
 
@@ -200,7 +199,7 @@ public class RangeLabelNode extends GLNode {
                                                                              POINT_LENGTH * scale.get(), 0 ) );
 
             glBegin( GL_LINE_STRIP );
-            LWJGLUtils.color4f( hasDarkColor() ? DARK_LABEL : LIGHT_LABEL );
+            LWJGLUtils.color4f( getColor() );
             vertex3f( middle );
             vertex3f( middle.plus( new ImmutableVector3F( POINT_LENGTH, POINT_LENGTH, 0 ).times( scale.get() ) ) );
             vertex3f( middle.plus( new ImmutableVector3F( POINT_LENGTH + POINT_OFFSET,
