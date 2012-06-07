@@ -1,4 +1,4 @@
-package edu.colorado.phet.fractionsintro.buildafraction_functional.view;
+package edu.colorado.phet.fractionsintro.buildafraction_functional.view.numbers;
 
 import fj.Ord;
 
