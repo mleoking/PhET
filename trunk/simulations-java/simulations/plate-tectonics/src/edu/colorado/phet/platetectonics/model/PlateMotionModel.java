@@ -211,7 +211,11 @@ public class PlateMotionModel extends PlateModel {
         leftPlate.getBehavior().afterConstructionInit();
         rightPlate.getBehavior().afterConstructionInit();
 
-        if ( textLabels.isEmpty() && hasBothPlates.get() ) {
+        if ( motionType.get() == MotionType.TRANSFORM ) {
+            // no labels for the transform motion type
+            textLabels.clear();
+        }
+        else if ( textLabels.isEmpty() && hasBothPlates.get() ) {
             addMantleLabel();
         }
     }
