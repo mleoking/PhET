@@ -1,7 +1,7 @@
 --
 Chris Malley (PixelZoom, Inc.) - Status Report
 
-PERIOD: March 15-21, 2011
+PERIOD: March 15-21, 2012
 
 Beer's Law Lab
 - created a version for interviews without wavelength control

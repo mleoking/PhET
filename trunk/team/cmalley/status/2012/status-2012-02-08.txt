@@ -1,7 +1,7 @@
 --
 Chris Malley (PixelZoom, Inc.) - Status Report
 
-PERIOD: Feb 2-8, 2011
+PERIOD: Feb 2-8, 2012
 
 Molarity
 - created interview flavor, with data collection enabled

@@ -1,7 +1,7 @@
 --
 Chris Malley (PixelZoom, Inc.) - Status Report
 
-PERIOD: March 22 - April 4, 2011
+PERIOD: March 22 - April 4, 2012
 
 Line Graphing
 - design meeting

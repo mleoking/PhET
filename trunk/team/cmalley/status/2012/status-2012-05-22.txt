@@ -1,7 +1,7 @@
 --
 Chris Malley (PixelZoom, Inc.) - Status Report
 
-PERIOD: May 8-22, 2011
+PERIOD: May 8-22, 2012
 
 Beer's Law Lab
 - met with JC to discuss loose ends

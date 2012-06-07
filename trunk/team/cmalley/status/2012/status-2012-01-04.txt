@@ -1,7 +1,7 @@
 --
 Chris Malley (PixelZoom, Inc.) - Status Report
 
-PERIOD: Dec 22 - Jan 4, 2011
+PERIOD: Dec 22, 2011 - Jan 4, 2012
 
 Beer's Law Lab
 - first tab is almost "feature complete"

@@ -1,7 +1,7 @@
 --
 Chris Malley (PixelZoom, Inc.) - Status Report
 
-PERIOD: Jan 12-18, 2011
+PERIOD: Jan 12-18, 2012
 
 Acid-Base Solutions
 - misc changes to data collection to support study
