@@ -188,6 +188,16 @@ public class PictureSceneNode extends PNode implements ContainerContext {
             }, selectedPieceSize.lessThan( 6 ) ) {{
                 setOffset( bucketView.getFrontNode().getFullBounds().getMaxX() - getFullBounds().getWidth() - buttonInset, bucketView.getFrontNode().getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
             }} );
+
+            addChild( new PNode() {{
+                selectedPieceSize.addObserver( new VoidFunction1<Integer>() {
+                    public void apply( final Integer selectedSize ) {
+                        removeAllChildren();
+                        addChild( new PieceIconNode( selectedSize ) );
+                        centerFullBoundsOnPoint( bucketView.getFrontNode().getFullBounds().getCenterX(), bucketView.getFrontNode().getFullBounds().getCenterY() );
+                    }
+                } );
+            }} );
         }};
         addChild( frontLayer );
     }

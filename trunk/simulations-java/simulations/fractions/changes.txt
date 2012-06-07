@@ -1,3 +1,4 @@
+Added bucket icon
 Added pieces in the bucket
 Added enable/disable for bucket spinner buttons
 Build a fraction tab: Added bucket spinner buttons
