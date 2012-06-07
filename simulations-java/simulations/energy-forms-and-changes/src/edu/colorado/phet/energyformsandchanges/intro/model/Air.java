@@ -4,6 +4,9 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
@@ -61,6 +64,7 @@ public class Air implements ThermalEnergyContainer {
     private ConstantDtClock clock;
     private BooleanProperty energyChunksVisible;
     protected final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
+    protected final Map<EnergyChunk, ChunkMover> mapEnergyChunksToMovers = new HashMap<EnergyChunk, ChunkMover>();
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -89,10 +93,12 @@ public class Air implements ThermalEnergyContainer {
     private void stepInTime( double dt ) {
         // Update the position of any energy chunks.
         for ( EnergyChunk energyChunk : new ArrayList<EnergyChunk>( energyChunkList ) ) {
-            energyChunk.position.set( energyChunk.position.get().getAddedInstance( new ImmutableVector2D( 0, dt * 0.05 ) ) );
+//            energyChunk.position.set( energyChunk.position.get().getAddedInstance( 0, 0.1 * dt ) );
+            mapEnergyChunksToMovers.get( energyChunk ).setNextPosition( energyChunk, dt );
             if ( !getThermalContactArea().getBounds().contains( energyChunk.position.get().toPoint2D() ) ) {
                 // Remove this energy chunk.
                 energyChunkList.remove( energyChunk );
+                mapEnergyChunksToMovers.remove( energyChunk );
             }
         }
     }
@@ -108,6 +114,7 @@ public class Air implements ThermalEnergyContainer {
     public void reset() {
         energy = INITIAL_ENERGY;
         energyChunkList.clear();
+        mapEnergyChunksToMovers.clear();
     }
 
     public void exchangeEnergyWith( ThermalEnergyContainer otherEnergyContainer, double dt ) {
@@ -124,7 +131,7 @@ public class Air implements ThermalEnergyContainer {
             // Exchange energy chunks.
             if ( needsEnergyChunk() ) {
                 if ( otherEnergyContainer.hasExcessEnergyChunks() ) {
-                    energyChunkList.add( otherEnergyContainer.extractClosestEnergyChunk( getCenterPoint() ) );
+                    addEnergyChunk( otherEnergyContainer.extractClosestEnergyChunk( getCenterPoint() ) );
                 }
             }
             else if ( hasExcessEnergyChunks() ) {
@@ -145,6 +152,7 @@ public class Air implements ThermalEnergyContainer {
 
     public void addEnergyChunk( EnergyChunk ec ) {
         energyChunkList.add( ec );
+        mapEnergyChunksToMovers.put( ec, new ChunkMover( ec.position.get() ) );
     }
 
     public EnergyChunk extractClosestEnergyChunk( ImmutableVector2D point ) {
@@ -178,16 +186,35 @@ public class Air implements ThermalEnergyContainer {
     }
 
     // Class that controls the wandering of the energy chunks.
-    public static final class MotionController {
-        private static final double MAX_VELOCITY = 0.1; // In m/s.
+    public static final class ChunkMover {
+        private static final double MIN_VELOCITY = 0.04; // In m/s.
+        private static final double MAX_VELOCITY = 0.07; // In m/s.
+        private static final Random RAND = new Random();
+        private static final double MIN_TIME_IN_ONE_DIRECTION = 0.5;
+        private static final double MAX_TIME_IN_ONE_DIRECTION = 1;
 
         private Vector2D velocity = new Vector2D( 0, MAX_VELOCITY );
+        private Vector2D currentPosition = new Vector2D();
+        private double countdownTimer = 0;
 
-        public MotionController( ImmutableVector2D startingPoint ) {
+        public ChunkMover( ImmutableVector2D startingPoint ) {
+            currentPosition.setValue( startingPoint );
+            updateVelocity();
         }
 
-        public ImmutableVector2D getNextPosition( ImmutableVector2D currentPosition, double dt ) {
-            return new ImmutableVector2D( currentPosition.getAddedInstance( velocity.getScaledInstance( dt ) ) );
+        public void setNextPosition( EnergyChunk energyChunk, double dt ) {
+            energyChunk.position.set( energyChunk.position.get().getAddedInstance( velocity.getScaledInstance( dt ) ) );
+            countdownTimer -= dt;
+            if ( countdownTimer <= 0 ) {
+                updateVelocity();
+                countdownTimer = MIN_TIME_IN_ONE_DIRECTION + ( MAX_TIME_IN_ONE_DIRECTION - MIN_TIME_IN_ONE_DIRECTION ) * RAND.nextDouble();
+            }
+        }
+
+        private void updateVelocity() {
+            double angle = Math.PI / 2 + ( RAND.nextDouble() - 0.5 ) * Math.PI / 6;
+            double scalarVelocity = MIN_VELOCITY + ( MAX_VELOCITY - MIN_VELOCITY ) * RAND.nextDouble();
+            velocity.setComponents( scalarVelocity * Math.cos( angle ), scalarVelocity * Math.sin( angle ) );
         }
     }
 }
