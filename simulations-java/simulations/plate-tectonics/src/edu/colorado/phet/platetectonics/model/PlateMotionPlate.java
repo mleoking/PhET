@@ -12,6 +12,7 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.model.behaviors.PlateBehavior;
 import edu.colorado.phet.platetectonics.model.behaviors.RiftingBehavior;
+import edu.colorado.phet.platetectonics.model.behaviors.TransformBehavior;
 import edu.colorado.phet.platetectonics.model.labels.BoundaryLabel;
 import edu.colorado.phet.platetectonics.model.labels.RangeLabel;
 import edu.colorado.phet.platetectonics.model.regions.Boundary;
@@ -152,14 +153,14 @@ public class PlateMotionPlate extends Plate {
         }};
 
         model.rangeLabels.add( new RangeLabel(
-                crustTop,
-                crustBottom,
+                new BoundaryTrackingProperty( getCrust().getTopBoundary(), crustLabelIndex ),
+                new BoundaryTrackingProperty( getCrust().getBottomBoundary(), crustLabelIndex ),
                 type.getSpecificLabel(), this
         ) );
 
         model.rangeLabels.add( new RangeLabel(
-                lithosphereTop,
-                lithosphereBottom,
+                new BoundaryTrackingProperty( getCrust().getTopBoundary(), lithosphereLabelIndex ),
+                new BoundaryTrackingProperty( getLithosphere().getBottomBoundary(), lithosphereLabelIndex ),
                 Strings.LITHOSPHERE, this
         ) );
 
@@ -475,5 +476,27 @@ public class PlateMotionPlate extends Plate {
         }
 
         getTerrain().elevationChanged.updateListeners();
+    }
+
+    public class BoundaryTrackingProperty extends Property<ImmutableVector3F> {
+        public BoundaryTrackingProperty( final Boundary boundary, int labelIndex ) {
+            super( new ImmutableVector3F() );
+
+            final Sample sample = boundary.getSample( labelIndex );
+            assert sample != null;
+            final float initialX = sample.getPosition().x;
+
+            model.modelChanged.addUpdateListener(
+                    new UpdateListener() {
+                        public void update() {
+                            if ( behavior instanceof RiftingBehavior || behavior instanceof TransformBehavior ) {
+                                set( sample.getPosition() );
+                            }
+                            else {
+                                set( new ImmutableVector3F( initialX, boundary.getApproximateYFromX( initialX ), 0 ) );
+                            }
+                        }
+                    }, true );
+        }
     }
 }

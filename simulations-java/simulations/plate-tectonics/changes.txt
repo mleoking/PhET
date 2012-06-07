@@ -1,3 +1,4 @@
+Non-divergent crust / lithosphere labels made stationary
 Added "boundary" labeling between mantle and lithosphere.
 Density sensor now will read out correct land / water density values when positioned over the earth "top" i.e. water surface or earth surface.
 # 0.00.40 (64654) Jun 5, 2012
