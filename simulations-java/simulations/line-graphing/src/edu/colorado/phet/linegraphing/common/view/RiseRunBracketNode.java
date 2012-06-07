@@ -51,8 +51,9 @@ public class RiseRunBracketNode extends PComposite {
     private static final Color LABEL_BACKGROUND_COLOR = ColorUtils.createColor( LGColors.SLOPE, 150 );
     private static final NumberFormat LABEL_FORMAT = new DefaultDecimalFormat( "0" );
     private final double MINUS_SIGN_WIDTH = new PhetPText( "-", LABEL_FONT ).getFullBoundsReference().getWidth();
-    private static final double LABEL_SPACING = 2;
-    private static final double LABEL_BACKGROUND_MARGIN = 3;
+    private static final double LABEL_SPACING = 1;
+    private static final double LABEL_BACKGROUND_X_MARGIN = 6;
+    private static final double LABEL_BACKGROUND_Y_MARGIN = 3;
 
     // Constructor that uses default look
     public RiseRunBracketNode( Direction direction, double length, double value ) {
@@ -65,23 +66,34 @@ public class RiseRunBracketNode extends PComposite {
         PPath bracketNode = new PPath( createBracketShape( Math.abs( length ) ) );
         bracketNode.setStroke( bracketStroke );
         bracketNode.setStrokePaint( bracketColor );
-        addChild( bracketNode );
 
         // label
         PText labelNode = new PText( LABEL_FORMAT.format( value ) );
         labelNode.setFont( font );
         labelNode.setTextPaint( textColor );
-        addChild( labelNode );
 
         // background for the label
-        PPath backgroundNode = new PPath( new RoundRectangle2D.Double( 0, 0,
-                                                                  labelNode.getFullBoundsReference().getWidth() + ( 2 * LABEL_BACKGROUND_MARGIN ),
-                                                                  labelNode.getFullBoundsReference().getHeight() + ( 2 * LABEL_BACKGROUND_MARGIN ),
-                                                                  5, 5 ) );
-        backgroundNode.setPaint( backgroundColor );
-        backgroundNode.setStroke( null );
-        addChild( backgroundNode );
-        backgroundNode.moveInBackOf( labelNode );
+        final RoundRectangle2D.Double backgroundShape = new RoundRectangle2D.Double( 0, 0,
+                                                                            labelNode.getFullBoundsReference().getWidth() + ( 2 * LABEL_BACKGROUND_X_MARGIN ),
+                                                                            labelNode.getFullBoundsReference().getHeight() + ( 2 * LABEL_BACKGROUND_Y_MARGIN ),
+                                                                            5, 5 );
+
+        // Put an opaque background behind a translucent background, so that we can vary the saturation of the slope color using the alpha channel.
+        PPath opaqueBackgroundNode = new PPath( backgroundShape );
+        opaqueBackgroundNode.setPaint( Color.WHITE );
+        opaqueBackgroundNode.setStroke( null );
+
+        PPath translucentBackgroundNode = new PPath( backgroundShape );
+        translucentBackgroundNode.setPaint( backgroundColor );
+        translucentBackgroundNode.setStroke( null );
+
+        // rendering order
+        {
+            addChild( bracketNode );
+            addChild( opaqueBackgroundNode );
+            addChild( translucentBackgroundNode );
+            addChild( labelNode );
+        }
 
         // layout
         {
@@ -95,7 +107,7 @@ public class RiseRunBracketNode extends PComposite {
                 }
                 // centered below bracket
                 labelNode.setOffset( bracketNode.getFullBoundsReference().getCenterX() - ( labelNode.getFullBoundsReference().getWidth() / 2 ) - signOffset,
-                                    bracketNode.getFullBoundsReference().getMaxY() + LABEL_SPACING );
+                                    bracketNode.getFullBoundsReference().getMaxY() + LABEL_SPACING + LABEL_BACKGROUND_Y_MARGIN );
             }
             else if ( direction == Direction.DOWN ) {
                 bracketNode.setRotation( Math.PI );
@@ -104,7 +116,7 @@ public class RiseRunBracketNode extends PComposite {
                 }
                 // centered above bracket
                 labelNode.setOffset( bracketNode.getFullBoundsReference().getCenterX() - ( labelNode.getFullBoundsReference().getWidth() / 2 ) - signOffset,
-                                    bracketNode.getFullBoundsReference().getMinY() - labelNode.getFullBoundsReference().getHeight() - LABEL_SPACING );
+                                    bracketNode.getFullBoundsReference().getMinY() - labelNode.getFullBoundsReference().getHeight() - LABEL_SPACING - LABEL_BACKGROUND_Y_MARGIN);
             }
             else if ( direction == Direction.LEFT ) {
                 bracketNode.setRotation( -Math.PI / 2 );
@@ -112,7 +124,7 @@ public class RiseRunBracketNode extends PComposite {
                     bracketNode.setOffset( 0, bracketNode.getFullBoundsReference().getHeight() );
                 }
                 // centered to right of bracket
-                labelNode.setOffset( bracketNode.getFullBoundsReference().getMaxX() + LABEL_SPACING,
+                labelNode.setOffset( bracketNode.getFullBoundsReference().getMaxX() + LABEL_SPACING + LABEL_BACKGROUND_X_MARGIN,
                                      bracketNode.getFullBoundsReference().getCenterY() - ( labelNode.getFullBoundsReference().getHeight() / 2 ) );
             }
             else if ( direction == Direction.RIGHT ) {
@@ -121,7 +133,7 @@ public class RiseRunBracketNode extends PComposite {
                     bracketNode.setOffset( 0, -bracketNode.getFullBoundsReference().getHeight() );
                 }
                 // centered to left of bracket
-                labelNode.setOffset( bracketNode.getFullBoundsReference().getMinX() - labelNode.getFullBoundsReference().getWidth() - LABEL_SPACING,
+                labelNode.setOffset( bracketNode.getFullBoundsReference().getMinX() - labelNode.getFullBoundsReference().getWidth() - LABEL_SPACING - LABEL_BACKGROUND_X_MARGIN,
                                     bracketNode.getFullBoundsReference().getCenterY() - ( labelNode.getFullBoundsReference().getHeight() / 2 ) );
             }
             else {
@@ -129,8 +141,9 @@ public class RiseRunBracketNode extends PComposite {
             }
 
             // background behind label
-            backgroundNode.setOffset( labelNode.getFullBoundsReference().getMinX() - LABEL_BACKGROUND_MARGIN,
-                                      labelNode.getFullBoundsReference().getMinY() - LABEL_BACKGROUND_MARGIN );
+            opaqueBackgroundNode.setOffset( labelNode.getFullBoundsReference().getMinX() - LABEL_BACKGROUND_X_MARGIN,
+                                      labelNode.getFullBoundsReference().getMinY() - LABEL_BACKGROUND_Y_MARGIN );
+            translucentBackgroundNode.setOffset( opaqueBackgroundNode.getOffset() );
         }
     }
 
