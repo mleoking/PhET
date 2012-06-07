@@ -1,3 +1,4 @@
+6/7/12 delete equation controls that aren't used
 6/7/12 gray for control panel backgrounds
 6/7/12 black for non-interactive parts of equation
 6/7/12 change default equations
