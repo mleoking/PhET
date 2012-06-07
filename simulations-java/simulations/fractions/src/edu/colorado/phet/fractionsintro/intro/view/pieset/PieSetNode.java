@@ -67,7 +67,7 @@ public class PieSetNode extends FNode {
         };
         model.addObserver( observer );
         addPropertyChangeListener( PROPERTY_VISIBLE, new PropertyChangeListener() {
-            @Override public void propertyChange( final PropertyChangeEvent evt ) {
+            public void propertyChange( final PropertyChangeEvent evt ) {
                 observer.update();
             }
         } );
