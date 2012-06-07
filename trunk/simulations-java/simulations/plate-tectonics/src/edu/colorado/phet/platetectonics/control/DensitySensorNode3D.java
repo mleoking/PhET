@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.control;
 
-import java.awt.Cursor;
+import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -17,7 +17,11 @@ import edu.colorado.phet.common.piccolophet.nodes.PointSensor;
 import edu.colorado.phet.common.piccolophet.nodes.SpeedometerNode;
 import edu.colorado.phet.common.piccolophet.nodes.SpeedometerSensorNode;
 import edu.colorado.phet.lwjglphet.LWJGLCursorHandler;
-import edu.colorado.phet.lwjglphet.math.*;
+import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
+import edu.colorado.phet.lwjglphet.math.Ray3F;
 import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
@@ -82,6 +86,13 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
     }
 
     public boolean allowsDrag( ImmutableVector2F initialPosition ) {
+//        ImmutableVector2F localPosition = new ImmutableVector2F(
+//                initialPosition.x - draggedPosition.x + getSensorXOffset(),
+//                initialPosition.y - draggedPosition.y
+//        );
+//        System.out.println( "initialPosition = " + initialPosition );
+//        System.out.println( "localPosition = " + localPosition );
+//        return getNode().fullIntersects( new PBounds( localPosition.x, localPosition.y, 0.1, 0.1 ) );
         return true; // if this node is picked, always allow a drag anywhere on it
     }
 
