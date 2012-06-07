@@ -1,4 +1,4 @@
-package edu.colorado.phet.fractionsintro.buildafraction.view;
+package edu.colorado.phet.fractionsintro.buildafraction.view.numbers;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;

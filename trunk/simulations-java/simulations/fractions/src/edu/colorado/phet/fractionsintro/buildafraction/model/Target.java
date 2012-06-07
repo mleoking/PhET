@@ -1,4 +1,4 @@
-package edu.colorado.phet.fractionsintro.buildafraction.view;
+package edu.colorado.phet.fractionsintro.buildafraction.model;
 
 import fj.F;
 import fj.data.List;
@@ -6,7 +6,6 @@ import lombok.Data;
 
 import java.awt.Color;
 
-import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern;
 

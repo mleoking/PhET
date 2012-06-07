@@ -1,4 +1,4 @@
-package edu.colorado.phet.fractionsintro.buildafraction.view;
+package edu.colorado.phet.fractionsintro.buildafraction.view.numbers;
 
 import fj.F;
 import fj.Ord;
@@ -29,6 +29,8 @@ import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.buildafraction.model.Level;
+import edu.colorado.phet.fractionsintro.buildafraction.model.Target;
+import edu.colorado.phet.fractionsintro.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
