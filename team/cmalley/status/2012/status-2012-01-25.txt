@@ -1,7 +1,7 @@
 --
 Chris Malley (PixelZoom, Inc.) - Status Report
 
-PERIOD: Jan 19-25, 2011
+PERIOD: Jan 19-25, 2012
 
 Molarity
 - preparing this sim for interviews

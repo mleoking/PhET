@@ -1,7 +1,7 @@
 --
 Chris Malley (PixelZoom, Inc.) - Status Report
 
-PERIOD: Jan 26 - Feb 1, 2011
+PERIOD: Jan 26 - Feb 1, 2012
 
 Molarity
 - misc change requests
