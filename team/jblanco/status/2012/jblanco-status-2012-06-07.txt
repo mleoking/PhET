@@ -39,9 +39,10 @@ Environment - 1.5 hrs
 
 o	Experimented with disabling the graphics controller on my laptop for (hopefully) better interaction with projectors.
 
-Customer Support - 0.5 hrs
+Customer Support - 1.0 hrs
 
 o	Responded to a customer who had questions about using the PhET Build GUI (PBG).
+o	Discussed Flash development with middle school teacher who called in.
 
 Meetings, Email, and Other Administrative Overhead - 5.0 hrs
 
