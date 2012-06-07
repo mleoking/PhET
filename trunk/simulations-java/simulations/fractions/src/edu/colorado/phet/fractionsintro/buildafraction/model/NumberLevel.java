@@ -10,7 +10,7 @@ import edu.colorado.phet.fractionsintro.intro.model.Fraction;
  *
  * @author Sam Reid
  */
-public class Level {
+public class NumberLevel {
 
     //Fractions the user has created in the play area, which may match a target
     public final Property<List<Fraction>> createdFractions = new Property<List<Fraction>>( List.<Fraction>nil() );
@@ -18,7 +18,7 @@ public class Level {
     public final List<Integer> numbers;
     public final List<Target> targets;
 
-    public Level( final List<Integer> numbers, final List<Target> targets ) {
+    public NumberLevel( final List<Integer> numbers, final List<Target> targets ) {
         this.numbers = numbers;
         this.targets = targets;
     }

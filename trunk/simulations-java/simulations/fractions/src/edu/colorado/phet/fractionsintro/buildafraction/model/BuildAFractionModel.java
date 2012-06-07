@@ -29,14 +29,8 @@ import static java.awt.Color.red;
 public class BuildAFractionModel {
     public static final Color lightBlue = new Color( 100, 100, 255 );
 
-    public void nextLevel() {
-        level.set( level.get() + 1 );
-    }
-
-    public void removeCreatedValue( final Fraction value ) {
-        final Property<List<Fraction>> fractions = levels.get( level.get() ).createdFractions;
-        fractions.set( fractions.get().delete( value, Equal.<Fraction>anyEqual() ) );
-    }
+    public final Property<Integer> numberLevel = new Property<Integer>( 0 );
+    public final Property<Integer> pictureLevel = new Property<Integer>( 0 );
 
     public final ConstantDtClock clock = new ConstantDtClock();
     public final Property<Scene> selectedScene = new Property<Scene>( Scene.numbers );
@@ -97,40 +91,47 @@ public class BuildAFractionModel {
         };
     }
 
-    public final ArrayList<Level> levels = new ArrayList<Level>() {{
+    public final ArrayList<NumberLevel> numberLevels = new ArrayList<NumberLevel>() {{
         for ( int i = 0; i < 10; i++ ) {
             add( i == 0 ? level0() :
                  i == 1 ? level1() :
-                 i == 2 ? new Level( list( 0, 1, 2, 3, 3, 3, 4, 4, 5, 6, 6, 7, 8, 9 ), shuffle( list( target( 2, 6, red, flower ),
-                                                                                                      target( 3, 6, green, flower ),
-                                                                                                      target( 4, 6, lightBlue, flower ) ) ) ) :
-                 i == 3 ? new Level( list( 0, 1, 1, 2, 3, 3, 3, 4, 5, 6, 7, 8, 9 ), list( target( 1, 1, red, pyramid1 ),
-                                                                                          target( 3, 4, green, pyramid4 ),
-                                                                                          target( 5, 9, lightBlue, pyramid9 ) ) ) :
-                 new Level( list( 4, 3, 3, 2, 2, 1, 0, 5, 6, 7, 8, 9 ), shuffle( list( target( 4, 3, red, pie ),
-                                                                                       target( 3, 2, green, pie ),
-                                                                                       target( 2, 1, lightBlue, pie ) ) ) )
+                 i == 2 ? new NumberLevel( list( 0, 1, 2, 3, 3, 3, 4, 4, 5, 6, 6, 7, 8, 9 ), shuffle( list( target( 2, 6, red, flower ),
+                                                                                                            target( 3, 6, green, flower ),
+                                                                                                            target( 4, 6, lightBlue, flower ) ) ) ) :
+                 i == 3 ? new NumberLevel( list( 0, 1, 1, 2, 3, 3, 3, 4, 5, 6, 7, 8, 9 ), list( target( 1, 1, red, pyramid1 ),
+                                                                                                target( 3, 4, green, pyramid4 ),
+                                                                                                target( 5, 9, lightBlue, pyramid9 ) ) ) :
+                 new NumberLevel( list( 4, 3, 3, 2, 2, 1, 0, 5, 6, 7, 8, 9 ), shuffle( list( target( 4, 3, red, pie ),
+                                                                                             target( 3, 2, green, pie ),
+                                                                                             target( 2, 1, lightBlue, pie ) ) ) )
             );
         }
     }};
 
-    private Level level1() {
+    public void nextNumberLevel() { numberLevel.set( numberLevel.get() + 1 ); }
+
+    public void removeCreatedValueFromNumberLevel( final Fraction value ) {
+        final Property<List<Fraction>> fractions = numberLevels.get( numberLevel.get() ).createdFractions;
+        fractions.set( fractions.get().delete( value, Equal.<Fraction>anyEqual() ) );
+    }
+
+    private NumberLevel level1() {
         F<Fraction, FilledPattern> representation = new Distribution<F<Fraction, FilledPattern>>() {{
             put( horizontalBar, 20 );
             put( verticalBar, 20 );
         }}.draw();
         List<Color> colors = shuffledColors();
-        return new Level( list( 1, 1, 2, 2, 3, 3, 4, 4, 5, 5 ), shuffle( list( target( 2, 3, colors.index( 0 ), representation ),
-                                                                               target( 3, 4, colors.index( 1 ), representation ),
-                                                                               target( 4, 5, colors.index( 2 ), representation ) ) ) );
+        return new NumberLevel( list( 1, 1, 2, 2, 3, 3, 4, 4, 5, 5 ), shuffle( list( target( 2, 3, colors.index( 0 ), representation ),
+                                                                                     target( 3, 4, colors.index( 1 ), representation ),
+                                                                                     target( 4, 5, colors.index( 2 ), representation ) ) ) );
     }
 
     //Choose a representation, pies or bars, but use the same representation for all things
-    private Level level0() {
+    private NumberLevel level0() {
         List<Color> colors = shuffledColors();
-        return new Level( list( 1, 1, 2, 2, 3, 3 ), shuffle( list( target( 1, 2, colors.index( 0 ), pie ),
-                                                                   target( 1, 3, colors.index( 1 ), pie ),
-                                                                   target( 2, 3, colors.index( 2 ), pie ) ) ) );
+        return new NumberLevel( list( 1, 1, 2, 2, 3, 3 ), shuffle( list( target( 1, 2, colors.index( 0 ), pie ),
+                                                                         target( 1, 3, colors.index( 1 ), pie ),
+                                                                         target( 2, 3, colors.index( 2 ), pie ) ) ) );
     }
 
     private List<Color> shuffledColors() {return shuffle( list( red, green, lightBlue ) );}
@@ -141,25 +142,23 @@ public class BuildAFractionModel {
         return iterableList( collection );
     }
 
-    public final Property<Integer> level = new Property<Integer>( 0 );
-
     public void resetAll() {
         selectedScene.reset();
         clock.resetSimulationTime();
-        level.reset();
-        for ( Level x : levels ) {
+        numberLevel.reset();
+        for ( NumberLevel x : numberLevels ) {
             x.resetAll();
         }
     }
 
     public void addCreatedValue( final Fraction value ) {
-        final Property<List<Fraction>> fractions = levels.get( level.get() ).createdFractions;
+        final Property<List<Fraction>> fractions = numberLevels.get( numberLevel.get() ).createdFractions;
         fractions.set( fractions.get().snoc( value ) );
     }
 
     public Property<List<Fraction>> getCreatedFractions( final int level ) {
-        return levels.get( level ).createdFractions;
+        return numberLevels.get( level ).createdFractions;
     }
 
-    public Level getLevel( final int level ) { return levels.get( level ); }
+    public NumberLevel getNumberLevel( final int level ) { return numberLevels.get( level ); }
 }
