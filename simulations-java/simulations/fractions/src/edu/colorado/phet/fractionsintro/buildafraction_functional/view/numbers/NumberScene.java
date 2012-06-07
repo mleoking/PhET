@@ -1,4 +1,4 @@
-package edu.colorado.phet.fractionsintro.buildafraction_functional.view;
+package edu.colorado.phet.fractionsintro.buildafraction_functional.view.numbers;
 
 import fj.Equal;
 import fj.F;
@@ -35,6 +35,7 @@ import edu.colorado.phet.fractionsintro.buildafraction_functional.model.Draggabl
 import edu.colorado.phet.fractionsintro.buildafraction_functional.model.FractionID;
 import edu.colorado.phet.fractionsintro.buildafraction_functional.model.Mode;
 import edu.colorado.phet.fractionsintro.buildafraction_functional.model.TargetCell;
+import edu.colorado.phet.fractionsintro.buildafraction_functional.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractionsintro.common.util.DefaultP2;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern;

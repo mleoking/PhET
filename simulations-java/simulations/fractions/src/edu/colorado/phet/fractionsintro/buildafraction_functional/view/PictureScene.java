@@ -26,6 +26,8 @@ import edu.colorado.phet.fractionsintro.buildafraction_functional.model.Containe
 import edu.colorado.phet.fractionsintro.buildafraction_functional.model.ContainerID;
 import edu.colorado.phet.fractionsintro.buildafraction_functional.model.DraggableObject;
 import edu.colorado.phet.fractionsintro.buildafraction_functional.model.Mode;
+import edu.colorado.phet.fractionsintro.buildafraction_functional.view.numbers.DraggableContainerNode;
+import edu.colorado.phet.fractionsintro.buildafraction_functional.view.numbers.DraggablePieceNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;

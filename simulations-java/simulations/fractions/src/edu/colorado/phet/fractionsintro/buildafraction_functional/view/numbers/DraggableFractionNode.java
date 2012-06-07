@@ -1,4 +1,4 @@
-package edu.colorado.phet.fractionsintro.buildafraction_functional.view;
+package edu.colorado.phet.fractionsintro.buildafraction_functional.view.numbers;
 
 import fj.data.Option;
 
@@ -12,6 +12,7 @@ import edu.colorado.phet.fractionsintro.buildafraction_functional.model.BuildAFr
 import edu.colorado.phet.fractionsintro.buildafraction_functional.model.DraggableFraction;
 import edu.colorado.phet.fractionsintro.buildafraction_functional.model.DraggableFractionObserver;
 import edu.colorado.phet.fractionsintro.buildafraction_functional.model.FractionID;
+import edu.colorado.phet.fractionsintro.buildafraction_functional.view.BuildAFractionCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;

@@ -25,6 +25,7 @@ import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.colorado.phet.fractionsintro.buildafraction_functional.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.buildafraction_functional.model.BuildAFractionState;
 import edu.colorado.phet.fractionsintro.buildafraction_functional.model.Mode;
+import edu.colorado.phet.fractionsintro.buildafraction_functional.view.numbers.NumberScene;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.matchinggame.view.UpdateNode;
 import edu.umd.cs.piccolo.PNode;
