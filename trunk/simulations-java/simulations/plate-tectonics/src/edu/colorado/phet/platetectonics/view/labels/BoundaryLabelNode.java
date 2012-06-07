@@ -38,7 +38,7 @@ public class BoundaryLabelNode extends BaseLabelNode {
 
         // if we are on the left side, reverse the samples, so the line drawing works nicely
         // TODO: verify that this shouldn't be reversed for certain boundary label motion types!
-        if ( boundaryLabel.side == Side.LEFT ) {
+        if ( ( boundaryLabel.side == Side.LEFT ) != boundaryLabel.isReversed() ) {
             samples = new ArrayList<Sample>( samples );
             Collections.reverse( samples );
         }

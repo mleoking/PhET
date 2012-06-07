@@ -25,9 +25,12 @@ import edu.colorado.phet.platetectonics.model.behaviors.SubductingBehavior;
 import edu.colorado.phet.platetectonics.model.behaviors.TransformBehavior;
 import edu.colorado.phet.platetectonics.model.labels.BoundaryLabel;
 import edu.colorado.phet.platetectonics.model.labels.RangeLabel;
+import edu.colorado.phet.platetectonics.model.labels.TextLabel;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Side;
+
+import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 
 public class PlateMotionModel extends PlateModel {
 
@@ -37,6 +40,7 @@ public class PlateMotionModel extends PlateModel {
 
     public final ObservableList<RangeLabel> rangeLabels = new ObservableList<RangeLabel>();
     public final ObservableList<BoundaryLabel> boundaryLabels = new ObservableList<BoundaryLabel>();
+    public final ObservableList<TextLabel> textLabels = new ObservableList<TextLabel>();
 
     public static enum MotionType {
         CONVERGENT,
@@ -133,8 +137,16 @@ public class PlateMotionModel extends PlateModel {
                 else {
                     motionTypeIfStarted.set( MotionType.TRANSFORM );
                 }
+
+                addMantleLabel();
             }
         } );
+    }
+
+    private void addMantleLabel() {
+        if ( hasBothPlates.get() ) {
+            textLabels.add( new TextLabel( new Property<ImmutableVector3F>( new ImmutableVector3F( 0, -180000, 0 ) ), Strings.MANTLE ) );
+        }
     }
 
     private void initializeBehaviors() {
@@ -198,6 +210,10 @@ public class PlateMotionModel extends PlateModel {
 
         leftPlate.getBehavior().afterConstructionInit();
         rightPlate.getBehavior().afterConstructionInit();
+
+        if ( textLabels.isEmpty() && hasBothPlates.get() ) {
+            addMantleLabel();
+        }
     }
 
     private void resetPlates() {
@@ -233,6 +249,7 @@ public class PlateMotionModel extends PlateModel {
 
         rangeLabels.clear();
         boundaryLabels.clear();
+        textLabels.clear();
 
         dropCrust( Side.LEFT, leftPlateType.get() );
         dropCrust( Side.RIGHT, rightPlateType.get() );
@@ -268,6 +285,7 @@ public class PlateMotionModel extends PlateModel {
 
         rangeLabels.clear();
         boundaryLabels.clear();
+        textLabels.clear();
     }
 
     // xIndex can be from 0 to HORIZONTAL_SAMPLES-1
