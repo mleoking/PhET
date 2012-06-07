@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--charges-and-fields-strings_ru.xml created Tue Apr 17 18:56:51 MSD 2012 using: charges-and-fields 2.04.00 (52655), translation-utility 2.13.00 (59150) дек 8, 2011-->
+<SimStrings>
+<string key="directionOnly" value="Только направление "/>
+<string key="grid" value="сетка "/>
+<string key="clearAll" value="Очистить все "/>
+<string key="simTitle" value="Заряды и поля "/>
+<string key="distanceUnit" value="м"/>
+<string key="showNumbers" value="Показать числа "/>
+<string key="voltageUnit" value="В"/>
+<string key="oneMeter" value="1 метр "/>
+<string key="showEField" value="Показать магнитное поле "/>
+<string key="oneNanoC" value="1 nC"/>
+<string key="showHiRes" value="показать В в высоком разрешении"/>
+<string key="EFieldSensors" value="датчики магнитного поля "/>
+<string key="eFieldUnit" value="В/м"/>
+<string key="clear" value="Очистить "/>
+<string key="plot" value="График "/>
+<string key="equipotential" value="эквипотенциальный "/>
+<string key="angleUnit" value="град. "/>
+<string key="showLoRes" value="показать В в низком разрешении"/>
+<string key="moreSpeedLessRes" value="повысить скорость/снизить разреш."/>
+<string key="tapeMeasure" value="Измерение рулеткой "/>
+<string key="voltage" value="Напряжение "/>
+</SimStrings>
