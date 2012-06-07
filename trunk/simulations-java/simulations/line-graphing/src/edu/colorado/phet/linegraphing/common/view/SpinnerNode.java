@@ -52,7 +52,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SpinnerNode2 extends PNode {
+public class SpinnerNode extends PNode {
 
     private static enum ArrowOrientation {UP,DOWN}
 
@@ -78,9 +78,9 @@ public class SpinnerNode2 extends PNode {
     private static final Color BACKGROUND_INACTIVE = new Color( 245, 245, 245 );
 
     // Constructor that creates default up/down arrow images using the specified colors.
-    public SpinnerNode2( IUserComponent userComponent,
-                         Color inactiveColor, Color highlightedColor, Color pressedColor, Color disabledColor,
-                         final Property<Double> value, final Property<DoubleRange> range, PhetFont font, final NumberFormat format ) {
+    public SpinnerNode( IUserComponent userComponent,
+                        Color inactiveColor, Color highlightedColor, Color pressedColor, Color disabledColor,
+                        final Property<Double> value, final Property<DoubleRange> range, PhetFont font, final NumberFormat format ) {
         this( userComponent,
               new ArrowButtonNode( inactiveColor, ArrowOrientation.UP, BUTTON_SIZE ).toImage(),
               new ArrowButtonNode( highlightedColor, ArrowOrientation.UP, BUTTON_SIZE ).toImage(),
@@ -94,11 +94,11 @@ public class SpinnerNode2 extends PNode {
               value, range, font, format );
     }
 
-    public SpinnerNode2( IUserComponent userComponent,
-                         final Image upInactiveImage, final Image upHighlightImage, final Image upPressedImage, final Image upDisabledImage,
-                         final Image downInactiveImage, final Image downHighlightImage, final Image downPressedImage, final Image downDisabledImage,
-                         final Color backgroundInactive, final Color backgroundHighlighted, final Color backgroundPressed, final Color backgroundDisabled,
-                         final Property<Double> value, final Property<DoubleRange> range, PhetFont font, final NumberFormat format ) {
+    public SpinnerNode( IUserComponent userComponent,
+                        final Image upInactiveImage, final Image upHighlightImage, final Image upPressedImage, final Image upDisabledImage,
+                        final Image downInactiveImage, final Image downHighlightImage, final Image downPressedImage, final Image downDisabledImage,
+                        final Color backgroundInactive, final Color backgroundHighlighted, final Color backgroundPressed, final Color backgroundDisabled,
+                        final Property<Double> value, final Property<DoubleRange> range, PhetFont font, final NumberFormat format ) {
 
         // properties for the "up" (increment) control
         final BooleanProperty upPressed = new BooleanProperty( false );
@@ -154,7 +154,7 @@ public class SpinnerNode2 extends PNode {
         }};
 
         // up (increment) button
-        SpinnerButtonNode2 upButton = new SpinnerButtonNode2<Double>( UserComponentChain.chain( userComponent, "up" ),
+        SpinnerButtonNode upButton = new SpinnerButtonNode<Double>( UserComponentChain.chain( userComponent, "up" ),
                                                                       upInactiveImage, upHighlightImage, upPressedImage, upDisabledImage,
                                                                       upPressed, upInside, upEnabled,
                                                                       value,
@@ -165,7 +165,7 @@ public class SpinnerNode2 extends PNode {
                                                                       } );
 
         // down (decrement) button
-        SpinnerButtonNode2 downButton = new SpinnerButtonNode2<Double>( UserComponentChain.chain( userComponent, "down" ),
+        SpinnerButtonNode downButton = new SpinnerButtonNode<Double>( UserComponentChain.chain( userComponent, "down" ),
                                                                         downInactiveImage, downHighlightImage, downPressedImage, downDisabledImage,
                                                                         downPressed, downInside, downEnabled,
                                                                         value,
@@ -335,50 +335,50 @@ public class SpinnerNode2 extends PNode {
     }
 
     // Base class that is color-coded for slope
-    private abstract static class SlopeSpinnerNode2 extends SpinnerNode2 {
-        public SlopeSpinnerNode2( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
+    private abstract static class SlopeSpinnerNode extends SpinnerNode {
+        public SlopeSpinnerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
             super( userComponent, SLOPE_INACTIVE, SLOPE_HIGHLIGHTED, SLOPE_PRESSED, SLOPE_DISABLED, value, range, font, format );
         }
     }
 
     // Rise spinner
-    public static class RiseSpinnerNode2 extends SlopeSpinnerNode2 {
-        public RiseSpinnerNode2( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
+    public static class RiseSpinnerNode extends SlopeSpinnerNode {
+        public RiseSpinnerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
             super( userComponent, value, range, font, format );
         }
     }
 
     // Run spinner
-    public static class RunSpinnerNode2 extends SlopeSpinnerNode2 {
-        public RunSpinnerNode2( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
+    public static class RunSpinnerNode extends SlopeSpinnerNode {
+        public RunSpinnerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
             super( userComponent, value, range, font, format );
         }
     }
 
     // Intercept spinner
-    public static class InterceptSpinnerNode2 extends SpinnerNode2 {
-        public InterceptSpinnerNode2( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
+    public static class InterceptSpinnerNode extends SpinnerNode {
+        public InterceptSpinnerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
             super( userComponent, INTERCEPT_INACTIVE, INTERCEPT_HIGHLIGHTED, INTERCEPT_PRESSED, INTERCEPT_DISABLED, value, range, font, format );
         }
     }
 
     // Base class that is color-coded for point in point-slope form
-    private abstract static class PointSpinnerNode2 extends SpinnerNode2 {
-        public PointSpinnerNode2( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
+    private abstract static class PointSpinnerNode extends SpinnerNode {
+        public PointSpinnerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
             super( userComponent, POINT_INACTIVE, POINT_HIGHLIGHTED, POINT_PRESSED, POINT_DISABLED, value, range, font, format );
         }
     }
 
     // x1 spinner
-    public static class X1SpinnerNode2 extends PointSpinnerNode2 {
-        public X1SpinnerNode2( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
+    public static class X1SpinnerNode extends PointSpinnerNode {
+        public X1SpinnerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
             super( userComponent, value, range, font, format );
         }
     }
 
     // y1 spinner
-    public static class Y1SpinnerNode2 extends PointSpinnerNode2 {
-        public Y1SpinnerNode2( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
+    public static class Y1SpinnerNode extends PointSpinnerNode {
+        public Y1SpinnerNode( IUserComponent userComponent, Property<Double> value, Property<DoubleRange> range, PhetFont font, NumberFormat format ) {
             super( userComponent, value, range, font, format );
         }
     }
@@ -389,7 +389,7 @@ public class SpinnerNode2 extends PNode {
         Property<DoubleRange> range = new Property<DoubleRange>( new DoubleRange( -10, 10, 0 ) );
         Property<Double> value = new Property<Double>( range.get().getDefault() );
 
-        PNode node = new InterceptSpinnerNode2( UserComponents.interceptSpinner,
+        PNode node = new InterceptSpinnerNode( UserComponents.interceptSpinner,
                                                 value, range, new PhetFont( Font.BOLD, 24 ), new DecimalFormat( "0" ) );
         node.setOffset( 200, 200 );
 
