@@ -8,6 +8,7 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.normalmodes.control {
+import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.normalmodes.model.Model2;
 
 import flash.display.Sprite;
@@ -19,17 +20,24 @@ public class MiniTabBar extends Sprite{
     private var _tabWidth:Number;
     private var _tabHeight:Number;
     private var _folderWidth:Number;
+    private var horizontal_str:String;
+    private var vertical_str:String;
+
     public function MiniTabBar( myModel2:Model2 ) {
         this.myModel2 = myModel2;
         this._tabWidth = 125;
         this._tabHeight = 25;
         this._folderWidth = 300;
-        //trace("MiniTabBar Constructor creating Horizontal tab.");
-        this.tabH = new MiniTab( this, 1, this._tabWidth,  this._tabHeight, this._folderWidth, 0xffff55, "Horizontal" ) ;
-        //trace("MiniTabBar Constructor creating Vertical tab.");
-        this.tabV = new MiniTab( this, 2, this._tabWidth,  this._tabHeight, this._folderWidth, 0x44ff44, "Vertical" ) ;
+        this.initializeStrings();
+        this.tabH = new MiniTab( this, 1, this._tabWidth,  this._tabHeight, this._folderWidth, 0xffff55, horizontal_str ) ;
+        this.tabV = new MiniTab( this, 2, this._tabWidth,  this._tabHeight, this._folderWidth, 0x44ff44, vertical_str ) ;
         this.init();
     } //end constructor
+
+    private function initializeStrings():void{
+       horizontal_str = FlexSimStrings.get("horizontal","Horizontal");
+       vertical_str = FlexSimStrings.get("vertical","Vertical");
+    }
 
     private function init():void{
         this.addChild( tabV );

@@ -6,6 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.normalmodes.view {
+import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.normalmodes.control.ShowHideButton;
 import edu.colorado.phet.normalmodes.model.Model1;
 
@@ -112,7 +113,8 @@ public class View1DModes extends Sprite {
     }//end drawWalls()
 
     private function makeLabels():void{
-        normalModes_str = "Normal Modes";
+        //normalModes_str = "Normal Modes";
+        normalModes_str = FlexSimStrings.get( "normalModes", "Normal Modes");
         var nMax = this.myModel1.nMax;
         this.nbrLabel_arr = new Array( nMax + 1 );
         var tFormat1:TextFormat = new TextFormat();
