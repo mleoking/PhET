@@ -1,4 +1,4 @@
-package edu.colorado.phet.fractionsintro.buildafraction.view.numbers;
+package edu.colorado.phet.fractionsintro.buildafraction.view.pictures;
 
 import fj.F;
 import fj.Ord;
@@ -31,6 +31,11 @@ import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel
 import edu.colorado.phet.fractionsintro.buildafraction.model.Level;
 import edu.colorado.phet.fractionsintro.buildafraction.model.Target;
 import edu.colorado.phet.fractionsintro.buildafraction.view.BuildAFractionCanvas;
+import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.DragContext;
+import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.FractionGraphic;
+import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.NumberNode;
+import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.NumberSceneContext;
+import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.ScoreBoxNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
@@ -42,11 +47,11 @@ import edu.umd.cs.piccolo.util.PDimension;
 import static edu.colorado.phet.fractions.FractionsResources.Strings.MY_FRACTIONS;
 
 /**
- * Node for the scene when the user is constructing fractions with numbers.
+ * Node for the scene when the user is constructing fractions with pictures (shapes).
  *
  * @author Sam Reid
  */
-public class NumberSceneNode extends PNode implements DragContext {
+public class PictureSceneNode extends PNode implements DragContext {
     private final ArrayList<FractionGraphic> fractionGraphics = new ArrayList<FractionGraphic>();
     private final PNode rootNode;
     private final BuildAFractionModel model;
@@ -60,7 +65,7 @@ public class NumberSceneNode extends PNode implements DragContext {
         public final PNode patternNode;
     }
 
-    public NumberSceneNode( int level, final PNode rootNode, final BuildAFractionModel model, PDimension STAGE_SIZE, NumberSceneContext context ) {
+    public PictureSceneNode( int level, final PNode rootNode, final BuildAFractionModel model, PDimension STAGE_SIZE, NumberSceneContext context ) {
         this.rootNode = rootNode;
         this.model = model;
         this.STAGE_SIZE = STAGE_SIZE;

@@ -16,6 +16,7 @@ import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel
 import edu.colorado.phet.fractionsintro.buildafraction.model.Scene;
 import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.NumberSceneContext;
 import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.NumberSceneNode;
+import edu.colorado.phet.fractionsintro.buildafraction.view.pictures.PictureSceneNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -39,12 +40,14 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
     private final SceneNode numberScene = new SceneNode();
     private final SceneNode pictureScene = new SceneNode();
     private final BuildAFractionModel model;
-    private boolean inited = false;
+
+    //Flag is just used for debugging, so the first scene change is not done in animation
+    private boolean initialized = false;
 
     public BuildAFractionCanvas( final BuildAFractionModel model ) {
         this.model = model;
         addChild( sceneLayer );
-        pictureScene.addChild( new NumberSceneNode( model.level.get(), rootNode, model, STAGE_SIZE, this ) );
+        pictureScene.addChild( new PictureSceneNode( model.level.get(), rootNode, model, STAGE_SIZE, this ) );
         numberScene.addChild( new NumberSceneNode( model.level.get(), rootNode, model, STAGE_SIZE, this ) {{
             setOffset( 0, STAGE_SIZE.height );
         }} );
@@ -75,16 +78,16 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
                 if ( scene == Scene.pictures ) {
                     numberScene.animateToTransparency( 0.0f, 1000 );
                     pictureScene.animateToTransparency( 1f, 1000 );
-                    sceneLayer.animateToPositionScaleRotation( 0, 0, 1, 0, inited ? 1000 : 0 );
+                    sceneLayer.animateToPositionScaleRotation( 0, 0, 1, 0, initialized ? 1000 : 0 );
                 }
                 else if ( scene == Scene.numbers ) {
                     numberScene.animateToTransparency( 1.0f, 1000 );
                     pictureScene.animateToTransparency( 0.0f, 1000 );
-                    sceneLayer.animateToPositionScaleRotation( 0, -STAGE_SIZE.height, 1, 0, inited ? 1000 : 0 );
+                    sceneLayer.animateToPositionScaleRotation( 0, -STAGE_SIZE.height, 1, 0, initialized ? 1000 : 0 );
                 }
             }
         } );
-        inited = true;
+        initialized = true;
     }
 
     private PropertyRadioButton<Scene> radioButton( final BuildAFractionModel model, final String text, Scene scene ) {
