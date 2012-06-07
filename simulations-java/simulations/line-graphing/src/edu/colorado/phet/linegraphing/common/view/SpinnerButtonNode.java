@@ -33,7 +33,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
  *
  * @author Chris Malley
  */
-public class SpinnerButtonNode2<T> extends PNode {
+class SpinnerButtonNode<T> extends PNode {
 
     private boolean spinContinuously = false;
 
@@ -49,10 +49,10 @@ public class SpinnerButtonNode2<T> extends PNode {
      * @param enabled property that controls whether the button is enabled
      * @param newValueFunction function that computes the new value when the button fires
      */
-    public SpinnerButtonNode2( final IUserComponent userComponent,
-                               final Image inactiveImage, final Image highlightedImage, final Image pressedImage, final Image disabledImage,
-                               final Property<Boolean> pressed, final Property<Boolean> inside, final ObservableProperty<Boolean> enabled,
-                               final Property<T> value, final Function0<T> newValueFunction ) {
+    public SpinnerButtonNode( final IUserComponent userComponent,
+                              final Image inactiveImage, final Image highlightedImage, final Image pressedImage, final Image disabledImage,
+                              final Property<Boolean> pressed, final Property<Boolean> inside, final ObservableProperty<Boolean> enabled,
+                              final Property<T> value, final Function0<T> newValueFunction ) {
 
         final PImage imageNode = new PImage();
         addChild( imageNode );

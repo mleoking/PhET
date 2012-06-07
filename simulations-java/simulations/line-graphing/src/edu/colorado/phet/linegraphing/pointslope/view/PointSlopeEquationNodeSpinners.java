@@ -24,10 +24,10 @@ import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
-import edu.colorado.phet.linegraphing.common.view.SpinnerNode2.RiseSpinnerNode2;
-import edu.colorado.phet.linegraphing.common.view.SpinnerNode2.RunSpinnerNode2;
-import edu.colorado.phet.linegraphing.common.view.SpinnerNode2.X1SpinnerNode2;
-import edu.colorado.phet.linegraphing.common.view.SpinnerNode2.Y1SpinnerNode2;
+import edu.colorado.phet.linegraphing.common.view.SpinnerNode.RiseSpinnerNode;
+import edu.colorado.phet.linegraphing.common.view.SpinnerNode.RunSpinnerNode;
+import edu.colorado.phet.linegraphing.common.view.SpinnerNode.X1SpinnerNode;
+import edu.colorado.phet.linegraphing.common.view.SpinnerNode.Y1SpinnerNode;
 import edu.colorado.phet.linegraphing.pointslope.model.PointSlopeModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -71,11 +71,11 @@ class PointSlopeEquationNodeSpinners extends PhetPNode {
         // determine the max width of the rise and run spinners, based on the extents of their range
         double maxSlopeWidth;
         {
-            PNode maxRiseNode = new RiseSpinnerNode2( UserComponents.riseSpinner, new Property<Double>( riseRange.get().getMax() ), riseRange, interactiveFont, FORMAT );
-            PNode minRiseNode = new RiseSpinnerNode2( UserComponents.riseSpinner, new Property<Double>( riseRange.get().getMin() ), riseRange, interactiveFont, FORMAT );
+            PNode maxRiseNode = new RiseSpinnerNode( UserComponents.riseSpinner, new Property<Double>( riseRange.get().getMax() ), riseRange, interactiveFont, FORMAT );
+            PNode minRiseNode = new RiseSpinnerNode( UserComponents.riseSpinner, new Property<Double>( riseRange.get().getMin() ), riseRange, interactiveFont, FORMAT );
             double maxRiseWidth = Math.max( maxRiseNode.getFullBoundsReference().getWidth(), minRiseNode.getFullBoundsReference().getWidth() );
-            PNode maxRunNode = new RunSpinnerNode2( UserComponents.riseSpinner, new Property<Double>( runRange.get().getMax() ), runRange, interactiveFont, FORMAT );
-            PNode minRunNode = new RunSpinnerNode2( UserComponents.riseSpinner, new Property<Double>( runRange.get().getMin() ), runRange, interactiveFont, FORMAT );
+            PNode maxRunNode = new RunSpinnerNode( UserComponents.riseSpinner, new Property<Double>( runRange.get().getMax() ), runRange, interactiveFont, FORMAT );
+            PNode minRunNode = new RunSpinnerNode( UserComponents.riseSpinner, new Property<Double>( runRange.get().getMin() ), runRange, interactiveFont, FORMAT );
             double maxRunWidth = Math.max( maxRunNode.getFullBoundsReference().getWidth(), minRunNode.getFullBoundsReference().getWidth() );
             maxSlopeWidth = Math.max( maxRiseWidth, maxRunWidth );
         }
@@ -83,17 +83,17 @@ class PointSlopeEquationNodeSpinners extends PhetPNode {
         // (y-y1) = m(x-x1)
         PText yNode = new PhetPText( "y", staticFont, staticColor );
         final PText y1SignNode = new PhetPText( "-", staticFont, staticColor );
-        PNode y1Node = new ZeroOffsetNode( new Y1SpinnerNode2( UserComponents.y1Spinner, this.y1, y1Range, interactiveFont, FORMAT ) );
+        PNode y1Node = new ZeroOffsetNode( new Y1SpinnerNode( UserComponents.y1Spinner, this.y1, y1Range, interactiveFont, FORMAT ) );
         PText equalsNode = new PhetPText( "=", staticFont, staticColor );
-        PNode riseNode = new ZeroOffsetNode( new RiseSpinnerNode2( UserComponents.riseSpinner, this.rise, riseRange, interactiveFont, FORMAT ) );
-        PNode runNode = new ZeroOffsetNode( new RunSpinnerNode2( UserComponents.runSpinner, this.run, runRange, interactiveFont, FORMAT ) );
+        PNode riseNode = new ZeroOffsetNode( new RiseSpinnerNode( UserComponents.riseSpinner, this.rise, riseRange, interactiveFont, FORMAT ) );
+        PNode runNode = new ZeroOffsetNode( new RunSpinnerNode( UserComponents.runSpinner, this.run, runRange, interactiveFont, FORMAT ) );
         final PPath lineNode = new PPath( new Line2D.Double( 0, 0, maxSlopeWidth, 0 ) ) {{
             setStroke( new BasicStroke( 3f ) );
             setStrokePaint( staticColor );
         }};
         PText xNode = new PhetPText( "x", staticFont, staticColor );
         final PText x1SignNode = new PhetPText( "-", staticFont, staticColor );
-        PNode x1Node = new ZeroOffsetNode( new X1SpinnerNode2( UserComponents.x1Spinner, this.x1, x1Range, interactiveFont, FORMAT ) );
+        PNode x1Node = new ZeroOffsetNode( new X1SpinnerNode( UserComponents.x1Spinner, this.x1, x1Range, interactiveFont, FORMAT ) );
         PText yLeftParenNode = new PhetPText( "(", staticFont, staticColor );
         PText yRightParenNode = new PhetPText( ")", staticFont, staticColor );
         PText xLeftParenNode = new PhetPText( "(", staticFont, staticColor );
