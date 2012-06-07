@@ -32,25 +32,37 @@ public class Boundary {
 
     public float getApproximateYFromX( float x ) {
         // if we are outside of our normal bounds, just set to nearest endpoint y
-        if ( x < getEdgeSample( Side.LEFT ).getPosition().x ) {
+        if ( x <= getEdgeSample( Side.LEFT ).getPosition().x ) {
             return getEdgeSample( Side.LEFT ).getPosition().y;
         }
-        if ( x > getEdgeSample( Side.RIGHT ).getPosition().x ) {
+        if ( x >= getEdgeSample( Side.RIGHT ).getPosition().x ) {
             return getEdgeSample( Side.RIGHT ).getPosition().y;
         }
 
-        // scan through linearly (easiest for now, but this could definitely be sped up)
-        for ( int i = 1; i < samples.size(); i++ ) {
-            Sample right = samples.get( i );
-            if ( x > right.getPosition().x ) {
-                continue;
+        // basically find this with bisection. assumes increasing y values
+        int lowGuess = 0;
+        int highGuess = samples.size() - 1;
+
+        assert lowGuess < highGuess;
+
+        while ( lowGuess + 1 != highGuess ) {
+            assert lowGuess != highGuess;
+
+            int middleGuess = ( lowGuess + highGuess ) / 2;
+            Sample sample = samples.get( middleGuess );
+            if ( x >= sample.getPosition().x ) {
+                lowGuess = middleGuess;
             }
-            Sample left = samples.get( i - 1 );
-            float ratio = ( x - left.getPosition().x ) / ( right.getPosition().x - left.getPosition().x );
-            return ratio * right.getPosition().y + ( 1 - ratio ) * left.getPosition().y;
+            else {
+                highGuess = middleGuess;
+            }
         }
 
-        throw new RuntimeException( "should never reach here" );
+        Sample left = samples.get( lowGuess );
+        Sample right = samples.get( highGuess );
+
+        float ratio = ( x - left.getPosition().x ) / ( right.getPosition().x - left.getPosition().x );
+        return ratio * right.getPosition().y + ( 1 - ratio ) * left.getPosition().y;
     }
 
 }

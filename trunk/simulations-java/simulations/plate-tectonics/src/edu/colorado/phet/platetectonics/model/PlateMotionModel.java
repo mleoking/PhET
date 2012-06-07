@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
@@ -145,7 +146,21 @@ public class PlateMotionModel extends PlateModel {
 
     private void addMantleLabel() {
         if ( hasBothPlates.get() ) {
-            textLabels.add( new TextLabel( new Property<ImmutableVector3F>( new ImmutableVector3F( 0, -180000, 0 ) ), Strings.MANTLE ) );
+            final float mantleLabelHeight = -180000;
+            textLabels.add( new TextLabel( new Property<ImmutableVector3F>( new ImmutableVector3F( 0, mantleLabelHeight, 0 ) ) {{
+
+                // if we have a colliding behavior, we must push the mantle label down as the lithosphere sinks
+                if ( leftPlate.getBehavior() != null && leftPlate.getBehavior() instanceof CollidingBehavior ) {
+                    final Sample trackedSample = leftPlate.getLithosphere().getBottomBoundary().getEdgeSample( Side.RIGHT );
+                    float initialContinentalBottom = trackedSample.getPosition().y;
+                    final float depthFromBottom = mantleLabelHeight - initialContinentalBottom;
+                    modelChanged.addUpdateListener( new UpdateListener() {
+                        public void update() {
+                            set( new ImmutableVector3F( 0, depthFromBottom + trackedSample.getPosition().y, 0 ) );
+                        }
+                    }, false );
+                }
+            }}, Strings.MANTLE ) );
         }
     }
 
@@ -216,6 +231,10 @@ public class PlateMotionModel extends PlateModel {
             textLabels.clear();
         }
         else if ( textLabels.isEmpty() && hasBothPlates.get() ) {
+            addMantleLabel();
+        }
+        else {
+            textLabels.clear();
             addMantleLabel();
         }
     }
