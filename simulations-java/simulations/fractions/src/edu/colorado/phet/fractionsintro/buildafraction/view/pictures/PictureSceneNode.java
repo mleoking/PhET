@@ -12,12 +12,14 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.Bucket;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -29,7 +31,9 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
+import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
+import edu.colorado.phet.fractions.view.SpinnerButtonNode;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.buildafraction.model.PictureLevel;
 import edu.colorado.phet.fractionsintro.buildafraction.model.PictureTarget;
@@ -54,7 +58,7 @@ import static edu.colorado.phet.fractions.FractionsResources.Strings.MY_FRACTION
  * @author Sam Reid
  */
 public class PictureSceneNode extends PNode implements ContainerContext {
-    private final ArrayList<FractionGraphic> fractionGraphics = new ArrayList<FractionGraphic>();
+    //    private final ArrayList<FractionGraphic> fractionGraphics = new ArrayList<FractionGraphic>();
     private final PNode rootNode;
     private final BuildAFractionModel model;
     private final PDimension STAGE_SIZE;
@@ -138,36 +142,61 @@ public class PictureSceneNode extends PNode implements ContainerContext {
             addChild( containerNode );
         }
 
+        //Create the bucket
         Dimension2DDouble littleBucket = new Dimension2DDouble( 250, 100 );
         Bucket bucket = new Bucket( ( AbstractFractionsCanvas.STAGE_SIZE.width ) / 2 + 100, -STAGE_SIZE.getHeight() + littleBucket.getHeight(), littleBucket, Color.green, "" );
-        BucketView bucketView = new BucketView( bucket, ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), 1 ) );
+        final BucketView bucketView = new BucketView( bucket, ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), 1 ) );
         addChild( bucketView.getHoleNode() );
+
+        //Pieces in the bucket
+        //Pieces always in front of the containers--could be awkward if a container is moved across a container that already has pieces in it.
+
         addChild( bucketView.getFrontNode() );
+
+        final double buttonInset = 20;
+        addChild( new SpinnerButtonNode( spinnerImage( Images.LEFT_BUTTON_UP ), spinnerImage( Images.LEFT_BUTTON_PRESSED ), spinnerImage( Images.LEFT_BUTTON_GRAY ), new VoidFunction1<Boolean>() {
+            public void apply( final Boolean autoSpinning ) {
+
+            }
+        } ) {{
+            setOffset( bucketView.getFrontNode().getFullBounds().getMinX() + buttonInset, bucketView.getFrontNode().getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
+        }} );
+        addChild( new SpinnerButtonNode( spinnerImage( Images.RIGHT_BUTTON_UP ), spinnerImage( Images.RIGHT_BUTTON_PRESSED ), spinnerImage( Images.RIGHT_BUTTON_GRAY ), new VoidFunction1<Boolean>() {
+            public void apply( final Boolean autoSpinning ) {
+
+            }
+        } ) {{
+            setOffset( bucketView.getFrontNode().getFullBounds().getMaxX() - getFullBounds().getWidth() - buttonInset, bucketView.getFrontNode().getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
+        }} );
+    }
+
+    private static BufferedImage spinnerImage( final BufferedImage image ) {
+        return BufferedImageUtils.multiScaleToWidth( image, 50 );
     }
 
     public void endDrag( final ContainerNode containerNode, final PInputEvent event ) {
     }
 
     public void endDrag( final NumberNode numberNode, final PInputEvent event ) {
-        boolean hitFraction = false;
-        for ( FractionGraphic fractionGraphic : fractionGraphics ) {
-            final PhetPPath topBox = fractionGraphic.topBox;
-            final PhetPPath bottomBox = fractionGraphic.bottomBox;
-            if ( numberNode.getGlobalFullBounds().intersects( topBox.getGlobalFullBounds() ) && topBox.getVisible() ) {
-                numberDroppedOnFraction( fractionGraphic, numberNode, topBox );
-                hitFraction = true;
-                break;
-            }
-            if ( numberNode.getGlobalFullBounds().intersects( bottomBox.getGlobalFullBounds() ) && bottomBox.getVisible() ) {
-                numberDroppedOnFraction( fractionGraphic, numberNode, bottomBox );
-                hitFraction = true;
-                break;
-            }
-        }
-        //If it didn't hit a fraction, send back to its starting place--the user is not allowed to have free floating numbers in the play area
-        if ( !hitFraction ) {
-            numberNode.animateHome();
-        }
+//        boolean hitFraction = false;
+//        for ( FractionGraphic fractionGraphic : fractionGraphics ) {
+//            final PhetPPath topBox = fractionGraphic.topBox;
+//            final PhetPPath bottomBox = fractionGraphic.bottomBox;
+//            if ( numberNode.getGlobalFullBounds().intersects( topBox.getGlobalFullBounds() ) && topBox.getVisible() ) {
+//                numberDroppedOnFraction( fractionGraphic, numberNode, topBox );
+//                hitFraction = true;
+//                break;
+//            }
+//            if ( numberNode.getGlobalFullBounds().intersects( bottomBox.getGlobalFullBounds() ) && bottomBox.getVisible() ) {
+//                numberDroppedOnFraction( fractionGraphic, numberNode, bottomBox );
+//                hitFraction = true;
+//                break;
+//            }
+//        }
+//        //If it didn't hit a fraction, send back to its starting place--the user is not allowed to have free floating numbers in the play area
+//        if ( !hitFraction ) {
+//            numberNode.animateHome();
+//        }
     }
 
     private void numberDroppedOnFraction( final FractionGraphic fractionGraphic, final NumberNode numberNode, final PhetPPath box ) {
