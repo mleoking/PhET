@@ -59,7 +59,7 @@ class SlopeInterceptEquationControls extends PhetPNode {
                 return super.getParameterSet().with( ParameterKeys.maximized, !maximized.get() );
             }
         };
-        final PNode equationNode = new ZeroOffsetNode( new SlopeInterceptEquationNodeSpinners( interactiveLine, riseRange, runRange, interceptRange ) );
+        final PNode equationNode = new ZeroOffsetNode( new SlopeInterceptEquationNode( interactiveLine, riseRange, runRange, interceptRange ) );
         final TextButtonNode saveLineButton = new TextButtonNode( Strings.SAVE_LINE, LGConstants.CONTROL_FONT, LGColors.SAVE_LINE_BUTTON ) {{
             setUserComponent( UserComponents.saveLineButton );
         }};

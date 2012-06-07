@@ -39,29 +39,29 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class PointSlopeEquationNodeSpinners extends PhetPNode {
+class PointSlopeEquationNode extends PhetPNode {
 
     private static final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
 
     private final Property<Double> rise, run, x1, y1;
 
-    public PointSlopeEquationNodeSpinners( final Property<StraightLine> interactiveLine,
-                                           Property<DoubleRange> riseRange,
-                                           Property<DoubleRange> runRange,
-                                           Property<DoubleRange> x1Range,
-                                           Property<DoubleRange> y1Range ) {
+    public PointSlopeEquationNode( final Property<StraightLine> interactiveLine,
+                                   Property<DoubleRange> riseRange,
+                                   Property<DoubleRange> runRange,
+                                   Property<DoubleRange> x1Range,
+                                   Property<DoubleRange> y1Range ) {
         this( interactiveLine, riseRange, runRange, x1Range, y1Range,
               LGConstants.INTERACTIVE_EQUATION_FONT, LGConstants.STATIC_EQUATION_FONT, LGColors.STATIC_EQUATION_ELEMENT );
     }
 
-    private PointSlopeEquationNodeSpinners( final Property<StraightLine> interactiveLine,
-                                           Property<DoubleRange> riseRange,
-                                           Property<DoubleRange> runRange,
-                                           Property<DoubleRange> x1Range,
-                                           Property<DoubleRange> y1Range,
-                                           PhetFont interactiveFont,
-                                           PhetFont staticFont,
-                                           final Color staticColor ) {
+    private PointSlopeEquationNode( final Property<StraightLine> interactiveLine,
+                                    Property<DoubleRange> riseRange,
+                                    Property<DoubleRange> runRange,
+                                    Property<DoubleRange> x1Range,
+                                    Property<DoubleRange> y1Range,
+                                    PhetFont interactiveFont,
+                                    PhetFont staticFont,
+                                    final Color staticColor ) {
 
         this.rise = new Property<Double>( interactiveLine.get().rise );
         this.run = new Property<Double>( interactiveLine.get().run );
@@ -176,8 +176,8 @@ class PointSlopeEquationNodeSpinners extends PhetPNode {
         PointSlopeModel model = new PointSlopeModel();
 
         // equation
-        PointSlopeEquationNodeSpinners equationNode =
-                new PointSlopeEquationNodeSpinners( model.interactiveLine, model.riseRange, model.runRange, model.x1Range, model.y1Range);
+        PointSlopeEquationNode equationNode =
+                new PointSlopeEquationNode( model.interactiveLine, model.riseRange, model.runRange, model.x1Range, model.y1Range);
         equationNode.setOffset( 50, 100 );
 
         // canvas

@@ -1,3 +1,4 @@
+6/7/12 rename interactive equation nodes
 6/7/12 rename SpinnerNode2 (and related classes) to SpinnerNode
 6/7/12 delete spinner implementation and image files that were based on fractions sim [64786]
 6/7/12 revert to gray for non-interactive parts of equation
