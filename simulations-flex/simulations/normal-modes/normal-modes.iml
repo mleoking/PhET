@@ -1,29 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="Flex" version="4">
-  <component name="FlexBuildConfigurationManager" active="normal-modes">
-    <configurations>
-      <configuration name="normal-modes" main-class="edu.colorado.phet.normalmodes.NormalModesApplication" output-file="normal-modes.swf" output-folder="$MODULE_DIR$/../../../../../out">
-        <dependencies target-player="9">
-          <entries>
-            <entry module-name="aswing-a3" build-configuration-name="aswing-a3">
-              <dependency linkage="Merged" />
-            </entry>
-            <entry module-name="common-as3" build-configuration-name="common-as3">
-              <dependency linkage="Merged" />
-            </entry>
-          </entries>
-          <sdk name="flex_sdk_3.4.1.10084A" />
-        </dependencies>
-        <compiler-options>
-          <option name="additionalOptions" value="-use-network" />
-        </compiler-options>
-        <packaging-air-desktop />
-        <packaging-android />
-        <packaging-ios />
-      </configuration>
-    </configurations>
-    <compiler-options />
-  </component>
   <component name="FlexBuildConfigurationManager" active="Unnamed">
     <configurations>
       <configuration>
