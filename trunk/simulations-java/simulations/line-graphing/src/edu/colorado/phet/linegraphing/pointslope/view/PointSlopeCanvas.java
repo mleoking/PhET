@@ -61,12 +61,12 @@ public class PointSlopeCanvas extends LGCanvas {
 
             // upper-right of graph
             equationControls.setOffset( graphNode.getFullBoundsReference().getMaxX(), 35 );
-            // right aligned below equation
-            graphControls.setOffset( equationControls.getFullBoundsReference().getMaxX() - graphControls.getFullBoundsReference().getWidth(),
+            // centered below equation controls
+            graphControls.setOffset( equationControls.getFullBoundsReference().getCenterX() - ( graphControls.getFullBoundsReference().getWidth() / 2 ),
                                      equationControls.getFullBoundsReference().getMaxY() + 25 );
-            // buttons centered below control panel
-            resetAllButtonNode.setOffset( graphControls.getFullBoundsReference().getCenterX() - ( resetAllButtonNode.getFullBoundsReference().getWidth() / 2 ),
-                                          getStageSize().getHeight() - yMargin - resetAllButtonNode.getFullBoundsReference().getHeight() );
+            // centered below graph controls
+            resetAllButtonNode.setOffset( equationControls.getFullBoundsReference().getCenterX() - ( resetAllButtonNode.getFullBoundsReference().getWidth() / 2 ),
+                                          graphControls.getFullBoundsReference().getMaxY() + 25 );
         }
         centerRootNodeOnStage();
     }

@@ -57,13 +57,13 @@ public class SlopeInterceptCanvas extends LGCanvas {
             final double yMargin = 20;
 
             // upper-right of graph
-            equationControls.setOffset( graphNode.getFullBoundsReference().getMaxX(), 35 );
-            // right aligned below equation
-            graphControls.setOffset( equationControls.getFullBoundsReference().getMaxX() - graphControls.getFullBoundsReference().getWidth(),
+            equationControls.setOffset( graphNode.getFullBoundsReference().getMaxX() + 20, 35 );
+            // centered below equation controls
+            graphControls.setOffset( equationControls.getFullBoundsReference().getCenterX() - ( graphControls.getFullBoundsReference().getWidth() / 2 ),
                                      equationControls.getFullBoundsReference().getMaxY() + 25 );
-            // buttons centered below control panel
+            // centered below graph controls
             resetAllButtonNode.setOffset( graphControls.getFullBoundsReference().getCenterX() - ( resetAllButtonNode.getFullBoundsReference().getWidth() / 2 ),
-                                          getStageSize().getHeight() - yMargin - resetAllButtonNode.getFullBoundsReference().getHeight() );
+                                          graphControls.getFullBoundsReference().getMaxY() + 25 );
         }
         centerRootNodeOnStage();
     }
