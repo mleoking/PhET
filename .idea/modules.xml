@@ -116,6 +116,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/quantum/quantum.iml" filepath="$PROJECT_DIR$/simulations-java/common/quantum/quantum.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/quantum-tunneling/quantum-tunneling.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/quantum-tunneling/quantum-tunneling.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/quantum-wave-interference/quantum-wave-interference.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/quantum-wave-interference/quantum-wave-interference.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-flex/simulations/radiating-charge/radiating-charge.iml" filepath="$PROJECT_DIR$/simulations-flex/simulations/radiating-charge/radiating-charge.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/radio-waves/radio-waves.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/radio-waves/radio-waves.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/reactants-products-and-leftovers/reactants-products-and-leftovers.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/reactants-products-and-leftovers/reactants-products-and-leftovers.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/reactions-and-rates/reactions-and-rates.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/reactions-and-rates/reactions-and-rates.iml" />
