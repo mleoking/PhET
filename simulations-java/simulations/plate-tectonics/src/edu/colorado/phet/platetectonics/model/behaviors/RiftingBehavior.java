@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
@@ -13,10 +15,13 @@ import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
 import edu.colorado.phet.platetectonics.model.PlateType;
 import edu.colorado.phet.platetectonics.model.Sample;
 import edu.colorado.phet.platetectonics.model.TerrainSample;
+import edu.colorado.phet.platetectonics.model.labels.RangeLabel;
 import edu.colorado.phet.platetectonics.model.regions.Boundary;
 import edu.colorado.phet.platetectonics.model.regions.MagmaRegion;
 import edu.colorado.phet.platetectonics.model.regions.Region;
 import edu.colorado.phet.platetectonics.util.Side;
+
+import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 
 public class RiftingBehavior extends PlateBehavior {
 
@@ -78,14 +83,40 @@ public class RiftingBehavior extends PlateBehavior {
 
                 // add in the magma blobs
                 FunctionalUtils.repeat( new Runnable() {
-                                            public void run() {
-                                                addMagmaBlob( false );
-                                            }
-                                        }, BLOB_QUANTITY );
+                    public void run() {
+                        addMagmaBlob( false );
+                    }
+                }, BLOB_QUANTITY );
             }
         }
 
+        final float oceanLabelX = getSide().getSign() * 120000; // 120km from the edge
+        float oceanYBefore = getCrust().getBottomBoundary().getApproximateYFromX( oceanLabelX );
+
         moveSpreading( millionsOfYears );
+
+        float oceanYAfter = getCrust().getBottomBoundary().getApproximateYFromX( oceanLabelX );
+
+        // watch for when to add labels to the oceanic crust that is new (12km threshold)
+        if ( ( oceanYBefore < -13000 ) != ( oceanYAfter < -13000 ) ) {
+            plate.getModel().rangeLabels.add( new RangeLabel(
+                    new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+                        plate.getModel().modelChanged.addUpdateListener( new UpdateListener() {
+                            public void update() {
+                                set( new ImmutableVector3F( oceanLabelX, getCrust().getTopBoundary().getApproximateYFromX( oceanLabelX ), 0 ) );
+                            }
+                        }, true );
+                    }},
+                    new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+                        plate.getModel().modelChanged.addUpdateListener( new UpdateListener() {
+                            public void update() {
+                                set( new ImmutableVector3F( oceanLabelX, getCrust().getBottomBoundary().getApproximateYFromX( oceanLabelX ), 0 ) );
+                            }
+                        }, true );
+                    }},
+                    Strings.YOUNG_OCEANIC_CRUST, plate
+            ) );
+        }
 
         if ( plate.getSide() == Side.LEFT ) {
             animateMagma( millionsOfYears );
@@ -100,7 +131,7 @@ public class RiftingBehavior extends PlateBehavior {
         final float xOffset = RIFT_PLATE_SPEED * (float) plate.getSide().getSign() * millionsOfYears;
 
         // move all of the lithosphere
-        final Region[] mobileRegions = { getPlate().getLithosphere(), getPlate().getCrust() };
+        final Region[] mobileRegions = {getPlate().getLithosphere(), getPlate().getCrust()};
         for ( Region region : mobileRegions ) {
             for ( Sample sample : region.getSamples() ) {
                 sample.setPosition( sample.getPosition().plus( new ImmutableVector3F( xOffset, 0, 0 ) ) );
