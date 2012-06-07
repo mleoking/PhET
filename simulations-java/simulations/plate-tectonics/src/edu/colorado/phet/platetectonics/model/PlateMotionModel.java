@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
@@ -42,6 +43,7 @@ public class PlateMotionModel extends PlateModel {
     public final ObservableList<RangeLabel> rangeLabels = new ObservableList<RangeLabel>();
     public final ObservableList<BoundaryLabel> boundaryLabels = new ObservableList<BoundaryLabel>();
     public final ObservableList<TextLabel> textLabels = new ObservableList<TextLabel>();
+    public final Notifier<Side> frontBoundarySideNotifier = new Notifier<Side>();
 
     public static enum MotionType {
         CONVERGENT,
@@ -197,6 +199,7 @@ public class PlateMotionModel extends PlateModel {
                     leftPlate.setBehavior( new OverridingBehavior( leftPlate, rightPlate ) );
                     rightPlate.setBehavior( new SubductingBehavior( rightPlate, leftPlate ) );
                     rightPlate.getCrust().moveToFront();
+                    frontBoundarySideNotifier.updateListeners( Side.RIGHT );
                     SimSharingManager.sendModelMessage( ModelComponents.motion, ModelComponentTypes.feature, ModelActions.rightPlateSubductingMotion, parameters );
                 }
                 else if ( rightPlateType.get().isContinental() || leftPlateType.get() == PlateType.OLD_OCEANIC ) {
@@ -205,6 +208,8 @@ public class PlateMotionModel extends PlateModel {
                     leftPlate.setBehavior( new SubductingBehavior( leftPlate, rightPlate ) );
                     rightPlate.setBehavior( new OverridingBehavior( rightPlate, leftPlate ) );
                     leftPlate.getCrust().moveToFront();
+                    frontBoundarySideNotifier.updateListeners( Side.LEFT );
+                    // TODO: refactor so we don't have to send out side notifications after these modifications
                     SimSharingManager.sendModelMessage( ModelComponents.motion, ModelComponentTypes.feature, ModelActions.leftPlateSubductingMotion, parameters );
                 }
                 else {

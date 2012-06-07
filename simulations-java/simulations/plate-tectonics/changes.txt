@@ -1,3 +1,4 @@
+Fixed boundary-label overlay over subducting crust (or other intersection issues)
 Mantle label pushed down in continental collision cases
 Non-divergent crust / lithosphere labels made stationary
 Added "boundary" labeling between mantle and lithosphere.

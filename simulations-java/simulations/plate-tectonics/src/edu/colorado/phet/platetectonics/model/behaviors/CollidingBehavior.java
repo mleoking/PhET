@@ -21,6 +21,7 @@ public class CollidingBehavior extends PlateBehavior {
 
         getLithosphere().moveToFront();
         getCrust().moveToFront();
+        plate.getModel().frontBoundarySideNotifier.updateListeners( plate.getSide() );
 
         moveMantleTopTo( 0 );
     }

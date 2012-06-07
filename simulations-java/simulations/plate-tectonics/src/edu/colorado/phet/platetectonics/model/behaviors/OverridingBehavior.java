@@ -52,6 +52,7 @@ public class OverridingBehavior extends PlateBehavior {
 
         getLithosphere().moveToFront();
         getCrust().moveToFront();
+        plate.getModel().frontBoundarySideNotifier.updateListeners( plate.getSide() );
 
         magmaCenterX = getSide().getSign() * ( otherPlate.getPlateType() == PlateType.YOUNG_OCEANIC ? YOUNG_MELT_X : OLD_MELT_X );
 

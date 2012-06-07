@@ -15,14 +15,20 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.shapes.UnitMarker;
 import edu.colorado.phet.platetectonics.model.PlateModel;
+import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.Terrain;
+import edu.colorado.phet.platetectonics.model.labels.BoundaryLabel;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
 import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
+import edu.colorado.phet.platetectonics.util.Side;
+import edu.colorado.phet.platetectonics.view.labels.BoundaryLabelNode;
 
 /**
  * A view (node) that displays everything physical related to a plate model, within the bounds
  * of the specified grid
+ * <p/>
+ * TODO: allow a certain method of putting a certain side "in front" instead of putting everything in one?
  */
 public class PlateView extends GLNode {
 
@@ -96,6 +102,44 @@ public class PlateView extends GLNode {
                     addChild( smokeNode );
                 }
             } );
+
+            /*---------------------------------------------------------------------------*
+            * boundary labels
+            *----------------------------------------------------------------------------*/
+            PlateMotionModel plateMotionModel = (PlateMotionModel) model;
+            plateMotionModel.boundaryLabels.addElementAddedObserver( new VoidFunction1<BoundaryLabel>() {
+                public void apply( BoundaryLabel boundaryLabel ) {
+                    final BoundaryLabelNode boundaryLabelNode = new BoundaryLabelNode( boundaryLabel, tab.getModelViewTransform(), tab.colorMode ) {{
+                        ( (PlateMotionTab) tab ).showLabels.addObserver( new SimpleObserver() {
+                            public void update() {
+                                setVisible( ( (PlateMotionTab) tab ).showLabels.get() );
+                            }
+                        } );
+                    }};
+                    addChild( boundaryLabelNode );
+                    nodeMap.put( boundaryLabel, boundaryLabelNode );
+                }
+            } );
+
+            plateMotionModel.boundaryLabels.addElementRemovedObserver( new VoidFunction1<BoundaryLabel>() {
+                public void apply( BoundaryLabel boundaryLabel ) {
+                    removeChild( nodeMap.get( boundaryLabel ) );
+                    nodeMap.remove( boundaryLabel );
+                }
+            } );
+
+            // respond to events that tell the view to put a certain side in front
+            plateMotionModel.frontBoundarySideNotifier.addListener( new VoidFunction1<Side>() {
+                public void apply( Side side ) {
+                    // move all boundary nodes on top of this afterwards
+                    for ( GLNode boundaryNode : new ArrayList<GLNode>( getChildren() ) ) {
+                        if ( boundaryNode instanceof BoundaryLabelNode && ( (BoundaryLabelNode) boundaryNode ).getBoundaryLabel().side == side ) {
+                            removeChild( boundaryNode );
+                            addChild( boundaryNode );
+                        }
+                    }
+                }
+            } );
         }
     }
 
@@ -104,14 +148,14 @@ public class PlateView extends GLNode {
 
         // if this fires, add the node to the front of the list
         strip.moveToFrontNotifier.addUpdateListener( new UpdateListener() {
-                                                         public void update() {
-                                                             GLNode node = nodeMap.get( strip );
-                                                             if ( node != null && node.getParent() != null ) {
-                                                                 removeChild( node );
-                                                                 addChild( node );
-                                                             }
-                                                         }
-                                                     }, false );
+            public void update() {
+                GLNode node = nodeMap.get( strip );
+                if ( node != null && node.getParent() != null ) {
+                    removeChild( node );
+                    addChild( node );
+                }
+            }
+        }, false );
     }
 
     public void addTerrain( final Terrain terrain ) {
@@ -143,7 +187,8 @@ public class PlateView extends GLNode {
         nodeMap.put( object, node );
     }
 
-    @Override protected void renderChildren( GLOptions options ) {
+    @Override
+    protected void renderChildren( GLOptions options ) {
         // render children with a normal pass
         super.renderChildren( options );
 

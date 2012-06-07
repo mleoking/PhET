@@ -34,6 +34,7 @@ public class RiftingBehavior extends PlateBehavior {
 
         getLithosphere().moveToFront();
         getCrust().moveToFront();
+        plate.getModel().frontBoundarySideNotifier.updateListeners( plate.getSide() );
 
         moveMantleTopTo( PlateType.OLD_OCEANIC.getCrustTopY() - 1000 );
 

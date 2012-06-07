@@ -68,8 +68,8 @@ public class PlateMotionTab extends PlateTectonicsTab {
     private OrthoPiccoloNode crustChooserNode;
     private GuiNode crustPieceLayer;
 
-    private final Property<Boolean> showLabels = new Property<Boolean>( false );
-    private final Property<Boolean> showWater = new Property<Boolean>( false );
+    public final Property<Boolean> showLabels = new Property<Boolean>( false );
+    public final Property<Boolean> showWater = new Property<Boolean>( false );
 
     private final List<OrthoPiccoloNode> placedPieces = new ArrayList<OrthoPiccoloNode>();
 
@@ -87,7 +87,6 @@ public class PlateMotionTab extends PlateTectonicsTab {
 
     // keep track of what nodes correspond to what labels
     public final Map<RangeLabel, RangeLabelNode> rangeLabelMap = new HashMap<RangeLabel, RangeLabelNode>();
-    public final Map<BoundaryLabel, BoundaryLabelNode> boundaryLabelMap = new HashMap<BoundaryLabel, BoundaryLabelNode>();
     public final Map<TextLabel, TextLabelNode> textLabelMap = new HashMap<TextLabel, TextLabelNode>();
 
     public PlateMotionTab( LWJGLCanvas canvas ) {
@@ -181,24 +180,6 @@ public class PlateMotionTab extends PlateTectonicsTab {
             public void apply( RangeLabel rangeLabel ) {
                 layerLabels.removeChild( rangeLabelMap.get( rangeLabel ) );
                 rangeLabelMap.remove( rangeLabel );
-            }
-        } );
-
-        /*---------------------------------------------------------------------------*
-         * boundary labels
-         *----------------------------------------------------------------------------*/
-        getPlateMotionModel().boundaryLabels.addElementAddedObserver( new VoidFunction1<BoundaryLabel>() {
-            public void apply( BoundaryLabel boundaryLabel ) {
-                final BoundaryLabelNode boundaryLabelNode = new BoundaryLabelNode( boundaryLabel, getModelViewTransform(), colorMode );
-                layerLabels.addChild( boundaryLabelNode );
-                boundaryLabelMap.put( boundaryLabel, boundaryLabelNode );
-            }
-        } );
-
-        getPlateMotionModel().boundaryLabels.addElementRemovedObserver( new VoidFunction1<BoundaryLabel>() {
-            public void apply( BoundaryLabel boundaryLabel ) {
-                layerLabels.removeChild( boundaryLabelMap.get( boundaryLabel ) );
-                boundaryLabelMap.remove( boundaryLabel );
             }
         } );
 
