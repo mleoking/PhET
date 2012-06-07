@@ -60,7 +60,7 @@ public class PointSlopeCanvas extends LGCanvas {
             final double yMargin = 20;
 
             // upper-right of graph
-            equationControls.setOffset( graphNode.getFullBoundsReference().getMaxX(), 35 );
+            equationControls.setOffset( graphNode.getFullBoundsReference().getMaxX(), 50 );
             // centered below equation controls
             graphControls.setOffset( equationControls.getFullBoundsReference().getCenterX() - ( graphControls.getFullBoundsReference().getWidth() / 2 ),
                                      equationControls.getFullBoundsReference().getMaxY() + 25 );
