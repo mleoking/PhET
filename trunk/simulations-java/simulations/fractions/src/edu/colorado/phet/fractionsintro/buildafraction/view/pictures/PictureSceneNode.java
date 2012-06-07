@@ -66,6 +66,7 @@ public class PictureSceneNode extends PNode implements ContainerContext {
     private final NumberSceneContext context;
     private final List<Pair> pairList;
     private final RichPNode toolboxNode;
+    private final PNode frontLayer;
 
     @Data class Pair {
         public final ScoreBoxNode targetCell;
@@ -151,25 +152,44 @@ public class PictureSceneNode extends PNode implements ContainerContext {
 
         //Pieces in the bucket
         //Pieces always in front of the containers--could be awkward if a container is moved across a container that already has pieces in it.
-
-        addChild( bucketView.getFrontNode() );
-
         final IntegerProperty selectedPieceSize = new IntegerProperty( 1 );
-        final double buttonInset = 20;
-        addChild( new SpinnerButtonNode( spinnerImage( Images.LEFT_BUTTON_UP ), spinnerImage( Images.LEFT_BUTTON_PRESSED ), spinnerImage( Images.LEFT_BUTTON_GRAY ), new VoidFunction1<Boolean>() {
-            public void apply( final Boolean autoSpinning ) {
-                selectedPieceSize.decrement();
+        selectedPieceSize.addObserver( new VoidFunction1<Integer>() {
+            private ArrayList<RectangularPiece> pieces = new ArrayList<RectangularPiece>();
+
+            public void apply( final Integer pieceSize ) {
+                for ( RectangularPiece piece : pieces ) {
+                    if ( piece.isAtInitialPosition() ) {
+                        removeChild( piece );
+                    }
+                }
+                RectangularPiece piece = new RectangularPiece( pieceSize, bucketView.getHoleNode().getFullBounds().getCenterX(), bucketView.getHoleNode().getFullBounds().getCenterY() );
+                addChild( piece );
+                pieces.add( piece );
+
+                if ( frontLayer != null ) { frontLayer.moveToFront(); }
             }
-        }, selectedPieceSize.greaterThan( 1 ) ) {{
-            setOffset( bucketView.getFrontNode().getFullBounds().getMinX() + buttonInset, bucketView.getFrontNode().getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
-        }} );
-        addChild( new SpinnerButtonNode( spinnerImage( Images.RIGHT_BUTTON_UP ), spinnerImage( Images.RIGHT_BUTTON_PRESSED ), spinnerImage( Images.RIGHT_BUTTON_GRAY ), new VoidFunction1<Boolean>() {
-            public void apply( final Boolean autoSpinning ) {
-                selectedPieceSize.increment();
-            }
-        }, selectedPieceSize.lessThan( 6 ) ) {{
-            setOffset( bucketView.getFrontNode().getFullBounds().getMaxX() - getFullBounds().getWidth() - buttonInset, bucketView.getFrontNode().getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
-        }} );
+        } );
+
+        frontLayer = new PNode() {{
+            addChild( bucketView.getFrontNode() );
+
+            final double buttonInset = 20;
+            addChild( new SpinnerButtonNode( spinnerImage( Images.LEFT_BUTTON_UP ), spinnerImage( Images.LEFT_BUTTON_PRESSED ), spinnerImage( Images.LEFT_BUTTON_GRAY ), new VoidFunction1<Boolean>() {
+                public void apply( final Boolean autoSpinning ) {
+                    selectedPieceSize.decrement();
+                }
+            }, selectedPieceSize.greaterThan( 1 ) ) {{
+                setOffset( bucketView.getFrontNode().getFullBounds().getMinX() + buttonInset, bucketView.getFrontNode().getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
+            }} );
+            addChild( new SpinnerButtonNode( spinnerImage( Images.RIGHT_BUTTON_UP ), spinnerImage( Images.RIGHT_BUTTON_PRESSED ), spinnerImage( Images.RIGHT_BUTTON_GRAY ), new VoidFunction1<Boolean>() {
+                public void apply( final Boolean autoSpinning ) {
+                    selectedPieceSize.increment();
+                }
+            }, selectedPieceSize.lessThan( 6 ) ) {{
+                setOffset( bucketView.getFrontNode().getFullBounds().getMaxX() - getFullBounds().getWidth() - buttonInset, bucketView.getFrontNode().getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
+            }} );
+        }};
+        addChild( frontLayer );
     }
 
     private static BufferedImage spinnerImage( final BufferedImage image ) {

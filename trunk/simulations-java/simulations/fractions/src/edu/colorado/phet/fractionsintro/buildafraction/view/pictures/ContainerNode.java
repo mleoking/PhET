@@ -21,9 +21,16 @@ public class ContainerNode extends PNode {
     private double initialY;
     private int number;
 
+    public static final double width = 130;
+    public static final double height = 55;
+
+    public static Rectangle2D.Double createRect( int number ) {
+        final double pieceWidth = width / number;
+        final Rectangle2D.Double shape = new Rectangle2D.Double( pieceWidth * number, 0, pieceWidth, height );
+        return shape;
+    }
+
     public ContainerNode( int number, final ContainerContext context ) {
-        double width = 130;
-        double height = 55;
         for ( int i = 0; i < number; i++ ) {
             final double pieceWidth = width / number;
             addChild( new PhetPPath( new Rectangle2D.Double( pieceWidth * i, 0, pieceWidth, height ), Color.white, new BasicStroke( 1 ), Color.black ) );
