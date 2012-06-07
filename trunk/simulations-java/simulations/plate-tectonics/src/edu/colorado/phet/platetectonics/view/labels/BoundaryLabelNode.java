@@ -59,4 +59,8 @@ public class BoundaryLabelNode extends BaseLabelNode {
         glDisable( GL_LINE_STIPPLE );
         glLineWidth( 1 );
     }
+
+    public BoundaryLabel getBoundaryLabel() {
+        return boundaryLabel;
+    }
 }

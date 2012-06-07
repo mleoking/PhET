@@ -38,6 +38,7 @@ public class SubductingBehavior extends PlateBehavior {
         // placed here so it happens for sure after the overriding behavior's constructor executes
         getLithosphere().moveToFront();
         getCrust().moveToFront();
+        plate.getModel().frontBoundarySideNotifier.updateListeners( plate.getSide() );
     }
 
     @Override public void stepInTime( float millionsOfYears ) {
