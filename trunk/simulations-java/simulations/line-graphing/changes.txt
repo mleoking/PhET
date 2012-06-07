@@ -1,3 +1,4 @@
+6/7/12 revert to gray for non-interactive parts of equation
 # 0.00.17 (64784) Jun 7, 2012
 6/7/12 dev version with black for non-interactive parts of equation (requested by KP)
 # 0.00.16 (64780) Jun 7, 2012
