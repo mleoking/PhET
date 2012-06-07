@@ -1,6 +1,7 @@
-Added bucket icon
-Added pieces in the bucket
-Added enable/disable for bucket spinner buttons
+Build a fraction tab: Fade out previous level when going to next level to support other aspect ratios
+Build a fraction tab: Added bucket icon
+Build a fraction tab: Added pieces in the bucket
+Build a fraction tab: Added enable/disable for bucket spinner buttons
 Build a fraction tab: Added bucket spinner buttons
 # 0.00.80 (64782) Jun 7, 2012
 Fraction Matcher: Fixed stroke width for compound pattern shapes (for fraction > 1)
