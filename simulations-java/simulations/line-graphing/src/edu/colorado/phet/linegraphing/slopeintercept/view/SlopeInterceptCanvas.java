@@ -54,14 +54,15 @@ public class SlopeInterceptCanvas extends LGCanvas {
         // layout
         {
             // NOTE: Nodes that have corresponding model elements handle their own offsets.
+            final int ySpacing = 25;
             // upper-right of graph
             equationControls.setOffset( graphNode.getFullBoundsReference().getMaxX() + 20, 50 );
             // centered below equation controls
             graphControls.setOffset( equationControls.getFullBoundsReference().getCenterX() - ( graphControls.getFullBoundsReference().getWidth() / 2 ),
-                                     equationControls.getFullBoundsReference().getMaxY() + 25 );
+                                     equationControls.getFullBoundsReference().getMaxY() + ySpacing );
             // centered below graph controls
             resetAllButtonNode.setOffset( graphControls.getFullBoundsReference().getCenterX() - ( resetAllButtonNode.getFullBoundsReference().getWidth() / 2 ),
-                                          graphControls.getFullBoundsReference().getMaxY() + 25 );
+                                          graphControls.getFullBoundsReference().getMaxY() + ySpacing );
         }
         centerRootNodeOnStage();
     }
