@@ -29,7 +29,7 @@ import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.buildafraction.model.NumberLevel;
-import edu.colorado.phet.fractionsintro.buildafraction.model.Target;
+import edu.colorado.phet.fractionsintro.buildafraction.model.NumberTarget;
 import edu.colorado.phet.fractionsintro.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
@@ -46,7 +46,7 @@ import static edu.colorado.phet.fractions.FractionsResources.Strings.MY_FRACTION
  *
  * @author Sam Reid
  */
-public class NumberSceneNode extends PNode implements DragContext {
+public class NumberSceneNode extends PNode implements NumberDragContext {
     private final ArrayList<FractionGraphic> fractionGraphics = new ArrayList<FractionGraphic>();
     private final PNode rootNode;
     private final BuildAFractionModel model;
@@ -70,7 +70,7 @@ public class NumberSceneNode extends PNode implements DragContext {
         //Create the scoring cells with target patterns
         ArrayList<Pair> pairs = new ArrayList<Pair>();
         for ( int i = 0; i < 3; i++ ) {
-            Target target = model.getNumberLevel( level ).getTarget( i );
+            NumberTarget target = model.getNumberLevel( level ).getTarget( i );
 
             ArrayList<PatternNode> nodes = new ArrayList<PatternNode>();
             for ( int k = 0; k < target.filledPattern.length(); k++ ) {

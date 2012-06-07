@@ -65,7 +65,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
                     setOffset( 0, STAGE_SIZE.height );
                 }} );
                 pictureScene.reset();
-                pictureScene.addChild( new NumberSceneNode( model.numberLevel.get(), rootNode, model, STAGE_SIZE, BuildAFractionCanvas.this ) );
+                pictureScene.addChild( new PictureSceneNode( model.numberLevel.get(), rootNode, model, STAGE_SIZE, BuildAFractionCanvas.this ) );
 
             }
         }, this, 18, Color.black, Color.orange ) {{

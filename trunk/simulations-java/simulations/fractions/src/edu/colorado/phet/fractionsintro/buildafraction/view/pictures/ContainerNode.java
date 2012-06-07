@@ -1,26 +1,29 @@
-package edu.colorado.phet.fractionsintro.buildafraction.view.numbers;
+package edu.colorado.phet.fractionsintro.buildafraction.view.pictures;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.geom.Rectangle2D;
+
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Node for a number that gets dragged out of the toolbox.
+ * Some copied from NumberNode, may need to be remerged.
  *
  * @author Sam Reid
  */
-public class NumberNode extends PNode {
-    public final int number;
+public class ContainerNode extends PNode {
     private double initialX;
     private double initialY;
+    private int number;
 
-    public NumberNode( final int number, final NumberDragContext context ) {
+    public ContainerNode( int number, final ContainerContext context ) {
+        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 100, 50 ), Color.white, new BasicStroke( 2 ), Color.black ) );
         this.number = number;
-        addChild( new PhetPText( number + "", new PhetFont( 64, true ) ) );
         addInputEventListener( new SimSharingDragHandler( null, true ) {
             @Override protected void drag( final PInputEvent event ) {
                 super.drag( event );
@@ -30,7 +33,7 @@ public class NumberNode extends PNode {
 
             @Override protected void endDrag( final PInputEvent event ) {
                 super.endDrag( event );
-                context.endDrag( NumberNode.this, event );
+                context.endDrag( ContainerNode.this, event );
             }
         } );
         addInputEventListener( new CursorHandler() );
@@ -52,4 +55,5 @@ public class NumberNode extends PNode {
     public double getInitialY() { return initialY; }
 
     public void animateHome() { animateToPositionScaleRotation( getInitialX(), getInitialY(), 1, 0, 1000 ); }
+
 }

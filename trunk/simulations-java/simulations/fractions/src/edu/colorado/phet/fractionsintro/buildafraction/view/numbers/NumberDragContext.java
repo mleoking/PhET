@@ -5,6 +5,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 /**
  * @author Sam Reid
  */
-public interface DragContext {
+public interface NumberDragContext {
     void endDrag( NumberNode draggableNumberNode, PInputEvent event );
 }
