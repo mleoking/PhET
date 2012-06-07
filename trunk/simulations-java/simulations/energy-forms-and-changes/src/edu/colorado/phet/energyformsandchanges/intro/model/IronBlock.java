@@ -16,8 +16,8 @@ import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
  */
 public class IronBlock extends Block {
 
-    //    private static final double SPECIFIC_HEAT = 450; // In J/kg-K
-    private static final double SPECIFIC_HEAT = 275; // In J/kg-K
+    private static final double SPECIFIC_HEAT = 450; // In J/kg-K
+    //    private static final double SPECIFIC_HEAT = 275; // In J/kg-K
     private static final double DENSITY = 7800; // In kg/m^3, source = design document.
 
     protected IronBlock( ConstantDtClock clock, ImmutableVector2D initialPosition, BooleanProperty energyChunksVisible ) {
