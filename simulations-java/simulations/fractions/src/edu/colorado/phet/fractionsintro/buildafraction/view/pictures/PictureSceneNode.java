@@ -16,6 +16,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.Bucket;
+import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -153,19 +154,20 @@ public class PictureSceneNode extends PNode implements ContainerContext {
 
         addChild( bucketView.getFrontNode() );
 
+        final IntegerProperty selectedPieceSize = new IntegerProperty( 1 );
         final double buttonInset = 20;
         addChild( new SpinnerButtonNode( spinnerImage( Images.LEFT_BUTTON_UP ), spinnerImage( Images.LEFT_BUTTON_PRESSED ), spinnerImage( Images.LEFT_BUTTON_GRAY ), new VoidFunction1<Boolean>() {
             public void apply( final Boolean autoSpinning ) {
-
+                selectedPieceSize.decrement();
             }
-        } ) {{
+        }, selectedPieceSize.greaterThan( 1 ) ) {{
             setOffset( bucketView.getFrontNode().getFullBounds().getMinX() + buttonInset, bucketView.getFrontNode().getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
         addChild( new SpinnerButtonNode( spinnerImage( Images.RIGHT_BUTTON_UP ), spinnerImage( Images.RIGHT_BUTTON_PRESSED ), spinnerImage( Images.RIGHT_BUTTON_GRAY ), new VoidFunction1<Boolean>() {
             public void apply( final Boolean autoSpinning ) {
-
+                selectedPieceSize.increment();
             }
-        } ) {{
+        }, selectedPieceSize.lessThan( 6 ) ) {{
             setOffset( bucketView.getFrontNode().getFullBounds().getMaxX() - getFullBounds().getWidth() - buttonInset, bucketView.getFrontNode().getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
     }
