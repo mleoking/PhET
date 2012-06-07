@@ -291,7 +291,7 @@ public class PictureSceneNode extends PNode implements ContainerContext {
                                 addChild( new VBox( new FaceNode( 300 ), new HTMLImageButtonNode( "Next", Color.orange ) {{
                                     addActionListener( new ActionListener() {
                                         public void actionPerformed( final ActionEvent e ) {
-                                            context.goToNext();
+                                            context.goToNextNumberLevel();
                                         }
                                     } );
                                 }}
