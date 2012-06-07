@@ -1,38 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--pendulum-lab-strings_de.xml created Wed Dec 31 18:14:45 CET 2008 using: pendulum-lab 1.00.00 (22386), translation-utility 1.09.00 (26682)-->
+<!--pendulum-lab-strings_de.xml created Mon Jun 04 14:32:52 CEST 2012 using: pendulum-lab 2.03.00 (52288), translation-utility 2.13.00 (59150) Dez 8, 2011-->
 <SimStrings>
-<string key="energyOf" value="Energie "/>
-<string key="KE" value="Ekin"/>
-<string key="noneFriction" value="keine"/>
-<string key="moon" value="Mond"/>
-<string key="earth" value="Erde"/>
-<string key="length" value="Länge"/>
-<string key="sixteenthTime" value="1/16 Zeitlupe"/>
-<string key="pausePlay" value="Pause/weiter"/>
-<string key="friction" value="Reibung"/>
-<string key="quarterTime" value="1/4 Zeitlupe"/>
-<string key="showEnergyOf" value="Zeige Energie"/>
-<string key="velocity" value="Geschwindigkeit"/>
-<string key="mass2" value="Masse 2:"/>
-<string key="realTime" value="Echtzeit"/>
-<string key="acceleration" value="Beschleunigung"/>
-<string key="lots" value="groß"/>
-<string key="noneEnergy" value="keine"/>
-<string key="thermal" value="Eth"/>
-<string key="length2" value="Länge 2:"/>
-<string key="mass" value="Masse"/>
-<string key="otherTools" value="weitere Geräte"/>
 <string key="resetStopwatch" value="Null"/>
-<string key="showSecondPendulum" value="Zeige 2. Pendel"/>
-<string key="PE" value="Epot"/>
+<string key="earth" value="Erde"/>
+<string key="showPhotoGateTimer" value="Stoppuhr"/>
+<string key="acceleration" value="Beschleunigung     "/>
+<string key="showEnergyOf" value="Energie anzeigen"/>
+<string key="PE" value="E pot"/>
+<string key="velocity" value="Geschwindigkeit"/>
+<string key="translation.credits" value="Robert Jung, Jena"/>
+<string key="realTime" value="Echtzeit"/>
+<string key="length" value="Länge"/>
+<string key="lots" value="groß"/>
+<string key="friction" value="Reibung"/>
+<string key="showSecondPendulum" value="Pendel 2 anzeigen"/>
+<string key="moon" value="Mond"/>
+<string key="energyOf" value="Energie "/>
+<string key="period" value="Periodendauer"/>
+<string key="simStrings" value="Pendel-Labor"/>
+<string key="noneFriction" value="keine"/>
+<string key="total" value="E ges"/>
+<string key="mass2" value="Masse 2"/>
 <string key="pendulum" value="Pendel"/>
 <string key="startPauseStopwatch" value="Start/Pause"/>
-<string key="angleUnit" value="Grad"/>
-<string key="period" value="Schwingungsdauer"/>
-<string key="showPhotoGateTimer" value="Autostopp-Uhr"/>
-<string key="paused" value="angehalten"/>
-<string key="reset" value="Zurücksetzen"/>
 <string key="show" value="Zeige:"/>
-<string key="photoGateTimer" value="Lichtschranken-Stoppuhr"/>
-<string key="total" value="Eges"/>
+<string key="length2" value="Länge 2"/>
+<string key="photoGateTimer" value="Periodendauer-Stoppuhr"/>
+<string key="thermal" value="E therm"/>
+<string key="pausePlay" value="Pause/Weiter"/>
+<string key="reset" value="Zurücksetzen"/>
+<string key="mass" value="Masse"/>
+<string key="quarterTime" value="Zeitlupe 1/4  "/>
+<string key="KE" value="E kin"/>
+<string key="gEqZero" value="g = 0"/>
+<string key="noneEnergy" value="keine"/>
+<string key="simTitle" value="Pendel-Labor"/>
+<string key="otherTools" value="weitere Geräte"/>
+<string key="angleUnit" value=" Grad"/>
+<string key="paused" value="angehalten"/>
+<string key="sixteenthTime" value="Zeitlupe 1/16"/>
 </SimStrings>
