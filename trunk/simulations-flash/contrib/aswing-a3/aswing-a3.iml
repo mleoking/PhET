@@ -9,7 +9,7 @@
   </component>
   <component name="FlexBuildConfigurationManager" active="aswing-a3">
     <configurations>
-      <configuration name="aswing-a3" output-type="Library" output-file=".swc" output-folder="$MODULE_DIR$/../../../../out/aswing-a3">
+      <configuration name="aswing-a3" output-type="Library" output-file="aswing-a3.swc" output-folder="$MODULE_DIR$/../../../../../out">
         <dependencies target-player="9">
           <sdk name="flex_sdk_3.4.1.10084A" />
         </dependencies>

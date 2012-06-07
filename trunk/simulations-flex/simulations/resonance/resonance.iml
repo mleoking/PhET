@@ -8,11 +8,11 @@
     <option name="ADDITIONAL_COMPILER_OPTIONS" value="-use-network" />
     <option name="VERSION" value="3" />
   </component>
-  <component name="FlexBuildConfigurationManager" active="Unnamed">
+  <component name="FlexBuildConfigurationManager" active="resonance">
     <configurations>
-      <configuration main-class="edu.colorado.phet.resonance.ResonanceApplication" output-file="resonance.swf" output-folder="$MODULE_DIR$/deploy">
+      <configuration name="resonance" main-class="edu.colorado.phet.resonance.ResonanceApplication" output-file="resonance.swf" output-folder="$MODULE_DIR$/../../../../../out">
         <dependencies target-player="9">
-          <sdk name="flex_sdk_3.4.1.10084" />
+          <sdk name="flex_sdk_3.4.1.10084A" />
         </dependencies>
         <compiler-options />
         <packaging-air-desktop />
@@ -29,11 +29,8 @@
       <sourceFolder url="file://$MODULE_DIR$/data" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="flex_sdk_3.4.1.10084" jdkType="Flex SDK Type" />
+    <orderEntry type="jdk" jdkName="flex_sdk_3.4.1.10084A" jdkType="Flex SDK Type (new)" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="aswing-a3" />
-    <orderEntry type="module" module-name="common-as3" />
-    <orderEntry type="module" module-name="flexcommon" />
   </component>
 </module>
 
