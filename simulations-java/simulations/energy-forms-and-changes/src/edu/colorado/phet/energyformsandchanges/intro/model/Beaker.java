@@ -32,8 +32,8 @@ public class Beaker extends RectangularThermalMovableModelElement {
     private static final double MATERIAL_THICKNESS = 0.001; // In meters.
 
     // Constants that control the nature of the fluid in the beaker.
-//    private static final double FLUID_SPECIFIC_HEAT = 4186; // In J/kg-K, source = design document.
-    private static final double FLUID_SPECIFIC_HEAT = 2000; // In J/kg-K, tweaked version, not physically accurate.
+    private static final double FLUID_SPECIFIC_HEAT = 4186; // In J/kg-K, source = design document.
+    //    private static final double FLUID_SPECIFIC_HEAT = 2000; // In J/kg-K, tweaked version, not physically accurate.
     private static final double FLUID_DENSITY = 1000.0; // In kg/m^3, source = design document (and common knowledge).
     private static final double NON_DISPLACED_FLUID_LEVEL = 0.5;
     private static final double FLUID_VOLUME = Math.PI * Math.pow( WIDTH / 2, 2 ) * ( NON_DISPLACED_FLUID_LEVEL * HEIGHT ); // In m^3
