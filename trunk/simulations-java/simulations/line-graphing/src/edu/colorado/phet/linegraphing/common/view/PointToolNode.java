@@ -82,7 +82,7 @@ public class PointToolNode extends PhetPNode {
 
                 // display value and highlighting
                 if ( graph.contains( location ) ) {
-                    coordinatesNode.setText( MessageFormat.format( Strings.PATTERN_X_Y, COORDINATES_FORMAT.format( location.getX() ), COORDINATES_FORMAT.format( location.getY() ) ) );
+                    coordinatesNode.setText( MessageFormat.format( Strings.POINT_XY, COORDINATES_FORMAT.format( location.getX() ), COORDINATES_FORMAT.format( location.getY() ) ) );
                     if ( linesVisible.get() ) {
                         // use the line's color to highlight
                         StraightLine onLine = pointTool.onLine.get();
@@ -95,7 +95,7 @@ public class PointToolNode extends PhetPNode {
                     }
                 }
                 else {
-                    coordinatesNode.setText( "- -" );
+                    coordinatesNode.setText( Strings.POINT_UNKNOWN );
                     coordinatesNode.setTextPaint( LGColors.POINT_TOOL_FOREGROUND_NORMAL_COLOR );
                     backgroundNode.setPaint( LGColors.POINT_TOOL_BACKGROUND_NORMAL_COLOR );
                 }

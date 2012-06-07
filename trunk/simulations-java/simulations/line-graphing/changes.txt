@@ -1,3 +1,4 @@
+6/7/12 change format of "unknown" point, make it translatable
 6/7/12 make the rise/run labels opaque, but add the ability to vary their color saturation
 6/7/12 rename interactive equation nodes
 6/7/12 rename SpinnerNode2 (and related classes) to SpinnerNode
