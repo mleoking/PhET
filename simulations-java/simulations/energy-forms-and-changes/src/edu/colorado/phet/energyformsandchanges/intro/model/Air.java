@@ -3,8 +3,10 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -31,7 +33,7 @@ public class Air implements ThermalEnergyContainer {
     // 2D size of the air.  It is sized such that it will extend off the left,
     // right, and top edges of screen for the most common aspect ratios of the
     // view.
-    private static final Dimension2D SIZE = new PDimension( 0.45, 0.25 );
+    private static final Dimension2D SIZE = new PDimension( 0.4, 0.2 );
 
     // The thickness of the slice of air being modeled.  This is basically the
     // z dimension, and is used solely for volume calculations.
@@ -39,8 +41,8 @@ public class Air implements ThermalEnergyContainer {
 
     // Constants that define the heat carrying capacity of the air.
     private static final double SPECIFIC_HEAT = 1012; // In J/kg-K, source = design document.
-    //    private static final double DENSITY = 1; // In kg/m^3, source = design document (and common knowledge).
-    private static final double DENSITY = 10; // In kg/m^3, TODO tweaked version of this constant for experimenting.
+    //    private static final double DENSITY = 0.001; // In kg/m^3, source = design document (and common knowledge).
+    private static final double DENSITY = 10; // In kg/m^3, TODO tweaked version of this value for experimenting.
 
     // Derived constants.
     private static final double VOLUME = SIZE.getWidth() * SIZE.getHeight() * DEPTH;
@@ -51,7 +53,6 @@ public class Air implements ThermalEnergyContainer {
                                                                                                                    SIZE.getWidth(),
                                                                                                                    SIZE.getHeight() ),
                                                                                            true );
-
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
@@ -79,9 +80,6 @@ public class Air implements ThermalEnergyContainer {
                 stepInTime( clockEvent.getSimulationTimeChange() );
             }
         } );
-
-        // Add the initial energy chunks.
-        addInitialEnergyChunks();
     }
 
     //-------------------------------------------------------------------------
@@ -89,16 +87,13 @@ public class Air implements ThermalEnergyContainer {
     //-------------------------------------------------------------------------
 
     private void stepInTime( double dt ) {
-//        System.out.println( "Air SIT is stubbed. Temp = " + getTemperature() );
-    }
-
-    private void addInitialEnergyChunks() {
-        energyChunkList.clear();
-        int targetNumChunks = ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy );
-        Rectangle2D energyChunkBounds = getThermalContactArea().getBounds();
-        while ( targetNumChunks != energyChunkList.size() ) {
-            // Add a chunk at a random location.
-            addEnergyChunk( new EnergyChunk( clock, EnergyChunkDistributor.generateRandomLocation( energyChunkBounds ), energyChunksVisible, false ) );
+        // Update the position of any energy chunks.
+        for ( EnergyChunk energyChunk : new ArrayList<EnergyChunk>( energyChunkList ) ) {
+            energyChunk.position.set( energyChunk.position.get().getAddedInstance( new ImmutableVector2D( 0, dt * 0.05 ) ) );
+            if ( !getThermalContactArea().getBounds().contains( energyChunk.position.get().toPoint2D() ) ) {
+                // Remove this energy chunk.
+                energyChunkList.remove( energyChunk );
+            }
         }
     }
 
@@ -113,7 +108,6 @@ public class Air implements ThermalEnergyContainer {
     public void reset() {
         energy = INITIAL_ENERGY;
         energyChunkList.clear();
-        addInitialEnergyChunks();
     }
 
     public void exchangeEnergyWith( ThermalEnergyContainer otherEnergyContainer, double dt ) {
@@ -142,11 +136,11 @@ public class Air implements ThermalEnergyContainer {
     }
 
     public boolean needsEnergyChunk() {
-        return ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy ) > energyChunkList.size();
+        return ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy ) > energyChunkList.size() + ENERGY_TO_NUM_CHUNKS_MAPPER.apply( INITIAL_ENERGY );
     }
 
     public boolean hasExcessEnergyChunks() {
-        return ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy ) < energyChunkList.size();
+        return ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy ) < energyChunkList.size() + ENERGY_TO_NUM_CHUNKS_MAPPER.apply( INITIAL_ENERGY );
     }
 
     public void addEnergyChunk( EnergyChunk ec ) {
@@ -181,5 +175,19 @@ public class Air implements ThermalEnergyContainer {
 
     public EnergyContainerCategory getEnergyContainerCategory() {
         return EnergyContainerCategory.AIR;
+    }
+
+    // Class that controls the wandering of the energy chunks.
+    public static final class MotionController {
+        private static final double MAX_VELOCITY = 0.1; // In m/s.
+
+        private Vector2D velocity = new Vector2D( 0, MAX_VELOCITY );
+
+        public MotionController( ImmutableVector2D startingPoint ) {
+        }
+
+        public ImmutableVector2D getNextPosition( ImmutableVector2D currentPosition, double dt ) {
+            return new ImmutableVector2D( currentPosition.getAddedInstance( velocity.getScaledInstance( dt ) ) );
+        }
     }
 }
