@@ -8,6 +8,7 @@ import lombok.Data;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
+import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
 import edu.umd.cs.piccolo.PNode;
 
 import static fj.data.List.single;
@@ -65,10 +66,12 @@ public @Data class RepresentationType {
         HBox box = new HBox();
         while ( fraction.toDouble() > 0 ) {
             if ( fraction.numerator >= fraction.denominator ) {
-                box.addChild( node.f( new Fraction( fraction.denominator, fraction.denominator ) ) );
+                final PNode node1 = node.f( new Fraction( fraction.denominator, fraction.denominator ) );
+                box.addChild( node1 );
             }
             else {
-                box.addChild( node.f( new Fraction( fraction.numerator, fraction.denominator ) ) );
+                final PNode node2 = node.f( new Fraction( fraction.numerator, fraction.denominator ) );
+                box.addChild( node2 );
             }
             fraction = new Fraction( fraction.numerator - fraction.denominator, fraction.denominator );
         }
@@ -76,7 +79,21 @@ public @Data class RepresentationType {
         double size = box.getFullWidth();
 
         //Scale to a size of 110 so it will be a good fit for the starting cells and score cells
-        box.scale( 110 / size );
+        final double scale = 110 / size;
+        box.scale( scale );
+
+        if ( scale < 1 ) {
+            //if the objects got scaled down, then scale up the strokes so they will look like they have the same width
+            for ( PNode child : box.getChildren() ) {
+                System.out.println( "child.getClass().getName() = " + child.getClass().getName() );
+                if ( child instanceof PatternNode ) {
+                    PatternNode patternNode = (PatternNode) child;
+                    patternNode.scaleStrokes( 1.0 / scale );
+                }
+            }
+        }
+
+        //scale up the font
         return new RichPNode( box );
     }
 }
