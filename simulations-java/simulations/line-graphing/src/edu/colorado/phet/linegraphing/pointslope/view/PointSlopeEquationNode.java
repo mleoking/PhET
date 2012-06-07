@@ -119,34 +119,35 @@ class PointSlopeEquationNode extends PhetPNode {
 
         // layout
         {
-            // NOTE: x spacing varies and was tweaked to look good
+            final double xSpacing = 5;
+            final double xParenSpacing = 2;
             final double ySpacing = 6;
             yLeftParenNode.setOffset( 0, 0 );
-            yNode.setOffset( yLeftParenNode.getFullBoundsReference().getMaxX() + 2,
+            yNode.setOffset( yLeftParenNode.getFullBoundsReference().getMaxX() + xParenSpacing,
                              yLeftParenNode.getYOffset() );
-            y1SignNode.setOffset( yNode.getFullBoundsReference().getMaxX() + 5,
+            y1SignNode.setOffset( yNode.getFullBoundsReference().getMaxX() + xSpacing,
                                   yNode.getYOffset() );
-            y1Node.setOffset( y1SignNode.getFullBoundsReference().getMaxX() + 5,
+            y1Node.setOffset( y1SignNode.getFullBoundsReference().getMaxX() + xSpacing,
                                   yNode.getFullBoundsReference().getCenterY() - ( y1Node.getFullBoundsReference().getHeight() / 2 ) );
-            yRightParenNode.setOffset( y1Node.getFullBoundsReference().getMaxX() + 2,
+            yRightParenNode.setOffset( y1Node.getFullBoundsReference().getMaxX() + xParenSpacing,
                                        yNode.getYOffset() );
-            equalsNode.setOffset( yRightParenNode.getFullBoundsReference().getMaxX() + 10,
+            equalsNode.setOffset( yRightParenNode.getFullBoundsReference().getMaxX() + xSpacing,
                                   yNode.getYOffset() );
-            lineNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + 10,
+            lineNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + xSpacing,
                                 equalsNode.getFullBoundsReference().getCenterY() + 2 );
             riseNode.setOffset( lineNode.getFullBoundsReference().getMaxX() - riseNode.getFullBoundsReference().getWidth(),
                                 lineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - ySpacing );
             runNode.setOffset( lineNode.getFullBoundsReference().getMaxX() - runNode.getFullBoundsReference().getWidth(),
                                lineNode.getFullBoundsReference().getMinY() + ySpacing );
-            xLeftParenNode.setOffset( lineNode.getFullBoundsReference().getMaxX() + 2,
+            xLeftParenNode.setOffset( lineNode.getFullBoundsReference().getMaxX() + xSpacing,
                                       yNode.getYOffset() );
-            xNode.setOffset( xLeftParenNode.getFullBoundsReference().getMaxX() + 2,
+            xNode.setOffset( xLeftParenNode.getFullBoundsReference().getMaxX() + xParenSpacing,
                              yNode.getYOffset() );
-            x1SignNode.setOffset( xNode.getFullBoundsReference().getMaxX() + 10,
+            x1SignNode.setOffset( xNode.getFullBoundsReference().getMaxX() + xSpacing,
                                   xNode.getYOffset() );
-            x1Node.setOffset( x1SignNode.getFullBoundsReference().getMaxX() + 5,
+            x1Node.setOffset( x1SignNode.getFullBoundsReference().getMaxX() + xSpacing,
                               xNode.getFullBoundsReference().getCenterY() - ( x1Node.getFullBoundsReference().getHeight() / 2 ) );
-            xRightParenNode.setOffset( x1Node.getFullBoundsReference().getMaxX() + 2,
+            xRightParenNode.setOffset( x1Node.getFullBoundsReference().getMaxX() + xParenSpacing,
                                       yNode.getYOffset() );
         }
 

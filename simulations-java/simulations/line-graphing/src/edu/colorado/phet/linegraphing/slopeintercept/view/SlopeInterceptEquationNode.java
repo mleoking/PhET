@@ -103,22 +103,22 @@ class SlopeInterceptEquationNode extends PhetPNode {
 
         // layout
         {
-            // NOTE: x spacing varies and was tweaked to look good
+            final double xSpacing = 10;
             final double ySpacing = 6;
             yNode.setOffset( 0, 0 );
-            equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + 10,
+            equalsNode.setOffset( yNode.getFullBoundsReference().getMaxX() + xSpacing,
                                   yNode.getYOffset() );
-            lineNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + 10,
+            lineNode.setOffset( equalsNode.getFullBoundsReference().getMaxX() + xSpacing,
                                 equalsNode.getFullBoundsReference().getCenterY() + 2 );
             riseNode.setOffset( lineNode.getFullBoundsReference().getMaxX() - riseNode.getFullBoundsReference().getWidth(),
                                 lineNode.getFullBoundsReference().getMinY() - riseNode.getFullBoundsReference().getHeight() - ySpacing );
             runNode.setOffset( lineNode.getFullBoundsReference().getMaxX() - runNode.getFullBoundsReference().getWidth(),
                                lineNode.getFullBoundsReference().getMinY() + ySpacing );
-            xNode.setOffset( lineNode.getFullBoundsReference().getMaxX() + 15,
+            xNode.setOffset( lineNode.getFullBoundsReference().getMaxX() + xSpacing,
                              yNode.getYOffset() );
-            interceptSignNode.setOffset( xNode.getFullBoundsReference().getMaxX() + 10,
+            interceptSignNode.setOffset( xNode.getFullBoundsReference().getMaxX() + xSpacing,
                                          xNode.getYOffset() );
-            interceptNode.setOffset( interceptSignNode.getFullBoundsReference().getMaxX() + 2,
+            interceptNode.setOffset( interceptSignNode.getFullBoundsReference().getMaxX() + xSpacing,
                                      xNode.getFullBoundsReference().getCenterY() - ( interceptNode.getFullBoundsReference().getHeight() / 2 ) );
         }
 
