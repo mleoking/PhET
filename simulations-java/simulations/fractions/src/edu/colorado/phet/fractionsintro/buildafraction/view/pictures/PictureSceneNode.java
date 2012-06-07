@@ -32,7 +32,6 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
-import edu.colorado.phet.fractionsintro.buildafraction.model.Level;
 import edu.colorado.phet.fractionsintro.buildafraction.model.Target;
 import edu.colorado.phet.fractionsintro.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.DragContext;
@@ -79,7 +78,7 @@ public class PictureSceneNode extends PNode implements DragContext {
         //Create the scoring cells with target patterns
         ArrayList<Pair> pairs = new ArrayList<Pair>();
         for ( int i = 0; i < 3; i++ ) {
-            Target target = model.getLevel( level ).getTarget( i );
+            Target target = model.getNumberLevel( level ).getTarget( i );
 
             ArrayList<PatternNode> nodes = new ArrayList<PatternNode>();
             for ( int k = 0; k < target.filledPattern.length(); k++ ) {
@@ -134,29 +133,18 @@ public class PictureSceneNode extends PNode implements DragContext {
         }};
         addChild( toolboxNode );
 
-        final FractionGraphic fractionGraphic = createDefaultFractionGraphic();
-        addChild( fractionGraphic );
-        fractionGraphics.add( fractionGraphic );
-
-        Level myLevel = model.getLevel( level );
-        for ( Integer number : myLevel.numbers ) {
-            NumberNode numberNode = new NumberNode( number, this );
-            numberNode.setInitialPosition( toolboxNode.getFullBounds().getX() + toolboxNode.getFullWidth() * ( number + 1 ) / 11.0 - numberNode.getFullBounds().getWidth() / 2, toolboxNode.getCenterY() - numberNode.getFullBounds().getHeight() / 2 );
-            addChild( numberNode );
-        }
+//        Level myLevel = model.getLevel( level );
+//        for ( Integer number : myLevel.numbers ) {
+//            NumberNode numberNode = new NumberNode( number, this );
+//            numberNode.setInitialPosition( toolboxNode.getFullBounds().getX() + toolboxNode.getFullWidth() * ( number + 1 ) / 11.0 - numberNode.getFullBounds().getWidth() / 2, toolboxNode.getCenterY() - numberNode.getFullBounds().getHeight() / 2 );
+//            addChild( numberNode );
+//        }
 
         Dimension2DDouble littleBucket = new Dimension2DDouble( 250, 100 );
         Bucket bucket = new Bucket( ( AbstractFractionsCanvas.STAGE_SIZE.width ) / 2 + 100, -STAGE_SIZE.getHeight() + littleBucket.getHeight(), littleBucket, Color.green, "" );
         BucketView bucketView = new BucketView( bucket, ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), 1 ) );
         addChild( bucketView.getHoleNode() );
         addChild( bucketView.getFrontNode() );
-    }
-
-    private FractionGraphic createDefaultFractionGraphic() {
-        final FractionGraphic fractionGraphic = new FractionGraphic() {{
-            setOffset( toolboxNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, 300 );
-        }};
-        return fractionGraphic;
     }
 
     public void endDrag( final NumberNode numberNode, final PInputEvent event ) {
@@ -234,11 +222,6 @@ public class PictureSceneNode extends PNode implements DragContext {
 
                             //Add a new fraction skeleton when the previous one is completed
                             if ( !allTargetsComplete() ) {
-                                final FractionGraphic fractionGraphic = createDefaultFractionGraphic();
-                                addChild( fractionGraphic );
-                                fractionGraphic.setTransparency( 0.0f );
-                                fractionGraphic.animateToTransparency( 1.0f, 1000 );
-                                fractionGraphics.add( fractionGraphic );
                             }
 
                             //but if all filled up, then add a "next" button
@@ -261,7 +244,7 @@ public class PictureSceneNode extends PNode implements DragContext {
                 public void apply( final Option<Fraction> fractions ) {
                     removeChild( path );
                     if ( fractions.isSome() ) {
-                        model.removeCreatedValue( fractions.some() );
+                        model.removeCreatedValueFromNumberLevel( fractions.some() );
                     }
                 }
             } );

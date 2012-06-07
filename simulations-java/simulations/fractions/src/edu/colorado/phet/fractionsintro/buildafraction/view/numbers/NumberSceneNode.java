@@ -28,7 +28,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
-import edu.colorado.phet.fractionsintro.buildafraction.model.Level;
+import edu.colorado.phet.fractionsintro.buildafraction.model.NumberLevel;
 import edu.colorado.phet.fractionsintro.buildafraction.model.Target;
 import edu.colorado.phet.fractionsintro.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
@@ -70,7 +70,7 @@ public class NumberSceneNode extends PNode implements DragContext {
         //Create the scoring cells with target patterns
         ArrayList<Pair> pairs = new ArrayList<Pair>();
         for ( int i = 0; i < 3; i++ ) {
-            Target target = model.getLevel( level ).getTarget( i );
+            Target target = model.getNumberLevel( level ).getTarget( i );
 
             ArrayList<PatternNode> nodes = new ArrayList<PatternNode>();
             for ( int k = 0; k < target.filledPattern.length(); k++ ) {
@@ -129,7 +129,7 @@ public class NumberSceneNode extends PNode implements DragContext {
         addChild( fractionGraphic );
         fractionGraphics.add( fractionGraphic );
 
-        Level myLevel = model.getLevel( level );
+        NumberLevel myLevel = model.getNumberLevel( level );
         for ( Integer number : myLevel.numbers ) {
             NumberNode numberNode = new NumberNode( number, this );
             numberNode.setInitialPosition( toolboxNode.getFullBounds().getX() + toolboxNode.getFullWidth() * ( number + 1 ) / 11.0 - numberNode.getFullBounds().getWidth() / 2, toolboxNode.getCenterY() - numberNode.getFullBounds().getHeight() / 2 );
@@ -252,7 +252,7 @@ public class NumberSceneNode extends PNode implements DragContext {
                 public void apply( final Option<Fraction> fractions ) {
                     removeChild( path );
                     if ( fractions.isSome() ) {
-                        model.removeCreatedValue( fractions.some() );
+                        model.removeCreatedValueFromNumberLevel( fractions.some() );
                     }
                 }
             } );

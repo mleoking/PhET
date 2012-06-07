@@ -49,8 +49,8 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
     public BuildAFractionCanvas( final BuildAFractionModel model ) {
         this.model = model;
         addChild( sceneLayer );
-        pictureScene.addChild( new PictureSceneNode( model.level.get(), rootNode, model, STAGE_SIZE, this ) );
-        numberScene.addChild( new NumberSceneNode( model.level.get(), rootNode, model, STAGE_SIZE, this ) {{
+        pictureScene.addChild( new PictureSceneNode( model.numberLevel.get(), rootNode, model, STAGE_SIZE, this ) );
+        numberScene.addChild( new NumberSceneNode( model.numberLevel.get(), rootNode, model, STAGE_SIZE, this ) {{
             setOffset( 0, STAGE_SIZE.height );
         }} );
         sceneLayer.addChild( numberScene );
@@ -61,11 +61,11 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
             public void reset() {
                 model.resetAll();
                 numberScene.reset();
-                numberScene.addChild( new NumberSceneNode( model.level.get(), rootNode, model, STAGE_SIZE, BuildAFractionCanvas.this ) {{
+                numberScene.addChild( new NumberSceneNode( model.numberLevel.get(), rootNode, model, STAGE_SIZE, BuildAFractionCanvas.this ) {{
                     setOffset( 0, STAGE_SIZE.height );
                 }} );
                 pictureScene.reset();
-                pictureScene.addChild( new NumberSceneNode( model.level.get(), rootNode, model, STAGE_SIZE, BuildAFractionCanvas.this ) );
+                pictureScene.addChild( new NumberSceneNode( model.numberLevel.get(), rootNode, model, STAGE_SIZE, BuildAFractionCanvas.this ) );
 
             }
         }, this, 18, Color.black, Color.orange ) {{
@@ -102,10 +102,10 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
     }
 
     public void goToNext() {
-        model.nextLevel();
-        numberScene.addChild( new NumberSceneNode( model.level.get(), rootNode, model, STAGE_SIZE, this ) {{
-            setOffset( STAGE_SIZE.width * model.level.get(), STAGE_SIZE.height );
+        model.nextNumberLevel();
+        numberScene.addChild( new NumberSceneNode( model.numberLevel.get(), rootNode, model, STAGE_SIZE, this ) {{
+            setOffset( STAGE_SIZE.width * model.numberLevel.get(), STAGE_SIZE.height );
         }} );
-        numberScene.animateToTransform( AffineTransform.getTranslateInstance( -STAGE_SIZE.getWidth() * model.level.get(), 0 ), 1000 );
+        numberScene.animateToTransform( AffineTransform.getTranslateInstance( -STAGE_SIZE.getWidth() * model.numberLevel.get(), 0 ), 1000 );
     }
 }
