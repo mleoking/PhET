@@ -30,8 +30,8 @@ public class LGColors {
     public static final Color POINT_TOOL_BACKGROUND_NORMAL_COLOR = Color.WHITE;
     public static final Color POINT_TOOL_FOREGROUND_HIGHLIGHT_COLOR = Color.WHITE;
 
-    public static final Color STATIC_EQUATION_ELEMENT = ColorUtils.gray( 100 );
+    public static final Color STATIC_EQUATION_ELEMENT = Color.BLACK;
 
     public static final Color EQUATION_CONTROL_PANEL = new Color( 238, 238, 238 );
-    public static final Color GRAPH_CONTROL_PANEL = new Color( 222, 243, 243 );
+    public static final Color GRAPH_CONTROL_PANEL = new Color( 238, 238, 238 );
 }

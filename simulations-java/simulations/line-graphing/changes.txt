@@ -1,3 +1,5 @@
+6/7/12 gray for control panel backgrounds
+6/7/12 black for non-interactive parts of equation
 6/7/12 change default equations
 6/7/12 constants for x and y spacing in interactive equations
 6/7/12 position point tools under graph
