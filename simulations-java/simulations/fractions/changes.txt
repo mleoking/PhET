@@ -1,3 +1,4 @@
+Added pieces in the bucket
 Added enable/disable for bucket spinner buttons
 Build a fraction tab: Added bucket spinner buttons
 # 0.00.80 (64782) Jun 7, 2012
