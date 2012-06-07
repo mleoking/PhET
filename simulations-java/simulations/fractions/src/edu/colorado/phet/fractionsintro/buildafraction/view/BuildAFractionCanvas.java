@@ -14,6 +14,8 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.buildafraction.model.Scene;
+import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.NumberSceneContext;
+import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.NumberSceneNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;

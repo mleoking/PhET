@@ -15,7 +15,7 @@ import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Pyramid;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern;
 
-import static edu.colorado.phet.fractionsintro.buildafraction.view.Target.target;
+import static edu.colorado.phet.fractionsintro.buildafraction.model.Target.target;
 import static edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern.sequentialFill;
 import static fj.data.List.*;
 import static java.awt.Color.green;

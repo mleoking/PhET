@@ -3,7 +3,6 @@ package edu.colorado.phet.fractionsintro.buildafraction.model;
 import fj.data.List;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.fractionsintro.buildafraction.view.Target;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 
 /**
