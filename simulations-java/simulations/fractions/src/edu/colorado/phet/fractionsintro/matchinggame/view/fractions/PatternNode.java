@@ -32,4 +32,15 @@ public class PatternNode extends PNode implements IColor {
     public Color getColor() {
         return color;
     }
+
+    public void scaleStrokes( final double scale ) {
+        for ( Object child : getChildrenReference() ) {
+            PNode childNode = (PNode) child;
+            if ( childNode instanceof PhetPPath ) {
+                PhetPPath path = (PhetPPath) childNode;
+                BasicStroke stroke = (BasicStroke) path.getStroke();
+                path.setStroke( new BasicStroke( (float) ( stroke.getLineWidth() * scale ) ) );
+            }
+        }
+    }
 }
