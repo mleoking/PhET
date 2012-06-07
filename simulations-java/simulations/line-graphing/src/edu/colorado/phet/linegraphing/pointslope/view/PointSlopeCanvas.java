@@ -57,8 +57,6 @@ public class PointSlopeCanvas extends LGCanvas {
         // layout
         {
             // NOTE: Nodes that have corresponding model elements handle their own offsets.
-            final double yMargin = 20;
-
             // upper-right of graph
             equationControls.setOffset( graphNode.getFullBoundsReference().getMaxX(), 50 );
             // centered below equation controls
