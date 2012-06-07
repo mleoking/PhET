@@ -6,10 +6,6 @@ DESIGN
 - point-slope: should blue manipulator be labeled (x1,y1)?
 - move "lines" control panel closer to graph, into space reserved for moving point tools?
 
-new spinner design:
-- color that ties spinner to manipulator isn't visible until you mouse over
-- should we use images files for buttons?
-
 HIGH
 - decide which controls to use for interactive equations, then delete the ones that aren't used
 - using interactive equation skips over values that would produce slope=0/0, but value in equation isn't updated
