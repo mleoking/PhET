@@ -3,8 +3,13 @@
     <string key="normal-modes.simTitle" value = "Normal Modes"/>
     <string key="start" value = "Start"/>
     <string key="stop" value = "Stop"/>
+    <string key="simSpeed" value = "sim speed"/>
+    <string key="slow" value = "slow"/>
+    <string key="normal" value = "normal"/>
+    <string key="step" value = "step"/>
     <string key="resetPositions" value = "Initial Positions"/>
     <string key="zeroPositions" value = "Zero Positions"/>
+    <string key="numberOfMasses" value = "Number of Masses"/>
     <string key="polarization:" value = "Polarizaton&lt;br&gt;Control:"/>
     <string key="showPhases" value = "Show Phases"/>
     <string key="showSprings" value = "Show Springs"/>
@@ -12,6 +17,7 @@
     <string key="modeNumbersXY" value = "Mode Numbers x, y."/>
     <string key="modeSpectrum" value = "Normal Mode Spectrum"/>
     <string key="normalMode:" value = "Normal Mode:"/>
+    <string key="normalModes" value = "Normal Modes"/>
     <string key="amplitude:" value = "Amplitude:"/>
     <string key="frequency:" value = "Frequency:"/>
     <string key="omega" value = "ω"/>
@@ -19,4 +25,6 @@
     <string key="plusPi" value = "+π"/>
     <string key="minusPi" value = "-π"/>
     <string key="paused" value = "PAUSED"/>
+    <string key="horizontal" value = "Horizontal"/>
+    <string key="vertical" value = "Vertical"/>
 </SimStrings>
