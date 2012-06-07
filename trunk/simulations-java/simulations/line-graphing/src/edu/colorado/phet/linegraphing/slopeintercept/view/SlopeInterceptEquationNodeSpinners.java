@@ -87,7 +87,7 @@ class SlopeInterceptEquationNodeSpinners extends PhetPNode {
             setStrokePaint( staticColor );
         }};
         PText xNode = new PhetPText( "x", staticFont, staticColor );
-        final PText interceptSignNode = new PhetPText( "-", staticFont, staticColor );
+        final PText interceptSignNode = new PhetPText( "+", staticFont, staticColor );
         PNode interceptNode = new ZeroOffsetNode( new InterceptSpinnerNode2( UserComponents.interceptSpinner, this.intercept, interceptRange, interactiveFont, FORMAT ) );
 
         // rendering order
