@@ -145,6 +145,13 @@ public class PointToolNode extends PhetPNode {
             final double viewY = pMouse.getY() - clickYOffset;
             ImmutableVector2D pView = constrainToBounds( viewX, viewY );
             point.set( mvt.viewToModel( pView ) );
+            if ( graph.contains( point.get() ) ) {
+                // snap to the grid
+                point.set( new ImmutableVector2D( MathUtil.round( point.get().getX() ), MathUtil.round( point.get().getY() ) ) );
+            }
+            else {
+                point.set( mvt.viewToModel( pView ) );
+            }
         }
 
         @Override protected void endDrag( PInputEvent event ) {
