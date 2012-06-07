@@ -24,6 +24,10 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Sam Reid
  */
 public class BuildAFractionCanvas extends AbstractFractionsCanvas implements NumberSceneContext {
+
+    private static final int rgb = 240;
+    public static final Color CONTROL_PANEL_BACKGROUND = new Color( rgb, rgb, rgb );
+
     public static final Paint TRANSPARENT = new Color( 0, 0, 0, 0 );
     public static final Stroke controlPanelStroke = new BasicStroke( 2 );
 
