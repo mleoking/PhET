@@ -1,3 +1,4 @@
+Removed package buildafraction_functional
 Added scene layer for navigation
 Build a fraction tab: Added radio buttons for changing game types, not wired up yet
 # 0.00.78 (64716) Jun 6, 2012
