@@ -1,3 +1,4 @@
+Build a fraction tab: Remvoe confirmation dialog for reset all
 Build a fraction tab: Fade out previous level when going to next level to support other aspect ratios
 Build a fraction tab: Added bucket icon
 Build a fraction tab: Added pieces in the bucket

@@ -70,6 +70,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
             }
         }, this, 18, Color.black, Color.orange ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - INSET, STAGE_SIZE.getHeight() - getFullBounds().getHeight() - INSET );
+            setConfirmationEnabled( false );
         }} );
 
         addChild( new HBox( new PSwing( radioButton( model, "Pictures", Scene.pictures ) ),
