@@ -1,3 +1,4 @@
+# 0.00.79 (64772) Jun 7, 2012
 Started on "pictures" scene
 Removed package buildafraction_functional
 Added scene layer for navigation
