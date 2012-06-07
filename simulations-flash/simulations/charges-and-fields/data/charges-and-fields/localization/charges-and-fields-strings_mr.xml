@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--charges-and-fields-strings_mr.xml created Sun Jun 03 18:43:32 IST 2012 using: charges-and-fields 2.04.00 (52655), translation-utility 2.13.00 (59150) Dec 8, 2011-->
+<SimStrings>
+<string key="directionOnly" value="फक्त दिशा"/>
+<string key="grid" value="जाल"/>
+<string key="clearAll" value="सर्व स्वच्छ"/>
+<string key="simTitle" value="प्रभार आणि क्षेत्र"/>
+<string key="distanceUnit" value=" m"/>
+<string key="showNumbers" value="अंक दर्शवा"/>
+<string key="oneMeter" value="१ मिटर"/>
+<string key="showEField" value="E क्षेत्र दर्शवा"/>
+<string key="oneNanoC" value="१ नॅनो सेकंद"/>
+<string key="showHiRes" value="तीव्र विभेदन  V दर्शवा"/>
+<string key="EFieldSensors" value="E-क्षेत्र संवेदक"/>
+<string key="eFieldUnit" value=" V/m"/>
+<string key="clear" value="स्वच्छ"/>
+<string key="equipotential" value="समविभव"/>
+<string key="angleUnit" value="अंश"/>
+<string key="showLoRes" value="मंद विभेदन  V दर्शवा"/>
+<string key="moreSpeedLessRes" value="जास्त वेग/कमी विभेदन"/>
+<string key="tapeMeasure" value="मापन पट्ट"/>
+<string key="voltage" value="दाब"/>
+</SimStrings>
