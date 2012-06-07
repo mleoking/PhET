@@ -74,8 +74,8 @@ public class SlopeInterceptModel implements Resettable {
 
         graph = new Graph( X_RANGE, Y_RANGE );
 
-        pointTool1 = new PointTool( new ImmutableVector2D( X_RANGE.getMax() + 4, Y_RANGE.getMin() - 2 ), interactiveLine, savedLines, standardLines );
-        pointTool2 = new PointTool( pointTool1.location.get(), interactiveLine, savedLines, standardLines );
+        pointTool1 = new PointTool( new ImmutableVector2D( X_RANGE.getMin() + ( 0.75 * X_RANGE.getLength() ), Y_RANGE.getMin() - 3 ), interactiveLine, savedLines, standardLines );
+        pointTool2 = new PointTool( new ImmutableVector2D( X_RANGE.getMin() + ( 0.25 * X_RANGE.getLength() ), pointTool1.location.get().getY() ), interactiveLine, savedLines, standardLines );
 
         // Dynamically set ranges so that variables are constrained to the bounds of the graph.
         interactiveLine.addObserver( new VoidFunction1<StraightLine>() {
