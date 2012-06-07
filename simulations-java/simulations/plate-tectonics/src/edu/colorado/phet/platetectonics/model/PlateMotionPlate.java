@@ -6,12 +6,12 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.model.behaviors.PlateBehavior;
+import edu.colorado.phet.platetectonics.model.behaviors.RiftingBehavior;
 import edu.colorado.phet.platetectonics.model.labels.BoundaryLabel;
 import edu.colorado.phet.platetectonics.model.labels.RangeLabel;
 import edu.colorado.phet.platetectonics.model.regions.Boundary;
@@ -163,40 +163,52 @@ public class PlateMotionPlate extends Plate {
                 Strings.LITHOSPHERE, this
         ) );
 
-        model.boundaryLabels.add( new BoundaryLabel( getLithosphere().getBottomBoundary(), side ) );
+        model.boundaryLabels.add( new BoundaryLabel( getLithosphere().getBottomBoundary(), side ) {
+            @Override
+            public boolean isReversed() {
+                if ( behavior == null ) {
+                    return super.isReversed();
+                }
+                else {
+                    // reverse the boundary type if we are rifting apart
+                    return behavior instanceof RiftingBehavior;
+                }
+            }
+        } );
 
         final float mantleX = lithosphereBottom.get().getX();
 
-        model.rangeLabels.add( new RangeLabel(
-                // calculate the y for a set x value for this
-                new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
-                    lithosphereBottom.addObserver( new SimpleObserver() {
-                        public void update() {
-                            set( new ImmutableVector3F(
-                                    mantleX,
-                                    getLithosphere().getBottomBoundary().getApproximateYFromX( mantleX ),
-                                    lithosphereBottom.get().z
-                            ) );
-                        }
-                    } );
-                }},
-
-                // and set x/y here, however we need to keep up to date with z for the transform motion
-                new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
-                    lithosphereBottom.addObserver( new SimpleObserver() {
-                        public void update() {
-                            set( new ImmutableVector3F(
-                                    mantleX,
-                                    ( lithosphereBottom.get().y - lithosphereTop.get().y ) * 20,
-                                    lithosphereBottom.get().z
-                            ) );
-                        }
-                    } );
-                }},
-                Strings.MANTLE, this
-        ) {{
-            setLimitToScreen( true );
-        }} );
+        // TODO: remove when we decide we don't need the vertical "mantle" label
+//        model.rangeLabels.add( new RangeLabel(
+//                // calculate the y for a set x value for this
+//                new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+//                    lithosphereBottom.addObserver( new SimpleObserver() {
+//                        public void update() {
+//                            set( new ImmutableVector3F(
+//                                    mantleX,
+//                                    getLithosphere().getBottomBoundary().getApproximateYFromX( mantleX ),
+//                                    lithosphereBottom.get().z
+//                            ) );
+//                        }
+//                    } );
+//                }},
+//
+//                // and set x/y here, however we need to keep up to date with z for the transform motion
+//                new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+//                    lithosphereBottom.addObserver( new SimpleObserver() {
+//                        public void update() {
+//                            set( new ImmutableVector3F(
+//                                    mantleX,
+//                                    ( lithosphereBottom.get().y - lithosphereTop.get().y ) * 20,
+//                                    lithosphereBottom.get().z
+//                            ) );
+//                        }
+//                    } );
+//                }},
+//                Strings.MANTLE, this
+//        ) {{
+//            setLimitToScreen( true );
+//        }} );
 
     }
 

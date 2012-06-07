@@ -47,6 +47,7 @@ import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateType;
 import edu.colorado.phet.platetectonics.model.labels.BoundaryLabel;
 import edu.colorado.phet.platetectonics.model.labels.RangeLabel;
+import edu.colorado.phet.platetectonics.model.labels.TextLabel;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.util.Side;
@@ -55,6 +56,7 @@ import edu.colorado.phet.platetectonics.view.HandleNode;
 import edu.colorado.phet.platetectonics.view.PlateView;
 import edu.colorado.phet.platetectonics.view.labels.BoundaryLabelNode;
 import edu.colorado.phet.platetectonics.view.labels.RangeLabelNode;
+import edu.colorado.phet.platetectonics.view.labels.TextLabelNode;
 
 /**
  * Displays two main plates that the user can direct to move towards, away from, or along each other.
@@ -86,6 +88,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
     // keep track of what nodes correspond to what labels
     public final Map<RangeLabel, RangeLabelNode> rangeLabelMap = new HashMap<RangeLabel, RangeLabelNode>();
     public final Map<BoundaryLabel, BoundaryLabelNode> boundaryLabelMap = new HashMap<BoundaryLabel, BoundaryLabelNode>();
+    public final Map<TextLabel, TextLabelNode> textLabelMap = new HashMap<TextLabel, TextLabelNode>();
 
     public PlateMotionTab( LWJGLCanvas canvas ) {
         super( canvas, Strings.PLATE_MOTION_TAB, 0.5f );
@@ -196,6 +199,24 @@ public class PlateMotionTab extends PlateTectonicsTab {
             public void apply( BoundaryLabel boundaryLabel ) {
                 layerLabels.removeChild( boundaryLabelMap.get( boundaryLabel ) );
                 boundaryLabelMap.remove( boundaryLabel );
+            }
+        } );
+
+        /*---------------------------------------------------------------------------*
+        * text labels
+        *----------------------------------------------------------------------------*/
+        getPlateMotionModel().textLabels.addElementAddedObserver( new VoidFunction1<TextLabel>() {
+            public void apply( TextLabel textLabel ) {
+                final TextLabelNode textLabelNode = new TextLabelNode( textLabel, getModelViewTransform(), colorMode, new Property<Float>( 1f ) );
+                layerLabels.addChild( textLabelNode );
+                textLabelMap.put( textLabel, textLabelNode );
+            }
+        } );
+
+        getPlateMotionModel().textLabels.addElementRemovedObserver( new VoidFunction1<TextLabel>() {
+            public void apply( TextLabel textLabel ) {
+                layerLabels.removeChild( textLabelMap.get( textLabel ) );
+                textLabelMap.remove( textLabel );
             }
         } );
 

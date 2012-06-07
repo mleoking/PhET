@@ -13,4 +13,8 @@ public class BoundaryLabel {
         this.boundary = boundary;
         this.side = side;
     }
+
+    public boolean isReversed() {
+        return false;
+    }
 }
