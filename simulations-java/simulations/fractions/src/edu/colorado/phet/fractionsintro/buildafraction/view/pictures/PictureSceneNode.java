@@ -27,21 +27,20 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
-import edu.colorado.phet.fractionsintro.buildafraction.model.Target;
+import edu.colorado.phet.fractionsintro.buildafraction.model.PictureLevel;
+import edu.colorado.phet.fractionsintro.buildafraction.model.PictureTarget;
 import edu.colorado.phet.fractionsintro.buildafraction.view.BuildAFractionCanvas;
-import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.DragContext;
 import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.FractionGraphic;
 import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.NumberNode;
 import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.NumberSceneContext;
 import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.ScoreBoxNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
-import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
+import edu.colorado.phet.fractionsintro.intro.view.FractionNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -54,7 +53,7 @@ import static edu.colorado.phet.fractions.FractionsResources.Strings.MY_FRACTION
  *
  * @author Sam Reid
  */
-public class PictureSceneNode extends PNode implements DragContext {
+public class PictureSceneNode extends PNode implements ContainerContext {
     private final ArrayList<FractionGraphic> fractionGraphics = new ArrayList<FractionGraphic>();
     private final PNode rootNode;
     private final BuildAFractionModel model;
@@ -78,14 +77,10 @@ public class PictureSceneNode extends PNode implements DragContext {
         //Create the scoring cells with target patterns
         ArrayList<Pair> pairs = new ArrayList<Pair>();
         for ( int i = 0; i < 3; i++ ) {
-            Target target = model.getNumberLevel( level ).getTarget( i );
+            PictureTarget target = model.getPictureLevel( level ).getTarget( i );
 
-            ArrayList<PatternNode> nodes = new ArrayList<PatternNode>();
-            for ( int k = 0; k < target.filledPattern.length(); k++ ) {
-                nodes.add( new PatternNode( target.filledPattern.index( k ), target.color ) );
-            }
-            HBox patternNode = new HBox( nodes.toArray( new PNode[nodes.size()] ) );
-            pairs.add( new Pair( new ScoreBoxNode( target.fraction.numerator, target.fraction.denominator, model.getCreatedFractions( level ) ), new ZeroOffsetNode( patternNode ) ) );
+            FractionNode f = new FractionNode( target.fraction, 0.4 );
+            pairs.add( new Pair( new ScoreBoxNode( target.fraction.numerator, target.fraction.denominator, model.getCreatedFractions( level ) ), new ZeroOffsetNode( f ) ) );
         }
         pairList = List.iterableList( pairs );
         List<PNode> patterns = pairList.map( new F<Pair, PNode>() {
@@ -133,18 +128,21 @@ public class PictureSceneNode extends PNode implements DragContext {
         }};
         addChild( toolboxNode );
 
-//        Level myLevel = model.getLevel( level );
-//        for ( Integer number : myLevel.numbers ) {
-//            NumberNode numberNode = new NumberNode( number, this );
-//            numberNode.setInitialPosition( toolboxNode.getFullBounds().getX() + toolboxNode.getFullWidth() * ( number + 1 ) / 11.0 - numberNode.getFullBounds().getWidth() / 2, toolboxNode.getCenterY() - numberNode.getFullBounds().getHeight() / 2 );
-//            addChild( numberNode );
-//        }
+        PictureLevel myLevel = model.getPictureLevel( level );
+        for ( Integer denominator : myLevel.numbers ) {
+            ContainerNode containerNode = new ContainerNode( denominator, this );
+            containerNode.setInitialPosition( toolboxNode.getFullBounds().getX() + toolboxNode.getFullWidth() * ( denominator + 1 ) / 11.0 - containerNode.getFullBounds().getWidth() / 2, toolboxNode.getCenterY() - containerNode.getFullBounds().getHeight() / 2 );
+            addChild( containerNode );
+        }
 
         Dimension2DDouble littleBucket = new Dimension2DDouble( 250, 100 );
         Bucket bucket = new Bucket( ( AbstractFractionsCanvas.STAGE_SIZE.width ) / 2 + 100, -STAGE_SIZE.getHeight() + littleBucket.getHeight(), littleBucket, Color.green, "" );
         BucketView bucketView = new BucketView( bucket, ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), 1 ) );
         addChild( bucketView.getHoleNode() );
         addChild( bucketView.getFrontNode() );
+    }
+
+    public void endDrag( final ContainerNode containerNode, final PInputEvent event ) {
     }
 
     public void endDrag( final NumberNode numberNode, final PInputEvent event ) {
@@ -268,4 +266,5 @@ public class PictureSceneNode extends PNode implements DragContext {
         bounds = rootNode.globalToLocal( bounds );
         numberNode.centerFullBoundsOnPoint( bounds.getCenterX(), bounds.getCenterY() );
     }
+
 }

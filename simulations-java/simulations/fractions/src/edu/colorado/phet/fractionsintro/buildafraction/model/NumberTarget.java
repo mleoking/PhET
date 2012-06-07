@@ -10,15 +10,17 @@ import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern;
 
 /**
+ * Target the user tries to create when creating numbers to match a given picture.
+ *
  * @author Sam Reid
  */
-public @Data class Target {
+public @Data class NumberTarget {
     public final Fraction fraction;
     public final Color color;
     public final List<FilledPattern> filledPattern;
 
     //Convenience for single pattern
-    public static Target target( int numerator, int denominator, Color color, F<Fraction, FilledPattern> pattern ) {
-        return new Target( new Fraction( numerator, denominator ), color, BuildAFractionModel.composite( pattern ).f( new Fraction( numerator, denominator ) ) );
+    public static NumberTarget target( int numerator, int denominator, Color color, F<Fraction, FilledPattern> pattern ) {
+        return new NumberTarget( new Fraction( numerator, denominator ), color, BuildAFractionModel.composite( pattern ).f( new Fraction( numerator, denominator ) ) );
     }
 }

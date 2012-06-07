@@ -15,7 +15,7 @@ import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Pyramid;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern;
 
-import static edu.colorado.phet.fractionsintro.buildafraction.model.Target.target;
+import static edu.colorado.phet.fractionsintro.buildafraction.model.NumberTarget.target;
 import static edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern.sequentialFill;
 import static fj.data.List.*;
 import static java.awt.Color.green;
@@ -33,7 +33,7 @@ public class BuildAFractionModel {
     public final Property<Integer> pictureLevel = new Property<Integer>( 0 );
 
     public final ConstantDtClock clock = new ConstantDtClock();
-    public final Property<Scene> selectedScene = new Property<Scene>( Scene.numbers );
+    public final Property<Scene> selectedScene = new Property<Scene>( Scene.pictures );
 
     public static F<Fraction, FilledPattern> pie = new F<Fraction, FilledPattern>() {
         @Override public FilledPattern f( final Fraction f ) {
@@ -93,8 +93,8 @@ public class BuildAFractionModel {
 
     public final ArrayList<NumberLevel> numberLevels = new ArrayList<NumberLevel>() {{
         for ( int i = 0; i < 10; i++ ) {
-            add( i == 0 ? level0() :
-                 i == 1 ? level1() :
+            add( i == 0 ? numberLevel0() :
+                 i == 1 ? numberLevel1() :
                  i == 2 ? new NumberLevel( list( 0, 1, 2, 3, 3, 3, 4, 4, 5, 6, 6, 7, 8, 9 ), shuffle( list( target( 2, 6, red, flower ),
                                                                                                             target( 3, 6, green, flower ),
                                                                                                             target( 4, 6, lightBlue, flower ) ) ) ) :
@@ -108,6 +108,18 @@ public class BuildAFractionModel {
         }
     }};
 
+    public final ArrayList<PictureLevel> pictureLevels = new ArrayList<PictureLevel>() {{
+        for ( int i = 0; i < 10; i++ ) {
+            add( i == 0 ? pictureLevel0() :
+                 pictureLevel0()
+            );
+        }
+    }};
+
+    private PictureLevel pictureLevel0() {
+        return new PictureLevel( list( 1, 2, 3, 4, 5, 6 ), list( new PictureTarget( new Fraction( 1, 1 ) ), new PictureTarget( new Fraction( 1, 2 ) ), new PictureTarget( new Fraction( 2, 3 ) ) ) );
+    }
+
     public void nextNumberLevel() { numberLevel.set( numberLevel.get() + 1 ); }
 
     public void removeCreatedValueFromNumberLevel( final Fraction value ) {
@@ -115,7 +127,7 @@ public class BuildAFractionModel {
         fractions.set( fractions.get().delete( value, Equal.<Fraction>anyEqual() ) );
     }
 
-    private NumberLevel level1() {
+    private NumberLevel numberLevel1() {
         F<Fraction, FilledPattern> representation = new Distribution<F<Fraction, FilledPattern>>() {{
             put( horizontalBar, 20 );
             put( verticalBar, 20 );
@@ -127,7 +139,7 @@ public class BuildAFractionModel {
     }
 
     //Choose a representation, pies or bars, but use the same representation for all things
-    private NumberLevel level0() {
+    private NumberLevel numberLevel0() {
         List<Color> colors = shuffledColors();
         return new NumberLevel( list( 1, 1, 2, 2, 3, 3 ), shuffle( list( target( 1, 2, colors.index( 0 ), pie ),
                                                                          target( 1, 3, colors.index( 1 ), pie ),
@@ -161,4 +173,6 @@ public class BuildAFractionModel {
     }
 
     public NumberLevel getNumberLevel( final int level ) { return numberLevels.get( level ); }
+
+    public PictureLevel getPictureLevel( final int level ) { return pictureLevels.get( level ); }
 }

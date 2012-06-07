@@ -10,22 +10,20 @@ import edu.colorado.phet.fractionsintro.intro.model.Fraction;
  *
  * @author Sam Reid
  */
-public class NumberLevel {
+public class PictureLevel {
 
     //Fractions the user has created in the play area, which may match a target
     public final Property<List<Fraction>> createdFractions = new Property<List<Fraction>>( List.<Fraction>nil() );
 
     public final List<Integer> numbers;
-    public final List<NumberTarget> targets;
+    public final List<PictureTarget> targets;
 
-    public NumberLevel( final List<Integer> numbers, final List<NumberTarget> targets ) {
-        this.numbers = numbers;
+    public PictureLevel( final List<Integer> containers, final List<PictureTarget> targets ) {
+        this.numbers = containers;
         this.targets = targets;
     }
 
-    public NumberTarget getTarget( final int i ) {
-        return targets.index( i );
-    }
+    public PictureTarget getTarget( final int i ) { return targets.index( i ); }
 
     public void resetAll() { createdFractions.reset(); }
 }
