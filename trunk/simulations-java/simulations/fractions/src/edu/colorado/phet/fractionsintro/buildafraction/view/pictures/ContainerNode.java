@@ -22,7 +22,12 @@ public class ContainerNode extends PNode {
     private int number;
 
     public ContainerNode( int number, final ContainerContext context ) {
-        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 100, 50 ), Color.white, new BasicStroke( 2 ), Color.black ) );
+        int width = 130;
+        int height = 55;
+        for ( int i = 0; i < number; i++ ) {
+            final double pieceWidth = width / number;
+            addChild( new PhetPPath( new Rectangle2D.Double( pieceWidth * i, 0, pieceWidth, height ), Color.white, new BasicStroke( 2 ), Color.black ) );
+        }
         this.number = number;
         addInputEventListener( new SimSharingDragHandler( null, true ) {
             @Override protected void drag( final PInputEvent event ) {

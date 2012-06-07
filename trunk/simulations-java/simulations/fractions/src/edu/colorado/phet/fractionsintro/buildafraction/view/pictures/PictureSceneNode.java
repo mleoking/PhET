@@ -131,7 +131,10 @@ public class PictureSceneNode extends PNode implements ContainerContext {
         PictureLevel myLevel = model.getPictureLevel( level );
         for ( Integer denominator : myLevel.numbers ) {
             ContainerNode containerNode = new ContainerNode( denominator, this );
-            containerNode.setInitialPosition( toolboxNode.getFullBounds().getX() + toolboxNode.getFullWidth() * ( denominator + 1 ) / 11.0 - containerNode.getFullBounds().getWidth() / 2, toolboxNode.getCenterY() - containerNode.getFullBounds().getHeight() / 2 );
+            int row = ( denominator - 1 ) / 3;
+            int column = ( denominator - 1 ) % 3;
+            containerNode.setInitialPosition( toolboxNode.getFullBounds().getX() + AbstractFractionsCanvas.INSET + column * 150,
+                                              toolboxNode.getFullBounds().getY() + row * 80 + AbstractFractionsCanvas.INSET );
             addChild( containerNode );
         }
 
