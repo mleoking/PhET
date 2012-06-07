@@ -101,7 +101,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
         }};
     }
 
-    public void goToNext() {
+    public void goToNextNumberLevel() {
         model.nextNumberLevel();
         numberScene.addChild( new NumberSceneNode( model.numberLevel.get(), rootNode, model, STAGE_SIZE, this ) {{
             setOffset( STAGE_SIZE.width * model.numberLevel.get(), STAGE_SIZE.height );
