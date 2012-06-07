@@ -23,6 +23,8 @@ import edu.colorado.phet.platetectonics.model.behaviors.OverridingBehavior;
 import edu.colorado.phet.platetectonics.model.behaviors.RiftingBehavior;
 import edu.colorado.phet.platetectonics.model.behaviors.SubductingBehavior;
 import edu.colorado.phet.platetectonics.model.behaviors.TransformBehavior;
+import edu.colorado.phet.platetectonics.model.labels.BoundaryLabel;
+import edu.colorado.phet.platetectonics.model.labels.RangeLabel;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Side;
@@ -32,7 +34,9 @@ public class PlateMotionModel extends PlateModel {
     private PlateMotionPlate leftPlate;
     private PlateMotionPlate rightPlate;
     private final TectonicsClock clock;
-    private final List<RangeLabel> rangeLabels;
+
+    public final ObservableList<RangeLabel> rangeLabels = new ObservableList<RangeLabel>();
+    public final ObservableList<BoundaryLabel> boundaryLabels = new ObservableList<BoundaryLabel>();
 
     public static enum MotionType {
         CONVERGENT,
@@ -98,10 +102,9 @@ public class PlateMotionModel extends PlateModel {
     }};
 
     // TODO: change bounds to possibly a Z range, or just bake it in
-    public PlateMotionModel( final TectonicsClock clock, final Bounds3D bounds, final List<RangeLabel> rangeLabels ) {
+    public PlateMotionModel( final TectonicsClock clock, final Bounds3D bounds ) {
         super( bounds, new TextureStrategy( 0.000006f ) );
         this.clock = clock;
-        this.rangeLabels = rangeLabels;
 
         resetPlates();
         resetTerrain();
@@ -136,7 +139,7 @@ public class PlateMotionModel extends PlateModel {
 
     private void initializeBehaviors() {
 
-        ParameterSet parameters = new ParameterSet( new Parameter[] {
+        ParameterSet parameters = new ParameterSet( new Parameter[]{
                 new Parameter( ParameterKeys.leftPlateType, leftPlateType.get().toString() ),
                 new Parameter( ParameterKeys.rightPlateType, rightPlateType.get().toString() )
         } );
@@ -228,7 +231,8 @@ public class PlateMotionModel extends PlateModel {
         resetPlates();
         resetTerrain();
 
-        getRangeLabels().clear();
+        rangeLabels.clear();
+        boundaryLabels.clear();
 
         dropCrust( Side.LEFT, leftPlateType.get() );
         dropCrust( Side.RIGHT, rightPlateType.get() );
@@ -238,7 +242,8 @@ public class PlateMotionModel extends PlateModel {
         smokePuffs.clear();
     }
 
-    @Override public void resetAll() {
+    @Override
+    public void resetAll() {
         super.resetAll();
 
         clock.resetTimeLimit();
@@ -262,6 +267,7 @@ public class PlateMotionModel extends PlateModel {
         smokePuffs.clear();
 
         rangeLabels.clear();
+        boundaryLabels.clear();
     }
 
     // xIndex can be from 0 to HORIZONTAL_SAMPLES-1
@@ -336,7 +342,8 @@ public class PlateMotionModel extends PlateModel {
     }
 
     // TODO: conversion from double to float
-    @Override public void update( double timeElapsed ) {
+    @Override
+    public void update( double timeElapsed ) {
         assert !Double.isNaN( timeElapsed );
         super.update( timeElapsed );
 
@@ -357,12 +364,14 @@ public class PlateMotionModel extends PlateModel {
         modelChanged.updateListeners();
     }
 
-    @Override public double getElevation( double x, double z ) {
+    @Override
+    public double getElevation( double x, double z ) {
         // NOTE: OK to not fill in here, not ever used. TODO: redesign so we don't have this
         return 0;
     }
 
-    @Override public double getDensity( double x, double y ) {
+    @Override
+    public double getDensity( double x, double y ) {
         ImmutableVector3F point = new ImmutableVector3F( (float) x, (float) y, 0 );
         HitResult hitResult = firstStripIntersection( point );
         if ( hitResult != null ) {
@@ -376,7 +385,8 @@ public class PlateMotionModel extends PlateModel {
         }
     }
 
-    @Override public double getTemperature( double x, double y ) {
+    @Override
+    public double getTemperature( double x, double y ) {
         ImmutableVector3F point = new ImmutableVector3F( (float) x, (float) y, 0 );
         HitResult hitResult = firstStripIntersection( point );
         if ( hitResult != null ) {
@@ -433,10 +443,6 @@ public class PlateMotionModel extends PlateModel {
 
     public List<CrossSectionStrip> getStripsInOrder() {
         return stripTracker.getStripsInOrder();
-    }
-
-    public List<RangeLabel> getRangeLabels() {
-        return rangeLabels;
     }
 
     // keeps track of the stacking order of cross-section strips so we can accurately get intersection information even with overlapping strips

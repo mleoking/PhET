@@ -12,6 +12,8 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.model.behaviors.PlateBehavior;
+import edu.colorado.phet.platetectonics.model.labels.BoundaryLabel;
+import edu.colorado.phet.platetectonics.model.labels.RangeLabel;
 import edu.colorado.phet.platetectonics.model.regions.Boundary;
 import edu.colorado.phet.platetectonics.model.regions.Region;
 import edu.colorado.phet.platetectonics.util.Side;
@@ -149,21 +151,23 @@ public class PlateMotionPlate extends Plate {
                     }, true );
         }};
 
-        model.getRangeLabels().add( new RangeLabel(
+        model.rangeLabels.add( new RangeLabel(
                 crustTop,
                 crustBottom,
                 type.getSpecificLabel(), this
         ) );
 
-        model.getRangeLabels().add( new RangeLabel(
+        model.rangeLabels.add( new RangeLabel(
                 lithosphereTop,
                 lithosphereBottom,
                 Strings.LITHOSPHERE, this
         ) );
 
+        model.boundaryLabels.add( new BoundaryLabel( getLithosphere().getBottomBoundary(), side ) );
+
         final float mantleX = lithosphereBottom.get().getX();
 
-        model.getRangeLabels().add( new RangeLabel(
+        model.rangeLabels.add( new RangeLabel(
                 // calculate the y for a set x value for this
                 new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
                     lithosphereBottom.addObserver( new SimpleObserver() {

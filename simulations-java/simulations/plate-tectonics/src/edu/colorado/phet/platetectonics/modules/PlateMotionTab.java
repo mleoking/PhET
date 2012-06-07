@@ -1,8 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.modules;
 
-import java.awt.Color;
-import java.awt.Cursor;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +18,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
-import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
@@ -47,14 +45,16 @@ import edu.colorado.phet.platetectonics.control.ViewOptionsPanel;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateType;
-import edu.colorado.phet.platetectonics.model.RangeLabel;
+import edu.colorado.phet.platetectonics.model.labels.BoundaryLabel;
+import edu.colorado.phet.platetectonics.model.labels.RangeLabel;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
 import edu.colorado.phet.platetectonics.util.Side;
 import edu.colorado.phet.platetectonics.view.BoxHighlightNode;
 import edu.colorado.phet.platetectonics.view.HandleNode;
 import edu.colorado.phet.platetectonics.view.PlateView;
-import edu.colorado.phet.platetectonics.view.RangeLabelNode;
+import edu.colorado.phet.platetectonics.view.labels.BoundaryLabelNode;
+import edu.colorado.phet.platetectonics.view.labels.RangeLabelNode;
 
 /**
  * Displays two main plates that the user can direct to move towards, away from, or along each other.
@@ -83,8 +83,9 @@ public class PlateMotionTab extends PlateTectonicsTab {
     private HandleNode rightHandle;
     private TectonicsTimeControl tectonicsTimeControl;
 
-    public final ObservableList<RangeLabel> rangeLabels = new ObservableList<RangeLabel>();
+    // keep track of what nodes correspond to what labels
     public final Map<RangeLabel, RangeLabelNode> rangeLabelMap = new HashMap<RangeLabel, RangeLabelNode>();
+    public final Map<BoundaryLabel, BoundaryLabelNode> boundaryLabelMap = new HashMap<BoundaryLabel, BoundaryLabelNode>();
 
     public PlateMotionTab( LWJGLCanvas canvas ) {
         super( canvas, Strings.PLATE_MOTION_TAB, 0.5f );
@@ -106,7 +107,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
 
         // create the model and terrain
 //        model = new AnimatedPlateModel( grid );
-        setModel( new PlateMotionModel( getClock(), grid.getBounds(), rangeLabels ) );
+        setModel( new PlateMotionModel( getClock(), grid.getBounds() ) );
 
         sceneLayer.addChild( new PlateView( getModel(), this, showWater ) );
         leftHandle = new HandleNode( new Property<ImmutableVector3F>( new ImmutableVector3F( -120, 0, -125 / 2 ) ), this, false ) {{
@@ -135,7 +136,10 @@ public class PlateMotionTab extends PlateTectonicsTab {
         }};
         sceneLayer.addChild( layerLabels );
 
-        rangeLabels.addElementAddedObserver( new VoidFunction1<RangeLabel>() {
+        /*---------------------------------------------------------------------------*
+         * range labels
+         *----------------------------------------------------------------------------*/
+        getPlateMotionModel().rangeLabels.addElementAddedObserver( new VoidFunction1<RangeLabel>() {
             public void apply( final RangeLabel rangeLabel ) {
                 final Property<ImmutableVector3F> topProperty = new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
                     beforeFrameRender.addUpdateListener( new UpdateListener() {
@@ -170,10 +174,28 @@ public class PlateMotionTab extends PlateTectonicsTab {
             }
         } );
 
-        rangeLabels.addElementRemovedObserver( new VoidFunction1<RangeLabel>() {
+        getPlateMotionModel().rangeLabels.addElementRemovedObserver( new VoidFunction1<RangeLabel>() {
             public void apply( RangeLabel rangeLabel ) {
                 layerLabels.removeChild( rangeLabelMap.get( rangeLabel ) );
                 rangeLabelMap.remove( rangeLabel );
+            }
+        } );
+
+        /*---------------------------------------------------------------------------*
+         * boundary labels
+         *----------------------------------------------------------------------------*/
+        getPlateMotionModel().boundaryLabels.addElementAddedObserver( new VoidFunction1<BoundaryLabel>() {
+            public void apply( BoundaryLabel boundaryLabel ) {
+                final BoundaryLabelNode boundaryLabelNode = new BoundaryLabelNode( boundaryLabel, getModelViewTransform(), colorMode );
+                layerLabels.addChild( boundaryLabelNode );
+                boundaryLabelMap.put( boundaryLabel, boundaryLabelNode );
+            }
+        } );
+
+        getPlateMotionModel().boundaryLabels.addElementRemovedObserver( new VoidFunction1<BoundaryLabel>() {
+            public void apply( BoundaryLabel boundaryLabel ) {
+                layerLabels.removeChild( boundaryLabelMap.get( boundaryLabel ) );
+                boundaryLabelMap.remove( boundaryLabel );
             }
         } );
 
