@@ -1,0 +1,52 @@
+PhET Progress Report, J. Blanco, 6-7-2012
+
+PhET Weekly Progress Report
+John Blanco
+June 7th, 2012
+
+Time period covered: May 31st through June 6th.
+
+Energy Forms and Changes - 25.0 hrs
+
+o	Reviewed in Physics meeting.
+o	Changed to obtain E's from closest location, instead of any random one, when transferring between containers.
+o	Implemented limits for hot and cold.
+o	Added a developer control for dumping energy levels.
+o	Created several variations of the linear algorithm for mapping number of energy level to number of energy chunks.
+o	Implemented different transfer constants for different materials.
+o	Implemented initial version of the air that surrounds the objects and into and out of which energy can be also transferred.
+o	Tried several different approaches to handling the relationship between air and other model elements that can contain thermal energy.
+
+Line Graphing - 0.5 hrs
+
+o	Reviewed in Physics meeting.
+
+Common Code - 2.5 hrs
+
+o	Discussed OutlineTextNode with Chris M and Sam R.
+
+New Sim Investigations - 4.0 hrs
+
+o	Read through a power-point presentation from a member of the Dan Schwartz group about types of problems that enable users to derive their own algebraic relationships.
+o	Attended a meeting with the Dan Schwartz group where a sim for deriving algebraic relationships was discussed.
+
+Installers - 0.5 hrs
+
+o	Tested automated build to verify no problems were introduced by creation of multi-language installer builder.
+o	Moved the weekly build back to early Wednesday morn.
+
+Customer Support - 0.5 hrs
+
+o	Responded to a customer who had questions about using the PhET Build GUI (PBG).
+
+Meetings, Email, and Other Administrative Overhead - 5.0 hrs
+
+o	Weekly status meeting.
+o	Weekly status report.
+o	Logged May hours in tracking spreadsheet.
+o	Review, prioritization, and updating of Unfuddle issues.
+o	Normal email and administrative overhead.
+
+Vacation and Holidays - 0 hrs
+
+o	Will be taking vacation from Friday June 29th through Friday July 6th.
