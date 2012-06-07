@@ -1,3 +1,4 @@
+"Young Oceanic Crust" label appears in continental divergence case when there is room
 Fixed boundary-label overlay over subducting crust (or other intersection issues)
 Mantle label pushed down in continental collision cases
 Non-divergent crust / lithosphere labels made stationary
