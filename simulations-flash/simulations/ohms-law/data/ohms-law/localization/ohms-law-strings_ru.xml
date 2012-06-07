@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--ohms-law-strings_ru.xml created Wed Apr 18 15:06:02 MSD 2012 using: ohms-law 2.03.00 (51206), translation-utility 2.13.00 (59150) дек 8, 2011-->
+<SimStrings>
+<string key="currentEq" value="ток="/>
+<string key="resistance" value="сопротивление "/>
+<string key="simTitle" value="Закон Ома "/>
+<string key="sound" value="Звук "/>
+<string key="voltage" value="Напряжение "/>
+</SimStrings>
