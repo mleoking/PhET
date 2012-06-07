@@ -43,8 +43,8 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
 
     //Flag is just used for debugging, so the first scene change is not done in animation
     private boolean initialized = false;
-    private int FADE_IN_TIME;
-    private int FADE_OUT_TIME;
+    private static final int FADE_IN_TIME = 200;
+    private static final int FADE_OUT_TIME = 1000;
 
     public BuildAFractionCanvas( final BuildAFractionModel model ) {
         this.model = model;
@@ -77,8 +77,6 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
 
         model.selectedScene.addObserver( new VoidFunction1<Scene>() {
             public void apply( final Scene scene ) {
-                FADE_IN_TIME = 200;
-                FADE_OUT_TIME = 1000;
                 if ( scene == Scene.pictures ) {
                     numberScene.animateToTransparency( 0.0f, FADE_OUT_TIME );
                     pictureScene.animateToTransparency( 1f, FADE_IN_TIME );
@@ -103,6 +101,10 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
 
     public void goToNextNumberLevel() {
         model.nextNumberLevel();
+        for ( Object node : numberScene.getChildrenReference() ) {
+            PNode n2 = (PNode) node;
+            n2.animateToTransparency( 0.0f, FADE_OUT_TIME );
+        }
         numberScene.addChild( new NumberSceneNode( model.numberLevel.get(), rootNode, model, STAGE_SIZE, this ) {{
             setOffset( STAGE_SIZE.width * model.numberLevel.get(), STAGE_SIZE.height );
         }} );
