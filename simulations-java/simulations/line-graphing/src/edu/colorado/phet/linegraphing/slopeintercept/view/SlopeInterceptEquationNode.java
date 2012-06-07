@@ -38,27 +38,27 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class SlopeInterceptEquationNodeSpinners extends PhetPNode {
+class SlopeInterceptEquationNode extends PhetPNode {
 
     private static final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
 
     private final Property<Double> rise, run, intercept;
 
-    public SlopeInterceptEquationNodeSpinners( final Property<StraightLine> interactiveLine,
-                                               Property<DoubleRange> riseRange,
-                                               Property<DoubleRange> runRange,
-                                               Property<DoubleRange> interceptRange ) {
+    public SlopeInterceptEquationNode( final Property<StraightLine> interactiveLine,
+                                       Property<DoubleRange> riseRange,
+                                       Property<DoubleRange> runRange,
+                                       Property<DoubleRange> interceptRange ) {
         this( interactiveLine, riseRange, runRange, interceptRange,
               LGConstants.INTERACTIVE_EQUATION_FONT, LGConstants.STATIC_EQUATION_FONT, LGColors.STATIC_EQUATION_ELEMENT );
     }
 
-    private SlopeInterceptEquationNodeSpinners( final Property<StraightLine> interactiveLine,
-                                               Property<DoubleRange> riseRange,
-                                               Property<DoubleRange> runRange,
-                                               Property<DoubleRange> interceptRange,
-                                               PhetFont interactiveFont,
-                                               PhetFont staticFont,
-                                               final Color staticColor ) {
+    private SlopeInterceptEquationNode( final Property<StraightLine> interactiveLine,
+                                        Property<DoubleRange> riseRange,
+                                        Property<DoubleRange> runRange,
+                                        Property<DoubleRange> interceptRange,
+                                        PhetFont interactiveFont,
+                                        PhetFont staticFont,
+                                        final Color staticColor ) {
 
         this.rise = new Property<Double>( interactiveLine.get().rise );
         this.run = new Property<Double>( interactiveLine.get().run );
@@ -147,8 +147,8 @@ class SlopeInterceptEquationNodeSpinners extends PhetPNode {
         SlopeInterceptModel model = new SlopeInterceptModel();
 
         // equation
-        SlopeInterceptEquationNodeSpinners equationNode =
-                new SlopeInterceptEquationNodeSpinners( model.interactiveLine, model.riseRange, model.runRange, model.interceptRange );
+        SlopeInterceptEquationNode equationNode =
+                new SlopeInterceptEquationNode( model.interactiveLine, model.riseRange, model.runRange, model.interceptRange );
         equationNode.setOffset( 100, 100 );
 
         // canvas
