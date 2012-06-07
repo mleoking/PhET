@@ -43,10 +43,10 @@ public class PointSlopeModel implements Resettable {
 
         mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 1.2 * GRID_VIEW_UNITS / 2, 1.25 * GRID_VIEW_UNITS / 2 ), MVT_SCALE, -MVT_SCALE ); // y is inverted
 
-        riseRange = new Property<DoubleRange>( new DoubleRange( -10, 10, 2 ) );
-        runRange = new Property<DoubleRange>( new DoubleRange( -10, 10, 2 ) );
-        x1Range = new Property<DoubleRange>( new DoubleRange( -10, 10, -2 ) );
-        y1Range = new Property<DoubleRange>( new DoubleRange( -10, 10, -2 ) );
+        riseRange = new Property<DoubleRange>( new DoubleRange( -10, 10, 3 ) );
+        runRange = new Property<DoubleRange>( new DoubleRange( -10, 10, 4 ) );
+        x1Range = new Property<DoubleRange>( new DoubleRange( -10, 10, 1 ) );
+        y1Range = new Property<DoubleRange>( new DoubleRange( -10, 10, 2 ) );
 
         interactiveLine = new Property<StraightLine>( new StraightLine( riseRange.get().getDefault(), runRange.get().getDefault(), x1Range.get().getDefault(), y1Range.get().getDefault(),
                                                                         LGColors.INTERACTIVE_LINE, LGColors.INTERACTIVE_LINE ) ) {
