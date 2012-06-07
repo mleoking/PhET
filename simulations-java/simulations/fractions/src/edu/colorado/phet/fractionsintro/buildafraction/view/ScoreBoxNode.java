@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PInterpolatingActivity;
 import edu.umd.cs.piccolo.util.PUtil;
 
-import static edu.colorado.phet.fractionsintro.buildafraction_functional.view.BuildAFractionCanvas.controlPanelStroke;
+import static edu.colorado.phet.fractionsintro.buildafraction.view.BuildAFractionCanvas.controlPanelStroke;
 
 /**
  * Node that shows a target scoring cell, where a correct fraction can be collected.
