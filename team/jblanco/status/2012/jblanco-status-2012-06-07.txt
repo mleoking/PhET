@@ -21,7 +21,7 @@ Line Graphing - 0.5 hrs
 
 o	Reviewed in Physics meeting.
 
-Common Code - 2.5 hrs
+Common Code - 0.5 hrs
 
 o	Discussed OutlineTextNode with Chris M and Sam R.
 
@@ -34,6 +34,10 @@ Installers - 0.5 hrs
 
 o	Tested automated build to verify no problems were introduced by creation of multi-language installer builder.
 o	Moved the weekly build back to early Wednesday morn.
+
+Environment - 1.5 hrs
+
+o	Experimented with disabling the graphics controller on my laptop for (hopefully) better interaction with projectors.
 
 Customer Support - 0.5 hrs
 
