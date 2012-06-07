@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Fill;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
+import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
@@ -37,7 +38,6 @@ import static edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents.
  */
 public class GraphControls extends PNode {
 
-    private static final Color BACKGROUND = new Color( 222, 243, 243 );
     private static final PhetFont CONTROL_FONT = new PhetFont( Font.PLAIN, 14 );
     private static final String Y_EQUALS_X = MessageFormat.format( "{0} = {1}", Strings.SYMBOL_Y, Strings.SYMBOL_X );
     private static final String Y_EQUALS_NEGATIVE_X = MessageFormat.format( "{0} = -{1}", Strings.SYMBOL_Y, Strings.SYMBOL_X );
@@ -67,7 +67,7 @@ public class GraphControls extends PNode {
         panel.add( slopeCheckBox );
 
         // wrap Swing in a Piccolo control panel
-        addChild( new ControlPanelNode( panel, BACKGROUND ) );
+        addChild( new ControlPanelNode( panel, LGColors.GRAPH_CONTROL_PANEL ) );
 
         // when lines are not visible, hide related controls
         linesVisible.addObserver( new VoidFunction1<Boolean>() {

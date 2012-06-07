@@ -114,7 +114,7 @@ class SlopeInterceptEquationControls extends PhetPNode {
         }
 
         // Wrap everything in a Piccolo control panel
-        addChild( new ControlPanelNode( panelNode ) );
+        addChild( new ControlPanelNode( panelNode, LGColors.EQUATION_CONTROL_PANEL ) );
 
         // Minimize/maximize the control panel
         maximized.addObserver( new VoidFunction1<Boolean>() {
