@@ -1,10 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.view.labels;
 
-import java.awt.*;
 import java.awt.geom.AffineTransform;
-
-import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -14,8 +11,7 @@ import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
-import edu.colorado.phet.lwjglphet.nodes.PlanarComponentNode;
-import edu.colorado.phet.lwjglphet.nodes.PlanarPiccoloNode;
+import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.view.ColorMode;
 import edu.umd.cs.piccolo.PNode;
@@ -48,7 +44,7 @@ public class RangeLabelNode extends BaseLabelNode {
     private final Property<ImmutableVector3F> bottom;
     private final String label;
     private Property<ImmutableVector3F> labelLocation;
-    private PlanarComponentNode labelNode;
+    private ThreadedPlanarPiccoloNode labelNode;
     private GLNode labelNodeContainer;
     private Property<Float> scale;
     private PText labelPNode;
@@ -90,56 +86,45 @@ public class RangeLabelNode extends BaseLabelNode {
             scale( PIXEL_SCALE );
             colorMode.addObserver( new SimpleObserver() {
                 public void update() {
-                    final Color color = getColor();
-                    SwingUtilities.invokeLater( new Runnable() {
-                        public void run() {
-                            setTextPaint( color );
-                            repaint();
-                        }
-                    } );
+                    setTextPaint( getColor() );
+                    repaint();
                 }
             } );
         }};
-        labelNode = new PlanarPiccoloNode( new PNode() {{
+        labelNode = new ThreadedPlanarPiccoloNode( new PNode() {{
             addChild( labelPNode );
 
             final PNode nodeRef = this;
 
             SimpleObserver updateRotation = new SimpleObserver() {
                 public void update() {
-                    SwingUtilities.invokeLater( new Runnable() {
-                        public void run() {
-                            setTransform( new AffineTransform() );
-                            if ( shouldRotate ) {
-                                rotateAboutPoint( top.get().minus( bottom.get() ).angleBetween( new ImmutableVector3F( 0, 1, 0 ) ) * ( top.get().x > bottom.get().x ? 1 : -1 ),
-                                                  labelPNode.getFullBounds().getWidth() / 2, labelPNode.getFullBounds().getHeight() / 2 );
-                            }
-                            // rescale so we draw correctly in the canvas. we will be centered later
-                            ZeroOffsetNode.zeroNodeOffset( nodeRef );
-
-                            repaint();
-                        }
-                    } );
+                    setTransform( new AffineTransform() );
+                    if ( shouldRotate ) {
+                        rotateAboutPoint( top.get().minus( bottom.get() ).angleBetween( new ImmutableVector3F( 0, 1, 0 ) ) * ( top.get().x > bottom.get().x ? 1 : -1 ),
+                                          labelPNode.getFullBounds().getWidth() / 2, labelPNode.getFullBounds().getHeight() / 2 );
+                    }
+                    // rescale so we draw correctly in the canvas. we will be centered later
+                    ZeroOffsetNode.zeroNodeOffset( nodeRef );
                 }
             };
 
             top.addObserver( updateRotation );
             bottom.addObserver( updateRotation );
         }} ) {{
-            final PlanarPiccoloNode me = this;
+            final ThreadedPlanarPiccoloNode me = this;
             colorMode.addObserver( new SimpleObserver() {
                 public void update() {
-                    me.update();
+                    me.repaint();
                 }
             } );
             top.addObserver( new SimpleObserver() {
                 public void update() {
-                    me.update();
+                    me.repaint();
                 }
             } );
             bottom.addObserver( new SimpleObserver() {
                 public void update() {
-                    me.update();
+                    me.repaint();
                 }
             } );
         }};
