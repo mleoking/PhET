@@ -1,3 +1,4 @@
+6/5/12 fix sign of intercept in equation
 6/5/12 clean up constructor interfaces for interactive equations
 6/5/12 use neutral blue for background of graph controls
 6/5/12 subscripts on x1 and y1
