@@ -37,7 +37,8 @@ public class LGResources {
         public static final String TAB_POINT_SLOPE = RESOURCES.getLocalizedString( "tab.pointSlope" );
         public static final String TAB_LINE_GAME = RESOURCES.getLocalizedString( "tab.lineGame" );
 
-        public static final String PATTERN_X_Y = RESOURCES.getLocalizedString( "pattern.0x.1y" );
+        public static final String POINT_XY = RESOURCES.getLocalizedString( "point.xy" );
+        public static final String POINT_UNKNOWN = RESOURCES.getLocalizedString( "point.unknown" );
     }
 
     public static class Images {
