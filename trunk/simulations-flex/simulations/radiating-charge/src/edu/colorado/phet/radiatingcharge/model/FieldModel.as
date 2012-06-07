@@ -18,9 +18,12 @@ public class FieldModel {
     public var views_arr:Array;     //views associated with this model
     public var myMainView:MainView;
 
-    private var _c:Number;  //speed of light, charge cannot moving faster than c
+    private var _c:Number;  //speed of light in pixels per second, charge cannot moving faster than c
     private var _xC:Number; //x-position of charge in pixels
     private var _yC:Number; //y-position of charge in pixels
+    private var nbrLines:int;      //number of field lines coming from charge
+    private var cos_arr:Array;     //cosines of angles of the rays, CCW from horizontal, angle must be in radians
+    private var sin_arr:Array;     //sines of angles of the rays,
 
     private var _t:Number;  //time in arbitrary units
     private var lastTime: Number;	//time in previous timeStep
@@ -32,11 +35,18 @@ public class FieldModel {
     public function FieldModel( myMainView ) {
         this.myMainView = myMainView;
         this.views_arr = new Array();
-        this._c = 1;
+        this.nbrLines = 8;
+        this.cos_arr = new Array( this.nbrLines );
+        this.sin_arr = new Array( this.nbrLines );
+        this._c = this.myMainView.stageH/4;    //4 seconds to cross height of stage
         this.initialize();
     }//end constructor
 
     private function initialize():void{
+        for(var i:int = 0; i < this.nbrLines; i++ ){
+           this.cos_arr[i] = Math.cos( i*2*Math.PI/this.nbrLines ) ;
+           this.sin_arr[i] = Math.sin( i*2*Math.PI/this.nbrLines ) ;
+        }
         this._t = 0;
         //this.tInt = 1;              //testing only
         this.dt = 0.2;
