@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * Button with nice up or down images provided by NP.  This library uses phetcommon's function library instead of
- * functionaljava in case we don't have to put functionaljava as a  required dependency for phetcommon.
+ * functionaljava in case we don't have to put functionaljava as a required dependency for phetcommon.
  *
  * @author Sam Reid
  */
