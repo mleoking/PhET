@@ -1,3 +1,4 @@
+6/7/12 change default equations
 6/7/12 constants for x and y spacing in interactive equations
 6/7/12 position point tools under graph
 6/7/12 vertically center controls to right of graph

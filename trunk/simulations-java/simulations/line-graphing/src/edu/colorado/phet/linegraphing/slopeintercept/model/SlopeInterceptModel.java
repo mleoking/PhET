@@ -43,8 +43,8 @@ public class SlopeInterceptModel implements Resettable {
         mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 1.2 * GRID_VIEW_UNITS / 2, 1.25 * GRID_VIEW_UNITS / 2 ), MVT_SCALE, -MVT_SCALE ); // y is inverted
 
         riseRange = new Property<DoubleRange>( new DoubleRange( -10, 10, 2 ) );
-        runRange = new Property<DoubleRange>( new DoubleRange( -10, 10, 2 ) );
-        interceptRange = new Property<DoubleRange>( new DoubleRange( -10, 10, 2 ) );
+        runRange = new Property<DoubleRange>( new DoubleRange( -10, 10, 3 ) );
+        interceptRange = new Property<DoubleRange>( new DoubleRange( -10, 10, 1 ) );
 
         interactiveLine = new Property<StraightLine>( new StraightLine( riseRange.get().getDefault(), runRange.get().getDefault(), interceptRange.get().getDefault(),
                                                                         LGColors.INTERACTIVE_LINE, LGColors.INTERACTIVE_LINE ) ) {
