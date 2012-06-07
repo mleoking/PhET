@@ -16,7 +16,7 @@
 6/5/12 use neutral blue for background of graph controls
 6/5/12 subscripts on x1 and y1
 6/5/12 add whitespace to formatting of point-slope equation in title bar of equation control panel
-6/5/12 use low-sautration magenta for x1,y1 point color
+6/5/12 use low-saturation magenta for x1,y1 point color
 6/5/12 make spinner arrows slight wider (20->26)
 6/5/12 use plain font style for static elements of interactive equations
 6/5/12 increase equation font size to 28 pt

@@ -6,6 +6,10 @@ DESIGN
 - point-slope: should blue manipulator be labeled (x1,y1)?
 - move "lines" control panel closer to graph, into space reserved for moving point tools?
 - stubby minus sign in equations on Win
+- control panel background colors?
+- color of static elements in interactive equations?
+- slightly whiter background on spinner values?
+- in Q4, equation on line can be obscured (eg, y1=-2, rise=-2, run=6, x1=-2), in this case put equation below line?
 
 HIGH
 - decide which controls to use for interactive equations, then delete the ones that aren't used
