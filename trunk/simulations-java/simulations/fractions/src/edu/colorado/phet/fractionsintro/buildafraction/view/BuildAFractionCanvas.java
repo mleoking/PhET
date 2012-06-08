@@ -5,10 +5,12 @@ import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
@@ -24,8 +26,6 @@ import edu.colorado.phet.fractionsintro.buildafraction.view.pictures.PictureScen
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import static edu.colorado.phet.fractionsintro.buildafraction.view.pictures.PictureSceneNode.spinnerImage;
 
 /**
  * Canvas for the build a fraction tab.
@@ -122,6 +122,8 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
         } );
         initialized = true;
     }
+
+    private BufferedImage spinnerImage( final BufferedImage image ) { return BufferedImageUtils.multiScaleToHeight( image, 30 ); }
 
     private PropertyRadioButton<Scene> radioButton( final BuildAFractionModel model, final String text, Scene scene ) {
         return new PropertyRadioButton<Scene>( null, text, model.selectedScene, scene ) {{
