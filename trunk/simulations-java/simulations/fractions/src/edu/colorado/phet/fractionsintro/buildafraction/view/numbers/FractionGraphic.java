@@ -14,6 +14,7 @@ import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractionsintro.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
@@ -41,6 +42,8 @@ public class FractionGraphic extends PNode {
     private NumberCardNode topTarget;
     private NumberCardNode bottomTarget;
     private ArrayList<VoidFunction1<Option<Fraction>>> splitListeners = new ArrayList<VoidFunction1<Option<Fraction>>>();
+    public double initialXOffset;
+    public double initialYOffset;
 
     public FractionGraphic() {
         topBox = box( true );
@@ -81,6 +84,14 @@ public class FractionGraphic extends PNode {
         } );
         splitButton.setVisible( false );
         addChild( splitButton );
+
+        addInputEventListener( new CursorHandler() );
+        addInputEventListener( new SimSharingDragHandler( null, true ) {
+            @Override protected void drag( final PInputEvent event ) {
+                super.drag( event );
+                translateAll( event.getDeltaRelativeTo( event.getPickedNode().getParent() ) );
+            }
+        } );
     }
 
     private static PhetPPath box( boolean showOutline ) {
@@ -119,4 +130,12 @@ public class FractionGraphic extends PNode {
     }
 
     public void addSplitListener( final VoidFunction1<Option<Fraction>> listener ) { splitListeners.add( listener ); }
+
+    public boolean isAtInitialPosition() { return getXOffset() == initialXOffset && getYOffset() == initialYOffset; }
+
+    public void setInitialPosition( final double x, final double y ) {
+        this.initialXOffset = x;
+        this.initialYOffset = y;
+        setOffset( x, y );
+    }
 }
