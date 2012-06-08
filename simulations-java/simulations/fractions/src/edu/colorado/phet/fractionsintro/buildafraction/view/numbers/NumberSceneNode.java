@@ -4,37 +4,21 @@ import fj.Equal;
 import fj.F;
 import fj.Ord;
 import fj.data.List;
-import fj.data.Option;
-import lombok.Data;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
-import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.RichPNode;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
-import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
-import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.buildafraction.model.NumberLevel;
 import edu.colorado.phet.fractionsintro.buildafraction.model.NumberTarget;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
-import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -52,13 +36,13 @@ import static java.awt.Color.darkGray;
  * @author Sam Reid
  */
 public class NumberSceneNode extends PNode implements NumberDragContext, FractionDraggingContext {
-    private final ArrayList<FractionGraphic> fractionGraphics = new ArrayList<FractionGraphic>();
+    public final ArrayList<FractionGraphic> fractionGraphics = new ArrayList<FractionGraphic>();
     private final PNode rootNode;
     private final BuildAFractionModel model;
-    private final PDimension STAGE_SIZE;
-    private final NumberSceneContext context;
-    private final List<Pair> pairList;
-    private final RichPNode toolboxNode;
+    public final PDimension STAGE_SIZE;
+    public final NumberSceneContext context;
+    public final List<Pair> pairList;
+    public RichPNode toolboxNode;
     public final int level;
 
     public void endDrag( final FractionGraphic fractionGraphic, final PInputEvent event ) {
@@ -67,11 +51,6 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
         if ( toolboxNode.getGlobalFullBounds().intersects( fractionGraphic.getGlobalFullBounds() ) ) {
             fractionGraphic.animateAllToPosition( fractionGraphic.getToolboxPositionX(), fractionGraphic.getToolboxPositionY() );
         }
-    }
-
-    @Data class Pair {
-        public final ScoreBoxNode targetCell;
-        public final PNode patternNode;
     }
 
     public NumberSceneNode( int level, final PNode rootNode, final BuildAFractionModel model, PDimension STAGE_SIZE, NumberSceneContext context ) {
@@ -260,131 +239,21 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
         fractionGraphic.setTarget( box, numberCardNode );
         if ( fractionGraphic.isComplete() ) {
             model.addCreatedValue( fractionGraphic.getValue() );
-            //create an invisible overlay that allows dragging all parts together
-            PBounds topBounds = fractionGraphic.getTopNumber().getFullBounds();
-            PBounds bottomBounds = fractionGraphic.getBottomNumber().getFullBounds();
-            Rectangle2D divisorBounds = fractionGraphic.localToParent( fractionGraphic.divisorLine.getFullBounds() );
-            Rectangle2D union = topBounds.createUnion( bottomBounds ).createUnion( divisorBounds );
 
-            //For debugging, show a yellow border
-            Rectangle2D expanded = RectangleUtils.expand( union, 10, 2 );
-            final PhetPPath fractionCard = new PhetPPath( new RoundRectangle2D.Double( expanded.getX(), expanded.getY(), expanded.getWidth(), expanded.getHeight(), 10, 10 ),
-                                                          Color.white, new BasicStroke( 1 ), Color.black );
-            fractionCard.addInputEventListener( new CursorHandler() );
-            fractionCard.addInputEventListener( new SimSharingDragHandler( null, true ) {
-                @Override protected void drag( final PInputEvent event ) {
-                    super.drag( event );
-                    final PDimension delta = event.getDeltaRelativeTo( rootNode );
-                    fractionGraphic.translateAll( delta );
-                    fractionCard.translate( delta.getWidth(), delta.getHeight() );
-                }
-
-                @Override protected void endDrag( final PInputEvent event ) {
-                    super.endDrag( event );
-
-                    //Snap to a scoring cell or go back to the play area.
-                    //If dropped in a non-matching cell, send back to play area
-                    List<ScoreBoxNode> scoreCells = pairList.map( new F<Pair, ScoreBoxNode>() {
-                        @Override public ScoreBoxNode f( final Pair pair ) {
-                            return pair.targetCell;
-                        }
-                    } );
-                    boolean locked = false;
-                    for ( ScoreBoxNode scoreCell : scoreCells ) {
-                        if ( fractionCard.getFullBounds().intersects( scoreCell.getFullBounds() ) && scoreCell.fraction.approxEquals( fractionGraphic.getValue() ) ) {
-                            //Lock in target cell
-                            Point2D center = fractionCard.getFullBounds().getCenter2D();
-                            Point2D targetCenter = scoreCell.getFullBounds().getCenter2D();
-                            Vector2D delta = new Vector2D( targetCenter, center );
-                            fractionGraphic.translateAll( delta.toDimension() );
-                            fractionCard.translate( delta.x, delta.y );
-
-                            fractionGraphic.splitButton.setVisible( false );
-                            removeChild( fractionCard );
-                            fractionGraphic.setAllPickable( false );
-
-                            scoreCell.setCompletedFraction( fractionGraphic );
-                            locked = true;
-
-                            //Add a new fraction skeleton when the previous one is completed
-                            if ( !allTargetsComplete() ) {
-
-                                //If no fraction skeleton in play area, move one there
-                                if ( allIncompleteFractionsInToolbox() ) {
-                                    FractionGraphic g = null;
-                                    for ( FractionGraphic graphic : fractionGraphics ) {
-                                        if ( graphic.isInToolboxPosition() ) {
-                                            g = graphic;
-                                        }
-                                    }
-                                    if ( g != null ) {
-                                        g.animateToPositionScaleRotation( toolboxNode.getCenterX() - fractionGraphic.getFullBounds().getWidth() / 2, 300, 1, 0, 1000 );
-                                    }
-                                }
-                            }
-
-                            //but if all filled up, then add a "next" button
-                            else {
-                                addChild( new VBox( new FaceNode( 300 ), new HTMLImageButtonNode( "Next", Color.orange ) {{
-                                    addActionListener( new ActionListener() {
-                                        public void actionPerformed( final ActionEvent e ) {
-                                            context.nextNumberLevel();
-                                        }
-                                    } );
-                                }}
-                                ) {{setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2 - 100, STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 - 100 );}} );
-                            }
-                        }
-                    }
-
-                    //If no match, and is overlapping a score cell, send back to play area
-                    if ( !locked ) {
-                        boolean hitWrongOne = false;
-                        for ( ScoreBoxNode scoreCell : scoreCells ) {
-                            if ( fractionCard.getFullBounds().intersects( scoreCell.getFullBounds() ) ) {
-                                hitWrongOne = true;
-                            }
-                        }
-                        if ( hitWrongOne ) {
-                            fractionGraphic.animateAllToPosition( 300, 300 );
-                        }
-                    }
-                }
-            } );
+            FractionCardNode fractionCard = new FractionCardNode( fractionGraphic, rootNode, pairList, model, this );
             addChild( fractionCard );
             fractionCard.moveInBackOf( fractionGraphic );
-            fractionGraphic.setAllPickable( false );
-            fractionGraphic.addSplitListener( new VoidFunction1<Option<Fraction>>() {
-                public void apply( final Option<Fraction> fractions ) {
-                    removeChild( fractionCard );
-                    if ( fractions.isSome() ) {
-                        model.removeCreatedValueFromNumberLevel( fractions.some() );
-                    }
-                }
-            } );
         }
     }
 
     //TODO: this should account for partially complete fractions too
-    private boolean allIncompleteFractionsInToolbox() {
+    public boolean allIncompleteFractionsInToolbox() {
         for ( FractionGraphic fractionGraphic : fractionGraphics ) {
             if ( !fractionGraphic.isComplete() && !fractionGraphic.isInToolboxPosition() ) {
                 return false;
             }
         }
         return true;
-    }
-
-    private boolean allTargetsComplete() {
-        return pairList.map( new F<Pair, Boolean>() {
-            @Override public Boolean f( final Pair pair ) {
-                return pair.targetCell.isCompleted();
-            }
-        } ).filter( new F<Boolean, Boolean>() {
-            @Override public Boolean f( final Boolean b ) {
-                return b;
-            }
-        } ).length() == pairList.length();
     }
 
     private void centerOnBox( final NumberCardNode numberNode, final PhetPPath box ) {
