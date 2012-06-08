@@ -1,3 +1,4 @@
+Build a fraction tab: Removed card background when a card is dropped into a fraction
 Build a fraction tab: Fixed: Fractions should pop out if put in a non-matching target cell
 Build a fraction tab: Added fraction skeleton to the toolbox, and animate it out when the user solves a target (and doesn't already have another fraction skeleton in the play area)
 Build a fraction tab: Fixed: When navigating back a level, it should remember if you solved the level and not create the level anew

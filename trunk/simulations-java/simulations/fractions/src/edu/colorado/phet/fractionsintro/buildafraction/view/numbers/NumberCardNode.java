@@ -19,10 +19,12 @@ public class NumberCardNode extends PNode {
     private double initialX;
     private double initialY;
     public final int number;
+    private final PhetPPath cardShape;
 
     public NumberCardNode( final Dimension2DDouble size, final Integer number, final NumberDragContext context ) {
         this.number = number;
-        addChild( new PhetPPath( new RoundRectangle2D.Double( 0, 0, size.width, size.height, 10, 10 ), Color.white, new BasicStroke( 1 ), Color.black ) );
+        cardShape = new PhetPPath( new RoundRectangle2D.Double( 0, 0, size.width, size.height, 10, 10 ), Color.white, new BasicStroke( 1 ), Color.black );
+        addChild( cardShape );
         addChild( new NumberNode( number, context ) {{
             centerFullBoundsOnPoint( size.width / 2, size.height / 2 );
         }} );
@@ -58,4 +60,6 @@ public class NumberCardNode extends PNode {
     public double getInitialY() { return initialY; }
 
     public void animateHome() { animateToPositionScaleRotation( getInitialX(), getInitialY(), 1, 0, 1000 ); }
+
+    public void setCardShapeVisible( boolean visible ) { cardShape.setVisible( visible ); }
 }
