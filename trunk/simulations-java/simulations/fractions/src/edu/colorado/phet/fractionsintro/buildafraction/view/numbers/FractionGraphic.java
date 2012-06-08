@@ -155,7 +155,7 @@ public class FractionGraphic extends PNode {
 
     public void addSplitListener( final VoidFunction1<Option<Fraction>> listener ) { splitListeners.add( listener ); }
 
-    public boolean isAtInitialPosition() { return getXOffset() == toolboxPositionX && getYOffset() == toolboxPositionY; }
+    public boolean isInToolboxPosition() { return getXOffset() == toolboxPositionX && getYOffset() == toolboxPositionY; }
 
     public void setToolboxPosition( final double x, final double y ) {
         this.toolboxPositionX = x;
