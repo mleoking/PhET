@@ -93,13 +93,19 @@ public class Air implements ThermalEnergyContainer {
     private void stepInTime( double dt ) {
         // Update the position of any energy chunks.
         for ( EnergyChunk energyChunk : new ArrayList<EnergyChunk>( energyChunkList ) ) {
-//            energyChunk.position.set( energyChunk.position.get().getAddedInstance( 0, 0.1 * dt ) );
             mapEnergyChunksToMovers.get( energyChunk ).setNextPosition( energyChunk, dt );
             if ( !getThermalContactArea().getBounds().contains( energyChunk.position.get().toPoint2D() ) ) {
                 // Remove this energy chunk.
                 energyChunkList.remove( energyChunk );
                 mapEnergyChunksToMovers.remove( energyChunk );
             }
+        }
+
+        // Lose energy slowly, returning back to room temperature over time.
+        // This simulates an infinite reservoir of air.
+        if ( getTemperature() - EFACConstants.ROOM_TEMPERATURE > EFACConstants.SIGNIFICANT_TEMPERATURE_DIFFERENCE ) {
+            double thermalEnergyLost = ( getTemperature() - EFACConstants.ROOM_TEMPERATURE ) * 100 * dt;
+            changeEnergy( -thermalEnergyLost );
         }
     }
 
@@ -143,11 +149,11 @@ public class Air implements ThermalEnergyContainer {
     }
 
     public boolean needsEnergyChunk() {
-        return ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy ) > energyChunkList.size() + ENERGY_TO_NUM_CHUNKS_MAPPER.apply( INITIAL_ENERGY );
+        return ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy ) > energyChunkList.size() + ENERGY_TO_NUM_CHUNKS_MAPPER.apply( INITIAL_ENERGY ) - 1;
     }
 
     public boolean hasExcessEnergyChunks() {
-        return ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy ) < energyChunkList.size() + ENERGY_TO_NUM_CHUNKS_MAPPER.apply( INITIAL_ENERGY );
+        return ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy ) < energyChunkList.size() + ENERGY_TO_NUM_CHUNKS_MAPPER.apply( INITIAL_ENERGY ) - 1;
     }
 
     public void addEnergyChunk( EnergyChunk ec ) {

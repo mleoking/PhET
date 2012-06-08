@@ -20,11 +20,14 @@ public class EFACConstants {
     public static final double SIM_TIME_PER_TICK_NORMAL = 1 / FRAMES_PER_SECOND;
     public static final double SIM_TIME_PER_TICK_FAST_FORWARD = SIM_TIME_PER_TICK_NORMAL * 4;
 
+    // For comparing temperatures.
+    public static final double SIGNIFICANT_TEMPERATURE_DIFFERENCE = 1E-3; // In degrees K.
+
     // Constant function for mapping energy level to number of energy chunks.
     public static Function1<Double, Integer> ENERGY_TO_NUM_CHUNKS_MAPPER = new Function1<Double, Integer>() {
         //                private Function.LinearFunction MAPPER_TO_DOUBLE = new Function.LinearFunction( 42000, 400000, 2, 25 );
-        private Function.LinearFunction MAPPER_TO_DOUBLE = new Function.LinearFunction( 0, 414000, 0, 25 ); // Linear from absolute zero.
-//        private Function.LinearFunction MAPPER_TO_DOUBLE = new Function.LinearFunction( 40000, 45000, 1, 2 ); // Brick has 1 at 0 C, 2 at room temp.  Brick SH = 800
+//        private Function.LinearFunction MAPPER_TO_DOUBLE = new Function.LinearFunction( 0, 414000, 0, 25 ); // Linear from absolute zero.
+        private Function.LinearFunction MAPPER_TO_DOUBLE = new Function.LinearFunction( 40000, 45000, 1, 2 ); // Brick has 1 at 0 C, 2 at room temp.  Brick SH = 800
 //        private Function.LinearFunction MAPPER_TO_DOUBLE = new Function.LinearFunction( 49000, 53000, 1, 2 ); // Brick has 1 at 0 C, 2 at room temp.  Brick SH = 800
 //        private Function.LinearFunction MAPPER_TO_DOUBLE = new Function.LinearFunction( 74500, 80000, 3, 4 ); // Brick has 1 at 0 C, 2 at room temp.  Brick SH = 800
 
