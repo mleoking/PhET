@@ -9,14 +9,20 @@ import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PInterpolatingActivity;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PUtil;
 
 import static edu.colorado.phet.fractionsintro.buildafraction.view.BuildAFractionCanvas.controlPanelStroke;
+import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
 
 /**
  * Node that shows a target scoring cell, where a correct fraction can be collected.
@@ -28,6 +34,8 @@ public class ScoreBoxNode extends PNode {
     public final PhetPPath path;
     private boolean completed;
     private PInterpolatingActivity activity;
+    private final PImage splitButton;
+    private FractionGraphic fractionGraphic;
 
     public ScoreBoxNode( final int numerator, final int denominator, final Property<List<Fraction>> matches ) {
         this.path = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 140, 150, 30, 30 ), controlPanelStroke, Color.darkGray ) {{
@@ -71,11 +79,36 @@ public class ScoreBoxNode extends PNode {
         }};
         this.fraction = new Fraction( numerator, denominator );
         addChild( this.path );
+
+        splitButton = new PImage( Images.SPLIT_BLUE ) {{
+            setOffset( INSET, INSET );
+        }};
+        splitButton.addInputEventListener( new CursorHandler() );
+        splitButton.addInputEventListener( new PBasicInputEventHandler() {
+            @Override public void mouseReleased( final PInputEvent event ) {
+                completed = false;
+                path.setStrokePaint( Color.darkGray );
+                path.setStroke( controlPanelStroke );
+                splitButton.setVisible( false );
+                splitButton.setPickable( false );
+                splitButton.setChildrenPickable( false );
+                fractionGraphic.animateAllToPosition( 300, 300 );
+                fractionGraphic.splitButton.setVisible( true );
+                fractionGraphic.setAllPickable( true );
+                fractionGraphic = null;
+            }
+        } );
+        splitButton.setVisible( false );
+        addChild( splitButton );
     }
 
-    public void completed() {
+    public void setCompletedFraction( FractionGraphic fractionGraphic ) {
+        this.fractionGraphic = fractionGraphic;
         path.setStrokePaint( Color.darkGray );
         this.completed = true;
+        splitButton.setVisible( true );
+        splitButton.setPickable( true );
+        splitButton.setChildrenPickable( true );
     }
 
     public boolean isCompleted() { return completed; }
