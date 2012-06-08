@@ -39,7 +39,7 @@ public class ScoreBoxNode extends PNode {
     private FractionGraphic fractionGraphic;
 
     public ScoreBoxNode( final int numerator, final int denominator, final Property<List<Fraction>> matches ) {
-        this.path = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 140, 150, 30, 30 ), CONTROL_PANEL_BACKGROUND, controlPanelStroke, Color.darkGray ) {{
+        this.path = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 120, 120, 30, 30 ), CONTROL_PANEL_BACKGROUND, controlPanelStroke, Color.darkGray ) {{
 
             setStrokePaint( Color.darkGray );
             setStroke( controlPanelStroke );

@@ -1,3 +1,4 @@
+Build a fraction tab: Made target cells a little smaller
 Build a fraction tab: Made scoring cells have the same shade of gray as the toolbox
 Build a fraction tab: Added a "split" button to completed fractions that appear in the scoring cells
 Build a fraction tab: Fixed: Cards should go over (z-order) the target fraction red dotted line
