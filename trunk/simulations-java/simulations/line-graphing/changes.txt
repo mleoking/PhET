@@ -1,3 +1,5 @@
+# 0.00.18 (64844) Jun 7, 2012
+6/7/12 change requests based on 6/7 meetings
 6/7/12 when rise<0 and run>0, put equation below line so that it isn't occluded by rise/run brackets
 6/7/12 rename some classes related to simplified equations
 6/7/12 snap point tool to grid while dragging
