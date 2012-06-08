@@ -87,7 +87,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
             public void apply( final Boolean autoSpinning ) {
                 goToNumberLevel( model.numberLevel.get() - 1 );
             }
-        }, model.numberLevel.greaterThan( 1 ) );
+        }, model.numberLevel.greaterThan( 0 ) );
         final SpinnerButtonNode rightButtonNode = new SpinnerButtonNode( spinnerImage( Images.RIGHT_BUTTON_UP ), spinnerImage( Images.RIGHT_BUTTON_PRESSED ), spinnerImage( Images.RIGHT_BUTTON_GRAY ), new VoidFunction1<Boolean>() {
             public void apply( final Boolean autoSpinning ) {
                 goToNumberLevel( model.numberLevel.get() + 1 );
@@ -96,10 +96,10 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
         addChild( rightButtonNode );
 
         //Level indicator and navigation buttons for number mode
-        addChild( new HBox( leftButtonNode, new PhetPText( "Level " + model.numberLevel.get(), new PhetFont( 30, true ) ) {{
+        addChild( new HBox( 30, leftButtonNode, new PhetPText( "Level 100", new PhetFont( 30, true ) ) {{
             model.numberLevel.addObserver( new VoidFunction1<Integer>() {
                 public void apply( final Integer integer ) {
-                    setText( "Level " + integer );
+                    setText( "Level " + ( integer + 1 ) );
                 }
             } );
         }}, rightButtonNode ) {{
