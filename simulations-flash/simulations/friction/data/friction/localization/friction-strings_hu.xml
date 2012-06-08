@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--friction-strings_hu.xml created Sun May 01 19:10:17 CEST 2011 using: friction 2.02.00 (37305), translation-utility 2.10.00 (48775) Feb 9, 2011-->
+<!--friction-strings_hu.xml created Fri Jun 08 20:34:00 CEST 2012 using: friction 2.03.00 (51676), translation-utility 2.13.00 (59150) Dec 8, 2011-->
 <SimStrings>
 <string key="rubYellowAtoms" value="Dörzsöld a sárga \natomokat a zöldekhez!"/>
 <string key="physics" value="Fizika"/>
-<string key="reset" value="Előről"/>
+<string key="reset" value="Elölről"/>
 <string key="simTitle" value="Súrlódás"/>
-<string key="translation.credits" value="&lt;html&gt;&lt;a href=&quot;http://nasa.web.elte.hu/defhu.htm&quot;&gt;Nagy Sándor&lt;/a&gt;&lt;br&gt;ELTE, &lt;a href=&quot;http://www.chem.elte.hu/pr/&quot;&gt;Kémiai Intézet&lt;/a&gt;, Budapest&lt;/html&gt;"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;a href=&quot;http://nagysandor.eu/&quot;&gt;Nagy Sándor&lt;/a&gt;&lt;br&gt;ELTE, &lt;a href=&quot;http://www.chem.elte.hu/pr/&quot;&gt;Kémiai Intézet&lt;/a&gt;, Budapest&lt;/html&gt;"/>
 <string key="chemistry" value="Kémia"/>
 </SimStrings>
