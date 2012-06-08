@@ -10,8 +10,12 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
+import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.fractions.FractionsResources.Images;
+import edu.colorado.phet.fractions.view.SpinnerButtonNode;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.buildafraction.model.Scene;
 import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.NumberSceneContext;
@@ -20,6 +24,8 @@ import edu.colorado.phet.fractionsintro.buildafraction.view.pictures.PictureScen
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
+
+import static edu.colorado.phet.fractionsintro.buildafraction.view.pictures.PictureSceneNode.spinnerImage;
 
 /**
  * Canvas for the build a fraction tab.
@@ -73,8 +79,32 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
             setConfirmationEnabled( false );
         }} );
 
-        addChild( new HBox( new PSwing( radioButton( model, "Pictures", Scene.pictures ) ),
+        addChild( new VBox( VBox.LEFT_ALIGNED,
+                            new PSwing( radioButton( model, "Pictures", Scene.pictures ) ),
                             new PSwing( radioButton( model, "Numbers", Scene.numbers ) ) ) );
+
+        final SpinnerButtonNode leftButtonNode = new SpinnerButtonNode( spinnerImage( Images.LEFT_BUTTON_UP ), spinnerImage( Images.LEFT_BUTTON_PRESSED ), spinnerImage( Images.LEFT_BUTTON_GRAY ), new VoidFunction1<Boolean>() {
+            public void apply( final Boolean autoSpinning ) {
+                goToNumberLevel( model.numberLevel.get() - 1 );
+            }
+        }, model.numberLevel.greaterThan( 1 ) );
+        final SpinnerButtonNode rightButtonNode = new SpinnerButtonNode( spinnerImage( Images.RIGHT_BUTTON_UP ), spinnerImage( Images.RIGHT_BUTTON_PRESSED ), spinnerImage( Images.RIGHT_BUTTON_GRAY ), new VoidFunction1<Boolean>() {
+            public void apply( final Boolean autoSpinning ) {
+                goToNumberLevel( model.numberLevel.get() + 1 );
+            }
+        }, model.numberLevel.lessThan( 20 ) );
+        addChild( rightButtonNode );
+
+        //Level indicator and navigation buttons for number mode
+        addChild( new HBox( leftButtonNode, new PhetPText( "Level " + model.numberLevel.get(), new PhetFont( 30, true ) ) {{
+            model.numberLevel.addObserver( new VoidFunction1<Integer>() {
+                public void apply( final Integer integer ) {
+                    setText( "Level " + integer );
+                }
+            } );
+        }}, rightButtonNode ) {{
+            setOffset( 300, INSET );
+        }} );
 
         model.selectedScene.addObserver( new VoidFunction1<Scene>() {
             public void apply( final Scene scene ) {
@@ -100,8 +130,8 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
         }};
     }
 
-    public void goToNextNumberLevel() {
-        model.nextNumberLevel();
+    public void goToNumberLevel( int level ) {
+        model.goToNumberLevel( level );
         for ( Object node : numberScene.getChildrenReference() ) {
             PNode n2 = (PNode) node;
             n2.animateToTransparency( 0.0f, FADE_OUT_TIME );
@@ -111,4 +141,6 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
         }} );
         numberScene.animateToTransform( AffineTransform.getTranslateInstance( -STAGE_SIZE.getWidth() * model.numberLevel.get(), 0 ), 1000 );
     }
+
+    public void nextNumberLevel() { goToNumberLevel( model.numberLevel.get() + 1 ); }
 }
