@@ -42,10 +42,10 @@ public class FractionGraphic extends PNode {
     private NumberCardNode topTarget;
     private NumberCardNode bottomTarget;
     private ArrayList<VoidFunction1<Option<Fraction>>> splitListeners = new ArrayList<VoidFunction1<Option<Fraction>>>();
-    public double initialXOffset;
-    public double initialYOffset;
+    public double toolboxPositionX;
+    public double toolboxPositionY;
 
-    public FractionGraphic() {
+    public FractionGraphic( final FractionDraggingContext context ) {
         topBox = box( true );
         bottomBox = box( true );
         divisorLine = new PhetPPath( new Line2D.Double( 0, 0, 50, 0 ), new BasicStroke( 4, CAP_ROUND, JOIN_MITER ), black );
@@ -92,6 +92,11 @@ public class FractionGraphic extends PNode {
             @Override protected void drag( final PInputEvent event ) {
                 super.drag( event );
                 translateAll( event.getDeltaRelativeTo( event.getPickedNode().getParent() ) );
+            }
+
+            @Override protected void endDrag( final PInputEvent event ) {
+                super.endDrag( event );
+                context.endDrag( FractionGraphic.this, event );
             }
         } );
     }
@@ -150,11 +155,14 @@ public class FractionGraphic extends PNode {
 
     public void addSplitListener( final VoidFunction1<Option<Fraction>> listener ) { splitListeners.add( listener ); }
 
-    public boolean isAtInitialPosition() { return getXOffset() == initialXOffset && getYOffset() == initialYOffset; }
+    public boolean isAtInitialPosition() { return getXOffset() == toolboxPositionX && getYOffset() == toolboxPositionY; }
 
-    public void setInitialPosition( final double x, final double y ) {
-        this.initialXOffset = x;
-        this.initialYOffset = y;
-        setOffset( x, y );
+    public void setToolboxPosition( final double x, final double y ) {
+        this.toolboxPositionX = x;
+        this.toolboxPositionY = y;
     }
+
+    public double getToolboxPositionX() { return toolboxPositionX; }
+
+    public double getToolboxPositionY() { return toolboxPositionY; }
 }

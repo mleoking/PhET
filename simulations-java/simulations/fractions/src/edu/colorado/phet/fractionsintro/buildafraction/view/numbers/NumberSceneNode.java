@@ -51,7 +51,7 @@ import static java.awt.Color.darkGray;
  *
  * @author Sam Reid
  */
-public class NumberSceneNode extends PNode implements NumberDragContext {
+public class NumberSceneNode extends PNode implements NumberDragContext, FractionDraggingContext {
     private final ArrayList<FractionGraphic> fractionGraphics = new ArrayList<FractionGraphic>();
     private final PNode rootNode;
     private final BuildAFractionModel model;
@@ -60,6 +60,14 @@ public class NumberSceneNode extends PNode implements NumberDragContext {
     private final List<Pair> pairList;
     private final RichPNode toolboxNode;
     public final int level;
+
+    public void endDrag( final FractionGraphic fractionGraphic, final PInputEvent event ) {
+
+        //if fraction graphic overlaps the toolbox when dropped, animate back to the toolbox position.
+        if ( toolboxNode.getGlobalFullBounds().intersects( fractionGraphic.getGlobalFullBounds() ) ) {
+            fractionGraphic.animateAllToPosition( fractionGraphic.getToolboxPositionX(), fractionGraphic.getToolboxPositionY() );
+        }
+    }
 
     @Data class Pair {
         public final ScoreBoxNode targetCell;
@@ -160,7 +168,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext {
             }
         } );
 
-        final FractionGraphic fractionGraphic = new FractionGraphic();
+        final FractionGraphic fractionGraphic = new FractionGraphic( this );
         double cardWidth = cardSize.width;
 
         double spacingBetweenNumbers = 20;
@@ -198,18 +206,25 @@ public class NumberSceneNode extends PNode implements NumberDragContext {
 
         //Add remaining fraction graphics into the toolbox
         int numRemainingFractionSkeletons = myLevel.targets.length() - 1;
+
+        double toolboxPositionX = 0;
+        double toolboxPositionY = 0;
         for ( int i = 0; i < numRemainingFractionSkeletons; i++ ) {
-            final FractionGraphic toolboxFractionGraphic = new FractionGraphic();
+            final FractionGraphic toolboxFractionGraphic = new FractionGraphic( this );
 
             //Put it to the right of the numbers in the toolbox
 
-            toolboxFractionGraphic.setInitialPosition( toolboxNode.getMaxX() - 10 - toolboxFractionGraphic.getFullBounds().getWidth(), toolboxNode.getCenterY() - toolboxFractionGraphic.getFullBounds().getHeight() / 2 );
+            toolboxPositionX = toolboxNode.getMaxX() - 10 - toolboxFractionGraphic.getFullBounds().getWidth();
+            toolboxPositionY = toolboxNode.getCenterY() - toolboxFractionGraphic.getFullBounds().getHeight() / 2;
+            toolboxFractionGraphic.setToolboxPosition( toolboxPositionX, toolboxPositionY );
+            toolboxFractionGraphic.setOffset( toolboxPositionX, toolboxPositionY );
             addChild( toolboxFractionGraphic );
             fractionGraphics.add( toolboxFractionGraphic );
 
             toolboxFractionGraphic.moveInFrontOf( toolboxNode );
         }
 
+        fractionGraphic.setToolboxPosition( toolboxPositionX, toolboxPositionY );
         fractionGraphic.setOffset( toolboxNode.getCenterX() - fractionGraphic.getFullBounds().getWidth() / 2, 300 );
         fractionGraphic.moveInFrontOf( toolboxNode );
     }
