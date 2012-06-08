@@ -10,7 +10,6 @@ HIGH
 - duplication: SlopeInterceptCanvas, PointSlopeCanvas
 - duplication: SlopeInterceptModel, PointSlopeModel
 - duplication: SlopeInterceptEquationControls, PointSlopeEquationControls
-- in Q4, equation on line can be obscured (eg, y1=-2, rise=-2, run=6, x1=-2), in this case put equation below line?
 
 MEDIUM
 - better handling and testing of adjustment to avoid slope=0/0
