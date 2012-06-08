@@ -234,12 +234,12 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
         for ( FractionGraphic fractionGraphic : fractionGraphics ) {
             final PhetPPath topBox = fractionGraphic.topBox;
             final PhetPPath bottomBox = fractionGraphic.bottomBox;
-            if ( numberCardNode.getGlobalFullBounds().intersects( topBox.getGlobalFullBounds() ) && topBox.getVisible() ) {
+            if ( numberCardNode.getGlobalFullBounds().intersects( topBox.getGlobalFullBounds() ) && topBox.getVisible() && !fractionGraphic.isInToolboxPosition() ) {
                 numberDroppedOnFraction( fractionGraphic, numberCardNode, topBox );
                 hitFraction = true;
                 break;
             }
-            if ( numberCardNode.getGlobalFullBounds().intersects( bottomBox.getGlobalFullBounds() ) && bottomBox.getVisible() ) {
+            if ( numberCardNode.getGlobalFullBounds().intersects( bottomBox.getGlobalFullBounds() ) && bottomBox.getVisible() && !fractionGraphic.isInToolboxPosition() ) {
                 numberDroppedOnFraction( fractionGraphic, numberCardNode, bottomBox );
                 hitFraction = true;
                 break;
@@ -314,7 +314,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
                                 if ( allIncompleteFractionsInToolbox() ) {
                                     FractionGraphic g = null;
                                     for ( FractionGraphic graphic : fractionGraphics ) {
-                                        if ( graphic.isAtInitialPosition() ) {
+                                        if ( graphic.isInToolboxPosition() ) {
                                             g = graphic;
                                         }
                                     }
@@ -369,7 +369,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
     //TODO: this should account for partially complete fractions too
     private boolean allIncompleteFractionsInToolbox() {
         for ( FractionGraphic fractionGraphic : fractionGraphics ) {
-            if ( !fractionGraphic.isComplete() && !fractionGraphic.isAtInitialPosition() ) {
+            if ( !fractionGraphic.isComplete() && !fractionGraphic.isInToolboxPosition() ) {
                 return false;
             }
         }

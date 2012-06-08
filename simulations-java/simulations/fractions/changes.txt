@@ -1,3 +1,4 @@
+Build a fraction tab: Fixed: Shouldn't be able to drop numbers into a fraction skeleton that is in the toolbox
 Build a fraction tab: Fixed: Initial fraction skeleton should animate to toolbox location if dropped in toolbox, not back to the middle of the screen
 Build a fraction tab: Show filled in fractions on a "card", have the card disappear when it drops in the scoring cell
 Build a fraction tab: Made target cells a little smaller
