@@ -26,12 +26,14 @@ public class FieldModel {
     private var cos_arr:Array;      //cosines of angles of the rays, CCW from horizontal, angle must be in radians
     private var sin_arr:Array;      //sines of angles of the rays,
     private var _fieldLine_arr:Array;  //array of field lines
+    //private var newPhoton:Array;       //2-element array with x- and y-components of new photon
 
     private var _t:Number;          //time in arbitrary units
-    private var lastTime: Number;	//time in previous timeStep
+    private var _tLastPhoton: Number;	    //time of previous Photon emission
     private var tRate: Number;	    //1 = real time; 0.25 = 1/4 of real time, etc.
     private var dt: Number;  	    //default time step in seconds
     private var f:Number;           //frequency (nbr per second) of photons on a given field line emitted by charge
+    private var delTPhoton:Number;  //time in sec between photon emission events
     private var msTimer: Timer;	    //millisecond timer
     private var stageW:int;
     private var stageH:int;
@@ -42,12 +44,13 @@ public class FieldModel {
         this.views_arr = new Array();
         this.stageW = this.myMainView.stageW;
         this.stageH = this.myMainView.stageH;
-        this._c = this.stageW/4;    //4 seconds to cross height of stage
-        this._nbrLines = 8;
-        this._nbrPhotonsPerLine = 30;
+        this._c = this.stageW/8;    //4 seconds to cross height of stage
+        this._nbrLines = 10;
+        this._nbrPhotonsPerLine = 10;
         this.cos_arr = new Array( this._nbrLines );
         this.sin_arr = new Array( this._nbrLines );
         this._fieldLine_arr = new Array ( this._nbrLines );
+        //this.newPhoton = new Array( 2 );
         for( var i:int = 0; i < this._nbrLines ; i++ ) {
             this._fieldLine_arr[i] = new Array( this._nbrPhotonsPerLine );
             for (var j:int = 0; j < this._nbrPhotonsPerLine; j++ ){
@@ -63,12 +66,18 @@ public class FieldModel {
            this.cos_arr[i] = Math.cos( i*2*Math.PI/this._nbrLines ) ;
            this.sin_arr[i] = Math.sin( i*2*Math.PI/this._nbrLines ) ;
         }
+        this._xC = this.stageW/2;
+        this._yC = this.stageH/2;
         this._t = 0;
-        this.dt = 0.02;
-        this.f = 0.2*1/dt ;           //f should be less than 1/dt
+        this._tLastPhoton = 0;
+        this.dt = 0.1;
+        this.f = 10;//0.2*1/dt ;           //f should be less than 1/dt
+        this.delTPhoton = 0.3; //this.f;
         this.tRate = 1;
         this.msTimer = new Timer( this.dt * 1000 );   //argument of Timer constructor is time step in ms
         this.msTimer.addEventListener( TimerEvent.TIMER, stepForward );
+        this.initializeFieldLines();
+        this.updateViews();
         this.startRadiation();
     }
 
@@ -122,17 +131,53 @@ public class FieldModel {
         }
     }
 
-    private function stepForward( evt: TimerEvent ):void{
-        this._t += this.dt;
+    private function initializeFieldLines():void{
         for( var i:int = 0; i < this._nbrLines; i++ ){
             for( var j:int = 0; j < this._nbrPhotonsPerLine; j++ ){
                 this._fieldLine_arr[i][j][0] = this._xC + this.cos_arr[i]*j*this.stageW/(2*this._nbrPhotonsPerLine );
                 this._fieldLine_arr[i][j][1] = this._yC + this.sin_arr[i]*j*this.stageW/(2*this._nbrPhotonsPerLine );
             }
         }
-        //trace("time = "+this._t) ;
-        //evt.updateAfterEvent();
     }
+
+    private function stepForward( evt: TimerEvent ):void{
+        this._t += this.dt;
+        if( this._t > this._tLastPhoton + this.delTPhoton ){
+            this._tLastPhoton = this._t;
+            //this.emitPhotons();
+        }
+        trace("Before step, this._fieldLine_arr[5][5][1] = "+this._fieldLine_arr[5][5][1]) ;
+        for( var i:int = 0; i < this._nbrLines; i++ ){
+            for( var j:int = 0; j < this._nbrPhotonsPerLine; j++ ){
+                this._fieldLine_arr[i][j][0] += this.cos_arr[i]*this._c*this.dt; //this._xC + this.cos_arr[i]*j*this.stageW/(2*this._nbrPhotonsPerLine );
+                this._fieldLine_arr[i][j][1] += this.sin_arr[i]*this._c*this.dt; //this._yC + this.sin_arr[i]*j*this.stageW/(2*this._nbrPhotonsPerLine );
+            }
+        }
+        trace("afterstep, this._fieldLine_arr[5][5][1] = "+this._fieldLine_arr[5][5][1]) ;
+        this.updateViews();
+        //trace("FieldModel._xC: "+this._xC) ;
+        //evt.updateAfterEvent();
+    }//end stepForward()
+
+    private function emitPhotons():void{
+        //add new photon to 1st element of photon array
+        var newPhoton:Array = new Array( 2 );
+        newPhoton[0] = this._xC;
+        newPhoton[1]  = this._yC;
+        for( var i:int = 0; i < this._nbrLines; i++ ){
+
+            this._fieldLine_arr[i].unshift( newPhoton );
+           // var indexLast:int = this._fieldLine_arr.length;
+            this._fieldLine_arr[i].splice( this.nbrPhotonsPerLine );
+        }
+
+        trace("time = "+this._t+"    FieldModel.emitPhotons called");
+        //trace("length of field line array"+this._fieldLine_arr[0].length) ;
+        //trace( "FieldModel.this._fieldLine_arr[0][0][1]" + this._fieldLine_arr[0][0][1] ) ;
+        //trace( "FieldModel.this._fieldLine_arr[9][0][1]" + this._fieldLine_arr[9][0][1] ) ;
+        //trace( "FieldModel.this._fieldLine_arr[9][8][1]" + this._fieldLine_arr[9][8][1] ) ;
+
+    }//end emitPhotons()
 
     public function startRadiation():void{
         this.msTimer.start();
