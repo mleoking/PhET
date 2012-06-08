@@ -1,5 +1,6 @@
 package edu.colorado.phet.fractionsintro.buildafraction.view.numbers;
 
+import fj.Equal;
 import fj.F;
 import fj.Ord;
 import fj.data.List;
@@ -15,6 +16,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -40,6 +42,9 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.fractions.FractionsResources.Strings.MY_FRACTIONS;
+import static edu.colorado.phet.fractionsintro.buildafraction.view.BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND;
+import static edu.colorado.phet.fractionsintro.buildafraction.view.BuildAFractionCanvas.controlPanelStroke;
+import static java.awt.Color.darkGray;
 
 /**
  * Node for the scene when the user is constructing fractions with numbers.
@@ -118,67 +123,114 @@ public class NumberSceneNode extends PNode implements NumberDragContext {
         title.setOffset( pairs.get( 0 ).getTargetCell().getFullBounds().getCenterX() - title.getFullWidth() / 2, pairs.get( 0 ).getTargetCell().getFullBounds().getY() - title.getFullHeight() );
 
         //Add a piece container toolbox the user can use to get containers
+        //Put numbers on cards so you can see how many there are in a stack
+        //I suspect it will look awkward unless all cards have the same dimensions
+        NumberLevel myLevel = model.getNumberLevel( level );
+        List<List<Integer>> stacks = myLevel.numbers.group( Equal.intEqual );
+
+
+        //Find the max size of each number node, so we can create a consistent card size
+        List<NumberNode> prototypes = stacks.map( new F<List<Integer>, NumberNode>() {
+            @Override public NumberNode f( final List<Integer> integers ) {
+                return new NumberNode( integers.head(), NumberSceneNode.this );
+            }
+        } );
+        double maxNumberNodeWidth = prototypes.map( new F<NumberNode, Double>() {
+            @Override public Double f( final NumberNode numberNode ) {
+                return numberNode.getFullBounds().getWidth();
+            }
+        } ).maximum( Ord.doubleOrd );
+        double maxNumberNodeHeight = prototypes.map( new F<NumberNode, Double>() {
+            @Override public Double f( final NumberNode numberNode ) {
+                return numberNode.getFullBounds().getHeight();
+            }
+        } ).maximum( Ord.doubleOrd );
+
+        final Dimension2DDouble cardSize = new Dimension2DDouble( maxNumberNodeWidth + 22, maxNumberNodeHeight );
+
+        //Create a stack of cards for each unique number
+        List<List<NumberCardNode>> cardNodes = stacks.map( new F<List<Integer>, List<NumberCardNode>>() {
+            @Override public List<NumberCardNode> f( final List<Integer> integers ) {
+                return integers.map( new F<Integer, NumberCardNode>() {
+                    @Override public NumberCardNode f( final Integer integer ) {
+                        return new NumberCardNode( cardSize, integer, NumberSceneNode.this );
+                    }
+                } );
+            }
+        } );
+
+        double cardWidth = cardSize.width;
+
+        double spacingBetweenNumbers = 20;
+        double leftRightInset = 20;
+        final double extentX = cardWidth * stacks.length() + spacingBetweenNumbers * ( stacks.length() - 1 ) + leftRightInset * 2;
+
+        //Create the toolbox node
         toolboxNode = new RichPNode() {{
-            final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 700, 160, 30, 30 ), BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND, BuildAFractionCanvas.controlPanelStroke, Color.darkGray );
+            final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, extentX, 160, 30, 30 ), CONTROL_PANEL_BACKGROUND, controlPanelStroke, darkGray );
             addChild( border );
             setOffset( ( AbstractFractionsCanvas.STAGE_SIZE.width - 150 ) / 2 - this.getFullWidth() / 2, AbstractFractionsCanvas.STAGE_SIZE.height - AbstractFractionsCanvas.INSET - this.getFullHeight() );
         }};
         addChild( toolboxNode );
 
+        int groupIndex = 0;
+        double cardDeltaX = 4;
+        double cardDeltaY = 4;
+        for ( List<NumberCardNode> cardNodeStack : cardNodes ) {
+
+            int numInStack = cardNodeStack.length();
+            int indexInStack = 0;
+            for ( NumberCardNode cardNode : cardNodeStack ) {
+                int reverseIndex = numInStack - 1 - indexInStack;
+                cardNode.setInitialPosition( toolboxNode.getMinX() + leftRightInset + ( cardWidth + spacingBetweenNumbers ) * groupIndex + reverseIndex * cardDeltaX,
+                                             toolboxNode.getCenterY() - cardNode.getFullBounds().getHeight() / 2 + reverseIndex * cardDeltaY );
+                addChild( cardNode );
+                indexInStack++;
+            }
+            groupIndex++;
+        }
+
         final FractionGraphic fractionGraphic = createDefaultFractionGraphic();
         addChild( fractionGraphic );
         fractionGraphics.add( fractionGraphic );
-
-        NumberLevel myLevel = model.getNumberLevel( level );
-        for ( Integer number : myLevel.numbers ) {
-            NumberNode numberNode = new NumberNode( number, this );
-            numberNode.setInitialPosition( toolboxNode.getFullBounds().getX() + toolboxNode.getFullWidth() * ( number + 1 ) / 11.0 - numberNode.getFullBounds().getWidth() / 2, toolboxNode.getCenterY() - numberNode.getFullBounds().getHeight() / 2 );
-            addChild( numberNode );
-        }
-//        int numCopies = 2;
-//        for ( int i = 0; i < 10; i++ ) {
-//            for ( int k = 0; k < numCopies; k++ ) {
-//
-//            }
-//        }
     }
 
     private FractionGraphic createDefaultFractionGraphic() {
         final FractionGraphic fractionGraphic = new FractionGraphic() {{
-            setOffset( toolboxNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, 300 );
+            setOffset( toolboxNode.getCenterX() - getFullBounds().getWidth() / 2, 300 );
         }};
         return fractionGraphic;
     }
 
-    public void endDrag( final NumberNode numberNode, final PInputEvent event ) {
+    public void endDrag( final NumberCardNode numberCardNode, final PInputEvent event ) {
         boolean hitFraction = false;
         for ( FractionGraphic fractionGraphic : fractionGraphics ) {
             final PhetPPath topBox = fractionGraphic.topBox;
             final PhetPPath bottomBox = fractionGraphic.bottomBox;
-            if ( numberNode.getGlobalFullBounds().intersects( topBox.getGlobalFullBounds() ) && topBox.getVisible() ) {
-                numberDroppedOnFraction( fractionGraphic, numberNode, topBox );
+            if ( numberCardNode.getGlobalFullBounds().intersects( topBox.getGlobalFullBounds() ) && topBox.getVisible() ) {
+                numberDroppedOnFraction( fractionGraphic, numberCardNode, topBox );
                 hitFraction = true;
                 break;
             }
-            if ( numberNode.getGlobalFullBounds().intersects( bottomBox.getGlobalFullBounds() ) && bottomBox.getVisible() ) {
-                numberDroppedOnFraction( fractionGraphic, numberNode, bottomBox );
+            if ( numberCardNode.getGlobalFullBounds().intersects( bottomBox.getGlobalFullBounds() ) && bottomBox.getVisible() ) {
+                numberDroppedOnFraction( fractionGraphic, numberCardNode, bottomBox );
                 hitFraction = true;
                 break;
             }
         }
         //If it didn't hit a fraction, send back to its starting place--the user is not allowed to have free floating numbers in the play area
         if ( !hitFraction ) {
-            numberNode.animateHome();
+            numberCardNode.animateHome();
         }
     }
 
-    private void numberDroppedOnFraction( final FractionGraphic fractionGraphic, final NumberNode numberNode, final PhetPPath box ) {
-        centerOnBox( numberNode, box );
+    private void numberDroppedOnFraction( final FractionGraphic fractionGraphic, final NumberCardNode numberCardNode, final PhetPPath box ) {
+        centerOnBox( numberCardNode, box );
         box.setVisible( false );
-        numberNode.setPickable( false );
-        numberNode.setChildrenPickable( false );
+        numberCardNode.setPickable( false );
+        numberCardNode.setChildrenPickable( false );
         fractionGraphic.splitButton.setVisible( true );
-        fractionGraphic.setTarget( box, numberNode );
+        fractionGraphic.setTarget( box, numberCardNode );
         if ( fractionGraphic.isComplete() ) {
             model.addCreatedValue( fractionGraphic.getValue() );
             //create an invisible overlay that allows dragging all parts together
@@ -271,7 +323,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext {
         } ).length() == pairList.length();
     }
 
-    private void centerOnBox( final NumberNode numberNode, final PhetPPath box ) {
+    private void centerOnBox( final NumberCardNode numberNode, final PhetPPath box ) {
         Rectangle2D bounds = box.getGlobalFullBounds();
         bounds = rootNode.globalToLocal( bounds );
         numberNode.centerFullBoundsOnPoint( bounds.getCenterX(), bounds.getCenterY() );

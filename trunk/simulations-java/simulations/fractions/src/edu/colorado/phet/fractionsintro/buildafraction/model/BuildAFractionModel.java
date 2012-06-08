@@ -33,7 +33,7 @@ public class BuildAFractionModel {
     public final Property<Integer> pictureLevel = new Property<Integer>( 0 );
 
     public final ConstantDtClock clock = new ConstantDtClock();
-    public final Property<Scene> selectedScene = new Property<Scene>( Scene.pictures );
+    public final Property<Scene> selectedScene = new Property<Scene>( Scene.numbers );
 
     public static F<Fraction, FilledPattern> pie = new F<Fraction, FilledPattern>() {
         @Override public FilledPattern f( final Fraction f ) {
