@@ -289,7 +289,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext {
                                 addChild( new VBox( new FaceNode( 300 ), new HTMLImageButtonNode( "Next", Color.orange ) {{
                                     addActionListener( new ActionListener() {
                                         public void actionPerformed( final ActionEvent e ) {
-                                            context.goToNextNumberLevel();
+                                            context.nextNumberLevel();
                                         }
                                     } );
                                 }}

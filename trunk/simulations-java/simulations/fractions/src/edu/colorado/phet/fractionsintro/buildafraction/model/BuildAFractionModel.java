@@ -10,6 +10,7 @@ import java.util.Collections;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Pyramid;
@@ -29,8 +30,8 @@ import static java.awt.Color.red;
 public class BuildAFractionModel {
     public static final Color lightBlue = new Color( 100, 100, 255 );
 
-    public final Property<Integer> numberLevel = new Property<Integer>( 0 );
-    public final Property<Integer> pictureLevel = new Property<Integer>( 0 );
+    public final IntegerProperty numberLevel = new IntegerProperty( 0 );
+    public final IntegerProperty pictureLevel = new IntegerProperty( 0 );
 
     public final ConstantDtClock clock = new ConstantDtClock();
     public final Property<Scene> selectedScene = new Property<Scene>( Scene.numbers );
@@ -175,4 +176,6 @@ public class BuildAFractionModel {
     public NumberLevel getNumberLevel( final int level ) { return numberLevels.get( level ); }
 
     public PictureLevel getPictureLevel( final int level ) { return pictureLevels.get( level ); }
+
+    public void goToNumberLevel( final int level ) { numberLevel.set( level ); }
 }

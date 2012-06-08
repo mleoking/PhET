@@ -190,7 +190,7 @@ public class PictureSceneNode extends PNode implements ContainerContext {
         addChild( frontLayer );
     }
 
-    private static BufferedImage spinnerImage( final BufferedImage image ) {
+    public static BufferedImage spinnerImage( final BufferedImage image ) {
         return BufferedImageUtils.multiScaleToWidth( image, 50 );
     }
 
