@@ -37,6 +37,7 @@ public class ChargeView extends Sprite {
         this.addChild( this.chargeGraphic );
         this.drawChargeGraphic();
         this.makeChargeGrabbable();
+        this.update();
 
     } //end of initialize
 
@@ -45,7 +46,7 @@ public class ChargeView extends Sprite {
         g.clear();
         g.lineStyle( 2, 0x000000, 1 );
         g.beginFill( 0x000000, 1 );
-        g.drawCircle( stageW/2, stageH/2, 10 );
+        g.drawCircle( 0, 0, 10 );
         g.endFill();
     }//end drawChargeGraphic
 
@@ -62,6 +63,11 @@ public class ChargeView extends Sprite {
         }
 
         function stopTargetDrag( evt: MouseEvent ): void {
+
+            var xInPix:Number = thisObject.mouseX - clickOffset.x;    //screen coordinates, origin on left edge of stage
+            var yInPix:Number = thisObject.mouseY - clickOffset.y;    //screen coordinates, origin on left edge of stage
+            thisObject.myFieldModel.setXY( xInPix,  yInPix );
+            evt.updateAfterEvent();
             clickOffset = null;
             stage.removeEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
             stage.removeEventListener( MouseEvent.MOUSE_MOVE, dragTarget );

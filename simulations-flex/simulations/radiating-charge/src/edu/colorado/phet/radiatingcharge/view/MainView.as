@@ -47,9 +47,8 @@ public class MainView extends Canvas {
         this.myChargeView = new ChargeView( this, myFieldModel ) ;
         this.myFieldView = new FieldView(this, myFieldModel );
 
-        this.addChild( new SpriteUIComponent( this.myChargeView ));
         this.addChild( new SpriteUIComponent( this.myFieldView ));
-
+        this.addChild( new SpriteUIComponent( this.myChargeView ));
         this.phetLogo = new PhetIcon();
 
         this.phetLogo.x = stageW - 2.0 * this.phetLogo.width;
