@@ -33,7 +33,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * Interface for manipulating a source-intercept equation.
+ * Interface for manipulating a slope-intercept equation.
  * This version uses spinner buttons to increment/decrement rise, run and intercept.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
