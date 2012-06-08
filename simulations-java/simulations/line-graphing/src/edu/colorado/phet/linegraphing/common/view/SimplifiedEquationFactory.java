@@ -12,11 +12,11 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * Base class for all factories that create nodes for equations in reduced form.
+ * Base class for all factories that create nodes for equations in simplified form.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class EquationFactory {
+public abstract class SimplifiedEquationFactory {
 
     protected static final double X_SPACING = 3;
     protected static final double Y_SPACING = 0;
@@ -24,11 +24,11 @@ public abstract class EquationFactory {
     public abstract EquationNode createNode( StraightLine line, PhetFont font );
 
     /*
-     * Base class for all reduced forms of the equation.
+     * Base class for all simplified equations.
      */
-    protected static abstract class ReducedEquationNode extends EquationNode {
+    protected static abstract class SimplifiedEquationNode extends EquationNode {
 
-        public ReducedEquationNode() {
+        public SimplifiedEquationNode() {
             setPickable( false );
         }
 
@@ -49,7 +49,7 @@ public abstract class EquationFactory {
     /*
      * Slope is undefined.
      */
-    protected static class UndefinedSlopeNode extends ReducedEquationNode {
+    protected static class UndefinedSlopeNode extends SimplifiedEquationNode {
         public UndefinedSlopeNode( StraightLine line, PhetFont font ) {
             setPickable( false );
             addChild( new PhetPText( Strings.SLOPE_UNDEFINED, font, line.color ) );

@@ -6,7 +6,7 @@ import java.awt.Color;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 
 /**
- * Base class for all equations nodes.
+ * Base class for all equation nodes.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
