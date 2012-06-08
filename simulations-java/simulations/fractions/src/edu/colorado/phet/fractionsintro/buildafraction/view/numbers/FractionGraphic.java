@@ -38,8 +38,8 @@ public class FractionGraphic extends PNode {
     public final PhetPPath bottomBox;
     public final PhetPPath divisorLine;
     public final PImage splitButton;
-    private NumberNode topTarget;
-    private NumberNode bottomTarget;
+    private NumberCardNode topTarget;
+    private NumberCardNode bottomTarget;
     private ArrayList<VoidFunction1<Option<Fraction>>> splitListeners = new ArrayList<VoidFunction1<Option<Fraction>>>();
 
     public FractionGraphic() {
@@ -87,12 +87,12 @@ public class FractionGraphic extends PNode {
         return new PhetPPath( new Rectangle2D.Double( 0, 0, 40, 50 ), new BasicStroke( 2, BasicStroke.CAP_SQUARE, JOIN_MITER, 1, new float[] { 10, 6 }, 0 ), showOutline ? Color.red : BuildAFractionCanvas.TRANSPARENT );
     }
 
-    public void setTarget( final PhetPPath box, final NumberNode numberNode ) {
+    public void setTarget( final PhetPPath box, final NumberCardNode numberCardNode ) {
         if ( box == topBox ) {
-            topTarget = numberNode;
+            topTarget = numberCardNode;
         }
         else if ( box == bottomBox ) {
-            bottomTarget = numberNode;
+            bottomTarget = numberCardNode;
         }
         else { throw new RuntimeException( "No such box!" ); }
     }

@@ -1,3 +1,5 @@
+Build a fraction tab: Space out numbers equally in the toolbox
+Build a fraction tab: Added stacks of cards for the numbers
 Build a fraction tab: Remove confirmation dialog for reset all
 Build a fraction tab: Fade out previous level when going to next level to support other aspect ratios
 Build a fraction tab: Added bucket icon
