@@ -9,5 +9,7 @@ E_therm_outline.png source=PhET author=Noah P
 E_therm_outline_black.png source=PhET author=Noah P
 thermometer_back.png source=PhET author=Noah P
 thermometer_front.png source=PhET author=Noah P
+thermometer_tall_back.png source=PhET author=Noah P
+thermometer_tall_front.png source=PhET author=Noah P
 energy-chunks-white.png source=PhET author=Noah P
 energy-chunks-white-semibold.png source=PhET author=Noah P
