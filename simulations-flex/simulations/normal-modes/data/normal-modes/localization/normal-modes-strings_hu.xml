@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--normal-modes-strings_hu.xml created Mon Jun 04 13:59:10 CEST 2012 using: normal-modes 1.00.00 (64159), translation-utility 2.13.00 (59150) Dec 8, 2011-->
+<SimStrings>
+<string key="start" value="Mehet"/>
+<string key="amplitude:" value="Amplitúdó:"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;a href=&quot;http://nagysandor.eu/&quot;&gt;Nagy Sándor&lt;/a&gt;&lt;br&gt;ELTE, &lt;a href=&quot;http://www.chem.elte.hu/pr/&quot;&gt;Kémiai Intézet&lt;/a&gt;, Budapest&lt;/html&gt;"/>
+<string key="phase:" value="Fázis:"/>
+<string key="showSprings" value="Mutasd a rugókat"/>
+<string key="modeSpectrum" value="Normálmódus-spektrum"/>
+<string key="resetPositions" value="Kiindulási helyz."/>
+<string key="frequency:" value="Frekvencia:"/>
+<string key="normalMode:" value="Normál módus:"/>
+<string key="modeSpectrumDisplay" value="Módusspektrum megjelenítése"/>
+<string key="normal-modes.simTitle" value="Normál módusok"/>
+<string key="modeNumbersXY" value="Módusszámok, x, y"/>
+<string key="stop" value="Állj"/>
+<string key="polarization:" value="Polarizáció-&lt;br&gt;szabályozás:"/>
+<string key="zeroPositions" value="Zérushelyzetek"/>
+<string key="paused" value="MEGÁLLÍTVA"/>
+<string key="showPhases" value="Mutasd a fázist"/>
+</SimStrings>
