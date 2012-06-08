@@ -140,6 +140,7 @@ public class FieldModel {
         }
     }
 
+    //this algorithm is incorrect.
     private function stepForward( evt: TimerEvent ):void{
         this._t += this.dt;
         if( this._t > this._tLastPhoton + this.delTPhoton ){
