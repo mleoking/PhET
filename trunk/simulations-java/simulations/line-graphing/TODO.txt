@@ -13,9 +13,6 @@ HIGH
 
 MEDIUM
 - better handling and testing of adjustment to avoid slope=0/0
-- Point-Slope: 2 variations of point-slope form
-- outlined numbers (OutlineTextNode) in pickers are aliased
-- numbers in pickers aren't always centered
 - when point tool is on a saved line, change the point tool highlighting when the user mouses over the saved line
 - don't like all the MathUtil.round that's going on
 - don't like having int methods in SlopeInterceptLine model
