@@ -1,3 +1,4 @@
+Build a fraction tab: Added a "split" button to completed fractions that appear in the scoring cells
 Build a fraction tab: Fixed: Cards should go over (z-order) the target fraction red dotted line
 Build a fraction tab: Removed card background when a card is dropped into a fraction
 Build a fraction tab: Fixed: Fractions should pop out if put in a non-matching target cell

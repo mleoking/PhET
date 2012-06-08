@@ -7,6 +7,7 @@ import fj.data.List;
 import fj.data.Option;
 import lombok.Data;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -253,8 +254,8 @@ public class NumberSceneNode extends PNode implements NumberDragContext {
             Rectangle2D union = topBounds.createUnion( bottomBounds ).createUnion( divisorBounds );
 
             //For debugging, show a yellow border
-//            final PhetPPath path = new PhetPPath( RectangleUtils.expand( union, 2, 2 ), BuildAFractionCanvas.TRANSPARENT, new BasicStroke( 1 ), Color.yellow );
-            final PhetPPath path = new PhetPPath( RectangleUtils.expand( union, 2, 2 ), BuildAFractionCanvas.TRANSPARENT );
+            final PhetPPath path = new PhetPPath( RectangleUtils.expand( union, 2, 2 ), BuildAFractionCanvas.TRANSPARENT, new BasicStroke( 1 ), Color.yellow );
+//            final PhetPPath path = new PhetPPath( RectangleUtils.expand( union, 2, 2 ), BuildAFractionCanvas.TRANSPARENT );
             path.addInputEventListener( new CursorHandler() );
             path.addInputEventListener( new SimSharingDragHandler( null, true ) {
                 @Override protected void drag( final PInputEvent event ) {
@@ -288,7 +289,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext {
                             removeChild( path );
                             fractionGraphic.setAllPickable( false );
 
-                            scoreCell.completed();
+                            scoreCell.setCompletedFraction( fractionGraphic );
                             locked = true;
 
                             //Add a new fraction skeleton when the previous one is completed
