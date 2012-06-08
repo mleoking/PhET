@@ -1,3 +1,4 @@
+Build a fraction tab: Show filled in fractions on a "card", have the card disappear when it drops in the scoring cell
 Build a fraction tab: Made target cells a little smaller
 Build a fraction tab: Made scoring cells have the same shade of gray as the toolbox
 Build a fraction tab: Added a "split" button to completed fractions that appear in the scoring cells
