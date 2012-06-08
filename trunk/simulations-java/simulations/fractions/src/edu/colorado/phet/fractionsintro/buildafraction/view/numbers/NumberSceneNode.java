@@ -161,7 +161,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext {
             }
         } );
 
-        final FractionGraphic fractionGraphic = createDefaultFractionGraphic();
+        final FractionGraphic fractionGraphic = new FractionGraphic();
         double cardWidth = cardSize.width;
 
         double spacingBetweenNumbers = 20;
@@ -210,11 +210,6 @@ public class NumberSceneNode extends PNode implements NumberDragContext {
         }
 
         fractionGraphic.setOffset( toolboxNode.getCenterX() - fractionGraphic.getFullBounds().getWidth() / 2, 300 );
-    }
-
-    private FractionGraphic createDefaultFractionGraphic() {
-        final FractionGraphic fractionGraphic = new FractionGraphic();
-        return fractionGraphic;
     }
 
     public void endDrag( final NumberCardNode numberCardNode, final PInputEvent event ) {
