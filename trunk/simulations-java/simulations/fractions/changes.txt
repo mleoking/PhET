@@ -1,3 +1,4 @@
+Build a fraction tab: Sort numbers in the toolbox
 Build a fraction tab: Added a level indicator and navigation buttons
 Build a fraction tab: Space out numbers equally in the toolbox
 Build a fraction tab: Added stacks of cards for the numbers

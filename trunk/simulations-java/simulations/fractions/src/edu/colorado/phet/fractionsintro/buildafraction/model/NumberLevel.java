@@ -1,5 +1,6 @@
 package edu.colorado.phet.fractionsintro.buildafraction.model;
 
+import fj.Ord;
 import fj.data.List;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -19,7 +20,7 @@ public class NumberLevel {
     public final List<NumberTarget> targets;
 
     public NumberLevel( final List<Integer> numbers, final List<NumberTarget> targets ) {
-        this.numbers = numbers;
+        this.numbers = numbers.sort( Ord.intOrd );
         this.targets = targets;
     }
 
