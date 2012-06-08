@@ -131,7 +131,6 @@ public class NumberSceneNode extends PNode implements NumberDragContext {
         NumberLevel myLevel = model.getNumberLevel( level );
         List<List<Integer>> stacks = myLevel.numbers.group( Equal.intEqual );
 
-
         //Find the max size of each number node, so we can create a consistent card size
         List<NumberNode> prototypes = stacks.map( new F<List<Integer>, NumberNode>() {
             @Override public NumberNode f( final List<Integer> integers ) {
