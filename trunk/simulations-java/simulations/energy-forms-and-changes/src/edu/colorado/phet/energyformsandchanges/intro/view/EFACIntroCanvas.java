@@ -286,21 +286,22 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
 
         private final EFACIntroModel model;
         private final ModelViewTransform mvt;
+        private final double thermometerHeight;
 
         private ThermometerToolBox( EFACIntroModel model, ModelViewTransform mvt, Color backgroundColor ) {
             this.model = model;
             this.mvt = mvt;
-            double thermometerHeight = EnergyFormsAndChangesResources.Images.THERMOMETER_BACK.getHeight( null );
-            double thermometerWidth = EnergyFormsAndChangesResources.Images.THERMOMETER_BACK.getWidth( null );
-            PhetPPath thermometerRegion = new PhetPPath( new Rectangle2D.Double( 0, 0, thermometerHeight * 1.1, thermometerWidth * 3 ), new Color( 0, 0, 0, 0 ) );
+            thermometerHeight = EnergyFormsAndChangesResources.Images.THERMOMETER_TALL_BACK.getHeight( null );
+            double thermometerWidth = EnergyFormsAndChangesResources.Images.THERMOMETER_TALL_BACK.getWidth( null );
+            PhetPPath thermometerRegion = new PhetPPath( new Rectangle2D.Double( 0, 0, thermometerWidth * ( NUM_THERMOMETERS_SUPPORTED + 2 ), thermometerHeight * 1.1 ), new Color( 0, 0, 0, 0 ) );
             addChild( new ControlPanelNode( new VBox( 0, thermometerRegion ), backgroundColor ) );
         }
 
         public void putThermometerInOpenSpot( Thermometer thermometer ) {
             // This is a little tweaky due to the relationship between the
             // thermometer in the model and the view representation.
-            double xPos = 30;
-            double yPos = getFullBoundsReference().getMaxY() - 30;
+            double xPos = 35;
+            double yPos = getFullBoundsReference().getMaxY() - 40;
             boolean openLocationFound = false;
             for ( int i = 0; i < NUM_THERMOMETERS_SUPPORTED && !openLocationFound; i++ ) {
                 xPos = getFullBoundsReference().width / NUM_THERMOMETERS_SUPPORTED * i + 20;
@@ -313,24 +314,6 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
                 }
             }
             thermometer.position.set( new ImmutableVector2D( mvt.viewToModel( xPos, yPos ) ) );
-        }
-    }
-
-    // Event handler that returns thermometer to tool box if released above it.
-    private static class ThermometerReturner extends PBasicInputEventHandler {
-
-        private final ThermometerToolBox toolBox;
-        private final ThermometerNode thermometerNode;
-
-        private ThermometerReturner( ThermometerToolBox toolBox, ThermometerNode thermometerNode ) {
-            this.thermometerNode = thermometerNode;
-            this.toolBox = toolBox;
-        }
-
-        @Override public void mouseReleased( PInputEvent event ) {
-            if ( thermometerNode.getFullBoundsReference().intersects( toolBox.getFullBoundsReference() ) ) {
-                toolBox.putThermometerInOpenSpot( thermometerNode.getThermometer() );
-            }
         }
     }
 }

@@ -37,7 +37,6 @@ public class ThermometerNode extends PComposite {
     // These values will need tweaking if the images used for the thermometer
     // are changed.
     private static final double TRIANGLE_SIDE_SIZE = 15; // In screen coordinates, which is close to pixels.
-    private static final Dimension2D TRIANGLE_TIP_OFFSET_FROM_THERMOMETER_CENTER = new PDimension( -35, 47 );
 
     // Temperature range handled by this thermometer.  Depiction is linear.
     private static final double MIN_TEMPERATURE = EFACConstants.FREEZING_POINT_TEMPERATURE; // In degrees Kelvin.
@@ -68,8 +67,8 @@ public class ThermometerNode extends PComposite {
         rootNode.addChild( frontLayer );
 
         // Add the back of the thermometer.
-        final double imageScale = 0.85; // Tweak factor for sizing the thermometers.
-        final PImage thermometerBack = new PImage( EnergyFormsAndChangesResources.Images.THERMOMETER_BACK );
+        final double imageScale = 1; // Tweak factor for sizing the thermometers.
+        final PImage thermometerBack = new PImage( EnergyFormsAndChangesResources.Images.THERMOMETER_TALL_BACK );
         thermometerBack.setScale( imageScale );
         backLayer.addChild( thermometerBack );
 
@@ -96,7 +95,7 @@ public class ThermometerNode extends PComposite {
         }
 
         // Add the image for the front of the thermometer.
-        frontLayer.addChild( new PImage( EnergyFormsAndChangesResources.Images.THERMOMETER_FRONT ) {{
+        frontLayer.addChild( new PImage( EnergyFormsAndChangesResources.Images.THERMOMETER_TALL_FRONT ) {{
             setScale( imageScale );
         }} );
 
@@ -104,8 +103,10 @@ public class ThermometerNode extends PComposite {
         // touches the element whose temperature is being measured.  The
         // position of the thermometer in model space corresponds to the point
         // on the left side of this triangle.
-        ImmutableVector2D triangleLeftmostPoint = new ImmutableVector2D( backLayer.getFullBoundsReference().getCenterX() + TRIANGLE_TIP_OFFSET_FROM_THERMOMETER_CENTER.getWidth(),
-                                                                         backLayer.getFullBoundsReference().getCenterY() + TRIANGLE_TIP_OFFSET_FROM_THERMOMETER_CENTER.getHeight() );
+        final Dimension2D triangleTipOffset = new PDimension( -thermometerBack.getWidth() / 2 - TRIANGLE_SIDE_SIZE * Math.cos( Math.PI / 6 ) - 2,
+                                                              thermometerBack.getHeight() / 2 - thermometerBack.getWidth() / 2 );
+        ImmutableVector2D triangleLeftmostPoint = new ImmutableVector2D( backLayer.getFullBoundsReference().getCenterX() + triangleTipOffset.getWidth(),
+                                                                         backLayer.getFullBoundsReference().getCenterY() + triangleTipOffset.getHeight() );
         final ImmutableVector2D triangleUpperRightPoint = triangleLeftmostPoint.getAddedInstance( new ImmutableVector2D( TRIANGLE_SIDE_SIZE, 0 ).getRotatedInstance( Math.PI / 5 ) );
         final ImmutableVector2D triangleLowerRightPoint = triangleLeftmostPoint.getAddedInstance( new ImmutableVector2D( TRIANGLE_SIDE_SIZE, 0 ).getRotatedInstance( -Math.PI / 5 ) );
         DoubleGeneralPath trianglePath = new DoubleGeneralPath( triangleLeftmostPoint ) {{
@@ -124,7 +125,7 @@ public class ThermometerNode extends PComposite {
         thermometer.position.addObserver( new VoidFunction1<ImmutableVector2D>() {
             public void apply( ImmutableVector2D position ) {
                 setOffset( mvt.modelToViewX( position.getX() ),
-                           mvt.modelToViewY( position.getY() ) - ( getFullBoundsReference().height / 2 + TRIANGLE_TIP_OFFSET_FROM_THERMOMETER_CENTER.getHeight() ) );
+                           mvt.modelToViewY( position.getY() ) - ( getFullBoundsReference().height / 2 + triangleTipOffset.getHeight() ) );
             }
         } );
 
