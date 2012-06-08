@@ -207,9 +207,12 @@ public class NumberSceneNode extends PNode implements NumberDragContext {
             toolboxFractionGraphic.setInitialPosition( toolboxNode.getMaxX() - 10 - toolboxFractionGraphic.getFullBounds().getWidth(), toolboxNode.getCenterY() - toolboxFractionGraphic.getFullBounds().getHeight() / 2 );
             addChild( toolboxFractionGraphic );
             fractionGraphics.add( toolboxFractionGraphic );
+
+            toolboxFractionGraphic.moveInFrontOf( toolboxNode );
         }
 
         fractionGraphic.setOffset( toolboxNode.getCenterX() - fractionGraphic.getFullBounds().getWidth() / 2, 300 );
+        fractionGraphic.moveInFrontOf( toolboxNode );
     }
 
     public void endDrag( final NumberCardNode numberCardNode, final PInputEvent event ) {
