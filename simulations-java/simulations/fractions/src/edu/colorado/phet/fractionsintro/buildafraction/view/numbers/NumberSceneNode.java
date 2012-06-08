@@ -270,11 +270,13 @@ public class NumberSceneNode extends PNode implements NumberDragContext {
                     super.endDrag( event );
 
                     //Snap to a scoring cell or go back to the play area.
+                    //If dropped in a non-matching cell, send back to play area
                     List<ScoreBoxNode> scoreCells = pairList.map( new F<Pair, ScoreBoxNode>() {
                         @Override public ScoreBoxNode f( final Pair pair ) {
                             return pair.targetCell;
                         }
                     } );
+                    boolean locked = false;
                     for ( ScoreBoxNode scoreCell : scoreCells ) {
                         if ( path.getFullBounds().intersects( scoreCell.getFullBounds() ) && scoreCell.fraction.approxEquals( fractionGraphic.getValue() ) ) {
                             //Lock in target cell
@@ -289,6 +291,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext {
                             fractionGraphic.setAllPickable( false );
 
                             scoreCell.completed();
+                            locked = true;
 
                             //Add a new fraction skeleton when the previous one is completed
                             if ( !allTargetsComplete() ) {
@@ -323,6 +326,19 @@ public class NumberSceneNode extends PNode implements NumberDragContext {
                                 }}
                                 ) {{setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2 - 100, STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 - 100 );}} );
                             }
+                        }
+                    }
+
+                    //If no match, and is overlapping a score cell, send back to play area
+                    if ( !locked ) {
+                        boolean hitWrongOne = false;
+                        for ( ScoreBoxNode scoreCell : scoreCells ) {
+                            if ( path.getFullBounds().intersects( scoreCell.getFullBounds() ) ) {
+                                hitWrongOne = true;
+                            }
+                        }
+                        if ( hitWrongOne ) {
+                            fractionGraphic.animateAllToPosition( 300, 300 );
                         }
                     }
                 }
