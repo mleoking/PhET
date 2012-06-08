@@ -1,3 +1,4 @@
+Build a fraction tab: Fixed: When navigating back a level, it should remember if you solved the level and not create the level anew
 Build a fraction tab: Fixed: Level text should accommodate double digits level size
 Build a fraction tab: Fixed: Level numbering should start at 1, not zero
 Build a fraction tab: Removed "0" from levels
