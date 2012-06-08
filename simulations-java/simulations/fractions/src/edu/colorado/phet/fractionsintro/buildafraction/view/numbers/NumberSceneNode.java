@@ -270,7 +270,6 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
             Rectangle2D expanded = RectangleUtils.expand( union, 10, 2 );
             final PhetPPath fractionCard = new PhetPPath( new RoundRectangle2D.Double( expanded.getX(), expanded.getY(), expanded.getWidth(), expanded.getHeight(), 10, 10 ),
                                                           Color.white, new BasicStroke( 1 ), Color.black );
-//            final PhetPPath path = new PhetPPath( RectangleUtils.expand( union, 2, 2 ), BuildAFractionCanvas.TRANSPARENT );
             fractionCard.addInputEventListener( new CursorHandler() );
             fractionCard.addInputEventListener( new SimSharingDragHandler( null, true ) {
                 @Override protected void drag( final PInputEvent event ) {
