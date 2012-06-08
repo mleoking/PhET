@@ -136,12 +136,30 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
         model.goToNumberLevel( level );
         for ( Object node : numberScene.getChildrenReference() ) {
             PNode n2 = (PNode) node;
-            n2.animateToTransparency( 0.0f, FADE_OUT_TIME );
+            //Fade out the other levels, but not the target one (if it already exists)
+            if ( n2 != getNumberSceneNode( level ) ) {
+                n2.animateToTransparency( 0.0f, FADE_OUT_TIME );
+            }
         }
-        numberScene.addChild( new NumberSceneNode( model.numberLevel.get(), rootNode, model, STAGE_SIZE, this ) {{
-            setOffset( STAGE_SIZE.width * model.numberLevel.get(), STAGE_SIZE.height );
-        }} );
+        if ( getNumberSceneNode( level ) == null ) {
+            numberScene.addChild( new NumberSceneNode( model.numberLevel.get(), rootNode, model, STAGE_SIZE, this ) {{
+                setOffset( STAGE_SIZE.width * model.numberLevel.get(), STAGE_SIZE.height );
+            }} );
+        }
+        else {
+            getNumberSceneNode( level ).animateToTransparency( 1.0f, FADE_IN_TIME );
+        }
         numberScene.animateToTransform( AffineTransform.getTranslateInstance( -STAGE_SIZE.getWidth() * model.numberLevel.get(), 0 ), 1000 );
+    }
+
+    private NumberSceneNode getNumberSceneNode( final int level ) {
+        for ( Object child : numberScene.getChildrenReference() ) {
+            PNode node = (PNode) child;
+            if ( node instanceof NumberSceneNode && ( (NumberSceneNode) node ).level == level ) {
+                return (NumberSceneNode) node;
+            }
+        }
+        return null;
     }
 
     public void nextNumberLevel() { goToNumberLevel( model.numberLevel.get() + 1 ); }

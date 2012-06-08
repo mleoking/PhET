@@ -59,6 +59,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext {
     private final NumberSceneContext context;
     private final List<Pair> pairList;
     private final RichPNode toolboxNode;
+    public final int level;
 
     @Data class Pair {
         public final ScoreBoxNode targetCell;
@@ -67,6 +68,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext {
 
     public NumberSceneNode( int level, final PNode rootNode, final BuildAFractionModel model, PDimension STAGE_SIZE, NumberSceneContext context ) {
         this.rootNode = rootNode;
+        this.level = level;
         this.model = model;
         this.STAGE_SIZE = STAGE_SIZE;
         this.context = context;
