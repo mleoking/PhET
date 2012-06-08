@@ -99,8 +99,15 @@ public abstract class StraightLineNode extends PComposite {
         equationNode = createEquationNode( line, EQUATION_FONT );
         PNode zeroOffsetNode = new ZeroOffsetNode( equationNode );
         equationParentNode.addChild( zeroOffsetNode );
-        zeroOffsetNode.setOffset( -zeroOffsetNode.getFullBoundsReference().getWidth() - 12,
-                                  -zeroOffsetNode.getFullBoundsReference().getHeight() - 12 );
+        if ( line.rise < 0 && line.run > 0 ) {
+            // quadrant 4: put equation below the line, so that it isn't occluded by the rise/run brackets
+            zeroOffsetNode.setOffset( -zeroOffsetNode.getFullBoundsReference().getWidth() - 12, 5 );
+        }
+        else {
+            // all other quadrants: put equation above the line
+            zeroOffsetNode.setOffset( -zeroOffsetNode.getFullBoundsReference().getWidth() - 12,
+                                      -zeroOffsetNode.getFullBoundsReference().getHeight() - 12 );
+        }
 
         // highlight on mouseOver
         addInputEventListener( new FunctionHighlightHandler( new VoidFunction1<Boolean>() {

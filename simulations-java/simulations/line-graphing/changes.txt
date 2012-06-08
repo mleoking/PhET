@@ -1,3 +1,4 @@
+6/7/12 when rise<0 and run>0, put equation below line so that it isn't occluded by rise/run brackets
 6/7/12 rename some classes related to simplified equations
 6/7/12 snap point tool to grid while dragging
 6/7/12 delete equation controls that aren't used
