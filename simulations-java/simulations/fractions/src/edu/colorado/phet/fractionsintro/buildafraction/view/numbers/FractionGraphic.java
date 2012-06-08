@@ -66,12 +66,14 @@ public class FractionGraphic extends PNode {
                 //TODO simsharing message
                 if ( topTarget != null ) {
                     topTarget.animateHome();
+                    topTarget.setCardShapeVisible( true );
                     topTarget.setAllPickable( true );
                     topTarget = null;
                     topBox.setVisible( true );
                 }
                 if ( bottomTarget != null ) {
                     bottomTarget.animateHome();
+                    bottomTarget.setCardShapeVisible( true );
                     bottomTarget.setAllPickable( true );
                     bottomTarget = null;
                     bottomBox.setVisible( true );
@@ -105,7 +107,10 @@ public class FractionGraphic extends PNode {
         else if ( box == bottomBox ) {
             bottomTarget = numberCardNode;
         }
-        else { throw new RuntimeException( "No such box!" ); }
+        else {
+            throw new RuntimeException( "No such box!" );
+        }
+        numberCardNode.setCardShapeVisible( false );
     }
 
     public boolean isComplete() { return topTarget != null && bottomTarget != null; }
