@@ -1,3 +1,4 @@
+6/7/12 rename some classes related to simplified equations
 6/7/12 snap point tool to grid while dragging
 6/7/12 delete equation controls that aren't used
 6/7/12 gray for control panel backgrounds

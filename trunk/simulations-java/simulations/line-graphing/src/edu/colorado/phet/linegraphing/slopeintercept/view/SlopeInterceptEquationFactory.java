@@ -12,7 +12,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
-import edu.colorado.phet.linegraphing.common.view.EquationFactory;
+import edu.colorado.phet.linegraphing.common.view.SimplifiedEquationFactory;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -25,7 +25,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class SlopeInterceptEquationFactory extends EquationFactory {
+class SlopeInterceptEquationFactory extends SimplifiedEquationFactory {
 
     public EquationNode createNode( StraightLine line, PhetFont font ) {
         if ( MathUtil.round( line.run ) == 0 ) {
@@ -46,7 +46,7 @@ class SlopeInterceptEquationFactory extends EquationFactory {
     }
 
     // Verbose form of slope-intercept, not reduced, for debugging.
-    private static class VerboseNode extends ReducedEquationNode {
+    private static class VerboseNode extends SimplifiedEquationNode {
         public VerboseNode( StraightLine line, PhetFont font ) {
             addChild( new PhetPText( MessageFormat.format( "y = ({0}/{1})x + {2})", line.rise, line.run, line.yIntercept ), font, line.color ) );
         }
@@ -57,7 +57,7 @@ class SlopeInterceptEquationFactory extends EquationFactory {
      * y = b
      * y = -b
      */
-    private static class ZeroSlopeNode extends ReducedEquationNode {
+    private static class ZeroSlopeNode extends SimplifiedEquationNode {
 
         public ZeroSlopeNode( StraightLine line, PhetFont font ) {
 
@@ -87,7 +87,7 @@ class SlopeInterceptEquationFactory extends EquationFactory {
      * y = -x + b
      * y = -x - b
     */
-    private static class UnitSlopeNode extends ReducedEquationNode {
+    private static class UnitSlopeNode extends SimplifiedEquationNode {
 
         public UnitSlopeNode( StraightLine line, PhetFont font ) {
 
@@ -127,7 +127,7 @@ class SlopeInterceptEquationFactory extends EquationFactory {
      * y = -mx + b
      * y = -mx - b
      */
-    private static class IntegerSlopeNode extends ReducedEquationNode {
+    private static class IntegerSlopeNode extends SimplifiedEquationNode {
 
         public IntegerSlopeNode( StraightLine line, PhetFont font ) {
 
@@ -166,7 +166,7 @@ class SlopeInterceptEquationFactory extends EquationFactory {
     * y = -(rise/run) x + b
     * y = -(rise/run) x - b
     */
-    private static class FractionSlopeNode extends ReducedEquationNode {
+    private static class FractionSlopeNode extends SimplifiedEquationNode {
 
         public FractionSlopeNode( StraightLine line, PhetFont font ) {
 

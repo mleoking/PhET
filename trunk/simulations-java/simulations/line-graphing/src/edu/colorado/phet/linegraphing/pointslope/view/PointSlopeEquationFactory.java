@@ -12,7 +12,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.colorado.phet.linegraphing.common.view.EquationNode;
-import edu.colorado.phet.linegraphing.common.view.EquationFactory;
+import edu.colorado.phet.linegraphing.common.view.SimplifiedEquationFactory;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -26,7 +26,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class PointSlopeEquationFactory extends EquationFactory {
+class PointSlopeEquationFactory extends SimplifiedEquationFactory {
 
     public EquationNode createNode( StraightLine line, PhetFont font ) {
         if ( MathUtil.round( line.run ) == 0 ) {
@@ -47,7 +47,7 @@ class PointSlopeEquationFactory extends EquationFactory {
     }
 
     // Verbose form of point-slope, not reduced, for debugging.
-    private static class VerboseNode extends ReducedEquationNode {
+    private static class VerboseNode extends SimplifiedEquationNode {
         public VerboseNode( StraightLine line, PhetFont font ) {
             addChild( new PhetPText( MessageFormat.format( "(y - {0}) = ({1}/{2})(x - {3})", line.y1, line.rise, line.run, line.x1 ), font, line.color ) );
         }
@@ -57,7 +57,7 @@ class PointSlopeEquationFactory extends EquationFactory {
      * Forms when slope is zero.
      * y = y1
      */
-    private static class ZeroSlopeNode extends ReducedEquationNode {
+    private static class ZeroSlopeNode extends SimplifiedEquationNode {
 
         public ZeroSlopeNode( StraightLine line, PhetFont font ) {
 
@@ -83,7 +83,7 @@ class PointSlopeEquationFactory extends EquationFactory {
      * (y - y1) = (x - x1)
      * (y - y1) = -(x - x1)
      */
-    private static class UnitSlopeNode extends ReducedEquationNode {
+    private static class UnitSlopeNode extends SimplifiedEquationNode {
 
         public UnitSlopeNode( StraightLine line, PhetFont font ) {
 
@@ -109,7 +109,7 @@ class PointSlopeEquationFactory extends EquationFactory {
      * (y - y1) = m(x - x1)
      * (y - y1) = -m(x - x1)
      */
-    private static class IntegerSlopeNode extends ReducedEquationNode {
+    private static class IntegerSlopeNode extends SimplifiedEquationNode {
 
         public IntegerSlopeNode( StraightLine line, PhetFont font ) {
 
@@ -137,7 +137,7 @@ class PointSlopeEquationFactory extends EquationFactory {
     * (y - y1) = (rise/run)(x - x1)
     * (y - y1) = -(rise/run)(x - x1)
     */
-    private static class FractionSlopeNode extends ReducedEquationNode {
+    private static class FractionSlopeNode extends SimplifiedEquationNode {
 
         public FractionSlopeNode( StraightLine line, PhetFont font ) {
 
