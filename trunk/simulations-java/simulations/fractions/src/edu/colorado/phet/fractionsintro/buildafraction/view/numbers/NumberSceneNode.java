@@ -33,7 +33,6 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.buildafraction.model.NumberLevel;
 import edu.colorado.phet.fractionsintro.buildafraction.model.NumberTarget;
-import edu.colorado.phet.fractionsintro.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
@@ -253,15 +252,17 @@ public class NumberSceneNode extends PNode implements NumberDragContext {
             Rectangle2D union = topBounds.createUnion( bottomBounds ).createUnion( divisorBounds );
 
             //For debugging, show a yellow border
-            final PhetPPath path = new PhetPPath( RectangleUtils.expand( union, 2, 2 ), BuildAFractionCanvas.TRANSPARENT, new BasicStroke( 1 ), Color.yellow );
+            Rectangle2D expanded = RectangleUtils.expand( union, 10, 2 );
+            final PhetPPath fractionCard = new PhetPPath( new RoundRectangle2D.Double( expanded.getX(), expanded.getY(), expanded.getWidth(), expanded.getHeight(), 10, 10 ),
+                                                          Color.white, new BasicStroke( 1 ), Color.black );
 //            final PhetPPath path = new PhetPPath( RectangleUtils.expand( union, 2, 2 ), BuildAFractionCanvas.TRANSPARENT );
-            path.addInputEventListener( new CursorHandler() );
-            path.addInputEventListener( new SimSharingDragHandler( null, true ) {
+            fractionCard.addInputEventListener( new CursorHandler() );
+            fractionCard.addInputEventListener( new SimSharingDragHandler( null, true ) {
                 @Override protected void drag( final PInputEvent event ) {
                     super.drag( event );
                     final PDimension delta = event.getDeltaRelativeTo( rootNode );
                     fractionGraphic.translateAll( delta );
-                    path.translate( delta.getWidth(), delta.getHeight() );
+                    fractionCard.translate( delta.getWidth(), delta.getHeight() );
                 }
 
                 @Override protected void endDrag( final PInputEvent event ) {
@@ -276,16 +277,16 @@ public class NumberSceneNode extends PNode implements NumberDragContext {
                     } );
                     boolean locked = false;
                     for ( ScoreBoxNode scoreCell : scoreCells ) {
-                        if ( path.getFullBounds().intersects( scoreCell.getFullBounds() ) && scoreCell.fraction.approxEquals( fractionGraphic.getValue() ) ) {
+                        if ( fractionCard.getFullBounds().intersects( scoreCell.getFullBounds() ) && scoreCell.fraction.approxEquals( fractionGraphic.getValue() ) ) {
                             //Lock in target cell
-                            Point2D center = path.getFullBounds().getCenter2D();
+                            Point2D center = fractionCard.getFullBounds().getCenter2D();
                             Point2D targetCenter = scoreCell.getFullBounds().getCenter2D();
                             Vector2D delta = new Vector2D( targetCenter, center );
                             fractionGraphic.translateAll( delta.toDimension() );
-                            path.translate( delta.x, delta.y );
+                            fractionCard.translate( delta.x, delta.y );
 
                             fractionGraphic.splitButton.setVisible( false );
-                            removeChild( path );
+                            removeChild( fractionCard );
                             fractionGraphic.setAllPickable( false );
 
                             scoreCell.setCompletedFraction( fractionGraphic );
@@ -331,7 +332,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext {
                     if ( !locked ) {
                         boolean hitWrongOne = false;
                         for ( ScoreBoxNode scoreCell : scoreCells ) {
-                            if ( path.getFullBounds().intersects( scoreCell.getFullBounds() ) ) {
+                            if ( fractionCard.getFullBounds().intersects( scoreCell.getFullBounds() ) ) {
                                 hitWrongOne = true;
                             }
                         }
@@ -341,10 +342,12 @@ public class NumberSceneNode extends PNode implements NumberDragContext {
                     }
                 }
             } );
-            addChild( path );
+            addChild( fractionCard );
+            fractionCard.moveInBackOf( fractionGraphic );
+            fractionGraphic.setAllPickable( false );
             fractionGraphic.addSplitListener( new VoidFunction1<Option<Fraction>>() {
                 public void apply( final Option<Fraction> fractions ) {
-                    removeChild( path );
+                    removeChild( fractionCard );
                     if ( fractions.isSome() ) {
                         model.removeCreatedValueFromNumberLevel( fractions.some() );
                     }
