@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--normal-modes-strings_ko.xml created Fri Jun 08 11:24:20 KST 2012 using: normal-modes 1.00.00 (64159), translation-utility 2.13.00 (59150) 12월 8, 2011-->
+<SimStrings>
+<string key="start" value="시작"/>
+<string key="amplitude:" value="진폭"/>
+<string key="translation.credits" value="이화국 전북대명예교수"/>
+<string key="phase:" value="상:"/>
+<string key="showSprings" value="스프링 보기"/>
+<string key="modeSpectrum" value="정규모드 스펙트럼"/>
+<string key="resetPositions" value="초기 위치"/>
+<string key="frequency:" value="주기"/>
+<string key="normalMode:" value="정규모드"/>
+<string key="modeSpectrumDisplay" value="모드 스펙트럼 보이기"/>
+<string key="normal-modes.simTitle" value="정규모드"/>
+<string key="modeNumbersXY" value="모드 수 x. y."/>
+<string key="stop" value="정지"/>
+<string key="polarization:" value="편광&lt;br&gt;조절:"/>
+<string key="zeroPositions" value="0 위치"/>
+<string key="paused" value="정지됨"/>
+<string key="showPhases" value="상 보기"/>
+</SimStrings>
