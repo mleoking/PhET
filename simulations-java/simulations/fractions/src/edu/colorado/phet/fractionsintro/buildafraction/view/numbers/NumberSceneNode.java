@@ -161,11 +161,13 @@ public class NumberSceneNode extends PNode implements NumberDragContext {
             }
         } );
 
+        final FractionGraphic fractionGraphic = createDefaultFractionGraphic();
         double cardWidth = cardSize.width;
 
         double spacingBetweenNumbers = 20;
         double leftRightInset = 20;
-        final double extentX = cardWidth * stacks.length() + spacingBetweenNumbers * ( stacks.length() - 1 ) + leftRightInset * 2;
+        double spacingBetweenNumbersAndFractionSkeleton = 50;
+        final double extentX = cardWidth * stacks.length() + spacingBetweenNumbers * ( stacks.length() - 1 ) + leftRightInset * 2 + spacingBetweenNumbersAndFractionSkeleton + fractionGraphic.getFullBounds().getWidth();
 
         //Create the toolbox node
         toolboxNode = new RichPNode() {{
@@ -192,15 +194,26 @@ public class NumberSceneNode extends PNode implements NumberDragContext {
             groupIndex++;
         }
 
-        final FractionGraphic fractionGraphic = createDefaultFractionGraphic();
         addChild( fractionGraphic );
         fractionGraphics.add( fractionGraphic );
+
+        //Add remaining fraction graphics into the toolbox
+        int numRemainingFractionSkeletons = myLevel.targets.length() - 1;
+        for ( int i = 0; i < numRemainingFractionSkeletons; i++ ) {
+            final FractionGraphic toolboxFractionGraphic = new FractionGraphic();
+
+            //Put it to the right of the numbers in the toolbox
+
+            toolboxFractionGraphic.setInitialPosition( toolboxNode.getMaxX() - 10 - toolboxFractionGraphic.getFullBounds().getWidth(), toolboxNode.getCenterY() - toolboxFractionGraphic.getFullBounds().getHeight() / 2 );
+            addChild( toolboxFractionGraphic );
+            fractionGraphics.add( toolboxFractionGraphic );
+        }
+
+        fractionGraphic.setOffset( toolboxNode.getCenterX() - fractionGraphic.getFullBounds().getWidth() / 2, 300 );
     }
 
     private FractionGraphic createDefaultFractionGraphic() {
-        final FractionGraphic fractionGraphic = new FractionGraphic() {{
-            setOffset( toolboxNode.getCenterX() - getFullBounds().getWidth() / 2, 300 );
-        }};
+        final FractionGraphic fractionGraphic = new FractionGraphic();
         return fractionGraphic;
     }
 
@@ -279,11 +292,24 @@ public class NumberSceneNode extends PNode implements NumberDragContext {
 
                             //Add a new fraction skeleton when the previous one is completed
                             if ( !allTargetsComplete() ) {
-                                final FractionGraphic fractionGraphic = createDefaultFractionGraphic();
-                                addChild( fractionGraphic );
-                                fractionGraphic.setTransparency( 0.0f );
-                                fractionGraphic.animateToTransparency( 1.0f, 1000 );
-                                fractionGraphics.add( fractionGraphic );
+
+                                //If no fraction skeleton in play area, move one there
+                                if ( allIncompleteFractionsInToolbox() ) {
+                                    FractionGraphic g = null;
+                                    for ( FractionGraphic graphic : fractionGraphics ) {
+                                        if ( graphic.isAtInitialPosition() ) {
+                                            g = graphic;
+                                        }
+                                    }
+                                    if ( g != null ) {
+                                        g.animateToPositionScaleRotation( toolboxNode.getCenterX() - fractionGraphic.getFullBounds().getWidth() / 2, 300, 1, 0, 1000 );
+                                    }
+//                                    final FractionGraphic fractionGraphic = createDefaultFractionGraphic();
+//                                    addChild( fractionGraphic );
+//                                    fractionGraphic.setTransparency( 0.0f );
+//                                    fractionGraphic.animateToTransparency( 1.0f, 1000 );
+//                                    fractionGraphics.add( fractionGraphic );
+                                }
                             }
 
                             //but if all filled up, then add a "next" button
@@ -311,6 +337,16 @@ public class NumberSceneNode extends PNode implements NumberDragContext {
                 }
             } );
         }
+    }
+
+    //TODO: this should account for partially complete fractions too
+    private boolean allIncompleteFractionsInToolbox() {
+        for ( FractionGraphic fractionGraphic : fractionGraphics ) {
+            if ( !fractionGraphic.isComplete() && !fractionGraphic.isAtInitialPosition() ) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private boolean allTargetsComplete() {
