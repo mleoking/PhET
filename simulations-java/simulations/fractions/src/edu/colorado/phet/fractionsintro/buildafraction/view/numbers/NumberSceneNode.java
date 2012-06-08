@@ -306,11 +306,6 @@ public class NumberSceneNode extends PNode implements NumberDragContext {
                                     if ( g != null ) {
                                         g.animateToPositionScaleRotation( toolboxNode.getCenterX() - fractionGraphic.getFullBounds().getWidth() / 2, 300, 1, 0, 1000 );
                                     }
-//                                    final FractionGraphic fractionGraphic = createDefaultFractionGraphic();
-//                                    addChild( fractionGraphic );
-//                                    fractionGraphic.setTransparency( 0.0f );
-//                                    fractionGraphic.animateToTransparency( 1.0f, 1000 );
-//                                    fractionGraphics.add( fractionGraphic );
                                 }
                             }
 
