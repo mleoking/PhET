@@ -37,7 +37,7 @@ import static java.awt.Color.darkGray;
  */
 public class NumberSceneNode extends PNode implements NumberDragContext, FractionDraggingContext {
     public final ArrayList<FractionNode> fractionGraphics = new ArrayList<FractionNode>();
-    private final PNode rootNode;
+    public final PNode rootNode;
     private final BuildAFractionModel model;
     public final PDimension STAGE_SIZE;
     public final NumberSceneContext context;
