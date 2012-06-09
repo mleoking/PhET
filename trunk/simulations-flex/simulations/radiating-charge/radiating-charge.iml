@@ -2,11 +2,11 @@
 <module type="Flex" version="4">
   <component name="FlexBuildConfigurationManager" active="radiating-charge">
     <configurations>
-      <configuration name="radiating-charge" main-class="edu.colorado.phet.radiatingcharge.RadiatingChargeApplication" output-file="radiating-charge.swf" output-folder="$MODULE_DIR$/../../../../out/radiating-charge">
+      <configuration name="radiating-charge" main-class="edu.colorado.phet.radiatingcharge.RadiatingChargeApplication" output-file="radiating-charge.swf" output-folder="$MODULE_DIR$/../../../../../out">
         <dependencies target-player="9">
           <entries>
             <entry module-name="flexcommon" build-configuration-name="flexcommon">
-              <dependency linkage="Include" />
+              <dependency linkage="Merged" />
             </entry>
           </entries>
           <sdk name="flex_sdk_3.4.1.10084A" />
@@ -28,7 +28,7 @@
     </content>
     <orderEntry type="jdk" jdkName="flex_sdk_3.4.1.10084A" jdkType="Flex SDK Type (new)" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="flexcommon" exported="" />
+    <orderEntry type="module" module-name="flexcommon" />
   </component>
 </module>
 
