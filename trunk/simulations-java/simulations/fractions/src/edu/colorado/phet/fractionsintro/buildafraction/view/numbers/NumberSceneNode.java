@@ -36,7 +36,7 @@ import static java.awt.Color.darkGray;
  * @author Sam Reid
  */
 public class NumberSceneNode extends PNode implements NumberDragContext, FractionDraggingContext {
-    public final ArrayList<FractionGraphic> fractionGraphics = new ArrayList<FractionGraphic>();
+    public final ArrayList<FractionNode> fractionGraphics = new ArrayList<FractionNode>();
     private final PNode rootNode;
     private final BuildAFractionModel model;
     public final PDimension STAGE_SIZE;
@@ -45,7 +45,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
     public RichPNode toolboxNode;
     public final int level;
 
-    public void endDrag( final FractionGraphic fractionGraphic, final PInputEvent event ) {
+    public void endDrag( final FractionNode fractionGraphic, final PInputEvent event ) {
 
         //if fraction graphic overlaps the toolbox when dropped, animate back to the toolbox position.
         if ( toolboxNode.getGlobalFullBounds().intersects( fractionGraphic.getGlobalFullBounds() ) ) {
@@ -147,7 +147,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
             }
         } );
 
-        final FractionGraphic fractionGraphic = new FractionGraphic( this );
+        final FractionNode fractionGraphic = new FractionNode( this );
         double cardWidth = cardSize.width;
 
         double spacingBetweenNumbers = 20;
@@ -189,7 +189,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
         double toolboxPositionX = 0;
         double toolboxPositionY = 0;
         for ( int i = 0; i < numRemainingFractionSkeletons; i++ ) {
-            final FractionGraphic toolboxFractionGraphic = new FractionGraphic( this );
+            final FractionNode toolboxFractionGraphic = new FractionNode( this );
 
             //Put it to the right of the numbers in the toolbox
 
@@ -210,7 +210,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
 
     public void endDrag( final NumberCardNode numberCardNode, final PInputEvent event ) {
         boolean hitFraction = false;
-        for ( FractionGraphic fractionGraphic : fractionGraphics ) {
+        for ( FractionNode fractionGraphic : fractionGraphics ) {
             final PhetPPath topBox = fractionGraphic.topBox;
             final PhetPPath bottomBox = fractionGraphic.bottomBox;
             if ( numberCardNode.getGlobalFullBounds().intersects( topBox.getGlobalFullBounds() ) && topBox.getVisible() && !fractionGraphic.isInToolboxPosition() ) {
@@ -230,7 +230,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
         }
     }
 
-    private void numberDroppedOnFraction( final FractionGraphic fractionGraphic, final NumberCardNode numberCardNode, final PhetPPath box ) {
+    private void numberDroppedOnFraction( final FractionNode fractionGraphic, final NumberCardNode numberCardNode, final PhetPPath box ) {
         centerOnBox( numberCardNode, box );
         box.setVisible( false );
         numberCardNode.setPickable( false );
@@ -248,7 +248,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
 
     //TODO: this should account for partially complete fractions too
     public boolean allIncompleteFractionsInToolbox() {
-        for ( FractionGraphic fractionGraphic : fractionGraphics ) {
+        for ( FractionNode fractionGraphic : fractionGraphics ) {
             if ( !fractionGraphic.isComplete() && !fractionGraphic.isInToolboxPosition() ) {
                 return false;
             }

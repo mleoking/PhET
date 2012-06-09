@@ -33,7 +33,7 @@ import static java.awt.Color.black;
  *
  * @author Sam Reid
  */
-public class FractionGraphic extends PNode {
+public class FractionNode extends PNode {
 
     public final PhetPPath topBox;
     public final PhetPPath bottomBox;
@@ -45,7 +45,7 @@ public class FractionGraphic extends PNode {
     public double toolboxPositionX;
     public double toolboxPositionY;
 
-    public FractionGraphic( final FractionDraggingContext context ) {
+    public FractionNode( final FractionDraggingContext context ) {
         topBox = box( true );
         bottomBox = box( true );
         divisorLine = new PhetPPath( new Line2D.Double( 0, 0, 50, 0 ), new BasicStroke( 4, CAP_ROUND, JOIN_MITER ), black );
@@ -96,7 +96,7 @@ public class FractionGraphic extends PNode {
 
             @Override protected void endDrag( final PInputEvent event ) {
                 super.endDrag( event );
-                context.endDrag( FractionGraphic.this, event );
+                context.endDrag( FractionNode.this, event );
             }
         } );
     }
