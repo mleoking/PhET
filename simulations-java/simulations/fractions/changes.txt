@@ -1,3 +1,4 @@
+Build a fraction tab: Shrink fraction when dropped in a target cell
 Build a fraction tab: animate fractions to target cell when dropped in
 Build a fraction tab: Fixed: Shouldn't be able to drop numbers into a fraction skeleton that is in the toolbox
 Build a fraction tab: Fixed: Initial fraction skeleton should animate to toolbox location if dropped in toolbox, not back to the middle of the screen

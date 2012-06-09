@@ -19,15 +19,17 @@ public class NumberCardNode extends PNode {
     private double initialX;
     private double initialY;
     public final int number;
-    private final PhetPPath cardShape;
+    public final PhetPPath cardShape;
+    public final NumberNode numberNode;
 
     public NumberCardNode( final Dimension2DDouble size, final Integer number, final NumberDragContext context ) {
         this.number = number;
         cardShape = new PhetPPath( new RoundRectangle2D.Double( 0, 0, size.width, size.height, 10, 10 ), Color.white, new BasicStroke( 1 ), Color.black );
         addChild( cardShape );
-        addChild( new NumberNode( number, context ) {{
+        numberNode = new NumberNode( number, context ) {{
             centerFullBoundsOnPoint( size.width / 2, size.height / 2 );
-        }} );
+        }};
+        addChild( numberNode );
 
         addInputEventListener( new SimSharingDragHandler( null, true ) {
             @Override protected void drag( final PInputEvent event ) {
