@@ -67,6 +67,7 @@ public class FractionCardNode extends RichPNode {
             @Override protected void endDrag( final PInputEvent event ) {
                 super.endDrag( event );
 
+
                 //Snap to a scoring cell or go back to the play area.
                 //If dropped in a non-matching cell, send back to play area
                 List<ScoreBoxNode> scoreCells = pairList.map( new F<Pair, ScoreBoxNode>() {
@@ -76,7 +77,7 @@ public class FractionCardNode extends RichPNode {
                 } );
                 boolean locked = false;
                 for ( ScoreBoxNode scoreCell : scoreCells ) {
-                    if ( fractionCard.getFullBounds().intersects( scoreCell.getFullBounds() ) && scoreCell.fraction.approxEquals( fractionNode.getValue() ) ) {
+                    if ( fractionCard.getGlobalFullBounds().intersects( scoreCell.getGlobalFullBounds() ) && scoreCell.fraction.approxEquals( fractionNode.getValue() ) ) {
                         //Lock in target cell
                         Point2D targetCenter = scoreCell.getFullBounds().getCenter2D();
                         final double scaleFactor = 0.75;
@@ -126,12 +127,13 @@ public class FractionCardNode extends RichPNode {
                 if ( !locked ) {
                     boolean hitWrongOne = false;
                     for ( ScoreBoxNode scoreCell : scoreCells ) {
-                        if ( fractionCard.getFullBounds().intersects( scoreCell.getFullBounds() ) ) {
+                        if ( fractionCard.getGlobalFullBounds().intersects( scoreCell.getGlobalFullBounds() ) ) {
                             hitWrongOne = true;
                         }
                     }
                     if ( hitWrongOne ) {
-                        fractionNode.animateAllToPosition( 300, 300, 1000 );
+                        animateToPositionScaleRotation( 300, 300, 1, 0, 1000 );
+//                        fractionNode.animateAllToPosition( 300, 300, 1000 );
                     }
                 }
             }
