@@ -18,9 +18,15 @@ public class FieldModel {
     public var views_arr:Array;     //views associated with this model
     public var myMainView:MainView;
 
-    private var _c:Number;          //speed of light in pixels per second, charge cannot moving faster than c
+    private var c:Number;          //speed of light in pixels per second, charge cannot moving faster than c
     private var _xC:Number;         //x-position of charge in pixels
     private var _yC:Number;         //y-position of charge in pixels
+    private var vX:Number;          //x-component of charge velocity
+    private var vY:Number;          //y-component of charge velocity
+    private var v:Number;           //speed of charge
+    private var fX:Number;         //x-component of force on charge
+    private var fY:Number;         //y-component of force on charge
+    private var k:Number;           //spring constant of spring between charge and mouse
     private var _nbrLines:int;       //number of field lines coming from charge
     private var _nbrPhotonsPerLine:int //number of photons in a given field line
     private var cos_arr:Array;      //cosines of angles of the rays, CCW from horizontal, angle must be in radians
@@ -44,7 +50,11 @@ public class FieldModel {
         this.views_arr = new Array();
         this.stageW = this.myMainView.stageW;
         this.stageH = this.myMainView.stageH;
-        this._c = this.stageW/8;    //4 seconds to cross height of stage
+        this.c = this.stageW/8;    //8 seconds to cross height of stage
+        this.k = 1;
+        this.vX = 0;
+        this.vY = 0;
+        this.v = Math.sqrt( vX*vX + vY*vY );
         this._nbrLines = 20;
         this._nbrPhotonsPerLine = 100;
         this.cos_arr = new Array( this._nbrLines );
@@ -118,6 +128,12 @@ public class FieldModel {
         this._yC = yPos;
         this.updateViews();
     }
+    
+    public function setForce( delX:Number, delY:Number ):void{
+        this.fX = this.k*delX;
+        this.fY = this.k*delY;
+        this.moveCharge();
+    }
 
     public function registerView( view: Object ): void {
         this.views_arr.push( view );
@@ -140,6 +156,12 @@ public class FieldModel {
         }
     }
 
+    private function moveCharge():void{
+        var beta:Number = this.v/this.c;
+        var gamma:Number = 1/Math.sqrt( 1 - beta*beta );
+
+    }
+    
     //this algorithm is incorrect.
     private function stepForward( evt: TimerEvent ):void{
         this._t += this.dt;
@@ -149,8 +171,8 @@ public class FieldModel {
         }
         for( var i:int = 0; i < this._nbrLines; i++ ){
             for( var j:int = 0; j < this._nbrPhotonsPerLine; j++ ){
-                this._fieldLine_arr[i][j][0] += this.cos_arr[i]*this._c*this.dt; //this._xC + this.cos_arr[i]*j*this.stageW/(2*this._nbrPhotonsPerLine );
-                this._fieldLine_arr[i][j][1] += this.sin_arr[i]*this._c*this.dt; //this._yC + this.sin_arr[i]*j*this.stageW/(2*this._nbrPhotonsPerLine );
+                this._fieldLine_arr[i][j][0] += this.cos_arr[i]*this.c*this.dt; //this._xC + this.cos_arr[i]*j*this.stageW/(2*this._nbrPhotonsPerLine );
+                this._fieldLine_arr[i][j][1] += this.sin_arr[i]*this.c*this.dt; //this._yC + this.sin_arr[i]*j*this.stageW/(2*this._nbrPhotonsPerLine );
             }
         }
         this.updateViews();
@@ -173,6 +195,8 @@ public class FieldModel {
         //trace("time = "+this._t+"    FieldModel.emitPhotons called");
 
     }//end emitPhotons()
+    
+
 
     public function startRadiation():void{
         this.msTimer.start();
