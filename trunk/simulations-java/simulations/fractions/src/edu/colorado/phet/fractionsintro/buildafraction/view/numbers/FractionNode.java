@@ -199,20 +199,6 @@ public class FractionNode extends RichPNode {
         return bottomNumberNode;
     }
 
-    public void animateAllToPosition( double x, double y, long time ) {
-        animateToPositionScaleRotation( x, y, 1.0, 0, time );
-        if ( topCard != null ) {
-            double dx = topCard.getXOffset() - getXOffset();
-            double dy = topCard.getYOffset() - getYOffset();
-            topCard.animateToPositionScaleRotation( x + dx, y + dy, 1.0, 0, time );
-        }
-        if ( bottomCard != null ) {
-            double dx = bottomCard.getXOffset() - getXOffset();
-            double dy = bottomCard.getYOffset() - getYOffset();
-            bottomCard.animateToPositionScaleRotation( x + dx, y + dy, 1.0, 0, time );
-        }
-    }
-
     //Ignore click events on everything except the "split" button, which appears over the card
     public void setDragRegionPickable( final boolean b ) {
         for ( Object child : getChildrenReference() ) {
