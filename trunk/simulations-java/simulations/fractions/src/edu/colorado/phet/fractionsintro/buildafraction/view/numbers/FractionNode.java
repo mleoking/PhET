@@ -34,7 +34,7 @@ import static java.awt.Color.black;
  *
  * @author Sam Reid
  */
-public class FractionNode extends PNode {
+public class FractionNode extends RichPNode {
 
     public final PhetPPath topBox;
     public final PhetPPath bottomBox;
@@ -50,6 +50,7 @@ public class FractionNode extends PNode {
     private PNode bottomTargetParent;
     private NumberNode topTargetNumberNode;
     private NumberNode bottomTargetNumberNode;
+    private FractionCardNode cardNode;
 
     public FractionNode( final FractionDraggingContext context ) {
         topBox = box( true );
@@ -106,6 +107,10 @@ public class FractionNode extends PNode {
                     bottomTarget = null;
                 }
                 splitButton.setVisible( false );
+                if ( cardNode != null ) {
+                    cardNode.split();
+                    cardNode = null;
+                }
                 for ( VoidFunction1<Option<Fraction>> splitListener : splitListeners ) {
                     splitListener.apply( value );
                 }
@@ -213,4 +218,6 @@ public class FractionNode extends PNode {
     public double getToolboxPositionX() { return toolboxPositionX; }
 
     public double getToolboxPositionY() { return toolboxPositionY; }
+
+    public void setCardNode( final FractionCardNode fractionCardNode ) { this.cardNode = fractionCardNode; }
 }
