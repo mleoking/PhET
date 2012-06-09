@@ -77,11 +77,10 @@ public class FractionCardNode extends RichPNode {
                         fractionGraphic.animateToPositionScaleRotation( targetCenter.getX() - fractionGraphic.getFullBounds().getWidth() / 2 * scaleFactor + 15,
                                                                         targetCenter.getY() - fractionGraphic.getFullBounds().getHeight() / 2 * scaleFactor + 10,
                                                                         scaleFactor, 0, 200 );
-//                        fractionCard.translate( delta.x, delta.y );
 
                         fractionGraphic.splitButton.setVisible( false );
                         removeChild( fractionCard );
-                        fractionGraphic.setAllPickable( false );
+                        fractionGraphic.setDragRegionPickable( false );
 
                         scoreCell.setCompletedFraction( fractionGraphic );
                         locked = true;
@@ -131,7 +130,7 @@ public class FractionCardNode extends RichPNode {
                 }
             }
         } );
-        fractionGraphic.setAllPickable( false );
+        fractionGraphic.setDragRegionPickable( false );
         fractionGraphic.addSplitListener( new VoidFunction1<Option<Fraction>>() {
             public void apply( final Option<Fraction> fractions ) {
                 removeChild( fractionCard );

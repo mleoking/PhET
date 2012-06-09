@@ -26,7 +26,7 @@ public class NumberCardNode extends PNode {
         this.number = number;
         cardShape = new PhetPPath( new RoundRectangle2D.Double( 0, 0, size.width, size.height, 10, 10 ), Color.white, new BasicStroke( 1 ), Color.black );
         addChild( cardShape );
-        numberNode = new NumberNode( number, context ) {{
+        numberNode = new NumberNode( number ) {{
             centerFullBoundsOnPoint( size.width / 2, size.height / 2 );
         }};
         addChild( numberNode );
@@ -64,4 +64,9 @@ public class NumberCardNode extends PNode {
     public void animateHome() { animateToPositionScaleRotation( getInitialX(), getInitialY(), 1, 0, 1000 ); }
 
     public void setCardShapeVisible( boolean visible ) { cardShape.setVisible( visible ); }
+
+    public void addNumberNodeBackIn( final NumberNode numberNode ) {
+        addChild( numberNode );
+        numberNode.setOffset( cardShape.getCenterX() - numberNode.getFullWidth() / 2, cardShape.getCenterY() - numberNode.getFullHeight() / 2 );
+    }
 }

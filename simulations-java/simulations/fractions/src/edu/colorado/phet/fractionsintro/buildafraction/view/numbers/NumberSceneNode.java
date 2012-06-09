@@ -120,7 +120,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
         //Find the max size of each number node, so we can create a consistent card size
         List<NumberNode> prototypes = stacks.map( new F<List<Integer>, NumberNode>() {
             @Override public NumberNode f( final List<Integer> integers ) {
-                return new NumberNode( integers.head(), NumberSceneNode.this );
+                return new NumberNode( integers.head() );
             }
         } );
         double maxNumberNodeWidth = prototypes.map( new F<NumberNode, Double>() {
