@@ -43,13 +43,15 @@ public class FractionCardNode extends RichPNode {
         this.fractionNodeParent = fractionNode.getParent();
 
         //create an overlay that allows dragging all parts together
-        PBounds topBounds = fractionNode.getTopNumber().getFullBounds();
-        PBounds bottomBounds = fractionNode.getBottomNumber().getFullBounds();
-        Rectangle2D divisorBounds = fractionNode.localToParent( fractionNode.divisorLine.getFullBounds() );
+        PBounds topBounds = fractionNode.getTopNumberNode().getGlobalFullBounds();
+        PBounds bottomBounds = fractionNode.getBottomNumberNode().getGlobalFullBounds();
+        Rectangle2D divisorBounds = fractionNode.divisorLine.getGlobalFullBounds();
         Rectangle2D union = topBounds.createUnion( bottomBounds ).createUnion( divisorBounds );
 
         //For debugging, show a yellow border
         Rectangle2D expanded = RectangleUtils.expand( union, 10, 2 );
+        expanded = globalToLocal( expanded );
+        expanded = localToParent( expanded );
 
         final PhetPPath fractionCard = new PhetPPath( new RoundRectangle2D.Double( expanded.getX(), expanded.getY(), expanded.getWidth(), expanded.getHeight(), 10, 10 ),
                                                       Color.white, new BasicStroke( 1 ), Color.black );
@@ -147,14 +149,12 @@ public class FractionCardNode extends RichPNode {
         addChild( fractionCard );
 
         Point2D location = fractionNode.getGlobalTranslation();
-        location = globalToLocal( location );
 
-        fractionNode.removeFromParent();
-        fractionNode.setOffset( location );
-
-        //I Don't know why this offset is necessary; couldn't figure it out.
-        fractionNode.translate( 0, -15 );
         addChild( fractionNode );
+        fractionNode.setGlobalTranslation( location );
+
+        //I Don't know why this offset is necessary; couldn't figure it out.  Perhaps due to the card inset, but it doesn't exactly match up.
+        translate( 0, -15 );
     }
 
     private boolean allTargetsComplete() {

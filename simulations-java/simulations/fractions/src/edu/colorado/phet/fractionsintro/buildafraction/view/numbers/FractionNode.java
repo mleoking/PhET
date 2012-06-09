@@ -61,7 +61,9 @@ public class FractionNode extends RichPNode {
         final VBox box = new VBox( topBox, divisorLine, bottomBox );
 
         //Show a background behind it to make the entire shape draggable
-        dragRegion = new RichPNode( new PhetPPath( RectangleUtils.expand( box.getFullBounds(), 5, 5 ), new Color( 200, 200, 200, 200 ) ), box );
+        final Color transparentGray = new Color( 200, 200, 200, 200 );
+        final Color transparent = new Color( 0, 0, 0, 0 );
+        dragRegion = new RichPNode( new PhetPPath( RectangleUtils.expand( box.getFullBounds(), 5, 5 ), transparent ), box );
         addChild( dragRegion );
 
         Rectangle2D bounds = divisorLine.getFullBounds();
@@ -189,9 +191,13 @@ public class FractionNode extends RichPNode {
 
     public Fraction getValue() { return new Fraction( topCard.number, bottomCard.number ); }
 
-    public PNode getTopNumber() {return topCard;}
+    public NumberNode getTopNumberNode() {
+        return topNumberNode;
+    }
 
-    public PNode getBottomNumber() {return bottomCard;}
+    public NumberNode getBottomNumberNode() {
+        return bottomNumberNode;
+    }
 
     public void animateAllToPosition( double x, double y, long time ) {
         animateToPositionScaleRotation( x, y, 1.0, 0, time );
