@@ -37,7 +37,8 @@ public class FractionCardNode extends RichPNode {
 
     public FractionCardNode( final FractionGraphic fractionGraphic, final PNode rootNode, final List<Pair> pairList, final BuildAFractionModel model, final NumberSceneNode numberSceneNode ) {
         this.numberSceneNode = numberSceneNode;
-        //create an invisible overlay that allows dragging all parts together
+
+        //create an overlay that allows dragging all parts together
         PBounds topBounds = fractionGraphic.getTopNumber().getFullBounds();
         PBounds bottomBounds = fractionGraphic.getBottomNumber().getFullBounds();
         Rectangle2D divisorBounds = fractionGraphic.localToParent( fractionGraphic.divisorLine.getFullBounds() );
@@ -75,7 +76,8 @@ public class FractionCardNode extends RichPNode {
                         Point2D center = fractionCard.getFullBounds().getCenter2D();
                         Point2D targetCenter = scoreCell.getFullBounds().getCenter2D();
                         Vector2D delta = new Vector2D( targetCenter, center );
-                        fractionGraphic.translateAll( delta.toDimension() );
+//                        fractionGraphic.translateAll( delta.toDimension() );
+                        fractionGraphic.animateAllToPosition( fractionGraphic.getOffset().getX() + delta.x, fractionGraphic.getOffset().getY() + delta.y, 200 );
                         fractionCard.translate( delta.x, delta.y );
 
                         fractionGraphic.splitButton.setVisible( false );
@@ -125,7 +127,7 @@ public class FractionCardNode extends RichPNode {
                         }
                     }
                     if ( hitWrongOne ) {
-                        fractionGraphic.animateAllToPosition( 300, 300 );
+                        fractionGraphic.animateAllToPosition( 300, 300, 1000 );
                     }
                 }
             }
