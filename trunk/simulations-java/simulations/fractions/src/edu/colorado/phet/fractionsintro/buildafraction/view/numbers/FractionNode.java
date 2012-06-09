@@ -5,6 +5,7 @@ import fj.data.Option;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -105,7 +106,7 @@ public class FractionNode extends PNode {
         return new PhetPPath( new Rectangle2D.Double( 0, 0, 40, 50 ), new BasicStroke( 2, BasicStroke.CAP_SQUARE, JOIN_MITER, 1, new float[] { 10, 6 }, 0 ), showOutline ? Color.red : BuildAFractionCanvas.TRANSPARENT );
     }
 
-    public void setTarget( final PhetPPath box, final NumberCardNode numberCardNode ) {
+    public void attachNumber( final PhetPPath box, final NumberCardNode numberCardNode ) {
         if ( box == topBox ) {
             topTarget = numberCardNode;
         }
@@ -115,6 +116,16 @@ public class FractionNode extends PNode {
         else {
             throw new RuntimeException( "No such box!" );
         }
+
+        //Move number node to our coordinate frame so it will translate, scale, animate and render with this node
+        final NumberNode numberNode = numberCardNode.numberNode;
+        Point2D location = numberNode.getGlobalTranslation();
+        location = globalToLocal( location );
+
+        numberNode.removeFromParent();
+        addChild( numberNode );
+
+        numberNode.setOffset( location );
         numberCardNode.setCardShapeVisible( false );
     }
 

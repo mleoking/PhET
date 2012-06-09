@@ -236,7 +236,8 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
         numberCardNode.setPickable( false );
         numberCardNode.setChildrenPickable( false );
         fractionGraphic.splitButton.setVisible( true );
-        fractionGraphic.setTarget( box, numberCardNode );
+        fractionGraphic.attachNumber( box, numberCardNode );
+        numberCardNode.removeFromParent();
         if ( fractionGraphic.isComplete() ) {
             model.addCreatedValue( fractionGraphic.getValue() );
 

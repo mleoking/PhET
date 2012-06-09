@@ -21,7 +21,6 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
-import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
@@ -73,12 +72,12 @@ public class FractionCardNode extends RichPNode {
                 for ( ScoreBoxNode scoreCell : scoreCells ) {
                     if ( fractionCard.getFullBounds().intersects( scoreCell.getFullBounds() ) && scoreCell.fraction.approxEquals( fractionGraphic.getValue() ) ) {
                         //Lock in target cell
-                        Point2D center = fractionCard.getFullBounds().getCenter2D();
                         Point2D targetCenter = scoreCell.getFullBounds().getCenter2D();
-                        Vector2D delta = new Vector2D( targetCenter, center );
-//                        fractionGraphic.translateAll( delta.toDimension() );
-                        fractionGraphic.animateAllToPosition( fractionGraphic.getOffset().getX() + delta.x, fractionGraphic.getOffset().getY() + delta.y, 200 );
-                        fractionCard.translate( delta.x, delta.y );
+                        final double scaleFactor = 0.75;
+                        fractionGraphic.animateToPositionScaleRotation( targetCenter.getX() - fractionGraphic.getFullBounds().getWidth() / 2 * scaleFactor + 15,
+                                                                        targetCenter.getY() - fractionGraphic.getFullBounds().getHeight() / 2 * scaleFactor + 10,
+                                                                        scaleFactor, 0, 200 );
+//                        fractionCard.translate( delta.x, delta.y );
 
                         fractionGraphic.splitButton.setVisible( false );
                         removeChild( fractionCard );
