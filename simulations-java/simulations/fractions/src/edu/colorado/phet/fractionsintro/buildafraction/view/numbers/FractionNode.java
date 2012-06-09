@@ -72,6 +72,9 @@ public class FractionNode extends RichPNode {
             @Override public void mousePressed( final PInputEvent event ) {
                 Option<Fraction> value = isComplete() ? Option.some( getValue() ) : Option.<Fraction>none();
 
+                Point2D topCardLocation = topCard != null ? topCard.getGlobalTranslation() : null;
+                Point2D bottomCardLocation = bottomCard != null ? bottomCard.getGlobalTranslation() : null;
+
                 if ( cardNode != null ) {
                     cardNode.split();
                     cardNode = null;
@@ -86,9 +89,11 @@ public class FractionNode extends RichPNode {
                     topCard.addNumberNodeBackIn( topNumberNode );
 
                     //fix offset
-                    Point2D location = topNumberNode.getGlobalTranslation();
-                    location = topCardParent.globalToLocal( location );
-                    topCard.setOffset( location );
+                    topCard.setGlobalTranslation( topCardLocation );
+
+                    topCard.setVisible( true );
+                    topCard.setPickable( true );
+                    topCard.setChildrenPickable( true );
 
                     topCard.animateHome();
                     topCard = null;
@@ -102,9 +107,11 @@ public class FractionNode extends RichPNode {
                     bottomCard.addNumberNodeBackIn( bottomNumberNode );
 
                     //fix offset
-                    Point2D location = bottomNumberNode.getGlobalTranslation();
-                    location = bottomCardParent.globalToLocal( location );
-                    bottomCard.setOffset( location );
+                    bottomCard.setGlobalTranslation( bottomCardLocation );
+
+                    bottomCard.setVisible( true );
+                    bottomCard.setPickable( true );
+                    bottomCard.setChildrenPickable( true );
 
                     bottomCard.animateHome();
                     bottomCard = null;
@@ -122,7 +129,8 @@ public class FractionNode extends RichPNode {
         dragRegion.addInputEventListener( new SimSharingDragHandler( null, true ) {
             @Override protected void drag( final PInputEvent event ) {
                 super.drag( event );
-                translateAll( event.getDeltaRelativeTo( event.getPickedNode().getParent() ) );
+                final PDimension delta = event.getDeltaRelativeTo( event.getPickedNode().getParent() );
+                translate( delta.getWidth(), delta.getHeight() );
             }
 
             @Override protected void endDrag( final PInputEvent event ) {
@@ -155,15 +163,23 @@ public class FractionNode extends RichPNode {
         }
 
         //Move number node to our coordinate frame so it will translate, scale, animate and render with this node
+
+        //We need a method that changes coordinate frames for a node
         final NumberNode numberNode = numberCardNode.numberNode;
         Point2D location = numberNode.getGlobalTranslation();
-        location = globalToLocal( location );
 
-        numberNode.removeFromParent();
         addChild( numberNode );
 
-        numberNode.setOffset( location );
-        numberCardNode.setCardShapeVisible( false );
+        Point2D cardLocation = numberCardNode.getGlobalTranslation();
+
+        addChild( numberCardNode );
+        numberCardNode.setGlobalTranslation( cardLocation );
+
+        numberCardNode.setVisible( false );
+        numberCardNode.setPickable( false );
+        numberCardNode.setChildrenPickable( false );
+
+        numberNode.setGlobalTranslation( location );
 
         numberNode.setPickable( false );
         numberNode.setChildrenPickable( false );
@@ -189,12 +205,6 @@ public class FractionNode extends RichPNode {
             double dy = bottomCard.getYOffset() - getYOffset();
             bottomCard.animateToPositionScaleRotation( x + dx, y + dy, 1.0, 0, time );
         }
-    }
-
-    public void translateAll( final PDimension delta ) {
-        translate( delta.getWidth(), delta.getHeight() );
-        if ( topCard != null ) { topCard.translate( delta.getWidth(), delta.getHeight() ); }
-        if ( bottomCard != null ) { bottomCard.translate( delta.getWidth(), delta.getHeight() ); }
     }
 
     //Ignore click events on everything except the "split" button, which appears over the card
