@@ -1,3 +1,4 @@
+Increased label font sizes
 # 0.00.41 (64769) Jun 7, 2012
 "Young Oceanic Crust" label appears in continental divergence case when there is room
 Fixed boundary-label overlay over subducting crust (or other intersection issues)

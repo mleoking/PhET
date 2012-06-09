@@ -3,12 +3,12 @@ package edu.colorado.phet.platetectonics.view.labels;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
+import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.labels.TextLabel;
 import edu.colorado.phet.platetectonics.view.ColorMode;
@@ -42,7 +42,7 @@ public class TextLabelNode extends BaseLabelNode {
         requireEnabled( GL_BLEND );
 
         labelNode = new ThreadedPlanarPiccoloNode( new PText( textLabel.label ) {{
-            setFont( new PhetFont( 14 ) );
+            setFont( PlateTectonicsConstants.LABEL_FONT );
             scale( PIXEL_SCALE );
             colorMode.addObserver( new SimpleObserver() {
                 public void update() {
