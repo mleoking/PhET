@@ -35,7 +35,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class FractionCardNode extends RichPNode {
     private final NumberSceneNode numberSceneNode;
 
-    public FractionCardNode( final FractionGraphic fractionGraphic, final PNode rootNode, final List<Pair> pairList, final BuildAFractionModel model, final NumberSceneNode numberSceneNode ) {
+    public FractionCardNode( final FractionNode fractionGraphic, final PNode rootNode, final List<Pair> pairList, final BuildAFractionModel model, final NumberSceneNode numberSceneNode ) {
         this.numberSceneNode = numberSceneNode;
 
         //create an overlay that allows dragging all parts together
@@ -92,8 +92,8 @@ public class FractionCardNode extends RichPNode {
 
                             //If no fraction skeleton in play area, move one there
                             if ( numberSceneNode.allIncompleteFractionsInToolbox() ) {
-                                FractionGraphic g = null;
-                                for ( FractionGraphic graphic : numberSceneNode.fractionGraphics ) {
+                                FractionNode g = null;
+                                for ( FractionNode graphic : numberSceneNode.fractionGraphics ) {
                                     if ( graphic.isInToolboxPosition() ) {
                                         g = graphic;
                                     }

@@ -36,7 +36,7 @@ public class ScoreBoxNode extends PNode {
     private boolean completed;
     private PInterpolatingActivity activity;
     private final PImage splitButton;
-    private FractionGraphic fractionGraphic;
+    private FractionNode fractionGraphic;
 
     public ScoreBoxNode( final int numerator, final int denominator, final Property<List<Fraction>> matches ) {
         this.path = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 120, 120, 30, 30 ), CONTROL_PANEL_BACKGROUND, controlPanelStroke, Color.darkGray ) {{
@@ -103,7 +103,7 @@ public class ScoreBoxNode extends PNode {
         addChild( splitButton );
     }
 
-    public void setCompletedFraction( FractionGraphic fractionGraphic ) {
+    public void setCompletedFraction( FractionNode fractionGraphic ) {
         this.fractionGraphic = fractionGraphic;
         path.setStrokePaint( Color.darkGray );
         this.completed = true;
