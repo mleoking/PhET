@@ -33,14 +33,19 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class FractionCardNode extends RichPNode {
     private final NumberSceneNode numberSceneNode;
+    private final FractionNode fractionNode;
+    private final PNode fractionNodeParent;
 
-    public FractionCardNode( final FractionNode fractionGraphic, final PNode rootNode, final List<Pair> pairList, final BuildAFractionModel model, final NumberSceneNode numberSceneNode ) {
+    public FractionCardNode( final FractionNode fractionNode, final PNode rootNode, final List<Pair> pairList, final BuildAFractionModel model, final NumberSceneNode numberSceneNode ) {
         this.numberSceneNode = numberSceneNode;
+        this.fractionNode = fractionNode;
+        this.fractionNode.setCardNode( this );
+        this.fractionNodeParent = fractionNode.getParent();
 
         //create an overlay that allows dragging all parts together
-        PBounds topBounds = fractionGraphic.getTopNumber().getFullBounds();
-        PBounds bottomBounds = fractionGraphic.getBottomNumber().getFullBounds();
-        Rectangle2D divisorBounds = fractionGraphic.localToParent( fractionGraphic.divisorLine.getFullBounds() );
+        PBounds topBounds = fractionNode.getTopNumber().getFullBounds();
+        PBounds bottomBounds = fractionNode.getBottomNumber().getFullBounds();
+        Rectangle2D divisorBounds = fractionNode.localToParent( fractionNode.divisorLine.getFullBounds() );
         Rectangle2D union = topBounds.createUnion( bottomBounds ).createUnion( divisorBounds );
 
         //For debugging, show a yellow border
@@ -54,8 +59,7 @@ public class FractionCardNode extends RichPNode {
             @Override protected void drag( final PInputEvent event ) {
                 super.drag( event );
                 final PDimension delta = event.getDeltaRelativeTo( rootNode );
-                fractionGraphic.translateAll( delta );
-                fractionCard.translate( delta.getWidth(), delta.getHeight() );
+                translate( delta.width, delta.height );
             }
 
             @Override protected void endDrag( final PInputEvent event ) {
@@ -70,19 +74,19 @@ public class FractionCardNode extends RichPNode {
                 } );
                 boolean locked = false;
                 for ( ScoreBoxNode scoreCell : scoreCells ) {
-                    if ( fractionCard.getFullBounds().intersects( scoreCell.getFullBounds() ) && scoreCell.fraction.approxEquals( fractionGraphic.getValue() ) ) {
+                    if ( fractionCard.getFullBounds().intersects( scoreCell.getFullBounds() ) && scoreCell.fraction.approxEquals( fractionNode.getValue() ) ) {
                         //Lock in target cell
                         Point2D targetCenter = scoreCell.getFullBounds().getCenter2D();
                         final double scaleFactor = 0.75;
-                        fractionGraphic.animateToPositionScaleRotation( targetCenter.getX() - fractionGraphic.getFullBounds().getWidth() / 2 * scaleFactor + 15,
-                                                                        targetCenter.getY() - fractionGraphic.getFullBounds().getHeight() / 2 * scaleFactor + 10,
-                                                                        scaleFactor, 0, 200 );
+                        fractionNode.animateToPositionScaleRotation( targetCenter.getX() - fractionNode.getFullBounds().getWidth() / 2 * scaleFactor + 15,
+                                                                     targetCenter.getY() - fractionNode.getFullBounds().getHeight() / 2 * scaleFactor + 10,
+                                                                     scaleFactor, 0, 200 );
 
-                        fractionGraphic.splitButton.setVisible( false );
+                        fractionNode.splitButton.setVisible( false );
                         removeChild( fractionCard );
-                        fractionGraphic.setDragRegionPickable( false );
+                        fractionNode.setDragRegionPickable( false );
 
-                        scoreCell.setCompletedFraction( fractionGraphic );
+                        scoreCell.setCompletedFraction( fractionNode );
                         locked = true;
 
                         //Add a new fraction skeleton when the previous one is completed
@@ -97,7 +101,7 @@ public class FractionCardNode extends RichPNode {
                                     }
                                 }
                                 if ( g != null ) {
-                                    g.animateToPositionScaleRotation( numberSceneNode.toolboxNode.getCenterX() - fractionGraphic.getFullBounds().getWidth() / 2, 300, 1, 0, 1000 );
+                                    g.animateToPositionScaleRotation( numberSceneNode.toolboxNode.getCenterX() - fractionNode.getFullBounds().getWidth() / 2, 300, 1, 0, 1000 );
                                 }
                             }
                         }
@@ -125,13 +129,13 @@ public class FractionCardNode extends RichPNode {
                         }
                     }
                     if ( hitWrongOne ) {
-                        fractionGraphic.animateAllToPosition( 300, 300, 1000 );
+                        fractionNode.animateAllToPosition( 300, 300, 1000 );
                     }
                 }
             }
         } );
-        fractionGraphic.setDragRegionPickable( false );
-        fractionGraphic.addSplitListener( new VoidFunction1<Option<Fraction>>() {
+        fractionNode.setDragRegionPickable( false );
+        fractionNode.addSplitListener( new VoidFunction1<Option<Fraction>>() {
             public void apply( final Option<Fraction> fractions ) {
                 removeChild( fractionCard );
                 if ( fractions.isSome() ) {
@@ -141,6 +145,16 @@ public class FractionCardNode extends RichPNode {
         } );
 
         addChild( fractionCard );
+
+        Point2D location = fractionNode.getGlobalTranslation();
+        location = globalToLocal( location );
+
+        fractionNode.removeFromParent();
+        fractionNode.setOffset( location );
+
+        //I Don't know why this offset is necessary; couldn't figure it out.
+        fractionNode.translate( 0, -15 );
+        addChild( fractionNode );
     }
 
     private boolean allTargetsComplete() {
@@ -155,4 +169,12 @@ public class FractionCardNode extends RichPNode {
         } ).length() == numberSceneNode.pairList.length();
     }
 
+
+    public void split() {
+        Point2D location = fractionNode.getGlobalTranslation();
+        location = fractionNodeParent.globalToLocal( location );
+        fractionNode.removeFromParent();
+        fractionNodeParent.addChild( fractionNode );
+        fractionNode.setOffset( location );
+    }
 }
