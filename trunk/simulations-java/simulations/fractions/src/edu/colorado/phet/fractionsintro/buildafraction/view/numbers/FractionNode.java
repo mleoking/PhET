@@ -40,16 +40,16 @@ public class FractionNode extends RichPNode {
     public final PhetPPath bottomBox;
     public final PhetPPath divisorLine;
     public final PImage splitButton;
-    private NumberCardNode topTarget;
-    private NumberCardNode bottomTarget;
+    private NumberCardNode topCard;
+    private NumberCardNode bottomCard;
     private ArrayList<VoidFunction1<Option<Fraction>>> splitListeners = new ArrayList<VoidFunction1<Option<Fraction>>>();
     public double toolboxPositionX;
     public double toolboxPositionY;
     private final RichPNode dragRegion;
-    private PNode topTargetParent;
-    private PNode bottomTargetParent;
-    private NumberNode topTargetNumberNode;
-    private NumberNode bottomTargetNumberNode;
+    private PNode topCardParent;
+    private PNode bottomCardParent;
+    private NumberNode topNumberNode;
+    private NumberNode bottomNumberNode;
     private FractionCardNode cardNode;
 
     public FractionNode( final FractionDraggingContext context ) {
@@ -77,39 +77,37 @@ public class FractionNode extends RichPNode {
                     cardNode = null;
                 }
                 //TODO simsharing message
-                if ( topTarget != null ) {
-                    topTarget.animateHome();
-                    topTarget.setCardShapeVisible( true );
-                    topTarget.setAllPickable( true );
+                if ( topCard != null ) {
+                    topCard.setCardShapeVisible( true );
+                    topCard.setAllPickable( true );
                     topBox.setVisible( true );
 
-                    topTargetParent.addChild( topTarget );
-                    topTarget.addNumberNodeBackIn( topTargetNumberNode );
+                    topCardParent.addChild( topCard );
+                    topCard.addNumberNodeBackIn( topNumberNode );
 
                     //fix offset
-                    Point2D location = topTargetNumberNode.getGlobalTranslation();
-                    location = topTargetParent.globalToLocal( location );
-                    topTarget.setOffset( location );
+                    Point2D location = topNumberNode.getGlobalTranslation();
+                    location = topCardParent.globalToLocal( location );
+                    topCard.setOffset( location );
 
-                    topTarget.animateHome();
-                    topTarget = null;
+                    topCard.animateHome();
+                    topCard = null;
                 }
-                if ( bottomTarget != null ) {
-                    bottomTarget.animateHome();
-                    bottomTarget.setCardShapeVisible( true );
-                    bottomTarget.setAllPickable( true );
+                if ( bottomCard != null ) {
+                    bottomCard.setCardShapeVisible( true );
+                    bottomCard.setAllPickable( true );
                     bottomBox.setVisible( true );
 
-                    bottomTargetParent.addChild( bottomTarget );
-                    bottomTarget.addNumberNodeBackIn( bottomTargetNumberNode );
+                    bottomCardParent.addChild( bottomCard );
+                    bottomCard.addNumberNodeBackIn( bottomNumberNode );
 
                     //fix offset
-                    Point2D location = bottomTargetNumberNode.getGlobalTranslation();
-                    location = bottomTargetParent.globalToLocal( location );
-                    bottomTarget.setOffset( location );
+                    Point2D location = bottomNumberNode.getGlobalTranslation();
+                    location = bottomCardParent.globalToLocal( location );
+                    bottomCard.setOffset( location );
 
-                    bottomTarget.animateHome();
-                    bottomTarget = null;
+                    bottomCard.animateHome();
+                    bottomCard = null;
                 }
                 splitButton.setVisible( false );
                 for ( VoidFunction1<Option<Fraction>> splitListener : splitListeners ) {
@@ -140,17 +138,17 @@ public class FractionNode extends RichPNode {
 
     public void attachNumber( final PhetPPath box, final NumberCardNode numberCardNode ) {
         if ( box == topBox ) {
-            topTarget = numberCardNode;
+            topCard = numberCardNode;
 
             //Store the parent so it can be reparented on split
-            topTargetParent = numberCardNode.getParent();
-            topTargetNumberNode = numberCardNode.numberNode;
+            topCardParent = numberCardNode.getParent();
+            topNumberNode = numberCardNode.numberNode;
         }
         else if ( box == bottomBox ) {
-            bottomTarget = numberCardNode;
+            bottomCard = numberCardNode;
 
-            bottomTargetParent = numberCardNode.getParent();
-            bottomTargetNumberNode = numberCardNode.numberNode;
+            bottomCardParent = numberCardNode.getParent();
+            bottomNumberNode = numberCardNode.numberNode;
         }
         else {
             throw new RuntimeException( "No such box!" );
@@ -171,32 +169,32 @@ public class FractionNode extends RichPNode {
         numberNode.setChildrenPickable( false );
     }
 
-    public boolean isComplete() { return topTarget != null && bottomTarget != null; }
+    public boolean isComplete() { return topCard != null && bottomCard != null; }
 
-    public Fraction getValue() { return new Fraction( topTarget.number, bottomTarget.number ); }
+    public Fraction getValue() { return new Fraction( topCard.number, bottomCard.number ); }
 
-    public PNode getTopNumber() {return topTarget;}
+    public PNode getTopNumber() {return topCard;}
 
-    public PNode getBottomNumber() {return bottomTarget;}
+    public PNode getBottomNumber() {return bottomCard;}
 
     public void animateAllToPosition( double x, double y, long time ) {
         animateToPositionScaleRotation( x, y, 1.0, 0, time );
-        if ( topTarget != null ) {
-            double dx = topTarget.getXOffset() - getXOffset();
-            double dy = topTarget.getYOffset() - getYOffset();
-            topTarget.animateToPositionScaleRotation( x + dx, y + dy, 1.0, 0, time );
+        if ( topCard != null ) {
+            double dx = topCard.getXOffset() - getXOffset();
+            double dy = topCard.getYOffset() - getYOffset();
+            topCard.animateToPositionScaleRotation( x + dx, y + dy, 1.0, 0, time );
         }
-        if ( bottomTarget != null ) {
-            double dx = bottomTarget.getXOffset() - getXOffset();
-            double dy = bottomTarget.getYOffset() - getYOffset();
-            bottomTarget.animateToPositionScaleRotation( x + dx, y + dy, 1.0, 0, time );
+        if ( bottomCard != null ) {
+            double dx = bottomCard.getXOffset() - getXOffset();
+            double dy = bottomCard.getYOffset() - getYOffset();
+            bottomCard.animateToPositionScaleRotation( x + dx, y + dy, 1.0, 0, time );
         }
     }
 
     public void translateAll( final PDimension delta ) {
         translate( delta.getWidth(), delta.getHeight() );
-        if ( topTarget != null ) { topTarget.translate( delta.getWidth(), delta.getHeight() ); }
-        if ( bottomTarget != null ) { bottomTarget.translate( delta.getWidth(), delta.getHeight() ); }
+        if ( topCard != null ) { topCard.translate( delta.getWidth(), delta.getHeight() ); }
+        if ( bottomCard != null ) { bottomCard.translate( delta.getWidth(), delta.getHeight() ); }
     }
 
     //Ignore click events on everything except the "split" button, which appears over the card
