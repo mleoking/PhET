@@ -190,11 +190,15 @@ public class FractionNode extends PNode {
         if ( bottomTarget != null ) { bottomTarget.translate( delta.getWidth(), delta.getHeight() ); }
     }
 
+    //Ignore click events on everything except the "split" button, which appears over the card
     public void setDragRegionPickable( final boolean b ) {
-        dragRegion.setPickable( b );
-        dragRegion.setChildrenPickable( b );
-//        if ( topTarget != null ) { topTarget.setAllPickable( b );}
-//        if ( bottomTarget != null ) { bottomTarget.setAllPickable( b );}
+        for ( Object child : getChildrenReference() ) {
+            PNode node = (PNode) child;
+            if ( node != splitButton ) {
+                node.setPickable( b );
+                node.setChildrenPickable( b );
+            }
+        }
     }
 
     public void addSplitListener( final VoidFunction1<Option<Fraction>> listener ) { splitListeners.add( listener ); }
