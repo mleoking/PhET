@@ -71,6 +71,11 @@ public class FractionNode extends RichPNode {
         splitButton.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( final PInputEvent event ) {
                 Option<Fraction> value = isComplete() ? Option.some( getValue() ) : Option.<Fraction>none();
+
+                if ( cardNode != null ) {
+                    cardNode.split();
+                    cardNode = null;
+                }
                 //TODO simsharing message
                 if ( topTarget != null ) {
                     topTarget.animateHome();
@@ -107,10 +112,6 @@ public class FractionNode extends RichPNode {
                     bottomTarget = null;
                 }
                 splitButton.setVisible( false );
-                if ( cardNode != null ) {
-                    cardNode.split();
-                    cardNode = null;
-                }
                 for ( VoidFunction1<Option<Fraction>> splitListener : splitListeners ) {
                     splitListener.apply( value );
                 }
@@ -165,6 +166,9 @@ public class FractionNode extends RichPNode {
 
         numberNode.setOffset( location );
         numberCardNode.setCardShapeVisible( false );
+
+        numberNode.setPickable( false );
+        numberNode.setChildrenPickable( false );
     }
 
     public boolean isComplete() { return topTarget != null && bottomTarget != null; }
