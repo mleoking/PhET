@@ -24,6 +24,7 @@ public class FieldModel {
     private var vX:Number;          //x-component of charge velocity
     private var vY:Number;          //y-component of charge velocity
     private var v:Number;           //speed of charge
+    private var gamma:Number;       //gamma factor
     private var fX:Number;         //x-component of force on charge
     private var fY:Number;         //y-component of force on charge
     private var k:Number;           //spring constant of spring between charge and mouse
@@ -52,11 +53,14 @@ public class FieldModel {
         this.stageW = this.myMainView.stageW;
         this.stageH = this.myMainView.stageH;
         this.c = this.stageW/8;    //8 seconds to cross height of stage
-        this.k = 1;
+        this.k = 3;
         this.m = 1;
         this.vX = 0;
         this.vY = 0;
+        this.fX = 0;
+        this.fY = 0;
         this.v = Math.sqrt( vX*vX + vY*vY );
+        this.gamma = 1/Math.sqrt( 1 - this.v/this.c );
         this._nbrLines = 20;
         this._nbrPhotonsPerLine = 100;
         this.cos_arr = new Array( this._nbrLines );
@@ -99,6 +103,10 @@ public class FieldModel {
     
     public function get nbrPhotonsPerLine():int{
         return this._nbrPhotonsPerLine
+    }
+
+    public function getDT():Number{
+        return this.dt;
     }
 
     public function get fieldLine_arr():Array{
@@ -160,22 +168,30 @@ public class FieldModel {
 
     private function moveCharge():void{
         var beta:Number = this.v/this.c;
-        var gamma:Number = 1/Math.sqrt( 1 - beta*beta );
-        _xC += vX*dt + (fX/m)*dt;
-        _yC += vY*dt + (fY/m)*dt;
+        this.gamma = 1/Math.sqrt( 1 - beta*beta );
+        _xC += vX*dt + 0.5*(fX/m)*dt*dt;
+        _yC += vY*dt + 0.5*(fY/m)*dt*dt;
         var g3:Number = Math.pow( gamma, 3 );
         vX += fX*dt/( m*g3 );
         vY += fY*dt/( m*g3 );
         v = Math.sqrt( vX*vX + vY*vY );
-    }
+        if( v > c ){
+            while( v >= c ){
+                trace( "error: v > c, beta = " + this.v/this.c );
+                vX = 0.99*vX*c/v;
+                vY = 0.99*vY*c/v;
+                v = Math.sqrt( vX*vX + vY*vY );
+            }
+        }
+    }//end moveCharge()
     
     //this algorithm is incorrect.
     private function stepForward( evt: TimerEvent ):void{
         this._t += this.dt;
-//        if( this._t > this._tLastPhoton + this.delTPhoton ){
-//            this._tLastPhoton = this._t;
-//            this.emitPhotons();
-//        }
+        if( this._t > this._tLastPhoton + this.delTPhoton ){
+            this._tLastPhoton = this._t;
+            this.emitPhotons();
+        }
 //        for( var i:int = 0; i < this._nbrLines; i++ ){
 //            for( var j:int = 0; j < this._nbrPhotonsPerLine; j++ ){
 //                this._fieldLine_arr[i][j][0] += this.cos_arr[i]*this.c*this.dt; //this._xC + this.cos_arr[i]*j*this.stageW/(2*this._nbrPhotonsPerLine );
@@ -190,17 +206,14 @@ public class FieldModel {
 
     private function emitPhotons():void{
         //add new photon to 1st element of photon array
-        //var newPhoton:Array = new Array( 2 );
-        //newPhoton[0] = this._xC;
-        //newPhoton[1]  = this._yC;
-        for( var i:int = 0; i < this._nbrLines; i++ ){
-            var newPhoton:Array = new Array( this._xC,  this._yC );
-            this._fieldLine_arr[i].unshift( newPhoton );
-           // var indexLast:int = this._fieldLine_arr.length;
-            this._fieldLine_arr[i].splice( this.nbrPhotonsPerLine );
-        }
+//        for( var i:int = 0; i < this._nbrLines; i++ ){
+//            var newPhoton:Array = new Array( this._xC,  this._yC );
+//            this._fieldLine_arr[i].unshift( newPhoton );
+//           // var indexLast:int = this._fieldLine_arr.length;
+//            this._fieldLine_arr[i].splice( this.nbrPhotonsPerLine );
+//        }
 
-        //trace("time = "+this._t+"    FieldModel.emitPhotons called");
+        trace("FieldModel.emitPhotons:  beta = " + this.v/this.c + "    gamma = " + this.gamma);
 
     }//end emitPhotons()
     
