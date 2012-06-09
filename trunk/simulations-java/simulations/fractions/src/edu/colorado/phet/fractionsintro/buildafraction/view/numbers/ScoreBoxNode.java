@@ -95,7 +95,7 @@ public class ScoreBoxNode extends PNode {
                 splitButton.setChildrenPickable( false );
                 fractionGraphic.animateAllToPosition( 300, 300, 1000 );
                 fractionGraphic.splitButton.setVisible( true );
-                fractionGraphic.setAllPickable( true );
+                fractionGraphic.setDragRegionPickable( true );
                 fractionGraphic = null;
             }
         } );

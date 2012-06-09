@@ -45,6 +45,11 @@ public class FractionNode extends PNode {
     private ArrayList<VoidFunction1<Option<Fraction>>> splitListeners = new ArrayList<VoidFunction1<Option<Fraction>>>();
     public double toolboxPositionX;
     public double toolboxPositionY;
+    private final RichPNode dragRegion;
+    private PNode topTargetParent;
+    private PNode bottomTargetParent;
+    private NumberNode topTargetNumberNode;
+    private NumberNode bottomTargetNumberNode;
 
     public FractionNode( final FractionDraggingContext context ) {
         topBox = box( true );
@@ -55,7 +60,8 @@ public class FractionNode extends PNode {
         final VBox box = new VBox( topBox, divisorLine, bottomBox );
 
         //Show a background behind it to make the entire shape draggable
-        addChild( new RichPNode( new PhetPPath( RectangleUtils.expand( box.getFullBounds(), 5, 5 ), BuildAFractionCanvas.TRANSPARENT ), box ) );
+        dragRegion = new RichPNode( new PhetPPath( RectangleUtils.expand( box.getFullBounds(), 5, 5 ), new Color( 200, 200, 200, 200 ) ), box );
+        addChild( dragRegion );
 
         Rectangle2D bounds = divisorLine.getFullBounds();
         bounds = box.localToParent( bounds );
@@ -69,15 +75,35 @@ public class FractionNode extends PNode {
                     topTarget.animateHome();
                     topTarget.setCardShapeVisible( true );
                     topTarget.setAllPickable( true );
-                    topTarget = null;
                     topBox.setVisible( true );
+
+                    topTargetParent.addChild( topTarget );
+                    topTarget.addNumberNodeBackIn( topTargetNumberNode );
+
+                    //fix offset
+                    Point2D location = topTargetNumberNode.getGlobalTranslation();
+                    location = topTargetParent.globalToLocal( location );
+                    topTarget.setOffset( location );
+
+                    topTarget.animateHome();
+                    topTarget = null;
                 }
                 if ( bottomTarget != null ) {
                     bottomTarget.animateHome();
                     bottomTarget.setCardShapeVisible( true );
                     bottomTarget.setAllPickable( true );
-                    bottomTarget = null;
                     bottomBox.setVisible( true );
+
+                    bottomTargetParent.addChild( bottomTarget );
+                    bottomTarget.addNumberNodeBackIn( bottomTargetNumberNode );
+
+                    //fix offset
+                    Point2D location = bottomTargetNumberNode.getGlobalTranslation();
+                    location = bottomTargetParent.globalToLocal( location );
+                    bottomTarget.setOffset( location );
+
+                    bottomTarget.animateHome();
+                    bottomTarget = null;
                 }
                 splitButton.setVisible( false );
                 for ( VoidFunction1<Option<Fraction>> splitListener : splitListeners ) {
@@ -88,8 +114,8 @@ public class FractionNode extends PNode {
         splitButton.setVisible( false );
         addChild( splitButton );
 
-        addInputEventListener( new CursorHandler() );
-        addInputEventListener( new SimSharingDragHandler( null, true ) {
+        dragRegion.addInputEventListener( new CursorHandler() );
+        dragRegion.addInputEventListener( new SimSharingDragHandler( null, true ) {
             @Override protected void drag( final PInputEvent event ) {
                 super.drag( event );
                 translateAll( event.getDeltaRelativeTo( event.getPickedNode().getParent() ) );
@@ -109,9 +135,16 @@ public class FractionNode extends PNode {
     public void attachNumber( final PhetPPath box, final NumberCardNode numberCardNode ) {
         if ( box == topBox ) {
             topTarget = numberCardNode;
+
+            //Store the parent so it can be reparented on split
+            topTargetParent = numberCardNode.getParent();
+            topTargetNumberNode = numberCardNode.numberNode;
         }
         else if ( box == bottomBox ) {
             bottomTarget = numberCardNode;
+
+            bottomTargetParent = numberCardNode.getParent();
+            bottomTargetNumberNode = numberCardNode.numberNode;
         }
         else {
             throw new RuntimeException( "No such box!" );
@@ -157,11 +190,11 @@ public class FractionNode extends PNode {
         if ( bottomTarget != null ) { bottomTarget.translate( delta.getWidth(), delta.getHeight() ); }
     }
 
-    public void setAllPickable( final boolean b ) {
-        setPickable( b );
-        setChildrenPickable( b );
-        if ( topTarget != null ) { topTarget.setAllPickable( b );}
-        if ( bottomTarget != null ) { bottomTarget.setAllPickable( b );}
+    public void setDragRegionPickable( final boolean b ) {
+        dragRegion.setPickable( b );
+        dragRegion.setChildrenPickable( b );
+//        if ( topTarget != null ) { topTarget.setAllPickable( b );}
+//        if ( bottomTarget != null ) { bottomTarget.setAllPickable( b );}
     }
 
     public void addSplitListener( final VoidFunction1<Option<Fraction>> listener ) { splitListeners.add( listener ); }
