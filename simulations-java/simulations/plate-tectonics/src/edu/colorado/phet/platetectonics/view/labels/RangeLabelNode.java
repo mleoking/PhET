@@ -5,7 +5,6 @@ import java.awt.geom.AffineTransform;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
@@ -13,6 +12,7 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
+import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
 import edu.colorado.phet.platetectonics.view.ColorMode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -82,7 +82,7 @@ public class RangeLabelNode extends BaseLabelNode {
         this.scale = scale;
 
         labelPNode = new PText( label ) {{
-            setFont( new PhetFont( 14 ) );
+            setFont( PlateTectonicsConstants.LABEL_FONT );
             scale( PIXEL_SCALE );
             colorMode.addObserver( new SimpleObserver() {
                 public void update() {

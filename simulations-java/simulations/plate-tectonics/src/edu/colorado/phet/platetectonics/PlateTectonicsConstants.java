@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.platetectonics;
 
-import java.awt.Color;
+import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -19,6 +19,10 @@ public class PlateTectonicsConstants {
     private PlateTectonicsConstants() {
     }
 
+    /*---------------------------------------------------------------------------*
+    * colors
+    *----------------------------------------------------------------------------*/
+
     // colors for different motion directions
     public static final Color ARROW_CONVERGENT_FILL = new Color( 0, 0.8f, 0, 0.8f );
     public static final Color ARROW_DIVERGENT_FILL = new Color( 0.8f, 0, 0, 0.8f );
@@ -30,5 +34,11 @@ public class PlateTectonicsConstants {
     public static final Color DARK_LABEL = Color.BLACK;
     public static final Color LIGHT_LABEL = new Color( 0.9f, 0.9f, 0.9f, 1 );
 
+    /*---------------------------------------------------------------------------*
+    * fonts
+    *----------------------------------------------------------------------------*/
+
     public static final PhetFont PANEL_TITLE_FONT = new PhetFont( 13, true );
+
+    public static final PhetFont LABEL_FONT = new PhetFont( 18 );
 }
