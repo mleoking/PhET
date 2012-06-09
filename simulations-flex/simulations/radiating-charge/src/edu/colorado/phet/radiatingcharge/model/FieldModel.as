@@ -27,6 +27,7 @@ public class FieldModel {
     private var fX:Number;         //x-component of force on charge
     private var fY:Number;         //y-component of force on charge
     private var k:Number;           //spring constant of spring between charge and mouse
+    private var m:Number;           //mass of charge
     private var _nbrLines:int;       //number of field lines coming from charge
     private var _nbrPhotonsPerLine:int //number of photons in a given field line
     private var cos_arr:Array;      //cosines of angles of the rays, CCW from horizontal, angle must be in radians
@@ -52,6 +53,7 @@ public class FieldModel {
         this.stageH = this.myMainView.stageH;
         this.c = this.stageW/8;    //8 seconds to cross height of stage
         this.k = 1;
+        this.m = 1;
         this.vX = 0;
         this.vY = 0;
         this.v = Math.sqrt( vX*vX + vY*vY );
@@ -86,7 +88,7 @@ public class FieldModel {
         this.tRate = 1;
         this.msTimer = new Timer( this.dt * 1000 );   //argument of Timer constructor is time step in ms
         this.msTimer.addEventListener( TimerEvent.TIMER, stepForward );
-        this.initializeFieldLines();
+        //this.initializeFieldLines();
         this.updateViews();
         this.startRadiation();
     }
@@ -114,25 +116,25 @@ public class FieldModel {
     public function get yC():Number{
         return this._yC;
     }
-
-    public function set xC(xPos:Number):void{
-        this._xC = xPos;
-    }
-
-    public function set yC(yPos:Number):void{
-        this._yC = yPos;
-    }
-
-    public function setXY( xPos:Number, yPos:Number ):void{
-        this._xC = xPos;
-        this._yC = yPos;
-        this.updateViews();
-    }
+//
+//    public function set _xC(xPos:Number):void{
+//        this._xC = xPos;
+//    }
+//
+//    public function set _yC(yPos:Number):void{
+//        this._yC = yPos;
+//    }
+//
+//    public function setXY( xPos:Number, yPos:Number ):void{
+//        this._xC = xPos;
+//        this._yC = yPos;
+//        this.updateViews();
+//    }
     
     public function setForce( delX:Number, delY:Number ):void{
         this.fX = this.k*delX;
         this.fY = this.k*delY;
-        this.moveCharge();
+        //this.moveCharge();
     }
 
     public function registerView( view: Object ): void {
@@ -159,22 +161,28 @@ public class FieldModel {
     private function moveCharge():void{
         var beta:Number = this.v/this.c;
         var gamma:Number = 1/Math.sqrt( 1 - beta*beta );
-
+        _xC += vX*dt + (fX/m)*dt;
+        _yC += vY*dt + (fY/m)*dt;
+        var g3:Number = Math.pow( gamma, 3 );
+        vX += fX*dt/( m*g3 );
+        vY += fY*dt/( m*g3 );
+        v = Math.sqrt( vX*vX + vY*vY );
     }
     
     //this algorithm is incorrect.
     private function stepForward( evt: TimerEvent ):void{
         this._t += this.dt;
-        if( this._t > this._tLastPhoton + this.delTPhoton ){
-            this._tLastPhoton = this._t;
-            this.emitPhotons();
-        }
-        for( var i:int = 0; i < this._nbrLines; i++ ){
-            for( var j:int = 0; j < this._nbrPhotonsPerLine; j++ ){
-                this._fieldLine_arr[i][j][0] += this.cos_arr[i]*this.c*this.dt; //this._xC + this.cos_arr[i]*j*this.stageW/(2*this._nbrPhotonsPerLine );
-                this._fieldLine_arr[i][j][1] += this.sin_arr[i]*this.c*this.dt; //this._yC + this.sin_arr[i]*j*this.stageW/(2*this._nbrPhotonsPerLine );
-            }
-        }
+//        if( this._t > this._tLastPhoton + this.delTPhoton ){
+//            this._tLastPhoton = this._t;
+//            this.emitPhotons();
+//        }
+//        for( var i:int = 0; i < this._nbrLines; i++ ){
+//            for( var j:int = 0; j < this._nbrPhotonsPerLine; j++ ){
+//                this._fieldLine_arr[i][j][0] += this.cos_arr[i]*this.c*this.dt; //this._xC + this.cos_arr[i]*j*this.stageW/(2*this._nbrPhotonsPerLine );
+//                this._fieldLine_arr[i][j][1] += this.sin_arr[i]*this.c*this.dt; //this._yC + this.sin_arr[i]*j*this.stageW/(2*this._nbrPhotonsPerLine );
+//            }
+//        }
+        this.moveCharge();
         this.updateViews();
         //trace("FieldModel._xC: "+this._xC) ;
         //evt.updateAfterEvent();
