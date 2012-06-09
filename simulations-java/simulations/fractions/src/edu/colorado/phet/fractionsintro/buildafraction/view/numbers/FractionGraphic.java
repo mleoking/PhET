@@ -126,17 +126,17 @@ public class FractionGraphic extends PNode {
 
     public PNode getBottomNumber() {return bottomTarget;}
 
-    public void animateAllToPosition( double x, double y ) {
-        animateToPositionScaleRotation( x, y, 1, 0, 1000 );
+    public void animateAllToPosition( double x, double y, long time ) {
+        animateToPositionScaleRotation( x, y, 1.0, 0, time );
         if ( topTarget != null ) {
             double dx = topTarget.getXOffset() - getXOffset();
             double dy = topTarget.getYOffset() - getYOffset();
-            topTarget.animateToPositionScaleRotation( x + dx, y + dy, 1, 0, 1000 );
+            topTarget.animateToPositionScaleRotation( x + dx, y + dy, 1.0, 0, time );
         }
         if ( bottomTarget != null ) {
             double dx = bottomTarget.getXOffset() - getXOffset();
             double dy = bottomTarget.getYOffset() - getYOffset();
-            bottomTarget.animateToPositionScaleRotation( x + dx, y + dy, 1, 0, 1000 );
+            bottomTarget.animateToPositionScaleRotation( x + dx, y + dy, 1.0, 0, time );
         }
     }
 

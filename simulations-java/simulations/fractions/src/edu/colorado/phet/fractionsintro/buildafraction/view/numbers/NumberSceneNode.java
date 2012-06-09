@@ -49,7 +49,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
 
         //if fraction graphic overlaps the toolbox when dropped, animate back to the toolbox position.
         if ( toolboxNode.getGlobalFullBounds().intersects( fractionGraphic.getGlobalFullBounds() ) ) {
-            fractionGraphic.animateAllToPosition( fractionGraphic.getToolboxPositionX(), fractionGraphic.getToolboxPositionY() );
+            fractionGraphic.animateAllToPosition( fractionGraphic.getToolboxPositionX(), fractionGraphic.getToolboxPositionY(), 1000 );
         }
     }
 
