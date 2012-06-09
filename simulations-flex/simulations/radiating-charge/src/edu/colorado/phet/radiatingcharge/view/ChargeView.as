@@ -9,10 +9,11 @@ package edu.colorado.phet.radiatingcharge.view {
 import edu.colorado.phet.radiatingcharge.model.FieldModel;
 
 import flash.display.Graphics;
-
 import flash.display.Sprite;
 import flash.events.MouseEvent;
-import flash.geom.Point;
+import flash.events.TimerEvent;
+import flash.events.TimerEvent;
+import flash.utils.Timer;
 
 public class ChargeView extends Sprite {
 
@@ -25,6 +26,8 @@ public class ChargeView extends Sprite {
     private var stageH: int;
     private var delX:Number;        //x-component of displacement between charge and mouse (spring end)
     private var delY:Number;        //y-component of displacement between charge and mouse (spring end)
+    private var dt:Number;          //time step, in seconds
+    private var springTimer:Timer;  //spring timer
 
     public function ChargeView( myMainView:MainView, myFieldModel:FieldModel) {
         this.myMainView = myMainView;
@@ -36,6 +39,8 @@ public class ChargeView extends Sprite {
         this.springGraphic = new Sprite();
         this.delX = 0;
         this.delY = 0;
+        this.dt = this.myFieldModel.getDT();
+        this.springTimer = new Timer( this.dt * 1000 );
         this.initialize();
     }
 
@@ -46,6 +51,7 @@ public class ChargeView extends Sprite {
         this.addChild( this.springGraphic );
         this.drawChargeGraphic();
         this.makeChargeGrabbable();
+        this.springTimer.addEventListener( TimerEvent.TIMER, updateSpring );
         this.update();
 
     } //end of initialize
@@ -73,6 +79,11 @@ public class ChargeView extends Sprite {
         //trace("ChargeView: evt.stageX = "+evt.stageX );
     }
 
+    private function updateSpring( evt:TimerEvent ):void{
+        this.setSpring();
+
+    }
+
     private function killSpring():void{
         var g:Graphics = this.springGraphic.graphics;
         g.clear();
@@ -90,7 +101,7 @@ public class ChargeView extends Sprite {
         function startTargetDrag( evt: MouseEvent ): void {
             //clickOffset = new Point( evt.localX, evt.localY );
             //trace("ChargeVeiw: mouseX = "+evt.stageX+"      mouseY = "+evt.stageY );
-            thisObject.setSpring( );
+            thisObject.springTimer.start();
             stage.addEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
             stage.addEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
         }
@@ -100,6 +111,7 @@ public class ChargeView extends Sprite {
             //var xInPix:Number = thisObject.mouseX - clickOffset.x;    //screen coordinates, origin on left edge of stage
             //var yInPix:Number = thisObject.mouseY - clickOffset.y;    //screen coordinates, origin on left edge of stage
             //thisObject.myFieldModel.setXY( xInPix,  yInPix );
+            thisObject.springTimer.stop();
             thisObject.killSpring();
             evt.updateAfterEvent();
             //clickOffset = null;
@@ -123,6 +135,7 @@ public class ChargeView extends Sprite {
     public function update():void{
         this.chargeGraphic.x = this.myFieldModel.xC;
         this.chargeGraphic.y = this.myFieldModel.yC;
+        //trace("ChargeView.update called model.xC = "+ this.myFieldModel.xC)
     }
 
 }  //end of class
