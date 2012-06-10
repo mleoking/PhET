@@ -51,6 +51,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
     private boolean initialized = false;
     private static final int FADE_IN_TIME = 200;
     private static final int FADE_OUT_TIME = 1000;
+    private static final PhetFont scoreboardFont = new PhetFont( 26, true );
 
     public BuildAFractionCanvas( final BuildAFractionModel model ) {
         this.model = model;
@@ -81,7 +82,9 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
 
         addChild( new VBox( VBox.LEFT_ALIGNED,
                             new PSwing( radioButton( model, "Pictures", Scene.pictures ) ),
-                            new PSwing( radioButton( model, "Numbers", Scene.numbers ) ) ) );
+                            new PSwing( radioButton( model, "Numbers", Scene.numbers ) ) ) {{
+            setOffset( INSET, INSET / 2 );//Inset manually tuned to line up mode, level and score
+        }} );
 
         final SpinnerButtonNode leftButtonNode = new SpinnerButtonNode( spinnerImage( Images.LEFT_BUTTON_UP ), spinnerImage( Images.LEFT_BUTTON_PRESSED ), spinnerImage( Images.LEFT_BUTTON_GRAY ), new VoidFunction1<Boolean>() {
             public void apply( final Boolean autoSpinning ) {
@@ -96,7 +99,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
         addChild( rightButtonNode );
 
         //Level indicator and navigation buttons for number mode
-        addChild( new HBox( 30, leftButtonNode, new PhetPText( "Level 100", new PhetFont( 30, true ) ) {{
+        addChild( new HBox( 30, leftButtonNode, new PhetPText( "Level 100", scoreboardFont ) {{
             model.numberLevel.addObserver( new VoidFunction1<Integer>() {
                 public void apply( final Integer integer ) {
                     setText( "Level " + ( integer + 1 ) );
@@ -104,6 +107,10 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
             } );
         }}, rightButtonNode ) {{
             setOffset( 300, INSET );
+        }} );
+
+        addChild( new PhetPText( "Score: 0", scoreboardFont ) {{
+            setOffset( 600, INSET );
         }} );
 
         model.selectedScene.addObserver( new VoidFunction1<Scene>() {
@@ -127,7 +134,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
 
     private PropertyRadioButton<Scene> radioButton( final BuildAFractionModel model, final String text, Scene scene ) {
         return new PropertyRadioButton<Scene>( null, text, model.selectedScene, scene ) {{
-            setFont( new PhetFont( 24 ) );
+            setFont( scoreboardFont );
             setOpaque( false );
         }};
     }
