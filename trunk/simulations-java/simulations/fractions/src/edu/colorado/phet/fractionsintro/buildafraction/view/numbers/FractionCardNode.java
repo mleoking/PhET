@@ -6,8 +6,6 @@ import fj.data.Option;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
@@ -16,10 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
@@ -33,7 +28,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class FractionCardNode extends RichPNode {
     private final NumberSceneNode numberSceneNode;
-    private final FractionNode fractionNode;
+    public final FractionNode fractionNode;
     private final PNode fractionNodeParent;
 
     public FractionCardNode( final FractionNode fractionNode, final PNode rootNode, final List<Pair> pairList, final BuildAFractionModel model, final NumberSceneNode numberSceneNode ) {
@@ -98,36 +93,7 @@ public class FractionCardNode extends RichPNode {
                         scoreCell.setCompletedFraction( fractionNode );
                         locked = true;
 
-                        //Add a new fraction skeleton when the previous one is completed
-                        if ( !allTargetsComplete() ) {
-
-                            //If no fraction skeleton in play area, move one there
-                            if ( numberSceneNode.allIncompleteFractionsInToolbox() ) {
-                                FractionNode g = null;
-                                for ( FractionNode graphic : numberSceneNode.fractionGraphics ) {
-                                    if ( graphic.isInToolboxPosition() ) {
-                                        g = graphic;
-                                    }
-                                }
-                                if ( g != null ) {
-                                    g.animateToPositionScaleRotation( numberSceneNode.toolboxNode.getCenterX() - fractionNode.getFullBounds().getWidth() / 2, 300, 1, 0, 1000 );
-                                }
-                            }
-                        }
-
-                        //but if all filled up, then add a "next" button
-                        else {
-                            final ActionListener nextLevel = new ActionListener() {
-                                public void actionPerformed( final ActionEvent e ) {
-                                    numberSceneNode.context.nextNumberLevel();
-                                }
-                            };
-                            numberSceneNode.addChild( new VBox( new FaceNode( 300 ), new HTMLImageButtonNode( "Next", Color.orange ) {{
-                                addActionListener( nextLevel );
-                            }} ) {{
-                                setOffset( numberSceneNode.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2 - 100, numberSceneNode.STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 - 100 );
-                            }} );
-                        }
+                        numberSceneNode.fractionCardNodeDragEnded( FractionCardNode.this, event );
                     }
                 }
 
@@ -167,19 +133,6 @@ public class FractionCardNode extends RichPNode {
         //I Don't know why this offset is necessary; couldn't figure it out.  Perhaps due to the card inset, but it doesn't exactly match up.
         translate( 0, -15 );
     }
-
-    private boolean allTargetsComplete() {
-        return numberSceneNode.pairList.map( new F<Pair, Boolean>() {
-            @Override public Boolean f( final Pair pair ) {
-                return pair.targetCell.isCompleted();
-            }
-        } ).filter( new F<Boolean, Boolean>() {
-            @Override public Boolean f( final Boolean b ) {
-                return b;
-            }
-        } ).length() == numberSceneNode.pairList.length();
-    }
-
 
     public void split() {
         Point2D location = fractionNode.getGlobalTranslation();
