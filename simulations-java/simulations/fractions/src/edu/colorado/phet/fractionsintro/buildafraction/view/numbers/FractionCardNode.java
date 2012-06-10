@@ -72,7 +72,9 @@ public class FractionCardNode extends RichPNode {
                 } );
                 boolean locked = false;
                 for ( ScoreBoxNode scoreCell : scoreCells ) {
-                    if ( cardShapeNode.getGlobalFullBounds().intersects( scoreCell.getGlobalFullBounds() ) && scoreCell.fraction.approxEquals( fractionNode.getValue() ) ) {
+                    if ( cardShapeNode.getGlobalFullBounds().intersects( scoreCell.getGlobalFullBounds() ) &&
+                         scoreCell.fraction.approxEquals( fractionNode.getValue() ) &&
+                         !scoreCell.isCompleted() ) {
                         //Lock in target cell
                         Point2D targetCenter = scoreCell.getFullBounds().getCenter2D();
                         final double scaleFactor = 0.75;
