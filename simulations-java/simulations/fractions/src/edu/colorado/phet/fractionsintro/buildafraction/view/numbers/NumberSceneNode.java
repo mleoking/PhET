@@ -50,6 +50,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
     public final List<Pair> pairList;
     public RichPNode toolboxNode;
     public final int level;
+    private final VBox faceNodeDialog;
 
     public void endDrag( final FractionNode fractionGraphic, final PInputEvent event ) {
 
@@ -59,7 +60,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
         }
     }
 
-    public NumberSceneNode( int level, final PNode rootNode, final BuildAFractionModel model, PDimension STAGE_SIZE, NumberSceneContext context ) {
+    public NumberSceneNode( int level, final PNode rootNode, final BuildAFractionModel model, final PDimension STAGE_SIZE, final NumberSceneContext context ) {
         this.rootNode = rootNode;
         this.level = level;
         this.model = model;
@@ -214,6 +215,24 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
         fractionGraphic.setToolboxPosition( toolboxPositionX, toolboxPositionY );
         fractionGraphic.setOffset( toolboxNode.getCenterX() - fractionGraphic.getFullBounds().getWidth() / 2, 300 );
         fractionGraphic.moveInFrontOf( toolboxNode );
+
+        faceNodeDialog = new VBox( new FaceNode( 300 ), new HTMLImageButtonNode( "Next", Color.orange ) {{
+            final ActionListener nextLevel = new ActionListener() {
+                public void actionPerformed( final ActionEvent e ) {
+                    context.nextNumberLevel();
+                }
+            };
+            addActionListener( nextLevel );
+        }} ) {{
+            setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2 - 100, STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 - 100 );
+        }};
+
+        faceNodeDialog.setTransparency( 0 );
+        faceNodeDialog.setVisible( false );
+        faceNodeDialog.setPickable( false );
+        faceNodeDialog.setChildrenPickable( false );
+
+        addChild( faceNodeDialog );
     }
 
     public void endDrag( final NumberCardNode numberCardNode, final PInputEvent event ) {
@@ -290,16 +309,11 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
 
         //but if all filled up, then add a "next" button
         else {
-            final ActionListener nextLevel = new ActionListener() {
-                public void actionPerformed( final ActionEvent e ) {
-                    context.nextNumberLevel();
-                }
-            };
-            addChild( new VBox( new FaceNode( 300 ), new HTMLImageButtonNode( "Next", Color.orange ) {{
-                addActionListener( nextLevel );
-            }} ) {{
-                setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2 - 100, STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 - 100 );
-            }} );
+            faceNodeDialog.setVisible( true );
+            faceNodeDialog.animateToTransparency( 1f, 200 );
+            faceNodeDialog.setPickable( true );
+            faceNodeDialog.setChildrenPickable( true );
+            faceNodeDialog.moveToFront();
         }
     }
 
@@ -315,4 +329,9 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
         } ).length() == pairList.length();
     }
 
+    public void hideFace() {
+        faceNodeDialog.animateToTransparency( 0.0f, 200 );
+        faceNodeDialog.setPickable( false );
+        faceNodeDialog.setChildrenPickable( false );
+    }
 }
