@@ -30,6 +30,11 @@ public class IntegerProperty extends Property<Integer> {
         set( get() + v );
     }
 
+    //Decrements the value by the specified amount, notifying observers if the change was nonzero
+    public void subtract( int v ) {
+        set( get() - v );
+    }
+
     //The following methods are used for composing ObservableProperty<Integer> instances.
     //These methods are copied in CompositeIntegerProperty (not sure how to factor them out without using traits or implicits)
     public DividedBy dividedBy( ObservableProperty<Integer> volume ) {
