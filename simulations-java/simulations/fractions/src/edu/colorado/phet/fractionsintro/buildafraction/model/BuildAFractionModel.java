@@ -71,6 +71,7 @@ public class BuildAFractionModel {
             return sequentialFill( Pattern.sixFlower(), f.numerator );
         }
     };
+    public final IntegerProperty numberScore = new IntegerProperty( 0 );
 
     //Create a list of filled patterns from a single pattern type
     public static F<Fraction, List<FilledPattern>> composite( final F<Fraction, FilledPattern> element ) {
