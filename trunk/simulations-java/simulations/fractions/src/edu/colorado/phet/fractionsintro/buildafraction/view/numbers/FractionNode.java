@@ -68,7 +68,7 @@ public class FractionNode extends RichPNode {
 
         Rectangle2D bounds = divisorLine.getFullBounds();
         bounds = box.localToParent( bounds );
-        splitButton.setOffset( bounds.getMaxX() + 2, bounds.getCenterY() - splitButton.getFullBounds().getHeight() / 2 );
+        splitButton.setOffset( bounds.getMinX() - 2 - splitButton.getFullBounds().getWidth(), bounds.getCenterY() - splitButton.getFullBounds().getHeight() / 2 );
         splitButton.addInputEventListener( new CursorHandler() );
         splitButton.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( final PInputEvent event ) {
