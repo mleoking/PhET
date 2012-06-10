@@ -83,7 +83,7 @@ public class FractionCardNode extends RichPNode {
                         final double scaleFactor = 0.75;
 
                         Point2D x = fractionNode.getGlobalTranslation();
-                        numberSceneNode.rootNode.addChild( fractionNode );
+                        numberSceneNode.addChild( fractionNode );
                         fractionNode.setGlobalTranslation( x );
                         fractionNode.animateToPositionScaleRotation( targetCenter.getX() - fractionNode.getFullBounds().getWidth() / 2 * scaleFactor + 15,
                                                                      targetCenter.getY() - fractionNode.getFullBounds().getHeight() / 2 * scaleFactor + 10,
