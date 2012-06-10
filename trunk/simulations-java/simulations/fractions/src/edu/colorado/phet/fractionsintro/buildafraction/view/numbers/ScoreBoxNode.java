@@ -103,6 +103,8 @@ public class ScoreBoxNode extends PNode {
                 fractionGraphic = null;
 
                 cardNode.animateToPositionScaleRotation( -cardNode.getFullWidth() * 2, 0, 1, 0, 1000 );
+
+                numberSceneNode.hideFace();
             }
         } );
         splitButton.setVisible( false );
