@@ -132,6 +132,7 @@ public class FractionNode extends RichPNode {
         dragRegion.addInputEventListener( new SimSharingDragHandler( null, true ) {
             @Override protected void drag( final PInputEvent event ) {
                 super.drag( event );
+                moveToFront();
                 final PDimension delta = event.getDeltaRelativeTo( event.getPickedNode().getParent() );
                 translate( delta.getWidth(), delta.getHeight() );
             }
