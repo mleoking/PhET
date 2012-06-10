@@ -72,6 +72,7 @@ public class FractionNode extends RichPNode {
         splitButton.addInputEventListener( new CursorHandler() );
         splitButton.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( final PInputEvent event ) {
+                setDragRegionPickable( true );
                 Option<Fraction> value = isComplete() ? Option.some( getValue() ) : Option.<Fraction>none();
 
                 Point2D topCardLocation = topCard != null ? topCard.getGlobalTranslation() : null;
