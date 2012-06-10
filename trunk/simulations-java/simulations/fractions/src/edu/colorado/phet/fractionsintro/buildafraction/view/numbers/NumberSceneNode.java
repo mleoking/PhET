@@ -217,12 +217,11 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
         fractionGraphic.moveInFrontOf( toolboxNode );
 
         faceNodeDialog = new VBox( new FaceNode( 300 ), new HTMLImageButtonNode( "Next", Color.orange ) {{
-            final ActionListener nextLevel = new ActionListener() {
+            addActionListener( new ActionListener() {
                 public void actionPerformed( final ActionEvent e ) {
                     context.nextNumberLevel();
                 }
-            };
-            addActionListener( nextLevel );
+            } );
         }} ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2 - 100, STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 - 100 );
         }};
@@ -314,6 +313,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
             faceNodeDialog.setPickable( true );
             faceNodeDialog.setChildrenPickable( true );
             faceNodeDialog.moveToFront();
+            model.numberScore.add( 1 );
         }
     }
 
@@ -333,5 +333,6 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
         faceNodeDialog.animateToTransparency( 0.0f, 200 );
         faceNodeDialog.setPickable( false );
         faceNodeDialog.setChildrenPickable( false );
+        model.numberScore.subtract( 1 );
     }
 }

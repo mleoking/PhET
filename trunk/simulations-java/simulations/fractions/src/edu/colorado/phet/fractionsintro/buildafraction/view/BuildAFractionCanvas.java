@@ -110,6 +110,11 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
         }} );
 
         addChild( new PhetPText( "Score: 0", scoreboardFont ) {{
+            model.numberScore.addObserver( new VoidFunction1<Integer>() {
+                public void apply( final Integer score ) {
+                    setText( "Score: " + score );
+                }
+            } );
             setOffset( 600, INSET );
         }} );
 
