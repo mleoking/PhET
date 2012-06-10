@@ -1,3 +1,4 @@
+Build a fraction tab: fixed: smiling face not shown after completing all questions
 Build a fraction tab: Fixed fraction card size and location
 Build a fraction tab: Shrink fraction when dropped in a target cell
 Build a fraction tab: animate fractions to target cell when dropped in
