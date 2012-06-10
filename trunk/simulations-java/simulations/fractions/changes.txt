@@ -1,3 +1,4 @@
+Build a fraction tab: Improved fonts and layout for scoreboard
 Build a fraction tab: Made it so you can't drop more than one match into a scoring cell
 Build a fraction tab: Added transparency animation to the smilie face dialog
 Build a fraction tab: Fixed: When ejecting a fraction from a scoring cell when smilie face is showing, should unshow the smiling face.
