@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractions.FractionsResources.Images;
+import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
@@ -38,7 +39,7 @@ public class ScoreBoxNode extends PNode {
     private final PImage splitButton;
     private FractionNode fractionGraphic;
 
-    public ScoreBoxNode( final int numerator, final int denominator, final Property<List<Fraction>> matches ) {
+    public ScoreBoxNode( final int numerator, final int denominator, final Property<List<Fraction>> matches, final PNode rootNode, final BuildAFractionModel model, final NumberSceneNode numberSceneNode ) {
         this.path = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 120, 120, 30, 30 ), CONTROL_PANEL_BACKGROUND, controlPanelStroke, Color.darkGray ) {{
 
             setStrokePaint( Color.darkGray );
@@ -93,10 +94,15 @@ public class ScoreBoxNode extends PNode {
                 splitButton.setVisible( false );
                 splitButton.setPickable( false );
                 splitButton.setChildrenPickable( false );
-                fractionGraphic.animateToPositionScaleRotation( 300, 300, 1, 0, 1000 );
+
+                fractionGraphic.setScale( 1.0 );
                 fractionGraphic.splitButton.setVisible( true );
-                fractionGraphic.setDragRegionPickable( true );
+                FractionCardNode cardNode = new FractionCardNode( fractionGraphic, rootNode, numberSceneNode.pairList, model, numberSceneNode );
+                numberSceneNode.addChild( cardNode );
+
                 fractionGraphic = null;
+
+                cardNode.animateToPositionScaleRotation( -cardNode.getFullWidth() * 2, 0, 1, 0, 1000 );
             }
         } );
         splitButton.setVisible( false );

@@ -74,9 +74,10 @@ public class PictureSceneNode extends PNode implements ContainerContext {
             PictureTarget target = model.getPictureLevel( level ).getTarget( i );
 
             FractionNode f = new FractionNode( target.fraction, 0.4 );
-            pairs.add( new Pair( new ScoreBoxNode( target.fraction.numerator, target.fraction.denominator, model.getCreatedFractions( level ) ), new ZeroOffsetNode( f ) ) );
+            pairs.add( new Pair( new ScoreBoxNode( target.fraction.numerator, target.fraction.denominator, model.getCreatedFractions( level ), rootNode, model, null ), new ZeroOffsetNode( f ) ) );
         }
         pairList = List.iterableList( pairs );
+
         List<PNode> patterns = pairList.map( new F<Pair, PNode>() {
             @Override public PNode f( final Pair pair ) {
                 return pair.patternNode;
