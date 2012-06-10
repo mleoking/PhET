@@ -135,6 +135,13 @@ public class Complex {
         return ( Math.sqrt( ( _real * _real ) + ( _imaginary * _imaginary ) ) );
     }
 
+    // note that there exists another square root whose imaginary part is negated
+    public Complex getCanonicalSquareRoot() {
+        double magnitude = getAbs();
+        return new Complex( Math.sqrt( ( magnitude + _real ) / 2 ),
+                            Math.sqrt( ( magnitude - _real ) / 2 ) );
+    }
+
     public double getModulus() {
         return getAbs();
     }

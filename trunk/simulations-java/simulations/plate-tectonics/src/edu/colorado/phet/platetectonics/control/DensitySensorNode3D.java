@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.geom.Arc2D;
 import java.awt.geom.GeneralPath;
 
+import edu.colorado.phet.common.phetcommon.math.DampedMassSpringSystem;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
@@ -77,7 +78,8 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
         // since we are using the node in the main scene, mouse events don't get passed in, and we need to set our cursor manually
         setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
 
-        model.modelChanged.addUpdateListener( new UpdateListener() {
+        // this should guarantee running each time
+        tab.beforeFrameRender.addUpdateListener( new UpdateListener() {
             public void update() {
                 updateReadout();
             }
@@ -113,7 +115,7 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
         // TODO: improve model/view and listening for sensor location
         final Double density = getDensityValue();
         final DensitySensorNode2D node = (DensitySensorNode2D) getNode();
-        node.setDensity( density );
+        node.setDensity( density, tab.getClock().getSimulationTimeChange() );
         repaint();
     }
 
@@ -182,6 +184,14 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
         private final SpeedometerNode miniGauge;
         private Property<Option<Double>> miniGaugeDensity;
 
+        // we use a damped spring system to essentially add inertial to the density needle in the 1-dial case
+        private double p = 0;
+        private double d = 0;
+
+        private double k = 1; // spring constant
+        private double mass = 1; // "mass" for oscillation
+        private double c = DampedMassSpringSystem.getCriticallyDampedDamping( mass, k );
+
         /**
          * @param kmToViewUnit Number of view units (in 3D JME) that correspond to 1 km in the model. Extracted into
          *                     a parameter so that we can add a 2D version to the toolbox that is unaffected by future
@@ -223,22 +233,29 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
         }
 
         // support multiple different density meter styles TODO remove once decided
-        public void setDensity( double density ) {
+        public void setDensity( double density, double simulationTimeChange ) {
             clearExtraItems();
             if ( PlateTectonicsApplication.useTwoDialDensityMeter.get() ) {
                 setTwoDialDensity( density );
             }
             else {
-                setWrapAroundDensity( density );
+                setWrapAroundDensity( density, simulationTimeChange );
             }
         }
 
-        public void setWrapAroundDensity( double density ) {
+        public void setWrapAroundDensity( double density, double simulationTimeChange ) {
+            DampedMassSpringSystem system = new DampedMassSpringSystem( mass, k, c, p, d );
+            System.out.println( "p = " + p );
+            System.out.println( "d = " + d );
+            p = system.evaluatePosition( simulationTimeChange );
+            d = system.evaluateVelocity( simulationTimeChange );
+
             // reference into the speedometer to change it
-            pointSensor.value.set( new Option.Some<Double>( density ) );
+            pointSensor.value.set( new Option.Some<Double>( p ) );
 
             // calculate using the speedometer what the angles are at 0 and max
-            // speedometer returns angles that are actually the opposite (negative) of what is usually used in the cartesian plane
+            // speedometer returns angles that are actually the opposite (negative) of what is usually used in the cartesian
+            // lane
             final double minAngle = -bodyNode.speedToAngle( 0 );
             final double maxAngle = -bodyNode.speedToAngle( MAX_SPEEDOMETER_DENSITY );
 
