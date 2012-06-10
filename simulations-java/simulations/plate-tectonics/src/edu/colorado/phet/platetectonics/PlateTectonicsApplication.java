@@ -3,17 +3,13 @@
 package edu.colorado.phet.platetectonics;
 
 
-import java.awt.Frame;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JSeparator;
+import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -35,6 +31,7 @@ public class PlateTectonicsApplication extends LWJGLPhetApplication {
 
     public static final Property<Boolean> showFPSMeter = new Property<Boolean>( false );
     public static final Property<Boolean> showDebuggingItems = new Property<Boolean>( false );
+    public static final Property<Boolean> useTwoDialDensityMeter = new Property<Boolean>( false );
 
     /**
      * Sole constructor.
@@ -106,6 +103,18 @@ public class PlateTectonicsApplication extends LWJGLPhetApplication {
                     LWJGLUtils.invoke( new Runnable() {
                         public void run() {
                             showDebuggingItems.set( show );
+                        }
+                    } );
+                }
+            } );
+        }} );
+        developerMenu.add( new JCheckBoxMenuItem( "Use two-dial density meter" ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    final boolean show = isSelected();
+                    LWJGLUtils.invoke( new Runnable() {
+                        public void run() {
+                            useTwoDialDensityMeter.set( show );
                         }
                     } );
                 }
