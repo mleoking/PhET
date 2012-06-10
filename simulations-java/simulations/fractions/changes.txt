@@ -1,3 +1,4 @@
+Build a fraction tab: Fixed: When ejecting a fraction from the scoring cell, it should become a card again.
 Build a fraction tab: For fractions, split button should be on the left to match up with when the fraction is in the scoring cell.
 Build a fraction tab: Fixed: Finished fractions (in target cells) still show when going to the next level
 Build a fraction tab: Dragged items move to the front
