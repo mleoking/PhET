@@ -116,14 +116,16 @@ public class FractionCardNode extends RichPNode {
 
                         //but if all filled up, then add a "next" button
                         else {
-                            addChild( new VBox( new FaceNode( 300 ), new HTMLImageButtonNode( "Next", Color.orange ) {{
-                                addActionListener( new ActionListener() {
-                                    public void actionPerformed( final ActionEvent e ) {
-                                        numberSceneNode.context.nextNumberLevel();
-                                    }
-                                } );
-                            }}
-                            ) {{setOffset( numberSceneNode.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2 - 100, numberSceneNode.STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 - 100 );}} );
+                            final ActionListener nextLevel = new ActionListener() {
+                                public void actionPerformed( final ActionEvent e ) {
+                                    numberSceneNode.context.nextNumberLevel();
+                                }
+                            };
+                            numberSceneNode.addChild( new VBox( new FaceNode( 300 ), new HTMLImageButtonNode( "Next", Color.orange ) {{
+                                addActionListener( nextLevel );
+                            }} ) {{
+                                setOffset( numberSceneNode.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2 - 100, numberSceneNode.STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 - 100 );
+                            }} );
                         }
                     }
                 }
