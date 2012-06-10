@@ -60,6 +60,7 @@ public class FractionCardNode extends RichPNode {
         cardShapeNode.addInputEventListener( new SimSharingDragHandler( null, true ) {
             @Override protected void drag( final PInputEvent event ) {
                 super.drag( event );
+                moveToFront();
                 final PDimension delta = event.getDeltaRelativeTo( rootNode );
                 translate( delta.width, delta.height );
             }

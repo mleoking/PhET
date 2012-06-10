@@ -1,3 +1,4 @@
+Build a fraction tab: Dragged items move to the front
 Build a fraction tab: Fixed: After splitting a complete fraction, fraction skeleton not draggable.
 Build a fraction tab: fixed: smiling face not shown after completing all questions
 Build a fraction tab: Fixed fraction card size and location

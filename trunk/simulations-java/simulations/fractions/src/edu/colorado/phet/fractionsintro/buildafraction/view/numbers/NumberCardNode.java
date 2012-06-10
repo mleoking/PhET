@@ -34,6 +34,7 @@ public class NumberCardNode extends PNode {
         addInputEventListener( new SimSharingDragHandler( null, true ) {
             @Override protected void drag( final PInputEvent event ) {
                 super.drag( event );
+                moveToFront();
                 final PDimension delta = event.getDeltaRelativeTo( getParent() );
                 translate( delta.width, delta.height );
             }
