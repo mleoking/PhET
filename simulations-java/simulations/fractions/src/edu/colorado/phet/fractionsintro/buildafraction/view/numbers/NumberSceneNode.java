@@ -5,16 +5,22 @@ import fj.F;
 import fj.Ord;
 import fj.data.List;
 
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.piccolophet.RichPNode;
+import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
+import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.buildafraction.model.NumberLevel;
 import edu.colorado.phet.fractionsintro.buildafraction.model.NumberTarget;
@@ -263,4 +269,50 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
         bounds = rootNode.globalToLocal( bounds );
         numberNode.centerFullBoundsOnPoint( bounds.getCenterX(), bounds.getCenterY() );
     }
+
+    public void fractionCardNodeDragEnded( final FractionCardNode fractionCardNode, final PInputEvent event ) {
+        //Add a new fraction skeleton when the previous one is completed
+        if ( !allTargetsComplete() ) {
+
+            //If no fraction skeleton in play area, move one there
+            if ( allIncompleteFractionsInToolbox() ) {
+                FractionNode g = null;
+                for ( FractionNode graphic : fractionGraphics ) {
+                    if ( graphic.isInToolboxPosition() ) {
+                        g = graphic;
+                    }
+                }
+                if ( g != null ) {
+                    g.animateToPositionScaleRotation( toolboxNode.getCenterX() - fractionCardNode.fractionNode.getFullBounds().getWidth() / 2, 300, 1, 0, 1000 );
+                }
+            }
+        }
+
+        //but if all filled up, then add a "next" button
+        else {
+            final ActionListener nextLevel = new ActionListener() {
+                public void actionPerformed( final ActionEvent e ) {
+                    context.nextNumberLevel();
+                }
+            };
+            addChild( new VBox( new FaceNode( 300 ), new HTMLImageButtonNode( "Next", Color.orange ) {{
+                addActionListener( nextLevel );
+            }} ) {{
+                setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2 - 100, STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 - 100 );
+            }} );
+        }
+    }
+
+    private boolean allTargetsComplete() {
+        return pairList.map( new F<Pair, Boolean>() {
+            @Override public Boolean f( final Pair pair ) {
+                return pair.targetCell.isCompleted();
+            }
+        } ).filter( new F<Boolean, Boolean>() {
+            @Override public Boolean f( final Boolean b ) {
+                return b;
+            }
+        } ).length() == pairList.length();
+    }
+
 }
