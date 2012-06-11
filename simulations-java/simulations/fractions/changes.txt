@@ -1,3 +1,4 @@
+Build a fraction tab: Fixed: scoring cells weren't flashing red for level 1
 # 0.00.81 (64935) Jun 11, 2012
 Fraction Matcher: Added red as a representation color
 Fraction Matcher: Always show the "check answer" button on the left side
