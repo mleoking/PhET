@@ -270,7 +270,11 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
 
             final ObservableProperty<Vector2D> buttonLocation = new CompositeProperty<Vector2D>( new Function0<Vector2D>() {
                 public Vector2D apply() {
-                    return new Vector2D( model.state.get().getLastDroppedScaleRight() ? scalesNode.getFullBounds().getMaxX() + 80 : scalesNode.getFullBounds().getX() - 80,
+
+                    //Where should the "check answer" button should be shown?  Originally it was on the same side as the last dropped value, but in interviews one student said this was confusing.
+//                    final boolean showButtonsOnRight = model.state.get().getLastDroppedScaleRight();
+                    final boolean showButtonsOnRight = false;
+                    return new Vector2D( showButtonsOnRight ? scalesNode.getFullBounds().getMaxX() + 80 : scalesNode.getFullBounds().getX() - 80,
                                          scalesNode.getFullBounds().getCenterY() );
                 }
             }, leftScaleValue, rightScaleValue );
