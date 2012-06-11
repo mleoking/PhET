@@ -20,6 +20,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractions.util.immutable.Vector2D.UnitVector2D;
@@ -272,9 +273,8 @@ public class Pattern {
         //http://www.mathsisfun.com/geometry/interior-angles-polygons.html
         public static Pattern create( double diameter, final int numSides ) {
             final double triAngle = Math.PI * 2.0 / numSides;
-//            final double eachAngle = ( numSides - 2 ) * Math.PI / numSides;
             final double radius = diameter / 2;
-            return new Pattern( range( 0, numSides ).map( new F<Integer, Shape>() {
+            final List<Shape> shapes = range( 0, numSides ).map( new F<Integer, Shape>() {
                 @Override public Shape f( final Integer side ) {
                     final double startAngle = Math.PI / 2 - triAngle / 2 + side * triAngle;
                     final double endAngle = Math.PI / 2 + triAngle / 2 + side * triAngle;
@@ -284,7 +284,16 @@ public class Pattern {
                         lineTo( ZERO );
                     }}.getGeneralPath();
                 }
-            } ) );
+            } );
+
+            //Create an explicit outline to avoid creating kinks in the outline stroke
+            final ImmutableVector2D startPoint = createPolar( radius, Math.PI / 2 - triAngle / 2 );
+            DoubleGeneralPath outlinePath = new DoubleGeneralPath( startPoint );
+            for ( int i = 0; i < numSides; i++ ) {
+                outlinePath.lineTo( createPolar( radius, Math.PI / 2 - triAngle / 2 + i * triAngle ) );
+            }
+            outlinePath.lineTo( startPoint );
+            return new Pattern( outlinePath.getGeneralPath(), shapes );
         }
     }
 
