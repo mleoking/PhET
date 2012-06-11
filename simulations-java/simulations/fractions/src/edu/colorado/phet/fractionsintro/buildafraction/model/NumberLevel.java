@@ -1,5 +1,6 @@
 package edu.colorado.phet.fractionsintro.buildafraction.model;
 
+import fj.F;
 import fj.Ord;
 import fj.data.List;
 
@@ -18,6 +19,20 @@ public class NumberLevel {
 
     public final List<Integer> numbers;
     public final List<NumberTarget> targets;
+
+    //Infer the numbers from the list of targets, using exactly what is necessary
+    public NumberLevel( final List<NumberTarget> targets ) {
+        this( targets.map( new F<NumberTarget, Integer>() {
+            @Override public Integer f( final NumberTarget numberTarget ) {
+                return numberTarget.fraction.numerator;
+            }
+        } ).
+                append( targets.map( new F<NumberTarget, Integer>() {
+                    @Override public Integer f( final NumberTarget numberTarget ) {
+                        return numberTarget.fraction.denominator;
+                    }
+                } ) ), targets );
+    }
 
     public NumberLevel( final List<Integer> numbers, final List<NumberTarget> targets ) {
         this.numbers = numbers.sort( Ord.intOrd );
