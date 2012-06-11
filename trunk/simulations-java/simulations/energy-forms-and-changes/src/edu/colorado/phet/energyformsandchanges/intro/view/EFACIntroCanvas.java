@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxWithIcon;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -99,10 +99,11 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
 
         // Add the control for showing/hiding object energy. TODO: i18n
         {
-            PropertyCheckBox showEnergyCheckBox = new PropertyCheckBox( EnergyFormsAndChangesSimSharing.UserComponents.showEnergyCheckBox,
-                                                                        "Energy Symbols",
-                                                                        model.energyChunksVisible );
-            showEnergyCheckBox.setFont( new PhetFont( 20 ) );
+            PropertyCheckBoxWithIcon showEnergyCheckBox = new PropertyCheckBoxWithIcon( EnergyFormsAndChangesSimSharing.UserComponents.showEnergyCheckBox,
+                                                                                        "Energy Symbols",
+                                                                                        new PhetFont( 20 ),
+                                                                                        EnergyFormsAndChangesResources.Images.ENERGY_CHUNKS_WHITE_SEMIBOLD,
+                                                                                        model.energyChunksVisible );
             backLayer.addChild( new ControlPanelNode( new PSwing( showEnergyCheckBox ), CONTROL_PANEL_COLOR ) {{
                 setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - EDGE_INSET, EDGE_INSET );
             }} );
