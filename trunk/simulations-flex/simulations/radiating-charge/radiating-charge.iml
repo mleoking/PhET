@@ -2,7 +2,7 @@
 <module type="Flex" version="4">
   <component name="FlexBuildConfigurationManager" active="radiating-charge">
     <configurations>
-      <configuration name="radiating-charge" main-class="edu.colorado.phet.radiatingcharge.RadiatingChargeApplication" output-file="radiating-charge.swf" output-folder="$MODULE_DIR$/../../../../../out">
+      <configuration name="radiating-charge" main-class="edu.colorado.phet.radiatingcharge.RadiatingChargeApplication" output-file="radiating-charge.swf" output-folder="C:/out">
         <dependencies target-player="9">
           <entries>
             <entry module-name="flexcommon" build-configuration-name="flexcommon">
