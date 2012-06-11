@@ -94,14 +94,9 @@ public class PressureSensorNode extends SensorNode {
 
         addInputEventListener( new RelativeDragHandler( this, transform, pressureSensor.location, new Function1<Point2D, Point2D>() {
             public Point2D apply( Point2D point2D ) {
-                Point2D pt = point2D;
-                //not allowed to go to negative Potential Energy in the pool
-                if ( pool != null ) {
-                    pt = pool.get().clampSensorPosition( pt );
-                }
 
                 //Return the closest point within the visible model bounds, so it can't be dragged off-screen
-                return visibleModelRect.apply().getClosestPoint( pt );
+                return visibleModelRect.apply().getClosestPoint( point2D );
             }
         } ) {
             @Override protected void sendMessage( final Point2D modelPoint ) {
