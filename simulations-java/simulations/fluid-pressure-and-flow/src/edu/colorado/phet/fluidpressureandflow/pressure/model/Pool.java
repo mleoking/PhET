@@ -13,7 +13,7 @@ import edu.colorado.phet.fluidpressureandflow.common.model.units.Units;
 public class Pool {
 
     //10 foot deep pool, a customary depth for the deep end in the United States
-    public static final double DEFAULT_HEIGHT = new Units().feetToMeters( 10 );
+    public static final double DEFAULT_HEIGHT = Units.feetToMeters( 10 );
     public static final double WIDTH = 4;
 
     //Compute the pressure above the ground

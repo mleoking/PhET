@@ -1,3 +1,4 @@
+Minor fixes & doc changes to prepare for code review, see #3097
 Removed unused function clampSensorPosition and usages, see #3097
 # 1.00.00 (64426) May 29, 2012
 Updated screenshots for website deploy

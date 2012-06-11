@@ -44,20 +44,18 @@ public class FluidPressureControlPanel extends VerticalLayoutPanel {
     public FluidPressureControlPanel( final FluidPressureAndFlowModule<FluidPressureModel> module ) {
         super();
 
-        add( new JPanel( new GridBagLayout() ) {
-            {
+        add( new JPanel( new GridBagLayout() ) {{
 
-                //Ruler check box
-                final FPAFCheckBox checkBox = new FPAFCheckBox( rulerCheckBox, RULER, module.rulerVisible );
-                add( checkBox, getConstraints( 0, 0 ) );
+            //Ruler check box
+            final FPAFCheckBox checkBox = new FPAFCheckBox( rulerCheckBox, RULER, module.rulerVisible );
+            add( checkBox, getConstraints( 0, 0 ) );
 
-                //Ruler icon
-                add( RulerIcon( module ), getConstraints( 1, 0 ) );
+            //Ruler icon
+            add( RulerIcon( module ), getConstraints( 1, 0 ) );
 
-                //Checkbox that shows/hides the grid
-                add( new FPAFCheckBox( gridCheckBox, GRID, module.gridVisible ), getConstraints( 0, 1 ) );
-            }
-        } );
+            //Checkbox that shows/hides the grid
+            add( new FPAFCheckBox( gridCheckBox, GRID, module.gridVisible ), getConstraints( 0, 1 ) );
+        }} );
 
         //Add Atmosphere on/off control panel.  So it's nice to be able to turn it off and just focus on the water.
         add( new PhetTitledPanel( ATMOSPHERE ) {{

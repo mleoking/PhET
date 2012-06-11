@@ -119,17 +119,6 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
             }
         } );
 
-        //Show the height on the side of the pool in selected right units
-        //Disabled on 5/4/2012 based on AP recommendation
-//        addPoolSpecificNode( model, new Function1<IPool, PNode>() {
-//            public PNode apply( final IPool p ) {
-//                if ( p instanceof SquarePool ) {
-//                    return new SidePoolHeightReadoutNode( transform, (SquarePool) p, model.units );
-//                }
-//                else { return new PNode(); }
-//            }
-//        } );
-
         // Control Panel
         final FluidPressureAndFlowControlPanelNode controlPanelNode = new FluidPressureAndFlowControlPanelNode( new FluidPressureControlPanel( module ) ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - INSET, INSET );
@@ -160,8 +149,6 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
         addChild( new UnLabeledGridNode( module.gridVisible.and( not( squarePool ) ), transform, model.units ) );
 
         //Create and show the fluid density and gravity controls
-        //TODO: Layout for i18n long strings
-
         final GravityControl<FluidPressureModel> gravityControl = new GravityControl<FluidPressureModel>( module );
         final FluidPressureAndFlowControlPanelNode gravityControlPanelNode = new FluidPressureAndFlowControlPanelNode( gravityControl );
 

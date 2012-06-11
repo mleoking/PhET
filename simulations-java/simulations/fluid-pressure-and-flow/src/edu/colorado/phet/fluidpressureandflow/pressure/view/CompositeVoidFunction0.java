@@ -4,13 +4,15 @@ package edu.colorado.phet.fluidpressureandflow.pressure.view;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
 /**
+ * Provides function composition (one function happening after another).
+ *
  * @author Sam Reid
  */
-public abstract class RichVoidFunction0 implements VoidFunction0 {
+public abstract class CompositeVoidFunction0 implements VoidFunction0 {
     public VoidFunction0 andThen( final VoidFunction0 after ) {
         return new VoidFunction0() {
             public void apply() {
-                RichVoidFunction0.this.apply();
+                CompositeVoidFunction0.this.apply();
                 after.apply();
             }
         };

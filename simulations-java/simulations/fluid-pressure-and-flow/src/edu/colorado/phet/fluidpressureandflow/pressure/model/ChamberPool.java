@@ -30,9 +30,6 @@ import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Imag
  */
 public class ChamberPool implements IPool {
 
-    //Units in meters, describes the leftmost chamber and is used to create both
-    public final double centerAtLeftChamberOpening = -2.9;
-
     //The entire apparatus is this tall
     public final double height = 3;
 

@@ -151,7 +151,7 @@ public class TrapezoidPool implements FaucetPool {
             }
 
             //In the water, but the container may not be completely full
-            else {// if ( containerShape.contains( x, y ) && waterShape.contains( x, y ) ) {
+            else {
 
                 //Y value at the top of the water to compute the air pressure there
                 final double waterHeight = getWaterHeight();
