@@ -23,16 +23,17 @@ public class EFACConstants {
     // For comparing temperatures.
     public static final double SIGNIFICANT_TEMPERATURE_DIFFERENCE = 1E-3; // In degrees K.
 
+    public static final double ENERGY_PER_CHUNK = 40000;
+
     // Constant function for mapping energy level to number of energy chunks.
     public static Function1<Double, Integer> ENERGY_TO_NUM_CHUNKS_MAPPER = new Function1<Double, Integer>() {
         //                private Function.LinearFunction MAPPER_TO_DOUBLE = new Function.LinearFunction( 42000, 400000, 2, 25 );
 //        private Function.LinearFunction MAPPER_TO_DOUBLE = new Function.LinearFunction( 0, 414000, 0, 25 ); // Linear from absolute zero.
-        private Function.LinearFunction MAPPER_TO_DOUBLE = new Function.LinearFunction( 40000, 45000, 1, 2 ); // Brick has 1 at 0 C, 2 at room temp.  Brick SH = 800
-//        private Function.LinearFunction MAPPER_TO_DOUBLE = new Function.LinearFunction( 49000, 53000, 1, 2 ); // Brick has 1 at 0 C, 2 at room temp.  Brick SH = 800
-//        private Function.LinearFunction MAPPER_TO_DOUBLE = new Function.LinearFunction( 74500, 80000, 3, 4 ); // Brick has 1 at 0 C, 2 at room temp.  Brick SH = 800
+        private Function.LinearFunction MAPPER_TO_DOUBLE = new Function.LinearFunction( ENERGY_PER_CHUNK, 45000, 1, 2 ); // Brick has 1 at 0 C, 2 at room temp.  Brick SH = 800
 
         public Integer apply( Double energy ) {
             return Math.max( (int) Math.round( MAPPER_TO_DOUBLE.evaluate( energy ) ), 0 );
         }
     };
+
 }
