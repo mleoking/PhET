@@ -100,7 +100,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         // Add the control for showing/hiding object energy. TODO: i18n
         {
             PropertyCheckBox showEnergyCheckBox = new PropertyCheckBox( EnergyFormsAndChangesSimSharing.UserComponents.showEnergyCheckBox,
-                                                                        "Show energy of objects",
+                                                                        "Energy Symbols",
                                                                         model.energyChunksVisible );
             showEnergyCheckBox.setFont( new PhetFont( 20 ) );
             backLayer.addChild( new ControlPanelNode( new PSwing( showEnergyCheckBox ), CONTROL_PANEL_COLOR ) {{
