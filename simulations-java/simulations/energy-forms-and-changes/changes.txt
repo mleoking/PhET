@@ -1,3 +1,10 @@
+E's come from top center of objects when going into the air.
+Improved energy chunk exchange behavior with air
+Made the burners not interact with the air when something is on top of it.
+Removed ambient heat chunks from the air.
+Made check box not have focus at startup.
+Added unique heat transfer constants for brick and iron, instead of treating both as just blocks.
+Changed caption for the check box that shows the energy.
 Added support for different heat transfer constants between the different categories of model elements, e.g. block to water, water to air, etc.
 # 0.00.05 (64635) Jun 4, 2012
 6/4/12 Snapshot for testing and reviewing changes to the behavior of the energy chunks.
