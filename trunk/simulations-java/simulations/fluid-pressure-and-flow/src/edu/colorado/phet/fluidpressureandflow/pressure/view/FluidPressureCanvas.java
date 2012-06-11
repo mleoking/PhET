@@ -52,7 +52,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
 
     private static final double MODEL_HEIGHT = Pool.DEFAULT_HEIGHT * 2.2;
 
-    //How much to translate up the camera so that the bottom of the pool isn't too offscreen
+    //How much to translate up the camera so that the bottom of the pool isn't too far off the screen
     private static final int VIEW_OFFSET_Y = 10;
 
     public FluidPressureCanvas( final FluidPressureModule module ) {

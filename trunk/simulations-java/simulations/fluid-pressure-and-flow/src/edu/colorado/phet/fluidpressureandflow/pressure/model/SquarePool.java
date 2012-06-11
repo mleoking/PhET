@@ -3,7 +3,6 @@ package edu.colorado.phet.fluidpressureandflow.pressure.model;
 
 import java.awt.Shape;
 import java.awt.geom.Area;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -151,8 +150,6 @@ public class SquarePool implements FaucetPool {
     public double getMaxY() { return getContainerShape().getBounds2D().getMaxY(); }
 
     public double getWidth() { return getContainerShape().getBounds2D().getHeight(); }
-
-    public Point2D getTopRight() { return new Point2D.Double( getMaxX(), getMaxY() ); }
 
     public double getWaterOutputCenterX() { return getWaterShape().get().getBounds2D().getCenterX(); }
 

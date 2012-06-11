@@ -14,7 +14,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class InputFaucetNode extends PNode {
-    public InputFaucetNode( final FluidPressureModel model, final FaucetPool pool, final int VIEW_OFFSET_Y, final ModelViewTransform transform, final double x ) {
+    public InputFaucetNode( final FluidPressureModel model, final FaucetPool pool, final int viewOffsetY, final ModelViewTransform transform, final double x ) {
 
         model.pool.valueEquals( pool ).addObserver( new VoidFunction1<Boolean>() {
             public void apply( final Boolean visible ) {
@@ -25,7 +25,7 @@ public class InputFaucetNode extends PNode {
         final FluidPressureFaucetNode faucetNode = new FluidPressureFaucetNode( pool.getInputFlowRatePercentage(), pool.getInputFaucetEnabled() ) {{
 
             //Center the faucet over the left opening, values sampled from a drag listener
-            setOffset( new Point2D.Double( x, 157.19350073855244 - VIEW_OFFSET_Y ) );
+            setOffset( new Point2D.Double( x, 157.19350073855244 - viewOffsetY ) );
         }};
 
         //Show the water coming out of the faucet

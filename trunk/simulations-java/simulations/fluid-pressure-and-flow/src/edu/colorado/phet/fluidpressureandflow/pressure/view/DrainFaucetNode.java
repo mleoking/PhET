@@ -25,7 +25,7 @@ import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResourc
  * @author Sam Reid
  */
 public class DrainFaucetNode extends PNode {
-    public DrainFaucetNode( final Property<IPool> selectedPool, final FaucetPool pool, final double offsetX, final double VIEW_OFFSET_Y, ModelViewTransform transform, ObservableProperty<Double> liquidDensity ) {
+    public DrainFaucetNode( final Property<IPool> selectedPool, final FaucetPool pool, final double offsetX, final double viewOffsetY, ModelViewTransform transform, ObservableProperty<Double> liquidDensity ) {
         selectedPool.valueEquals( pool ).addObserver( new VoidFunction1<Boolean>() {
             public void apply( final Boolean visible ) {
                 setVisible( visible );
@@ -35,7 +35,7 @@ public class DrainFaucetNode extends PNode {
         final PImage drainFaucetImage = new PImage( BufferedImageUtils.multiScaleToHeight( DRAIN_FAUCET_ATTACHED, (int) ( DRAIN_FAUCET_ATTACHED.getHeight() * 1.2 ) ) ) {{
 
             //Center the faucet over the left opening, values sampled from a drag listener
-            setOffset( new Point2D.Double( offsetX, 644.3426883308715 - 1 - VIEW_OFFSET_Y ) );
+            setOffset( new Point2D.Double( offsetX, 644.3426883308715 - 1 - viewOffsetY ) );
 
             FaucetSliderNode sliderNode = new FaucetSliderNode( UserComponentChain.chain( FPAFSimSharing.UserComponents.drainFaucet, UserComponents.slider ), pool.getDrainFaucetEnabled(), 1, pool.getDrainFlowRate(), true ) {{
                 setOffset( 4, 8 + 5 - 1 ); //TODO #3199, change offsets when the faucet images are revised, make these constants
