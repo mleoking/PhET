@@ -22,7 +22,7 @@ public class MatchingGameModel {
     public final GameAudioPlayer gameAudioPlayer = new GameAudioPlayer( true );
     public final Property<MatchingGameState> state = new Property<MatchingGameState>( initialState() ) {{
         addObserver( new ChangeObserver<MatchingGameState>() {
-            @Override public void update( final MatchingGameState newValue, final MatchingGameState oldValue ) {
+            public void update( final MatchingGameState newValue, final MatchingGameState oldValue ) {
                 if ( newValue.info.audio && oldValue.info.mode == Mode.WAITING_FOR_USER_TO_CHECK_ANSWER && newValue.info.mode == Mode.USER_CHECKED_CORRECT_ANSWER ) {
                     gameAudioPlayer.correctAnswer();
                 }
@@ -36,10 +36,9 @@ public class MatchingGameModel {
         addClockListener( new ClockAdapter() {
             @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
                 SwingUtilities.invokeLater( new Runnable() {
-                    @Override public void run() {
+                    public void run() {
                         final MatchingGameState init = state.get();
                         final MatchingGameState value = init.stepInTime( clockEvent.getSimulationTimeChange() );
-//                        System.out.println( "stepping in time, before = " + init.info + ", after = " + value.info );
                         state.set( value );
                     }
                 } );

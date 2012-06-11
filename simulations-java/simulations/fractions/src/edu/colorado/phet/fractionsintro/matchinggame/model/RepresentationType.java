@@ -85,7 +85,6 @@ public @Data class RepresentationType {
         if ( scale < 1 ) {
             //if the objects got scaled down, then scale up the strokes so they will look like they have the same width
             for ( PNode child : box.getChildren() ) {
-                System.out.println( "child.getClass().getName() = " + child.getClass().getName() );
                 if ( child instanceof PatternNode ) {
                     PatternNode patternNode = (PatternNode) child;
                     patternNode.scaleStrokes( 1.0 / scale );
