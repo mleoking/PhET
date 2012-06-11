@@ -180,7 +180,7 @@ public class EFACIntroModel {
         // Update the temperature seen by the thermometers.
         for ( Thermometer thermometer : Arrays.asList( thermometer1, thermometer2 ) ) {
             boolean touchingSomething = false;
-            for ( ThermalEnergyContainer element : Arrays.asList( beaker, brick, ironBlock, leftBurner, rightBurner ) ) {
+            for ( ThermalEnergyContainer element : Arrays.asList( beaker, brick, ironBlock, leftBurner, rightBurner, air ) ) {
                 if ( element.getThermalContactArea().getBounds().contains( thermometer.position.get().toPoint2D() ) ) {
                     thermometer.sensedTemperature.set( element.getTemperature() );
                     touchingSomething = true;
