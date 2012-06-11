@@ -14,7 +14,7 @@ import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.METRIC;
 
 /**
- * Model for the "pressure" tab
+ * Model for the "pressure" tab, in which the user can select from 3 scenes with different pool shapes
  *
  * @author Sam Reid
  */
@@ -48,6 +48,7 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
         } );
     }
 
+    //Reset all of the parts of the model.
     @Override public void reset() {
         super.reset();
         trapezoidPool.reset();
@@ -59,6 +60,7 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
         atmosphere.reset();
     }
 
+    //Add an observer that will get updated when the pressure could have changed.
     @Override public void addPressureChangeObserver( SimpleObserver updatePressure ) {
         super.addPressureChangeObserver( updatePressure );
         atmosphere.addObserver( updatePressure );

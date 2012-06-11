@@ -25,7 +25,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.fluidpressureandflow.pressure.view.FaucetPool;
 
 /**
- * A pair of trapezoidal pools.
+ * A pair of trapezoidal pools with a connecting passageway.
  *
  * @author Sam Reid
  */
