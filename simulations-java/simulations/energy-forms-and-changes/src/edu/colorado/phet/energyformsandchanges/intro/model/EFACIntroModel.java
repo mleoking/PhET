@@ -206,10 +206,17 @@ public class EFACIntroModel {
             }
         }
 
-        // Have the air exchange energy with the other energy containers.
-        // This needs to be done after the other containers have exchanged with
-        // each other.
-        for ( ThermalEnergyContainer ec : energyContainerList ) {
+        // Exchange thermal energy between burners and the air.
+        for ( Burner burner : Arrays.asList( leftBurner, rightBurner ) ) {
+            // Only interact with air if nothing is sitting on top.
+            if ( !burner.areAnyOnTop( ironBlock, brick, beaker ) ) {
+                air.exchangeEnergyWith( burner, dt );
+            }
+        }
+
+        // Exchange thermal energy between the other thermal energy containers
+        // and the air.
+        for ( ThermalEnergyContainer ec : Arrays.asList( brick, ironBlock, beaker ) ) {
             air.exchangeEnergyWith( ec, dt );
         }
     }

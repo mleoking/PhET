@@ -41,7 +41,7 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     private static final double ENERGY_TRANSFER_AREA_HEIGHT = ENERGY_TRANSFER_AREA_WIDTH;
     private static final double DENSITY = 11300; // In kg/m^3  TODO: Not sure what to use for this.
     private static final double MASS = ENERGY_TRANSFER_AREA_WIDTH * ENERGY_TRANSFER_AREA_WIDTH * ENERGY_TRANSFER_AREA_HEIGHT * DENSITY;
-    private static final double SPECIFIC_HEAT = 10; // In J/kg-K
+    private static final double SPECIFIC_HEAT = 10; // In J/kg-K, relatively low so that it heats up quickly.
     private static final double INITIAL_ENERGY = MASS * SPECIFIC_HEAT * EFACConstants.ROOM_TEMPERATURE;
 
     // Random number generator, used for initial positions of energy chunks.
@@ -254,6 +254,15 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
                 break;
             }
         }
+    }
+
+    public boolean areAnyOnTop( ThermalEnergyContainer... thermalEnergyContainers ) {
+        for ( ThermalEnergyContainer otherEnergyContainer : thermalEnergyContainers ) {
+            if ( getThermalContactArea().getThermalContactLength( otherEnergyContainer.getThermalContactArea() ) > 0 ) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public ObservableList<EnergyChunk> getEnergyChunkList() {
