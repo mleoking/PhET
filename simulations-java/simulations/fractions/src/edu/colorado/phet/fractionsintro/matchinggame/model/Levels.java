@@ -232,21 +232,26 @@ public class Levels {
     }, RANDOM() );
 
     private RepresentationType createPatterns( String name, final int denominator, final int length, final F<Integer, Pattern> pattern, final F2<Pattern, Integer, FilledPattern> fill ) {
-        return twoComposites( name, new F<Fraction, Boolean>() {
-                                  @Override public Boolean f( final Fraction fraction ) {
-                                      return fraction.denominator == denominator;
-                                  }
-                              },
-                              new F<Fraction, PNode>() {
-                                  @Override public PNode f( Fraction f ) {
-                                      return new PatternNode( fill.f( pattern.f( length ), f.numerator ), LIGHT_GREEN );
-                                  }
-                              },
-                              new F<Fraction, PNode>() {
-                                  @Override public PNode f( Fraction f ) {
-                                      return new PatternNode( fill.f( pattern.f( length ), f.numerator ), LIGHT_BLUE );
-                                  }
-                              }
+        return toRepresentation( name, new F<Fraction, Boolean>() {
+                                     @Override public Boolean f( final Fraction fraction ) {
+                                         return fraction.denominator == denominator;
+                                     }
+                                 },
+                                 new F<Fraction, PNode>() {
+                                     @Override public PNode f( Fraction f ) {
+                                         return new PatternNode( fill.f( pattern.f( length ), f.numerator ), LIGHT_GREEN );
+                                     }
+                                 },
+                                 new F<Fraction, PNode>() {
+                                     @Override public PNode f( Fraction f ) {
+                                         return new PatternNode( fill.f( pattern.f( length ), f.numerator ), LIGHT_BLUE );
+                                     }
+                                 },
+                                 new F<Fraction, PNode>() {
+                                     @Override public PNode f( Fraction f ) {
+                                         return new PatternNode( fill.f( pattern.f( length ), f.numerator ), Color.red );
+                                     }
+                                 }
         );
     }
 

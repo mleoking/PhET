@@ -35,8 +35,8 @@ public @Data class RepresentationType {
         return new RepresentationType( name, appliesTo, single( r ) );
     }
 
-    public static RepresentationType twoComposites( String name, final F<Fraction, Boolean> appliesTo, final F<Fraction, PNode> a, final F<Fraction, PNode> b ) {
-        return new RepresentationType( name, appliesTo, single( makeComposite( a ) ).snoc( makeComposite( b ) ) );
+    public static RepresentationType toRepresentation( String name, final F<Fraction, Boolean> appliesTo, final F<Fraction, PNode> a, final F<Fraction, PNode> b, final F<Fraction, PNode> c ) {
+        return new RepresentationType( name, appliesTo, single( makeComposite( a ) ).snoc( makeComposite( b ) ).snoc( c ) );
     }
 
     public boolean contains( final F<Fraction, PNode> representation ) {
