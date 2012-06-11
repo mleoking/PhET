@@ -70,7 +70,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
 
         //Create the scoring cells with target patterns
         ArrayList<Pair> pairs = new ArrayList<Pair>();
-        for ( int i = 0; i < 3; i++ ) {
+        for ( int i = 0; i < model.getNumberLevel( level ).targets.length(); i++ ) {
             NumberTarget target = model.getNumberLevel( level ).getTarget( i );
 
             ArrayList<PatternNode> nodes = new ArrayList<PatternNode>();
