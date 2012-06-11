@@ -86,7 +86,7 @@ public class GameInstance {
         }
     };
 
-    private static final F3<GameState, Double, UserInput, GameState> handleInteraction = new F3<GameState, Double, UserInput, GameState>() {
+    private static final F3<GameState, Double, UserInput, GameState> followMouse = new F3<GameState, Double, UserInput, GameState>() {
         @Override public GameState f( final GameState state, final Double time, final UserInput userInput ) {
             return gameState( setPosition( head( state ), userInput.pressLocation.orSome( head( state ).position ) ) );
         }
@@ -96,8 +96,10 @@ public class GameInstance {
     //1. single item
     //2. List of homogeneous items
     //3. Heterogeneous list of homogeneous lists
+
+    //How about just adding a button that lets user create their own named (and typed) tuple data structure?
     public static void main( String[] args ) {
-        Game game = new Game( new GameState( new GameItem( "hello", new Vector2D( 100, 100 ) ) ), handleInteraction );
+        Game game = new Game( new GameState( new GameItem( "hello", new Vector2D( 100, 100 ) ) ), animation1 );
         new GameInstance( game ).start();
     }
 }
