@@ -29,7 +29,7 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
 
     //Flag indicating whether the atmosphere is enabled or not.  it's nice to be able to turn it off and just focus on the water.
     //It also emphasizes that the reason that p is not zero at the top of the water IS the atmosphere.
-    public BooleanProperty atmosphere = new BooleanProperty( true );
+    public final BooleanProperty atmosphere = new BooleanProperty( true );
 
     public FluidPressureModel() {
         super( METRIC );

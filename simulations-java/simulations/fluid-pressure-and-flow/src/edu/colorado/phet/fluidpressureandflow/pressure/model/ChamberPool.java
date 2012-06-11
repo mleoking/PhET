@@ -39,13 +39,13 @@ public class ChamberPool implements IPool {
     private final double passageSize = 0.5;
 
     //Width of the right opening to the air
-    private double rightOpeningWidth = 2.5;
+    private final double rightOpeningWidth = 2.5;
 
     //Width of the left opening to the air
-    private double leftOpeningWidth = 0.5;
+    private final double leftOpeningWidth = 0.5;
 
     //Use the length ratio instead of area ratio because the quadratic factor makes it too hard to see the water move on the right, and decreases the pressure effect too much to see it
-    private double lengthRatio = rightOpeningWidth / leftOpeningWidth;
+    private final double lengthRatio = rightOpeningWidth / leftOpeningWidth;
 
     public final Property<ObservableList<Mass>> masses = new Property<ObservableList<Mass>>( new ObservableList<Mass>() {{
         double massOffset = -4.9;
