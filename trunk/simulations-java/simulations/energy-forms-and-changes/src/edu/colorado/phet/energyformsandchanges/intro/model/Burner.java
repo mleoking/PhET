@@ -50,6 +50,9 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     // Rate at which energy chunks travel when returning to the burner during cooling.
     private static final double ENERGY_CHUNK_VELOCITY = 0.04; // In meters per second.
 
+    // Distance at which energy chunks must start fading out.  Value empirically determined.
+    private static final double FADE_RADIUS = WIDTH / 2; // In meters.
+
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
@@ -65,6 +68,7 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     private final BooleanProperty energyChunksVisible;
     private final ConstantDtClock clock;
     private final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
+    private double cumulativeEnergyProducedSinceLastEnergyChunk = 0;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -96,6 +100,7 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
             public void update( Double newValue, Double oldValue ) {
                 if ( newValue == 0 || ( Math.signum( newValue ) != Math.signum( oldValue ) ) ) {
                     energy = INITIAL_ENERGY;
+                    cumulativeEnergyProducedSinceLastEnergyChunk = 0;
                 }
             }
         } );
@@ -119,7 +124,12 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     }
 
     public void updateInternallyProducedEnergy( double dt ) {
-        energy += heatCoolLevel.get() * MAX_ENERGY_GENERATION_RATE * dt;
+        double energyProduced = heatCoolLevel.get() * MAX_ENERGY_GENERATION_RATE * dt;
+        energy += energyProduced;
+        if ( energyProduced < 0 ) {
+            cumulativeEnergyProducedSinceLastEnergyChunk += energyProduced;
+            System.out.println( "cumulativeCoolingSinceLastEnergyChunk = " + cumulativeEnergyProducedSinceLastEnergyChunk );
+        }
     }
 
     @Override public Property<HorizontalSurface> getTopSurfaceProperty() {
@@ -171,8 +181,10 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     }
 
     public boolean needsEnergyChunk() {
-        // If cooling, the burner will always accept energy chunks.
-        return heatCoolLevel.get() < 0;
+        if ( heatCoolLevel.get() < 0 && cumulativeEnergyProducedSinceLastEnergyChunk < -EFACConstants.ENERGY_PER_CHUNK ) {
+            System.out.println( "Burner needs a chunk, baby." );
+        }
+        return heatCoolLevel.get() < 0 && cumulativeEnergyProducedSinceLastEnergyChunk < -EFACConstants.ENERGY_PER_CHUNK;
     }
 
     public boolean hasExcessEnergyChunks() {
@@ -182,6 +194,7 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
 
     public void addEnergyChunk( EnergyChunk ec ) {
         energyChunkList.add( ec );
+        cumulativeEnergyProducedSinceLastEnergyChunk = 0;
     }
 
     public EnergyChunk extractClosestEnergyChunk( ImmutableVector2D point ) {
@@ -217,7 +230,9 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
 
     @Override public void reset() {
         super.reset();
+        energyChunkList.clear();
         energy = INITIAL_ENERGY;
+        cumulativeEnergyProducedSinceLastEnergyChunk = 0;
     }
 
     /**
@@ -279,11 +294,13 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
         updateInternallyProducedEnergy( dt );
 
         // Generate energy chunks if needed.
+        /* TODO: Commented out on 6/11/2012 because I think it isn't needed.  Keep for a bit to be sure.
         if ( needsEnergyChunk() && heatCoolLevel.get() > 0 ) {
             ImmutableVector2D initialChunkPosition = new ImmutableVector2D( getThermalContactArea().getBounds().getCenterX(), getThermalContactArea().getBounds().getCenterY() );
             EnergyChunk ec = new EnergyChunk( clock, initialChunkPosition, energyChunksVisible, true );
             energyChunkList.add( ec );
         }
+        */
 
         // Animate energy chunks.
         for ( EnergyChunk energyChunk : new ArrayList<EnergyChunk>( energyChunkList ) ) {
@@ -296,6 +313,11 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
                 }
                 else {
                     energyChunk.position.set( destination );
+                }
+
+                // See if the chunk needs to start fading.
+                if ( energyChunk.getExistenceStrength().get() == 1.0 && energyChunk.position.get().distance( destination ) <= FADE_RADIUS ) {
+                    energyChunk.startFadeOut();
                 }
             }
             else {

@@ -36,7 +36,7 @@ public class EnergyChunk {
         this.visible = visibilityControl;
         if ( fadeIn ) {
             fadeState = FadeState.FADING_IN;
-            existenceStrength.set( 0.0 );
+            existenceStrength.set( 1E-7 ); // Must start above 0.
         }
 
         // Hook up the clock.
