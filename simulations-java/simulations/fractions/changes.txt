@@ -1,3 +1,4 @@
+Fraction Matcher: Fixed the stroke outline anomalies in polygon strokes
 Build a fraction tab: On higher levels, it shouldn't highlight when you get the right value--the user has to drag it there to check
 Build a fraction tab: Added a level
 Build a fraction tab: Made it possible to have more than 3 scoring cells
