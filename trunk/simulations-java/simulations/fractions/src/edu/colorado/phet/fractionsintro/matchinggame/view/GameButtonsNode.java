@@ -41,7 +41,7 @@ public class GameButtonsNode extends PNode {
                 }
             }
 
-            //TODO: This shows a flicker of "check answer" after user presses next, needs to be fixed
+            //TODO: This shows a flicker of "check answer" after user presses next.  Can it be fixed easily?
             else if ( state.getChecks() < 2 && state.getMode() == WAITING_FOR_USER_TO_CHECK_ANSWER ) {
                 addChild( buttonFactory.f( new ButtonArgs( Components.checkAnswerButton, "Check answer", Color.orange, buttonLocation, new CheckAnswer() ) ) );
             }
