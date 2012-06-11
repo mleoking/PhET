@@ -51,7 +51,7 @@ public class GameInstance {
         state = game.initialState;
         final int delay = 20;
         new Timer( delay, new ActionListener() {
-            @Override public void actionPerformed( final ActionEvent e ) {
+            public void actionPerformed( final ActionEvent e ) {
                 rootNode.removeAllChildren();
                 rootNode.addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, canvas.getWidth(), canvas.getHeight() ), Color.yellow ) {{
                     addInputEventListener( new PBasicInputEventHandler() {
