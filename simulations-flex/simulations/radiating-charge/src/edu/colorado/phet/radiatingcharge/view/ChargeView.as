@@ -26,6 +26,8 @@ public class ChargeView extends Sprite {
     private var stageH: int;
     private var delX:Number;        //x-component of displacement between charge and mouse (spring end)
     private var delY:Number;        //y-component of displacement between charge and mouse (spring end)
+    private var originX:Number;     // location, in screen coordinates, of origin
+    private var originY:Number;     //
     private var dt:Number;          //time step, in seconds
     private var springTimer:Timer;  //spring timer
 
@@ -34,8 +36,10 @@ public class ChargeView extends Sprite {
         this.myFieldModel = myFieldModel;
         this.myFieldModel.registerView( this );
         this.chargeGraphic = new Sprite();
-        this.chargeGraphic.x = stageW / 2;
-        this.chargeGraphic.y = stageH / 2;
+        this.originX = stageW/2;
+        this.originY = stageH/2;
+        this.chargeGraphic.x = originX;
+        this.chargeGraphic.y = originY;
         this.springGraphic = new Sprite();
         this.delX = 0;
         this.delY = 0;
@@ -72,7 +76,7 @@ public class ChargeView extends Sprite {
         g.moveTo( this.chargeGraphic.x,  this.chargeGraphic.y );
         g.lineTo( this.mouseX,  this.mouseY );
         this.delX = this.mouseX - this.chargeGraphic.x;
-        this.delY = this.mouseY - this.chargeGraphic.y;
+        this.delY = -( this.mouseY - this.chargeGraphic.y );
         this.myFieldModel.setForce( delX,  delY );
         //trace("ChargeView.drawSpringGraphic mouseX = "+this.mouseX+"    this.chargeGraphic.x = "+this.chargeGraphic.x) ;
         //g.lineTo( evt.stageX,  evt.stageY );     //does not work: evt.stageX is (1/2) value of mouseX ??
@@ -133,8 +137,9 @@ public class ChargeView extends Sprite {
     }//end makeChargeGrabbable
 
     public function update():void{
-        this.chargeGraphic.x = this.myFieldModel.xC;
-        this.chargeGraphic.y = this.myFieldModel.yC;
+        this.chargeGraphic.x = this.stageW/2 + this.myFieldModel.xC;
+        this.chargeGraphic.y = this.stageH/2 - this.myFieldModel.yC;
+        //trace( "ChargeView.update. chargeGraphic.y = "+ this.chargeGraphic.y) ;
         //trace("ChargeView.update called model.xC = "+ this.myFieldModel.xC)
     }
 
