@@ -61,6 +61,7 @@ public class MassesLayer extends PNode {
         }
     }
 
+    //Creates the dotted line shape that shows where a mass can be placed.
     public static Shape getDottedLineShape( final ChamberPool pool, final Mass dragging ) {
         ArrayList<Mass> stackedMasses = pool.getStackedMasses();
         Rectangle2D bounds = pool.getLeftOpeningWaterShape().getBounds2D();

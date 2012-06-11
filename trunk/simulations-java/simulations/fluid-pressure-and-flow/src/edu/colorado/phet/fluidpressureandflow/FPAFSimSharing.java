@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserAction;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
-import edu.colorado.phet.fluidpressureandflow.pressure.view.RichVoidFunction0;
+import edu.colorado.phet.fluidpressureandflow.pressure.view.CompositeVoidFunction0;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendUserMessage;
 
@@ -82,8 +82,8 @@ public class FPAFSimSharing {
         velocitySensor
     }
 
-    public static RichVoidFunction0 sendMessage( final IUserComponent component, final IUserComponentType type, final IUserAction action ) {
-        return new RichVoidFunction0() {
+    public static CompositeVoidFunction0 sendMessage( final IUserComponent component, final IUserComponentType type, final IUserAction action ) {
+        return new CompositeVoidFunction0() {
             public void apply() {
                 sendUserMessage( component, type, action );
             }
