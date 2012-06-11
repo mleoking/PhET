@@ -14,7 +14,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
 import edu.umd.cs.piccolo.PNode;
 
-import static java.awt.BasicStroke.CAP_ROUND;
 import static java.awt.BasicStroke.JOIN_MITER;
 
 /**
@@ -28,7 +27,7 @@ public class EqualsSignNode extends RichPNode {
         addChild( createPath( 22 ) );
     }
 
-    private PhetPPath createPath( double y ) { return createSignNode( new BasicStroke( 11, CAP_ROUND, JOIN_MITER ).createStrokedShape( new Line2D.Double( 0, y, 60, y ) ) ); }
+    private PhetPPath createPath( double y ) { return createSignNode( new BasicStroke( 11, BasicStroke.CAP_SQUARE, JOIN_MITER ).createStrokedShape( new Line2D.Double( 0, y, 60, y ) ) ); }
 
     //Encapsulates stroke, paint and stroke paint for a sign node like "=", "<", ">"
     public static PhetPPath createSignNode( Shape shape ) { return new PhetPPath( shape, Color.yellow, new BasicStroke( 2 ), Color.black ); }

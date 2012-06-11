@@ -1,3 +1,4 @@
+Fraction Matcher: Made the big yellow equals sign have square corners instead of rounded
 Fraction Matcher: Fixed: For fractions > 1, sometimes the bar on the number line uses green instead of the representation color
 Fraction Matcher: Fixed the stroke outline anomalies in polygon strokes
 Build a fraction tab: On higher levels, it shouldn't highlight when you get the right value--the user has to drag it there to check
