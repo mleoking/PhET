@@ -156,7 +156,6 @@ public class EnergyChunkDistributor {
                 }
                 else {
                     // Point is outside container, move it towards center of rectangle.
-                    System.out.println( "Point detected outside of container." );
                     ImmutableVector2D vectorToCenter = new ImmutableVector2D( enclosingRect.getCenterX(), enclosingRect.getCenterY() ).getSubtractedInstance( p.position );
                     p.applyForce( vectorToCenter.getInstanceOfMagnitude( OUTSIDE_RECT_FORCE ) );
                 }
