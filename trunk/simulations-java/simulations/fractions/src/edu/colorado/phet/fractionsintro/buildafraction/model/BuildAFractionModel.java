@@ -122,11 +122,17 @@ public class BuildAFractionModel {
         return new PictureLevel( list( 1, 2, 3, 4, 5, 6 ), list( new PictureTarget( new Fraction( 1, 1 ) ), new PictureTarget( new Fraction( 1, 2 ) ), new PictureTarget( new Fraction( 2, 3 ) ) ) );
     }
 
-    public void nextNumberLevel() { numberLevel.set( numberLevel.get() + 1 ); }
-
     public void removeCreatedValueFromNumberLevel( final Fraction value ) {
         final Property<List<Fraction>> fractions = numberLevels.get( numberLevel.get() ).createdFractions;
         fractions.set( fractions.get().delete( value, Equal.<Fraction>anyEqual() ) );
+    }
+
+    //Choose a representation, pies or bars, but use the same representation for all things
+    private NumberLevel numberLevel0() {
+        List<Color> colors = shuffledColors();
+        return new NumberLevel( true, list( 1, 1, 2, 2, 3, 3 ), shuffle( list( target( 1, 2, colors.index( 0 ), pie ),
+                                                                               target( 1, 3, colors.index( 1 ), pie ),
+                                                                               target( 2, 3, colors.index( 2 ), pie ) ) ) );
     }
 
     private NumberLevel numberLevel1() {
@@ -151,14 +157,6 @@ public class BuildAFractionModel {
                                                       target( 2, 3, colors.index( 1 ), representation.draw() ),
                                                       target( 5, 4, colors.index( 2 ), representation.draw() ),
                                                       target( 4, 5, colors.index( 3 ), representation.draw() ) ) ) );
-    }
-
-    //Choose a representation, pies or bars, but use the same representation for all things
-    private NumberLevel numberLevel0() {
-        List<Color> colors = shuffledColors();
-        return new NumberLevel( false, list( 1, 1, 2, 2, 3, 3 ), shuffle( list( target( 1, 2, colors.index( 0 ), pie ),
-                                                                                target( 1, 3, colors.index( 1 ), pie ),
-                                                                                target( 2, 3, colors.index( 2 ), pie ) ) ) );
     }
 
     private List<Color> shuffledColors() {return shuffle( list( red, green, lightBlue, orange ) );}
