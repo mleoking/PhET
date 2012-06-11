@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.intro.view.FractionNode;
@@ -342,23 +343,32 @@ public class Levels {
     private static MovableFraction fraction( int numerator, int denominator, Cell cell, final F<Fraction, PNode> node, IUserComponent userComponent, String representationName ) {
 
         //Find the color for the node.
-        //TODO: consider creating class ColorNode extends PNode and use F<Fraction,ColorNode> everywhere.
         PNode n = node.f( new Fraction( numerator, denominator ) );
         Color color = n instanceof FractionNode ? Color.black :
                       n instanceof IColor ? ( (IColor) n ).getColor() :
-                      Color.green;
-        //Cache nodes as images to improve performance
-        //TODO: could this put the same node at 2 places in the scene graph?  If so, what problems would that cause?
+                      colorOfComposite( n );
         return new MovableFraction( nextID(), new Vector2D( cell.rectangle.getCenter() ), numerator, denominator, false, cell, 1.0,
-//                                    new Cache<Fraction, PNode>(
                                     new F<Fraction, PNode>() {
                                         @Override public PNode f( final Fraction fraction ) {
                                             return new PComposite() {{ addChild( node.f( fraction ) ); }};
                                         }
-                                    }
-//        )
-                ,
+                                    },
                                     MoveToCell( cell ), false, userComponent, color, representationName );
+    }
+
+    //Find the color used in a composite node (for a fraction > 1)
+    private static Color colorOfComposite( final PNode n ) {
+        if ( n instanceof RichPNode ) {
+            //RichPNode with an HBox with 1+ children
+            final PNode firstChild = n.getChild( 0 ).getChild( 0 );
+            if ( firstChild instanceof IColor ) {
+                return ( (IColor) firstChild ).getColor();
+            }
+            else {
+                throw new RuntimeException( "Color not found" );
+            }
+        }
+        throw new RuntimeException( "Color not found" );
     }
 
     private List<MovableFraction> createLevel( F<Fraction, ArrayList<RepresentationType>> representations, List<Cell> _cells, Fraction[] a ) {
