@@ -39,7 +39,7 @@ public class ScoreBoxNode extends PNode {
     private final PImage splitButton;
     private FractionNode fractionGraphic;
 
-    public ScoreBoxNode( final int numerator, final int denominator, final Property<List<Fraction>> matches, final PNode rootNode, final BuildAFractionModel model, final NumberSceneNode numberSceneNode ) {
+    public ScoreBoxNode( final int numerator, final int denominator, final Property<List<Fraction>> matches, final PNode rootNode, final BuildAFractionModel model, final NumberSceneNode numberSceneNode, final boolean flashTargetCellOnMatch ) {
         this.path = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 120, 120, 30, 30 ), CONTROL_PANEL_BACKGROUND, controlPanelStroke, Color.darkGray ) {{
 
             setStrokePaint( Color.darkGray );
@@ -53,7 +53,7 @@ public class ScoreBoxNode extends PNode {
                         @Override public Boolean f( final Fraction f ) {
                             return f.approxEquals( fraction );
                         }
-                    } ).isSome() && !completed ) {
+                    } ).isSome() && !completed && flashTargetCellOnMatch ) {
                         setStrokePaint( Color.red );
                         doTerminate();
                         activity = new PInterpolatingActivity( 2000, PUtil.DEFAULT_ACTIVITY_STEP_RATE ) {

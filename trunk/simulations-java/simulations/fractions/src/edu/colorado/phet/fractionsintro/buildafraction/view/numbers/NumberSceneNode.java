@@ -79,7 +79,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
             }
             HBox patternNode = new HBox( nodes.toArray( new PNode[nodes.size()] ) );
             pairs.add( new Pair( new ScoreBoxNode( target.fraction.numerator, target.fraction.denominator, model.getCreatedFractions( level ),
-                                                   rootNode, model, this ), new ZeroOffsetNode( patternNode ) ) );
+                                                   rootNode, model, this, model.getNumberLevel( level ).flashTargetCellOnMatch ), new ZeroOffsetNode( patternNode ) ) );
         }
         pairList = List.iterableList( pairs );
 

@@ -20,9 +20,12 @@ public class NumberLevel {
     public final List<Integer> numbers;
     public final List<NumberTarget> targets;
 
+    //True if the scoring target cell should blink when the user creates a match.  Disabled on higher levels to make it more difficult.
+    public final boolean flashTargetCellOnMatch;
+
     //Infer the numbers from the list of targets, using exactly what is necessary
-    public NumberLevel( final List<NumberTarget> targets ) {
-        this( targets.map( new F<NumberTarget, Integer>() {
+    public NumberLevel( boolean flashTargetCellOnMatch, final List<NumberTarget> targets ) {
+        this( flashTargetCellOnMatch, targets.map( new F<NumberTarget, Integer>() {
             @Override public Integer f( final NumberTarget numberTarget ) {
                 return numberTarget.fraction.numerator;
             }
@@ -34,7 +37,8 @@ public class NumberLevel {
                 } ) ), targets );
     }
 
-    public NumberLevel( final List<Integer> numbers, final List<NumberTarget> targets ) {
+    public NumberLevel( boolean flashTargetCellOnMatch, final List<Integer> numbers, final List<NumberTarget> targets ) {
+        this.flashTargetCellOnMatch = flashTargetCellOnMatch;
         this.numbers = numbers.sort( Ord.intOrd );
         this.targets = targets;
     }
