@@ -330,9 +330,14 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
     }
 
     public void hideFace() {
+
+        //Only subtract from the score if the face dialog was showing.  Otherwise you can get a negative score by removing an item from the target container since this method is called
+        //each time.
+        if ( faceNodeDialog.getPickable() ) {
+            model.numberScore.subtract( 1 );
+        }
         faceNodeDialog.animateToTransparency( 0.0f, 200 );
         faceNodeDialog.setPickable( false );
         faceNodeDialog.setChildrenPickable( false );
-        model.numberScore.subtract( 1 );
     }
 }

@@ -1,3 +1,4 @@
+Build a fraction tab: Fixed: Score went to -1 when popping out a single fraction from a non-complete level.
 Build a fraction tab: Added score readout: each completed level is worth one point
 Build a fraction tab: Improved fonts and layout for scoreboard
 Build a fraction tab: Made it so you can't drop more than one match into a scoring cell
