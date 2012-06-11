@@ -96,15 +96,15 @@ public class BuildAFractionModel {
         for ( int i = 0; i < 10; i++ ) {
             add( i == 0 ? numberLevel0() :
                  i == 1 ? numberLevel1() :
-                 i == 2 ? new NumberLevel( list( 1, 2, 3, 3, 3, 4, 4, 5, 6, 6, 7, 8, 9 ), shuffle( list( target( 2, 6, red, flower ),
-                                                                                                         target( 3, 6, green, flower ),
-                                                                                                         target( 4, 6, lightBlue, flower ) ) ) ) :
-                 i == 3 ? new NumberLevel( list( 1, 1, 2, 3, 3, 3, 4, 5, 6, 7, 8, 9 ), list( target( 1, 1, red, pyramid1 ),
-                                                                                             target( 3, 4, green, pyramid4 ),
-                                                                                             target( 5, 9, lightBlue, pyramid9 ) ) ) :
-                 i == 4 ? new NumberLevel( list( 4, 3, 3, 2, 2, 1, 5, 6, 7, 8, 9 ), shuffle( list( target( 4, 3, red, pie ),
-                                                                                                   target( 3, 2, green, pie ),
-                                                                                                   target( 2, 1, lightBlue, pie ) ) ) ) :
+                 i == 2 ? new NumberLevel( true, list( 1, 2, 3, 3, 3, 4, 4, 5, 6, 6, 7, 8, 9 ), shuffle( list( target( 2, 6, red, flower ),
+                                                                                                               target( 3, 6, green, flower ),
+                                                                                                               target( 4, 6, lightBlue, flower ) ) ) ) :
+                 i == 3 ? new NumberLevel( true, list( 1, 1, 2, 3, 3, 3, 4, 5, 6, 7, 8, 9 ), list( target( 1, 1, red, pyramid1 ),
+                                                                                                   target( 3, 4, green, pyramid4 ),
+                                                                                                   target( 5, 9, lightBlue, pyramid9 ) ) ) :
+                 i == 4 ? new NumberLevel( true, list( 4, 3, 3, 2, 2, 1, 5, 6, 7, 8, 9 ), shuffle( list( target( 4, 3, red, pie ),
+                                                                                                         target( 3, 2, green, pie ),
+                                                                                                         target( 2, 1, lightBlue, pie ) ) ) ) :
                  numberLevel5()
             );
         }
@@ -135,9 +135,9 @@ public class BuildAFractionModel {
             put( verticalBar, 20 );
         }}.draw();
         List<Color> colors = shuffledColors();
-        return new NumberLevel( list( 1, 1, 2, 2, 3, 3, 4, 4, 5, 5 ), shuffle( list( target( 2, 3, colors.index( 0 ), representation ),
-                                                                                     target( 3, 4, colors.index( 1 ), representation ),
-                                                                                     target( 4, 5, colors.index( 2 ), representation ) ) ) );
+        return new NumberLevel( true, list( 1, 1, 2, 2, 3, 3, 4, 4, 5, 5 ), shuffle( list( target( 2, 3, colors.index( 0 ), representation ),
+                                                                                           target( 3, 4, colors.index( 1 ), representation ),
+                                                                                           target( 4, 5, colors.index( 2 ), representation ) ) ) );
     }
 
     private NumberLevel numberLevel5() {
@@ -147,18 +147,18 @@ public class BuildAFractionModel {
             put( pie, 30 );
         }};
         List<Color> colors = shuffledColors();
-        return new NumberLevel( shuffle( list( target( 3, 2, colors.index( 0 ), representation.draw() ),
-                                               target( 2, 3, colors.index( 1 ), representation.draw() ),
-                                               target( 5, 4, colors.index( 2 ), representation.draw() ),
-                                               target( 4, 5, colors.index( 3 ), representation.draw() ) ) ) );
+        return new NumberLevel( false, shuffle( list( target( 3, 2, colors.index( 0 ), representation.draw() ),
+                                                      target( 2, 3, colors.index( 1 ), representation.draw() ),
+                                                      target( 5, 4, colors.index( 2 ), representation.draw() ),
+                                                      target( 4, 5, colors.index( 3 ), representation.draw() ) ) ) );
     }
 
     //Choose a representation, pies or bars, but use the same representation for all things
     private NumberLevel numberLevel0() {
         List<Color> colors = shuffledColors();
-        return new NumberLevel( list( 1, 1, 2, 2, 3, 3 ), shuffle( list( target( 1, 2, colors.index( 0 ), pie ),
-                                                                         target( 1, 3, colors.index( 1 ), pie ),
-                                                                         target( 2, 3, colors.index( 2 ), pie ) ) ) );
+        return new NumberLevel( false, list( 1, 1, 2, 2, 3, 3 ), shuffle( list( target( 1, 2, colors.index( 0 ), pie ),
+                                                                                target( 1, 3, colors.index( 1 ), pie ),
+                                                                                target( 2, 3, colors.index( 2 ), pie ) ) ) );
     }
 
     private List<Color> shuffledColors() {return shuffle( list( red, green, lightBlue, orange ) );}
