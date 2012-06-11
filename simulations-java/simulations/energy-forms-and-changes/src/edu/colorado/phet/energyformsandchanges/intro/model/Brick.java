@@ -44,6 +44,10 @@ public class Brick extends Block {
         return "Brick";
     }
 
+    @Override public EnergyContainerCategory getEnergyContainerCategory() {
+        return EnergyContainerCategory.BRICK;
+    }
+
     @Override public IUserComponent getUserComponent() {
         return EnergyFormsAndChangesSimSharing.UserComponents.brick;
     }

@@ -119,6 +119,6 @@ public interface ThermalEnergyContainer {
      * rate at which heat is transferred between different items.
      */
     enum EnergyContainerCategory {
-        SOLID, WATER, AIR, BURNER
+        IRON, BRICK, WATER, AIR, BURNER
     }
 }
