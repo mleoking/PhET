@@ -171,8 +171,6 @@ public class TrapezoidPool implements FaucetPool {
         waterVolume.addObserver( updatePressure );
     }
 
-    public Point2D clampSensorPosition( final Point2D pt ) { return pt; }
-
     public boolean isAbbreviatedUnits( final ImmutableVector2D sensorPosition, final double value ) {
         return getWaterShape().get().contains( sensorPosition.getX(), sensorPosition.getY() );
     }

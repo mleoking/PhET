@@ -3,7 +3,6 @@ package edu.colorado.phet.fluidpressureandflow.pressure.model;
 
 import java.awt.Shape;
 import java.awt.geom.Area;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -206,9 +205,6 @@ public class ChamberPool implements IPool {
         leftWaterHeight.addObserver( updatePressure );
         rightWaterHeight.addObserver( updatePressure );
     }
-
-    //Sensor can travel anywhere in this scene
-    public Point2D clampSensorPosition( final Point2D pt ) { return pt; }
 
     public boolean isAbbreviatedUnits( final ImmutableVector2D sensorPosition, final double value ) {
         return getWaterShape().get().contains( sensorPosition.getX(), sensorPosition.getY() );

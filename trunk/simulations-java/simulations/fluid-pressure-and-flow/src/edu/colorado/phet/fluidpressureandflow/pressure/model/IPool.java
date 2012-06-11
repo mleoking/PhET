@@ -2,7 +2,6 @@
 package edu.colorado.phet.fluidpressureandflow.pressure.model;
 
 import java.awt.Shape;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -35,10 +34,6 @@ public interface IPool {
 
     //Add an observer that is notified when the pressure might have changed (due to one of its dependencies changing)
     void addPressureChangeObserver( SimpleObserver updatePressure );
-
-    //Make sure the sensor can't be moved out of the range for the pool, only used in the square pool.
-    //TODO: is this used anymore?
-    Point2D clampSensorPosition( Point2D pt );
 
     //Use abbreviated units when submerged in some of the scenes
     boolean isAbbreviatedUnits( ImmutableVector2D sensorPosition, double value );
