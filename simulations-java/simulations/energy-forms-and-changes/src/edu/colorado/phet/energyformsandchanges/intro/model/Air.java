@@ -51,11 +51,7 @@ public class Air implements ThermalEnergyContainer {
     private static final double VOLUME = SIZE.getWidth() * SIZE.getHeight() * DEPTH;
     private static final double MASS = VOLUME * DENSITY;
     private static final double INITIAL_ENERGY = MASS * SPECIFIC_HEAT * EFACConstants.ROOM_TEMPERATURE;
-    private static final ThermalContactArea THERMAL_CONTACT_AREA = new ThermalContactArea( new Rectangle2D.Double( -SIZE.getWidth() / 2,
-                                                                                                                   0,
-                                                                                                                   SIZE.getWidth(),
-                                                                                                                   SIZE.getHeight() ),
-                                                                                           true );
+    private static final ThermalContactArea THERMAL_CONTACT_AREA = new ThermalContactArea( new Rectangle2D.Double( -SIZE.getWidth() / 2, 0, SIZE.getWidth(), SIZE.getHeight() ), true );
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
@@ -127,7 +123,7 @@ public class Air implements ThermalEnergyContainer {
         double thermalContactLength = getThermalContactArea().getThermalContactLength( otherEnergyContainer.getThermalContactArea() );
         if ( thermalContactLength > 0 ) {
             if ( Math.abs( otherEnergyContainer.getTemperature() - getTemperature() ) > TEMPERATURES_EQUAL_THRESHOLD ) {
-                // Exchange energy between the this and the other energy container.
+                // Exchange energy between this and the other energy container.
                 double heatTransferConstant = getHeatTransferFactor( this.getEnergyContainerCategory(), otherEnergyContainer.getEnergyContainerCategory() );
                 double thermalEnergyGained = ( otherEnergyContainer.getTemperature() - getTemperature() ) * thermalContactLength * heatTransferConstant * dt;
                 changeEnergy( thermalEnergyGained );
@@ -135,10 +131,9 @@ public class Air implements ThermalEnergyContainer {
             }
 
             // Exchange energy chunks.
-            if ( needsEnergyChunk() ) {
-                if ( otherEnergyContainer.hasExcessEnergyChunks() ) {
-                    addEnergyChunk( otherEnergyContainer.extractClosestEnergyChunk( getCenterPoint() ) );
-                }
+            if ( needsEnergyChunk() && otherEnergyContainer.hasExcessEnergyChunks() ) {
+                ImmutableVector2D pointAboveContainer = new ImmutableVector2D( otherEnergyContainer.getCenterPoint().getX(), getThermalContactArea().getBounds().getMaxY() );
+                addEnergyChunk( otherEnergyContainer.extractClosestEnergyChunk( pointAboveContainer ) );
             }
             else if ( hasExcessEnergyChunks() ) {
                 if ( otherEnergyContainer.needsEnergyChunk() ) {
