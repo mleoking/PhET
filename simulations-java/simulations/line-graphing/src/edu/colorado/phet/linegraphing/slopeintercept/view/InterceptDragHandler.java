@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class InterceptDragHandler extends LineDragHandler {
+class InterceptDragHandler extends LineDragHandler {
 
     private final Property<DoubleRange> interceptRange;
     private double clickYOffset; // offset of mouse click from dragNode's origin, in parent's coordinate frame
