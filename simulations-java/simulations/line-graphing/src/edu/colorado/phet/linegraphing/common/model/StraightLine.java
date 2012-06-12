@@ -40,7 +40,7 @@ public class StraightLine {
         this.run = run;
         this.x1 = x1;
         this.y1 = y1;
-        this.yIntercept = solveY( 0 );
+        this.yIntercept = ( x1 == 0 )? y1 : solveY( 0 );
         this.color = color;
         this.highlightColor = highlightColor;
     }
