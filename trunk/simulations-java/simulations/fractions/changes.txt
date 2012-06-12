@@ -1,3 +1,4 @@
+Fraction Matcher: Fixed: Red wasn't appearing correctly for fractions > 1
 Build a fraction tab: Fixed: scoring cells weren't flashing red for level 1
 # 0.00.81 (64935) Jun 11, 2012
 Fraction Matcher: Added red as a representation color
