@@ -9,10 +9,13 @@ package edu.colorado.phet.radiatingcharge.control {
 import edu.colorado.phet.flashcommon.controls.NiceButton2;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.radiatingcharge.model.FieldModel;
+import edu.colorado.phet.radiatingcharge.util.SpriteUIComponent;
 import edu.colorado.phet.radiatingcharge.view.MainView;
 
 import mx.containers.Canvas;
 import mx.containers.VBox;
+import mx.controls.ComboBox;
+import mx.events.DropdownEvent;
 
 //Control Panel for Radiating Charge sim
 public class ControlPanel extends Canvas {
@@ -20,6 +23,8 @@ public class ControlPanel extends Canvas {
     private var myFieldModel:FieldModel;
     private var background: VBox;
     private var pauseButton:NiceButton2;
+    private var myComboBox: ComboBox;
+    private var choiceList_arr:Array;
 
     //internationalized strings
     public var start_str:String;
@@ -52,8 +57,17 @@ public class ControlPanel extends Canvas {
             setStyle( "horizontalAlign", "center" );
         }
 
-        this.pauseButton = new NiceButton2( 100, 25, start_str, pauseUnPause, 0x00ff00, 0x000000 );
-    }
+        this.pauseButton = new NiceButton2( 100, 25, pause_str, pauseUnPause, 0x00ff00, 0x000000 );
+        this.myComboBox = new ComboBox();
+        this.choiceList_arr = new Array( 3 );
+        choiceList_arr = [ "sinusoid", "linear", "circular"];
+        myComboBox.dataProvider = choiceList_arr;
+        myComboBox.addEventListener( DropdownEvent.CLOSE, comboBoxListener );
+
+        this.addChild( background );
+        this.background.addChild( new SpriteUIComponent( pauseButton, true ) );
+        this.background.addChild( myComboBox );
+    }//end init()
 
     private function initializeStrings():void{
         pause_str = FlexSimStrings.get( "pause", "Pause" );
@@ -64,10 +78,14 @@ public class ControlPanel extends Canvas {
 
     private function pauseUnPause():void{
         if( myFieldModel.paused ){
-
+            this.myFieldModel.paused = false;
         }else{
-
+            this.myFieldModel.paused = true;
         }
     }//end pauseUnPause
+
+    private function comboBoxListener( evt: DropdownEvent ):void{
+        trace("ControlPanel.comboBoxListener: selected item = "+evt.currentTarget.selectedItem )  ;
+    }
 } //end class
 } //end package

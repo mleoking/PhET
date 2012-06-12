@@ -55,7 +55,7 @@ public class MainView extends Canvas {
         this.addChild( new SpriteUIComponent( this.myChargeView ));
         this.addChild( myControlPanel );
         this.myControlPanel.x = 0.8*stageW;
-        this.myControlPanel.y = 0.01*stageH;
+        this.myControlPanel.y = 0.1*stageH;
 
         this.phetLogo = new PhetIcon();
         this.phetLogo.x = stageW - 2.0 * this.phetLogo.width;

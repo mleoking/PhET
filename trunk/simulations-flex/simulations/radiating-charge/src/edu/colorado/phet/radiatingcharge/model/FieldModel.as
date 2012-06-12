@@ -140,7 +140,12 @@ public class FieldModel {
 
     public function set paused( tOrF:Boolean ):void{
         this._paused = tOrF;
-    }
+        if( tOrF ){
+            this.stopRadiation();
+        }else{
+            this.startRadiation();
+        }
+    } //end set Paused
 
 
 //
@@ -265,7 +270,7 @@ public class FieldModel {
         }
         var cosThetaC:Number = Math.cos( thetaC );
         var sinThetaC:Number = Math.sin( thetaC );
-        trace("cos = "+cosThetaC+"    sin = " + sinThetaC )
+        //trace("cos = "+cosThetaC+"    sin = " + sinThetaC )
         for( var i:int = 0; i < this._nbrLines; i++ ){
             //reset positions
             this._fieldLine_arr[i][0].xP = this._xC;
