@@ -16,8 +16,6 @@ import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.colorado.phet.linegraphing.common.view.LineGraphNode;
 import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
 import edu.colorado.phet.linegraphing.common.view.StraightLineNode;
-import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeDragHandler.SlopeDragHandler;
-import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeDragHandler.X1Y1DragHandler;
 
 /**
  * Graph that provides direct manipulation of a line in point-slope form.

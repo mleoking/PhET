@@ -1,3 +1,4 @@
+6/12/12 refactor duplication in class hierarchy of line manipulation drag handlers
 # 0.00.18 (64844) Jun 7, 2012
 6/7/12 change requests based on 6/7 meetings
 6/7/12 when rise<0 and run>0, put equation below line so that it isn't occluded by rise/run brackets
