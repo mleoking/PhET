@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.model.LineFormsModel;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
+import edu.colorado.phet.linegraphing.common.model.WellDefinedLineProperty;
 
 /**
  * Model for the "Point Slope" module.
@@ -27,7 +28,7 @@ public class PointSlopeModel extends LineFormsModel {
     }
 
     private PointSlopeModel( DoubleRange riseRange, DoubleRange runRange, DoubleRange x1Range, DoubleRange y1Range ) {
-        super( new StraightLineProperty( new StraightLine( riseRange.getDefault(), runRange.getDefault(), x1Range.getDefault(), y1Range.getDefault(),
+        super( new WellDefinedLineProperty( new StraightLine( riseRange.getDefault(), runRange.getDefault(), x1Range.getDefault(), y1Range.getDefault(),
                                                            LGColors.INTERACTIVE_LINE, LGColors.INTERACTIVE_LINE ) ) );
         this.riseRange = new Property<DoubleRange>( riseRange );
         this.runRange = new Property<DoubleRange>( runRange );
@@ -67,33 +68,5 @@ public class PointSlopeModel extends LineFormsModel {
         runRange.reset();
         x1Range.reset();
         y1Range.reset();
-    }
-
-    private static class StraightLineProperty extends Property<StraightLine> {
-
-        public StraightLineProperty( StraightLine line ) {
-            super( line );
-        }
-
-        @Override public void set( StraightLine line ) {
-            double newRise = line.rise;
-            double newRun = line.run;
-            // Skip over values that would result in slope=0/0
-            if ( line.rise == 0 && line.run == 0 ) {
-                if ( get().run != 0 ) {
-                    // run changed, skip over run = 0
-                    newRun = ( get().run > 0 ) ? -1 : 1;
-                }
-                else if ( get().rise != 0 ) {
-                    // rise changed, skip over rise = 0
-                    newRise = ( get().rise > 0 ) ? -1 : 1;
-                }
-                else {
-                    // rise and run haven't changed, arbitrarily move rise toward origin
-                    newRise = ( get().y1 > 0 ) ? -1 : 1;
-                }
-            }
-            super.set( new StraightLine( newRise, newRun, line.x1, line.y1, line.color, line.highlightColor ) );
-        }
     }
 }
