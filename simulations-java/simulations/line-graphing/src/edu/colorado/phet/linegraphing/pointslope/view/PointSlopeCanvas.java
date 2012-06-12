@@ -37,7 +37,7 @@ public class PointSlopeCanvas extends LineFormsCanvas {
                new PointSlopeGraphNode( model.graph, model.mvt, model.interactiveLine, model.savedLines, model.standardLines,
                                         linesVisible, interactiveLineVisible, interactiveEquationVisible, slopeVisible, model.riseRange, model.runRange, model.x1Range, model.y1Range
                ),
-               new PointSlopeEquationControls( interactiveEquationVisible, model.interactiveLine,
-                                               model.savedLines, linesVisible, model.riseRange, model.runRange, model.x1Range, model.y1Range ) );
+               new PointSlopeEquationControls( model.interactiveLine, model.savedLines, interactiveEquationVisible,
+                                               linesVisible, model.riseRange, model.runRange, model.x1Range, model.y1Range ) );
     }
 }

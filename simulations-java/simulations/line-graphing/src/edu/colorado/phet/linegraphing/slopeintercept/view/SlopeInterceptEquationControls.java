@@ -17,16 +17,26 @@ import edu.colorado.phet.linegraphing.common.view.EquationControls;
  */
 class SlopeInterceptEquationControls extends EquationControls {
 
-    public SlopeInterceptEquationControls( final Property<Boolean> maximized,
-                                           final Property<StraightLine> interactiveLine,
+    /**
+     * Constructor
+     * @param interactiveLine the line that can be manipulated by the user
+     * @param savedLines lines that have been saved by the user
+     * @param maximized is the control panel maximized (true) or minimized (false)?
+     * @param linesVisible are lines visible on the graph?
+     * @param riseRange
+     * @param runRange
+     * @param yInterceptRange
+     */
+    public SlopeInterceptEquationControls( final Property<StraightLine> interactiveLine,
                                            final ObservableList<StraightLine> savedLines,
+                                           final Property<Boolean> maximized,
                                            final Property<Boolean> linesVisible,
                                            Property<DoubleRange> riseRange,
                                            Property<DoubleRange> runRange,
-                                           Property<DoubleRange> interceptRange ) {
+                                           Property<DoubleRange> yInterceptRange ) {
         super( MessageFormat.format( "{0} = {1}{2} + {3}", /* y = mx + b */
                                      Strings.SYMBOL_Y, Strings.SYMBOL_SLOPE, Strings.SYMBOL_X, Strings.SYMBOL_INTERCEPT ),
-               maximized, interactiveLine, savedLines, linesVisible,
-               new SlopeInterceptEquationNode( interactiveLine, riseRange, runRange, interceptRange ) );
+               interactiveLine, savedLines, maximized, linesVisible,
+               new SlopeInterceptEquationNode( interactiveLine, riseRange, runRange, yInterceptRange ) );
     }
 }

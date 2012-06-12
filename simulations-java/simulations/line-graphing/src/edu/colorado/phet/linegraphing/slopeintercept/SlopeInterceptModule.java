@@ -8,7 +8,7 @@ import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptModel;
 import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptCanvas;
 
 /**
- * Module for the "Intro" tab.
+ * Module for the "Slope-Intercept" tab.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

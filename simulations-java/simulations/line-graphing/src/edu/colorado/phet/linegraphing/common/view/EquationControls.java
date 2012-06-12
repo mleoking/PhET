@@ -40,16 +40,16 @@ public class EquationControls extends PhetPNode {
     /**
      * Constructor
      * @param title title that will be placed next to the minimize/maximize button
-     * @param maximized is the control panel maximized (true) or minimized (false)?
      * @param interactiveLine the line that can be manipulated by the user
      * @param savedLines lines that have been saved by the user
+     * @param maximized is the control panel maximized (true) or minimized (false)?
      * @param linesVisible are lines visible on the graph?
      * @param interactiveEquationNode node that implements the interactive equation
      */
     public EquationControls( String title,
-                             final Property<Boolean> maximized,
                              final Property<StraightLine> interactiveLine,
                              final ObservableList<StraightLine> savedLines,
+                             final Property<Boolean> maximized,
                              final Property<Boolean> linesVisible,
                              PNode interactiveEquationNode ) {
 
