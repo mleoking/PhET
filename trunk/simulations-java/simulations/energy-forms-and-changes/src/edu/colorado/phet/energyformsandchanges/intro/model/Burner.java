@@ -293,15 +293,6 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
         // Update internal energy based on whether flame or ice are turned on.
         updateInternallyProducedEnergy( dt );
 
-        // Generate energy chunks if needed.
-        /* TODO: Commented out on 6/11/2012 because I think it isn't needed.  Keep for a bit to be sure.
-        if ( needsEnergyChunk() && heatCoolLevel.get() > 0 ) {
-            ImmutableVector2D initialChunkPosition = new ImmutableVector2D( getThermalContactArea().getBounds().getCenterX(), getThermalContactArea().getBounds().getCenterY() );
-            EnergyChunk ec = new EnergyChunk( clock, initialChunkPosition, energyChunksVisible, true );
-            energyChunkList.add( ec );
-        }
-        */
-
         // Animate energy chunks.
         for ( EnergyChunk energyChunk : new ArrayList<EnergyChunk>( energyChunkList ) ) {
             if ( energyChunk.getExistenceStrength().get() > 0 ) {
