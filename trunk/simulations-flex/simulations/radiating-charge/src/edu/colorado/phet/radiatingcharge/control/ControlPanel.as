@@ -23,14 +23,22 @@ public class ControlPanel extends Canvas {
     private var myFieldModel:FieldModel;
     private var background: VBox;
     private var pauseButton:NiceButton2;
-    private var myComboBox: ComboBox;
+    private var stopButton:NiceButton2;
+    private var centerChargeButton:NiceButton2;
+    public var myComboBox: ComboBox;
     private var choiceList_arr:Array;
 
     //internationalized strings
     public var start_str:String;
     public var stop_str:String;
     public var pause_str:String;
+    private var centerCharge_str:String;
     public var unPause_str:String;
+    //Drop-down menu choices
+    private var userChoice_str:String;
+    public var linear_str:String;
+    public var sinusoid_str:String;
+    public var circular_str:String;
 
     public function ControlPanel( mainView:MainView, model:FieldModel ) {
         super();
@@ -58,14 +66,18 @@ public class ControlPanel extends Canvas {
         }
 
         this.pauseButton = new NiceButton2( 100, 25, pause_str, pauseUnPause, 0x00ff00, 0x000000 );
+        this.stopButton = new NiceButton2( 100, 25, stop_str, stopCharge, 0x00ff00, 0x000000 )
+        this.centerChargeButton = new NiceButton2( 130, 25, centerCharge_str, centerCharge, 0x00ff00, 0x000000 )
         this.myComboBox = new ComboBox();
         this.choiceList_arr = new Array( 3 );
-        choiceList_arr = [ "sinusoid", "linear", "circular"];
+        choiceList_arr = [ userChoice_str, linear_str, sinusoid_str, circular_str ];
         myComboBox.dataProvider = choiceList_arr;
         myComboBox.addEventListener( DropdownEvent.CLOSE, comboBoxListener );
 
         this.addChild( background );
         this.background.addChild( new SpriteUIComponent( pauseButton, true ) );
+        this.background.addChild( new SpriteUIComponent( stopButton, true ) );
+        this.background.addChild( new SpriteUIComponent( centerChargeButton, true ) );
         this.background.addChild( myComboBox );
     }//end init()
 
@@ -74,6 +86,11 @@ public class ControlPanel extends Canvas {
         unPause_str = FlexSimStrings.get( "unPause", "UnPause" );
         start_str = FlexSimStrings.get( "start", "Start" );
         stop_str = FlexSimStrings.get( "stop", "Stop" );
+        centerCharge_str = FlexSimStrings.get("centerCharge", "Center Charge");
+        userChoice_str = FlexSimStrings.get( "userControlled", "User Controlled" );
+        linear_str = FlexSimStrings.get( "linear", "Linear" );
+        sinusoid_str = FlexSimStrings.get( "sinusoid", "Sinusoid" );
+        circular_str = FlexSimStrings.get( "circular", "Circular" );
     }
 
     private function pauseUnPause():void{
@@ -84,8 +101,28 @@ public class ControlPanel extends Canvas {
         }
     }//end pauseUnPause
 
-    private function comboBoxListener( evt: DropdownEvent ):void{
-        trace("ControlPanel.comboBoxListener: selected item = "+evt.currentTarget.selectedItem )  ;
+    private function stopCharge():void{
+        this.myFieldModel.stopCharge();
     }
+
+    private function centerCharge():void{
+        this.myFieldModel.centerCharge();
+    }
+
+    private function comboBoxListener( evt: DropdownEvent ):void{
+        var choice:String = evt.currentTarget.selectedItem;
+        if( choice == userChoice_str ){
+            this.myFieldModel.setMotion( 0 );
+        }else if( choice == linear_str ){
+            this.myFieldModel.setMotion( 1 );
+        }else if( choice == sinusoid_str ){
+            this.myFieldModel.setMotion( 2 );
+        }else if( choice == circular_str ){
+            this.myFieldModel.setMotion( 3 );
+        }else{
+            trace( "ERROR: ControlPanel.comboBoxListener() received invalid choice.") ;
+        }
+
+    }//end comboBoxListener
 } //end class
 } //end package

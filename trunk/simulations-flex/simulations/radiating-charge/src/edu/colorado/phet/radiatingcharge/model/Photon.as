@@ -21,6 +21,10 @@ public class Photon {
         this._sin = sin;
     }
 
+    public function resetPhoton():void{
+        _cos = 0;
+        _sin = 0;
+    }
 
     public function set xP( xPos:Number ):void{
         this._xP = xPos;

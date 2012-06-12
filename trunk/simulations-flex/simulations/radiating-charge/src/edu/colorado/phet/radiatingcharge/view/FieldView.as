@@ -35,14 +35,14 @@ public class FieldView extends Sprite{
     public function update():void{
         var g:Graphics = this.graphics;
         g.clear();
-        g.lineStyle( 1, 0x000000, 1 );
+        g.lineStyle( 2, 0x0000ff, 1 );
         var fieldLine_arr:Array =  this.myFieldModel.fieldLine_arr;
+        //g.moveTo( originX + fieldLine_arr[i][0].xP, originY - fieldLine_arr[i][0].yP );
         for( var i:int = 0; i < nbrLines; i++){
-            //g.moveTo( fieldLine_arr[i][0].xP, fieldLine_arr[i][0].yP );
-            //g.moveTo( originX + myFieldModel.xC,  originY - myFieldModel.yC );
+            g.moveTo( originX + myFieldModel.xC,  originY - myFieldModel.yC );
             for( var j:int = 0; j < nbrPhotonsPerLine; j++ ) {
-                //g.lineTo( originX + fieldLine_arr[i][j].xP, originY - fieldLine_arr[i][j].yP );
-                g.drawRect( originX + fieldLine_arr[i][j].xP - 2, originY - fieldLine_arr[i][j].yP - 2, 4, 4 );
+                g.lineTo( originX + fieldLine_arr[i][j].xP, originY - fieldLine_arr[i][j].yP );
+                //g.drawRect( originX + fieldLine_arr[i][j].xP - 2, originY - fieldLine_arr[i][j].yP - 2, 4, 4 );
             }
         }
     }//end of update()
