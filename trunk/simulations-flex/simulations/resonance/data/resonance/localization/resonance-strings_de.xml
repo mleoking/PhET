@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--resonance-strings_de.xml created Tue Aug 02 10:56:09 CEST 2011 using: resonance 1.00.00 (54323), translation-utility 2.10.00 (48775) Feb 9, 2011-->
+<!--resonance-strings_de.xml created Tue Jun 12 18:04:32 CEST 2012 using: resonance 1.01.00 (54775), translation-utility 2.13.00 (59150) Dez 8, 2011-->
 <SimStrings>
 <string key="simSpeed" value="Geschwindigkeit"/>
-<string key="sameFrequency" value="Selbe Frequenz"/>
-<string key="sameSpring" value="Selbe Konstante"/>
+<string key="sameFrequency" value="Frequenz gleich"/>
+<string key="sameSpring" value="Federkonstante gleich"/>
 <string key="slow" value="langsam"/>
 <string key="mixedMAndK" value="Zufall"/>
 <string key="numberOfResonators" value="Anzahl der Resonatoren"/>
@@ -23,8 +23,9 @@
 <string key="frequency" value="Frequenz"/>
 <string key="resetAll" value="Reset"/>
 <string key="mass" value="Masse"/>
-<string key="sameMass" value="Selbe Masse"/>
+<string key="sameMass" value="Masse gleich"/>
 <string key="resonator" value="Resonator"/>
+<string key="translation.credits" value="Robert Jung, Jena"/>
 <string key="hz" value="Hz"/>
 <string key="NperM" value="N/m"/>
 <string key="gravityColon" value="Schwerkraft"/>
