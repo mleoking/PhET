@@ -1,3 +1,4 @@
+6/12/12 factor out duplication in GraphNode
 6/12/12 change test harnesses for interactive equations
 6/12/12 javadoc, reorder constructor args for consistency
 6/12/12 refactor duplication in canvas classes for first 2 tabs

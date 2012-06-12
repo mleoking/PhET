@@ -8,7 +8,6 @@ import java.awt.Font;
 import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.*;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.Icon;
@@ -107,16 +106,8 @@ public class GraphNode extends PhetPNode {
                     final int modelY = graph.yRange.getMin() + i;
                     if ( modelY != 0 ) { // skip origin, x axis will live here
                         final double yOffset = mvt.modelToViewY( modelY );
-                        PPath gridLineNode = new PPath( new Line2D.Double( minX, yOffset, maxX, yOffset ) );
-                        horizontalGridLinesNode.addChild( gridLineNode );
-                        if ( Math.abs( modelY ) % MAJOR_TICK_SPACING == 0 ) {
-                            gridLineNode.setStroke( MAJOR_GRID_LINE_STROKE );
-                            gridLineNode.setStrokePaint( MAJOR_GRID_LINE_COLOR );
-                        }
-                        else {
-                            gridLineNode.setStroke( MINOR_GRID_LINE_STROKE );
-                            gridLineNode.setStrokePaint( MINOR_GRID_LINE_COLOR );
-                        }
+                        final boolean isMajor = Math.abs( modelY ) % MAJOR_TICK_SPACING == 0;
+                        horizontalGridLinesNode.addChild( new GridLineNode( minX, yOffset, maxX, yOffset, isMajor ) );
                     }
                 }
             }
@@ -133,19 +124,20 @@ public class GraphNode extends PhetPNode {
                     final double modelX = graph.xRange.getMin() + i;
                     if ( modelX != 0 ) { // skip origin, y axis will live here
                         final double xOffset = mvt.modelToViewX( modelX );
-                        PPath gridLineNode = new PPath( new Line2D.Double( xOffset, minY, xOffset, maxY ) );
-                        verticalGridLinesNode.addChild( gridLineNode );
-                        if ( Math.abs( modelX ) % MAJOR_TICK_SPACING == 0 ) {
-                            gridLineNode.setStroke( MAJOR_GRID_LINE_STROKE );
-                            gridLineNode.setStrokePaint( MAJOR_GRID_LINE_COLOR );
-                        }
-                        else {
-                            gridLineNode.setStroke( MINOR_GRID_LINE_STROKE );
-                            gridLineNode.setStrokePaint( MINOR_GRID_LINE_COLOR );
-                        }
+                        final boolean isMajor = Math.abs( modelX ) % MAJOR_TICK_SPACING == 0;
+                        verticalGridLinesNode.addChild( new GridLineNode( xOffset, minY, xOffset, maxY, isMajor ) );
                     }
                 }
             }
+        }
+    }
+
+    // A major or minor line in the grid
+    private static class GridLineNode extends PPath {
+        public GridLineNode( double x1, double y1, double x2, double y2, boolean isMajor ) {
+            setPathTo( new Line2D.Double( x1, y1, x2, y2 ) );
+            setStroke( isMajor ? MAJOR_GRID_LINE_STROKE : MINOR_GRID_LINE_STROKE );
+            setStrokePaint( isMajor ? MAJOR_GRID_LINE_COLOR : MINOR_GRID_LINE_COLOR );
         }
     }
 
@@ -177,27 +169,12 @@ public class GraphNode extends PhetPNode {
                     final double x = mvt.modelToViewX( modelX );
                     final double y = mvt.modelToViewY( 0 );
                     if ( Math.abs( modelX ) % MAJOR_TICK_SPACING == 0 ) {
-                        // major tick line
-                        PPath tickLineNode = new PPath( new Line2D.Double( x, y - MAJOR_TICK_LENGTH, x, y + MAJOR_TICK_LENGTH ) );
-                        tickLineNode.setStroke( MAJOR_TICK_STROKE );
-                        tickLineNode.setPaint( MAJOR_TICK_COLOR );
-                        addChild( tickLineNode );
-                        // major tick label
-                        PText tickLabelNode = new PText( String.valueOf( modelX ) );
-                        tickLabelNode.setFont( MAJOR_TICK_FONT );
-                        tickLabelNode.setTextPaint( MAJOR_TICK_COLOR );
-                        addChild( tickLabelNode );
-                        // center label under line, compensate for minus sign
-                        final double signXOffset = ( modelX < 0 ) ? -( MINUS_SIGN_WIDTH / 2 ) : 0;
-                        tickLabelNode.setOffset( tickLineNode.getFullBoundsReference().getCenterX() - ( tickLabelNode.getFullBoundsReference().getWidth() / 2 ) + signXOffset,
-                                                 tickLineNode.getFullBoundsReference().getMaxY() + TICK_LABEL_SPACING );
+                        // major tick
+                        addChild( new MajorTickNode( x, y, modelX, true ) );
                     }
                     else {
-                        // minor tick with no label
-                        PPath tickLineNode = new PPath( new Line2D.Double( x, y - MINOR_TICK_LENGTH, x, y + MINOR_TICK_LENGTH ) );
-                        tickLineNode.setStroke( MINOR_TICK_STROKE );
-                        tickLineNode.setPaint( MINOR_TICK_COLOR );
-                        addChild( tickLineNode );
+                        // minor tick
+                        addChild( new MinorTickNode( x, y, true ) );
                     }
                 }
             }
@@ -209,7 +186,7 @@ public class GraphNode extends PhetPNode {
 
         public YAxisNode( Graph graph, ModelViewTransform mvt ) {
 
-            // horizontal line with arrows at both ends
+            // vertical line with arrows at both ends
             Point2D tailLocation = new Point2D.Double( mvt.modelToViewX( 0 ), mvt.modelToViewY( graph.yRange.getMin() - AXIS_EXTENT ) );
             Point2D tipLocation = new Point2D.Double( mvt.modelToViewX( 0 ), mvt.modelToViewY( graph.yRange.getMax() + AXIS_EXTENT ) );
             DoubleArrowNode lineNode = new DoubleArrowNode( tailLocation, tipLocation, AXIS_ARROW_SIZE.getHeight(), AXIS_ARROW_SIZE.getWidth(), AXIS_THICKNESS );
@@ -232,29 +209,61 @@ public class GraphNode extends PhetPNode {
                     final double x = mvt.modelToViewX( 0 );
                     final double y = mvt.modelToViewY( modelY );
                     if ( Math.abs( modelY ) % MAJOR_TICK_SPACING == 0 ) {
-                        // major tick line
-                        PPath tickLineNode = new PPath( new Line2D.Double( x - MAJOR_TICK_LENGTH, y, x + MAJOR_TICK_LENGTH, y ) );
-                        tickLineNode.setStroke( MAJOR_TICK_STROKE );
-                        tickLineNode.setPaint( MAJOR_TICK_COLOR );
-                        addChild( tickLineNode );
-                        // major tick label
-                        PText tickLabelNode = new PText( String.valueOf( modelY ) );
-                        tickLabelNode.setFont( MAJOR_TICK_FONT );
-                        tickLabelNode.setTextPaint( MAJOR_TICK_COLOR );
-                        addChild( tickLabelNode );
-                        // center label to left of line
-                        tickLabelNode.setOffset( tickLineNode.getFullBoundsReference().getMinX() - tickLabelNode.getFullBoundsReference().getWidth() - TICK_LABEL_SPACING,
-                                                 tickLineNode.getFullBoundsReference().getCenterY() - ( tickLabelNode.getFullBoundsReference().getHeight() / 2 ) );
+                        // major tick
+                        addChild( new MajorTickNode( x, y, modelY, false ) );
                     }
                     else {
-                        // minor tick with no label
-                        PPath tickLineNode = new PPath( new Line2D.Double( x - MINOR_TICK_LENGTH, y, x + MINOR_TICK_LENGTH, y ) );
-                        tickLineNode.setStroke( MINOR_TICK_STROKE );
-                        tickLineNode.setPaint( MINOR_TICK_COLOR );
-                        addChild( tickLineNode );
+                        // minor tick
+                        addChild( new MinorTickNode( x, y, false ) );
                     }
                 }
             }
+        }
+    }
+
+    // major tick with label, orientation is vertical or horizontal
+    private static class MajorTickNode extends PComposite {
+
+        public MajorTickNode( double x, double y, double value, boolean isVertical ) {
+
+            // tick line
+            PPath tickLineNode = isVertical ?
+                                 new PPath( new Line2D.Double( x, y - MAJOR_TICK_LENGTH, x, y + MAJOR_TICK_LENGTH ) ) :
+                                 new PPath( new Line2D.Double( x - MAJOR_TICK_LENGTH, y, x + MAJOR_TICK_LENGTH, y ) );
+            tickLineNode.setStroke( MAJOR_TICK_STROKE );
+            tickLineNode.setPaint( MAJOR_TICK_COLOR );
+            addChild( tickLineNode );
+
+            // tick label
+            PText tickLabelNode = new PText( String.valueOf( value ) );
+            tickLabelNode.setFont( MAJOR_TICK_FONT );
+            tickLabelNode.setTextPaint( MAJOR_TICK_COLOR );
+            addChild( tickLabelNode );
+
+            // label position
+            if ( isVertical ) {
+                // center label under line, compensate for minus sign
+                final double signXOffset = ( value < 0 ) ? -( MINUS_SIGN_WIDTH / 2 ) : 0;
+                tickLabelNode.setOffset( tickLineNode.getFullBoundsReference().getCenterX() - ( tickLabelNode.getFullBoundsReference().getWidth() / 2 ) + signXOffset,
+                                         tickLineNode.getFullBoundsReference().getMaxY() + TICK_LABEL_SPACING );
+            }
+            else {
+                // center label to left of line
+                tickLabelNode.setOffset( tickLineNode.getFullBoundsReference().getMinX() - tickLabelNode.getFullBoundsReference().getWidth() - TICK_LABEL_SPACING,
+                                         tickLineNode.getFullBoundsReference().getCenterY() - ( tickLabelNode.getFullBoundsReference().getHeight() / 2 ) );
+            }
+        }
+    }
+
+    // minor tick mark, no label, orientation is vertical or horizontal
+    private static class MinorTickNode extends PPath {
+
+        public MinorTickNode( double x, double y, boolean isVertical ) {
+            setPathTo( isVertical ?
+                       new Line2D.Double( x, y - MINOR_TICK_LENGTH, x, y + MINOR_TICK_LENGTH ) :
+                       new Line2D.Double( x - MINOR_TICK_LENGTH, y, x + MINOR_TICK_LENGTH, y ) );
+            setStroke( MINOR_TICK_STROKE );
+            setPaint( MINOR_TICK_COLOR );
         }
     }
 

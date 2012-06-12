@@ -14,7 +14,6 @@ MEDIUM
 
 LOW
 - grid node gets bigger when IntroModel.GRID_MODEL_UNITS gets smaller, size should remain constant
-- review internal duplication in GraphNode
 
 SIM-SHARING
 
