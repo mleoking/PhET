@@ -68,7 +68,7 @@ public class ThermometerNode extends PComposite {
 
         // Add the back of the thermometer.
         final double imageScale = 1; // Tweak factor for sizing the thermometers.
-        final PImage thermometerBack = new PImage( EnergyFormsAndChangesResources.Images.THERMOMETER_TALL_BACK );
+        final PImage thermometerBack = new PImage( EnergyFormsAndChangesResources.Images.THERMOMETER_MEDIUM_BACK );
         thermometerBack.setScale( imageScale );
         backLayer.addChild( thermometerBack );
 
@@ -95,7 +95,7 @@ public class ThermometerNode extends PComposite {
         }
 
         // Add the image for the front of the thermometer.
-        frontLayer.addChild( new PImage( EnergyFormsAndChangesResources.Images.THERMOMETER_TALL_FRONT ) {{
+        frontLayer.addChild( new PImage( EnergyFormsAndChangesResources.Images.THERMOMETER_MEDIUM_FRONT ) {{
             setScale( imageScale );
         }} );
 

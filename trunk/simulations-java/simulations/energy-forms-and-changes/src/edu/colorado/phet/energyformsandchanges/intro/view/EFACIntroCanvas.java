@@ -292,8 +292,8 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         private ThermometerToolBox( EFACIntroModel model, ModelViewTransform mvt, Color backgroundColor ) {
             this.model = model;
             this.mvt = mvt;
-            thermometerHeight = EnergyFormsAndChangesResources.Images.THERMOMETER_TALL_BACK.getHeight( null );
-            double thermometerWidth = EnergyFormsAndChangesResources.Images.THERMOMETER_TALL_BACK.getWidth( null );
+            thermometerHeight = EnergyFormsAndChangesResources.Images.THERMOMETER_MEDIUM_BACK.getHeight( null );
+            double thermometerWidth = EnergyFormsAndChangesResources.Images.THERMOMETER_MEDIUM_BACK.getWidth( null );
             PhetPPath thermometerRegion = new PhetPPath( new Rectangle2D.Double( 0, 0, thermometerWidth * ( NUM_THERMOMETERS_SUPPORTED + 2 ), thermometerHeight * 1.1 ), new Color( 0, 0, 0, 0 ) );
             addChild( new ControlPanelNode( new VBox( 0, thermometerRegion ), backgroundColor ) );
         }
