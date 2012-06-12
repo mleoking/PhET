@@ -1,33 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--wave-on-a-string-strings_de.xml created Tue Dec 16 14:44:16 CET 2008 using: wave-on-a-string 1.00.00 (22505), translation-utility 1.09.00 (26682)-->
+<!--wave-on-a-string-strings_de.xml created Tue Jun 12 18:22:39 CEST 2012 using: wave-on-a-string 2.03.00 (51205), translation-utility 2.13.00 (59150) Dez 8, 2011-->
 <SimStrings>
-<string key="manual" value="Steuerung von Hand"/>
+<string key="manual" value="Erregung von Hand"/>
 <string key="resetTimer" value="Timer-Reset"/>
 <string key="damping" value="Dämpfung"/>
 <string key="showHelp" value="Hilfe anzeigen"/>
-<string key="pulse" value="kurzer Puls"/>
+<string key="pulse" value="kurzer Impuls"/>
 <string key="amplitude" value="Amplitude"/>
 <string key="pausePlay" value="Pause"/>
 <string key="step" value="Einzelschritt"/>
 <string key="tension" value="Spannung"/>
-<string key="startTimer" value="Start / Pause"/>
+<string key="startTimer" value="Start/Pause"/>
 <string key="pulseWidth" value="Pulsweite"/>
 <string key="rulerHelp" value="Hilfe zum Lineal"/>
 <string key="high" value="stark"/>
-<string key="wiggleWrench" value="Oszillator bewegen"/>
-<string key="timer" value="Uhr / Timer"/>
-<string key="oscillate" value="kontin. Oszillieren"/>
+<string key="wiggleWrench" value="Oszillator bewegen!"/>
+<string key="timer" value="Stoppuhr"/>
+<string key="oscillate" value="kontinuierl. Erregung"/>
 <string key="rulers" value="Lineale"/>
 <string key="frequency" value="Frequenz"/>
 <string key="wrenchHelp" value="Oszillator"/>
 <string key="fixedEnd" value="festes Ende"/>
-<string key="refLineHelp" value="Bewegliche Referenzlinie"/>
-<string key="hideHelp" value="Hilfe verstecken"/>
-<string key="timerHelp" value="Hilfe zum Timer"/>
+<string key="hideHelp" value="Hilfe ausblenden"/>
+<string key="refLineHelp" value="Referenzlinie"/>
+<string key="translation.credits" value="Robert Jung, Jena"/>
+<string key="timerHelp" value="Hilfe zur Stoppuhr"/>
 <string key="looseEnd" value="freies Ende"/>
 <string key="noEnd" value="kein Ende"/>
 <string key="paused" value="angehalten"/>
 <string key="reset" value="Reset"/>
-<string key="pulse2" value="Puls auslösen"/>
+<string key="pulse2" value="Impuls"/>
 <string key="low" value="gering"/>
 </SimStrings>
