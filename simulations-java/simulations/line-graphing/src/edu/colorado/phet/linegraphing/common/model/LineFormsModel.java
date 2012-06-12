@@ -16,15 +16,21 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
  */
 public class LineFormsModel implements Resettable {
 
-    private static final int GRID_VIEW_UNITS = 530; // max dimension of the grid in the view
+    private static final int GRID_VIEW_UNITS = 530; // max dimension (width or height) of the grid in the view
 
-    public final ModelViewTransform mvt;
-    public final WellDefinedLineProperty interactiveLine;
-    public final ObservableList<StraightLine> savedLines;
-    public final ObservableList<StraightLine> standardLines;
-    public final Graph graph;
-    public final PointTool pointTool1, pointTool2;
+    public final ModelViewTransform mvt; // transform between model and view coordinate frames
+    public final WellDefinedLineProperty interactiveLine; // the line that can be manipulated by the user
+    public final ObservableList<StraightLine> savedLines; // lines that have been saved by the user
+    public final ObservableList<StraightLine> standardLines; // standard lines (eg, y=x) that are available for viewing
+    public final Graph graph; // the graph that plots the lines
+    public final PointTool pointTool1, pointTool2; // tools for measuring points on the graph
 
+    /**
+     * Constructor.
+     * @param xRange range of the x axis
+     * @param yRange range of the y axis
+     * @param interactiveLine line that the user can manipulate
+     */
     public LineFormsModel( IntegerRange xRange, IntegerRange yRange, WellDefinedLineProperty interactiveLine ) {
 
         final double mvtScale = GRID_VIEW_UNITS / Math.max( xRange.getLength(), yRange.getLength() ); // view units / model units

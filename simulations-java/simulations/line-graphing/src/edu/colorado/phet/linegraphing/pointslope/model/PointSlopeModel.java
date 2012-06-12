@@ -17,17 +17,29 @@ import edu.colorado.phet.linegraphing.common.model.WellDefinedLineProperty;
  */
 public class PointSlopeModel extends LineFormsModel {
 
-    private static final IntegerRange X_RANGE = new IntegerRange( -10, 10 );
-    private static final IntegerRange Y_RANGE = X_RANGE;
+    public final Property<DoubleRange> riseRange, runRange, x1Range, y1Range; // ranges of things that the user can manipulate
 
-    public final Property<DoubleRange> riseRange, runRange, x1Range, y1Range;
-
+    // Constructor with default values.
     public PointSlopeModel() {
-        this( X_RANGE, Y_RANGE, 3, 4, 1, 2 );
+        this( 10, 3, 4, 1, 2 );
     }
 
+    // Constructs a square grid, with uniform quadrant sizes.
+    private PointSlopeModel( int quadrantSize, int rise, int run, int x1, int y1 ) {
+        this( new IntegerRange( -quadrantSize, quadrantSize ), new IntegerRange( -quadrantSize, quadrantSize ), rise, run, x1, y1 );
+    }
+
+    /*
+     * Constructor.
+     * @param xRange range of the x axis
+     * @param yRange range of the y axis
+     * @param rise initial rise value
+     * @param run initial run value
+     * @param x1 initial x1 value
+     * @param y1 initial y1 value
+     */
     private PointSlopeModel( final IntegerRange xRange, final IntegerRange yRange, int rise, int run, int x1, int y1 ) {
-        super( new IntegerRange( -10, 10 ), new IntegerRange( -10, 10 ),
+        super( xRange, yRange,
                new WellDefinedLineProperty( new StraightLine( rise, run, x1, y1, LGColors.INTERACTIVE_LINE, LGColors.INTERACTIVE_LINE ) ) );
 
         assert( xRange.contains( x1 ) );
