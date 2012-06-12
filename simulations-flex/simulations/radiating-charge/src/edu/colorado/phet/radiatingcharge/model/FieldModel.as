@@ -250,13 +250,17 @@ public class FieldModel {
             this.gamma = 1/Math.sqrt( 1 - beta*beta );
             var g3:Number = Math.pow( gamma, 3 );
             v = Math.sqrt( vX*vX + vY*vY );
-            var aX:Number = fX/( g3*m );  //x-component of acceleration
-            var aY:Number = fY/( g3*m );  //y-component of acceleration
-            _xC += vX*dt + 0.5*(fX/m)*dt*dt;
-            _yC += vY*dt + 0.5*(fY/m)*dt*dt;
+            var b:Number = 0.00; //drag constant
+            if( motionType_str == linear_str){
+                b = 0;     //drag is zero, when motion is constant velocity
+            }
+            var aX:Number = fX/( g3*m ) - b*v*vX;  //x-component of acceleration
+            var aY:Number = fY/( g3*m ) - b*v*vY;  //y-component of acceleration
+            _xC += vX*dt + 0.5*aX*dt*dt;
+            _yC += vY*dt + 0.5*aY*dt*dt;
 
-            vX += fX*dt/( m*g3 );
-            vY += fY*dt/( m*g3 );
+            vX += aX*dt;
+            vY += aY*dt;
             v = Math.sqrt( vX*vX + vY*vY );
             if( v > c ){
                 while( v >= c ){
@@ -278,7 +282,7 @@ public class FieldModel {
             this.v = Math.sqrt( vX*vX + vY*vY );
         }else if( motionType_str == circular_str ) {
             var R:Number = 20;  //radius of circle
-            var fracC:Number = 0.5;  //fraction of light speed
+            var fracC:Number = 0.1;  //fraction of light speed
             var freq:Number = fracC*this.c/(2*Math.PI*R);
             var omega:Number = 2*Math.PI*freq;
             this._xC = R*Math.cos( omega*this._t );
