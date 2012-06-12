@@ -69,6 +69,11 @@ public class GraphNode extends PhetPNode {
     private static final double TICK_LABEL_SPACING = 2;
     private static final double MINUS_SIGN_WIDTH = new PhetPText( "-", MAJOR_TICK_FONT ).getFullBoundsReference().getWidth();
 
+    /**
+     * Constructor
+     * @param graph model element that this node displays
+     * @param mvt transform between model and view coordinate frames
+     */
     public GraphNode( Graph graph, ModelViewTransform mvt ) {
 
         assert ( graph.contains( new ImmutableVector2D( 0, 0 ) ) && graph.contains( new ImmutableVector2D( 1, 1 ) ) ); // (0,0) and quadrant 1 is visible

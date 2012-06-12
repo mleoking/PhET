@@ -6,7 +6,7 @@ import java.awt.Font;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
- * Constants used through this sim.
+ * Constants used through this project.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
