@@ -15,18 +15,18 @@ import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
- * Drag handler for the (x1,y1) point manipulator of a line in point-slope form.
+ * Drag handler for the point (x1,y1) manipulator of a line in point-slope form.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class X1Y1DragHandler extends LineManipulatorDragHandler {
+class PointDragHandler extends LineManipulatorDragHandler {
 
     private final Property<DoubleRange> x1Range, y1Range;
     private double clickXOffset, clickYOffset; // offset of mouse click from dragNode's origin, in parent's coordinate frame
 
-    public X1Y1DragHandler( IUserComponent userComponent, IUserComponentType componentType,
-                            LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<StraightLine> line,
-                            Property<DoubleRange> x1Range, Property<DoubleRange> y1Range ) {
+    public PointDragHandler( IUserComponent userComponent, IUserComponentType componentType,
+                             LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<StraightLine> line,
+                             Property<DoubleRange> x1Range, Property<DoubleRange> y1Range ) {
         super( userComponent, componentType, manipulatorNode, mvt, line );
         this.x1Range = x1Range;
         this.y1Range = y1Range;
