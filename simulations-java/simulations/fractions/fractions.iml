@@ -28,7 +28,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="xstream" />
     <orderEntry type="module" module-name="games" />
   </component>
 </module>
