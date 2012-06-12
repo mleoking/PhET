@@ -34,6 +34,7 @@ public class Controller {
         @Override public MatchingGameState f( final MatchingGameState s ) {
 
             final MatchingGameState updated = s.animateMatchToScoreCell().withMode( WAITING_FOR_USER_TO_CHECK_ANSWER ).withChecks( 0 );
+            System.out.println( "updated.allStartCellsFree() = " + updated.allStartCellsFree() );
             return updated.allStartCellsFree() ?
                    updated.withInfo( updated.info.withBestTime( Math.min( updated.info.time, updated.info.bestTime ) ) ).withMode( SHOWING_GAME_OVER_SCREEN ) :
                    updated;

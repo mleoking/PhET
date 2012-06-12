@@ -18,6 +18,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.ToggleButtonNode;
 import edu.colorado.phet.fractionsintro.common.view.Colors;
+import edu.colorado.phet.fractionsintro.matchinggame.model.GameOverScore;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Polygon;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern;
@@ -32,7 +33,7 @@ import static fj.Ord.doubleOrd;
  * @author Sam Reid
  */
 public class LevelSelectionNode extends PNode {
-    public LevelSelectionNode( final VoidFunction0 startGame, final GameSettings gameSettings ) {
+    public LevelSelectionNode( final VoidFunction0 startGame, final GameSettings gameSettings, final Property<List<GameOverScore>> gameOverScores ) {
 
         final List<PatternNode> patterns = List.list( new PatternNode( FilledPattern.sequentialFill( Pattern.pie( 1 ), 1 ), Color.red ),
                                                       new PatternNode( FilledPattern.sequentialFill( Pattern.horizontalBars( 2 ), 2 ), Colors.LIGHT_GREEN ),
@@ -61,7 +62,7 @@ public class LevelSelectionNode extends PNode {
             @Override public LevelIconNode f( final PatternNode patternNode ) {
                 final Integer levelIndex = patterns.elementIndex( Equal.<PatternNode>anyEqual(), patternNode ).some();
                 int levelName = levelIndex + 1;
-                return new LevelIconNode( "Level " + levelName, patternNode, maxIconWidth, maxIconHeight, levelName );
+                return new LevelIconNode( "Level " + levelName, patternNode, maxIconWidth, maxIconHeight, levelName, gameOverScores );
             }
         } );
 
@@ -103,9 +104,9 @@ public class LevelSelectionNode extends PNode {
     public static class LevelIconNode extends PNode {
         public final Integer levelName;
 
-        public LevelIconNode( final String text, final PatternNode patternNode, final double maxIconWidth, final double maxIconHeight, final Integer levelName ) {
+        public LevelIconNode( final String text, final PatternNode patternNode, final double maxIconWidth, final double maxIconHeight, final Integer levelName, final Property<List<GameOverScore>> gameOverScores ) {
             this.levelName = levelName;
-            addChild( new VBox( new PhetPText( text, new PhetFont( 18, true ) ), new PaddedIcon( maxIconWidth, maxIconHeight, patternNode ), new StarSetNode() ) );
+            addChild( new VBox( new PhetPText( text, new PhetFont( 18, true ) ), new PaddedIcon( maxIconWidth, maxIconHeight, patternNode ), new StarSetNode( gameOverScores, levelName ) ) );
         }
     }
 }
