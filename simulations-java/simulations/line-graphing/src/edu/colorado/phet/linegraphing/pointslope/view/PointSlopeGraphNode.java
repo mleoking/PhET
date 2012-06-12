@@ -47,7 +47,7 @@ public class PointSlopeGraphNode extends LineGraphNode {
         // interactivity for point (x1,y1) manipulator
         pointManipulator = new LineManipulatorNode( manipulatorDiameter, LGColors.POINT_X1_Y1 );
         pointManipulator.addInputEventListener( new CursorHandler() );
-        pointManipulator.addInputEventListener( new X1Y1DragHandler( UserComponents.interceptManipulator, UserComponentTypes.sprite,
+        pointManipulator.addInputEventListener( new PointDragHandler( UserComponents.interceptManipulator, UserComponentTypes.sprite,
                                                                      pointManipulator, mvt, interactiveLine, x1Range, y1Range ) );
         // interactivity for slope manipulator
         slopeManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.SLOPE );
