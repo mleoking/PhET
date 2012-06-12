@@ -1,3 +1,4 @@
+6/12/12 javadoc, reorder constructor args for consistency
 6/12/12 refactor duplication in canvas classes for first 2 tabs
 6/12/12 add model constructor for graph with 4 uniform quadrants, javadoc
 6/12/12 more refactoring of model-container classes

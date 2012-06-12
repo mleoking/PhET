@@ -27,19 +27,31 @@ public class PointSlopeGraphNode extends LineGraphNode {
 
     private final LineManipulatorNode pointManipulator, slopeManipulatorNode;
 
+    /**
+     * Constructor
+     * @param graph
+     * @param mvt transform between model and view coordinate frames
+     * @param interactiveLine the line that can be manipulated by the user
+     * @param savedLines lines that have been saved by the user
+     * @param standardLines standard lines (eg, y=x) that are available for viewing
+     * @param linesVisible are lines visible on the graph?
+     * @param interactiveLineVisible is the interactive line visible visible on the graph?
+     * @param interactiveEquationVisible is the equation visible on the interactive line?
+     * @param slopeVisible are the slope (rise/run) brackets visible on the graphed line?
+     * @param riseRange
+     * @param runRange
+     * @param x1Range
+     * @param y1Range
+     */
     public PointSlopeGraphNode( final Graph graph, final ModelViewTransform mvt,
                                 Property<StraightLine> interactiveLine,
                                 ObservableList<StraightLine> savedLines,
                                 ObservableList<StraightLine> standardLines,
-                                Property<DoubleRange> riseRange,
+                                Property<Boolean> linesVisible, Property<Boolean> interactiveLineVisible, Property<Boolean> interactiveEquationVisible, Property<Boolean> slopeVisible, Property<DoubleRange> riseRange,
                                 Property<DoubleRange> runRange,
                                 Property<DoubleRange> x1Range,
-                                Property<DoubleRange> y1Range,
-                                Property<Boolean> interactiveEquationVisible,
-                                Property<Boolean> linesVisible,
-                                Property<Boolean> interactiveLineVisible,
-                                Property<Boolean> slopeVisible ) {
-        super( graph, mvt, interactiveLine, savedLines, standardLines, interactiveEquationVisible, linesVisible, interactiveLineVisible, slopeVisible );
+                                Property<DoubleRange> y1Range ) {
+        super( graph, mvt, interactiveLine, savedLines, standardLines, linesVisible, interactiveLineVisible, interactiveEquationVisible, slopeVisible );
 
         // Manipulators for the interactive line
         final double manipulatorDiameter = mvt.modelToViewDeltaX( MANIPULATOR_DIAMETER );

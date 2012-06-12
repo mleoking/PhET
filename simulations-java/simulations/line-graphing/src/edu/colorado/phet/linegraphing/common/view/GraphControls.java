@@ -42,6 +42,12 @@ public class GraphControls extends PNode {
     private static final String Y_EQUALS_X = MessageFormat.format( "{0} = {1}", Strings.SYMBOL_Y, Strings.SYMBOL_X );
     private static final String Y_EQUALS_NEGATIVE_X = MessageFormat.format( "{0} = -{1}", Strings.SYMBOL_Y, Strings.SYMBOL_X );
 
+    /**
+     * Constructor
+     * @param linesVisible are lines visible on the graph?
+     * @param slopeVisible are the slope (rise/run) brackets visible on the graphed line?
+     * @param standardLines standard lines (eg, y=x) that are available for viewing
+     */
     public GraphControls( final Property<Boolean> linesVisible, final Property<Boolean> slopeVisible, final ObservableList<StraightLine> standardLines ) {
 
         final Property<Boolean> yEqualsXVisible = new Property<Boolean>( standardLines.contains( StraightLine.Y_EQUALS_X_LINE ) );

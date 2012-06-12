@@ -32,13 +32,25 @@ public abstract class LineGraphNode extends GraphNode {
     private final PNode interactiveLineParentNode, bracketsParentNode;
     private StraightLineNode interactiveLineNode;
 
+    /**
+     * Constructor
+     * @param graph
+     * @param mvt transform between model and view coordinate frames
+     * @param interactiveLine the line that can be manipulated by the user
+     * @param savedLines lines that have been saved by the user
+     * @param standardLines standard lines (eg, y=x) that are available for viewing
+     * @param linesVisible are lines visible on the graph?
+     * @param interactiveLineVisible is the interactive line visible visible on the graph?
+     * @param interactiveEquationVisible is the equation visible on the interactive line?
+     * @param slopeVisible are the slope (rise/run) brackets visible on the graphed line?
+     */
     public LineGraphNode( final Graph graph, final ModelViewTransform mvt,
                           Property<StraightLine> interactiveLine,
                           ObservableList<StraightLine> savedLines,
                           ObservableList<StraightLine> standardLines,
-                          Property<Boolean> interactiveEquationVisible,
                           final Property<Boolean> linesVisible,
                           final Property<Boolean> interactiveLineVisible,
+                          Property<Boolean> interactiveEquationVisible,
                           final Property<Boolean> slopeVisible ) {
         super( graph, mvt );
 

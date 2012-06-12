@@ -6,7 +6,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.piccolophet.SimSharingPiccoloModule;
 
 /**
- * Base class for all modules in this sim.
+ * Base class for all modules in this project.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

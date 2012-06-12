@@ -27,18 +27,30 @@ public class SlopeInterceptGraphNode extends LineGraphNode {
 
     private final LineManipulatorNode slopeManipulatorNode, interceptManipulatorNode;
 
-    public SlopeInterceptGraphNode( final Graph graph, final ModelViewTransform mvt,
+    /**
+     * Constructor
+     * @param graph
+     * @param mvt transform between model and view coordinate frames
+     * @param interactiveLine the line that can be manipulated by the user
+     * @param savedLines lines that have been saved by the user
+     * @param standardLines standard lines (eg, y=x) that are available for viewing
+     * @param linesVisible are lines visible on the graph?
+     * @param interactiveLineVisible is the interactive line visible visible on the graph?
+     * @param interactiveEquationVisible is the equation visible on the interactive line?
+     * @param slopeVisible are the slope (rise/run) brackets visible on the graphed line?
+     * @param riseRange
+     * @param runRange
+     * @param yInterceptRange
+     */
+    public SlopeInterceptGraphNode( final Graph graph,
+                                    final ModelViewTransform mvt,
                                     Property<StraightLine> interactiveLine,
                                     ObservableList<StraightLine> savedLines,
                                     ObservableList<StraightLine> standardLines,
-                                    Property<DoubleRange> riseRange,
+                                    Property<Boolean> linesVisible, Property<Boolean> interactiveLineVisible, Property<Boolean> interactiveEquationVisible, Property<Boolean> slopeVisible, Property<DoubleRange> riseRange,
                                     Property<DoubleRange> runRange,
-                                    Property<DoubleRange> interceptRange,
-                                    Property<Boolean> interactiveEquationVisible,
-                                    Property<Boolean> linesVisible,
-                                    Property<Boolean> interactiveLineVisible,
-                                    Property<Boolean> slopeVisible ) {
-        super( graph, mvt, interactiveLine, savedLines, standardLines, interactiveEquationVisible, linesVisible, interactiveLineVisible, slopeVisible );
+                                    Property<DoubleRange> yInterceptRange ) {
+        super( graph, mvt, interactiveLine, savedLines, standardLines, linesVisible, interactiveLineVisible, interactiveEquationVisible, slopeVisible );
 
         // Manipulators for the interactive line
         final double manipulatorDiameter = mvt.modelToViewDeltaX( MANIPULATOR_DIAMETER );
@@ -52,7 +64,7 @@ public class SlopeInterceptGraphNode extends LineGraphNode {
         interceptManipulatorNode = new LineManipulatorNode( manipulatorDiameter, LGColors.INTERCEPT );
         interceptManipulatorNode.addInputEventListener( new CursorHandler() );
         interceptManipulatorNode.addInputEventListener( new InterceptDragHandler( UserComponents.interceptManipulator, UserComponentTypes.sprite,
-                                                                                  interceptManipulatorNode, mvt, interactiveLine, interceptRange ) );
+                                                                                  interceptManipulatorNode, mvt, interactiveLine, yInterceptRange ) );
 
         addChild( interceptManipulatorNode );
         addChild( slopeManipulatorNode ); // add slope after intercept, so that slope can be changed when x=0

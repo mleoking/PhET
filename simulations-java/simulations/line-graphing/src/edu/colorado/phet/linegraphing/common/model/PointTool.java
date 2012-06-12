@@ -25,6 +25,13 @@ public class PointTool implements Resettable {
     private final ObservableList<StraightLine> savedLines;
     private final ObservableList<StraightLine> standardLines;
 
+    /**
+     * Constructor
+     * @param location location of the tool, in model coordinate frame
+     * @param interactiveLine the line that can be manipulated by the user
+     * @param savedLines lines that have been saved by the user
+     * @param standardLines standard lines (eg, y=x) that are available for viewing
+     */
     public PointTool( ImmutableVector2D location, Property<StraightLine> interactiveLine, ObservableList<StraightLine> savedLines, ObservableList<StraightLine> standardLines ) {
 
         this.location = new Property<ImmutableVector2D>( location );

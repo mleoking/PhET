@@ -37,6 +37,15 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class EquationControls extends PhetPNode {
 
+    /**
+     * Constructor
+     * @param title title that will be placed next to the minimize/maximize button
+     * @param maximized is the control panel maximized (true) or minimized (false)?
+     * @param interactiveLine the line that can be manipulated by the user
+     * @param savedLines lines that have been saved by the user
+     * @param linesVisible are lines visible on the graph?
+     * @param interactiveEquationNode node that implements the interactive equation
+     */
     public EquationControls( String title,
                              final Property<Boolean> maximized,
                              final Property<StraightLine> interactiveLine,
@@ -44,6 +53,7 @@ public class EquationControls extends PhetPNode {
                              final Property<Boolean> linesVisible,
                              PNode interactiveEquationNode ) {
 
+        // nodes
         PNode titleNode = new HTMLNode( title, interactiveLine.get().color, new PhetFont( Font.BOLD, 18 ) );
         PNode minimizeMaximizeButtonNode = new ToggleButtonNode( UserComponents.equationMinimizeMaximizeButton, maximized, Images.MINIMIZE_BUTTON, Images.MAXIMIZE_BUTTON ) {
             @Override protected ParameterSet getParameterSet() {
