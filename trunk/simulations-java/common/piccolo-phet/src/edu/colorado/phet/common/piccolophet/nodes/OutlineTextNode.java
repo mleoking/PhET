@@ -5,6 +5,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.RenderingHints;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
@@ -17,6 +18,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
  * PNode that represents outlined text.  This is often useful for making text
@@ -60,6 +62,21 @@ public class OutlineTextNode extends PNode {
     public void setText( String text ) {
         TextLayout textLayout = new TextLayout( text, font, SWING_FRC );
         textPPath.setPathTo( textLayout.getOutline( new AffineTransform() ) );
+    }
+
+    // Override of the fullPaint method to allow for different rendering hints, see #3337.
+    @Override public void fullPaint( PPaintContext paintContext ) {
+
+        // Save current rendering hints.
+        RenderingHints oldRenderingHints = paintContext.getGraphics().getRenderingHints();
+
+        // Change the rendering hints on the graphics for improved rendering.
+        paintContext.getGraphics().setRenderingHint( RenderingHints.KEY_DITHERING, RenderingHints.VALUE_DITHER_ENABLE );
+        paintContext.getGraphics().setRenderingHint( RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE );
+        super.fullPaint( paintContext );
+
+        // Restore previous hints.
+        paintContext.getGraphics().setRenderingHints( oldRenderingHints );
     }
 
     /**
