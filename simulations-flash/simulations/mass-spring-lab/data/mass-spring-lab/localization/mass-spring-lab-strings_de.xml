@@ -1,47 +1,49 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--mass-spring-lab-strings_de.xml created Tue Aug 17 18:43:53 CEST 2010 using: mass-spring-lab 2.02.00 (37312), translation-utility 2.08.00 (39581) Apr 1, 2010-->
+<!--mass-spring-lab-strings_de.xml created Tue Jun 12 13:53:42 CEST 2012 using: mass-spring-lab 2.03.00 (49899), translation-utility 2.13.00 (59150) Dez 8, 2011-->
 <SimStrings>
 <string key="pause" value="Pause"/>
 <string key="earth" value="Erde"/>
-<string key="16thTime" value="1/16 Z.lupe"/>
-<string key="nothinOK" value="Nichts! OK?"/>
+<string key="dontBother" value="Baustelle"/>
+<string key="16thTime" value="Zeitlupe 1/16"/>
+<string key="nothinOK" value="Noch keine Funktion"/>
 <string key="mass1Label" value="50 g"/>
 <string key="mass3Label" value="250 g"/>
 <string key="planetX" value="Planet X"/>
-<string key="showEnergyOf" value="Zeige die Energie von"/>
-<string key="hangMe" value="Hänge mich dran!"/>
+<string key="showEnergyOf" value="Energie von Feder"/>
+<string key="hangMe" value="Hänge mich an eine Feder!"/>
 <string key="resetTimer" value="Reset"/>
 <string key="hard" value="hart"/>
 <string key="mass7Label" value="100 g"/>
+<string key="translation.credits" value="Robert Jung, Jena"/>
 <string key="stopWatch" value="Stoppuhr"/>
 <string key="none" value="keine"/>
 <string key="realTime" value="Echtzeit"/>
-<string key="startTimer" value="Start / Pause"/>
+<string key="startTimer" value="Start/Pause"/>
 <string key="help4" value="verschiebbare Uhr"/>
-<string key="help3" value="Ziehe das Massestück zur Seite"/>
-<string key="showHelp" value="Zeige Hilfe"/>
+<string key="help3" value="Abhängen:  Masse zur Seite ziehen"/>
+<string key="showHelp" value="Hilfe anzeigen"/>
 <string key="lots" value="viel"/>
 <string key="help2" value="verschiebbare Linie"/>
 <string key="help1" value="verschiebbares Lineal"/>
 <string key="friction" value="Reibung"/>
-<string key="PEelas" value="Eelast"/>
+<string key="PEelas" value="E elast"/>
 <string key="jupiter" value="Jupiter"/>
 <string key="moon" value="Mond"/>
 <string key="energyOf" value="Energie von "/>
-<string key="total" value="Egesamt"/>
+<string key="total" value="E gesamt"/>
 <string key="sound" value="Ton"/>
-<string key="PEgrav" value="Egravi"/>
+<string key="PEgrav" value="E gravi"/>
 <string key="mass2Label" value="100 g"/>
-<string key="thermal" value="Etherm"/>
-<string key="quarterTime" value="1/4 Z.lupe"/>
-<string key="KE" value="Ekin"/>
+<string key="thermal" value="E therm"/>
+<string key="quarterTime" value="Zeitlupe 1/4"/>
+<string key="KE" value="E kin"/>
 <string key="gEqZero" value="g = 0"/>
-<string key="hideHelp" value="Verberge Hilfe"/>
-<string key="noHelp" value="Keine Hilfe"/>
+<string key="hideHelp" value="Hilfe schließen"/>
+<string key="noHelp" value="Erweiterung"/>
 <string key="soft" value="weich"/>
-<string key="softness" value="Härte von Feder 3"/>
+<string key="softness" value="Härte der Feder 3"/>
 <string key="simTitle" value="Massen und Spiralfedern"/>
 <string key="totalE" value=" "/>
-<string key="noShow" value="Verbergen"/>
+<string key="noShow" value="verbergen"/>
 <string key="paused" value="angehalten"/>
 </SimStrings>
