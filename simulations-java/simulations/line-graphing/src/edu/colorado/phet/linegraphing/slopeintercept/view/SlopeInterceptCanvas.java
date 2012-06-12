@@ -34,8 +34,8 @@ public class SlopeInterceptCanvas extends LGCanvas {
         PNode pointTool1 = new PointToolNode( model.pointTool1, model.mvt, model.graph, getStageBounds(), linesVisible );
         PNode pointTool2 = new PointToolNode( model.pointTool2, model.mvt, model.graph, getStageBounds(), linesVisible );
         SlopeInterceptEquationControls equationControls = new SlopeInterceptEquationControls( interactiveEquationVisible, model.interactiveLine,
-                                                                                              model.riseRange, model.runRange, model.interceptRange,
-                                                                                              model.savedLines, linesVisible );
+                                                                                              model.savedLines, linesVisible, model.riseRange, model.runRange, model.interceptRange
+        );
         PNode graphControls = new GraphControls( linesVisible, slopeVisible, model.standardLines );
         PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, LGColors.RESET_ALL_BUTTON ) {{
             setConfirmationEnabled( false );
