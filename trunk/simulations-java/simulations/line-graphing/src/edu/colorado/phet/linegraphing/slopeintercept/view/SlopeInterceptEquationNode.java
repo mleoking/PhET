@@ -143,7 +143,7 @@ class SlopeInterceptEquationNode extends PhetPNode {
     public static void main( String[] args ) {
 
         // model
-        WellDefinedLineProperty line = new WellDefinedLineProperty( new StraightLine( 2, 3, 1, LGColors.INTERACTIVE_LINE, LGColors.INTERACTIVE_LINE ) );
+        WellDefinedLineProperty line = new WellDefinedLineProperty( new StraightLine( 1, 1, 1, LGColors.INTERACTIVE_LINE, LGColors.INTERACTIVE_LINE ) );
         DoubleRange range = new DoubleRange( -10, 10 );
         Property<DoubleRange> riseRange = new Property<DoubleRange>( range );
         Property<DoubleRange> runRange = new Property<DoubleRange>( range );
