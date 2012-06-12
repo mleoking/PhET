@@ -1,3 +1,4 @@
+Fraction Matcher: Wired up new startup/level selection screen
 Fraction Matcher: Added new startup/level selection screen
 Fraction Matcher: Fixed: Red wasn't appearing correctly for fractions > 1
 Build a fraction tab: Fixed: scoring cells weren't flashing red for level 1

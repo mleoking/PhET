@@ -5,5 +5,5 @@ water_glass.png source=phet author=noah P
 locked.png source=tango
 unlocked.png source=tango
 split-blue.png notes=copied from build a molecule
-star-gold.png license=public domain source=http://openclipart.org/detail/93367/favorite-icon-by-jhnri4
-star-gray.png license=public domain source=http://openclipart.org/detail/93367/favorite-icon-by-jhnri4
+star-gold.png source=PhET notes=SR in Photoshop
+star-gray.png source=PhET notes=SR in Photoshop
