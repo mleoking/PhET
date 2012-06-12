@@ -25,6 +25,7 @@ import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
+import edu.colorado.phet.linegraphing.common.model.WellDefinedLineProperty;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode.RiseSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode.RunSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode.X1SpinnerNode;
@@ -170,11 +171,15 @@ class PointSlopeEquationNode extends PhetPNode {
     public static void main( String[] args ) {
 
         // model
-        PointSlopeModel model = new PointSlopeModel();
+        WellDefinedLineProperty line = new WellDefinedLineProperty( new StraightLine( 3, 4, 1, 2, LGColors.INTERACTIVE_LINE, LGColors.INTERACTIVE_LINE ) );
+        DoubleRange range = new DoubleRange( -10, 10 );
+        Property<DoubleRange> riseRange = new Property<DoubleRange>( range );
+        Property<DoubleRange> runRange = new Property<DoubleRange>( range );
+        Property<DoubleRange> x1Range = new Property<DoubleRange>( range );
+        Property<DoubleRange> y1Range = new Property<DoubleRange>( range );
 
         // equation
-        PointSlopeEquationNode equationNode =
-                new PointSlopeEquationNode( model.interactiveLine, model.riseRange, model.runRange, model.x1Range, model.y1Range );
+        PointSlopeEquationNode equationNode = new PointSlopeEquationNode( line, riseRange, runRange, x1Range, y1Range );
         equationNode.setOffset( 50, 100 );
 
         // canvas
