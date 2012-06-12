@@ -17,24 +17,35 @@ import edu.colorado.phet.linegraphing.common.model.WellDefinedLineProperty;
  */
 public class SlopeInterceptModel extends LineFormsModel {
 
-    private static final IntegerRange X_RANGE = new IntegerRange( -10, 10 );
-    private static final IntegerRange Y_RANGE = X_RANGE;
+    public final Property<DoubleRange> riseRange, runRange, interceptRange; // ranges of things that the user can manipulate
 
-    public final Property<DoubleRange> riseRange, runRange, interceptRange;
-
+    // Constructor with default values.
     public SlopeInterceptModel() {
-        this( X_RANGE, Y_RANGE, 2, 3, 1 );
+        this( 10, 2, 3, 1 );
     }
 
-    private SlopeInterceptModel( final IntegerRange xRange, final IntegerRange yRange, int rise, int run, int intercept ) {
-        super( xRange, yRange,
-               new WellDefinedLineProperty( new StraightLine( rise, run, intercept, LGColors.INTERACTIVE_LINE, LGColors.INTERACTIVE_LINE ) ) );
+    // Constructs a square grid, with uniform quadrant sizes.
+    private SlopeInterceptModel( int quadrantSize, int rise, int run, int yIntercept ) {
+        this( new IntegerRange( -quadrantSize, quadrantSize ), new IntegerRange( -quadrantSize, quadrantSize ), rise, run, yIntercept );
+    }
 
-        assert( yRange.contains( intercept ) );
+    /*
+     * Constructor.
+     * @param xRange range of the x axis
+     * @param yRange range of the y axis
+     * @param rise initial rise value
+     * @param run initial run value
+     * @param yIntercept initial yIntercept value
+     */
+    private SlopeInterceptModel( final IntegerRange xRange, final IntegerRange yRange, int rise, int run, int yIntercept ) {
+        super( xRange, yRange,
+               new WellDefinedLineProperty( new StraightLine( rise, run, yIntercept, LGColors.INTERACTIVE_LINE, LGColors.INTERACTIVE_LINE ) ) );
+
+        assert( yRange.contains( yIntercept ) );
 
         this.riseRange = new Property<DoubleRange>( new DoubleRange( yRange.getMin(), yRange.getMax(), rise ) );
         this.runRange = new Property<DoubleRange>( new DoubleRange( xRange.getMin(), xRange.getMax(), run ) );
-        this.interceptRange = new Property<DoubleRange>( new DoubleRange( yRange.getMin(), yRange.getMax(), intercept ) );
+        this.interceptRange = new Property<DoubleRange>( new DoubleRange( yRange.getMin(), yRange.getMax(), yIntercept ) );
 
         // Dynamically adjust ranges so that variables are constrained to the bounds of the graph.
         interactiveLine.addObserver( new VoidFunction1<StraightLine>() {
@@ -45,7 +56,7 @@ public class SlopeInterceptModel extends LineFormsModel {
                 final double maxRise = yRange.getMax() - line.yIntercept;
                 riseRange.set( new DoubleRange( minRise, maxRise ) );
 
-                // y intercept
+                // y yIntercept
                 final double minIntercept = ( line.rise >= 0 ) ? yRange.getMin() : yRange.getMin() - line.rise;
                 final double maxIntercept = ( line.rise <= 0 ) ? yRange.getMax() : yRange.getMax() - line.rise;
                 interceptRange.set( new DoubleRange( minIntercept, maxIntercept ) );
