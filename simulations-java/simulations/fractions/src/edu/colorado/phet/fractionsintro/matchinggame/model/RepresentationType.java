@@ -11,6 +11,7 @@ import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
 import edu.umd.cs.piccolo.PNode;
 
+import static fj.data.List.list;
 import static fj.data.List.single;
 
 /**
@@ -35,8 +36,9 @@ public @Data class RepresentationType {
         return new RepresentationType( name, appliesTo, single( r ) );
     }
 
+    @SuppressWarnings(value = "unchecked")
     public static RepresentationType toRepresentation( String name, final F<Fraction, Boolean> appliesTo, final F<Fraction, PNode> a, final F<Fraction, PNode> b, final F<Fraction, PNode> c ) {
-        return new RepresentationType( name, appliesTo, single( makeComposite( a ) ).snoc( makeComposite( b ) ).snoc( c ) );
+        return new RepresentationType( name, appliesTo, list( makeComposite( a ), makeComposite( b ), makeComposite( c ) ) );
     }
 
     public boolean contains( final F<Fraction, PNode> representation ) {
