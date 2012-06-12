@@ -7,7 +7,6 @@ DESIGN
 
 HIGH
 - using interactive equation skips over values that would produce slope=0/0, but value in equation isn't updated
-- duplication: SlopeInterceptCanvas, PointSlopeCanvas
 
 MEDIUM
 - better handling and testing of adjustment to avoid slope=0/0
