@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
@@ -58,7 +59,7 @@ class SlopeInterceptEquationNode extends PhetPNode {
                                         Property<DoubleRange> yInterceptRange,
                                         PhetFont interactiveFont,
                                         PhetFont staticFont,
-                                        final Color staticColor ) {
+                                        Color staticColor ) {
 
         this.rise = new Property<Double>( interactiveLine.get().rise );
         this.run = new Property<Double>( interactiveLine.get().run );
@@ -76,17 +77,14 @@ class SlopeInterceptEquationNode extends PhetPNode {
             maxSlopeWidth = Math.max( maxRiseWidth, maxRunWidth );
         }
 
-        // y = mx + b
-        PText yNode = new PhetPText( "y", staticFont, staticColor );
-        PText equalsNode = new PhetPText( "=", staticFont, staticColor );
+        // nodes: y = mx + b
+        PNode yNode = new PhetPText( "y", staticFont, staticColor );
+        PNode equalsNode = new PhetPText( "=", staticFont, staticColor );
         PNode riseNode = new ZeroOffsetNode( new RiseSpinnerNode( UserComponents.riseSpinner, this.rise, riseRange, interactiveFont, FORMAT ) );
         PNode runNode = new ZeroOffsetNode( new RunSpinnerNode( UserComponents.runSpinner, this.run, runRange, interactiveFont, FORMAT ) );
-        final PPath lineNode = new PPath( new Line2D.Double( 0, 0, maxSlopeWidth, 0 ) ) {{
-            setStroke( new BasicStroke( 3f ) );
-            setStrokePaint( staticColor );
-        }};
-        PText xNode = new PhetPText( "x", staticFont, staticColor );
-        final PText interceptSignNode = new PhetPText( "+", staticFont, staticColor );
+        PNode lineNode = new PhetPPath( new Line2D.Double( 0, 0, maxSlopeWidth, 0 ), new BasicStroke( 3f ), staticColor );
+        PNode xNode = new PhetPText( "x", staticFont, staticColor );
+        PNode interceptSignNode = new PhetPText( "+", staticFont, staticColor );
         PNode interceptNode = new ZeroOffsetNode( new InterceptSpinnerNode( UserComponents.interceptSpinner, this.yIntercept, yInterceptRange, interactiveFont, FORMAT ) );
 
         // rendering order

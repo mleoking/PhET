@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
@@ -30,8 +31,6 @@ import edu.colorado.phet.linegraphing.common.view.SpinnerNode.X1SpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode.Y1SpinnerNode;
 import edu.colorado.phet.linegraphing.pointslope.model.PointSlopeModel;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Interface for manipulating a point-slope equation.
@@ -61,7 +60,7 @@ class PointSlopeEquationNode extends PhetPNode {
                                     Property<DoubleRange> y1Range,
                                     PhetFont interactiveFont,
                                     PhetFont staticFont,
-                                    final Color staticColor ) {
+                                    Color staticColor ) {
 
         this.rise = new Property<Double>( interactiveLine.get().rise );
         this.run = new Property<Double>( interactiveLine.get().run );
@@ -80,24 +79,21 @@ class PointSlopeEquationNode extends PhetPNode {
             maxSlopeWidth = Math.max( maxRiseWidth, maxRunWidth );
         }
 
-        // (y-y1) = m(x-x1)
-        PText yNode = new PhetPText( "y", staticFont, staticColor );
-        final PText y1SignNode = new PhetPText( "-", staticFont, staticColor );
+        // nodes: (y-y1) = m(x-x1)
+        PNode yLeftParenNode = new PhetPText( "(", staticFont, staticColor );
+        PNode yNode = new PhetPText( "y", staticFont, staticColor );
+        PNode y1SignNode = new PhetPText( "-", staticFont, staticColor );
         PNode y1Node = new ZeroOffsetNode( new Y1SpinnerNode( UserComponents.y1Spinner, this.y1, y1Range, interactiveFont, FORMAT ) );
-        PText equalsNode = new PhetPText( "=", staticFont, staticColor );
+        PNode yRightParenNode = new PhetPText( ")", staticFont, staticColor );
+        PNode equalsNode = new PhetPText( "=", staticFont, staticColor );
         PNode riseNode = new ZeroOffsetNode( new RiseSpinnerNode( UserComponents.riseSpinner, this.rise, riseRange, interactiveFont, FORMAT ) );
         PNode runNode = new ZeroOffsetNode( new RunSpinnerNode( UserComponents.runSpinner, this.run, runRange, interactiveFont, FORMAT ) );
-        final PPath lineNode = new PPath( new Line2D.Double( 0, 0, maxSlopeWidth, 0 ) ) {{
-            setStroke( new BasicStroke( 3f ) );
-            setStrokePaint( staticColor );
-        }};
-        PText xNode = new PhetPText( "x", staticFont, staticColor );
-        final PText x1SignNode = new PhetPText( "-", staticFont, staticColor );
+        PNode lineNode = new PhetPPath( new Line2D.Double( 0, 0, maxSlopeWidth, 0 ), new BasicStroke( 3f ), staticColor );
+        PNode xLeftParenNode = new PhetPText( "(", staticFont, staticColor );
+        PNode xNode = new PhetPText( "x", staticFont, staticColor );
+        PNode x1SignNode = new PhetPText( "-", staticFont, staticColor );
         PNode x1Node = new ZeroOffsetNode( new X1SpinnerNode( UserComponents.x1Spinner, this.x1, x1Range, interactiveFont, FORMAT ) );
-        PText yLeftParenNode = new PhetPText( "(", staticFont, staticColor );
-        PText yRightParenNode = new PhetPText( ")", staticFont, staticColor );
-        PText xLeftParenNode = new PhetPText( "(", staticFont, staticColor );
-        PText xRightParenNode = new PhetPText( ")", staticFont, staticColor );
+        PNode xRightParenNode = new PhetPText( ")", staticFont, staticColor );
 
         // rendering order
         {
@@ -128,7 +124,7 @@ class PointSlopeEquationNode extends PhetPNode {
             y1SignNode.setOffset( yNode.getFullBoundsReference().getMaxX() + xSpacing,
                                   yNode.getYOffset() );
             y1Node.setOffset( y1SignNode.getFullBoundsReference().getMaxX() + xSpacing,
-                                  yNode.getFullBoundsReference().getCenterY() - ( y1Node.getFullBoundsReference().getHeight() / 2 ) );
+                              yNode.getFullBoundsReference().getCenterY() - ( y1Node.getFullBoundsReference().getHeight() / 2 ) );
             yRightParenNode.setOffset( y1Node.getFullBoundsReference().getMaxX() + xParenSpacing,
                                        yNode.getYOffset() );
             equalsNode.setOffset( yRightParenNode.getFullBoundsReference().getMaxX() + xSpacing,
@@ -148,7 +144,7 @@ class PointSlopeEquationNode extends PhetPNode {
             x1Node.setOffset( x1SignNode.getFullBoundsReference().getMaxX() + xSpacing,
                               xNode.getFullBoundsReference().getCenterY() - ( x1Node.getFullBoundsReference().getHeight() / 2 ) );
             xRightParenNode.setOffset( x1Node.getFullBoundsReference().getMaxX() + xParenSpacing,
-                                      yNode.getYOffset() );
+                                       yNode.getYOffset() );
         }
 
         // sync the model with the controls
@@ -178,7 +174,7 @@ class PointSlopeEquationNode extends PhetPNode {
 
         // equation
         PointSlopeEquationNode equationNode =
-                new PointSlopeEquationNode( model.interactiveLine, model.riseRange, model.runRange, model.x1Range, model.y1Range);
+                new PointSlopeEquationNode( model.interactiveLine, model.riseRange, model.runRange, model.x1Range, model.y1Range );
         equationNode.setOffset( 50, 100 );
 
         // canvas
