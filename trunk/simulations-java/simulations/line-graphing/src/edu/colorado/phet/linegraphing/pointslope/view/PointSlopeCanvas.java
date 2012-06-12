@@ -26,7 +26,7 @@ public class PointSlopeCanvas extends LineFormsCanvas {
      * @param model
      * @param linesVisible are lines visible on the graph?
      * @param interactiveLineVisible is the interactive line visible visible on the graph?
-     * @param interactiveEquationVisible is the interactive equation visible?
+     * @param interactiveEquationVisible is the equation visible on the interactive line?
      * @param slopeVisible are the slope (rise/run) brackets visible on the graphed line?
      */
     private PointSlopeCanvas( final PointSlopeModel model,
