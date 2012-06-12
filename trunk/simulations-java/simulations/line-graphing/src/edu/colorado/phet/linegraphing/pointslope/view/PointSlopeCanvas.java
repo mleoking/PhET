@@ -37,8 +37,8 @@ public class PointSlopeCanvas extends LGCanvas {
         PNode pointTool1 = new PointToolNode( model.pointTool1, model.mvt, model.graph, getStageBounds(), linesVisible );
         PNode pointTool2 = new PointToolNode( model.pointTool2, model.mvt, model.graph, getStageBounds(), linesVisible );
         PNode equationControls = new PointSlopeEquationControls( interactiveEquationVisible, model.interactiveLine,
-                                                                                              model.riseRange, model.runRange, model.x1Range, model.y1Range,
-                                                                                              model.savedLines, linesVisible );
+                                                                 model.savedLines, linesVisible, model.riseRange, model.runRange, model.x1Range, model.y1Range
+        );
         PNode graphControls = new GraphControls( linesVisible, slopeVisible, model.standardLines );
         PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { this, model }, null, LGConstants.CONTROL_FONT_SIZE, Color.BLACK, LGColors.RESET_ALL_BUTTON ) {{
             setConfirmationEnabled( false );
