@@ -53,6 +53,9 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     // Distance at which energy chunks must start fading out.  Value empirically determined.
     private static final double FADE_RADIUS = WIDTH / 2; // In meters.
 
+    // Max rate at which the flame/ice is "clamped down" when the limits are hit.
+    private static final double CLAMP_DOWN_RATE = 0.5; // In proportion per second.
+
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
@@ -240,14 +243,19 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
      * if any, is in contact with the burner.  This is necessary to prevent the
      * burner from overheating or over cooling another element.
      *
+     * @param dt                      Time delta.
      * @param thermalEnergyContainers List of all thermal energy containers
      *                                that could possible be on the burner.
      */
-    public void updateHeatCoolLimits( ThermalEnergyContainer... thermalEnergyContainers ) {
+    public void updateHeatCoolLimits( double dt, ThermalEnergyContainer... thermalEnergyContainers ) {
+
+        double currentUpperLimit = heatCoolLevel.getMax();
+        double currentLowerLimit = heatCoolLevel.getMin();
 
         // Clear out any existing limits.
         heatCoolLevel.setRange( -1, 1 );
 
+        boolean contact = false;
         for ( ThermalEnergyContainer otherEnergyContainer : thermalEnergyContainers ) {
 
             assert otherEnergyContainer != this; // Make sure this method isn't being misused.
@@ -258,16 +266,24 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
                 // based on the item's temperature.
                 if ( otherEnergyContainer.getTemperature() >= EFACConstants.BOILING_POINT_TEMPERATURE ) {
                     // No more heat allowed.
-                    heatCoolLevel.setMax( 0 );
+                    heatCoolLevel.setMax( Math.max( heatCoolLevel.getMax() - dt * CLAMP_DOWN_RATE, 0 ) );
+                    heatCoolLevel.setMin( -1 );
                 }
                 else if ( otherEnergyContainer.getTemperature() <= EFACConstants.FREEZING_POINT_TEMPERATURE ) {
                     // No more cooling allowed.
-                    heatCoolLevel.setMin( 0 );
+                    heatCoolLevel.setMin( Math.min( heatCoolLevel.getMin() + dt * CLAMP_DOWN_RATE, 0 ) );
+                    heatCoolLevel.setMax( 1 );
                 }
 
+                contact = true;
                 // Only one item can be in contact at once, so we're done.
                 break;
             }
+        }
+
+        if ( !contact ) {
+            // Nothing is currently in contact, so clear any limits.
+            heatCoolLevel.setRange( -1, 1 );
         }
     }
 
@@ -316,6 +332,10 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
                 energyChunkList.remove( energyChunk );
             }
         }
+
+        // Animate the flame/ice turning off if currently operating outside of limits.
+
+
     }
 
     // Convenience class - a Property<Double> with a limited range.
@@ -356,6 +376,14 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
         // Make sure that the current value is within the range.
         private void update() {
             set( get() );
+        }
+
+        public double getMax() {
+            return bounds.getMax();
+        }
+
+        public double getMin() {
+            return bounds.getMin();
         }
     }
 }

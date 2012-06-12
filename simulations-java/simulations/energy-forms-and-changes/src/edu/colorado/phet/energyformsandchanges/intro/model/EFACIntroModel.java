@@ -195,8 +195,8 @@ public class EFACIntroModel {
         }
 
         // Update heat/cool limits on the burners.
-        leftBurner.updateHeatCoolLimits( ironBlock, brick, beaker );
-        rightBurner.updateHeatCoolLimits( ironBlock, brick, beaker );
+        leftBurner.updateHeatCoolLimits( dt, ironBlock, brick, beaker );
+        rightBurner.updateHeatCoolLimits( dt, ironBlock, brick, beaker );
 
         // Loop through all the energy containers (except for air) and have
         // them exchange energy with one another.
