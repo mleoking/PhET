@@ -42,27 +42,27 @@ class SlopeInterceptEquationNode extends PhetPNode {
 
     private static final NumberFormat FORMAT = new DefaultDecimalFormat( "0" );
 
-    private final Property<Double> rise, run, intercept;
+    private final Property<Double> rise, run, yIntercept;
 
     public SlopeInterceptEquationNode( final Property<StraightLine> interactiveLine,
                                        Property<DoubleRange> riseRange,
                                        Property<DoubleRange> runRange,
-                                       Property<DoubleRange> interceptRange ) {
-        this( interactiveLine, riseRange, runRange, interceptRange,
+                                       Property<DoubleRange> yInterceptRange ) {
+        this( interactiveLine, riseRange, runRange, yInterceptRange,
               LGConstants.INTERACTIVE_EQUATION_FONT, LGConstants.STATIC_EQUATION_FONT, LGColors.STATIC_EQUATION_ELEMENT );
     }
 
     private SlopeInterceptEquationNode( final Property<StraightLine> interactiveLine,
                                         Property<DoubleRange> riseRange,
                                         Property<DoubleRange> runRange,
-                                        Property<DoubleRange> interceptRange,
+                                        Property<DoubleRange> yInterceptRange,
                                         PhetFont interactiveFont,
                                         PhetFont staticFont,
                                         final Color staticColor ) {
 
         this.rise = new Property<Double>( interactiveLine.get().rise );
         this.run = new Property<Double>( interactiveLine.get().run );
-        this.intercept = new Property<Double>( interactiveLine.get().yIntercept );
+        this.yIntercept = new Property<Double>( interactiveLine.get().yIntercept );
 
         // determine the max width of the rise and run spinners, based on the extents of their range
         double maxSlopeWidth;
@@ -87,7 +87,7 @@ class SlopeInterceptEquationNode extends PhetPNode {
         }};
         PText xNode = new PhetPText( "x", staticFont, staticColor );
         final PText interceptSignNode = new PhetPText( "+", staticFont, staticColor );
-        PNode interceptNode = new ZeroOffsetNode( new InterceptSpinnerNode( UserComponents.interceptSpinner, this.intercept, interceptRange, interactiveFont, FORMAT ) );
+        PNode interceptNode = new ZeroOffsetNode( new InterceptSpinnerNode( UserComponents.interceptSpinner, this.yIntercept, yInterceptRange, interactiveFont, FORMAT ) );
 
         // rendering order
         {
@@ -125,17 +125,17 @@ class SlopeInterceptEquationNode extends PhetPNode {
         // sync the model with the controls
         RichSimpleObserver lineUpdater = new RichSimpleObserver() {
             @Override public void update() {
-                interactiveLine.set( new StraightLine( rise.get(), run.get(), intercept.get(), interactiveLine.get().color, interactiveLine.get().highlightColor ) );
+                interactiveLine.set( new StraightLine( rise.get(), run.get(), yIntercept.get(), interactiveLine.get().color, interactiveLine.get().highlightColor ) );
             }
         };
-        lineUpdater.observe( rise, run, intercept );
+        lineUpdater.observe( rise, run, yIntercept );
 
         // sync the controls with the model
         interactiveLine.addObserver( new VoidFunction1<StraightLine>() {
             public void apply( StraightLine line ) {
                 rise.set( line.rise );
                 run.set( line.run );
-                intercept.set( line.yIntercept );
+                yIntercept.set( line.yIntercept );
             }
         } );
     }
