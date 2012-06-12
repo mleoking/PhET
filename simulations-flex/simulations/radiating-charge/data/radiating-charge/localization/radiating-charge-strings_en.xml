@@ -1,4 +1,6 @@
 <?xml version="1.0" ?>
 <SimStrings>
     <string key="radiating-charge.simTitle" value = "Radiating Charge"/>
+    <string key="start" value = "Start"/>
+    <string key="stop" value = "Stop"/>
 </SimStrings>

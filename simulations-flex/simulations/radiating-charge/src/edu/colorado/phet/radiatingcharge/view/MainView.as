@@ -10,6 +10,7 @@ package edu.colorado.phet.radiatingcharge.view {
 import edu.colorado.phet.flashcommon.controls.Tab;
 import edu.colorado.phet.flashcommon.controls.TabBar;
 import edu.colorado.phet.radiatingcharge.*;
+import edu.colorado.phet.radiatingcharge.control.ControlPanel;
 import edu.colorado.phet.radiatingcharge.model.FieldModel;
 
 import org.aswing.event.ModelEvent;
@@ -29,6 +30,8 @@ public class MainView extends Canvas {
     public var myFieldModel:FieldModel;
     public var myChargeView:ChargeView;
     public var myFieldView:FieldView;
+    public var myControlPanel:ControlPanel;
+
 //    public var myControlPanel:ControlPanel;
 
     public var phetLogo: Sprite;
@@ -46,11 +49,15 @@ public class MainView extends Canvas {
         this.myFieldModel = new FieldModel(this);
         this.myChargeView = new ChargeView( this, myFieldModel ) ;
         this.myFieldView = new FieldView(this, myFieldModel );
+        this.myControlPanel = new ControlPanel( this, this.myFieldModel );
 
         this.addChild( new SpriteUIComponent( this.myFieldView ));
         this.addChild( new SpriteUIComponent( this.myChargeView ));
-        this.phetLogo = new PhetIcon();
+        this.addChild( myControlPanel );
+        this.myControlPanel.x = 0.8*stageW;
+        this.myControlPanel.y = 0.01*stageH;
 
+        this.phetLogo = new PhetIcon();
         this.phetLogo.x = stageW - 2.0 * this.phetLogo.width;
         this.phetLogo.y = 0;// stageH - 1.5 * this.phetLogo.height;
 

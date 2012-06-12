@@ -35,7 +35,8 @@ public class FieldModel {
     private var theta_arr:Array;    //angles of rest frame rays (in rads)
     private var sin_arr:Array;      //sines of angles of the rays,
     private var _fieldLine_arr:Array;  //array of field lines
-    //private var newPhoton:Array;       //2-element array with x- and y-components of new photon
+
+    private var _paused:Boolean;    //true if sim is paused
 
     private var _t:Number;          //time in arbitrary units
     private var _tLastPhoton: Number;	    //time of previous Photon emission
@@ -91,6 +92,7 @@ public class FieldModel {
                 this._fieldLine_arr[i][j]= new Photon( _xC,  _yC );     //each photon has a position (x,y) and direction vector (cos, sin)
             }
         } //end for loop
+        this._paused = false;
         this._t = 0;
         this._tLastPhoton = 0;
         this.dt = 0.03;
@@ -131,6 +133,16 @@ public class FieldModel {
     public function get yC():Number{
         return this._yC;
     }
+
+    public function get paused():Boolean{
+        return this._paused;
+    }
+
+    public function set paused( tOrF:Boolean ):void{
+        this._paused = tOrF;
+    }
+
+
 //
 //    public function set _xC(xPos:Number):void{
 //        this._xC = xPos;
