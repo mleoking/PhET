@@ -1,3 +1,4 @@
+# 1.05.02 (64990) Jun 12, 2012
 Redeploy for testing
 # 1.05.01 (63953) May 4, 2012
 Switched from forked to master PhetAudioClip, which hopefully has better error handling, see #3317
