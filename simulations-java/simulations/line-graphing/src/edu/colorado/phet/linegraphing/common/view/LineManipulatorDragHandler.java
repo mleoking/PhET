@@ -18,14 +18,14 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public abstract class LineDragHandler extends SimSharingDragHandler {
+public abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
 
     protected final LineManipulatorNode manipulatorNode;
     protected final ModelViewTransform mvt;
     protected final Property<StraightLine> line;
 
-    public LineDragHandler( IUserComponent userComponent, IUserComponentType componentType,
-                            LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<StraightLine> line ) {
+    public LineManipulatorDragHandler( IUserComponent userComponent, IUserComponentType componentType,
+                                       LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<StraightLine> line ) {
         super( userComponent, componentType, true /* sendDragMessages */ );
         this.manipulatorNode = manipulatorNode;
         this.mvt = mvt;
