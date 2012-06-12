@@ -21,14 +21,23 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 class InterceptDragHandler extends LineManipulatorDragHandler {
 
-    private final Property<DoubleRange> interceptRange;
+    private final Property<DoubleRange> yInterceptRange;
     private double clickYOffset; // offset of mouse click from dragNode's origin, in parent's coordinate frame
 
+    /**
+     * Constructor
+     * @param userComponent sim-sharing component identifier
+     * @param componentType sim-sharing component type
+     * @param manipulatorNode the node being manipulated by the user
+     * @param mvt  transform between model and view coordinate frames
+     * @param line the line being manipulated
+     * @param yInterceptRange
+     */
     public InterceptDragHandler( IUserComponent userComponent, IUserComponentType componentType,
                                  LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<StraightLine> line,
-                                 Property<DoubleRange> interceptRange ) {
+                                 Property<DoubleRange> yInterceptRange ) {
         super( userComponent, componentType, manipulatorNode, mvt, line );
-        this.interceptRange = interceptRange;
+        this.yInterceptRange = yInterceptRange;
     }
 
     @Override protected void startDrag( PInputEvent event ) {
@@ -40,7 +49,7 @@ class InterceptDragHandler extends LineManipulatorDragHandler {
     @Override protected void drag( PInputEvent event ) {
         super.drag( event );
         Point2D pMouse = event.getPositionRelativeTo( manipulatorNode.getParent() );
-        double intercept = MathUtil.clamp( mvt.viewToModelDeltaY( pMouse.getY() - clickYOffset ), interceptRange.get() );
-        updateLine( line.get().rise, line.get().run, intercept );
+        double yIntercept = MathUtil.clamp( mvt.viewToModelDeltaY( pMouse.getY() - clickYOffset ), yInterceptRange.get() );
+        updateLine( line.get().rise, line.get().run, yIntercept );
     }
 }

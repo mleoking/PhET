@@ -22,6 +22,16 @@ public class SlopeDragHandler extends LineManipulatorDragHandler {
     private final Property<DoubleRange> riseRange, runRange;
     private double clickXOffset, clickYOffset; // offset of mouse click from dragNode's origin, in parent's coordinate frame
 
+    /**
+     * Constructor
+     * @param userComponent sim-sharing component identifier
+     * @param componentType sim-sharing component type
+     * @param manipulatorNode the node being manipulated by the user
+     * @param mvt  transform between model and view coordinate frames
+     * @param line the line being manipulated
+     * @param riseRange
+     * @param runRange
+     */
     public SlopeDragHandler( IUserComponent userComponent, IUserComponentType componentType,
                              LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<StraightLine> line,
                              Property<DoubleRange> riseRange,

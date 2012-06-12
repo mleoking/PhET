@@ -47,7 +47,7 @@ public class PointToolNode extends PhetPNode {
     /**
      * Constructor
      * @param pointTool the point tool
-     * @param mvt model-view transform
+     * @param mvt transform between model and view coordinate frames
      * @param dragBounds drag bounds, in view coordinate frame
      */
     public PointToolNode( final PointTool pointTool, final ModelViewTransform mvt, final Graph graph, Rectangle2D dragBounds, final Property<Boolean> linesVisible ) {

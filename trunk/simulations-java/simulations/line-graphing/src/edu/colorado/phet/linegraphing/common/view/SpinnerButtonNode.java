@@ -44,8 +44,8 @@ class SpinnerButtonNode<T> extends PNode {
      * @param highlightedImage
      * @param pressedImage
      * @param disabledImage
-     * @param pressed
-     * @param inside
+     * @param pressed is the button pressed?
+     * @param inside is the mouse inside the bounds of the button?
      * @param enabled property that controls whether the button is enabled
      * @param newValueFunction function that computes the new value when the button fires
      */
