@@ -10,8 +10,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentTyp
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
-import edu.colorado.phet.linegraphing.common.view.LineDragHandler;
-import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
@@ -19,7 +17,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SlopeDragHandler extends LineDragHandler {
+public class SlopeDragHandler extends LineManipulatorDragHandler {
 
     private final Property<DoubleRange> riseRange, runRange;
     private double clickXOffset, clickYOffset; // offset of mouse click from dragNode's origin, in parent's coordinate frame
