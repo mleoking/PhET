@@ -16,12 +16,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
  */
 public class LineFormsModel implements Resettable {
 
-    private static final int GRID_MODEL_UNITS = 10; // dimensions of the grid in the model
     private static final int GRID_VIEW_UNITS = 530; // max dimension of the grid in the view
-
-    private static final IntegerRange X_RANGE = new IntegerRange( -GRID_MODEL_UNITS, GRID_MODEL_UNITS );
-    private static final IntegerRange Y_RANGE = X_RANGE;
-    private static final double MVT_SCALE = GRID_VIEW_UNITS / Math.max( X_RANGE.getLength(), Y_RANGE.getLength() ); // view units / model units
 
     public final ModelViewTransform mvt;
     public final WellDefinedLineProperty interactiveLine;
@@ -30,14 +25,19 @@ public class LineFormsModel implements Resettable {
     public final Graph graph;
     public final PointTool pointTool1, pointTool2;
 
-    public LineFormsModel( WellDefinedLineProperty interactiveLine ) {
-        this.mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 1.2 * GRID_VIEW_UNITS / 2, 1.25 * GRID_VIEW_UNITS / 2 ), MVT_SCALE, -MVT_SCALE ); // y is inverted
+    public LineFormsModel( IntegerRange xRange, IntegerRange yRange, WellDefinedLineProperty interactiveLine ) {
+
+        final double mvtScale = GRID_VIEW_UNITS / Math.max( xRange.getLength(), yRange.getLength() ); // view units / model units
+        this.mvt = ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 1.2 * GRID_VIEW_UNITS / 2, 1.25 * GRID_VIEW_UNITS / 2 ), mvtScale, -mvtScale ); // y is inverted
+
         this.interactiveLine = interactiveLine;
         this.savedLines = new ObservableList<StraightLine>();
         this.standardLines = new ObservableList<StraightLine>();
-        this.graph = new Graph( X_RANGE, Y_RANGE );
-        this.pointTool1 = new PointTool( new ImmutableVector2D( X_RANGE.getMin() + ( 0.75 * X_RANGE.getLength() ), Y_RANGE.getMin() - 3 ), interactiveLine, savedLines, standardLines );
-        this.pointTool2 = new PointTool( new ImmutableVector2D( X_RANGE.getMin() + ( 0.25 * X_RANGE.getLength() ), pointTool1.location.get().getY() ), interactiveLine, savedLines, standardLines );
+
+        this.graph = new Graph( xRange, yRange );
+
+        this.pointTool1 = new PointTool( new ImmutableVector2D( xRange.getMin() + ( 0.75 * xRange.getLength() ), yRange.getMin() - 3 ), interactiveLine, savedLines, standardLines );
+        this.pointTool2 = new PointTool( new ImmutableVector2D( xRange.getMin() + ( 0.25 * xRange.getLength() ), pointTool1.location.get().getY() ), interactiveLine, savedLines, standardLines );
     }
 
     public void reset() {
