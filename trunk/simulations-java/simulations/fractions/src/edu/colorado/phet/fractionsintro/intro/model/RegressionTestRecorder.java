@@ -17,8 +17,6 @@ import java.util.concurrent.Executors;
 
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
 
-import com.thoughtworks.xstream.XStream;
-
 /**
  * Function wrapper that also records the results of invocation for later testing.
  * <p/>
@@ -119,7 +117,8 @@ public class RegressionTestRecorder<A, B> extends F<A, B> {
         count++;
     }
 
-    public static final XStream xstream = new XStream();
+    //    public static final XStream xstream = new XStream();
+    public static final IXStream xstream = new IXStream();
 
     private void writeXStream( final Entry e ) {// XML encode directly to the file.
         File file = new File( "C:\\Users\\Sam\\Desktop\\tests\\save_" + count + ".xml" );
@@ -182,6 +181,17 @@ public class RegressionTestRecorder<A, B> extends F<A, B> {
         }
         catch ( IOException e ) {
             e.printStackTrace();
+        }
+    }
+
+    //Dummy wrapper so we can compile without xstream
+    private static class IXStream {
+        public String toXML( final Entry e ) {
+            return null;
+        }
+
+        public Object fromXML( final File xmlFile ) {
+            return null;
         }
     }
 }
