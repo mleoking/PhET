@@ -17,7 +17,7 @@ import edu.colorado.phet.linegraphing.common.model.WellDefinedLineProperty;
  */
 public class SlopeInterceptModel extends LineFormsModel {
 
-    public final Property<DoubleRange> riseRange, runRange, interceptRange; // ranges of things that the user can manipulate
+    public final Property<DoubleRange> riseRange, runRange, yInterceptRange; // ranges of things that the user can manipulate
 
     // Constructor with default values.
     public SlopeInterceptModel() {
@@ -45,7 +45,7 @@ public class SlopeInterceptModel extends LineFormsModel {
 
         this.riseRange = new Property<DoubleRange>( new DoubleRange( yRange.getMin(), yRange.getMax(), rise ) );
         this.runRange = new Property<DoubleRange>( new DoubleRange( xRange.getMin(), xRange.getMax(), run ) );
-        this.interceptRange = new Property<DoubleRange>( new DoubleRange( yRange.getMin(), yRange.getMax(), yIntercept ) );
+        this.yInterceptRange = new Property<DoubleRange>( new DoubleRange( yRange.getMin(), yRange.getMax(), yIntercept ) );
 
         // Dynamically adjust ranges so that variables are constrained to the bounds of the graph.
         interactiveLine.addObserver( new VoidFunction1<StraightLine>() {
@@ -59,7 +59,7 @@ public class SlopeInterceptModel extends LineFormsModel {
                 // y yIntercept
                 final double minIntercept = ( line.rise >= 0 ) ? yRange.getMin() : yRange.getMin() - line.rise;
                 final double maxIntercept = ( line.rise <= 0 ) ? yRange.getMax() : yRange.getMax() - line.rise;
-                interceptRange.set( new DoubleRange( minIntercept, maxIntercept ) );
+                yInterceptRange.set( new DoubleRange( minIntercept, maxIntercept ) );
             }
         } );
     }
@@ -68,6 +68,6 @@ public class SlopeInterceptModel extends LineFormsModel {
         super.reset();
         riseRange.reset();
         runRange.reset();
-        interceptRange.reset();
+        yInterceptRange.reset();
     }
 }

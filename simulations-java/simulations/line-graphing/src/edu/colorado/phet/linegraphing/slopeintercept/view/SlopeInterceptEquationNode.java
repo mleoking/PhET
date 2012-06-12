@@ -25,6 +25,7 @@ import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
+import edu.colorado.phet.linegraphing.common.model.WellDefinedLineProperty;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode.InterceptSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode.RiseSpinnerNode;
 import edu.colorado.phet.linegraphing.common.view.SpinnerNode.RunSpinnerNode;
@@ -142,11 +143,14 @@ class SlopeInterceptEquationNode extends PhetPNode {
     public static void main( String[] args ) {
 
         // model
-        SlopeInterceptModel model = new SlopeInterceptModel();
+        WellDefinedLineProperty line = new WellDefinedLineProperty( new StraightLine( 2, 3, 1, LGColors.INTERACTIVE_LINE, LGColors.INTERACTIVE_LINE ) );
+        DoubleRange range = new DoubleRange( -10, 10 );
+        Property<DoubleRange> riseRange = new Property<DoubleRange>( range );
+        Property<DoubleRange> runRange = new Property<DoubleRange>( range );
+        Property<DoubleRange> yInterceptRange = new Property<DoubleRange>( range );
 
         // equation
-        SlopeInterceptEquationNode equationNode =
-                new SlopeInterceptEquationNode( model.interactiveLine, model.riseRange, model.runRange, model.interceptRange );
+        SlopeInterceptEquationNode equationNode = new SlopeInterceptEquationNode( line, riseRange, runRange, yInterceptRange );
         equationNode.setOffset( 100, 100 );
 
         // canvas
