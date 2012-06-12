@@ -15,7 +15,7 @@ import edu.colorado.phet.linegraphing.slopeintercept.model.SlopeInterceptModel;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Canvas for the "Intro" module.
+ * Canvas for the "Slope-Intercept" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

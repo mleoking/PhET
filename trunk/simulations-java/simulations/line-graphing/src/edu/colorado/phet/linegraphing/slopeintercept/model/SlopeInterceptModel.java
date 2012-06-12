@@ -17,7 +17,7 @@ import edu.colorado.phet.linegraphing.common.model.PointTool;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
 
 /**
- * Model for the "Intro" module.
+ * Model for the "Slope-Intercept" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
