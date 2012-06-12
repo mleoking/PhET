@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.linegraphing.slopeintercept.view;
+package edu.colorado.phet.linegraphing.common.view;
 
 import java.awt.geom.Point2D;
 
@@ -15,7 +15,7 @@ import edu.colorado.phet.linegraphing.common.view.LineManipulatorNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
- * Drag handler for the slope manipulator of a line in slope-intercept form.
+ * Drag handler for the slope manipulator, usable with both slope-intercept and point-slope lines.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -36,15 +36,15 @@ public class SlopeDragHandler extends LineDragHandler {
     @Override protected void startDrag( PInputEvent event ) {
         super.startDrag( event );
         Point2D pMouse = event.getPositionRelativeTo( manipulatorNode.getParent() );
-        clickXOffset = pMouse.getX() - mvt.modelToViewDeltaX( line.get().run );
-        clickYOffset = pMouse.getY() - mvt.modelToViewDeltaY( line.get().rise + line.get().yIntercept );
+        clickXOffset = pMouse.getX() - mvt.modelToViewDeltaX( line.get().x1 + line.get().run );
+        clickYOffset = pMouse.getY() - mvt.modelToViewDeltaY( line.get().y1 + line.get().rise );
     }
 
     @Override protected void drag( PInputEvent event ) {
         super.drag( event );
         Point2D pMouse = event.getPositionRelativeTo( manipulatorNode.getParent() );
-        double run = MathUtil.clamp( mvt.viewToModelDeltaX( pMouse.getX() - clickXOffset ), runRange.get() );
-        double rise = MathUtil.clamp( mvt.viewToModelDeltaY( pMouse.getY() - clickYOffset ) - line.get().yIntercept, riseRange.get() );
-        updateLine( rise, run, line.get().yIntercept );
+        double run = MathUtil.clamp( mvt.viewToModelDeltaX( pMouse.getX() - clickXOffset ) - line.get().x1, runRange.get() );
+        double rise = MathUtil.clamp( mvt.viewToModelDeltaY( pMouse.getY() - clickYOffset ) - line.get().y1, riseRange.get() );
+        updateLine( rise, run, line.get().x1, line.get().y1 );
     }
 }
