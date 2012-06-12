@@ -13,13 +13,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 
 import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.games.GameConstants;
 import edu.colorado.phet.common.games.GameOverNode;
 import edu.colorado.phet.common.games.GameSettings;
-import edu.colorado.phet.common.games.GameSettingsPanel;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeBooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
@@ -30,11 +31,14 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
+import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.ToggleButtonNode;
 import edu.colorado.phet.fractions.util.Cache;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractions.view.FNode;
@@ -45,7 +49,7 @@ import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Mode;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MovableFraction;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState.newLevel;
 import static java.awt.Color.lightGray;
@@ -73,16 +77,15 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                     public void run() {
                         final MatchingGameState m = newLevel( gameSettings.level.get() ).
                                 withMode( Mode.WAITING_FOR_USER_TO_CHECK_ANSWER ).
-                                withAudio( gameSettings.soundEnabled.get() ).withTimerVisible( gameSettings.timerEnabled.get() );
-                        System.out.println( "starting game, info = " + m.info );
+                                withAudio( gameSettings.soundEnabled.get() ).
+                                withTimerVisible( gameSettings.timerEnabled.get() );
                         model.state.set( m );
                     }
                 } );
             }
         };
-        final PSwing settingsDialog = new PSwing( new GameSettingsPanel( gameSettings, startGame ) ) {{
-            scale( GAME_UI_SCALE );
-            setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.height / 2 - getFullBounds().getHeight() / 2 );
+        final PNode settingsDialog = new ZeroOffsetNode( new LevelSelectionNode( startGame, gameSettings ) ) {{
+            setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 );
 
             new CompositeBooleanProperty( new Function0<Boolean>() {
                 public Boolean apply() {
@@ -90,7 +93,43 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                 }
             }, model.state ).addObserver( setNodeVisible( this ) );
         }};
+
+        final PNode text = new PNode() {{
+            addChild( new PhetPText( "Fraction Matcher", new PhetFont( 38, true ) ) );
+            new CompositeBooleanProperty( new Function0<Boolean>() {
+                public Boolean apply() {
+                    return model.state.get().info.mode == Mode.CHOOSING_SETTINGS;
+                }
+            }, model.state ).addObserver( setNodeVisible( this ) );
+
+            setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, settingsDialog.getFullBounds().getMinY() / 3 - getFullBounds().getHeight() / 2 );
+        }};
         addChild( settingsDialog );
+        addChild( text );
+
+        final BufferedImage stopwatchIcon = BufferedImageUtils.multiScaleToWidth( GameConstants.STOPWATCH_ICON, 50 );
+        final BufferedImage soundIcon = BufferedImageUtils.multiScaleToWidth( GameConstants.SOUND_ICON, 50 );
+        final int maxIconWidth = Math.max( stopwatchIcon.getWidth(), soundIcon.getWidth() ) + 10;
+        final int minIconWidth = Math.max( stopwatchIcon.getHeight(), soundIcon.getHeight() ) + 10;
+        final ToggleButtonNode stopwatchButton = new ToggleButtonNode( new PaddedIcon( maxIconWidth, minIconWidth, new PImage( stopwatchIcon ) ), gameSettings.timerEnabled, new VoidFunction0() {
+            public void apply() {
+                gameSettings.timerEnabled.toggle();
+            }
+        } );
+        final ToggleButtonNode soundButton = new ToggleButtonNode( new PaddedIcon( maxIconWidth, minIconWidth, new PImage( soundIcon ) ), gameSettings.soundEnabled, new VoidFunction0() {
+            public void apply() {
+                gameSettings.soundEnabled.toggle();
+            }
+        } );
+        addChild( new HBox( stopwatchButton, soundButton ) {{
+            setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - INSET, STAGE_SIZE.height - getFullBounds().getHeight() - INSET );
+            new CompositeBooleanProperty( new Function0<Boolean>() {
+                public Boolean apply() {
+                    return model.state.get().info.mode == Mode.CHOOSING_SETTINGS;
+                }
+            }, model.state ).addObserver( setNodeVisible( this ) );
+        }} );
+
         final ObservableProperty<Mode> mode = new CompositeProperty<Mode>( new Function0<Mode>() {
             public Mode apply() {
                 return model.state.get().getMode();

@@ -2,8 +2,8 @@
 
 package edu.colorado.phet.common.games;
 
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ConstrainedIntegerProperty;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
 /**
@@ -14,13 +14,13 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 public class GameSettings {
 
     public final ConstrainedIntegerProperty level;
-    public final Property<Boolean> soundEnabled;
-    public final Property<Boolean> timerEnabled;
+    public final BooleanProperty soundEnabled;
+    public final BooleanProperty timerEnabled;
 
     public GameSettings( IntegerRange levelsRange, boolean soundEnabled, boolean timerEnabled ) {
         this.level = new ConstrainedIntegerProperty( levelsRange );
-        this.soundEnabled = new Property<Boolean>( soundEnabled );
-        this.timerEnabled = new Property<Boolean>( timerEnabled );
+        this.soundEnabled = new BooleanProperty( soundEnabled );
+        this.timerEnabled = new BooleanProperty( timerEnabled );
     }
 
     public int getNumberOfLevels() {
