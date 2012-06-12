@@ -24,6 +24,14 @@ public abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
     protected final ModelViewTransform mvt;
     protected final Property<StraightLine> line;
 
+    /**
+     * Constructor
+     * @param userComponent sim-sharing component identifier
+     * @param componentType sim-sharing component type
+     * @param manipulatorNode the node being manipulated by the user
+     * @param mvt  transform between model and view coordinate frames
+     * @param line the line being manipulated
+     */
     public LineManipulatorDragHandler( IUserComponent userComponent, IUserComponentType componentType,
                                        LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<StraightLine> line ) {
         super( userComponent, componentType, true /* sendDragMessages */ );
@@ -32,6 +40,7 @@ public abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
         this.line = line;
     }
 
+    // Update the line using point-slope form.
     protected void updateLine( double rise, double run, double x1, double y1 ) {
         if ( LGConstants.SNAP_TO_GRID_WHILE_DRAGGING ) {
             line.set( new StraightLine( MathUtil.round( rise ), MathUtil.round( run ), MathUtil.round( x1 ), MathUtil.round( y1 ), line.get().color, line.get().highlightColor ) );
@@ -41,6 +50,7 @@ public abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
         }
     }
 
+    // Update the line using slope-intercept form.
     protected void updateLine( double rise, double run, double yIntercept ) {
         if ( LGConstants.SNAP_TO_GRID_WHILE_DRAGGING ) {
             line.set( new StraightLine( MathUtil.round( rise ), MathUtil.round( run ), MathUtil.round( yIntercept ), line.get().color, line.get().highlightColor ) );
@@ -58,6 +68,7 @@ public abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
     @Override protected void endDrag( PInputEvent event ) {
         super.endDrag( event );
         manipulatorNode.setDragging( false );
+        // snap to grid
         updateLine( MathUtil.round( line.get().rise ), MathUtil.round( line.get().run ), MathUtil.round( line.get().x1 ), MathUtil.round( line.get().y1 ) );
     }
 

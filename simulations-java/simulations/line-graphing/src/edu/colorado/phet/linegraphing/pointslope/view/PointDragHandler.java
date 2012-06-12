@@ -24,6 +24,16 @@ class PointDragHandler extends LineManipulatorDragHandler {
     private final Property<DoubleRange> x1Range, y1Range;
     private double clickXOffset, clickYOffset; // offset of mouse click from dragNode's origin, in parent's coordinate frame
 
+    /**
+     * Constructor
+     * @param userComponent sim-sharing component identifier
+     * @param componentType sim-sharing component type
+     * @param manipulatorNode the node being manipulated by the user
+     * @param mvt  transform between model and view coordinate frames
+     * @param line the line being manipulated
+     * @param x1Range
+     * @param y1Range
+     */
     public PointDragHandler( IUserComponent userComponent, IUserComponentType componentType,
                              LineManipulatorNode manipulatorNode, ModelViewTransform mvt, Property<StraightLine> line,
                              Property<DoubleRange> x1Range, Property<DoubleRange> y1Range ) {
