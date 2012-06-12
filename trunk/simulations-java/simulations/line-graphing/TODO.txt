@@ -9,10 +9,8 @@ HIGH
 - using interactive equation skips over values that would produce slope=0/0, but value in equation isn't updated
 
 MEDIUM
-- better handling and testing of adjustment to avoid slope=0/0
 - when point tool is on a saved line, change the point tool highlighting when the user mouses over the saved line
 - don't like all the MathUtil.round that's going on
-- don't like having int methods in SlopeInterceptLine model
 
 LOW
 - grid node gets bigger when IntroModel.GRID_MODEL_UNITS gets smaller, size should remain constant
