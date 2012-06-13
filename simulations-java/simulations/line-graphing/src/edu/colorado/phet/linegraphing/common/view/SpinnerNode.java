@@ -95,6 +95,7 @@ public class SpinnerNode extends PNode {
               value, range, font, format );
     }
 
+    // Constructor that uses images for the various button states.
     public SpinnerNode( IUserComponent userComponent,
                         final Image upInactiveImage, final Image upHighlightImage, final Image upPressedImage, final Image upDisabledImage,
                         final Image downInactiveImage, final Image downHighlightImage, final Image downPressedImage, final Image downDisabledImage,
@@ -306,7 +307,7 @@ public class SpinnerNode extends PNode {
         }
     }
 
-    // Base class for arrow buttons
+    // Base class for arrow buttons (the default increment/decrement buttons)
     private static class ArrowButtonNode extends PPath {
 
         public ArrowButtonNode( final Color color, ArrowOrientation orientation, PDimension size ) {
