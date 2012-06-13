@@ -2,6 +2,12 @@
 package edu.colorado.phet.linegraphing.common.model;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.linegraphing.common.LGSimSharing.ModelActions;
+import edu.colorado.phet.linegraphing.common.LGSimSharing.ModelComponents;
+import edu.colorado.phet.linegraphing.common.LGSimSharing.ParameterKeys;
 
 /**
  * A property that ensures that its value will never be an undefined line.
@@ -31,6 +37,10 @@ public class WellDefinedLineProperty extends Property<StraightLine> {
                 // rise and run haven't changed, arbitrarily move rise toward origin
                 newRise = ( get().y1 > 0 ) ? -1 : 1;
             }
+
+            // Send a model message indicating that we're adjusting the slope.
+            SimSharingManager.sendModelMessage( ModelComponents.line, ModelComponentTypes.modelElement, ModelActions.adjustingSlopeToPreventUndefinedLine,
+                                                            new ParameterSet().with( ParameterKeys.rise, newRise ).with( ParameterKeys.run, newRun ) );
         }
         super.set( new StraightLine( newRise, newRun, line.x1, line.y1, line.color, line.highlightColor ) );
     }
