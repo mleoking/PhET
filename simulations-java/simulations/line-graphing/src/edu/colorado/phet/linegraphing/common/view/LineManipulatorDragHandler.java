@@ -11,6 +11,7 @@ import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.linegraphing.common.LGConstants;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.ParameterKeys;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
+import edu.colorado.phet.linegraphing.common.model.StraightLine.RoundedStraightLine;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
@@ -42,12 +43,12 @@ public abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
 
     // Update the line using point-slope form, snaps to integer grid.
     protected void updateLine( double rise, double run, double x1, double y1 ) {
-        line.set( new StraightLine( MathUtil.roundHalfUp( rise ), MathUtil.roundHalfUp( run ), MathUtil.roundHalfUp( x1 ), MathUtil.roundHalfUp( y1 ), line.get().color, line.get().highlightColor ) );
+        line.set( new RoundedStraightLine( rise, run, x1, y1, line.get().color, line.get().highlightColor ) );
     }
 
     // Update the line using slope-intercept form, snaps to integer grid.
     protected void updateLine( double rise, double run, double yIntercept ) {
-        line.set( new StraightLine( MathUtil.roundHalfUp( rise ), MathUtil.roundHalfUp( run ), MathUtil.roundHalfUp( yIntercept ), line.get().color, line.get().highlightColor ) );
+        line.set( new RoundedStraightLine( rise, run, yIntercept, line.get().color, line.get().highlightColor ) );
     }
 
     @Override protected ParameterSet getParametersForAllEvents( PInputEvent event ) {

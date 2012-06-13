@@ -1,3 +1,4 @@
+6/12/12 add specialization of StraightLine that snaps its args to an integer grid
 6/12/12 encapsulate method of rounding and formatting doubles to ints in SimplifiedEquationFactory.toIntString
 6/12/12 show equation on line while manipulators are in use, since we're snapping to grid [65022]
 6/12/12 remove MathUtil.roundHalfUp calls that are unnecessary now that we snap to grid while dragging [65019]
