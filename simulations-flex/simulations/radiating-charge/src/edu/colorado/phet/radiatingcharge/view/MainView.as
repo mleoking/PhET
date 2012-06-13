@@ -59,7 +59,7 @@ public class MainView extends Canvas {
 
         this.phetLogo = new PhetIcon();
         this.phetLogo.x = stageW - 2.0 * this.phetLogo.width;
-        this.phetLogo.y = 0;// stageH - 1.5 * this.phetLogo.height;
+        this.phetLogo.y = stageH - 1.5 * this.phetLogo.height;
 
         //trace( "stageW:" + stageW + "   stageH:" +stageH );
 
