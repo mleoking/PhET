@@ -1,6 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.common;
 
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelAction;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IModelComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IParameterKey;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 
@@ -22,5 +24,13 @@ public class LGSimSharing {
 
     public static enum ParameterKeys implements IParameterKey {
         rise, run, intercept, x1, y1, x, y, maximized
+    }
+
+    public static enum ModelComponents implements IModelComponent {
+        line
+    }
+
+    public static enum ModelActions implements IModelAction {
+        adjustingSlopeToPreventUndefinedLine
     }
 }
