@@ -1,3 +1,4 @@
+# 0.00.42 (64996) Jun 12, 2012
 Added inertia to the dial for the "single-dial" density meter
 Dials swapped for the two-dial density meter
 Added developer option to switch between both types of density meters
