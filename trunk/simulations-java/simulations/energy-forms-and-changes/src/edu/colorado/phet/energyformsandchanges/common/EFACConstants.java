@@ -1,11 +1,9 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.common;
 
-import java.awt.geom.Dimension2D;
-
 import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Shared constants used in multiple locations within the sim.
@@ -26,9 +24,9 @@ public class EFACConstants {
     // Constants used for creating projections that have a 3D-ish look.
     public static final double Z_TO_X_OFFSET_MULTIPLIER = -0.25;
     public static final double Z_TO_Y_OFFSET_MULTIPLIER = -0.25;
-    public static Function1<Double, Dimension2D> MAP_Z_TO_XY_OFFSET = new Function1<Double, Dimension2D>() {
-        public Dimension2D apply( Double zValue ) {
-            return new PDimension( zValue * Z_TO_X_OFFSET_MULTIPLIER, zValue * Z_TO_Y_OFFSET_MULTIPLIER );
+    public static Function1<Double, ImmutableVector2D> MAP_Z_TO_XY_OFFSET = new Function1<Double, ImmutableVector2D>() {
+        public ImmutableVector2D apply( Double zValue ) {
+            return new ImmutableVector2D( zValue * Z_TO_X_OFFSET_MULTIPLIER, zValue * Z_TO_Y_OFFSET_MULTIPLIER );
         }
     };
 
