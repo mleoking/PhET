@@ -99,4 +99,16 @@ public class StraightLine {
     @Override public String toString() {
         return "rise=" + rise + ",run=" + run + ",x1=" + x1 + ",y1=" + y1 + ",yIntercept=" + yIntercept;
     }
+
+    // Specialization that rounds its constructor args to integers, using nearest-neighbor rounding.
+    public static class RoundedStraightLine extends StraightLine {
+
+        public RoundedStraightLine( double rise, double run, double yIntercept, Color color, Color highlightColor ) {
+            super( MathUtil.roundHalfUp( rise ), MathUtil.roundHalfUp( run ), MathUtil.roundHalfUp( yIntercept ), color, highlightColor );
+        }
+
+        public RoundedStraightLine( double rise, double run, double x1, double y1, Color color, Color highlightColor ) {
+            super( MathUtil.roundHalfUp( rise ), MathUtil.roundHalfUp( run ), MathUtil.roundHalfUp( x1 ), MathUtil.roundHalfUp( y1 ), color, highlightColor );
+        }
+    }
 }

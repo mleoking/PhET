@@ -131,6 +131,7 @@ public class PointToolNode extends PhetPNode {
             this.dragBounds = dragBounds;
         }
 
+        // Note the mouse-click offset when dragging starts.
         @Override protected void startDrag( PInputEvent event ) {
             super.startDrag( event );
             Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
@@ -138,6 +139,7 @@ public class PointToolNode extends PhetPNode {
             clickYOffset = pMouse.getY() - mvt.modelToViewY( point.get().getY() );
         }
 
+        // Translate the model's location. Snap to integer grid if the location is inside the bounds of the graph.
         @Override protected void drag( final PInputEvent event ) {
             super.drag( event );
             Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
@@ -145,12 +147,17 @@ public class PointToolNode extends PhetPNode {
             final double viewY = pMouse.getY() - clickYOffset;
             ImmutableVector2D pView = constrainToBounds( viewX, viewY );
             point.set( mvt.viewToModel( pView ) );
+            ImmutableVector2D pModel = mvt.viewToModel( pView );
             if ( graph.contains( point.get() ) ) {
                 // snap to the grid
-                point.set( new ImmutableVector2D( MathUtil.roundHalfUp( point.get().getX() ), MathUtil.roundHalfUp( point.get().getY() ) ) );
+                point.set( new ImmutableVector2D( MathUtil.roundHalfUp( pModel.getX() ), MathUtil.roundHalfUp( pModel.getY() ) ) );
+            }
+            else {
+                point.set( pModel );
             }
         }
 
+        // Sim-sharing parameters
         @Override public ParameterSet getParametersForAllEvents( PInputEvent event ) {
             return new ParameterSet().
                     with( ParameterKeys.x, COORDINATES_FORMAT.format( point.get().getX() ) ).
