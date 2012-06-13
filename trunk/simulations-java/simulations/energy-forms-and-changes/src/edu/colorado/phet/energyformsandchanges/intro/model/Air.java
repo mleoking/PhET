@@ -36,7 +36,7 @@ public class Air implements ThermalEnergyContainer {
     // 2D size of the air.  It is sized such that it will extend off the left,
     // right, and top edges of screen for the most common aspect ratios of the
     // view.
-    private static final Dimension2D SIZE = new PDimension( 0.4, 0.2 );
+    private static final Dimension2D SIZE = new PDimension( 0.7, 0.3 );
 
     // The thickness of the slice of air being modeled.  This is basically the
     // z dimension, and is used solely for volume calculations.

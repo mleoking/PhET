@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class AirNode extends PNode {
 
-    private static final boolean SHOW_BOUNDS = true;
+    private static final boolean SHOW_BOUNDS = false;
 
     public AirNode( final Air air, final ModelViewTransform mvt ) {
         if ( SHOW_BOUNDS ) {
