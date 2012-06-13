@@ -4,6 +4,9 @@ package edu.colorado.phet.platetectonics.control;
 import java.awt.*;
 import java.awt.geom.Arc2D;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
+
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.math.DampedMassSpringSystem;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
@@ -34,6 +37,7 @@ import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
 import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
+import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -188,7 +192,7 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
         private double p = 0;
         private double d = 0;
 
-        private double k = 1; // spring constant
+        private double k = 70; // spring constant
         private double mass = 1; // "mass" for oscillation
         private double c = DampedMassSpringSystem.getCriticallyDampedDamping( mass, k );
 
@@ -244,10 +248,10 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
         }
 
         public void setWrapAroundDensity( double density, double simulationTimeChange ) {
-            DampedMassSpringSystem system = new DampedMassSpringSystem( mass, k, c, p, d );
-            System.out.println( "p = " + p );
-            System.out.println( "d = " + d );
-            p = system.evaluatePosition( simulationTimeChange );
+
+            // use a damped oscillator system here to smoothly move the dial into the correct position
+            DampedMassSpringSystem system = new DampedMassSpringSystem( mass, k, c, p - density, d );
+            p = system.evaluatePosition( simulationTimeChange ) + density;
             d = system.evaluateVelocity( simulationTimeChange );
 
             // reference into the speedometer to change it
@@ -322,5 +326,52 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
             pointSensor.value.set( new Option.Some<Double>( density * 4 ) );
             miniGaugeDensity.set( new Some<Double>( density / 4 ) );
         }
+    }
+
+    /*---------------------------------------------------------------------------*
+    * DampedMassSpringSystem visual testing and verification of position and velocity
+    *----------------------------------------------------------------------------*/
+    public static void main( String[] args ) {
+        JFrame frame = new JFrame( "Oscillation Test" );
+
+        double mass = 1;
+        double k = 0.001;
+        double c = DampedMassSpringSystem.getCriticallyDampedDamping( mass, k ) * 0.7;
+
+        final DampedMassSpringSystem system = new DampedMassSpringSystem( mass, k, c, 100, 10 );
+
+        frame.setContentPane( new PCanvas() {{
+
+            // graph things vs time
+            getLayer().addChild( new PNode() {{
+                setOffset( 512, 512 );
+
+                // axes
+                addChild( new PhetPPath( new Line2D.Double( -512, 0, 512, 0 ), Color.BLACK, new BasicStroke( 1 ), Color.BLACK ) );
+                addChild( new PhetPPath( new Line2D.Double( 0, 512, 0, -512 ), Color.BLACK, new BasicStroke( 1 ), Color.BLACK ) );
+
+                // position in black
+                for ( int i = -512; i < 512; i++ ) {
+                    addChild( new PhetPPath( new Line2D.Double(
+                            i, -system.evaluatePosition( i ),
+                            i + 1, -system.evaluatePosition( i + 1 )
+                    ), Color.BLACK, new BasicStroke( 1 ), Color.BLACK ) );
+                }
+
+                // velocity in red
+                for ( int i = -512; i < 512; i++ ) {
+                    addChild( new PhetPPath( new Line2D.Double(
+                            i, -system.evaluateVelocity( i ),
+                            i + 1, -system.evaluateVelocity( i + 1 )
+                    ), Color.RED, new BasicStroke( 1 ), Color.RED ) );
+                }
+            }} );
+        }} );
+
+        frame.setSize( new Dimension( 1100, 1100 ) );
+
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+
+        frame.setVisible( true );
     }
 }

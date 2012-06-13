@@ -4,26 +4,36 @@ import edu.colorado.phet.common.phetcommon.util.Pair;
 
 /**
  * Solves 1-dimensional damped mass-spring systems (general harmonic oscillators)
- * TODO: full testing
+ * <p/>
+ * Notably, it solves the differential equation x'' + (c/m)x' + (k/m)x = 0.
+ * <p/>
+ * More can be learned about how this works from http://en.wikipedia.org/wiki/Damping
+ *
+ * @author Jonathan Olson
  */
 public class DampedMassSpringSystem {
 
+    // system constants
     private final double mass;
     private final double k;
     private final double c;
+
+    // initial conditions
     private final double x0;
     private final double v0;
 
+    // computed properties
     private final double omega0;
     private final double zeta;
 
+    // roots of the characteristic equations
+    private final Pair<Complex, Complex> characteristicEquationRoots;
     private final Complex smallRoot;
     private final Complex largeRoot;
 
+    // constants in the general case, solved by using the initial conditions
     private final Complex smallConstant;
     private final Complex largeConstant;
-
-    private final Pair<Complex, Complex> characteristicEquationRoots;
 
     /**
      * Initialize the system
@@ -53,33 +63,54 @@ public class DampedMassSpringSystem {
                 .getDivide( smallRoot.getSubtract( largeRoot ) );
 
         if ( isCriticallyDamped() ) {
-            // we are critically damped
+            // we are critically damped. for speed (since everything is rational), we actually ignore these constants later
             largeConstant = initialPosition;
             smallConstant = initialVelocity.getAdd( initialPosition.getMultiply( omega0 ) );
         }
         else {
+            // general case
             largeConstant = initialPosition.getAdd( frac );
             smallConstant = frac.getOpposite();
         }
     }
 
+    /**
+     * Solve the second-order linear differential equation based on the formula ax''+bx'+cx = 0
+     *
+     * @param a  See above formula
+     * @param b  See above formula
+     * @param c  See above formula
+     * @param x0 Result of x( 0 ) i.e. initial position
+     * @param v0 Result of x'( 0 ) i.e. initial velocity
+     * @return System that can be queried
+     */
+    public static DampedMassSpringSystem getSystemFromDifferentialEquation( double a, double b, double c, double x0, double v0 ) {
+        // basically just remap the constants
+        return new DampedMassSpringSystem( a, c, b, x0, v0 );
+    }
+
+    // the position of the mass at time t
     public double evaluatePosition( double t ) {
         Complex result;
         if ( isCriticallyDamped() ) {
             // real root, simplifies things
+
+            // solution is of the form (A + B*t)*e^(root*t)
             double root = -omega0;
-            result = new Complex( ( x0 + ( v0 + omega0 * x0 ) * t ) * Math.exp( root * t ), 0 );
+            double a = x0;
+            double b = v0 + omega0 * x0;
+            result = new Complex( ( a + b * t ) * Math.exp( root * t ), 0 );
         }
         else {
-            // = A * exp( rootA * t ) + B * exp( rootB * t )
+            // solution is of the form A * exp( rootA * t ) + B * exp( rootB * t )
             Complex left = largeConstant.getMultiply( Complex.getExp( largeRoot.getMultiply( t ) ) );
             Complex right = smallConstant.getMultiply( Complex.getExp( smallRoot.getMultiply( t ) ) );
             result = left.getAdd( right );
         }
-        System.out.println( result );
         return result._real;
     }
 
+    // the velocity of the mass at time t
     public double evaluateVelocity( double t ) {
         Complex result;
         if ( isCriticallyDamped() ) {
@@ -87,16 +118,13 @@ public class DampedMassSpringSystem {
             double root = -omega0;
             double a = x0;
             double b = v0 + omega0 * x0;
-            result = new Complex( a * root * t * Math.exp( root * t )
-                                  + b * Math.exp( root * t )
-                                  + b * root * t * t * Math.exp( root * t ), 0 );
+            result = new Complex( Math.exp( root * t ) * ( a * root + b * root * t + b ), 0 );
         }
         else {
-            Complex left = largeConstant.getMultiply( Complex.getExp( largeRoot.getMultiply( t ) ) ).getMultiply( largeRoot.getMultiply( t ) );
-            Complex right = smallConstant.getMultiply( Complex.getExp( smallRoot.getMultiply( t ) ) ).getMultiply( smallRoot.getMultiply( t ) );
+            Complex left = largeConstant.getMultiply( Complex.getExp( largeRoot.getMultiply( t ) ) ).getMultiply( largeRoot );
+            Complex right = smallConstant.getMultiply( Complex.getExp( smallRoot.getMultiply( t ) ) ).getMultiply( smallRoot );
             result = left.getAdd( right );
         }
-        System.out.println( result );
         return result._real;
     }
 
