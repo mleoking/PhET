@@ -16,9 +16,21 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  */
 public class EnergyChunk {
 
-    public static final double FADE_RATE = 1; // Proportion per second.
+    //-------------------------------------------------------------------------
+    // Class Data
+    //-------------------------------------------------------------------------
 
+    private static final double FADE_RATE = 1; // Proportion per second.
+
+    //-------------------------------------------------------------------------
+    // Instance Data
+    //-------------------------------------------------------------------------
+
+    // Position in model space.
     public final Property<ImmutableVector2D> position;
+    public final Property<Double> zPosition = new Property<Double>( 0.0 ); // Used for some simple 3D layering effects.
+
+    // Property that controls visibility in view.
     public final BooleanProperty visible;
 
     // Strength of existence, used for fading in and out.  Range is from 0 to 1.
@@ -26,6 +38,10 @@ public class EnergyChunk {
 
     // Fade state, so that we know which way it is going.
     private FadeState fadeState = FadeState.FULLY_FADED_IN;
+
+    //-------------------------------------------------------------------------
+    // Constructor(s)
+    //-------------------------------------------------------------------------
 
     public EnergyChunk( ConstantDtClock clock, double x, double y, BooleanProperty visibilityControl, boolean fadeIn ) {
         this( clock, new ImmutableVector2D( x, y ), visibilityControl, fadeIn );
@@ -46,6 +62,10 @@ public class EnergyChunk {
             }
         } );
     }
+
+    //-------------------------------------------------------------------------
+    // Methods
+    //-------------------------------------------------------------------------
 
     private void stepInTime( double dt ) {
         switch( fadeState ) {
