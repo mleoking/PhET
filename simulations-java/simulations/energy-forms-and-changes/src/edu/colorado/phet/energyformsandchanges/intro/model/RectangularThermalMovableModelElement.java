@@ -109,6 +109,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
     }
 
     public void addEnergyChunk( EnergyChunk ec ) {
+        ec.zPosition.set( 0.0 );
         energyChunkList.add( ec );
     }
 

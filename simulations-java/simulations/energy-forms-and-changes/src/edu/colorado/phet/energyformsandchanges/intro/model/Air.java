@@ -154,6 +154,7 @@ public class Air implements ThermalEnergyContainer {
     }
 
     public void addEnergyChunk( EnergyChunk ec ) {
+        ec.zPosition.set( 0.0 );
         energyChunkList.add( ec );
         mapEnergyChunksToMovers.put( ec, new ChunkMover( ec.position.get() ) );
     }

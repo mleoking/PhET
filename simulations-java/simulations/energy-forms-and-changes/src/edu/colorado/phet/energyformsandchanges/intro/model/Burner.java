@@ -196,6 +196,7 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     }
 
     public void addEnergyChunk( EnergyChunk ec ) {
+        ec.zPosition.set( 0.0 );
         energyChunkList.add( ec );
         cumulativeEnergyProducedSinceLastEnergyChunk = 0;
     }
