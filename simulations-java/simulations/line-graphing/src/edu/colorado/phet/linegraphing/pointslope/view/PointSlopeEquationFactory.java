@@ -5,7 +5,6 @@ import java.awt.BasicStroke;
 import java.awt.geom.Line2D;
 import java.text.MessageFormat;
 
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -64,7 +63,7 @@ class PointSlopeEquationFactory extends SimplifiedEquationFactory {
             // y = y1
             PText yNode = new PhetPText( Strings.SYMBOL_Y, font, line.color );
             PText equalsNode = new PhetPText( "=", font, line.color );
-            PText y1Node = new PhetPText( String.valueOf( line.y1 ), font, line.color );
+            PText y1Node = new PhetPText( toIntString( line.y1 ), font, line.color );
 
             // rendering order
             addChild( yNode );
@@ -115,7 +114,7 @@ class PointSlopeEquationFactory extends SimplifiedEquationFactory {
 
             PText yNode = new PhetPText( getYText( line.y1 ), font, line.color );
             PText equalsNode = new PhetPText( "=", font, line.color );
-            PText slopeNode = new PhetPText( String.valueOf( line.getReducedRise() / line.getReducedRun() ), font, line.color );
+            PText slopeNode = new PhetPText( toIntString( line.getReducedRise() / line.getReducedRun() ), font, line.color );
             PText xNode = new PhetPText( getXText( line.x1 ), font, line.color );
 
             // rendering order
@@ -149,8 +148,8 @@ class PointSlopeEquationFactory extends SimplifiedEquationFactory {
             PText yNode = new PhetPText( getYText( line.y1 ), font, line.color );
             PText equalsNode = new PhetPText( "=", font, line.color );
             PText slopeSignNode = new PhetPText( slopeIsPositive ? "" : "-", font, line.color );
-            PText riseNode = new PhetPText( String.valueOf( Math.abs( reducedRise ) ), font, line.color );
-            PText runNode = new PhetPText( String.valueOf( Math.abs( reducedRun ) ), font, line.color );
+            PText riseNode = new PhetPText( toIntString( Math.abs( reducedRise ) ), font, line.color );
+            PText runNode = new PhetPText( toIntString( Math.abs( reducedRun ) ), font, line.color );
             PPath lineNode = new PhetPPath( new Line2D.Double( 0, 0, Math.max( riseNode.getFullBoundsReference().getWidth(), runNode.getFullBoundsReference().getHeight() ), 0 ), new BasicStroke( 1f ), line.color );
             PText xNode = new PhetPText( getXText( line.x1 ), font, line.color );
 

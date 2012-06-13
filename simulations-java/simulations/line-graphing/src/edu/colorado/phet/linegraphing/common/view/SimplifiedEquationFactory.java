@@ -3,6 +3,7 @@ package edu.colorado.phet.linegraphing.common.view;
 
 import java.awt.Color;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
@@ -54,5 +55,10 @@ public abstract class SimplifiedEquationFactory {
             setPickable( false );
             addChild( new PhetPText( Strings.SLOPE_UNDEFINED, font, line.color ) );
         }
+    }
+
+    // Converts a double to an integer string, using nearest-neighbor rounding.
+    protected static String toIntString( double d ) {
+        return String.valueOf( MathUtil.roundHalfUp( d ) );
     }
 }

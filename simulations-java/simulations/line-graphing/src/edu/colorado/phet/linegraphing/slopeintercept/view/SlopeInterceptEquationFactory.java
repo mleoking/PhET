@@ -5,7 +5,6 @@ import java.awt.BasicStroke;
 import java.awt.geom.Line2D;
 import java.text.MessageFormat;
 
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -64,7 +63,7 @@ class SlopeInterceptEquationFactory extends SimplifiedEquationFactory {
             // y = b
             PText yNode = new PhetPText( Strings.SYMBOL_Y, font, line.color );
             PText equalsNode = new PhetPText( "=", font, line.color );
-            PText interceptNode = new PhetPText( String.valueOf( line.yIntercept ), font, line.color );
+            PText interceptNode = new PhetPText( toIntString( line.yIntercept ), font, line.color );
 
             // rendering order
             addChild( yNode );
@@ -98,7 +97,7 @@ class SlopeInterceptEquationFactory extends SimplifiedEquationFactory {
             PText equalsNode = new PhetPText( "=", font, line.color );
             PText xNode = new PhetPText( slopeIsPositive ? Strings.SYMBOL_X : "-" + Strings.SYMBOL_X, font, line.color );
             PText interceptSignNode = new PhetPText( line.yIntercept > 0 ? "+" : "-", font, line.color );
-            PText interceptNode = new PhetPText( String.valueOf( Math.abs( line.yIntercept ) ), font, line.color );
+            PText interceptNode = new PhetPText( toIntString( Math.abs( line.yIntercept ) ), font, line.color );
 
             // rendering order
             addChild( yNode );
@@ -134,10 +133,10 @@ class SlopeInterceptEquationFactory extends SimplifiedEquationFactory {
             // y = rise x + b
             PText yNode = new PhetPText( Strings.SYMBOL_Y, font, line.color );
             PText equalsNode = new PhetPText( "=", font, line.color );
-            PText riseNode = new PhetPText( String.valueOf( line.getReducedRise() / line.getReducedRun() ), font, line.color );
+            PText riseNode = new PhetPText( toIntString( line.getReducedRise() / line.getReducedRun() ), font, line.color );
             PText xNode = new PhetPText( Strings.SYMBOL_X, font, line.color );
             PText signNode = new PhetPText( line.yIntercept > 0 ? "+" : "-", font, line.color );
-            PText interceptNode = new PhetPText( String.valueOf( Math.abs( line.yIntercept ) ), font, line.color );
+            PText interceptNode = new PhetPText( toIntString( Math.abs( line.yIntercept ) ), font, line.color );
 
             // rendering order
             addChild( yNode );
@@ -178,12 +177,12 @@ class SlopeInterceptEquationFactory extends SimplifiedEquationFactory {
             PText yNode = new PhetPText( Strings.SYMBOL_Y, font, line.color );
             PText equalsNode = new PhetPText( "=", font, line.color );
             PText slopeSignNode = new PhetPText( slopeIsPositive ? "" : "-", font, line.color );
-            PText riseNode = new PhetPText( String.valueOf( Math.abs( reducedRise ) ), font, line.color );
-            PText runNode = new PhetPText( String.valueOf( Math.abs( reducedRun ) ), font, line.color );
+            PText riseNode = new PhetPText( toIntString( Math.abs( reducedRise ) ), font, line.color );
+            PText runNode = new PhetPText( toIntString( Math.abs( reducedRun ) ), font, line.color );
             PPath lineNode = new PhetPPath( new Line2D.Double( 0, 0, Math.max( riseNode.getFullBoundsReference().getWidth(), runNode.getFullBoundsReference().getHeight() ), 0 ), new BasicStroke( 1f ), line.color );
             PText xNode = new PhetPText( Strings.SYMBOL_X, font, line.color );
             PText interceptSignNode = new PhetPText( line.yIntercept > 0 ? "+" : "-", font, line.color );
-            PText interceptNode = new PhetPText( String.valueOf( Math.abs( line.yIntercept ) ), font, line.color );
+            PText interceptNode = new PhetPText( toIntString( Math.abs( line.yIntercept ) ), font, line.color );
 
             // rendering order
             addChild( yNode );
