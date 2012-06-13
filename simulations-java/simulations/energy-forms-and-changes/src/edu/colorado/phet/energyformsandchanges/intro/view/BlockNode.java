@@ -41,7 +41,6 @@ public class BlockNode extends PComposite {
     public static final double PERSPECTIVE_EDGE_PROPORTION = Math.sqrt( Math.pow( EFACConstants.MAP_Z_TO_XY_OFFSET.apply( 1.0 ).getWidth(), 2 ) +
                                                                         Math.pow( EFACConstants.MAP_Z_TO_XY_OFFSET.apply( 1.0 ).getHeight(), 2 ) );
 
-
     private static final Font LABEL_FONT = new PhetFont( 32, false );
     private static final Stroke OUTLINE_STROKE = new BasicStroke( 3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
     private static final Color OUTLINE_STROKE_COLOR = Color.DARK_GRAY;
