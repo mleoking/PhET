@@ -29,10 +29,10 @@ import edu.umd.cs.piccolo.nodes.PText;
 class PointSlopeEquationFactory extends SimplifiedEquationFactory {
 
     public EquationNode createNode( StraightLine line, PhetFont font ) {
-        if ( MathUtil.round( line.run ) == 0 ) {
+        if ( MathUtil.roundHalfUp( line.run ) == 0 ) {
             return new UndefinedSlopeNode( line, font );
         }
-        else if ( MathUtil.round( line.rise ) == 0 ) {
+        else if ( MathUtil.roundHalfUp( line.rise ) == 0 ) {
             return new ZeroSlopeNode( line, font );
         }
         else if ( Math.abs( line.getReducedRise() ) == Math.abs( line.getReducedRun() ) ) {
@@ -64,7 +64,7 @@ class PointSlopeEquationFactory extends SimplifiedEquationFactory {
             // y = y1
             PText yNode = new PhetPText( Strings.SYMBOL_Y, font, line.color );
             PText equalsNode = new PhetPText( "=", font, line.color );
-            PText y1Node = new PhetPText( String.valueOf( MathUtil.round( line.y1 ) ), font, line.color );
+            PText y1Node = new PhetPText( String.valueOf( MathUtil.roundHalfUp( line.y1 ) ), font, line.color );
 
             // rendering order
             addChild( yNode );
@@ -194,7 +194,7 @@ class PointSlopeEquationFactory extends SimplifiedEquationFactory {
             return MessageFormat.format( "{0}", Strings.SYMBOL_X );
         }
         else {
-            return MessageFormat.format( "({0}{1}{2})", Strings.SYMBOL_X, x1 < 0 ? "+" : "-", MathUtil.round( Math.abs( x1 ) ) );
+            return MessageFormat.format( "({0}{1}{2})", Strings.SYMBOL_X, x1 < 0 ? "+" : "-", MathUtil.roundHalfUp( Math.abs( x1 ) ) );
         }
     }
 
@@ -204,7 +204,7 @@ class PointSlopeEquationFactory extends SimplifiedEquationFactory {
             return MessageFormat.format( "{0}", Strings.SYMBOL_Y );
         }
         else {
-            return MessageFormat.format( "({0}{1}{2})", Strings.SYMBOL_Y, y1 < 0 ? "+" : "-", MathUtil.round( Math.abs( y1 ) ) );
+            return MessageFormat.format( "({0}{1}{2})", Strings.SYMBOL_Y, y1 < 0 ? "+" : "-", MathUtil.roundHalfUp( Math.abs( y1 ) ) );
         }
     }
 }
