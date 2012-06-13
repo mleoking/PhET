@@ -114,7 +114,6 @@ public class HorizontalSlider extends Sprite {
        this.units_txt.y = -this.label_txt.height - 1.0*this.units_txt.height;
     }
 
-
     public function setLabelText( label_str: String ): void {
         this.label_txt.text = label_str;
         this.label_txt.setTextFormat( this.tFormat1 );
@@ -130,9 +129,11 @@ public class HorizontalSlider extends Sprite {
         this.readout_txt.restrict = allowedCharacters;
     }
 
-    public function hideReadout():void{
-        this.readout_txt.visible = false;
-        this.units_txt.visible = false;
+    public function removeReadout():void{
+        this.removeChild( this.readout_txt );
+        this.removeChild( this.units_txt );
+        //this.readout_txt.visible = false;
+        //this.units_txt.visible = false;
     }
 
     private function drawSlider(): void {
@@ -246,7 +247,6 @@ public class HorizontalSlider extends Sprite {
         var inputNumber:Number = Number(inputText);
         this.setVal( inputNumber / this.scale );
     }
-
 
     private function updateReadout(): void {
         var readout: Number = this.scale * this.outputValue;

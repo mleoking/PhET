@@ -67,6 +67,12 @@ public class ChargeView extends Sprite {
         g.beginFill( 0x000000, 1 );
         g.drawCircle( 0, 0, 10 );
         g.endFill();
+        g.lineStyle( 2, 0xffffff, 1 );
+        var r:Number = 5;
+        g.moveTo( -r, 0 );
+        g.lineTo( r,  0 );
+        g.moveTo( 0, -r );
+        g.lineTo( 0, r );
     }//end drawChargeGraphic
 
     private function setSpring( ):void{

@@ -23,12 +23,17 @@ public class FieldModel {
     private var _yC:Number;         //y-position of charge in pixels
     private var vX:Number;          //x-component of charge velocity
     private var vY:Number;          //y-component of charge velocity
-    private var v:Number;           //speed of charge
+    private var _v:Number;          //speed of charge
     private var gamma:Number;       //gamma factor
     private var fX:Number;          //x-component of force on charge
     private var fY:Number;          //y-component of force on charge
     private var k:Number;           //spring constant of spring between charge and mouse
     private var m:Number;           //mass of charge
+    private var _amplitude:Number;  //_amplitude of motion of charge (for sinusoidal or circular motion)
+    private var _frequency:Number;  //_frequency(Hz) of motion of charge (for sinusoidal or circular motion)
+    private var slopeSign:Number;   //+1 or -1 used in sawtooth generator
+    private var phi:Number;         //phase of oscillatory motion (sinusoidal or circular)
+    private var beta:Number;        //ratio (speed of charge)/c
     private var _nbrLines:int;      //number of field lines coming from charge
     private var _nbrPhotonsPerLine:int //number of photons in a given field line
     private var cos_arr:Array;      //cosines of angles of the rays, CCW from horizontal, angle must be in radians
@@ -42,12 +47,13 @@ public class FieldModel {
     private var linear_str:String;
     private var sinusoidal_str:String;
     private var circular_str:String;
+    private var sawTooth_str:String;
 
     private var _t:Number;          //time in arbitrary units
     private var _tLastPhoton: Number;	    //time of previous Photon emission
     private var tRate: Number;	    //1 = real time; 0.25 = 1/4 of real time, etc.
     private var dt: Number;  	    //default time step in seconds
-    //private var f:Number;           //frequency (nbr per second) of photons on a given field line emitted by charge
+    //private var f:Number;           //_frequency (nbr per second) of photons on a given field line emitted by charge
     private var delTPhoton:Number;  //time in sec between photon emission events
     private var msTimer: Timer;	    //millisecond timer
     private var stageW:int;
@@ -66,9 +72,10 @@ public class FieldModel {
         this.vY = 0;
         this.fX = 0;
         this.fY = 0;
-        this.v = Math.sqrt( vX*vX + vY*vY );
-        this.gamma = 1/Math.sqrt( 1 - this.v/this.c );
-        this._nbrLines = 10;
+        this._v = Math.sqrt( vX*vX + vY*vY );
+        this.beta = this._v/this.c;
+        this.gamma = 1/Math.sqrt( 1 - beta*beta );
+        this._nbrLines = 16;
         this._nbrPhotonsPerLine = 100;
         this.theta_arr = new Array( this._nbrLines );
         this.cos_arr = new Array( this._nbrLines );
@@ -95,21 +102,26 @@ public class FieldModel {
             }
         } //end for loop
 
-        //set motion-type strings. NOTE: these should NOT be internationalized.
+        //set motion-type strings. NOTE: these are not visible on the stage and should NOT be internationalized.
         this.userControlled_str = "userControlled";
         this.linear_str = "linear";
         this.sinusoidal_str = "sinusoidal";
         this.circular_str = "circular";
+        this.sawTooth_str = "sawTooth";
         this.motionType_str = userControlled_str;
 
+        this._amplitude = 5;
+        this._frequency = 2;
+        this.phi = 0;
+        this.beta = 0.5;
+        this._v = beta*this.c;
 
         this._paused = false;
         this._t = 0;
         this._tLastPhoton = 0;
         this.dt = 0.01;
-        //this.f = 10;//0.2*1/dt ;           //f should be less than 1/dt
         this.delTPhoton = 0.01; //this.f;
-        this.tRate = 1;
+        this.tRate = 1;         //not currently used
         this.msTimer = new Timer( this.dt * 1000 );   //argument of Timer constructor is time step in ms
         this.msTimer.addEventListener( TimerEvent.TIMER, stepForward );
         //this.initializeFieldLines();
@@ -136,6 +148,10 @@ public class FieldModel {
     public function get t():Number{
         return this._t;
     }
+    
+    public function get v():Number{
+        return this._v;
+    }
 
     public function getSpeedOfLight():Number{
         return this.c;
@@ -149,10 +165,6 @@ public class FieldModel {
         return this._yC;
     }
 
-    public function get paused():Boolean{
-        return this._paused;
-    }
-
     public function set paused( tOrF:Boolean ):void{
         this._paused = tOrF;
         if( tOrF ){
@@ -162,12 +174,48 @@ public class FieldModel {
         }
     } //end set Paused
 
+    public function get paused():Boolean{
+        return this._paused;
+    } 
+    
+    public function get amplitude():Number{
+        return this._amplitude;
+    }
+
+    public function setAmplitude( ampli:Number ):void{
+        this._amplitude = ampli;
+    }
+    
+    public function get frequency():Number{
+        return this._frequency;
+    }
+
+    public function setFrequency( freq:Number ):void{
+        var oldF:Number = this._frequency;
+        this._frequency = freq;
+        this.phi += 2*Math.PI*this._t*( oldF - _frequency );
+    }
+
+    public function setBeta( beta:Number ):void{
+        this.beta = beta;
+        this._v = beta*this.c;
+        this.vX = _v;
+        this.vY = 0;
+        //trace("FieldModel.setBeta()  beta = " + beta );
+    }
+
+    public function getBeta():Number{
+        return this.beta;
+    }
+
+
+
     public function stopCharge():void{
         motionType_str = userControlled_str;
         this.vX = 0;
         this.vY = 0;
-        this.v = 0;
-        this.myMainView.myControlPanel.myComboBox.selectedIndex = 0;
+        this._v = 0;
+        this.myMainView.myControlPanel.myComboBox.selectedIndex = 0;         //is there a more elegant way?
         //trace("FieldModel.stopCharge called.")
     }
 
@@ -177,12 +225,15 @@ public class FieldModel {
         motionType_str = userControlled_str;
         this.vX = 0;
         this.vY = 0;
-        this.v = 0;
+        this._v = 0;
+        this.beta = this._v/this.c;
         this.myMainView.myControlPanel.myComboBox.selectedIndex = 0;
         this.initializeFieldLines();
     }
 
-
+    public function bumpCharge():void{
+        trace("FieldModel.bumpCharge called()");
+    }
     
     public function setForce( delX:Number, delY:Number ):void{
         this.fX = this.k*delX;
@@ -219,84 +270,115 @@ public class FieldModel {
 
     public function setMotion( choice:int ):void{
         this.stopRadiation();
-        this.initializeFieldLines();
+
         if( choice == 0 ){  //do nothing
-            //trace("FieldModel choice 0");
             motionType_str = userControlled_str;
         }else if( choice == 1 ){    //linear
-            //trace("FieldModel choice 1");
             motionType_str = linear_str;
             this.fX = 0;
             this.fY = 0;
-            this.vX = 0.9*this.c;//0;
+            this.beta = this.myMainView.myControlPanel.speedSlider.getVal();
+            this.vX = this.beta*this.c;//0;
             this.vY = 0;//0.95*this.c;
+            this._v = beta*this.c;
             this._xC = -stageW/2;//
             this._yC = 0;//-stageH; //0;
-            //this.initializeFieldLines();
         }else if(choice == 2 ){  //sinusoid
-            //trace("FieldModel choice 2");
             motionType_str = sinusoidal_str;
-            this.vX = 0;
-            this.vY = 0;
-            this._xC = 0;
-            this._yC = 0;
-            //this.initializeFieldLines();
         }else if( choice == 3 ){  //circular
-            //trace("FieldModel choice 3");
             //this._t = 0;      //this is FATAL!!  Why??
             motionType_str = circular_str;
+        }else if( choice == 4 ){
+            motionType_str = sawTooth_str;
+            _xC = 0;
+            _yC = 0;
+            vX = 0;
+            vY = 0;
+            slopeSign = 1;
         }
+        this.initializeFieldLines();
         this.startRadiation();
     }//end setMotion()
 
 
     private function moveCharge():void{
-        if( motionType_str == userControlled_str || motionType_str == linear_str ){
-            var beta:Number = this.v/this.c;
+        if( motionType_str == userControlled_str ){
+            this.beta = this._v/this.c;
             this.gamma = 1/Math.sqrt( 1 - beta*beta );
             var g3:Number = Math.pow( gamma, 3 );
-            v = Math.sqrt( vX*vX + vY*vY );
-            var b:Number = 0.00; //drag constant
-            if( motionType_str == linear_str){
-                b = 0;     //drag is zero, when motion is constant velocity
-            }
-            var aX:Number = fX/( g3*m ) - b*v*vX;  //x-component of acceleration
-            var aY:Number = fY/( g3*m ) - b*v*vY;  //y-component of acceleration
+            _v = Math.sqrt( vX*vX + vY*vY );
+            var aX:Number = fX/( g3*m ); //- b*_v*vX;  //x-component of acceleration, no drag
+            var aY:Number = fY/( g3*m ); //- b*_v*vY;  //y-component of acceleration
             _xC += vX*dt + 0.5*aX*dt*dt;
             _yC += vY*dt + 0.5*aY*dt*dt;
-
             vX += aX*dt;
             vY += aY*dt;
-            v = Math.sqrt( vX*vX + vY*vY );
-            if( v > c ){
-                while( v >= c ){
-                    trace( "error: v > c, beta = " + this.v/this.c );
-                    vX = 0.99*vX*c/v;
-                    vY = 0.99*vY*c/v;
-                    v = Math.sqrt( vX*vX + vY*vY );
+            _v = Math.sqrt( vX*vX + vY*vY );
+            this.beta = this._v/this.c;
+            if( _v > c ){
+                while( _v >= c ){
+                    trace( "error: _v > c, beta = " + this.beta );
+                    vX = 0.99*vX*c/_v;
+                    vY = 0.99*vY*c/_v;
+                    _v = Math.sqrt( vX*vX + vY*vY );
+                    beta = this._v/this.c;
                 }
             }
-        } else if( motionType_str == sinusoidal_str ) {
-            var A:Number = 10;  //amplitude of sinusoidal motion
-            var f:Number = 2;   //frequency of motion in hertz
-            //this._xC = 0;
-            //this._yC = 0;
-            //this.initializeFieldLines();
-            this._yC = A*Math.sin( 2*Math.PI*f*this._t ) ;
-            this.vX = 0;
-            this.vY = A*2*Math.PI*f*Math.cos( 2*Math.PI*f*this._t );
-            this.v = Math.sqrt( vX*vX + vY*vY );
-        }else if( motionType_str == circular_str ) {
-            var R:Number = 20;  //radius of circle
-            var fracC:Number = 0.5;  //fraction of light speed
-            var freq:Number = fracC*this.c/(2*Math.PI*R);
-            var omega:Number = 2*Math.PI*freq;
-            this._xC = R*Math.cos( omega*this._t );
-            this._yC = R*Math.sin( omega*this._t );
-            this.vX = -R*omega*Math.sin( omega*_t );
-            this.vY = R*omega*Math.cos( omega*_t );
-        }
+        } else if( motionType_str == linear_str ){
+            _xC += vX*dt;
+            _yC += vY*dt;
 
+        }else if( motionType_str == sinusoidal_str ) {
+            var A:Number = this._amplitude;  //_amplitude of sinusoidal motion
+            var f:Number = this._frequency;   //_frequency of motion in hertz
+            this._xC = 0;
+            this._yC = A*Math.sin( 2*Math.PI*f*this._t + phi ) ;
+            this.vX = 0;
+            this.vY = A*2*Math.PI*f*Math.cos( 2*Math.PI*f*this._t + phi );
+            this._v = Math.sqrt( vX*vX + vY*vY );
+            this.beta = this._v/this.c;
+        }else if( motionType_str == circular_str ) {
+            var R:Number = this._amplitude;  //radius of circle
+            var omega:Number = 2*Math.PI*_frequency;
+            this._xC = R*Math.cos( omega*this._t + phi );
+            this._yC = R*Math.sin( omega*this._t + phi );
+            this.vX = -R*omega*Math.sin( omega*_t + phi );
+            this.vY = R*omega*Math.cos( omega*_t + phi );
+            _v = Math.sqrt( vX*vX + vY*vY );
+            this.beta = this._v/this.c;
+        }else if( motionType_str = sawTooth_str ){
+            _xC = 0;
+            vX = 0;
+            var omega:Number = 2*Math.PI*this.frequency;
+            var sign:Number = Math.sin(omega*this._t)/Math.abs(Math.sin(omega*this._t));
+            this.fY = sign*500*amplitude;
+            //trace("FieldModel.moveCharge fy = " + fY);
+            this.fX = 0;
+            this.beta = this._v/this.c;
+            this.gamma = 1/Math.sqrt( 1 - beta*beta );
+            var g3:Number = Math.pow( gamma, 3 );
+            var aX:Number = fX/( g3*m ); //- b*_v*vX;  //x-component of acceleration, no drag
+            var aY:Number = fY/( g3*m ); //- b*_v*vY;  //y-component of acceleration
+            _xC += vX*dt + 0.5*aX*dt*dt;
+            _yC += vY*dt + 0.5*aY*dt*dt;
+            vX += aX*dt;
+            vY += aY*dt;
+            _v = Math.sqrt( vX*vX + vY*vY );
+            this.beta = this._v/this.c;
+//            var speed:Number = 4*amplitude*frequency;
+//            beta = speed/this.c;
+//            _yC += slopeSign*speed*dt;
+//            if( slopeSign > 0 && yC > amplitude ){
+//                slopeSign = -1;
+//            }else if( slopeSign < 0 && yC < -amplitude ){
+//                slopeSign = +1;
+//            }
+//            if( slopeSign > 0 ){
+//                vY = speed;
+//            }else{
+//                vY = -speed;
+//            }
+        }
     }//end moveCharge()
     
     //this algorithm is incorrect.
@@ -331,13 +413,13 @@ public class FieldModel {
         this.initializeEmittedPhotons();
         //
         //trace("FieldModel.emitPhotons._fieldLine_arr[2].length = "+this._fieldLine_arr[2].length);
-        //trace("FieldModel.emitPhotons:  beta = " + this.v/this.c + "    gamma = " + this.gamma);
+        //trace("FieldModel.emitPhotons:  beta = " + this._v/this.c + "    gamma = " + this.gamma);
 
     }//end emitPhotons()
 
     private function initializeEmittedPhotons():void{
-
-        var beta:Number = this.v/this.c;
+        // trace("FieldModel.initializeEmittedPhotons, beta = "+beta);
+        this.beta = this._v/this.c;
         var inverseGamma = Math.sqrt( 1 - beta*beta );
         var thetaC:Number = Math.atan2( this.vY, this.vX );   //angle of velocity vector of charge
         //keep all angles between 0 and +2*pi radians

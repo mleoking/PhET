@@ -72,7 +72,8 @@ public class FieldView extends Sprite{
             g.moveTo( originX + myFieldModel.xC,  originY - myFieldModel.yC );
             //g.moveTo( originX + fieldLine_arr[i][0].xP, originY - fieldLine_arr[i][0].yP );
             for( var j:int = 0; j < nbrPhotonsPerLine; j++ ) {
-                if( fieldLine_arr[i][j].emitted ) {
+                if( fieldLine_arr[i][j].emitted ) {     //Plot only if photon has been emitted by current motion choice
+
                     g.lineTo( originX + fieldLine_arr[i][j].xP, originY - fieldLine_arr[i][j].yP );
                     //g.drawRect( originX + fieldLine_arr[i][j].xP - 2, originY - fieldLine_arr[i][j].yP - 2, 4, 4 );
                 }
