@@ -1,3 +1,4 @@
+6/12/12 remove MathUtil.roundHalfUp calls that are unnecessary now that we snap to grid while dragging
 6/12/12 rename MathUtil.round to MathUtil.roundHalfUp, to prevent accidentally using Math.round
 6/12/12 factor out duplication in GraphNode
 6/12/12 change test harnesses for interactive equations

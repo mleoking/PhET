@@ -172,7 +172,7 @@ public abstract class LineGraphNode extends GraphNode {
 
         // replace the rise/run brackets
         bracketsParentNode.removeAllChildren();
-        if ( MathUtil.roundHalfUp( line.run ) != 0 ) {
+        if ( line.run != 0 ) {
 
             // run bracket
             final Direction runDirection = line.rise >= 0 ? Direction.UP : Direction.DOWN;
@@ -181,7 +181,7 @@ public abstract class LineGraphNode extends GraphNode {
             runBracketNode.setOffset( mvt.modelToViewX( line.x1 ), mvt.modelToViewY( line.y1 ) );
 
             // rise bracket
-            if (  MathUtil.roundHalfUp( line.rise ) != 0  ) {
+            if (  line.rise != 0  ) {
                 final Direction riseDirection = line.run > 0 ? Direction.LEFT : Direction.RIGHT;
                 final RiseRunBracketNode riseBracket = new RiseRunBracketNode( riseDirection, mvt.modelToViewDeltaX( line.rise ), line.rise );
                 bracketsParentNode.addChild( riseBracket );

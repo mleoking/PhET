@@ -40,24 +40,14 @@ public abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
         this.line = line;
     }
 
-    // Update the line using point-slope form.
+    // Update the line using point-slope form, snaps to integer grid.
     protected void updateLine( double rise, double run, double x1, double y1 ) {
-        if ( LGConstants.SNAP_TO_GRID_WHILE_DRAGGING ) {
-            line.set( new StraightLine( MathUtil.roundHalfUp( rise ), MathUtil.roundHalfUp( run ), MathUtil.roundHalfUp( x1 ), MathUtil.roundHalfUp( y1 ), line.get().color, line.get().highlightColor ) );
-        }
-        else {
-            line.set( new StraightLine( rise, run, x1, y1, line.get().color, line.get().highlightColor ) );
-        }
+        line.set( new StraightLine( MathUtil.roundHalfUp( rise ), MathUtil.roundHalfUp( run ), MathUtil.roundHalfUp( x1 ), MathUtil.roundHalfUp( y1 ), line.get().color, line.get().highlightColor ) );
     }
 
-    // Update the line using slope-intercept form.
+    // Update the line using slope-intercept form, snaps to integer grid.
     protected void updateLine( double rise, double run, double yIntercept ) {
-        if ( LGConstants.SNAP_TO_GRID_WHILE_DRAGGING ) {
-            line.set( new StraightLine( MathUtil.roundHalfUp( rise ), MathUtil.roundHalfUp( run ), MathUtil.roundHalfUp( yIntercept ), line.get().color, line.get().highlightColor ) );
-        }
-        else {
-            line.set( new StraightLine( rise, run, yIntercept, line.get().color, line.get().highlightColor ) );
-        }
+        line.set( new StraightLine( MathUtil.roundHalfUp( rise ), MathUtil.roundHalfUp( run ), MathUtil.roundHalfUp( yIntercept ), line.get().color, line.get().highlightColor ) );
     }
 
     @Override protected void startDrag( PInputEvent event ) {
@@ -68,8 +58,7 @@ public abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
     @Override protected void endDrag( PInputEvent event ) {
         super.endDrag( event );
         manipulatorNode.setDragging( false );
-        // snap to grid
-        updateLine( MathUtil.roundHalfUp( line.get().rise ), MathUtil.roundHalfUp( line.get().run ), MathUtil.roundHalfUp( line.get().x1 ), MathUtil.roundHalfUp( line.get().y1 ) );
+        updateLine( line.get().rise, line.get().run, line.get().x1, line.get().y1 );
     }
 
     @Override protected ParameterSet getParametersForAllEvents( PInputEvent event ) {
