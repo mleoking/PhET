@@ -100,16 +100,6 @@ public class SlopeInterceptGraphNode extends LineGraphNode {
         }
     }
 
-    // True if either manipulator is in use.
-    protected boolean isInteracting() {
-        if ( slopeManipulatorNode != null && interceptManipulatorNode != null ) {
-            return slopeManipulatorNode.isDragging() || interceptManipulatorNode.isDragging();
-        }
-        else {
-            return false;
-        }
-    }
-
     // Creates a node that displays the line in slope-intercept form.
     protected StraightLineNode createLineNode( StraightLine line, Graph graph, ModelViewTransform mvt ) {
        return new SlopeInterceptLineNode( line, graph, mvt );

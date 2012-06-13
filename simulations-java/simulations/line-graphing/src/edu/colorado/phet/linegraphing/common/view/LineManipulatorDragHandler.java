@@ -50,17 +50,6 @@ public abstract class LineManipulatorDragHandler extends SimSharingDragHandler {
         line.set( new StraightLine( MathUtil.roundHalfUp( rise ), MathUtil.roundHalfUp( run ), MathUtil.roundHalfUp( yIntercept ), line.get().color, line.get().highlightColor ) );
     }
 
-    @Override protected void startDrag( PInputEvent event ) {
-        super.startDrag( event );
-        manipulatorNode.setDragging( true );
-    }
-
-    @Override protected void endDrag( PInputEvent event ) {
-        super.endDrag( event );
-        manipulatorNode.setDragging( false );
-        updateLine( line.get().rise, line.get().run, line.get().x1, line.get().y1 );
-    }
-
     @Override protected ParameterSet getParametersForAllEvents( PInputEvent event ) {
         return new ParameterSet().
                 with( ParameterKeys.rise, line.get().rise ).
