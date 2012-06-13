@@ -141,7 +141,7 @@ public class DependencyReport {
 
     private void generateRuleSet() throws IOException {
         String sourceFileName = PhetRuleSet.class.getName().replace( ".", "/" ) + ".java";
-        FileUtils.copy( new File( trunk, "util/licensing/src/" + sourceFileName ), new File( trunk, "util/licensing/deploy/" + getRuleSetFilename() ) );//make txt so as not to confuse browsers
+        FileUtils.copy( new File( trunk, "build-tools/licensing-src/" + sourceFileName ), new File( trunk, "util/licensing/deploy/" + getRuleSetFilename() ) );//make txt so as not to confuse browsers
     }
 
     private void generateSimReport() throws IOException {
