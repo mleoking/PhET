@@ -149,17 +149,6 @@ public class PointToolNode extends PhetPNode {
                 // snap to the grid
                 point.set( new ImmutableVector2D( MathUtil.roundHalfUp( point.get().getX() ), MathUtil.roundHalfUp( point.get().getY() ) ) );
             }
-            else {
-                point.set( mvt.viewToModel( pView ) );
-            }
-        }
-
-        @Override protected void endDrag( PInputEvent event ) {
-            super.endDrag( event );
-            if ( graph.contains( point.get() ) ) {
-                // snap to the grid
-                point.set( new ImmutableVector2D( MathUtil.roundHalfUp( point.get().getX() ), MathUtil.roundHalfUp( point.get().getY() ) ) );
-            }
         }
 
         @Override public ParameterSet getParametersForAllEvents( PInputEvent event ) {
