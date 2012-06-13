@@ -25,24 +25,32 @@ public class ControlPanel extends Canvas {
     private var background: VBox;
     private var pauseButton:NiceButton2;
     private var stopButton:NiceButton2;
+    private var bumbButton:NiceButton2;
     private var centerChargeButton:NiceButton2;
     public var myComboBox: ComboBox;
     private var choiceList_arr:Array;
     private var amplitudeSlider:HorizontalSlider;
     private var frequencySlider:HorizontalSlider;
-    private var speedSlider:HorizontalSlider;
+    public var speedSlider:HorizontalSlider;    //must be public to easily communicate with myFieldModel
+    private var amplitudeSlider_UI:SpriteUIComponent;
+    private var frequencySlider_UI:SpriteUIComponent;
+    private var speedSlider_UI:SpriteUIComponent;
 
     //internationalized strings
+    private var pause_str:String;
+    private var unPause_str:String;
     private var start_str:String;
     private var stop_str:String;
-    private var pause_str:String;
+    private var bump_str:String;
     private var centerCharge_str:String;
-    private var unPause_str:String;
+    private var c_str:String;
     //Drop-down menu choices
     private var userChoice_str:String;
     private var linear_str:String;
     private var sinusoid_str:String;
     private var circular_str:String;
+    private var sawTooth_str:String;
+    //slider labels
     private var amplitude_str:String;
     private var frequency_str:String;
     private var speed_str:String;
@@ -76,32 +84,38 @@ public class ControlPanel extends Canvas {
         this.pauseButton = new NiceButton2( 100, 25, pause_str, pauseUnPause, 0x00ff00, 0x000000 );
         this.stopButton = new NiceButton2( 100, 25, stop_str, stopCharge, 0x00ff00, 0x000000 )
         this.centerChargeButton = new NiceButton2( 130, 25, centerCharge_str, centerCharge, 0x00ff00, 0x000000 )
+        this.bumbButton = new NiceButton2( 100, 25, bump_str, bumpCharge, 0x00ff00, 0x000000 );
         this.myComboBox = new ComboBox();
         this.choiceList_arr = new Array( 3 );
-        choiceList_arr = [ userChoice_str, linear_str, sinusoid_str, circular_str ];
+        choiceList_arr = [ userChoice_str, linear_str, sinusoid_str, circular_str, sawTooth_str ];
         myComboBox.dataProvider = choiceList_arr;
         myComboBox.addEventListener( DropdownEvent.CLOSE, comboBoxListener );
         var sliderWidth:Number = 100;
-        amplitudeSlider = new HorizontalSlider( setAmplitude, sliderWidth, 2, 30 );
-        frequencySlider = new HorizontalSlider( setFrequency, sliderWidth, 0.5, 10 );
+        amplitudeSlider = new HorizontalSlider( setAmplitude, sliderWidth, 0, 10 );
+        frequencySlider = new HorizontalSlider( setFrequency, sliderWidth, 0, 3 );
         var c:Number = myFieldModel.getSpeedOfLight();
-        speedSlider = new HorizontalSlider( setSpeed, sliderWidth, 20, 0.95*c );
+        speedSlider = new HorizontalSlider( setSpeed, sliderWidth, 0.1, 0.95 );
         amplitudeSlider.setLabelText( amplitude_str );
-        amplitudeSlider.hideReadout();
+        amplitudeSlider.removeReadout();
         frequencySlider.setLabelText( frequency_str );
-        frequencySlider.hideReadout();
+        frequencySlider.removeReadout();
         speedSlider.setLabelText( speed_str );
-        speedSlider.hideReadout();
-
+        speedSlider.setUnitsText( c_str );
+        speedSlider.setReadoutPrecision( 2 );
 
         this.addChild( background );
         this.background.addChild( new SpriteUIComponent( pauseButton, true ) );
         this.background.addChild( new SpriteUIComponent( stopButton, true ) );
         this.background.addChild( new SpriteUIComponent( centerChargeButton, true ) );
+        this.background.addChild( new SpriteUIComponent( bumbButton, true ) );
         this.background.addChild( myComboBox );
-        this.background.addChild( new SpriteUIComponent( amplitudeSlider, true ));
-        this.background.addChild( new SpriteUIComponent( frequencySlider, true ));
-        this.background.addChild( new SpriteUIComponent( speedSlider, true ));
+        this.amplitudeSlider_UI = new SpriteUIComponent( amplitudeSlider, true )
+        this.background.addChild( amplitudeSlider_UI );
+        this.frequencySlider_UI = new SpriteUIComponent( frequencySlider, true )
+        this.background.addChild( frequencySlider_UI );
+        this.speedSlider_UI = new SpriteUIComponent( speedSlider, true );
+        this.background.addChild( speedSlider_UI );
+        this.setSliderVisiblity();
 
     }//end init()
 
@@ -110,14 +124,17 @@ public class ControlPanel extends Canvas {
         unPause_str = FlexSimStrings.get( "unPause", "UnPause" );
         start_str = FlexSimStrings.get( "start", "Start" );
         stop_str = FlexSimStrings.get( "stop", "Stop" );
+        bump_str = FlexSimStrings.get( "bump", "Bump" );
         centerCharge_str = FlexSimStrings.get("centerCharge", "Center Charge");
         userChoice_str = FlexSimStrings.get( "userControlled", "User Controlled" );
         linear_str = FlexSimStrings.get( "linear", "Linear" );
         sinusoid_str = FlexSimStrings.get( "sinusoid", "Sinusoid" );
         circular_str = FlexSimStrings.get( "circular", "Circular" );
+        sawTooth_str = FlexSimStrings.get( "sawTooth", "Sawtooth" );
         amplitude_str = FlexSimStrings.get( "amplitude", "amplitude" );
         frequency_str = FlexSimStrings.get( "frequency", "frequency" );
         speed_str = FlexSimStrings.get( "speed", "speed" );
+        c_str = FlexSimStrings.get( "c", "c");
     }
 
     private function pauseUnPause():void{
@@ -130,10 +147,17 @@ public class ControlPanel extends Canvas {
 
     private function stopCharge():void{
         this.myFieldModel.stopCharge();
+        this.setSliderVisiblity();
     }
 
     private function centerCharge():void{
+        this.myFieldModel.paused = false;
         this.myFieldModel.centerCharge();
+        this.setSliderVisiblity();
+    }
+
+    private function bumpCharge():void{
+        this.myFieldModel.bumpCharge();
     }
 
     private function comboBoxListener( evt: DropdownEvent ):void{
@@ -141,27 +165,58 @@ public class ControlPanel extends Canvas {
         if( choice == userChoice_str ){
             this.myFieldModel.setMotion( 0 );
         }else if( choice == linear_str ){
+
+            if( isNaN(this.speedSlider.getVal()) ){
+                this.myFieldModel.setBeta( 0.5 );
+                this.speedSlider.setSliderWithoutAction( 0.5 );
+            }
             this.myFieldModel.setMotion( 1 );
-        }else if( choice == sinusoid_str ){
-            this.myFieldModel.setMotion( 2 );
-        }else if( choice == circular_str ){
-            this.myFieldModel.setMotion( 3 );
+        }else if( choice == sinusoid_str ){ this.myFieldModel.setMotion( 2 );
+        }else if( choice == circular_str ){ this.myFieldModel.setMotion( 3 );
+        }else if( choice == sawTooth_str ){ this.myFieldModel.setMotion( 4 );
         }else{
             trace( "ERROR: ControlPanel.comboBoxListener() received invalid choice.") ;
         }
-
+        this.setSliderVisiblity()
     }//end comboBoxListener
 
+    private function setSliderVisiblity():void{
+        amplitudeSlider_UI.visible = false;
+        frequencySlider_UI.visible = false;
+        speedSlider_UI.visible = false;
+        amplitudeSlider_UI.includeInLayout = false;
+        frequencySlider_UI.includeInLayout = false;
+        speedSlider_UI.includeInLayout = false;
+        var choice:int = myComboBox.selectedIndex;
+        if( choice == 0 ){      //user-controlled
+            //do nothing
+        }else if( choice == 1 ){  //linear
+            speedSlider_UI.visible = true;
+            speedSlider_UI.includeInLayout = true;
+            speedSlider.setSliderWithoutAction( myFieldModel.getBeta() );
+        } else if( choice == 2 || choice == 3 || choice == 4 ){   //sinusoidal or circular or sawtooth
+            amplitudeSlider_UI.visible = true;
+            frequencySlider_UI.visible = true;
+            amplitudeSlider_UI.includeInLayout = true;
+            frequencySlider_UI.includeInLayout = true;
+            amplitudeSlider.setSliderWithoutAction( myFieldModel.amplitude );
+            frequencySlider.setSliderWithoutAction( myFieldModel.frequency );
+        }
+    }//end setSliderVisibility()
+
     private function setAmplitude():void{
-        var Ampl:Number = amplitudeSlider.getVal();
+        var ampl:Number = amplitudeSlider.getVal();
+        myFieldModel.setAmplitude( ampl );
     }
 
     private function setFrequency():void{
         var freq:Number = frequencySlider.getVal();
+        myFieldModel.setFrequency( freq );
     }
 
     private function setSpeed():void{
-        var speed:Number = speedSlider.getVal();
+        var beta:Number = speedSlider.getVal();
+        myFieldModel.setBeta( beta );
     }
 } //end class
 } //end package
