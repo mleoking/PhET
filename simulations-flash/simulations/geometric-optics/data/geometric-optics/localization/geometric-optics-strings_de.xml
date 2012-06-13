@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--geometric-optics-strings_de.xml created Tue Aug 17 19:00:48 CEST 2010 using: geometric-optics 2.04.00 (37306), translation-utility 2.08.00 (39581) Apr 1, 2010-->
+<!--geometric-optics-strings_de.xml created Wed Jun 13 17:15:11 CEST 2012 using: geometric-optics 2.05.00 (52650), translation-utility 2.13.00 (59150) Dez 8, 2011-->
 <SimStrings>
 <string key="draggableScreen" value="verschiebbarer Schirm"/>
 <string key="draggableLens" value="verschiebbare Linse"/>
 <string key="screen" value="Bildschirm"/>
 <string key="draggableRuler" value="verschiebbares Lineal"/>
 <string key="simTitle" value="Geometrische Optik"/>
-<string key="showHelp" value="Hilfe anzeigen"/>
+<string key="showHelp" value="Hilfe"/>
 <string key="moveMe" value="Verschiebe mich!"/>
 <string key="showGuides" value="Hilfslinien zeigen"/>
 <string key="diameter" value="Durchmesser (m)"/>
@@ -18,8 +18,9 @@
 <string key="marginalRays" value="Randstrahlen"/>
 <string key="virtualImage" value="Virtuelles Bild"/>
 <string key="noRays" value="keine Strahlen"/>
-<string key="secondSource" value="zweiter Punkt"/>
+<string key="secondSource" value="zwei Quellen"/>
 <string key="hideHelp" value="Hilfe verbergen"/>
 <string key="refractiveIndex" value="Brechungsindex"/>
+<string key="translation.credits" value="Robert Jung, Jena"/>
 <string key="manyRays" value="viele Strahlen"/>
 </SimStrings>
