@@ -14,11 +14,13 @@ public class Photon {
     private var _yP:Number;     //y-coordinate of photon
     private var _cos:Number;    //direction cosine of photon's velocity vector
     private var _sin:Number;    //direction sine of photon's velocity vector
-    public function Photon( xP:Number = 0,  yP:Number = 0,  cos:Number = 0,  sin:Number = 0 ) {
+    private var _emitted:Boolean; //true if photon has been emitted since start of radiation
+    public function Photon( xP:Number = 0,  yP:Number = 0,  cos:Number = 0,  sin:Number = 0, emitted:Boolean = false ) {
         this._xP = xP;
         this._yP = yP;
         this._cos = cos;
         this._sin = sin;
+        this._emitted = emitted;
     }
 
     public function resetPhoton():void{
@@ -56,6 +58,14 @@ public class Photon {
 
     public function get sin():Number {
         return this._sin;
+    }
+
+    public function set emitted( tOrF:Boolean ):void{
+        this._emitted = tOrF;
+    }
+
+    public function get emitted():Boolean {
+        return this._emitted;
     }
 
 }//end of class

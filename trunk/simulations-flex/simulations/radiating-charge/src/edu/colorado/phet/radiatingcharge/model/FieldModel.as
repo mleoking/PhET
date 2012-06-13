@@ -206,6 +206,7 @@ public class FieldModel {
                 this._fieldLine_arr[i][j].yP = this._yC;// + this.sin_arr[i]*j*this.stageW/(2*this._nbrPhotonsPerLine );
                 this._fieldLine_arr[i][j].cos = 0;
                 this._fieldLine_arr[i][j].sin = 0;
+                this._fieldLine_arr[i][j].emitted = false;
                 //this._fieldLine_arr[i][j][0] = this._xC + this.cos_arr[i]*j*this.stageW/(2*this._nbrPhotonsPerLine );
                 //this._fieldLine_arr[i][j][1] = this._yC + this.sin_arr[i]*j*this.stageW/(2*this._nbrPhotonsPerLine );
             }
@@ -214,6 +215,7 @@ public class FieldModel {
 
     public function setMotion( choice:int ):void{
         this.stopRadiation();
+        this.initializeFieldLines();
         if( choice == 0 ){  //do nothing
             //trace("FieldModel choice 0");
             motionType_str = userControlled_str;
@@ -226,7 +228,7 @@ public class FieldModel {
             this.vY = 0;//0.95*this.c;
             this._xC = -stageW/2;//
             this._yC = 0;//-stageH; //0;
-            this.initializeFieldLines();
+            //this.initializeFieldLines();
         }else if(choice == 2 ){  //sinusoid
             //trace("FieldModel choice 2");
             motionType_str = sinusoidal_str;
@@ -282,7 +284,7 @@ public class FieldModel {
             this.v = Math.sqrt( vX*vX + vY*vY );
         }else if( motionType_str == circular_str ) {
             var R:Number = 20;  //radius of circle
-            var fracC:Number = 0.1;  //fraction of light speed
+            var fracC:Number = 0.5;  //fraction of light speed
             var freq:Number = fracC*this.c/(2*Math.PI*R);
             var omega:Number = 2*Math.PI*freq;
             this._xC = R*Math.cos( omega*this._t );
@@ -349,6 +351,7 @@ public class FieldModel {
             //reset positions
             this._fieldLine_arr[i][0].xP = this._xC;
             this._fieldLine_arr[i][0].yP = this._yC;
+            this._fieldLine_arr[i][0].emitted = true;
             var thetaU:Number = this.theta_arr[i] - thetaC;
             if(thetaU < - Math.PI ){
                 thetaU += 2*Math.PI;
