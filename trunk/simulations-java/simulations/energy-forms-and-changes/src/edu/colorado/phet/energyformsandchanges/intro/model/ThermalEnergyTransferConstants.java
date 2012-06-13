@@ -13,12 +13,12 @@ import java.util.Map;
 public class ThermalEnergyTransferConstants {
     public static final double BRICK_IRON_HEAT_TRANSFER_FACTOR = 1000;
     public static final double BRICK_WATER_HEAT_TRANSFER_FACTOR = 1000;
-    public static final double BRICK_AIR_HEAT_TRANSFER_FACTOR = 1000;
+    public static final double BRICK_AIR_HEAT_TRANSFER_FACTOR = 50;
     public static final double BRICK_BURNER_TRANSFER_FACTOR = 1000;
     public static final double IRON_WATER_HEAT_TRANSFER_FACTOR = 1000;
-    public static final double IRON_AIR_HEAT_TRANSFER_FACTOR = 1;
+    public static final double IRON_AIR_HEAT_TRANSFER_FACTOR = 50;
     public static final double IRON_BURNER_TRANSFER_FACTOR = 1000;
-    public static final double WATER_AIR_HEAT_TRANSFER_FACTOR = 1000;
+    public static final double WATER_AIR_HEAT_TRANSFER_FACTOR = 50;
     public static final double WATER_BURNER_TRANSFER_FACTOR = 1000;
     public static final double AIR_BURNER_TRANSFER_FACTOR = 1000;
 
