@@ -10,7 +10,6 @@ HIGH
 
 MEDIUM
 - when point tool is on a saved line, change the point tool highlighting when the user mouses over the saved line
-- don't like all the MathUtil.roundHalfUp that's going on
 
 LOW
 - grid node gets bigger when IntroModel.GRID_MODEL_UNITS gets smaller, size should remain constant
