@@ -27,6 +27,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
@@ -191,11 +192,14 @@ public class SpinnerNode extends PNode {
         downButton.setOffset( downBackgroundNode.getFullBoundsReference().getCenterX() - ( downButton.getFullBoundsReference().getWidth() / 2 ),
                               downBackgroundNode.getFullBoundsReference().getMaxY() );
 
-        // when the value changes, update the display
-        value.addObserver( new VoidFunction1<Double>() {
-            public void apply( Double value ) {
-                // displayed value
-                textNode.setText( format.format( value ) );
+        /*
+         * When the value changes, update the display. Use a SimpleObserver instead of a VoidFunction1 so
+         * that we don't get a possibly-stale argument value provided by the VoidFunction1.
+         */
+        value.addObserver( new SimpleObserver() {
+            public void update() {
+                 // displayed value
+                textNode.setText( format.format( value.get() ) );
                 // centered
                 textNode.setOffset( ( backgroundWidth - textNode.getFullBoundsReference().getWidth() ) / 2, textNode.getYOffset() );
             }

@@ -6,7 +6,6 @@ DESIGN
 - Game
 
 HIGH
-- using interactive equation skips over values that would produce slope=0/0, but value in equation isn't updated
 
 MEDIUM
 - when point tool is on a saved line, change the point tool highlighting when the user mouses over the saved line
