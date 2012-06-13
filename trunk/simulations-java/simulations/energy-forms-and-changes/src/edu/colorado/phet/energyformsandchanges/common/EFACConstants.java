@@ -24,8 +24,8 @@ public class EFACConstants {
     public static final double SIM_TIME_PER_TICK_FAST_FORWARD = SIM_TIME_PER_TICK_NORMAL * 4;
 
     // Constants used for creating projections that have a 3D-ish look.
-    public static final double Z_TO_X_OFFSET_MULTIPLIER = 0.25;
-    public static final double Z_TO_Y_OFFSET_MULTIPLIER = 0.25;
+    public static final double Z_TO_X_OFFSET_MULTIPLIER = -0.25;
+    public static final double Z_TO_Y_OFFSET_MULTIPLIER = -0.25;
     public static Function1<Double, Dimension2D> MAP_Z_TO_XY_OFFSET = new Function1<Double, Dimension2D>() {
         public Dimension2D apply( Double zValue ) {
             return new PDimension( zValue * Z_TO_X_OFFSET_MULTIPLIER, zValue * Z_TO_Y_OFFSET_MULTIPLIER );

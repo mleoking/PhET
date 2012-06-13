@@ -37,7 +37,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class BlockNode extends PComposite {
 
     // Constants that define the 3D projection.  Public so that model can reference.
-    public static final double PERSPECTIVE_ANGLE = Math.atan2( EFACConstants.Z_TO_Y_OFFSET_MULTIPLIER, EFACConstants.Z_TO_X_OFFSET_MULTIPLIER );
+    public static final double PERSPECTIVE_ANGLE = Math.atan2( -EFACConstants.Z_TO_Y_OFFSET_MULTIPLIER, -EFACConstants.Z_TO_X_OFFSET_MULTIPLIER );
     public static final double PERSPECTIVE_EDGE_PROPORTION = Math.sqrt( Math.pow( EFACConstants.MAP_Z_TO_XY_OFFSET.apply( 1.0 ).getWidth(), 2 ) +
                                                                         Math.pow( EFACConstants.MAP_Z_TO_XY_OFFSET.apply( 1.0 ).getHeight(), 2 ) );
 
