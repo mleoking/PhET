@@ -137,6 +137,10 @@ public class FieldModel {
         return this._t;
     }
 
+    public function getSpeedOfLight():Number{
+        return this.c;
+    }
+
     public function get xC():Number{
         return this._xC;
     }

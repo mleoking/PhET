@@ -81,12 +81,28 @@ public class ControlPanel extends Canvas {
         choiceList_arr = [ userChoice_str, linear_str, sinusoid_str, circular_str ];
         myComboBox.dataProvider = choiceList_arr;
         myComboBox.addEventListener( DropdownEvent.CLOSE, comboBoxListener );
+        var sliderWidth:Number = 100;
+        amplitudeSlider = new HorizontalSlider( setAmplitude, sliderWidth, 2, 30 );
+        frequencySlider = new HorizontalSlider( setFrequency, sliderWidth, 0.5, 10 );
+        var c:Number = myFieldModel.getSpeedOfLight();
+        speedSlider = new HorizontalSlider( setSpeed, sliderWidth, 20, 0.95*c );
+        amplitudeSlider.setLabelText( amplitude_str );
+        amplitudeSlider.hideReadout();
+        frequencySlider.setLabelText( frequency_str );
+        frequencySlider.hideReadout();
+        speedSlider.setLabelText( speed_str );
+        speedSlider.hideReadout();
+
 
         this.addChild( background );
         this.background.addChild( new SpriteUIComponent( pauseButton, true ) );
         this.background.addChild( new SpriteUIComponent( stopButton, true ) );
         this.background.addChild( new SpriteUIComponent( centerChargeButton, true ) );
         this.background.addChild( myComboBox );
+        this.background.addChild( new SpriteUIComponent( amplitudeSlider, true ));
+        this.background.addChild( new SpriteUIComponent( frequencySlider, true ));
+        this.background.addChild( new SpriteUIComponent( speedSlider, true ));
+
     }//end init()
 
     private function initializeStrings():void{
@@ -135,5 +151,17 @@ public class ControlPanel extends Canvas {
         }
 
     }//end comboBoxListener
+
+    private function setAmplitude():void{
+        var Ampl:Number = amplitudeSlider.getVal();
+    }
+
+    private function setFrequency():void{
+        var freq:Number = frequencySlider.getVal();
+    }
+
+    private function setSpeed():void{
+        var speed:Number = speedSlider.getVal();
+    }
 } //end class
 } //end package

@@ -130,6 +130,11 @@ public class HorizontalSlider extends Sprite {
         this.readout_txt.restrict = allowedCharacters;
     }
 
+    public function hideReadout():void{
+        this.readout_txt.visible = false;
+        this.units_txt.visible = false;
+    }
+
     private function drawSlider(): void {
         //draw rail
         var gR: Graphics = this.rail.graphics;
