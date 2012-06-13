@@ -1,3 +1,4 @@
+Animated turn off of the burner when heating/cooling limits are hit.
 E's come from top center of objects when going into the air.
 Improved energy chunk exchange behavior with air
 Made the burners not interact with the air when something is on top of it.
