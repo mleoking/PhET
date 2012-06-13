@@ -1,4 +1,4 @@
-6/12/12 show equation on line while manipulators are in use, since we're snapping to grid
+6/12/12 show equation on line while manipulators are in use, since we're snapping to grid [65022]
 6/12/12 remove MathUtil.roundHalfUp calls that are unnecessary now that we snap to grid while dragging [65019]
 6/12/12 rename MathUtil.round to MathUtil.roundHalfUp, to prevent accidentally using Math.round
 6/12/12 factor out duplication in GraphNode
