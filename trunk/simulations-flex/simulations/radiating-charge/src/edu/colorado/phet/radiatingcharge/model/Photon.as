@@ -15,6 +15,7 @@ public class Photon {
     private var _cos:Number;    //direction cosine of photon's velocity vector
     private var _sin:Number;    //direction sine of photon's velocity vector
     private var _emitted:Boolean; //true if photon has been emitted since start of radiation
+
     public function Photon( xP:Number = 0,  yP:Number = 0,  cos:Number = 0,  sin:Number = 0, emitted:Boolean = false ) {
         this._xP = xP;
         this._yP = yP;

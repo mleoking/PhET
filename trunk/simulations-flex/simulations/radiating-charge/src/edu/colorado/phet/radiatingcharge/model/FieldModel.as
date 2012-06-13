@@ -379,6 +379,7 @@ public class FieldModel {
     }
 
     public function stopRadiation():void{
+        updateViews();
         this.msTimer.stop();
     }
 

@@ -23,6 +23,7 @@ public class FieldView extends Sprite{
     private var nbrPhotonsPerLine:int;  //nbr of photons per field line, passed in from the Field model
     private var originX:Number;         //location of origin, in screen coordinates
     private var originY:Number;
+    private var container:Sprite;       //container for field lines, so can put PAUSED sign underneath
     private var pausedSign:NiceLabel;   //visible when sim is paused
     private var paused_str:String;
 
@@ -40,22 +41,29 @@ public class FieldView extends Sprite{
     }
 
     private function initializeStrings():void{
-        this.paused_str = "PAUSED"; //FlexSimStrings.get( "paused", "PAUSED" );
+        this.paused_str = FlexSimStrings.get( "paused", "PAUSED" );
     }
 
     private function init():void{
-        this.pausedSign = new NiceLabel( 30, paused_str );
-        this.addChild( new SpriteUIComponent( pausedSign ) );
-        //this.pausedSign.visible = true;
+        this.container = new Sprite();
+        this.pausedSign = new NiceLabel( 80, paused_str );
+        this.pausedSign.setFontColor( 0xF5BA0A );
+        this.pausedSign.x = this.myMainView.stageW/2 - pausedSign.width/2;
+        pausedSign.y = 0.1*myMainView.stageH;
+        this.addChild( pausedSign );
+        this.addChild( container );
+        this.pausedSign.visible = false;
     }
 
     public function update():void{
+//        trace("FieldView.update() paused = "+myFieldModel.paused);
 //        if( myFieldModel.paused ){
-//            pausedSign.visible = true;
-//        } else{
 //            pausedSign.visible = false;
+//        }else{
+//            pausedSign.visible = true;
 //        }
-        var g:Graphics = this.graphics;
+        pausedSign.visible = myFieldModel.paused;
+        var g:Graphics = this.container.graphics;
         g.clear();
         g.lineStyle( 2, 0x0000ff, 1 );
         var fieldLine_arr:Array =  this.myFieldModel.fieldLine_arr;
