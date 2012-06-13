@@ -61,7 +61,7 @@ public class FluidPressureRadioButtonStripControlPanelNode extends PNode {
                               new Element( icon( canvas, model.pool, model.chamberPool ), model.chamberPool, UserComponents.massesPoolButton ) );
     }
 
-    public static class Element {
+    private static class Element {
         public final PNode node;
         public final IPool pool;
         public final IUserComponent component;
