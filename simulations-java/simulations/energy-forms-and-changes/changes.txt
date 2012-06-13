@@ -1,3 +1,5 @@
+# 0.00.06 (65042) Jun 13, 2012
+6/13/12 Capturing a snapshot for review and discussion with design team.
 Added fading for energy chunks in order to give them more of a 3D look in the energy containers.
 Changed algorithm for positioning energy chunks in the energy containers so that they can go into the 3D projection areas.
 Animated turn off of the burner when heating/cooling limits are hit.
