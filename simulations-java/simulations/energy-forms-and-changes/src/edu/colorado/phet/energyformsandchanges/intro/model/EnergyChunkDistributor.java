@@ -3,6 +3,7 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,9 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 
 /**
  * A class that contains static methods for redistributing a set of energy
@@ -115,30 +119,49 @@ public class EnergyChunkDistributor {
         // tweak factors, so it may require some adjustments.
         double forceConstant = ( boundingRect.getWidth() * boundingRect.getHeight() / energyChunkList.size() ) * 0.5;
 
-        int numSteps = (int) ( dt / MAX_TIME_STEP );
-        double extraTime = dt - numSteps * MAX_TIME_STEP;
+        // Determine the minimum distance that is allowed to be used in the
+        // force calculations.  This prevents hitting infinities that can
+        // cause run time issues or unreasonably large forces.
+        double minDistance = Math.min( boundingRect.getWidth(), boundingRect.getHeight() ) / 100; // Divisor empirically determined.
 
-        for ( int i = 0; i <= numSteps; i++ ) {
-            double timeStep = i < numSteps ? MAX_TIME_STEP : extraTime;
+        // Loop, calculating and applying the forces for each point mass.
+        int numForceCalcSteps = (int) ( dt / MAX_TIME_STEP );
+        double extraTime = dt - numForceCalcSteps * MAX_TIME_STEP;
+        for ( int forceCalcStep = 0; forceCalcStep <= numForceCalcSteps; forceCalcStep++ ) {
+
+            double timeStep = forceCalcStep < numForceCalcSteps ? MAX_TIME_STEP : extraTime;
+
             // Update the forces acting on each point mass.
             for ( PointMass p : map.values() ) {
                 if ( enclosingShape.contains( p.position.toPoint2D() ) ) {
 
-                    // Force from left side of rectangle.
-                    p.applyForce( new ImmutableVector2D( forceConstant / Math.pow( p.position.getX() - boundingRect.getX(), 2 ), 0 ) );
+                    // Calculate the forces from the edges of the container.
+                    for ( double angle = 0; angle < 2 * Math.PI; angle += Math.PI / 2 ) {
+                        int edgeDetectSteps = 8;
+                        DoubleRange lengthBounds = new DoubleRange( 0, Math.sqrt( boundingRect.getWidth() * boundingRect.getWidth() + boundingRect.getHeight() * boundingRect.getHeight() ) );
+                        for ( int edgeDetectStep = 0; edgeDetectStep < edgeDetectSteps; edgeDetectStep++ ) {
+                            ImmutableVector2D vectorToEdge = new ImmutableVector2D( lengthBounds.getCenter(), 0 ).getRotatedInstance( angle );
+                            if ( enclosingShape.contains( p.position.getAddedInstance( vectorToEdge ).toPoint2D() ) ) {
+                                lengthBounds = new DoubleRange( lengthBounds.getCenter(), lengthBounds.getMax() );
+                            }
+                            else {
+                                lengthBounds = new DoubleRange( lengthBounds.getMin(), lengthBounds.getCenter() );
+                            }
+                        }
 
-                    // Force from right side of rectangle.
-                    p.applyForce( new ImmutableVector2D( -forceConstant / Math.pow( boundingRect.getMaxX() - p.position.getX(), 2 ), 0 ) );
+                        // Handle case where point is too close to the container's edge.
+                        if ( lengthBounds.getCenter() < minDistance ) {
+                            System.out.println( "Warning: point is on container edge." );
+                            lengthBounds = new DoubleRange( minDistance, minDistance );
+                        }
 
-                    // Force from bottom of rectangle.
-                    p.applyForce( new ImmutableVector2D( 0, forceConstant / Math.pow( p.position.getY() - boundingRect.getY(), 2 ) ) );
-
-                    // Force from top of rectangle.
-                    p.applyForce( new ImmutableVector2D( 0, -forceConstant / Math.pow( boundingRect.getMaxY() - p.position.getY(), 2 ) ) );
+                        // Apply the force due to this edge.
+                        ImmutableVector2D forceVector = new ImmutableVector2D( forceConstant / Math.pow( lengthBounds.getCenter(), 2 ), 0 ).getRotatedInstance( angle + Math.PI );
+                        p.applyForce( forceVector );
+                    }
 
                     // Apply the force from each of the other particles, but
                     // set some limits on the max force that can be applied.
-                    double minDistance = Math.min( enclosingShape.getBounds2D().getWidth(), enclosingShape.getBounds2D().getHeight() ) / 100; // Divisor empirically determined.
                     for ( PointMass otherP : map.values() ) {
                         if ( p != otherP ) {
                             // Calculate force vector, but handle cases where too close.
@@ -224,6 +247,17 @@ public class EnergyChunkDistributor {
 
             // Update the position.
             position.add( velocity.getScaledInstance( dt ) );
+        }
+    }
+
+    // Test harness.
+    public static void main( String[] args ) {
+        Shape enclosingShape = new Rectangle2D.Double( -0.1, -0.1, 0.2, 0.2 );
+        List<EnergyChunk> energyChunkList = new ArrayList<EnergyChunk>();
+        energyChunkList.add( new EnergyChunk( new ConstantDtClock( 30 ), 0.05, 0, new BooleanProperty( true ), false ) );
+        for ( int i = 0; i < 100; i++ ) {
+            EnergyChunkDistributor.updatePositions( energyChunkList, enclosingShape, 0.033 );
+            System.out.println( " Pos: " + energyChunkList.get( 0 ).position );
         }
     }
 }
