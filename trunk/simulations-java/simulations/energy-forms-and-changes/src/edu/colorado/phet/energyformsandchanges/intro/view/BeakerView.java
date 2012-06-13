@@ -21,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.intro.model.Beaker;
 import edu.colorado.phet.energyformsandchanges.intro.model.Block;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
@@ -41,7 +42,7 @@ public class BeakerView {
 
     private static final Stroke OUTLINE_STROKE = new BasicStroke( 3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
     private static final Color OUTLINE_COLOR = Color.LIGHT_GRAY;
-    private static final double PERSPECTIVE_PROPORTION = 0.2;
+    public static final double PERSPECTIVE_PROPORTION = EFACConstants.Z_TO_Y_OFFSET_MULTIPLIER;
     private static final Font LABEL_FONT = new PhetFont( 32, false );
     private static final boolean SHOW_MODEL_RECT = false;
     private static final Color BEAKER_COLOR = new Color( 250, 250, 250, 100 );
