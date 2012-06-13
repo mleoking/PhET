@@ -56,7 +56,7 @@ public class FieldView extends Sprite{
     }
 
     public function update():void{
-//        trace("FieldView.update() paused = "+myFieldModel.paused);
+//        Following simple code does not function as expected.
 //        if( myFieldModel.paused ){
 //            pausedSign.visible = false;
 //        }else{

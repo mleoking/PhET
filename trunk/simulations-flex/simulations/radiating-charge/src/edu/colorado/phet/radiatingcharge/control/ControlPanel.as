@@ -6,6 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.radiatingcharge.control {
+import edu.colorado.phet.flashcommon.controls.HorizontalSlider;
 import edu.colorado.phet.flashcommon.controls.NiceButton2;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.radiatingcharge.model.FieldModel;
@@ -27,18 +28,25 @@ public class ControlPanel extends Canvas {
     private var centerChargeButton:NiceButton2;
     public var myComboBox: ComboBox;
     private var choiceList_arr:Array;
+    private var amplitudeSlider:HorizontalSlider;
+    private var frequencySlider:HorizontalSlider;
+    private var speedSlider:HorizontalSlider;
 
     //internationalized strings
-    public var start_str:String;
-    public var stop_str:String;
-    public var pause_str:String;
+    private var start_str:String;
+    private var stop_str:String;
+    private var pause_str:String;
     private var centerCharge_str:String;
-    public var unPause_str:String;
+    private var unPause_str:String;
     //Drop-down menu choices
     private var userChoice_str:String;
-    public var linear_str:String;
-    public var sinusoid_str:String;
-    public var circular_str:String;
+    private var linear_str:String;
+    private var sinusoid_str:String;
+    private var circular_str:String;
+    private var amplitude_str:String;
+    private var frequency_str:String;
+    private var speed_str:String;
+
 
     public function ControlPanel( mainView:MainView, model:FieldModel ) {
         super();
@@ -91,6 +99,9 @@ public class ControlPanel extends Canvas {
         linear_str = FlexSimStrings.get( "linear", "Linear" );
         sinusoid_str = FlexSimStrings.get( "sinusoid", "Sinusoid" );
         circular_str = FlexSimStrings.get( "circular", "Circular" );
+        amplitude_str = FlexSimStrings.get( "amplitude", "amplitude" );
+        frequency_str = FlexSimStrings.get( "frequency", "frequency" );
+        speed_str = FlexSimStrings.get( "speed", "speed" );
     }
 
     private function pauseUnPause():void{
