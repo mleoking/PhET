@@ -12,7 +12,6 @@ MEDIUM
 - when point tool is on a saved line, change the point tool highlighting when the user mouses over the saved line
 
 LOW
-- grid node gets bigger when IntroModel.GRID_MODEL_UNITS gets smaller, size should remain constant
 
 SIM-SHARING
 
