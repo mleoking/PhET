@@ -31,4 +31,12 @@ public class ContainerSlice {
             }
         } );
     }
+
+    public double getZPosition() {
+        return zPosition;
+    }
+
+    public Shape getShape() {
+        return shape;
+    }
 }
