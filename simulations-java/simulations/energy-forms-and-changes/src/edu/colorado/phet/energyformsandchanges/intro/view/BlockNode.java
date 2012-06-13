@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.intro.model.Block;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
 import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunk;
@@ -36,8 +37,10 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class BlockNode extends PComposite {
 
     // Constants that define the 3D projection.  Public so that model can reference.
-    public static final double PERSPECTIVE_ANGLE = Math.PI / 4; // Positive is counterclockwise, a value of 0 produces a non-skewed rectangle.
-    public static final double PERSPECTIVE_EDGE_PROPORTION = 0.33;
+    public static final double PERSPECTIVE_ANGLE = Math.atan2( EFACConstants.Z_TO_Y_OFFSET_MULTIPLIER, EFACConstants.Z_TO_X_OFFSET_MULTIPLIER );
+    public static final double PERSPECTIVE_EDGE_PROPORTION = Math.sqrt( Math.pow( EFACConstants.MAP_Z_TO_XY_OFFSET.apply( 1.0 ).getWidth(), 2 ) +
+                                                                        Math.pow( EFACConstants.MAP_Z_TO_XY_OFFSET.apply( 1.0 ).getHeight(), 2 ) );
+
 
     private static final Font LABEL_FONT = new PhetFont( 32, false );
     private static final Stroke OUTLINE_STROKE = new BasicStroke( 3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
