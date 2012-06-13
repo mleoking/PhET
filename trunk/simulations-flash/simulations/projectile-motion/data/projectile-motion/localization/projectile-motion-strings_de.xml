@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--projectile-motion-strings_de.xml created Sat Feb 25 00:28:53 CET 2012 using: projectile-motion 2.03.00 (52266), translation-utility 2.13.00 (59150) Dez 8, 2011-->
+<!--projectile-motion-strings_de.xml created Wed Jun 13 11:29:05 CEST 2012 using: projectile-motion 2.03.00 (52266), translation-utility 2.13.00 (59150) Dez 8, 2011-->
 <SimStrings>
 <string key="dragLabel" value="cw-Wert"/>
 <string key="userChoice" value="freie Eingabe"/>
@@ -7,18 +7,18 @@
 <string key="football" value="Football"/>
 <string key="golfball" value="Golfball"/>
 <string key="simTitle" value="Projektilbewegung"/>
-<string key="collision" value="Kollision!"/>
+<string key="collision" value="Treffer!"/>
 <string key="adultHuman" value="Erwachsener"/>
 <string key="time" value="Zeit (s)"/>
 <string key="buick" value="Auto"/>
-<string key="diameter" value="Durchmesser"/>
-<string key="initSpeed" value="Anfangsgeschwindigkeit (m/s)"/>
+<string key="diameter" value="Durchmesser (m)"/>
+<string key="initSpeed" value="Anfangsgeschw. (m/s)"/>
 <string key="bowlingball" value="Bowlingkugel"/>
-<string key="piano" value="Piano"/>
+<string key="piano" value="Klavier"/>
 <string key="sound" value="Sound"/>
 <string key="range" value="Weite (m)"/>
 <string key="height" value="Höhe (m)"/>
-<string key="mass" value="Gewicht (in kg)"/>
+<string key="mass" value="Gewicht (kg)"/>
 <string key="pumpkin" value="Kürbis"/>
 <string key="score" value="Treffer!"/>
 <string key="translation.credits" value="Stefan Richtberg, LMU Munich"/>
