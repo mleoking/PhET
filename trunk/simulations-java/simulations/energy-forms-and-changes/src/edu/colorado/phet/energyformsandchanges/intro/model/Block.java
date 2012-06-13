@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.Shape;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -15,6 +16,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentTyp
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -125,6 +128,25 @@ public abstract class Block extends RectangularThermalMovableModelElement {
 
     private void updateBottomSurfaceProperty() {
         bottomSurface.set( new HorizontalSurface( new DoubleRange( getRect().getMinX(), getRect().getMaxX() ), getRect().getMinY(), this ) );
+    }
+
+    @Override protected Shape getEnergyChunkContainmentShape() {
+        Rectangle2D flatRect = getRect();
+        Dimension2D projection = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( SURFACE_WIDTH / 2 );
+        Point2D topLeftFront = new Point2D.Double( flatRect.getX() + projection.getWidth(), flatRect.getMaxY() + projection.getHeight() );
+        Point2D bottomLeftFront = new Point2D.Double( flatRect.getX() + projection.getWidth(), flatRect.getY() + projection.getHeight() );
+        Point2D bottomRightFront = new Point2D.Double( flatRect.getMaxX() + projection.getWidth(), flatRect.getY() + projection.getHeight() );
+        Point2D bottomRightBack = new Point2D.Double( flatRect.getMaxX() - projection.getWidth(), flatRect.getY() - projection.getHeight() );
+        Point2D topRightBack = new Point2D.Double( flatRect.getMaxX() - projection.getWidth(), flatRect.getMaxY() - projection.getHeight() );
+        Point2D topLeftBack = new Point2D.Double( flatRect.getX() - projection.getWidth(), flatRect.getMaxY() - projection.getHeight() );
+        DoubleGeneralPath path = new DoubleGeneralPath();
+        path.moveTo( topLeftFront );
+        path.lineTo( bottomLeftFront );
+        path.lineTo( bottomRightFront );
+        path.lineTo( bottomRightBack );
+        path.lineTo( topRightBack );
+        path.lineTo( topLeftBack );
+        return path.getGeneralPath();
     }
 
     /**
