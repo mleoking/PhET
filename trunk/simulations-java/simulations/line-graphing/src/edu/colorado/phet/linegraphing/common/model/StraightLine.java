@@ -83,17 +83,17 @@ public class StraightLine {
 
     // Get the reduced form of the rise. For example, if rise/run=6/4, reduced slope=3/2, and reduced rise=3.
     public int getReducedRise() {
-        return MathUtil.round( rise / getGCD() );
+        return MathUtil.roundHalfUp( rise / getGCD() );
     }
 
     // Get the reduced form of the rise. For example, if rise/run=6/4, reduced slope=3/2, and reduced run=3.
     public int getReducedRun() {
-        return MathUtil.round( run / getGCD() );
+        return MathUtil.roundHalfUp( run / getGCD() );
     }
 
     // Gets the greatest common divisor (GCD) of the rise and run.
     private int getGCD() {
-        return MathUtil.getGreatestCommonDivisor( MathUtil.round( Math.abs( rise ) ), MathUtil.round( Math.abs( run ) ) );
+        return MathUtil.getGreatestCommonDivisor( MathUtil.roundHalfUp( Math.abs( rise ) ), MathUtil.roundHalfUp( Math.abs( run ) ) );
     }
 
     @Override public String toString() {
