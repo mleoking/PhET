@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--wave-on-a-string-strings_de.xml created Tue Jun 12 18:22:39 CEST 2012 using: wave-on-a-string 2.03.00 (51205), translation-utility 2.13.00 (59150) Dez 8, 2011-->
+<!--wave-on-a-string-strings_de.xml created Wed Jun 13 08:04:52 CEST 2012 using: wave-on-a-string 2.03.00 (51205), translation-utility 2.13.00 (59150) Dez 8, 2011-->
 <SimStrings>
 <string key="manual" value="Erregung von Hand"/>
-<string key="resetTimer" value="Timer-Reset"/>
+<string key="resetTimer" value="Reset"/>
 <string key="damping" value="Dämpfung"/>
+<string key="simTitle" value="Seilwelle"/>
 <string key="showHelp" value="Hilfe anzeigen"/>
 <string key="pulse" value="kurzer Impuls"/>
 <string key="amplitude" value="Amplitude"/>
-<string key="pausePlay" value="Pause"/>
+<string key="pausePlay" value="Pause/weiter"/>
 <string key="step" value="Einzelschritt"/>
 <string key="tension" value="Spannung"/>
 <string key="startTimer" value="Start/Pause"/>
-<string key="pulseWidth" value="Pulsweite"/>
-<string key="rulerHelp" value="Hilfe zum Lineal"/>
+<string key="pulseWidth" value="Imulsweite"/>
+<string key="rulerHelp" value="bewegliches Lineal"/>
 <string key="high" value="stark"/>
-<string key="wiggleWrench" value="Oszillator bewegen!"/>
+<string key="wiggleWrench" value="Die Zange bewegen!"/>
 <string key="timer" value="Stoppuhr"/>
 <string key="oscillate" value="kontinuierl. Erregung"/>
 <string key="rulers" value="Lineale"/>
 <string key="frequency" value="Frequenz"/>
-<string key="wrenchHelp" value="Oszillator"/>
+<string key="wrenchHelp" value="bewegl. Zange"/>
 <string key="fixedEnd" value="festes Ende"/>
 <string key="hideHelp" value="Hilfe ausblenden"/>
-<string key="refLineHelp" value="Referenzlinie"/>
+<string key="refLineHelp" value="bewegliche Linie"/>
 <string key="translation.credits" value="Robert Jung, Jena"/>
-<string key="timerHelp" value="Hilfe zur Stoppuhr"/>
+<string key="timerHelp" value="bewegliche Uhr"/>
 <string key="looseEnd" value="freies Ende"/>
 <string key="noEnd" value="kein Ende"/>
 <string key="paused" value="angehalten"/>
