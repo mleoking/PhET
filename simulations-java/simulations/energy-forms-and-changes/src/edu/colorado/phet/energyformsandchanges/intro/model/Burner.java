@@ -54,7 +54,7 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     private static final double FADE_RADIUS = WIDTH / 2; // In meters.
 
     // Max rate at which the flame/ice is "clamped down" when the limits are hit.
-    private static final double CLAMP_DOWN_RATE = 0.5; // In proportion per second.
+    private static final double CLAMP_DOWN_RATE = 1; // In proportion per second.
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -249,12 +249,6 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
      */
     public void updateHeatCoolLimits( double dt, ThermalEnergyContainer... thermalEnergyContainers ) {
 
-        double currentUpperLimit = heatCoolLevel.getMax();
-        double currentLowerLimit = heatCoolLevel.getMin();
-
-        // Clear out any existing limits.
-        heatCoolLevel.setRange( -1, 1 );
-
         boolean contact = false;
         for ( ThermalEnergyContainer otherEnergyContainer : thermalEnergyContainers ) {
 
@@ -276,6 +270,7 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
                 }
 
                 contact = true;
+
                 // Only one item can be in contact at once, so we're done.
                 break;
             }
