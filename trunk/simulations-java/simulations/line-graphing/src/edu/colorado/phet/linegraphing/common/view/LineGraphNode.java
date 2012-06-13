@@ -167,7 +167,7 @@ public abstract class LineGraphNode extends GraphNode {
         // replace the line node
         interactiveLineParentNode.removeAllChildren();
         interactiveLineNode = createLineNode( line, graph, mvt );
-        interactiveLineNode.setEquationVisible( interactiveEquationVisible.get() && !isInteracting() );
+        interactiveLineNode.setEquationVisible( interactiveEquationVisible.get() );
         interactiveLineParentNode.addChild( interactiveLineNode );
 
         // replace the rise/run brackets
@@ -189,9 +189,6 @@ public abstract class LineGraphNode extends GraphNode {
             }
         }
     }
-
-    // Is the user interacting with the graph?
-    protected abstract boolean isInteracting();
 
     // Creates a line node of the proper form.
     protected abstract StraightLineNode createLineNode( StraightLine line, Graph graph, ModelViewTransform mvt );

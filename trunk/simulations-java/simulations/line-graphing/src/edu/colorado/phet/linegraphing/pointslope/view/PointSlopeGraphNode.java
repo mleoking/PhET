@@ -92,16 +92,6 @@ public class PointSlopeGraphNode extends LineGraphNode {
         }
     }
 
-    // True if either manipulator is in use.
-    protected boolean isInteracting() {
-        if ( pointManipulator != null && slopeManipulatorNode != null ) {
-            return pointManipulator.isDragging() || slopeManipulatorNode.isDragging();
-        }
-        else {
-            return false;
-        }
-    }
-
     // Creates a node that displays the line in slope-intercept form.
     protected StraightLineNode createLineNode( StraightLine line, Graph graph, ModelViewTransform mvt ) {
        return new PointSlopeLineNode( line, graph, mvt );
