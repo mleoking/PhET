@@ -694,7 +694,7 @@ public class MathUtil {
 
     /**
      * Rounds equivalent to RoundingMode.HALF_UP, which was added in Java 1.6.
-     * This is the method that most of us were taught in grammar school.
+     * This is nearest-neighbor rounding, the method that most of us were taught in grammar school.
      */
     public static int roundHalfUp( double d ) {
         return (int)( d + ( ( d >= 0 ) ? 0.5 : -0.5 ) );
