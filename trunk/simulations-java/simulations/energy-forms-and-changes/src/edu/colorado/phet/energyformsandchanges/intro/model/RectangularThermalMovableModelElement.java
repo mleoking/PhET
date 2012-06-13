@@ -3,6 +3,7 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -108,8 +109,11 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
         return ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy ) < energyChunkList.size();
     }
 
+    private static final Random RAND = new Random();
+
     public void addEnergyChunk( EnergyChunk ec ) {
-        ec.zPosition.set( 0.0 );
+//        ec.zPosition.set( 0.0 );
+        ec.zPosition.set( -RAND.nextDouble() * width );
         energyChunkList.add( ec );
     }
 
