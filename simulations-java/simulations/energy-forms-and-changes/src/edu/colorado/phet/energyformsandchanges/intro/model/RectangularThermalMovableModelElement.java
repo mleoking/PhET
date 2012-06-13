@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
+import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -92,7 +93,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
     }
 
     protected void stepInTime( double dt ) {
-        EnergyChunkDistributor.updatePositions( energyChunkList, getThermalContactArea().getBounds(), dt );
+        EnergyChunkDistributor.updatePositions( energyChunkList, getEnergyChunkContainmentShape(), dt );
     }
 
     public ObservableList<EnergyChunk> getEnergyChunkList() {
@@ -136,7 +137,11 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
         }
     }
 
-    // TODO: May be able to move this up to parent class.  Would be shared with beaker, though, so needs investigating.
+    protected Shape getEnergyChunkContainmentShape() {
+        // Override for more elaborate or complex shapes.
+        return getThermalContactArea().getBounds();
+    }
+
     public void exchangeEnergyWith( ThermalEnergyContainer otherEnergyContainer, double dt ) {
         double thermalContactLength = getThermalContactArea().getThermalContactLength( otherEnergyContainer.getThermalContactArea() );
         if ( thermalContactLength > 0 ) {
