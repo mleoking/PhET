@@ -19,8 +19,9 @@ import edu.umd.cs.piccolo.nodes.PImage;
 public class EnergyChunkNode extends PNode {
 
     private static final double WIDTH = 24; // In screen coords, which is close to pixels.
+    private static final double Z_DISTANCE_WHERE_FULLY_FADED = 0.1; // In meters.
 
-    public EnergyChunkNode( EnergyChunk energyChunk, final ModelViewTransform mvt ) {
+    public EnergyChunkNode( final EnergyChunk energyChunk, final ModelViewTransform mvt ) {
 
         // Control the overall visibility of this node.
         energyChunk.visible.addObserver( new VoidFunction1<Boolean>() {
@@ -29,10 +30,17 @@ public class EnergyChunkNode extends PNode {
             }
         } );
 
-        // Control the transparency of this node.
+        // Set up updating of transparency based on existence strength.
         energyChunk.getExistenceStrength().addObserver( new VoidFunction1<Double>() {
             public void apply( Double existenceStrength ) {
-                setTransparency( existenceStrength.floatValue() );
+                updateTransparency( existenceStrength, energyChunk.zPosition.get() );
+            }
+        } );
+
+        // Set up updating of transparency based on Z position.
+        energyChunk.zPosition.addObserver( new VoidFunction1<Double>() {
+            public void apply( Double zPosition ) {
+                updateTransparency( energyChunk.getExistenceStrength().get(), zPosition );
             }
         } );
 
@@ -50,5 +58,15 @@ public class EnergyChunkNode extends PNode {
                 setOffset( mvt.modelToView( immutableVector2D ).toPoint2D() );
             }
         } );
+    }
+
+    // Update the transparency, which is a function of several factors.
+    private void updateTransparency( double existenceStrength, double zPosition ) {
+
+        double zFadeValue = 1;
+        if ( zPosition < 0 ) {
+            zFadeValue = Math.max( ( Z_DISTANCE_WHERE_FULLY_FADED + zPosition ) / Z_DISTANCE_WHERE_FULLY_FADED, 0 );
+        }
+        setTransparency( (float) Math.min( existenceStrength, zFadeValue ) );
     }
 }
