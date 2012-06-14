@@ -121,11 +121,11 @@ public class BuildScript {
         }
     }
 
-    public void newDeployToProductionAndDevelopment( final PhetWebsite productionWebsite,
-                                                     final OldPhetServer devServer,
-                                                     final AuthenticationInfo devAuth,
-                                                     final boolean generateOfflineJARs,
-                                                     VersionIncrement versionIncrement ) {
+    public void deployToProductionAndDevelopment( final PhetWebsite productionWebsite,
+                                                  final OldPhetServer devServer,
+                                                  final AuthenticationInfo devAuth,
+                                                  final boolean generateOfflineJARs,
+                                                  VersionIncrement versionIncrement ) {
         boolean success = prepareForDeployment( versionIncrement, false );
         if ( !success ) {
             return;
@@ -445,7 +445,7 @@ public class BuildScript {
         return output + "</ul>";
     }
 
-    public void deployDev( final AuthenticationInfo devAuth, final boolean generateOfflineJARs ) {
+    public void deployToDevelopment( final AuthenticationInfo devAuth, final boolean generateOfflineJARs ) {
         deploy( new Task() {
                     public boolean invoke() {
                         //generate files for dev

@@ -177,7 +177,7 @@ public class JavaSimulationPanel extends JPanel {
 
         boolean generateOfflineJars = deployDevJARs.isSelected();
         System.out.println( "genoj=" + generateOfflineJars );
-        getBuildScript().deployDev( buildLocalProperties.getDevAuthenticationInfo(), generateOfflineJars );
+        getBuildScript().deployToDevelopment( buildLocalProperties.getDevAuthenticationInfo(), generateOfflineJars );
     }
 
     private void doDeployProd() {
@@ -229,7 +229,7 @@ public class JavaSimulationPanel extends JPanel {
 //                versionIncrement, PhetWebsite.FIGARO );
 
         // NOT WORKING!
-        new BuildScript( trunk, project ).newDeployToProductionAndDevelopment(
+        new BuildScript( trunk, project ).deployToProductionAndDevelopment(
                 PhetBuildGUI.getProductionWebsite(),
                 OldPhetServer.DEFAULT_DEVELOPMENT_SERVER, buildLocalProperties.getDevAuthenticationInfo(), true, new VersionIncrement.UpdateProdMinor() );
         //new BuildScript( trunk, project ).newDeployToDev( OldPhetServer.PHET_SERVER_DEV, buildLocalProperties.getDevAuthenticationInfo(), true );

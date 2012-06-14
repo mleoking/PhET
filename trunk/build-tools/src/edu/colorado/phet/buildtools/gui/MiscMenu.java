@@ -331,7 +331,7 @@ public class MiscMenu extends JMenu {
 
     public static class DeployDev implements DeployStrategy {
         public void deploy( BuildScript buildScript ) {
-            buildScript.deployDev( BuildLocalProperties.getInstance().getDevAuthenticationInfo(), true );
+            buildScript.deployToDevelopment( BuildLocalProperties.getInstance().getDevAuthenticationInfo(), true );
         }
 
         public String toString() {

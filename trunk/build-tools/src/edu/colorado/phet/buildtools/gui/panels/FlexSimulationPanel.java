@@ -175,7 +175,7 @@ public class FlexSimulationPanel extends JPanel {
     private void doDeployDev() {
         BuildLocalProperties buildLocalProperties = BuildLocalProperties.getInstance();
 
-        new BuildScript( trunk, project ).deployDev( buildLocalProperties.getDevAuthenticationInfo(), false );
+        new BuildScript( trunk, project ).deployToDevelopment( buildLocalProperties.getDevAuthenticationInfo(), false );
     }
 
     private void doDeployProd() {
