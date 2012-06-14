@@ -55,11 +55,11 @@ public class GameButtonsNode extends PNode {
                     centerFullBoundsOnPoint( pt.getX() - getFullBounds().getWidth() / 2, pt.getY() );
                 }} );
 
-                addChild( buttonFactory.f( new ButtonArgs( Components.keepMatchButton, "Next", Color.green, buttonLocation, new Next() ) ) );
+                addChild( buttonFactory.f( new ButtonArgs( Components.keepMatchButton, "OK", Color.green, buttonLocation, new Next() ) ) );
             }
 
             if ( state.getMode() == SHOWING_CORRECT_ANSWER_AFTER_INCORRECT_GUESS ) {
-                addChild( buttonFactory.f( new ButtonArgs( Components.keepMatchButton, "Next", Color.green, buttonLocation, new Next() ) ) );
+                addChild( buttonFactory.f( new ButtonArgs( Components.keepMatchButton, "OK", Color.green, buttonLocation, new Next() ) ) );
             }
         }
     }
