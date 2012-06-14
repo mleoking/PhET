@@ -37,7 +37,10 @@ public @Data class RepresentationType {
     }
 
     @SuppressWarnings(value = "unchecked")
-    public static RepresentationType toRepresentation( String name, final F<Fraction, Boolean> appliesTo, final F<Fraction, PNode> a, final F<Fraction, PNode> b, final F<Fraction, PNode> c ) {
+    public static RepresentationType toRepresentation( String name, final F<Fraction, Boolean> appliesTo,
+                                                       final F<Fraction, PNode> a,
+                                                       final F<Fraction, PNode> b,
+                                                       final F<Fraction, PNode> c ) {
         return new RepresentationType( name, appliesTo, list( makeComposite( a ), makeComposite( b ), makeComposite( c ) ) );
     }
 
