@@ -6,6 +6,7 @@ DESIGN
 - Game
 
 HIGH
+- revisit line manipulators to avoid slope=0/0, jumpy because of snap-to-grid
 
 MEDIUM
 
