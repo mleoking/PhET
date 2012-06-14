@@ -64,26 +64,19 @@ public @Data class RepresentationType {
     }
 
     //Converts primitives (representations for fractions <=1) to composite (representation for fractions >=1)
-    public static PNode composite( Fraction fraction, F<Fraction, PNode> node ) {
-        if ( fraction.toDouble() <= 1 + 1E-6 ) {
-            return node.f( fraction );
+    public static PNode composite( Fraction f, F<Fraction, PNode> node ) {
+        if ( f.toDouble() <= 1 + 1E-6 ) {
+            return node.f( f );
         }
         HBox box = new HBox();
-        while ( fraction.toDouble() > 0 ) {
-            if ( fraction.numerator >= fraction.denominator ) {
-                final PNode node1 = node.f( new Fraction( fraction.denominator, fraction.denominator ) );
-                box.addChild( node1 );
-            }
-            else {
-                final PNode node2 = node.f( new Fraction( fraction.numerator, fraction.denominator ) );
-                box.addChild( node2 );
-            }
-            fraction = new Fraction( fraction.numerator - fraction.denominator, fraction.denominator );
+        while ( f.toDouble() > 0 ) {
+            final int numeratorToUse = f.numerator >= f.denominator ? f.denominator : f.numerator;
+            box.addChild( node.f( new Fraction( numeratorToUse, f.denominator ) ) );
+            f = new Fraction( f.numerator - f.denominator, f.denominator );
         }
 
-        double size = box.getFullWidth();
-
         //Scale to a size of 110 so it will be a good fit for the starting cells and score cells
+        double size = box.getFullWidth();
         final double scale = 110 / size;
         box.scale( scale );
 
