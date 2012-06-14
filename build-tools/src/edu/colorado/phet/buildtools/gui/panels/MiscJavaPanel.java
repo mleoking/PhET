@@ -133,7 +133,7 @@ public class MiscJavaPanel extends JPanel {
         BuildLocalProperties buildLocalProperties = BuildLocalProperties.getInstance();
 
         boolean generateOfflineJars = false;
-        getBuildScript().deployDev( buildLocalProperties.getDevAuthenticationInfo(), generateOfflineJars );
+        getBuildScript().deployToDevelopment( buildLocalProperties.getDevAuthenticationInfo(), generateOfflineJars );
     }
 
     private void doDeployProd() {
@@ -163,7 +163,7 @@ public class MiscJavaPanel extends JPanel {
     private void doDeployTest() {
         BuildLocalProperties buildLocalProperties = BuildLocalProperties.getInstance();
 
-        new BuildScript( trunk, project ).newDeployToProductionAndDevelopment(
+        new BuildScript( trunk, project ).deployToProductionAndDevelopment(
                 PhetBuildGUI.getProductionWebsite(),
                 OldPhetServer.DEFAULT_DEVELOPMENT_SERVER, buildLocalProperties.getDevAuthenticationInfo(), true, new VersionIncrement.UpdateProdMinor() );
         //new BuildScript( trunk, project ).newDeployToDev( OldPhetServer.PHET_SERVER_DEV, buildLocalProperties.getDevAuthenticationInfo(), true );
