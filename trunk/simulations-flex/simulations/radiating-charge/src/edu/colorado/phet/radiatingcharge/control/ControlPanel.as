@@ -50,6 +50,7 @@ public class ControlPanel extends Canvas {
     private var sinusoid_str:String;
     private var circular_str:String;
     private var sawTooth_str:String;
+    private var random_str:String;
     //slider labels
     private var amplitude_str:String;
     private var frequency_str:String;
@@ -86,8 +87,8 @@ public class ControlPanel extends Canvas {
         this.centerChargeButton = new NiceButton2( 130, 25, centerCharge_str, centerCharge, 0x00ff00, 0x000000 )
         this.bumbButton = new NiceButton2( 100, 25, bump_str, bumpCharge, 0x00ff00, 0x000000 );
         this.myComboBox = new ComboBox();
-        this.choiceList_arr = new Array( 3 );
-        choiceList_arr = [ userChoice_str, linear_str, sinusoid_str, circular_str, sawTooth_str ];
+        this.choiceList_arr = new Array( );
+        choiceList_arr = [ userChoice_str, linear_str, sinusoid_str, circular_str, sawTooth_str, random_str ];
         myComboBox.dataProvider = choiceList_arr;
         myComboBox.addEventListener( DropdownEvent.CLOSE, comboBoxListener );
         var sliderWidth:Number = 100;
@@ -131,6 +132,7 @@ public class ControlPanel extends Canvas {
         sinusoid_str = FlexSimStrings.get( "sinusoid", "Sinusoid" );
         circular_str = FlexSimStrings.get( "circular", "Circular" );
         sawTooth_str = FlexSimStrings.get( "sawTooth", "Sawtooth" );
+        random_str = FlexSimStrings.get( "random", "Random" );
         amplitude_str = FlexSimStrings.get( "amplitude", "amplitude" );
         frequency_str = FlexSimStrings.get( "frequency", "frequency" );
         speed_str = FlexSimStrings.get( "speed", "speed" );
@@ -174,7 +176,8 @@ public class ControlPanel extends Canvas {
         }else if( choice == sinusoid_str ){ this.myFieldModel.setMotion( 2 );
         }else if( choice == circular_str ){ this.myFieldModel.setMotion( 3 );
         }else if( choice == sawTooth_str ){ this.myFieldModel.setMotion( 4 );
-        }else{
+        }else if( choice == random_str ){ this.myFieldModel.setMotion( 5 );
+        }else {
             trace( "ERROR: ControlPanel.comboBoxListener() received invalid choice.") ;
         }
         this.setSliderVisiblity()
@@ -201,6 +204,8 @@ public class ControlPanel extends Canvas {
             frequencySlider_UI.includeInLayout = true;
             amplitudeSlider.setSliderWithoutAction( myFieldModel.amplitude );
             frequencySlider.setSliderWithoutAction( myFieldModel.frequency );
+        } else if( choice == 6 ){     //random walk
+            //do nothing
         }
     }//end setSliderVisibility()
 

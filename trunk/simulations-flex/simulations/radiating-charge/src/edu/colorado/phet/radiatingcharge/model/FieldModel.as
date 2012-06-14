@@ -23,6 +23,8 @@ public class FieldModel {
     private var _yC:Number;         //y-position of charge in pixels
     private var vX:Number;          //x-component of charge velocity
     private var vY:Number;          //y-component of charge velocity
+    private var vXInit:Number;      //x-comp of velocity when starting to brake for stopping charge
+    private var vYInit:Number;      //y-comp of velocity when starting to brake for stopping charge
     private var _v:Number;          //speed of charge
     private var gamma:Number;       //gamma factor
     private var fX:Number;          //x-component of force on charge
@@ -48,6 +50,8 @@ public class FieldModel {
     private var sinusoidal_str:String;
     private var circular_str:String;
     private var sawTooth_str:String;
+    private var random_str:String;
+    private var stopping_str:String;
 
     private var _t:Number;          //time in arbitrary units
     private var _tLastPhoton: Number;	    //time of previous Photon emission
@@ -55,6 +59,8 @@ public class FieldModel {
     private var dt: Number;  	    //default time step in seconds
     //private var f:Number;           //_frequency (nbr per second) of photons on a given field line emitted by charge
     private var delTPhoton:Number;  //time in sec between photon emission events
+    private var tLastRandomStep:Number; //time of previous step in random walk motion
+    private var delTRandomWalk:Number; //time between steps in random walk motion
     private var msTimer: Timer;	    //millisecond timer
     private var stageW:int;
     private var stageH:int;
@@ -108,6 +114,8 @@ public class FieldModel {
         this.sinusoidal_str = "sinusoidal";
         this.circular_str = "circular";
         this.sawTooth_str = "sawTooth";
+        this.random_str = "random";
+        this.stopping_str = "stopping";
         this.motionType_str = userControlled_str;
 
         this._amplitude = 5;
@@ -212,10 +220,14 @@ public class FieldModel {
 
     public function stopCharge():void{
         motionType_str = userControlled_str;
-        this.vX = 0;
-        this.vY = 0;
-        this._v = 0;
+//        this.vX = 0;
+//        this.vY = 0;
+//        this._v = 0;
+//        this.beta = 0;
         this.myMainView.myControlPanel.myComboBox.selectedIndex = 0;         //is there a more elegant way?
+        this.motionType_str = stopping_str;
+        this.vXInit = this.vX;
+        this.vYInit = this.vY;
         //trace("FieldModel.stopCharge called.")
     }
 
@@ -270,7 +282,7 @@ public class FieldModel {
 
     public function setMotion( choice:int ):void{
         this.stopRadiation();
-
+        trace("FieldModel.setMotion() called. choice = " + choice );
         if( choice == 0 ){  //do nothing
             motionType_str = userControlled_str;
         }else if( choice == 1 ){    //linear
@@ -288,13 +300,21 @@ public class FieldModel {
         }else if( choice == 3 ){  //circular
             //this._t = 0;      //this is FATAL!!  Why??
             motionType_str = circular_str;
-        }else if( choice == 4 ){
+        }else if( choice == 4 ){   //sawtooth
             motionType_str = sawTooth_str;
             _xC = 0;
             _yC = this.amplitude;
             vX = 0;
             vY = 0;
             slopeSign = 1;
+        }else if( choice == 5 ){
+            motionType_str = random_str;
+            _xC = 0;
+            _yC = 0;
+            this.delTRandomWalk = 0.5;
+            this.tLastRandomStep = this._t;
+            this.vX = this.c*1*(Math.random() - 0.5);   //c * random number between -1 and +1
+            this.vY = this.c*1*(Math.random() - 0.5);
         }
         this.initializeFieldLines();
         this.startRadiation();
@@ -346,45 +366,70 @@ public class FieldModel {
             this.vY = R*omega*Math.cos( omega*_t + phi );
             _v = Math.sqrt( vX*vX + vY*vY );
             this.beta = this._v/this.c;
-        }else if( motionType_str = sawTooth_str ){
+        }else if( motionType_str == sawTooth_str ){
             _xC = 0;
             vX = 0;
-            //var omega:Number = 2*Math.PI*this.frequency;
-            //var sign:Number = Math.sin(omega*this._t)/Math.abs(Math.sin(omega*this._t));
-            this.fY = slopeSign*500*amplitude;
-            //trace("FieldModel.moveCharge fy = " + fY);
             this.fX = 0;
-            this.beta = this._v/this.c;
-            this.gamma = 1/Math.sqrt( 1 - beta*beta );
-            var g3:Number = Math.pow( gamma, 3 );
-            //var aX:Number = fX/( g3*m ); //- b*_v*vX;  //x-component of acceleration, no drag
-            var aY:Number = fY/( g3*m ); //- b*_v*vY;  //y-component of acceleration
-            //_xC += vX*dt + 0.5*aX*dt*dt;
 
-            _yC += vY*dt + 0.5*aY*dt*dt;
-            if( _yC > 0 ){
+            if( _yC >= 0 ){
                 slopeSign = -1;
             } else if(_yC < 0 ){
                 slopeSign = 1;
             }
+            var extraForceFactor:Number = 100*(Math.abs( yC ))/amplitude;
+            var signY:Number = yC/Math.abs( yC );
+            var signVY:Number = vY/Math.abs( vY );
+            if( signY != signVY  ){
+                 extraForceFactor *= 0.7;
+            }
 
-            //vX += aX*dt;
+//            if(_yC > amplitude || _yC < -amplitude ){
+//                extraForceFactor *= 1+0.1*( Math.abs(yC)-amplitude);
+//            }
+            this.fY = slopeSign*(100+extraForceFactor)*amplitude;
+            this.beta = this._v/this.c;
+            this.gamma = 1/Math.sqrt( 1 - beta*beta );
+            var g3:Number = Math.pow( gamma, 3 );
+            var aY:Number = fY/( g3*m ); //- b*_v*vY;  //y-component of acceleration
+            _yC += vY*dt + 0.5*aY*dt*dt;
             vY += aY*dt;
             _v = Math.sqrt( vX*vX + vY*vY );
             this.beta = this._v/this.c;
-//            var speed:Number = 4*amplitude*frequency;
-//            beta = speed/this.c;
-//            _yC += slopeSign*speed*dt;
-//            if( slopeSign > 0 && yC > amplitude ){
-//                slopeSign = -1;
-//            }else if( slopeSign < 0 && yC < -amplitude ){
-//                slopeSign = +1;
-//            }
-//            if( slopeSign > 0 ){
-//                vY = speed;
-//            }else{
-//                vY = -speed;
-//            }
+        }else if( motionType_str == random_str ){
+            if( (this._t - this.tLastRandomStep) > this.delTRandomWalk ){
+                this.tLastRandomStep = this._t;
+                this.vX = this.c*0.5*(Math.random() - 0.5);   //fMax * random number between -0.25 and +0.25
+                this.vY = this.c*0.5*(Math.random() - 0.5);
+            }
+            this.beta = this._v/this.c;
+            _xC += vX*dt;// + 0.5*aX*dt*dt;
+            _yC += vY*dt;// + 0.5*aY*dt*dt;
+            _v = Math.sqrt( vX*vX + vY*vY );
+            this.beta = this._v/this.c;
+        }else if( motionType_str == stopping_str ){
+            var div:Number = 20;
+            this.gamma = 1/Math.sqrt( 1 - beta*beta );
+            var g3:Number = Math.pow( gamma, 3 );
+            var aX:Number = -vXInit/(g3*m*div*dt);
+            var aY:Number = -vYInit/(g3*m*div*dt);
+
+            vX += aX*dt;
+            vY += aY*dt;
+            this._v = Math.sqrt( vX*vX + vY*vY );
+            var signVXInit:Number = vXInit/Math.abs( vXInit );
+            //var
+            var signVX:Number = vX/Math.abs(vX);
+            var signVY:Number = vY/Math.abs(vY);
+            if( Math.abs(v) < 0.002*this.c ){
+                vX = 0;
+                vY = 0;
+                aX = 0;
+                aY = 0;
+                motionType_str = userControlled_str;
+            }
+            _xC += vX*dt + (0.5)*aX*dt*dt;
+            _yC += vY*dt + (0.5)*aY*dt*dt;
+            this.beta = this._v/this.c;
         }
     }//end moveCharge()
     
