@@ -9,6 +9,7 @@
 package edu.colorado.phet.normalmodes.view {
 import edu.colorado.phet.flashcommon.controls.Tab;
 import edu.colorado.phet.flashcommon.controls.TabBar;
+import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.normalmodes.*;
 import edu.colorado.phet.normalmodes.control.ButtonArrayPanel;
 import edu.colorado.phet.normalmodes.control.ControlPanel;
@@ -27,6 +28,8 @@ import mx.controls.sliderClasses.Slider;
 
 public class MainView extends Canvas {
     private var tabBar: TabBar;
+    private var oneDimension_str:String;
+    private var twoDimensions_str:String;
 
     public var oneDMode:Boolean;       //true if in 1D mode, false if in 2D mode
     public var myModel1: Model1;       //model for 1D array of masses and springs
@@ -60,6 +63,7 @@ public class MainView extends Canvas {
         addChild( oneDHolder );
         addChild( twoDHolder  );
 
+        this.initializeStrings();
         tabBar = new TabBar();
         var oneDTab: Tab = new Tab( "1 Dimension  ", tabBar );
         var twoDTab: Tab = new Tab( "2 Dimensions  ", tabBar );
@@ -151,7 +155,9 @@ public class MainView extends Canvas {
         }
     }//end locatePolarizationPanel
     */
-
+    private function initializeStrings():void{
+        oneDimension_str = FlexSimStrings.get("1Dimension", "1 Dimension") ;
+    }
 
     public function set1DOr2D(oneOrTwo:int):void{
         if(oneOrTwo == 1){
