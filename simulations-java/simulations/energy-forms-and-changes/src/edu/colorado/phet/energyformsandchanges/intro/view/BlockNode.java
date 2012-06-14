@@ -46,6 +46,7 @@ public class BlockNode extends PComposite {
     private static final Stroke OUTLINE_STROKE = new BasicStroke( 3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL );
     private static final Color OUTLINE_STROKE_COLOR = Color.DARK_GRAY;
 
+    // Debug controls.
     private static final boolean SHOW_2D_REPRESENTATION = false;
 
     public BlockNode( final EFACIntroModel model, final Block block, final ModelViewTransform mvt ) {

@@ -47,10 +47,6 @@ public class EnergyChunkContainerSlice {
         return energyChunkList.size();
     }
 
-    public double getZPosition() {
-        return zPosition;
-    }
-
     public Shape getShape() {
         return shape;
     }
