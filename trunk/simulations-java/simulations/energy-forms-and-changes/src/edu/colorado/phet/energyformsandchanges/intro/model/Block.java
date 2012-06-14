@@ -118,7 +118,7 @@ public abstract class Block extends RectangularThermalMovableModelElement {
         // The slices for the block are intended to match the projection used in the view.
         ImmutableVector2D projectionToFront = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( SURFACE_WIDTH / 2 );
         for ( int i = 0; i < NUM_ENERGY_CHUNK_SLICES; i++ ) {
-            ImmutableVector2D projectionOffsetVector = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( i * ( SURFACE_WIDTH / ( NUM_ENERGY_CHUNK_SLICES - 1 ) ) );
+            ImmutableVector2D projectionOffsetVector = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( i * ( -SURFACE_WIDTH / ( NUM_ENERGY_CHUNK_SLICES - 1 ) ) );
             AffineTransform transform = AffineTransform.getTranslateInstance( projectionToFront.getX() + projectionOffsetVector.getX(),
                                                                               projectionToFront.getY() + projectionOffsetVector.getY() );
             slices.add( new EnergyChunkContainerSlice( transform.createTransformedShape( getRect() ), -i * ( SURFACE_WIDTH / NUM_ENERGY_CHUNK_SLICES ), position ) );
