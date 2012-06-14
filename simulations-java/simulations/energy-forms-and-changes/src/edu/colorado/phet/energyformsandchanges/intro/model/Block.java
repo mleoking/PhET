@@ -4,9 +4,11 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -31,8 +33,15 @@ public abstract class Block extends RectangularThermalMovableModelElement {
     // Height and width of all block surfaces, since it is a cube.
     public static final double SURFACE_WIDTH = 0.045; // In meters
 
+    // Number of slices where energy chunks may be placed.
+    private static final int NUM_ENERGY_CHUNK_SLICES = 4;
+
+    // Surfaces used for stacking and thermal interaction.
     private final Property<HorizontalSurface> topSurface = new Property<HorizontalSurface>( null );
     private final Property<HorizontalSurface> bottomSurface = new Property<HorizontalSurface>( null );
+
+    // 2D "slices" of the container, used for 3D layering of energy chunks.
+    private final List<EnergyChunkSlice> slices = new ArrayList<EnergyChunkSlice>();
 
     /**
      * Constructor.
@@ -45,6 +54,15 @@ public abstract class Block extends RectangularThermalMovableModelElement {
      */
     protected Block( ConstantDtClock clock, ImmutableVector2D initialPosition, double density, double specificHeat, BooleanProperty energyChunksVisible ) {
         super( clock, initialPosition, SURFACE_WIDTH, SURFACE_WIDTH, Math.pow( SURFACE_WIDTH, 3 ) * density, specificHeat, energyChunksVisible );
+
+        // Create and add the 2D slices where the energy chunks will live.
+        ImmutableVector2D projectionToFront = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( SURFACE_WIDTH / 2 );
+        for ( int i = 0; i < NUM_ENERGY_CHUNK_SLICES; i++ ) {
+            ImmutableVector2D projectionOffsetVector = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( i * ( SURFACE_WIDTH / ( NUM_ENERGY_CHUNK_SLICES - 1 ) ) );
+            AffineTransform transform = AffineTransform.getTranslateInstance( projectionToFront.getX() + projectionOffsetVector.getX(),
+                                                                              projectionToFront.getY() + projectionOffsetVector.getY() );
+            slices.add( new EnergyChunkSlice( transform.createTransformedShape( getRect() ), -i * ( SURFACE_WIDTH / NUM_ENERGY_CHUNK_SLICES ), position ) );
+        }
 
         // Update the top and bottom surfaces whenever the position changes.
         position.addObserver( new VoidFunction1<ImmutableVector2D>() {
@@ -132,13 +150,13 @@ public abstract class Block extends RectangularThermalMovableModelElement {
 
     @Override protected Shape getEnergyChunkContainmentShape() {
         Rectangle2D flatRect = getRect();
-        Dimension2D projection = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( SURFACE_WIDTH / 2 );
-        Point2D topLeftFront = new Point2D.Double( flatRect.getX() + projection.getWidth(), flatRect.getMaxY() + projection.getHeight() );
-        Point2D bottomLeftFront = new Point2D.Double( flatRect.getX() + projection.getWidth(), flatRect.getY() + projection.getHeight() );
-        Point2D bottomRightFront = new Point2D.Double( flatRect.getMaxX() + projection.getWidth(), flatRect.getY() + projection.getHeight() );
-        Point2D bottomRightBack = new Point2D.Double( flatRect.getMaxX() - projection.getWidth(), flatRect.getY() - projection.getHeight() );
-        Point2D topRightBack = new Point2D.Double( flatRect.getMaxX() - projection.getWidth(), flatRect.getMaxY() - projection.getHeight() );
-        Point2D topLeftBack = new Point2D.Double( flatRect.getX() - projection.getWidth(), flatRect.getMaxY() - projection.getHeight() );
+        ImmutableVector2D projection = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( SURFACE_WIDTH / 2 );
+        ImmutableVector2D topLeftFront = new ImmutableVector2D( flatRect.getX(), flatRect.getMaxY() ).getAddedInstance( projection );
+        ImmutableVector2D bottomLeftFront = new ImmutableVector2D( flatRect.getX(), flatRect.getY() ).getAddedInstance( projection );
+        ImmutableVector2D bottomRightFront = new ImmutableVector2D( flatRect.getMaxX(), flatRect.getY() ).getAddedInstance( projection );
+        ImmutableVector2D bottomRightBack = new ImmutableVector2D( flatRect.getMaxX(), flatRect.getY() ).getSubtractedInstance( projection );
+        ImmutableVector2D topRightBack = new ImmutableVector2D( flatRect.getMaxX(), flatRect.getMaxY() ).getSubtractedInstance( projection );
+        ImmutableVector2D topLeftBack = new ImmutableVector2D( flatRect.getX(), flatRect.getMaxY() ).getSubtractedInstance( projection );
         DoubleGeneralPath path = new DoubleGeneralPath();
         path.moveTo( topLeftFront );
         path.lineTo( bottomLeftFront );
