@@ -1,3 +1,5 @@
+# 0.00.19 (65067) Jun 14, 2012
+6/14/12 first 2 tabs cleaned up, feature complete, all known issues addressed
 6/14/12 fix jumpiness of slope manipulator that was happening when skipping over slope=0/0
 6/14/12 fix graph tick marks to display integer values
 6/13/12 when model adjusts slope to prevent undefined lines, send a sim-sharing model message
