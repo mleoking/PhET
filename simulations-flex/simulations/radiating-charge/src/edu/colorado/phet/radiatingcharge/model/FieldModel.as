@@ -407,7 +407,7 @@ public class FieldModel {
             _v = Math.sqrt( vX*vX + vY*vY );
             this.beta = this._v/this.c;
         }else if( motionType_str == stopping_str ){
-            var div:Number = 20;
+            var div:Number = 10;
             this.gamma = 1/Math.sqrt( 1 - beta*beta );
             var g3:Number = Math.pow( gamma, 3 );
             var aX:Number = -vXInit/(g3*m*div*dt);
@@ -417,10 +417,12 @@ public class FieldModel {
             vY += aY*dt;
             this._v = Math.sqrt( vX*vX + vY*vY );
             var signVXInit:Number = vXInit/Math.abs( vXInit );
-            //var
+            var signVYInit:Number = vYInit/Math.abs( vYInit );
             var signVX:Number = vX/Math.abs(vX);
             var signVY:Number = vY/Math.abs(vY);
-            if( Math.abs(v) < 0.002*this.c ){
+            var ratioX:Number = signVX/signVXInit;
+            var ratioY:Number = signVY/signVYInit;
+            if( ratioX < 0  || ratioY < 0 ){
                 vX = 0;
                 vY = 0;
                 aX = 0;
