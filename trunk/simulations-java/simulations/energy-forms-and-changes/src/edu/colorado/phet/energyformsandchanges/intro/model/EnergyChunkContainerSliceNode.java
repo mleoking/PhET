@@ -1,8 +1,12 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyformsandchanges.intro.view.EnergyChunkNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -14,7 +18,11 @@ import edu.umd.cs.piccolo.PNode;
  * @author John Blanco
  */
 public class EnergyChunkContainerSliceNode extends PNode {
+
+    private static final boolean SHOW_OUTLINE = true;
+
     public EnergyChunkContainerSliceNode( final EnergyChunkContainerSlice energyChunkContainerSlice, final ModelViewTransform mvt ) {
+
         // Watch for energy chunks coming and going and add/remove nodes accordingly.
         energyChunkContainerSlice.energyChunkList.addElementAddedObserver( new VoidFunction1<EnergyChunk>() {
             public void apply( final EnergyChunk addedEnergyChunk ) {
@@ -30,5 +38,10 @@ public class EnergyChunkContainerSliceNode extends PNode {
                 } );
             }
         } );
+
+        // For debug.
+        if ( SHOW_OUTLINE ) {
+            addChild( new PhetPPath( mvt.modelToView( energyChunkContainerSlice.getShape() ), new BasicStroke( 1 ), Color.YELLOW ) );
+        }
     }
 }
