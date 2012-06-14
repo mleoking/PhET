@@ -16,36 +16,45 @@ import edu.colorado.phet.fractionsintro.matchinggame.model.GameOverScore;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-import static edu.colorado.phet.fractions.FractionsResources.Images.STAR_GOLD;
-import static edu.colorado.phet.fractions.FractionsResources.Images.STAR_GRAY;
+import static edu.colorado.phet.fractions.FractionsResources.Images.*;
 
 /**
  * @author Sam Reid
  */
 public class StarSetNode extends PNode {
     public StarSetNode( final Property<List<GameOverScore>> gameOverScores, final int levelName ) {
-        final BufferedImage starGray = BufferedImageUtils.multiScaleToWidth( STAR_GRAY, 30 );
-        final BufferedImage starGold = BufferedImageUtils.multiScaleToWidth( STAR_GOLD, 30 );
+        final BufferedImage star0 = BufferedImageUtils.multiScaleToWidth( STAR_0, 30 );
+        final BufferedImage star1 = BufferedImageUtils.multiScaleToWidth( STAR_1, 30 );
+        final BufferedImage star2 = BufferedImageUtils.multiScaleToWidth( STAR_2, 30 );
+        final BufferedImage star3 = BufferedImageUtils.multiScaleToWidth( STAR_3, 30 );
+        final BufferedImage star4 = BufferedImageUtils.multiScaleToWidth( STAR_4, 30 );
 
         gameOverScores.addObserver( new VoidFunction1<List<GameOverScore>>() {
             public void apply( final List<GameOverScore> gameOverScores ) {
                 removeAllChildren();
-                int starCount = getStarCount( gameOverScores );
+                int score = getScore( gameOverScores );
                 //never played = 0 stars
                 //less than half points = 1 star
                 //equal or more than half = 2 stars
                 //full points = 3 stars
-                BufferedImage[] images = new BufferedImage[3];
-                images[0] = starGray;
-                images[1] = starGray;
-                images[2] = starGray;
-                for ( int i = 0; i < starCount; i++ ) {
-                    images[i] = starGold;
-                }
-                addChild( new ControlPanelNode( new HBox( new PImage( images[0] ), new PImage( images[1] ), new PImage( images[2] ) ), Color.white ) );
+                List<BufferedImage> images = score == 0 ? List.list( star0, star0, star0 ) :
+                                             score == 1 ? List.list( star1, star0, star0 ) :
+                                             score == 2 ? List.list( star2, star0, star0 ) :
+                                             score == 3 ? List.list( star3, star0, star0 ) :
+                                             score == 4 ? List.list( star4, star0, star0 ) :
+                                             score == 5 ? List.list( star4, star1, star0 ) :
+                                             score == 6 ? List.list( star4, star2, star0 ) :
+                                             score == 7 ? List.list( star4, star3, star0 ) :
+                                             score == 8 ? List.list( star4, star4, star0 ) :
+                                             score == 9 ? List.list( star4, star4, star1 ) :
+                                             score == 10 ? List.list( star4, star4, star2 ) :
+                                             score == 11 ? List.list( star4, star4, star3 ) :
+                                             score == 12 ? List.list( star4, star4, star4 ) :
+                                             null;
+                addChild( new ControlPanelNode( new HBox( new PImage( images.index( 0 ) ), new PImage( images.index( 1 ) ), new PImage( images.index( 2 ) ) ), Color.white ) );
             }
 
-            private int getStarCount( final List<GameOverScore> gameOverScores ) {
+            private int getScore( final List<GameOverScore> gameOverScores ) {
 
                 final List<GameOverScore> scoresForThisLevel = gameOverScores.filter( new F<GameOverScore, Boolean>() {
                     @Override public Boolean f( final GameOverScore gameOverScore ) {
@@ -63,9 +72,7 @@ public class StarSetNode extends PNode {
                         } ).
                         maximum( Ord.intOrd );
 
-                return bestScoreForThisLevel == 12 ? 3 :
-                       bestScoreForThisLevel < 6 ? 1 :
-                       2;
+                return bestScoreForThisLevel;
             }
         } );
     }

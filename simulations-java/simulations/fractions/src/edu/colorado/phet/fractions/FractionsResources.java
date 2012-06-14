@@ -39,6 +39,11 @@ public class FractionsResources {
         public static final BufferedImage SOUND_MAX = RESOURCES.getImage( "sound-max.png" );
         public static final BufferedImage SOUND_MIN = RESOURCES.getImage( "sound-min.png" );
         public static final BufferedImage SPLIT_BLUE = RESOURCES.getImage( "split-blue.png" );
+        public static final BufferedImage STAR_0 = RESOURCES.getImage( "star-0.png" );
+        public static final BufferedImage STAR_1 = RESOURCES.getImage( "star-1.png" );
+        public static final BufferedImage STAR_2 = RESOURCES.getImage( "star-2.png" );
+        public static final BufferedImage STAR_3 = RESOURCES.getImage( "star-3.png" );
+        public static final BufferedImage STAR_4 = RESOURCES.getImage( "star-4.png" );
         public static final BufferedImage STAR_GOLD = RESOURCES.getImage( "star-gold.png" );
         public static final BufferedImage STAR_GRAY = RESOURCES.getImage( "star-gray.png" );
         public static final BufferedImage UNLOCKED = RESOURCES.getImage( "unlocked.png" );
