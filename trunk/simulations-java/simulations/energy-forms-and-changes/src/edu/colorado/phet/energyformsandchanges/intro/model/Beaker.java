@@ -156,13 +156,15 @@ public class Beaker extends RectangularThermalMovableModelElement {
 
     // Had to override due to construction order issues.
     @Override protected void addInitialEnergyChunks() {
-        energyChunkList.clear();
+        for ( EnergyChunkContainerSlice slice : slices ) {
+            slice.energyChunkList.clear();
+        }
         int targetNumChunks = EFACConstants.ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy );
         Rectangle2D energyChunkBounds = new Rectangle2D.Double( position.get().getX() - WIDTH / 2,
                                                                 position.get().getY(),
                                                                 WIDTH,
                                                                 HEIGHT * NON_DISPLACED_FLUID_LEVEL );
-        while ( targetNumChunks != getEnergyChunkList().size() ) {
+        while ( getNumContainedEnergyChunks() < targetNumChunks ) {
             // Add a chunk at a random location in the beaker.
             addEnergyChunk( new EnergyChunk( clock, EnergyChunkDistributor.generateRandomLocation( energyChunkBounds ), energyChunksVisible, false ) );
         }

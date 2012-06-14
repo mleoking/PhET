@@ -3,6 +3,8 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -10,8 +12,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
-import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
-import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 
 import static edu.colorado.phet.energyformsandchanges.common.EFACConstants.ENERGY_TO_NUM_CHUNKS_MAPPER;
@@ -25,7 +25,6 @@ import static edu.colorado.phet.energyformsandchanges.intro.model.ThermalEnergyT
  */
 public abstract class RectangularThermalMovableModelElement extends UserMovableModelElement implements ThermalEnergyContainer {
 
-    protected final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
     public final BooleanProperty energyChunksVisible;
     protected double energy = 0; // In Joules.
     protected final double specificHeat; // In J/kg-K
@@ -33,6 +32,9 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
     protected final ConstantDtClock clock;
     protected final double width;
     protected final double height;
+
+    // 2D "slices" of the container, used for 3D layering of energy chunks.
+    protected final List<EnergyChunkContainerSlice> slices = new ArrayList<EnergyChunkContainerSlice>();
 
     /**
      * Constructor.
@@ -55,15 +57,8 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
             }
         } );
 
-        // Update positions of contained energy chunks when this element moves.
-        position.addObserver( new ChangeObserver<ImmutableVector2D>() {
-            public void update( ImmutableVector2D newPosition, ImmutableVector2D oldPosition ) {
-                ImmutableVector2D movement = newPosition.getSubtractedInstance( oldPosition );
-                for ( EnergyChunk energyChunk : energyChunkList ) {
-                    energyChunk.position.set( energyChunk.position.get().getAddedInstance( movement ) );
-                }
-            }
-        } );
+        // Add the slices, a.k.a. layers, where the energy chunks will live.
+        addEnergyChunkSlices();
 
         // Add the initial energy chunks.
         addInitialEnergyChunks();
@@ -94,57 +89,76 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
     }
 
     protected void stepInTime( double dt ) {
-        EnergyChunkDistributor.updatePositions( energyChunkList, getEnergyChunkContainmentShape(), dt );
-    }
-
-    public ObservableList<EnergyChunk> getEnergyChunkList() {
-        return energyChunkList;
+//        EnergyChunkDistributor.updatePositions( energyChunkList, getEnergyChunkContainmentShape(), dt );
     }
 
     public boolean needsEnergyChunk() {
-        return ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy ) > energyChunkList.size();
+        return ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy ) > getNumContainedEnergyChunks();
     }
 
     public boolean hasExcessEnergyChunks() {
-        return ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy ) < energyChunkList.size();
+        return ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy ) < getNumContainedEnergyChunks();
     }
 
     private static final Random RAND = new Random();
 
     public void addEnergyChunk( EnergyChunk ec ) {
-//        ec.zPosition.set( 0.0 );
-        ec.zPosition.set( -RAND.nextDouble() * width );
-        energyChunkList.add( ec );
+        // TODO: This always adds to first slice, NOT what is needed, so fix soon!
+        slices.get( 0 ).addEnergyChunk( ec );
     }
 
     public EnergyChunk extractClosestEnergyChunk( ImmutableVector2D point ) {
-        EnergyChunk closestEnergyChunk = energyChunkList.isEmpty() ? null : energyChunkList.get( 0 );
-        for ( EnergyChunk energyChunk : energyChunkList ) {
-            if ( energyChunk.position.get().distance( point ) < closestEnergyChunk.position.get().distance( point ) ) {
-                // New closest chunk.
-                closestEnergyChunk = energyChunk;
+        EnergyChunk closestEnergyChunk = null;
+        for ( EnergyChunkContainerSlice slice : slices ) {
+            for ( EnergyChunk ec : slice.energyChunkList ) {
+                if ( closestEnergyChunk == null || ec.position.get().distance( point ) < closestEnergyChunk.position.get().distance( point ) ) {
+                    closestEnergyChunk = ec;
+                }
             }
-        }
-        if ( closestEnergyChunk != null ) {
-            energyChunkList.remove( closestEnergyChunk );
         }
         return closestEnergyChunk;
     }
 
+    /**
+     * Initialization method that add the "slices" where the energy chunks
+     * reside.  Should be called only once at initialization.
+     */
+    protected void addEnergyChunkSlices() {
+
+        assert ( slices.size() == 0 ); // Make sure this method isn't being misused.
+
+        // Defaults to a single slice matching the outline rectangle, override
+        // for more sophisticated behavior.
+        slices.add( new EnergyChunkContainerSlice( getRect(), 0, position ) );
+    }
+
     protected void addInitialEnergyChunks() {
-        energyChunkList.clear();
+        for ( EnergyChunkContainerSlice slice : slices ) {
+            slice.energyChunkList.clear();
+        }
         int targetNumChunks = ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy );
         Rectangle2D energyChunkBounds = getThermalContactArea().getBounds();
-        while ( targetNumChunks != getEnergyChunkList().size() ) {
+        while ( getNumContainedEnergyChunks() < targetNumChunks ) {
             // Add a chunk at a random location in the block.
             addEnergyChunk( new EnergyChunk( clock, EnergyChunkDistributor.generateRandomLocation( energyChunkBounds ), energyChunksVisible, false ) );
-            System.out.println( "Added a chunk" );
         }
+    }
+
+    protected int getNumContainedEnergyChunks() {
+        int numChunks = 0;
+        for ( EnergyChunkContainerSlice slice : slices ) {
+            numChunks += slice.getNumEnergyChunks();
+        }
+        return numChunks;
     }
 
     protected Shape getEnergyChunkContainmentShape() {
         // Override for more elaborate or complex shapes.
         return getThermalContactArea().getBounds();
+    }
+
+    public List<EnergyChunkContainerSlice> getSlices() {
+        return slices;
     }
 
     public void exchangeEnergyWith( ThermalEnergyContainer otherEnergyContainer, double dt ) {
@@ -167,7 +181,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
             else if ( otherEnergyContainer.hasExcessEnergyChunks() && needsEnergyChunk() ) {
                 // This energy container needs a chunk, and the other has
                 // excess, so take one.
-                energyChunkList.add( otherEnergyContainer.extractClosestEnergyChunk( getCenterPoint() ) );
+                addEnergyChunk( otherEnergyContainer.extractClosestEnergyChunk( getCenterPoint() ) );
             }
         }
     }

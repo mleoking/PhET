@@ -2,7 +2,6 @@
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.util.ObservableList;
 
 /**
  * Interface for model elements that contain energy.
@@ -96,15 +95,6 @@ public interface ThermalEnergyContainer {
      * @return
      */
     double getTemperature();
-
-    /**
-     * Get the list of 'energy chunks' that are owned by this container.  These
-     * chunks will either be within the bounds of the container or on their way
-     * there.
-     *
-     * @return
-     */
-    ObservableList<EnergyChunk> getEnergyChunkList();
 
     /**
      * Get the category or type of container.  See the definition of the return

@@ -25,7 +25,8 @@ import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.intro.model.Beaker;
 import edu.colorado.phet.energyformsandchanges.intro.model.Block;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
-import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunk;
+import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunkContainerSlice;
+import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunkContainerSliceNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -96,25 +97,13 @@ public class BeakerView {
         label.centerFullBoundsOnPoint( beakerViewRect.getCenterX(), beakerViewRect.getMaxY() - label.getFullBoundsReference().height * 1.5 );
         frontNode.addChild( label );
 
-        // Create a layer where energy chunks will be placed.
-        final PNode energyChunkLayer = new PNode();
-        backNode.addChild( energyChunkLayer );
+        // Create the layers where the energy chunks will be placed.
+        final PNode energyChunkRootNode = new PNode();
+        backNode.addChild( energyChunkRootNode );
+        for ( EnergyChunkContainerSlice slice : beaker.getSlices() ) {
+            energyChunkRootNode.addChild( new EnergyChunkContainerSliceNode( slice, mvt ) );
+        }
 
-        // Watch for energy chunks coming and going and add/remove nodes accordingly.
-        beaker.getEnergyChunkList().addElementAddedObserver( new VoidFunction1<EnergyChunk>() {
-            public void apply( final EnergyChunk addedEnergyChunk ) {
-                final PNode energyChunkNode = new EnergyChunkNode( addedEnergyChunk, mvt );
-                energyChunkLayer.addChild( energyChunkNode );
-                beaker.getEnergyChunkList().addElementRemovedObserver( new VoidFunction1<EnergyChunk>() {
-                    public void apply( EnergyChunk removedEnergyChunk ) {
-                        if ( removedEnergyChunk == addedEnergyChunk ) {
-                            energyChunkLayer.removeChild( energyChunkNode );
-                            beaker.getEnergyChunkList().removeElementRemovedObserver( this );
-                        }
-                    }
-                } );
-            }
-        } );
 
         // Adjust the transparency of the water and label based on energy
         // chunk visibility.
@@ -138,7 +127,7 @@ public class BeakerView {
                 backNode.setOffset( mvt.modelToView( position ).toPoint2D() );
                 // Compensate the energy chunk layer so that the energy chunk
                 // nodes can handle their own positioning.
-                energyChunkLayer.setOffset( mvt.modelToView( position ).getRotatedInstance( Math.PI ).toPoint2D() );
+                energyChunkRootNode.setOffset( mvt.modelToView( position ).getRotatedInstance( Math.PI ).toPoint2D() );
             }
         } );
 

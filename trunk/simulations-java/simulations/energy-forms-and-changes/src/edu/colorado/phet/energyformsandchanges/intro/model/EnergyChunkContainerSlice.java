@@ -26,7 +26,7 @@ public class EnergyChunkContainerSlice {
         this.shape = shape;
         this.zPosition = zPosition;
 
-        // Monitor the anchor position and move as it does.
+        // Monitor the anchor position and move the contained energy chunks to match.
         anchorPoint.addObserver( new ChangeObserver<ImmutableVector2D>() {
             public void update( ImmutableVector2D newPosition, ImmutableVector2D oldPosition ) {
                 ImmutableVector2D translation = newPosition.getSubtractedInstance( oldPosition );
@@ -38,6 +38,10 @@ public class EnergyChunkContainerSlice {
     public void addEnergyChunk( EnergyChunk energyChunk ) {
         energyChunk.zPosition.set( zPosition );
         energyChunkList.add( energyChunk );
+    }
+
+    public int getNumEnergyChunks() {
+        return energyChunkList.size();
     }
 
     public double getZPosition() {
