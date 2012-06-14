@@ -5,7 +5,7 @@
   </component>
   <component name="FlexBuildConfigurationManager" active="flexcommon">
     <configurations>
-      <configuration name="flexcommon" output-type="Library" output-file="flexcommon.swc" output-folder="$MODULE_DIR$/../../../../out">
+      <configuration name="flexcommon" output-type="Library" output-file="flexcommon.swc" output-folder="$MODULE_DIR$/../out">
         <dependencies target-player="9">
           <entries>
             <entry module-name="aswing-a3" build-configuration-name="aswing-a3">

@@ -10,7 +10,7 @@
   </component>
   <component name="FlexBuildConfigurationManager" active="resonance">
     <configurations>
-      <configuration name="resonance" main-class="edu.colorado.phet.resonance.ResonanceApplication" output-file="resonance.swf" output-folder="$MODULE_DIR$/../../../../../out">
+      <configuration name="resonance" main-class="edu.colorado.phet.resonance.ResonanceApplication" output-file="resonance.swf" output-folder="$MODULE_DIR$/../../out">
         <dependencies target-player="9">
           <sdk name="flex_sdk_3.4.1.10084A" />
         </dependencies>

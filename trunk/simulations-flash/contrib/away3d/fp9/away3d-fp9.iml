@@ -9,7 +9,7 @@
   </component>
   <component name="FlexBuildConfigurationManager" active="away3d-fp9">
     <configurations>
-      <configuration name="away3d-fp9" output-type="Library" output-file="away3d-fp9.swc" output-folder="$MODULE_DIR$/../../../../../../out">
+      <configuration name="away3d-fp9" output-type="Library" output-file="away3d-fp9.swc" output-folder="$MODULE_DIR$/../../../out">
         <dependencies target-player="9">
           <sdk name="flex_sdk_3.4.1.10084A" />
         </dependencies>

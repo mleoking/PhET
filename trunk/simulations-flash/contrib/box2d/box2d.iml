@@ -9,7 +9,7 @@
   </component>
   <component name="FlexBuildConfigurationManager" active="box2d">
     <configurations>
-      <configuration name="box2d" output-type="Library" output-file="box2d.swc" output-folder="$MODULE_DIR$/../../../../../out">
+      <configuration name="box2d" output-type="Library" output-file="box2d.swc" output-folder="$MODULE_DIR$/../../out">
         <dependencies target-player="9">
           <sdk name="flex_sdk_3.4.1.10084A" />
         </dependencies>

@@ -2,7 +2,7 @@
 <module type="Flex" version="4">
   <component name="FlexBuildConfigurationManager" active="density-and-buoyancy">
     <configurations>
-      <configuration name="density-and-buoyancy" main-class="edu.colorado.phet.densityandbuoyancy.Density" output-file="density.swf" output-folder="$MODULE_DIR$/../../../../../out">
+      <configuration name="density-and-buoyancy" main-class="edu.colorado.phet.densityandbuoyancy.Density" output-file="density.swf" output-folder="$MODULE_DIR$/../../out">
         <dependencies target-player="9">
           <entries>
             <entry module-name="box2d" build-configuration-name="box2d">
