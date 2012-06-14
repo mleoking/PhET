@@ -121,36 +121,6 @@ public class BuildScript {
         }
     }
 
-    /**
-     * Deploy a project just to a development server
-     *
-     * @param devServer           The development server
-     * @param devAuth             Authentication for the server
-     * @param generateOfflineJARs Whether to generate Offline JARs
-     */
-    public void newDeployToDev( final OldPhetServer devServer, final AuthenticationInfo devAuth, final boolean generateOfflineJARs ) {
-        boolean success = prepareForDeployment( new VersionIncrement.UpdateDev(), true );
-        if ( !success ) {
-            return;
-        }
-
-        String codeBase = devServer.getCodebase( project );
-        deployPreparedToServer( devServer, devAuth );
-
-        if ( generateOfflineJARs ) {
-            generateOfflineJars( project, devServer, devAuth );
-        }
-
-        System.out.println( "Opening Browser to " + codeBase );
-        PhetWebsite.openBrowser( codeBase );
-
-        System.out.println( "Finished deploy to: " + devServer.getHost() );
-
-        for ( Listener listener : listeners ) {
-            listener.deployFinished( this, project, codeBase );
-        }
-    }
-
     public void newDeployToProductionAndDevelopment( final PhetWebsite productionWebsite,
                                                      final OldPhetServer devServer,
                                                      final AuthenticationInfo devAuth,
