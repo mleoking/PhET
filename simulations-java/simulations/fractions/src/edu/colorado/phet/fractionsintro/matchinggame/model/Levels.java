@@ -160,20 +160,20 @@ public class Levels {
         }, order );
     }
 
-    private RepresentationType sixFlower( boolean sequential, boolean randomComposite ) {
+    private RepresentationType sixFlower( Fill fill, boolean randomComposite ) {
         return createPatterns( "six flower sequential", 6, 100, randomComposite, new F<Integer, Pattern>() {
             @Override public Pattern f( final Integer length ) {
                 return Pattern.sixFlower( 25 );
             }
-        }, sequential ? SEQUENTIAL : RANDOM() );
+        }, fill );
     }
 
-    private RepresentationType interleavedLShape( boolean sequential, boolean randomComposite ) {
+    private RepresentationType interleavedLShape( Fill fill, boolean randomComposite ) {
         return createPatterns( "interleaved L shape, sequential", 8, 80, randomComposite, new F<Integer, Pattern>() {
             @Override public Pattern f( final Integer integer ) {
                 return Pattern.interleavedLShape( 35, 2, 2 );
             }
-        }, SEQUENTIAL );
+        }, fill );
     }
 
     final RepresentationType interleavedLShapeRANDOM = createPatterns( "interleaved L shape, sequential", 8, 80, new F<Integer, Pattern>() {
@@ -273,7 +273,7 @@ public class Levels {
                                                                            fourGridSEQUENTIAL, nineGridSEQUENTIAL, onePyramidSEQUENTIAL, fourPyramidSEQUENTIAL, ninePyramidSEQUENTIAL,
                                                                            polygon( 4, false, SEQUENTIAL ), polygon( 5, false, SEQUENTIAL ), polygon( 6, false, SEQUENTIAL ), polygon( 7, false, SEQUENTIAL ), polygon( 8, false, SEQUENTIAL ),
                                                                            tetrisPiece( false, SEQUENTIAL ), elShapedPairs( 2, false, SEQUENTIAL ), elShapedPairs( 3, false, SEQUENTIAL ),
-                                                                           sixFlower( true, false ), interleavedLShape( true, false ),
+                                                                           sixFlower( SEQUENTIAL, false ), interleavedLShape( SEQUENTIAL, false ),
                                                                            horizontalBars( 5, false, SEQUENTIAL ), horizontalBars( 6, false, SEQUENTIAL ), horizontalBars( 7, false, SEQUENTIAL ), horizontalBars( 8, false, SEQUENTIAL ),
                                                                            verticalBars( 5, false, SEQUENTIAL ), verticalBars( 6, false, SEQUENTIAL ), verticalBars( 7, false, SEQUENTIAL ), verticalBars( 8, false, SEQUENTIAL ),
                                                                            pies( 5, false, SEQUENTIAL ), pies( 6, false, SEQUENTIAL ), pies( 7, false, SEQUENTIAL ), pies( 8, false, SEQUENTIAL )
@@ -282,7 +282,7 @@ public class Levels {
                                                                        fourGridRANDOM, nineGridRANDOM, onePyramidRANDOM, fourPyramidRANDOM, ninePyramidRANDOM,
                                                                        polygon( 4, false, RANDOM() ), polygon( 5, false, RANDOM() ), polygon( 6, false, RANDOM() ), polygon( 7, false, RANDOM() ), polygon( 8, false, RANDOM() ),
                                                                        tetrisPiece( false, RANDOM() ), elShapedPairs( 2, false, RANDOM() ), elShapedPairs( 3, false, RANDOM() ),
-                                                                       sixFlower( false, false ), interleavedLShapeRANDOM,
+                                                                       sixFlower( SEQUENTIAL, false ), interleavedLShapeRANDOM,
                                                                        horizontalBars( 5, false, RANDOM() ), horizontalBars( 6, false, RANDOM() ), horizontalBars( 7, false, RANDOM() ), horizontalBars( 8, false, RANDOM() ),
                                                                        verticalBars( 5, false, RANDOM() ), verticalBars( 6, false, RANDOM() ), verticalBars( 7, false, RANDOM() ), verticalBars( 8, false, RANDOM() ),
                                                                        pies( 5, false, RANDOM() ), pies( 6, false, RANDOM() ), pies( 7, false, RANDOM() ), pies( 8, false, RANDOM() )
