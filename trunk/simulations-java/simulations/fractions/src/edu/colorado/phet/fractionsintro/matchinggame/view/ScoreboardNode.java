@@ -30,7 +30,7 @@ public class ScoreboardNode extends PNode {
 
         if ( menuButton == null ) {
             menuButton = new Button( Components.menuButton, "New Game", Color.yellow, Vector2D.ZERO, new ActionListener() {
-                @Override public void actionPerformed( final ActionEvent e ) {
+                public void actionPerformed( final ActionEvent e ) {
                     model.set( model.get().withMode( Mode.CHOOSING_SETTINGS ) );
                 }
             } );
