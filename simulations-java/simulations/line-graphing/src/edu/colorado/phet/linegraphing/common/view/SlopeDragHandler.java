@@ -51,8 +51,11 @@ public class SlopeDragHandler extends LineManipulatorDragHandler {
     @Override protected void drag( PInputEvent event ) {
         super.drag( event );
         Point2D pMouse = event.getPositionRelativeTo( manipulatorNode.getParent() );
-        double run = MathUtil.clamp( mvt.viewToModelDeltaX( pMouse.getX() - clickXOffset ) - line.get().x1, runRange.get() );
-        double rise = MathUtil.clamp( mvt.viewToModelDeltaY( pMouse.getY() - clickYOffset ) - line.get().y1, riseRange.get() );
-        updateLine( rise, run, line.get().x1, line.get().y1 );
+        double run = MathUtil.roundHalfUp( MathUtil.clamp( mvt.viewToModelDeltaX( pMouse.getX() - clickXOffset ) - line.get().x1, runRange.get() ) );
+        double rise = MathUtil.roundHalfUp( MathUtil.clamp( mvt.viewToModelDeltaY( pMouse.getY() - clickYOffset ) - line.get().y1, riseRange.get() ) );
+        if ( !( run == 0 && rise == 0 ) ) {
+            // avoid slope=0/0
+            updateLine( rise, run, line.get().x1, line.get().y1 );
+        }
     }
 }
