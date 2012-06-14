@@ -20,7 +20,8 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.intro.model.Block;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
-import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunk;
+import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunkContainerSlice;
+import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunkContainerSliceNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -89,25 +90,12 @@ public class BlockNode extends PComposite {
         blockSidePath.lineTo( upperRightCornerOfFace );
         Shape blockSideShape = blockSidePath.getGeneralPath();
 
-        // Create a layer where energy chunks will be placed.
-        final PNode energyChunkLayer = new PNode();
-        addChild( energyChunkLayer );
-
-        // Watch for energy chunks coming and going and add/remove nodes accordingly.
-        block.getEnergyChunkList().addElementAddedObserver( new VoidFunction1<EnergyChunk>() {
-            public void apply( final EnergyChunk addedEnergyChunk ) {
-                final PNode energyChunkNode = new EnergyChunkNode( addedEnergyChunk, mvt );
-                energyChunkLayer.addChild( energyChunkNode );
-                block.getEnergyChunkList().addElementRemovedObserver( new VoidFunction1<EnergyChunk>() {
-                    public void apply( EnergyChunk removedEnergyChunk ) {
-                        if ( removedEnergyChunk == addedEnergyChunk ) {
-                            energyChunkLayer.removeChild( energyChunkNode );
-                            block.getEnergyChunkList().removeElementRemovedObserver( this );
-                        }
-                    }
-                } );
-            }
-        } );
+        // Create the layers where the energy chunks will be placed.
+        final PNode energyChunkRootNode = new PNode();
+        addChild( energyChunkRootNode );
+        for ( EnergyChunkContainerSlice slice : block.getSlices() ) {
+            energyChunkRootNode.addChild( new EnergyChunkContainerSliceNode( slice, mvt ) );
+        }
 
         // Add the shapes that comprise the block representation.
         final PNode blockFace = createSurface( blockFaceShape, block.getColor(), block.getFrontTextureImage() );
@@ -154,7 +142,7 @@ public class BlockNode extends PComposite {
 
                 // Compensate the energy chunk layer so that the energy chunk
                 // nodes can handle their own positioning.
-                energyChunkLayer.setOffset( mvt.modelToView( newPosition ).getRotatedInstance( Math.PI ).toPoint2D() );
+                energyChunkRootNode.setOffset( mvt.modelToView( newPosition ).getRotatedInstance( Math.PI ).toPoint2D() );
             }
         } );
 
