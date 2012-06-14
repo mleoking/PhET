@@ -38,8 +38,6 @@ public abstract class Block extends RectangularThermalMovableModelElement {
     private final Property<HorizontalSurface> topSurface = new Property<HorizontalSurface>( null );
     private final Property<HorizontalSurface> bottomSurface = new Property<HorizontalSurface>( null );
 
-    private int nextSliceIndex = NUM_ENERGY_CHUNK_SLICES / 2;
-
     /**
      * Constructor.
      *
@@ -123,11 +121,6 @@ public abstract class Block extends RectangularThermalMovableModelElement {
                                                                               projectionToFront.getY() + projectionOffsetVector.getY() );
             slices.add( new EnergyChunkContainerSlice( transform.createTransformedShape( getRect() ), -i * ( SURFACE_WIDTH / NUM_ENERGY_CHUNK_SLICES ), position ) );
         }
-    }
-
-    @Override public void addEnergyChunk( EnergyChunk ec ) {
-        slices.get( nextSliceIndex ).addEnergyChunk( ec );
-        nextSliceIndex = ( nextSliceIndex + 1 ) % NUM_ENERGY_CHUNK_SLICES;
     }
 
     /**

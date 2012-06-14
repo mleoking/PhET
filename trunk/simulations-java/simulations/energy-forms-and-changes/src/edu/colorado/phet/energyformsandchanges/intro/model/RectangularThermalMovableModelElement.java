@@ -32,6 +32,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
     protected final ConstantDtClock clock;
     protected final double width;
     protected final double height;
+    private int nextSliceIndex;
 
     // 2D "slices" of the container, used for 3D layering of energy chunks.
     protected final List<EnergyChunkContainerSlice> slices = new ArrayList<EnergyChunkContainerSlice>();
@@ -59,6 +60,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
 
         // Add the slices, a.k.a. layers, where the energy chunks will live.
         addEnergyChunkSlices();
+        nextSliceIndex = slices.size() / 2;
 
         // Add the initial energy chunks.
         addInitialEnergyChunks();
@@ -103,8 +105,17 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
     private static final Random RAND = new Random();
 
     public void addEnergyChunk( EnergyChunk ec ) {
-        // TODO: This always adds to first slice, NOT what is needed, so fix soon!
-        slices.get( 0 ).addEnergyChunk( ec );
+        slices.get( nextSliceIndex ).addEnergyChunk( ec );
+        nextSliceIndex = ( nextSliceIndex + 1 ) % slices.size();
+    }
+
+    public boolean removeEnergyChunk( EnergyChunk ec ) {
+        for ( EnergyChunkContainerSlice slice : slices ) {
+            if ( slice.energyChunkList.remove( ec ) ) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public EnergyChunk extractClosestEnergyChunk( ImmutableVector2D point ) {
@@ -116,6 +127,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
                 }
             }
         }
+        removeEnergyChunk( closestEnergyChunk );
         return closestEnergyChunk;
     }
 
