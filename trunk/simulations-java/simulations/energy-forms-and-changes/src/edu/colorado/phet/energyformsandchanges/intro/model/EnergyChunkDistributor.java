@@ -203,6 +203,129 @@ public class EnergyChunkDistributor {
         }
     }
 
+    public static void updatePositions( List<EnergyChunkContainerSlice> energyChunkContainerSlices, double dt ) {
+
+        // Create a map that relates each energy chunk to a point mass.
+        Map<EnergyChunk, PointMass> map = new HashMap<EnergyChunk, PointMass>();
+        for ( EnergyChunkContainerSlice slice : energyChunkContainerSlices ) {
+            for ( EnergyChunk energyChunk : slice.energyChunkList ) {
+                map.put( energyChunk, new PointMass( energyChunk.position.get(), slice.getShape() ) );
+            }
+        }
+
+        // Determine a rectangle that bounds all of the slices.
+        Rectangle2D boundingRect;
+        {
+            double minX = Double.POSITIVE_INFINITY;
+            double minY = Double.POSITIVE_INFINITY;
+            double maxX = Double.NEGATIVE_INFINITY;
+            double maxY = Double.NEGATIVE_INFINITY;
+            for ( EnergyChunkContainerSlice slice : energyChunkContainerSlices ) {
+                minX = Math.min( slice.getShape().getBounds2D().getMinX(), minX );
+                maxX = Math.max( slice.getShape().getBounds2D().getMaxX(), maxX );
+                minY = Math.min( slice.getShape().getBounds2D().getMinY(), minY );
+                maxY = Math.max( slice.getShape().getBounds2D().getMaxY(), maxY );
+            }
+            boundingRect = new Rectangle2D.Double( minX, minY, maxX - minX, maxY - minY );
+        }
+
+        // Determine the force constant to use for the repulsive algorithm that
+        // positions the energy chunks.  Formula was made up and has some
+        // tweak factors, so it may require some adjustments.
+        double forceConstant = boundingRect.getWidth() * boundingRect.getHeight() / map.size() * 0.5;
+
+        // Determine the minimum distance that is allowed to be used in the
+        // force calculations.  This prevents hitting infinities that can
+        // cause run time issues or unreasonably large forces.
+        double minDistance = Math.min( boundingRect.getWidth(), boundingRect.getHeight() ) / 100; // Divisor empirically determined.
+
+        // Loop, calculating and applying the forces for each point mass.
+        int numForceCalcSteps = (int) ( dt / MAX_TIME_STEP );
+        double extraTime = dt - numForceCalcSteps * MAX_TIME_STEP;
+        for ( int forceCalcStep = 0; forceCalcStep <= numForceCalcSteps; forceCalcStep++ ) {
+
+            double timeStep = forceCalcStep < numForceCalcSteps ? MAX_TIME_STEP : extraTime;
+
+            // Update the forces acting on each point mass.
+            for ( PointMass p : map.values() ) {
+                if ( p.getContainerShape().contains( p.position.toPoint2D() ) ) {
+
+                    // Determine the max possible distance to an edge.
+                    double maxDistanceToEdge = Math.sqrt( Math.pow( p.getContainerShape().getBounds2D().getWidth(), 2 ) +
+                                                          Math.pow( p.getContainerShape().getBounds2D().getHeight(), 2 ) );
+
+                    // Loop on several angles, calculating the forces from the
+                    // edges at the given angle.
+                    for ( double angle = 0; angle < 2 * Math.PI; angle += Math.PI / 2 ) {
+                        int edgeDetectSteps = 8;
+                        DoubleRange lengthBounds = new DoubleRange( 0, maxDistanceToEdge );
+                        for ( int edgeDetectStep = 0; edgeDetectStep < edgeDetectSteps; edgeDetectStep++ ) {
+                            ImmutableVector2D vectorToEdge = new ImmutableVector2D( lengthBounds.getCenter(), 0 ).getRotatedInstance( angle );
+                            if ( p.getContainerShape().contains( p.position.getAddedInstance( vectorToEdge ).toPoint2D() ) ) {
+                                lengthBounds = new DoubleRange( lengthBounds.getCenter(), lengthBounds.getMax() );
+                            }
+                            else {
+                                lengthBounds = new DoubleRange( lengthBounds.getMin(), lengthBounds.getCenter() );
+                            }
+                        }
+
+                        // Handle case where point is too close to the container's edge.
+                        if ( lengthBounds.getCenter() < minDistance ) {
+                            System.out.println( "Warning: point is on container edge." );
+                            lengthBounds = new DoubleRange( minDistance, minDistance );
+                        }
+
+                        // Apply the force due to this edge.
+                        ImmutableVector2D forceVector = new ImmutableVector2D( forceConstant / Math.pow( lengthBounds.getCenter(), 2 ), 0 ).getRotatedInstance( angle + Math.PI );
+                        p.applyForce( forceVector );
+                    }
+
+                    // Apply the force from each of the other particles, but
+                    // set some limits on the max force that can be applied.
+                    for ( PointMass otherP : map.values() ) {
+                        if ( p != otherP ) {
+                            // Calculate force vector, but handle cases where too close.
+                            ImmutableVector2D vectorToOther = p.position.getSubtractedInstance( otherP.position );
+                            if ( vectorToOther.getMagnitude() < minDistance ) {
+                                if ( vectorToOther.getMagnitude() == 0 ) {
+                                    // Create a random vector of min distance.
+                                    System.out.println( "Creating random vector" );
+                                    double angle = RAND.nextDouble() * Math.PI * 2;
+                                    vectorToOther = new ImmutableVector2D( minDistance * Math.cos( angle ), minDistance * Math.sin( angle ) );
+                                }
+                                else {
+                                    vectorToOther = vectorToOther.getInstanceOfMagnitude( minDistance );
+                                }
+                            }
+                            p.applyForce( vectorToOther.getInstanceOfMagnitude( forceConstant / ( vectorToOther.getMagnitudeSq() ) ) );
+                        }
+                    }
+                }
+                else {
+                    // Point is outside container, move it towards center of shape.
+                    ImmutableVector2D vectorToCenter = new ImmutableVector2D( boundingRect.getCenterX(), boundingRect.getCenterY() ).getSubtractedInstance( p.position );
+                    p.applyForce( vectorToCenter.getInstanceOfMagnitude( OUTSIDE_CONTAINER_FORCE ) );
+                }
+            }
+
+            // Update the positions of the point masses and the corresponding
+            // energy chunks.
+            for ( PointMass p : map.values() ) {
+                // Update the position of the point.
+                p.updatePosition( timeStep );
+                p.clearAcceleration();
+            }
+        }
+
+        // Update the positions of the energy chunks.
+        for ( EnergyChunkContainerSlice slice : energyChunkContainerSlices ) {
+            for ( EnergyChunk energyChunk : slice.energyChunkList ) {
+                energyChunk.position.set( map.get( energyChunk ).position );
+            }
+        }
+    }
+
+
     public static ImmutableVector2D generateRandomLocation( Rectangle2D rect ) {
         return new ImmutableVector2D( rect.getMinX() + ( RAND.nextDouble() * rect.getWidth() ), rect.getMinY() + ( RAND.nextDouble() * rect.getHeight() ) );
     }
@@ -247,6 +370,10 @@ public class EnergyChunkDistributor {
 
             // Update the position.
             position.add( velocity.getScaledInstance( dt ) );
+        }
+
+        public Shape getContainerShape() {
+            return containerShape;
         }
     }
 

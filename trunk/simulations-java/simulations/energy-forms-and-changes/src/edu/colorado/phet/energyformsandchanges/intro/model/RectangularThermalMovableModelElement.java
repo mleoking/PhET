@@ -89,7 +89,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
     }
 
     protected void stepInTime( double dt ) {
-//        EnergyChunkDistributor.updatePositions( energyChunkList, getEnergyChunkContainmentShape(), dt );
+        EnergyChunkDistributor.updatePositions( slices, dt );
     }
 
     public boolean needsEnergyChunk() {
