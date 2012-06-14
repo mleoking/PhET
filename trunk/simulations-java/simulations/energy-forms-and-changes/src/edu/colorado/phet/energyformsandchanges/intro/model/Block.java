@@ -41,7 +41,7 @@ public abstract class Block extends RectangularThermalMovableModelElement {
     private final Property<HorizontalSurface> bottomSurface = new Property<HorizontalSurface>( null );
 
     // 2D "slices" of the container, used for 3D layering of energy chunks.
-    private final List<EnergyChunkSlice> slices = new ArrayList<EnergyChunkSlice>();
+    private final List<EnergyChunkContainerSlice> slices = new ArrayList<EnergyChunkContainerSlice>();
 
     /**
      * Constructor.
@@ -61,7 +61,7 @@ public abstract class Block extends RectangularThermalMovableModelElement {
             ImmutableVector2D projectionOffsetVector = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( i * ( SURFACE_WIDTH / ( NUM_ENERGY_CHUNK_SLICES - 1 ) ) );
             AffineTransform transform = AffineTransform.getTranslateInstance( projectionToFront.getX() + projectionOffsetVector.getX(),
                                                                               projectionToFront.getY() + projectionOffsetVector.getY() );
-            slices.add( new EnergyChunkSlice( transform.createTransformedShape( getRect() ), -i * ( SURFACE_WIDTH / NUM_ENERGY_CHUNK_SLICES ), position ) );
+            slices.add( new EnergyChunkContainerSlice( transform.createTransformedShape( getRect() ), -i * ( SURFACE_WIDTH / NUM_ENERGY_CHUNK_SLICES ), position ) );
         }
 
         // Update the top and bottom surfaces whenever the position changes.
