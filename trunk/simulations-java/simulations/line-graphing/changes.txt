@@ -1,3 +1,4 @@
+6/14/12 fix jumpiness of slope manipulator that was happening when skipping over slope=0/0
 6/14/12 fix graph tick marks to display integer values
 6/13/12 when model adjusts slope to prevent undefined lines, send a sim-sharing model message
 6/13/12 make equation spinners update correctly when they skip over zero value to prevent slope=0/0
