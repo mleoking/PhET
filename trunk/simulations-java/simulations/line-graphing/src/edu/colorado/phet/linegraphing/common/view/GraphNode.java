@@ -224,7 +224,7 @@ public class GraphNode extends PhetPNode {
     // major tick with label, orientation is vertical or horizontal
     private static class MajorTickNode extends PComposite {
 
-        public MajorTickNode( double x, double y, double value, boolean isVertical ) {
+        public MajorTickNode( double x, double y, int value, boolean isVertical ) {
 
             // tick line
             PPath tickLineNode = isVertical ?
