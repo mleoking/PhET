@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Random;
 
 import static edu.colorado.phet.fractions.util.FJUtils.ord;
 import static fj.Function.curry;
@@ -206,5 +207,10 @@ import static fj.Function.curry;
                 return container.scale( scale );
             }
         } ) );
+    }
+
+    public CellPointer getRandomEmptyCell( final Random random ) {
+        final List<CellPointer> emptyCells = getEmptyCells();
+        return emptyCells.index( random.nextInt( emptyCells.length() ) );
     }
 }
