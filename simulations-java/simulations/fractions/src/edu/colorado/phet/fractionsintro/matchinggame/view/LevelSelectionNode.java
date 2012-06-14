@@ -38,7 +38,8 @@ public class LevelSelectionNode extends PNode {
         final List<PatternNode> patterns = List.list( new PatternNode( FilledPattern.sequentialFill( Pattern.pie( 1 ), 1 ), Color.red ),
                                                       new PatternNode( FilledPattern.sequentialFill( Pattern.horizontalBars( 2 ), 2 ), Colors.LIGHT_GREEN ),
                                                       new PatternNode( FilledPattern.sequentialFill( Pattern.verticalBars( 3 ), 3 ), Colors.LIGHT_BLUE ),
-                                                      new PatternNode( FilledPattern.sequentialFill( Pattern.tetrisPiece( 50 ), 4 ), Color.orange ),
+//                                                      new PatternNode( FilledPattern.sequentialFill( Polygon.create( 60, 4 ), 4 ), Color.orange ),
+                                                      new PatternNode( FilledPattern.sequentialFill( Pattern.letterLShapedDiagonal( 15, 2 ), 4 ), Color.orange ),
                                                       new PatternNode( FilledPattern.sequentialFill( Polygon.create( 60, 5 ), 5 ), Color.magenta ),
                                                       new PatternNode( FilledPattern.sequentialFill( Pattern.sixFlower(), 6 ), Color.yellow ) );
 

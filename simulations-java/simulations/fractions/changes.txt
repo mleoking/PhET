@@ -1,3 +1,5 @@
+Fraction Matcher: Changed pattern on startup screen
+Fraction Matcher: Reworded buttons
 # 0.00.82 (64985) Jun 12, 2012
 Removed dependency on xstream
 Fraction Matcher: Wired up new startup/level selection screen
