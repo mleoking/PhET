@@ -46,18 +46,21 @@ public class Levels {
 
     public static final Random random = new Random();
 
+    private static abstract class Fill extends F2<Pattern, Integer, FilledPattern> {
+    }
+
     //Pattern for filling in shapes sequentially
-    private static final F2<Pattern, Integer, FilledPattern> SEQUENTIAL = new F2<Pattern, Integer, FilledPattern>() {
+    private static final Fill SEQUENTIAL = new Fill() {
         @Override public FilledPattern f( final Pattern pattern, final Integer numFilled ) {
             return sequentialFill( pattern, numFilled );
         }
     };
 
     //Pattern for filling in shapes randomly with the specified random seed
-    public static F2<Pattern, Integer, FilledPattern> RANDOM() { return RANDOM( random.nextLong() ); }
+    public static Fill RANDOM() { return RANDOM( random.nextLong() ); }
 
-    public static F2<Pattern, Integer, FilledPattern> RANDOM( final long seed ) {
-        return new F2<Pattern, Integer, FilledPattern>() {
+    public static Fill RANDOM( final long seed ) {
+        return new Fill() {
             @Override public FilledPattern f( final Pattern pattern, final Integer numFilled ) {
                 return randomFill( pattern, numFilled, seed );
             }
@@ -101,7 +104,7 @@ public class Levels {
                                      } );
     }
 
-    public RepresentationType horizontalBars( final int numberBars, boolean randomComposite, F2<Pattern, Integer, FilledPattern> fill ) {
+    public RepresentationType horizontalBars( final int numberBars, boolean randomComposite, Fill fill ) {
         return createPatterns( "horizontal bars", numberBars, 100, randomComposite, new F<Integer, Pattern>() {
             @Override public Pattern f( final Integer integer ) {
                 return Pattern.horizontalBars( numberBars );
@@ -109,7 +112,7 @@ public class Levels {
         }, fill );
     }
 
-    public RepresentationType verticalBars( final int numberBars, boolean randomComposite, F2<Pattern, Integer, FilledPattern> fill ) {
+    public RepresentationType verticalBars( final int numberBars, boolean randomComposite, Fill fill ) {
         return createPatterns( "vertical bars", numberBars, 100, randomComposite, new F<Integer, Pattern>() {
             @Override public Pattern f( final Integer integer ) {
                 return Pattern.verticalBars( numberBars );
@@ -117,7 +120,7 @@ public class Levels {
         }, fill );
     }
 
-    public RepresentationType pies( final int numPies, boolean randomComposite, F2<Pattern, Integer, FilledPattern> fill ) {
+    public RepresentationType pies( final int numPies, boolean randomComposite, Fill fill ) {
         return createPatterns( "pies", numPies, 100, randomComposite, new F<Integer, Pattern>() {
             @Override public Pattern f( final Integer integer ) {
                 return Pattern.pie( numPies );
@@ -125,7 +128,7 @@ public class Levels {
         }, fill );
     }
 
-    public RepresentationType polygon( final int numSides, boolean randomComposite, F2<Pattern, Integer, FilledPattern> fill ) {
+    public RepresentationType polygon( final int numSides, boolean randomComposite, Fill fill ) {
         return createPatterns( numSides + " polygon", numSides, 80, randomComposite, new F<Integer, Pattern>() {
             @Override public Pattern f( final Integer integer ) {
                 return Polygon.create( 80, numSides );
@@ -133,7 +136,7 @@ public class Levels {
         }, fill );
     }
 
-    public RepresentationType elShapedPairs( final int numPairs, boolean randomComposite, F2<Pattern, Integer, FilledPattern> fill ) {
+    public RepresentationType elShapedPairs( final int numPairs, boolean randomComposite, Fill fill ) {
         return createPatterns( numPairs + " L-shaped diagonal", numPairs * 2, 60, randomComposite, new F<Integer, Pattern>() {
             @Override public Pattern f( final Integer integer ) {
                 return Pattern.letterLShapedDiagonal( 14, numPairs );
@@ -141,7 +144,7 @@ public class Levels {
         }, fill );
     }
 
-    public RepresentationType tetrisPiece( boolean randomComposite, F2<Pattern, Integer, FilledPattern> fill ) {
+    public RepresentationType tetrisPiece( boolean randomComposite, Fill fill ) {
         return createPatterns( "tetris piece", 4, 50, randomComposite, new F<Integer, Pattern>() {
             @Override public Pattern f( final Integer length ) {
                 return Pattern.tetrisPiece( length );
@@ -149,7 +152,7 @@ public class Levels {
         }, fill );
     }
 
-    private RepresentationType makePlusses( final int numPlusses, boolean randomComposite, F2<Pattern, Integer, FilledPattern> order ) {
+    private RepresentationType makePlusses( final int numPlusses, boolean randomComposite, Fill order ) {
         return createPatterns( numPlusses + " plusses", numPlusses, 10, randomComposite, new F<Integer, Pattern>() {
             @Override public Pattern f( final Integer integer ) {
                 return new PlusSigns( numPlusses );
@@ -231,11 +234,11 @@ public class Levels {
         }
     }, RANDOM() );
 
-    private RepresentationType createPatterns( String name, final int denominator, final int length, final F<Integer, Pattern> pattern, final F2<Pattern, Integer, FilledPattern> fill ) {
+    private RepresentationType createPatterns( String name, final int denominator, final int length, final F<Integer, Pattern> pattern, final Fill fill ) {
         return createPatterns( name, denominator, length, false, pattern, fill );
     }
 
-    private RepresentationType createPatterns( String name, final int denominator, final int length, boolean randomComposite, final F<Integer, Pattern> pattern, final F2<Pattern, Integer, FilledPattern> fill ) {
+    private RepresentationType createPatterns( String name, final int denominator, final int length, boolean randomComposite, final F<Integer, Pattern> pattern, final Fill fill ) {
         return toRepresentation( name, new F<Fraction, Boolean>() {
                                      @Override public Boolean f( final Fraction fraction ) {
                                          return fraction.denominator == denominator;
