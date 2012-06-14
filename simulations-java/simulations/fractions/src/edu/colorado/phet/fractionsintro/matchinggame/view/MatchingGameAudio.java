@@ -37,7 +37,7 @@ public class MatchingGameAudio {
 
             //Halt prematurely based on the value so the sound will go higher pitched (and longer) for higher values
             new Timer( 1000, new ActionListener() {
-                @Override public void actionPerformed( ActionEvent e ) {
+                public void actionPerformed( ActionEvent e ) {
                     clip.stop();
                 }
             } ) {{
