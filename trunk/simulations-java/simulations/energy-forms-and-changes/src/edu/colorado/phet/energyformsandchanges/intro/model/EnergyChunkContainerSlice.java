@@ -31,6 +31,9 @@ public class EnergyChunkContainerSlice {
             public void update( ImmutableVector2D newPosition, ImmutableVector2D oldPosition ) {
                 ImmutableVector2D translation = newPosition.getSubtractedInstance( oldPosition );
                 EnergyChunkContainerSlice.this.shape = AffineTransform.getTranslateInstance( translation.getX(), translation.getY() ).createTransformedShape( EnergyChunkContainerSlice.this.shape );
+                for ( EnergyChunk energyChunk : energyChunkList ) {
+                    energyChunk.translate( translation );
+                }
             }
         } );
     }
