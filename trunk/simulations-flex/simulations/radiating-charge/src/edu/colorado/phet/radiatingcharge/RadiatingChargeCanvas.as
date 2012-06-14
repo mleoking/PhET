@@ -9,6 +9,7 @@ package edu.colorado.phet.radiatingcharge {
 import edu.colorado.phet.radiatingcharge.view.MainView;
 
 import flash.events.Event;
+import flash.display.StageQuality;
 
 import mx.containers.Canvas;
 
@@ -20,6 +21,7 @@ public class RadiatingChargeCanvas extends Canvas {
     private var RENDER_HEIGHT: int = 768;
 
     public function init(): void {
+        stage.quality = StageQuality.HIGH;
         //trace("radiatingchargeCanvas.init() called");
         setStyle( "backgroundColor", 0xf0e68c );  //build an atom color is 0xffff99
         percentWidth = 100;
