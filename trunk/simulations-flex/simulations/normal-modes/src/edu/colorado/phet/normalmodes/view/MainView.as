@@ -7,8 +7,10 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.normalmodes.view {
+import edu.colorado.phet.flashcommon.CommonButtons;
 import edu.colorado.phet.flashcommon.controls.Tab;
 import edu.colorado.phet.flashcommon.controls.TabBar;
+import edu.colorado.phet.flexcommon.FlexCommon;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
 import edu.colorado.phet.normalmodes.*;
