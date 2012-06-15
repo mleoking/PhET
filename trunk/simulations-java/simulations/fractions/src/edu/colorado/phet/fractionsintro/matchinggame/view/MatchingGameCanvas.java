@@ -121,18 +121,31 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
 
         final BufferedImage stopwatchIcon = BufferedImageUtils.multiScaleToWidth( GameConstants.STOPWATCH_ICON, 50 );
         final BufferedImage soundIcon = BufferedImageUtils.multiScaleToWidth( GameConstants.SOUND_ICON, 50 );
+        final BufferedImage soundOffIcon = BufferedImageUtils.multiScaleToWidth( GameConstants.SOUND_OFF_ICON, 50 );
         final int maxIconWidth = Math.max( stopwatchIcon.getWidth(), soundIcon.getWidth() ) + 10;
         final int minIconWidth = Math.max( stopwatchIcon.getHeight(), soundIcon.getHeight() ) + 10;
         final ToggleButtonNode stopwatchButton = new ToggleButtonNode( new PaddedIcon( maxIconWidth, minIconWidth, new PImage( stopwatchIcon ) ), gameSettings.timerEnabled, new VoidFunction0() {
             public void apply() {
                 gameSettings.timerEnabled.toggle();
             }
-        } );
-        final ToggleButtonNode soundButton = new ToggleButtonNode( new PaddedIcon( maxIconWidth, minIconWidth, new PImage( soundIcon ) ), gameSettings.soundEnabled, new VoidFunction0() {
+        }, ToggleButtonNode.FAINT_GREEN, false );
+
+        class SoundIconNode extends PNode {
+            SoundIconNode() {
+                gameSettings.soundEnabled.addObserver( new VoidFunction1<Boolean>() {
+                    public void apply( final Boolean enabled ) {
+                        removeAllChildren();
+                        addChild( new PaddedIcon( maxIconWidth, minIconWidth, new PImage( enabled ? soundIcon : soundOffIcon ) ) );
+                    }
+                } );
+            }
+        }
+
+        final ToggleButtonNode soundButton = new ToggleButtonNode( new SoundIconNode(), gameSettings.soundEnabled, new VoidFunction0() {
             public void apply() {
                 gameSettings.soundEnabled.toggle();
             }
-        } );
+        }, ToggleButtonNode.FAINT_GREEN, false );
         addChild( new HBox( stopwatchButton, soundButton ) {{
             setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - INSET, STAGE_SIZE.height - getFullBounds().getHeight() - INSET );
             new CompositeBooleanProperty( new Function0<Boolean>() {
