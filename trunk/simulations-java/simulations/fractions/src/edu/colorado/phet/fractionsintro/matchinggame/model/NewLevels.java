@@ -15,7 +15,6 @@ import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Grid;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.PlusSigns;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Polygon;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Pyramid;
-import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -24,6 +23,7 @@ import static edu.colorado.phet.fractionsintro.intro.model.Fraction.fraction;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.FillType.Mixed;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.FillType.Sequential;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.ShapeType.*;
+import static edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern.sequentialFill;
 import static fj.data.List.iterableList;
 import static fj.data.List.list;
 
@@ -273,6 +273,7 @@ public class NewLevels {
                                   s == tetris && d == 4 ? Pattern.tetrisPiece( 50 ) :
                                   s == plusses ? new PlusSigns( d ) :
                                   s == polygon ? Polygon.create( 80, d ) :
+                                  s == pyramid && d == 1 ? Pyramid.single() :
                                   s == pyramid && d == 4 ? Pyramid.four() :
                                   s == pyramid && d == 9 ? Pyramid.nine() :
                                   s == grid && d == 4 ? new Grid( 2 ) :
@@ -281,7 +282,7 @@ public class NewLevels {
         if ( container == null ) {
             throw new RuntimeException( "Null pattern for rep = " + representation );
         }
-        return new PatternNode( FilledPattern.sequentialFill( container, fraction.numerator ), representation.color );
+        return new PatternNode( sequentialFill( container, fraction.numerator ), representation.color );
     }
 
     private static <T> List<T> shuffle( final List<T> cells ) {
