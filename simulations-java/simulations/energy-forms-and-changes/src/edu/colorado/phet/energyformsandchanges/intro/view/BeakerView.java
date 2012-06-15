@@ -25,7 +25,6 @@ import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.intro.model.Beaker;
 import edu.colorado.phet.energyformsandchanges.intro.model.Block;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
-import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunkContainerSlice;
 import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunkContainerSliceNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -100,10 +99,10 @@ public class BeakerView {
         // Create the layers where the energy chunks will be placed.
         final PNode energyChunkRootNode = new PNode();
         backNode.addChild( energyChunkRootNode );
-        for ( EnergyChunkContainerSlice slice : beaker.getSlices() ) {
-            energyChunkRootNode.addChild( new EnergyChunkContainerSliceNode( slice, mvt ) );
+        for ( int i = beaker.getSlices().size() - 1; i >= 0; i-- ) {
+            int colorBase = (int) ( 255 * (double) i / beaker.getSlices().size() );
+            energyChunkRootNode.addChild( new EnergyChunkContainerSliceNode( beaker.getSlices().get( i ), mvt, new Color( colorBase, 255 - colorBase, colorBase ) ) );
         }
-
 
         // Adjust the transparency of the water and label based on energy
         // chunk visibility.

@@ -130,7 +130,7 @@ public class Beaker extends RectangularThermalMovableModelElement {
         double proportionateIncrease = newFluidLevel / fluidLevel.get();
         fluidLevel.set( newFluidLevel );
 
-        // Update the shape of all of the energy chunk slices.
+        // Update the shapes of the energy chunk slices.
         for ( EnergyChunkContainerSlice slice : slices ) {
             Shape originalShape = slice.getShape();
             Shape expandedOrCompressedShape = AffineTransform.getScaleInstance( 1, proportionateIncrease ).createTransformedShape( originalShape );
@@ -201,18 +201,20 @@ public class Beaker extends RectangularThermalMovableModelElement {
     }
 
     @Override protected void addEnergyChunkSlices() {
+        assert slices.size() == 0; // Check that his has not been already called.
         Rectangle2D fluidRect = new Rectangle2D.Double( position.get().getX() - WIDTH / 2,
                                                         position.get().getY(),
                                                         WIDTH,
                                                         HEIGHT * NON_DISPLACED_FLUID_LEVEL );
-        double projectionInYDirection = WIDTH * EFACConstants.Z_TO_Y_OFFSET_MULTIPLIER / 2;
+        double widthYProjection = Math.abs( WIDTH * EFACConstants.Z_TO_Y_OFFSET_MULTIPLIER );
         for ( int i = 0; i < NUM_SLICES; i++ ) {
             double proportion = ( i + 1 ) * ( 1 / (double) ( NUM_SLICES + 1 ) );
             // The slice width is calculated to fit into the 3D projection.
             // It uses an exponential function that is shifted in order to
             // yield width value proportional to position in Z-space.
             double sliceWidth = ( -Math.pow( ( 2 * proportion - 1 ), 2 ) + 1 ) * fluidRect.getWidth();
-            double bottomY = fluidRect.getMinY() - projectionInYDirection + ( proportion * projectionInYDirection * 2 );
+            double bottomY = fluidRect.getMinY() - ( widthYProjection / 2 ) + ( proportion * widthYProjection );
+            System.out.println( "bottomY = " + bottomY );
             slices.add( new EnergyChunkContainerSlice( new Rectangle2D.Double( fluidRect.getCenterX() - sliceWidth / 2,
                                                                                bottomY,
                                                                                sliceWidth,
