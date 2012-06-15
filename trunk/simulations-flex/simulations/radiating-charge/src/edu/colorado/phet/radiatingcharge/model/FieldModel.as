@@ -71,7 +71,7 @@ public class FieldModel {
         this.views_arr = new Array();
         this.stageW = this.myMainView.stageW;
         this.stageH = this.myMainView.stageH;
-        this.c = this.stageW/3;    //8 seconds to cross height of stage
+        this.c = this.stageW/5;    //n seconds to cross height of stage
         this.k = 10;
         this.m = 1;
         this.vX = 0;
@@ -127,8 +127,8 @@ public class FieldModel {
         this._paused = false;
         this._t = 0;
         this._tLastPhoton = 0;
-        this.dt = 0.01;
-        this.delTPhoton = 0.01; //this.f;
+        this.dt = 0.015;
+        this.delTPhoton = 0.015; //this.f;
         this.tRate = 1;         //not currently used
         this.msTimer = new Timer( this.dt * 1000 );   //argument of Timer constructor is time step in ms
         this.msTimer.addEventListener( TimerEvent.TIMER, stepForward );
@@ -322,6 +322,7 @@ public class FieldModel {
         }
         this.initializeFieldLines();
         this.startRadiation();
+        this.paused = false;
     }//end setMotion()
 
 
@@ -454,8 +455,7 @@ public class FieldModel {
         }
         this.moveCharge();
         this.updateViews();
-        //trace("FieldModel._xC: "+this._xC) ;
-        //evt.updateAfterEvent();
+        evt.updateAfterEvent();
     }//end stepForward()
 
     private function emitPhotons():void{
