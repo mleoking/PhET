@@ -54,7 +54,7 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     private static final double FADE_RADIUS = WIDTH / 2; // In meters.
 
     // Max rate at which the flame/ice is "clamped down" when the limits are hit.
-    private static final double CLAMP_DOWN_RATE = 1; // In proportion per second.
+    private static final double CLAMP_DOWN_RATE = 4; // In proportion per second.
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -90,7 +90,6 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
         this.energyChunksVisible = energyChunksVisible;
         topSurface = new Property<HorizontalSurface>( new HorizontalSurface( new DoubleRange( getOutlineRect().getMinX(), getOutlineRect().getMaxX() ), getOutlineRect().getMaxY(), this ) );
 
-        // Listen to the clock in order to implement time-dependent behavior.
         clock.addClockListener( new ClockAdapter() {
             @Override public void clockTicked( ClockEvent clockEvent ) {
                 stepInTime( clockEvent.getSimulationTimeChange() );
@@ -328,10 +327,6 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
                 energyChunkList.remove( energyChunk );
             }
         }
-
-        // Animate the flame/ice turning off if currently operating outside of limits.
-
-
     }
 
     // Convenience class - a Property<Double> with a limited range.
