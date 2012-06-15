@@ -31,7 +31,7 @@ import static fj.data.List.*;
 /**
  * @author Sam Reid
  */
-public class NewLevels {
+public class Levels {
 
     /**
      * Level 1
