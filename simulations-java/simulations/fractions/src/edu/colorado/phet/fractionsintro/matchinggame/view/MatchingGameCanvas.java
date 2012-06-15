@@ -49,7 +49,6 @@ import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameModel;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Mode;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MovableFraction;
-import edu.colorado.phet.fractionsintro.matchinggame.model.RepresentationType;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -77,9 +76,6 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
             public void apply() {
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
-
-                        //Go to a new seed so patterns aren't duplicated
-                        RepresentationType.newSeed();
 
                         final MatchingGameState m = newLevel( gameSettings.level.get(), model.state.get().gameOverScoresList ).
                                 withMode( Mode.WAITING_FOR_USER_TO_CHECK_ANSWER ).
