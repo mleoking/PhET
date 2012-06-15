@@ -13,11 +13,18 @@ import edu.colorado.phet.radiatingcharge.model.FieldModel;
 import edu.colorado.phet.radiatingcharge.util.SpriteUIComponent;
 import edu.colorado.phet.radiatingcharge.view.MainView;
 
+import flash.events.Event;
+import flash.events.MouseEvent;
+
 import mx.containers.Canvas;
 import mx.containers.VBox;
+import mx.controls.CheckBox;
 import mx.controls.ComboBox;
+import mx.controls.RadioButton;
 import mx.core.UIComponent;
 import mx.events.DropdownEvent;
+import mx.events.FlexEvent;
+import mx.events.ItemClickEvent;
 
 //Control Panel for Radiating Charge sim
 public class ControlPanel extends Canvas {
@@ -26,7 +33,7 @@ public class ControlPanel extends Canvas {
     private var background: VBox;
     private var pauseButton:NiceButton2;
     private var stopButton:NiceButton2;
-    private var centerChargeButton:NiceButton2;
+    private var resetButton:NiceButton2;
     private var restartButton:NiceButton2;
     private var restartButton_UI:SpriteUIComponent;
     public var myComboBox: ComboBox;
@@ -37,6 +44,8 @@ public class ControlPanel extends Canvas {
     private var amplitudeSlider_UI:SpriteUIComponent;
     private var frequencySlider_UI:SpriteUIComponent;
     private var speedSlider_UI:SpriteUIComponent;
+    //private var lessRezRadioButton:RadioButton;
+    private var moreSpeedCheckBox:CheckBox;
 
     //internationalized strings
     private var pause_str:String;
@@ -44,8 +53,9 @@ public class ControlPanel extends Canvas {
     private var start_str:String;
     private var stop_str:String;
     private var restart_str:String;
-    private var centerCharge_str:String;
+    private var reset_str:String;
     private var c_str:String;
+    private var moreSpeedLessRez_str;
     //Drop-down menu choices
     private var userChoice_str:String;
     private var linear_str:String;
@@ -86,7 +96,7 @@ public class ControlPanel extends Canvas {
 
         this.pauseButton = new NiceButton2( 100, 25, pause_str, pauseUnPause, 0x00ff00, 0x000000 );
         this.stopButton = new NiceButton2( 100, 25, stop_str, stopCharge, 0x00ff00, 0x000000 )
-        this.centerChargeButton = new NiceButton2( 130, 25, centerCharge_str, centerCharge, 0x00ff00, 0x000000 )
+        this.resetButton = new NiceButton2( 100, 25, reset_str, resetCharge, 0x00ff00, 0x000000 )
         this.restartButton = new NiceButton2( 100, 25, restart_str, restart, 0x00ff00, 0x000000 );
         this.myComboBox = new ComboBox();
         this.choiceList_arr = new Array( );
@@ -105,11 +115,14 @@ public class ControlPanel extends Canvas {
         speedSlider.setLabelText( speed_str );
         speedSlider.setUnitsText( c_str );
         speedSlider.setReadoutPrecision( 2 );
+        moreSpeedCheckBox = new CheckBox();
+        moreSpeedCheckBox.label = moreSpeedLessRez_str;
+        moreSpeedCheckBox.addEventListener( Event.CHANGE, radioButtonListener );
 
         this.addChild( background );
         this.background.addChild( new SpriteUIComponent( pauseButton, true ) );
         this.background.addChild( new SpriteUIComponent( stopButton, true ) );
-        this.background.addChild( new SpriteUIComponent( centerChargeButton, true ) );
+        this.background.addChild( new SpriteUIComponent( resetButton, true ) );
         this.background.addChild( myComboBox );
         this.amplitudeSlider_UI = new SpriteUIComponent( amplitudeSlider, true )
         this.background.addChild( amplitudeSlider_UI );
@@ -120,6 +133,7 @@ public class ControlPanel extends Canvas {
         this.restartButton_UI = new SpriteUIComponent( restartButton, true );
         this.background.addChild( restartButton_UI );
         this.setSliderVisiblity();
+        this.background.addChild( moreSpeedCheckBox );
 
     }//end init()
 
@@ -129,7 +143,7 @@ public class ControlPanel extends Canvas {
         start_str = FlexSimStrings.get( "start", "Start" );
         stop_str = FlexSimStrings.get( "stop", "Stop" );
         restart_str = FlexSimStrings.get( "restart", "Restart" );
-        centerCharge_str = FlexSimStrings.get("centerCharge", "Center Charge");
+        reset_str = FlexSimStrings.get("reset", "Reset");
         userChoice_str = FlexSimStrings.get( "userControlled", "User Controlled" );
         linear_str = FlexSimStrings.get( "linear", "Linear" );
         sinusoid_str = FlexSimStrings.get( "sinusoid", "Sinusoid" );
@@ -140,6 +154,7 @@ public class ControlPanel extends Canvas {
         frequency_str = FlexSimStrings.get( "frequency", "frequency" );
         speed_str = FlexSimStrings.get( "speed", "speed" );
         c_str = FlexSimStrings.get( "c", "c");
+        moreSpeedLessRez_str = FlexSimStrings.get("moreSpeedLessRez", "More speed, less rez")
     }
 
     private function pauseUnPause():void{
@@ -150,12 +165,13 @@ public class ControlPanel extends Canvas {
         }
     }//end pauseUnPause
 
+
     private function stopCharge():void{
         this.myFieldModel.stopCharge();
         this.setSliderVisiblity();
     }
 
-    private function centerCharge():void{
+    private function resetCharge():void{
         this.myFieldModel.paused = false;
         this.myFieldModel.centerCharge();
         this.setSliderVisiblity();
@@ -167,6 +183,7 @@ public class ControlPanel extends Canvas {
     }
 
     private function comboBoxListener( evt: DropdownEvent ):void{
+        this.myFieldModel.paused = false;
         var choice:String = evt.currentTarget.selectedItem;
         if( choice == userChoice_str ){
             this.myFieldModel.setMotion( 0 );
@@ -186,6 +203,16 @@ public class ControlPanel extends Canvas {
         }
         this.setSliderVisiblity()
     }//end comboBoxListener
+
+    private function radioButtonListener( evt: Event ) :void{
+        //trace( "ControlPanel.radioButtonListener  state = "+evt.currentTarget.selected );
+        if( evt.currentTarget.selected ) {
+            this.myMainView.topCanvas.setResolution( "LOW" );
+        }else{
+            this.myMainView.topCanvas.setResolution( "HIGH" );
+        }
+
+    }
 
     private function setSliderVisiblity():void{
         amplitudeSlider_UI.visible = false;

@@ -10,8 +10,11 @@ package edu.colorado.phet.radiatingcharge.view {
 import edu.colorado.phet.flashcommon.controls.Tab;
 import edu.colorado.phet.flashcommon.controls.TabBar;
 import edu.colorado.phet.radiatingcharge.*;
+import edu.colorado.phet.radiatingcharge.RadiatingChargeApplication;
 import edu.colorado.phet.radiatingcharge.control.ControlPanel;
 import edu.colorado.phet.radiatingcharge.model.FieldModel;
+
+import flash.display.StageQuality;
 
 import org.aswing.event.ModelEvent;
 
@@ -31,6 +34,7 @@ public class MainView extends Canvas {
     public var myChargeView:ChargeView;
     public var myFieldView:FieldView;
     public var myControlPanel:ControlPanel;
+    public var topCanvas:RadiatingChargeCanvas;
 
 //    public var myControlPanel:ControlPanel;
 
@@ -41,7 +45,8 @@ public class MainView extends Canvas {
     //Internalized strings are located at:
     //
 
-    public function MainView( stageW: Number, stageH: Number ) {
+    public function MainView( topCanvas:RadiatingChargeCanvas, stageW: Number, stageH: Number ) {
+        this.topCanvas = topCanvas;
         percentWidth = 100;
         percentHeight = 100;
         this.stageH = stageH;
@@ -55,7 +60,7 @@ public class MainView extends Canvas {
         this.addChild( new SpriteUIComponent( this.myChargeView ));
         this.addChild( myControlPanel );
         this.myControlPanel.x = 0.8*stageW;
-        this.myControlPanel.y = 0.1*stageH;
+        this.myControlPanel.y = 0.02*stageH;
 
         this.phetLogo = new PhetIcon();
         this.phetLogo.x = stageW - 2.0 * this.phetLogo.width;
@@ -71,6 +76,7 @@ public class MainView extends Canvas {
 
     public function initializeAll(): void {
 //        this.myModel.pauseSim();
+        //stage.quality = StageQuality.LOW;
 
     }//end of initializeAll()
 

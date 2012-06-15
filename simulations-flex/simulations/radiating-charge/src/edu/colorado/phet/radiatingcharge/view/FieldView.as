@@ -46,10 +46,10 @@ public class FieldView extends Sprite{
 
     private function init():void{
         this.container = new Sprite();
-        this.pausedSign = new NiceLabel( 80, paused_str );
+        this.pausedSign = new NiceLabel( 40, paused_str );
         this.pausedSign.setFontColor( 0xF5BA0A );
-        this.pausedSign.x = this.myMainView.stageW/2 - pausedSign.width/2;
-        pausedSign.y = 0.1*myMainView.stageH;
+        this.pausedSign.x = 0.01*this.myMainView.stageW; //this.myMainView.stageW/2 - pausedSign.width/2;
+        pausedSign.y = 0.01*myMainView.stageH;
         this.addChild( pausedSign );
         this.addChild( container );
         this.pausedSign.visible = false;
