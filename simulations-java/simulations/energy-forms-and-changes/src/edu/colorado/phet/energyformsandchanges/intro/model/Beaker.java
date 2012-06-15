@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -202,25 +203,30 @@ public class Beaker extends RectangularThermalMovableModelElement {
 
     @Override protected void addEnergyChunkSlices() {
         assert slices.size() == 0; // Check that his has not been already called.
-        Rectangle2D fluidRect = new Rectangle2D.Double( position.get().getX() - WIDTH / 2,
-                                                        position.get().getY(),
-                                                        WIDTH,
-                                                        HEIGHT * NON_DISPLACED_FLUID_LEVEL );
+        final Rectangle2D fluidRect = new Rectangle2D.Double( position.get().getX() - WIDTH / 2,
+                                                              position.get().getY(),
+                                                              WIDTH,
+                                                              HEIGHT * NON_DISPLACED_FLUID_LEVEL );
         double widthYProjection = Math.abs( WIDTH * EFACConstants.Z_TO_Y_OFFSET_MULTIPLIER );
         for ( int i = 0; i < NUM_SLICES; i++ ) {
-            double proportion = ( i + 1 ) * ( 1 / (double) ( NUM_SLICES + 1 ) );
             // The slice width is calculated to fit into the 3D projection.
             // It uses an exponential function that is shifted in order to
             // yield width value proportional to position in Z-space.
-            double sliceWidth = ( -Math.pow( ( 2 * proportion - 1 ), 2 ) + 1 ) * fluidRect.getWidth();
-            double bottomY = fluidRect.getMinY() - ( widthYProjection / 2 ) + ( proportion * widthYProjection );
-            System.out.println( "bottomY = " + bottomY );
-            slices.add( new EnergyChunkContainerSlice( new Rectangle2D.Double( fluidRect.getCenterX() - sliceWidth / 2,
-                                                                               bottomY,
-                                                                               sliceWidth,
-                                                                               fluidRect.getHeight() ),
-                                                       0,
-                                                       position ) );
+            DoubleGeneralPath slicePath = new DoubleGeneralPath();
+            {
+                double proportion = ( i + 1 ) * ( 1 / (double) ( NUM_SLICES + 1 ) );
+                double sliceWidth = ( -Math.pow( ( 2 * proportion - 1 ), 2 ) + 1 ) * fluidRect.getWidth();
+                double bottomY = fluidRect.getMinY() - ( widthYProjection / 2 ) + ( proportion * widthYProjection );
+                double topY = bottomY + fluidRect.getHeight();
+                double centerX = fluidRect.getCenterX();
+                double controlPointYOffset = ( bottomY - fluidRect.getMinY() ) * 0.5;
+                slicePath.moveTo( centerX - sliceWidth / 2, bottomY );
+                slicePath.curveTo( centerX - sliceWidth * 0.33, bottomY + controlPointYOffset, centerX + sliceWidth * 0.33, bottomY + controlPointYOffset, centerX + sliceWidth / 2, bottomY );
+                slicePath.lineTo( centerX + sliceWidth / 2, topY );
+                slicePath.curveTo( centerX + sliceWidth * 0.33, topY + controlPointYOffset, centerX - sliceWidth * 0.33, topY + controlPointYOffset, centerX - sliceWidth / 2, topY );
+                slicePath.lineTo( centerX - sliceWidth / 2, bottomY );
+            }
+            slices.add( new EnergyChunkContainerSlice( slicePath.getGeneralPath(), 0, position ) );
         }
     }
 
