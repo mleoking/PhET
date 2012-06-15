@@ -232,12 +232,12 @@ public class Beaker extends RectangularThermalMovableModelElement {
                                                               HEIGHT * NON_DISPLACED_FLUID_LEVEL );
         double widthYProjection = Math.abs( WIDTH * EFACConstants.Z_TO_Y_OFFSET_MULTIPLIER );
         for ( int i = 0; i < NUM_SLICES; i++ ) {
-            // The slice width is calculated to fit into the 3D projection.
-            // It uses an exponential function that is shifted in order to
-            // yield width value proportional to position in Z-space.
+            double proportion = ( i + 1 ) * ( 1 / (double) ( NUM_SLICES + 1 ) );
             DoubleGeneralPath slicePath = new DoubleGeneralPath();
             {
-                double proportion = ( i + 1 ) * ( 1 / (double) ( NUM_SLICES + 1 ) );
+                // The slice width is calculated to fit into the 3D projection.
+                // It uses an exponential function that is shifted in order to
+                // yield width value proportional to position in Z-space.
                 double sliceWidth = ( -Math.pow( ( 2 * proportion - 1 ), 2 ) + 1 ) * fluidRect.getWidth();
                 double bottomY = fluidRect.getMinY() - ( widthYProjection / 2 ) + ( proportion * widthYProjection );
                 double topY = bottomY + fluidRect.getHeight();
@@ -249,7 +249,7 @@ public class Beaker extends RectangularThermalMovableModelElement {
                 slicePath.curveTo( centerX + sliceWidth * 0.33, topY + controlPointYOffset, centerX - sliceWidth * 0.33, topY + controlPointYOffset, centerX - sliceWidth / 2, topY );
                 slicePath.lineTo( centerX - sliceWidth / 2, bottomY );
             }
-            slices.add( new EnergyChunkContainerSlice( slicePath.getGeneralPath(), 0, position ) );
+            slices.add( new EnergyChunkContainerSlice( slicePath.getGeneralPath(), -proportion * WIDTH, position ) );
         }
     }
 
