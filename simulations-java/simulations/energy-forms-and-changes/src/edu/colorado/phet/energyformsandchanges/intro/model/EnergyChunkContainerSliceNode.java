@@ -22,6 +22,11 @@ public class EnergyChunkContainerSliceNode extends PNode {
     private static final boolean SHOW_OUTLINE = true;
 
     public EnergyChunkContainerSliceNode( final EnergyChunkContainerSlice energyChunkContainerSlice, final ModelViewTransform mvt ) {
+        this( energyChunkContainerSlice, mvt, Color.YELLOW );
+
+    }
+
+    public EnergyChunkContainerSliceNode( final EnergyChunkContainerSlice energyChunkContainerSlice, final ModelViewTransform mvt, Color color ) {
 
         // Watch for energy chunks coming and going and add/remove nodes accordingly.
         energyChunkContainerSlice.energyChunkList.addElementAddedObserver( new VoidFunction1<EnergyChunk>() {
@@ -41,7 +46,7 @@ public class EnergyChunkContainerSliceNode extends PNode {
 
         // For debug.
         if ( SHOW_OUTLINE ) {
-            addChild( new PhetPPath( mvt.modelToView( energyChunkContainerSlice.getShape() ), new BasicStroke( 1 ), Color.YELLOW ) );
+            addChild( new PhetPPath( mvt.modelToView( energyChunkContainerSlice.getShape() ), new BasicStroke( 1 ), color ) );
         }
     }
 }
