@@ -64,6 +64,12 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
 
         // Add the initial energy chunks.
         addInitialEnergyChunks();
+
+        // Clock ourself for a while to allow the chunks to get distributed
+        // to their initial positions.
+        for ( int i = 0; i < 1000; i++ ) {
+            stepInTime( clock.getDt() );
+        }
     }
 
     /**

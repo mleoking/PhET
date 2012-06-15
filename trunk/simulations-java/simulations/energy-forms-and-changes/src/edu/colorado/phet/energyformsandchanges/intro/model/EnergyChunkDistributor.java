@@ -25,7 +25,7 @@ public class EnergyChunkDistributor {
 
     private static final double OUTSIDE_CONTAINER_FORCE = 1.5; // In Newtons, empirically determined.
     private static final double MAX_TIME_STEP = 10E-3; // In seconds, for algorithm that moves the points.
-    private static final Random RAND = new Random();
+    private static final Random RAND = new Random( 2 ); // Seeded for greater consistency.
 
     public static void updatePositions( List<EnergyChunk> energyChunkList, Rectangle2D enclosingRect, double dt ) {
 
