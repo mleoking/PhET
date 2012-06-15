@@ -65,8 +65,8 @@ public class MainView extends Canvas {
 
         this.initializeStrings();
         tabBar = new TabBar();
-        var oneDTab: Tab = new Tab( "1 Dimension  ", tabBar );
-        var twoDTab: Tab = new Tab( "2 Dimensions  ", tabBar );
+        var oneDTab: Tab = new Tab( oneDimension_str, tabBar );
+        var twoDTab: Tab = new Tab( twoDimensions_str, tabBar );
         tabBar.addTab( oneDTab );
         tabBar.addTab( twoDTab );
 
@@ -156,7 +156,8 @@ public class MainView extends Canvas {
     }//end locatePolarizationPanel
     */
     private function initializeStrings():void{
-        oneDimension_str = FlexSimStrings.get("1Dimension", "1 Dimension") ;
+        oneDimension_str = FlexSimStrings.get("one Dimension", "1 Dimension   ") ;
+        twoDimensions_str = FlexSimStrings.get("two Dimensions", "2 Dimensions   ") ;
     }
 
     public function set1DOr2D(oneOrTwo:int):void{
