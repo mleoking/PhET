@@ -191,8 +191,8 @@ public class Air implements ThermalEnergyContainer {
 
     // Class that controls the wandering of the energy chunks.
     public static final class ChunkMover {
-        private static final double MIN_VELOCITY = 0.04; // In m/s.
-        private static final double MAX_VELOCITY = 0.07; // In m/s.
+        private static final double MIN_VELOCITY = 0.03; // In m/s.
+        private static final double MAX_VELOCITY = 0.06; // In m/s.
         private static final Random RAND = new Random();
         private static final double MIN_TIME_IN_ONE_DIRECTION = 0.5;
         private static final double MAX_TIME_IN_ONE_DIRECTION = 1;
@@ -216,7 +216,7 @@ public class Air implements ThermalEnergyContainer {
         }
 
         private void updateVelocity() {
-            double angle = Math.PI / 2 + ( RAND.nextDouble() - 0.5 ) * Math.PI / 6;
+            double angle = Math.PI / 2 + ( RAND.nextDouble() - 0.5 ) * Math.PI * 0.6;
             double scalarVelocity = MIN_VELOCITY + ( MAX_VELOCITY - MIN_VELOCITY ) * RAND.nextDouble();
             velocity.setComponents( scalarVelocity * Math.cos( angle ), scalarVelocity * Math.sin( angle ) );
         }
