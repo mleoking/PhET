@@ -282,7 +282,7 @@ public class NewLevels {
 
             if ( r.fillType == Sequential || r.fillType == Mixed ) {
                 PatternNode first = createSingle( new Fraction( f.denominator, f.denominator ), r.shapeType, false, r.color );
-                PatternNode second = createSingle( new Fraction( f.numerator - f.denominator, f.denominator ), r.shapeType, true, r.color );
+                PatternNode second = createSingle( new Fraction( f.numerator - f.denominator, f.denominator ), r.shapeType, r.fillType == Mixed, r.color );
 
                 final HBox box = new HBox( first, second );
                 scaleHBox( box, 110.0 );
