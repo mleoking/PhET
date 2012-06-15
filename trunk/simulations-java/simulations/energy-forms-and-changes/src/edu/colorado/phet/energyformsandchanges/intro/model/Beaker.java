@@ -8,6 +8,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -36,6 +37,7 @@ public class Beaker extends RectangularThermalMovableModelElement {
     private static final double HEIGHT = WIDTH * 1.1;
     private static final double MATERIAL_THICKNESS = 0.001; // In meters.
     private static final int NUM_SLICES = 6;
+    private static final Random RAND = new Random();
 
     // Constants that control the nature of the fluid in the beaker.
     private static final double FLUID_SPECIFIC_HEAT = 4186; // In J/kg-K, source = design document.
@@ -167,20 +169,41 @@ public class Beaker extends RectangularThermalMovableModelElement {
         return bottomSurface;
     }
 
-    // Had to override due to construction order issues.
     @Override protected void addInitialEnergyChunks() {
         for ( EnergyChunkContainerSlice slice : slices ) {
             slice.energyChunkList.clear();
         }
         int targetNumChunks = EFACConstants.ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy );
-        Rectangle2D energyChunkBounds = new Rectangle2D.Double( position.get().getX() - WIDTH / 2,
-                                                                position.get().getY(),
-                                                                WIDTH,
-                                                                HEIGHT * NON_DISPLACED_FLUID_LEVEL );
         while ( getNumContainedEnergyChunks() < targetNumChunks ) {
             // Add a chunk at a random location in the beaker.
-            addEnergyChunk( new EnergyChunk( clock, EnergyChunkDistributor.generateRandomLocation( energyChunkBounds ), energyChunksVisible, false ) );
+            addEnergyChunk( new EnergyChunk( clock, new ImmutableVector2D( 0, 0 ), energyChunksVisible, false ), true );
         }
+    }
+
+    @Override public void addEnergyChunk( EnergyChunk ec ) {
+        addEnergyChunk( ec, false );
+    }
+
+    public void addEnergyChunk( EnergyChunk ec, boolean setLocation ) {
+        double totalSliceArea = 0;
+        for ( EnergyChunkContainerSlice slice : slices ) {
+            totalSliceArea += slice.getShape().getBounds2D().getWidth() * slice.getShape().getBounds2D().getHeight();
+        }
+        double sliceSelectionValue = RAND.nextDouble();
+        EnergyChunkContainerSlice chosenSlice = slices.get( 0 );
+        double accumulatedArea = 0;
+        for ( EnergyChunkContainerSlice slice : slices ) {
+            accumulatedArea += slice.getShape().getBounds2D().getWidth() * slice.getShape().getBounds2D().getHeight();
+            if ( accumulatedArea / totalSliceArea >= sliceSelectionValue ) {
+                chosenSlice = slice;
+                break;
+            }
+        }
+        if ( setLocation ) {
+            // Move this chunk to a random location on the slice.
+            ec.position.set( EnergyChunkDistributor.generateRandomLocation( chosenSlice.getShape().getBounds2D() ) );
+        }
+        chosenSlice.addEnergyChunk( ec );
     }
 
     public ThermalContactArea getThermalContactArea() {
