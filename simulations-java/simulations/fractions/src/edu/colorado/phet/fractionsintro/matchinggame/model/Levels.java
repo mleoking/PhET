@@ -8,10 +8,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.intro.view.FractionNode;
+import edu.colorado.phet.fractionsintro.intro.view.FractionNumberNode;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Grid;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.PlusSigns;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Polygon;
@@ -144,6 +146,44 @@ public class Levels {
                                                                fraction( 10, 9 ),
                                                                fraction( 11, 9 ) );
 
+    /**
+     * Level 7:
+     * All representations possible as well as complicated mixed/improper numbers
+     */
+    public static final List<Fraction> level7Fractions = list( fraction( 3, 2 ),
+                                                               fraction( 4, 3 ),
+                                                               fraction( 5, 3 ),
+                                                               fraction( 5, 4 ),
+                                                               fraction( 7, 4 ),
+                                                               fraction( 6, 5 ),
+                                                               fraction( 7, 5 ),
+                                                               fraction( 8, 5 ),
+                                                               fraction( 9, 5 ),
+                                                               fraction( 7, 6 ),
+                                                               fraction( 11, 6 ) );
+
+    public static final List<Fraction> level8Fractions = list( fraction( 8, 7 ),
+                                                               fraction( 9, 7 ),
+                                                               fraction( 10, 7 ),
+                                                               fraction( 11, 7 ),
+                                                               fraction( 12, 7 ),
+                                                               fraction( 13, 7 ),
+                                                               fraction( 9, 8 ),
+                                                               fraction( 10, 8 ),
+                                                               fraction( 11, 8 ),
+                                                               fraction( 12, 8 ),
+                                                               fraction( 13, 8 ),
+                                                               fraction( 14, 8 ),
+                                                               fraction( 15, 8 ),
+                                                               fraction( 10, 9 ),
+                                                               fraction( 11, 9 ),
+                                                               fraction( 12, 9 ),
+                                                               fraction( 13, 9 ),
+                                                               fraction( 14, 9 ),
+                                                               fraction( 15, 9 ),
+                                                               fraction( 16, 9 ),
+                                                               fraction( 17, 9 ) );
+
     private final Random random = new Random();
 
     static @Data class GraphicalRepresentation {
@@ -159,13 +199,15 @@ public class Levels {
                                                      level == 4 ? level4Fraction :
                                                      level == 5 ? level5Fractions :
                                                      level == 6 ? level6Fractions :
+                                                     level == 7 ? level7Fractions :
+                                                     level == 8 ? level8Fractions :
                                                      List.<Fraction>nil() );
 
         final List<Integer> numericScaleFactors = level < 5 ? single( 1 ) :
                                                   level == 5 ? list( 1, 2, 3 ) :
                                                   level == 6 ? list( 1, 4, 5 ) :
                                                   level == 7 ? list( 1, 6, 7 ) :
-                                                  level == 8 ? list( 1, 8, 9 ) :
+                                                  level == 8 ? list( 1, 2, 3, 4, 5, 6, 7, 8, 9 ) :
                                                   List.<Integer>nil();
         final List<Fraction> selectedFractions = fractionList.take( 6 );
         ArrayList<Cell> remainingCells = new ArrayList<Cell>( shuffle( _cells ).toCollection() );
@@ -178,6 +220,8 @@ public class Levels {
                 level == 4 ? generateAll( medium, list( Sequential ) ) :
                 level == 5 ? generateAll( medium, list( Sequential, Mixed ) ) :
                 level == 6 ? generateAll( medium, list( Sequential, Mixed, FillType.Random ) ) :
+                level == 7 ? generateAll( medium, list( Sequential, Mixed, FillType.Random ) ) :
+                level == 8 ? generateAll( medium, list( Sequential, Mixed, FillType.Random ) ) :
                 null;
         ArrayList<GraphicalRepresentation> representations = new ArrayList<GraphicalRepresentation>( r.toCollection() );
 
@@ -198,7 +242,17 @@ public class Levels {
             boolean numeric = i < 3 || random.nextBoolean();
             if ( numeric ) {
                 int scaleFactor = numericScaleFactors.index( random.nextInt( numericScaleFactors.length() ) );
-                node = new FractionNode( new Fraction( fraction.numerator * scaleFactor, fraction.denominator * scaleFactor ), 0.3 );
+                if ( level == 7 && fraction.toDouble() > 1 ) {
+                    //Try to use a mixed number representation
+                    node = new HBox( 5, new FractionNumberNode( new Property<Integer>( 1 ) ) {{setScale( 0.3 );}}, new FractionNode( new Fraction( fraction.numerator - fraction.denominator, fraction.denominator ), 0.3 ) );
+                }
+                else if ( level == 8 && fraction.toDouble() > 1 ) {
+                    //Try to use a mixed number representation
+                    node = new HBox( 5, new FractionNumberNode( new Property<Integer>( 1 ) ) {{setScale( 0.3 );}}, new FractionNode( new Fraction( ( fraction.numerator - fraction.denominator ) * scaleFactor, fraction.denominator * scaleFactor ), 0.3 ) );
+                }
+                else {
+                    node = new FractionNode( new Fraction( fraction.numerator * scaleFactor, fraction.denominator * scaleFactor ), 0.3 );
+                }
             }
             //ensure a minimum of 3 shape representations per stage
             else {
