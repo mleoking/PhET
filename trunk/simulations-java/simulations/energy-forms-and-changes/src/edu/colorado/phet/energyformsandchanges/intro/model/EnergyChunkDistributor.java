@@ -104,6 +104,7 @@ public class EnergyChunkDistributor {
         }
     }
 
+    // TODO: Potentially obsoleted on 6/23/2012, remove at some point if never needed again.
     public static void updatePositions( List<EnergyChunk> energyChunkList, Shape enclosingShape, double dt ) {
 
         Rectangle2D boundingRect = enclosingShape.getBounds2D();
@@ -117,7 +118,7 @@ public class EnergyChunkDistributor {
         // Determine the force constant to use for the repulsive algorithm that
         // positions the energy chunks.  Formula was made up and has some
         // tweak factors, so it may require some adjustments.
-        double forceConstant = ( boundingRect.getWidth() * boundingRect.getHeight() / energyChunkList.size() ) * 0.5;
+        double particleForceConstant = ( boundingRect.getWidth() * boundingRect.getHeight() / energyChunkList.size() ) * 0.5;
 
         // Determine the minimum distance that is allowed to be used in the
         // force calculations.  This prevents hitting infinities that can
@@ -156,7 +157,7 @@ public class EnergyChunkDistributor {
                         }
 
                         // Apply the force due to this edge.
-                        ImmutableVector2D forceVector = new ImmutableVector2D( forceConstant / Math.pow( lengthBounds.getCenter(), 2 ), 0 ).getRotatedInstance( angle + Math.PI );
+                        ImmutableVector2D forceVector = new ImmutableVector2D( particleForceConstant / Math.pow( lengthBounds.getCenter(), 2 ), 0 ).getRotatedInstance( angle + Math.PI );
                         p.applyForce( forceVector );
                     }
 
@@ -177,7 +178,7 @@ public class EnergyChunkDistributor {
                                     vectorToOther = vectorToOther.getInstanceOfMagnitude( minDistance );
                                 }
                             }
-                            p.applyForce( vectorToOther.getInstanceOfMagnitude( forceConstant / ( vectorToOther.getMagnitudeSq() ) ) );
+                            p.applyForce( vectorToOther.getInstanceOfMagnitude( particleForceConstant / ( vectorToOther.getMagnitudeSq() ) ) );
                         }
                     }
                 }
@@ -229,10 +230,11 @@ public class EnergyChunkDistributor {
             boundingRect = new Rectangle2D.Double( minX, minY, maxX - minX, maxY - minY );
         }
 
-        // Determine the force constant to use for the repulsive algorithm that
-        // positions the energy chunks.  Formula was made up and has some
+        // Determine the force constants to use for the repulsive algorithm
+        // that positions the energy chunks.  Formula was made up and has some
         // tweak factors, so it may require some adjustments.
-        double forceConstant = boundingRect.getWidth() * boundingRect.getHeight() / map.size() * 0.5;
+        double particleForceConstant = boundingRect.getWidth() * boundingRect.getHeight() / map.size() * 0.5;
+        double edgeForceConstant = particleForceConstant / 2;
 
         // Determine the minimum distance that is allowed to be used in the
         // force calculations.  This prevents hitting infinities that can
@@ -276,7 +278,7 @@ public class EnergyChunkDistributor {
                         }
 
                         // Apply the force due to this edge.
-                        ImmutableVector2D forceVector = new ImmutableVector2D( forceConstant / Math.pow( lengthBounds.getCenter(), 2 ), 0 ).getRotatedInstance( angle + Math.PI );
+                        ImmutableVector2D forceVector = new ImmutableVector2D( edgeForceConstant / Math.pow( lengthBounds.getCenter(), 2 ), 0 ).getRotatedInstance( angle + Math.PI );
                         p.applyForce( forceVector );
                     }
 
@@ -297,7 +299,7 @@ public class EnergyChunkDistributor {
                                     vectorToOther = vectorToOther.getInstanceOfMagnitude( minDistance );
                                 }
                             }
-                            p.applyForce( vectorToOther.getInstanceOfMagnitude( forceConstant / ( vectorToOther.getMagnitudeSq() ) ) );
+                            p.applyForce( vectorToOther.getInstanceOfMagnitude( particleForceConstant / ( vectorToOther.getMagnitudeSq() ) ) );
                         }
                     }
                 }
