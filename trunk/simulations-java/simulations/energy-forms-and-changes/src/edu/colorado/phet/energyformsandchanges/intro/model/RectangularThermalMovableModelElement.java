@@ -4,6 +4,7 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -124,17 +125,30 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
         return false;
     }
 
+    /**
+     * Extract the closest energy chunk on a randomly chosen energy chunk
+     * slice.  The random part prevents odd situations where all the chunks
+     * get pulled off of one slice.
+     *
+     * @param point
+     * @return
+     */
     public EnergyChunk extractClosestEnergyChunk( ImmutableVector2D point ) {
-        EnergyChunk closestEnergyChunk = null;
-        for ( EnergyChunkContainerSlice slice : slices ) {
-            for ( EnergyChunk ec : slice.energyChunkList ) {
-                if ( closestEnergyChunk == null || ec.position.get().distance( point ) < closestEnergyChunk.position.get().distance( point ) ) {
-                    closestEnergyChunk = ec;
+        List<EnergyChunkContainerSlice> copyOfSlices = new ArrayList<EnergyChunkContainerSlice>( slices );
+        Collections.shuffle( copyOfSlices );
+        for ( EnergyChunkContainerSlice slice : copyOfSlices ) {
+            if ( !slice.energyChunkList.isEmpty() ) {
+                EnergyChunk closestEnergyChunk = slice.energyChunkList.get( 0 );
+                for ( EnergyChunk ec : slice.energyChunkList ) {
+                    if ( ec.position.get().distance( point ) < closestEnergyChunk.position.get().distance( point ) ) {
+                        closestEnergyChunk = ec;
+                    }
                 }
+                removeEnergyChunk( closestEnergyChunk );
+                return closestEnergyChunk;
             }
         }
-        removeEnergyChunk( closestEnergyChunk );
-        return closestEnergyChunk;
+        return null;
     }
 
     /**
