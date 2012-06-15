@@ -1,3 +1,4 @@
+Fraction Matcher: Rewrote level creation algorithm
 Fraction Matcher: Made sound button and timer buttons keep the hand cursor when pressed in
 Fraction Matcher: Made sound button change icon when pressed in
 Fraction Matcher: Made sound and timer buttons turn green when pressed in

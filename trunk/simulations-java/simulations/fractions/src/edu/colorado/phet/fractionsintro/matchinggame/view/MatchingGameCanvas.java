@@ -300,7 +300,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                                 public void apply( final MovableFraction f ) {
                                     removeAllChildren();
                                     if ( f != null ) {
-                                        addChild( new MovableFractionNode( model.state, f, f.toNode(), rootNode, !revealClues.get() ) );
+                                        addChild( new MovableFractionNode( model.state, f, f.getNodeWithCorrectScale(), rootNode, !revealClues.get() ) );
                                     }
                                 }
                             } );

@@ -13,7 +13,6 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.piccolophet.RichPNode;
-import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.intro.view.FractionNode;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Grid;
@@ -24,14 +23,11 @@ import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPatter
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.IColor;
 import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.nodes.PComposite;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
 import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.matchingGameFraction;
 import static edu.colorado.phet.fractionsintro.common.view.Colors.LIGHT_BLUE;
 import static edu.colorado.phet.fractionsintro.common.view.Colors.LIGHT_GREEN;
-import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.MoveToCell;
-import static edu.colorado.phet.fractionsintro.matchinggame.model.MovableFraction.nextID;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.RepresentationType.*;
 import static edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern.randomFill;
 import static edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern.sequentialFill;
@@ -359,13 +355,14 @@ public class Levels {
         Color color = n instanceof FractionNode ? Color.black :
                       n instanceof IColor ? ( (IColor) n ).getColor() :
                       colorOfComposite( n );
-        return new MovableFraction( nextID(), new Vector2D( cell.rectangle.getCenter() ), numerator, denominator, false, cell, 1.0,
-                                    new F<Fraction, PNode>() {
-                                        @Override public PNode f( final Fraction fraction ) {
-                                            return new PComposite() {{ addChild( node.f( fraction ) ); }};
-                                        }
-                                    },
-                                    MoveToCell( cell ), false, userComponent, color, representationName );
+//        return new MovableFraction( nextID(), new Vector2D( cell.rectangle.getCenter() ), numerator, denominator, false, cell, 1.0,
+//                                    new F<Fraction, PNode>() {
+//                                        @Override public PNode f( final Fraction fraction ) {
+//                                            return new PComposite() {{ addChild( node.f( fraction ) ); }};
+//                                        }
+//                                    },
+//                                    MoveToCell( cell ), false, userComponent, color, representationName );
+        return null;
     }
 
     //Find the color used in a composite node (for a fraction > 1)

@@ -1,5 +1,7 @@
 package edu.colorado.phet.fractionsintro.buildafraction.model;
 
+import fj.data.List;
+
 import java.util.HashMap;
 import java.util.Random;
 
@@ -10,14 +12,23 @@ public class Distribution<T> {
     private final HashMap<T, Double> map = new HashMap<T, Double>();
     private static final Random random = new Random();
 
+    public Distribution() {
+    }
+
+    public Distribution( final List<T> list ) {
+        for ( T t : list ) {
+            map.put( t, 1.0 );
+        }
+    }
+
     public void put( T t, double value ) { map.put( t, value );}
 
     public T draw() {
         Distribution<T> normal = normalize();
         double r = random.nextDouble();
         double runningTotal = 0.0;
-        for ( T t : map.keySet() ) {
-            runningTotal += map.get( t );
+        for ( T t : normal.map.keySet() ) {
+            runningTotal += normal.map.get( t );
             if ( r <= runningTotal ) {
                 return t;
             }
@@ -26,12 +37,12 @@ public class Distribution<T> {
     }
 
     public Distribution<T> normalize() {
-        final double finalSum = getSum();
-        return new Distribution<T>() {{
-            for ( T t : map.keySet() ) {
-                map.put( t, map.get( t ) / finalSum );
-            }
-        }};
+        final double sum = getSum();
+        final Distribution<T> distribution = new Distribution<T>();
+        for ( T t : map.keySet() ) {
+            distribution.put( t, map.get( t ) / sum );
+        }
+        return distribution;
     }
 
     private double getSum() {
