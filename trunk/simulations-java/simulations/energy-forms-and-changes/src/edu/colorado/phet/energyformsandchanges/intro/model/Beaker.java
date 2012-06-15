@@ -33,6 +33,7 @@ public class Beaker extends RectangularThermalMovableModelElement {
     private static final double WIDTH = 0.085; // In meters.
     private static final double HEIGHT = WIDTH * 1.1;
     private static final double MATERIAL_THICKNESS = 0.001; // In meters.
+    private static final int NUM_SLICES = 4;
 
     // Constants that control the nature of the fluid in the beaker.
     private static final double FLUID_SPECIFIC_HEAT = 4186; // In J/kg-K, source = design document.
@@ -186,6 +187,26 @@ public class Beaker extends RectangularThermalMovableModelElement {
         shape.add( new Area( topEllipse ) );
         shape.add( new Area( bottomEllipse ) );
         return shape;
+    }
+
+    @Override protected void addEnergyChunkSlices() {
+        // The slices for the block are intended to match the projection used in the view.
+        ImmutableVector2D projectionToFront = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( WIDTH / 2 );
+        Rectangle2D fluidRect = new Rectangle2D.Double( position.get().getX() - WIDTH / 2,
+                                                        position.get().getY(),
+                                                        WIDTH,
+                                                        HEIGHT * NON_DISPLACED_FLUID_LEVEL );
+        double projectionInYDirection = WIDTH * EFACConstants.Z_TO_Y_OFFSET_MULTIPLIER / 2;
+        for ( int i = 0; i < NUM_SLICES; i++ ) {
+            double proportion = ( i + 1 ) * ( 1 / (double) ( NUM_SLICES + 1 ) );
+            double bottomY = fluidRect.getMinY() - projectionInYDirection + ( proportion * projectionInYDirection * 2 );
+            slices.add( new EnergyChunkContainerSlice( new Rectangle2D.Double( fluidRect.getX(),
+                                                                               bottomY,
+                                                                               fluidRect.getWidth(),
+                                                                               fluidRect.getHeight() ),
+                                                       0,
+                                                       position ) );
+        }
     }
 
     public EnergyContainerCategory getEnergyContainerCategory() {
