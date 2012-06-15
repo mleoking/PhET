@@ -13,6 +13,7 @@ public class GameConstants {
     * images
     *----------------------------------------------------------------------------*/
     public static final BufferedImage SOUND_ICON = GamesResources.getImage( "sound-icon.png" );
+    public static final BufferedImage SOUND_OFF_ICON = GamesResources.getImage( "sound-off-icon.png" );
     public static final BufferedImage STOPWATCH_ICON = GamesResources.getImage( "blue-stopwatch.png" );
 
     /*---------------------------------------------------------------------------*
