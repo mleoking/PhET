@@ -328,7 +328,6 @@ public class NewLevels {
                 }
             }
         }
-//        return box;
     }
 
     private PatternNode createSingle( final Fraction fraction, ShapeType s, boolean random, Color color ) {
