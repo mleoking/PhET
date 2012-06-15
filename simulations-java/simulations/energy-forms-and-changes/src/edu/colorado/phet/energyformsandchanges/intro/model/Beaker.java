@@ -37,7 +37,7 @@ public class Beaker extends RectangularThermalMovableModelElement {
     private static final double HEIGHT = WIDTH * 1.1;
     private static final double MATERIAL_THICKNESS = 0.001; // In meters.
     private static final int NUM_SLICES = 6;
-    private static final Random RAND = new Random();
+    private static final Random RAND = new Random( 1 ); // This is seeded for consistent initial energy chunk distribution.
 
     // Constants that control the nature of the fluid in the beaker.
     private static final double FLUID_SPECIFIC_HEAT = 4186; // In J/kg-K, source = design document.
