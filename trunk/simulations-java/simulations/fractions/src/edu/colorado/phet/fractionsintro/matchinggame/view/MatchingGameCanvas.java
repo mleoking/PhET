@@ -115,9 +115,10 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
         addChild( settingsDialog );
         addChild( text );
 
-        final BufferedImage stopwatchIcon = BufferedImageUtils.multiScaleToWidth( GameConstants.STOPWATCH_ICON, 50 );
-        final BufferedImage soundIcon = BufferedImageUtils.multiScaleToWidth( GameConstants.SOUND_ICON, 50 );
-        final BufferedImage soundOffIcon = BufferedImageUtils.multiScaleToWidth( GameConstants.SOUND_OFF_ICON, 50 );
+        final int iconWidth = 40;
+        final BufferedImage stopwatchIcon = BufferedImageUtils.multiScaleToWidth( GameConstants.STOPWATCH_ICON, iconWidth );
+        final BufferedImage soundIcon = BufferedImageUtils.multiScaleToWidth( GameConstants.SOUND_ICON, iconWidth );
+        final BufferedImage soundOffIcon = BufferedImageUtils.multiScaleToWidth( GameConstants.SOUND_OFF_ICON, iconWidth );
         final int maxIconWidth = Math.max( stopwatchIcon.getWidth(), soundIcon.getWidth() ) + 10;
         final int minIconWidth = Math.max( stopwatchIcon.getHeight(), soundIcon.getHeight() ) + 10;
         final ToggleButtonNode stopwatchButton = new ToggleButtonNode( new PaddedIcon( maxIconWidth, minIconWidth, new PImage( stopwatchIcon ) ), gameSettings.timerEnabled, new VoidFunction0() {
