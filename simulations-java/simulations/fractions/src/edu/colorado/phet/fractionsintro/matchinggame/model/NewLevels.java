@@ -196,6 +196,7 @@ public class NewLevels {
             }
             //ensure a minimum of 3 shape representations per stage
             else {
+                if ( allowedRepresentations.size() == 0 ) { allowedRepresentations = filter( new ArrayList<GraphicalRepresentation>( r.toCollection() ), fraction ); }
                 representation = allowedRepresentations.get( 0 );
                 node = createGraphic( fraction, representation );
                 representations.remove( representation );
@@ -212,6 +213,7 @@ public class NewLevels {
 
             //If fraction is numeric, partner must not also be numeric.
             {
+                if ( allowedRepresentations.size() == 0 ) { allowedRepresentations = filter( new ArrayList<GraphicalRepresentation>( r.toCollection() ), fraction ); }
                 GraphicalRepresentation alternateRepresentation = allowedRepresentations.get( 0 );
                 node = createGraphic( fraction, alternateRepresentation );
                 representations.remove( alternateRepresentation );
