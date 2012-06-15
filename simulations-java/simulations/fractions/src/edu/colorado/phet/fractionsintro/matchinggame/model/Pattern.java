@@ -148,7 +148,7 @@ public class Pattern {
             @Override public Shape f( final Integer index ) {
                 return new Rectangle2D.Double( index * sliceWidth, 0, sliceWidth, height );
             }
-        } ).reverse() );
+        } ) );
     }
 
     public static Pattern pie( int numSlices ) {
