@@ -1,8 +1,8 @@
 package edu.colorado.phet.resonance {
 
 import edu.colorado.phet.flexcommon.FlexSimStrings;
-import edu.colorado.phet.flexcommon.model.NumericProperty;
 import edu.colorado.phet.resonance.HorizontalSlider;
+import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
 
 import flash.display.*;
 import flash.display.DisplayObject;

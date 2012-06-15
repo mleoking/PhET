@@ -1,5 +1,5 @@
 
-package edu.colorado.phet.radiatingcharge.util {
+package edu.colorado.phet.flexcommon.util {
 import flash.display.Sprite;
 
 import flash.geom.Rectangle;

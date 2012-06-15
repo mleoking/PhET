@@ -20,7 +20,7 @@ import org.aswing.event.ModelEvent;
 
 
 import edu.colorado.phet.flashcommon.view.PhetIcon;
-import edu.colorado.phet.radiatingcharge.util.SpriteUIComponent;
+import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
 
 import flash.display.Sprite;
 

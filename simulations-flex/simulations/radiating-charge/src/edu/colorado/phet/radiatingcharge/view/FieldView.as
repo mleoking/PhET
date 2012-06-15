@@ -9,7 +9,7 @@ package edu.colorado.phet.radiatingcharge.view {
 import edu.colorado.phet.flashcommon.controls.NiceLabel;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.radiatingcharge.model.FieldModel;
-import edu.colorado.phet.radiatingcharge.util.SpriteUIComponent;
+import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
 
 import flash.display.Graphics;
 

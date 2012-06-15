@@ -10,7 +10,7 @@ import edu.colorado.phet.flashcommon.controls.HorizontalSlider;
 import edu.colorado.phet.flashcommon.controls.NiceButton2;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.radiatingcharge.model.FieldModel;
-import edu.colorado.phet.radiatingcharge.util.SpriteUIComponent;
+import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
 import edu.colorado.phet.radiatingcharge.view.MainView;
 
 import flash.events.Event;

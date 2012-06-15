@@ -3,9 +3,9 @@ import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flashcommon.controls.HorizontalSlider;
 import edu.colorado.phet.flashcommon.controls.NiceButton2;
 import edu.colorado.phet.flashcommon.controls.NiceLabel;
+import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
 import edu.colorado.phet.normalmodes.model.Model1;
 import edu.colorado.phet.normalmodes.model.Model2;
-import edu.colorado.phet.normalmodes.util.SpriteUIComponent;
 import edu.colorado.phet.normalmodes.util.TwoHeadedArrow;
 import edu.colorado.phet.normalmodes.view.MainView;
 

@@ -2,6 +2,8 @@
 package edu.colorado.phet.resonance {
 //import edu.colorado.phet.flashcommon.FlashCommonCS4;
 
+import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
+
 import flash.display.*;
 
 import flash.events.Event;
