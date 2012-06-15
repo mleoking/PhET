@@ -33,7 +33,7 @@ public class Beaker extends RectangularThermalMovableModelElement {
     private static final double WIDTH = 0.085; // In meters.
     private static final double HEIGHT = WIDTH * 1.1;
     private static final double MATERIAL_THICKNESS = 0.001; // In meters.
-    private static final int NUM_SLICES = 4;
+    private static final int NUM_SLICES = 6;
 
     // Constants that control the nature of the fluid in the beaker.
     private static final double FLUID_SPECIFIC_HEAT = 4186; // In J/kg-K, source = design document.
@@ -199,10 +199,14 @@ public class Beaker extends RectangularThermalMovableModelElement {
         double projectionInYDirection = WIDTH * EFACConstants.Z_TO_Y_OFFSET_MULTIPLIER / 2;
         for ( int i = 0; i < NUM_SLICES; i++ ) {
             double proportion = ( i + 1 ) * ( 1 / (double) ( NUM_SLICES + 1 ) );
+            // The slice width is calculated to fit into the 3D projection.
+            // It uses an exponential function that is shifted in order to
+            // yield width value proportional to position in Z-space.
+            double sliceWidth = ( -Math.pow( ( 2 * proportion - 1 ), 2 ) + 1 ) * fluidRect.getWidth();
             double bottomY = fluidRect.getMinY() - projectionInYDirection + ( proportion * projectionInYDirection * 2 );
-            slices.add( new EnergyChunkContainerSlice( new Rectangle2D.Double( fluidRect.getX(),
+            slices.add( new EnergyChunkContainerSlice( new Rectangle2D.Double( fluidRect.getCenterX() - sliceWidth / 2,
                                                                                bottomY,
-                                                                               fluidRect.getWidth(),
+                                                                               sliceWidth,
                                                                                fluidRect.getHeight() ),
                                                        0,
                                                        position ) );
