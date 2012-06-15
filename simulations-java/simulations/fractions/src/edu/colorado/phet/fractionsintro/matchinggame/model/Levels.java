@@ -219,9 +219,9 @@ public class Levels {
                 level == 2 || level == 3 ? generateAll( medium, list( Sequential ) ) :
                 level == 4 ? generateAll( medium, list( Sequential ) ) :
                 level == 5 ? generateAll( medium, list( Sequential, Mixed ) ) :
-                level == 6 ? generateAll( medium, list( Sequential, Mixed, FillType.Random ) ) :
-                level == 7 ? generateAll( medium, list( Sequential, Mixed, FillType.Random ) ) :
-                level == 8 ? generateAll( medium, list( Sequential, Mixed, FillType.Random ) ) :
+                level == 6 ? generateAll( medium, list( Mixed, FillType.Random ) ) :
+                level == 7 ? generateAll( medium, list( Mixed, FillType.Random ) ) :
+                level == 8 ? generateAll( medium, list( Mixed, FillType.Random ) ) :
                 null;
         ArrayList<GraphicalRepresentation> representations = new ArrayList<GraphicalRepresentation>( r.toCollection() );
 
