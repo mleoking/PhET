@@ -10,6 +10,7 @@ package edu.colorado.phet.normalmodes.view {
 import edu.colorado.phet.flashcommon.controls.Tab;
 import edu.colorado.phet.flashcommon.controls.TabBar;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
+import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
 import edu.colorado.phet.normalmodes.*;
 import edu.colorado.phet.normalmodes.control.ButtonArrayPanel;
 import edu.colorado.phet.normalmodes.control.ControlPanel;
@@ -19,7 +20,6 @@ import edu.colorado.phet.normalmodes.control.SliderArrayPanel;
 import edu.colorado.phet.normalmodes.model.Model1;
 import edu.colorado.phet.normalmodes.model.Model2;
 import edu.colorado.phet.flashcommon.view.PhetIcon;
-import edu.colorado.phet.normalmodes.util.SpriteUIComponent;
 
 import flash.display.Sprite;
 

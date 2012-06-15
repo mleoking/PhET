@@ -1,5 +1,6 @@
 package edu.colorado.phet.resonance.tests {
 import edu.colorado.phet.flexcommon.model.NumericProperty;
+import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
 import edu.colorado.phet.resonance.*;
 
 import flash.display.*;
