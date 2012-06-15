@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.Random;
 
 import edu.colorado.phet.common.piccolophet.RichPNode;
+import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.intro.view.FractionNode;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Grid;
@@ -23,6 +24,7 @@ import static edu.colorado.phet.fractionsintro.intro.model.Fraction.fraction;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.FillType.Mixed;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.FillType.Sequential;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.ShapeType.*;
+import static edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern.randomFill;
 import static edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern.sequentialFill;
 import static fj.data.List.iterableList;
 import static fj.data.List.list;
@@ -263,8 +265,64 @@ public class NewLevels {
         return iterableList( all );
     }
 
-    private PatternNode createGraphic( Fraction fraction, final GraphicalRepresentation representation ) {
-        final ShapeType s = representation.shapeType;
+    private PNode createGraphic( Fraction f, final GraphicalRepresentation r ) {
+        if ( f.numerator <= f.denominator ) {
+            final PatternNode single = createSingle( f, r.shapeType, r.fillType == FillType.Random, r.color );
+            HBox box = new HBox( single );
+            scaleHBox( box, 80 );
+            return box;
+        }
+        else {
+            int numShapes = (int) Math.ceil( f.toDouble() );
+            if ( numShapes >= 3 ) {
+                throw new RuntimeException( "3+ not handled yet" );
+            }
+
+            if ( r.fillType == Sequential || r.fillType == Mixed ) {
+                PatternNode first = createSingle( new Fraction( f.denominator, f.denominator ), r.shapeType, false, r.color );
+                PatternNode second = createSingle( new Fraction( f.numerator - f.denominator, f.denominator ), r.shapeType, true, r.color );
+
+                final HBox box = new HBox( first, second );
+                scaleHBox( box, 110.0 );
+                return box;
+            }
+            else {
+                int numInFirst = random.nextInt( f.numerator );
+                int numInSecond = f.numerator - numInFirst;
+                PatternNode first = createSingle( new Fraction( numInFirst, f.denominator ), r.shapeType, true, r.color );
+                PatternNode second = createSingle( new Fraction( numInSecond, f.denominator ), r.shapeType, true, r.color );
+
+                final HBox box = new HBox( first, second );
+                scaleHBox( box, 110.0 );
+                return box;
+            }
+
+        }
+    }
+
+    private void scaleHBox( final HBox box, double newWidth ) {
+//        Scale to a size of 110 so it will be a good fit for the starting cells and score cells
+        double size = box.getFullWidth();
+        final double scale = newWidth / size;
+
+        double size2 = box.getFullHeight();
+        final double scale2 = newWidth / size2;
+
+        box.scale( Math.min( scale, scale2 ) );
+
+        if ( scale < 1 ) {
+            //if the objects got scaled down, then scale up the strokes so they will look like they have the same width
+            for ( PNode child : box.getChildren() ) {
+                if ( child instanceof PatternNode ) {
+                    PatternNode patternNode = (PatternNode) child;
+                    patternNode.scaleStrokes( 1.0 / scale );
+                }
+            }
+        }
+//        return box;
+    }
+
+    private PatternNode createSingle( final Fraction fraction, ShapeType s, boolean random, Color color ) {
         final int d = fraction.denominator;
         final Pattern container = s == pies ? Pattern.pie( d ) :
                                   s == verticalBars ? Pattern.verticalBars( d ) :
@@ -280,9 +338,10 @@ public class NewLevels {
                                   s == grid && d == 9 ? new Grid( 3 ) :
                                   null;
         if ( container == null ) {
-            throw new RuntimeException( "Null pattern for rep = " + representation );
+            throw new RuntimeException( "Null pattern for rep = " + s + ", f = " + fraction );
         }
-        return new PatternNode( sequentialFill( container, fraction.numerator ), representation.color );
+        return new PatternNode( random ? randomFill( container, fraction.numerator, 123 ) :
+                                sequentialFill( container, fraction.numerator ), color );
     }
 
     private static <T> List<T> shuffle( final List<T> cells ) {
