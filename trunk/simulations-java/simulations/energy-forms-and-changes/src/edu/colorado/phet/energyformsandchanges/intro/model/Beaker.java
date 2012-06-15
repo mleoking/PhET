@@ -2,6 +2,7 @@
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
@@ -126,7 +127,17 @@ public class Beaker extends RectangularThermalMovableModelElement {
         // Map the overlap to a new fluid height.  The scaling factor was
         // empirically determined to look good.
         double newFluidLevel = Math.min( NON_DISPLACED_FLUID_LEVEL + overlappingArea * 120, 1 );
+        double proportionateIncrease = newFluidLevel / fluidLevel.get();
         fluidLevel.set( newFluidLevel );
+
+        // Update the shape of all of the energy chunk slices.
+        for ( EnergyChunkContainerSlice slice : slices ) {
+            Shape originalShape = slice.getShape();
+            Shape expandedOrCompressedShape = AffineTransform.getScaleInstance( 1, proportionateIncrease ).createTransformedShape( originalShape );
+            AffineTransform translationTransform = AffineTransform.getTranslateInstance( originalShape.getBounds2D().getX() - expandedOrCompressedShape.getBounds2D().getX(),
+                                                                                         originalShape.getBounds2D().getY() - expandedOrCompressedShape.getBounds2D().getY() );
+            slice.setShape( translationTransform.createTransformedShape( expandedOrCompressedShape ) );
+        }
     }
 
     /**
@@ -190,8 +201,6 @@ public class Beaker extends RectangularThermalMovableModelElement {
     }
 
     @Override protected void addEnergyChunkSlices() {
-        // The slices for the block are intended to match the projection used in the view.
-        ImmutableVector2D projectionToFront = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( WIDTH / 2 );
         Rectangle2D fluidRect = new Rectangle2D.Double( position.get().getX() - WIDTH / 2,
                                                         position.get().getY(),
                                                         WIDTH,

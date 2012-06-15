@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
 public class EnergyChunkContainerSlice {
     public ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
     private final double zPosition;
+
     private Shape shape;
 
     public EnergyChunkContainerSlice( Shape shape, double zPosition, ObservableProperty<ImmutableVector2D> anchorPoint ) {
@@ -45,6 +46,10 @@ public class EnergyChunkContainerSlice {
 
     public int getNumEnergyChunks() {
         return energyChunkList.size();
+    }
+
+    public void setShape( Shape shape ) {
+        this.shape = shape;
     }
 
     public Shape getShape() {
