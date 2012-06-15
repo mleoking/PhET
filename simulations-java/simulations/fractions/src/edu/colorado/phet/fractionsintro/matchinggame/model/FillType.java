@@ -5,7 +5,7 @@ package edu.colorado.phet.fractionsintro.matchinggame.model;
  *
  * @author Sam Reid
  */
-public enum Fill {
+public enum FillType {
 
     //Just fills in order (left to right, etc)
     Sequential,

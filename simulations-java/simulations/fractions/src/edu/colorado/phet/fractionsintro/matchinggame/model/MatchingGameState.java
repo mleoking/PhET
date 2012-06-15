@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 
 import static edu.colorado.phet.fractions.util.FJUtils.ord;
-import static edu.colorado.phet.fractionsintro.matchinggame.model.Levels.Levels;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.*;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.Scale;
 import static fj.data.List.list;
@@ -55,7 +54,7 @@ public @Data class MatchingGameState {
     public static MatchingGameState newLevel( int level, List<GameOverScore> gameOverScoresList ) {
         final List<Cell> cells = createCells( 100, 415 + 12, 130, 120, 6, 2, 0, 0 );
         final List<Cell> scoreCells = createCells( 10, 12, 155, 90, 6, 1, 10, 0 );
-        return new MatchingGameState( Levels.get( level ).f( cells ), cells, scoreCells, 0, 0, 0, new GameInfo( level, false, 0, Mode.WAITING_FOR_USER_TO_CHECK_ANSWER, 0, 0, 0, true ), 0, gameOverScoresList );
+        return new MatchingGameState( new NewLevels().createLevel( level, cells ), cells, scoreCells, 0, 0, 0, new GameInfo( level, false, 0, Mode.WAITING_FOR_USER_TO_CHECK_ANSWER, 0, 0, 0, true ), 0, gameOverScoresList );
     }
 
     //Create adjacent cells from which fractions can be dragged
@@ -147,7 +146,7 @@ public @Data class MatchingGameState {
     public MatchingGameState animateMatchToScoreCell() {
         return withFractions( fractions.map( new F<MovableFraction, MovableFraction>() {
             @Override public MovableFraction f( MovableFraction m ) {
-                double width = m.scale( 0.5 ).toNode().getFullBounds().getWidth();
+                double width = m.scale( 0.5 ).getNodeWithCorrectScale().getFullBounds().getWidth();
                 final Cell cell = scoreCells.index( scored );
                 final int offset = 15;
                 final F<UpdateArgs, MovableFraction> moveToLeftSide = MoveToPosition( new Vector2D( cell.rectangle.getCenter().getX() - width / 2 - offset, cell.rectangle.getCenter().getY() ) );

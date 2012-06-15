@@ -41,7 +41,7 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.Stilln
 
     //Way of creating nodes for rendering and doing bounds/layouts.  This is in the model because object locations, bounds, animation are also in the model.
     //It is a function that creates nodes instead of a single PNode because I am not sure if the same PNode can be used safely in multiple places in a piccolo scene graph
-    public transient final F<Fraction, PNode> node;
+    public transient final PNode node;
 
     //Strategy for moving the fraction over time (e.g. toward the scale or back to its original cell)
     //Marked as transient so won't be considered for equality
@@ -99,18 +99,12 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.Stilln
         return scale( this.scale + ds );
     }
 
-    //Cache the node so that it only has to get created once
-    private PNode m_node = null;
-
-    public PNode toNode() {
-        if ( m_node == null ) {
-            this.m_node = this.node.f( fraction() );
-        }
+    public PNode getNodeWithCorrectScale() {
 
         //But do update the scale and make sure parent is non-null (otherwise disappears on click)
-        m_node.setScale( scale );
-        m_node.setParent( null );
-        return m_node;
+        node.setScale( scale );
+        node.setParent( null );
+        return node;
     }
 
     public static int nextID() {

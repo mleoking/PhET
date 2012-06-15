@@ -39,7 +39,7 @@ import static edu.colorado.phet.fractions.FractionsResources.Images.SCALE;
 
     private static final Cache<MovableFraction, Double> getHeight = new Cache<MovableFraction, Double>( new F<MovableFraction, Double>() {
         @Override public Double f( final MovableFraction movableFraction ) {
-            return movableFraction.toNode().getFullBounds().getHeight();
+            return movableFraction.getNodeWithCorrectScale().getFullBounds().getHeight();
         }
     } );
 
