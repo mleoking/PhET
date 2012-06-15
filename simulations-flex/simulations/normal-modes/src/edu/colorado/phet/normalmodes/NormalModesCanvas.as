@@ -6,11 +6,13 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.normalmodes {
+import edu.colorado.phet.flexcommon.FlexCommon;
 import edu.colorado.phet.normalmodes.view.MainView;
 
 import flash.events.Event;
 
 import mx.containers.Canvas;
+import mx.core.UIComponent;
 
 public class NormalModesCanvas extends Canvas {
     public function NormalModesCanvas() {
@@ -20,6 +22,11 @@ public class NormalModesCanvas extends Canvas {
     private var RENDER_HEIGHT: int = 768;
 
     public function init(): void {
+        var buttonHolder: UIComponent = new UIComponent();
+        addChild( buttonHolder );
+        var common: FlexCommon = FlexCommon.getInstance();
+        common.initialize( buttonHolder );
+
         //trace("NormalModesCanvas.init() called");
         setStyle( "backgroundColor", 0xf1f191 );  //build an atom color:  0xffff99
         percentWidth = 100;
