@@ -237,16 +237,17 @@ public class NewLevels {
     //numeric, horizontalBars, verticalBars, pies, plusses, grid, pyramid,
     //polygon, tetris, flower
 
-    private boolean matches( final ShapeType shape, final Fraction fraction ) {
-        return shape == pies ? true :
-               shape == horizontalBars ? true :
-               shape == verticalBars ? true :
-               shape == grid ? ( fraction.denominator == 4 || fraction.denominator == 9 ) :
-               shape == flower ? fraction.denominator == 6 :
-               shape == pyramid ? ( fraction.denominator == 1 || fraction.denominator == 4 || fraction.denominator == 9 ) :
-               shape == plusses ? true :
-               shape == polygon ? fraction.denominator >= 3 :
-               shape == tetris ? fraction.denominator == 4 :
+    private boolean matches( final ShapeType s, final Fraction fraction ) {
+        final int d = fraction.denominator;
+        return s == pies ? true :
+               s == horizontalBars ? true :
+               s == verticalBars ? true :
+               s == grid ? ( d == 4 || d == 9 ) :
+               s == flower ? d == 6 :
+               s == pyramid ? ( d == 1 || d == 4 || d == 9 ) :
+               s == plusses ? true :
+               s == polygon ? d >= 3 :
+               s == tetris ? d == 4 :
                false;
     }
 
