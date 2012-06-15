@@ -71,7 +71,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
         final PNode emptyBarGraphNode = new EmptyBarGraphNode();
 
         //Game settings
-        final GameSettings gameSettings = new GameSettings( new IntegerRange( 1, 6, 1 ), false, false );
+        final GameSettings gameSettings = new GameSettings( new IntegerRange( 1, 8, 1 ), false, false );
         final VoidFunction0 startGame = new VoidFunction0() {
             public void apply() {
                 SwingUtilities.invokeLater( new Runnable() {
