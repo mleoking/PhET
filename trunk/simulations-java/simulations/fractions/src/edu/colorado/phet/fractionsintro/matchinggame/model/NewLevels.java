@@ -249,7 +249,7 @@ public class NewLevels {
                s == grid ? ( d == 4 || d == 9 ) :
                s == flower ? d == 6 :
                s == pyramid ? ( d == 1 || d == 4 || d == 9 ) :
-               s == plusses ? true :
+               s == plusses ? d == 6 :
                s == polygon ? d >= 3 :
                s == tetris ? d == 4 :
                false;
@@ -331,7 +331,7 @@ public class NewLevels {
                                   s == horizontalBars ? Pattern.horizontalBars( d ) :
                                   s == flower && d == 6 ? Pattern.sixFlower() :
                                   s == tetris && d == 4 ? Pattern.tetrisPiece( 50 ) :
-                                  s == plusses ? new PlusSigns( d ) :
+                                  s == plusses && d == 6 ? new PlusSigns( d ) :
                                   s == polygon ? Polygon.create( 80, d ) :
                                   s == pyramid && d == 1 ? Pyramid.single() :
                                   s == pyramid && d == 4 ? Pyramid.four() :
