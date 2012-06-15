@@ -246,6 +246,10 @@ public class FieldModel {
     public function bumpCharge():void{
         trace("FieldModel.bumpCharge called()");
     }
+
+    public function restartCharge():void{
+        this.setMotion( 1 );  //restart linear motion of charge at left edge of screen
+    }
     
     public function setForce( delX:Number, delY:Number ):void{
         this.fX = this.k*delX;

@@ -16,6 +16,7 @@ import edu.colorado.phet.radiatingcharge.view.MainView;
 import mx.containers.Canvas;
 import mx.containers.VBox;
 import mx.controls.ComboBox;
+import mx.core.UIComponent;
 import mx.events.DropdownEvent;
 
 //Control Panel for Radiating Charge sim
@@ -25,8 +26,9 @@ public class ControlPanel extends Canvas {
     private var background: VBox;
     private var pauseButton:NiceButton2;
     private var stopButton:NiceButton2;
-    private var bumbButton:NiceButton2;
     private var centerChargeButton:NiceButton2;
+    private var restartButton:NiceButton2;
+    private var restartButton_UI:SpriteUIComponent;
     public var myComboBox: ComboBox;
     private var choiceList_arr:Array;
     private var amplitudeSlider:HorizontalSlider;
@@ -41,7 +43,7 @@ public class ControlPanel extends Canvas {
     private var unPause_str:String;
     private var start_str:String;
     private var stop_str:String;
-    private var bump_str:String;
+    private var restart_str:String;
     private var centerCharge_str:String;
     private var c_str:String;
     //Drop-down menu choices
@@ -85,7 +87,7 @@ public class ControlPanel extends Canvas {
         this.pauseButton = new NiceButton2( 100, 25, pause_str, pauseUnPause, 0x00ff00, 0x000000 );
         this.stopButton = new NiceButton2( 100, 25, stop_str, stopCharge, 0x00ff00, 0x000000 )
         this.centerChargeButton = new NiceButton2( 130, 25, centerCharge_str, centerCharge, 0x00ff00, 0x000000 )
-        this.bumbButton = new NiceButton2( 100, 25, bump_str, bumpCharge, 0x00ff00, 0x000000 );
+        this.restartButton = new NiceButton2( 100, 25, restart_str, restart, 0x00ff00, 0x000000 );
         this.myComboBox = new ComboBox();
         this.choiceList_arr = new Array( );
         choiceList_arr = [ userChoice_str, linear_str, sinusoid_str, circular_str, sawTooth_str, random_str ];
@@ -108,7 +110,6 @@ public class ControlPanel extends Canvas {
         this.background.addChild( new SpriteUIComponent( pauseButton, true ) );
         this.background.addChild( new SpriteUIComponent( stopButton, true ) );
         this.background.addChild( new SpriteUIComponent( centerChargeButton, true ) );
-        this.background.addChild( new SpriteUIComponent( bumbButton, true ) );
         this.background.addChild( myComboBox );
         this.amplitudeSlider_UI = new SpriteUIComponent( amplitudeSlider, true )
         this.background.addChild( amplitudeSlider_UI );
@@ -116,6 +117,8 @@ public class ControlPanel extends Canvas {
         this.background.addChild( frequencySlider_UI );
         this.speedSlider_UI = new SpriteUIComponent( speedSlider, true );
         this.background.addChild( speedSlider_UI );
+        this.restartButton_UI = new SpriteUIComponent( restartButton, true );
+        this.background.addChild( restartButton_UI );
         this.setSliderVisiblity();
 
     }//end init()
@@ -125,7 +128,7 @@ public class ControlPanel extends Canvas {
         unPause_str = FlexSimStrings.get( "unPause", "UnPause" );
         start_str = FlexSimStrings.get( "start", "Start" );
         stop_str = FlexSimStrings.get( "stop", "Stop" );
-        bump_str = FlexSimStrings.get( "bump", "Bump" );
+        restart_str = FlexSimStrings.get( "restart", "Restart" );
         centerCharge_str = FlexSimStrings.get("centerCharge", "Center Charge");
         userChoice_str = FlexSimStrings.get( "userControlled", "User Controlled" );
         linear_str = FlexSimStrings.get( "linear", "Linear" );
@@ -158,8 +161,9 @@ public class ControlPanel extends Canvas {
         this.setSliderVisiblity();
     }
 
-    private function bumpCharge():void{
-        this.myFieldModel.bumpCharge();
+    //restart() used in linear motion mode
+    private function restart():void{
+        this.myFieldModel.restartCharge();
     }
 
     private function comboBoxListener( evt: DropdownEvent ):void{
@@ -187,15 +191,19 @@ public class ControlPanel extends Canvas {
         amplitudeSlider_UI.visible = false;
         frequencySlider_UI.visible = false;
         speedSlider_UI.visible = false;
+        restartButton_UI.visible = false;
         amplitudeSlider_UI.includeInLayout = false;
         frequencySlider_UI.includeInLayout = false;
         speedSlider_UI.includeInLayout = false;
+        restartButton_UI.includeInLayout = false;
         var choice:int = myComboBox.selectedIndex;
         if( choice == 0 ){      //user-controlled
             //do nothing
         }else if( choice == 1 ){  //linear
             speedSlider_UI.visible = true;
+            restartButton_UI.visible = true;
             speedSlider_UI.includeInLayout = true;
+            restartButton_UI.includeInLayout = true;
             speedSlider.setSliderWithoutAction( myFieldModel.getBeta() );
         } else if( choice == 2 || choice == 3 || choice == 4 ){   //sinusoidal or circular or sawtooth
             amplitudeSlider_UI.visible = true;
