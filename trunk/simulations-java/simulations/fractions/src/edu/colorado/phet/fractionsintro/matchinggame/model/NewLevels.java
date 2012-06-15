@@ -26,8 +26,7 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.FillType.Seque
 import static edu.colorado.phet.fractionsintro.matchinggame.model.ShapeType.*;
 import static edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern.randomFill;
 import static edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern.sequentialFill;
-import static fj.data.List.iterableList;
-import static fj.data.List.list;
+import static fj.data.List.*;
 
 /**
  * @author Sam Reid
@@ -162,14 +161,20 @@ public class NewLevels {
                                                      level == 6 ? level6Fractions :
                                                      List.<Fraction>nil() );
 
+        final List<Integer> numericScaleFactors = level < 5 ? single( 1 ) :
+                                                  level == 5 ? list( 1, 2, 3 ) :
+                                                  level == 6 ? list( 1, 4, 5 ) :
+                                                  level == 7 ? list( 1, 6, 7 ) :
+                                                  level == 8 ? list( 1, 8, 9 ) :
+                                                  List.<Integer>nil();
         final List<Fraction> selectedFractions = fractionList.take( 6 );
         ArrayList<Cell> remainingCells = new ArrayList<Cell>( shuffle( _cells ).toCollection() );
 
         final List<ShapeType> easy = list( pies, horizontalBars, verticalBars );
-        final List<ShapeType> medium = list( plusses, grid, pyramid, polygon, tetris, flower );
+        final List<ShapeType> medium = list( plusses, grid, pyramid, polygon, tetris, flower, letterLShapes ).append( easy );
         final List<GraphicalRepresentation> r =
                 level == 1 ? generateAll( easy, list( Sequential ) ) :
-                level == 2 || level == 3 ? generateAll( medium.append( easy ), list( Sequential ) ) :
+                level == 2 || level == 3 ? generateAll( medium, list( Sequential ) ) :
                 level == 4 ? generateAll( medium, list( Sequential ) ) :
                 level == 5 ? generateAll( medium, list( Sequential, Mixed ) ) :
                 level == 6 ? generateAll( medium, list( Sequential, Mixed, FillType.Random ) ) :
@@ -186,13 +191,14 @@ public class NewLevels {
             ArrayList<GraphicalRepresentation> allowedRepresentations = filter( representations, fraction );
             Collections.shuffle( allowedRepresentations );
 
-            PNode node = null;
+            PNode node;
             GraphicalRepresentation representation = null;
 
             //Flag for the primary representation.  Ensure a minimum of 3 numeric representations per stage
             boolean numeric = i < 3 || random.nextBoolean();
             if ( numeric ) {
-                node = new FractionNode( fraction, 0.3 );
+                int scaleFactor = numericScaleFactors.index( random.nextInt( numericScaleFactors.length() ) );
+                node = new FractionNode( new Fraction( fraction.numerator * scaleFactor, fraction.denominator * scaleFactor ), 0.3 );
             }
             //ensure a minimum of 3 shape representations per stage
             else {
@@ -252,6 +258,7 @@ public class NewLevels {
                s == plusses ? d == 6 :
                s == polygon ? d >= 3 :
                s == tetris ? d == 4 :
+               s == letterLShapes ? d % 2 == 0 :
                false;
     }
 
@@ -338,6 +345,7 @@ public class NewLevels {
                                   s == pyramid && d == 9 ? Pyramid.nine() :
                                   s == grid && d == 4 ? new Grid( 2 ) :
                                   s == grid && d == 9 ? new Grid( 3 ) :
+                                  s == letterLShapes && d % 2 == 0 ? Pattern.letterLShapedDiagonal( 14, d / 2 ) :
                                   null;
         if ( container == null ) {
             throw new RuntimeException( "Null pattern for rep = " + s + ", f = " + fraction );

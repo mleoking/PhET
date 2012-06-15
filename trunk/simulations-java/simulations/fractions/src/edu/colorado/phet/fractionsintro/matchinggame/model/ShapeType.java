@@ -6,5 +6,5 @@ package edu.colorado.phet.fractionsintro.matchinggame.model;
 public enum ShapeType {
     numeric, horizontalBars, verticalBars, pies,
     plusses, grid, pyramid,
-    polygon, tetris, flower
+    polygon, tetris, flower, letterLShapes
 }
