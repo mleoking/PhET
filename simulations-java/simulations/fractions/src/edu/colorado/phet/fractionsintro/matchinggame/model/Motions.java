@@ -30,8 +30,8 @@ public class Motions {
     public static F<UpdateArgs, MovableFraction> composite( final F<UpdateArgs, MovableFraction> a, final F<UpdateArgs, MovableFraction> b ) {
         return new F<UpdateArgs, MovableFraction>() {
             @Override public MovableFraction f( UpdateArgs updateArgs ) {
-                updateArgs = updateArgs.fraction( a.f( updateArgs ) );
-                updateArgs = updateArgs.fraction( b.f( updateArgs ) );
+                updateArgs = updateArgs.withFraction( a.f( updateArgs ) );
+                updateArgs = updateArgs.withFraction( b.f( updateArgs ) );
                 return updateArgs.fraction;
             }
         };
