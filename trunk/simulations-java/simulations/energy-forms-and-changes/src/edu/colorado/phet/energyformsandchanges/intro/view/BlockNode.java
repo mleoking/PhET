@@ -20,7 +20,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.intro.model.Block;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
-import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunkContainerSlice;
 import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunkContainerSliceNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -94,8 +93,8 @@ public class BlockNode extends PComposite {
         // Create the layers where the energy chunks will be placed.
         final PNode energyChunkRootNode = new PNode();
         addChild( energyChunkRootNode );
-        for ( EnergyChunkContainerSlice slice : block.getSlices() ) {
-            energyChunkRootNode.addChild( new EnergyChunkContainerSliceNode( slice, mvt ) );
+        for ( int i = block.getSlices().size() - 1; i >= 0; i-- ) {
+            energyChunkRootNode.addChild( new EnergyChunkContainerSliceNode( block.getSlices().get( i ), mvt ) );
         }
 
         // Add the shapes that comprise the block representation.
