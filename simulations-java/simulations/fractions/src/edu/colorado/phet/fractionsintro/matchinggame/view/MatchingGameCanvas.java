@@ -8,11 +8,8 @@ import fj.data.Option;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 
@@ -55,7 +52,6 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState.newLevel;
 import static java.awt.Color.lightGray;
-import static java.awt.Color.yellow;
 
 /**
  * This class shows the graphics and provides user interaction for the matching game.
@@ -320,7 +316,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
             //Show the sign node, but only if revealClues is true
             addChild( new UpdateNode( new Effect<PNode>() {
                 @Override public void e( final PNode parent ) {
-                    parent.addChild( revealClues.get() ? getSignNode( model.state.get(), scalesNode ) : new PNode() );
+                    parent.addChild( revealClues.get() ? new SignNode( model.state.get(), scalesNode ) : new PNode() );
                 }
             },
                                       model.leftScaleValue, model.rightScaleValue, mode, revealClues ) );
@@ -366,24 +362,6 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                         }
                     }
                 }, mode ) );
-    }
-
-    //Encapsulates stroke, paint and stroke paint for a sign node like "=", "<", ">"
-    private static PhetPPath getSignNode( Shape shape ) { return new PhetPPath( shape, yellow, new BasicStroke( 2 ), Color.black ); }
-
-    private static PNode getSignNode( final MatchingGameState state, final PNode scales ) {
-        class TextSign extends PNode {
-            TextSign( String text ) {
-                final PhetFont textFont = new PhetFont( 100, true );
-                addChild( getSignNode( textFont.createGlyphVector( new FontRenderContext( new AffineTransform(), true, true ), text ).getOutline() ) );
-            }
-        }
-
-        final PNode sign = state.getLeftScaleValue() < state.getRightScaleValue() ? new TextSign( "<" ) :
-                           state.getLeftScaleValue() > state.getRightScaleValue() ? new TextSign( ">" ) :
-                           new EqualsSignNode();
-        sign.centerFullBoundsOnPoint( scales.getFullBounds().getCenter2D().getX(), scales.getFullBounds().getCenter2D().getY() + 10 );
-        return sign;
     }
 
     private static VoidFunction1<Boolean> setNodeVisible( final PNode node ) {
