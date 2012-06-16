@@ -7,7 +7,7 @@ import lombok.Data;
 import java.awt.Color;
 
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
-import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern;
+import edu.colorado.phet.fractionsintro.matchinggame.view.FilledPattern;
 
 /**
  * Target the user tries to create when creating numbers to match a given picture.

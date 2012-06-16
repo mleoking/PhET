@@ -17,7 +17,7 @@ import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Grid;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.PlusSigns;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Polygon;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Pyramid;
-import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
+import edu.colorado.phet.fractionsintro.matchinggame.view.PatternNode;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.fractions.util.FJUtils.shuffle;
@@ -26,8 +26,8 @@ import static edu.colorado.phet.fractionsintro.intro.model.Fraction.fraction;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.FillType.Mixed;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.FillType.Sequential;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.ShapeType.*;
-import static edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern.randomFill;
-import static edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern.sequentialFill;
+import static edu.colorado.phet.fractionsintro.matchinggame.view.FilledPattern.randomFill;
+import static edu.colorado.phet.fractionsintro.matchinggame.view.FilledPattern.sequentialFill;
 import static fj.data.List.*;
 
 /**

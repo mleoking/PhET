@@ -25,7 +25,7 @@ import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel
 import edu.colorado.phet.fractionsintro.buildafraction.model.NumberLevel;
 import edu.colorado.phet.fractionsintro.buildafraction.model.NumberTarget;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
-import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
+import edu.colorado.phet.fractionsintro.matchinggame.view.PatternNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PBounds;
