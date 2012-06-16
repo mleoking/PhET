@@ -49,7 +49,7 @@ public class Pattern {
     public final List<Shape> shapes;
 
     //Create one pattern with the given shapes, uses Area composition to identify the outline (only works right for some shapes)
-    public Pattern( final List<Shape> shapes ) {
+    Pattern( final List<Shape> shapes ) {
         this( new Area() {{
             for ( Shape shape : shapes ) {
                 add( new Area( shape ) );
@@ -58,13 +58,13 @@ public class Pattern {
     }
 
     //Create a pattern with an explicit outline and list of shapes.
-    public Pattern( Shape outline, final List<Shape> shapes ) {
+    private Pattern( Shape outline, final List<Shape> shapes ) {
         this.outline = outline;
         this.shapes = shapes;
     }
 
     //A single square
-    public static Rectangle2D.Double square( double x, double y, double length ) {
+    private static Rectangle2D.Double square( double x, double y, double length ) {
         return new Rectangle2D.Double( x, y, length, length );
     }
 
@@ -94,8 +94,8 @@ public class Pattern {
     public static Pattern letterLShapedDiagonal( final int cellLength, final int numberOfPairs ) {
         return new Pattern( iterableList( new ArrayList<Shape>() {{
             for ( int i = 0; i < numberOfPairs; i++ ) {
-                add( letterLShapedDiagonalTopL( cellLength, i * 2, i * 1 ) );
-                add( letterLShapedDiagonalBottomL( cellLength, i * 2, i * 1 ) );
+                add( letterLShapedDiagonalTopL( cellLength, i * 2, i ) );
+                add( letterLShapedDiagonalBottomL( cellLength, i * 2, i ) );
             }
         }} ) );
     }
@@ -130,7 +130,7 @@ public class Pattern {
     //Creates a flower with 6 petals.
     public static Pattern sixFlower() { return sixFlower( 18 ); }
 
-    public static Pattern sixFlower( final Integer length ) {
+    private static Pattern sixFlower( final Integer length ) {
         final double angle = Math.PI * 2 / 6;
         return new Pattern( range( 0, 6 ).map( new F<Integer, Shape>() {
             @Override public Shape f( final Integer index ) {
@@ -168,8 +168,7 @@ public class Pattern {
         ArrayList<Shape> shapes = new ArrayList<Shape>();
         for ( int i = 0; i < numSlices; i++ ) {
             double startDegrees = i * degreesPerSlice;
-            double extentDegrees = degreesPerSlice;
-            final Arc2D.Double arc = new Arc2D.Double( area.getX(), area.getY(), area.getWidth(), area.getHeight(), startDegrees, extentDegrees, Arc2D.Double.PIE );
+            final Arc2D.Double arc = new Arc2D.Double( area.getX(), area.getY(), area.getWidth(), area.getHeight(), startDegrees, degreesPerSlice, Arc2D.Double.PIE );
             final Ellipse2D.Double ellipse = new Ellipse2D.Double( area.getX(), area.getY(), area.getWidth(), area.getHeight() );
             final RectangularShape shape = numSlices <= 1 ? ellipse : arc;
             shapes.add( shape );
@@ -179,10 +178,10 @@ public class Pattern {
     }
 
     public static class Direction {
-        public static Direction RIGHT = new Direction( 1, 0 );
-        public static Direction LEFT = new Direction( -1, 0 );
-        public static Direction DOWN = new Direction( 0, 1 );
-        public static Direction UP = new Direction( 0, -1 );
+        public static final Direction RIGHT = new Direction( 1, 0 );
+        public static final Direction LEFT = new Direction( -1, 0 );
+        public static final Direction DOWN = new Direction( 0, 1 );
+        public static final Direction UP = new Direction( 0, -1 );
         public final Vector2D vector;
 
         public Direction( double x, double y ) {
@@ -190,7 +189,7 @@ public class Pattern {
         }
     }
 
-    public static Shape plusSign( double gridX, double gridY, final double edgeLength ) {
+    private static Shape plusSign( double gridX, double gridY, final double edgeLength ) {
         return new DoubleGeneralPath( gridX * edgeLength + edgeLength, gridY * edgeLength ) {
             {
                 move( RIGHT, DOWN, RIGHT, DOWN, LEFT, DOWN, LEFT, UP, LEFT, UP, RIGHT, UP );
@@ -233,7 +232,7 @@ public class Pattern {
     }
 
     //Equilateral triangle
-    public static Shape triangle( final double length, final Vector2D tip, final UnitVector2D direction ) {
+    private static Shape triangle( final double length, final Vector2D tip, final UnitVector2D direction ) {
         return new DoubleGeneralPath() {{
             moveTo( tip.toPoint2D() );
             lineTo( tip.plus( direction.rotate( Math.toRadians( 90 + 60 ) ).times( length ) ).toPoint2D() );

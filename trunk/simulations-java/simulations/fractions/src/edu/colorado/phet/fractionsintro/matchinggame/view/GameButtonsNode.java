@@ -27,7 +27,7 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.Mode.*;
  *
  * @author Sam Reid
  */
-public class GameButtonsNode extends PNode {
+class GameButtonsNode extends PNode {
 
     public GameButtonsNode( MatchingGameState state, F<ButtonArgs, Button> buttonFactory, final Vector2D buttonLocation ) {
 

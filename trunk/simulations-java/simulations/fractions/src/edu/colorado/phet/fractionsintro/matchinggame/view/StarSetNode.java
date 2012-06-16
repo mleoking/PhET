@@ -25,7 +25,7 @@ import static fj.data.List.list;
  *
  * @author Sam Reid
  */
-public class StarSetNode extends PNode {
+class StarSetNode extends PNode {
     public StarSetNode( final Property<List<GameResult>> gameResults, final int levelName ) {
         final BufferedImage star0 = multiScaleToWidth( STAR_0, 30 );
         final BufferedImage star1 = multiScaleToWidth( STAR_1, 30 );
@@ -51,6 +51,7 @@ public class StarSetNode extends PNode {
                                              score == 11 ? list( star4, star4, star3 ) :
                                              score == 12 ? list( star4, star4, star4 ) :
                                              null;
+                if ( images == null ) { throw new RuntimeException( "No images found for score: " + score ); }
                 addChild( new ControlPanelNode( new HBox( new PImage( images.index( 0 ) ), new PImage( images.index( 1 ) ), new PImage( images.index( 2 ) ) ), Color.white ) );
             }
 

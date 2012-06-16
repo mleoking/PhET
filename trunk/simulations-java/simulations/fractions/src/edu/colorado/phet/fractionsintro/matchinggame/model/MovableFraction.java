@@ -63,11 +63,11 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.WAIT;
 
     public MovableFraction translate( double dx, double dy ) { return withPosition( position.plus( dx, dy ) ); }
 
-    public MovableFraction translate( Vector2D v ) { return translate( v.getX(), v.getY() ); }
+    MovableFraction translate( Vector2D v ) { return translate( v.getX(), v.getY() ); }
 
     public MovableFraction withDragging( boolean dragging ) { return new MovableFraction( id, position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent, color, representationName );}
 
-    public MovableFraction withPosition( Vector2D position ) { return new MovableFraction( id, position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent, color, representationName );}
+    MovableFraction withPosition( Vector2D position ) { return new MovableFraction( id, position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent, color, representationName );}
 
     public MovableFraction withScale( double scale ) { return new MovableFraction( id, position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent, color, representationName );}
 

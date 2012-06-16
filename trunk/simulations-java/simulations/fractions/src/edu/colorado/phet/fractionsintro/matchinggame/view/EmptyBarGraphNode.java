@@ -15,7 +15,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-public class EmptyBarGraphNode extends PNode {
+class EmptyBarGraphNode extends PNode {
     public EmptyBarGraphNode() {
         double majorWidth = 90;
         double minorWidth = 70;

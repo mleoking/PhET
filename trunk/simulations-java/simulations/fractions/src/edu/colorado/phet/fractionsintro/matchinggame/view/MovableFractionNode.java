@@ -28,11 +28,11 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.*;
 import static fj.data.TreeMap.fromMutableMap;
 
 /**
- * Decorates a pnode with mouse listeners and sets the position properly
+ * Decorates a piccolo node with mouse listeners and sets the position properly
  *
  * @author Sam Reid
  */
-public class MovableFractionNode extends PNode {
+class MovableFractionNode extends PNode {
     public MovableFractionNode( final SettableProperty<MatchingGameState> model, final MovableFraction f, PNode node, final PNode rootNode, boolean pickable ) {
         addChild( node );
         setOffset( f.position.getX(), f.position.getY() );

@@ -14,7 +14,7 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.Mode.*;
  *
  * @author Sam Reid
  */
-public class Controller {
+class Controller {
 
     //Function that checks whether an answer is correct and updates the model based on whether it was.
     public static @Data class TryAgain extends F<MatchingGameState, MatchingGameState> {
