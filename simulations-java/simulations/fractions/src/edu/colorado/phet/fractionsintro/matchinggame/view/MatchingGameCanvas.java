@@ -3,7 +3,6 @@ package edu.colorado.phet.fractionsintro.matchinggame.view;
 
 import fj.Effect;
 import fj.F;
-import fj.data.List;
 import fj.data.Option;
 
 import java.awt.BasicStroke;
@@ -41,7 +40,6 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractions.view.FNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Cell;
-import edu.colorado.phet.fractionsintro.matchinggame.model.GameResult;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameModel;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Mode;
@@ -67,30 +65,6 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
         //Bar graph node that shows now bars, shown when the user has put something on both scales but hasn't checked the answer
         final PNode emptyBarGraphNode = new EmptyBarGraphNode();
 
-        //Other model properties that need to be observed.
-        final ObservableProperty<Boolean> revealClues = new CompositeBooleanProperty( new Function0<Boolean>() {
-            public Boolean apply() {
-                return model.state.get().getMode() == Mode.SHOWING_WHY_ANSWER_WRONG ||
-                       model.state.get().getMode() == Mode.USER_CHECKED_CORRECT_ANSWER ||
-                       model.state.get().getMode() == Mode.SHOWING_CORRECT_ANSWER_AFTER_INCORRECT_GUESS;
-            }
-        }, model.state );
-
-        final ObservableProperty<Long> timeInSec = new CompositeProperty<Long>( new Function0<Long>() {
-            public Long apply() {
-                return model.state.get().info.time / 1000L;
-            }
-        }, model.state );
-        final ObservableProperty<List<Integer>> fractionIDs = new CompositeProperty<List<Integer>>( new Function0<List<Integer>>() {
-            public List<Integer> apply() {
-                return model.state.get().fractions.map( new F<MovableFraction, Integer>() {
-                    @Override public Integer f( final MovableFraction m ) {
-                        return m.id;
-                    }
-                } );
-            }
-        }, model.state );
-
         //Game settings
         final GameSettings gameSettings = new GameSettings( new IntegerRange( 1, 8, 1 ), false, false );
 
@@ -111,16 +85,8 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
             }
         };
 
-        //Property for the list of game results
-        final Property<List<GameResult>> gameResults = new Property<List<GameResult>>( model.state.get().gameResults );
-        model.state.addObserver( new VoidFunction1<MatchingGameState>() {
-            public void apply( final MatchingGameState matchingGameState ) {
-                gameResults.set( model.state.get().gameResults );
-            }
-        } );
-
         //Dialog for selecting and starting a level
-        final PNode levelSelectionDialog = new ZeroOffsetNode( new LevelSelectionNode( startGame, gameSettings, gameResults, standaloneSim ) ) {{
+        final PNode levelSelectionDialog = new ZeroOffsetNode( new LevelSelectionNode( startGame, gameSettings, model.gameResults, standaloneSim ) ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 );
 
             new CompositeBooleanProperty( new Function0<Boolean>() {
@@ -181,12 +147,6 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
             }, model.state ).addObserver( setNodeVisible( this ) );
         }} );
 
-        final ObservableProperty<Mode> mode = new CompositeProperty<Mode>( new Function0<Mode>() {
-            public Mode apply() {
-                return model.state.get().getMode();
-            }
-        }, model.state );
-
         //Things to show during the game (i.e. not when settings dialog showing.)
         final PNode gameNode = new PNode() {{
             final CompositeBooleanProperty notChoosingSettings = new CompositeBooleanProperty( new Function0<Boolean>() {
@@ -212,7 +172,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                     if ( leftScaleFraction.isSome() && rightScaleFraction.isSome() ) {
                         parent.addChild( new ZeroOffsetNode( new PNode() {{
                             addChild( emptyBarGraphNode );
-                            if ( revealClues.get() ) {
+                            if ( model.revealClues.get() ) {
                                 addChild( new BarGraphNodeBars( model.leftScaleValue.get() * scale, leftScaleFraction.some().color,
                                                                 model.rightScaleValue.get() * scale, rightScaleFraction.some().color
                                 ) );
@@ -223,7 +183,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                         }} );
                     }
                 }
-            }, model.leftScaleValue, model.rightScaleValue, revealClues, min ) );
+            }, model.leftScaleValue, model.rightScaleValue, model.revealClues, min ) );
 
             final FNode scoreCellsLayer = new FNode( model.state.get().scoreCells.map( new F<Cell, PNode>() {
                 @Override public PNode f( Cell c ) {
@@ -248,7 +208,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
             addChild( new UpdateNode( new Effect<PNode>() {
                 @Override public void e( final PNode parent ) {
                     //For each unique ID, show a graphic for that one.
-                    for ( int i : fractionIDs.get() ) {
+                    for ( int i : model.fractionIDs.get() ) {
                         final int finalI = i;
                         parent.addChild( new PNode() {{
                             CompositeProperty<MovableFraction> m = new CompositeProperty<MovableFraction>( new Function0<MovableFraction>() {
@@ -264,14 +224,14 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                                 public void apply( final MovableFraction f ) {
                                     removeAllChildren();
                                     if ( f != null ) {
-                                        addChild( new MovableFractionNode( model.state, f, f.getNodeWithCorrectScale(), rootNode, !revealClues.get() ) );
+                                        addChild( new MovableFractionNode( model.state, f, f.getNodeWithCorrectScale(), rootNode, !model.revealClues.get() ) );
                                     }
                                 }
                             } );
                         }} );
                     }
                 }
-            }, fractionIDs, revealClues ) );
+            }, model.fractionIDs, model.revealClues ) );
 
             //Update when level, score, timerVisible, time in seconds changes
             addChild( new UpdateNode( new Effect<PNode>() {
@@ -283,7 +243,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                         setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - INSET, scoreCellsLayer.getMaxY() + INSET );
                     }} );
                 }
-            }, model.level, model.score, model.timerVisible, timeInSec ) );
+            }, model.level, model.score, model.timerVisible, model.timeInSec ) );
 
             //Way of creating game buttons, cache is vestigial and could be removed.
             final F<ButtonArgs, Button> buttonFactory = Cache.cache( new F<ButtonArgs, Button>() {
@@ -311,15 +271,15 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                 @Override public void e( final PNode parent ) {
                     parent.addChild( new GameButtonsNode( model.state.get(), buttonFactory, buttonLocation.get() ) );
                 }
-            }, model.leftScaleValue, model.rightScaleValue, mode, model.checks, buttonLocation ) );
+            }, model.leftScaleValue, model.rightScaleValue, model.mode, model.checks, buttonLocation ) );
 
             //Show the sign node, but only if revealClues is true
             addChild( new UpdateNode( new Effect<PNode>() {
                 @Override public void e( final PNode parent ) {
-                    parent.addChild( revealClues.get() ? new SignNode( model.state.get(), scalesNode ) : new PNode() );
+                    parent.addChild( model.revealClues.get() ? new SignNode( model.state.get(), scalesNode ) : new PNode() );
                 }
             },
-                                      model.leftScaleValue, model.rightScaleValue, mode, revealClues ) );
+                                      model.leftScaleValue, model.rightScaleValue, model.mode, model.revealClues ) );
 
             //Show equals signs in the scoreboard.
             addChild( new UpdateNode( new Effect<PNode>() {
@@ -347,7 +307,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                 new Effect<PNode>() {
                     @Override public void e( final PNode parent ) {
                         parent.removeAllChildren();
-                        if ( mode.get() == Mode.SHOWING_GAME_OVER_SCREEN ) {
+                        if ( model.mode.get() == Mode.SHOWING_GAME_OVER_SCREEN ) {
                             final MatchingGameState state = model.state.get();
                             final int maxPoints = 12;
                             parent.addChild( new GameOverNode( state.info.level, state.info.score, maxPoints, new DecimalFormat( "0" ), state.info.time, state.info.bestTime, state.info.time >= state.info.bestTime, state.info.timerVisible ) {{
@@ -361,7 +321,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                             }} );
                         }
                     }
-                }, mode ) );
+                }, model.mode ) );
     }
 
     private static VoidFunction1<Boolean> setNodeVisible( final PNode node ) {

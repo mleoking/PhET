@@ -2,6 +2,7 @@
 package edu.colorado.phet.fractionsintro.matchinggame.model;
 
 import fj.F;
+import fj.data.List;
 
 import javax.swing.SwingUtilities;
 
@@ -12,11 +13,13 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeBooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.CompositeIntegerProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 import static edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState.initialState;
 
@@ -99,6 +102,46 @@ public class MatchingGameModel {
             return s.barGraphAnimationTime;
         }
     } );
+    public final ObservableProperty<Mode> mode = new CompositeProperty<Mode>( new Function0<Mode>() {
+        public Mode apply() {
+            return state.get().getMode();
+        }
+    }, state );
+
+    //Model property for whether the model should be revealing the clues (bar chart for fractions)
+    public final ObservableProperty<Boolean> revealClues = new CompositeBooleanProperty( new Function0<Boolean>() {
+        public Boolean apply() {
+            return state.get().getMode() == Mode.SHOWING_WHY_ANSWER_WRONG ||
+                   state.get().getMode() == Mode.USER_CHECKED_CORRECT_ANSWER ||
+                   state.get().getMode() == Mode.SHOWING_CORRECT_ANSWER_AFTER_INCORRECT_GUESS;
+        }
+    }, state );
+
+    public final ObservableProperty<Long> timeInSec = new CompositeProperty<Long>( new Function0<Long>() {
+        public Long apply() {
+            return state.get().info.time / 1000L;
+        }
+    }, state );
+    public final ObservableProperty<List<Integer>> fractionIDs = new CompositeProperty<List<Integer>>( new Function0<List<Integer>>() {
+        public List<Integer> apply() {
+            return state.get().fractions.map( new F<MovableFraction, Integer>() {
+                @Override public Integer f( final MovableFraction m ) {
+                    return m.id;
+                }
+            } );
+        }
+    }, state );
+
+
+    //Property for the list of game results
+    public final Property<List<GameResult>> gameResults = new Property<List<GameResult>>( state.get().gameResults ) {{
+        state.addObserver( new VoidFunction1<MatchingGameState>() {
+            public void apply( final MatchingGameState matchingGameState ) {
+                set( state.get().gameResults );
+            }
+        } );
+    }};
+
 
     private ObservableProperty<Double> doubleProperty( final F<MatchingGameState, Double> f ) {
         return new CompositeDoubleProperty( new Function0<Double>() {
