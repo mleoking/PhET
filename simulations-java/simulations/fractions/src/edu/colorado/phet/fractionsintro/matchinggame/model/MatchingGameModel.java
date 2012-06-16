@@ -142,6 +142,12 @@ public class MatchingGameModel {
         } );
     }};
 
+    //True if the user is choosing settings
+    public final CompositeBooleanProperty choosingSettings = new CompositeBooleanProperty( new Function0<Boolean>() {
+        public Boolean apply() {
+            return state.get().info.mode == Mode.CHOOSING_SETTINGS;
+        }
+    }, state );
 
     private ObservableProperty<Double> doubleProperty( final F<MatchingGameState, Double> f ) {
         return new CompositeDoubleProperty( new Function0<Double>() {
