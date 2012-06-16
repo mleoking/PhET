@@ -1,6 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractionsintro.matchinggame.model;
 
+import fj.F;
+
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.games.GameAudioPlayer;
@@ -9,7 +11,12 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
+import edu.colorado.phet.common.phetcommon.model.property.CompositeBooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
+import edu.colorado.phet.common.phetcommon.model.property.integerproperty.CompositeIntegerProperty;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
 import static edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState.initialState;
 
@@ -49,4 +56,71 @@ public class MatchingGameModel {
             }
         } );
     }};
+
+    //Public interface for observable properties on the sequence of immutable model states
+    //This is meant to be read with IDEA's closure folding feature, so that each declaration takes one line
+    public final ObservableProperty<Double> leftScaleValue = doubleProperty( new F<MatchingGameState, Double>() {
+        @Override public Double f( final MatchingGameState s ) {
+            return s.getLeftScaleValue();
+        }
+    } );
+    public final ObservableProperty<Double> rightScaleValue = doubleProperty( new F<MatchingGameState, Double>() {
+        @Override public Double f( final MatchingGameState s ) {
+            return s.getRightScaleValue();
+        }
+    } );
+    public final ObservableProperty<Integer> checks = intProperty( new F<MatchingGameState, Integer>() {
+        @Override public Integer f( final MatchingGameState s ) {
+            return s.getChecks();
+        }
+    } );
+    public final ObservableProperty<Integer> scored = intProperty( new F<MatchingGameState, Integer>() {
+        @Override public Integer f( final MatchingGameState s ) {
+            return s.scored;
+        }
+    } );
+    public final ObservableProperty<Integer> level = intProperty( new F<MatchingGameState, Integer>() {
+        @Override public Integer f( final MatchingGameState s ) {
+            return s.info.level;
+        }
+    } );
+    public final ObservableProperty<Integer> score = intProperty( new F<MatchingGameState, Integer>() {
+        @Override public Integer f( final MatchingGameState s ) {
+            return s.info.score;
+        }
+    } );
+    public final ObservableProperty<Boolean> timerVisible = booleanProperty( new F<MatchingGameState, Boolean>() {
+        @Override public Boolean f( final MatchingGameState s ) {
+            return s.info.timerVisible;
+        }
+    } );
+    public final ObservableProperty<Double> barGraphAnimationTime = doubleProperty( new F<MatchingGameState, Double>() {
+        @Override public Double f( final MatchingGameState s ) {
+            return s.barGraphAnimationTime;
+        }
+    } );
+
+    private ObservableProperty<Double> doubleProperty( final F<MatchingGameState, Double> f ) {
+        return new CompositeDoubleProperty( new Function0<Double>() {
+            public Double apply() {
+                return f.f( state.get() );
+            }
+        }, state );
+    }
+
+    private ObservableProperty<Integer> intProperty( final F<MatchingGameState, Integer> f ) {
+        return new CompositeIntegerProperty( new Function0<Integer>() {
+            public Integer apply() {
+                return f.f( state.get() );
+            }
+        }, state );
+    }
+
+    private ObservableProperty<Boolean> booleanProperty( final F<MatchingGameState, Boolean> f ) {
+        return new CompositeBooleanProperty( new Function0<Boolean>() {
+            public Boolean apply() {
+                return f.f( state.get() );
+            }
+        }, state );
+    }
 }
