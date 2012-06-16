@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
@@ -199,23 +200,34 @@ class Levels {
 
             {
                 Cell cell = remainingCells.remove( 0 );
-                result.add( new MovableFraction( MovableFraction.nextID(), cell.getPosition(), fraction.numerator, fraction.denominator,
-                                                 false, cell, 1.0, new RichPNode( node ), Motions.WAIT, false, null,
+                final int id = MovableFraction.nextID();
+                final String representationString = numeric ? "numeric" : representation.toString();
+                result.add( new MovableFraction( id, cell.getPosition(), fraction.numerator, fraction.denominator,
+                                                 false, cell, 1.0, new RichPNode( node ), Motions.WAIT, false, new IUserComponent() {
+                    @Override public String toString() {
+                        return "fraction.id=" + id + ".value=" + fraction.numerator + "/" + fraction.denominator + ".representation=" + representationString;
+                    }
+                },
                                                  numeric ? Color.black : representation.color,
-                                                 numeric ? "numeric" : representation.toString() ) );
+                                                 representationString ) );
             }
 
             //If fraction is numeric, partner must not also be numeric.
             {
                 if ( allowedRepresentations.size() == 0 ) { allowedRepresentations = filter( new ArrayList<GraphicalRepresentation>( r.toCollection() ), fraction ); }
-                GraphicalRepresentation alternateRepresentation = allowedRepresentations.get( 0 );
+                final GraphicalRepresentation alternateRepresentation = allowedRepresentations.get( 0 );
                 node = createGraphic( fraction, alternateRepresentation );
                 representations.remove( alternateRepresentation );
 
                 Cell cell = remainingCells.remove( 0 );
 
-                result.add( new MovableFraction( MovableFraction.nextID(), cell.getPosition(), fraction.numerator, fraction.denominator,
-                                                 false, cell, 1.0, new RichPNode( node ), Motions.WAIT, false, null,
+                final int id = MovableFraction.nextID();
+                result.add( new MovableFraction( id, cell.getPosition(), fraction.numerator, fraction.denominator,
+                                                 false, cell, 1.0, new RichPNode( node ), Motions.WAIT, false, new IUserComponent() {
+                    @Override public String toString() {
+                        return "fraction.id=" + id + ".value=" + fraction.numerator + "/" + fraction.denominator + ".representation=" + alternateRepresentation.toString();
+                    }
+                },
                                                  alternateRepresentation.color,
                                                  alternateRepresentation.toString() ) );
             }
