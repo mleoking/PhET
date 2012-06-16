@@ -36,14 +36,18 @@ public class ControlPanel extends Canvas {
     private var resetButton:NiceButton2;
     private var restartButton:NiceButton2;
     private var restartButton_UI:SpriteUIComponent;
+    private var bumpButton:NiceButton2;
+    private var bumpButton_UI:SpriteUIComponent;
     public var myComboBox: ComboBox;
     private var choiceList_arr:Array;
     private var amplitudeSlider:HorizontalSlider;
     private var frequencySlider:HorizontalSlider;
     public var speedSlider:HorizontalSlider;    //must be public to easily communicate with myFieldModel
+    public var durationSlider:HorizontalSlider; //must be public to easily communicate with myFieldModel
     private var amplitudeSlider_UI:SpriteUIComponent;
     private var frequencySlider_UI:SpriteUIComponent;
     private var speedSlider_UI:SpriteUIComponent;
+    private var durationSlider_UI:SpriteUIComponent;
     //private var lessRezRadioButton:RadioButton;
     private var moreSpeedCheckBox:CheckBox;
 
@@ -55,13 +59,16 @@ public class ControlPanel extends Canvas {
     private var restart_str:String;
     private var reset_str:String;
     private var c_str:String;
+    private var duration_str:String;
+    private var s_str:String;
     private var moreSpeedLessRez_str;
     //Drop-down menu choices
     private var userChoice_str:String;
     private var linear_str:String;
     private var sinusoid_str:String;
     private var circular_str:String;
-    private var sawTooth_str:String;
+    //private var sawTooth_str:String;
+    private var bump_str:String;
     private var random_str:String;
     //slider labels
     private var amplitude_str:String;
@@ -88,24 +95,26 @@ public class ControlPanel extends Canvas {
             setStyle( "borderThickness", 4 );
             setStyle( "paddingTop", 15 );
             setStyle( "paddingBottom", 15 );
-            setStyle( "paddingRight", 10 );
-            setStyle( "paddingLeft", 10 );
+            setStyle( "paddingRight", 5 );
+            setStyle( "paddingLeft", 5 );
             setStyle( "verticalGap", 10 );
             setStyle( "horizontalAlign", "center" );
         }
 
-        this.pauseButton = new NiceButton2( 100, 25, pause_str, pauseUnPause, 0x00ff00, 0x000000 );
-        this.stopButton = new NiceButton2( 100, 25, stop_str, stopCharge, 0x00ff00, 0x000000 )
-        this.resetButton = new NiceButton2( 100, 25, reset_str, resetCharge, 0x00ff00, 0x000000 )
+        this.pauseButton = new NiceButton2( 100, 25, pause_str, pauseUnPause, 0xffff00, 0x000000 );
+        this.stopButton = new NiceButton2( 100, 25, stop_str, stopCharge, 0xff0000, 0xffffff )
+        this.resetButton = new NiceButton2( 100, 25, reset_str, resetCharge, 0xff0000, 0xffffff )
         this.restartButton = new NiceButton2( 100, 25, restart_str, restart, 0x00ff00, 0x000000 );
+        this.bumpButton = new NiceButton2( 100, 25, bump_str, bumpCharge, 0x00ff00, 0x000000 );
         this.myComboBox = new ComboBox();
         this.choiceList_arr = new Array( );
-        choiceList_arr = [ userChoice_str, linear_str, sinusoid_str, circular_str, sawTooth_str, random_str ];
+        choiceList_arr = [ userChoice_str, linear_str, sinusoid_str, circular_str, bump_str, random_str ];
         myComboBox.dataProvider = choiceList_arr;
         myComboBox.addEventListener( DropdownEvent.CLOSE, comboBoxListener );
         var sliderWidth:Number = 100;
         amplitudeSlider = new HorizontalSlider( setAmplitude, sliderWidth, 0, 10 );
         frequencySlider = new HorizontalSlider( setFrequency, sliderWidth, 0, 3 );
+        durationSlider = new HorizontalSlider( setDuration, sliderWidth, 0.05, 0.25 );
         var c:Number = myFieldModel.getSpeedOfLight();
         speedSlider = new HorizontalSlider( setSpeed, sliderWidth, 0.1, 0.95 );
         amplitudeSlider.setLabelText( amplitude_str );
@@ -115,6 +124,9 @@ public class ControlPanel extends Canvas {
         speedSlider.setLabelText( speed_str );
         speedSlider.setUnitsText( c_str );
         speedSlider.setReadoutPrecision( 2 );
+        durationSlider.setLabelText( duration_str );
+        durationSlider.setUnitsText( s_str );
+        durationSlider.setReadoutPrecision( 2 );
         moreSpeedCheckBox = new CheckBox();
         moreSpeedCheckBox.label = moreSpeedLessRez_str;
         moreSpeedCheckBox.addEventListener( Event.CHANGE, radioButtonListener );
@@ -130,8 +142,12 @@ public class ControlPanel extends Canvas {
         this.background.addChild( frequencySlider_UI );
         this.speedSlider_UI = new SpriteUIComponent( speedSlider, true );
         this.background.addChild( speedSlider_UI );
+        this.durationSlider_UI = new SpriteUIComponent( durationSlider, true );
+        this.background.addChild( durationSlider_UI );
         this.restartButton_UI = new SpriteUIComponent( restartButton, true );
         this.background.addChild( restartButton_UI );
+        this.bumpButton_UI = new SpriteUIComponent( bumpButton, true );
+        this.background.addChild( bumpButton_UI );
         this.setSliderVisiblity();
         this.background.addChild( moreSpeedCheckBox );
 
@@ -148,20 +164,24 @@ public class ControlPanel extends Canvas {
         linear_str = FlexSimStrings.get( "linear", "Linear" );
         sinusoid_str = FlexSimStrings.get( "sinusoid", "Sinusoid" );
         circular_str = FlexSimStrings.get( "circular", "Circular" );
-        sawTooth_str = FlexSimStrings.get( "sawTooth", "Sawtooth" );
+        bump_str = FlexSimStrings.get( "bump", "bump" );
         random_str = FlexSimStrings.get( "random", "Random" );
         amplitude_str = FlexSimStrings.get( "amplitude", "amplitude" );
         frequency_str = FlexSimStrings.get( "frequency", "frequency" );
         speed_str = FlexSimStrings.get( "speed", "speed" );
         c_str = FlexSimStrings.get( "c", "c");
+        duration_str = FlexSimStrings.get( "duration", "duration" );
+        s_str = FlexSimStrings.get( "seconds", "s" );
         moreSpeedLessRez_str = FlexSimStrings.get("moreSpeedLessRez", "More speed, less rez")
     }
 
     private function pauseUnPause():void{
         if( myFieldModel.paused ){
             this.myFieldModel.paused = false;
+            this.pauseButton.setLabel( pause_str );
         }else{
             this.myFieldModel.paused = true;
+            this.pauseButton.setLabel( unPause_str );
         }
     }//end pauseUnPause
 
@@ -182,6 +202,10 @@ public class ControlPanel extends Canvas {
         this.myFieldModel.restartCharge();
     }
 
+    private function bumpCharge():void{
+        this.myFieldModel.bumpCharge( durationSlider.getVal() );
+    }
+
     private function comboBoxListener( evt: DropdownEvent ):void{
         this.myFieldModel.paused = false;
         var choice:String = evt.currentTarget.selectedItem;
@@ -196,7 +220,7 @@ public class ControlPanel extends Canvas {
             this.myFieldModel.setMotion( 1 );
         }else if( choice == sinusoid_str ){ this.myFieldModel.setMotion( 2 );
         }else if( choice == circular_str ){ this.myFieldModel.setMotion( 3 );
-        }else if( choice == sawTooth_str ){ this.myFieldModel.setMotion( 4 );
+        }else if( choice == bump_str ){ this.myFieldModel.setMotion( 4 );
         }else if( choice == random_str ){ this.myFieldModel.setMotion( 5 );
         }else {
             trace( "ERROR: ControlPanel.comboBoxListener() received invalid choice.") ;
@@ -217,11 +241,15 @@ public class ControlPanel extends Canvas {
     private function setSliderVisiblity():void{
         amplitudeSlider_UI.visible = false;
         frequencySlider_UI.visible = false;
+        durationSlider_UI.visible = false;
         speedSlider_UI.visible = false;
         restartButton_UI.visible = false;
+        bumpButton_UI.visible = false;
         amplitudeSlider_UI.includeInLayout = false;
         frequencySlider_UI.includeInLayout = false;
+        durationSlider_UI.includeInLayout = false;
         speedSlider_UI.includeInLayout = false;
+        bumpButton_UI.includeInLayout = false;
         restartButton_UI.includeInLayout = false;
         var choice:int = myComboBox.selectedIndex;
         if( choice == 0 ){      //user-controlled
@@ -232,14 +260,22 @@ public class ControlPanel extends Canvas {
             speedSlider_UI.includeInLayout = true;
             restartButton_UI.includeInLayout = true;
             speedSlider.setSliderWithoutAction( myFieldModel.getBeta() );
-        } else if( choice == 2 || choice == 3 || choice == 4 ){   //sinusoidal or circular or sawtooth
+        } else if( choice == 2 || choice == 3 ){   //sinusoidal or circular or sawtooth
             amplitudeSlider_UI.visible = true;
             frequencySlider_UI.visible = true;
             amplitudeSlider_UI.includeInLayout = true;
             frequencySlider_UI.includeInLayout = true;
             amplitudeSlider.setSliderWithoutAction( myFieldModel.amplitude );
             frequencySlider.setSliderWithoutAction( myFieldModel.frequency );
-        } else if( choice == 6 ){     //random walk
+        } else if( choice == 4 ){ //bump
+            amplitudeSlider_UI.visible = true;
+            durationSlider_UI.visible = true;
+            bumpButton_UI.visible = true;
+            amplitudeSlider_UI.includeInLayout = true;
+            durationSlider_UI.includeInLayout = true;
+            bumpButton_UI.includeInLayout = true;
+            //bumpButton.setSliderWithoutAction( myFieldModel.getBeta() );
+        } else if( choice == 5 ){//random walk
             //do nothing
         }
     }//end setSliderVisibility()
@@ -257,6 +293,11 @@ public class ControlPanel extends Canvas {
     private function setSpeed():void{
         var beta:Number = speedSlider.getVal();
         myFieldModel.setBeta( beta );
+    }
+
+    private function setDuration():void{  //duration of bump
+        var durationOfBump:Number = durationSlider.getVal();
+        myFieldModel.bumpCharge( durationOfBump );
     }
 } //end class
 } //end package
