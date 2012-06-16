@@ -57,63 +57,68 @@ public class Pattern {
         }}, shapes );
     }
 
+    //Create a pattern with an explicit outline and list of shapes.
     public Pattern( Shape outline, final List<Shape> shapes ) {
         this.outline = outline;
         this.shapes = shapes;
     }
 
+    //A single square
     public static Rectangle2D.Double square( double x, double y, double length ) {
         return new Rectangle2D.Double( x, y, length, length );
     }
 
+    //Interleaved L shape (see sample main for how it looks)
     public static Pattern interleavedLShape( final int squareLength, final int numberPairColumns, final int numberPairRows ) {
         return new Pattern( iterableList( new ArrayList<Shape>() {{
             for ( int i = 0; i < numberPairColumns; i++ ) {
                 for ( int j = 0; j < numberPairRows; j++ ) {
-                    add( AffineTransform.getTranslateInstance( squareLength * i, squareLength * j ).createTransformedShape( leftSide( squareLength ) ) );
-                    add( AffineTransform.getTranslateInstance( squareLength * i, squareLength * j ).createTransformedShape( rightSide( squareLength ) ) );
+                    add( AffineTransform.getTranslateInstance( squareLength * i, squareLength * j ).createTransformedShape( interleavedLShapeLeftSide( squareLength ) ) );
+                    add( AffineTransform.getTranslateInstance( squareLength * i, squareLength * j ).createTransformedShape( interleavedLShapeRightSide( squareLength ) ) );
                 }
             }
         }} ) );
     }
 
-    private static Shape leftSide( final double s ) {
-        return fromPoints( s, list( v( 0, 0 ), v( 1.0 / 3.0, 0 ), v( 1.0 / 3.0, 0.5 ), v( 2.0 / 3.0, 0.5 ), v( 2.0 / 3.0, 1 ), v( 0, 1 ) ) );
+    //Left part of the "interleaved L shape"
+    private static Shape interleavedLShapeLeftSide( final double s ) {
+        return pointsToShape( s, list( v( 0, 0 ), v( 1.0 / 3.0, 0 ), v( 1.0 / 3.0, 0.5 ), v( 2.0 / 3.0, 0.5 ), v( 2.0 / 3.0, 1 ), v( 0, 1 ) ) );
     }
 
-    private static Shape rightSide( final double s ) {
-        return fromPoints( s, list( v( 1, 0 ), v( 1, 1 ), v( 2.0 / 3, 1 ), v( 2.0 / 3.0, 0.5 ), v( 1.0 / 3.0, 0.5 ), v( 1.0 / 3, 0 ) ) );
+    //Right part of the "interleaved L shape"
+    private static Shape interleavedLShapeRightSide( final double s ) {
+        return pointsToShape( s, list( v( 1, 0 ), v( 1, 1 ), v( 2.0 / 3, 1 ), v( 2.0 / 3.0, 0.5 ), v( 1.0 / 3.0, 0.5 ), v( 1.0 / 3, 0 ) ) );
     }
 
-    //Same grid orientation as for the "tetris-grid.jpg" in the doc directory
+    //Same grid orientation as for the "tetris-grid.jpg" in the doc directory (see sample main for how it looks)
     public static Pattern letterLShapedDiagonal( final int cellLength, final int numberOfPairs ) {
         return new Pattern( iterableList( new ArrayList<Shape>() {{
             for ( int i = 0; i < numberOfPairs; i++ ) {
-                add( topL( cellLength, i * 2, i * 1 ) );
-                add( bottomL( cellLength, i * 2, i * 1 ) );
+                add( letterLShapedDiagonalTopL( cellLength, i * 2, i * 1 ) );
+                add( letterLShapedDiagonalBottomL( cellLength, i * 2, i * 1 ) );
             }
         }} ) );
     }
 
-    private static Shape topL( final int cellLength, final int x, final int y ) {
-        return AffineTransform.getTranslateInstance( x * cellLength, y * cellLength ).createTransformedShape( fromPoints( cellLength, list( v( 0, 0 ), v( 2, 0 ), v( 2, 3 ), v( 1, 3 ), v( 1, 1 ), v( 0, 1 ) ) ) );
+    private static Shape letterLShapedDiagonalTopL( final int cellLength, final int x, final int y ) {
+        return AffineTransform.getTranslateInstance( x * cellLength, y * cellLength ).createTransformedShape( pointsToShape( cellLength, list( v( 0, 0 ), v( 2, 0 ), v( 2, 3 ), v( 1, 3 ), v( 1, 1 ), v( 0, 1 ) ) ) );
     }
 
-    private static Shape bottomL( final int cellLength, final int x, final int y ) {
-        return AffineTransform.getTranslateInstance( x * cellLength, y * cellLength ).createTransformedShape( fromPoints( cellLength, list( v( 0, 1 ), v( 1, 1 ), v( 1, 3 ), v( 2, 3 ), v( 2, 4 ), v( 0, 4 ) ) ) );
+    private static Shape letterLShapedDiagonalBottomL( final int cellLength, final int x, final int y ) {
+        return AffineTransform.getTranslateInstance( x * cellLength, y * cellLength ).createTransformedShape( pointsToShape( cellLength, list( v( 0, 1 ), v( 1, 1 ), v( 1, 3 ), v( 2, 3 ), v( 2, 4 ), v( 0, 4 ) ) ) );
     }
 
     public static Pattern tetrisPiece( final int d ) {
 
         //Use points in a 5x5 grid, trace pieces clockwise.  See "tetris-grid.jpg" in the doc directory
-        return new Pattern( list( fromPoints( d / 3.0, list( v( 0, 0 ), v( 3, 0 ), v( 3, 1 ), v( 2, 1 ), v( 2, 2 ), v( 1, 2 ), v( 1, 1 ), v( 0, 1 ) ) ),
-                                  fromPoints( d / 3.0, list( v( 3, 0 ), v( 4, 0 ), v( 4, 3 ), v( 3, 3 ), v( 3, 2 ), v( 2, 2 ), v( 2, 1 ), v( 3, 1 ) ) ),
-                                  fromPoints( d / 3.0, list( v( 4, 3 ), v( 4, 4 ), v( 1, 4 ), v( 1, 3 ), v( 2, 3 ), v( 2, 2 ), v( 3, 2 ), v( 3, 3 ) ) ),
-                                  fromPoints( d / 3.0, list( v( 0, 4 ), v( 0, 1 ), v( 1, 1 ), v( 1, 2 ), v( 2, 2 ), v( 2, 3 ), v( 1, 3 ), v( 1, 4 ) ) )
+        return new Pattern( list( pointsToShape( d / 3.0, list( v( 0, 0 ), v( 3, 0 ), v( 3, 1 ), v( 2, 1 ), v( 2, 2 ), v( 1, 2 ), v( 1, 1 ), v( 0, 1 ) ) ),
+                                  pointsToShape( d / 3.0, list( v( 3, 0 ), v( 4, 0 ), v( 4, 3 ), v( 3, 3 ), v( 3, 2 ), v( 2, 2 ), v( 2, 1 ), v( 3, 1 ) ) ),
+                                  pointsToShape( d / 3.0, list( v( 4, 3 ), v( 4, 4 ), v( 1, 4 ), v( 1, 3 ), v( 2, 3 ), v( 2, 2 ), v( 3, 2 ), v( 3, 3 ) ) ),
+                                  pointsToShape( d / 3.0, list( v( 0, 4 ), v( 0, 1 ), v( 1, 1 ), v( 1, 2 ), v( 2, 2 ), v( 2, 3 ), v( 1, 3 ), v( 1, 4 ) ) )
         ) );
     }
 
-    private static Shape fromPoints( final double length, final List<Vector2D> v ) {
+    private static Shape pointsToShape( final double length, final List<Vector2D> v ) {
         return new DoubleGeneralPath( v.head().toImmutableVector2D().times( length ) ) {{
             for ( Vector2D vector2D : v.tail() ) {
                 lineTo( vector2D.toImmutableVector2D().times( length ) );
@@ -122,6 +127,7 @@ public class Pattern {
         }}.getGeneralPath();
     }
 
+    //Creates a flower with 6 petals.
     public static Pattern sixFlower() { return sixFlower( 18 ); }
 
     public static Pattern sixFlower( final Integer length ) {
@@ -130,7 +136,7 @@ public class Pattern {
             @Override public Shape f( final Integer index ) {
                 final double x = Math.sin( angle / 2 );
                 final double y = Math.cos( angle / 2 );
-                return AffineTransform.getRotateInstance( angle * index, 0, 0 ).createTransformedShape( fromPoints( length, list( v( 0, 0 ), v( x, y ), v( 0, y * 2 ), v( -x, y ) ) ) );
+                return AffineTransform.getRotateInstance( angle * index, 0, 0 ).createTransformedShape( pointsToShape( length, list( v( 0, 0 ), v( x, y ), v( 0, y * 2 ), v( -x, y ) ) ) );
             }
         } ) );
     }

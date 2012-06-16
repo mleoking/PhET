@@ -48,11 +48,17 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.WAIT;
 
     //Flag set to true if the user has scored with this fraction (making it no longer draggable)
     public final boolean scored;
+
+    //User component for sim sharing
     public final IUserComponent userComponent;
 
+    //Static instance count for creating unique references, see "id" above
     private static int count;
 
+    //Color shown for this fraction
     public final Color color;
+
+    //Name of the representation, for error checking
     public final String representationName;
 
     public MovableFraction translate( double dx, double dy ) { return withPosition( position.plus( dx, dy ) ); }
@@ -71,6 +77,7 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.WAIT;
 
     public MovableFraction stepInTime( UpdateArgs args ) { return motion.f( args ); }
 
+    //Animates by translating toward the specified target position
     public MovableFraction stepTowards( Vector2D target, double dt ) {
         double velocity = 600;
         double stepSize = velocity * dt;
@@ -86,8 +93,9 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.WAIT;
                result;
     }
 
-    public double getValue() { return ( (double) numerator ) / denominator;}
+    public double getFractionValue() { return ( (double) numerator ) / denominator;}
 
+    //Incrementally change the scale toward the specified scale value
     public MovableFraction scaleTowards( double scale ) {
         if ( scale == this.scale ) {
             return this;
@@ -96,6 +104,7 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.WAIT;
         return withScale( this.scale + ds );
     }
 
+    //Gets the node (but with the corrected scale).
     public PNode getNodeWithCorrectScale() {
 
         //But do update the scale and make sure parent is non-null (otherwise disappears on click)
@@ -104,6 +113,7 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.WAIT;
         return node;
     }
 
+    //Create a unique instance id, see "id" field above.
     public static int nextID() {
         int id = count;
         count++;

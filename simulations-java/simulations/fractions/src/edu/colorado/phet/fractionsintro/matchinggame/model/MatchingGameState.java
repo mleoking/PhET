@@ -111,7 +111,7 @@ public @Data class MatchingGameState {
         } );
     }
 
-    public double getScaleValue( Scale scale ) { return getScaleFraction( scale ).isSome() ? getScaleFraction( scale ).some().getValue() : 0.0; }
+    public double getScaleValue( Scale scale ) { return getScaleFraction( scale ).isSome() ? getScaleFraction( scale ).some().getFractionValue() : 0.0; }
 
     public double getLeftScaleValue() { return getScaleValue( leftScale ); }
 
@@ -204,7 +204,7 @@ public @Data class MatchingGameState {
         //Find the answer to match with.  It must have the same value and not be on either scale
         final MovableFraction match = fractions.find( new F<MovableFraction, Boolean>() {
             @Override public Boolean f( final MovableFraction m ) {
-                return Math.abs( m.getValue() - valueToMatch ) < 1E-8 && !isOnScale( m );
+                return Math.abs( m.getFractionValue() - valueToMatch ) < 1E-8 && !isOnScale( m );
             }
         } ).some();
 

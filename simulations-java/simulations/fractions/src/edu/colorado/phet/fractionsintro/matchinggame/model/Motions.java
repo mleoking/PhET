@@ -38,6 +38,7 @@ public class Motions {
         };
     }
 
+    //Motion that animates scale to the specified scale value
     public static F<UpdateArgs, MovableFraction> scale( final double scale ) {
         return new F<UpdateArgs, MovableFraction>() {
             @Override public MovableFraction f( UpdateArgs a ) {
@@ -46,6 +47,7 @@ public class Motions {
         };
     }
 
+    //Motion that animates position to the specified position
     public static F<UpdateArgs, MovableFraction> moveToPosition( final Vector2D position ) {
         return new F<UpdateArgs, MovableFraction>() {
             @Override public MovableFraction f( UpdateArgs a ) {
@@ -54,6 +56,7 @@ public class Motions {
         };
     }
 
+    //Motion that animates position to the specified cell's position
     public static F<UpdateArgs, MovableFraction> moveToCell( final Cell cell ) {
         return new F<UpdateArgs, MovableFraction>() {
             @Override public MovableFraction f( UpdateArgs a ) {
