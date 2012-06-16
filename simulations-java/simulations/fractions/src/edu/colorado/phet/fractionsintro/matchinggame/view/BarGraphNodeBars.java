@@ -13,7 +13,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-public class BarGraphNodeBars extends PNode {
+class BarGraphNodeBars extends PNode {
     public BarGraphNodeBars( double leftScaleValue, Color leftColor, double rightScaleValue, Color rightColor ) {
         final double leftBarHeight = leftScaleValue * 100;
         final int barWidth = 17;

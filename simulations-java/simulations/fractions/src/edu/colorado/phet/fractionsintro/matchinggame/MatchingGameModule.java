@@ -21,7 +21,7 @@ public class MatchingGameModule extends AbstractFractionsModule {
         this( dev, new MatchingGameModel() );
     }
 
-    public MatchingGameModule( boolean dev, MatchingGameModel model ) {
+    private MatchingGameModule( boolean dev, MatchingGameModel model ) {
         super( Components.matchingGameTab, "Matching Game", model.clock );
         setSimulationPanel( new MatchingGameCanvas( dev, model ) );
     }

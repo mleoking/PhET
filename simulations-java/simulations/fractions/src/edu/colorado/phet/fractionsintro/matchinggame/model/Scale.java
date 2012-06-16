@@ -29,7 +29,7 @@ import static edu.colorado.phet.fractions.FractionsResources.Images.SCALE;
         }};
     }
 
-    public Vector2D getCenter() { return position.plus( scale.getWidth() / 2, scale.getHeight() / 2 ); }
+    Vector2D getCenter() { return position.plus( scale.getWidth() / 2, scale.getHeight() / 2 ); }
 
     private Vector2D getAttachmentPoint() { return getCenter().plus( 0, -25 ); }
 
@@ -44,7 +44,7 @@ import static edu.colorado.phet.fractions.FractionsResources.Images.SCALE;
         }
     } );
 
-    public static Vector2D getAttachmentPoint( Scale scale, MovableFraction fraction ) {
+    private static Vector2D getAttachmentPoint( Scale scale, MovableFraction fraction ) {
         HEIGHT.checkAndClearCache();
         return scale.getAttachmentPoint().plus( 0, -HEIGHT.f( fraction ) / 2 );
     }

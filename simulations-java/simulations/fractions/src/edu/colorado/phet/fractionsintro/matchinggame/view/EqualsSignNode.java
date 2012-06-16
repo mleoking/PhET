@@ -16,7 +16,7 @@ import static java.awt.BasicStroke.JOIN_MITER;
  *
  * @author Sam Reid
  */
-public class EqualsSignNode extends RichPNode {
+class EqualsSignNode extends RichPNode {
     public EqualsSignNode() {
         addChild( createPath( 0 ) );
         addChild( createPath( 22 ) );

@@ -20,11 +20,11 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-public class ScoreboardNode extends PNode {
+class ScoreboardNode extends PNode {
 
     //Have to reuse buttons since they are animated outside of our model, and if they got reconstructed on each step, they would never animate nor press
-    public static Button menuButton;
-    public static final PhetFont font = new PhetFont( 16, true );
+    private static Button menuButton;
+    private static final PhetFont font = new PhetFont( 16, true );
 
     public ScoreboardNode( final SettableProperty<MatchingGameState> model ) {
 
@@ -50,5 +50,5 @@ public class ScoreboardNode extends PNode {
         addChild( new VBox( new HBox( textBox, valueBox ), menuButton ) );
     }
 
-    public static PhetPText text( String text ) { return new PhetPText( text, font ); }
+    private static PhetPText text( String text ) { return new PhetPText( text, font ); }
 }

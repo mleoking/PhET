@@ -128,8 +128,8 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
         final BufferedImage soundIcon = BufferedImageUtils.multiScaleToWidth( GameConstants.SOUND_ICON, iconWidth );
         final BufferedImage soundOffIcon = BufferedImageUtils.multiScaleToWidth( GameConstants.SOUND_OFF_ICON, iconWidth );
         final int maxIconWidth = Math.max( stopwatchIcon.getWidth(), soundIcon.getWidth() ) + 10;
-        final int minIconWidth = Math.max( stopwatchIcon.getHeight(), soundIcon.getHeight() ) + 10;
-        final ToggleButtonNode stopwatchButton = new ToggleButtonNode( new PaddedIcon( maxIconWidth, minIconWidth, new PImage( stopwatchIcon ) ), gameSettings.timerEnabled, new VoidFunction0() {
+        final int maxIconHeight = Math.max( stopwatchIcon.getHeight(), soundIcon.getHeight() ) + 10;
+        final ToggleButtonNode stopwatchButton = new ToggleButtonNode( new PaddedIcon( maxIconWidth, maxIconHeight, new PImage( stopwatchIcon ) ), gameSettings.timerEnabled, new VoidFunction0() {
             public void apply() {
                 gameSettings.timerEnabled.toggle();
             }
@@ -140,7 +140,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                 gameSettings.soundEnabled.addObserver( new VoidFunction1<Boolean>() {
                     public void apply( final Boolean enabled ) {
                         removeAllChildren();
-                        addChild( new PaddedIcon( maxIconWidth, minIconWidth, new PImage( enabled ? soundIcon : soundOffIcon ) ) );
+                        addChild( new PaddedIcon( maxIconWidth, maxIconHeight, new PImage( enabled ? soundIcon : soundOffIcon ) ) );
                     }
                 } );
             }
@@ -408,7 +408,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
     }
 
     //Encapsulates stroke, paint and stroke paint for a sign node like "=", "<", ">"
-    public static PhetPPath getSignNode( Shape shape ) { return new PhetPPath( shape, yellow, new BasicStroke( 2 ), Color.black ); }
+    private static PhetPPath getSignNode( Shape shape ) { return new PhetPPath( shape, yellow, new BasicStroke( 2 ), Color.black ); }
 
     private static PNode getSignNode( final MatchingGameState state, final PNode scales ) {
         class TextSign extends PNode {
@@ -425,7 +425,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
         return sign;
     }
 
-    public static VoidFunction1<Boolean> setNodeVisible( final PNode node ) {
+    private static VoidFunction1<Boolean> setNodeVisible( final PNode node ) {
         return new VoidFunction1<Boolean>() {
             public void apply( final Boolean visible ) {
                 node.setVisible( visible );

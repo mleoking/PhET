@@ -76,7 +76,7 @@ public @Data class MatchingGameState {
 
     public MatchingGameState withFractions( List<MovableFraction> fractions ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults ); }
 
-    public MatchingGameState withScored( int scored ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults ); }
+    MatchingGameState withScored( int scored ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults ); }
 
     public MatchingGameState withAudio( boolean audio ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info.withAudio( audio ), barGraphAnimationTime, gameResults ); }
 
@@ -89,9 +89,9 @@ public @Data class MatchingGameState {
 
     public MatchingGameState withInfo( final GameInfo info ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults ); }
 
-    public MatchingGameState withBarGraphAnimationTime( final double barGraphAnimationTime ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults ); }
+    MatchingGameState withBarGraphAnimationTime( final double barGraphAnimationTime ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults ); }
 
-    public MatchingGameState withGameResults( final List<GameResult> gameResults ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults ); }
+    MatchingGameState withGameResults( final List<GameResult> gameResults ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults ); }
 
     public MatchingGameState stepInTime( final double dt ) {
         return withFractions( fractions.map( new F<MovableFraction, MovableFraction>() {
@@ -111,7 +111,7 @@ public @Data class MatchingGameState {
         } );
     }
 
-    public double getScaleValue( Scale scale ) { return getScaleFraction( scale ).isSome() ? getScaleFraction( scale ).some().getFractionValue() : 0.0; }
+    double getScaleValue( Scale scale ) { return getScaleFraction( scale ).isSome() ? getScaleFraction( scale ).some().getFractionValue() : 0.0; }
 
     public double getLeftScaleValue() { return getScaleValue( leftScale ); }
 
@@ -131,7 +131,7 @@ public @Data class MatchingGameState {
         } );
     }
 
-    public boolean isOnScale( Scale scale, final MovableFraction movableFraction ) {
+    boolean isOnScale( Scale scale, final MovableFraction movableFraction ) {
         return getScaleFraction( scale ).option( false, new F<MovableFraction, Boolean>() {
             @Override public Boolean f( MovableFraction m ) {
                 return m.equals( movableFraction );
@@ -139,7 +139,7 @@ public @Data class MatchingGameState {
         } );
     }
 
-    public boolean isOnScale( final MovableFraction m ) { return isOnScale( leftScale, m ) || isOnScale( rightScale, m ); }
+    boolean isOnScale( final MovableFraction m ) { return isOnScale( leftScale, m ) || isOnScale( rightScale, m ); }
 
     public MatchingGameState animateMatchToScoreCell() {
         return withFractions( fractions.map( new F<MovableFraction, MovableFraction>() {
@@ -159,7 +159,7 @@ public @Data class MatchingGameState {
         } ) ).withScored( scored + 1 );
     }
 
-    public boolean getLastDroppedScaleRight() { return rightScaleDropTime > leftScaleDropTime; }
+    boolean getLastDroppedScaleRight() { return rightScaleDropTime > leftScaleDropTime; }
 
     public Cell getClosestFreeStartCell( final MovableFraction f ) {
         return startCells.filter( new F<Cell, Boolean>() {
@@ -189,8 +189,7 @@ public @Data class MatchingGameState {
     private boolean isTaken( final Cell cell ) {
         return fractions.exists( new F<MovableFraction, Boolean>() {
             @Override public Boolean f( final MovableFraction movableFraction ) {
-                //TODO: Block the cell if any fraction is moving there, otherwise could over-occupy
-                return !movableFraction.dragging && movableFraction.position.equals( cell.getPosition() );// || movableFraction.motion.movingTo( cell.position() );
+                return !movableFraction.dragging && movableFraction.position.equals( cell.getPosition() );
             }
         } );
     }

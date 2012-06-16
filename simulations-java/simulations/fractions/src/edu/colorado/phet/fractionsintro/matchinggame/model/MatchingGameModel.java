@@ -21,7 +21,7 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameSt
 public class MatchingGameModel {
 
     //System that plays audio when the user makes a correct guess (and audio is enabled)
-    public final GameAudioPlayer gameAudioPlayer = new GameAudioPlayer( true );
+    private final GameAudioPlayer gameAudioPlayer = new GameAudioPlayer( true );
 
     //State of the game, including position of all objects.
     public final Property<MatchingGameState> state = new Property<MatchingGameState>( initialState() ) {{
@@ -38,7 +38,7 @@ public class MatchingGameModel {
     }};
 
     //Clock that runs the sim.
-    public Clock clock = new ConstantDtClock( 60.0 ) {{
+    public final Clock clock = new ConstantDtClock( 60.0 ) {{
         addClockListener( new ClockAdapter() {
             @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
                 SwingUtilities.invokeLater( new Runnable() {
