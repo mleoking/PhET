@@ -37,85 +37,83 @@ class MovableFractionNode extends PNode {
         addChild( node );
         setOffset( f.position.getX(), f.position.getY() );
         centerFullBoundsOnPoint( f.position.getX(), f.position.getY() );
-        if ( !f.scored ) {
-            attachInputHandlers( model, f, rootNode );
-        }
 
         //Disallow interaction when showing clues
         setPickable( pickable );
         setChildrenPickable( pickable );
-    }
 
-    private void attachInputHandlers( final SettableProperty<MatchingGameState> model, final MovableFraction f, final PNode rootNode ) {
-        addInputEventListener( new CursorHandler() );
-        addInputEventListener( new SimSharingDragHandler( f.userComponent, UserComponentTypes.sprite, true ) {
+        //Attach input handlers if the fraction hasn't already been placed in the target location.
+        if ( !f.scored ) {
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new SimSharingDragHandler( f.userComponent, UserComponentTypes.sprite, true ) {
 
-            //Flag one slice as dragging
-            @Override protected void startDrag( final PInputEvent event ) {
-                super.startDrag( event );
-                MatchingGameState state = model.get();
-                model.set( state.withFractions( state.fractions.delete( f, Equal.<MovableFraction>anyEqual() ).snoc( f.withDragging( true ) ) ) );
-            }
+                //Flag one slice as dragging
+                @Override protected void startDrag( final PInputEvent event ) {
+                    super.startDrag( event );
+                    MatchingGameState state = model.get();
+                    model.set( state.withFractions( state.fractions.delete( f, Equal.<MovableFraction>anyEqual() ).snoc( f.withDragging( true ) ) ) );
+                }
 
-            //Drag the dragged slice as identified by the model (since nodes will be destroyed as this happens)
-            @Override protected void drag( final PInputEvent event ) {
-                super.drag( event );
+                //Drag the dragged slice as identified by the model (since nodes will be destroyed as this happens)
+                @Override protected void drag( final PInputEvent event ) {
+                    super.drag( event );
 
-                MatchingGameState state = model.get();
-                final Dimension2D delta = event.getDeltaRelativeTo( rootNode );
-                MatchingGameState newState = state.withFractions( state.fractions.map( new F<MovableFraction, MovableFraction>() {
-                    @Override public MovableFraction f( MovableFraction f ) {
-                        return f.dragging ? f.translate( delta.getWidth(), delta.getHeight() ) : f;
-                    }
-                } ) );
-                model.set( newState );
-            }
+                    MatchingGameState state = model.get();
+                    final Dimension2D delta = event.getDeltaRelativeTo( rootNode );
+                    MatchingGameState newState = state.withFractions( state.fractions.map( new F<MovableFraction, MovableFraction>() {
+                        @Override public MovableFraction f( MovableFraction f ) {
+                            return f.dragging ? f.translate( delta.getWidth(), delta.getHeight() ) : f;
+                        }
+                    } ) );
+                    model.set( newState );
+                }
 
-            //Set all drag flags to false
-            @Override protected void endDrag( final PInputEvent event ) {
-                super.endDrag( event );
-                MatchingGameState state = model.get();
+                //Set all drag flags to false
+                @Override protected void endDrag( final PInputEvent event ) {
+                    super.endDrag( event );
+                    MatchingGameState state = model.get();
 
-                //Find the fraction that the user released:
-                final MovableFraction draggingFraction = state.fractions.find( new F<MovableFraction, Boolean>() {
-                    @Override public Boolean f( MovableFraction m ) {
-                        return m.dragging;
-                    }
-                } ).some();
+                    //Find the fraction that the user released:
+                    final MovableFraction draggingFraction = state.fractions.find( new F<MovableFraction, Boolean>() {
+                        @Override public Boolean f( MovableFraction m ) {
+                            return m.dragging;
+                        }
+                    } ).some();
 
-                //Determine where to animate it
-                final MatchingGameState finalState = state;
-                final Vector2D rightScaleAttachmentPoint = finalState.rightScale.getAttachmentPoint( draggingFraction );
-                final Vector2D leftScaleAttachmentPoint = finalState.leftScale.getAttachmentPoint( draggingFraction );
-                HashMap<Vector2D, F<UpdateArgs, MovableFraction>> map = new HashMap<Vector2D, F<UpdateArgs, MovableFraction>>() {{
-                    put( rightScaleAttachmentPoint, MOVE_TO_RIGHT_SCALE );
-                    put( leftScaleAttachmentPoint, MOVE_TO_LEFT_SCALE );
-                    Cell cell = model.get().getClosestFreeStartCell( draggingFraction );
-                    put( cell.getPosition(), moveToCell( cell ) );
-                }};
+                    //Determine where to animate it
+                    final MatchingGameState finalState = state;
+                    final Vector2D rightScaleAttachmentPoint = finalState.rightScale.getAttachmentPoint( draggingFraction );
+                    final Vector2D leftScaleAttachmentPoint = finalState.leftScale.getAttachmentPoint( draggingFraction );
+                    HashMap<Vector2D, F<UpdateArgs, MovableFraction>> map = new HashMap<Vector2D, F<UpdateArgs, MovableFraction>>() {{
+                        put( rightScaleAttachmentPoint, MOVE_TO_RIGHT_SCALE );
+                        put( leftScaleAttachmentPoint, MOVE_TO_LEFT_SCALE );
+                        Cell cell = model.get().getClosestFreeStartCell( draggingFraction );
+                        put( cell.getPosition(), moveToCell( cell ) );
+                    }};
 
-                final Ord<Vector2D> ord = ord( new F<Vector2D, Double>() {
-                    @Override public Double f( final Vector2D u ) {
-                        return draggingFraction.position.distance( u );
-                    }
-                } );
-                final TreeMap<Vector2D, F<UpdateArgs, MovableFraction>> tm = fromMutableMap( ord, map );
-                List<Vector2D> sorted = tm.keys().sort( ord );
+                    final Ord<Vector2D> ord = ord( new F<Vector2D, Double>() {
+                        @Override public Double f( final Vector2D u ) {
+                            return draggingFraction.position.distance( u );
+                        }
+                    } );
+                    final TreeMap<Vector2D, F<UpdateArgs, MovableFraction>> tm = fromMutableMap( ord, map );
+                    List<Vector2D> sorted = tm.keys().sort( ord );
 
-                final Vector2D selectedAttachmentPoint = sorted.head();
+                    final Vector2D selectedAttachmentPoint = sorted.head();
 
-                if ( selectedAttachmentPoint.equals( rightScaleAttachmentPoint ) ) { state = state.jettisonFraction( state.rightScale ).withRightScaleDropTime( System.currentTimeMillis() ); }
-                if ( selectedAttachmentPoint.equals( leftScaleAttachmentPoint ) ) { state = state.jettisonFraction( state.leftScale ).withLeftScaleDropTime( System.currentTimeMillis() ); }
+                    if ( selectedAttachmentPoint.equals( rightScaleAttachmentPoint ) ) { state = state.jettisonFraction( state.rightScale ).withRightScaleDropTime( System.currentTimeMillis() ); }
+                    if ( selectedAttachmentPoint.equals( leftScaleAttachmentPoint ) ) { state = state.jettisonFraction( state.leftScale ).withLeftScaleDropTime( System.currentTimeMillis() ); }
 
-                //animate to the closest destination
-                final List<MovableFraction> newFractions = state.fractions.map( new F<MovableFraction, MovableFraction>() {
-                    @Override public MovableFraction f( final MovableFraction f ) {
-                        return f.dragging ? f.withDragging( false ).withMotion( tm.get( selectedAttachmentPoint ).some() ) : f;
-                    }
-                } );
-                final MatchingGameState newState = state.withFractions( newFractions ).withMode( Mode.WAITING_FOR_USER_TO_CHECK_ANSWER );
-                model.set( newState );
-            }
-        } );
+                    //animate to the closest destination
+                    final List<MovableFraction> newFractions = state.fractions.map( new F<MovableFraction, MovableFraction>() {
+                        @Override public MovableFraction f( final MovableFraction f ) {
+                            return f.dragging ? f.withDragging( false ).withMotion( tm.get( selectedAttachmentPoint ).some() ) : f;
+                        }
+                    } );
+                    final MatchingGameState newState = state.withFractions( newFractions ).withMode( Mode.WAITING_FOR_USER_TO_CHECK_ANSWER );
+                    model.set( newState );
+                }
+            } );
+        }
     }
 }
