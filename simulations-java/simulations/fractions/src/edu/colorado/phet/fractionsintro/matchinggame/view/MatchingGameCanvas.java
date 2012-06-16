@@ -49,6 +49,7 @@ import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameModel;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Mode;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MovableFraction;
+import edu.colorado.phet.fractionsintro.matchinggame.view.Controller.Resample;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -97,7 +98,8 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
             }
         } );
 
-        final PNode settingsDialog = new ZeroOffsetNode( new LevelSelectionNode( startGame, gameSettings, gameResults ) ) {{
+        //Dialog for selecting and starting a level
+        final PNode levelSelectionDialog = new ZeroOffsetNode( new LevelSelectionNode( startGame, gameSettings, gameResults ) ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 );
 
             new CompositeBooleanProperty( new Function0<Boolean>() {
@@ -107,7 +109,8 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
             }, model.state ).addObserver( setNodeVisible( this ) );
         }};
 
-        final PNode text = new PNode() {{
+        //Title text, only shown when the user is choosing a level
+        final PNode titleText = new PNode() {{
             addChild( new PhetPText( "Fraction Matcher", new PhetFont( 38, true ) ) );
             new CompositeBooleanProperty( new Function0<Boolean>() {
                 public Boolean apply() {
@@ -115,10 +118,10 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                 }
             }, model.state ).addObserver( setNodeVisible( this ) );
 
-            setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, settingsDialog.getFullBounds().getMinY() / 3 - getFullBounds().getHeight() / 2 );
+            setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, levelSelectionDialog.getFullBounds().getMinY() / 3 - getFullBounds().getHeight() / 2 );
         }};
-        addChild( settingsDialog );
-        addChild( text );
+        addChild( levelSelectionDialog );
+        addChild( titleText );
 
         final int iconWidth = 40;
         final BufferedImage stopwatchIcon = BufferedImageUtils.multiScaleToWidth( GameConstants.STOPWATCH_ICON, iconWidth );
@@ -177,6 +180,8 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
             final PNode scalesNode = new RichPNode( model.state.get().leftScale.toNode(), model.state.get().rightScale.toNode() );
             addChild( scalesNode );
 
+
+            //Model properties that need to be observed.
             final ObservableProperty<Boolean> revealClues = new CompositeBooleanProperty( new Function0<Boolean>() {
                 public Boolean apply() {
                     return model.state.get().getMode() == Mode.SHOWING_WHY_ANSWER_WRONG ||
@@ -403,14 +408,13 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
     }
 
     //Encapsulates stroke, paint and stroke paint for a sign node like "=", "<", ">"
-    public static PhetPPath createSignNode( Shape shape ) { return new PhetPPath( shape, yellow, new BasicStroke( 2 ), Color.black ); }
+    public static PhetPPath getSignNode( Shape shape ) { return new PhetPPath( shape, yellow, new BasicStroke( 2 ), Color.black ); }
 
     private static PNode getSignNode( final MatchingGameState state, final PNode scales ) {
         class TextSign extends PNode {
             TextSign( String text ) {
                 final PhetFont textFont = new PhetFont( 100, true );
-                final PNode sign = createSignNode( textFont.createGlyphVector( new FontRenderContext( new AffineTransform(), true, true ), text ).getOutline() );
-                addChild( sign );
+                addChild( getSignNode( textFont.createGlyphVector( new FontRenderContext( new AffineTransform(), true, true ), text ).getOutline() ) );
             }
         }
 

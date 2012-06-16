@@ -27,6 +27,7 @@ public class PatternNode extends PNode {
         addChild( new PhetPPath( representation.outline, new BasicStroke( 2f ), Color.black ) );
     }
 
+    //Update the strokes of children so they will appear at the same size even if there is an overall scale.
     public void scaleStrokes( final double scale ) {
         for ( Object child : getChildrenReference() ) {
             PNode childNode = (PNode) child;

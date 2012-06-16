@@ -24,7 +24,7 @@ public class ScoreboardNode extends PNode {
 
     //Have to reuse buttons since they are animated outside of our model, and if they got reconstructed on each step, they would never animate nor press
     public static Button menuButton;
-    final PhetFont font = new PhetFont( 16, true );
+    public static final PhetFont font = new PhetFont( 16, true );
 
     public ScoreboardNode( final SettableProperty<MatchingGameState> model ) {
 
@@ -36,9 +36,6 @@ public class ScoreboardNode extends PNode {
             } );
         }
 
-//        final PNode optionalTimer = model.get().info.timerVisible ? new VBox( 0, text( "Time" ),
-//                                                                              text( model.get().info.time / 1000L + " sec" ),
-//                                                                              new Spacer( 0, 0, 5, 10 ) ) : new PNode();
         final PNode optionalTimerValue = model.get().info.timerVisible ? text( model.get().info.time / 1000L + " sec" ) : new PNode();
         final PNode optionalTimerText = model.get().info.timerVisible ? text( "Time " ) : new PNode();
 
@@ -51,16 +48,7 @@ public class ScoreboardNode extends PNode {
                                         optionalTimerValue
         );
         addChild( new VBox( new HBox( textBox, valueBox ), menuButton ) );
-//        addChild( new VBox( 0, text( "Level" ),
-//                            text( model.get().info.level + "" ),
-//                            new Spacer( 0, 0, 5, 10 ),
-//                            text( "Score" ),
-//                            text( model.get().info.score + "" ),
-//                            new Spacer( 0, 0, 5, 10 ),
-//                            menuButton ) );
     }
 
-    public PhetPText text( String text ) {
-        return new PhetPText( text, font );
-    }
+    public static PhetPText text( String text ) { return new PhetPText( text, font ); }
 }
