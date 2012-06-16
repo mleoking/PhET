@@ -12,6 +12,8 @@ import flash.events.TimerEvent;
 
 import flash.utils.Timer;
 
+import mx.rpc.AbstractInvoker;
+
 //model of radiating E-field from a moving point charge
 public class FieldModel {
 
@@ -43,25 +45,29 @@ public class FieldModel {
     private var sin_arr:Array;      //sines of angles of the rays,
     private var _fieldLine_arr:Array;  //array of field lines
 
-    private var _paused:Boolean;    //true if sim is paused
+    private var _paused:Boolean;        //true if sim is paused
     private var motionType_str:String;  //type of motion: user-controlled, linear, sinusoidal, circular, etc
     private var userControlled_str:String;
     private var linear_str:String;
     private var sinusoidal_str:String;
     private var circular_str:String;
-    private var sawTooth_str:String;
+    //private var sawTooth_str:String;
+    private var bump_str:String;
     private var random_str:String;
     private var stopping_str:String;
 
-    private var _t:Number;          //time in arbitrary units
-    private var _tLastPhoton: Number;	    //time of previous Photon emission
-    private var tRate: Number;	    //1 = real time; 0.25 = 1/4 of real time, etc.
-    private var dt: Number;  	    //default time step in seconds
-    private var delTPhoton:Number;  //time in sec between photon emission events
+    private var _t:Number;              //time in arbitrary units
+    private var _tLastPhoton: Number;	//time of previous Photon emission
+    private var tRate: Number;	        //1 = real time; 0.25 = 1/4 of real time, etc.
+    private var dt: Number;  	        //default time step in seconds
+    private var delTPhoton:Number;      //time in sec between photon emission events
+    private var stepsPerFrame:int;      //number of algorithm steps between screen draws
+    private var tBump:Number;           //time that charge is bumped
+    private var bumpDuration:Number;    //duration of bump in seconds
     private var tLastRandomStep:Number; //time of previous step in random walk motion
-    private var delTRandomWalk:Number; //time between steps in random walk motion
-    private var msTimer: Timer;	    //millisecond timer
-    private var stageW:int;         //width of stage in pixels
+    private var delTRandomWalk:Number;  //time between steps in random walk motion
+    private var msTimer: Timer;	        //millisecond timer
+    private var stageW:int;             //width of stage in pixels
     private var stageH:int;
 
 
@@ -70,22 +76,13 @@ public class FieldModel {
         this.views_arr = new Array();
         this.stageW = this.myMainView.stageW;
         this.stageH = this.myMainView.stageH;
-        this.c = this.stageW/5;    //n seconds to cross height of stage
-        this.k = 10;
-        this.m = 1;
-        this.vX = 0;
-        this.vY = 0;
-        this.fX = 0;
-        this.fY = 0;
-        this._v = Math.sqrt( vX*vX + vY*vY );
-        this.beta = this._v/this.c;
-        this.gamma = 1/Math.sqrt( 1 - beta*beta );
         this._nbrLines = 16;
         this._nbrPhotonsPerLine = 100;
         this.theta_arr = new Array( this._nbrLines );
         this.cos_arr = new Array( this._nbrLines );
         this.sin_arr = new Array( this._nbrLines );
         this._fieldLine_arr = new Array ( this._nbrLines );
+
         this.initialize();
     }//end constructor
 
@@ -110,25 +107,36 @@ public class FieldModel {
         this.linear_str = "linear";
         this.sinusoidal_str = "sinusoidal";
         this.circular_str = "circular";
-        this.sawTooth_str = "sawTooth";
+        this.bump_str = "bump";
+        //this.sawTooth_str = "sawTooth";
         this.random_str = "random";
         this.stopping_str = "stopping";
         this.motionType_str = userControlled_str;
 
+        this.c = this.stageW/4;     //n seconds to cross height of stage
+        this.k = 10;                //spring constant
+        this.m = 1;                 //mass
+
+        this.fX = 0;
+        this.fY = 0;
+        this.vX = 0;
+        this.vY = 0;
+        this._v = Math.sqrt( vX*vX + vY*vY );
+        this.beta = v/c;
+        this.gamma = 1/Math.sqrt( 1 - beta*beta );
         this._amplitude = 5;
         this._frequency = 2;
         this.phi = 0;
-        this.beta = 0.5;
-        this._v = beta*this.c;
 
         this._paused = false;
         this._t = 0;
         this._tLastPhoton = 0;
-        this.dt = 0.015;
-        this.delTPhoton = 0.015;
+        this.dt = 0.006;
+        this.delTPhoton = 0.02;
         this.tRate = 1;         //not currently used
-        this.msTimer = new Timer( this.dt * 1000 );   //argument of Timer constructor is time step in ms
-        this.msTimer.addEventListener( TimerEvent.TIMER, stepForward );
+        this.stepsPerFrame = 4;
+        this.msTimer = new Timer( stepsPerFrame*dt * 1000 );   //argument of Timer constructor is time step in ms
+        this.msTimer.addEventListener( TimerEvent.TIMER, reDrawScreen );
         this.updateViews();
         this.startRadiation();
     }
@@ -232,12 +240,15 @@ public class FieldModel {
         this.initializeFieldLines();
     }
 
-    public function bumpCharge():void{
-        trace("FieldModel.bumpCharge called()");
-    }
+
 
     public function restartCharge():void{
         this.setMotion( 1 );  //restart linear motion of charge at left edge of screen
+    }
+
+    public function bumpCharge( bumpDuration:Number ):void{
+        this.tBump = this._t;
+        this.bumpDuration = bumpDuration;
     }
     
     public function setForce( delX:Number, delY:Number ):void{
@@ -286,17 +297,20 @@ public class FieldModel {
             this._yC = 0;//-stageH; //0;
         }else if(choice == 2 ){  //sinusoid
             motionType_str = sinusoidal_str;
+            this.phi = 0;
         }else if( choice == 3 ){  //circular
             //this._t = 0;      //this is FATAL!!  Why??
             motionType_str = circular_str;
-        }else if( choice == 4 ){   //sawtooth
-            motionType_str = sawTooth_str;
+        }else if( choice == 4 ){   //bump
+            motionType_str = bump_str;
             _xC = 0;
-            _yC = this.amplitude;
+            _yC = 0;
             vX = 0;
             vY = 0;
-            slopeSign = 1;
-        }else if( choice == 5 ){
+            tBump = this._t;
+            bumpDuration = this.myMainView.myControlPanel.durationSlider.getVal();
+            //slopeSign = 1;
+        }else if( choice == 5 ){  //randomWalk
             motionType_str = random_str;
             _xC = 0;
             _yC = 0;
@@ -313,131 +327,173 @@ public class FieldModel {
 
     private function moveCharge():void{
         if( motionType_str == userControlled_str ){
-            this.beta = this._v/this.c;
-            this.gamma = 1/Math.sqrt( 1 - beta*beta );
-            var g3:Number = Math.pow( gamma, 3 );
-            _v = Math.sqrt( vX*vX + vY*vY );
-            var aX:Number = fX/( g3*m ); //- b*_v*vX;  //x-component of acceleration, no drag
-            var aY:Number = fY/( g3*m ); //- b*_v*vY;  //y-component of acceleration
-            _xC += vX*dt + 0.5*aX*dt*dt;
-            _yC += vY*dt + 0.5*aY*dt*dt;
-            vX += aX*dt;
-            vY += aY*dt;
-            _v = Math.sqrt( vX*vX + vY*vY );
-            this.beta = this._v/this.c;
-            if( _v > c ){
-                while( _v >= c ){
-                    trace( "error: _v > c, beta = " + this.beta );
-                    vX = 0.99*vX*c/_v;
-                    vY = 0.99*vY*c/_v;
-                    _v = Math.sqrt( vX*vX + vY*vY );
-                    beta = this._v/this.c;
-                }
-            }
+            this.userControlledStep();
         } else if( motionType_str == linear_str ){
             _xC += vX*dt;
             _yC += vY*dt;
-
         }else if( motionType_str == sinusoidal_str ) {
-            var A:Number = this._amplitude;  //_amplitude of sinusoidal motion
-            var f:Number = this._frequency;   //_frequency of motion in hertz
-            this._xC = 0;
-            this._yC = A*Math.sin( 2*Math.PI*f*this._t + phi ) ;
-            this.vX = 0;
-            this.vY = A*2*Math.PI*f*Math.cos( 2*Math.PI*f*this._t + phi );
-            this._v = Math.sqrt( vX*vX + vY*vY );
-            this.beta = this._v/this.c;
+            this.sinusiodalStep();
         }else if( motionType_str == circular_str ) {
-            var R:Number = this._amplitude;  //radius of circle
-            var omega:Number = 2*Math.PI*_frequency;
-            this._xC = R*Math.cos( omega*this._t + phi );
-            this._yC = R*Math.sin( omega*this._t + phi );
-            this.vX = -R*omega*Math.sin( omega*_t + phi );
-            this.vY = R*omega*Math.cos( omega*_t + phi );
-            _v = Math.sqrt( vX*vX + vY*vY );
-            this.beta = this._v/this.c;
-        }else if( motionType_str == sawTooth_str ){
-            _xC = 0;
-            vX = 0;
-            this.fX = 0;
-
-            if( _yC >= 0 ){
-                slopeSign = -1;
-            } else if(_yC < 0 ){
-                slopeSign = 1;
-            }
-            var extraForceFactor:Number = 100*(Math.abs( yC ))/amplitude;
-            var signY:Number = yC/Math.abs( yC );
-            var signVY:Number = vY/Math.abs( vY );
-            if( signY != signVY  ){
-                 extraForceFactor *= 0.7;
-            }
-
-            this.fY = slopeSign*(100+extraForceFactor)*amplitude;
-            this.beta = this._v/this.c;
-            this.gamma = 1/Math.sqrt( 1 - beta*beta );
-            var g3:Number = Math.pow( gamma, 3 );
-            var aY:Number = fY/( g3*m ); //- b*_v*vY;  //y-component of acceleration
-            _yC += vY*dt + 0.5*aY*dt*dt;
-            vY += aY*dt;
-            _v = Math.sqrt( vX*vX + vY*vY );
-            this.beta = this._v/this.c;
+            this.circularStep();
+        }else if( motionType_str == bump_str ){
+            this.bumpStep();
         }else if( motionType_str == random_str ){
-            if( (this._t - this.tLastRandomStep) > this.delTRandomWalk ){
-                this.tLastRandomStep = this._t;
-                this.vX = this.c*0.5*(Math.random() - 0.5);   //fMax * random number between -0.25 and +0.25
-                this.vY = this.c*0.5*(Math.random() - 0.5);
-            }
-            this.beta = this._v/this.c;
-            _xC += vX*dt;// + 0.5*aX*dt*dt;
-            _yC += vY*dt;// + 0.5*aY*dt*dt;
-            _v = Math.sqrt( vX*vX + vY*vY );
-            this.beta = this._v/this.c;
+            this.randomWalkStep();
         }else if( motionType_str == stopping_str ){
-            var div:Number = 10;
-            this.gamma = 1/Math.sqrt( 1 - beta*beta );
-            var g3:Number = Math.pow( gamma, 3 );
-            var aX:Number = -vXInit/(g3*m*div*dt);
-            var aY:Number = -vYInit/(g3*m*div*dt);
-
-            vX += aX*dt;
-            vY += aY*dt;
-            this._v = Math.sqrt( vX*vX + vY*vY );
-            var signVXInit:Number = vXInit/Math.abs( vXInit );
-            var signVYInit:Number = vYInit/Math.abs( vYInit );
-            var signVX:Number = vX/Math.abs(vX);
-            var signVY:Number = vY/Math.abs(vY);
-            var ratioX:Number = signVX/signVXInit;
-            var ratioY:Number = signVY/signVYInit;
-            if( ratioX < 0  || ratioY < 0 ){
-                vX = 0;
-                vY = 0;
-                aX = 0;
-                aY = 0;
-                motionType_str = userControlled_str;
-            }
-            _xC += vX*dt + (0.5)*aX*dt*dt;
-            _yC += vY*dt + (0.5)*aY*dt*dt;
-            this.beta = this._v/this.c;
+            this.stoppingStep();
         }
     }//end moveCharge()
 
-    private function stepForward( evt: TimerEvent ):void{
-        this._t += this.dt;
-        if( this._t > this._tLastPhoton + this.delTPhoton ){
-            this._tLastPhoton = this._t;
-            this.emitPhotons();
+    private function userControlledStep():void{
+        this.beta = this._v/this.c;
+        this.gamma = 1/Math.sqrt( 1 - beta*beta );
+        var g3:Number = Math.pow( gamma, 3 );
+        _v = Math.sqrt( vX*vX + vY*vY );
+        var aX:Number = fX/( g3*m ); //- b*_v*vX;  //x-component of acceleration, no drag
+        var aY:Number = fY/( g3*m ); //- b*_v*vY;  //y-component of acceleration
+        _xC += vX*dt + 0.5*aX*dt*dt;
+        _yC += vY*dt + 0.5*aY*dt*dt;
+        vX += aX*dt;
+        vY += aY*dt;
+        _v = Math.sqrt( vX*vX + vY*vY );
+        this.beta = this._v/this.c;
+        if( _v > c ){
+            while( _v >= c ){
+                trace( "error: _v > c, beta = " + this.beta );
+                vX = 0.99*vX*c/_v;
+                vY = 0.99*vY*c/_v;
+                _v = Math.sqrt( vX*vX + vY*vY );
+                beta = this._v/this.c;
+            }
+        }
+    }//end userControlledStep()
+
+    private function sinusiodalStep():void{
+        var A:Number = this._amplitude;  //_amplitude of sinusoidal motion
+        var f:Number = this._frequency;   //_frequency of motion in hertz
+        this._xC = 0;
+        this._yC = A*Math.sin( 2*Math.PI*f*this._t + phi ) ;
+        this.vX = 0;
+        this.vY = A*2*Math.PI*f*Math.cos( 2*Math.PI*f*this._t + phi );
+        this._v = Math.sqrt( vX*vX + vY*vY );
+        this.beta = this._v/this.c;
+    } //end sinusoidal step
+
+    private function circularStep():void{
+        var R:Number = this._amplitude;  //radius of circle
+        var omega:Number = 2*Math.PI*_frequency;
+        this._xC = R*Math.cos( omega*this._t + phi );
+        this._yC = R*Math.sin( omega*this._t + phi );
+        this.vX = -R*omega*Math.sin( omega*_t + phi );
+        this.vY = R*omega*Math.cos( omega*_t + phi );
+        _v = Math.sqrt( vX*vX + vY*vY );
+        this.beta = this._v/this.c;
+    }//end cicularStep();
+
+    private function bumpStep():void{
+        //trace("FieldModel.bumpCharge called()");
+        var A:Number = amplitude;
+        var f:Number = 1/bumpDuration;
+        var omega:Number = 2*Math.PI*f;
+        if( t < tBump + bumpDuration ){
+            this._yC = A*Math.sin( omega*(t - tBump));
+            this.vY = A*omega*Math.cos( omega*(t - tBump));
+        }
+        this._v = Math.sqrt( vX*vX + vY*vY );
+        this.beta = this._v/this.c;
+    }
+
+    private function sawToothStep():void{
+        _xC = 0;
+        vX = 0;
+        this.fX = 0;
+
+        if( _yC >= 0 ){
+            slopeSign = -1;
+        } else if(_yC < 0 ){
+            slopeSign = 1;
+        }
+        var extraForceFactor:Number = 100*(Math.abs( yC ))/amplitude;
+        var signY:Number = yC/Math.abs( yC );
+        var signVY:Number = vY/Math.abs( vY );
+        if( signY != signVY  ){
+            extraForceFactor *= 0.7;
+        }
+
+        this.fY = slopeSign*(100+extraForceFactor)*amplitude;
+        this.beta = this._v/this.c;
+        this.gamma = 1/Math.sqrt( 1 - beta*beta );
+        var g3:Number = Math.pow( gamma, 3 );
+        var aY:Number = fY/( g3*m ); //- b*_v*vY;  //y-component of acceleration
+        _yC += vY*dt + 0.5*aY*dt*dt;
+        vY += aY*dt;
+        _v = Math.sqrt( vX*vX + vY*vY );
+        this.beta = this._v/this.c;
+    }//end sawToothStep();
+
+    private function randomWalkStep():void{
+        if( (this._t - this.tLastRandomStep) > this.delTRandomWalk ){
+            this.tLastRandomStep = this._t;
+            this.vX = this.c*0.5*(Math.random() - 0.5);   //fMax * random number between -0.25 and +0.25
+            this.vY = this.c*0.5*(Math.random() - 0.5);
+        }
+        this.beta = this._v/this.c;
+        _xC += vX*dt;// + 0.5*aX*dt*dt;
+        _yC += vY*dt;// + 0.5*aY*dt*dt;
+        _v = Math.sqrt( vX*vX + vY*vY );
+        this.beta = this._v/this.c;
+    }//end randomWalkStep()
+
+    private function stoppingStep():void{
+        var stoppingTime:Number = 0.1;  //time to stop in seconds
+        var div:Number = stoppingTime/this.dt;   //number of time steps to brake to a stop
+        this.gamma = 1/Math.sqrt( 1 - beta*beta );
+        var g3:Number = Math.pow( gamma, 3 );
+        var aX:Number = -vXInit/(g3*m*div*dt);
+        var aY:Number = -vYInit/(g3*m*div*dt);
+
+        vX += aX*dt;
+        vY += aY*dt;
+        this._v = Math.sqrt( vX*vX + vY*vY );
+        var signVXInit:Number = vXInit/Math.abs( vXInit );
+        var signVYInit:Number = vYInit/Math.abs( vYInit );
+        var signVX:Number = vX/Math.abs(vX);
+        var signVY:Number = vY/Math.abs(vY);
+        var ratioX:Number = signVX/signVXInit;
+        var ratioY:Number = signVY/signVYInit;
+        if( ratioX < 0  || ratioY < 0 ){
+            vX = 0;
+            vY = 0;
+            aX = 0;
+            aY = 0;
+            motionType_str = userControlled_str;
+        }
+        _xC += vX*dt + (0.5)*aX*dt*dt;
+        _yC += vY*dt + (0.5)*aY*dt*dt;
+        this.beta = this._v/this.c;
+    }//end stoppingStep();
+
+    private function reDrawScreen( evt: TimerEvent ):void{
+        for(var s:int = 0; s < stepsPerFrame; s++ ) {
+            this._t += this.dt;
+            if( this._t > this._tLastPhoton + this.delTPhoton ){
+                this._tLastPhoton = this._t;
+                this.emitPhotons();
+            }
+            this.moveCharge();
         }
         for( var i:int = 0; i < this._nbrLines; i++ ){  //for each ray
             for( var j:int = 0; j < this._nbrPhotonsPerLine; j++ ){    //for each photon in a ray.
-                this._fieldLine_arr[i][j].xP += _fieldLine_arr[i][j].cos*this.c*this.dt;
-                this._fieldLine_arr[i][j].yP += _fieldLine_arr[i][j].sin*this.c*this.dt;
+                var t0:Number = this._fieldLine_arr[i][j].tEmitted;
+                var x0:Number = this._fieldLine_arr[i][j].x0;
+                var y0:Number = this._fieldLine_arr[i][j].y0;
+                this._fieldLine_arr[i][j].xP = x0 + _fieldLine_arr[i][j].cos*this.c*( t - t0 );
+                this._fieldLine_arr[i][j].yP = y0 + _fieldLine_arr[i][j].sin*this.c*( t - t0 );
             }
         }
-        this.moveCharge();
         this.updateViews();
-        evt.updateAfterEvent();
-    }//end stepForward()
+        //evt.updateAfterEvent();
+    }//end reDrawScreen()
 
     private function emitPhotons():void{
         //add new photon to 1st element of photon array
@@ -462,7 +518,10 @@ public class FieldModel {
             //reset positions
             this._fieldLine_arr[i][0].xP = this._xC;
             this._fieldLine_arr[i][0].yP = this._yC;
+            this._fieldLine_arr[i][0].x0 = this._xC;
+            this._fieldLine_arr[i][0].y0 = this._yC;
             this._fieldLine_arr[i][0].emitted = true;
+            this._fieldLine_arr[i][0].tEmitted = this._t;
             var thetaU:Number = this.theta_arr[i] - thetaC;
             var cosThetaU:Number = Math.cos( thetaU );
             var sinThetaU:Number = Math.sin( thetaU );
