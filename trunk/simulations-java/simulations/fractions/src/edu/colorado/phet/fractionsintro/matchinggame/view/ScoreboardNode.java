@@ -3,12 +3,14 @@ package edu.colorado.phet.fractionsintro.matchinggame.view;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
@@ -29,18 +31,18 @@ class ScoreboardNode extends PNode {
     public ScoreboardNode( final SettableProperty<MatchingGameState> model ) {
 
         if ( menuButton == null ) {
-            menuButton = new Button( Components.menuButton, "New Game", Color.yellow, Vector2D.ZERO, new ActionListener() {
+            menuButton = new Button( Components.menuButton, Strings.NEW_GAME, Color.yellow, Vector2D.ZERO, new ActionListener() {
                 public void actionPerformed( final ActionEvent e ) {
                     model.set( model.get().withMode( Mode.CHOOSING_SETTINGS ) );
                 }
             } );
         }
 
-        final PNode optionalTimerValue = model.get().info.timerVisible ? text( model.get().info.time / 1000L + " sec" ) : new PNode();
-        final PNode optionalTimerText = model.get().info.timerVisible ? text( "Time " ) : new PNode();
+        final PNode optionalTimerValue = model.get().info.timerVisible ? text( MessageFormat.format( Strings.TIME_READOUT__PATTERN, model.get().info.time / 1000L ) ) : new PNode();
+        final PNode optionalTimerText = model.get().info.timerVisible ? text( Strings.TIME ) : new PNode();
 
-        final VBox textBox = new VBox( 3, VBox.LEFT_ALIGNED, text( "Level" ),
-                                       text( "Score" ),
+        final VBox textBox = new VBox( 3, VBox.LEFT_ALIGNED, text( Strings.LEVEL ),
+                                       text( Strings.SCORE ),
                                        optionalTimerText );
         final VBox valueBox = new VBox( 3, VBox.LEFT_ALIGNED,
                                         text( model.get().info.level + "" ),

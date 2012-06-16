@@ -39,6 +39,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.ToggleButtonNode;
+import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractions.util.Cache;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractions.view.FNode;
@@ -111,7 +112,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
 
         //Title text, only shown when the user is choosing a level
         final PNode titleText = new PNode() {{
-            addChild( new PhetPText( "Fraction Matcher", new PhetFont( 38, true ) ) );
+            addChild( new PhetPText( Strings.FRACTION_MATCHER, new PhetFont( 38, true ) ) );
             new CompositeBooleanProperty( new Function0<Boolean>() {
                 public Boolean apply() {
                     return model.state.get().info.mode == Mode.CHOOSING_SETTINGS;
@@ -275,7 +276,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
             } ) );
             addChild( scoreCellsLayer );
 
-            addChild( new PhetPText( "My Matches", new PhetFont( 18, true ) ) {{
+            addChild( new PhetPText( Strings.MY_MATCHES, new PhetFont( 18, true ) ) {{
 
                 //Center "my matches" under the top left cell
                 setOffset( scoreCellsLayer.getChild( 0 ).getFullBounds().getCenterX() - getFullWidth() / 2, scoreCellsLayer.getMaxY() );

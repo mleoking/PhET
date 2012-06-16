@@ -7,6 +7,7 @@ import fj.data.List;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.MessageFormat;
 
 import javax.swing.Timer;
 
@@ -17,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.ToggleButtonNode;
+import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractionsintro.common.view.Colors;
 import edu.colorado.phet.fractionsintro.matchinggame.model.GameResult;
 import edu.umd.cs.piccolo.PNode;
@@ -69,7 +71,7 @@ public class LevelSelectionNode extends PNode {
             @Override public LevelIconNode f( final PatternNode patternNode ) {
                 final Integer levelIndex = patterns.elementIndex( Equal.<PatternNode>anyEqual(), patternNode ).some();
                 int levelName = levelIndex + 1;
-                return new LevelIconNode( "Level " + levelName, patternNode, maxIconWidth, maxIconHeight, levelName, gameResults );
+                return new LevelIconNode( MessageFormat.format( Strings.LEVEL__PATTERN, levelName ), patternNode, maxIconWidth, maxIconHeight, levelName, gameResults );
             }
         } );
 

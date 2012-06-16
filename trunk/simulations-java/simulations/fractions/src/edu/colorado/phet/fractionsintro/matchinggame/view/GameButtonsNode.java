@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
@@ -35,15 +36,15 @@ class GameButtonsNode extends PNode {
         if ( state.getLeftScaleValue() > 0 && state.getRightScaleValue() > 0 ) {
             if ( state.getMode() == SHOWING_WHY_ANSWER_WRONG ) {
                 if ( state.getChecks() < 2 ) {
-                    addChild( buttonFactory.f( new ButtonArgs( tryAgainButton, "Try again", Color.red, buttonLocation, new TryAgain() ) ) );
+                    addChild( buttonFactory.f( new ButtonArgs( tryAgainButton, Strings.TRY_AGAIN, Color.red, buttonLocation, new TryAgain() ) ) );
                 }
                 else {
-                    addChild( buttonFactory.f( new ButtonArgs( showAnswerButton, "Show answer", Color.red, buttonLocation, new ShowAnswer() ) ) );
+                    addChild( buttonFactory.f( new ButtonArgs( showAnswerButton, Strings.SHOW_ANSWER, Color.red, buttonLocation, new ShowAnswer() ) ) );
                 }
             }
 
             else if ( state.getChecks() < 2 && state.getMode() == WAITING_FOR_USER_TO_CHECK_ANSWER ) {
-                addChild( buttonFactory.f( new ButtonArgs( Components.checkAnswerButton, "Check answer", Color.orange, buttonLocation, new CheckAnswer() ) ) );
+                addChild( buttonFactory.f( new ButtonArgs( Components.checkAnswerButton, Strings.CHECK_ANSWER, Color.orange, buttonLocation, new CheckAnswer() ) ) );
             }
 
             //If they match, show a "Keep" button. This allows the student to look at the right answer as long as they want before moving it to the scoreboard.
@@ -54,11 +55,11 @@ class GameButtonsNode extends PNode {
                     centerFullBoundsOnPoint( pt.getX() - getFullBounds().getWidth() / 2, pt.getY() );
                 }} );
 
-                addChild( buttonFactory.f( new ButtonArgs( Components.keepMatchButton, "OK", Color.green, buttonLocation, new Next() ) ) );
+                addChild( buttonFactory.f( new ButtonArgs( Components.keepMatchButton, Strings.OK, Color.green, buttonLocation, new Next() ) ) );
             }
 
             if ( state.getMode() == SHOWING_CORRECT_ANSWER_AFTER_INCORRECT_GUESS ) {
-                addChild( buttonFactory.f( new ButtonArgs( Components.keepMatchButton, "OK", Color.green, buttonLocation, new Next() ) ) );
+                addChild( buttonFactory.f( new ButtonArgs( Components.keepMatchButton, Strings.OK, Color.green, buttonLocation, new Next() ) ) );
             }
         }
     }
