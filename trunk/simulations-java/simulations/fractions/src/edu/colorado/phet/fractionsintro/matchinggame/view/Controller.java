@@ -48,4 +48,10 @@ public class Controller {
                    state.withChecks( state.info.checks + 1 ).withMode( SHOWING_WHY_ANSWER_WRONG );
         }
     }
+
+    public static @Data class Resample extends fj.F<MatchingGameState, MatchingGameState> {
+        @Override public MatchingGameState f( final MatchingGameState matchingGameState ) {
+            return MatchingGameState.newLevel( matchingGameState.info.level, matchingGameState.gameResults ).withMode( WAITING_FOR_USER_TO_CHECK_ANSWER );
+        }
+    }
 }
