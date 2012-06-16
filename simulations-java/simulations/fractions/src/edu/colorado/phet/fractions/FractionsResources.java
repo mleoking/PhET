@@ -15,9 +15,21 @@ public class FractionsResources {
 
     //Strings
     public static class Strings {
+        public static final String CHECK_ANSWER = RESOURCES.getLocalizedString( "checkAnswer" );
+        public static final String FRACTION_MATCHER = RESOURCES.getLocalizedString( "fractionMatcher" );
+        public static final String LEVEL = RESOURCES.getLocalizedString( "level" );
+        public static final String LEVEL__PATTERN = RESOURCES.getLocalizedString( "level.pattern" );
         public static final String MY_FRACTIONS = RESOURCES.getLocalizedString( "myFractions" );
+        public static final String MY_MATCHES = RESOURCES.getLocalizedString( "myMatches" );
+        public static final String NEW_GAME = RESOURCES.getLocalizedString( "newGame" );
         public static final String NUMBERS = RESOURCES.getLocalizedString( "numbers" );
+        public static final String OK = RESOURCES.getLocalizedString( "ok" );
         public static final String PICTURES = RESOURCES.getLocalizedString( "pictures" );
+        public static final String SCORE = RESOURCES.getLocalizedString( "score" );
+        public static final String SHOW_ANSWER = RESOURCES.getLocalizedString( "showAnswer" );
+        public static final String TIME = RESOURCES.getLocalizedString( "time" );
+        public static final String TIME_READOUT__PATTERN = RESOURCES.getLocalizedString( "timeReadout.pattern" );
+        public static final String TRY_AGAIN = RESOURCES.getLocalizedString( "tryAgain" );
     }
 
     //Images
