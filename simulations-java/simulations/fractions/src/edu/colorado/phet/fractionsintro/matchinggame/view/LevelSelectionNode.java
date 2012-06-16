@@ -13,12 +13,15 @@ import javax.swing.Timer;
 
 import edu.colorado.phet.common.games.GameSettings;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.ToggleButtonNode;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
+import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.colorado.phet.fractionsintro.common.view.Colors;
 import edu.colorado.phet.fractionsintro.matchinggame.model.GameResult;
 import edu.umd.cs.piccolo.PNode;
@@ -81,6 +84,7 @@ public class LevelSelectionNode extends PNode {
             final Property<Boolean> selected = new Property<Boolean>( false );
             ToggleButtonNode button = new ToggleButtonNode( icon, selected, new VoidFunction0() {
                 public void apply() {
+                    SimSharingManager.sendButtonPressed( UserComponentChain.chain( Components.levelButton, icon.levelName ) );
                     selected.set( true );
                     gameSettings.level.set( icon.levelName );
 

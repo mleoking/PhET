@@ -19,8 +19,7 @@ import edu.colorado.phet.fractionsintro.matchinggame.view.Controller.ShowAnswer;
 import edu.colorado.phet.fractionsintro.matchinggame.view.Controller.TryAgain;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.showAnswerButton;
-import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.tryAgainButton;
+import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.*;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Mode.*;
 
 /**
@@ -55,11 +54,11 @@ class GameButtonsNode extends PNode {
                     centerFullBoundsOnPoint( pt.getX() - getFullBounds().getWidth() / 2, pt.getY() );
                 }} );
 
-                addChild( buttonFactory.f( new ButtonArgs( Components.keepMatchButton, Strings.OK, Color.green, buttonLocation, new Next() ) ) );
+                addChild( buttonFactory.f( new ButtonArgs( okButton, Strings.OK, Color.green, buttonLocation, new Next() ) ) );
             }
 
             if ( state.getMode() == SHOWING_CORRECT_ANSWER_AFTER_INCORRECT_GUESS ) {
-                addChild( buttonFactory.f( new ButtonArgs( Components.keepMatchButton, Strings.OK, Color.green, buttonLocation, new Next() ) ) );
+                addChild( buttonFactory.f( new ButtonArgs( okButton, Strings.OK, Color.green, buttonLocation, new Next() ) ) );
             }
         }
     }
