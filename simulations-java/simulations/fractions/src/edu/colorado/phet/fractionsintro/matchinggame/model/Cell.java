@@ -20,7 +20,7 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
     public final int i;
     public final int j;
 
-    public Vector2D position() {return new Vector2D( rectangle.getCenter() );}
+    public Vector2D getPosition() {return new Vector2D( rectangle.getCenter() );}
 
     public Shape toRoundedRectangle() { return rectangle.toRoundedRectangle( 20, 20 ); }
 }

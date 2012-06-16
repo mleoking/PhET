@@ -91,7 +91,7 @@ public class MovableFractionNode extends PNode {
                     put( rightScaleAttachmentPoint, MoveToRightScale );
                     put( leftScaleAttachmentPoint, MoveToLeftScale );
                     Cell cell = model.get().getClosestFreeStartCell( draggingFraction );
-                    put( cell.position(), MoveToCell( cell ) );
+                    put( cell.getPosition(), MoveToCell( cell ) );
                 }};
 
                 final Ord<Vector2D> ord = ord( new F<Vector2D, Double>() {

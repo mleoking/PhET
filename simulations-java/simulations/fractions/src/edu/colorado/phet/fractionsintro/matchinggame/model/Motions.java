@@ -56,7 +56,7 @@ public class Motions {
     public static F<UpdateArgs, MovableFraction> MoveToCell( final Cell cell ) {
         return new F<UpdateArgs, MovableFraction>() {
             @Override public MovableFraction f( UpdateArgs a ) {
-                return a.fraction.stepTowards( cell.position(), a.dt );
+                return a.fraction.stepTowards( cell.getPosition(), a.dt );
             }
         };
     }
