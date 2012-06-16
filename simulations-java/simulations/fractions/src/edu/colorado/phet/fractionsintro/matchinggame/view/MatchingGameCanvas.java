@@ -44,7 +44,7 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractions.view.FNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Cell;
-import edu.colorado.phet.fractionsintro.matchinggame.model.GameOverScore;
+import edu.colorado.phet.fractionsintro.matchinggame.model.GameResult;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameModel;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Mode;
@@ -77,7 +77,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
 
-                        final MatchingGameState m = newLevel( gameSettings.level.get(), model.state.get().gameOverScoresList ).
+                        final MatchingGameState m = newLevel( gameSettings.level.get(), model.state.get().gameResults ).
                                 withMode( Mode.WAITING_FOR_USER_TO_CHECK_ANSWER ).
                                 withAudio( gameSettings.soundEnabled.get() ).
                                 withTimerVisible( gameSettings.timerEnabled.get() );
@@ -86,13 +86,13 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                 } );
             }
         };
-        final Property<List<GameOverScore>> gameOverScores = new Property<List<GameOverScore>>( model.state.get().gameOverScoresList );
+        final Property<List<GameResult>> gameResults = new Property<List<GameResult>>( model.state.get().gameResults );
         model.state.addObserver( new VoidFunction1<MatchingGameState>() {
             public void apply( final MatchingGameState matchingGameState ) {
-                gameOverScores.set( model.state.get().gameOverScoresList );
+                gameResults.set( model.state.get().gameResults );
             }
         } );
-        final PNode settingsDialog = new ZeroOffsetNode( new LevelSelectionNode( startGame, gameSettings, gameOverScores ) ) {{
+        final PNode settingsDialog = new ZeroOffsetNode( new LevelSelectionNode( startGame, gameSettings, gameResults ) ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 );
 
             new CompositeBooleanProperty( new Function0<Boolean>() {

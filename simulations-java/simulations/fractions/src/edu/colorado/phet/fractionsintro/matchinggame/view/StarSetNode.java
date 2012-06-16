@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
-import edu.colorado.phet.fractionsintro.matchinggame.model.GameOverScore;
+import edu.colorado.phet.fractionsintro.matchinggame.model.GameResult;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -22,17 +22,17 @@ import static edu.colorado.phet.fractions.FractionsResources.Images.*;
  * @author Sam Reid
  */
 public class StarSetNode extends PNode {
-    public StarSetNode( final Property<List<GameOverScore>> gameOverScores, final int levelName ) {
+    public StarSetNode( final Property<List<GameResult>> gameResults, final int levelName ) {
         final BufferedImage star0 = BufferedImageUtils.multiScaleToWidth( STAR_0, 30 );
         final BufferedImage star1 = BufferedImageUtils.multiScaleToWidth( STAR_1, 30 );
         final BufferedImage star2 = BufferedImageUtils.multiScaleToWidth( STAR_2, 30 );
         final BufferedImage star3 = BufferedImageUtils.multiScaleToWidth( STAR_3, 30 );
         final BufferedImage star4 = BufferedImageUtils.multiScaleToWidth( STAR_4, 30 );
 
-        gameOverScores.addObserver( new VoidFunction1<List<GameOverScore>>() {
-            public void apply( final List<GameOverScore> gameOverScores ) {
+        gameResults.addObserver( new VoidFunction1<List<GameResult>>() {
+            public void apply( final List<GameResult> gameResults ) {
                 removeAllChildren();
-                int score = getScore( gameOverScores );
+                int score = getScore( gameResults );
                 //never played = 0 stars
                 //less than half points = 1 star
                 //equal or more than half = 2 stars
@@ -54,20 +54,20 @@ public class StarSetNode extends PNode {
                 addChild( new ControlPanelNode( new HBox( new PImage( images.index( 0 ) ), new PImage( images.index( 1 ) ), new PImage( images.index( 2 ) ) ), Color.white ) );
             }
 
-            private int getScore( final List<GameOverScore> gameOverScores ) {
+            private int getScore( final List<GameResult> gameResults ) {
 
-                final List<GameOverScore> scoresForThisLevel = gameOverScores.filter( new F<GameOverScore, Boolean>() {
-                    @Override public Boolean f( final GameOverScore gameOverScore ) {
-                        return gameOverScore.level == levelName;
+                final List<GameResult> scoresForThisLevel = gameResults.filter( new F<GameResult, Boolean>() {
+                    @Override public Boolean f( final GameResult gameResult ) {
+                        return gameResult.level == levelName;
                     }
                 } );
                 if ( scoresForThisLevel.length() == 0 ) {
                     return 0;
                 }
                 int bestScoreForThisLevel = scoresForThisLevel.
-                        map( new F<GameOverScore, Integer>() {
-                            @Override public Integer f( final GameOverScore gameOverScore ) {
-                                return gameOverScore.score;
+                        map( new F<GameResult, Integer>() {
+                            @Override public Integer f( final GameResult gameResult ) {
+                                return gameResult.score;
                             }
                         } ).
                         maximum( Ord.intOrd );
