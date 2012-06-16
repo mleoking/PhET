@@ -7,7 +7,7 @@ import lombok.Data;
  *
  * @author Sam Reid
  */
-public @Data class GameOverScore {
+public @Data class GameResult {
     public final int level;
     public final int score;
     public final int maxPoints;
