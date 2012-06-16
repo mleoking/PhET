@@ -28,7 +28,7 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.*;
 import static fj.data.TreeMap.fromMutableMap;
 
 /**
- * Decorates a piccolo node with mouse listeners and sets the position properly
+ * Decorates a fraction representation node with mouse listeners and sets the position properly
  *
  * @author Sam Reid
  */
