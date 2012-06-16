@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fractionsintro.matchinggame.view.fractions;
+package edu.colorado.phet.fractionsintro.matchinggame.view;
 
 import fj.P2;
 

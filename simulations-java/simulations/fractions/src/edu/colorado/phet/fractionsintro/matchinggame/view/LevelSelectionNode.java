@@ -21,8 +21,6 @@ import edu.colorado.phet.fractionsintro.common.view.Colors;
 import edu.colorado.phet.fractionsintro.matchinggame.model.GameResult;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Polygon;
-import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern;
-import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
 import edu.umd.cs.piccolo.PNode;
 
 import static fj.Ord.doubleOrd;

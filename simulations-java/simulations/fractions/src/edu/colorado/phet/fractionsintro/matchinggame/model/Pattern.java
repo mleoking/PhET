@@ -25,8 +25,8 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractions.util.immutable.Vector2D.UnitVector2D;
 import edu.colorado.phet.fractions.view.FNode;
-import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern;
-import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.PatternNode;
+import edu.colorado.phet.fractionsintro.matchinggame.view.FilledPattern;
+import edu.colorado.phet.fractionsintro.matchinggame.view.PatternNode;
 import edu.umd.cs.piccolox.PFrame;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;

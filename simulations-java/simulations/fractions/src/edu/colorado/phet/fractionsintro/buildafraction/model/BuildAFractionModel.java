@@ -14,10 +14,10 @@ import edu.colorado.phet.common.phetcommon.model.property.integerproperty.Intege
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Pyramid;
-import edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern;
+import edu.colorado.phet.fractionsintro.matchinggame.view.FilledPattern;
 
 import static edu.colorado.phet.fractionsintro.buildafraction.model.NumberTarget.target;
-import static edu.colorado.phet.fractionsintro.matchinggame.view.fractions.FilledPattern.sequentialFill;
+import static edu.colorado.phet.fractionsintro.matchinggame.view.FilledPattern.sequentialFill;
 import static fj.data.List.*;
 import static java.awt.Color.*;
 

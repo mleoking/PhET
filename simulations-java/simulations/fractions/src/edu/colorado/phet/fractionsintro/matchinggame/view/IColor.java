@@ -1,4 +1,4 @@
-package edu.colorado.phet.fractionsintro.matchinggame.view.fractions;
+package edu.colorado.phet.fractionsintro.matchinggame.view;
 
 import java.awt.Color;
 
