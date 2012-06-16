@@ -19,10 +19,11 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.ToggleButtonNode;
 import edu.colorado.phet.fractionsintro.common.view.Colors;
 import edu.colorado.phet.fractionsintro.matchinggame.model.GameResult;
-import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern;
-import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Polygon;
 import edu.umd.cs.piccolo.PNode;
 
+import static edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Polygon.createPolygon;
+import static edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.*;
+import static edu.colorado.phet.fractionsintro.matchinggame.view.FilledPattern.sequentialFill;
 import static fj.Ord.doubleOrd;
 
 /**
@@ -33,19 +34,20 @@ import static fj.Ord.doubleOrd;
 public class LevelSelectionNode extends PNode {
     public LevelSelectionNode( final VoidFunction0 startGame, final GameSettings gameSettings, final Property<List<GameResult>> gameResults ) {
 
-        final List<PatternNode> patterns = List.list( new PatternNode( FilledPattern.sequentialFill( Pattern.pie( 1 ), 1 ), Color.red ),
-                                                      new PatternNode( FilledPattern.sequentialFill( Pattern.horizontalBars( 2 ), 2 ), Colors.LIGHT_GREEN ),
-                                                      new PatternNode( FilledPattern.sequentialFill( Pattern.verticalBars( 3 ), 3 ), Colors.LIGHT_BLUE ),
-                                                      new PatternNode( FilledPattern.sequentialFill( Pattern.letterLShapedDiagonal( 15, 2 ), 4 ), Color.orange ),
-                                                      new PatternNode( FilledPattern.sequentialFill( Polygon.create( 60, 5 ), 5 ), Color.magenta ),
-                                                      new PatternNode( FilledPattern.sequentialFill( Pattern.sixFlower(), 6 ), Color.yellow ),
-                                                      new PatternNode( FilledPattern.sequentialFill( Polygon.create( 60, 7 ), 7 ), Color.pink ),
-                                                      new PatternNode( FilledPattern.sequentialFill( Polygon.create( 60, 8 ), 8 ), Color.green ) );
+        final List<PatternNode> patterns = List.list( new PatternNode( sequentialFill( pie( 1 ), 1 ), Color.red ),
+                                                      new PatternNode( sequentialFill( horizontalBars( 2 ), 2 ), Colors.LIGHT_GREEN ),
+                                                      new PatternNode( sequentialFill( verticalBars( 3 ), 3 ), Colors.LIGHT_BLUE ),
+                                                      new PatternNode( sequentialFill( letterLShapedDiagonal( 15, 2 ), 4 ), Color.orange ),
+                                                      new PatternNode( sequentialFill( createPolygon( 60, 5 ), 5 ), Color.magenta ),
+                                                      new PatternNode( sequentialFill( sixFlower(), 6 ), Color.yellow ),
+                                                      new PatternNode( sequentialFill( createPolygon( 60, 7 ), 7 ), Color.pink ),
+                                                      new PatternNode( sequentialFill( createPolygon( 60, 8 ), 8 ), Color.green ) );
 
         for ( PatternNode pattern : patterns ) {
             pattern.scale( 90 / pattern.getFullBounds().getWidth() );
         }
 
+        //Get bounds for layout so all buttons same size
         final double maxIconWidth = patterns.map( new F<PatternNode, Double>() {
             @Override public Double f( final PatternNode n ) {
                 return n.getFullBounds().getWidth();
@@ -76,7 +78,6 @@ public class LevelSelectionNode extends PNode {
                     gameSettings.level.set( icon.levelName );
 
                     //Show it pressed in for a minute before starting up.
-                    //TODO: make it act more like a button (hold it down and fire on release)
                     new Timer( 100, new ActionListener() {
                         public void actionPerformed( final ActionEvent e ) {
 
@@ -101,6 +102,7 @@ public class LevelSelectionNode extends PNode {
         }
     }
 
+    //Button icon for a single level, shows the level name, a shape and the progress stars
     public static class LevelIconNode extends PNode {
         public final Integer levelName;
 

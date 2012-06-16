@@ -4,6 +4,7 @@ package edu.colorado.phet.fractionsintro.matchinggame.view;
 import fj.F;
 import fj.P2;
 import fj.data.List;
+import lombok.Data;
 
 import java.awt.Shape;
 import java.util.ArrayList;
@@ -19,15 +20,15 @@ import static edu.colorado.phet.fractionsintro.common.util.DefaultP2.p2;
  *
  * @author Sam Reid
  */
-public class FilledPattern {
+public @Data class FilledPattern {
+
+    //List of the shapes with a flag for each indicating whether filled
     public final List<P2<Shape, Boolean>> shapes;
+
+    //Outline of the entire container
     public final Shape outline;
 
-    public FilledPattern( final List<P2<Shape, Boolean>> shapes, Shape outline ) {
-        this.shapes = shapes;
-        this.outline = outline;
-    }
-
+    //Pattern that fills sequentially (from the left)
     public static FilledPattern sequentialFill( Pattern pattern, final int numFilled ) {
         return new FilledPattern( pattern.shapes.zipIndex().map( new F<P2<Shape, Integer>, P2<Shape, Boolean>>() {
             @Override public P2<Shape, Boolean> f( final P2<Shape, Integer> p ) {
@@ -36,6 +37,7 @@ public class FilledPattern {
         } ), pattern.outline );
     }
 
+    //Pattern that fills randomly.
     public static FilledPattern randomFill( Pattern pattern, final int numFilled, final long seed ) {
         int numElements = pattern.shapes.length();
 

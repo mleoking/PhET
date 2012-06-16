@@ -8,14 +8,14 @@ import java.awt.geom.Line2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
-import edu.colorado.phet.fractions.view.FNode;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * Bar graph for showing the value of fractions.
  *
  * @author Sam Reid
  */
-public class EmptyBarGraphNode extends FNode {
+public class EmptyBarGraphNode extends PNode {
     public EmptyBarGraphNode() {
         double majorWidth = 90;
         double minorWidth = 70;

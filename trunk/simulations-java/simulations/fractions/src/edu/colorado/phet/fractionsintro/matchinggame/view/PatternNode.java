@@ -15,11 +15,9 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-public class PatternNode extends PNode implements IColor {
-    private final Color color;
+public class PatternNode extends PNode {
 
     public PatternNode( final FilledPattern representation, Color color ) {
-        this.color = color;
         for ( P2<Shape, Boolean> o : representation.shapes ) {
 
             //Using a stroke more than 1 here prevents the right side from getting trimmed off during toImage
@@ -27,10 +25,6 @@ public class PatternNode extends PNode implements IColor {
         }
 
         addChild( new PhetPPath( representation.outline, new BasicStroke( 2f ), Color.black ) );
-    }
-
-    public Color getColor() {
-        return color;
     }
 
     public void scaleStrokes( final double scale ) {

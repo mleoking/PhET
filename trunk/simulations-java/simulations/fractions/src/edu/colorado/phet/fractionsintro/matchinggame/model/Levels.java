@@ -327,7 +327,7 @@ public class Levels {
                                   s == flower && d == 6 ? Pattern.sixFlower() :
                                   s == tetris && d == 4 ? Pattern.tetrisPiece( 50 ) :
                                   s == plusses && d == 6 ? new PlusSigns( d ) :
-                                  s == polygon ? Polygon.create( 80, d ) :
+                                  s == polygon ? Polygon.createPolygon( 80, d ) :
                                   s == pyramid && d == 1 ? Pyramid.single() :
                                   s == pyramid && d == 4 ? Pyramid.four() :
                                   s == pyramid && d == 9 ? Pyramid.nine() :
