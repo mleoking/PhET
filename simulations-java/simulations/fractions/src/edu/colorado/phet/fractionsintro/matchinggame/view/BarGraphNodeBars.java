@@ -6,14 +6,14 @@ import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.fractions.view.FNode;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * Bar graph for showing the value of fractions.
  *
  * @author Sam Reid
  */
-public class BarGraphNodeBars extends FNode {
+public class BarGraphNodeBars extends PNode {
     public BarGraphNodeBars( double leftScaleValue, Color leftColor, double rightScaleValue, Color rightColor ) {
         final double leftBarHeight = leftScaleValue * 100;
         final int barWidth = 17;

@@ -38,4 +38,14 @@ public class Controller {
                    updated;
         }
     }
+
+    public static @Data class CheckAnswer extends F<MatchingGameState, MatchingGameState> {
+        @Override public MatchingGameState f( final MatchingGameState state ) {
+            int points = state.getChecks() == 0 ? 2 : 1;
+            return state.getLeftScaleValue() == state.getRightScaleValue() ? state.withChecks( state.info.checks + 1 ).
+                    withMode( USER_CHECKED_CORRECT_ANSWER ).
+                    withScore( state.info.score + points ) :
+                   state.withChecks( state.info.checks + 1 ).withMode( SHOWING_WHY_ANSWER_WRONG );
+        }
+    }
 }

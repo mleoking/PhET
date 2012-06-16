@@ -58,20 +58,22 @@ import static java.awt.Color.yellow;
 
 /**
  * This class shows the graphics and provides user interaction for the matching game.
- * This class was written in response to #3314, because the previous version of MatchingGameCanvas redrew the screen every time step and had poor performance on
- * an old PhET laptop.  This class uses a more traditional piccolo approach, creating nodes once and maintaining them and only updating them when necessary.
+ * Even though using an immutable model, this class uses a more traditional piccolo approach for graphics,
+ * creating nodes once and maintaining them and only updating them when necessary.
  *
  * @author Sam Reid
  */
 public class MatchingGameCanvas extends AbstractFractionsCanvas {
-    public static final double GAME_UI_SCALE = 1.5;
 
     public MatchingGameCanvas( final boolean dev, final MatchingGameModel model ) {
 
+        //Bar graph node that shows now bars, shown when the user has put something on both scales but hasn't checked the answer
         final PNode emptyBarGraphNode = new EmptyBarGraphNode();
 
         //Game settings
         final GameSettings gameSettings = new GameSettings( new IntegerRange( 1, 8, 1 ), false, false );
+
+        //Function invoked when the user pushes a level button to start the game.
         final VoidFunction0 startGame = new VoidFunction0() {
             public void apply() {
                 SwingUtilities.invokeLater( new Runnable() {
@@ -86,12 +88,15 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                 } );
             }
         };
+
+        //Property for the list of game results
         final Property<List<GameResult>> gameResults = new Property<List<GameResult>>( model.state.get().gameResults );
         model.state.addObserver( new VoidFunction1<MatchingGameState>() {
             public void apply( final MatchingGameState matchingGameState ) {
                 gameResults.set( model.state.get().gameResults );
             }
         } );
+
         final PNode settingsDialog = new ZeroOffsetNode( new LevelSelectionNode( startGame, gameSettings, gameResults ) ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 );
 
@@ -384,7 +389,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                             final MatchingGameState state = model.state.get();
                             final int maxPoints = 12;
                             parent.addChild( new GameOverNode( state.info.level, state.info.score, maxPoints, new DecimalFormat( "0" ), state.info.time, state.info.bestTime, state.info.time >= state.info.bestTime, state.info.timerVisible ) {{
-                                scale( GAME_UI_SCALE );
+                                scale( 1.5 );
                                 centerFullBoundsOnPoint( STAGE_SIZE.getWidth() / 2, STAGE_SIZE.getHeight() / 2 );
                                 addGameOverListener( new GameOverListener() {
                                     public void newGamePressed() {

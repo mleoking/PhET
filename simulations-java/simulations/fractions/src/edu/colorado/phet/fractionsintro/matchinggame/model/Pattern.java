@@ -281,7 +281,7 @@ public class Pattern {
     public static class Polygon {
 
         //http://www.mathsisfun.com/geometry/interior-angles-polygons.html
-        public static Pattern create( double diameter, final int numSides ) {
+        public static Pattern createPolygon( double diameter, final int numSides ) {
             final double triAngle = Math.PI * 2.0 / numSides;
             final double radius = diameter / 2;
             final List<Shape> shapes = range( 0, numSides ).map( new F<Integer, Shape>() {
