@@ -48,11 +48,15 @@ public class FractionsIntroSimSharing {
         scaledUpFractionSpinnerLeftButton,
         lock,
         numberLineArrow, numberLineKnob,
-        keepMatchButton,
+        okButton,
         matchingGameFraction,
 
         tryAgainButton, showAnswerButton, checkAnswerButton,
-        buildAFractionTab, menuButton
+        buildAFractionTab, menuButton,
+
+        levelButton,
+        soundButton, stopwatchButton,
+        newGameButton
     }
 
     //For chaining with component types
@@ -83,7 +87,8 @@ public class FractionsIntroSimSharing {
         denominator,
         containerSetKey,
         scale,
-        autoSpin
+        autoSpin,
+        soundEnabled, timerEnabled
     }
 
     public static RichVoidFunction1<Boolean> sendMessage( final IUserComponent component, final IUserComponentType type, final IUserAction action, final Function1<Boolean, ParameterSet> parameters ) {

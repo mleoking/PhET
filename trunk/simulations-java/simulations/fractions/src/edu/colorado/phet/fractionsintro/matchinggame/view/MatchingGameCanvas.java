@@ -22,6 +22,8 @@ import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.Min;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -38,6 +40,8 @@ import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractions.util.Cache;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractions.view.FNode;
+import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components;
+import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ParameterKeys;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Cell;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameModel;
@@ -48,6 +52,8 @@ import edu.colorado.phet.fractionsintro.matchinggame.view.Controller.Resample;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendUserMessage;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState.newLevel;
 import static java.awt.Color.lightGray;
 
@@ -296,11 +302,14 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
         final BufferedImage soundOffIcon = BufferedImageUtils.multiScaleToWidth( GameConstants.SOUND_OFF_ICON, iconWidth );
         final int maxIconWidth = Math.max( stopwatchIcon.getWidth(), soundIcon.getWidth() ) + 10;
         final int maxIconHeight = Math.max( stopwatchIcon.getHeight(), soundIcon.getHeight() ) + 10;
-        final ToggleButtonNode stopwatchButton = new ToggleButtonNode( new PaddedIcon( maxIconWidth, maxIconHeight, new PImage( stopwatchIcon ) ), gameSettings.timerEnabled, new VoidFunction0() {
-            public void apply() {
-                gameSettings.timerEnabled.toggle();
-            }
-        }, ToggleButtonNode.FAINT_GREEN, false );
+        final ToggleButtonNode stopwatchButton = new ToggleButtonNode( new PaddedIcon( maxIconWidth, maxIconHeight, new PImage( stopwatchIcon ) ),
+                                                                       gameSettings.timerEnabled,
+                                                                       new VoidFunction0() {
+                                                                           public void apply() {
+                                                                               sendUserMessage( Components.stopwatchButton, UserComponentTypes.toggleButton, UserActions.pressed, parameterSet( ParameterKeys.timerEnabled, !gameSettings.timerEnabled.get() ) );
+                                                                               gameSettings.timerEnabled.toggle();
+                                                                           }
+                                                                       }, ToggleButtonNode.FAINT_GREEN, false );
 
         class SoundIconNode extends PNode {
             SoundIconNode() {
@@ -315,6 +324,8 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
 
         final ToggleButtonNode soundButton = new ToggleButtonNode( new SoundIconNode(), gameSettings.soundEnabled, new VoidFunction0() {
             public void apply() {
+
+                sendUserMessage( Components.soundButton, UserComponentTypes.toggleButton, UserActions.pressed, parameterSet( ParameterKeys.soundEnabled, !gameSettings.soundEnabled.get() ) );
                 gameSettings.soundEnabled.toggle();
             }
         }, ToggleButtonNode.FAINT_GREEN, false );
