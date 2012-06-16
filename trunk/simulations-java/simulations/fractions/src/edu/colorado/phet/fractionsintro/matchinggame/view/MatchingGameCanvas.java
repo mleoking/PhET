@@ -66,7 +66,7 @@ import static java.awt.Color.yellow;
  */
 public class MatchingGameCanvas extends AbstractFractionsCanvas {
 
-    public MatchingGameCanvas( final boolean dev, final MatchingGameModel model ) {
+    public MatchingGameCanvas( final boolean dev, final MatchingGameModel model, final boolean standaloneSim ) {
 
         //Bar graph node that shows now bars, shown when the user has put something on both scales but hasn't checked the answer
         final PNode emptyBarGraphNode = new EmptyBarGraphNode();
@@ -99,7 +99,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
         } );
 
         //Dialog for selecting and starting a level
-        final PNode levelSelectionDialog = new ZeroOffsetNode( new LevelSelectionNode( startGame, gameSettings, gameResults ) ) {{
+        final PNode levelSelectionDialog = new ZeroOffsetNode( new LevelSelectionNode( startGame, gameSettings, gameResults, standaloneSim ) ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 );
 
             new CompositeBooleanProperty( new Function0<Boolean>() {

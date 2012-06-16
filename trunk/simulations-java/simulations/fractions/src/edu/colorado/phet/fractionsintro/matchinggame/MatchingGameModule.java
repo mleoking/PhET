@@ -17,13 +17,13 @@ import static edu.colorado.phet.fractionsintro.FractionsIntroApplication.runModu
  * @author Sam Reid
  */
 public class MatchingGameModule extends AbstractFractionsModule {
-    public MatchingGameModule( boolean dev ) {
-        this( dev, new MatchingGameModel() );
+    public MatchingGameModule( boolean dev, boolean standaloneSim ) {
+        this( dev, new MatchingGameModel(), standaloneSim );
     }
 
-    private MatchingGameModule( boolean dev, MatchingGameModel model ) {
+    private MatchingGameModule( boolean dev, MatchingGameModel model, boolean standaloneSim ) {
         super( Components.matchingGameTab, "Matching Game", model.clock );
-        setSimulationPanel( new MatchingGameCanvas( dev, model ) );
+        setSimulationPanel( new MatchingGameCanvas( dev, model, standaloneSim ) );
     }
 
     @Override protected JComponent createClockControlPanel( final IClock clock ) {
@@ -31,5 +31,5 @@ public class MatchingGameModule extends AbstractFractionsModule {
     }
 
     //Test main for launching this module in an application by itself for testing
-    public static void main( String[] args ) { runModule( args, new MatchingGameModule( true ) ); }
+    public static void main( String[] args ) { runModule( args, new MatchingGameModule( true, false ) ); }
 }

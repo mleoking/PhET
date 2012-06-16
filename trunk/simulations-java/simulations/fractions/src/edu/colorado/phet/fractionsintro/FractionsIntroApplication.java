@@ -36,7 +36,7 @@ public class FractionsIntroApplication extends PiccoloPhetApplication {
         addModule( new FractionsIntroModule() );
         addModule( new BuildAFractionModule() );
         addModule( new EqualityLabModule() );
-        addModule( new MatchingGameModule( config.isDev() ) );
+        addModule( new MatchingGameModule( config.isDev(), false ) );
 
         //Add developer menu items for debugging performance, see #3314
 

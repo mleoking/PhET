@@ -25,6 +25,7 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Polygo
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.*;
 import static edu.colorado.phet.fractionsintro.matchinggame.view.FilledPattern.sequentialFill;
 import static fj.Ord.doubleOrd;
+import static fj.data.List.list;
 
 /**
  * Node that shows the levels and lets the user choose the level and settings
@@ -32,16 +33,20 @@ import static fj.Ord.doubleOrd;
  * @author Sam Reid
  */
 public class LevelSelectionNode extends PNode {
-    public LevelSelectionNode( final VoidFunction0 startGame, final GameSettings gameSettings, final Property<List<GameResult>> gameResults ) {
+    public LevelSelectionNode( final VoidFunction0 startGame, final GameSettings gameSettings, final Property<List<GameResult>> gameResults, final boolean standaloneSim ) {
 
-        final List<PatternNode> patterns = List.list( new PatternNode( sequentialFill( pie( 1 ), 1 ), Color.red ),
-                                                      new PatternNode( sequentialFill( horizontalBars( 2 ), 2 ), Colors.LIGHT_GREEN ),
-                                                      new PatternNode( sequentialFill( verticalBars( 3 ), 3 ), Colors.LIGHT_BLUE ),
-                                                      new PatternNode( sequentialFill( letterLShapedDiagonal( 15, 2 ), 4 ), Color.orange ),
-                                                      new PatternNode( sequentialFill( createPolygon( 60, 5 ), 5 ), Color.magenta ),
-                                                      new PatternNode( sequentialFill( sixFlower(), 6 ), Color.yellow ),
-                                                      new PatternNode( sequentialFill( createPolygon( 60, 7 ), 7 ), Color.pink ),
-                                                      new PatternNode( sequentialFill( createPolygon( 60, 8 ), 8 ), Color.green ) );
+        final List<PatternNode> moduleLevels = list( new PatternNode( sequentialFill( pie( 1 ), 1 ), Color.red ),
+                                                     new PatternNode( sequentialFill( horizontalBars( 2 ), 2 ), Colors.LIGHT_GREEN ),
+                                                     new PatternNode( sequentialFill( verticalBars( 3 ), 3 ), Colors.LIGHT_BLUE ),
+                                                     new PatternNode( sequentialFill( letterLShapedDiagonal( 15, 2 ), 4 ), Color.orange ),
+                                                     new PatternNode( sequentialFill( createPolygon( 60, 5 ), 5 ), Color.magenta ),
+                                                     new PatternNode( sequentialFill( sixFlower(), 6 ), Color.yellow ) );
+
+        final List<PatternNode> appLevels = list( new PatternNode( sequentialFill( createPolygon( 60, 7 ), 7 ), Color.pink ),
+                                                  new PatternNode( sequentialFill( createPolygon( 60, 8 ), 8 ), Color.green ) );
+
+        final List<PatternNode> patterns = standaloneSim ? moduleLevels.append( appLevels ) :
+                                           moduleLevels;
 
         for ( PatternNode pattern : patterns ) {
             pattern.scale( 90 / pattern.getFullBounds().getWidth() );
@@ -95,7 +100,8 @@ public class LevelSelectionNode extends PNode {
             addChild( button );
             button.setOffset( column * 200 + 50, row * 250 + 50 );
             column++;
-            if ( column >= 4 ) {
+            int maxColumns = standaloneSim ? 4 : 3;
+            if ( column >= maxColumns ) {
                 column = 0;
                 row++;
             }
