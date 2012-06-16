@@ -5,9 +5,14 @@ import fj.F;
 import fj.F2;
 import fj.Ord;
 import fj.Ordering;
+import fj.data.List;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 import static fj.Function.curry;
 import static fj.Ord.doubleOrd;
+import static fj.data.List.iterableList;
 
 /**
  * Additional support for ordering different instances according to functional java ordering rules, to make it easier to use
@@ -23,5 +28,12 @@ public class FJUtils {
                 return doubleOrd.compare( f.f( u1 ), f.f( u2 ) );
             }
         } ) );
+    }
+
+    //Shuffle the given list
+    public static <T> List<T> shuffle( final List<T> list ) {
+        ArrayList<T> c = new ArrayList<T>( list.toCollection() );
+        Collections.shuffle( c );
+        return iterableList( c );
     }
 }

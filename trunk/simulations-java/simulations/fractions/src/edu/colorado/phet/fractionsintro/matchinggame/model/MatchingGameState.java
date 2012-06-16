@@ -34,6 +34,7 @@ public @Data class MatchingGameState {
     //Number of times the user scored by getting a fraction into a score cell, used for iterating to the next score cell for animation
     public final int scored;
 
+    //Scales that fractions can be dropped on
     public final Scale leftScale = new Scale( new Vector2D( 220, 320 ) );
     public final Scale rightScale = new Scale( new Vector2D( 570, 320 ) );
 
@@ -170,7 +171,7 @@ public @Data class MatchingGameState {
             }
         } ).sort( ord( new F<Cell, Double>() {
             @Override public Double f( final Cell u ) {
-                return u.position().distance( f.position );
+                return u.getPosition().distance( f.position );
             }
         } ) ).head();
     }
@@ -192,7 +193,7 @@ public @Data class MatchingGameState {
         return fractions.exists( new F<MovableFraction, Boolean>() {
             @Override public Boolean f( final MovableFraction movableFraction ) {
                 //TODO: Block the cell if any fraction is moving there, otherwise could over-occupy
-                return !movableFraction.dragging && movableFraction.position.equals( cell.position() );// || movableFraction.motion.movingTo( cell.position() );
+                return !movableFraction.dragging && movableFraction.position.equals( cell.getPosition() );// || movableFraction.motion.movingTo( cell.position() );
             }
         } );
     }
