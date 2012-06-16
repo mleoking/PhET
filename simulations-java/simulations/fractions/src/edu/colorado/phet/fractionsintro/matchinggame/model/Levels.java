@@ -176,11 +176,11 @@ class Levels {
             boolean numeric = i < 3 || random.nextBoolean();
             if ( numeric ) {
                 int scaleFactor = numericScaleFactors.index( random.nextInt( numericScaleFactors.length() ) );
-                if ( level == 7 && fraction.toDouble() > 1 ) {
+                if ( level == 7 && fraction.toDouble() > 1 && random.nextBoolean() ) {
                     //Try to use a mixed number representation
                     node = new HBox( 5, new FractionNumberNode( new Property<Integer>( 1 ) ) {{setScale( 0.3 );}}, new FractionNode( new Fraction( fraction.numerator - fraction.denominator, fraction.denominator ), 0.3 ) );
                 }
-                else if ( level == 8 && fraction.toDouble() > 1 ) {
+                else if ( level == 8 && fraction.toDouble() > 1 && random.nextBoolean() ) {
                     //Try to use a mixed number representation
                     node = new HBox( 5, new FractionNumberNode( new Property<Integer>( 1 ) ) {{setScale( 0.3 );}}, new FractionNode( new Fraction( ( fraction.numerator - fraction.denominator ) * scaleFactor, fraction.denominator * scaleFactor ), 0.3 ) );
                 }
