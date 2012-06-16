@@ -199,7 +199,7 @@ public class Levels {
             {
                 Cell cell = remainingCells.remove( 0 );
                 result.add( new MovableFraction( MovableFraction.nextID(), cell.getPosition(), fraction.numerator, fraction.denominator,
-                                                 false, cell, 1.0, new RichPNode( node ), Motions.Stillness, false, null,
+                                                 false, cell, 1.0, new RichPNode( node ), Motions.WAIT, false, null,
                                                  numeric ? Color.black : representation.color,
                                                  numeric ? "numeric" : representation.toString() ) );
             }
@@ -214,7 +214,7 @@ public class Levels {
                 Cell cell = remainingCells.remove( 0 );
 
                 result.add( new MovableFraction( MovableFraction.nextID(), cell.getPosition(), fraction.numerator, fraction.denominator,
-                                                 false, cell, 1.0, new RichPNode( node ), Motions.Stillness, false, null,
+                                                 false, cell, 1.0, new RichPNode( node ), Motions.WAIT, false, null,
                                                  alternateRepresentation.color,
                                                  alternateRepresentation.toString() ) );
             }
