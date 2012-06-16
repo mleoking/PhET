@@ -11,7 +11,6 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
 
 import static edu.colorado.phet.fractions.util.FJUtils.ord;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.*;
-import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.Scale;
 import static fj.data.List.range;
 
 /**
@@ -125,7 +124,7 @@ public @Data class MatchingGameState {
             @Override public MatchingGameState f( final MovableFraction match ) {
                 return withFractions( fractions.map( new F<MovableFraction, MovableFraction>() {
                     @Override public MovableFraction f( MovableFraction m ) {
-                        return match.equals( m ) ? m.motion( MoveToCell( getClosestFreeStartCell( m ) ) ) : m;
+                        return match.equals( m ) ? m.withMotion( moveToCell( getClosestFreeStartCell( m ) ) ) : m;
                     }
                 } ) );
             }
@@ -145,16 +144,16 @@ public @Data class MatchingGameState {
     public MatchingGameState animateMatchToScoreCell() {
         return withFractions( fractions.map( new F<MovableFraction, MovableFraction>() {
             @Override public MovableFraction f( MovableFraction m ) {
-                double width = m.scale( 0.5 ).getNodeWithCorrectScale().getFullBounds().getWidth();
+                double width = m.withScale( 0.5 ).getNodeWithCorrectScale().getFullBounds().getWidth();
                 final Cell cell = scoreCells.index( scored );
                 final int offset = 15;
-                final F<UpdateArgs, MovableFraction> moveToLeftSide = MoveToPosition( new Vector2D( cell.rectangle.getCenter().getX() - width / 2 - offset, cell.rectangle.getCenter().getY() ) );
-                final F<UpdateArgs, MovableFraction> moveToRightSide = MoveToPosition( new Vector2D( cell.rectangle.getCenter().getX() + width / 2 + offset, cell.rectangle.getCenter().getY() ) );
+                final F<UpdateArgs, MovableFraction> moveToLeftSide = moveToPosition( new Vector2D( cell.rectangle.getCenter().getX() - width / 2 - offset, cell.rectangle.getCenter().getY() ) );
+                final F<UpdateArgs, MovableFraction> moveToRightSide = moveToPosition( new Vector2D( cell.rectangle.getCenter().getX() + width / 2 + offset, cell.rectangle.getCenter().getY() ) );
 
                 //Could shrink values >1 more so they will both fit in the score box using m.getValue() > 1 ? 0.5 : 0.5.  Not perfect, will have to be fine-tuned.
-                final F<UpdateArgs, MovableFraction> shrink = Scale( 0.5 );
-                return isOnScale( leftScale, m ) ? m.motion( composite( moveToLeftSide, shrink ) ).scored( true ) :
-                       isOnScale( rightScale, m ) ? m.motion( composite( moveToRightSide, shrink ) ).scored( true ) :
+                final F<UpdateArgs, MovableFraction> shrink = scale( 0.5 );
+                return isOnScale( leftScale, m ) ? m.withMotion( composite( moveToLeftSide, shrink ) ).withScored( true ) :
+                       isOnScale( rightScale, m ) ? m.withMotion( composite( moveToRightSide, shrink ) ).withScored( true ) :
                        m;
             }
         } ) ).withScored( scored + 1 );
@@ -216,12 +215,12 @@ public @Data class MatchingGameState {
                 final boolean matchesLeft = isOnScale( leftScale, m ) && !getLastDroppedScaleRight();
                 final boolean matchesRight = isOnScale( rightScale, m ) && getLastDroppedScaleRight();
                 if ( matchesLeft || matchesRight ) {
-                    return m.motion( MoveToCell( getClosestFreeStartCell( m ) ) );
+                    return m.withMotion( moveToCell( getClosestFreeStartCell( m ) ) );
                 }
 
                 //Replace the latest thing the user placed
                 if ( m == match ) {
-                    return m.motion( getLastDroppedScaleRight() ? MoveToRightScale : MoveToLeftScale );
+                    return m.withMotion( getLastDroppedScaleRight() ? MOVE_TO_RIGHT_SCALE : MOVE_TO_LEFT_SCALE );
                 }
 
                 return m;

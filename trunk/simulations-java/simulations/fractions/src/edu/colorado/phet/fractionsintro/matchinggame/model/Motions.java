@@ -11,22 +11,23 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
  * @author Sam Reid
  */
 public class Motions {
-    public static final F<UpdateArgs, MovableFraction> MoveToLeftScale = new F<UpdateArgs, MovableFraction>() {
+    public static final F<UpdateArgs, MovableFraction> MOVE_TO_LEFT_SCALE = new F<UpdateArgs, MovableFraction>() {
         @Override public MovableFraction f( UpdateArgs a ) {
             return a.fraction.stepTowards( a.state.leftScale.getAttachmentPoint( a.fraction ), a.dt );
         }
     };
-    public static final F<UpdateArgs, MovableFraction> MoveToRightScale = new F<UpdateArgs, MovableFraction>() {
+    public static final F<UpdateArgs, MovableFraction> MOVE_TO_RIGHT_SCALE = new F<UpdateArgs, MovableFraction>() {
         @Override public MovableFraction f( UpdateArgs a ) {
             return a.fraction.stepTowards( a.state.rightScale.getAttachmentPoint( a.fraction ), a.dt );
         }
     };
-    public static final F<UpdateArgs, MovableFraction> Stillness = new F<UpdateArgs, MovableFraction>() {
+    public static final F<UpdateArgs, MovableFraction> WAIT = new F<UpdateArgs, MovableFraction>() {
         @Override public MovableFraction f( UpdateArgs a ) {
             return a.fraction;
         }
     };
 
+    //Combine two motion strategies
     public static F<UpdateArgs, MovableFraction> composite( final F<UpdateArgs, MovableFraction> a, final F<UpdateArgs, MovableFraction> b ) {
         return new F<UpdateArgs, MovableFraction>() {
             @Override public MovableFraction f( UpdateArgs updateArgs ) {
@@ -37,7 +38,7 @@ public class Motions {
         };
     }
 
-    public static F<UpdateArgs, MovableFraction> Scale( final double scale ) {
+    public static F<UpdateArgs, MovableFraction> scale( final double scale ) {
         return new F<UpdateArgs, MovableFraction>() {
             @Override public MovableFraction f( UpdateArgs a ) {
                 return a.fraction.scaleTowards( scale );
@@ -45,7 +46,7 @@ public class Motions {
         };
     }
 
-    public static F<UpdateArgs, MovableFraction> MoveToPosition( final Vector2D position ) {
+    public static F<UpdateArgs, MovableFraction> moveToPosition( final Vector2D position ) {
         return new F<UpdateArgs, MovableFraction>() {
             @Override public MovableFraction f( UpdateArgs a ) {
                 return a.fraction.stepTowards( position, a.dt );
@@ -53,7 +54,7 @@ public class Motions {
         };
     }
 
-    public static F<UpdateArgs, MovableFraction> MoveToCell( final Cell cell ) {
+    public static F<UpdateArgs, MovableFraction> moveToCell( final Cell cell ) {
         return new F<UpdateArgs, MovableFraction>() {
             @Override public MovableFraction f( UpdateArgs a ) {
                 return a.fraction.stepTowards( cell.getPosition(), a.dt );

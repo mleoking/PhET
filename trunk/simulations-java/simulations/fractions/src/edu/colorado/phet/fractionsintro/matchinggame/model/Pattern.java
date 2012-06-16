@@ -41,7 +41,11 @@ import static fj.data.List.*;
  * @author Sam Reid
  */
 public class Pattern {
+
+    //Shape for the outline
     public final Shape outline;
+
+    //Individual shapes for the pieces of the fraction.
     public final List<Shape> shapes;
 
     //Create one pattern with the given shapes, uses Area composition to identify the outline (only works right for some shapes)
@@ -315,7 +319,7 @@ public class Pattern {
 //                        addChild( new PatternNode( FilledPattern.sequentialFill( tetrisPiece( 50 ), 4 ), Color.red ) {{translate( 200, 400 );}} );
 //                        addChild( new PatternNode( FilledPattern.sequentialFill( letterLShapedDiagonal( 10, 2 ), 4 ), Color.red ) {{translate( 200, 500 );}} );
 //                        addChild( new PatternNode( FilledPattern.sequentialFill( sixFlower( 50 ), 4 ), Color.red ) {{translate( 300, 500 );}} );
-//                        addChild( new PatternNode( FilledPattern.sequentialFill( interleavedLShape( 80, 2, 2 ), 6 ), Color.red ) {{translate( 400, 500 );}} );
+                        addChild( new PatternNode( FilledPattern.sequentialFill( interleavedLShape( 80, 2, 2 ), 6 ), Color.red ) {{translate( 400, 500 );}} );
                     }} );
                 }}.setVisible( true );
             }

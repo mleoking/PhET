@@ -54,7 +54,7 @@ public class MovableFractionNode extends PNode {
             @Override protected void startDrag( final PInputEvent event ) {
                 super.startDrag( event );
                 MatchingGameState state = model.get();
-                model.set( state.withFractions( state.fractions.delete( f, Equal.<MovableFraction>anyEqual() ).snoc( f.dragging( true ) ) ) );
+                model.set( state.withFractions( state.fractions.delete( f, Equal.<MovableFraction>anyEqual() ).snoc( f.withDragging( true ) ) ) );
             }
 
             //Drag the dragged slice as identified by the model (since nodes will be destroyed as this happens)
@@ -88,10 +88,10 @@ public class MovableFractionNode extends PNode {
                 final Vector2D rightScaleAttachmentPoint = finalState.rightScale.getAttachmentPoint( draggingFraction );
                 final Vector2D leftScaleAttachmentPoint = finalState.leftScale.getAttachmentPoint( draggingFraction );
                 HashMap<Vector2D, F<UpdateArgs, MovableFraction>> map = new HashMap<Vector2D, F<UpdateArgs, MovableFraction>>() {{
-                    put( rightScaleAttachmentPoint, MoveToRightScale );
-                    put( leftScaleAttachmentPoint, MoveToLeftScale );
+                    put( rightScaleAttachmentPoint, MOVE_TO_RIGHT_SCALE );
+                    put( leftScaleAttachmentPoint, MOVE_TO_LEFT_SCALE );
                     Cell cell = model.get().getClosestFreeStartCell( draggingFraction );
-                    put( cell.getPosition(), MoveToCell( cell ) );
+                    put( cell.getPosition(), moveToCell( cell ) );
                 }};
 
                 final Ord<Vector2D> ord = ord( new F<Vector2D, Double>() {
@@ -110,7 +110,7 @@ public class MovableFractionNode extends PNode {
                 //animate to the closest destination
                 final List<MovableFraction> newFractions = state.fractions.map( new F<MovableFraction, MovableFraction>() {
                     @Override public MovableFraction f( final MovableFraction f ) {
-                        return f.dragging ? f.dragging( false ).motion( tm.get( selectedAttachmentPoint ).some() ) : f;
+                        return f.dragging ? f.withDragging( false ).withMotion( tm.get( selectedAttachmentPoint ).some() ) : f;
                     }
                 } );
                 final MatchingGameState newState = state.withFractions( newFractions ).withMode( Mode.WAITING_FOR_USER_TO_CHECK_ANSWER );

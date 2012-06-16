@@ -8,19 +8,18 @@ import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
-import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.Stillness;
+import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.WAIT;
 
 /**
- * Immutable class representing a movable fraction in the matching game
+ * Immutable class representing a movable fraction in the matching game, such as a numeric representation like 7/4 or a pattern of shapes.
  *
  * @author Sam Reid
  */
 @Data public class MovableFraction {
 
-    //For keeping track of which one is which.  Can't use object equality across time steps
+    //For keeping track of which one is which.  Can't use object equality across time steps in functional programming without a sophisticated get/set lens
     public final int id;
 
     //The location of the fraction, I haven't decided if this is center or top left
@@ -56,21 +55,19 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.Stilln
     public final Color color;
     public final String representationName;
 
-    public MovableFraction translate( double dx, double dy ) { return position( position.plus( dx, dy ) ); }
+    public MovableFraction translate( double dx, double dy ) { return withPosition( position.plus( dx, dy ) ); }
 
     public MovableFraction translate( Vector2D v ) { return translate( v.getX(), v.getY() ); }
 
-    public MovableFraction dragging( boolean dragging ) { return new MovableFraction( id, position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent, color, representationName );}
+    public MovableFraction withDragging( boolean dragging ) { return new MovableFraction( id, position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent, color, representationName );}
 
-    public MovableFraction position( Vector2D position ) { return new MovableFraction( id, position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent, color, representationName );}
+    public MovableFraction withPosition( Vector2D position ) { return new MovableFraction( id, position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent, color, representationName );}
 
-    public MovableFraction scale( double scale ) { return new MovableFraction( id, position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent, color, representationName );}
+    public MovableFraction withScale( double scale ) { return new MovableFraction( id, position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent, color, representationName );}
 
-    public MovableFraction motion( F<UpdateArgs, MovableFraction> motion ) { return new MovableFraction( id, position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent, color, representationName );}
+    public MovableFraction withMotion( F<UpdateArgs, MovableFraction> motion ) { return new MovableFraction( id, position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent, color, representationName );}
 
-    public MovableFraction scored( boolean scored ) { return new MovableFraction( id, position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent, color, representationName );}
-
-    public Fraction fraction() { return new Fraction( numerator, denominator );}
+    public MovableFraction withScored( boolean scored ) { return new MovableFraction( id, position, numerator, denominator, dragging, home, scale, node, motion, scored, userComponent, color, representationName );}
 
     public MovableFraction stepInTime( UpdateArgs args ) { return motion.f( args ); }
 
@@ -78,14 +75,14 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.Stilln
         double velocity = 600;
         double stepSize = velocity * dt;
         if ( this.position.distance( target ) < stepSize ) {
-            return this.position( target ).motion( Stillness );
+            return this.withPosition( target ).withMotion( WAIT );
         }
         final MovableFraction result = translate( target.minus( this.position ).getInstanceOfMagnitude( stepSize ) );
-        return result.position.distance( target ) <= stepSize ? result.motion( new F<UpdateArgs, MovableFraction>() {
+        return result.position.distance( target ) <= stepSize ? result.withMotion( new F<UpdateArgs, MovableFraction>() {
             @Override public MovableFraction f( UpdateArgs a ) {
                 return a.fraction;
             }
-        } ).position( target ) :
+        } ).withPosition( target ) :
                result;
     }
 
@@ -96,7 +93,7 @@ import static edu.colorado.phet.fractionsintro.matchinggame.model.Motions.Stilln
             return this;
         }
         double ds = ( scale - this.scale ) / Math.abs( scale - this.scale ) * 0.02;
-        return scale( this.scale + ds );
+        return withScale( this.scale + ds );
     }
 
     public PNode getNodeWithCorrectScale() {
