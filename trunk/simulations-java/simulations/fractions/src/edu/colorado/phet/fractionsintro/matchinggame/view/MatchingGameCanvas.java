@@ -65,90 +65,43 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
         //Bar graph node that shows now bars, shown when the user has put something on both scales but hasn't checked the answer
         final PNode emptyBarGraphNode = new EmptyBarGraphNode();
 
-        //Game settings
-        final GameSettings gameSettings = new GameSettings( new IntegerRange( 1, 8, 1 ), false, false );
-
-        //Function invoked when the user pushes a level button to start the game.
-        final VoidFunction0 startGame = new VoidFunction0() {
-            public void apply() {
-                SwingUtilities.invokeLater( new Runnable() {
-                    public void run() {
-
-                        final MatchingGameState m = newLevel(
-                                gameSettings.level.get(), model.state.get().gameResults ).
-                                withMode( Mode.WAITING_FOR_USER_TO_CHECK_ANSWER ).
-                                withAudio( gameSettings.soundEnabled.get() ).
-                                withTimerVisible( gameSettings.timerEnabled.get() );
-                        model.state.set( m );
-                    }
-                } );
-            }
-        };
-
-        //Dialog for selecting and starting a level
-        final PNode levelSelectionDialog = new ZeroOffsetNode( new LevelSelectionNode( startGame, gameSettings, model.gameResults, standaloneSim ) ) {{
-            setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 );
-
-            new CompositeBooleanProperty( new Function0<Boolean>() {
-                public Boolean apply() {
-                    return model.state.get().info.mode == Mode.CHOOSING_SETTINGS;
-                }
-            }, model.state ).addObserver( setNodeVisible( this ) );
-        }};
-
-        //Title text, only shown when the user is choosing a level
-        final PNode titleText = new PNode() {{
-            addChild( new PhetPText( Strings.FRACTION_MATCHER, new PhetFont( 38, true ) ) );
-            new CompositeBooleanProperty( new Function0<Boolean>() {
-                public Boolean apply() {
-                    return model.state.get().info.mode == Mode.CHOOSING_SETTINGS;
-                }
-            }, model.state ).addObserver( setNodeVisible( this ) );
-
-            setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, levelSelectionDialog.getFullBounds().getMinY() / 3 - getFullBounds().getHeight() / 2 );
-        }};
-        addChild( levelSelectionDialog );
-        addChild( titleText );
-
-        final int iconWidth = 40;
-        final BufferedImage stopwatchIcon = BufferedImageUtils.multiScaleToWidth( GameConstants.STOPWATCH_ICON, iconWidth );
-        final BufferedImage soundIcon = BufferedImageUtils.multiScaleToWidth( GameConstants.SOUND_ICON, iconWidth );
-        final BufferedImage soundOffIcon = BufferedImageUtils.multiScaleToWidth( GameConstants.SOUND_OFF_ICON, iconWidth );
-        final int maxIconWidth = Math.max( stopwatchIcon.getWidth(), soundIcon.getWidth() ) + 10;
-        final int maxIconHeight = Math.max( stopwatchIcon.getHeight(), soundIcon.getHeight() ) + 10;
-        final ToggleButtonNode stopwatchButton = new ToggleButtonNode( new PaddedIcon( maxIconWidth, maxIconHeight, new PImage( stopwatchIcon ) ), gameSettings.timerEnabled, new VoidFunction0() {
-            public void apply() {
-                gameSettings.timerEnabled.toggle();
-            }
-        }, ToggleButtonNode.FAINT_GREEN, false );
-
-        class SoundIconNode extends PNode {
-            SoundIconNode() {
-                gameSettings.soundEnabled.addObserver( new VoidFunction1<Boolean>() {
-                    public void apply( final Boolean enabled ) {
-                        removeAllChildren();
-                        addChild( new PaddedIcon( maxIconWidth, maxIconHeight, new PImage( enabled ? soundIcon : soundOffIcon ) ) );
-                    }
-                } );
-            }
-        }
-
-        final ToggleButtonNode soundButton = new ToggleButtonNode( new SoundIconNode(), gameSettings.soundEnabled, new VoidFunction0() {
-            public void apply() {
-                gameSettings.soundEnabled.toggle();
-            }
-        }, ToggleButtonNode.FAINT_GREEN, false );
-        addChild( new HBox( stopwatchButton, soundButton ) {{
-            setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - INSET, STAGE_SIZE.height - getFullBounds().getHeight() - INSET );
-            new CompositeBooleanProperty( new Function0<Boolean>() {
-                public Boolean apply() {
-                    return model.state.get().info.mode == Mode.CHOOSING_SETTINGS;
-                }
-            }, model.state ).addObserver( setNodeVisible( this ) );
-        }} );
+        //Show the start screen when the user is choosing a level.
+        addStartScreen( model, standaloneSim );
 
         //Things to show during the game (i.e. not when settings dialog showing.)
-        final PNode gameNode = new PNode() {{
+        addChild( createGameNode( dev, model, emptyBarGraphNode ) );
+
+        //Show the game over dialog, if the game has ended.  Also, it has a stateful piccolo button so must not be cleared when the model changes, so it is stored in a field
+        //and only regenerated when new games end.
+        addChild( createGameOverDialog( model ) );
+    }
+
+    //Create the game over dialog, which is only shown when the game is over.
+    private UpdateNode createGameOverDialog( final MatchingGameModel model ) {
+        return new UpdateNode(
+                new Effect<PNode>() {
+                    @Override public void e( final PNode parent ) {
+                        parent.removeAllChildren();
+                        if ( model.mode.get() == Mode.SHOWING_GAME_OVER_SCREEN ) {
+                            final MatchingGameState state = model.state.get();
+                            final int maxPoints = 12;
+                            parent.addChild( new GameOverNode( state.info.level, state.info.score, maxPoints, new DecimalFormat( "0" ), state.info.time, state.info.bestTime, state.info.time >= state.info.bestTime, state.info.timerVisible ) {{
+                                scale( 1.5 );
+                                centerFullBoundsOnPoint( STAGE_SIZE.getWidth() / 2, STAGE_SIZE.getHeight() / 2 );
+                                addGameOverListener( new GameOverListener() {
+                                    public void newGamePressed() {
+                                        model.state.set( model.state.get().newGame( state.info.level, state.info.score, maxPoints ) );
+                                    }
+                                } );
+                            }} );
+                        }
+                    }
+                }, model.mode );
+    }
+
+    //Create the main game node.
+    private PNode createGameNode( final boolean dev, final MatchingGameModel model, final PNode emptyBarGraphNode ) {
+        return new PNode() {{
             final CompositeBooleanProperty notChoosingSettings = new CompositeBooleanProperty( new Function0<Boolean>() {
                 public Boolean apply() {
                     return model.state.get().info.mode != Mode.CHOOSING_SETTINGS;
@@ -157,7 +110,6 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
             notChoosingSettings.addObserver( setNodeVisible( this ) );
 
             //Cells at the top of the board
-
             final PNode scalesNode = new RichPNode( model.state.get().leftScale.toNode(), model.state.get().rightScale.toNode() );
             addChild( scalesNode );
 
@@ -260,7 +212,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                 public Vector2D apply() {
 
                     //Where should the "check answer" button should be shown?  Originally it was on the same side as the last dropped value, but in interviews one student said this was confusing.
-//                    final boolean showButtonsOnRight = model.state.get().getLastDroppedScaleRight();
+                    //                    final boolean showButtonsOnRight = model.state.get().getLastDroppedScaleRight();
                     final boolean showButtonsOnRight = false;
                     return new Vector2D( showButtonsOnRight ? scalesNode.getFullBounds().getMaxX() + 80 : scalesNode.getFullBounds().getX() - 80,
                                          scalesNode.getFullBounds().getCenterY() );
@@ -298,30 +250,78 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                 addChild( buttonFactory.f( new ButtonArgs( null, "Resample", Color.red, new Vector2D( 100, 6 ), new Resample() ) ) );
             }
         }};
+    }
 
-        addChild( gameNode );
+    //Add all the parts of the start screen, including title, level selection buttons, audio+timer buttons
+    private void addStartScreen( final MatchingGameModel model, final boolean standaloneSim ) {//Game settings
+        final GameSettings gameSettings = new GameSettings( new IntegerRange( 1, 8, 1 ), false, false );
 
-        //Show the game over dialog, if the game has ended.  Also, it has a stateful piccolo button so must not be cleared when the model changes, so it is stored in a field
-        //and only regenerated when new games end.
-        addChild( new UpdateNode(
-                new Effect<PNode>() {
-                    @Override public void e( final PNode parent ) {
-                        parent.removeAllChildren();
-                        if ( model.mode.get() == Mode.SHOWING_GAME_OVER_SCREEN ) {
-                            final MatchingGameState state = model.state.get();
-                            final int maxPoints = 12;
-                            parent.addChild( new GameOverNode( state.info.level, state.info.score, maxPoints, new DecimalFormat( "0" ), state.info.time, state.info.bestTime, state.info.time >= state.info.bestTime, state.info.timerVisible ) {{
-                                scale( 1.5 );
-                                centerFullBoundsOnPoint( STAGE_SIZE.getWidth() / 2, STAGE_SIZE.getHeight() / 2 );
-                                addGameOverListener( new GameOverListener() {
-                                    public void newGamePressed() {
-                                        model.state.set( model.state.get().newGame( state.info.level, state.info.score, maxPoints ) );
-                                    }
-                                } );
-                            }} );
-                        }
+        //Function invoked when the user pushes a level button to start the game.
+        final VoidFunction0 startGame = new VoidFunction0() {
+            public void apply() {
+                SwingUtilities.invokeLater( new Runnable() {
+                    public void run() {
+
+                        final MatchingGameState m = newLevel(
+                                gameSettings.level.get(), model.state.get().gameResults ).
+                                withMode( Mode.WAITING_FOR_USER_TO_CHECK_ANSWER ).
+                                withAudio( gameSettings.soundEnabled.get() ).
+                                withTimerVisible( gameSettings.timerEnabled.get() );
+                        model.state.set( m );
                     }
-                }, model.mode ) );
+                } );
+            }
+        };
+
+        //Dialog for selecting and starting a level
+        final PNode levelSelectionDialog = new ZeroOffsetNode( new LevelSelectionNode( startGame, gameSettings, model.gameResults, standaloneSim ) ) {{
+            setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 );
+
+            model.choosingSettings.addObserver( setNodeVisible( this ) );
+        }};
+
+        //Title text, only shown when the user is choosing a level
+        final PNode titleText = new PNode() {{
+            addChild( new PhetPText( Strings.FRACTION_MATCHER, new PhetFont( 38, true ) ) );
+            model.choosingSettings.addObserver( setNodeVisible( this ) );
+
+            setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, levelSelectionDialog.getFullBounds().getMinY() / 3 - getFullBounds().getHeight() / 2 );
+        }};
+        addChild( levelSelectionDialog );
+        addChild( titleText );
+
+        final int iconWidth = 40;
+        final BufferedImage stopwatchIcon = BufferedImageUtils.multiScaleToWidth( GameConstants.STOPWATCH_ICON, iconWidth );
+        final BufferedImage soundIcon = BufferedImageUtils.multiScaleToWidth( GameConstants.SOUND_ICON, iconWidth );
+        final BufferedImage soundOffIcon = BufferedImageUtils.multiScaleToWidth( GameConstants.SOUND_OFF_ICON, iconWidth );
+        final int maxIconWidth = Math.max( stopwatchIcon.getWidth(), soundIcon.getWidth() ) + 10;
+        final int maxIconHeight = Math.max( stopwatchIcon.getHeight(), soundIcon.getHeight() ) + 10;
+        final ToggleButtonNode stopwatchButton = new ToggleButtonNode( new PaddedIcon( maxIconWidth, maxIconHeight, new PImage( stopwatchIcon ) ), gameSettings.timerEnabled, new VoidFunction0() {
+            public void apply() {
+                gameSettings.timerEnabled.toggle();
+            }
+        }, ToggleButtonNode.FAINT_GREEN, false );
+
+        class SoundIconNode extends PNode {
+            SoundIconNode() {
+                gameSettings.soundEnabled.addObserver( new VoidFunction1<Boolean>() {
+                    public void apply( final Boolean enabled ) {
+                        removeAllChildren();
+                        addChild( new PaddedIcon( maxIconWidth, maxIconHeight, new PImage( enabled ? soundIcon : soundOffIcon ) ) );
+                    }
+                } );
+            }
+        }
+
+        final ToggleButtonNode soundButton = new ToggleButtonNode( new SoundIconNode(), gameSettings.soundEnabled, new VoidFunction0() {
+            public void apply() {
+                gameSettings.soundEnabled.toggle();
+            }
+        }, ToggleButtonNode.FAINT_GREEN, false );
+        addChild( new HBox( stopwatchButton, soundButton ) {{
+            setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - INSET, STAGE_SIZE.height - getFullBounds().getHeight() - INSET );
+            model.choosingSettings.addObserver( setNodeVisible( this ) );
+        }} );
     }
 
     private static VoidFunction1<Boolean> setNodeVisible( final PNode node ) {
