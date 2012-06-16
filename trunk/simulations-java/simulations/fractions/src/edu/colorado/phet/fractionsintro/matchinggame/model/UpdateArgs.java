@@ -4,7 +4,8 @@ package edu.colorado.phet.fractionsintro.matchinggame.model;
 import lombok.Data;
 
 /**
- * Immutable args for updating a MovableFraction.  This is a convenience data structure so the update function can be called with an F with named arguments instead of F3 with unnamed arguments.
+ * Immutable args for updating a MovableFraction.
+ * This is a convenience data structure so the update function can be called with an F with named arguments instead of F3 with unnamed arguments.
  *
  * @author Sam Reid
  */

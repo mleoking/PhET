@@ -9,7 +9,7 @@ import java.awt.Color;
  *
  * @author Sam Reid
  */
-@Data class GraphicalRepresentation {
+public @Data class GraphicalRepresentation {
     public final ShapeType shapeType;
     public final Color color;
     public final FillType fillType;

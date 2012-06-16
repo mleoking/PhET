@@ -37,14 +37,15 @@ import static edu.colorado.phet.fractions.FractionsResources.Images.SCALE;
         return getAttachmentPoint( this, fraction );
     }
 
-    private static final Cache<MovableFraction, Double> getHeight = new Cache<MovableFraction, Double>( new F<MovableFraction, Double>() {
+    //Cached function to get the height of a MovableFraction, to know how high to position it on a scale
+    private static final Cache<MovableFraction, Double> HEIGHT = new Cache<MovableFraction, Double>( new F<MovableFraction, Double>() {
         @Override public Double f( final MovableFraction movableFraction ) {
             return movableFraction.getNodeWithCorrectScale().getFullBounds().getHeight();
         }
     } );
 
     public static Vector2D getAttachmentPoint( Scale scale, MovableFraction fraction ) {
-        getHeight.checkAndClearCache();
-        return scale.getAttachmentPoint().plus( 0, -getHeight.f( fraction ) / 2 );
+        HEIGHT.checkAndClearCache();
+        return scale.getAttachmentPoint().plus( 0, -HEIGHT.f( fraction ) / 2 );
     }
 }
