@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.piccolophet.RichPNode;
@@ -295,9 +296,7 @@ class Levels {
                 PatternNode first = createSingle( new Fraction( f.denominator, f.denominator ), r.shapeType, false, r.color );
                 PatternNode second = createSingle( new Fraction( f.numerator - f.denominator, f.denominator ), r.shapeType, r.fillType == Mixed, r.color );
 
-                final HBox box = new HBox( first, second );
-                scaleBoxNode( box, 110.0 );
-                return box;
+                return addToBox( first, second );
             }
             else {
                 int numInFirst = random.nextInt( f.numerator );
@@ -305,12 +304,23 @@ class Levels {
                 PatternNode first = createSingle( new Fraction( numInFirst, f.denominator ), r.shapeType, true, r.color );
                 PatternNode second = createSingle( new Fraction( numInSecond, f.denominator ), r.shapeType, true, r.color );
 
-                final HBox box = new HBox( first, second );
-                scaleBoxNode( box, 110.0 );
-                return box;
+                return addToBox( first, second );
             }
 
         }
+    }
+
+    //Combine two patterns horizontally
+    private PNode addToBox( final PatternNode first, final PatternNode second ) {
+
+        //AP: If I resample at the highest levels (definitely 7 and 8) a few double shapes appear that have a very small amount of negative space between them.  We should probably widen the negative space or scale those shapes slightly differently.
+        //SR: Therefore spacing should be dependent on width
+        double width = first.getFullBounds().getWidth();
+        LinearFunction function = new LinearFunction( 80, 160, 10, 20 );
+
+        final HBox box = new HBox( function.evaluate( width ), first, second );
+        scaleBoxNode( box, 110.0 );
+        return box;
     }
 
     //Scale the node so it will be a good fit for the starting cells and score cells and still have the right stroke.
