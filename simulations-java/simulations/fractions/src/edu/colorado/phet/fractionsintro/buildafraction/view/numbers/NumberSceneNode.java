@@ -107,7 +107,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
         final PBounds targetCellBounds = pairs.get( 0 ).getTargetCell().getFullBounds();
         double offsetX = AbstractFractionsCanvas.STAGE_SIZE.width - maxWidth - separation - targetCellBounds.getWidth() - rightInset;
         double offsetY = title.getFullHeight() + 5;
-        double insetY = 5;
+        double insetY = 10;
         addChild( title );
         for ( Pair pair : pairs ) {
 
