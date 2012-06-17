@@ -8,6 +8,8 @@
 package edu.colorado.phet.projectilemotionflex.model {
 import edu.colorado.phet.projectilemotionflex.view.MainView;
 
+import flash.utils.Timer;
+
 public class TrajectoryModel {
 
     public var views_arr: Array;     //views associated with this model
@@ -26,7 +28,10 @@ public class TrajectoryModel {
     private var _mP: Number;    //mass of projectile in kg
     private var _theta: Number; //initial angle of projectile, in radians, measured CCW from horizontal
     private var _t: Number;     //time in seconds, projectile fired at t = 0
+    private var stepsPerFrame: int;
     private var dt: Number;     //time step for trajectory algorithm
+
+    private var msTimer: Timer;	        //millisecond timer
 
 
 
@@ -39,7 +44,8 @@ public class TrajectoryModel {
     }
 
     private function initialize():void{
-
+        this.stepsPerFrame = 4;
+        this.msTimer = new Timer( stepsPerFrame*dt * 1000 );   //argument of Timer constructor is time step in ms
     }
 
     //SETTERS and GETTERS
