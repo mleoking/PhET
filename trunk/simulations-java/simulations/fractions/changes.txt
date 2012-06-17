@@ -1,3 +1,4 @@
+Fraction Builder: Removed score readout
 Fraction Builder: Have vertical bars fill in from the left
 Fraction Builder: Fixed: "Next" button font under smilie face is too small
 Fraction Builder: Fixed: Cards should stack down and to the right instead of up and to the left
