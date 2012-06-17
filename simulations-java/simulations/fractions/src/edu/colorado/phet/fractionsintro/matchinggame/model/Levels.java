@@ -282,7 +282,7 @@ class Levels {
         if ( f.numerator <= f.denominator ) {
             final PatternNode single = createSingle( f, r.shapeType, r.fillType == FillType.Random, r.color );
             HBox box = new HBox( single );
-            scaleHBox( box, 80 );
+            scaleBoxNode( box, 80 );
             return box;
         }
         else {
@@ -296,7 +296,7 @@ class Levels {
                 PatternNode second = createSingle( new Fraction( f.numerator - f.denominator, f.denominator ), r.shapeType, r.fillType == Mixed, r.color );
 
                 final HBox box = new HBox( first, second );
-                scaleHBox( box, 110.0 );
+                scaleBoxNode( box, 110.0 );
                 return box;
             }
             else {
@@ -306,7 +306,7 @@ class Levels {
                 PatternNode second = createSingle( new Fraction( numInSecond, f.denominator ), r.shapeType, true, r.color );
 
                 final HBox box = new HBox( first, second );
-                scaleHBox( box, 110.0 );
+                scaleBoxNode( box, 110.0 );
                 return box;
             }
 
@@ -314,18 +314,18 @@ class Levels {
     }
 
     //Scale the node so it will be a good fit for the starting cells and score cells and still have the right stroke.
-    private void scaleHBox( final HBox box, double newWidth ) {
-        double size = box.getFullWidth();
+    private void scaleBoxNode( final PNode box, double newWidth ) {
+        double size = box.getFullBounds().getWidth();
         final double scale = newWidth / size;
 
-        double size2 = box.getFullHeight();
+        double size2 = box.getFullBounds().getHeight();
         final double scale2 = newWidth / size2;
 
         box.scale( Math.min( scale, scale2 ) );
 
         if ( scale < 1 ) {
             //if the objects got scaled down, then scale up the strokes so they will look like they have the same width
-            for ( PNode child : box.getChildren() ) {
+            for ( Object child : box.getChildrenReference() ) {
                 if ( child instanceof PatternNode ) {
                     PatternNode patternNode = (PatternNode) child;
                     patternNode.scaleStrokes( 1.0 / scale );
