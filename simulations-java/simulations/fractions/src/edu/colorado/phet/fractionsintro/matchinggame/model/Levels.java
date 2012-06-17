@@ -13,6 +13,8 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
+import edu.colorado.phet.fractionsintro.intro.model.containerset.Container;
+import edu.colorado.phet.fractionsintro.intro.model.containerset.ContainerSet;
 import edu.colorado.phet.fractionsintro.intro.view.FractionNode;
 import edu.colorado.phet.fractionsintro.intro.view.FractionNumberNode;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Polygon;
@@ -195,7 +197,9 @@ class Levels {
             }
             //ensure a minimum of 3 shape representations per stage
             else {
-                if ( allowedRepresentations.size() == 0 ) { allowedRepresentations = filter( new ArrayList<GraphicalRepresentation>( r.toCollection() ), fraction ); }
+                if ( allowedRepresentations.size() == 0 ) {
+                    allowedRepresentations = filter( new ArrayList<GraphicalRepresentation>( r.toCollection() ), fraction );
+                }
                 representation = allowedRepresentations.get( 0 );
                 node = createGraphic( fraction, representation );
                 representations.remove( representation );
@@ -218,7 +222,9 @@ class Levels {
 
             //If fraction is numeric, partner must not also be numeric.
             {
-                if ( allowedRepresentations.size() == 0 ) { allowedRepresentations = filter( new ArrayList<GraphicalRepresentation>( r.toCollection() ), fraction ); }
+                if ( allowedRepresentations.size() == 0 ) {
+                    allowedRepresentations = filter( new ArrayList<GraphicalRepresentation>( r.toCollection() ), fraction );
+                }
                 final GraphicalRepresentation alternateRepresentation = allowedRepresentations.get( 0 );
                 node = createGraphic( fraction, alternateRepresentation );
                 representations.remove( alternateRepresentation );
@@ -299,10 +305,24 @@ class Levels {
                 return addToBox( first, second );
             }
             else {
-                int numInFirst = random.nextInt( f.numerator );
-                int numInSecond = f.numerator - numInFirst;
-                PatternNode first = createSingle( new Fraction( numInFirst, f.denominator ), r.shapeType, true, r.color );
-                PatternNode second = createSingle( new Fraction( numInSecond, f.denominator ), r.shapeType, true, r.color );
+                ContainerSet containerSet = new ContainerSet( f.denominator, list( new Container( f.denominator, List.<Integer>nil() ),
+                                                                                   new Container( f.denominator, List.<Integer>nil() ) ) );
+                for ( int i = 0; i < f.numerator; i++ ) {
+                    containerSet = containerSet.toggle( containerSet.getRandomEmptyCell( random ) );
+                }
+                final int numInFirst = containerSet.containers.index( 0 ).getFilledCells().length();
+                Fraction firstFraction = new Fraction( numInFirst, f.denominator );
+                final int numInSecond = containerSet.containers.index( 1 ).getFilledCells().length();
+                Fraction secondFraction = new Fraction( numInSecond, f.denominator );
+
+                double sum = firstFraction.toDouble() + secondFraction.toDouble();
+                double difference = sum - f.toDouble();
+                if ( difference > 1E-6 ) {
+                    System.out.println( "fraction = " + f + ", numInFirst = " + numInFirst + ", numInSecond = " + numInSecond + ", difference = " + difference );
+                    throw new RuntimeException( "values didn't add up" );
+                }
+                PatternNode first = createSingle( firstFraction, r.shapeType, true, r.color );
+                PatternNode second = createSingle( secondFraction, r.shapeType, true, r.color );
 
                 return addToBox( first, second );
             }
@@ -346,6 +366,10 @@ class Levels {
 
     //Create the node for a single (<=1) fraction.
     private PatternNode createSingle( final Fraction fraction, ShapeType s, boolean random, Color color ) {
+        final boolean ok = fraction.numerator <= fraction.denominator && fraction.numerator >= 0 && fraction.denominator > 0;
+        if ( !ok ) {
+            throw new RuntimeException( "Failed assertion, fraction = " + fraction );
+        }
         final int d = fraction.denominator;
         final Pattern container = s == pies ? Pattern.pie( d ) :
                                   s == verticalBars ? Pattern.verticalBars( d ) :
