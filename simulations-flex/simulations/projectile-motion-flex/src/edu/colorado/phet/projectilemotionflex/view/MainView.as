@@ -24,10 +24,8 @@ public class MainView extends Canvas {
     public var stageW: Number;
     public var trajectoryModel: TrajectoryModel;
     public var backgroundView: BackgroundView;
-    //public var cannonView: CannonView;
-    //public var trajectoryView: TrajectoryView;
-    //public var projectileView: ProjectileView;
     public var controlPanel: ControlPanel;
+    private var _pixPerMeter: Number;
 
     //Internalized strings are located at:
     //
@@ -37,18 +35,13 @@ public class MainView extends Canvas {
         percentHeight = 100;
         this.stageH = stageH;
         this.stageW = stageW;
+        this._pixPerMeter = 40;
 
         this.trajectoryModel = new TrajectoryModel( this );
         this.backgroundView = new BackgroundView( this, trajectoryModel );
-        //this.cannonView = new CannonView( this, trajectoryModel );
-        //this.trajectoryView = new TrajectoryView( this, trajectoryModel );
-        //this.projectileView = new ProjectileView( this, trajectoryModel );
         this.controlPanel = new ControlPanel( this, trajectoryModel );
 
         this.addChild( new SpriteUIComponent( backgroundView ));
-        //this.addChild( new SpriteUIComponent( cannonView ));
-        //this.addChild( new SpriteUIComponent( trajectoryView ));
-        //this.addChild( new SpriteUIComponent( projectileView ));
         this.addChild( controlPanel );
 
         this.phetLogo = new PhetIcon();
@@ -67,6 +60,12 @@ public class MainView extends Canvas {
     }//end of initializeAll()
 
 
+    public function get pixPerMeter():Number {
+        return _pixPerMeter;
+    }
 
+    public function set pixPerMeter(value:Number):void {
+        _pixPerMeter = value;
+    }
 }//end of class
 } //end of package
