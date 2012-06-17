@@ -51,7 +51,6 @@ public class FieldModel {
     private var linear_str:String;
     private var sinusoidal_str:String;
     private var circular_str:String;
-    //private var sawTooth_str:String;
     private var bump_str:String;
     private var random_str:String;
     private var stopping_str:String;
@@ -108,7 +107,6 @@ public class FieldModel {
         this.sinusoidal_str = "sinusoidal";
         this.circular_str = "circular";
         this.bump_str = "bump";
-        //this.sawTooth_str = "sawTooth";
         this.random_str = "random";
         this.stopping_str = "stopping";
         this.motionType_str = userControlled_str;
@@ -195,10 +193,6 @@ public class FieldModel {
         return this._amplitude;
     }
 
-//    public function setAmplitude( ampli:Number ):void{
-//        this._amplitude = ampli;
-//    }
-
     public function set amplitude( ampli:Number ):void{
         this._amplitude = ampli;
     }
@@ -232,7 +226,6 @@ public class FieldModel {
         return this._bumpDuration;
     }
 
-
     public function stopCharge():void{
         motionType_str = userControlled_str;
         this.myMainView.myControlPanel.myComboBox.selectedIndex = 0;         //is there a more elegant way?
@@ -252,8 +245,6 @@ public class FieldModel {
         this.myMainView.myControlPanel.myComboBox.selectedIndex = 0;
         this.initializeFieldLines();
     }
-
-
 
     public function restartCharge():void{
         this.setMotion( 1 );  //restart linear motion of charge at left edge of screen

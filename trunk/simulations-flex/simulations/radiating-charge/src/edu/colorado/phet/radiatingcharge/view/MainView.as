@@ -36,8 +36,6 @@ public class MainView extends Canvas {
     public var myControlPanel:ControlPanel;
     public var topCanvas:RadiatingChargeCanvas;
 
-//    public var myControlPanel:ControlPanel;
-
     public var phetLogo: Sprite;
     public var stageH: Number;
     public var stageW: Number;
