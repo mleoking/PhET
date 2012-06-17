@@ -9,6 +9,8 @@
 package edu.colorado.phet.projectilemotionflex.view {
 import edu.colorado.phet.flashcommon.view.PhetIcon;
 import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
+import edu.colorado.phet.projectilemotionflex.control.ControlPanel;
+import edu.colorado.phet.projectilemotionflex.model.TrajectoryModel;
 
 import flash.display.Sprite;
 
@@ -35,6 +37,19 @@ public class MainView extends Canvas {
         percentHeight = 100;
         this.stageH = stageH;
         this.stageW = stageW;
+
+        this.trajectoryModel = new TrajectoryModel( this );
+        this.backgroundView = new BackgroundView( this, trajectoryModel );
+        this.cannonView = new CannonView( this, trajectoryModel );
+        this.trajectoryView = new TrajectoryView( this, trajectoryModel );
+        this.projectileView = new ProjectileView( this, trajectoryModel );
+        this.controlPanel = new ControlPanel( this, trajectoryModel );
+
+        this.addChild( new SpriteUIComponent( backgroundView ));
+        this.addChild( new SpriteUIComponent( cannonView ));
+        this.addChild( new SpriteUIComponent( trajectoryView ));
+        this.addChild( new SpriteUIComponent( projectileView ));
+        this.addChild( controlPanel );
 
         this.phetLogo = new PhetIcon();
         this.phetLogo.x = stageW - 2.0 * this.phetLogo.width;
