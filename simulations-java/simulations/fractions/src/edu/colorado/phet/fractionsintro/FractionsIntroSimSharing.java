@@ -56,7 +56,7 @@ public class FractionsIntroSimSharing {
 
         levelButton,
         soundButton, stopwatchButton,
-        newGameButton
+        newGameButton,
     }
 
     //For chaining with component types
@@ -70,15 +70,17 @@ public class FractionsIntroSimSharing {
     }
 
     public enum ModelComponents implements IModelComponent {
-        containerSetComponent
+        containerSetComponent, leftScaleValue,
+        rightScaleValue, answer, game
     }
 
     public enum ModelComponentTypes implements IModelComponentType {
-        containerSetComponentType
+        containerSetComponentType,
+        scale, answer, game
     }
 
     public enum ModelActions implements IModelAction {
-        changed
+        changed, checked, finished
     }
 
     public enum ParameterKeys implements IParameterKey {
@@ -88,7 +90,7 @@ public class FractionsIntroSimSharing {
         containerSetKey,
         scale,
         autoSpin,
-        soundEnabled, timerEnabled
+        soundEnabled, timerEnabled, isCorrect, points
     }
 
     public static RichVoidFunction1<Boolean> sendMessage( final IUserComponent component, final IUserComponentType type, final IUserAction action, final Function1<Boolean, ParameterSet> parameters ) {

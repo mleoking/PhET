@@ -18,9 +18,15 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.CompositeIntegerProperty;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ModelComponents;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
+import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ModelActions.changed;
+import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ModelComponentTypes.scale;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState.initialState;
 
 /**
@@ -132,7 +138,6 @@ public class MatchingGameModel {
         }
     }, state );
 
-
     //Property for the list of game results
     public final Property<List<GameResult>> gameResults = new Property<List<GameResult>>( state.get().gameResults ) {{
         state.addObserver( new VoidFunction1<MatchingGameState>() {
@@ -171,5 +176,23 @@ public class MatchingGameModel {
                 return f.f( state.get() );
             }
         }, state );
+    }
+
+    public MatchingGameModel() {
+
+        //Send model messages when the values on the scales change.
+        leftScaleValue.addObserver( new VoidFunction1<Double>() {
+            public void apply( final Double value ) {
+                SimSharingManager.sendModelMessage( ModelComponents.leftScaleValue, scale,
+                                                    changed, parameterSet( ParameterKeys.value, value ) );
+            }
+        } );
+
+        rightScaleValue.addObserver( new VoidFunction1<Double>() {
+            public void apply( final Double value ) {
+                SimSharingManager.sendModelMessage( ModelComponents.rightScaleValue, scale,
+                                                    changed, parameterSet( ParameterKeys.value, value ) );
+            }
+        } );
     }
 }
