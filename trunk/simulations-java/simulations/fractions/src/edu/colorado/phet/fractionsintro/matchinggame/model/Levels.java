@@ -177,16 +177,22 @@ class Levels {
             boolean numeric = i < 3 || random.nextBoolean();
             if ( numeric ) {
                 int scaleFactor = numericScaleFactors.index( random.nextInt( numericScaleFactors.length() ) );
+                final double fractionSizeScale = 0.3;
+
+                //AP: Usually mixed numbers are written with the "1" nearly as tall as the entire fraction
+                final double mixedNumberWholeScale = 2.4;
                 if ( level == 7 && fraction.toDouble() > 1 && random.nextBoolean() ) {
                     //Try to use a mixed number representation
-                    node = new HBox( 5, new FractionNumberNode( new Property<Integer>( 1 ) ) {{setScale( 0.3 );}}, new FractionNode( new Fraction( fraction.numerator - fraction.denominator, fraction.denominator ), 0.3 ) );
+                    node = new HBox( 5, new FractionNumberNode( new Property<Integer>( 1 ) ) {{setScale( fractionSizeScale * mixedNumberWholeScale );}},
+                                     new FractionNode( new Fraction( fraction.numerator - fraction.denominator, fraction.denominator ), fractionSizeScale ) );
                 }
                 else if ( level == 8 && fraction.toDouble() > 1 && random.nextBoolean() ) {
                     //Try to use a mixed number representation
-                    node = new HBox( 5, new FractionNumberNode( new Property<Integer>( 1 ) ) {{setScale( 0.3 );}}, new FractionNode( new Fraction( ( fraction.numerator - fraction.denominator ) * scaleFactor, fraction.denominator * scaleFactor ), 0.3 ) );
+                    node = new HBox( 5, new FractionNumberNode( new Property<Integer>( 1 ) ) {{setScale( fractionSizeScale * mixedNumberWholeScale );}},
+                                     new FractionNode( new Fraction( ( fraction.numerator - fraction.denominator ) * scaleFactor, fraction.denominator * scaleFactor ), fractionSizeScale ) );
                 }
                 else {
-                    node = new FractionNode( new Fraction( fraction.numerator * scaleFactor, fraction.denominator * scaleFactor ), 0.3 );
+                    node = new FractionNode( new Fraction( fraction.numerator * scaleFactor, fraction.denominator * scaleFactor ), fractionSizeScale );
                 }
             }
             //ensure a minimum of 3 shape representations per stage
