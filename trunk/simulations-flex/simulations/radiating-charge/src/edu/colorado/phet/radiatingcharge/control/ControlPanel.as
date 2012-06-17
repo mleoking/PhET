@@ -164,7 +164,6 @@ public class ControlPanel extends Canvas {
     private function initializeStrings():void{
         pause_str = FlexSimStrings.get( "pause", "Pause" );
         unPause_str = FlexSimStrings.get( "unPause", "UnPause" );
-        //start_str = FlexSimStrings.get( "start", "Start" );
         stop_str = FlexSimStrings.get( "stop", "Stop" );
         restart_str = FlexSimStrings.get( "restart", "Restart" );
         reset_str = FlexSimStrings.get("reset", "Reset");
@@ -177,9 +176,8 @@ public class ControlPanel extends Canvas {
         amplitude_str = FlexSimStrings.get( "amplitude", "amplitude" );
         frequency_str = FlexSimStrings.get( "frequency", "frequency" );
         speed_str = FlexSimStrings.get( "speed", "speed" );
-        c_str = FlexSimStrings.get( "c", "c");
+        c_str = FlexSimStrings.get( "speedOfLight", "c");
         duration_str = FlexSimStrings.get( "duration", "duration" );
-        //s_str = FlexSimStrings.get( "seconds", "s" );
         moreSpeedLessRez_str = FlexSimStrings.get("moreSpeedLessRez", "More speed, less rez")
     }
 
