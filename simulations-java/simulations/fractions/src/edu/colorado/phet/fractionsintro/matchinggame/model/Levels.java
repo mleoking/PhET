@@ -261,7 +261,7 @@ class Levels {
                s == polygon ? d >= 3 :
                s == tetris ? d == 4 :
                s == letterLShapes ? d % 2 == 0 :
-               s == interleavedLShapes ? d % 2 == 0 :
+               s == interleavedLShapes ? ( d == 2 || d == 4 ) :
                false;
     }
 
@@ -362,8 +362,6 @@ class Levels {
                                   s == letterLShapes && d % 2 == 0 ? Pattern.letterLShapedDiagonal( 14, d / 2 ) :
                                   s == interleavedLShapes && d == 2 ? Pattern.interleavedLShape( 80, 1, 1 ) :
                                   s == interleavedLShapes && d == 4 ? Pattern.interleavedLShape( 80, 2, 1 ) :
-                                  s == interleavedLShapes && d == 6 ? Pattern.interleavedLShape( 80, 3, 1 ) :
-                                  s == interleavedLShapes && d == 8 ? Pattern.interleavedLShape( 80, 2, 2 ) :
                                   null;
         if ( container == null ) {
             throw new RuntimeException( "Null pattern for rep = " + s + ", f = " + fraction );
