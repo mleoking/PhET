@@ -203,7 +203,11 @@ public class Pattern {
         }.getGeneralPath();
     }
 
-    public static class Grid extends Pattern {
+    public static Grid grid( int edgeCount ) {
+        return new Grid( edgeCount );
+    }
+
+    private static class Grid extends Pattern {
         public static final double length = 20;
 
         public Grid( final int edgeCount ) {
@@ -217,7 +221,11 @@ public class Pattern {
         }
     }
 
-    public static class PlusSigns extends Pattern {
+    public static PlusSigns plusSigns( int numberPlusSigns ) {
+        return new PlusSigns( numberPlusSigns );
+    }
+
+    private static class PlusSigns extends Pattern {
         public static final LinearFunction fun = new LinearFunction( 1, 6, 20, 10 );
 
         public PlusSigns( int numberPlusSigns ) {
@@ -241,7 +249,13 @@ public class Pattern {
         }}.getGeneralPath();
     }
 
-    public static class Pyramid {
+    public static Pattern pyramidSingle() { return Pyramid.single(); }
+
+    public static Pattern pyramidFour() { return Pyramid.four(); }
+
+    public static Pattern pyramidNine() { return Pyramid.nine(); }
+
+    private static class Pyramid {
         public static final UnitVector2D UP = new UnitVector2D( 0, -1 );
         public static final UnitVector2D DOWN = new UnitVector2D( 0, 1 );
 
