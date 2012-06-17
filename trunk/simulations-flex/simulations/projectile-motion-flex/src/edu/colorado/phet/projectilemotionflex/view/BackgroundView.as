@@ -17,6 +17,9 @@ public class BackgroundView extends Sprite {
     private var trajectoryModel: TrajectoryModel;
     private var stageW: Number;
     private var stageH: Number;
+    private var container: Sprite;      //container for cannon, trajectory, projectiles, etc.  Can be zoomed
+    private var cannon: CannonView;
+
 
     public function BackgroundView( mainView:MainView,  trajectoryModel: TrajectoryModel ) {
         this.mainView = mainView;
@@ -27,7 +30,11 @@ public class BackgroundView extends Sprite {
     }//end constructor
 
     private function initialize():void{
+        this.container = new Sprite();
+        this.cannon = new CannonView( mainView, trajectoryModel );
         this.drawBackground();
+        this.addChild( container );
+        this.container.addChild( cannon );
     }
 
     private function drawBackground():void{
