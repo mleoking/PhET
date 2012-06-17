@@ -14,10 +14,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.intro.view.FractionNode;
 import edu.colorado.phet.fractionsintro.intro.view.FractionNumberNode;
-import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Grid;
-import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.PlusSigns;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Polygon;
-import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Pyramid;
 import edu.colorado.phet.fractionsintro.matchinggame.view.PatternNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -345,13 +342,13 @@ class Levels {
                                   s == horizontalBars ? Pattern.horizontalBars( d ) :
                                   s == flower && d == 6 ? Pattern.sixFlower() :
                                   s == tetris && d == 4 ? Pattern.tetrisPiece( 50 ) :
-                                  s == plusses && d == 6 ? new PlusSigns( d ) :
+                                  s == plusses && d == 6 ? Pattern.plusSigns( d ) :
                                   s == polygon ? Polygon.createPolygon( 80, d ) :
-                                  s == pyramid && d == 1 ? Pyramid.single() :
-                                  s == pyramid && d == 4 ? Pyramid.four() :
-                                  s == pyramid && d == 9 ? Pyramid.nine() :
-                                  s == grid && d == 4 ? new Grid( 2 ) :
-                                  s == grid && d == 9 ? new Grid( 3 ) :
+                                  s == pyramid && d == 1 ? Pattern.pyramidSingle() :
+                                  s == pyramid && d == 4 ? Pattern.pyramidFour() :
+                                  s == pyramid && d == 9 ? Pattern.pyramidNine() :
+                                  s == grid && d == 4 ? Pattern.grid( 2 ) :
+                                  s == grid && d == 9 ? Pattern.grid( 3 ) :
                                   s == letterLShapes && d % 2 == 0 ? Pattern.letterLShapedDiagonal( 14, d / 2 ) :
                                   s == interleavedLShapes && d == 2 ? Pattern.interleavedLShape( 80, 1, 1 ) :
                                   s == interleavedLShapes && d == 4 ? Pattern.interleavedLShape( 80, 2, 1 ) :

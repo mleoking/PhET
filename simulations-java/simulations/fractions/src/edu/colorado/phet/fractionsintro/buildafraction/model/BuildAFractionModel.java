@@ -13,7 +13,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern;
-import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Pyramid;
 import edu.colorado.phet.fractionsintro.matchinggame.view.FilledPattern;
 
 import static edu.colorado.phet.fractionsintro.buildafraction.model.NumberTarget.target;
@@ -52,17 +51,17 @@ public class BuildAFractionModel {
     };
     public static F<Fraction, FilledPattern> pyramid1 = new F<Fraction, FilledPattern>() {
         @Override public FilledPattern f( final Fraction f ) {
-            return sequentialFill( Pyramid.single(), f.numerator );
+            return sequentialFill( Pattern.pyramidSingle(), f.numerator );
         }
     };
     public static F<Fraction, FilledPattern> pyramid4 = new F<Fraction, FilledPattern>() {
         @Override public FilledPattern f( final Fraction f ) {
-            return sequentialFill( Pyramid.four(), f.numerator );
+            return sequentialFill( Pattern.pyramidFour(), f.numerator );
         }
     };
     public static F<Fraction, FilledPattern> pyramid9 = new F<Fraction, FilledPattern>() {
         @Override public FilledPattern f( final Fraction f ) {
-            return sequentialFill( Pyramid.nine(), f.numerator );
+            return sequentialFill( Pattern.pyramidNine(), f.numerator );
         }
     };
     public static F<Fraction, FilledPattern> flower = new F<Fraction, FilledPattern>() {
