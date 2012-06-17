@@ -1,3 +1,4 @@
+Fraction Matcher: Exclude "interleaved L shapes" for denominator > 4
 Fraction Matcher: Moved mixed number elements closer together
 # 0.00.86 (65170) Jun 16, 2012
 Fraction Matcher: Fixed: Sometimes when pressing "show answer", a fraction from the top score cell animates down to the scale
