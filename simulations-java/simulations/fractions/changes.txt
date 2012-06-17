@@ -1,3 +1,4 @@
+Fraction Builder: Fixed: "Next" button font under smilie face is too small
 Fraction Builder: Fixed: Cards should stack down and to the right instead of up and to the left
 Fraction Builder: Fixed: Composite fraction card wrong size unless window at 1024x768
 # 0.00.87 (65174) Jun 16, 2012

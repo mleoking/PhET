@@ -13,6 +13,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
@@ -218,7 +219,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
         fractionGraphic.setOffset( toolboxNode.getCenterX() - fractionGraphic.getFullBounds().getWidth() / 2, 300 );
         fractionGraphic.moveInFrontOf( toolboxNode );
 
-        faceNodeDialog = new VBox( new FaceNode( 300 ), new HTMLImageButtonNode( "Next", Color.orange ) {{
+        faceNodeDialog = new VBox( new FaceNode( 300 ), new HTMLImageButtonNode( "Next", new PhetFont( 20, true ), Color.orange ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( final ActionEvent e ) {
                     context.nextNumberLevel();
