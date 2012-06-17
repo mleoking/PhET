@@ -1,3 +1,4 @@
+# 0.00.88 (65186) Jun 17, 2012
 Fraction Builder: Added a little more vertical spacing between scoring cells
 Fraction Builder: Added a little more vertical space between "my fractions" and the scoring cells
 Fraction Builder: When ejecting a fraction from the scoring cell, all the parts go back to the toolbox
