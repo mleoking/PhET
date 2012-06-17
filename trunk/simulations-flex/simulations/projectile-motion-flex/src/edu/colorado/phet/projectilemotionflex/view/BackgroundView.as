@@ -19,6 +19,9 @@ public class BackgroundView extends Sprite {
     private var stageH: Number;
     private var container: Sprite;      //container for cannon, trajectory, projectiles, etc.  Can be zoomed
     private var cannon: CannonView;
+    private var pixPerMeter: Number;   //in mainView
+    private var xOrigin: Number;       //x- and y-coords of origin in screen coordinates
+    private var yOrigin: Number;
 
 
     public function BackgroundView( mainView:MainView,  trajectoryModel: TrajectoryModel ) {
@@ -26,6 +29,7 @@ public class BackgroundView extends Sprite {
         this.trajectoryModel = trajectoryModel;
         this.stageW = mainView.stageW;
         this.stageH = mainView.stageH;
+        this.pixPerMeter = mainView.pixPerMeter;
         this.initialize();
     }//end constructor
 
@@ -35,6 +39,8 @@ public class BackgroundView extends Sprite {
         this.drawBackground();
         this.addChild( container );
         this.container.addChild( cannon );
+        this.cannon.x = 0.2*stageW;
+        this.cannon.y = 0.8*stageH;
     }
 
     private function drawBackground():void{
@@ -44,7 +50,7 @@ public class BackgroundView extends Sprite {
         var yHorizon = 0.7*stageH;
         gB.moveTo( 0, yHorizon);
         gB.lineTo( stageW,  yHorizon );
-        gB.beginFill( 0xbbbbff,  1);     //sky blue
+        gB.beginFill( 0xddddff,  1);     //sky blue
         gB.moveTo( 0, 0 );
         gB.lineTo( 0, yHorizon );
         gB.lineTo( stageW,  yHorizon );
