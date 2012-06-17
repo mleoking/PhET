@@ -63,7 +63,7 @@ public class FieldModel {
     private var delTPhoton:Number;      //time in sec between photon emission events
     private var stepsPerFrame:int;      //number of algorithm steps between screen draws
     private var tBump:Number;           //time that charge is bumped
-    private var bumpDuration:Number;    //duration of bump in seconds
+    private var _bumpDuration:Number;    //duration of bump in seconds
     private var tLastRandomStep:Number; //time of previous step in random walk motion
     private var delTRandomWalk:Number;  //time between steps in random walk motion
     private var msTimer: Timer;	        //millisecond timer
@@ -127,6 +127,7 @@ public class FieldModel {
         this._amplitude = 5;
         this._frequency = 2;
         this.phi = 0;
+        this._bumpDuration = 0.5;
 
         this._paused = false;
         this._t = 0;
@@ -194,7 +195,11 @@ public class FieldModel {
         return this._amplitude;
     }
 
-    public function setAmplitude( ampli:Number ):void{
+//    public function setAmplitude( ampli:Number ):void{
+//        this._amplitude = ampli;
+//    }
+
+    public function set amplitude( ampli:Number ):void{
         this._amplitude = ampli;
     }
     
@@ -217,6 +222,14 @@ public class FieldModel {
 
     public function getBeta():Number{
         return this.beta;
+    }
+
+    public function set bumpDuration( bumpWidth:Number ):void{
+        this._bumpDuration = bumpWidth;
+    }
+
+    public function get bumpDuration():Number{
+        return this._bumpDuration;
     }
 
 
@@ -248,7 +261,7 @@ public class FieldModel {
 
     public function bumpCharge( bumpDuration:Number ):void{
         this.tBump = this._t;
-        this.bumpDuration = bumpDuration;
+        this._bumpDuration = bumpDuration;
     }
     
     public function setForce( delX:Number, delY:Number ):void{
@@ -308,7 +321,7 @@ public class FieldModel {
             vX = 0;
             vY = 0;
             tBump = this._t;
-            bumpDuration = this.myMainView.myControlPanel.durationSlider.getVal();
+            this._bumpDuration = this.myMainView.myControlPanel.durationSlider.getVal();
             //slopeSign = 1;
         }else if( choice == 5 ){  //randomWalk
             motionType_str = random_str;
@@ -392,22 +405,27 @@ public class FieldModel {
 
     private function bumpStep():void{
         //trace("FieldModel.bumpCharge called()");
+        //this._xC = 0;
+        //this.vX = 0;
         var A:Number = amplitude;
         var f:Number = 1/bumpDuration;
         var omega:Number = 2*Math.PI*f;
         if( t < tBump + bumpDuration ){
-            this._yC = A*Math.sin( omega*(t - tBump));
-            this.vY = A*omega*Math.cos( omega*(t - tBump));
+            this._yC = A*Math.cos( omega*(t - tBump) - Math.PI/2);
+            this.vY = -A*omega*Math.sin( omega*(t - tBump) );
+        }else{
+            this._yC = 0;
+            this.vY = 0;
         }
         this._v = Math.sqrt( vX*vX + vY*vY );
         this.beta = this._v/this.c;
     }
 
+    //NOT USED
     private function sawToothStep():void{
         _xC = 0;
         vX = 0;
         this.fX = 0;
-
         if( _yC >= 0 ){
             slopeSign = -1;
         } else if(_yC < 0 ){
@@ -419,7 +437,6 @@ public class FieldModel {
         if( signY != signVY  ){
             extraForceFactor *= 0.7;
         }
-
         this.fY = slopeSign*(100+extraForceFactor)*amplitude;
         this.beta = this._v/this.c;
         this.gamma = 1/Math.sqrt( 1 - beta*beta );
@@ -451,7 +468,6 @@ public class FieldModel {
         var g3:Number = Math.pow( gamma, 3 );
         var aX:Number = -vXInit/(g3*m*div*dt);
         var aY:Number = -vYInit/(g3*m*div*dt);
-
         vX += aX*dt;
         vY += aY*dt;
         this._v = Math.sqrt( vX*vX + vY*vY );

@@ -5,7 +5,7 @@ import mx.core.Application;
 
 public class FlexSimStrings {
     private static var document: XML;
-    private static const debug: Boolean = false;
+    private static const debug: Boolean = true;
 
     public static function get( key: String, defaultString: String, formatArray: Array = null ): String {
         if ( document == null ) {
@@ -27,7 +27,7 @@ public class FlexSimStrings {
             if ( item.attribute( "key" ).toString() == key ) {
                 const translatedString: String = RTLControlCode + format( item.attribute( "value" ).toString(), formatArray );
                 if ( debug ) {
-                    return "[Translated String] " + translatedString;
+                    return "x";
                 }
                 else {
                     return translatedString;
@@ -39,7 +39,8 @@ public class FlexSimStrings {
         }
         else {
             if ( debug ) {
-                return "[Default String] " + format( defaultString, formatArray );
+                return format( defaultString, formatArray );
+                //return "[Default String] " + format( defaultString, formatArray );
             }
             else {
                 return RTLControlCode + format( defaultString, formatArray );
