@@ -72,57 +72,7 @@ public class FractionNode extends RichPNode {
         splitButton.addInputEventListener( new CursorHandler() );
         splitButton.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( final PInputEvent event ) {
-                setDragRegionPickable( true );
-                Option<Fraction> value = isComplete() ? Option.some( getValue() ) : Option.<Fraction>none();
-
-                Point2D topCardLocation = topCard != null ? topCard.getGlobalTranslation() : null;
-                Point2D bottomCardLocation = bottomCard != null ? bottomCard.getGlobalTranslation() : null;
-
-                if ( cardNode != null ) {
-                    cardNode.split();
-                    cardNode = null;
-                }
-                //TODO simsharing message
-                if ( topCard != null ) {
-                    topCard.setCardShapeVisible( true );
-                    topCard.setAllPickable( true );
-                    topBox.setVisible( true );
-
-                    topCardParent.addChild( topCard );
-                    topCard.addNumberNodeBackIn( topNumberNode );
-
-                    //fix offset
-                    topCard.setGlobalTranslation( topCardLocation );
-
-                    topCard.setVisible( true );
-                    topCard.setPickable( true );
-                    topCard.setChildrenPickable( true );
-
-                    topCard.animateHome();
-                    topCard = null;
-                }
-                if ( bottomCard != null ) {
-                    bottomCard.setCardShapeVisible( true );
-                    bottomCard.setAllPickable( true );
-                    bottomBox.setVisible( true );
-
-                    bottomCardParent.addChild( bottomCard );
-                    bottomCard.addNumberNodeBackIn( bottomNumberNode );
-
-                    //fix offset
-                    bottomCard.setGlobalTranslation( bottomCardLocation );
-
-                    bottomCard.setVisible( true );
-                    bottomCard.setPickable( true );
-                    bottomCard.setChildrenPickable( true );
-
-                    bottomCard.animateHome();
-                    bottomCard = null;
-                }
-                splitButton.setVisible( false );
-                for ( VoidFunction1<Option<Fraction>> splitListener : splitListeners ) {
-                    splitListener.apply( value );
-                }
+                handleSplitEvent();
             }
         } );
         splitButton.setVisible( false );
@@ -142,6 +92,60 @@ public class FractionNode extends RichPNode {
                 context.endDrag( FractionNode.this, event );
             }
         } );
+    }
+
+    public void handleSplitEvent() {
+        setDragRegionPickable( true );
+        Option<Fraction> value = isComplete() ? Option.some( getValue() ) : Option.<Fraction>none();
+
+        Point2D topCardLocation = topCard != null ? topCard.getGlobalTranslation() : null;
+        Point2D bottomCardLocation = bottomCard != null ? bottomCard.getGlobalTranslation() : null;
+
+        if ( cardNode != null ) {
+            cardNode.split();
+            cardNode = null;
+        }
+        //TODO simsharing message
+        if ( topCard != null ) {
+            topCard.setCardShapeVisible( true );
+            topCard.setAllPickable( true );
+            topBox.setVisible( true );
+
+            topCardParent.addChild( topCard );
+            topCard.addNumberNodeBackIn( topNumberNode );
+
+            //fix offset
+            topCard.setGlobalTranslation( topCardLocation );
+
+            topCard.setVisible( true );
+            topCard.setPickable( true );
+            topCard.setChildrenPickable( true );
+
+            topCard.animateHome();
+            topCard = null;
+        }
+        if ( bottomCard != null ) {
+            bottomCard.setCardShapeVisible( true );
+            bottomCard.setAllPickable( true );
+            bottomBox.setVisible( true );
+
+            bottomCardParent.addChild( bottomCard );
+            bottomCard.addNumberNodeBackIn( bottomNumberNode );
+
+            //fix offset
+            bottomCard.setGlobalTranslation( bottomCardLocation );
+
+            bottomCard.setVisible( true );
+            bottomCard.setPickable( true );
+            bottomCard.setChildrenPickable( true );
+
+            bottomCard.animateHome();
+            bottomCard = null;
+        }
+        splitButton.setVisible( false );
+        for ( VoidFunction1<Option<Fraction>> splitListener : splitListeners ) {
+            splitListener.apply( value );
+        }
     }
 
     private static PhetPPath box( boolean showOutline ) {
@@ -226,4 +230,8 @@ public class FractionNode extends RichPNode {
     public double getToolboxPositionY() { return toolboxPositionY; }
 
     public void setCardNode( final FractionCardNode fractionCardNode ) { this.cardNode = fractionCardNode; }
+
+    public void sendFractionSkeletonToStartingLocation() {
+        animateToPositionScaleRotation( toolboxPositionX, toolboxPositionY, 1, 0, 1000 );
+    }
 }

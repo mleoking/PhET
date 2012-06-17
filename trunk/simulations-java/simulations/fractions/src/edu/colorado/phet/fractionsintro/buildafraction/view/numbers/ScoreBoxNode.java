@@ -102,7 +102,8 @@ public class ScoreBoxNode extends PNode {
 
                 fractionGraphic = null;
 
-                cardNode.animateToPositionScaleRotation( -cardNode.getFullWidth() * 2, 0, 1, 0, 1000 );
+                cardNode.fractionNode.handleSplitEvent();
+                cardNode.fractionNode.sendFractionSkeletonToStartingLocation();
 
                 numberSceneNode.hideFace();
             }
