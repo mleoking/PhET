@@ -109,15 +109,6 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
             setOffset( 300, INSET );
         }} );
 
-        addChild( new PhetPText( "Score: 0", scoreboardFont ) {{
-            model.numberScore.addObserver( new VoidFunction1<Integer>() {
-                public void apply( final Integer score ) {
-                    setText( "Score: " + score );
-                }
-            } );
-            setOffset( 600, INSET );
-        }} );
-
         model.selectedScene.addObserver( new VoidFunction1<Scene>() {
             public void apply( final Scene scene ) {
                 if ( scene == Scene.pictures ) {
