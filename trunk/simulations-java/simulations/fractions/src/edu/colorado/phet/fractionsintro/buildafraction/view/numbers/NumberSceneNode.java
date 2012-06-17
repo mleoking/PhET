@@ -180,9 +180,11 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
             int numInStack = cardNodeStack.length();
             int indexInStack = 0;
             for ( NumberCardNode cardNode : cardNodeStack ) {
-                int reverseIndex = numInStack - 1 - indexInStack;
-                cardNode.setInitialPosition( toolboxNode.getMinX() + leftRightInset + ( cardWidth + spacingBetweenNumbers ) * groupIndex + reverseIndex * cardDeltaX,
-                                             toolboxNode.getCenterY() - cardNode.getFullBounds().getHeight() / 2 + reverseIndex * cardDeltaY );
+                int index = indexInStack;
+
+                //To reverse the card order, use //                int index = numInStack - 1 - indexInStack;
+                cardNode.setInitialPosition( toolboxNode.getMinX() + leftRightInset + ( cardWidth + spacingBetweenNumbers ) * groupIndex + index * cardDeltaX,
+                                             toolboxNode.getCenterY() - cardNode.getFullBounds().getHeight() / 2 + index * cardDeltaY );
                 addChild( cardNode );
                 indexInStack++;
             }
