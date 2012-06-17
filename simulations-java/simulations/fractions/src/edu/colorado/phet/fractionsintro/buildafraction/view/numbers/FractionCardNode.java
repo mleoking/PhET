@@ -24,6 +24,8 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
+ * Shows a FractionNode on a card and makes it draggable.
+ *
  * @author Sam Reid
  */
 public class FractionCardNode extends RichPNode {
@@ -37,18 +39,20 @@ public class FractionCardNode extends RichPNode {
         this.fractionNode.setCardNode( this );
         this.fractionNodeParent = fractionNode.getParent();
 
+        //Put fraction node in our coordinate frame so the rest of the geometry calculation is easy
+        addChild( fractionNode );
+
         //create an overlay that allows dragging all parts together
         PBounds topBounds = fractionNode.getTopNumberNode().getGlobalFullBounds();
         PBounds bottomBounds = fractionNode.getBottomNumberNode().getGlobalFullBounds();
         Rectangle2D divisorBounds = fractionNode.divisorLine.getGlobalFullBounds();
         Rectangle2D union = topBounds.createUnion( bottomBounds ).createUnion( divisorBounds );
 
-        //For debugging, show a yellow border
-        Rectangle2D expanded = RectangleUtils.expand( union, 10, 2 );
-        expanded = globalToLocal( expanded );
-        expanded = localToParent( expanded );
+        Rectangle2D borderShape = union;
+        borderShape = globalToLocal( borderShape );
+        borderShape = RectangleUtils.expand( borderShape, 10, 2 );
 
-        final PhetPPath cardShapeNode = new PhetPPath( new RoundRectangle2D.Double( expanded.getX(), expanded.getY(), expanded.getWidth(), expanded.getHeight(), 10, 10 ),
+        final PhetPPath cardShapeNode = new PhetPPath( new RoundRectangle2D.Double( borderShape.getX(), borderShape.getY(), borderShape.getWidth(), borderShape.getHeight(), 10, 10 ),
                                                        Color.white, new BasicStroke( 1 ), Color.black );
         cardShapeNode.addInputEventListener( new CursorHandler() );
 
@@ -126,14 +130,7 @@ public class FractionCardNode extends RichPNode {
         } );
 
         addChild( cardShapeNode );
-
-        Point2D location = fractionNode.getGlobalTranslation();
-
-        addChild( fractionNode );
-        fractionNode.setGlobalTranslation( location );
-
-        //I Don't know why this offset is necessary; couldn't figure it out.  Perhaps due to the card inset, but it doesn't exactly match up.
-        translate( 0, -15 );
+        fractionNode.moveToFront();
     }
 
     public void split() {
