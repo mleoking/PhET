@@ -14,12 +14,18 @@ import flash.display.Sprite;
 
 import mx.containers.Canvas;
 
-//main view and communications hub for Radiating Charge sim
+//main view and communications hub for Projectile Motion sim (Flex version)
 public class MainView extends Canvas {
 
     public var phetLogo: Sprite;
     public var stageH: Number;
     public var stageW: Number;
+    public var trajectoryModel: TrajectoryModel;
+    public var backgroundView: BackgroundView;
+    public var cannonView: CannonView;
+    public var trajectoryView: TrajectoryView;
+    public var projectileView: ProjectileView;
+    public var controlPanel: ControlPanel;
 
     //Internalized strings are located at:
     //
@@ -34,9 +40,6 @@ public class MainView extends Canvas {
         this.phetLogo.x = stageW - 2.0 * this.phetLogo.width;
         this.phetLogo.y = stageH - 1.5 * this.phetLogo.height;
 
-        //trace( "stageW:" + stageW + "   stageH:" +stageH );
-
-        //phetLogo now in tab area
         this.addChild( new SpriteUIComponent( phetLogo ) );
         this.initializeAll();
     }//end of constructor

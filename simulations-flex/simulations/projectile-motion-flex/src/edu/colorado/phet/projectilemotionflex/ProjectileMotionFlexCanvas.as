@@ -21,12 +21,9 @@ public class ProjectileMotionFlexCanvas extends Canvas {
     private var RENDER_HEIGHT: int = 768;
 
     public function init(): void {
-        //stage.quality = StageQuality.LOW;
-        //trace("radiatingchargeCanvas.init() called");
         setStyle( "backgroundColor", 0xf0e68c );  //build an atom color is 0xffff99
         percentWidth = 100;
         percentHeight = 100;
-        //const res: radiatingcharge = new radiatingcharge( RENDER_WIDTH, RENDER_HEIGHT );//todo: compare to Util
         const myMainView : MainView = new MainView( RENDER_WIDTH, RENDER_HEIGHT )
         this.addChild( myMainView );
        // addChild( res );
@@ -36,9 +33,7 @@ public class ProjectileMotionFlexCanvas extends Canvas {
 
             myMainView.scaleX = Math.min( sx, sy );
             myMainView.scaleY = Math.min( sx, sy );
-            //res.scaleX = Math.min( sx, sy );
-            //res.scaleY = Math.min( sx, sy );
-        };
+        }
         stage.addEventListener( Event.RESIZE, listener );
         listener( null );
     }//end init()
