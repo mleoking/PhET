@@ -12,8 +12,8 @@ public class HorizontalSlider extends Sprite {
     //private var owner:Object;		//container of this slider
     private var action: Function;	//function passed in from Object containing this slider
     private var lengthInPix: int; 	//length of slider in pixels
-    private var minVal: Number;		//minimum output value of slider
-    private var maxVal: Number;		//maximum value
+    private var _minVal: Number;		//minimum output value of slider
+    private var _maxVal: Number;		//maximum value
     private var textEditable: Boolean; //true if readout is user editable
     private var detented: Boolean;	//false if slider continuous
     private var nbrTics: int;		//number of tick marks, if detented
@@ -35,8 +35,8 @@ public class HorizontalSlider extends Sprite {
         //this.owner = owner;
         this.action = action;
         this.lengthInPix = lengthInPix;
-        this.minVal = minVal;
-        this.maxVal = maxVal;
+        this._minVal = minVal;
+        this._maxVal = maxVal;
         this.scale = 1;		//default is that slider outputValue = readout value
         this.decimalPlaces = 1;
         this.textEditable = textEditable;
@@ -63,35 +63,51 @@ public class HorizontalSlider extends Sprite {
     public function setVal( val: Number ): void {
         var xVal: Number = val;  /// this.scale;
         //trace("HorizSlider.setVal val = "+val);
-        if ( xVal >= this.minVal && xVal <= this.maxVal ) {
+        if ( xVal >= this._minVal && xVal <= this._maxVal ) {
             this.outputValue = xVal;
-            this.knob.x = this.lengthInPix * (xVal - this.minVal) / (this.maxVal - this.minVal);
-        }else if(xVal > this.maxVal){
-				this.outputValue = this.maxVal;
+            this.knob.x = this.lengthInPix * (xVal - this._minVal) / (this._maxVal - this._minVal);
+        }else if(xVal > this._maxVal){
+				this.outputValue = this._maxVal;
 				this.knob.x = this.lengthInPix;
 				this.updateReadout();
-			}else if(xVal < this.minVal){
-				this.outputValue = this.minVal;
+			}else if(xVal < this._minVal){
+				this.outputValue = this._minVal;
 				this.knob.x = 0;
 			}
         this.action();
         this.updateReadout();
     }//end setVal
 
+    public function set minVal( minVal:Number ):void{
+         this._minVal = minVal;
+    }
+
+    public function get minVal():Number{
+        return this._minVal;
+    }
+
+    public function set maxVal( maxVal:Number ):void{
+        this._maxVal = maxVal;
+    }
+
+    public function get maxVal():Number{
+        return this._maxVal;
+    }
+
  //****PUBLIC FUNCTIONS****
 
     public function setSliderWithoutAction(val:Number):void{
          var xVal: Number = val;  /// this.scale;
         //trace("HorizSlider.setVal val = "+val);
-        if ( xVal >= this.minVal && xVal <= this.maxVal ) {
+        if ( xVal >= this._minVal && xVal <= this._maxVal ) {
             this.outputValue = xVal;
-            this.knob.x = this.lengthInPix * (xVal - this.minVal) / (this.maxVal - this.minVal);
-        }else if(xVal > this.maxVal){
-				this.outputValue = this.maxVal;
+            this.knob.x = this.lengthInPix * (xVal - this._minVal) / (this._maxVal - this._minVal);
+        }else if(xVal > this._maxVal){
+				this.outputValue = this._maxVal;
 				this.knob.x = this.lengthInPix;
 				this.updateReadout();
-			}else if(xVal < this.minVal){
-				this.outputValue = this.minVal;
+			}else if(xVal < this._minVal){
+				this.outputValue = this._minVal;
 				this.knob.x = 0;
 			}
         this.updateReadout();
