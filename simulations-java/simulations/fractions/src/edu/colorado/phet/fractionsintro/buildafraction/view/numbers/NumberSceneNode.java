@@ -35,6 +35,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 import static edu.colorado.phet.fractions.FractionsResources.Strings.MY_FRACTIONS;
 import static edu.colorado.phet.fractionsintro.buildafraction.view.BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND;
 import static edu.colorado.phet.fractionsintro.buildafraction.view.BuildAFractionCanvas.controlPanelStroke;
+import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
 import static java.awt.Color.darkGray;
 
 /**
@@ -119,7 +120,8 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
         }
 
         //Center title above the "my fractions" scoring cell boxes
-        title.setOffset( pairs.get( 0 ).getTargetCell().getFullBounds().getCenterX() - title.getFullWidth() / 2, pairs.get( 0 ).getTargetCell().getFullBounds().getY() - title.getFullHeight() );
+        title.setOffset( pairs.get( 0 ).getTargetCell().getFullBounds().getCenterX() - title.getFullWidth() / 2,
+                         pairs.get( 0 ).getTargetCell().getFullBounds().getY() - title.getFullHeight() - INSET / 2 );
 
         //Add a piece container toolbox the user can use to get containers
         //Put numbers on cards so you can see how many there are in a stack

@@ -1,3 +1,4 @@
+Fraction Builder: Added a little more vertical space between "my fractions" and the scoring cells
 Fraction Builder: When ejecting a fraction from the scoring cell, all the parts go back to the toolbox
 Fraction Builder: Removed score readout
 Fraction Builder: Have vertical bars fill in from the left
