@@ -1,3 +1,4 @@
+Fraction Matcher: Fixed: Sometimes when pressing "show answer", a fraction from the top score cell animates down to the scale
 Fraction Matcher: Fixed: Spacing between shape graphics for fractions < 1 is sometimes too small
 Fraction Matcher: Increased the size of the whole number in mixed fractions
 Fraction Matcher: Added sim sharing messages
