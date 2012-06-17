@@ -65,7 +65,7 @@ public class FieldView extends Sprite{
         pausedSign.visible = myFieldModel.paused;
         var g:Graphics = this.container.graphics;
         g.clear();
-        g.lineStyle( 2, 0x0000ff, 1 );
+        g.lineStyle( 2, 0x0ffffff, 1 );
         var fieldLine_arr:Array =  this.myFieldModel.fieldLine_arr;
         //g.moveTo( originX + fieldLine_arr[i][0].xP, originY - fieldLine_arr[i][0].yP );
         for( var i:int = 0; i < nbrLines; i++){
