@@ -1,3 +1,4 @@
+Fraction Matcher: Moved mixed number elements closer together
 # 0.00.86 (65170) Jun 16, 2012
 Fraction Matcher: Fixed: Sometimes when pressing "show answer", a fraction from the top score cell animates down to the scale
 Fraction Matcher: Fixed: Spacing between shape graphics for fractions < 1 is sometimes too small
