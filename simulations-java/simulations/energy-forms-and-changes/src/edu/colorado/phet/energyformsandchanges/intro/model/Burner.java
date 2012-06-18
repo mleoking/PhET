@@ -194,24 +194,6 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
                 changeEnergy( thermalEnergyGained );
                 otherEnergyContainer.changeEnergy( -thermalEnergyGained );
             }
-
-            // Exchange energy chunks as needed.
-            if ( otherEnergyContainer.needsEnergyChunk() ) {
-                System.out.println( "giving chunk to otherEnergyContainer = " + otherEnergyContainer );
-                // The other energy container needs an energy chunk, so create
-                // one for it.  It is the other container's responsibility to
-                // animate it to the right place.
-                double xPos = position.getX() + ( RAND.nextDouble() - 0.5 ) * WIDTH / 3;
-                double yPos = HEIGHT * 0.6; // Tweaked to work well with the view.
-                otherEnergyContainer.addEnergyChunk( new EnergyChunk( clock, new ImmutableVector2D( xPos, yPos ), energyChunksVisible, true ) );
-            }
-            else if ( otherEnergyContainer.hasExcessEnergyChunks() ) {
-                // The other energy container needs to get rid of an energy
-                // chunk, so take one off of its hands.
-                EnergyChunk ec = otherEnergyContainer.extractClosestEnergyChunk( getCenterPoint() );
-                ec.startFadeOut();
-                energyChunkList.add( ec );
-            }
         }
     }
 

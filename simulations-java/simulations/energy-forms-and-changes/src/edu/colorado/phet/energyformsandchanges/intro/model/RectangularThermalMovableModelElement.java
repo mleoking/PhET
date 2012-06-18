@@ -206,18 +206,6 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
                 changeEnergy( thermalEnergyGained );
                 otherEnergyContainer.changeEnergy( -thermalEnergyGained );
             }
-
-            // Exchange energy chunks.
-            if ( otherEnergyContainer.needsEnergyChunk() && hasExcessEnergyChunks() ) {
-                // The other energy container needs an energy chunk, and this
-                // container has excess, so transfer one.
-                otherEnergyContainer.addEnergyChunk( extractClosestEnergyChunk( otherEnergyContainer.getCenterPoint() ) );
-            }
-            else if ( otherEnergyContainer.hasExcessEnergyChunks() && needsEnergyChunk() ) {
-                // This energy container needs a chunk, and the other has
-                // excess, so take one.
-                addEnergyChunk( otherEnergyContainer.extractClosestEnergyChunk( getCenterPoint() ) );
-            }
         }
     }
 
