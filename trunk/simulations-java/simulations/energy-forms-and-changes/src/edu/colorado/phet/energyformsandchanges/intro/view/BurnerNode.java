@@ -64,21 +64,20 @@ public class BurnerNode extends PNode {
         addChild( new BurnerStandTop( new Point2D.Double( burnerViewRect.getX(), burnerViewRect.getY() ), burnerViewRect.getWidth() ) );
 
         // Watch for energy chunks coming and going and add/remove nodes accordingly.
-        burner.getEnergyChunkList().addElementAddedObserver( new VoidFunction1<EnergyChunk>() {
+        burner.energyChunkList.addElementAddedObserver( new VoidFunction1<EnergyChunk>() {
             public void apply( final EnergyChunk addedEnergyChunk ) {
                 final PNode energyChunkNode = new EnergyChunkNode( addedEnergyChunk, mvt );
                 addChild( energyChunkNode );
-                burner.getEnergyChunkList().addElementRemovedObserver( new VoidFunction1<EnergyChunk>() {
+                burner.energyChunkList.addElementRemovedObserver( new VoidFunction1<EnergyChunk>() {
                     public void apply( EnergyChunk removedEnergyChunk ) {
                         if ( removedEnergyChunk == addedEnergyChunk ) {
                             removeChild( energyChunkNode );
-                            burner.getEnergyChunkList().removeElementRemovedObserver( this );
+                            burner.energyChunkList.removeElementRemovedObserver( this );
                         }
                     }
                 } );
             }
         } );
-
     }
 
     private static class BurnerStandSide extends PNode {
