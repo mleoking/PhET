@@ -4,17 +4,19 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Stroke;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.ToggleButtonNode;
@@ -61,7 +63,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
     private static final int FADE_OUT_TIME = 1000;
     private static final PhetFont scoreboardFont = new PhetFont( 26, true );
 
-    public BuildAFractionCanvas( final BuildAFractionModel model ) {
+    public BuildAFractionCanvas( final BuildAFractionModel model, final boolean dev ) {
         this.model = model;
         addChild( sceneLayer );
         pictureScene.addChild( new PictureSceneNode( model.numberLevel.get(), rootNode, model, STAGE_SIZE, this ) );
@@ -72,21 +74,28 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
         sceneLayer.addChild( pictureScene );
 
         //Add reset button to a layer that won't pan
-        addChild( new ResetAllButtonNode( new Resettable() {
+        final ResetAllButtonNode resetButton = new ResetAllButtonNode( new Resettable() {
             public void reset() {
                 model.resetAll();
-                numberScene.reset();
-                numberScene.addChild( new NumberSceneNode( model.numberLevel.get(), rootNode, model, STAGE_SIZE, BuildAFractionCanvas.this ) {{
-                    setOffset( 0, STAGE_SIZE.height );
-                }} );
-                pictureScene.reset();
-                pictureScene.addChild( new PictureSceneNode( model.numberLevel.get(), rootNode, model, STAGE_SIZE, BuildAFractionCanvas.this ) );
-
+                reloadViewsAfterReset( model );
             }
         }, this, 18, Color.black, Color.orange ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - INSET, STAGE_SIZE.getHeight() - getFullBounds().getHeight() - INSET );
             setConfirmationEnabled( false );
-        }} );
+        }};
+        addChild( resetButton );
+
+        if ( dev ) {
+            addChild( new TextButtonNode( "Resample", resetButton.getFont(), Color.red ) {{
+                addActionListener( new ActionListener() {
+                    public void actionPerformed( final ActionEvent e ) {
+                        model.resample();
+                        reloadViewsAfterReset( model );
+                    }
+                } );
+                setOffset( resetButton.getFullBounds().getX(), resetButton.getFullBounds().getY() - getFullBounds().getHeight() - INSET );
+            }} );
+        }
 
         final FractionNode node1 = new FractionNode( Fraction.fraction( 1, 1 ), 0.2 );
         final PatternNode node2 = new PatternNode( FilledPattern.sequentialFill( Pattern.pie( 1 ), 1 ), Colors.LIGHT_BLUE ) {{scale( 0.5 );}};
@@ -146,14 +155,16 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
         initialized = true;
     }
 
-    private BufferedImage spinnerImage( final BufferedImage image ) { return BufferedImageUtils.multiScaleToHeight( image, 30 ); }
-
-    private PropertyRadioButton<Scene> radioButton( final BuildAFractionModel model, final String text, Scene scene ) {
-        return new PropertyRadioButton<Scene>( null, text, model.selectedScene, scene ) {{
-            setFont( scoreboardFont );
-            setOpaque( false );
-        }};
+    private void reloadViewsAfterReset( final BuildAFractionModel model ) {
+        numberScene.reset();
+        numberScene.addChild( new NumberSceneNode( model.numberLevel.get(), rootNode, model, STAGE_SIZE, BuildAFractionCanvas.this ) {{
+            setOffset( 0, STAGE_SIZE.height );
+        }} );
+        pictureScene.reset();
+        pictureScene.addChild( new PictureSceneNode( model.numberLevel.get(), rootNode, model, STAGE_SIZE, BuildAFractionCanvas.this ) );
     }
+
+    private BufferedImage spinnerImage( final BufferedImage image ) { return BufferedImageUtils.multiScaleToHeight( image, 30 ); }
 
     public void goToNumberLevel( int level ) {
         model.goToNumberLevel( level );
