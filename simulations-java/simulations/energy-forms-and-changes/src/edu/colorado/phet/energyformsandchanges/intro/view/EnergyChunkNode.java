@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 public class EnergyChunkNode extends PNode {
 
     private static final double WIDTH = 24; // In screen coords, which is close to pixels.
-    private static final double Z_DISTANCE_WHERE_FULLY_FADED = 0.15; // In meters.
+    private static final double Z_DISTANCE_WHERE_FULLY_FADED = 0.085; // In meters.
 
     public EnergyChunkNode( final EnergyChunk energyChunk, final ModelViewTransform mvt ) {
 

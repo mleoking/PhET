@@ -176,6 +176,14 @@ public class Air implements ThermalEnergyContainer {
         return EnergyContainerCategory.AIR;
     }
 
+    public boolean canAcceptEnergyChunk() {
+        return true;
+    }
+
+    public boolean canSupplyEnergyChunk() {
+        return true;
+    }
+
     // Class that controls the wandering of the energy chunks.
     public static final class ChunkMover {
         private static final double MIN_VELOCITY = 0.03; // In m/s.

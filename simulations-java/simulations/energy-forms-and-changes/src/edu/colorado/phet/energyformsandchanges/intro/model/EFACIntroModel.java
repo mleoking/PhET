@@ -67,9 +67,9 @@ public class EFACIntroModel {
     // Boolean for tracking whether the energy chunks are visible to the user.
     public final BooleanProperty energyChunksVisible = new BooleanProperty( false );
 
-    // List of model element that can contain and exchange energy.
+    // Lists of thermal model elements for easy iteration.
     private List<ThermalEnergyContainer> thermalEnergyContainers = new ArrayList<ThermalEnergyContainer>();
-    protected final List<ThermalEnergyContainer> nonAirThermalEnergyContainers;
+    protected final List<RectangularThermalMovableModelElement> nonAirThermalEnergyContainers = new ArrayList<RectangularThermalMovableModelElement>();
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -102,10 +102,9 @@ public class EFACIntroModel {
         thermalEnergyContainers.add( ironBlock );
         thermalEnergyContainers.add( beaker );
         thermalEnergyContainers.add( air );
-        nonAirThermalEnergyContainers = new ArrayList<ThermalEnergyContainer>( thermalEnergyContainers ) {{
-            remove( air );
-        }};
-
+        nonAirThermalEnergyContainers.add( brick );
+        nonAirThermalEnergyContainers.add( ironBlock );
+        nonAirThermalEnergyContainers.add( beaker );
 
         // Add the thermometers.  They should reside in the tool box when
         // the sim starts up or is reset, so their position here doesn't much
@@ -240,6 +239,31 @@ public class EFACIntroModel {
                 else if ( thermalModelElement.getEnergyChunkBalance() > 0 && burner.inContactWith( thermalModelElement ) && burner.canAcceptEnergyChunk() ) {
                     burner.addEnergyChunk( thermalModelElement.extractClosestEnergyChunk( burner.getCenterPoint() ) );
                 }
+            }
+        }
+
+        // Exchange energy chunks between the non-air thermal energy containers.
+        for ( RectangularThermalMovableModelElement ec1 : nonAirThermalEnergyContainers ) {
+            for ( RectangularThermalMovableModelElement ec2 : nonAirThermalEnergyContainers.subList( nonAirThermalEnergyContainers.indexOf( ec1 ) + 1, nonAirThermalEnergyContainers.size() ) ) {
+                if ( ec1.getThermalContactArea().getThermalContactLength( ec2.getThermalContactArea() ) > 0 ) {
+                    if ( ec1.getEnergyChunkBalance() > 0 && ec2.getEnergyChunkBalance() < 0 ) {
+                        ec2.addEnergyChunk( ec1.extractClosestEnergyChunk( ec2.getCenterPoint() ) );
+                    }
+                    else if ( ec1.getEnergyChunkBalance() < 0 && ec2.getEnergyChunkBalance() > 0 ) {
+                        ec1.addEnergyChunk( ec2.extractClosestEnergyChunk( ec1.getCenterPoint() ) );
+                    }
+                }
+            }
+        }
+
+        // Exchange energy chunks between non-air model elements and air.
+        for ( RectangularThermalMovableModelElement ec1 : nonAirThermalEnergyContainers ) {
+            if ( ec1.getEnergyChunkBalance() > 0 && air.canAcceptEnergyChunk() ) {
+                ImmutableVector2D pointAbove = new ImmutableVector2D( ec1.getCenterPoint().getX(), ec1.getRect().getMaxY() );
+                air.addEnergyChunk( ec1.extractClosestEnergyChunk( pointAbove ) );
+            }
+            else if ( ec1.getEnergyChunkBalance() < 0 && air.canSupplyEnergyChunk() ) {
+                ec1.addEnergyChunk( air.extractClosestEnergyChunk( ec1.getCenterPoint() ) );
             }
         }
     }
