@@ -1,3 +1,4 @@
+Added back lines to the blocks.  These only show up when block is transparent.
 Fixed an issue where heat/cool limits weren't being cleared if an object remained on the burner after the burner was turned off.
 Made extraction of energy chunks work well in conjunction with the layering effect.
 Added layers where the energy chunks reside in order to allow them to look more 3D in their positions.
