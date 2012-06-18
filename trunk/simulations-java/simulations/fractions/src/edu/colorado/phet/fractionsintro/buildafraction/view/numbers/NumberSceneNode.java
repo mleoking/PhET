@@ -75,7 +75,15 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
 
             ArrayList<PatternNode> nodes = new ArrayList<PatternNode>();
             for ( int k = 0; k < target.filledPattern.length(); k++ ) {
-                nodes.add( new PatternNode( target.filledPattern.index( k ), target.color ) );
+                nodes.add( new PatternNode( target.filledPattern.index( k ), target.color ) {{
+
+                    //Scale all nodes up to be the same size, otherwise it is too much work fine tuning each representation to have a good width
+                    double desiredWidth = 80;
+                    double width = this.getFullBounds().getWidth();
+                    double scale = desiredWidth / width;
+                    scale( scale );
+                    scaleStrokes( 1.0 / scale );
+                }} );
             }
             HBox patternNode = new HBox( nodes.toArray( new PNode[nodes.size()] ) );
             pairs.add( new Pair( new ScoreBoxNode( target.fraction.numerator, target.fraction.denominator, model.getCreatedFractions( level ),
