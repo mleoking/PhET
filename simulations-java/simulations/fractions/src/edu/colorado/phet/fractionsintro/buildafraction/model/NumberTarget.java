@@ -23,4 +23,8 @@ public @Data class NumberTarget {
     public static NumberTarget target( int numerator, int denominator, Color color, F<Fraction, FilledPattern> pattern ) {
         return new NumberTarget( new Fraction( numerator, denominator ), color, BuildAFractionModel.composite( pattern ).f( new Fraction( numerator, denominator ) ) );
     }
+
+    public static NumberTarget target( Fraction fraction, Color color, F<Fraction, FilledPattern> pattern ) {
+        return target( fraction.numerator, fraction.denominator, color, pattern );
+    }
 }
