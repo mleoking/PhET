@@ -46,4 +46,6 @@ public class EFACConstants {
         }
     };
 
+    // Threshold for deciding when two temperatures can be considered equal.
+    public static final double TEMPERATURES_EQUAL_THRESHOLD = 1E-6; // In Kelvin.
 }

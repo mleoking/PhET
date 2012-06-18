@@ -3,7 +3,6 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
@@ -11,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
-import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
@@ -23,7 +21,7 @@ import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
  *
  * @author John Blanco
  */
-public class Burner extends ModelElement implements ThermalEnergyContainer {
+public class Burner extends ModelElement {
 
     //-------------------------------------------------------------------------
     // Class Data
@@ -45,9 +43,6 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     private static final double SPECIFIC_HEAT = 10; // In J/kg-K, relatively low so that it heats up quickly.
     private static final double INITIAL_ENERGY = MASS * SPECIFIC_HEAT * EFACConstants.ROOM_TEMPERATURE;
 
-    // Random number generator, used for initial positions of energy chunks.
-    private static final Random RAND = new Random();
-
     // Rate at which energy chunks travel when returning to the burner during cooling.
     private static final double ENERGY_CHUNK_VELOCITY = 0.04; // In meters per second.
 
@@ -68,11 +63,9 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     public final BoundedDoubleProperty heatCoolLevel = new BoundedDoubleProperty( 0.0, -1, 1 );
 
     private Property<HorizontalSurface> topSurface;
-    private double energy = INITIAL_ENERGY;
     private final BooleanProperty energyChunksVisible;
     private final ConstantDtClock clock;
     private final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
-    private double cumulativeEnergyProducedSinceLastEnergyChunk = 0;
 
     // TODO: Should this value be reset when heatCoolLevel goes to zero?  Or when something is detected on top of burner?
     private double energyExchangedWithAirSinceLastChunkTransfer = 0;
@@ -99,17 +92,6 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
                 stepInTime( clockEvent.getSimulationTimeChange() );
             }
         } );
-
-        // Watch our own heat/cool level and set the energy back to the nominal
-        // amount when no heating or cooling is in progress.
-        heatCoolLevel.addObserver( new ChangeObserver<Double>() {
-            public void update( Double newValue, Double oldValue ) {
-                if ( newValue == 0 || ( Math.signum( newValue ) != Math.signum( oldValue ) ) ) {
-                    energy = INITIAL_ENERGY;
-                    cumulativeEnergyProducedSinceLastEnergyChunk = 0;
-                }
-            }
-        } );
     }
 
     //-------------------------------------------------------------------------
@@ -127,23 +109,6 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
                                        position.getY(),
                                        WIDTH,
                                        HEIGHT );
-    }
-
-    /**
-     * Update the amount of energy that has built up in this burner without
-     * being transferred to any other energy container.  This is used to allow
-     * the burner to determine when it needs to transfer an energy chunk to the
-     * air.
-     *
-     * @param dt
-     */
-    public void updateBuiltUpEnergy( double dt ) {
-        double energyProduced = heatCoolLevel.get() * MAX_ENERGY_GENERATION_RATE * dt;
-        energy += energyProduced;
-        if ( energyProduced < 0 ) {
-            cumulativeEnergyProducedSinceLastEnergyChunk += energyProduced;
-            System.out.println( "cumulativeCoolingSinceLastEnergyChunk = " + cumulativeEnergyProducedSinceLastEnergyChunk );
-        }
     }
 
     @Override public Property<HorizontalSurface> getTopSurfaceProperty() {
@@ -171,48 +136,9 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
                  Math.abs( containerThermalArea.getMinY() - getOutlineRect().getMaxY() ) < CONTACT_DISTANCE );
     }
 
-    public void changeEnergy( double deltaEnergy ) {
-        energy += deltaEnergy;
-    }
-
-    public double getEnergy() {
-        return energy;
-    }
-
-    public void exchangeEnergyWith( ThermalEnergyContainer otherEnergyContainer, double dt ) {
-
-        // Get the amount of thermal contact with the other container.
-        double thermalContactLength = getThermalContactArea().getThermalContactLength( otherEnergyContainer.getThermalContactArea() );
-
-        if ( thermalContactLength > 0 && heatCoolLevel.get() != 0 ) {
-
-            // Exchange energy if there is a temperature gradient.
-            if ( Math.abs( otherEnergyContainer.getTemperature() - getTemperature() ) > TEMPERATURES_EQUAL_THRESHOLD && heatCoolLevel.get() != 0 ) {
-                // Exchange energy between this and the other energy container.
-                // TODO: Need to look up exchange constant.
-                double thermalEnergyGained = ( otherEnergyContainer.getTemperature() - getTemperature() ) * thermalContactLength * 2000 * dt;
-                changeEnergy( thermalEnergyGained );
-                otherEnergyContainer.changeEnergy( -thermalEnergyGained );
-            }
-        }
-    }
-
-    public boolean needsEnergyChunk() {
-        if ( heatCoolLevel.get() < 0 && cumulativeEnergyProducedSinceLastEnergyChunk < -EFACConstants.ENERGY_PER_CHUNK ) {
-            System.out.println( "Burner needs a chunk, baby." );
-        }
-        return heatCoolLevel.get() < 0 && cumulativeEnergyProducedSinceLastEnergyChunk < -EFACConstants.ENERGY_PER_CHUNK;
-    }
-
-    public boolean hasExcessEnergyChunks() {
-        // If heating, the burner can provide energy chunks.
-        return heatCoolLevel.get() > 0;
-    }
-
     public void addEnergyChunk( EnergyChunk ec ) {
         ec.zPosition.set( 0.0 );
         energyChunkList.add( ec );
-        cumulativeEnergyProducedSinceLastEnergyChunk = 0;
     }
 
     public EnergyChunk extractClosestEnergyChunk( ImmutableVector2D point ) {
@@ -230,27 +156,10 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
         return new ImmutableVector2D( position.getX(), position.getY() + HEIGHT / 2 );
     }
 
-    public ThermalContactArea getThermalContactArea() {
-        // The thermal contact area for the burner a rectangular space that is
-        // intended to be just above the top of the burner.  This has to be
-        // coordinated a bit with the view.
-        Rectangle2D burnerRect = getOutlineRect();
-        Rectangle2D thermalContactAreaRect = new Rectangle2D.Double( burnerRect.getCenterX() - ENERGY_TRANSFER_AREA_WIDTH / 2,
-                                                                     burnerRect.getCenterY(),
-                                                                     ENERGY_TRANSFER_AREA_WIDTH,
-                                                                     ENERGY_TRANSFER_AREA_HEIGHT );
-        return new ThermalContactArea( thermalContactAreaRect, true );
-    }
-
-    public double getTemperature() {
-        return energy / ( MASS * SPECIFIC_HEAT );
-    }
-
     @Override public void reset() {
         super.reset();
         energyChunkList.clear();
-        energy = INITIAL_ENERGY;
-        cumulativeEnergyProducedSinceLastEnergyChunk = 0;
+        energyExchangedWithAirSinceLastChunkTransfer = 0;
     }
 
     /**
@@ -265,21 +174,21 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     public void updateHeatCoolLimits( double dt, ThermalEnergyContainer... thermalEnergyContainers ) {
 
         boolean contact = false;
-        for ( ThermalEnergyContainer otherEnergyContainer : thermalEnergyContainers ) {
+        for ( ThermalEnergyContainer thermalEnergyContainer : thermalEnergyContainers ) {
 
-            assert otherEnergyContainer != this; // Make sure this method isn't being misused.
+            assert thermalEnergyContainer != this; // Make sure this method isn't being misused.
 
-            if ( otherEnergyContainer.getThermalContactArea().getThermalContactLength( getThermalContactArea() ) > 0 ) {
+            if ( inContactWith( thermalEnergyContainer ) ) {
 
                 // The burner is in contact with this item.  Adjust the limits
                 // based on the item's temperature.
                 double max = 1;
                 double min = -1;
-                if ( otherEnergyContainer.getTemperature() >= EFACConstants.BOILING_POINT_TEMPERATURE ) {
+                if ( thermalEnergyContainer.getTemperature() >= EFACConstants.BOILING_POINT_TEMPERATURE ) {
                     // No more heat allowed.
                     max = Math.max( heatCoolLevel.getMax() - dt * CLAMP_DOWN_RATE, 0 );
                 }
-                else if ( otherEnergyContainer.getTemperature() <= EFACConstants.FREEZING_POINT_TEMPERATURE ) {
+                else if ( thermalEnergyContainer.getTemperature() <= EFACConstants.FREEZING_POINT_TEMPERATURE ) {
                     // No more cooling allowed.
                     min = Math.min( heatCoolLevel.getMin() + dt * CLAMP_DOWN_RATE, 0 );
                 }
@@ -300,16 +209,12 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     }
 
     public boolean areAnyOnTop( ThermalEnergyContainer... thermalEnergyContainers ) {
-        for ( ThermalEnergyContainer otherEnergyContainer : thermalEnergyContainers ) {
-            if ( getThermalContactArea().getThermalContactLength( otherEnergyContainer.getThermalContactArea() ) > 0 ) {
+        for ( ThermalEnergyContainer thermalEnergyContainer : thermalEnergyContainers ) {
+            if ( inContactWith( thermalEnergyContainer ) ) {
                 return true;
             }
         }
         return false;
-    }
-
-    public ObservableList<EnergyChunk> getEnergyChunkList() {
-        return energyChunkList;
     }
 
     public EnergyContainerCategory getEnergyContainerCategory() {
@@ -317,9 +222,6 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     }
 
     private void stepInTime( double dt ) {
-
-        // Update internal energy based on whether flame or ice are turned on.
-        updateBuiltUpEnergy( dt );
 
         // Animate energy chunks.
         for ( EnergyChunk energyChunk : new ArrayList<EnergyChunk>( energyChunkList ) ) {
