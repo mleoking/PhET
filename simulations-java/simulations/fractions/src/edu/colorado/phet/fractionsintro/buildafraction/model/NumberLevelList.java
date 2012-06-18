@@ -65,9 +65,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
             add( i == 0 ? numberLevel0() :
                  i == 1 ? numberLevel1() :
                  i == 2 ? numberLevel2() :
-                 i == 3 ? new NumberLevel( true, list( 1, 1, 2, 3, 3, 3, 4, 5, 6, 7, 8, 9 ), list( target( 1, 1, LIGHT_RED, pyramid1 ),
-                                                                                                   target( 3, 4, LIGHT_GREEN, pyramid4 ),
-                                                                                                   target( 5, 9, LIGHT_BLUE, pyramid9 ) ) ) :
+                 i == 3 ? numberLevel3() :
                  i == 4 ? new NumberLevel( true, list( 4, 3, 3, 2, 2, 1, 5, 6, 7, 8, 9 ), shuffle( list( target( 4, 3, LIGHT_RED, pie ),
                                                                                                          target( 3, 2, LIGHT_GREEN, pie ),
                                                                                                          target( 2, 1, LIGHT_BLUE, pie ) ) ) ) :
@@ -78,10 +76,10 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
 
     //Choose a representation, pies or bars, but use the same representation for all things
     private NumberLevel numberLevel0() {
-        List<Color> colors = shuffledColors();
-        return new NumberLevel( true, list( 1, 1, 2, 2, 3, 3 ), shuffle( list( target( 1, 2, colors.index( 0 ), pie ),
-                                                                               target( 1, 3, colors.index( 1 ), pie ),
-                                                                               target( 2, 3, colors.index( 2 ), pie ) ) ) );
+        RandomColors3 colors = new RandomColors3();
+        return new NumberLevel( true, list( 1, 1, 2, 2, 3, 3 ), shuffle( list( target( 1, 2, colors.next(), pie ),
+                                                                               target( 1, 3, colors.next(), pie ),
+                                                                               target( 2, 3, colors.next(), pie ) ) ) );
     }
 
     /*
@@ -119,11 +117,20 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         Collections.shuffle( numerators );
 
         //TODO: guarantee this level is solvable, possibly by generating cards to make it so
-        List<Color> colors = shuffledColors();
-        return new NumberLevel( true, list( 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 7, 8, 8, 8, 9, 9, 9 ), shuffle( list( target( numerators.get( 0 ), 6, colors.index( 0 ), flower ),
-                                                                                                                                           target( numerators.get( 1 ), 6, colors.index( 1 ), flower ),
-                                                                                                                                           target( numerators.get( 2 ), 6, colors.index( 2 ), flower ) ) ) );
+        RandomColors3 colors = new RandomColors3();
+        return new NumberLevel( true, list( 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 7, 8, 8, 8, 9, 9, 9 ), shuffle( list( target( numerators.get( 0 ), 6, colors.next(), flower ),
+                                                                                                                                           target( numerators.get( 1 ), 6, colors.next(), flower ),
+                                                                                                                                           target( numerators.get( 2 ), 6, colors.next(), flower ) ) ) );
     }
+
+    private NumberLevel numberLevel3() {
+        RandomColors3 colors = new RandomColors3();
+        return new NumberLevel( true, list( target( chooseOne( rangeInclusive( 1, 1 ) ), 1, colors.next(), pyramid1 ),
+                                            target( chooseOne( rangeInclusive( 1, 4 ) ), 4, colors.next(), pyramid4 ),
+                                            target( chooseOne( rangeInclusive( 1, 9 ) ), 9, colors.next(), pyramid9 ) ) );
+    }
+
+    private List<Integer> rangeInclusive( final int a, final int b ) { return range( a, b + 1 ); }
 
     private Fraction chooseFraction( final List<Integer> allowedNumerators, final List<Integer> allowedDenominators, F<Fraction, Boolean> accept ) {
         for ( int i = 0; i < 1000; i++ ) {
@@ -143,16 +150,16 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
             put( verticalBar, 20 );
             put( pie, 30 );
         }};
-        List<Color> colors = shuffledColors();
-        return new NumberLevel( false, shuffle( list( target( 3, 2, colors.index( 0 ), representation.draw() ),
-                                                      target( 2, 3, colors.index( 1 ), representation.draw() ),
-                                                      target( 5, 4, colors.index( 2 ), representation.draw() ),
-                                                      target( 4, 5, colors.index( 3 ), representation.draw() ) ) ) );
+        RandomColors4 colors = new RandomColors4();
+        return new NumberLevel( false, shuffle( list( target( 3, 2, colors.next(), representation.draw() ),
+                                                      target( 2, 3, colors.next(), representation.draw() ),
+                                                      target( 5, 4, colors.next(), representation.draw() ),
+                                                      target( 4, 5, colors.next(), representation.draw() ) ) ) );
     }
 
-    private List<Color> shuffledColors() {return shuffle( list( LIGHT_RED, LIGHT_GREEN, LIGHT_BLUE, orange ) );}
+    private static List<Color> shuffledColors() {return shuffle( list( LIGHT_RED, LIGHT_GREEN, LIGHT_BLUE, orange ) );}
 
-    private static <T> List<T> shuffle( final List<T> list ) {
+    public static <T> List<T> shuffle( final List<T> list ) {
         ArrayList<T> collection = new ArrayList<T>( list.toCollection() );
         Collections.shuffle( collection );
         return iterableList( collection );
