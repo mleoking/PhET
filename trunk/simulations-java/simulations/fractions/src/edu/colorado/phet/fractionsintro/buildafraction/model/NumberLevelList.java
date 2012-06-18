@@ -1,6 +1,7 @@
 package edu.colorado.phet.fractionsintro.buildafraction.model;
 
 import fj.F;
+import fj.P2;
 import fj.data.List;
 import lombok.Data;
 
@@ -10,14 +11,17 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
+import edu.colorado.phet.fractionsintro.common.util.DefaultP2;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Polygon;
 import edu.colorado.phet.fractionsintro.matchinggame.view.FilledPattern;
 
 import static edu.colorado.phet.fractionsintro.common.view.Colors.*;
+import static edu.colorado.phet.fractionsintro.intro.model.Fraction.*;
 import static edu.colorado.phet.fractionsintro.matchinggame.view.FilledPattern.randomFill;
 import static edu.colorado.phet.fractionsintro.matchinggame.view.FilledPattern.sequentialFill;
+import static fj.Equal.intEqual;
 import static fj.data.List.*;
 import static java.awt.Color.orange;
 
@@ -233,13 +237,11 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
                                             target( colors, chooseOne( types ), true ) ) );
     }
 
-    /*
-    Level 5:
+    /* Level 5:
     --Same as level 4, but now random fill is possible (maybe with 50 percent probability of being used)
     --could begin to introduce some card constraints at this point, for instance making sure that one of the representations
     only has cards available to match it with a "nonobvious fraction".
-    For instance if 3/9 appears, and 5/9 appears, we have 1(5) and 1(9), but not 2(9), so that 1/3 would need to be used to match.
-     */
+    For instance if 3/9 appears, and 5/9 appears, we have 1(5) and 1(9), but not 2(9), so that 1/3 would need to be used to match. */
     private NumberLevel level5() {
         List<RepresentationType> types = RepresentationType.all;
         RandomColors4 colors = new RandomColors4();
@@ -249,14 +251,57 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
                                                            target( colors, chooseOne( types ), random.nextBoolean() ) ) );
     }
 
+    /* Level 6:
+    --Top two representations are equivalent, and bottom 2 representations are equivalent but still numbers less than 1
+    -- A built in check to draw a different fraction for the top 2 and the bottom 2
+    -- Possible fractions sets from which to draw 2 each {1/2, 2/4, 3/6} , {1/3, 2/6, 3/9}, {2/3, 4/6, 3/9}, {1/4, 2/8}, {3/4, 6/8}
+    -- I think the representations should both be equal, for instance, 2 pies divided the same, and two bars divided the same, so that the learning goal is focused on the same exact picture can be represented by 2 different fractions. Probably always displaying the reduced fraction as the picture.
+    -- Cards constrained, so for instance if {1/2, 3/6} is drawn for the top pair and {3/4, 6/8} drawn for the bottom, we would have 1(1), 1(2), 2(3), 1(4), 2(6), 1(8) */
     private NumberLevel level6() {
-        List<RepresentationType> types = RepresentationType.all;
-        RandomColors4 colors = new RandomColors4();
-        return NumberLevel.numberLevelReduced( true, list( target( colors, chooseOne( types ), random.nextBoolean() ),
-                                                           target( colors, chooseOne( types ), random.nextBoolean() ),
-                                                           target( colors, chooseOne( types ), random.nextBoolean() ),
-                                                           target( colors, chooseOne( types ), random.nextBoolean() ) ) );
+        List<List<Fraction>> fractionSets = list( list( fraction( 1, 2 ),
+                                                        fraction( 2, 4 ),
+                                                        fraction( 3, 6 ) ),
+                                                  list( fraction( 1, 3 ),
+                                                        fraction( 2, 6 ),
+                                                        fraction( 3, 9 ) ),
+                                                  list( fraction( 2, 3 ),
+                                                        fraction( 4, 6 ),
+                                                        fraction( 6, 9 ) ),
+                                                  list( fraction( 1, 4 ),
+                                                        fraction( 2, 8 ) ),
+                                                  list( fraction( 3, 4 ),
+                                                        fraction( 6, 8 ) ) );
+
+        P2<List<Fraction>, List<Fraction>> sets = chooseTwo( fractionSets );
+
+        //Choose the fractions to use for top and bottom
+        P2<Fraction, Fraction> top = chooseTwo( sets._1() );
+        P2<Fraction, Fraction> bottom = chooseTwo( sets._2() );
+
+        //Choose a representation for top
+
+        RandomColors3 colors = new RandomColors3();
+        Color topColor = colors.next();
+        Color bottomColor = colors.next();
+
+        //Only choose from the universal patterns (that accept all denominators)
+        List<PatternMaker> types = list( pie, polygon, horizontalBar, verticalBar );
+        P2<PatternMaker, PatternMaker> selected = chooseTwo( types );
+        Fraction topPrototype = moreReduced( top._1(), top._2() );
+        Fraction bottomPrototype = moreReduced( bottom._1(), bottom._2() );
+
+        List<Fraction> selectedFractions = list( top._1(), top._2(), bottom._1(), bottom._2() );
+        final List<NumberTarget> targets = list( NumberTarget.target( topPrototype, topColor, selected._1().sequential() ),
+                                                 NumberTarget.target( topPrototype, topColor, selected._1().sequential() ),
+                                                 NumberTarget.target( bottomPrototype, bottomColor, selected._2().sequential() ),
+                                                 NumberTarget.target( bottomPrototype, bottomColor, selected._2().sequential() ) );
+
+        //But choose numbers from the original fractions
+        final List<Integer> cards = selectedFractions.map( _numerator ).append( selectedFractions.map( _denominator ) );
+        return new NumberLevel( true, cards, targets );
     }
+
+    private Fraction moreReduced( final Fraction a, final Fraction b ) { return b.numerator < a.numerator ? b : a; }
 
     private NumberTarget target( final RandomColors4 colors, final RepresentationType representationType, boolean sequential ) {
         int denominator = chooseOne( representationType.denominators );
@@ -278,7 +323,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
 
     private Fraction chooseFraction( final List<Integer> allowedNumerators, final List<Integer> allowedDenominators, F<Fraction, Boolean> accept ) {
         for ( int i = 0; i < 1000; i++ ) {
-            Fraction fraction = Fraction.fraction( chooseOne( allowedNumerators ), chooseOne( allowedDenominators ) );
+            Fraction fraction = fraction( chooseOne( allowedNumerators ), chooseOne( allowedDenominators ) );
             if ( accept.f( fraction ) ) {
                 return fraction;
             }
@@ -287,4 +332,12 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
     }
 
     private static <T> T chooseOne( final List<T> list ) { return list.index( random.nextInt( list.length() ) ); }
+
+    //Chooses 2 different values (i.e. without replacement)
+    private static <T> P2<T, T> chooseTwo( final List<T> list ) {
+        final List<Integer> indices = range( 0, list.length() );
+        int firstIndexToChoose = chooseOne( indices );
+        int secondIndexToChoose = chooseOne( indices.delete( firstIndexToChoose, intEqual ) );
+        return new DefaultP2<T, T>( list.index( firstIndexToChoose ), list.index( secondIndexToChoose ) );
+    }
 }
