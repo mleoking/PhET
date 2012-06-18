@@ -1,3 +1,4 @@
+Fraction Builder: Removed "My Fractions" text
 Fraction Builder: Use toggle buttons + icons for "pictures" and "numbers" radio buttons
 # 0.00.88 (65186) Jun 17, 2012
 Fraction Builder: Added a little more vertical spacing between scoring cells
