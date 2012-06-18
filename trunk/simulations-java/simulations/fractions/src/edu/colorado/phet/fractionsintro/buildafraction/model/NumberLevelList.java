@@ -118,7 +118,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         ArrayList<Integer> numerators = new ArrayList<Integer>( Arrays.asList( 1, 2, 3, 4, 5 ) );
         Collections.shuffle( numerators );
 
-        //TODO: guarantee this level is solvable
+        //TODO: guarantee this level is solvable, possibly by generating cards to make it so
         List<Color> colors = shuffledColors();
         return new NumberLevel( true, list( 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 7, 8, 8, 8, 9, 9, 9 ), shuffle( list( target( numerators.get( 0 ), 6, colors.index( 0 ), flower ),
                                                                                                                                            target( numerators.get( 1 ), 6, colors.index( 1 ), flower ),
