@@ -233,13 +233,20 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
                                             target( colors, chooseOne( types ), true ) ) );
     }
 
+    /*
+    Level 5:
+    --Same as level 4, but now random fill is possible (maybe with 50 percent probability of being used)
+    --could begin to introduce some card constraints at this point, for instance making sure that one of the representations
+    only has cards available to match it with a "nonobvious fraction".
+    For instance if 3/9 appears, and 5/9 appears, we have 1(5) and 1(9), but not 2(9), so that 1/3 would need to be used to match.
+     */
     private NumberLevel numberLevel5() {
         List<RepresentationType> types = RepresentationType.all;
         RandomColors4 colors = new RandomColors4();
-        return new NumberLevel( true, list( target( colors, chooseOne( types ), random.nextBoolean() ),
-                                            target( colors, chooseOne( types ), random.nextBoolean() ),
-                                            target( colors, chooseOne( types ), random.nextBoolean() ),
-                                            target( colors, chooseOne( types ), random.nextBoolean() ) ) );
+        return NumberLevel.numberLevelReduced( true, list( target( colors, chooseOne( types ), random.nextBoolean() ),
+                                                           target( colors, chooseOne( types ), random.nextBoolean() ),
+                                                           target( colors, chooseOne( types ), random.nextBoolean() ),
+                                                           target( colors, chooseOne( types ), random.nextBoolean() ) ) );
     }
 
     private NumberTarget target( final RandomColors4 colors, final RepresentationType representationType, boolean sequential ) {

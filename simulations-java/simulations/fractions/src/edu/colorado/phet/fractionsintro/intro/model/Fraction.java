@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.model;
 
+import fj.F;
 import lombok.Data;
 
 /**
@@ -21,4 +22,23 @@ public @Data class Fraction {
 
     //Convenience constructor to make level declaration read a little easier
     public static Fraction fraction( int numerator, int denominator ) { return new Fraction( numerator, denominator ); }
+
+    public Fraction reduce() {
+        int gcd = gcd( numerator, denominator );
+        return new Fraction( numerator / gcd, denominator / gcd );
+    }
+
+    private int gcd( int a, int b ) { return b == 0 ? a : gcd( b, a % b ); }
+
+    public static final F<Fraction, Integer> _denominator = new F<Fraction, Integer>() {
+        @Override public Integer f( final Fraction fraction ) {
+            return fraction.denominator;
+        }
+    };
+
+    public static final F<Fraction, Integer> _numerator = new F<Fraction, Integer>() {
+        @Override public Integer f( final Fraction fraction ) {
+            return fraction.numerator;
+        }
+    };
 }
