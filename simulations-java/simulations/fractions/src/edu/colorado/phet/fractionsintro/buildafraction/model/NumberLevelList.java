@@ -72,12 +72,6 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         }
     }
 
-    private NumberLevel level4() {
-        return new NumberLevel( true, list( 4, 3, 3, 2, 2, 1, 5, 6, 7, 8, 9 ), shuffle( list( target( 4, 3, LIGHT_RED, pie ),
-                                                                                              target( 3, 2, LIGHT_GREEN, pie ),
-                                                                                              target( 2, 1, LIGHT_BLUE, pie ) ) ) );
-    }
-
     //Choose a representation, pies or bars, but use the same representation for all things
     private NumberLevel level0() {
         RandomColors3 colors = new RandomColors3();
@@ -134,16 +128,10 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
                                             target( chooseOne( rangeInclusive( 1, 9 ) ), 9, colors.next(), pyramid9 ) ) );
     }
 
-    private List<Integer> rangeInclusive( final int a, final int b ) { return range( a, b + 1 ); }
-
-    private Fraction chooseFraction( final List<Integer> allowedNumerators, final List<Integer> allowedDenominators, F<Fraction, Boolean> accept ) {
-        for ( int i = 0; i < 1000; i++ ) {
-            Fraction fraction = Fraction.fraction( chooseOne( allowedNumerators ), chooseOne( allowedDenominators ) );
-            if ( accept.f( fraction ) ) {
-                return fraction;
-            }
-        }
-        throw new RuntimeException( "Couldn't find a match" );
+    private NumberLevel level4() {
+        return new NumberLevel( true, list( 4, 3, 3, 2, 2, 1, 5, 6, 7, 8, 9 ), shuffle( list( target( 4, 3, LIGHT_RED, pie ),
+                                                                                              target( 3, 2, LIGHT_GREEN, pie ),
+                                                                                              target( 2, 1, LIGHT_BLUE, pie ) ) ) );
     }
 
     private Integer chooseOne( final List<Integer> list ) { return list.index( random.nextInt( list.length() ) ); }
@@ -168,4 +156,17 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         Collections.shuffle( collection );
         return iterableList( collection );
     }
+
+    private List<Integer> rangeInclusive( final int a, final int b ) { return range( a, b + 1 ); }
+
+    private Fraction chooseFraction( final List<Integer> allowedNumerators, final List<Integer> allowedDenominators, F<Fraction, Boolean> accept ) {
+        for ( int i = 0; i < 1000; i++ ) {
+            Fraction fraction = Fraction.fraction( chooseOne( allowedNumerators ), chooseOne( allowedDenominators ) );
+            if ( accept.f( fraction ) ) {
+                return fraction;
+            }
+        }
+        throw new RuntimeException( "Couldn't find a match" );
+    }
+
 }
