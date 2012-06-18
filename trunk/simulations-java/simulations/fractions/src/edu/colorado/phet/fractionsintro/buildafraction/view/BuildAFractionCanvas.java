@@ -8,6 +8,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -16,6 +17,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.ToggleButtonNode;
 import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractions.view.SpinnerButtonNode;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
@@ -24,8 +26,14 @@ import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.NumberSceneC
 import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.NumberSceneNode;
 import edu.colorado.phet.fractionsintro.buildafraction.view.pictures.PictureSceneNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
+import edu.colorado.phet.fractionsintro.common.view.Colors;
+import edu.colorado.phet.fractionsintro.intro.model.Fraction;
+import edu.colorado.phet.fractionsintro.intro.view.FractionNode;
+import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern;
+import edu.colorado.phet.fractionsintro.matchinggame.view.FilledPattern;
+import edu.colorado.phet.fractionsintro.matchinggame.view.PaddedIcon;
+import edu.colorado.phet.fractionsintro.matchinggame.view.PatternNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Canvas for the build a fraction tab.
@@ -80,9 +88,21 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
             setConfirmationEnabled( false );
         }} );
 
-        addChild( new VBox( VBox.LEFT_ALIGNED,
-                            new PSwing( radioButton( model, "Pictures", Scene.pictures ) ),
-                            new PSwing( radioButton( model, "Numbers", Scene.numbers ) ) ) {{
+        final FractionNode node1 = new FractionNode( Fraction.fraction( 1, 1 ), 0.2 );
+        final PatternNode node2 = new PatternNode( FilledPattern.sequentialFill( Pattern.pie( 1 ), 1 ), Colors.LIGHT_BLUE ) {{scale( 0.5 );}};
+        double maxWidth = Math.max( node1.getFullBounds().getWidth(), node2.getFullBounds().getWidth() );
+        double maxHeight = Math.max( node1.getFullBounds().getHeight(), node2.getFullBounds().getHeight() );
+        double maxSize = Math.max( maxWidth, maxHeight );
+
+        addChild( new VBox( new ToggleButtonNode( new PaddedIcon( maxSize, maxSize, node2 ), model.selectedScene.valueEquals( Scene.pictures ), new VoidFunction0() {
+            public void apply() {
+                model.selectedScene.set( Scene.pictures );
+            }
+        } ), new ToggleButtonNode( new PaddedIcon( maxSize, maxSize, node1 ), model.selectedScene.valueEquals( Scene.numbers ), new VoidFunction0() {
+            public void apply() {
+                model.selectedScene.set( Scene.numbers );
+            }
+        } ) ) {{
             setOffset( INSET, INSET / 2 );//Inset manually tuned to line up mode, level and score
         }} );
 
