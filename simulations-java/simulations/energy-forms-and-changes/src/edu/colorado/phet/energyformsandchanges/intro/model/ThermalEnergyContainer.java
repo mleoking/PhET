@@ -10,9 +10,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
  */
 public interface ThermalEnergyContainer {
 
-    // Threshold for deciding when two temperatures can be considered equal.
-    public static final double TEMPERATURES_EQUAL_THRESHOLD = 1E-6; // In Kelvin.
-
     /**
      * Change the amount of energy contained.  This is used to both add and
      * remove energy.
@@ -74,11 +71,4 @@ public interface ThermalEnergyContainer {
      */
     EnergyContainerCategory getEnergyContainerCategory();
 
-    /**
-     * Types of thermal energy containers, primarily used for determining the
-     * rate at which heat is transferred between different items.
-     */
-    enum EnergyContainerCategory {
-        IRON, BRICK, WATER, AIR, BURNER
-    }
 }
