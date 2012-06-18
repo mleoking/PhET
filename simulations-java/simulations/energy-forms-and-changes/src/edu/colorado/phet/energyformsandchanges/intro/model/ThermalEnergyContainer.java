@@ -44,36 +44,6 @@ public interface ThermalEnergyContainer {
     void exchangeEnergyWith( ThermalEnergyContainer energyContainer, double dt );
 
     /**
-     * Find out if this energy container is low on energy chunks.
-     *
-     * @return True if the energy level in this container is at a value the
-     *         indicates that one or more energy chuck is needed.
-     */
-    boolean needsEnergyChunk();
-
-    /**
-     * Find out if the energy container has extra energy chunks.
-     *
-     * @return
-     */
-    boolean hasExcessEnergyChunks();
-
-    /**
-     * Add an energy chunk to this container.
-     *
-     * @param ec
-     */
-    void addEnergyChunk( EnergyChunk ec );
-
-    /**
-     * Locate the energy chunk that is closest to the specified location,
-     * remove it from this container, and return it to the caller.
-     *
-     * @return
-     */
-    EnergyChunk extractClosestEnergyChunk( ImmutableVector2D point );
-
-    /**
      * Get a point that represents the 2D center in model space of the energy
      * container.
      *
