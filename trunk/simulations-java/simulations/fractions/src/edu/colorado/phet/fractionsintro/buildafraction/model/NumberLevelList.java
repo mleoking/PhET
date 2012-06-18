@@ -5,7 +5,9 @@ import fj.data.List;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Random;
 
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern;
@@ -14,14 +16,14 @@ import edu.colorado.phet.fractionsintro.matchinggame.view.FilledPattern;
 import static edu.colorado.phet.fractionsintro.buildafraction.model.NumberTarget.target;
 import static edu.colorado.phet.fractionsintro.common.view.Colors.*;
 import static edu.colorado.phet.fractionsintro.matchinggame.view.FilledPattern.sequentialFill;
-import static fj.data.List.iterableList;
-import static fj.data.List.list;
+import static fj.data.List.*;
 import static java.awt.Color.orange;
 
 /**
  * @author Sam Reid
  */
 public class NumberLevelList extends ArrayList<NumberLevel> {
+    static final Random random = new Random();
     public static F<Fraction, FilledPattern> pie = new F<Fraction, FilledPattern>() {
         @Override public FilledPattern f( final Fraction f ) {
             return sequentialFill( Pattern.pie( f.denominator ), f.numerator );
@@ -62,9 +64,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         for ( int i = 0; i < 10; i++ ) {
             add( i == 0 ? numberLevel0() :
                  i == 1 ? numberLevel1() :
-                 i == 2 ? new NumberLevel( true, list( 1, 2, 3, 3, 3, 4, 4, 5, 6, 6, 7, 8, 9 ), shuffle( list( target( 2, 6, LIGHT_RED, flower ),
-                                                                                                               target( 3, 6, LIGHT_GREEN, flower ),
-                                                                                                               target( 4, 6, LIGHT_BLUE, flower ) ) ) ) :
+                 i == 2 ? numberLevel2() :
                  i == 3 ? new NumberLevel( true, list( 1, 1, 2, 3, 3, 3, 4, 5, 6, 7, 8, 9 ), list( target( 1, 1, LIGHT_RED, pyramid1 ),
                                                                                                    target( 3, 4, LIGHT_GREEN, pyramid4 ),
                                                                                                    target( 5, 9, LIGHT_BLUE, pyramid9 ) ) ) :
@@ -84,16 +84,58 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
                                                                                target( 2, 3, colors.index( 2 ), pie ) ) ) );
     }
 
+    /*
+    Level 1:
+    --Here I would begin choosing from a distribution of fractions ranging from 1/2 to 4/5.  As in the numerator could be 1, 2, 3, or 4 and the denominator could be 2, 3, 4, or 5 with the stipulation that the fraction is always less than 1.
+    -- I might put the percentages for choosing the bar representations each at 30 percent
+    -- I like how at these early levels it is all just a single representation
+     */
     private NumberLevel numberLevel1() {
-        F<Fraction, FilledPattern> representation = new Distribution<F<Fraction, FilledPattern>>() {{
-            put( horizontalBar, 20 );
-            put( verticalBar, 20 );
+        final F<Fraction, FilledPattern> representation = new Distribution<F<Fraction, FilledPattern>>() {{
+            put( pie, 40 );
+            put( horizontalBar, 30 );
+            put( verticalBar, 30 );
         }}.draw();
-        List<Color> colors = shuffledColors();
-        return new NumberLevel( true, list( 1, 1, 2, 2, 3, 3, 4, 4, 5, 5 ), shuffle( list( target( 2, 3, colors.index( 0 ), representation ),
-                                                                                           target( 3, 4, colors.index( 1 ), representation ),
-                                                                                           target( 4, 5, colors.index( 2 ), representation ) ) ) );
+        final ArrayList<Fraction> selected = new ArrayList<Fraction>();
+        for ( int i = 0; i < 3; i++ ) {
+            final Fraction fraction = chooseFraction( range( 1, 4 + 1 ), range( 2, 5 + 1 ), new F<Fraction, Boolean>() {
+                @Override public Boolean f( final Fraction fraction ) {
+                    return fraction.toDouble() <= 1 + 1E-6 && !selected.contains( fraction );
+                }
+            } );
+            selected.add( fraction );
+        }
+        final List<Fraction> selectedList = iterableList( selected );
+        final ArrayList<Color> colors = new ArrayList<Color>( shuffledColors().toCollection() );
+        return new NumberLevel( true, shuffle( selectedList.map( new F<Fraction, NumberTarget>() {
+            @Override public NumberTarget f( final Fraction fraction ) {
+                return target( fraction, colors.remove( 0 ), representation );
+            }
+        } ) ) );
     }
+
+    private NumberLevel numberLevel2() {
+        ArrayList<Integer> numerators = new ArrayList<Integer>( Arrays.asList( 1, 2, 3, 4, 5 ) );
+        Collections.shuffle( numerators );
+
+        //TODO: guarantee this level is solvable
+        List<Color> colors = shuffledColors();
+        return new NumberLevel( true, list( 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 7, 8, 8, 8, 9, 9, 9 ), shuffle( list( target( numerators.get( 0 ), 6, colors.index( 0 ), flower ),
+                                                                                                                                           target( numerators.get( 1 ), 6, colors.index( 1 ), flower ),
+                                                                                                                                           target( numerators.get( 2 ), 6, colors.index( 2 ), flower ) ) ) );
+    }
+
+    private Fraction chooseFraction( final List<Integer> allowedNumerators, final List<Integer> allowedDenominators, F<Fraction, Boolean> accept ) {
+        for ( int i = 0; i < 1000; i++ ) {
+            Fraction fraction = Fraction.fraction( chooseOne( allowedNumerators ), chooseOne( allowedDenominators ) );
+            if ( accept.f( fraction ) ) {
+                return fraction;
+            }
+        }
+        throw new RuntimeException( "Couldn't find a match" );
+    }
+
+    private Integer chooseOne( final List<Integer> list ) { return list.index( random.nextInt( list.length() ) ); }
 
     private NumberLevel numberLevel5() {
         Distribution<F<Fraction, FilledPattern>> representation = new Distribution<F<Fraction, FilledPattern>>() {{
