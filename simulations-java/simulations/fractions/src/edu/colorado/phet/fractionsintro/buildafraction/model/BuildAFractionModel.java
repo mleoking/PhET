@@ -91,23 +91,27 @@ public class BuildAFractionModel {
         };
     }
 
-    public final ArrayList<NumberLevel> numberLevels = new ArrayList<NumberLevel>() {{
-        for ( int i = 0; i < 10; i++ ) {
-            add( i == 0 ? numberLevel0() :
-                 i == 1 ? numberLevel1() :
-                 i == 2 ? new NumberLevel( true, list( 1, 2, 3, 3, 3, 4, 4, 5, 6, 6, 7, 8, 9 ), shuffle( list( target( 2, 6, red, flower ),
-                                                                                                               target( 3, 6, green, flower ),
-                                                                                                               target( 4, 6, lightBlue, flower ) ) ) ) :
-                 i == 3 ? new NumberLevel( true, list( 1, 1, 2, 3, 3, 3, 4, 5, 6, 7, 8, 9 ), list( target( 1, 1, red, pyramid1 ),
-                                                                                                   target( 3, 4, green, pyramid4 ),
-                                                                                                   target( 5, 9, lightBlue, pyramid9 ) ) ) :
-                 i == 4 ? new NumberLevel( true, list( 4, 3, 3, 2, 2, 1, 5, 6, 7, 8, 9 ), shuffle( list( target( 4, 3, red, pie ),
-                                                                                                         target( 3, 2, green, pie ),
-                                                                                                         target( 2, 1, lightBlue, pie ) ) ) ) :
-                 numberLevel5()
-            );
-        }
-    }};
+    public final ArrayList<NumberLevel> numberLevels = createNumberLevels();
+
+    private ArrayList<NumberLevel> createNumberLevels() {
+        return new ArrayList<NumberLevel>() {{
+            for ( int i = 0; i < 10; i++ ) {
+                add( i == 0 ? numberLevel0() :
+                     i == 1 ? numberLevel1() :
+                     i == 2 ? new NumberLevel( true, list( 1, 2, 3, 3, 3, 4, 4, 5, 6, 6, 7, 8, 9 ), shuffle( list( target( 2, 6, red, flower ),
+                                                                                                                   target( 3, 6, green, flower ),
+                                                                                                                   target( 4, 6, lightBlue, flower ) ) ) ) :
+                     i == 3 ? new NumberLevel( true, list( 1, 1, 2, 3, 3, 3, 4, 5, 6, 7, 8, 9 ), list( target( 1, 1, red, pyramid1 ),
+                                                                                                       target( 3, 4, green, pyramid4 ),
+                                                                                                       target( 5, 9, lightBlue, pyramid9 ) ) ) :
+                     i == 4 ? new NumberLevel( true, list( 4, 3, 3, 2, 2, 1, 5, 6, 7, 8, 9 ), shuffle( list( target( 4, 3, red, pie ),
+                                                                                                             target( 3, 2, green, pie ),
+                                                                                                             target( 2, 1, lightBlue, pie ) ) ) ) :
+                     numberLevel5()
+                );
+            }
+        }};
+    }
 
     public final ArrayList<PictureLevel> pictureLevels = new ArrayList<PictureLevel>() {{
         for ( int i = 0; i < 10; i++ ) {
@@ -173,6 +177,8 @@ public class BuildAFractionModel {
         for ( NumberLevel x : numberLevels ) {
             x.resetAll();
         }
+        numberLevels.clear();
+        numberLevels.addAll( createNumberLevels() );
     }
 
     public void addCreatedValue( final Fraction value ) {
