@@ -11,7 +11,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-class PaddedIcon extends PNode {
+public class PaddedIcon extends PNode {
     public PaddedIcon( final double maxIconWidth, final double maxIconHeight, final PNode icon ) {
         addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, maxIconWidth, maxIconHeight ) ) {{
             setVisible( false );
