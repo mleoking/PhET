@@ -28,6 +28,7 @@ public class TrajectoryModel {
     private var vX0: Number;    //x- and y-coords of initial velocity of projectile
     private var vY0: Number;
     private var _mP: Number;    //mass of projectile in kg
+    private var _angleInDeg: Number;  //angle of cannon barrel in degrees, measured CCW from horizontal
     private var _theta: Number; //initial angle of projectile, in radians, measured CCW from horizontal
     private var _t: Number;     //time in seconds, projectile fired at t = 0
     private var stepsPerFrame: int;      //number of algorithm steps between screen updates
@@ -47,6 +48,13 @@ public class TrajectoryModel {
     }
 
     private function initialize():void{
+        this._xP = 0;
+        this._yP = 0;
+        this.xP0 = 0.2*stageW/mainView.pixPerMeter;
+        this.yP0 = 0.8*stageH/mainView.pixPerMeter;
+        this.vX = 0;
+        this.vY = 0;
+        this._angleInDeg = 45;
         this._t = 0;
         this.dt = 0.01;
         this._tRate = 1;
@@ -86,10 +94,20 @@ public class TrajectoryModel {
     //SETTERS and GETTERS
     public function set xP0( xP0: Number ):void{
         this._xP0 = xP0;
+        this.updateViews();
+    }
+
+    public function get xP0():Number{
+        return this._xP0;
     }
 
     public function set yP0( yP0: Number ):void{
         this._yP0 = yP0;
+        this.updateViews();
+    }
+
+    public function get yP0():Number{
+        return this._yP0;
     }
 
     public function get xP(): Number{
@@ -110,6 +128,15 @@ public class TrajectoryModel {
 
     public function set tRate(value:Number):void {
         _tRate = value;
+    }
+
+    public function get angleInDeg():Number {
+        return _angleInDeg;
+    }
+
+    public function set angleInDeg(value:Number):void {
+        _angleInDeg = value;
+        this.updateViews();
     }
 }//end class
 }//end package

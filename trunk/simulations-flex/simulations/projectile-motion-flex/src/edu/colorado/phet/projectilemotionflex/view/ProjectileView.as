@@ -21,6 +21,14 @@ public class ProjectileView extends Sprite {
         this.trajectoryModel = trajectoryModel;
         this.stageW = mainView.stageW;
         this.stageH = mainView.stageH;
+        this.initialize();
     }
-}
-}
+
+    private function initialize():void{
+        trajectoryModel.registerView( this );
+    }
+
+    public function update():void{
+    }
+}//end class
+}//end package

@@ -33,7 +33,11 @@ public class ProjectileMotionFlexCanvas extends Canvas {
 
             myMainView.scaleX = Math.min( sx, sy );
             myMainView.scaleY = Math.min( sx, sy );
+            myMainView.pixPerMeter = sx*80;
+            //trace("FlexCanvas  sx = " + sx );
         }
+
+
         stage.addEventListener( Event.RESIZE, listener );
         listener( null );
     }//end init()

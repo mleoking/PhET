@@ -35,7 +35,7 @@ public class MainView extends Canvas {
         percentHeight = 100;
         this.stageH = stageH;
         this.stageW = stageW;
-        this._pixPerMeter = 40;
+        this._pixPerMeter = stageW/40 ;   //width of stage is 40 meters
 
         this.trajectoryModel = new TrajectoryModel( this );
         this.backgroundView = new BackgroundView( this, trajectoryModel );
