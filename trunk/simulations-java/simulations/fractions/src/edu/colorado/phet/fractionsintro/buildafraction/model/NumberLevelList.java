@@ -201,7 +201,6 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         public abstract F<Fraction, FilledPattern> toPattern( final Fraction fraction );
     }
 
-
     /*Level 4:
 --At his point I think we should switch to 4 bins for all future levels
 - numerator able to range from 1-9, and denominator able to range from 1-9, with the number less than 1
@@ -216,15 +215,6 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
                                             generateFromType( colors, chooseOne( types ) ) ) );
     }
 
-    private NumberTarget generateFromType( final RandomColors4 colors, final RepresentationType representationType ) {
-        int denominator = chooseOne( representationType.denominators );
-        int numerator = chooseOne( rangeInclusive( 1, denominator ) );
-        Fraction fraction = new Fraction( numerator, denominator );
-        return target( fraction, colors.next(), representationType.toPattern( fraction ) );
-    }
-
-    private static <T> T chooseOne( final List<T> list ) { return list.index( random.nextInt( list.length() ) ); }
-
     private NumberLevel numberLevel5() {
         Distribution<F<Fraction, FilledPattern>> representation = new Distribution<F<Fraction, FilledPattern>>() {{
             put( horizontalBar, 20 );
@@ -236,6 +226,13 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
                                                       target( 2, 3, colors.next(), representation.draw() ),
                                                       target( 5, 4, colors.next(), representation.draw() ),
                                                       target( 4, 5, colors.next(), representation.draw() ) ) ) );
+    }
+
+    private NumberTarget generateFromType( final RandomColors4 colors, final RepresentationType representationType ) {
+        int denominator = chooseOne( representationType.denominators );
+        int numerator = chooseOne( rangeInclusive( 1, denominator ) );
+        Fraction fraction = new Fraction( numerator, denominator );
+        return target( fraction, colors.next(), representationType.toPattern( fraction ) );
     }
 
     private static List<Color> shuffledColors() {return shuffle( list( LIGHT_RED, LIGHT_GREEN, LIGHT_BLUE, orange ) );}
@@ -258,4 +255,5 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         throw new RuntimeException( "Couldn't find a match" );
     }
 
+    private static <T> T chooseOne( final List<T> list ) { return list.index( random.nextInt( list.length() ) ); }
 }
