@@ -40,9 +40,12 @@ public class MainView extends Canvas {
         this.trajectoryModel = new TrajectoryModel( this );
         this.backgroundView = new BackgroundView( this, trajectoryModel );
         this.controlPanel = new ControlPanel( this, trajectoryModel );
+        trajectoryModel.updateViews();
 
         this.addChild( new SpriteUIComponent( backgroundView ));
         this.addChild( controlPanel );
+        controlPanel.x = 0.8 * stageW;
+        controlPanel.y = 0.05 * stageH;
 
         this.phetLogo = new PhetIcon();
         this.phetLogo.x = stageW - 2.0 * this.phetLogo.width;
