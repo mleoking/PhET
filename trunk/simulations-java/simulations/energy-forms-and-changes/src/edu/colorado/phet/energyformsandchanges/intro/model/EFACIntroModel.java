@@ -69,6 +69,7 @@ public class EFACIntroModel {
 
     // List of model element that can contain and exchange energy.
     private List<ThermalEnergyContainer> thermalEnergyContainers = new ArrayList<ThermalEnergyContainer>();
+    protected final List<ThermalEnergyContainer> nonAirThermalEnergyContainers;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -101,6 +102,10 @@ public class EFACIntroModel {
         thermalEnergyContainers.add( ironBlock );
         thermalEnergyContainers.add( beaker );
         thermalEnergyContainers.add( air );
+        nonAirThermalEnergyContainers = new ArrayList<ThermalEnergyContainer>( thermalEnergyContainers ) {{
+            remove( air );
+        }};
+
 
         // Add the thermometers.  They should reside in the tool box when
         // the sim starts up or is reset, so their position here doesn't much
@@ -212,10 +217,6 @@ public class EFACIntroModel {
             }
         }
 
-        List<ThermalEnergyContainer> nonAirThermalEnergyContainers = new ArrayList<ThermalEnergyContainer>( thermalEnergyContainers ) {{
-            remove( air );
-        }};
-
         // Exchange thermal energy between the burners and the various
         // thermal energy containers.
         for ( Burner burner : Arrays.asList( leftBurner, rightBurner ) ) {
@@ -227,6 +228,18 @@ public class EFACIntroModel {
             else {
                 // Only heat/cool air if nothing is on top of the burner.
                 burner.addOrRemoveEnergyToFromAir( air, dt );
+            }
+        }
+
+        // Exchange energy chunks between burners and non-air energy containers.
+        for ( RectangularThermalMovableModelElement thermalModelElement : Arrays.asList( ironBlock, brick, beaker ) ) {
+            for ( Burner burner : Arrays.asList( leftBurner, rightBurner ) ) {
+                if ( thermalModelElement.getEnergyChunkBalance() < 0 && burner.inContactWith( thermalModelElement ) && burner.canSupplyEnergyChunk() ) {
+                    thermalModelElement.addEnergyChunk( burner.extractClosestEnergyChunk( thermalModelElement.getCenterPoint() ) );
+                }
+                else if ( thermalModelElement.getEnergyChunkBalance() > 0 && burner.inContactWith( thermalModelElement ) && burner.canAcceptEnergyChunk() ) {
+                    burner.addEnergyChunk( thermalModelElement.extractClosestEnergyChunk( burner.getCenterPoint() ) );
+                }
             }
         }
     }

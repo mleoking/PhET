@@ -212,4 +212,16 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
     public ImmutableVector2D getCenterPoint() {
         return new ImmutableVector2D( position.get().getX(), position.get().getY() + height / 2 );
     }
+
+    /**
+     * Get a number indicating the balance between the energy level and the
+     * number of energy chunks owned by this model element.
+     *
+     * @return 0 if the number of energy chunks matches the energy level, a
+     *         negative value if there is a deficit, and a positive value if there is
+     *         a surplus.
+     */
+    public int getEnergyChunkBalance() {
+        return getNumContainedEnergyChunks() - EFACConstants.ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy );
+    }
 }
