@@ -32,17 +32,6 @@ public class Burner extends ModelElement {
     private static final double MAX_ENERGY_GENERATION_RATE = 5000; // joules/sec TODO: Needs tweaking.
     private static final double CONTACT_DISTANCE = 0.001; // In meters.
 
-    // Constants that define the energy transfer behavior.  This is modeled as
-    // though there was a block just above the burner, and it heats up, and
-    // then transfers energy to anything on top of it and/or to the surrounding
-    // air.
-    private static final double ENERGY_TRANSFER_AREA_WIDTH = WIDTH / 2;
-    private static final double ENERGY_TRANSFER_AREA_HEIGHT = ENERGY_TRANSFER_AREA_WIDTH;
-    private static final double DENSITY = 11300; // In kg/m^3  TODO: Not sure what to use for this.
-    private static final double MASS = ENERGY_TRANSFER_AREA_WIDTH * ENERGY_TRANSFER_AREA_WIDTH * ENERGY_TRANSFER_AREA_HEIGHT * DENSITY;
-    private static final double SPECIFIC_HEAT = 10; // In J/kg-K, relatively low so that it heats up quickly.
-    private static final double INITIAL_ENERGY = MASS * SPECIFIC_HEAT * EFACConstants.ROOM_TEMPERATURE;
-
     // Rate at which energy chunks travel when returning to the burner during cooling.
     private static final double ENERGY_CHUNK_VELOCITY = 0.04; // In meters per second.
 
