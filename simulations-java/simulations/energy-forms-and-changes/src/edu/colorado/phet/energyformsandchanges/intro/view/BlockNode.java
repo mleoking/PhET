@@ -59,36 +59,49 @@ public class BlockNode extends PComposite {
         double perspectiveEdgeSize = mvt.modelToViewDeltaX( block.getRect().getWidth() * PERSPECTIVE_EDGE_PROPORTION );
         ImmutableVector2D blockFaceOffset = new ImmutableVector2D( -perspectiveEdgeSize / 2, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE );
         ImmutableVector2D backCornersOffset = new ImmutableVector2D( perspectiveEdgeSize, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE );
-        ImmutableVector2D lowerLeftCornerOfFace = new ImmutableVector2D( blockRectInViewCoords.getMinX(), blockRectInViewCoords.getMaxY() ).getAddedInstance( blockFaceOffset );
-        ImmutableVector2D lowerRightCornerOfFace = new ImmutableVector2D( blockRectInViewCoords.getMaxX(), blockRectInViewCoords.getMaxY() ).getAddedInstance( blockFaceOffset );
-        ImmutableVector2D upperRightCornerOfFace = new ImmutableVector2D( blockRectInViewCoords.getMaxX(), blockRectInViewCoords.getMinY() ).getAddedInstance( blockFaceOffset );
-        ImmutableVector2D upperLeftCornerOfFace = new ImmutableVector2D( blockRectInViewCoords.getMinX(), blockRectInViewCoords.getMinY() ).getAddedInstance( blockFaceOffset );
-        Shape blockFaceShape = new Rectangle2D.Double( lowerLeftCornerOfFace.getX(),
-                                                       upperLeftCornerOfFace.getY(),
+        ImmutableVector2D lowerLeftFrontCorner = new ImmutableVector2D( blockRectInViewCoords.getMinX(), blockRectInViewCoords.getMaxY() ).getAddedInstance( blockFaceOffset );
+        ImmutableVector2D lowerRightFrontCorner = new ImmutableVector2D( blockRectInViewCoords.getMaxX(), blockRectInViewCoords.getMaxY() ).getAddedInstance( blockFaceOffset );
+        ImmutableVector2D upperRightFrontCorner = new ImmutableVector2D( blockRectInViewCoords.getMaxX(), blockRectInViewCoords.getMinY() ).getAddedInstance( blockFaceOffset );
+        ImmutableVector2D upperLeftFrontCorner = new ImmutableVector2D( blockRectInViewCoords.getMinX(), blockRectInViewCoords.getMinY() ).getAddedInstance( blockFaceOffset );
+        Shape blockFaceShape = new Rectangle2D.Double( lowerLeftFrontCorner.getX(),
+                                                       upperLeftFrontCorner.getY(),
                                                        blockRectInViewCoords.getWidth(),
                                                        blockRectInViewCoords.getHeight() );
 
         // Create the shape of the top of the block.
-        ImmutableVector2D backLeftCornerOfTop = upperLeftCornerOfFace.getAddedInstance( backCornersOffset );
-        ImmutableVector2D backRightCornerOfTop = upperRightCornerOfFace.getAddedInstance( backCornersOffset );
+        ImmutableVector2D upperLeftBackCorner = upperLeftFrontCorner.getAddedInstance( backCornersOffset );
+        ImmutableVector2D upperBackRightCorner = upperRightFrontCorner.getAddedInstance( backCornersOffset );
         DoubleGeneralPath blockTopPath = new DoubleGeneralPath();
-        blockTopPath.moveTo( upperLeftCornerOfFace );
-        blockTopPath.lineTo( upperRightCornerOfFace );
-        blockTopPath.lineTo( backRightCornerOfTop );
-        blockTopPath.lineTo( backLeftCornerOfTop );
-        blockTopPath.lineTo( upperLeftCornerOfFace );
+        blockTopPath.moveTo( upperLeftFrontCorner );
+        blockTopPath.lineTo( upperRightFrontCorner );
+        blockTopPath.lineTo( upperBackRightCorner );
+        blockTopPath.lineTo( upperLeftBackCorner );
+        blockTopPath.lineTo( upperLeftFrontCorner );
         Shape blockTopShape = blockTopPath.getGeneralPath();
 
         // Create the shape of the side of the block.
-        ImmutableVector2D upperBackCornerOfSide = upperRightCornerOfFace.getAddedInstance( backCornersOffset );
-        ImmutableVector2D lowerBackCornerOfSide = lowerRightCornerOfFace.getAddedInstance( backCornersOffset );
+        ImmutableVector2D lowerRightBackCorner = lowerRightFrontCorner.getAddedInstance( backCornersOffset );
         DoubleGeneralPath blockSidePath = new DoubleGeneralPath();
-        blockSidePath.moveTo( upperRightCornerOfFace );
-        blockSidePath.lineTo( lowerRightCornerOfFace );
-        blockSidePath.lineTo( lowerBackCornerOfSide );
-        blockSidePath.lineTo( upperBackCornerOfSide );
-        blockSidePath.lineTo( upperRightCornerOfFace );
+        blockSidePath.moveTo( upperRightFrontCorner );
+        blockSidePath.lineTo( lowerRightFrontCorner );
+        blockSidePath.lineTo( lowerRightBackCorner );
+        blockSidePath.lineTo( upperBackRightCorner );
+        blockSidePath.lineTo( upperRightFrontCorner );
         Shape blockSideShape = blockSidePath.getGeneralPath();
+
+        // Create the shape for the back of the block.
+        ImmutableVector2D lowerLeftBackCorner = lowerLeftFrontCorner.getAddedInstance( backCornersOffset );
+        DoubleGeneralPath blockBackPath = new DoubleGeneralPath();
+        blockBackPath.moveTo( lowerLeftFrontCorner );
+        blockBackPath.lineTo( lowerLeftBackCorner );
+        blockBackPath.lineTo( upperLeftBackCorner );
+        blockBackPath.moveTo( lowerLeftBackCorner );
+        blockBackPath.lineTo( lowerRightBackCorner );
+        Shape blockBackShape = blockBackPath.getGeneralPath();
+
+        // Add the back of the block.
+        final PNode blockBack = new PhetPPath( blockBackShape, OUTLINE_STROKE, OUTLINE_STROKE_COLOR );
+        addChild( blockBack );
 
         // Create the layers where the energy chunks will be placed.
         final PNode energyChunkRootNode = new PNode();
@@ -97,7 +110,7 @@ public class BlockNode extends PComposite {
             energyChunkRootNode.addChild( new EnergyChunkContainerSliceNode( block.getSlices().get( i ), mvt ) );
         }
 
-        // Add the shapes that comprise the block representation.
+        // Add the face, top, and sides of the block.
         final PNode blockFace = createSurface( blockFaceShape, block.getColor(), block.getFrontTextureImage() );
         final PNode blockTop = createSurface( blockTopShape, block.getColor(), block.getTopTextureImage() );
         final PNode blockSide = createSurface( blockSideShape, block.getColor(), block.getSideTextureImage() );
@@ -117,8 +130,8 @@ public class BlockNode extends PComposite {
             double scale = ( mvt.modelToViewDeltaX( Block.SURFACE_WIDTH * 0.9 ) / getFullBoundsReference().width );
             label.setScale( scale );
         }
-        double labelCenterX = ( upperLeftCornerOfFace.getX() + upperRightCornerOfFace.getX() ) / 2;
-        double labelCenterY = ( upperLeftCornerOfFace.getY() + label.getFullBoundsReference().height );
+        double labelCenterX = ( upperLeftFrontCorner.getX() + upperRightFrontCorner.getX() ) / 2;
+        double labelCenterY = ( upperLeftFrontCorner.getY() + label.getFullBoundsReference().height );
         label.centerFullBoundsOnPoint( labelCenterX, labelCenterY );
         addChild( label );
 
