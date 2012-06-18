@@ -129,19 +129,6 @@ public class Air implements ThermalEnergyContainer {
                 changeEnergy( thermalEnergyGained );
                 otherEnergyContainer.changeEnergy( -thermalEnergyGained );
             }
-
-            // Exchange energy chunks.
-            if ( needsEnergyChunk() && otherEnergyContainer.hasExcessEnergyChunks() ) {
-                ImmutableVector2D pointAboveContainer = new ImmutableVector2D( otherEnergyContainer.getCenterPoint().getX(), getThermalContactArea().getBounds().getMaxY() );
-                addEnergyChunk( otherEnergyContainer.extractClosestEnergyChunk( pointAboveContainer ) );
-            }
-            else if ( otherEnergyContainer.needsEnergyChunk() ) {
-                // The other container needs an energy chunk.  We assume at
-                // this point that it has already done any interaction with the
-                // burner, so the air must supply it.
-                ImmutableVector2D pointAboveContainer = new ImmutableVector2D( otherEnergyContainer.getCenterPoint().getX(), getThermalContactArea().getBounds().getMaxY() );
-                otherEnergyContainer.addEnergyChunk( new EnergyChunk( clock, pointAboveContainer, energyChunksVisible, true ) );
-            }
         }
     }
 
