@@ -1,3 +1,4 @@
+Fraction Builder: Fixed: Buggy behavior when dropping a fraction on 2 matching targets
 Fraction Builder: Added Level 10
 Fraction Builder: Added Level 9
 Fraction Builder: Added Level 8

@@ -16,6 +16,7 @@ import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
+import edu.colorado.phet.fractions.util.FJUtils;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
@@ -75,7 +76,14 @@ public class FractionCardNode extends RichPNode {
                     }
                 } );
                 boolean locked = false;
-                for ( ScoreBoxNode scoreCell : scoreCells ) {
+
+                //Sort by distance to choose the closest one
+                final List<ScoreBoxNode> sortedCells = scoreCells.sort( FJUtils.ord( new F<ScoreBoxNode, Double>() {
+                    @Override public Double f( final ScoreBoxNode scoreBoxNode ) {
+                        return scoreBoxNode.getGlobalFullBounds().getCenter2D().distance( FractionCardNode.this.getGlobalFullBounds().getCenter2D() );
+                    }
+                } ) );
+                for ( ScoreBoxNode scoreCell : sortedCells ) {
                     if ( cardShapeNode.getGlobalFullBounds().intersects( scoreCell.getGlobalFullBounds() ) &&
                          scoreCell.fraction.approxEquals( fractionNode.getValue() ) &&
                          !scoreCell.isCompleted() ) {
@@ -100,6 +108,7 @@ public class FractionCardNode extends RichPNode {
                         locked = true;
 
                         numberSceneNode.fractionCardNodeDragEnded( FractionCardNode.this, event );
+                        break;
                     }
                 }
 
