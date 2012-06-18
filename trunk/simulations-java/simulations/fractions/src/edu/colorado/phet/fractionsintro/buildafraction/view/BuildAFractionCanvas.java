@@ -151,7 +151,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
             public void apply( final Boolean autoSpinning ) {
                 goToNumberLevel( model.numberLevel.get() + 1 );
             }
-        }, model.numberLevel.lessThan( 20 ) );
+        }, model.numberLevel.lessThan( model.numberLevels.size() - 1 ) );
         addChild( rightButtonNode );
 
         //Level indicator and navigation buttons for number mode
