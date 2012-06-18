@@ -180,7 +180,7 @@ public class ControlPanel extends Canvas {
     }
 
     private function fireProjectile():void{
-
+        trajectoryModel.fireCannon();
     }
 
     private function eraseTrajectories():void{
