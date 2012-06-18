@@ -214,23 +214,6 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
                                             generateFromType( colors, chooseOne( types ) ),
                                             generateFromType( colors, chooseOne( types ) ),
                                             generateFromType( colors, chooseOne( types ) ) ) );
-//        final ArrayList<Fraction> selected = new ArrayList<Fraction>();
-//        for ( int i = 0; i < 4; i++ ) {
-//            final Fraction fraction = chooseFraction( rangeInclusive( 1, 9 ), rangeInclusive( 1, 9 ),
-//                                                      new F<Fraction, Boolean>() {
-//                                                          @Override public Boolean f( final Fraction fraction ) {
-//                                                              return fraction.toDouble() <= 1 + 1E-6 && !selected.contains( fraction );
-//                                                          }
-//                                                      } );
-//            selected.add( fraction );
-//        }
-//        final List<Fraction> selectedList = iterableList( selected );
-//        final ArrayList<Color> colors = new ArrayList<Color>( shuffledColors().toCollection() );
-//        return new NumberLevel( true, shuffle( selectedList.map( new F<Fraction, NumberTarget>() {
-//            @Override public NumberTarget f( final Fraction fraction ) {
-//                return target( fraction, colors.remove( 0 ), representation );
-//            }
-//        } ) ) );
     }
 
     private NumberTarget generateFromType( final RandomColors4 colors, final RepresentationType representationType ) {
