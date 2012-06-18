@@ -68,7 +68,7 @@ public class EFACIntroModel {
     public final BooleanProperty energyChunksVisible = new BooleanProperty( false );
 
     // List of model element that can contain and exchange energy.
-    private List<ThermalEnergyContainer> energyContainerList = new ArrayList<ThermalEnergyContainer>();
+    private List<ThermalEnergyContainer> thermalEnergyContainers = new ArrayList<ThermalEnergyContainer>();
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -97,11 +97,10 @@ public class EFACIntroModel {
         ironBlock = new IronBlock( clock, new ImmutableVector2D( -0.175, 0 ), energyChunksVisible );
 
         // Put all the thermal containers on a list for easy iteration.
-        energyContainerList.add( leftBurner );
-        energyContainerList.add( rightBurner );
-        energyContainerList.add( brick );
-        energyContainerList.add( ironBlock );
-        energyContainerList.add( beaker );
+        thermalEnergyContainers.add( brick );
+        thermalEnergyContainers.add( ironBlock );
+        thermalEnergyContainers.add( beaker );
+        thermalEnergyContainers.add( air );
 
         // Add the thermometers.  They should reside in the tool box when
         // the sim starts up or is reset, so their position here doesn't much
@@ -180,9 +179,16 @@ public class EFACIntroModel {
         // Update the temperature seen by the thermometers.
         for ( Thermometer thermometer : Arrays.asList( thermometer1, thermometer2 ) ) {
             boolean touchingSomething = false;
-            for ( ThermalEnergyContainer element : Arrays.asList( beaker, brick, ironBlock, leftBurner, rightBurner, air ) ) {
+            for ( ThermalEnergyContainer element : Arrays.asList( beaker, brick, ironBlock, air ) ) {
                 if ( element.getThermalContactArea().getBounds().contains( thermometer.position.get().toPoint2D() ) ) {
                     thermometer.sensedTemperature.set( element.getTemperature() );
+                    touchingSomething = true;
+                    break;
+                }
+            }
+            for ( Burner burner : Arrays.asList( leftBurner, rightBurner ) ) {
+                if ( burner.getFlameIceRect().contains( thermometer.position.get().toPoint2D() ) ) {
+                    thermometer.sensedTemperature.set( burner.getTemperature() );
                     touchingSomething = true;
                     break;
                 }
@@ -198,27 +204,21 @@ public class EFACIntroModel {
         leftBurner.updateHeatCoolLimits( dt, ironBlock, brick, beaker );
         rightBurner.updateHeatCoolLimits( dt, ironBlock, brick, beaker );
 
-        // Loop through all the energy containers (except for air) and have
-        // them exchange energy with one another.
-        for ( ThermalEnergyContainer ec1 : energyContainerList ) {
-            for ( ThermalEnergyContainer ec2 : energyContainerList.subList( energyContainerList.indexOf( ec1 ) + 1, energyContainerList.size() ) ) {
+        // Loop through all the thermal energy containers and have them
+        // exchange energy with one another.
+        for ( ThermalEnergyContainer ec1 : thermalEnergyContainers ) {
+            for ( ThermalEnergyContainer ec2 : thermalEnergyContainers.subList( thermalEnergyContainers.indexOf( ec1 ) + 1, thermalEnergyContainers.size() ) ) {
                 ec1.exchangeEnergyWith( ec2, dt );
             }
         }
 
-        // Exchange thermal energy between burners and the air.
-        for ( Burner burner : Arrays.asList( leftBurner, rightBurner ) ) {
-            // Only interact with air if nothing is sitting on top.
-            if ( !burner.areAnyOnTop( ironBlock, brick, beaker ) ) {
-                air.exchangeEnergyWith( burner, dt );
-            }
-        }
+        // Exchange thermal energy between the burners and the non-air energy
+        // containers.
+        // TODO
 
-        // Exchange thermal energy between the other thermal energy containers
-        // and the air.
-        for ( ThermalEnergyContainer ec : Arrays.asList( brick, ironBlock, beaker ) ) {
-            air.exchangeEnergyWith( ec, dt );
-        }
+        // Exchange thermal energy between burners and the air.
+        // TODO
+
     }
 
     /**

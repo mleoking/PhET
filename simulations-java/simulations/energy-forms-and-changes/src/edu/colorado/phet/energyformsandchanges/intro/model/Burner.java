@@ -65,7 +65,7 @@ public class Burner extends ModelElement {
     private Property<HorizontalSurface> topSurface;
     private final BooleanProperty energyChunksVisible;
     private final ConstantDtClock clock;
-    private final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
+    public final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
 
     // TODO: Should this value be reset when heatCoolLevel goes to zero?  Or when something is detected on top of burner?
     private double energyExchangedWithAirSinceLastChunkTransfer = 0;
@@ -246,6 +246,21 @@ public class Burner extends ModelElement {
                 energyChunkList.remove( energyChunk );
             }
         }
+    }
+
+    public Rectangle2D getFlameIceRect() {
+
+        // This is the area where the flame and ice appear in the view.  Must
+        // be coordinated with the view.
+        Rectangle2D outlineRect = getOutlineRect();
+        return new Rectangle2D.Double( outlineRect.getCenterX() - outlineRect.getWidth() / 4,
+                                       outlineRect.getCenterY(),
+                                       outlineRect.getWidth() / 2,
+                                       outlineRect.getHeight() / 2 );
+    }
+
+    public double getTemperature() {
+        return EFACConstants.ROOM_TEMPERATURE + heatCoolLevel.get() * 100;
     }
 
     // Convenience class - a Property<Double> with a limited range.
