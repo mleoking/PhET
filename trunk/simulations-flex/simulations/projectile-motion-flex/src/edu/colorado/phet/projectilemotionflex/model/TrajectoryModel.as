@@ -64,7 +64,7 @@ public class TrajectoryModel {
         this._t = 0;
         this.dt = 0.01;
         this._tRate = 1;
-        this.stepsPerFrame = 4;
+        this.stepsPerFrame = 30;
         this.frameCounter = 0;
         this.msTimer = new Timer( stepsPerFrame*dt * 1000 );   //argument of Timer constructor is time step in ms
         this.msTimer.addEventListener( TimerEvent.TIMER, stepForward );
@@ -76,7 +76,7 @@ public class TrajectoryModel {
         msTimer.start();
     }
 
-    private function stepForward():void{
+    private function stepForward( evt: TimerEvent ):void{
         _t += dt;
         frameCounter += 1;
         var aX: Number = 0;
@@ -88,6 +88,7 @@ public class TrajectoryModel {
         if( frameCounter > stepsPerFrame ){
             frameCounter = 0;
             this.updateViews();
+            trace( "Trajectory Model:  y = " + this._yP );
         }
         if( _xP < 0 ){
             msTimer.stop();
