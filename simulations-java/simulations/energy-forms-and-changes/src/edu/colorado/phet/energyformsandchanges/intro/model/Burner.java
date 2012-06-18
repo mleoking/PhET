@@ -122,7 +122,7 @@ public class Burner extends ModelElement {
         }
     }
 
-    public void addOrRemoveEnergy( Air air, double dt ) {
+    public void addOrRemoveEnergyToFromAir( Air air, double dt ) {
         double energy = MAX_ENERGY_GENERATION_RATE * heatCoolLevel.get() * dt;
         air.changeEnergy( energy );
         energyExchangedWithAirSinceLastChunkTransfer += energy;

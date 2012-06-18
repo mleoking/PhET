@@ -212,9 +212,17 @@ public class EFACIntroModel {
             }
         }
 
+        List<ThermalEnergyContainer> nonAirThermalEnergyContainers = new ArrayList<ThermalEnergyContainer>( thermalEnergyContainers ) {{
+            remove( air );
+        }};
+
         // Exchange thermal energy between the burners and the non-air energy
         // containers.
-        // TODO
+        for ( Burner burner : Arrays.asList( leftBurner, rightBurner ) ) {
+            for ( ThermalEnergyContainer nonAirThermalEnergyContainer : nonAirThermalEnergyContainers ) {
+                burner.addOrRemoveEnergy( nonAirThermalEnergyContainer, dt );
+            }
+        }
 
         // Exchange thermal energy between burners and the air.
         // TODO
