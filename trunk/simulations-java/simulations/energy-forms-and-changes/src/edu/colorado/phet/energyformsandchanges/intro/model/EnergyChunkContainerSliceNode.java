@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class EnergyChunkContainerSliceNode extends PNode {
 
-    private static final boolean SHOW_OUTLINE = true;
+    private static final boolean SHOW_OUTLINE = false;
 
     public EnergyChunkContainerSliceNode( final EnergyChunkContainerSlice energyChunkContainerSlice, final ModelViewTransform mvt ) {
         this( energyChunkContainerSlice, mvt, Color.YELLOW );
