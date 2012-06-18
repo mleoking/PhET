@@ -23,7 +23,7 @@ public class NumberLevel {
     //True if the scoring target cell should blink when the user creates a match.  Disabled on higher levels to make it more difficult.
     public final boolean flashTargetCellOnMatch;
 
-    //Infer the numbers from the list of targets, using exactly what is necessary
+    //Infer the number cards from the list of targets, using exactly what is necessary
     public NumberLevel( boolean flashTargetCellOnMatch, final List<NumberTarget> targets ) {
         this( flashTargetCellOnMatch, targets.map( new F<NumberTarget, Integer>() {
             @Override public Integer f( final NumberTarget numberTarget ) {
@@ -35,6 +35,16 @@ public class NumberLevel {
                         return numberTarget.fraction.denominator;
                     }
                 } ) ), targets );
+    }
+
+    public static NumberLevel numberLevelReduced( boolean flashTargetCellOnMatch, final List<NumberTarget> targets ) {
+        List<Fraction> reduced = targets.map( new F<NumberTarget, Fraction>() {
+            @Override public Fraction f( final NumberTarget numberTarget ) {
+                return numberTarget.fraction.reduce();
+            }
+        } );
+        List<Integer> cards = reduced.map( Fraction._numerator ).append( reduced.map( Fraction._denominator ) );
+        return new NumberLevel( flashTargetCellOnMatch, cards, targets );
     }
 
     public NumberLevel( boolean flashTargetCellOnMatch, final List<Integer> numbers, final List<NumberTarget> targets ) {
