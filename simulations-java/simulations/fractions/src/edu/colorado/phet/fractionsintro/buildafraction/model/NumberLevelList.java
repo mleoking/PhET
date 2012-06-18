@@ -62,20 +62,24 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
 
     public NumberLevelList() {
         for ( int i = 0; i < 10; i++ ) {
-            add( i == 0 ? numberLevel0() :
-                 i == 1 ? numberLevel1() :
-                 i == 2 ? numberLevel2() :
-                 i == 3 ? numberLevel3() :
-                 i == 4 ? new NumberLevel( true, list( 4, 3, 3, 2, 2, 1, 5, 6, 7, 8, 9 ), shuffle( list( target( 4, 3, LIGHT_RED, pie ),
-                                                                                                         target( 3, 2, LIGHT_GREEN, pie ),
-                                                                                                         target( 2, 1, LIGHT_BLUE, pie ) ) ) ) :
+            add( i == 0 ? level0() :
+                 i == 1 ? level1() :
+                 i == 2 ? level2() :
+                 i == 3 ? level3() :
+                 i == 4 ? level4() :
                  numberLevel5()
             );
         }
     }
 
+    private NumberLevel level4() {
+        return new NumberLevel( true, list( 4, 3, 3, 2, 2, 1, 5, 6, 7, 8, 9 ), shuffle( list( target( 4, 3, LIGHT_RED, pie ),
+                                                                                              target( 3, 2, LIGHT_GREEN, pie ),
+                                                                                              target( 2, 1, LIGHT_BLUE, pie ) ) ) );
+    }
+
     //Choose a representation, pies or bars, but use the same representation for all things
-    private NumberLevel numberLevel0() {
+    private NumberLevel level0() {
         RandomColors3 colors = new RandomColors3();
         return new NumberLevel( true, list( 1, 1, 2, 2, 3, 3 ), shuffle( list( target( 1, 2, colors.next(), pie ),
                                                                                target( 1, 3, colors.next(), pie ),
@@ -88,7 +92,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
     -- I might put the percentages for choosing the bar representations each at 30 percent
     -- I like how at these early levels it is all just a single representation
      */
-    private NumberLevel numberLevel1() {
+    private NumberLevel level1() {
         final F<Fraction, FilledPattern> representation = new Distribution<F<Fraction, FilledPattern>>() {{
             put( pie, 40 );
             put( horizontalBar, 30 );
@@ -112,7 +116,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         } ) ) );
     }
 
-    private NumberLevel numberLevel2() {
+    private NumberLevel level2() {
         ArrayList<Integer> numerators = new ArrayList<Integer>( Arrays.asList( 1, 2, 3, 4, 5 ) );
         Collections.shuffle( numerators );
 
@@ -123,7 +127,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
                                                                                                                                            target( numerators.get( 2 ), 6, colors.next(), flower ) ) ) );
     }
 
-    private NumberLevel numberLevel3() {
+    private NumberLevel level3() {
         RandomColors3 colors = new RandomColors3();
         return new NumberLevel( true, list( target( chooseOne( rangeInclusive( 1, 1 ) ), 1, colors.next(), pyramid1 ),
                                             target( chooseOne( rangeInclusive( 1, 4 ) ), 4, colors.next(), pyramid4 ),
