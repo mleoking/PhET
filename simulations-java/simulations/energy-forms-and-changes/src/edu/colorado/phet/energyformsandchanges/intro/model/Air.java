@@ -97,10 +97,9 @@ public class Air implements ThermalEnergyContainer {
             }
         }
 
-        // Lose energy slowly, returning back to room temperature over time.
-        // This simulates an infinite reservoir of air.
-        if ( getTemperature() - EFACConstants.ROOM_TEMPERATURE > EFACConstants.SIGNIFICANT_TEMPERATURE_DIFFERENCE ) {
-            double thermalEnergyLost = ( getTemperature() - EFACConstants.ROOM_TEMPERATURE ) * 100 * dt;
+        // Gravitate back towards room temperature over time.
+        if ( Math.abs( getTemperature() - EFACConstants.ROOM_TEMPERATURE ) > EFACConstants.SIGNIFICANT_TEMPERATURE_DIFFERENCE ) {
+            double thermalEnergyLost = ( getTemperature() - EFACConstants.ROOM_TEMPERATURE ) * 10000 * dt;
             changeEnergy( -thermalEnergyLost );
         }
     }
@@ -152,6 +151,10 @@ public class Air implements ThermalEnergyContainer {
             if ( closestChunk == null || closestChunk.position.get().distance( point ) > energyChunk.position.get().distance( point ) ) {
                 closestChunk = energyChunk;
             }
+        }
+        if ( closestChunk == null ) {
+            // Create a new chunk at the top of the air above the specified point.
+            closestChunk = new EnergyChunk( clock, point.getX(), SIZE.getHeight(), energyChunksVisible, false );
         }
         return closestChunk;
     }
