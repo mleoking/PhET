@@ -53,7 +53,7 @@ public class BuildAFractionModel {
     public final ArrayList<NumberLevel> numberLevels = new NumberLevelList();
 
     public final ArrayList<PictureLevel> pictureLevels = new ArrayList<PictureLevel>() {{
-        for ( int i = 0; i < 10; i++ ) {
+        for ( int i = 0; i <= 10; i++ ) {
             add( i == 0 ? pictureLevel0() :
                  pictureLevel0()
             );

@@ -120,6 +120,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         add( level7() );
         add( level8() );
         add( level9() );
+        add( level10() );
     }
 
     /*Level 8:
@@ -156,6 +157,26 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
             }
         } );
         List<Fraction> scaled = targetFractions.zipWith( shuffle( list( 1, 1, 2, 3 ) ), _times );
+        return new NumberLevel( true, scaled.map( _denominator ).append( scaled.map( _numerator ) ), targets );
+    }
+
+    /*Level 10
+    --Same as level 9 but with tougher card constraints and larger prime number scale factors*/
+    private NumberLevel level10() {
+        //Choose 4 different patterns
+        List<RepresentationType> types = choose( 4, RepresentationType.all );
+
+        RandomColors4 colors = new RandomColors4();
+        final List<NumberTarget> targets = list( targetLessThanOrEqualTo2( colors, types.index( 0 ), random.nextBoolean() ),
+                                                 targetLessThanOrEqualTo2( colors, types.index( 1 ), random.nextBoolean() ),
+                                                 targetLessThanOrEqualTo2( colors, types.index( 2 ), true ),
+                                                 targetLessThanOrEqualTo2( colors, types.index( 3 ), true ) );
+        List<Fraction> targetFractions = targets.map( new F<NumberTarget, Fraction>() {
+            @Override public Fraction f( final NumberTarget numberTarget ) {
+                return numberTarget.fraction;
+            }
+        } );
+        List<Fraction> scaled = targetFractions.zipWith( shuffle( list( 2, 3, 5, 7 ) ), _times );
         return new NumberLevel( true, scaled.map( _denominator ).append( scaled.map( _numerator ) ), targets );
     }
 
