@@ -22,7 +22,7 @@ import static fj.data.List.nil;
  */
 public class BuildAFractionModel {
 
-    public final IntegerProperty numberLevel = new IntegerProperty( 6 );
+    public final IntegerProperty numberLevel = new IntegerProperty( 8 );
     public final IntegerProperty pictureLevel = new IntegerProperty( 0 );
 
     public final ConstantDtClock clock = new ConstantDtClock();

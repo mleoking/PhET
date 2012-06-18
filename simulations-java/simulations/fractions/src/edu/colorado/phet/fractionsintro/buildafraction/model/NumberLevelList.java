@@ -107,6 +107,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
 
     //Only choose from the universal patterns (that accept all denominators)
     public static final List<PatternMaker> universalTypes = list( pie, horizontalBar, verticalBar );
+    public static final List<PatternMaker> all = list( pie, horizontalBar, verticalBar, pyramid1, pyramid4, pyramid9, grid1, grid4, grid9, flower, polygon );
 
     public NumberLevelList() {
         for ( int i = 0; i < 10; i++ ) {
@@ -117,8 +118,24 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
                  i == 4 ? level4() :
                  i == 5 ? level5() :
                  i == 6 ? level6() :
-                 level7() );
+                 i == 7 ? level7() :
+                 level8() );
         }
+    }
+
+    /*Level 8:
+    -- Representations both less than 1 and greater than 1
+    -- All representations possible
+    -- No card constraints (as in straightforward matching of number and picture possible)*/
+    private NumberLevel level8() {
+        //Choose 4 different patterns
+        List<RepresentationType> types = choose( 4, RepresentationType.all );
+
+        RandomColors4 colors = new RandomColors4();
+        return new NumberLevel( true, list( targetLessThanOrEqualTo2( colors, types.index( 0 ), random.nextBoolean() ),
+                                            targetLessThanOrEqualTo2( colors, types.index( 1 ), random.nextBoolean() ),
+                                            targetLessThanOrEqualTo2( colors, types.index( 2 ), random.nextBoolean() ),
+                                            targetLessThanOrEqualTo2( colors, types.index( 3 ), random.nextBoolean() ) ) );
     }
 
     //Choose a representation, pies or bars, but use the same representation for all things
@@ -143,7 +160,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         }}.draw();
         final ArrayList<Fraction> selected = new ArrayList<Fraction>();
         for ( int i = 0; i < 3; i++ ) {
-            final Fraction fraction = chooseFraction( range( 1, 4 + 1 ), range( 2, 5 + 1 ), new F<Fraction, Boolean>() {
+            final Fraction fraction = chooseFraction( rangeInclusive( 1, 4 ), rangeInclusive( 2, 5 ), new F<Fraction, Boolean>() {
                 @Override public Boolean f( final Fraction fraction ) {
                     return fraction.toDouble() <= 1 + 1E-6 && !selected.contains( fraction );
                 }
@@ -235,10 +252,10 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
     private NumberLevel level4() {
         List<RepresentationType> types = RepresentationType.all;
         RandomColors4 colors = new RandomColors4();
-        return new NumberLevel( true, list( target( colors, chooseOne( types ), true ),
-                                            target( colors, chooseOne( types ), true ),
-                                            target( colors, chooseOne( types ), true ),
-                                            target( colors, chooseOne( types ), true ) ) );
+        return new NumberLevel( true, list( targetLessThanOrEqualTo1( colors, chooseOne( types ), true ),
+                                            targetLessThanOrEqualTo1( colors, chooseOne( types ), true ),
+                                            targetLessThanOrEqualTo1( colors, chooseOne( types ), true ),
+                                            targetLessThanOrEqualTo1( colors, chooseOne( types ), true ) ) );
     }
 
     /* Level 5:
@@ -249,10 +266,10 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
     private NumberLevel level5() {
         List<RepresentationType> types = RepresentationType.all;
         RandomColors4 colors = new RandomColors4();
-        return NumberLevel.numberLevelReduced( true, list( target( colors, chooseOne( types ), random.nextBoolean() ),
-                                                           target( colors, chooseOne( types ), random.nextBoolean() ),
-                                                           target( colors, chooseOne( types ), random.nextBoolean() ),
-                                                           target( colors, chooseOne( types ), random.nextBoolean() ) ) );
+        return NumberLevel.numberLevelReduced( true, list( targetLessThanOrEqualTo1( colors, chooseOne( types ), random.nextBoolean() ),
+                                                           targetLessThanOrEqualTo1( colors, chooseOne( types ), random.nextBoolean() ),
+                                                           targetLessThanOrEqualTo1( colors, chooseOne( types ), random.nextBoolean() ),
+                                                           targetLessThanOrEqualTo1( colors, chooseOne( types ), random.nextBoolean() ) ) );
     }
 
     /* Level 6:
@@ -340,9 +357,21 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
 
     private Fraction moreReduced( final Fraction a, final Fraction b ) { return b.numerator < a.numerator ? b : a; }
 
-    private NumberTarget target( final RandomColors4 colors, final RepresentationType representationType, boolean sequential ) {
+    private NumberTarget targetLessThanOrEqualTo1( final RandomColors4 colors, final RepresentationType representationType, boolean sequential ) {
         int denominator = chooseOne( representationType.denominators );
         int numerator = chooseOne( rangeInclusive( 1, denominator ) );
+        Fraction fraction = new Fraction( numerator, denominator );
+        final PatternMaker patternMaker = representationType.toPattern( fraction );
+        return NumberTarget.target( fraction, colors.next(), sequential ? patternMaker.sequential() : patternMaker.random() );
+    }
+
+    private NumberTarget targetLessThanOrEqualTo2( final RandomColors4 colors, final RepresentationType representationType, boolean sequential ) {
+        int denominator = chooseOne( representationType.denominators );
+        int numerator = chooseOne( rangeInclusive( 1, denominator * 2 ).filter( new F<Integer, Boolean>() {
+            @Override public Boolean f( final Integer integer ) {
+                return integer < 10;
+            }
+        } ) );
         Fraction fraction = new Fraction( numerator, denominator );
         final PatternMaker patternMaker = representationType.toPattern( fraction );
         return NumberTarget.target( fraction, colors.next(), sequential ? patternMaker.sequential() : patternMaker.random() );
@@ -376,5 +405,15 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         int firstIndexToChoose = chooseOne( indices );
         int secondIndexToChoose = chooseOne( indices.delete( firstIndexToChoose, intEqual ) );
         return new DefaultP2<T, T>( list.index( firstIndexToChoose ), list.index( secondIndexToChoose ) );
+    }
+
+    //Select the specified number without replacement
+    private static <T> List<T> choose( int num, final List<T> list ) {
+        ArrayList<T> mutableList = new ArrayList<T>( list.toCollection() );
+        Collections.shuffle( mutableList );
+        while ( mutableList.size() > num ) {
+            mutableList.remove( 0 );
+        }
+        return iterableList( mutableList );
     }
 }
