@@ -142,11 +142,10 @@ public class CannonView extends Sprite {
         }
 
         function stopTargetDrag( evt: MouseEvent ): void {
-
             var xInPix:Number = thisObject.container.container.mouseX - clickOffset.x;    //screen coordinates, origin on left edge of stage
             var yInPix:Number = thisObject.container.container.mouseY - clickOffset.y;    //screen coordinates, origin on left edge of stage
             thisObject.trajectoryModel.xP0 = xInPix/(thisObject.mainView.pixPerMeter);
-            thisObject.trajectoryModel.yP0 = -yInPix/(thisObject.mainView.pixPerMeter);
+            thisObject.trajectoryModel.yP0 = (thisObject.stageH - yInPix)/(thisObject.mainView.pixPerMeter);
             evt.updateAfterEvent();
             clickOffset = null;
             stage.removeEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
@@ -157,7 +156,7 @@ public class CannonView extends Sprite {
             var xInPix:Number = thisObject.container.container.mouseX - clickOffset.x;    //screen coordinates, origin on left edge of stage
             var yInPix:Number = thisObject.container.container.mouseY - clickOffset.y;
             thisObject.trajectoryModel.xP0 = xInPix/(thisObject.mainView.pixPerMeter);
-            thisObject.trajectoryModel.yP0 = -yInPix/(thisObject.mainView.pixPerMeter);
+            thisObject.trajectoryModel.yP0 = (thisObject.stageH - yInPix)/(thisObject.mainView.pixPerMeter);
             evt.updateAfterEvent();
         }//end of dragTarget()
 
@@ -168,8 +167,8 @@ public class CannonView extends Sprite {
         this.barrel.rotation = -trajectoryModel.angleInDeg;
         //trace("cannonView.update called, angle = " + trajectoryModel.angleInDeg );
         this.x = this.trajectoryModel.xP0*mainView.pixPerMeter;
-        this.y = -this.trajectoryModel.yP0*mainView.pixPerMeter;
-        trace("cannonView.update called, x = " + this.trajectoryModel.xP0 );
+        this.y = this.stageH - this.trajectoryModel.yP0*mainView.pixPerMeter;
+        //trace("cannonView.update called, y = " + this.trajectoryModel.yP0 + "   pixPerMeter" + mainView.pixPerMeter );
     }
 
 

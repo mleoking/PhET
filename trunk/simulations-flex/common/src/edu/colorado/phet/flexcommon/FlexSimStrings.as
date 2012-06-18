@@ -5,7 +5,7 @@ import mx.core.Application;
 
 public class FlexSimStrings {
     private static var document: XML;
-    private static const debug: Boolean = true;
+    private static const debug: Boolean = false;
 
     public static function get( key: String, defaultString: String, formatArray: Array = null ): String {
         if ( document == null ) {

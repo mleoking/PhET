@@ -18,7 +18,7 @@ public class BackgroundView extends Sprite {
     private var stageW: Number;
     private var stageH: Number;
     public var container: Sprite;      //container for cannon, trajectory, projectiles, etc.  Can be zoomed
-    private var cannon: CannonView;
+    public var cannon: CannonView;
     private var pixPerMeter: Number;   //in mainView
     private var xOrigin: Number;       //x- and y-coords of origin in screen coordinates
     private var yOrigin: Number;
