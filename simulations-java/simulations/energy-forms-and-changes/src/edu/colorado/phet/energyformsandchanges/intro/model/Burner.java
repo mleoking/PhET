@@ -74,6 +74,9 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     private final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
     private double cumulativeEnergyProducedSinceLastEnergyChunk = 0;
 
+    // TODO: Should this value be reset when heatCoolLevel goes to zero?  Or when something is detected on top of burner?
+    private double energyExchangedWithAirSinceLastChunkTransfer = 0;
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
@@ -126,7 +129,15 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
                                        HEIGHT );
     }
 
-    public void updateInternallyProducedEnergy( double dt ) {
+    /**
+     * Update the amount of energy that has built up in this burner without
+     * being transferred to any other energy container.  This is used to allow
+     * the burner to determine when it needs to transfer an energy chunk to the
+     * air.
+     *
+     * @param dt
+     */
+    public void updateBuiltUpEnergy( double dt ) {
         double energyProduced = heatCoolLevel.get() * MAX_ENERGY_GENERATION_RATE * dt;
         energy += energyProduced;
         if ( energyProduced < 0 ) {
@@ -139,11 +150,19 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
         return topSurface;
     }
 
-    public void addOrRemoveEnergy( ThermalEnergyContainer thermalEnergyContainer, double contactTime ) {
+    public void addOrRemoveEnergy( ThermalEnergyContainer thermalEnergyContainer, double dt ) {
+        assert !( thermalEnergyContainer instanceof Air );  // This shouldn't be used for air - there is a specific method for that.
         if ( inContactWith( thermalEnergyContainer ) ) {
-            thermalEnergyContainer.changeEnergy( MAX_ENERGY_GENERATION_RATE * heatCoolLevel.get() * contactTime );
+            thermalEnergyContainer.changeEnergy( MAX_ENERGY_GENERATION_RATE * heatCoolLevel.get() * dt );
         }
     }
+
+    public void addOrRemoveEnergy( Air air, double dt ) {
+        double energy = MAX_ENERGY_GENERATION_RATE * heatCoolLevel.get() * dt;
+        air.changeEnergy( energy );
+        energyExchangedWithAirSinceLastChunkTransfer += energy;
+    }
+
 
     public boolean inContactWith( ThermalEnergyContainer thermalEnergyContainer ) {
         Rectangle2D containerThermalArea = thermalEnergyContainer.getThermalContactArea().getBounds();
@@ -318,7 +337,7 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     private void stepInTime( double dt ) {
 
         // Update internal energy based on whether flame or ice are turned on.
-        updateInternallyProducedEnergy( dt );
+        updateBuiltUpEnergy( dt );
 
         // Animate energy chunks.
         for ( EnergyChunk energyChunk : new ArrayList<EnergyChunk>( energyChunkList ) ) {
