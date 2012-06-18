@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.common.phetcommon.dialogs.ColorChooserFactory;
+import edu.colorado.phet.common.phetcommon.dialogs.ColorChooserFactory.Listener;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -85,14 +87,39 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
         }};
         addChild( resetButton );
 
+        //Set a really light blue because there is a lot of white everywhere
+        setBackground( new Color( 236, 251, 251 ) );
+
         if ( dev ) {
-            addChild( new TextButtonNode( "Resample", resetButton.getFont(), Color.red ) {{
+
+            addChild( new VBox( new TextButtonNode( "Resample", resetButton.getFont(), Color.red ) {{
                 addActionListener( new ActionListener() {
                     public void actionPerformed( final ActionEvent e ) {
                         model.resample();
                         reloadViewsAfterReset( model );
                     }
                 } );
+
+            }}, new TextButtonNode( "Background", resetButton.getFont(), Color.green ) {{
+                addActionListener( new ActionListener() {
+                    public void actionPerformed( final ActionEvent e ) {
+                        ColorChooserFactory.showDialog( "background", BuildAFractionCanvas.this, BuildAFractionCanvas.this.getBackground(), new Listener() {
+                            public void colorChanged( final Color color ) {
+                                BuildAFractionCanvas.this.setBackground( color );
+                            }
+
+                            public void ok( final Color color ) {
+                                BuildAFractionCanvas.this.setBackground( color );
+                            }
+
+                            public void cancelled( final Color originalColor ) {
+                                BuildAFractionCanvas.this.setBackground( originalColor );
+                            }
+                        }, true );
+                    }
+                } );
+            }}
+            ) {{
                 setOffset( resetButton.getFullBounds().getX(), resetButton.getFullBounds().getY() - getFullBounds().getHeight() - INSET );
             }} );
         }
