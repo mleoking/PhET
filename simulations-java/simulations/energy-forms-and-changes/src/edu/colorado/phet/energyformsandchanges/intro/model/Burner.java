@@ -258,16 +258,18 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
 
                 // The burner is in contact with this item.  Adjust the limits
                 // based on the item's temperature.
+                double max = 1;
+                double min = -1;
                 if ( otherEnergyContainer.getTemperature() >= EFACConstants.BOILING_POINT_TEMPERATURE ) {
                     // No more heat allowed.
-                    heatCoolLevel.setMax( Math.max( heatCoolLevel.getMax() - dt * CLAMP_DOWN_RATE, 0 ) );
-                    heatCoolLevel.setMin( -1 );
+                    max = Math.max( heatCoolLevel.getMax() - dt * CLAMP_DOWN_RATE, 0 );
                 }
                 else if ( otherEnergyContainer.getTemperature() <= EFACConstants.FREEZING_POINT_TEMPERATURE ) {
                     // No more cooling allowed.
-                    heatCoolLevel.setMin( Math.min( heatCoolLevel.getMin() + dt * CLAMP_DOWN_RATE, 0 ) );
-                    heatCoolLevel.setMax( 1 );
+                    min = Math.min( heatCoolLevel.getMin() + dt * CLAMP_DOWN_RATE, 0 );
                 }
+                heatCoolLevel.setMin( min );
+                heatCoolLevel.setMax( max );
 
                 contact = true;
 
