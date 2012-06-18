@@ -105,6 +105,9 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         }
     };
 
+    //Only choose from the universal patterns (that accept all denominators)
+    public static final List<PatternMaker> universalTypes = list( pie, horizontalBar, verticalBar );
+
     public NumberLevelList() {
         for ( int i = 0; i < 10; i++ ) {
             add( i == 0 ? level0() :
@@ -113,7 +116,8 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
                  i == 3 ? level3() :
                  i == 4 ? level4() :
                  i == 5 ? level5() :
-                 level6() );
+                 i == 6 ? level6() :
+                 level7() );
         }
     }
 
@@ -284,9 +288,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         Color topColor = colors.next();
         Color bottomColor = colors.next();
 
-        //Only choose from the universal patterns (that accept all denominators)
-        List<PatternMaker> types = list( pie, polygon, horizontalBar, verticalBar );
-        P2<PatternMaker, PatternMaker> selected = chooseTwo( types );
+        P2<PatternMaker, PatternMaker> selected = chooseTwo( universalTypes );
         Fraction topPrototype = moreReduced( top._1(), top._2() );
         Fraction bottomPrototype = moreReduced( bottom._1(), bottom._2() );
 
@@ -299,6 +301,41 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         //But choose numbers from the original fractions
         final List<Integer> cards = selectedFractions.map( _numerator ).append( selectedFractions.map( _denominator ) );
         return new NumberLevel( true, cards, targets );
+    }
+
+    /*Level 7:
+    -- Introduce double representations at this level (numbers greater than 1)
+    -- I really like your idea of having 8 cards, 4 each of 2 numbers
+    -- Lets randomly choose from  {2/3, 3/2, 2/2, 3/3}, {2/4, 4/2, 2/2, 4/4}, {3/4,4/3, 3/3, 4/4}, {3/5, 5/3, 3/3, 5/5}, {3/6, 6/3, 3/3, 6/6}*/
+    private NumberLevel level7() {
+        List<List<Fraction>> sets = list( list( fraction( 2, 3 ),
+                                                fraction( 3, 2 ),
+                                                fraction( 2, 2 ),
+                                                fraction( 3, 3 ) ),
+                                          list( fraction( 2, 4 ),
+                                                fraction( 4, 2 ),
+                                                fraction( 2, 2 ),
+                                                fraction( 4, 4 ) ),
+                                          list( fraction( 3, 4 ),
+                                                fraction( 4, 3 ),
+                                                fraction( 3, 3 ),
+                                                fraction( 4, 4 ) ),
+                                          list( fraction( 3, 5 ),
+                                                fraction( 5, 3 ),
+                                                fraction( 3, 3 ),
+                                                fraction( 5, 5 ) ),
+                                          list( fraction( 3, 6 ),
+                                                fraction( 6, 3 ),
+                                                fraction( 3, 3 ),
+                                                fraction( 6, 6 ) ) );
+        List<Fraction> selected = shuffle( chooseOne( sets ) );
+
+        RandomColors4 colors = new RandomColors4();
+        final List<NumberTarget> targets = list( NumberTarget.target( selected.index( 0 ), colors.next(), chooseOne( universalTypes ).sequential() ),
+                                                 NumberTarget.target( selected.index( 1 ), colors.next(), chooseOne( universalTypes ).sequential() ),
+                                                 NumberTarget.target( selected.index( 2 ), colors.next(), chooseOne( universalTypes ).sequential() ),
+                                                 NumberTarget.target( selected.index( 3 ), colors.next(), chooseOne( universalTypes ).sequential() ) );
+        return new NumberLevel( true, targets );
     }
 
     private Fraction moreReduced( final Fraction a, final Fraction b ) { return b.numerator < a.numerator ? b : a; }
