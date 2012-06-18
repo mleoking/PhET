@@ -1,3 +1,5 @@
+Fraction Builder: Made background light blue
+Fraction Builder: Added a background color chooser
 Fraction Builder: Added levels
 Fraction Builder: Added levels 1-2
 Fraction Builder: Added a "Resample" button for debugging, only enabled when running in dev mode
