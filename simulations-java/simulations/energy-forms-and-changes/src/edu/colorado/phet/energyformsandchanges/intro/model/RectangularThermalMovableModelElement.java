@@ -4,7 +4,6 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -134,21 +133,25 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
      * @return
      */
     public EnergyChunk extractClosestEnergyChunk( ImmutableVector2D point ) {
-        List<EnergyChunkContainerSlice> copyOfSlices = new ArrayList<EnergyChunkContainerSlice>( slices );
-        Collections.shuffle( copyOfSlices );
-        for ( EnergyChunkContainerSlice slice : copyOfSlices ) {
-            if ( !slice.energyChunkList.isEmpty() ) {
-                EnergyChunk closestEnergyChunk = slice.energyChunkList.get( 0 );
-                for ( EnergyChunk ec : slice.energyChunkList ) {
-                    if ( ec.position.get().distance( point ) < closestEnergyChunk.position.get().distance( point ) ) {
-                        closestEnergyChunk = ec;
-                    }
+        EnergyChunk closestEnergyChunk = null;
+        double closestCompensatedDistance = Double.POSITIVE_INFINITY;
+
+        // Identify the closest energy chunk.
+        for ( EnergyChunkContainerSlice slice : slices ) {
+            for ( EnergyChunk ec : slice.energyChunkList ) {
+                // Compensate for the Z offset.  Otherwise front chunk will
+                // almost always be chosen.
+                ImmutableVector2D compensatedEcPosition = ec.position.get().getSubtractedInstance( 0, EFACConstants.Z_TO_Y_OFFSET_MULTIPLIER * ec.zPosition.get() );
+                double compensatedDistance = compensatedEcPosition.distance( point );
+                if ( compensatedDistance < closestCompensatedDistance ) {
+                    closestEnergyChunk = ec;
+                    closestCompensatedDistance = compensatedDistance;
                 }
-                removeEnergyChunk( closestEnergyChunk );
-                return closestEnergyChunk;
             }
         }
-        return null;
+
+        removeEnergyChunk( closestEnergyChunk );
+        return closestEnergyChunk;
     }
 
     /**
