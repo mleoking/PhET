@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--pendulum-lab-strings_pl.xml created Mon Jun 18 08:25:33 CEST 2012 using: pendulum-lab 2.03.00 (52288), translation-utility 2.13.00 (59150) gru 8, 2011--><SimStrings>
+<string key="resetStopwatch" value="wyzeruj"/>
+<string key="earth" value="Ziemia"/>
+<string key="showPhotoGateTimer" value="fotokomórka"/>
+<string key="planetX" value="Planeta X"/>
+<string key="acceleration" value="przyspieszenie"/>
+<string key="showEnergyOf" value="Pokaż energię"/>
+<string key="PE" value="potencjalna"/>
+<string key="velocity" value="prędkość"/>
+<string key="translation.credits" value="batorskiandrzej@aster.pl"/>
+<string key="realTime" value="czas rzeczywisty"/>
+<string key="length" value="długość"/>
+<string key="lots" value="duże"/>
+<string key="friction" value="tarcie"/>
+<string key="showSecondPendulum" value="Pokaż 2 wahadło"/>
+<string key="start" value="Start"/>
+<string key="mass_unit" value="kg"/>
+<string key="jupiter" value="Jowisz"/>
+<string key="moon" value="Księżyc"/>
+<string key="energyOf" value="energia"/>
+<string key="period" value="okres"/>
+<string key="simStrings" value="Wahadło matematyczne"/>
+<string key="noneFriction" value="brak"/>
+<string key="total" value="całkowita"/>
+<string key="mass2" value="masa 2:"/>
+<string key="pendulum" value="wahadło:"/>
+<string key="startPauseStopwatch" value="start/pauza"/>
+<string key="show" value="Pokaż"/>
+<string key="length2" value="długość 2:"/>
+<string key="photoGateTimer" value="fotokomórka"/>
+<string key="thermal" value="termiczna"/>
+<string key="pausePlay" value="pauza/start"/>
+<string key="reset" value="Wyzeruj"/>
+<string key="mass" value="masa"/>
+<string key="quarterTime" value="4xwolniej"/>
+<string key="KE" value="kinetyczna"/>
+<string key="gEqZero" value="g = 0"/>
+<string key="length_unit" value="m"/>
+<string key="noneEnergy" value="ukryj"/>
+<string key="simTitle" value="Wahadło matematyczne"/>
+<string key="otherTools" value="inne narzędzia"/>
+<string key="angleUnit" value="deg"/>
+<string key="paused" value="zatrzymaj"/>
+<string key="sixteenthTime" value="16xwolniej"/>
+</SimStrings>
