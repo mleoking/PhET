@@ -263,6 +263,14 @@ public class Burner extends ModelElement {
         return EFACConstants.ROOM_TEMPERATURE + heatCoolLevel.get() * 100;
     }
 
+    public boolean canSupplyEnergyChunk() {
+        return heatCoolLevel.get() > 0;
+    }
+
+    public boolean canAcceptEnergyChunk() {
+        return heatCoolLevel.get() < 0;
+    }
+
     // Convenience class - a Property<Double> with a limited range.
     private static class BoundedDoubleProperty extends Property<Double> {
 
