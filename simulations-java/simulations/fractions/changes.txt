@@ -1,3 +1,4 @@
+Fraction Builder: Scale all graphics up so they have the same width
 Fraction Builder: Fixed: Buggy behavior when dropping a fraction on 2 matching targets
 Fraction Builder: Added Level 10
 Fraction Builder: Added Level 9
