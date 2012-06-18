@@ -32,6 +32,7 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
     private static final double WIDTH = 0.075; // In meters.
     private static final double HEIGHT = WIDTH;
     private static final double MAX_ENERGY_GENERATION_RATE = 5000; // joules/sec TODO: Needs tweaking.
+    private static final double CONTACT_DISTANCE = 0.001; // In meters.
 
     // Constants that define the energy transfer behavior.  This is modeled as
     // though there was a block just above the burner, and it heats up, and
@@ -136,6 +137,19 @@ public class Burner extends ModelElement implements ThermalEnergyContainer {
 
     @Override public Property<HorizontalSurface> getTopSurfaceProperty() {
         return topSurface;
+    }
+
+    public void addOrRemoveEnergy( ThermalEnergyContainer thermalEnergyContainer, double contactTime ) {
+        if ( inContactWith( thermalEnergyContainer ) ) {
+            thermalEnergyContainer.changeEnergy( MAX_ENERGY_GENERATION_RATE * heatCoolLevel.get() * contactTime );
+        }
+    }
+
+    public boolean inContactWith( ThermalEnergyContainer thermalEnergyContainer ) {
+        Rectangle2D containerThermalArea = thermalEnergyContainer.getThermalContactArea().getBounds();
+        return ( containerThermalArea.getCenterX() > getOutlineRect().getMinX() &&
+                 containerThermalArea.getCenterX() < getOutlineRect().getMaxX() &&
+                 Math.abs( containerThermalArea.getMinY() - getOutlineRect().getMaxY() ) < CONTACT_DISTANCE );
     }
 
     public void changeEnergy( double deltaEnergy ) {
