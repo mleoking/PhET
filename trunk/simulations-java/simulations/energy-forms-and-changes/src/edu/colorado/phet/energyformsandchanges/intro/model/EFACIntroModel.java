@@ -266,6 +266,16 @@ public class EFACIntroModel {
                 ec1.addEnergyChunk( air.extractClosestEnergyChunk( ec1.getCenterPoint() ) );
             }
         }
+
+        // Exchange energy chunks between the air and the burners.
+        for ( Burner burner : Arrays.asList( leftBurner, rightBurner ) ) {
+            if ( burner.getEnergyChunkCountForAir() > 0 ) {
+                air.addEnergyChunk( burner.extractClosestEnergyChunk( burner.getCenterPoint() ) );
+            }
+            else if ( burner.getEnergyChunkCountForAir() < 0 ) {
+                burner.addEnergyChunk( air.extractClosestEnergyChunk( burner.getCenterPoint() ) );
+            }
+        }
     }
 
     /**

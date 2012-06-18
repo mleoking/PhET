@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
@@ -56,7 +57,7 @@ public class Burner extends ModelElement {
     private final ConstantDtClock clock;
     public final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
 
-    // TODO: Should this value be reset when heatCoolLevel goes to zero?  Or when something is detected on top of burner?
+    // Track build up of energy for transferring chunks to/from the air.
     private double energyExchangedWithAirSinceLastChunkTransfer = 0;
 
     //-------------------------------------------------------------------------
@@ -79,6 +80,14 @@ public class Burner extends ModelElement {
         clock.addClockListener( new ClockAdapter() {
             @Override public void clockTicked( ClockEvent clockEvent ) {
                 stepInTime( clockEvent.getSimulationTimeChange() );
+            }
+        } );
+
+        heatCoolLevel.addObserver( new ChangeObserver<Double>() {
+            public void update( Double newValue, Double oldValue ) {
+                if ( newValue == 0 || ( Math.signum( oldValue ) != Math.signum( newValue ) ) ) {
+                    energyExchangedWithAirSinceLastChunkTransfer = 0;
+                }
             }
         } );
     }
@@ -128,9 +137,11 @@ public class Burner extends ModelElement {
     public void addEnergyChunk( EnergyChunk ec ) {
         ec.zPosition.set( 0.0 );
         energyChunkList.add( ec );
+        energyExchangedWithAirSinceLastChunkTransfer = 0;
     }
 
     public EnergyChunk extractClosestEnergyChunk( ImmutableVector2D point ) {
+        energyExchangedWithAirSinceLastChunkTransfer = 0;
         if ( heatCoolLevel.get() > 0 ) {
             // Create an energy chunk.
             return new EnergyChunk( clock, getCenterPoint(), energyChunksVisible, true );
@@ -204,6 +215,10 @@ public class Burner extends ModelElement {
             }
         }
         return false;
+    }
+
+    public int getEnergyChunkCountForAir() {
+        return (int) Math.round( energyExchangedWithAirSinceLastChunkTransfer / EFACConstants.ENERGY_PER_CHUNK );
     }
 
     public EnergyContainerCategory getEnergyContainerCategory() {
