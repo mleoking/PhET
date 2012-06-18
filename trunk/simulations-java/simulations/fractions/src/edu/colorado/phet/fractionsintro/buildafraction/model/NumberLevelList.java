@@ -2,6 +2,7 @@ package edu.colorado.phet.fractionsintro.buildafraction.model;
 
 import fj.F;
 import fj.data.List;
+import lombok.Data;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.Random;
 
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern;
+import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Polygon;
 import edu.colorado.phet.fractionsintro.matchinggame.view.FilledPattern;
 
 import static edu.colorado.phet.fractionsintro.buildafraction.model.NumberTarget.target;
@@ -54,9 +56,30 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
             return sequentialFill( Pattern.pyramidNine(), f.numerator );
         }
     };
+
+    public static F<Fraction, FilledPattern> grid1 = new F<Fraction, FilledPattern>() {
+        @Override public FilledPattern f( final Fraction f ) {
+            return sequentialFill( Pattern.grid( 1 ), f.numerator );
+        }
+    };
+    public static F<Fraction, FilledPattern> grid4 = new F<Fraction, FilledPattern>() {
+        @Override public FilledPattern f( final Fraction f ) {
+            return sequentialFill( Pattern.grid( 2 ), f.numerator );
+        }
+    };
+    public static F<Fraction, FilledPattern> grid9 = new F<Fraction, FilledPattern>() {
+        @Override public FilledPattern f( final Fraction f ) {
+            return sequentialFill( Pattern.grid( 3 ), f.numerator );
+        }
+    };
     public static F<Fraction, FilledPattern> flower = new F<Fraction, FilledPattern>() {
         @Override public FilledPattern f( final Fraction f ) {
             return sequentialFill( Pattern.sixFlower(), f.numerator );
+        }
+    };
+    public static F<Fraction, FilledPattern> polygon = new F<Fraction, FilledPattern>() {
+        @Override public FilledPattern f( final Fraction f ) {
+            return sequentialFill( Polygon.createPolygon( 60, f.denominator ), f.numerator );
         }
     };
 
@@ -128,13 +151,96 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
                                             target( chooseOne( rangeInclusive( 1, 9 ) ), 9, colors.next(), pyramid9 ) ) );
     }
 
-    private NumberLevel level4() {
-        return new NumberLevel( true, list( 4, 3, 3, 2, 2, 1, 5, 6, 7, 8, 9 ), shuffle( list( target( 4, 3, LIGHT_RED, pie ),
-                                                                                              target( 3, 2, LIGHT_GREEN, pie ),
-                                                                                              target( 2, 1, LIGHT_BLUE, pie ) ) ) );
+
+    //pie, grid, horizontalBars, verticalBars, flower, polygon
+    static @Data abstract class RepresentationType {
+        public final List<Integer> denominators;
+
+        public static final RepresentationType pies = new RepresentationType( rangeInclusive( 1, 9 ) ) {
+            @Override public F<Fraction, FilledPattern> toPattern( final Fraction fraction ) {
+                return pie;
+            }
+        };
+        public static final RepresentationType horizontalBars = new RepresentationType( rangeInclusive( 1, 9 ) ) {
+            @Override public F<Fraction, FilledPattern> toPattern( final Fraction fraction ) {
+                return horizontalBar;
+            }
+        };
+        public static final RepresentationType verticalBars = new RepresentationType( rangeInclusive( 1, 9 ) ) {
+            @Override public F<Fraction, FilledPattern> toPattern( final Fraction fraction ) {
+                return verticalBar;
+            }
+        };
+        public static final RepresentationType grid = new RepresentationType( list( 1, 4, 9 ) ) {
+            @Override public F<Fraction, FilledPattern> toPattern( final Fraction fraction ) {
+                return fraction.denominator == 1 ? grid1 :
+                       fraction.denominator == 4 ? grid4 :
+                       grid9;
+            }
+        };
+        public static final RepresentationType pyramid = new RepresentationType( list( 1, 4, 9 ) ) {
+            @Override public F<Fraction, FilledPattern> toPattern( final Fraction fraction ) {
+                return fraction.denominator == 1 ? pyramid1 :
+                       fraction.denominator == 4 ? pyramid4 :
+                       pyramid9;
+            }
+        };
+        public static final RepresentationType flower = new RepresentationType( list( 6 ) ) {
+            @Override public F<Fraction, FilledPattern> toPattern( final Fraction fraction ) {
+                return NumberLevelList.flower;
+            }
+        };
+        public static final RepresentationType polygon = new RepresentationType( rangeInclusive( 3, 9 ) ) {
+            @Override public F<Fraction, FilledPattern> toPattern( final Fraction fraction ) {
+                return NumberLevelList.polygon;
+            }
+        };
+
+        public static List<RepresentationType> all = list( pies, horizontalBars, verticalBars, grid, pyramid, flower, polygon );
+
+        public abstract F<Fraction, FilledPattern> toPattern( final Fraction fraction );
     }
 
-    private Integer chooseOne( final List<Integer> list ) { return list.index( random.nextInt( list.length() ) ); }
+
+    /*Level 4:
+--At his point I think we should switch to 4 bins for all future levels
+- numerator able to range from 1-9, and denominator able to range from 1-9, with the number less than 1
+- all representations possible (circle, "9 and 4 square", bars, pyramids, 6 flower, perhaps regular polygons), I don't think we need to get too funky in the representations like we did in the match game
+- all cards available to fulfill challenges in the most straightforward way, for instance a 4/5 representation has a 4 and a 5 available.*/
+    private NumberLevel level4() {
+        List<RepresentationType> types = RepresentationType.all;
+        RandomColors4 colors = new RandomColors4();
+        return new NumberLevel( true, list( generateFromType( colors, chooseOne( types ) ),
+                                            generateFromType( colors, chooseOne( types ) ),
+                                            generateFromType( colors, chooseOne( types ) ),
+                                            generateFromType( colors, chooseOne( types ) ) ) );
+//        final ArrayList<Fraction> selected = new ArrayList<Fraction>();
+//        for ( int i = 0; i < 4; i++ ) {
+//            final Fraction fraction = chooseFraction( rangeInclusive( 1, 9 ), rangeInclusive( 1, 9 ),
+//                                                      new F<Fraction, Boolean>() {
+//                                                          @Override public Boolean f( final Fraction fraction ) {
+//                                                              return fraction.toDouble() <= 1 + 1E-6 && !selected.contains( fraction );
+//                                                          }
+//                                                      } );
+//            selected.add( fraction );
+//        }
+//        final List<Fraction> selectedList = iterableList( selected );
+//        final ArrayList<Color> colors = new ArrayList<Color>( shuffledColors().toCollection() );
+//        return new NumberLevel( true, shuffle( selectedList.map( new F<Fraction, NumberTarget>() {
+//            @Override public NumberTarget f( final Fraction fraction ) {
+//                return target( fraction, colors.remove( 0 ), representation );
+//            }
+//        } ) ) );
+    }
+
+    private NumberTarget generateFromType( final RandomColors4 colors, final RepresentationType representationType ) {
+        int denominator = chooseOne( representationType.denominators );
+        int numerator = chooseOne( rangeInclusive( 1, denominator ) );
+        Fraction fraction = new Fraction( numerator, denominator );
+        return target( fraction, colors.next(), representationType.toPattern( fraction ) );
+    }
+
+    private static <T> T chooseOne( final List<T> list ) { return list.index( random.nextInt( list.length() ) ); }
 
     private NumberLevel numberLevel5() {
         Distribution<F<Fraction, FilledPattern>> representation = new Distribution<F<Fraction, FilledPattern>>() {{
@@ -157,7 +263,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         return iterableList( collection );
     }
 
-    private List<Integer> rangeInclusive( final int a, final int b ) { return range( a, b + 1 ); }
+    private static List<Integer> rangeInclusive( final int a, final int b ) { return range( a, b + 1 ); }
 
     private Fraction chooseFraction( final List<Integer> allowedNumerators, final List<Integer> allowedDenominators, F<Fraction, Boolean> accept ) {
         for ( int i = 0; i < 1000; i++ ) {
