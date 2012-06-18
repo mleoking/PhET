@@ -18,7 +18,6 @@ import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
@@ -32,7 +31,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import static edu.colorado.phet.fractions.FractionsResources.Strings.MY_FRACTIONS;
 import static edu.colorado.phet.fractionsintro.buildafraction.view.BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND;
 import static edu.colorado.phet.fractionsintro.buildafraction.view.BuildAFractionCanvas.controlPanelStroke;
 import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
@@ -68,7 +66,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
         this.model = model;
         this.STAGE_SIZE = STAGE_SIZE;
         this.context = context;
-        final PhetPText title = new PhetPText( MY_FRACTIONS, AbstractFractionsCanvas.CONTROL_FONT );
+//        final PhetPText title = new PhetPText( MY_FRACTIONS, AbstractFractionsCanvas.CONTROL_FONT );
 
         //Create the scoring cells with target patterns
         ArrayList<Pair> pairs = new ArrayList<Pair>();
@@ -106,9 +104,10 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
         double rightInset = 10;
         final PBounds targetCellBounds = pairs.get( 0 ).getTargetCell().getFullBounds();
         double offsetX = AbstractFractionsCanvas.STAGE_SIZE.width - maxWidth - separation - targetCellBounds.getWidth() - rightInset;
-        double offsetY = title.getFullHeight() + 5;
+//        double offsetY = title.getFullHeight() + 5;
+        double offsetY = INSET;
         double insetY = 10;
-        addChild( title );
+//        addChild( title );
         for ( Pair pair : pairs ) {
 
             pair.targetCell.setOffset( offsetX, offsetY );
@@ -120,8 +119,8 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
         }
 
         //Center title above the "my fractions" scoring cell boxes
-        title.setOffset( pairs.get( 0 ).getTargetCell().getFullBounds().getCenterX() - title.getFullWidth() / 2,
-                         pairs.get( 0 ).getTargetCell().getFullBounds().getY() - title.getFullHeight() - INSET / 2 );
+//        title.setOffset( pairs.get( 0 ).getTargetCell().getFullBounds().getCenterX() - title.getFullWidth() / 2,
+//                         pairs.get( 0 ).getTargetCell().getFullBounds().getY() - title.getFullHeight() - INSET / 2 );
 
         //Add a piece container toolbox the user can use to get containers
         //Put numbers on cards so you can see how many there are in a stack
