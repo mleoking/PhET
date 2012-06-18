@@ -1,3 +1,8 @@
+Fixed an issue where heat/cool limits weren't being cleared if an object remained on the burner after the burner was turned off.
+Made extraction of energy chunks work well in conjunction with the layering effect.
+Added layers where the energy chunks reside in order to allow them to look more 3D in their positions.
+Made energy chunks wander more as the move upwards through the air.
+Made animation faster for burner turning off.
 # 0.00.07 (65076) Jun 14, 2012
 6/14/12 Snapshot of a version with incorrect, but interesting, behavior.
 # 0.00.06 (65042) Jun 13, 2012
