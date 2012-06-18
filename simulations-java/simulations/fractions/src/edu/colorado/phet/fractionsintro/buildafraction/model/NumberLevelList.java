@@ -108,8 +108,8 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
                  i == 2 ? level2() :
                  i == 3 ? level3() :
                  i == 4 ? level4() :
-                 numberLevel5()
-            );
+                 i == 5 ? level5() :
+                 level6() );
         }
     }
 
@@ -240,7 +240,16 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
     only has cards available to match it with a "nonobvious fraction".
     For instance if 3/9 appears, and 5/9 appears, we have 1(5) and 1(9), but not 2(9), so that 1/3 would need to be used to match.
      */
-    private NumberLevel numberLevel5() {
+    private NumberLevel level5() {
+        List<RepresentationType> types = RepresentationType.all;
+        RandomColors4 colors = new RandomColors4();
+        return NumberLevel.numberLevelReduced( true, list( target( colors, chooseOne( types ), random.nextBoolean() ),
+                                                           target( colors, chooseOne( types ), random.nextBoolean() ),
+                                                           target( colors, chooseOne( types ), random.nextBoolean() ),
+                                                           target( colors, chooseOne( types ), random.nextBoolean() ) ) );
+    }
+
+    private NumberLevel level6() {
         List<RepresentationType> types = RepresentationType.all;
         RandomColors4 colors = new RandomColors4();
         return NumberLevel.numberLevelReduced( true, list( target( colors, chooseOne( types ), random.nextBoolean() ),
