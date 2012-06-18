@@ -17,6 +17,7 @@ import edu.colorado.phet.fractionsintro.matchinggame.view.FilledPattern;
 
 import static edu.colorado.phet.fractionsintro.buildafraction.model.NumberTarget.target;
 import static edu.colorado.phet.fractionsintro.common.view.Colors.*;
+import static edu.colorado.phet.fractionsintro.matchinggame.view.FilledPattern.randomFill;
 import static edu.colorado.phet.fractionsintro.matchinggame.view.FilledPattern.sequentialFill;
 import static fj.data.List.*;
 import static java.awt.Color.orange;
@@ -26,60 +27,78 @@ import static java.awt.Color.orange;
  */
 public class NumberLevelList extends ArrayList<NumberLevel> {
     static final Random random = new Random();
-    public static F<Fraction, FilledPattern> pie = new F<Fraction, FilledPattern>() {
-        @Override public FilledPattern f( final Fraction f ) {
-            return sequentialFill( Pattern.pie( f.denominator ), f.numerator );
-        }
-    };
-    public static F<Fraction, FilledPattern> horizontalBar = new F<Fraction, FilledPattern>() {
-        @Override public FilledPattern f( final Fraction f ) {
-            return sequentialFill( Pattern.horizontalBars( f.denominator ), f.numerator );
-        }
-    };
-    public static F<Fraction, FilledPattern> verticalBar = new F<Fraction, FilledPattern>() {
-        @Override public FilledPattern f( final Fraction f ) {
-            return sequentialFill( Pattern.verticalBars( f.denominator ), f.numerator );
-        }
-    };
-    public static F<Fraction, FilledPattern> pyramid1 = new F<Fraction, FilledPattern>() {
-        @Override public FilledPattern f( final Fraction f ) {
-            return sequentialFill( Pattern.pyramidSingle(), f.numerator );
-        }
-    };
-    public static F<Fraction, FilledPattern> pyramid4 = new F<Fraction, FilledPattern>() {
-        @Override public FilledPattern f( final Fraction f ) {
-            return sequentialFill( Pattern.pyramidFour(), f.numerator );
-        }
-    };
-    public static F<Fraction, FilledPattern> pyramid9 = new F<Fraction, FilledPattern>() {
-        @Override public FilledPattern f( final Fraction f ) {
-            return sequentialFill( Pattern.pyramidNine(), f.numerator );
-        }
-    };
 
-    public static F<Fraction, FilledPattern> grid1 = new F<Fraction, FilledPattern>() {
-        @Override public FilledPattern f( final Fraction f ) {
-            return sequentialFill( Pattern.grid( 1 ), f.numerator );
+    public static abstract class PatternMaker extends F<Fraction, Pattern> {
+        public F<Fraction, FilledPattern> sequential() {
+            return new F<Fraction, FilledPattern>() {
+                @Override public FilledPattern f( final Fraction fraction ) {
+                    return sequentialFill( PatternMaker.this.f( fraction ), fraction.numerator );
+                }
+            };
+        }
+
+        public F<Fraction, FilledPattern> random() {
+            return new F<Fraction, FilledPattern>() {
+                @Override public FilledPattern f( final Fraction fraction ) {
+                    return randomFill( PatternMaker.this.f( fraction ), fraction.numerator, random.nextLong() );
+                }
+            };
+        }
+    }
+
+    public static PatternMaker pie = new PatternMaker() {
+        @Override public Pattern f( final Fraction fraction ) {
+            return Pattern.pie( fraction.denominator );
         }
     };
-    public static F<Fraction, FilledPattern> grid4 = new F<Fraction, FilledPattern>() {
-        @Override public FilledPattern f( final Fraction f ) {
-            return sequentialFill( Pattern.grid( 2 ), f.numerator );
+    public static PatternMaker horizontalBar = new PatternMaker() {
+        @Override public Pattern f( final Fraction fraction ) {
+            return Pattern.horizontalBars( fraction.denominator );
         }
     };
-    public static F<Fraction, FilledPattern> grid9 = new F<Fraction, FilledPattern>() {
-        @Override public FilledPattern f( final Fraction f ) {
-            return sequentialFill( Pattern.grid( 3 ), f.numerator );
+    public static PatternMaker verticalBar = new PatternMaker() {
+        @Override public Pattern f( final Fraction fraction ) {
+            return Pattern.verticalBars( fraction.denominator );
         }
     };
-    public static F<Fraction, FilledPattern> flower = new F<Fraction, FilledPattern>() {
-        @Override public FilledPattern f( final Fraction f ) {
-            return sequentialFill( Pattern.sixFlower(), f.numerator );
+    public static PatternMaker pyramid1 = new PatternMaker() {
+        @Override public Pattern f( final Fraction fraction ) {
+            return Pattern.pyramidSingle();
         }
     };
-    public static F<Fraction, FilledPattern> polygon = new F<Fraction, FilledPattern>() {
-        @Override public FilledPattern f( final Fraction f ) {
-            return sequentialFill( Polygon.createPolygon( 60, f.denominator ), f.numerator );
+    public static PatternMaker pyramid4 = new PatternMaker() {
+        @Override public Pattern f( final Fraction fraction ) {
+            return Pattern.pyramidFour();
+        }
+    };
+    public static PatternMaker pyramid9 = new PatternMaker() {
+        @Override public Pattern f( final Fraction fraction ) {
+            return Pattern.pyramidNine();
+        }
+    };
+    public static PatternMaker grid1 = new PatternMaker() {
+        @Override public Pattern f( final Fraction fraction ) {
+            return Pattern.grid( 1 );
+        }
+    };
+    public static PatternMaker grid4 = new PatternMaker() {
+        @Override public Pattern f( final Fraction fraction ) {
+            return Pattern.grid( 2 );
+        }
+    };
+    public static PatternMaker grid9 = new PatternMaker() {
+        @Override public Pattern f( final Fraction fraction ) {
+            return Pattern.grid( 3 );
+        }
+    };
+    public static PatternMaker flower = new PatternMaker() {
+        @Override public Pattern f( final Fraction fraction ) {
+            return Pattern.sixFlower();
+        }
+    };
+    public static PatternMaker polygon = new PatternMaker() {
+        @Override public Pattern f( final Fraction fraction ) {
+            return Polygon.createPolygon( 60, fraction.denominator );
         }
     };
 
@@ -98,9 +117,9 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
     //Choose a representation, pies or bars, but use the same representation for all things
     private NumberLevel level0() {
         RandomColors3 colors = new RandomColors3();
-        return new NumberLevel( true, list( 1, 1, 2, 2, 3, 3 ), shuffle( list( target( 1, 2, colors.next(), pie ),
-                                                                               target( 1, 3, colors.next(), pie ),
-                                                                               target( 2, 3, colors.next(), pie ) ) ) );
+        return new NumberLevel( true, list( 1, 1, 2, 2, 3, 3 ), shuffle( list( target( 1, 2, colors.next(), pie.sequential() ),
+                                                                               target( 1, 3, colors.next(), pie.sequential() ),
+                                                                               target( 2, 3, colors.next(), pie.sequential() ) ) ) );
     }
 
     /*
@@ -111,9 +130,9 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
      */
     private NumberLevel level1() {
         final F<Fraction, FilledPattern> representation = new Distribution<F<Fraction, FilledPattern>>() {{
-            put( pie, 40 );
-            put( horizontalBar, 30 );
-            put( verticalBar, 30 );
+            put( pie.sequential(), 40 );
+            put( horizontalBar.sequential(), 30 );
+            put( verticalBar.sequential(), 30 );
         }}.draw();
         final ArrayList<Fraction> selected = new ArrayList<Fraction>();
         for ( int i = 0; i < 3; i++ ) {
@@ -139,16 +158,16 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
 
         //TODO: guarantee this level is solvable, possibly by generating cards to make it so
         RandomColors3 colors = new RandomColors3();
-        return new NumberLevel( true, list( 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 7, 8, 8, 8, 9, 9, 9 ), shuffle( list( target( numerators.get( 0 ), 6, colors.next(), flower ),
-                                                                                                                                           target( numerators.get( 1 ), 6, colors.next(), flower ),
-                                                                                                                                           target( numerators.get( 2 ), 6, colors.next(), flower ) ) ) );
+        return new NumberLevel( true, list( 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 7, 7, 7, 8, 8, 8, 9, 9, 9 ), shuffle( list( target( numerators.get( 0 ), 6, colors.next(), flower.sequential() ),
+                                                                                                                                           target( numerators.get( 1 ), 6, colors.next(), flower.sequential() ),
+                                                                                                                                           target( numerators.get( 2 ), 6, colors.next(), flower.sequential() ) ) ) );
     }
 
     private NumberLevel level3() {
         RandomColors3 colors = new RandomColors3();
-        return new NumberLevel( true, list( target( chooseOne( rangeInclusive( 1, 1 ) ), 1, colors.next(), pyramid1 ),
-                                            target( chooseOne( rangeInclusive( 1, 4 ) ), 4, colors.next(), pyramid4 ),
-                                            target( chooseOne( rangeInclusive( 1, 9 ) ), 9, colors.next(), pyramid9 ) ) );
+        return new NumberLevel( true, list( target( chooseOne( rangeInclusive( 1, 1 ) ), 1, colors.next(), pyramid1.sequential() ),
+                                            target( chooseOne( rangeInclusive( 1, 4 ) ), 4, colors.next(), pyramid4.sequential() ),
+                                            target( chooseOne( rangeInclusive( 1, 9 ) ), 9, colors.next(), pyramid9.sequential() ) ) );
     }
 
 
@@ -157,48 +176,48 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         public final List<Integer> denominators;
 
         public static final RepresentationType pies = new RepresentationType( rangeInclusive( 1, 9 ) ) {
-            @Override public F<Fraction, FilledPattern> toPattern( final Fraction fraction ) {
-                return pie;
+            @Override public PatternMaker toPattern( final Fraction fraction ) {
+                return NumberLevelList.pie;
             }
         };
         public static final RepresentationType horizontalBars = new RepresentationType( rangeInclusive( 1, 9 ) ) {
-            @Override public F<Fraction, FilledPattern> toPattern( final Fraction fraction ) {
+            @Override public PatternMaker toPattern( final Fraction fraction ) {
                 return horizontalBar;
             }
         };
         public static final RepresentationType verticalBars = new RepresentationType( rangeInclusive( 1, 9 ) ) {
-            @Override public F<Fraction, FilledPattern> toPattern( final Fraction fraction ) {
+            @Override public PatternMaker toPattern( final Fraction fraction ) {
                 return verticalBar;
             }
         };
         public static final RepresentationType grid = new RepresentationType( list( 1, 4, 9 ) ) {
-            @Override public F<Fraction, FilledPattern> toPattern( final Fraction fraction ) {
+            @Override public PatternMaker toPattern( final Fraction fraction ) {
                 return fraction.denominator == 1 ? grid1 :
                        fraction.denominator == 4 ? grid4 :
                        grid9;
             }
         };
         public static final RepresentationType pyramid = new RepresentationType( list( 1, 4, 9 ) ) {
-            @Override public F<Fraction, FilledPattern> toPattern( final Fraction fraction ) {
+            @Override public PatternMaker toPattern( final Fraction fraction ) {
                 return fraction.denominator == 1 ? pyramid1 :
                        fraction.denominator == 4 ? pyramid4 :
                        pyramid9;
             }
         };
         public static final RepresentationType flower = new RepresentationType( list( 6 ) ) {
-            @Override public F<Fraction, FilledPattern> toPattern( final Fraction fraction ) {
+            @Override public PatternMaker toPattern( final Fraction fraction ) {
                 return NumberLevelList.flower;
             }
         };
         public static final RepresentationType polygon = new RepresentationType( rangeInclusive( 3, 9 ) ) {
-            @Override public F<Fraction, FilledPattern> toPattern( final Fraction fraction ) {
+            @Override public PatternMaker toPattern( final Fraction fraction ) {
                 return NumberLevelList.polygon;
             }
         };
 
         public static List<RepresentationType> all = list( pies, horizontalBars, verticalBars, grid, pyramid, flower, polygon );
 
-        public abstract F<Fraction, FilledPattern> toPattern( final Fraction fraction );
+        public abstract PatternMaker toPattern( final Fraction fraction );
     }
 
     /*Level 4:
@@ -209,17 +228,17 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
     private NumberLevel level4() {
         List<RepresentationType> types = RepresentationType.all;
         RandomColors4 colors = new RandomColors4();
-        return new NumberLevel( true, list( generateFromType( colors, chooseOne( types ) ),
-                                            generateFromType( colors, chooseOne( types ) ),
-                                            generateFromType( colors, chooseOne( types ) ),
-                                            generateFromType( colors, chooseOne( types ) ) ) );
+        return new NumberLevel( true, list( generateSequentialFromType( colors, chooseOne( types ) ),
+                                            generateSequentialFromType( colors, chooseOne( types ) ),
+                                            generateSequentialFromType( colors, chooseOne( types ) ),
+                                            generateSequentialFromType( colors, chooseOne( types ) ) ) );
     }
 
     private NumberLevel numberLevel5() {
         Distribution<F<Fraction, FilledPattern>> representation = new Distribution<F<Fraction, FilledPattern>>() {{
-            put( horizontalBar, 20 );
-            put( verticalBar, 20 );
-            put( pie, 30 );
+            put( horizontalBar.random(), 20 );
+            put( verticalBar.random(), 20 );
+            put( pie.random(), 30 );
         }};
         RandomColors4 colors = new RandomColors4();
         return new NumberLevel( false, shuffle( list( target( 3, 2, colors.next(), representation.draw() ),
@@ -228,11 +247,11 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
                                                       target( 4, 5, colors.next(), representation.draw() ) ) ) );
     }
 
-    private NumberTarget generateFromType( final RandomColors4 colors, final RepresentationType representationType ) {
+    private NumberTarget generateSequentialFromType( final RandomColors4 colors, final RepresentationType representationType ) {
         int denominator = chooseOne( representationType.denominators );
         int numerator = chooseOne( rangeInclusive( 1, denominator ) );
         Fraction fraction = new Fraction( numerator, denominator );
-        return target( fraction, colors.next(), representationType.toPattern( fraction ) );
+        return target( fraction, colors.next(), representationType.toPattern( fraction ).sequential() );
     }
 
     private static List<Color> shuffledColors() {return shuffle( list( LIGHT_RED, LIGHT_GREEN, LIGHT_BLUE, orange ) );}
