@@ -195,4 +195,12 @@ public class BuildAFractionModel {
     public PictureLevel getPictureLevel( final int level ) { return pictureLevels.get( level ); }
 
     public void goToNumberLevel( final int level ) { numberLevel.set( level ); }
+
+    public void resample() {
+        int n = numberLevel.get();
+        Scene scene = selectedScene.get();
+        resetAll();
+        selectedScene.set( scene );
+        numberLevel.set( n );
+    }
 }
