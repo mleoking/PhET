@@ -2,6 +2,7 @@
 package edu.colorado.phet.fractionsintro.intro.model;
 
 import fj.F;
+import fj.F2;
 import lombok.Data;
 
 /**
@@ -39,6 +40,14 @@ public @Data class Fraction {
     public static final F<Fraction, Integer> _numerator = new F<Fraction, Integer>() {
         @Override public Integer f( final Fraction fraction ) {
             return fraction.numerator;
+        }
+    };
+
+    public Fraction times( final int scale ) { return new Fraction( numerator * scale, denominator * scale ); }
+
+    public static final F2<Fraction, Integer, Fraction> _times = new F2<Fraction, Integer, Fraction>() {
+        @Override public Fraction f( final Fraction fraction, final Integer integer ) {
+            return fraction.times( integer );
         }
     };
 }

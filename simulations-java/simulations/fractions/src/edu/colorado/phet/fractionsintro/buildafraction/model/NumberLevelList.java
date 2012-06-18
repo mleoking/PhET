@@ -110,17 +110,16 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
     public static final List<PatternMaker> all = list( pie, horizontalBar, verticalBar, pyramid1, pyramid4, pyramid9, grid1, grid4, grid9, flower, polygon );
 
     public NumberLevelList() {
-        for ( int i = 0; i < 10; i++ ) {
-            add( i == 0 ? level0() :
-                 i == 1 ? level1() :
-                 i == 2 ? level2() :
-                 i == 3 ? level3() :
-                 i == 4 ? level4() :
-                 i == 5 ? level5() :
-                 i == 6 ? level6() :
-                 i == 7 ? level7() :
-                 level8() );
-        }
+        add( level0() );
+        add( level1() );
+        add( level2() );
+        add( level3() );
+        add( level4() );
+        add( level5() );
+        add( level6() );
+        add( level7() );
+        add( level8() );
+        add( level9() );
     }
 
     /*Level 8:
@@ -136,6 +135,28 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
                                             targetLessThanOrEqualTo2( colors, types.index( 1 ), random.nextBoolean() ),
                                             targetLessThanOrEqualTo2( colors, types.index( 2 ), random.nextBoolean() ),
                                             targetLessThanOrEqualTo2( colors, types.index( 3 ), random.nextBoolean() ) ) );
+    }
+
+    /*Level 9:
+-- Representations both less than 1 and greater than 1
+-- All representations possible
+-- No card constraints (as in straightforward matching of number and picture possible)*/
+    private NumberLevel level9() {
+        //Choose 4 different patterns
+        List<RepresentationType> types = choose( 4, RepresentationType.all );
+
+        RandomColors4 colors = new RandomColors4();
+        final List<NumberTarget> targets = list( targetLessThanOrEqualTo1( colors, types.index( 0 ), random.nextBoolean() ),
+                                                 targetLessThanOrEqualTo1( colors, types.index( 1 ), random.nextBoolean() ),
+                                                 targetLessThanOrEqualTo2( colors, types.index( 2 ), random.nextBoolean() ),
+                                                 targetLessThanOrEqualTo2( colors, types.index( 3 ), random.nextBoolean() ) );
+        List<Fraction> targetFractions = targets.map( new F<NumberTarget, Fraction>() {
+            @Override public Fraction f( final NumberTarget numberTarget ) {
+                return numberTarget.fraction;
+            }
+        } );
+        List<Fraction> scaled = targetFractions.zipWith( shuffle( list( 1, 1, 2, 3 ) ), _times );
+        return new NumberLevel( true, scaled.map( _denominator ).append( scaled.map( _numerator ) ), targets );
     }
 
     //Choose a representation, pies or bars, but use the same representation for all things
