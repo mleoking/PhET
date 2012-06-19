@@ -15,8 +15,8 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  */
 public class RectangularPiece extends PNode {
-    private final double initialX;
-    private final double initialY;
+    private double initialX = Double.NaN;
+    private double initialY = Double.NaN;
 
     public RectangularPiece( final Integer pieceSize, final PieceContext context ) {
         PNode piece = new ZeroOffsetNode( new PhetPPath( ContainerNode.createRect( pieceSize ), Color.red, new BasicStroke( 1 ), Color.black ) );
@@ -36,5 +36,18 @@ public class RectangularPiece extends PNode {
         this.initialY = getYOffset();
     }
 
-    public boolean isAtInitialPosition() { return getXOffset() == initialX && getYOffset() == initialY; }
+    public boolean isAtInitialPosition() {
+        if ( Double.isNaN( initialX ) || Double.isNaN( initialY ) ) {
+            throw new RuntimeException( "Position not initialized" );
+        }
+        else {
+            return getXOffset() == initialX && getYOffset() == initialY;
+        }
+    }
+
+    public void setInitialPosition( final double x, final double y ) {
+        this.initialX = x;
+        this.initialY = y;
+        setOffset( x, y );
+    }
 }
