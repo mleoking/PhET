@@ -63,7 +63,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         public final PNode patternNode;
     }
 
-    public PictureSceneNode( int level, final PNode rootNode, final BuildAFractionModel model, PDimension STAGE_SIZE, NumberSceneContext context ) {
+    public PictureSceneNode( int levelIndex, final PNode rootNode, final BuildAFractionModel model, PDimension STAGE_SIZE, NumberSceneContext context ) {
         this.rootNode = rootNode;
         this.model = model;
         this.STAGE_SIZE = STAGE_SIZE;
@@ -73,10 +73,10 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         //Create the scoring cells with target patterns
         ArrayList<TargetPair> pairs = new ArrayList<TargetPair>();
         for ( int i = 0; i < 3; i++ ) {
-            PictureTarget target = model.getPictureLevel( level ).getTarget( i );
+            PictureTarget target = model.getPictureLevel( levelIndex ).getTarget( i );
 
             FractionNode f = new FractionNode( target.fraction, 0.33 );
-            pairs.add( new TargetPair( new ScoreBoxNode( target.fraction.numerator, target.fraction.denominator, model.getCreatedFractions( level ), rootNode, model, null, model.getNumberLevel( level ).flashTargetCellOnMatch ), new ZeroOffsetNode( f ) ) );
+            pairs.add( new TargetPair( new ScoreBoxNode( target.fraction.numerator, target.fraction.denominator, model.getCreatedFractions( levelIndex ), rootNode, model, null, model.getNumberLevel( levelIndex ).flashTargetCellOnMatch ), new ZeroOffsetNode( f ) ) );
         }
         pairList = List.iterableList( pairs );
 
@@ -125,8 +125,8 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         }};
         addChild( toolboxNode );
 
-        PictureLevel myLevel = model.getPictureLevel( level );
-        for ( Integer denominator : myLevel.numbers ) {
+        PictureLevel level = model.getPictureLevel( levelIndex );
+        for ( Integer denominator : level.containers ) {
             ContainerNode containerNode = new ContainerNode( this, denominator, this );
             int row = ( denominator - 1 ) / 3;
             int column = ( denominator - 1 ) % 3;
@@ -141,24 +141,25 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         final BucketView bucketView = new BucketView( bucket, ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), 1 ) );
         addChild( bucketView.getHoleNode() );
 
+        final IntegerProperty selectedPieceSize = new IntegerProperty( 1 );
+
         //Pieces in the bucket
         //Pieces always in front of the containers--could be awkward if a container is moved across a container that already has pieces in it.
-        final IntegerProperty selectedPieceSize = new IntegerProperty( 1 );
-        selectedPieceSize.addObserver( new VoidFunction1<Integer>() {
-
-            public void apply( final Integer pieceSize ) {
-                for ( RectangularPiece piece : getPieceNodes() ) {
-                    if ( piece.isAtInitialPosition() ) {
-                        removeChild( piece );
-                    }
+        for ( final Integer pieceDenominator : level.pieces ) {
+            final RectangularPiece piece = new RectangularPiece( pieceDenominator, PictureSceneNode.this );
+            piece.setInitialPosition( bucketView.getHoleNode().getFullBounds().getCenterX() - piece.getFullBounds().getWidth() / 2, bucketView.getHoleNode().getFullBounds().getCenterY() - piece.getFullBounds().getHeight() / 2 );
+            PictureSceneNode.this.addChild( piece );
+            selectedPieceSize.addObserver( new VoidFunction1<Integer>() {
+                public void apply( final Integer selectedPieceSize ) {
+                    boolean inInitialPosition = piece.isAtInitialPosition();
+                    boolean matchesSelection = selectedPieceSize.equals( pieceDenominator );
+                    final boolean visible = !inInitialPosition || matchesSelection;
+                    piece.setVisible( visible );
+                    piece.setPickable( visible );
+                    piece.setChildrenPickable( visible );
                 }
-                RectangularPiece piece = new RectangularPiece( pieceSize, PictureSceneNode.this );
-                piece.setInitialPosition( bucketView.getHoleNode().getFullBounds().getCenterX() - piece.getFullBounds().getWidth() / 2, bucketView.getHoleNode().getFullBounds().getCenterY() - piece.getFullBounds().getHeight() / 2 );
-                PictureSceneNode.this.addChild( piece );
-
-                if ( frontLayer != null ) { frontLayer.moveToFront(); }
-            }
-        } );
+            } );
+        }
 
         frontLayer = new PNode() {{
             addChild( bucketView.getFrontNode() );

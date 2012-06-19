@@ -16,6 +16,7 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
 
     private PictureLevel pictureLevel0() {
         return new PictureLevel( list( 1, 2, 3, 4, 5, 6 ),
+                                 list( 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6 ),
                                  list( new PictureTarget( new Fraction( 1, 1 ) ),
                                        new PictureTarget( new Fraction( 1, 2 ) ),
                                        new PictureTarget( new Fraction( 2, 3 ) ) ) );

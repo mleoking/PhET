@@ -15,12 +15,14 @@ public class PictureLevel {
     //Fractions the user has created in the play area, which may match a target
     public final Property<List<Fraction>> createdFractions = new Property<List<Fraction>>( List.<Fraction>nil() );
 
-    public final List<Integer> numbers;
+    public final List<Integer> containers;
     public final List<PictureTarget> targets;
+    public final List<Integer> pieces;
 
-    public PictureLevel( final List<Integer> containers, final List<PictureTarget> targets ) {
-        this.numbers = containers;
+    public PictureLevel( final List<Integer> containers, final List<Integer> pieces, final List<PictureTarget> targets ) {
+        this.containers = containers;
         this.targets = targets;
+        this.pieces = pieces;
     }
 
     public PictureTarget getTarget( final int i ) { return targets.index( i ); }
