@@ -3,7 +3,6 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.Random;
@@ -18,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
-import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Model element that represents a beaker in the model.
@@ -95,10 +93,6 @@ public class Beaker extends RectangularThermalMovableModelElement {
                                        position.get().getY(),
                                        WIDTH,
                                        HEIGHT );
-    }
-
-    @Override public Dimension2D getSize() {
-        return new PDimension( WIDTH, HEIGHT );
     }
 
     /**

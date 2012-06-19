@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -15,7 +14,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
-import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Class that represents a block in the model.  In the model, a block is two-
@@ -54,10 +52,6 @@ public abstract class Block extends RectangularThermalMovableModelElement {
                 updateBottomSurfaceProperty();
             }
         } );
-    }
-
-    @Override public Dimension2D getSize() {
-        return new PDimension( SURFACE_WIDTH, SURFACE_WIDTH );
     }
 
     public abstract Color getColor();

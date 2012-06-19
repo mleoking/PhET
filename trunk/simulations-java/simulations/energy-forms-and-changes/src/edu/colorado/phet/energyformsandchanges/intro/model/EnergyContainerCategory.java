@@ -6,5 +6,5 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
  * rate at which heat is transferred between different items.
  */
 public enum EnergyContainerCategory {
-    IRON, BRICK, WATER, AIR, BURNER
+    IRON, BRICK, WATER, AIR
 }
