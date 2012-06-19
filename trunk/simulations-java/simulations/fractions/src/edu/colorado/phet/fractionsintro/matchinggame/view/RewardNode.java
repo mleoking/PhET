@@ -18,10 +18,15 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.toBufferedImage;
 
 /**
+ * Reward node that is shown when the user gets a perfect score.  It animates the fractions as falling and piling up at the
+ * bottom of the screen.
+ *
  * @author Sam Reid
  */
 public class RewardNode extends PNode {
     public RewardNode( final MatchingGameModel model ) {
+
+        //Updates when the model mode changes
         model.mode.addObserver( new VoidFunction1<Mode>() {
             public void apply( final Mode mode ) {
                 final boolean visible = mode == Mode.SHOWING_GAME_OVER_SCREEN && model.state.get().info.score == 12;
@@ -31,12 +36,13 @@ public class RewardNode extends PNode {
                     addChild( child );
 
                     //Animation only works if starting it after added to scene graph
-                    child.startAnimation();
+                    child.init();
                 }
             }
         } );
     }
 
+    //Content to be shown in the reward mode.
     private static class ContentNode extends PNode {
         private final MatchingGameModel model;
 
@@ -44,33 +50,36 @@ public class RewardNode extends PNode {
             this.model = model;
         }
 
-        public void startAnimation() {
+        //Creation done in the init method because animation only works if starting it after added to the scene graph.
+        public void init() {
             List<BufferedImage> images = model.state.get().fractions.map( new F<MovableFraction, BufferedImage>() {
-                @Override public BufferedImage f( final MovableFraction movableFraction ) {
-                    return toBufferedImage( movableFraction.node.toImage() );
+                @Override public BufferedImage f( final MovableFraction m ) {
+                    return toBufferedImage( m.node.toImage() );
                 }
             } );
-
             double maxHeight = maxHeight( images );
 
+            //Compute the layout metrics to layout as a grid above the screen, then fade in and fall to the bottom.
             double x = 0;
             double maxX = AbstractFractionsCanvas.STAGE_SIZE.width;
             double dx = ( maxX - x ) / ( images.length() );
             double y = 0;
             double dy = dx;
             Random random = new Random();
+
+            //Create rows of images above the screen and have them fall to the ground.
             for ( int i = 0; i < 20; i++ ) {
                 for ( BufferedImage node : images ) {
                     PImage image = new PImage( node );
-                    final double myY = -maxHeight - image.getFullBounds().getHeight() / 2 + y;
-                    image.setOffset( x, myY );
+                    image.setOffset( x, -maxHeight - image.getFullBounds().getHeight() / 2 + y );
                     addChild( image );
                     final double h = AbstractFractionsCanvas.STAGE_SIZE.getHeight();
-                    image.animateToPositionScaleRotation( x, h * ( 0.8 + random.nextDouble() ), random.nextDouble() + 0.5, 2 * ( random.nextDouble() - 0.5 ) * Math.PI, 5000 + random.nextInt( 5000 ) );
+                    image.animateToPositionScaleRotation( x, h + h / 16 + h / 4 * ( random.nextDouble() - 0.5 ) * 2, random.nextDouble() + 0.5, 2 * ( random.nextDouble() - 0.5 ) * Math.PI, 5000 + random.nextInt( 5000 ) );
                     image.setTransparency( 0 );
                     image.animateToTransparency( 1, 2000 );
                     x += dx;
                 }
+                //Go to the next row above the screen.
                 x = 0;
                 y -= dy;
             }
