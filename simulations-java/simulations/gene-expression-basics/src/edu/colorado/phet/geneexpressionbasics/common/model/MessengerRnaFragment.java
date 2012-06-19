@@ -1,12 +1,9 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.geneexpressionbasics.common;
+package edu.colorado.phet.geneexpressionbasics.common.model;
 
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
-import edu.colorado.phet.geneexpressionbasics.common.model.GeneExpressionModel;
-import edu.colorado.phet.geneexpressionbasics.common.model.ShapeSegment;
-import edu.colorado.phet.geneexpressionbasics.common.model.WindingBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentStateMachine;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.MessengerRnaFragmentAttachmentStateMachine;
 
