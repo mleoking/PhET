@@ -1,3 +1,4 @@
+Build a Fraction: Pictures: Targets light up when you have a match.
 Build a Fraction: Pictures: Stack pieces in the bucket
 Build a Fraction: Pictures: Show multiple pieces in the bucket, as determined by the level
 Build a Fraction: Pictures: Spread out pieces horizontally when ejecting from a container

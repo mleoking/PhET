@@ -3,6 +3,7 @@ package edu.colorado.phet.fractionsintro.intro.model;
 
 import fj.F;
 import fj.F2;
+import fj.data.List;
 import lombok.Data;
 
 /**
@@ -50,4 +51,32 @@ public @Data class Fraction {
             return fraction.times( integer );
         }
     };
+
+    public static Fraction sum( final List<Fraction> values ) {
+
+        //multiply all values together to get denominator
+        final int denominator = values.foldLeft( new F2<Integer, Fraction, Integer>() {
+            @Override public Integer f( final Integer integer, final Fraction fraction ) {
+                return integer * fraction.denominator;
+            }
+        }, 1 );
+
+        List<Integer> numerators = values.map( new F<Fraction, Integer>() {
+            @Override public Integer f( final Fraction fraction ) {
+                int scaleFactor = denominator / fraction.denominator;
+                return fraction.numerator * scaleFactor;
+            }
+        } );
+
+        Integer sum = numerators.foldLeft( new F2<Integer, Integer, Integer>() {
+            @Override public Integer f( final Integer integer, final Integer integer1 ) {
+                return integer + integer1;
+            }
+        }, 0 );
+        return fraction( sum, denominator ).reduce();
+    }
+
+    public static void main( String[] args ) {
+        System.out.println( "sum = " + sum( List.list( fraction( 1, 2 ), fraction( 2, 3 ), fraction( 1, 6 ) ) ) );
+    }
 }
