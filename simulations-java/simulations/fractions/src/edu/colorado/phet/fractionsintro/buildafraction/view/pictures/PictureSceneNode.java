@@ -231,13 +231,13 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         } );
     }
 
-    public void splitPieceFromContainer( final RectangularPiece piece, final ContainerNode containerNode ) {
+    public void splitPieceFromContainer( final RectangularPiece piece, final ContainerNode containerNode, final double relativeXOffset ) {
         Point2D offset = piece.getGlobalTranslation();
         addChild( piece );
         piece.setGlobalTranslation( offset );
         piece.setPickable( true );
         piece.setChildrenPickable( true );
-        piece.animateToPositionScaleRotation( piece.getXOffset(), piece.getYOffset() + containerNode.getFullBounds().getHeight() + 5, 1, 0, 200 );
+        piece.animateToPositionScaleRotation( piece.getXOffset() + relativeXOffset, piece.getYOffset() + containerNode.getFullBounds().getHeight() + 5, 1, 0, 200 );
     }
 
     private List<ContainerNode> getContainerNodes() {

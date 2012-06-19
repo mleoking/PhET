@@ -1,6 +1,7 @@
 package edu.colorado.phet.fractionsintro.buildafraction.view.pictures;
 
 import fj.F;
+import fj.data.List;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -8,6 +9,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -81,11 +83,13 @@ public class ContainerNode extends PNode {
     }
 
     private void splitAll() {
-        for ( Object child : new ArrayList<Object>( getChildrenReference() ) ) {
-            if ( child instanceof RectangularPiece ) {
-                RectangularPiece p = (RectangularPiece) child;
-                parent.splitPieceFromContainer( p, this );
-            }
+        int numPieces = getChildPieces().length();
+        double separationBetweenPieces = 4;
+        double totalDeltaSpacing = separationBetweenPieces * ( numPieces - 1 );
+        int index = 0;
+        LinearFunction f = new LinearFunction( 0, numPieces - 1, -totalDeltaSpacing / 2, totalDeltaSpacing / 2 );
+        for ( RectangularPiece child : getChildPieces() ) {
+            parent.splitPieceFromContainer( child, this, f.evaluate( index++ ) );
         }
         PInterpolatingActivity activity = splitButton.animateToTransparency( 0, 200 );
         activity.setDelegate( new PActivityDelegate() {
@@ -100,7 +104,6 @@ public class ContainerNode extends PNode {
                 splitButton.setPickable( false );
             }
         } );
-
     }
 
     public void setAllPickable( final boolean b ) {
@@ -134,23 +137,27 @@ public class ContainerNode extends PNode {
 
     public static Rectangle2D.Double createRect( int number ) {
         final double pieceWidth = width / number;
-        final Rectangle2D.Double shape = new Rectangle2D.Double( pieceWidth * number, 0, pieceWidth, height );
-        return shape;
+        return new Rectangle2D.Double( pieceWidth * number, 0, pieceWidth, height );
     }
 
     //How far over should a new piece be added in?
     public double getPiecesWidth() {
+        List<RectangularPiece> children = getChildPieces();
+        return children.length() == 0 ? 0 :
+               fj.data.List.iterableList( children ).maximum( FJUtils.ord( new F<RectangularPiece, Double>() {
+                   @Override public Double f( final RectangularPiece r ) {
+                       return r.getFullBounds().getMaxX();
+                   }
+               } ) ).getFullBounds().getMaxX();
+    }
+
+    private List<RectangularPiece> getChildPieces() {
         ArrayList<RectangularPiece> children = new ArrayList<RectangularPiece>();
         for ( Object c : getChildrenReference() ) {
             if ( c instanceof RectangularPiece ) {
                 children.add( (RectangularPiece) c );
             }
         }
-        return children.size() == 0 ? 0 :
-               fj.data.List.iterableList( children ).maximum( FJUtils.ord( new F<RectangularPiece, Double>() {
-                   @Override public Double f( final RectangularPiece r ) {
-                       return r.getFullBounds().getMaxX();
-                   }
-               } ) ).getFullBounds().getMaxX();
+        return List.iterableList( children );
     }
 }
