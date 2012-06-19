@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 
 import static edu.colorado.phet.energyformsandchanges.common.EFACConstants.ENERGY_TO_NUM_CHUNKS_MAPPER;
-import static edu.colorado.phet.energyformsandchanges.intro.model.ThermalEnergyTransferConstants.getHeatTransferFactor;
+import static edu.colorado.phet.energyformsandchanges.intro.model.HeatTransferConstants.getHeatTransferFactor;
 
 /**
  * A movable model element that contains thermal energy and that, at least in

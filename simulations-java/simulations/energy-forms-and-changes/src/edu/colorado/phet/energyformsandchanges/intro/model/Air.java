@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import static edu.colorado.phet.energyformsandchanges.intro.model.ThermalEnergyTransferConstants.getHeatTransferFactor;
+import static edu.colorado.phet.energyformsandchanges.intro.model.HeatTransferConstants.getHeatTransferFactor;
 
 /**
  * Class that represents the air in the model.  Air can hold heat, and can
