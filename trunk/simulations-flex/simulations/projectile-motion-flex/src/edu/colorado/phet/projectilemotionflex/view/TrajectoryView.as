@@ -15,6 +15,14 @@ public class TrajectoryView extends Sprite  {
     private var trajectoryModel: TrajectoryModel;
     private var stageW: Number;
     private var stageH: Number;
+    private var trajectories_arr: Array;  //array of trajectories, each trajectory is an array of (x, y) positions
+    private var trajectory_arr: Array;
+    private var trajectoryView: Sprite;
+    private var currentX: Number;          //most recent (x, y, t) coordinates
+    private var currentY: Number;
+    private var currentT: Number;
+    private var currentIndex: Number;
+    
 
     public function TrajectoryView( mainView:MainView,  trajectoryModel: TrajectoryModel ) {
         this.mainView = mainView;
@@ -26,9 +34,29 @@ public class TrajectoryView extends Sprite  {
 
     private function initialize():void{
         trajectoryModel.registerView( this );
+        trajectory_arr = new Array();
+        this.trajectoryView = new Sprite();
+        this.addChild( trajectoryView );
+    }
+
+    private function startTrajectory():void{
+        currentIndex = 0;
+
+    }
+
+    private function addNewPointToTrajectory():void{
+         var xytPoint: XytPoint = new XytPoint( currentX, currentY, currentT );
+    }
+
+    private function eraseTrajectory():void{
+
     }
 
     public function update():void{
+        currentX = trajectoryModel.xP;
+        currentY = trajectoryModel.yP;
+        currentT = trajectoryModel.t;
+        addNewPointToTrajectory();
     }
 
 }//end of class

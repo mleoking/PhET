@@ -35,7 +35,7 @@ public class MainView extends Canvas {
         percentHeight = 100;
         this.stageH = stageH;
         this.stageW = stageW;
-        this._pixPerMeter = stageW/40 ;   //width of stage is 40 meters
+        this._pixPerMeter = stageW/30 ;   //width of stage is 40 meters
 
         this.trajectoryModel = new TrajectoryModel( this );
         this.backgroundView = new BackgroundView( this, trajectoryModel );
@@ -67,8 +67,8 @@ public class MainView extends Canvas {
         return _pixPerMeter;
     }
 
-    public function set pixPerMeter(value:Number):void {
-        _pixPerMeter = value;
-    }
+//    public function set pixPerMeter(value:Number):void {
+//        _pixPerMeter = value;
+//    }
 }//end of class
 } //end of package
