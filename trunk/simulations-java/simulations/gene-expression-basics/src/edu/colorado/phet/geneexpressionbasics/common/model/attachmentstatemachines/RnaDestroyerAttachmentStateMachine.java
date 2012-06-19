@@ -4,8 +4,8 @@ package edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachi
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
-import edu.colorado.phet.geneexpressionbasics.common.MessengerRnaDestroyer;
-import edu.colorado.phet.geneexpressionbasics.common.MessengerRnaFragment;
+import edu.colorado.phet.geneexpressionbasics.common.model.MessengerRnaDestroyer;
+import edu.colorado.phet.geneexpressionbasics.common.model.MessengerRnaFragment;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.DestroyerTrackingRnaMotionStrategy;
 
