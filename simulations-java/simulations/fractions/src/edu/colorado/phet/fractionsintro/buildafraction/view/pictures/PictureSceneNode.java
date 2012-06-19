@@ -215,7 +215,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
     }
 
     private void dropInto( final RectangularPiece piece, final ContainerNode containerNode ) {
-        PTransformActivity activity = piece.animateToPositionScaleRotation( containerNode.getOffset().getX(), containerNode.getOffset().getY(), 1, 0, 200 );
+        PTransformActivity activity = piece.animateToPositionScaleRotation( containerNode.getOffset().getX() + containerNode.getPiecesWidth(), containerNode.getOffset().getY(), 1, 0, 200 );
         piece.setPickable( false );
         piece.setChildrenPickable( false );
         activity.setDelegate( new PActivityDelegate() {
