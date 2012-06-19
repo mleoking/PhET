@@ -19,7 +19,7 @@ public class PieIcon extends ShapeIcon {
         super( new ArrayList<Shape>(),
                new ArrayList<Shape>() {{
                    add( new Ellipse2D.Double( 0, 0, DIM * 2, DIM * 2 ) );
-               }}, chosenRepresentation, Representation.PIE, color
+               }}, new Ellipse2D.Double( 0, 0, DIM * 2, DIM * 2 ), chosenRepresentation, Representation.PIE, color
         );
     }
 }

@@ -1,3 +1,4 @@
+Intro + Equality Lab: Made the border a bit thicker to match the filled shapes
 # 0.00.89 (65250) Jun 18, 2012
 Fraction Builder: Scale all graphics up so they have the same width
 Fraction Builder: Fixed: Buggy behavior when dropping a fraction on 2 matching targets

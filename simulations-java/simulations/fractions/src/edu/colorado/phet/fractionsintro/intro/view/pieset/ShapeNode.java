@@ -18,6 +18,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class ShapeNode extends PNode {
     private static final Paint SHADOW_PAINT = new Color( 0, 0, 0, (int) ( 0.75 * 255 ) );
+    public final PhetPPath path;
 
     public ShapeNode( Slice slice ) {
 
@@ -27,8 +28,7 @@ public class ShapeNode extends PNode {
         final Shape origShape = slice.getShape();
         Shape shape = showShadow ? AffineTransform.getTranslateInstance( -5, -5 ).createTransformedShape( origShape ) : origShape;
         if ( Double.isNaN( shape.getBounds2D().getX() ) || Double.isNaN( shape.getBounds2D().getY() ) ) {
-            //TODO: Find and prevent the NaNs in the first place
-            return;
+            throw new RuntimeException( "nan" );
         }
 
         //Show a shadow behind the object so it will look like it is a bit out of the screen and hence not part of the fraction
@@ -36,7 +36,7 @@ public class ShapeNode extends PNode {
             addChild( new PhetPPath( origShape, SHADOW_PAINT ) );
         }
 
-        PhetPPath path = new PhetPPath( shape, slice.color, new BasicStroke( 1 ), Color.black );
+        path = new PhetPPath( shape, slice.color, new BasicStroke( 1 ), Color.black );
         addChild( path );
     }
 }

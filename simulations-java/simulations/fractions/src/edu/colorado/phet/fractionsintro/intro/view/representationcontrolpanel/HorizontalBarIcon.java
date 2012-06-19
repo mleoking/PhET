@@ -19,7 +19,7 @@ public class HorizontalBarIcon extends ShapeIcon {
         super( new ArrayList<Shape>(),
                new ArrayList<Shape>() {{
                    add( new Rectangle2D.Double( DIM, 0, DIM * 4, DIM ) );
-               }},
+               }}, new Rectangle2D.Double( DIM, 0, DIM * 4, DIM ),
                chosenRepresentation, Representation.HORIZONTAL_BAR, color
         );
     }
