@@ -23,6 +23,7 @@ import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel
 import edu.colorado.phet.fractionsintro.buildafraction.model.Scene;
 import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.NumberSceneContext;
 import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.NumberSceneNode;
+import edu.colorado.phet.fractionsintro.buildafraction.view.pictures.PictureSceneContext;
 import edu.colorado.phet.fractionsintro.buildafraction.view.pictures.PictureSceneNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.common.view.Colors;
@@ -39,7 +40,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-public class BuildAFractionCanvas extends AbstractFractionsCanvas implements NumberSceneContext {
+public class BuildAFractionCanvas extends AbstractFractionsCanvas implements NumberSceneContext, PictureSceneContext {
 
     private static final int rgb = 240;
     public static final Color CONTROL_PANEL_BACKGROUND = new Color( rgb, rgb, rgb );
@@ -65,7 +66,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
     public BuildAFractionCanvas( final BuildAFractionModel model, final boolean dev ) {
         this.model = model;
         addChild( sceneLayer );
-        pictureScene.addChild( new PictureSceneNode( model.numberLevel.get(), rootNode, model, STAGE_SIZE, this ) );
+        pictureScene.addChild( new PictureSceneNode( model.pictureLevel.get(), rootNode, model, STAGE_SIZE, this ) );
         numberScene.addChild( new NumberSceneNode( model.numberLevel.get(), rootNode, model, STAGE_SIZE, this ) {{
             setOffset( 0, STAGE_SIZE.height );
         }} );
@@ -192,7 +193,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
             setOffset( 0, STAGE_SIZE.height );
         }} );
         pictureScene.reset();
-        pictureScene.addChild( new PictureSceneNode( model.numberLevel.get(), rootNode, model, STAGE_SIZE, BuildAFractionCanvas.this ) );
+        pictureScene.addChild( new PictureSceneNode( model.numberLevel.get(), rootNode, model, STAGE_SIZE, this ) );
     }
 
     public void goToNumberLevel( int level ) {
@@ -246,4 +247,6 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
     }
 
     public void nextNumberLevel() { goToNumberLevel( model.numberLevel.get() + 1 ); }
+
+    public void nextPictureLevel() { goToPictureLevel( model.pictureLevel.get() + 1 ); }
 }

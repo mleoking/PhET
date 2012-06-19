@@ -70,20 +70,20 @@ public class FractionCardNode extends RichPNode {
 
                 //Snap to a scoring cell or go back to the play area.
                 //If dropped in a non-matching cell, send back to play area
-                List<ScoreBoxNode> scoreCells = pairList.map( new F<Pair, ScoreBoxNode>() {
-                    @Override public ScoreBoxNode f( final Pair pair ) {
+                List<NumberScoreBoxNode> scoreCells = pairList.map( new F<Pair, NumberScoreBoxNode>() {
+                    @Override public NumberScoreBoxNode f( final Pair pair ) {
                         return pair.targetCell;
                     }
                 } );
                 boolean locked = false;
 
                 //Sort by distance to choose the closest one
-                final List<ScoreBoxNode> sortedCells = scoreCells.sort( FJUtils.ord( new F<ScoreBoxNode, Double>() {
-                    @Override public Double f( final ScoreBoxNode scoreBoxNode ) {
+                final List<NumberScoreBoxNode> sortedCells = scoreCells.sort( FJUtils.ord( new F<NumberScoreBoxNode, Double>() {
+                    @Override public Double f( final NumberScoreBoxNode scoreBoxNode ) {
                         return scoreBoxNode.getGlobalFullBounds().getCenter2D().distance( FractionCardNode.this.getGlobalFullBounds().getCenter2D() );
                     }
                 } ) );
-                for ( ScoreBoxNode scoreCell : sortedCells ) {
+                for ( NumberScoreBoxNode scoreCell : sortedCells ) {
                     if ( cardShapeNode.getGlobalFullBounds().intersects( scoreCell.getGlobalFullBounds() ) &&
                          scoreCell.fraction.approxEquals( fractionNode.getValue() ) &&
                          !scoreCell.isCompleted() ) {
@@ -115,7 +115,7 @@ public class FractionCardNode extends RichPNode {
                 //If no match, and is overlapping a score cell, send back to play area
                 if ( !locked ) {
                     boolean hitWrongOne = false;
-                    for ( ScoreBoxNode scoreCell : scoreCells ) {
+                    for ( NumberScoreBoxNode scoreCell : scoreCells ) {
                         if ( cardShapeNode.getGlobalFullBounds().intersects( scoreCell.getGlobalFullBounds() ) ) {
                             hitWrongOne = true;
                         }

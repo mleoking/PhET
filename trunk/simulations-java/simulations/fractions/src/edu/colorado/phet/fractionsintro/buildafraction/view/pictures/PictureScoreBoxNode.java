@@ -1,4 +1,4 @@
-package edu.colorado.phet.fractionsintro.buildafraction.view.numbers;
+package edu.colorado.phet.fractionsintro.buildafraction.view.pictures;
 
 import fj.F;
 import fj.data.List;
@@ -13,6 +13,9 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
+import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.FractionCardNode;
+import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.FractionNode;
+import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.NumberSceneNode;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
@@ -31,7 +34,7 @@ import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanv
  *
  * @author Sam Reid
  */
-public class ScoreBoxNode extends PNode {
+public class PictureScoreBoxNode extends PNode {
     public final Fraction fraction;
     public final PhetPPath path;
     private boolean completed;
@@ -39,7 +42,7 @@ public class ScoreBoxNode extends PNode {
     private final PImage splitButton;
     private FractionNode fractionGraphic;
 
-    public ScoreBoxNode( final int numerator, final int denominator, final Property<List<Fraction>> matches, final PNode rootNode, final BuildAFractionModel model, final NumberSceneNode numberSceneNode, final boolean flashTargetCellOnMatch ) {
+    public PictureScoreBoxNode( final int numerator, final int denominator, final Property<List<Fraction>> matches, final PNode rootNode, final BuildAFractionModel model, final NumberSceneNode numberSceneNode, final boolean flashTargetCellOnMatch ) {
         this.path = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 120, 120, 30, 30 ), CONTROL_PANEL_BACKGROUND, controlPanelStroke, Color.darkGray ) {{
 
             setStrokePaint( Color.darkGray );
