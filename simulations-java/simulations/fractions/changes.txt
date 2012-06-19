@@ -1,3 +1,4 @@
+Build a Fraction: Pictures: If all scored, then show smilie face and next button.
 Build a Fraction: Pictures: Animate picture fractions into the scoring cells
 Build a Fraction: Pictures: Targets light up when you have a match.
 Build a Fraction: Pictures: Stack pieces in the bucket
