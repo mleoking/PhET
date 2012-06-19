@@ -2,13 +2,22 @@ package edu.colorado.phet.fractionsintro.buildafraction.view.pictures;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
+import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.activities.PActivity;
+import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
+import edu.umd.cs.piccolo.activities.PInterpolatingActivity;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -19,38 +28,76 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class ContainerNode extends PNode {
     private double initialX;
     private double initialY;
+    private final PictureSceneNode parent;
     private int number;
 
     public static final double width = 130;
     public static final double height = 55;
+    private PImage splitButton;
 
-    public static Rectangle2D.Double createRect( int number ) {
-        final double pieceWidth = width / number;
-        final Rectangle2D.Double shape = new Rectangle2D.Double( pieceWidth * number, 0, pieceWidth, height );
-        return shape;
-    }
-
-    public ContainerNode( int number, final ContainerContext context ) {
-        for ( int i = 0; i < number; i++ ) {
-            final double pieceWidth = width / number;
-            addChild( new PhetPPath( new Rectangle2D.Double( pieceWidth * i, 0, pieceWidth, height ), Color.white, new BasicStroke( 1 ), Color.black ) );
-        }
-        //Thicker outer stroke
-        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, width, height ), new BasicStroke( 2 ), Color.black ) );
+    public ContainerNode( PictureSceneNode parent, final int number, final ContainerContext context ) {
+        this.parent = parent;
         this.number = number;
-        addInputEventListener( new SimSharingDragHandler( null, true ) {
-            @Override protected void drag( final PInputEvent event ) {
-                super.drag( event );
-                final PDimension delta = event.getDeltaRelativeTo( getParent() );
-                translate( delta.width, delta.height );
+        PNode content = new PNode() {{
+            for ( int i = 0; i < number; i++ ) {
+                final double pieceWidth = width / number;
+                addChild( new PhetPPath( new Rectangle2D.Double( pieceWidth * i, 0, pieceWidth, height ), Color.white, new BasicStroke( 1 ), Color.black ) );
             }
+            //Thicker outer stroke
+            addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, width, height ), new BasicStroke( 2 ), Color.black ) );
+            addInputEventListener( new SimSharingDragHandler( null, true ) {
+                @Override protected void drag( final PInputEvent event ) {
+                    super.drag( event );
+                    final PDimension delta = event.getDeltaRelativeTo( getParent() );
+                    ContainerNode.this.translate( delta.width, delta.height );
+                }
 
-            @Override protected void endDrag( final PInputEvent event ) {
-                super.endDrag( event );
-                context.endDrag( ContainerNode.this, event );
+                @Override protected void endDrag( final PInputEvent event ) {
+                    super.endDrag( event );
+                    context.endDrag( ContainerNode.this, event );
+                }
+            } );
+            addInputEventListener( new CursorHandler() );
+        }};
+
+        addChild( content );
+
+        splitButton = new PImage( Images.SPLIT_BLUE );
+        addChild( splitButton );
+        splitButton.setVisible( false );
+        splitButton.setPickable( false );
+        splitButton.translate( -splitButton.getFullBounds().getWidth(),
+                               -splitButton.getFullBounds().getHeight() );
+        splitButton.addInputEventListener( new CursorHandler() );
+        splitButton.addInputEventListener( new PBasicInputEventHandler() {
+            @Override public void mouseReleased( final PInputEvent event ) {
+                SimSharingManager.sendButtonPressed( null );
+                splitAll();
             }
         } );
-        addInputEventListener( new CursorHandler() );
+    }
+
+    private void splitAll() {
+        for ( Object child : new ArrayList<Object>( getChildrenReference() ) ) {
+            if ( child instanceof RectangularPiece ) {
+                RectangularPiece p = (RectangularPiece) child;
+                parent.splitPieceFromContainer( p, this );
+            }
+        }
+        PInterpolatingActivity activity = splitButton.animateToTransparency( 0, 200 );
+        activity.setDelegate( new PActivityDelegate() {
+            public void activityStarted( final PActivity activity ) {
+            }
+
+            public void activityStepped( final PActivity activity ) {
+            }
+
+            public void activityFinished( final PActivity activity ) {
+                splitButton.setVisible( false );
+                splitButton.setPickable( false );
+            }
+        } );
+
     }
 
     public void setAllPickable( final boolean b ) {
@@ -70,4 +117,21 @@ public class ContainerNode extends PNode {
 
     public void animateHome() { animateToPositionScaleRotation( getInitialX(), getInitialY(), 1, 0, 1000 ); }
 
+    public void addPiece( final RectangularPiece piece ) {
+        Point2D offset = piece.getGlobalTranslation();
+        addChild( piece );
+        piece.setGlobalTranslation( offset );
+        if ( !splitButton.getVisible() ) {
+            splitButton.setVisible( true );
+            splitButton.setPickable( true );
+            splitButton.setTransparency( 0 );
+            splitButton.animateToTransparency( 1, 200 );
+        }
+    }
+
+    public static Rectangle2D.Double createRect( int number ) {
+        final double pieceWidth = width / number;
+        final Rectangle2D.Double shape = new Rectangle2D.Double( pieceWidth * number, 0, pieceWidth, height );
+        return shape;
+    }
 }
