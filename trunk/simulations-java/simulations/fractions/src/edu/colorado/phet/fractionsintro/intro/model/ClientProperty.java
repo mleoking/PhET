@@ -33,6 +33,9 @@ public class ClientProperty<T> extends SettableProperty<T> {
     }
 
     @Override public void set( T value ) {
+
+        //No need to check whether the value has actually changed, the Property<IntroState> state is private and not used elsewhere.
+        //The "if changed" part happens in the last line in this method.
         state.set( change.f( value ).f( state.get() ) );
         notifyIfChanged();
     }
