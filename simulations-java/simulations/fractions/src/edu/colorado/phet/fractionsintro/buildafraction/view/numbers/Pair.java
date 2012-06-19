@@ -8,6 +8,6 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public @Data class Pair {
-    public final ScoreBoxNode targetCell;
+    public final NumberScoreBoxNode targetCell;
     public final PNode patternNode;
 }

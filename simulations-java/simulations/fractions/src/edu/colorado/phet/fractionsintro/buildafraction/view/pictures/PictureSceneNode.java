@@ -8,7 +8,6 @@ import lombok.Data;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -30,9 +29,6 @@ import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel
 import edu.colorado.phet.fractionsintro.buildafraction.model.pictures.PictureLevel;
 import edu.colorado.phet.fractionsintro.buildafraction.model.pictures.PictureTarget;
 import edu.colorado.phet.fractionsintro.buildafraction.view.BuildAFractionCanvas;
-import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.NumberNode;
-import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.NumberSceneContext;
-import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.ScoreBoxNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.intro.view.FractionNode;
 import edu.umd.cs.piccolo.PNode;
@@ -55,21 +51,19 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
     private final PNode rootNode;
     private final BuildAFractionModel model;
     private final PDimension STAGE_SIZE;
-    private final NumberSceneContext context;
     private final List<TargetPair> pairList;
     private final RichPNode toolboxNode;
     private final PNode frontLayer;
 
     @Data class TargetPair {
-        public final ScoreBoxNode targetCell;
+        public final PictureScoreBoxNode targetCell;
         public final PNode patternNode;
     }
 
-    public PictureSceneNode( int levelIndex, final PNode rootNode, final BuildAFractionModel model, PDimension STAGE_SIZE, NumberSceneContext context ) {
+    public PictureSceneNode( int levelIndex, final PNode rootNode, final BuildAFractionModel model, PDimension STAGE_SIZE, PictureSceneContext context ) {
         this.rootNode = rootNode;
         this.model = model;
         this.STAGE_SIZE = STAGE_SIZE;
-        this.context = context;
 //        final PhetPText title = new PhetPText( MY_FRACTIONS, AbstractFractionsCanvas.CONTROL_FONT );
 
         //Create the scoring cells with target patterns
@@ -78,7 +72,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
             PictureTarget target = model.getPictureLevel( levelIndex ).getTarget( i );
 
             FractionNode f = new FractionNode( target.fraction, 0.33 );
-            pairs.add( new TargetPair( new ScoreBoxNode( target.fraction.numerator, target.fraction.denominator, model.getCreatedFractions( levelIndex ), rootNode, model, null, model.getNumberLevel( levelIndex ).flashTargetCellOnMatch ), new ZeroOffsetNode( f ) ) );
+            pairs.add( new TargetPair( new PictureScoreBoxNode( target.fraction.numerator, target.fraction.denominator, model.getCreatedFractions( levelIndex ), rootNode, model, null, model.getNumberLevel( levelIndex ).flashTargetCellOnMatch ), new ZeroOffsetNode( f ) ) );
         }
         pairList = List.iterableList( pairs );
 
@@ -277,7 +271,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         return List.iterableList( children );
     }
 
-    public void endDrag( final NumberNode numberNode, final PInputEvent event ) {
+    public void endDrag( final Object numberNode, final PInputEvent event ) {
 //        boolean hitFraction = false;
 //        for ( FractionGraphic fractionGraphic : fractionGraphics ) {
 //            final PhetPPath topBox = fractionGraphic.topBox;
@@ -393,10 +387,10 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         } ).length() == pairList.length();
     }
 
-    private void centerOnBox( final NumberNode numberNode, final PhetPPath box ) {
-        Rectangle2D bounds = box.getGlobalFullBounds();
-        bounds = rootNode.globalToLocal( bounds );
-        numberNode.centerFullBoundsOnPoint( bounds.getCenterX(), bounds.getCenterY() );
+    private void centerOnBox( final Object numberNode, final PhetPPath box ) {
+//        Rectangle2D bounds = box.getGlobalFullBounds();
+//        bounds = rootNode.globalToLocal( bounds );
+//        numberNode.centerFullBoundsOnPoint( bounds.getCenterX(), bounds.getCenterY() );
     }
 
 }
