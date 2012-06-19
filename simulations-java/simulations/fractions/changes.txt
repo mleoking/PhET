@@ -1,3 +1,4 @@
+Build a Fraction: Pictures: Snap pieces into container
 Build a Fraction: Pictures: Removed "My fractions" text
 Build a Fraction: Centered level indicator vertically, converted vertical layout to horizontal for scene selection toggle buttons
 Build a Fraction: Pictures: Made level toolbar bar move independently for each scene
