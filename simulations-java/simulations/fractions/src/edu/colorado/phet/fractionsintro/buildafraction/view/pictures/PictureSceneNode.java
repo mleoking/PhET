@@ -1,5 +1,6 @@
 package edu.colorado.phet.fractionsintro.buildafraction.view.pictures;
 
+import fj.Equal;
 import fj.F;
 import fj.Ord;
 import fj.data.List;
@@ -12,6 +13,7 @@ import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.Bucket;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -145,20 +147,32 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
 
         //Pieces in the bucket
         //Pieces always in front of the containers--could be awkward if a container is moved across a container that already has pieces in it.
-        for ( final Integer pieceDenominator : level.pieces ) {
-            final RectangularPiece piece = new RectangularPiece( pieceDenominator, PictureSceneNode.this );
-            piece.setInitialPosition( bucketView.getHoleNode().getFullBounds().getCenterX() - piece.getFullBounds().getWidth() / 2, bucketView.getHoleNode().getFullBounds().getCenterY() - piece.getFullBounds().getHeight() / 2 );
-            PictureSceneNode.this.addChild( piece );
-            selectedPieceSize.addObserver( new VoidFunction1<Integer>() {
-                public void apply( final Integer selectedPieceSize ) {
-                    boolean inInitialPosition = piece.isAtInitialPosition();
-                    boolean matchesSelection = selectedPieceSize.equals( pieceDenominator );
-                    final boolean visible = !inInitialPosition || matchesSelection;
-                    piece.setVisible( visible );
-                    piece.setPickable( visible );
-                    piece.setChildrenPickable( visible );
-                }
-            } );
+        List<List<Integer>> groups = level.pieces.group( Equal.intEqual );
+        for ( List<Integer> group : groups ) {
+            int numInGroup = group.length();
+            int index = 0;
+            for ( final Integer pieceDenominator : group ) {
+
+                double dx = 4;
+                double totalHorizontalSpacing = dx * ( numInGroup - 1 );
+                LinearFunction offset = new LinearFunction( 0, numInGroup - 1, -totalHorizontalSpacing / 2, +totalHorizontalSpacing / 2 );
+                final RectangularPiece piece = new RectangularPiece( pieceDenominator, PictureSceneNode.this );
+                final double delta = offset.evaluate( index );
+                piece.setInitialPosition( bucketView.getHoleNode().getFullBounds().getCenterX() - piece.getFullBounds().getWidth() / 2 + delta,
+                                          bucketView.getHoleNode().getFullBounds().getCenterY() - piece.getFullBounds().getHeight() / 2 + delta );
+                PictureSceneNode.this.addChild( piece );
+                selectedPieceSize.addObserver( new VoidFunction1<Integer>() {
+                    public void apply( final Integer selectedPieceSize ) {
+                        boolean inInitialPosition = piece.isAtInitialPosition();
+                        boolean matchesSelection = selectedPieceSize.equals( pieceDenominator );
+                        final boolean visible = !inInitialPosition || matchesSelection;
+                        piece.setVisible( visible );
+                        piece.setPickable( visible );
+                        piece.setChildrenPickable( visible );
+                    }
+                } );
+                index++;
+            }
         }
 
         frontLayer = new PNode() {{
