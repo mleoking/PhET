@@ -92,9 +92,9 @@ public class ControlPanel extends Canvas {
 
         this.background = new VBox();
         with ( this.background ) {
-            setStyle( "backgroundColor", 0x88ff88 );
+            setStyle( "backgroundColor", 0x000000 );    //0x88ff88
             setStyle( "borderStyle", "solid" )
-            setStyle( "borderColor", 0x009900 );
+            setStyle( "borderColor", 0x00ff00 );  //0x009900
             setStyle( "cornerRadius", 10 );
             setStyle( "borderThickness", 4 );
             setStyle( "paddingTop", 15 );
@@ -105,12 +105,13 @@ public class ControlPanel extends Canvas {
             setStyle( "horizontalAlign", "center" );
         }
 
-        this.pauseButton = new NiceButton2( 100, 25, pause_str, pauseUnPause, 0xffff00, 0x000000 );
-        this.stopButton = new NiceButton2( 100, 25, stop_str, stopCharge, 0xff0000, 0xffffff )
-        this.resetButton = new NiceButton2( 100, 25, reset_str, resetCharge, 0xff0000, 0xffffff )
-        this.restartButton = new NiceButton2( 100, 25, restart_str, restart, 0x00ff00, 0x000000 );
-        this.bumpButton = new NiceButton2( 100, 25, bump_str, bumpCharge, 0x00ff00, 0x000000 );
+        this.pauseButton = new NiceButton2( 80, 25, pause_str, pauseUnPause, 0xffff00, 0x000000 );
+        this.stopButton = new NiceButton2( 80, 25, stop_str, stopCharge, 0xff0000, 0xffffff )
+        this.resetButton = new NiceButton2( 80, 25, reset_str, resetCharge, 0xff0000, 0xffffff )
+        this.restartButton = new NiceButton2( 80, 25, restart_str, restart, 0x00ff00, 0x000000 );
+        this.bumpButton = new NiceButton2( 80, 25, bump_str, bumpCharge, 0x00ff00, 0x000000 );
         this.myComboBox = new ComboBox();
+        myComboBox.width = 100;
         this.choiceList_arr = new Array( );
         choiceList_arr = [ userChoice_str, linear_str, sinusoid_str, circular_str, bump_str, random_str ];
         myComboBox.dataProvider = choiceList_arr;
@@ -167,7 +168,7 @@ public class ControlPanel extends Canvas {
         stop_str = FlexSimStrings.get( "stop", "Stop" );
         restart_str = FlexSimStrings.get( "restart", "Restart" );
         reset_str = FlexSimStrings.get("reset", "Reset");
-        userChoice_str = FlexSimStrings.get( "userControlled", "User Controlled" );
+        userChoice_str = FlexSimStrings.get( "userControlled", "Manual" );
         linear_str = FlexSimStrings.get( "linear", "Linear" );
         sinusoid_str = FlexSimStrings.get( "sinusoid", "Sinusoid" );
         circular_str = FlexSimStrings.get( "circular", "Circular" );
@@ -178,7 +179,7 @@ public class ControlPanel extends Canvas {
         speed_str = FlexSimStrings.get( "speed", "speed" );
         c_str = FlexSimStrings.get( "speedOfLight", "c");
         duration_str = FlexSimStrings.get( "duration", "duration" );
-        moreSpeedLessRez_str = FlexSimStrings.get("moreSpeedLessRez", "More speed, less rez")
+        moreSpeedLessRez_str = FlexSimStrings.get("moreSpeedLessRez", "less rez")
     }
 
     private function pauseUnPause():void{
