@@ -14,7 +14,6 @@ import edu.colorado.phet.fractionsintro.matchinggame.model.Mode;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MovableFraction;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.toBufferedImage;
 
@@ -36,8 +35,6 @@ public class RewardNode extends PNode {
                 }
             }
         } );
-
-        addChild( new PText( "Hello there!" ) );
     }
 
     private static class ContentNode extends PNode {
@@ -62,7 +59,7 @@ public class RewardNode extends PNode {
             double y = 0;
             double dy = dx;
             Random random = new Random();
-            for ( int i = 0; i < 100; i++ ) {
+            for ( int i = 0; i < 20; i++ ) {
                 for ( BufferedImage node : images ) {
                     PImage image = new PImage( node );
                     final double myY = -maxHeight - image.getFullBounds().getHeight() / 2 + y;
