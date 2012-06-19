@@ -15,7 +15,7 @@ import edu.colorado.phet.energyformsandchanges.energysystems.view.EnergySystemsC
  */
 public class EnergySystemsModule extends SimSharingPiccoloModule {
 
-    private EnergySystemsModel model;
+    private final EnergySystemsModel model;
 
     public EnergySystemsModule() {
         this( new EnergySystemsModel() );

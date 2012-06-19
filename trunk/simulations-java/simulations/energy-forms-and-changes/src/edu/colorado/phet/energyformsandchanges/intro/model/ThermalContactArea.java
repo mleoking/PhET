@@ -13,7 +13,7 @@ import java.awt.geom.Rectangle2D;
 public class ThermalContactArea {
 
     // Threshold of distance for determining whether two areas are in contact.
-    private static double TOUCH_DISTANCE_THRESHOLD = 0.001; // In meters.
+    private static final double TOUCH_DISTANCE_THRESHOLD = 0.001; // In meters.
 
     private final Rectangle2D bounds = new Rectangle2D.Double();
     private final boolean supportsImmersion;

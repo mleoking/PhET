@@ -229,10 +229,6 @@ public class Burner extends ModelElement {
         return (int) Math.round( energyExchangedWithAirSinceLastChunkTransfer / EFACConstants.ENERGY_PER_CHUNK );
     }
 
-    public EnergyContainerCategory getEnergyContainerCategory() {
-        return EnergyContainerCategory.BURNER;
-    }
-
     private void stepInTime( double dt ) {
 
         // Animate energy chunks.

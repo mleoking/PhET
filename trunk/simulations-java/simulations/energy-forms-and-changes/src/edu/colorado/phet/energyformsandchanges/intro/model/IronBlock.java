@@ -33,7 +33,7 @@ public class IronBlock extends Block {
         return "Iron";
     }
 
-    @Override public EnergyContainerCategory getEnergyContainerCategory() {
+    public EnergyContainerCategory getEnergyContainerCategory() {
         return EnergyContainerCategory.IRON;
     }
 

@@ -3,9 +3,7 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.Random;
@@ -148,7 +146,7 @@ public class Beaker extends RectangularThermalMovableModelElement {
      *
      * @return
      */
-    public static final Rectangle2D getRawOutlineRect() {
+    public static Rectangle2D getRawOutlineRect() {
         return new Rectangle2D.Double( -WIDTH / 2, 0, WIDTH, HEIGHT );
     }
 
@@ -204,17 +202,6 @@ public class Beaker extends RectangularThermalMovableModelElement {
                                                                position.get().getY(),
                                                                WIDTH,
                                                                HEIGHT * fluidLevel.get() ), true );
-    }
-
-    @Override protected Shape getEnergyChunkContainmentShape() {
-        Rectangle2D rect = getThermalContactArea().getBounds();
-        double ellipseHeight = Math.abs( EFACConstants.Z_TO_Y_OFFSET_MULTIPLIER ) * rect.getWidth();
-        Ellipse2D bottomEllipse = new Ellipse2D.Double( rect.getX(), rect.getY() - ellipseHeight / 2, rect.getWidth(), ellipseHeight );
-        Ellipse2D topEllipse = new Ellipse2D.Double( rect.getX(), rect.getMaxY() - ellipseHeight / 2, rect.getWidth(), ellipseHeight );
-        Area shape = new Area( rect );
-        shape.add( new Area( topEllipse ) );
-        shape.add( new Area( bottomEllipse ) );
-        return shape;
     }
 
     @Override protected void addEnergyChunkSlices() {

@@ -28,7 +28,7 @@ public abstract class UserMovableModelElement extends ModelElement {
 
     // Observer that moves this model element if an when the surface that is
     // supporting it moves.
-    private VoidFunction1<HorizontalSurface> surfaceMotionObserver = new VoidFunction1<HorizontalSurface>() {
+    private final VoidFunction1<HorizontalSurface> surfaceMotionObserver = new VoidFunction1<HorizontalSurface>() {
         public void apply( final HorizontalSurface horizontalSurface ) {
             final ImmutableVector2D value = new ImmutableVector2D( horizontalSurface.getCenterX(), horizontalSurface.yPos );
             position.set( value );

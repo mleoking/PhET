@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
  * @author John Blanco
  */
 public class EnergySystemsModel {
-    protected final ConstantDtClock clock = new ConstantDtClock( 30.0 );
+    private final ConstantDtClock clock = new ConstantDtClock( 30.0 );
 
 
     public void reset() {
