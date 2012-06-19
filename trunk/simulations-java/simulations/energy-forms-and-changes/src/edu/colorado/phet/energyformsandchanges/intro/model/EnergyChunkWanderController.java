@@ -25,7 +25,7 @@ public final class EnergyChunkWanderController {
     private static final double MAX_TIME_IN_ONE_DIRECTION = 1;
     private static final double DISTANCE_AT_WHICH_TO_STOP_WANDERING = 0.05; // In meters, empirically chosen.
     private static final double DISTANCE_AT_WHICH_TO_JUMP_TO_DESTINATION = 0.001; // In meters, empirically chosen.
-    private static final double MAX_ANGLE_VARIATION = Math.PI * 0.3; // Max deviation from angle to destination, in radians, empirically chosen.
+    private static final double MAX_ANGLE_VARIATION = Math.PI * 0.2; // Max deviation from angle to destination, in radians, empirically chosen.
 
     //-------------------------------------------------------------------------
     // Instance Data
