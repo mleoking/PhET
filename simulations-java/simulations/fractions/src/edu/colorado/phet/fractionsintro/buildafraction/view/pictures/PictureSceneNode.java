@@ -145,18 +145,16 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         //Pieces always in front of the containers--could be awkward if a container is moved across a container that already has pieces in it.
         final IntegerProperty selectedPieceSize = new IntegerProperty( 1 );
         selectedPieceSize.addObserver( new VoidFunction1<Integer>() {
-            private ArrayList<RectangularPiece> pieces = new ArrayList<RectangularPiece>();
 
             public void apply( final Integer pieceSize ) {
-                for ( RectangularPiece piece : pieces ) {
+                for ( RectangularPiece piece : getPieceNodes() ) {
                     if ( piece.isAtInitialPosition() ) {
                         removeChild( piece );
                     }
                 }
                 RectangularPiece piece = new RectangularPiece( pieceSize, PictureSceneNode.this );
-                piece.setOffset( bucketView.getHoleNode().getFullBounds().getCenterX() - piece.getFullBounds().getWidth() / 2, bucketView.getHoleNode().getFullBounds().getCenterY() - piece.getFullBounds().getHeight() / 2 );
+                piece.setInitialPosition( bucketView.getHoleNode().getFullBounds().getCenterX() - piece.getFullBounds().getWidth() / 2, bucketView.getHoleNode().getFullBounds().getCenterY() - piece.getFullBounds().getHeight() / 2 );
                 PictureSceneNode.this.addChild( piece );
-                pieces.add( piece );
 
                 if ( frontLayer != null ) { frontLayer.moveToFront(); }
             }
@@ -195,6 +193,16 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
             }} );
         }};
         addChild( frontLayer );
+    }
+
+    private List<RectangularPiece> getPieceNodes() {
+        ArrayList<RectangularPiece> children = new ArrayList<RectangularPiece>();
+        for ( Object child : this.getChildrenReference() ) {
+            if ( child instanceof RectangularPiece ) {
+                children.add( (RectangularPiece) child );
+            }
+        }
+        return List.iterableList( children );
     }
 
     public static BufferedImage spinnerImage( final BufferedImage image ) {
