@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -85,7 +86,11 @@ public abstract class UserMovableModelElement extends ModelElement {
      *
      * @return
      */
-    public abstract IUserComponentType getUserComponentType();
+    public IUserComponentType getUserComponentType() {
+        return UserComponentTypes.sprite;
+    }
+
+    ;
 
     /**
      * Translate, a.k.a. move, the model element by the indicated amount.

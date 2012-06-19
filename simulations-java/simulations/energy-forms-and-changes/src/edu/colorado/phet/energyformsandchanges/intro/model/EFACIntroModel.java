@@ -68,7 +68,7 @@ public class EFACIntroModel {
     public final BooleanProperty energyChunksVisible = new BooleanProperty( false );
 
     // Lists of thermal model elements for easy iteration.
-    private List<ThermalEnergyContainer> thermalEnergyContainers = new ArrayList<ThermalEnergyContainer>();
+    private final List<ThermalEnergyContainer> thermalEnergyContainers = new ArrayList<ThermalEnergyContainer>();
     private final List<RectangularThermalMovableModelElement> nonAirThermalEnergyContainers = new ArrayList<RectangularThermalMovableModelElement>();
 
     //-------------------------------------------------------------------------

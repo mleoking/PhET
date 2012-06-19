@@ -38,7 +38,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
 
     // Energy chunks that are approaching this model element.
     public final ObservableList<EnergyChunk> approachingEnergyChunks = new ObservableList<EnergyChunk>();
-    private List<EnergyChunkWanderController> energyChunkWanderControllers = new ArrayList<EnergyChunkWanderController>();
+    private final List<EnergyChunkWanderController> energyChunkWanderControllers = new ArrayList<EnergyChunkWanderController>();
 
     /**
      * Constructor.

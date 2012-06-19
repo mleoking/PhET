@@ -11,16 +11,16 @@ import java.util.Map;
  * @author John Blanco
  */
 public class ThermalEnergyTransferConstants {
-    public static final double BRICK_IRON_HEAT_TRANSFER_FACTOR = 1000;
-    public static final double BRICK_WATER_HEAT_TRANSFER_FACTOR = 1000;
-    public static final double BRICK_AIR_HEAT_TRANSFER_FACTOR = 50;
-    public static final double BRICK_BURNER_TRANSFER_FACTOR = 1000;
-    public static final double IRON_WATER_HEAT_TRANSFER_FACTOR = 1000;
-    public static final double IRON_AIR_HEAT_TRANSFER_FACTOR = 50;
-    public static final double IRON_BURNER_TRANSFER_FACTOR = 1000;
-    public static final double WATER_AIR_HEAT_TRANSFER_FACTOR = 50;
-    public static final double WATER_BURNER_TRANSFER_FACTOR = 1000;
-    public static final double AIR_BURNER_TRANSFER_FACTOR = 1000;
+    private static final double BRICK_IRON_HEAT_TRANSFER_FACTOR = 1000;
+    private static final double BRICK_WATER_HEAT_TRANSFER_FACTOR = 1000;
+    private static final double BRICK_AIR_HEAT_TRANSFER_FACTOR = 50;
+    private static final double BRICK_BURNER_TRANSFER_FACTOR = 1000;
+    private static final double IRON_WATER_HEAT_TRANSFER_FACTOR = 1000;
+    private static final double IRON_AIR_HEAT_TRANSFER_FACTOR = 50;
+    private static final double IRON_BURNER_TRANSFER_FACTOR = 1000;
+    private static final double WATER_AIR_HEAT_TRANSFER_FACTOR = 50;
+    private static final double WATER_BURNER_TRANSFER_FACTOR = 1000;
+    private static final double AIR_BURNER_TRANSFER_FACTOR = 1000;
 
     private static final Map<EnergyContainerCategory, Double> HEAT_TRANSFER_FACTORS_FOR_BRICK = new HashMap<EnergyContainerCategory, Double>() {{
         put( EnergyContainerCategory.IRON, BRICK_IRON_HEAT_TRANSFER_FACTOR );

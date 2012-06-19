@@ -334,9 +334,9 @@ public class EnergyChunkDistributor {
 
     private static class PointMass {
         private static final double MASS = 1; // In kg.
-        private Vector2D position = new Vector2D();
-        private Vector2D velocity = new Vector2D( 0, 0 );
-        private Vector2D acceleration = new Vector2D( 0, 0 );
+        private final Vector2D position = new Vector2D();
+        private final Vector2D velocity = new Vector2D( 0, 0 );
+        private final Vector2D acceleration = new Vector2D( 0, 0 );
         private final Shape containerShape;
 
         public PointMass( ImmutableVector2D initialPosition, Shape container ) {

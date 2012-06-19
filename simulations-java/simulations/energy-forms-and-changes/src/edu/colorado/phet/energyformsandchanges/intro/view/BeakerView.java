@@ -159,14 +159,14 @@ public class BeakerView {
         frontNode.addInputEventListener( new PBasicInputEventHandler() {
 
             // Handler to use when the beaker itself is being dragged.
-            ThermalElementDragHandler beakerDragHandler = new ThermalElementDragHandler( beaker,
-                                                                                         frontNode,
-                                                                                         mvt,
-                                                                                         new ThermalItemMotionConstraint( model,
-                                                                                                                          beaker,
-                                                                                                                          frontNode,
-                                                                                                                          mvt,
-                                                                                                                          offsetPosToCenter ) );
+            final ThermalElementDragHandler beakerDragHandler = new ThermalElementDragHandler( beaker,
+                                                                                               frontNode,
+                                                                                               mvt,
+                                                                                               new ThermalItemMotionConstraint( model,
+                                                                                                                                beaker,
+                                                                                                                                frontNode,
+                                                                                                                                mvt,
+                                                                                                                                offsetPosToCenter ) );
 
             // Handler to use when block dragged from within beaker.
             PBasicInputEventHandler blockDragHandler = null;

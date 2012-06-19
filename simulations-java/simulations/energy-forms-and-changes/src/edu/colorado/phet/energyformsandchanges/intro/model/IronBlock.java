@@ -38,6 +38,6 @@ public class IronBlock extends Block {
     }
 
     @Override public IUserComponent getUserComponent() {
-        return EnergyFormsAndChangesSimSharing.UserComponents.brick;
+        return EnergyFormsAndChangesSimSharing.UserComponents.ironBlock;
     }
 }

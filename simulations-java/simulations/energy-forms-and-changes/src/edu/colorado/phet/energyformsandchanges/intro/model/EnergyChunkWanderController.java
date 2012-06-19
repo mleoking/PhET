@@ -33,7 +33,7 @@ public final class EnergyChunkWanderController {
 
     private final EnergyChunk energyChunk;
     private final ImmutableVector2D destination;
-    private Vector2D velocity = new Vector2D( 0, MAX_VELOCITY );
+    private final Vector2D velocity = new Vector2D( 0, MAX_VELOCITY );
     private double countdownTimer = 0;
 
     //-------------------------------------------------------------------------
@@ -94,9 +94,5 @@ public final class EnergyChunkWanderController {
 
     public ImmutableVector2D getDestination() {
         return destination;
-    }
-
-    public boolean isDestinationReached() {
-        return energyChunk.position.get().distance( destination ) < DISTANCE_AT_WHICH_TO_JUMP_TO_DESTINATION;
     }
 }
