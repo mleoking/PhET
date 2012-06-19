@@ -27,10 +27,10 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
     public final BooleanProperty energyChunksVisible;
     protected double energy = 0; // In Joules.
     private final double specificHeat; // In J/kg-K
-    protected final double mass; // In kg
+    private final double mass; // In kg
     protected final ConstantDtClock clock;
     private final double width;
-    protected final double height;
+    private final double height;
     private int nextSliceIndex;
 
     // 2D "slices" of the container, used for 3D layering of energy chunks.

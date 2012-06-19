@@ -43,7 +43,7 @@ public class EFACIntroModel {
     //-------------------------------------------------------------------------
 
     // Main model clock.
-    protected final ConstantDtClock clock = new ConstantDtClock( EFACConstants.FRAMES_PER_SECOND );
+    private final ConstantDtClock clock = new ConstantDtClock( EFACConstants.FRAMES_PER_SECOND );
 
     // Burners.
     private final Burner leftBurner;
