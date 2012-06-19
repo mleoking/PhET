@@ -35,6 +35,9 @@ import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.ScoreBoxNode
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.intro.view.FractionNode;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.activities.PActivity;
+import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
+import edu.umd.cs.piccolo.activities.PTransformActivity;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -123,7 +126,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
 
         PictureLevel myLevel = model.getPictureLevel( level );
         for ( Integer denominator : myLevel.numbers ) {
-            ContainerNode containerNode = new ContainerNode( denominator, this );
+            ContainerNode containerNode = new ContainerNode( this, denominator, this );
             int row = ( denominator - 1 ) / 3;
             int column = ( denominator - 1 ) % 3;
             containerNode.setInitialPosition( toolboxNode.getFullBounds().getX() + AbstractFractionsCanvas.INSET + column * 150,
@@ -198,7 +201,6 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
     }
 
     public void endDrag( final RectangularPiece piece, final PInputEvent event ) {
-        boolean hitContainer = false;
         List<ContainerNode> containerNodes = getContainerNodes().sort( FJUtils.ord( new F<ContainerNode, Double>() {
             @Override public Double f( final ContainerNode c ) {
                 return c.getGlobalFullBounds().getCenter2D().distance( piece.getGlobalFullBounds().getCenter2D() );
@@ -213,7 +215,29 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
     }
 
     private void dropInto( final RectangularPiece piece, final ContainerNode containerNode ) {
-        piece.animateToPositionScaleRotation( containerNode.getOffset().getX(), containerNode.getOffset().getY(), 1, 0, 200 );
+        PTransformActivity activity = piece.animateToPositionScaleRotation( containerNode.getOffset().getX(), containerNode.getOffset().getY(), 1, 0, 200 );
+        piece.setPickable( false );
+        piece.setChildrenPickable( false );
+        activity.setDelegate( new PActivityDelegate() {
+            public void activityStarted( final PActivity activity ) {
+            }
+
+            public void activityStepped( final PActivity activity ) {
+            }
+
+            public void activityFinished( final PActivity activity ) {
+                containerNode.addPiece( piece );
+            }
+        } );
+    }
+
+    public void splitPieceFromContainer( final RectangularPiece piece, final ContainerNode containerNode ) {
+        Point2D offset = piece.getGlobalTranslation();
+        addChild( piece );
+        piece.setGlobalTranslation( offset );
+        piece.setPickable( true );
+        piece.setChildrenPickable( true );
+        piece.animateToPositionScaleRotation( piece.getXOffset(), piece.getYOffset() + containerNode.getFullBounds().getHeight() + 5, 1, 0, 200 );
     }
 
     private List<ContainerNode> getContainerNodes() {
