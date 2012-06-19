@@ -1,28 +1,17 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model;
 
-import java.awt.Point;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.JFrame;
-
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.geneexpressionbasics.common.MessengerRnaDestroyer;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentStateMachine;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.MessengerRnaAttachmentStateMachine;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ProteinA;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.StubGeneExpressionModel;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.MessengerRnaNode;
-import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Class that represents messenger ribonucleic acid, or mRNA, in the model.
@@ -447,47 +436,5 @@ public class MessengerRna extends WindingBiomolecule {
         // minus the leader length.
         return new Point2D.Double( segmentWhereDestroyerConnects.getLowerRightCornerPos().getX() - LEADER_LENGTH,
                                    segmentWhereDestroyerConnects.getLowerRightCornerPos().getY() );
-    }
-
-    /**
-     * Test harness.
-     *
-     * @param args
-     */
-    public static void main( String[] args ) {
-
-        Dimension2D stageSize = new PDimension( 1000, 400 );
-
-        PhetPCanvas canvas = new PhetPCanvas();
-        // Set up the canvas-screen transform.
-        canvas.setWorldTransformStrategy( new PhetPCanvas.CenteredStage( canvas, stageSize ) );
-
-        ModelViewTransform mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
-                new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( stageSize.getWidth() * 0.2 ), (int) Math.round( stageSize.getHeight() * 0.50 ) ),
-                0.2 ); // "Zoom factor" - smaller zooms out, larger zooms in.
-
-        // Boiler plate app stuff.
-        JFrame frame = new JFrame();
-        frame.setContentPane( canvas );
-        frame.setSize( (int) stageSize.getWidth(), (int) stageSize.getHeight() );
-        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        frame.setLocationRelativeTo( null ); // Center.
-        frame.setVisible( true );
-
-        MessengerRna messengerRna = new MessengerRna( new ManualGeneExpressionModel(),
-                                                      new ProteinA( new StubGeneExpressionModel() ),
-                                                      mvt.modelToView( new Point2D.Double( 0, 0 ) ) );
-        canvas.addWorldChild( new MessengerRnaNode( mvt, messengerRna ) );
-        for ( int i = 0; i < 200; i++ ) {
-            messengerRna.addLength( 25 ); // Number derived from what polymerase tends to do.
-            try {
-                Thread.sleep( 500 );
-            }
-            catch ( InterruptedException e ) {
-                e.printStackTrace();
-            }
-            canvas.repaint();
-        }
     }
 }
