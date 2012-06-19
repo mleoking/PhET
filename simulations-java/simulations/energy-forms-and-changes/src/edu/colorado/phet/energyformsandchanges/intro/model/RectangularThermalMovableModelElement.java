@@ -108,7 +108,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
         // Animate the energy chunks that are outside this model element.
         for ( EnergyChunkWanderController energyChunkWanderController : new ArrayList<EnergyChunkWanderController>( energyChunkWanderControllers ) ) {
             energyChunkWanderController.updatePosition( dt );
-            if ( energyChunkWanderController.isDestinationReached() ) {
+            if ( getSliceBounds().contains( energyChunkWanderController.getEnergyChunk().position.get().toPoint2D() ) ) {
                 moveEnergyChunkToSlices( energyChunkWanderController.getEnergyChunk() );
             }
         }
