@@ -7,23 +7,17 @@ import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.dialogs.ColorChooserFactory;
 import edu.colorado.phet.common.phetcommon.dialogs.ColorChooserFactory.Listener;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.ToggleButtonNode;
-import edu.colorado.phet.fractions.FractionsResources.Images;
-import edu.colorado.phet.fractions.view.SpinnerButtonNode;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.buildafraction.model.Scene;
 import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.NumberSceneContext;
@@ -64,6 +58,8 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
     private static final int FADE_IN_TIME = 200;
     private static final int FADE_OUT_TIME = 1000;
     private static final PhetFont scoreboardFont = new PhetFont( 26, true );
+    private final PNode numberLevelSelectionNode;
+    private final PNode pictureLevelSelectionNode;
 
     public BuildAFractionCanvas( final BuildAFractionModel model, final boolean dev ) {
         this.model = model;
@@ -142,40 +138,46 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
             setOffset( INSET, INSET / 2 );//Inset manually tuned to line up mode, level and score
         }} );
 
-        final SpinnerButtonNode leftButtonNode = new SpinnerButtonNode( spinnerImage( Images.LEFT_BUTTON_UP ), spinnerImage( Images.LEFT_BUTTON_PRESSED ), spinnerImage( Images.LEFT_BUTTON_GRAY ), new VoidFunction1<Boolean>() {
-            public void apply( final Boolean autoSpinning ) {
-                goToNumberLevel( model.numberLevel.get() - 1 );
+        final VoidFunction1<Integer> goToNumberLevel = new VoidFunction1<Integer>() {
+            public void apply( final Integer integer ) {
+                goToNumberLevel( integer );
             }
-        }, model.numberLevel.greaterThan( 0 ) );
-        final SpinnerButtonNode rightButtonNode = new SpinnerButtonNode( spinnerImage( Images.RIGHT_BUTTON_UP ), spinnerImage( Images.RIGHT_BUTTON_PRESSED ), spinnerImage( Images.RIGHT_BUTTON_GRAY ), new VoidFunction1<Boolean>() {
-            public void apply( final Boolean autoSpinning ) {
-                goToNumberLevel( model.numberLevel.get() + 1 );
+        };
+        final VoidFunction1<Integer> goToPictureLevel = new VoidFunction1<Integer>() {
+            public void apply( final Integer integer ) {
+                goToPictureLevel( integer );
             }
-        }, model.numberLevel.lessThan( model.numberLevels.size() - 1 ) );
-        addChild( rightButtonNode );
-
-        //Level indicator and navigation buttons for number mode
-        addChild( new HBox( 30, leftButtonNode, new PhetPText( "Level 100", scoreboardFont ) {{
-            model.numberLevel.addObserver( new VoidFunction1<Integer>() {
-                public void apply( final Integer integer ) {
-                    setText( "Level " + ( integer + 1 ) );
-                }
-            } );
-        }}, rightButtonNode ) {{
+        };
+        numberLevelSelectionNode = new LevelSelectionToolBarNode( goToNumberLevel, scoreboardFont, model.numberLevel, model.numberLevels.size() ) {{
             setOffset( 300, INSET );
-        }} );
+        }};
+        addChild( numberLevelSelectionNode );
+
+        pictureLevelSelectionNode = new LevelSelectionToolBarNode( goToPictureLevel, scoreboardFont, model.pictureLevel, model.pictureLevels.size() ) {{
+            setOffset( 300, INSET );
+        }};
+        addChild( pictureLevelSelectionNode );
 
         model.selectedScene.addObserver( new VoidFunction1<Scene>() {
             public void apply( final Scene scene ) {
+                final int duration = initialized ? 1000 : 0;
                 if ( scene == Scene.pictures ) {
                     numberScene.animateToTransparency( 0.0f, FADE_OUT_TIME );
                     pictureScene.animateToTransparency( 1f, FADE_IN_TIME );
-                    sceneLayer.animateToPositionScaleRotation( 0, 0, 1, 0, initialized ? 1000 : 0 );
+                    sceneLayer.animateToPositionScaleRotation( 0, 0, 1, 0, duration );
+                    numberLevelSelectionNode.animateToPositionScaleRotation( 300, INSET + STAGE_SIZE.height, 1, 0, duration );
+                    pictureLevelSelectionNode.animateToPositionScaleRotation( 300, INSET, 1, 0, duration );
+                    pictureLevelSelectionNode.animateToTransparency( 1f, FADE_IN_TIME );
+                    numberLevelSelectionNode.animateToTransparency( 0f, FADE_OUT_TIME );
                 }
                 else if ( scene == Scene.numbers ) {
                     numberScene.animateToTransparency( 1.0f, FADE_IN_TIME );
                     pictureScene.animateToTransparency( 0.0f, FADE_OUT_TIME );
-                    sceneLayer.animateToPositionScaleRotation( 0, -STAGE_SIZE.height, 1, 0, initialized ? 1000 : 0 );
+                    sceneLayer.animateToPositionScaleRotation( 0, -STAGE_SIZE.height, 1, 0, duration );
+                    numberLevelSelectionNode.animateToPositionScaleRotation( 300, INSET, 1, 0, duration );
+                    pictureLevelSelectionNode.animateToPositionScaleRotation( 300, INSET - STAGE_SIZE.height, 1, 0, duration );
+                    numberLevelSelectionNode.animateToTransparency( 1f, FADE_IN_TIME );
+                    pictureLevelSelectionNode.animateToTransparency( 0f, FADE_OUT_TIME );
                 }
             }
         } );
@@ -191,9 +193,27 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
         pictureScene.addChild( new PictureSceneNode( model.numberLevel.get(), rootNode, model, STAGE_SIZE, BuildAFractionCanvas.this ) );
     }
 
-    private BufferedImage spinnerImage( final BufferedImage image ) { return BufferedImageUtils.multiScaleToHeight( image, 30 ); }
-
     public void goToNumberLevel( int level ) {
+        model.goToNumberLevel( level );
+        for ( Object node : numberScene.getChildrenReference() ) {
+            PNode n2 = (PNode) node;
+            //Fade out the other levels, but not the target one (if it already exists)
+            if ( n2 != getNumberSceneNode( level ) ) {
+                n2.animateToTransparency( 0.0f, FADE_OUT_TIME );
+            }
+        }
+        if ( getNumberSceneNode( level ) == null ) {
+            numberScene.addChild( new NumberSceneNode( model.numberLevel.get(), rootNode, model, STAGE_SIZE, this ) {{
+                setOffset( STAGE_SIZE.width * model.numberLevel.get(), STAGE_SIZE.height );
+            }} );
+        }
+        else {
+            getNumberSceneNode( level ).animateToTransparency( 1.0f, FADE_IN_TIME );
+        }
+        numberScene.animateToTransform( AffineTransform.getTranslateInstance( -STAGE_SIZE.getWidth() * model.numberLevel.get(), 0 ), 1000 );
+    }
+
+    public void goToPictureLevel( int level ) {
         model.goToNumberLevel( level );
         for ( Object node : numberScene.getChildrenReference() ) {
             PNode n2 = (PNode) node;
