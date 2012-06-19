@@ -1,3 +1,4 @@
+Build a Fraction: Centered level indicator vertically, converted vertical layout to horizontal for scene selection toggle buttons
 Build a Fraction: Pictures: Made level toolbar bar move independently for each scene
 # 0.00.90 (65259) Jun 18, 2012
 Fraction Matcher: Removed debug string and fixed reward test button
