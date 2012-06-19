@@ -5,13 +5,13 @@ import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 
 import static edu.colorado.phet.energyformsandchanges.common.EFACConstants.ENERGY_TO_NUM_CHUNKS_MAPPER;
@@ -36,6 +36,10 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
 
     // 2D "slices" of the container, used for 3D layering of energy chunks.
     protected final List<EnergyChunkContainerSlice> slices = new ArrayList<EnergyChunkContainerSlice>();
+
+    // Energy chunks that are approaching this model element.
+    public ObservableList<EnergyChunk> approachingEnergyChunks = new ObservableList<EnergyChunk>();
+    private List<EnergyChunkWanderController> energyChunkWanderControllers = new ArrayList<EnergyChunkWanderController>();
 
     /**
      * Constructor.
@@ -97,20 +101,72 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
     }
 
     protected void stepInTime( double dt ) {
+
+        // Distribute the energy chunks contained within this model element.
         EnergyChunkDistributor.updatePositions( slices, dt );
+
+        // Animate the energy chunks that are outside this model element.
+        for ( EnergyChunkWanderController energyChunkWanderController : new ArrayList<EnergyChunkWanderController>( energyChunkWanderControllers ) ) {
+            energyChunkWanderController.updatePosition( dt );
+            if ( energyChunkWanderController.isDestinationReached() ) {
+                moveEnergyChunkToSlices( energyChunkWanderController.getEnergyChunk() );
+            }
+        }
     }
 
     public boolean needsEnergyChunk() {
-        return ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy ) > getNumContainedEnergyChunks();
+        return ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy ) > getNumEnergyChunks();
     }
 
     public boolean hasExcessEnergyChunks() {
-        return ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy ) < getNumContainedEnergyChunks();
+        return ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy ) < getNumEnergyChunks();
     }
 
-    private static final Random RAND = new Random();
-
     public void addEnergyChunk( EnergyChunk ec ) {
+        if ( getSliceBounds().contains( ec.position.get().toPoint2D() ) ) {
+            // Add chunk directly to slice.
+            slices.get( nextSliceIndex ).addEnergyChunk( ec );
+            nextSliceIndex = ( nextSliceIndex + 1 ) % slices.size();
+        }
+        else {
+            // Chunk is out of the bounds of this element, so make it wander
+            // towards it.
+            ec.zPosition.set( 0.0 );
+            approachingEnergyChunks.add( ec );
+            energyChunkWanderControllers.add( new EnergyChunkWanderController( ec, getCenterPoint() ) );
+        }
+    }
+
+    private Rectangle2D getSliceBounds() {
+        double minX = Double.POSITIVE_INFINITY;
+        double minY = Double.POSITIVE_INFINITY;
+        double maxX = Double.NEGATIVE_INFINITY;
+        double maxY = Double.NEGATIVE_INFINITY;
+        for ( EnergyChunkContainerSlice slice : slices ) {
+            Rectangle2D sliceBounds = slice.getShape().getBounds2D();
+            if ( sliceBounds.getMinX() < minX ) {
+                minX = sliceBounds.getMinX();
+            }
+            if ( sliceBounds.getMaxX() > maxX ) {
+                maxX = sliceBounds.getMaxX();
+            }
+            if ( sliceBounds.getMinY() < minY ) {
+                minY = sliceBounds.getMinY();
+            }
+            if ( sliceBounds.getMaxY() > maxY ) {
+                maxY = sliceBounds.getMaxY();
+            }
+        }
+        return new Rectangle2D.Double( minX, minY, maxX - minX, maxY - minY );
+    }
+
+    private void moveEnergyChunkToSlices( EnergyChunk ec ) {
+        approachingEnergyChunks.remove( ec );
+        for ( EnergyChunkWanderController energyChunkWanderController : new ArrayList<EnergyChunkWanderController>( energyChunkWanderControllers ) ) {
+            if ( energyChunkWanderController.getEnergyChunk() == ec ) {
+                energyChunkWanderControllers.remove( energyChunkWanderController );
+            }
+        }
         slices.get( nextSliceIndex ).addEnergyChunk( ec );
         nextSliceIndex = ( nextSliceIndex + 1 ) % slices.size();
     }
@@ -173,18 +229,18 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
         }
         int targetNumChunks = ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy );
         Rectangle2D energyChunkBounds = getThermalContactArea().getBounds();
-        while ( getNumContainedEnergyChunks() < targetNumChunks ) {
+        while ( getNumEnergyChunks() < targetNumChunks ) {
             // Add a chunk at a random location in the block.
             addEnergyChunk( new EnergyChunk( clock, EnergyChunkDistributor.generateRandomLocation( energyChunkBounds ), energyChunksVisible, false ) );
         }
     }
 
-    protected int getNumContainedEnergyChunks() {
+    protected int getNumEnergyChunks() {
         int numChunks = 0;
         for ( EnergyChunkContainerSlice slice : slices ) {
             numChunks += slice.getNumEnergyChunks();
         }
-        return numChunks;
+        return numChunks + approachingEnergyChunks.size();
     }
 
     protected Shape getEnergyChunkContainmentShape() {
@@ -222,6 +278,6 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
      *         a surplus.
      */
     public int getEnergyChunkBalance() {
-        return getNumContainedEnergyChunks() - EFACConstants.ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy );
+        return getNumEnergyChunks() - EFACConstants.ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy );
     }
 }

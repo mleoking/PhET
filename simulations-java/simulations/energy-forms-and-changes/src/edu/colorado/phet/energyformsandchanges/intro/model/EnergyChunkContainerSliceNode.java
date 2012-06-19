@@ -23,7 +23,6 @@ public class EnergyChunkContainerSliceNode extends PNode {
 
     public EnergyChunkContainerSliceNode( final EnergyChunkContainerSlice energyChunkContainerSlice, final ModelViewTransform mvt ) {
         this( energyChunkContainerSlice, mvt, Color.YELLOW );
-
     }
 
     public EnergyChunkContainerSliceNode( final EnergyChunkContainerSlice energyChunkContainerSlice, final ModelViewTransform mvt, Color color ) {

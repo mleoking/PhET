@@ -20,6 +20,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.intro.model.Block;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
+import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunkContainerSliceNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -134,6 +135,23 @@ public class BlockNode extends PComposite {
         double labelCenterY = ( upperLeftFrontCorner.getY() + label.getFullBoundsReference().height );
         label.centerFullBoundsOnPoint( labelCenterX, labelCenterY );
         addChild( label );
+
+        // Watch for coming and going of energy chunks that are approaching
+        // this model element and add/remove them as needed.
+        block.approachingEnergyChunks.addElementAddedObserver( new VoidFunction1<EnergyChunk>() {
+            public void apply( final EnergyChunk addedEnergyChunk ) {
+                final PNode energyChunkNode = new EnergyChunkNode( addedEnergyChunk, mvt );
+                energyChunkRootNode.addChild( energyChunkNode );
+                block.approachingEnergyChunks.addElementRemovedObserver( new VoidFunction1<EnergyChunk>() {
+                    public void apply( EnergyChunk removedEnergyChunk ) {
+                        if ( removedEnergyChunk == addedEnergyChunk ) {
+                            energyChunkRootNode.removeChild( energyChunkNode );
+                            block.approachingEnergyChunks.removeElementRemovedObserver( this );
+                        }
+                    }
+                } );
+            }
+        } );
 
         // Make the block be transparent when the energy chunks are visible so
         // that it looks like they are in the block.
