@@ -1,4 +1,4 @@
-package edu.colorado.phet.fractionsintro.buildafraction.model;
+package edu.colorado.phet.fractionsintro.buildafraction.model.numbers;
 
 import fj.F;
 import fj.P2;
@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
+import edu.colorado.phet.fractionsintro.buildafraction.model.Distribution;
 import edu.colorado.phet.fractionsintro.common.util.DefaultP2;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern;
