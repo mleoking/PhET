@@ -64,16 +64,19 @@ public class TrajectoryModel {
         this._t = 0;
         this.dt = 0.01;
         this._tRate = 1;
-        this.stepsPerFrame = 30;
+        this.stepsPerFrame = 5;
         this.frameCounter = 0;
-        this.msTimer = new Timer( stepsPerFrame*dt * 1000 );   //argument of Timer constructor is time step in ms
+        this.msTimer = new Timer( dt * 1000 );   //argument of Timer constructor is time step in ms
         this.msTimer.addEventListener( TimerEvent.TIMER, stepForward );
         this.updateViews();
     }
 
     public function fireCannon():void{
+        vX = _vX0;
+        vY = _vY0;
         this._t = 0;
         msTimer.start();
+
     }
 
     private function stepForward( evt: TimerEvent ):void{
@@ -81,17 +84,18 @@ public class TrajectoryModel {
         frameCounter += 1;
         var aX: Number = 0;
         var aY: Number = -g;
-        _xP += vX * dt + (0.5)  *aX * dt*dt;
+        _xP += vX * dt + (0.5) * aX * dt*dt;
         vX += aX * dt;
         _yP += vY * dt + (0.5) * aX * dt*dt;
-        vX += aX * dt;
+        vY += aY * dt;
         if( frameCounter > stepsPerFrame ){
             frameCounter = 0;
             this.updateViews();
-            trace( "Trajectory Model:  y = " + this._yP );
+            //trace( "Trajectory Model:  y = " + this._yP );
         }
-        if( _xP < 0 ){
+        if( _yP <= 0 ){
             msTimer.stop();
+            trace("timer stopped")
         }
     }//stepForward()
 
