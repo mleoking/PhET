@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.ToggleButtonNode;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
@@ -126,7 +127,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
         double maxHeight = Math.max( node1.getFullBounds().getHeight(), node2.getFullBounds().getHeight() );
         double maxSize = Math.max( maxWidth, maxHeight );
 
-        addChild( new VBox( new ToggleButtonNode( new PaddedIcon( maxSize, maxSize, node2 ), model.selectedScene.valueEquals( Scene.pictures ), new VoidFunction0() {
+        final HBox toggleButtonStrip = new HBox( new ToggleButtonNode( new PaddedIcon( maxSize, maxSize, node2 ), model.selectedScene.valueEquals( Scene.pictures ), new VoidFunction0() {
             public void apply() {
                 model.selectedScene.set( Scene.pictures );
             }
@@ -136,7 +137,8 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
             }
         } ) ) {{
             setOffset( INSET, INSET / 2 );//Inset manually tuned to line up mode, level and score
-        }} );
+        }};
+        addChild( toggleButtonStrip );
 
         final VoidFunction1<Integer> goToNumberLevel = new VoidFunction1<Integer>() {
             public void apply( final Integer integer ) {
@@ -148,13 +150,13 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
                 goToPictureLevel( integer );
             }
         };
-        numberLevelSelectionNode = new LevelSelectionToolBarNode( goToNumberLevel, scoreboardFont, model.numberLevel, model.numberLevels.size() ) {{
-            setOffset( 300, INSET );
-        }};
+        numberLevelSelectionNode = new LevelSelectionToolBarNode( goToNumberLevel, scoreboardFont, model.numberLevel, model.numberLevels.size() );
+        final double levelSelectionY = toggleButtonStrip.getFullBounds().getCenterY() - numberLevelSelectionNode.getFullBounds().getHeight() / 2;
+        numberLevelSelectionNode.setOffset( 300, levelSelectionY );
         addChild( numberLevelSelectionNode );
 
         pictureLevelSelectionNode = new LevelSelectionToolBarNode( goToPictureLevel, scoreboardFont, model.pictureLevel, model.pictureLevels.size() ) {{
-            setOffset( 300, INSET );
+            setOffset( 300, levelSelectionY );
         }};
         addChild( pictureLevelSelectionNode );
 
@@ -165,8 +167,8 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
                     numberScene.animateToTransparency( 0.0f, FADE_OUT_TIME );
                     pictureScene.animateToTransparency( 1f, FADE_IN_TIME );
                     sceneLayer.animateToPositionScaleRotation( 0, 0, 1, 0, duration );
-                    numberLevelSelectionNode.animateToPositionScaleRotation( 300, INSET + STAGE_SIZE.height, 1, 0, duration );
-                    pictureLevelSelectionNode.animateToPositionScaleRotation( 300, INSET, 1, 0, duration );
+                    numberLevelSelectionNode.animateToPositionScaleRotation( 300, levelSelectionY + STAGE_SIZE.height, 1, 0, duration );
+                    pictureLevelSelectionNode.animateToPositionScaleRotation( 300, levelSelectionY, 1, 0, duration );
                     pictureLevelSelectionNode.animateToTransparency( 1f, FADE_IN_TIME );
                     numberLevelSelectionNode.animateToTransparency( 0f, FADE_OUT_TIME );
                 }
@@ -174,8 +176,8 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
                     numberScene.animateToTransparency( 1.0f, FADE_IN_TIME );
                     pictureScene.animateToTransparency( 0.0f, FADE_OUT_TIME );
                     sceneLayer.animateToPositionScaleRotation( 0, -STAGE_SIZE.height, 1, 0, duration );
-                    numberLevelSelectionNode.animateToPositionScaleRotation( 300, INSET, 1, 0, duration );
-                    pictureLevelSelectionNode.animateToPositionScaleRotation( 300, INSET - STAGE_SIZE.height, 1, 0, duration );
+                    numberLevelSelectionNode.animateToPositionScaleRotation( 300, levelSelectionY, 1, 0, duration );
+                    pictureLevelSelectionNode.animateToPositionScaleRotation( 300, levelSelectionY - STAGE_SIZE.height, 1, 0, duration );
                     numberLevelSelectionNode.animateToTransparency( 1f, FADE_IN_TIME );
                     pictureLevelSelectionNode.animateToTransparency( 0f, FADE_OUT_TIME );
                 }
