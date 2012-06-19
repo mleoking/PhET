@@ -1,3 +1,5 @@
+# 0.00.22 (65314) Jun 19, 2012
+6/19/12 Deploying updated version to dev for upcoming interviews.
 Consolidated code for messenger RNA and the fragments produced.  This resulted in a change to the look of the mRNA fragments.
 Cleaned up TODOs in the code.
 Changed sliders to use a different knob - one that looks more professional.
