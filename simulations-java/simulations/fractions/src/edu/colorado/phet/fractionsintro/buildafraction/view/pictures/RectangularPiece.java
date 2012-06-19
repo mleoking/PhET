@@ -25,7 +25,6 @@ public class RectangularPiece extends PNode {
             @Override protected void drag( final PInputEvent event ) {
                 final PDimension delta = event.getDeltaRelativeTo( event.getPickedNode().getParent() );
                 translate( delta.width, delta.height );
-                System.out.println( "getOffset() = " + getOffset() );
             }
 
             @Override protected void endDrag( final PInputEvent event ) {
