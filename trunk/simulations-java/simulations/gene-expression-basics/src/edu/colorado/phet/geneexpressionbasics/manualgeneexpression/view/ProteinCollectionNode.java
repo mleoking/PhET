@@ -25,6 +25,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.Protein;
+import edu.colorado.phet.geneexpressionbasics.common.view.MobileBiomoleculeNode;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ProteinA;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ProteinB;

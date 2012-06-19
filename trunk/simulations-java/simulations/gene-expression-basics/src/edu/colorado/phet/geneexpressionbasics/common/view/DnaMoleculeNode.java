@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view;
+package edu.colorado.phet.geneexpressionbasics.common.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
