@@ -13,9 +13,6 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.GeneExpressionModel;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.PointMass;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ShapeSegment;
 
 /**
  * Biomolecule that is a represented as a wound up strand.  Generally, this

@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
+package edu.colorado.phet.geneexpressionbasics.common.model;
 
 /**
  * Class that defines a separation of the DNA strand.  This is used when

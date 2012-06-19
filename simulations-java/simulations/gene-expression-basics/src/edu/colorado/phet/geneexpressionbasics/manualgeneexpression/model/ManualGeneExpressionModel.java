@@ -18,7 +18,13 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.geneexpressionbasics.common.model.DnaMolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.Gene;
+import edu.colorado.phet.geneexpressionbasics.common.model.GeneA;
+import edu.colorado.phet.geneexpressionbasics.common.model.GeneExpressionModel;
+import edu.colorado.phet.geneexpressionbasics.common.model.MessengerRna;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.Protein;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MotionBounds;
 
 import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;

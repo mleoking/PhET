@@ -1,9 +1,10 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
+package edu.colorado.phet.geneexpressionbasics.common.model;
 
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ProteinA;
 
 /**
  * Specific instance of a gene.

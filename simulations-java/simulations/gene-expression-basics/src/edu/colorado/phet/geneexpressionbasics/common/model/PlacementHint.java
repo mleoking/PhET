@@ -4,7 +4,6 @@ package edu.colorado.phet.geneexpressionbasics.common.model;
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor;
 
 /**
  * This class represents a "placement hint" in the model, which is a location

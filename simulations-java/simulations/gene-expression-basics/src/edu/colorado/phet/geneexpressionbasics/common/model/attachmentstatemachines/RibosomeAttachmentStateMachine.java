@@ -2,9 +2,9 @@
 package edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines;
 
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.Protein;
+import edu.colorado.phet.geneexpressionbasics.common.model.Ribosome;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.RibosomeTranslatingRnaMotionStrategy;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Protein;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Ribosome;
 
 /**
  * This class defined the attachment state machine for all ribosomes.

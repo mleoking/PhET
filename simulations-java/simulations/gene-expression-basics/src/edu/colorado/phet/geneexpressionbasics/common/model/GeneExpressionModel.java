@@ -1,10 +1,8 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
+package edu.colorado.phet.geneexpressionbasics.common.model;
 
 import java.awt.Shape;
 import java.util.List;
-
-import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 
 /**
  * Base class for the models used in this simulation.  All models must extend

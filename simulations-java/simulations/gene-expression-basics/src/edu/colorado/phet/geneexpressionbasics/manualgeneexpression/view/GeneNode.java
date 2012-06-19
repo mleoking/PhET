@@ -13,8 +13,8 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
+import edu.colorado.phet.geneexpressionbasics.common.model.DnaMolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.Gene;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 

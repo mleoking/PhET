@@ -4,6 +4,9 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 import java.awt.Shape;
 import java.util.List;
 
+import edu.colorado.phet.geneexpressionbasics.common.model.DnaMolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.GeneExpressionModel;
+import edu.colorado.phet.geneexpressionbasics.common.model.MessengerRna;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 
 /**
