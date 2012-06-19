@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--wave-on-a-string-strings_de.xml created Wed Jun 13 08:04:52 CEST 2012 using: wave-on-a-string 2.03.00 (51205), translation-utility 2.13.00 (59150) Dez 8, 2011-->
+<!--wave-on-a-string-strings_de.xml created Tue Jun 19 13:57:06 CEST 2012 using: wave-on-a-string 2.03.00 (51205), translation-utility 2.13.00 (59150) Dez 8, 2011-->
 <SimStrings>
-<string key="manual" value="Erregung von Hand"/>
+<string key="manual" value="manuell"/>
 <string key="resetTimer" value="Reset"/>
 <string key="damping" value="Dämpfung"/>
 <string key="simTitle" value="Seilwelle"/>
@@ -12,12 +12,12 @@
 <string key="step" value="Einzelschritt"/>
 <string key="tension" value="Spannung"/>
 <string key="startTimer" value="Start/Pause"/>
-<string key="pulseWidth" value="Imulsweite"/>
+<string key="pulseWidth" value="Impulsweite"/>
 <string key="rulerHelp" value="bewegliches Lineal"/>
 <string key="high" value="stark"/>
 <string key="wiggleWrench" value="Die Zange bewegen!"/>
 <string key="timer" value="Stoppuhr"/>
-<string key="oscillate" value="kontinuierl. Erregung"/>
+<string key="oscillate" value="kontinuierlich"/>
 <string key="rulers" value="Lineale"/>
 <string key="frequency" value="Frequenz"/>
 <string key="wrenchHelp" value="bewegl. Zange"/>
