@@ -21,7 +21,6 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractions.view.SpinnerButtonNode;
@@ -38,8 +37,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
-
-import static edu.colorado.phet.fractions.FractionsResources.Strings.MY_FRACTIONS;
 
 /**
  * Node for the scene when the user is constructing fractions with pictures (shapes).
@@ -66,7 +63,7 @@ public class PictureSceneNode extends PNode implements ContainerContext {
         this.model = model;
         this.STAGE_SIZE = STAGE_SIZE;
         this.context = context;
-        final PhetPText title = new PhetPText( MY_FRACTIONS, AbstractFractionsCanvas.CONTROL_FONT );
+//        final PhetPText title = new PhetPText( MY_FRACTIONS, AbstractFractionsCanvas.CONTROL_FONT );
 
         //Create the scoring cells with target patterns
         ArrayList<Pair> pairs = new ArrayList<Pair>();
@@ -99,9 +96,9 @@ public class PictureSceneNode extends PNode implements ContainerContext {
         double rightInset = 10;
         final PBounds targetCellBounds = pairs.get( 0 ).getTargetCell().getFullBounds();
         double offsetX = AbstractFractionsCanvas.STAGE_SIZE.width - maxWidth - separation - targetCellBounds.getWidth() - rightInset;
-        double offsetY = title.getFullHeight() + 5;
+        double offsetY = AbstractFractionsCanvas.INSET;
         double insetY = 5;
-        addChild( title );
+//        addChild( title );
         for ( Pair pair : pairs ) {
 
             pair.targetCell.setOffset( offsetX, offsetY );
@@ -113,7 +110,7 @@ public class PictureSceneNode extends PNode implements ContainerContext {
         }
 
         //Center title above the "my fractions" scoring cell boxes
-        title.setOffset( pairs.get( 0 ).getTargetCell().getFullBounds().getCenterX() - title.getFullWidth() / 2, pairs.get( 0 ).getTargetCell().getFullBounds().getY() - title.getFullHeight() );
+//        title.setOffset( pairs.get( 0 ).getTargetCell().getFullBounds().getCenterX() - title.getFullWidth() / 2, pairs.get( 0 ).getTargetCell().getFullBounds().getY() - title.getFullHeight() );
 
         //Add a piece container toolbox the user can use to get containers
         toolboxNode = new RichPNode() {{
