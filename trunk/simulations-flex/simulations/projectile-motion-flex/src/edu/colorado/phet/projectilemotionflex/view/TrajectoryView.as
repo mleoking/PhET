@@ -74,10 +74,7 @@ public class TrajectoryView extends Sprite  {
     }
 
     public function update():void{
-        //trace("TrajectoryView.update() called time = " + trajectoryModel.t );
-//        if( !trajectoryModel.inFlight ){
-//            startTrajectory();
-//        }
+
         currentX = trajectoryModel.xP;
         currentY = trajectoryModel.yP;
         if( currentT != trajectoryModel.t ){
