@@ -34,11 +34,7 @@ public class EnergyFormsAndChangesResources {
         public static final BufferedImage E_THERM_OUTLINE_BLACK = RESOURCES.getImage( "E_therm_outline_black.png" );
         public static final BufferedImage SECOND_TAB_DRAWING = RESOURCES.getImage( "second-tab-drawing.png" );
         public static final BufferedImage SHELF_LONG = RESOURCES.getImage( "shelf_long.png" );
-        public static final BufferedImage THERMOMETER_BACK = RESOURCES.getImage( "thermometer_back.png" );
-        public static final BufferedImage THERMOMETER_FRONT = RESOURCES.getImage( "thermometer_front.png" );
         public static final BufferedImage THERMOMETER_MEDIUM_BACK = RESOURCES.getImage( "thermometer_medium_back.png" );
         public static final BufferedImage THERMOMETER_MEDIUM_FRONT = RESOURCES.getImage( "thermometer_medium_front.png" );
-        public static final BufferedImage THERMOMETER_TALL_BACK = RESOURCES.getImage( "thermometer_tall_back.png" );
-        public static final BufferedImage THERMOMETER_TALL_FRONT = RESOURCES.getImage( "thermometer_tall_front.png" );
     }
 }
