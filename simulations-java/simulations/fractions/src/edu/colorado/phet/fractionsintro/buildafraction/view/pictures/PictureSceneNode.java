@@ -22,7 +22,6 @@ import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractions.util.FJUtils;
 import edu.colorado.phet.fractions.view.SpinnerButtonNode;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
@@ -41,6 +40,8 @@ import edu.umd.cs.piccolo.activities.PTransformActivity;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
+
+import static edu.colorado.phet.fractions.FractionsResources.Images.*;
 
 /**
  * Node for the scene when the user is constructing fractions with pictures (shapes).
@@ -165,19 +166,22 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
             addChild( bucketView.getFrontNode() );
 
             final double buttonInset = 20;
-            addChild( new SpinnerButtonNode( spinnerImage( Images.LEFT_BUTTON_UP ), spinnerImage( Images.LEFT_BUTTON_PRESSED ), spinnerImage( Images.LEFT_BUTTON_GRAY ), new VoidFunction1<Boolean>() {
+            final VoidFunction1<Boolean> decrement = new VoidFunction1<Boolean>() {
                 public void apply( final Boolean autoSpinning ) {
                     selectedPieceSize.decrement();
                 }
-            }, selectedPieceSize.greaterThan( 1 ) ) {{
-                setOffset( bucketView.getFrontNode().getFullBounds().getMinX() + buttonInset, bucketView.getFrontNode().getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
+            };
+            final PBounds bucketBounds = bucketView.getFrontNode().getFullBounds();
+            addChild( new SpinnerButtonNode( spinnerImage( LEFT_BUTTON_UP ), spinnerImage( LEFT_BUTTON_PRESSED ), spinnerImage( LEFT_BUTTON_GRAY ), decrement, selectedPieceSize.greaterThan( 1 ) ) {{
+                setOffset( bucketBounds.getMinX() + buttonInset, bucketBounds.getCenterY() - getFullBounds().getHeight() / 2 );
             }} );
-            addChild( new SpinnerButtonNode( spinnerImage( Images.RIGHT_BUTTON_UP ), spinnerImage( Images.RIGHT_BUTTON_PRESSED ), spinnerImage( Images.RIGHT_BUTTON_GRAY ), new VoidFunction1<Boolean>() {
+            final VoidFunction1<Boolean> increment = new VoidFunction1<Boolean>() {
                 public void apply( final Boolean autoSpinning ) {
                     selectedPieceSize.increment();
                 }
-            }, selectedPieceSize.lessThan( 6 ) ) {{
-                setOffset( bucketView.getFrontNode().getFullBounds().getMaxX() - getFullBounds().getWidth() - buttonInset, bucketView.getFrontNode().getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
+            };
+            addChild( new SpinnerButtonNode( spinnerImage( RIGHT_BUTTON_UP ), spinnerImage( RIGHT_BUTTON_PRESSED ), spinnerImage( RIGHT_BUTTON_GRAY ), increment, selectedPieceSize.lessThan( 6 ) ) {{
+                setOffset( bucketBounds.getMaxX() - getFullBounds().getWidth() - buttonInset, bucketBounds.getCenterY() - getFullBounds().getHeight() / 2 );
             }} );
 
             addChild( new PNode() {{
@@ -185,7 +189,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
                     public void apply( final Integer selectedSize ) {
                         removeAllChildren();
                         addChild( new PieceIconNode( selectedSize ) );
-                        centerFullBoundsOnPoint( bucketView.getFrontNode().getFullBounds().getCenterX(), bucketView.getFrontNode().getFullBounds().getCenterY() );
+                        centerFullBoundsOnPoint( bucketBounds.getCenterX(), bucketBounds.getCenterY() );
                     }
                 } );
             }} );
