@@ -4,7 +4,6 @@ import fj.Equal;
 import fj.F;
 import fj.Ord;
 import fj.data.List;
-import lombok.Data;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
@@ -48,18 +47,12 @@ import static edu.colorado.phet.fractions.FractionsResources.Images.*;
  * @author Sam Reid
  */
 public class PictureSceneNode extends PNode implements ContainerContext, PieceContext {
-    //    private final ArrayList<FractionGraphic> fractionGraphics = new ArrayList<FractionGraphic>();
     private final PNode rootNode;
     private final BuildAFractionModel model;
     private final PDimension STAGE_SIZE;
-    private final List<TargetPair> pairList;
+    private final List<Target> targetPairs;
     private final RichPNode toolboxNode;
     private final PNode frontLayer;
-
-    @Data class TargetPair {
-        public final PictureScoreBoxNode targetCell;
-        public final PNode patternNode;
-    }
 
     public PictureSceneNode( int levelIndex, final PNode rootNode, final BuildAFractionModel model, PDimension STAGE_SIZE, PictureSceneContext context ) {
         this.rootNode = rootNode;
@@ -68,18 +61,20 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
 //        final PhetPText title = new PhetPText( MY_FRACTIONS, AbstractFractionsCanvas.CONTROL_FONT );
 
         //Create the scoring cells with target patterns
-        ArrayList<TargetPair> pairs = new ArrayList<TargetPair>();
+        ArrayList<Target> pairList = new ArrayList<Target>();
         for ( int i = 0; i < 3; i++ ) {
             PictureTarget target = model.getPictureLevel( levelIndex ).getTarget( i );
 
             FractionNode f = new FractionNode( target.fraction, 0.33 );
-            pairs.add( new TargetPair( new PictureScoreBoxNode( target.fraction.numerator, target.fraction.denominator, model.getPictureCreatedFractions( levelIndex ), rootNode, model, null, model.getNumberLevel( levelIndex ).flashTargetCellOnMatch ), new ZeroOffsetNode( f ) ) );
+            pairList.add( new Target( new PictureScoreBoxNode( target.fraction.numerator, target.fraction.denominator, model.getPictureCreatedFractions( levelIndex ), rootNode, model, null, model.getNumberLevel( levelIndex ).flashTargetCellOnMatch ),
+                                      new ZeroOffsetNode( f ),
+                                      target.fraction ) );
         }
-        pairList = List.iterableList( pairs );
+        this.targetPairs = List.iterableList( pairList );
 
-        List<PNode> patterns = pairList.map( new F<TargetPair, PNode>() {
-            @Override public PNode f( final TargetPair pair ) {
-                return pair.patternNode;
+        List<PNode> patterns = this.targetPairs.map( new F<Target, PNode>() {
+            @Override public PNode f( final Target pair ) {
+                return pair.node;
             }
         } );
         double maxWidth = patterns.map( new F<PNode, Double>() {
@@ -96,17 +91,17 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         //Layout for the scoring cells and target patterns
         double separation = 5;
         double rightInset = 10;
-        final PBounds targetCellBounds = pairs.get( 0 ).getTargetCell().getFullBounds();
+        final PBounds targetCellBounds = pairList.get( 0 ).getCell().getFullBounds();
         double offsetX = AbstractFractionsCanvas.STAGE_SIZE.width - maxWidth - separation - targetCellBounds.getWidth() - rightInset;
         double offsetY = AbstractFractionsCanvas.INSET;
         double insetY = 5;
 //        addChild( title );
-        for ( TargetPair pair : pairs ) {
+        for ( Target pair : pairList ) {
 
-            pair.targetCell.setOffset( offsetX, offsetY );
-            pair.patternNode.setOffset( offsetX + targetCellBounds.getWidth() + separation, offsetY + targetCellBounds.getHeight() / 2 - maxHeight / 2 );
-            addChild( pair.targetCell );
-            addChild( pair.patternNode );
+            pair.cell.setOffset( offsetX, offsetY );
+            pair.node.setOffset( offsetX + targetCellBounds.getWidth() + separation, offsetY + targetCellBounds.getHeight() / 2 - maxHeight / 2 );
+            addChild( pair.cell );
+            addChild( pair.node );
 
             offsetY += Math.max( maxHeight, targetCellBounds.getHeight() ) + insetY;
         }
@@ -220,6 +215,23 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
     }
 
     public void endDrag( final ContainerNode containerNode, final PInputEvent event ) {
+        //See if it hits any matches
+        List<Target> pairs = targetPairs.sort( FJUtils.ord( new F<Target, Double>() {
+            @Override public Double f( final Target targetPair ) {
+                return targetPair.cell.getGlobalFullBounds().getCenter2D().distance( containerNode.getGlobalFullBounds().getCenter2D() );
+            }
+        } ) );
+        for ( Target pair : pairs ) {
+            final boolean intersects = pair.cell.getGlobalFullBounds().intersects( containerNode.getGlobalFullBounds() );
+            final boolean matchesValue = containerNode.getFractionValue().approxEquals( pair.value );
+            if ( intersects && matchesValue ) {
+                final double scale = 0.5;
+                containerNode.removeSplitButton();
+                containerNode.animateToPositionScaleRotation( pair.cell.getFullBounds().getCenterX() - containerNode.getFullBounds().getWidth() / 2 * scale,
+                                                              pair.cell.getFullBounds().getCenterY() - containerNode.getFullBounds().getHeight() / 2 * scale, scale, 0, 200 );
+                break;
+            }
+        }
     }
 
     public void endDrag( final RectangularPiece piece, final PInputEvent event ) {
@@ -391,15 +403,15 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
 //    }
 
     private boolean allTargetsComplete() {
-        return pairList.map( new F<TargetPair, Boolean>() {
-            @Override public Boolean f( final TargetPair pair ) {
-                return pair.targetCell.isCompleted();
+        return targetPairs.map( new F<Target, Boolean>() {
+            @Override public Boolean f( final Target pair ) {
+                return pair.cell.isCompleted();
             }
         } ).filter( new F<Boolean, Boolean>() {
             @Override public Boolean f( final Boolean b ) {
                 return b;
             }
-        } ).length() == pairList.length();
+        } ).length() == targetPairs.length();
     }
 
     private void centerOnBox( final Object numberNode, final PhetPPath box ) {
