@@ -1,4 +1,4 @@
-package edu.colorado.phet.fractionsintro.buildafraction.model;
+package edu.colorado.phet.fractionsintro.buildafraction.model.pictures;
 
 import fj.data.List;
 
