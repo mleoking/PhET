@@ -181,12 +181,11 @@ public class ControlPanel extends Canvas {
 
     private function fireProjectile():void{
         trajectoryModel.fireCannon();
+        mainView.backgroundView.trajectoryView.startTrajectory();
     }
 
     private function eraseTrajectories():void{
-        //this.mainView.backgroundView.cannon.update();
-        //trace("ControlPanel.eraseTrajectories called.  cannon.x = " + this.mainView.backgroundView.cannon.x );
-        //trace("cannon.y = " + this.mainView.backgroundView.cannon.y );
+        mainView.backgroundView.trajectoryView.eraseTrajectory();
     }
 
     private function angleListener( evt:Event ):void{

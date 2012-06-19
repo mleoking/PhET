@@ -38,9 +38,11 @@ public class BackgroundView extends Sprite {
         trajectoryModel.registerView( this );
         this.container = new Sprite();
         this.cannonView = new CannonView( mainView, trajectoryModel, this );
+        this.trajectoryView = new TrajectoryView( this.mainView, this.trajectoryModel );
         this.drawBackground();
         this.addChild( container );
         this.container.addChild( cannonView );
+        this.container.addChild( trajectoryView );
         this.cannonView.x = trajectoryModel.xP0*mainView.pixPerMeter;
         this.cannonView.y = trajectoryModel.yP0*mainView.pixPerMeter;
     }
