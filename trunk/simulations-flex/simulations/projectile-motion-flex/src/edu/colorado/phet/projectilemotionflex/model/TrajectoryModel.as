@@ -32,6 +32,7 @@ public class TrajectoryModel {
     private var _angleInDeg: Number;  //angle of cannon barrel in degrees, measured CCW from horizontal
     private var _theta: Number; //initial angle of projectile, in radians, measured CCW from horizontal
     private var _t: Number;     //time in seconds, projectile fired at t = 0
+    private var _inFlight: Boolean;  //true if projectile is in fligt
     private var stepsPerFrame: int;      //number of algorithm steps between screen updates
     private var frameCounter: int;
     private var _tRate:Number;   //Normal time rate: tRate = 1;
@@ -62,9 +63,10 @@ public class TrajectoryModel {
         this._vX0 = v0*Math.cos( angleInDeg*Math.PI/180 );
         this._vY0 = v0*Math.sin( angleInDeg*Math.PI/180 );
         this._t = 0;
+        this._inFlight = false;
         this.dt = 0.01;
         this._tRate = 1;
-        this.stepsPerFrame = 5;
+        this.stepsPerFrame = 2;
         this.frameCounter = 0;
         this.msTimer = new Timer( dt * 1000 );   //argument of Timer constructor is time step in ms
         this.msTimer.addEventListener( TimerEvent.TIMER, stepForward );
@@ -72,11 +74,12 @@ public class TrajectoryModel {
     }
 
     public function fireCannon():void{
+        _xP = xP0;
+        _yP = yP0;
         vX = _vX0;
         vY = _vY0;
         this._t = 0;
         msTimer.start();
-
     }
 
     private function stepForward( evt: TimerEvent ):void{
@@ -91,9 +94,11 @@ public class TrajectoryModel {
         if( frameCounter > stepsPerFrame ){
             frameCounter = 0;
             this.updateViews();
+            this._inFlight = true;
             //trace( "Trajectory Model:  y = " + this._yP );
         }
         if( _yP <= 0 ){
+            _inFlight = false;
             msTimer.stop();
             trace("timer stopped")
         }
@@ -175,6 +180,10 @@ public class TrajectoryModel {
         _v0 = value;
         _vX0 = v0*Math.cos( angleInDeg*Math.PI/180 );
         _vY0 = v0*Math.sin( angleInDeg*Math.PI/180 );
+    }
+
+    public function get inFlight():Boolean {
+        return _inFlight;
     }
 }//end class
 }//end package
