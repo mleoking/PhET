@@ -1,3 +1,4 @@
+Build a Fraction: Pictures: Show multiple pieces in the bucket, as determined by the level
 Build a Fraction: Pictures: Spread out pieces horizontally when ejecting from a container
 Build a Fraction: Pictures: Pieces "stack" in a container without overlapping.
 Build a Fraction: Pictures: Break pieces out of container
