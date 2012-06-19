@@ -1,5 +1,7 @@
 package edu.colorado.phet.fractionsintro.buildafraction.view.pictures;
 
+import fj.F;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Point2D;
@@ -11,6 +13,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.fractions.FractionsResources.Images;
+import edu.colorado.phet.fractions.util.FJUtils;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
@@ -133,5 +136,21 @@ public class ContainerNode extends PNode {
         final double pieceWidth = width / number;
         final Rectangle2D.Double shape = new Rectangle2D.Double( pieceWidth * number, 0, pieceWidth, height );
         return shape;
+    }
+
+    //How far over should a new piece be added in?
+    public double getPiecesWidth() {
+        ArrayList<RectangularPiece> children = new ArrayList<RectangularPiece>();
+        for ( Object c : getChildrenReference() ) {
+            if ( c instanceof RectangularPiece ) {
+                children.add( (RectangularPiece) c );
+            }
+        }
+        return children.size() == 0 ? 0 :
+               fj.data.List.iterableList( children ).maximum( FJUtils.ord( new F<RectangularPiece, Double>() {
+                   @Override public Double f( final RectangularPiece r ) {
+                       return r.getFullBounds().getMaxX();
+                   }
+               } ) ).getFullBounds().getMaxX();
     }
 }

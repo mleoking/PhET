@@ -1,3 +1,4 @@
+Build a Fraction: Pictures: Pieces "stack" in a container without overlapping.
 Build a Fraction: Pictures: Break pieces out of container
 Build a Fraction: Pictures: Snap pieces into container
 Build a Fraction: Pictures: Removed "My fractions" text
