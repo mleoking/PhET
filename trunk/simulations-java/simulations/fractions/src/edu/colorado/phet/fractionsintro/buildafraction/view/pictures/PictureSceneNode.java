@@ -30,6 +30,7 @@ import edu.colorado.phet.fractionsintro.buildafraction.model.pictures.PictureLev
 import edu.colorado.phet.fractionsintro.buildafraction.model.pictures.PictureTarget;
 import edu.colorado.phet.fractionsintro.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
+import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.intro.view.FractionNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
@@ -72,7 +73,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
             PictureTarget target = model.getPictureLevel( levelIndex ).getTarget( i );
 
             FractionNode f = new FractionNode( target.fraction, 0.33 );
-            pairs.add( new TargetPair( new PictureScoreBoxNode( target.fraction.numerator, target.fraction.denominator, model.getCreatedFractions( levelIndex ), rootNode, model, null, model.getNumberLevel( levelIndex ).flashTargetCellOnMatch ), new ZeroOffsetNode( f ) ) );
+            pairs.add( new TargetPair( new PictureScoreBoxNode( target.fraction.numerator, target.fraction.denominator, model.getPictureCreatedFractions( levelIndex ), rootNode, model, null, model.getNumberLevel( levelIndex ).flashTargetCellOnMatch ), new ZeroOffsetNode( f ) ) );
         }
         pairList = List.iterableList( pairs );
 
@@ -248,6 +249,20 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
 
             public void activityFinished( final PActivity activity ) {
                 containerNode.addPiece( piece );
+                syncModelFractions();
+            }
+        } );
+    }
+
+    private void syncModelFractions() {
+        model.getPictureCreatedFractions( model.pictureLevel.get() ).set( getUserCreatedFractions() );
+    }
+
+    //TODO: when we have multiple containers, this will have to be modified
+    private List<Fraction> getUserCreatedFractions() {
+        return getContainerNodes().map( new F<ContainerNode, Fraction>() {
+            @Override public Fraction f( final ContainerNode containerNode ) {
+                return containerNode.getFractionValue();
             }
         } );
     }

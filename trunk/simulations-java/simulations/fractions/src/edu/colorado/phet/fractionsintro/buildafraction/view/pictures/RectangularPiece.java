@@ -7,6 +7,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
+import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -17,8 +18,10 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class RectangularPiece extends PNode {
     private double initialX = Double.NaN;
     private double initialY = Double.NaN;
+    private final Integer pieceSize;
 
     public RectangularPiece( final Integer pieceSize, final PieceContext context ) {
+        this.pieceSize = pieceSize;
         PNode piece = new ZeroOffsetNode( new PhetPPath( ContainerNode.createRect( pieceSize ), Color.red, new BasicStroke( 1 ), Color.black ) );
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new SimSharingDragHandler( null, true ) {
@@ -49,5 +52,9 @@ public class RectangularPiece extends PNode {
         this.initialX = x;
         this.initialY = y;
         setOffset( x, y );
+    }
+
+    public Fraction toFraction() {
+        return new Fraction( 1, pieceSize );
     }
 }

@@ -52,9 +52,9 @@ public class BuildAFractionModel {
         fractions.set( fractions.get().snoc( value ) );
     }
 
-    public Property<List<Fraction>> getCreatedFractions( final int level ) {
-        return numberLevels.get( level ).createdFractions;
-    }
+    public Property<List<Fraction>> getNumberCreatedFractions( final int level ) { return numberLevels.get( level ).createdFractions; }
+
+    public Property<List<Fraction>> getPictureCreatedFractions( final int level ) { return pictureLevels.get( level ).createdFractions; }
 
     public NumberLevel getNumberLevel( final int level ) { return numberLevels.get( level ); }
 
