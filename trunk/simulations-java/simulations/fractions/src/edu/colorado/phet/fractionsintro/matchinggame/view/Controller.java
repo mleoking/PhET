@@ -68,7 +68,7 @@ class Controller {
 
     public static @Data class GameOver extends fj.F<MatchingGameState, MatchingGameState> {
         @Override public MatchingGameState f( final MatchingGameState matchingGameState ) {
-            return matchingGameState.withMode( SHOWING_GAME_OVER_SCREEN );
+            return matchingGameState.withScore( 12 ).withMode( SHOWING_GAME_OVER_SCREEN );
         }
     }
 }
