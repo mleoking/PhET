@@ -49,6 +49,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.flipX;
 import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources.Images.GRAY_ARROW;
+import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources.Strings.ZOOM_IN;
 import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources.Strings.ZOOM_OUT;
 
 /**
@@ -340,7 +341,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         }
 
         // Add the buttons for zooming in and out.
-        final PNode zoomInButton = new TextButtonNode( "Zoom In", new PhetFont( 18 ), Color.YELLOW ) {{
+        final PNode zoomInButton = new TextButtonNode( ZOOM_IN, new PhetFont( 18 ), Color.YELLOW ) {{
             centerFullBoundsOnPoint( previousGeneButton.getFullBoundsReference().getCenterX(), previousGeneButton.getFullBoundsReference().getMaxY() + 40 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
