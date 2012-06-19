@@ -23,6 +23,7 @@ import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.fractions.FractionsResources.Images;
+import edu.colorado.phet.fractions.util.FJUtils;
 import edu.colorado.phet.fractions.view.SpinnerButtonNode;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.buildafraction.model.PictureLevel;
@@ -43,17 +44,17 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author Sam Reid
  */
-public class PictureSceneNode extends PNode implements ContainerContext {
+public class PictureSceneNode extends PNode implements ContainerContext, PieceContext {
     //    private final ArrayList<FractionGraphic> fractionGraphics = new ArrayList<FractionGraphic>();
     private final PNode rootNode;
     private final BuildAFractionModel model;
     private final PDimension STAGE_SIZE;
     private final NumberSceneContext context;
-    private final List<Pair> pairList;
+    private final List<TargetPair> pairList;
     private final RichPNode toolboxNode;
     private final PNode frontLayer;
 
-    @Data class Pair {
+    @Data class TargetPair {
         public final ScoreBoxNode targetCell;
         public final PNode patternNode;
     }
@@ -66,17 +67,17 @@ public class PictureSceneNode extends PNode implements ContainerContext {
 //        final PhetPText title = new PhetPText( MY_FRACTIONS, AbstractFractionsCanvas.CONTROL_FONT );
 
         //Create the scoring cells with target patterns
-        ArrayList<Pair> pairs = new ArrayList<Pair>();
+        ArrayList<TargetPair> pairs = new ArrayList<TargetPair>();
         for ( int i = 0; i < 3; i++ ) {
             PictureTarget target = model.getPictureLevel( level ).getTarget( i );
 
             FractionNode f = new FractionNode( target.fraction, 0.4 );
-            pairs.add( new Pair( new ScoreBoxNode( target.fraction.numerator, target.fraction.denominator, model.getCreatedFractions( level ), rootNode, model, null, model.getNumberLevel( level ).flashTargetCellOnMatch ), new ZeroOffsetNode( f ) ) );
+            pairs.add( new TargetPair( new ScoreBoxNode( target.fraction.numerator, target.fraction.denominator, model.getCreatedFractions( level ), rootNode, model, null, model.getNumberLevel( level ).flashTargetCellOnMatch ), new ZeroOffsetNode( f ) ) );
         }
         pairList = List.iterableList( pairs );
 
-        List<PNode> patterns = pairList.map( new F<Pair, PNode>() {
-            @Override public PNode f( final Pair pair ) {
+        List<PNode> patterns = pairList.map( new F<TargetPair, PNode>() {
+            @Override public PNode f( final TargetPair pair ) {
                 return pair.patternNode;
             }
         } );
@@ -99,7 +100,7 @@ public class PictureSceneNode extends PNode implements ContainerContext {
         double offsetY = AbstractFractionsCanvas.INSET;
         double insetY = 5;
 //        addChild( title );
-        for ( Pair pair : pairs ) {
+        for ( TargetPair pair : pairs ) {
 
             pair.targetCell.setOffset( offsetX, offsetY );
             pair.patternNode.setOffset( offsetX + targetCellBounds.getWidth() + separation, offsetY + targetCellBounds.getHeight() / 2 - maxHeight / 2 );
@@ -127,7 +128,7 @@ public class PictureSceneNode extends PNode implements ContainerContext {
             int column = ( denominator - 1 ) % 3;
             containerNode.setInitialPosition( toolboxNode.getFullBounds().getX() + AbstractFractionsCanvas.INSET + column * 150,
                                               toolboxNode.getFullBounds().getY() + row * 80 + AbstractFractionsCanvas.INSET );
-            addChild( containerNode );
+            PictureSceneNode.this.addChild( containerNode );
         }
 
         //Create the bucket
@@ -148,8 +149,9 @@ public class PictureSceneNode extends PNode implements ContainerContext {
                         removeChild( piece );
                     }
                 }
-                RectangularPiece piece = new RectangularPiece( pieceSize, bucketView.getHoleNode().getFullBounds().getCenterX(), bucketView.getHoleNode().getFullBounds().getCenterY() );
-                addChild( piece );
+                RectangularPiece piece = new RectangularPiece( pieceSize, PictureSceneNode.this );
+                piece.setOffset( bucketView.getHoleNode().getFullBounds().getCenterX() - piece.getFullBounds().getWidth() / 2, bucketView.getHoleNode().getFullBounds().getCenterY() - piece.getFullBounds().getHeight() / 2 );
+                PictureSceneNode.this.addChild( piece );
                 pieces.add( piece );
 
                 if ( frontLayer != null ) { frontLayer.moveToFront(); }
@@ -193,6 +195,35 @@ public class PictureSceneNode extends PNode implements ContainerContext {
     }
 
     public void endDrag( final ContainerNode containerNode, final PInputEvent event ) {
+    }
+
+    public void endDrag( final RectangularPiece piece, final PInputEvent event ) {
+        boolean hitContainer = false;
+        List<ContainerNode> containerNodes = getContainerNodes().sort( FJUtils.ord( new F<ContainerNode, Double>() {
+            @Override public Double f( final ContainerNode c ) {
+                return c.getGlobalFullBounds().getCenter2D().distance( piece.getGlobalFullBounds().getCenter2D() );
+            }
+        } ) );
+        for ( ContainerNode containerNode : containerNodes ) {
+            if ( containerNode.getGlobalFullBounds().intersects( piece.getGlobalFullBounds() ) ) {
+                dropInto( piece, containerNode );
+                break;
+            }
+        }
+    }
+
+    private void dropInto( final RectangularPiece piece, final ContainerNode containerNode ) {
+        piece.animateToPositionScaleRotation( containerNode.getOffset().getX(), containerNode.getOffset().getY(), 1, 0, 200 );
+    }
+
+    private List<ContainerNode> getContainerNodes() {
+        ArrayList<ContainerNode> children = new ArrayList<ContainerNode>();
+        for ( Object child : this.getChildrenReference() ) {
+            if ( child instanceof ContainerNode ) {
+                children.add( (ContainerNode) child );
+            }
+        }
+        return List.iterableList( children );
     }
 
     public void endDrag( final NumberNode numberNode, final PInputEvent event ) {
@@ -300,8 +331,8 @@ public class PictureSceneNode extends PNode implements ContainerContext {
 //    }
 
     private boolean allTargetsComplete() {
-        return pairList.map( new F<Pair, Boolean>() {
-            @Override public Boolean f( final Pair pair ) {
+        return pairList.map( new F<TargetPair, Boolean>() {
+            @Override public Boolean f( final TargetPair pair ) {
                 return pair.targetCell.isCompleted();
             }
         } ).filter( new F<Boolean, Boolean>() {
