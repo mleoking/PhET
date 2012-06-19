@@ -1,4 +1,4 @@
-package edu.colorado.phet.fractionsintro.buildafraction.model;
+package edu.colorado.phet.fractionsintro.buildafraction.model.numbers;
 
 import fj.F;
 import fj.Ord;

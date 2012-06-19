@@ -1,4 +1,4 @@
-package edu.colorado.phet.fractionsintro.buildafraction.model;
+package edu.colorado.phet.fractionsintro.buildafraction.model.numbers;
 
 import fj.data.List;
 
@@ -10,8 +10,8 @@ import static fj.data.List.list;
 /**
  * @author Sam Reid
  */
-public class RandomColors3 {
-    private final List<Color> colors = NumberLevelList.shuffle( list( LIGHT_RED, LIGHT_GREEN, LIGHT_BLUE ) );
+public class RandomColors4 {
+    private final List<Color> colors = NumberLevelList.shuffle( list( LIGHT_RED, LIGHT_GREEN, LIGHT_BLUE, Color.orange ) );
     private int index = 0;
 
     public Color next() {

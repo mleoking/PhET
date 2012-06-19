@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
+import edu.colorado.phet.fractionsintro.buildafraction.model.numbers.NumberLevel;
+import edu.colorado.phet.fractionsintro.buildafraction.model.numbers.NumberLevelList;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 
 /**
