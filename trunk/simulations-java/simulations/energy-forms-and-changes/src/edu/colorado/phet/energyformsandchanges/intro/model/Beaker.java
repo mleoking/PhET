@@ -13,10 +13,10 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -238,10 +238,6 @@ public class Beaker extends RectangularThermalMovableModelElement {
     }
 
     @Override public IUserComponent getUserComponent() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override public IUserComponentType getUserComponentType() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return EnergyFormsAndChangesSimSharing.UserComponents.beaker;
     }
 }

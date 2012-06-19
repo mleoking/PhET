@@ -23,7 +23,7 @@ public class EnergyFormsAndChangesSimSharing {
         introTab, energySystemsTab,
 
         // Movable model elements
-        brick, leadBlock, beaker,
+        brick, ironBlock, beaker,
 
         // Controls
         showEnergyCheckBox, fastForwardRadioButton, normalMotionRadioButton

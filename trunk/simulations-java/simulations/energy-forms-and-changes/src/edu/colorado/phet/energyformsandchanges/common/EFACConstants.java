@@ -24,7 +24,7 @@ public class EFACConstants {
     // Constants used for creating projections that have a 3D-ish look.
     public static final double Z_TO_X_OFFSET_MULTIPLIER = -0.25;
     public static final double Z_TO_Y_OFFSET_MULTIPLIER = -0.25;
-    public static Function1<Double, ImmutableVector2D> MAP_Z_TO_XY_OFFSET = new Function1<Double, ImmutableVector2D>() {
+    public static final Function1<Double, ImmutableVector2D> MAP_Z_TO_XY_OFFSET = new Function1<Double, ImmutableVector2D>() {
         public ImmutableVector2D apply( Double zValue ) {
             return new ImmutableVector2D( zValue * Z_TO_X_OFFSET_MULTIPLIER, zValue * Z_TO_Y_OFFSET_MULTIPLIER );
         }
@@ -36,10 +36,8 @@ public class EFACConstants {
     public static final double ENERGY_PER_CHUNK = 40000;
 
     // Constant function for mapping energy level to number of energy chunks.
-    public static Function1<Double, Integer> ENERGY_TO_NUM_CHUNKS_MAPPER = new Function1<Double, Integer>() {
-        //                private Function.LinearFunction MAPPER_TO_DOUBLE = new Function.LinearFunction( 42000, 400000, 2, 25 );
-//        private Function.LinearFunction MAPPER_TO_DOUBLE = new Function.LinearFunction( 0, 414000, 0, 25 ); // Linear from absolute zero.
-        private Function.LinearFunction MAPPER_TO_DOUBLE = new Function.LinearFunction( ENERGY_PER_CHUNK, 45000, 1, 2 ); // Brick has 1 at 0 C, 2 at room temp.  Brick SH = 800
+    public static final Function1<Double, Integer> ENERGY_TO_NUM_CHUNKS_MAPPER = new Function1<Double, Integer>() {
+        private final Function.LinearFunction MAPPER_TO_DOUBLE = new Function.LinearFunction( ENERGY_PER_CHUNK, 45000, 1, 2 ); // Brick has 1 at 0 C, 2 at room temp.  Brick SH = 800
 
         public Integer apply( Double energy ) {
             return Math.max( (int) Math.round( MAPPER_TO_DOUBLE.evaluate( energy ) ), 0 );

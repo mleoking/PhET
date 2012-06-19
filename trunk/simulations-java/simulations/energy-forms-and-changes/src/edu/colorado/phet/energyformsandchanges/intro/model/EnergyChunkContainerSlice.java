@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
  * @author John Blanco
  */
 public class EnergyChunkContainerSlice {
-    public ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
+    public final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
     private final double zPosition;
 
     private Shape shape;

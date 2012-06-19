@@ -53,8 +53,8 @@ public class Air implements ThermalEnergyContainer {
     //-------------------------------------------------------------------------
 
     private double energy = INITIAL_ENERGY;
-    private ConstantDtClock clock;
-    private BooleanProperty energyChunksVisible;
+    private final ConstantDtClock clock;
+    private final BooleanProperty energyChunksVisible;
     private final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
     private final List<EnergyChunkWanderController> energyChunkWanderControllers = new ArrayList<EnergyChunkWanderController>();
 

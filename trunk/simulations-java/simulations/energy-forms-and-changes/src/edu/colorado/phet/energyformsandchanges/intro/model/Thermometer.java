@@ -4,8 +4,6 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 
 /**
@@ -26,11 +24,6 @@ public class Thermometer extends UserMovableModelElement {
     @Override public IUserComponent getUserComponent() {
         //TODO
         return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override public IUserComponentType getUserComponentType() {
-        // Movable elements are considered sprites.
-        return UserComponentTypes.sprite;
     }
 
     @Override public Property<HorizontalSurface> getBottomSurfaceProperty() {

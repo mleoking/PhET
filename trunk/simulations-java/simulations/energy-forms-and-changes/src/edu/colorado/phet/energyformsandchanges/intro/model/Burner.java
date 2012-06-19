@@ -53,7 +53,7 @@ public class Burner extends ModelElement {
     // is being done.
     public final BoundedDoubleProperty heatCoolLevel = new BoundedDoubleProperty( 0.0, -1, 1 );
 
-    private Property<HorizontalSurface> topSurface;
+    private final Property<HorizontalSurface> topSurface;
     private final BooleanProperty energyChunksVisible;
     private final ConstantDtClock clock;
     public final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();

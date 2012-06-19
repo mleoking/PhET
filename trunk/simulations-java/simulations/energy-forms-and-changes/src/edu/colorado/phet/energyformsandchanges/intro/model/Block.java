@@ -12,8 +12,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentType;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
@@ -154,10 +152,5 @@ public abstract class Block extends RectangularThermalMovableModelElement {
      */
     public static Shape getRawShape() {
         return new Rectangle2D.Double( -SURFACE_WIDTH / 2, 0, SURFACE_WIDTH, SURFACE_WIDTH );
-    }
-
-    @Override public IUserComponentType getUserComponentType() {
-        // Movable elements are considered sprites.
-        return UserComponentTypes.sprite;
     }
 }

@@ -45,16 +45,16 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
 
-    public static Dimension2D STAGE_SIZE = CenteredStage.DEFAULT_STAGE_SIZE;
-    private static double EDGE_INSET = 10;
+    public static final Dimension2D STAGE_SIZE = CenteredStage.DEFAULT_STAGE_SIZE;
+    private static final double EDGE_INSET = 10;
     private static final Color CONTROL_PANEL_COLOR = new Color( 255, 255, 224 );
 
     // Boolean property for showing/hiding developer control for dumping energy levels.
     public static final BooleanProperty showDumpEnergiesButton = new BooleanProperty( false );
 
     private final EFACIntroModel model;
-    private ThermometerToolBox thermometerToolBox;
-    private BooleanProperty normalSimSpeed = new BooleanProperty( true );
+    private final ThermometerToolBox thermometerToolBox;
+    private final BooleanProperty normalSimSpeed = new BooleanProperty( true );
 
     /**
      * Constructor.
@@ -283,7 +283,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
     // Class that defines the thermometer tool box.
     private static class ThermometerToolBox extends PNode {
 
-        private static int NUM_THERMOMETERS_SUPPORTED = 2;
+        private static final int NUM_THERMOMETERS_SUPPORTED = 2;
 
         private final EFACIntroModel model;
         private final ModelViewTransform mvt;
