@@ -25,6 +25,7 @@ import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.intro.model.Beaker;
 import edu.colorado.phet.energyformsandchanges.intro.model.Block;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
+import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunkContainerSliceNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -103,6 +104,23 @@ public class BeakerView {
             int colorBase = (int) ( 255 * (double) i / beaker.getSlices().size() );
             energyChunkRootNode.addChild( new EnergyChunkContainerSliceNode( beaker.getSlices().get( i ), mvt, new Color( colorBase, 255 - colorBase, colorBase ) ) );
         }
+
+        // Watch for coming and going of energy chunks that are approaching
+        // this model element and add/remove them as needed.
+        beaker.approachingEnergyChunks.addElementAddedObserver( new VoidFunction1<EnergyChunk>() {
+            public void apply( final EnergyChunk addedEnergyChunk ) {
+                final PNode energyChunkNode = new EnergyChunkNode( addedEnergyChunk, mvt );
+                energyChunkRootNode.addChild( energyChunkNode );
+                beaker.approachingEnergyChunks.addElementRemovedObserver( new VoidFunction1<EnergyChunk>() {
+                    public void apply( EnergyChunk removedEnergyChunk ) {
+                        if ( removedEnergyChunk == addedEnergyChunk ) {
+                            energyChunkRootNode.removeChild( energyChunkNode );
+                            beaker.approachingEnergyChunks.removeElementRemovedObserver( this );
+                        }
+                    }
+                } );
+            }
+        } );
 
         // Adjust the transparency of the water and label based on energy
         // chunk visibility.

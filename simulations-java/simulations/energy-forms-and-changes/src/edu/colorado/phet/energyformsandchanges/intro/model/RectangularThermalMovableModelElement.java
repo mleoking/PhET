@@ -124,9 +124,9 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
 
     public void addEnergyChunk( EnergyChunk ec ) {
         if ( getSliceBounds().contains( ec.position.get().toPoint2D() ) ) {
-            // Add chunk directly to slice.
-            slices.get( nextSliceIndex ).addEnergyChunk( ec );
-            nextSliceIndex = ( nextSliceIndex + 1 ) % slices.size();
+            // Energy chunk is positioned within container bounds, so add it
+            // directly to a slice.
+            addEnergyChunkToNextSlice( ec );
         }
         else {
             // Chunk is out of the bounds of this element, so make it wander
@@ -137,7 +137,13 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
         }
     }
 
-    private Rectangle2D getSliceBounds() {
+    // Add an energy chunk to the next available slice.  Override for more elaborate behavior.
+    protected void addEnergyChunkToNextSlice( EnergyChunk ec ) {
+        slices.get( nextSliceIndex ).addEnergyChunk( ec );
+        nextSliceIndex = ( nextSliceIndex + 1 ) % slices.size();
+    }
+
+    protected Rectangle2D getSliceBounds() {
         double minX = Double.POSITIVE_INFINITY;
         double minY = Double.POSITIVE_INFINITY;
         double maxX = Double.NEGATIVE_INFINITY;
@@ -167,8 +173,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
                 energyChunkWanderControllers.remove( energyChunkWanderController );
             }
         }
-        slices.get( nextSliceIndex ).addEnergyChunk( ec );
-        nextSliceIndex = ( nextSliceIndex + 1 ) % slices.size();
+        addEnergyChunkToNextSlice( ec );
     }
 
     public boolean removeEnergyChunk( EnergyChunk ec ) {

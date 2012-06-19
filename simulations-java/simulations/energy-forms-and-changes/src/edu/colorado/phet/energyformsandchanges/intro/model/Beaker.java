@@ -174,17 +174,14 @@ public class Beaker extends RectangularThermalMovableModelElement {
             slice.energyChunkList.clear();
         }
         int targetNumChunks = EFACConstants.ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy );
+        Rectangle2D initialChunkBounds = getSliceBounds();
         while ( getNumEnergyChunks() < targetNumChunks ) {
             // Add a chunk at a random location in the beaker.
-            addEnergyChunk( new EnergyChunk( clock, new ImmutableVector2D( 0, 0 ), energyChunksVisible, false ), true );
+            addEnergyChunkToNextSlice( new EnergyChunk( clock, EnergyChunkDistributor.generateRandomLocation( initialChunkBounds ), energyChunksVisible, false ) );
         }
     }
 
-    @Override public void addEnergyChunk( EnergyChunk ec ) {
-        addEnergyChunk( ec, false );
-    }
-
-    public void addEnergyChunk( EnergyChunk ec, boolean setLocation ) {
+    @Override protected void addEnergyChunkToNextSlice( EnergyChunk ec ) {
         double totalSliceArea = 0;
         for ( EnergyChunkContainerSlice slice : slices ) {
             totalSliceArea += slice.getShape().getBounds2D().getWidth() * slice.getShape().getBounds2D().getHeight();
@@ -198,10 +195,6 @@ public class Beaker extends RectangularThermalMovableModelElement {
                 chosenSlice = slice;
                 break;
             }
-        }
-        if ( setLocation ) {
-            // Move this chunk to a random location on the slice.
-            ec.position.set( EnergyChunkDistributor.generateRandomLocation( chosenSlice.getShape().getBounds2D() ) );
         }
         chosenSlice.addEnergyChunk( ec );
     }
