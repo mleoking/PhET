@@ -174,7 +174,7 @@ public class Beaker extends RectangularThermalMovableModelElement {
             slice.energyChunkList.clear();
         }
         int targetNumChunks = EFACConstants.ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy );
-        while ( getNumContainedEnergyChunks() < targetNumChunks ) {
+        while ( getNumEnergyChunks() < targetNumChunks ) {
             // Add a chunk at a random location in the beaker.
             addEnergyChunk( new EnergyChunk( clock, new ImmutableVector2D( 0, 0 ), energyChunksVisible, false ), true );
         }

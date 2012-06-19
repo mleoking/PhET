@@ -95,4 +95,8 @@ public final class EnergyChunkWanderController {
     public ImmutableVector2D getDestination() {
         return destination;
     }
+
+    public boolean isDestinationReached() {
+        return energyChunk.position.get().distance( destination ) < DISTANCE_AT_WHICH_TO_JUMP_TO_DESTINATION;
+    }
 }
