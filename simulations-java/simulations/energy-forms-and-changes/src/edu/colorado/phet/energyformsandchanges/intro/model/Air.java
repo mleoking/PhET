@@ -15,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import static edu.colorado.phet.energyformsandchanges.common.EFACConstants.ENERGY_TO_NUM_CHUNKS_MAPPER;
 import static edu.colorado.phet.energyformsandchanges.intro.model.ThermalEnergyTransferConstants.getHeatTransferFactor;
 
 /**
@@ -126,14 +125,6 @@ public class Air implements ThermalEnergyContainer {
                 otherEnergyContainer.changeEnergy( -thermalEnergyGained );
             }
         }
-    }
-
-    public boolean needsEnergyChunk() {
-        return ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy ) > energyChunkList.size() + ENERGY_TO_NUM_CHUNKS_MAPPER.apply( INITIAL_ENERGY ) - 1;
-    }
-
-    public boolean hasExcessEnergyChunks() {
-        return ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy ) < energyChunkList.size() + ENERGY_TO_NUM_CHUNKS_MAPPER.apply( INITIAL_ENERGY ) - 1;
     }
 
     public void addEnergyChunk( EnergyChunk ec ) {
