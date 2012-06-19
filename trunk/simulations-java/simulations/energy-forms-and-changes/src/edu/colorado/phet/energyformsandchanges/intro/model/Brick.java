@@ -44,7 +44,7 @@ public class Brick extends Block {
         return "Brick";
     }
 
-    @Override public EnergyContainerCategory getEnergyContainerCategory() {
+    public EnergyContainerCategory getEnergyContainerCategory() {
         return EnergyContainerCategory.BRICK;
     }
 

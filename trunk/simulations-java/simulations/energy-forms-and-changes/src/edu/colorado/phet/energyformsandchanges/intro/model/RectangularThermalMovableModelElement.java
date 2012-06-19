@@ -114,14 +114,6 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
         }
     }
 
-    public boolean needsEnergyChunk() {
-        return ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy ) > getNumEnergyChunks();
-    }
-
-    public boolean hasExcessEnergyChunks() {
-        return ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy ) < getNumEnergyChunks();
-    }
-
     public void addEnergyChunk( EnergyChunk ec ) {
         if ( getSliceBounds().contains( ec.position.get().toPoint2D() ) ) {
             // Energy chunk is positioned within container bounds, so add it
