@@ -16,7 +16,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentTyp
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -143,25 +142,6 @@ public abstract class Block extends RectangularThermalMovableModelElement {
 
     private void updateBottomSurfaceProperty() {
         bottomSurface.set( new HorizontalSurface( new DoubleRange( getRect().getMinX(), getRect().getMaxX() ), getRect().getMinY(), this ) );
-    }
-
-    @Override protected Shape getEnergyChunkContainmentShape() {
-        Rectangle2D flatRect = getRect();
-        ImmutableVector2D projection = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( SURFACE_WIDTH / 2 );
-        ImmutableVector2D topLeftFront = new ImmutableVector2D( flatRect.getX(), flatRect.getMaxY() ).getAddedInstance( projection );
-        ImmutableVector2D bottomLeftFront = new ImmutableVector2D( flatRect.getX(), flatRect.getY() ).getAddedInstance( projection );
-        ImmutableVector2D bottomRightFront = new ImmutableVector2D( flatRect.getMaxX(), flatRect.getY() ).getAddedInstance( projection );
-        ImmutableVector2D bottomRightBack = new ImmutableVector2D( flatRect.getMaxX(), flatRect.getY() ).getSubtractedInstance( projection );
-        ImmutableVector2D topRightBack = new ImmutableVector2D( flatRect.getMaxX(), flatRect.getMaxY() ).getSubtractedInstance( projection );
-        ImmutableVector2D topLeftBack = new ImmutableVector2D( flatRect.getX(), flatRect.getMaxY() ).getSubtractedInstance( projection );
-        DoubleGeneralPath path = new DoubleGeneralPath();
-        path.moveTo( topLeftFront );
-        path.lineTo( bottomLeftFront );
-        path.lineTo( bottomRightFront );
-        path.lineTo( bottomRightBack );
-        path.lineTo( topRightBack );
-        path.lineTo( topLeftBack );
-        return path.getGeneralPath();
     }
 
     /**

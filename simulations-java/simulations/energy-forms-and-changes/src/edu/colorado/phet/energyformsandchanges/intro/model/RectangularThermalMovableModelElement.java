@@ -1,7 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
-import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +26,10 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
 
     public final BooleanProperty energyChunksVisible;
     protected double energy = 0; // In Joules.
-    protected final double specificHeat; // In J/kg-K
+    private final double specificHeat; // In J/kg-K
     protected final double mass; // In kg
     protected final ConstantDtClock clock;
-    protected final double width;
+    private final double width;
     protected final double height;
     private int nextSliceIndex;
 
@@ -38,7 +37,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
     protected final List<EnergyChunkContainerSlice> slices = new ArrayList<EnergyChunkContainerSlice>();
 
     // Energy chunks that are approaching this model element.
-    public ObservableList<EnergyChunk> approachingEnergyChunks = new ObservableList<EnergyChunk>();
+    public final ObservableList<EnergyChunk> approachingEnergyChunks = new ObservableList<EnergyChunk>();
     private List<EnergyChunkWanderController> energyChunkWanderControllers = new ArrayList<EnergyChunkWanderController>();
 
     /**
@@ -238,11 +237,6 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
             numChunks += slice.getNumEnergyChunks();
         }
         return numChunks + approachingEnergyChunks.size();
-    }
-
-    protected Shape getEnergyChunkContainmentShape() {
-        // Override for more elaborate or complex shapes.
-        return getThermalContactArea().getBounds();
     }
 
     public List<EnergyChunkContainerSlice> getSlices() {

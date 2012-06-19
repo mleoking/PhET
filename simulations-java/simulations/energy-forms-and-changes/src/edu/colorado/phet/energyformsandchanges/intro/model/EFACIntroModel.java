@@ -69,7 +69,7 @@ public class EFACIntroModel {
 
     // Lists of thermal model elements for easy iteration.
     private List<ThermalEnergyContainer> thermalEnergyContainers = new ArrayList<ThermalEnergyContainer>();
-    protected final List<RectangularThermalMovableModelElement> nonAirThermalEnergyContainers = new ArrayList<RectangularThermalMovableModelElement>();
+    private final List<RectangularThermalMovableModelElement> nonAirThermalEnergyContainers = new ArrayList<RectangularThermalMovableModelElement>();
 
     //-------------------------------------------------------------------------
     // Constructor(s)

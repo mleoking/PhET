@@ -105,7 +105,7 @@ public class EnergyChunkDistributor {
     }
 
     // TODO: Potentially obsoleted on 6/23/2012, remove at some point if never needed again.
-    public static void updatePositions( List<EnergyChunk> energyChunkList, Shape enclosingShape, double dt ) {
+    private static void updatePositions( List<EnergyChunk> energyChunkList, Shape enclosingShape, double dt ) {
 
         Rectangle2D boundingRect = enclosingShape.getBounds2D();
 
