@@ -26,7 +26,7 @@ public class BuildAFractionModel {
     public final IntegerProperty pictureLevel = new IntegerProperty( 0 );
 
     public final ConstantDtClock clock = new ConstantDtClock();
-    public final Property<Scene> selectedScene = new Property<Scene>( Scene.numbers );
+    public final Property<Scene> selectedScene = new Property<Scene>( Scene.pictures );
 
     public final IntegerProperty numberScore = new IntegerProperty( 0 );
 
