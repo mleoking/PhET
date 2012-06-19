@@ -18,9 +18,9 @@ import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsSimSharing.Use
 import edu.colorado.phet.geneexpressionbasics.common.model.DnaMolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.TranscriptionFactor;
 import edu.colorado.phet.geneexpressionbasics.common.model.TranscriptionFactor.TranscriptionFactorConfig;
+import edu.colorado.phet.geneexpressionbasics.common.view.DnaMoleculeNode;
+import edu.colorado.phet.geneexpressionbasics.common.view.MobileBiomoleculeNode;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.StubGeneExpressionModel;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.DnaMoleculeNode;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.MobileBiomoleculeNode;
 import edu.colorado.phet.geneexpressionbasics.mrnaproduction.model.MessengerRnaProductionModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;

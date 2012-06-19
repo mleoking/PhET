@@ -10,9 +10,9 @@ import javax.swing.JFrame;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.geneexpressionbasics.common.model.MessengerRna;
+import edu.colorado.phet.geneexpressionbasics.common.view.MobileBiomoleculeNode;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ProteinA;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.StubGeneExpressionModel;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.MobileBiomoleculeNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**

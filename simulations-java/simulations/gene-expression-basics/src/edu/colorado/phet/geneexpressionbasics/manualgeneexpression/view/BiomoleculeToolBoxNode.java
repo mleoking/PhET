@@ -24,6 +24,7 @@ import edu.colorado.phet.geneexpressionbasics.common.model.Ribosome;
 import edu.colorado.phet.geneexpressionbasics.common.model.RnaPolymerase;
 import edu.colorado.phet.geneexpressionbasics.common.model.TranscriptionFactor;
 import edu.colorado.phet.geneexpressionbasics.common.model.TranscriptionFactor.TranscriptionFactorConfig;
+import edu.colorado.phet.geneexpressionbasics.common.view.MobileBiomoleculeNode;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.StubGeneExpressionModel;
 import edu.umd.cs.piccolo.PNode;
