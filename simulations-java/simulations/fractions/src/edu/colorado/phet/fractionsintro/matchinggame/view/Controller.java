@@ -65,4 +65,10 @@ class Controller {
             return MatchingGameState.newLevel( matchingGameState.info.level, matchingGameState.gameResults ).withMode( WAITING_FOR_USER_TO_CHECK_ANSWER );
         }
     }
+
+    public static @Data class GameOver extends fj.F<MatchingGameState, MatchingGameState> {
+        @Override public MatchingGameState f( final MatchingGameState matchingGameState ) {
+            return matchingGameState.withMode( SHOWING_GAME_OVER_SCREEN );
+        }
+    }
 }

@@ -48,6 +48,7 @@ import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameModel;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MatchingGameState;
 import edu.colorado.phet.fractionsintro.matchinggame.model.Mode;
 import edu.colorado.phet.fractionsintro.matchinggame.model.MovableFraction;
+import edu.colorado.phet.fractionsintro.matchinggame.view.Controller.GameOver;
 import edu.colorado.phet.fractionsintro.matchinggame.view.Controller.Resample;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -73,6 +74,9 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
 
         //Show the start screen when the user is choosing a level.
         addStartScreen( model, standaloneSim );
+
+        //Show the reward node behind the main node so it won't interfere with the results the user collected.
+        addChild( new RewardNode( model ) );
 
         //Things to show during the game (i.e. not when settings dialog showing.)
         addChild( createGameNode( dev, model, emptyBarGraphNode ) );
@@ -253,7 +257,8 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
             }, model.scored ) );
 
             if ( dev ) {
-                addChild( buttonFactory.f( new ButtonArgs( null, "Resample", Color.red, new Vector2D( 100, 6 ), new Resample() ) ) );
+                addChild( new HBox( buttonFactory.f( new ButtonArgs( null, "Resample", Color.red, new Vector2D( 100, 6 ), new Resample() ) ),
+                                    buttonFactory.f( new ButtonArgs( null, "Test game over", Color.green, new Vector2D( 100, 6 ), new GameOver() ) ) ) );
             }
         }};
     }
