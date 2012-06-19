@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fractionsintro.intro.view.representationcontrolpanel;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 
 import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.SliceFactory;
@@ -18,16 +19,22 @@ public class VerticalBarIcon implements RepresentationIcon {
 
     public VerticalBarIcon( final SliceFactory sliceFactory, final Color color ) {
         node = new ShapeNode( sliceFactory.createBucketSlice( 1, 0L ) ) {{
-            scale( 44 / getFullBounds().getWidth() );
+            final double scale = 44 / getFullBounds().getWidth();
+            scale( scale );
             setPaint( color );
+
+            //Show the border a bit thicker to match the filled shapes
+            path.setStroke( new BasicStroke( (float) ( 2 / scale ) ) );
+            path.setStrokePaint( Color.black );
         }};
+
     }
 
-    @Override public PNode getNode() {
+    public PNode getNode() {
         return node;
     }
 
-    @Override public Representation getRepresentation() {
+    public Representation getRepresentation() {
         return Representation.VERTICAL_BAR;
     }
 }

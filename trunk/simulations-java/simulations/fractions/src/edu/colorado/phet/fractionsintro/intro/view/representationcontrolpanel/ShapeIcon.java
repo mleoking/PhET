@@ -24,7 +24,7 @@ public class ShapeIcon extends PNode implements RepresentationIcon {
     public static double DIM = 20;
     public final Representation representation;
 
-    public ShapeIcon( ArrayList<Shape> unfilled, ArrayList<Shape> filled, final SettableProperty<Representation> chosenRepresentation, final Representation representation, Color color ) {
+    public ShapeIcon( ArrayList<Shape> unfilled, ArrayList<Shape> filled, final Shape outline, final SettableProperty<Representation> chosenRepresentation, final Representation representation, Color color ) {
         this.representation = representation;
         for ( Shape shape : unfilled ) {
             addChild( new PhetPPath( shape, Color.white, new BasicStroke( 1 ), Color.gray ) );
@@ -32,6 +32,7 @@ public class ShapeIcon extends PNode implements RepresentationIcon {
         for ( Shape shape : filled ) {
             addChild( new PhetPPath( shape, color, new BasicStroke( 1 ), Color.gray ) );
         }
+        addChild( new PhetPPath( outline, new BasicStroke( 2 ), Color.black ) );
 
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
