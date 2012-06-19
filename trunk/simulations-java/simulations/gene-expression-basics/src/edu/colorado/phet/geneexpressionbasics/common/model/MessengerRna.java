@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
+package edu.colorado.phet.geneexpressionbasics.common.model;
 
 import java.awt.Point;
 import java.awt.geom.Dimension2D;
@@ -15,12 +15,12 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
-import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
-import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
-import edu.colorado.phet.geneexpressionbasics.common.model.WindingBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.MessengerRnaDestroyer;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentStateMachine;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.MessengerRnaAttachmentStateMachine;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ProteinA;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.StubGeneExpressionModel;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.MessengerRnaNode;
 import edu.umd.cs.piccolo.util.PDimension;
 

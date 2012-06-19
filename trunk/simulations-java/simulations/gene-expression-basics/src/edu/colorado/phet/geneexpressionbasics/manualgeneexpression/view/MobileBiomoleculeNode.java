@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.RnaPolymerase;
+import edu.colorado.phet.geneexpressionbasics.common.model.RnaPolymerase;
 import edu.colorado.phet.geneexpressionbasics.multiplecells.view.ColorChangingCellNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 

@@ -9,9 +9,9 @@ import java.awt.Stroke;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.BasePair;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule.DnaStrandSegment;
+import edu.colorado.phet.geneexpressionbasics.common.model.BasePair;
+import edu.colorado.phet.geneexpressionbasics.common.model.DnaMolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.DnaMolecule.DnaStrandSegment;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 

@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
+package edu.colorado.phet.geneexpressionbasics.common;
 
 import java.awt.Color;
 import java.awt.Shape;
@@ -10,6 +10,8 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
+import edu.colorado.phet.geneexpressionbasics.common.model.GeneExpressionModel;
+import edu.colorado.phet.geneexpressionbasics.common.model.MessengerRna;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentStateMachine;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.RnaDestroyerAttachmentStateMachine;

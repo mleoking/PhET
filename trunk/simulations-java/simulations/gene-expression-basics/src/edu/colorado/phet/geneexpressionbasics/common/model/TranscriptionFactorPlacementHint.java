@@ -1,8 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model;
 
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor.TranscriptionFactorConfig;
+import edu.colorado.phet.geneexpressionbasics.common.model.TranscriptionFactor.TranscriptionFactorConfig;
 
 /**
  * Specialization of placement hint for transcription factors.

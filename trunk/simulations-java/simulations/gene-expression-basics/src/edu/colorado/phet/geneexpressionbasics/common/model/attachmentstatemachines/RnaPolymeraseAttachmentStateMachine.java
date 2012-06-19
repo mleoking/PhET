@@ -11,16 +11,16 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
+import edu.colorado.phet.geneexpressionbasics.common.model.DnaMolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.DnaSeparation;
+import edu.colorado.phet.geneexpressionbasics.common.model.Gene;
+import edu.colorado.phet.geneexpressionbasics.common.model.MessengerRna;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.RnaPolymerase;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.DriftThenTeleportMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MoveDirectlyToDestinationMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.RandomWalkMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.WanderInGeneralDirectionMotionStrategy;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaSeparation;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.RnaPolymerase;
 
 /**
  * Attachment state machine for all RNA Polymerase molecules.  This uses the

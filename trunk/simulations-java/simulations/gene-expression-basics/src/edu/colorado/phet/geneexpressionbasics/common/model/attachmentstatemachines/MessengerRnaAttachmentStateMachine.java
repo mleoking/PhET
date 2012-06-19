@@ -2,10 +2,10 @@
 package edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.geneexpressionbasics.common.model.MessengerRna;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.RandomWalkMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.StillnessMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.WanderInGeneralDirectionMotionStrategy;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
 
 /**
  * Attachment state machine for messenger RNA.

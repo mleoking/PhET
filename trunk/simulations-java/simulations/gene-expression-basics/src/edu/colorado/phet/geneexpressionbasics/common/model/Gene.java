@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
+package edu.colorado.phet.geneexpressionbasics.common.model;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
@@ -10,12 +10,8 @@ import java.util.Map;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
-import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
-import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
-import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
-import edu.colorado.phet.geneexpressionbasics.common.model.TranscriptionFactorAttachmentSite;
-import edu.colorado.phet.geneexpressionbasics.common.model.TranscriptionFactorPlacementHint;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor.TranscriptionFactorConfig;
+import edu.colorado.phet.geneexpressionbasics.common.model.TranscriptionFactor.TranscriptionFactorConfig;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.StubGeneExpressionModel;
 
 /**
  * This class is the model representation of a gene on a DNA molecule.  The
@@ -65,7 +61,7 @@ public abstract class Gene {
      *                               DNA strand, where this region exists.
      * @param transcribedRegionColor
      */
-    protected Gene( edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule dnaMolecule, edu.colorado.phet.common.phetcommon.util.IntegerRange regulatoryRegion, java.awt.Color regulatoryRegionColor,
+    protected Gene( DnaMolecule dnaMolecule, edu.colorado.phet.common.phetcommon.util.IntegerRange regulatoryRegion, java.awt.Color regulatoryRegionColor,
                     edu.colorado.phet.common.phetcommon.util.IntegerRange transcribedRegion, java.awt.Color transcribedRegionColor ) {
         this.dnaMolecule = dnaMolecule;
         this.regulatoryRegion = regulatoryRegion;

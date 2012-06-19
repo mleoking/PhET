@@ -19,8 +19,8 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ShapeSegment;
+import edu.colorado.phet.geneexpressionbasics.common.model.MessengerRna;
+import edu.colorado.phet.geneexpressionbasics.common.model.ShapeSegment;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 

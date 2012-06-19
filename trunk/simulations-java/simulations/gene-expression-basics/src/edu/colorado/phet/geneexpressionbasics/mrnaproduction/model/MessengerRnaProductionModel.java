@@ -18,16 +18,16 @@ import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.geneexpressionbasics.common.model.DnaMolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.Gene;
+import edu.colorado.phet.geneexpressionbasics.common.model.GeneA;
+import edu.colorado.phet.geneexpressionbasics.common.model.GeneExpressionModel;
+import edu.colorado.phet.geneexpressionbasics.common.model.MessengerRna;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.RnaPolymerase;
+import edu.colorado.phet.geneexpressionbasics.common.model.TranscriptionFactor;
+import edu.colorado.phet.geneexpressionbasics.common.model.TranscriptionFactor.TranscriptionFactorConfig;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MotionBounds;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.GeneA;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.GeneExpressionModel;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.RnaPolymerase;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor.TranscriptionFactorConfig;
 
 /**
  * Primary model for the manual gene expression tab.

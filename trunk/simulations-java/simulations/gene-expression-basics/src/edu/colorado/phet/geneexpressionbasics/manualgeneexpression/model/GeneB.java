@@ -4,6 +4,10 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
+import edu.colorado.phet.geneexpressionbasics.common.model.DnaMolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.Gene;
+import edu.colorado.phet.geneexpressionbasics.common.model.Protein;
+import edu.colorado.phet.geneexpressionbasics.common.model.TranscriptionFactor;
 
 /**
  * Specific instance of a gene.

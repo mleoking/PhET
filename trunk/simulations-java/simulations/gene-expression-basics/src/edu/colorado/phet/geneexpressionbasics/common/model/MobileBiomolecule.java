@@ -13,8 +13,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentStateMachine;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MotionBounds;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.MotionStrategy;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.GeneExpressionModel;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
 
 /**
  * Base class for all biomolecules (i.e. rna polymerase, transcription factors,

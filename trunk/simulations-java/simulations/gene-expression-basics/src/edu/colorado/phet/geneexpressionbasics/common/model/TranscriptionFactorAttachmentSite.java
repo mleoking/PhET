@@ -3,16 +3,13 @@ package edu.colorado.phet.geneexpressionbasics.common.model;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor.TranscriptionFactorConfig;
+import edu.colorado.phet.geneexpressionbasics.common.model.TranscriptionFactor.TranscriptionFactorConfig;
 
 /**
  * Specialization of the attachment site for transcription factors -
  * associates a transcription factor configuration and a property with the
  * attachment site.
- *
+ * <p/>
  * NOTE TO SELF (or other future developers): If any other attachment site is
  * needed that has variable affinity, the class hierarchy should be changed to
  * make this more general.
@@ -35,7 +32,7 @@ public class TranscriptionFactorAttachmentSite extends AttachmentSite {
         this.tfConfig = tfConfig;
     }
 
-    public boolean configurationMatches( TranscriptionFactorConfig tfConfig ){
+    public boolean configurationMatches( TranscriptionFactorConfig tfConfig ) {
         return this.tfConfig.equals( tfConfig );
     }
 

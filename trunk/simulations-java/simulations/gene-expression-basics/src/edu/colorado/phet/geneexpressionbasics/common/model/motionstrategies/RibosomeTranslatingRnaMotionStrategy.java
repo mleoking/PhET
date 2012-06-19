@@ -4,8 +4,8 @@ package edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Ribosome;
+import edu.colorado.phet.geneexpressionbasics.common.model.MessengerRna;
+import edu.colorado.phet.geneexpressionbasics.common.model.Ribosome;
 
 /**
  * This class defines a very specific motion strategy used by a ribosome to

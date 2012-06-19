@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.DnaMolecule;
 
 /**
  * Base class for motion strategies that can be used to exhibit different sorts
