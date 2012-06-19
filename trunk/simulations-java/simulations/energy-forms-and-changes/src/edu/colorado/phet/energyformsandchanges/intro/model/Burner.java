@@ -3,6 +3,7 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
@@ -56,6 +57,7 @@ public class Burner extends ModelElement {
     private final BooleanProperty energyChunksVisible;
     private final ConstantDtClock clock;
     public final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
+    private final List<EnergyChunkWanderController> energyChunkWanderControllers = new ArrayList<EnergyChunkWanderController>();
 
     // Track build up of energy for transferring chunks to/from the air.
     private double energyExchangedWithAirSinceLastChunkTransfer = 0;
@@ -137,14 +139,19 @@ public class Burner extends ModelElement {
     public void addEnergyChunk( EnergyChunk ec ) {
         ec.zPosition.set( 0.0 );
         energyChunkList.add( ec );
+        energyChunkWanderControllers.add( new EnergyChunkWanderController( ec, getEnergyChunkStartEndPoint() ) );
         energyExchangedWithAirSinceLastChunkTransfer = 0;
+    }
+
+    private ImmutableVector2D getEnergyChunkStartEndPoint() {
+        return new ImmutableVector2D( getCenterPoint().getX(), getCenterPoint().getY() + HEIGHT * 0.1 );
     }
 
     public EnergyChunk extractClosestEnergyChunk( ImmutableVector2D point ) {
         energyExchangedWithAirSinceLastChunkTransfer = 0;
         if ( heatCoolLevel.get() > 0 ) {
             // Create an energy chunk.
-            return new EnergyChunk( clock, getCenterPoint(), energyChunksVisible, true );
+            return new EnergyChunk( clock, getEnergyChunkStartEndPoint(), energyChunksVisible, true );
         }
         else {
             System.out.println( getClass().getName() + " - Warning: Request for energy chunk from burner when not in heat mode, returning null" );
@@ -159,6 +166,7 @@ public class Burner extends ModelElement {
     @Override public void reset() {
         super.reset();
         energyChunkList.clear();
+        energyChunkWanderControllers.clear();
         energyExchangedWithAirSinceLastChunkTransfer = 0;
     }
 
@@ -228,26 +236,16 @@ public class Burner extends ModelElement {
     private void stepInTime( double dt ) {
 
         // Animate energy chunks.
-        for ( EnergyChunk energyChunk : new ArrayList<EnergyChunk>( energyChunkList ) ) {
-            if ( energyChunk.getExistenceStrength().get() > 0 ) {
-                // Move the chunk.
-                ImmutableVector2D destination = new ImmutableVector2D( position.getX(), position.getY() + HEIGHT * 0.6 ); // Must be coordinated with view for proper effect.
-                if ( energyChunk.position.get().distance( destination ) > dt * ENERGY_CHUNK_VELOCITY ) {
-                    ImmutableVector2D motion = destination.getSubtractedInstance( energyChunk.position.get() ).getInstanceOfMagnitude( dt * ENERGY_CHUNK_VELOCITY );
-                    energyChunk.translate( motion );
-                }
-                else {
-                    energyChunk.position.set( destination );
-                }
-
-                // See if the chunk needs to start fading.
-                if ( energyChunk.getExistenceStrength().get() == 1.0 && energyChunk.position.get().distance( destination ) <= FADE_RADIUS ) {
-                    energyChunk.startFadeOut();
-                }
+        for ( EnergyChunkWanderController energyChunkWanderController : new ArrayList<EnergyChunkWanderController>( energyChunkWanderControllers ) ) {
+            energyChunkWanderController.updatePosition( dt );
+            // See if the chunk needs to start fading.
+            EnergyChunk ec = energyChunkWanderController.getEnergyChunk();
+            if ( ec.getExistenceStrength().get() == 1.0 && ec.position.get().distance( energyChunkWanderController.getDestination() ) <= FADE_RADIUS ) {
+                ec.startFadeOut();
             }
-            else {
-                // This chunk has faded to nothing, so remove it.
-                energyChunkList.remove( energyChunk );
+            else if ( ec.getExistenceStrength().get() <= 0 ) {
+                energyChunkList.remove( ec );
+                energyChunkWanderControllers.remove( energyChunkWanderController );
             }
         }
     }

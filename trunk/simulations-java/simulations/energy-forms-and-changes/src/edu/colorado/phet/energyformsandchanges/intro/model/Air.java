@@ -4,8 +4,7 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -58,7 +57,7 @@ public class Air implements ThermalEnergyContainer {
     private ConstantDtClock clock;
     private BooleanProperty energyChunksVisible;
     protected final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
-    protected final Map<EnergyChunk, EnergyChunkWanderController> mapEnergyChunksToMovers = new HashMap<EnergyChunk, EnergyChunkWanderController>();
+    protected final List<EnergyChunkWanderController> energyChunkWanderControllers = new ArrayList<EnergyChunkWanderController>();
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -86,12 +85,12 @@ public class Air implements ThermalEnergyContainer {
 
     private void stepInTime( double dt ) {
         // Update the position of any energy chunks.
-        for ( EnergyChunk energyChunk : new ArrayList<EnergyChunk>( energyChunkList ) ) {
-            mapEnergyChunksToMovers.get( energyChunk ).setNextPosition( energyChunk, dt );
-            if ( !getThermalContactArea().getBounds().contains( energyChunk.position.get().toPoint2D() ) ) {
+        for ( EnergyChunkWanderController energyChunkWanderController : new ArrayList<EnergyChunkWanderController>( energyChunkWanderControllers ) ) {
+            energyChunkWanderController.updatePosition( dt );
+            if ( !getThermalContactArea().getBounds().contains( energyChunkWanderController.getEnergyChunk().position.get().toPoint2D() ) ) {
                 // Remove this energy chunk.
-                energyChunkList.remove( energyChunk );
-                mapEnergyChunksToMovers.remove( energyChunk );
+                energyChunkList.remove( energyChunkWanderController.getEnergyChunk() );
+                energyChunkWanderControllers.remove( energyChunkWanderController );
             }
         }
 
@@ -113,7 +112,7 @@ public class Air implements ThermalEnergyContainer {
     public void reset() {
         energy = INITIAL_ENERGY;
         energyChunkList.clear();
-        mapEnergyChunksToMovers.clear();
+        energyChunkWanderControllers.clear();
     }
 
     public void exchangeEnergyWith( ThermalEnergyContainer otherEnergyContainer, double dt ) {
@@ -140,7 +139,7 @@ public class Air implements ThermalEnergyContainer {
     public void addEnergyChunk( EnergyChunk ec ) {
         ec.zPosition.set( 0.0 );
         energyChunkList.add( ec );
-        mapEnergyChunksToMovers.put( ec, new EnergyChunkWanderController( ec.position.get(), new ImmutableVector2D( ec.position.get().getX(), SIZE.getHeight() ) ) );
+        energyChunkWanderControllers.add( new EnergyChunkWanderController( ec, new ImmutableVector2D( ec.position.get().getX(), SIZE.getHeight() ) ) );
     }
 
     public EnergyChunk extractClosestEnergyChunk( ImmutableVector2D point ) {
