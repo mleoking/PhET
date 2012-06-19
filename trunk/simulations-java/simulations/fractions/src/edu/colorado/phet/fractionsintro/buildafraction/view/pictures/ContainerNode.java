@@ -169,4 +169,7 @@ public class ContainerNode extends PNode {
             }
         } ) );
     }
+
+    //Get rid of it because it disrupts the layout when dropping into the scoring cell.
+    public void removeSplitButton() { removeChild( splitButton ); }
 }
