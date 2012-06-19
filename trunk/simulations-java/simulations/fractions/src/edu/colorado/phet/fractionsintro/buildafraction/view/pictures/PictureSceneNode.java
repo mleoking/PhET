@@ -6,6 +6,8 @@ import fj.Ord;
 import fj.data.List;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
@@ -18,10 +20,14 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
+import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.util.FJUtils;
 import edu.colorado.phet.fractions.view.SpinnerButtonNode;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
@@ -53,8 +59,9 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
     private final List<Target> targetPairs;
     private final RichPNode toolboxNode;
     private final PNode frontLayer;
+    private final VBox faceNodeDialog;
 
-    public PictureSceneNode( int levelIndex, final PNode rootNode, final BuildAFractionModel model, PDimension STAGE_SIZE, PictureSceneContext context ) {
+    public PictureSceneNode( int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension STAGE_SIZE, final PictureSceneContext context ) {
         this.rootNode = rootNode;
         this.model = model;
         this.STAGE_SIZE = STAGE_SIZE;
@@ -198,6 +205,23 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
             }} );
         }};
         addChild( frontLayer );
+
+        faceNodeDialog = new VBox( new FaceNode( 300 ), new HTMLImageButtonNode( "Next", new PhetFont( 20, true ), Color.orange ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( final ActionEvent e ) {
+                    context.nextPictureLevel();
+                }
+            } );
+        }} ) {{
+            setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2 - 100, STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 - 100 );
+        }};
+
+        faceNodeDialog.setTransparency( 0 );
+        faceNodeDialog.setVisible( false );
+        faceNodeDialog.setPickable( false );
+        faceNodeDialog.setChildrenPickable( false );
+
+        addChild( faceNodeDialog );
     }
 
     private List<RectangularPiece> getPieceNodes() {
@@ -229,8 +253,18 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
                 containerNode.removeSplitButton();
                 containerNode.animateToPositionScaleRotation( pair.cell.getFullBounds().getCenterX() - containerNode.getFullBounds().getWidth() / 2 * scale,
                                                               pair.cell.getFullBounds().getCenterY() - containerNode.getFullBounds().getHeight() / 2 * scale, scale, 0, 200 );
+                pair.cell.setCompletedFraction( containerNode );
                 break;
             }
+        }
+
+        if ( allTargetsComplete() ) {
+            faceNodeDialog.setVisible( true );
+            faceNodeDialog.animateToTransparency( 1f, 200 );
+            faceNodeDialog.setPickable( true );
+            faceNodeDialog.setChildrenPickable( true );
+            faceNodeDialog.moveToFront();
+            model.numberScore.add( 1 );
         }
     }
 
@@ -414,10 +448,16 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         } ).length() == targetPairs.length();
     }
 
-    private void centerOnBox( final Object numberNode, final PhetPPath box ) {
-//        Rectangle2D bounds = box.getGlobalFullBounds();
-//        bounds = rootNode.globalToLocal( bounds );
-//        numberNode.centerFullBoundsOnPoint( bounds.getCenterX(), bounds.getCenterY() );
+    public void hideFace() {
+
+        //Only subtract from the score if the face dialog was showing.  Otherwise you can get a negative score by removing an item from the target container since this method is called
+        //each time.
+        if ( faceNodeDialog.getPickable() ) {
+            model.numberScore.subtract( 1 );
+        }
+        faceNodeDialog.animateToTransparency( 0.0f, 200 );
+        faceNodeDialog.setPickable( false );
+        faceNodeDialog.setChildrenPickable( false );
     }
 
 }

@@ -13,9 +13,6 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
-import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.FractionCardNode;
-import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.FractionNode;
-import edu.colorado.phet.fractionsintro.buildafraction.view.numbers.NumberSceneNode;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
@@ -40,9 +37,9 @@ public class PictureScoreBoxNode extends PNode {
     private boolean completed;
     private PInterpolatingActivity activity;
     private final PImage splitButton;
-    private FractionNode fractionGraphic;
+    private ContainerNode containerNode;
 
-    public PictureScoreBoxNode( final int numerator, final int denominator, final Property<List<Fraction>> matches, final PNode rootNode, final BuildAFractionModel model, final NumberSceneNode numberSceneNode, final boolean flashTargetCellOnMatch ) {
+    public PictureScoreBoxNode( final int numerator, final int denominator, final Property<List<Fraction>> matches, final PNode rootNode, final BuildAFractionModel model, final PictureSceneNode sceneNode, final boolean flashTargetCellOnMatch ) {
         this.path = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 120, 120, 30, 30 ), CONTROL_PANEL_BACKGROUND, controlPanelStroke, Color.darkGray ) {{
 
             setStrokePaint( Color.darkGray );
@@ -98,25 +95,27 @@ public class PictureScoreBoxNode extends PNode {
                 splitButton.setPickable( false );
                 splitButton.setChildrenPickable( false );
 
-                fractionGraphic.setScale( 1.0 );
-                fractionGraphic.splitButton.setVisible( true );
-                FractionCardNode cardNode = new FractionCardNode( fractionGraphic, rootNode, numberSceneNode.pairList, model, numberSceneNode );
-                numberSceneNode.addChild( cardNode );
+                containerNode.setScale( 1.0 );
+                containerNode.addBackSplitButton();
+                //TODO:
+//                FractionCardNode cardNode = new FractionCardNode( fractionGraphic, rootNode, numberSceneNode.pairList, model, numberSceneNode );
+//                numberSceneNode.addChild( cardNode );
+//
+//                fractionGraphic = null;
+//
+//                cardNode.fractionNode.handleSplitEvent();
+//                cardNode.fractionNode.sendFractionSkeletonToStartingLocation();
 
-                fractionGraphic = null;
-
-                cardNode.fractionNode.handleSplitEvent();
-                cardNode.fractionNode.sendFractionSkeletonToStartingLocation();
-
-                numberSceneNode.hideFace();
+                //TODO:
+                sceneNode.hideFace();
             }
         } );
         splitButton.setVisible( false );
         addChild( splitButton );
     }
 
-    public void setCompletedFraction( FractionNode fractionGraphic ) {
-        this.fractionGraphic = fractionGraphic;
+    public void setCompletedFraction( ContainerNode containerNode ) {
+        this.containerNode = containerNode;
         path.setStrokePaint( Color.darkGray );
         this.completed = true;
         splitButton.setVisible( true );
