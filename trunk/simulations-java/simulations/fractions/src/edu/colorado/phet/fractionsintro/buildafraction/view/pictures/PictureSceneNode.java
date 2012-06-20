@@ -46,6 +46,9 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.fractions.FractionsResources.Images.*;
+import static edu.colorado.phet.fractionsintro.buildafraction.view.pictures.ContainerNode._getFractionValue;
+import static edu.colorado.phet.fractionsintro.buildafraction.view.pictures.ContainerNode._isInTargetCell;
+import static fj.function.Booleans.not;
 
 /**
  * Node for the scene when the user is constructing fractions with pictures (shapes).
@@ -276,6 +279,8 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
             faceNodeDialog.moveToFront();
             model.numberScore.add( 1 );
         }
+
+        syncModelFractions();
     }
 
     public void endDrag( final RectangularPiece piece, final PInputEvent event ) {
@@ -323,23 +328,10 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         } );
     }
 
-    private void syncModelFractions() {
-        model.getPictureCreatedFractions( model.pictureLevel.get() ).set( getUserCreatedFractions() );
-    }
+    public void syncModelFractions() { model.getPictureCreatedFractions( model.pictureLevel.get() ).set( getUserCreatedFractions() ); }
 
     //TODO: when we have multiple containers, this will have to be modified
-    private List<Fraction> getUserCreatedFractions() {
-        return getContainerNodes().filter( new F<ContainerNode, Boolean>() {
-            @Override public Boolean f( final ContainerNode containerNode ) {
-                return !containerNode.isInTargetCell();
-            }
-        } ).
-                map( new F<ContainerNode, Fraction>() {
-                    @Override public Fraction f( final ContainerNode containerNode ) {
-                        return containerNode.getFractionValue();
-                    }
-                } );
-    }
+    private List<Fraction> getUserCreatedFractions() { return getContainerNodes().filter( not( _isInTargetCell ) ).map( _getFractionValue ); }
 
     public void splitPieceFromContainer( final RectangularPiece piece, final ContainerNode containerNode, final double relativeXOffset ) {
         Point2D offset = piece.getGlobalTranslation();
@@ -360,110 +352,6 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         return List.iterableList( children );
     }
 
-    public void endDrag( final Object numberNode, final PInputEvent event ) {
-//        boolean hitFraction = false;
-//        for ( FractionGraphic fractionGraphic : fractionGraphics ) {
-//            final PhetPPath topBox = fractionGraphic.topBox;
-//            final PhetPPath bottomBox = fractionGraphic.bottomBox;
-//            if ( numberNode.getGlobalFullBounds().intersects( topBox.getGlobalFullBounds() ) && topBox.getVisible() ) {
-//                numberDroppedOnFraction( fractionGraphic, numberNode, topBox );
-//                hitFraction = true;
-//                break;
-//            }
-//            if ( numberNode.getGlobalFullBounds().intersects( bottomBox.getGlobalFullBounds() ) && bottomBox.getVisible() ) {
-//                numberDroppedOnFraction( fractionGraphic, numberNode, bottomBox );
-//                hitFraction = true;
-//                break;
-//            }
-//        }
-//        //If it didn't hit a fraction, send back to its starting place--the user is not allowed to have free floating numbers in the play area
-//        if ( !hitFraction ) {
-//            numberNode.animateHome();
-//        }
-    }
-
-//    private void numberDroppedOnFraction( final FractionGraphic fractionGraphic, final NumberNode numberNode, final PhetPPath box ) {
-//        centerOnBox( numberNode, box );
-//        box.setVisible( false );
-//        numberNode.setPickable( false );
-//        numberNode.setChildrenPickable( false );
-//        fractionGraphic.splitButton.setVisible( true );
-//        fractionGraphic.setTarget( box, numberNode );
-//        if ( fractionGraphic.isComplete() ) {
-//            model.addCreatedValue( fractionGraphic.getValue() );
-//            //create an invisible overlay that allows dragging all parts together
-//            PBounds topBounds = fractionGraphic.getTopNumber().getFullBounds();
-//            PBounds bottomBounds = fractionGraphic.getBottomNumber().getFullBounds();
-//            Rectangle2D divisorBounds = fractionGraphic.localToParent( fractionGraphic.divisorLine.getFullBounds() );
-//            Rectangle2D union = topBounds.createUnion( bottomBounds ).createUnion( divisorBounds );
-//
-//            //For debugging, show a yellow border
-////            final PhetPPath path = new PhetPPath( RectangleUtils.expand( union, 2, 2 ), BuildAFractionCanvas.TRANSPARENT, new BasicStroke( 1 ), Color.yellow );
-//            final PhetPPath path = new PhetPPath( RectangleUtils.expand( union, 2, 2 ), BuildAFractionCanvas.TRANSPARENT );
-//            path.addInputEventListener( new CursorHandler() );
-//            path.addInputEventListener( new SimSharingDragHandler( null, true ) {
-//                @Override protected void drag( final PInputEvent event ) {
-//                    super.drag( event );
-//                    final PDimension delta = event.getDeltaRelativeTo( rootNode );
-//                    fractionGraphic.translateAll( delta );
-//                    path.translate( delta.getWidth(), delta.getHeight() );
-//                }
-//
-//                @Override protected void endDrag( final PInputEvent event ) {
-//                    super.endDrag( event );
-//
-//                    //Snap to a scoring cell or go back to the play area.
-//                    List<ScoreBoxNode> scoreCells = pairList.map( new F<Pair, ScoreBoxNode>() {
-//                        @Override public ScoreBoxNode f( final Pair pair ) {
-//                            return pair.targetCell;
-//                        }
-//                    } );
-//                    for ( ScoreBoxNode scoreCell : scoreCells ) {
-//                        if ( path.getFullBounds().intersects( scoreCell.getFullBounds() ) && scoreCell.fraction.approxEquals( fractionGraphic.getValue() ) ) {
-//                            //Lock in target cell
-//                            Point2D center = path.getFullBounds().getCenter2D();
-//                            Point2D targetCenter = scoreCell.getFullBounds().getCenter2D();
-//                            Vector2D delta = new Vector2D( targetCenter, center );
-//                            fractionGraphic.translateAll( delta.toDimension() );
-//                            path.translate( delta.x, delta.y );
-//
-//                            fractionGraphic.splitButton.setVisible( false );
-//                            removeChild( path );
-//                            fractionGraphic.setAllPickable( false );
-//
-//                            scoreCell.completed();
-//
-//                            //Add a new fraction skeleton when the previous one is completed
-//                            if ( !allTargetsComplete() ) {
-//                            }
-//
-//                            //but if all filled up, then add a "next" button
-//                            else {
-//                                addChild( new VBox( new FaceNode( 300 ), new HTMLImageButtonNode( "Next", Color.orange ) {{
-//                                    addActionListener( new ActionListener() {
-//                                        public void actionPerformed( final ActionEvent e ) {
-//                                            context.goToNextNumberLevel();
-//                                        }
-//                                    } );
-//                                }}
-//                                ) {{setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2 - 100, STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 - 100 );}} );
-//                            }
-//                        }
-//                    }
-//                }
-//            } );
-//            addChild( path );
-//            fractionGraphic.addSplitListener( new VoidFunction1<Option<Fraction>>() {
-//                public void apply( final Option<Fraction> fractions ) {
-//                    removeChild( path );
-//                    if ( fractions.isSome() ) {
-//                        model.removeCreatedValueFromNumberLevel( fractions.some() );
-//                    }
-//                }
-//            } );
-//        }
-//    }
-
     private boolean allTargetsComplete() {
         return targetPairs.map( new F<Target, Boolean>() {
             @Override public Boolean f( final Target pair ) {
@@ -477,7 +365,6 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
     }
 
     public void hideFace() {
-
         //Only subtract from the score if the face dialog was showing.  Otherwise you can get a negative score by removing an item from the target container since this method is called
         //each time.
         if ( faceNodeDialog.getPickable() ) {

@@ -38,6 +38,7 @@ public class ContainerNode extends PNode {
     private double initialY;
     private final PictureSceneNode parent;
     private int number;
+    private final ContainerContext context;
 
     public static final double width = 130;
     public static final double height = 55;
@@ -48,6 +49,7 @@ public class ContainerNode extends PNode {
     public ContainerNode( PictureSceneNode parent, final int number, final ContainerContext context ) {
         this.parent = parent;
         this.number = number;
+        this.context = context;
         PNode content = new PNode() {{
             for ( int i = 0; i < number; i++ ) {
                 final double pieceWidth = width / number;
@@ -112,7 +114,7 @@ public class ContainerNode extends PNode {
                 dynamicCursorHandler.setCursor( Cursor.DEFAULT_CURSOR );
             }
         } );
-        setInTargetCell( false );
+        context.syncModelFractions();
     }
 
     public void setAllPickable( final boolean b ) {
@@ -179,6 +181,12 @@ public class ContainerNode extends PNode {
         } ) );
     }
 
+    public static F<ContainerNode, Fraction> _getFractionValue = new F<ContainerNode, Fraction>() {
+        @Override public Fraction f( final ContainerNode containerNode ) {
+            return containerNode.getFractionValue();
+        }
+    };
+
     //Get rid of it because it disrupts the layout when dropping into the scoring cell.
     public void removeSplitButton() { removeChild( splitButton ); }
 
@@ -187,6 +195,12 @@ public class ContainerNode extends PNode {
     public boolean isAtStartingLocation() { return getXOffset() == initialX && getYOffset() == initialY; }
 
     public Boolean isInTargetCell() {return inTargetCell;}
+
+    public static F<ContainerNode, Boolean> _isInTargetCell = new F<ContainerNode, Boolean>() {
+        @Override public Boolean f( final ContainerNode containerNode ) {
+            return containerNode.isInTargetCell();
+        }
+    };
 
     public void setInTargetCell( final boolean inTargetCell ) { this.inTargetCell = inTargetCell; }
 }
