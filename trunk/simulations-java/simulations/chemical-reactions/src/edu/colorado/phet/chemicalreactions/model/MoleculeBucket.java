@@ -7,15 +7,23 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Bucket;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
+import edu.umd.cs.piccolo.util.PDimension;
+
+import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.MODEL_VIEW_TRANSFORM;
 
 public class MoleculeBucket extends Bucket {
     private final MoleculeShape shape;
     private final Dimension2D size;
 
     private final List<Molecule> molecules = new ArrayList<Molecule>();
+
+    public MoleculeBucket( final MoleculeShape shape, int initialQuantity ) {
+        this( shape, new PDimension( MODEL_VIEW_TRANSFORM.modelToViewDeltaX( shape.getBoundingCircleRadius() * 0.7 * ChemicalReactionsConstants.THIS_CONSTANT_SHOULD_NOT_EXIST + 200 ), 200 ), initialQuantity );
+    }
 
     public MoleculeBucket( final MoleculeShape shape, Dimension2D size, int initialQuantity ) {
         super( new Point2D.Double(), size, Color.GRAY, "" );
