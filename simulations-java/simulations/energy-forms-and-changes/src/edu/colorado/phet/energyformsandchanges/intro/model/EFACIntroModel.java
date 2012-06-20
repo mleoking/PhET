@@ -277,7 +277,6 @@ public class EFACIntroModel {
                 if ( ec1.getThermalContactArea().getThermalContactLength( ec2.getThermalContactArea() ) > 0 ) {
                     contactWithOtherMovableElement = true;
                     temperatureDifference = Math.abs( ec1.getTemperature() - ec2.getTemperature() );
-                    System.out.println( "temperatureDifference = " + temperatureDifference );
                 }
             }
 
@@ -288,23 +287,12 @@ public class EFACIntroModel {
 
             // Exchange energy chunks with the air if appropriate conditions met.
             if ( !contactWithOtherMovableElement || ( contactWithOtherMovableElement && !immersedInBeaker && temperatureDifference < temperatureDiffWhereAirExchangeOK ) ) {
-                boolean exchangeOccurred = false;
                 if ( ec1.getEnergyChunkBalance() > 0 && air.canAcceptEnergyChunk() ) {
                     ImmutableVector2D pointAbove = new ImmutableVector2D( ec1.getCenterPoint().getX(), ec1.getRect().getMaxY() );
-                    System.out.println( "Chunk from " + ec1 + " to air" );
                     air.addEnergyChunk( ec1.extractClosestEnergyChunk( pointAbove ) );
-                    exchangeOccurred = true;
                 }
                 else if ( ec1.getEnergyChunkBalance() < 0 && air.canSupplyEnergyChunk() ) {
-                    System.out.println( "Chunk from air to " + ec1 );
                     ec1.addEnergyChunk( air.requestEnergyChunk( ec1.getCenterPoint() ) );
-                    exchangeOccurred = true;
-                }
-                if ( exchangeOccurred ) {
-                    System.out.println( "-------- exchanging with air ---------------" );
-                    System.out.println( "contactWithOtherMovableElement = " + contactWithOtherMovableElement );
-                    System.out.println( "immersedInBeaker = " + immersedInBeaker );
-                    System.out.println( "energyChunkDelta = " + temperatureDifference );
                 }
             }
         }
