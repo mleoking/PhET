@@ -193,7 +193,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
             setOffset( 0, STAGE_SIZE.height );
         }} );
         pictureScene.reset();
-        pictureScene.addChild( new PictureSceneNode( model.numberLevel.get(), rootNode, model, STAGE_SIZE, this ) );
+        pictureScene.addChild( new PictureSceneNode( model.pictureLevel.get(), rootNode, model, STAGE_SIZE, this ) );
     }
 
     public void goToNumberLevel( int level ) {
