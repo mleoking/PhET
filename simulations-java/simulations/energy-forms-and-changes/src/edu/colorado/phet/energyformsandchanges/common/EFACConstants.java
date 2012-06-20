@@ -20,6 +20,7 @@ public class EFACConstants {
     public static final double FRAMES_PER_SECOND = 30.0;
     public static final double SIM_TIME_PER_TICK_NORMAL = 1 / FRAMES_PER_SECOND;
     public static final double SIM_TIME_PER_TICK_FAST_FORWARD = SIM_TIME_PER_TICK_NORMAL * 4;
+    public static final double MAX_HEAT_EXCHANGE_TIME_STEP = SIM_TIME_PER_TICK_NORMAL;
 
     // Constants used for creating projections that have a 3D-ish look.
     public static final double Z_TO_X_OFFSET_MULTIPLIER = -0.25;

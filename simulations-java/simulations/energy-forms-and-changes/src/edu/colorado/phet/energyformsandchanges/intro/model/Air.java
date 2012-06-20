@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.umd.cs.piccolo.util.PDimension;
 
+import static edu.colorado.phet.energyformsandchanges.common.EFACConstants.MAX_HEAT_EXCHANGE_TIME_STEP;
 import static edu.colorado.phet.energyformsandchanges.intro.model.HeatTransferConstants.getHeatTransferFactor;
 
 /**
@@ -93,10 +94,18 @@ public class Air implements ThermalEnergyContainer {
             }
         }
 
-        // Gravitate back towards room temperature over time.
+        equalizeWithSurroundingAir( dt );
+    }
+
+    private void equalizeWithSurroundingAir( double dt ) {
         if ( Math.abs( getTemperature() - EFACConstants.ROOM_TEMPERATURE ) > EFACConstants.SIGNIFICANT_TEMPERATURE_DIFFERENCE ) {
-            double thermalEnergyLost = ( getTemperature() - EFACConstants.ROOM_TEMPERATURE ) * 10000 * dt;
-            changeEnergy( -thermalEnergyLost );
+            int numFullTimeStepExchanges = (int) Math.floor( dt / MAX_HEAT_EXCHANGE_TIME_STEP );
+            double leftoverTime = dt - ( numFullTimeStepExchanges * MAX_HEAT_EXCHANGE_TIME_STEP );
+            for ( int i = 0; i < numFullTimeStepExchanges + 1; i++ ) {
+                double timeStep = i < numFullTimeStepExchanges ? MAX_HEAT_EXCHANGE_TIME_STEP : leftoverTime;
+                double thermalEnergyLost = ( getTemperature() - EFACConstants.ROOM_TEMPERATURE ) * HeatTransferConstants.AIR_TO_SURROUNDING_AIR_HEAT_TRANSFER_FACTOR * timeStep;
+                changeEnergy( -thermalEnergyLost );
+            }
         }
     }
 
@@ -115,14 +124,20 @@ public class Air implements ThermalEnergyContainer {
     }
 
     public void exchangeEnergyWith( ThermalEnergyContainer otherEnergyContainer, double dt ) {
+        // TODO: This code is duplicated in RectangularThermalMovableModelElement.  If still true later, figure out how to avoid the duplication.
         double thermalContactLength = getThermalContactArea().getThermalContactLength( otherEnergyContainer.getThermalContactArea() );
         if ( thermalContactLength > 0 ) {
             if ( Math.abs( otherEnergyContainer.getTemperature() - getTemperature() ) > EFACConstants.TEMPERATURES_EQUAL_THRESHOLD ) {
                 // Exchange energy between this and the other energy container.
                 double heatTransferConstant = getHeatTransferFactor( this.getEnergyContainerCategory(), otherEnergyContainer.getEnergyContainerCategory() );
-                double thermalEnergyGained = ( otherEnergyContainer.getTemperature() - getTemperature() ) * thermalContactLength * heatTransferConstant * dt;
-                changeEnergy( thermalEnergyGained );
-                otherEnergyContainer.changeEnergy( -thermalEnergyGained );
+                int numFullTimeStepExchanges = (int) Math.floor( dt / MAX_HEAT_EXCHANGE_TIME_STEP );
+                double leftoverTime = dt - ( numFullTimeStepExchanges * MAX_HEAT_EXCHANGE_TIME_STEP );
+                for ( int i = 0; i < numFullTimeStepExchanges + 1; i++ ) {
+                    double timeStep = i < numFullTimeStepExchanges ? MAX_HEAT_EXCHANGE_TIME_STEP : leftoverTime;
+                    double thermalEnergyGained = ( otherEnergyContainer.getTemperature() - getTemperature() ) * thermalContactLength * heatTransferConstant * timeStep;
+                    otherEnergyContainer.changeEnergy( -thermalEnergyGained );
+                    changeEnergy( thermalEnergyGained );
+                }
             }
         }
     }

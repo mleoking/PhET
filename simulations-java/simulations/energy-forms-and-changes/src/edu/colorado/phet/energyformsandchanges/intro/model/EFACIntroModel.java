@@ -251,11 +251,9 @@ public class EFACIntroModel {
                 if ( ec1.getThermalContactArea().getThermalContactLength( ec2.getThermalContactArea() ) > 0 ) {
                     // Exchange chunks if appropriate.
                     if ( ec1.getEnergyChunkBalance() > 0 && ec2.getEnergyChunkBalance() < 0 ) {
-                        System.out.println( "Chunk from " + ec1 + " to " + ec2 );
                         ec2.addEnergyChunk( ec1.extractClosestEnergyChunk( ec2.getCenterPoint() ) );
                     }
                     else if ( ec1.getEnergyChunkBalance() < 0 && ec2.getEnergyChunkBalance() > 0 ) {
-                        System.out.println( "Chunk from " + ec2 + " to " + ec1 );
                         ec1.addEnergyChunk( ec2.extractClosestEnergyChunk( ec1.getCenterPoint() ) );
                     }
                 }
@@ -267,7 +265,11 @@ public class EFACIntroModel {
             boolean immersedInBeaker = false;
             double temperatureDifference = 0;
 
-            // TODO: This threshold is temporary, need to work out whether to use some other equation or what.
+            // TODO: This threshold is temporary, need to work out whether to
+            // use some other equation or what.  One idea would be to use an
+            // equation that determines when less that one energy chunk can
+            // ever be exchanged, but we would also need to prevent air and the
+            // object from exchanging continuous energy in that case too.
             double temperatureDiffWhereAirExchangeOK = 10;
 
             for ( ThermalEnergyContainer ec2 : movableThermalEnergyContainers ) {
@@ -288,10 +290,16 @@ public class EFACIntroModel {
             // Exchange energy chunks with the air if appropriate conditions met.
             if ( !contactWithOtherMovableElement || ( contactWithOtherMovableElement && !immersedInBeaker && temperatureDifference < temperatureDiffWhereAirExchangeOK ) ) {
                 if ( ec1.getEnergyChunkBalance() > 0 && air.canAcceptEnergyChunk() ) {
+                    if ( ec1 instanceof Brick ) {
+                        System.out.println( "Brick exchanging chunks with air 1" );
+                    }
                     ImmutableVector2D pointAbove = new ImmutableVector2D( ec1.getCenterPoint().getX(), ec1.getRect().getMaxY() );
                     air.addEnergyChunk( ec1.extractClosestEnergyChunk( pointAbove ) );
                 }
                 else if ( ec1.getEnergyChunkBalance() < 0 && air.canSupplyEnergyChunk() ) {
+                    if ( ec1 instanceof Brick ) {
+                        System.out.println( "Brick exchanging chunks with air 2" );
+                    }
                     ec1.addEnergyChunk( air.requestEnergyChunk( ec1.getCenterPoint() ) );
                 }
             }
