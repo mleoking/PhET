@@ -133,6 +133,7 @@ public class ControlPanel extends Canvas {
 
         radioGroupVBox = new VBox();
         radioGroupVBox.setStyle( "align", "left" );
+        radioGroupVBox.setStyle( "verticalPadding", 0 );
         presetMotion_rgb = new RadioButtonGroup();
         manual_rb = new RadioButton();
         linear_rb = new RadioButton();
@@ -243,6 +244,8 @@ public class ControlPanel extends Canvas {
         rb.setStyle( "color", 0xffffff );
         rb.setStyle( "textRollOverColor", 0xffff00 );
         rb.setStyle( "textSelectedColor", 0xffff00 );
+        rb.setStyle( "iconColor", 0xffffff );
+        rb.setStyle( "fontSize", 16 );
         //rb.setStyle( "disabledIconColor", 0x000000 );   //doesn't work
     }
 
