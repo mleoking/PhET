@@ -133,18 +133,9 @@ public class Air implements ThermalEnergyContainer {
         energyChunkWanderControllers.add( new EnergyChunkWanderController( ec, new ImmutableVector2D( ec.position.get().getX(), SIZE.getHeight() ) ) );
     }
 
-    public EnergyChunk extractClosestEnergyChunk( ImmutableVector2D point ) {
-        EnergyChunk closestChunk = null;
-        for ( EnergyChunk energyChunk : energyChunkList ) {
-            if ( closestChunk == null || closestChunk.position.get().distance( point ) > energyChunk.position.get().distance( point ) ) {
-                closestChunk = energyChunk;
-            }
-        }
-        if ( closestChunk == null ) {
-            // Create a new chunk at the top of the air above the specified point.
-            closestChunk = new EnergyChunk( clock, point.getX(), SIZE.getHeight(), energyChunksVisible, false );
-        }
-        return closestChunk;
+    public EnergyChunk requestEnergyChunk( ImmutableVector2D point ) {
+        // Create a new chunk at the top of the air above the specified point.
+        return new EnergyChunk( clock, point.getX(), SIZE.getHeight(), energyChunksVisible, false );
     }
 
     public ImmutableVector2D getCenterPoint() {

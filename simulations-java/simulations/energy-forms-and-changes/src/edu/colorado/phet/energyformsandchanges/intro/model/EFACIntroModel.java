@@ -263,7 +263,7 @@ public class EFACIntroModel {
                 air.addEnergyChunk( ec1.extractClosestEnergyChunk( pointAbove ) );
             }
             else if ( ec1.getEnergyChunkBalance() < 0 && air.canSupplyEnergyChunk() ) {
-                ec1.addEnergyChunk( air.extractClosestEnergyChunk( ec1.getCenterPoint() ) );
+                ec1.addEnergyChunk( air.requestEnergyChunk( ec1.getCenterPoint() ) );
             }
         }
 
@@ -273,7 +273,7 @@ public class EFACIntroModel {
                 air.addEnergyChunk( burner.extractClosestEnergyChunk( burner.getCenterPoint() ) );
             }
             else if ( burner.getEnergyChunkCountForAir() < 0 ) {
-                burner.addEnergyChunk( air.extractClosestEnergyChunk( burner.getCenterPoint() ) );
+                burner.addEnergyChunk( air.requestEnergyChunk( burner.getCenterPoint() ) );
             }
         }
     }
