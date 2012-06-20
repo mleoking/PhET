@@ -61,6 +61,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
     private final PNode frontLayer;
     private final VBox faceNodeDialog;
     public final int levelIndex;
+    private final BucketView bucketView;
 
     public PictureSceneNode( int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension STAGE_SIZE, final PictureSceneContext context ) {
         this.rootNode = rootNode;
@@ -139,7 +140,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         //Create the bucket
         Dimension2DDouble littleBucket = new Dimension2DDouble( 250, 100 );
         Bucket bucket = new Bucket( ( AbstractFractionsCanvas.STAGE_SIZE.width ) / 2 + 100, -STAGE_SIZE.getHeight() + littleBucket.getHeight(), littleBucket, Color.green, "" );
-        final BucketView bucketView = new BucketView( bucket, ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), 1 ) );
+        bucketView = new BucketView( bucket, ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), 1 ) );
         addChild( bucketView.getHoleNode() );
 
         final IntegerProperty selectedPieceSize = new IntegerProperty( 1 );
@@ -270,6 +271,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
     }
 
     public void endDrag( final RectangularPiece piece, final PInputEvent event ) {
+        boolean droppedInto = false;
         List<ContainerNode> containerNodes = getContainerNodes().sort( FJUtils.ord( new F<ContainerNode, Double>() {
             @Override public Double f( final ContainerNode c ) {
                 return c.getGlobalFullBounds().getCenter2D().distance( piece.getGlobalFullBounds().getCenter2D() );
@@ -278,8 +280,17 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         for ( ContainerNode containerNode : containerNodes ) {
             if ( containerNode.getGlobalFullBounds().intersects( piece.getGlobalFullBounds() ) ) {
                 dropInto( piece, containerNode );
+                droppedInto = true;
                 break;
             }
+        }
+
+        //If didn't intersect a container, see if it should go back to the bucket
+        if ( !droppedInto &&
+             ( piece.getGlobalFullBounds().intersects( bucketView.getHoleNode().getGlobalFullBounds() ) ||
+               piece.getGlobalFullBounds().intersects( bucketView.getFrontNode().getGlobalFullBounds() ) ) ) {
+            piece.animateHome();
+            frontLayer.moveToFront();
         }
     }
 
