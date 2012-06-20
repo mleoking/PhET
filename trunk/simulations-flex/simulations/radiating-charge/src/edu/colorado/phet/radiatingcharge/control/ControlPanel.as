@@ -17,14 +17,17 @@ import flash.events.Event;
 import flash.events.MouseEvent;
 
 import mx.containers.Canvas;
+import mx.containers.HBox;
 import mx.containers.VBox;
 import mx.controls.CheckBox;
 import mx.controls.ComboBox;
 import mx.controls.RadioButton;
+import mx.controls.RadioButtonGroup;
 import mx.core.UIComponent;
 import mx.events.DropdownEvent;
 import mx.events.FlexEvent;
 import mx.events.ItemClickEvent;
+import mx.skins.halo.HaloBorder;
 
 //Control Panel for Radiating Charge sim
 public class ControlPanel extends Canvas {
@@ -38,8 +41,18 @@ public class ControlPanel extends Canvas {
     private var restartButton_UI:SpriteUIComponent;
     private var bumpButton:NiceButton2;
     private var bumpButton_UI:SpriteUIComponent;
-    public var myComboBox: ComboBox;
-    private var choiceList_arr:Array;
+
+    private var radioGroupVBox: VBox;
+    public var presetMotion_rgb: RadioButtonGroup;
+    private var manual_rb: RadioButton;
+    private var linear_rb: RadioButton;
+    private var sinusoidal_rb: RadioButton;
+    private var circular_rb : RadioButton;
+    private var bump_rb: RadioButton;
+
+//    public var myComboBox: ComboBox;
+//    private var choiceList_arr:Array;
+
     private var amplitudeSlider:HorizontalSlider;   //amplitude of both oscillatory and bumb motions
     private var minAmplitudeOscillatory:Number;     //max and min values for amplitude of oscillation
     private var maxAmplitudeOscillatory:Number;
@@ -65,7 +78,7 @@ public class ControlPanel extends Canvas {
     private var c_str:String;
     private var duration_str:String;
     //private var s_str:String;
-    private var moreSpeedLessRez_str:String;
+    //private var moreSpeedLessRez_str:String;
     //Drop-down menu choices
     private var userChoice_str:String;
     private var linear_str:String;
@@ -110,12 +123,31 @@ public class ControlPanel extends Canvas {
         this.resetButton = new NiceButton2( 80, 25, reset_str, resetCharge, 0xff0000, 0xffffff )
         this.restartButton = new NiceButton2( 80, 25, restart_str, restart, 0x00ff00, 0x000000 );
         this.bumpButton = new NiceButton2( 80, 25, bump_str, bumpCharge, 0x00ff00, 0x000000 );
-        this.myComboBox = new ComboBox();
-        myComboBox.width = 100;
-        this.choiceList_arr = new Array( );
-        choiceList_arr = [ userChoice_str, linear_str, sinusoid_str, circular_str, bump_str, random_str ];
-        myComboBox.dataProvider = choiceList_arr;
-        myComboBox.addEventListener( DropdownEvent.CLOSE, comboBoxListener );
+
+//        this.myComboBox = new ComboBox();
+//        myComboBox.width = 100;
+//        this.choiceList_arr = new Array( );
+//        choiceList_arr = [ userChoice_str, linear_str, sinusoid_str, circular_str, bump_str, random_str ];
+//        myComboBox.dataProvider = choiceList_arr;
+//        myComboBox.addEventListener( DropdownEvent.CLOSE, comboBoxListener );
+
+        radioGroupVBox = new VBox();
+        radioGroupVBox.setStyle( "align", "left" );
+        presetMotion_rgb = new RadioButtonGroup();
+        manual_rb = new RadioButton();
+        linear_rb = new RadioButton();
+        sinusoidal_rb = new RadioButton();
+        circular_rb = new RadioButton();
+        bump_rb = new RadioButton();
+
+        initializeRadioButton( manual_rb, userChoice_str, 0, true );
+        initializeRadioButton( linear_rb, linear_str, 1, false );
+        initializeRadioButton( sinusoidal_rb, sinusoid_str, 2, false );
+        initializeRadioButton( circular_rb, circular_str, 3, false );
+        initializeRadioButton( bump_rb, bump_str, 4, false );
+
+        presetMotion_rgb.addEventListener( Event.CHANGE, radioGroupListener );
+
         var sliderWidth:Number = 100;
         minAmplitudeOscillatory  = 0;
         maxAmplitudeOscillatory = 10;
@@ -124,8 +156,15 @@ public class ControlPanel extends Canvas {
         amplitudeSlider = new HorizontalSlider( setAmplitude, sliderWidth, minAmplitudeOscillatory, maxAmplitudeOscillatory );
         frequencySlider = new HorizontalSlider( setFrequency, sliderWidth, 0, 3 );
         durationSlider = new HorizontalSlider( setDuration, sliderWidth, 0.01, 1 );
+        amplitudeSlider.setTextColor( 0xffffff );       //white text against black panel background
+        frequencySlider.setTextColor( 0xffffff );
+        durationSlider.setTextColor( 0xffffff );
+        amplitudeSlider.drawKnob( 0x00ff00, 0x009900 );  //lighter color than default
+        frequencySlider.drawKnob( 0x00ff00, 0x009900 );
+        durationSlider.drawKnob( 0x00ff00, 0x009900 );
         var c:Number = myFieldModel.getSpeedOfLight();
         speedSlider = new HorizontalSlider( setSpeed, sliderWidth, 0.1, 0.95 );
+
         amplitudeSlider.setLabelText( amplitude_str );
         amplitudeSlider.removeReadout();
         frequencySlider.setLabelText( frequency_str );
@@ -133,18 +172,28 @@ public class ControlPanel extends Canvas {
         speedSlider.setLabelText( speed_str );
         speedSlider.setUnitsText( c_str );
         speedSlider.setReadoutPrecision( 2 );
+        speedSlider.setTextColor( 0xffffff );
+        speedSlider.drawKnob( 0x00ff00, 0x009900 );
         durationSlider.setLabelText( duration_str );
         //durationSlider.setUnitsText( s_str );
         durationSlider.removeReadout();
-        moreSpeedCheckBox = new CheckBox();
-        moreSpeedCheckBox.label = moreSpeedLessRez_str;
-        moreSpeedCheckBox.addEventListener( Event.CHANGE, radioButtonListener );
+//        moreSpeedCheckBox = new CheckBox();
+//        moreSpeedCheckBox.label = moreSpeedLessRez_str;
+//        moreSpeedCheckBox.addEventListener( Event.CHANGE, radioButtonListener );
 
         this.addChild( background );
         this.background.addChild( new SpriteUIComponent( pauseButton, true ) );
         this.background.addChild( new SpriteUIComponent( stopButton, true ) );
-        this.background.addChild( new SpriteUIComponent( resetButton, true ) );
-        this.background.addChild( myComboBox );
+        //this.background.addChild( new SpriteUIComponent( resetButton, true ) );
+
+        //this.background.addChild( myComboBox );
+        this.background.addChild( radioGroupVBox );
+        this.radioGroupVBox.addChild( manual_rb );
+        this.radioGroupVBox.addChild( linear_rb );
+        this.radioGroupVBox.addChild( sinusoidal_rb );
+        this.radioGroupVBox.addChild( circular_rb );
+        this.radioGroupVBox.addChild( bump_rb );
+
         this.amplitudeSlider_UI = new SpriteUIComponent( amplitudeSlider, true )
         this.background.addChild( amplitudeSlider_UI );
         this.frequencySlider_UI = new SpriteUIComponent( frequencySlider, true )
@@ -158,7 +207,10 @@ public class ControlPanel extends Canvas {
         this.bumpButton_UI = new SpriteUIComponent( bumpButton, true );
         this.background.addChild( bumpButton_UI );
         this.setSliderVisiblity();
-        this.background.addChild( moreSpeedCheckBox );
+        this.addChild( new SpriteUIComponent( resetButton ) );
+        resetButton.x = 0.1*myMainView.stageW;
+        resetButton.y = 0.9*myMainView.stageH;
+//        this.background.addChild( moreSpeedCheckBox );
 
     }//end init()
 
@@ -179,7 +231,16 @@ public class ControlPanel extends Canvas {
         speed_str = FlexSimStrings.get( "speed", "speed" );
         c_str = FlexSimStrings.get( "speedOfLight", "c");
         duration_str = FlexSimStrings.get( "duration", "duration" );
-        moreSpeedLessRez_str = FlexSimStrings.get("moreSpeedLessRez", "less rez")
+        //moreSpeedLessRez_str = FlexSimStrings.get("moreSpeedLessRez", "less rez")
+    }
+
+    private function initializeRadioButton( rb:RadioButton, lbl:String,  value: int, selected: Boolean ){
+        rb.group = presetMotion_rgb;
+        rb.labelPlacement = "right";
+        rb.label = lbl;
+        rb.value = value;
+        rb.selected = selected;
+        rb.setStyle( "color", 0xffffff );
     }
 
     private function pauseUnPause():void{
@@ -198,7 +259,7 @@ public class ControlPanel extends Canvas {
         this.setSliderVisiblity();
     }
 
-    private function resetCharge():void{
+    public function resetCharge():void{
         this.myFieldModel.paused = false;
         this.myFieldModel.centerCharge();
         this.setSliderVisiblity();
@@ -215,6 +276,7 @@ public class ControlPanel extends Canvas {
 
     private function comboBoxListener( evt: DropdownEvent ):void{
         this.myFieldModel.paused = false;
+        this.pauseButton.setLabel( pause_str );
         var choice:String = evt.currentTarget.selectedItem;
         if( choice == userChoice_str ){
             this.myFieldModel.setMotion( 0 );
@@ -247,15 +309,50 @@ public class ControlPanel extends Canvas {
         this.setSliderVisiblity();
     }//end comboBoxListener
 
-    private function radioButtonListener( evt: Event ) :void{
-        //trace( "ControlPanel.radioButtonListener  state = "+evt.currentTarget.selected );
-        if( evt.currentTarget.selected ) {
-            this.myMainView.topCanvas.setResolution( "LOW" );
-        }else{
-            this.myMainView.topCanvas.setResolution( "HIGH" );
+    private function radioGroupListener( evt: Event ):void{
+        this.myFieldModel.paused = false;
+        this.pauseButton.setLabel( pause_str );
+        var choice = presetMotion_rgb.selectedValue;
+        if( choice == 0 ){
+            this.myFieldModel.setMotion( 0 );
+        }else if( choice == 1 ){
+            if( isNaN(this.speedSlider.getVal()) ){
+                this.myFieldModel.setBeta( 0.5 );
+                this.speedSlider.setSliderWithoutAction( 0.5 );
+            }
+            this.myFieldModel.setMotion( 1 );
+        }else if( choice == 2 ){
+            this.amplitudeSlider.minVal = this.minAmplitudeOscillatory;
+            this.amplitudeSlider.maxVal = this.maxAmplitudeOscillatory;
+            this.myFieldModel.setMotion( 2 );
+        }else if( choice == 3 ){
+            this.amplitudeSlider.minVal = this.minAmplitudeOscillatory;
+            this.amplitudeSlider.maxVal = this.maxAmplitudeOscillatory;
+            this.myFieldModel.setMotion( 3 );
+        }else if( choice == 4 ){
+//            if( isNaN(this.durationSlider.getVal()) ){
+//                this.myFieldModel.bumpDuration = 0.5;
+//                this.durationSlider.setSliderWithoutAction( 0.5 );
+//            }
+            this.amplitudeSlider.minVal = this.minAmplitudeBump;
+            this.amplitudeSlider.maxVal = this.maxAmplitudeBump;
+            this.myFieldModel.setMotion( 4 );
+        }else if( choice == 5 ){ this.myFieldModel.setMotion( 5 );
+        }else {
+            trace( "ERROR: ControlPanel.comboBoxListener() received invalid choice.") ;
         }
+        this.setSliderVisiblity();
+    }//end comboBoxListener
 
-    }
+//    private function radioButtonListener( evt: Event ) :void{
+//        //trace( "ControlPanel.radioButtonListener  state = "+evt.currentTarget.selected );
+//        if( evt.currentTarget.selected ) {
+//            this.myMainView.topCanvas.setResolution( "LOW" );
+//        }else{
+//            this.myMainView.topCanvas.setResolution( "HIGH" );
+//        }
+//
+//    }
 
     private function setSliderVisiblity():void{
         amplitudeSlider_UI.visible = false;
@@ -270,7 +367,8 @@ public class ControlPanel extends Canvas {
         speedSlider_UI.includeInLayout = false;
         bumpButton_UI.includeInLayout = false;
         restartButton_UI.includeInLayout = false;
-        var choice:int = myComboBox.selectedIndex;
+        //var choice:int = myComboBox.selectedIndex;
+        var choice = presetMotion_rgb.selectedValue;
         if( choice == 0 ){      //user-controlled
             //do nothing
         }else if( choice == 1 ){  //linear

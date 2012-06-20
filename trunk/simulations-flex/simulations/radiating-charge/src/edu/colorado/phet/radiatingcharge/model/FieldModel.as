@@ -46,6 +46,7 @@ public class FieldModel {
     private var _fieldLine_arr:Array;  //array of field lines
 
     private var _paused:Boolean;        //true if sim is paused
+    private var _outOfBounds:Boolean;   //true if charge is off-screen
     private var motionType_str:String;  //type of motion: user-controlled, linear, sinusoidal, circular, etc
     private var userControlled_str:String;
     private var linear_str:String;
@@ -128,6 +129,7 @@ public class FieldModel {
         this._bumpDuration = 0.5;
 
         this._paused = false;
+        this._outOfBounds = false;
         this._t = 0;
         this._tLastPhoton = 0;
         this.dt = 0.006;
@@ -228,7 +230,8 @@ public class FieldModel {
 
     public function stopCharge():void{
         motionType_str = userControlled_str;
-        this.myMainView.myControlPanel.myComboBox.selectedIndex = 0;         //is there a more elegant way?
+        this.myMainView.myControlPanel.presetMotion_rgb.selectedValue = 0;
+        //this.myMainView.myControlPanel.myComboBox.selectedIndex = 0;         //is there a more elegant way?
         this.motionType_str = stopping_str;
         this.vXInit = this.vX;
         this.vYInit = this.vY;
@@ -242,7 +245,8 @@ public class FieldModel {
         this.vY = 0;
         this._v = 0;
         this.beta = this._v/this.c;
-        this.myMainView.myControlPanel.myComboBox.selectedIndex = 0;
+        this.myMainView.myControlPanel.presetMotion_rgb.selectedValue = 0;
+        //this.myMainView.myControlPanel.myComboBox.selectedIndex = 0;
         this.initializeFieldLines();
     }
 
@@ -330,6 +334,11 @@ public class FieldModel {
 
 
     private function moveCharge():void{
+        var f1:Number = 1.4;
+        var f2:Number = 1.6;
+        if( xC > f1*stageW/2 || xC < -f1*stageW/2 || yC > f2*stageH/2 || yC < -f2*stageH/2 ){
+            outOfBounds = true;          //charge is recentered in ChargeView if outOfBounds
+        }
         if( motionType_str == userControlled_str ){
             this.userControlledStep();
         } else if( motionType_str == linear_str ){
@@ -554,5 +563,12 @@ public class FieldModel {
         }
     }//end updateView()
 
+    public function get outOfBounds():Boolean {
+        return _outOfBounds;
+    }
+
+    public function set outOfBounds( value:Boolean ):void {
+        _outOfBounds = value;
+    }
 } //end of class
 } //end of package

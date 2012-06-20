@@ -21,6 +21,7 @@ public class ChargeView extends Sprite {
     private var myFieldModel: FieldModel;
     private var chargeGraphic:Sprite;
     private var springGraphic:Sprite;
+    private var grabArea: Sprite;
 
     private var stageW: int;
     private var stageH: int;
@@ -36,6 +37,7 @@ public class ChargeView extends Sprite {
         this.myFieldModel = myFieldModel;
         this.myFieldModel.registerView( this );
         this.chargeGraphic = new Sprite();
+        this.grabArea = new Sprite();
         this.originX = stageW/2;
         this.originY = stageH/2;
         this.chargeGraphic.x = originX;
@@ -52,6 +54,7 @@ public class ChargeView extends Sprite {
         this.stageW = this.myMainView.stageW;
         this.stageH = this.myMainView.stageH;
         this.addChild( this.chargeGraphic );
+        this.chargeGraphic.addChild( this.grabArea );
         this.addChild( this.springGraphic );
         this.drawChargeGraphic();
         this.makeChargeGrabbable();
@@ -73,6 +76,16 @@ public class ChargeView extends Sprite {
         g.lineTo( r,  0 );
         g.moveTo( 0, -r );
         g.lineTo( 0, r );
+        var gGrab: Graphics = this.grabArea.graphics;
+        var L: Number = 20;
+        with( gGrab ){
+            clear();
+            lineStyle( 1, 0xffffff, 0 );
+            beginFill( 0x00ff00, 0 );
+            drawCircle( 0, 0, 40 );
+            endFill();
+
+        }
     }//end drawChargeGraphic
 
     private function setSpring( ):void{
@@ -145,8 +158,10 @@ public class ChargeView extends Sprite {
     public function update():void{
         this.chargeGraphic.x = this.stageW/2 + this.myFieldModel.xC;
         this.chargeGraphic.y = this.stageH/2 - this.myFieldModel.yC;
-        //trace( "ChargeView.update. chargeGraphic.y = "+ this.chargeGraphic.y) ;
-        //trace("ChargeView.update called model.xC = "+ this.myFieldModel.xC)
+        if( myFieldModel.outOfBounds ){
+            myMainView.myControlPanel.resetCharge();
+            myFieldModel.outOfBounds = false;
+        }
     }
 
 }  //end of class
