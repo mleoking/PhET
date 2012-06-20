@@ -76,7 +76,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
             PictureTarget target = model.getPictureLevel( levelIndex ).getTarget( i );
 
             FractionNode f = new FractionNode( target.fraction, 0.33 );
-            pairList.add( new Target( new PictureScoreBoxNode( target.fraction.numerator, target.fraction.denominator, model.getPictureCreatedFractions( levelIndex ), rootNode, model, null, model.getNumberLevel( levelIndex ).flashTargetCellOnMatch ),
+            pairList.add( new Target( new PictureScoreBoxNode( target.fraction.numerator, target.fraction.denominator, model.getPictureCreatedFractions( levelIndex ), this, model.getNumberLevel( levelIndex ).flashTargetCellOnMatch ),
                                       new ZeroOffsetNode( f ),
                                       target.fraction ) );
         }
