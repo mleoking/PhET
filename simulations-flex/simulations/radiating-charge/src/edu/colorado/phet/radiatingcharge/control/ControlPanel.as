@@ -241,6 +241,9 @@ public class ControlPanel extends Canvas {
         rb.value = value;
         rb.selected = selected;
         rb.setStyle( "color", 0xffffff );
+        rb.setStyle( "textRollOverColor", 0xffff00 );
+        rb.setStyle( "textSelectedColor", 0xffff00 );
+        //rb.setStyle( "disabledIconColor", 0x000000 );   //doesn't work
     }
 
     private function pauseUnPause():void{
@@ -273,7 +276,7 @@ public class ControlPanel extends Canvas {
     private function bumpCharge():void{
         this.myFieldModel.bumpCharge( durationSlider.getVal() );
     }
-
+    //OBSOLETE function
     private function comboBoxListener( evt: DropdownEvent ):void{
         this.myFieldModel.paused = false;
         this.pauseButton.setLabel( pause_str );
