@@ -7,4 +7,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 public interface ContainerContext {
     void endDrag( ContainerNode containerNode, PInputEvent event );
+
+    void syncModelFractions();
 }

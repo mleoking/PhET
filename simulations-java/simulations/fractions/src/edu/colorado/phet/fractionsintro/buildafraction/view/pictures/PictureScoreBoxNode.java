@@ -94,13 +94,17 @@ public class PictureScoreBoxNode extends PNode {
                 splitButton.setPickable( false );
                 splitButton.setChildrenPickable( false );
 
+                sceneNode.addChild( containerNode );
+
                 containerNode.setScale( 1.0 );
                 containerNode.addBackSplitButton();
                 containerNode.setAllPickable( true );
+                containerNode.setInTargetCell( false );
                 containerNode = null;
 
                 //TODO: Maybe send the pieces home?
                 sceneNode.hideFace();
+                sceneNode.syncModelFractions();
             }
         } );
         splitButton.setVisible( false );
