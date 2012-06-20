@@ -14,24 +14,27 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
- * Motion strategy where the controlled entity moves to the back of the Z
- * dimension and then moves instantly to a new location.  This was created to
- * use when a polymerase molecule needs to return to the beginning of the
- * transcribed area of a gene when it complete transcription, though it may
- * end up having other applications.
+ * Motion strategy where the controlled entity drifts at the front of a Z
+ * dimension, then moves to the back of Z space, then moves instantly to a
+ * new randomly generated location within a set of possible "destination
+ * zones" (hench the "teleport" portion of the name). This was created to use
+ * when a polymerase molecule needs to return to the beginning of the
+ * transcribed area of a gene when it complete transcription. It may, at some
+ * point, have other applications as well.
  *
  * @author John Blanco
  */
 public class DriftThenTeleportMotionStrategy extends MotionStrategy {
 
-    private static final double PRE_TELEPORT_TIME = 2; // In seconds.
-    private static final double PRE_TELEPORT_VELOCITY = 100; // In picometers per second.
+    private static final double PRE_FADE_DRIFT_TIME = 1.5; // In seconds.
+    private static final double FADE_AND_DRIFT_TIME = 1; // In seconds.
+    private static final double PRE_TELEPORT_VELOCITY = 250; // In picometers per second.
     private static final Random RAND = new Random();
 
     // List of valid places where the item can teleport.
     private final List<Rectangle2D> destinationZones;
 
-    private double countdown = PRE_TELEPORT_TIME;
+    private double preFadeCountdown = PRE_FADE_DRIFT_TIME;
     private final ImmutableVector2D velocityXY;
     private double velocityZ = 0;
 
@@ -43,7 +46,7 @@ public class DriftThenTeleportMotionStrategy extends MotionStrategy {
             }
         } );
         velocityXY = wanderDirection.getScaledInstance( PRE_TELEPORT_VELOCITY );
-        velocityZ = -1 / PRE_TELEPORT_TIME;
+        velocityZ = -1 / FADE_AND_DRIFT_TIME;
     }
 
     @Override public Point2D getNextLocation( Point2D currentLocation, Shape shape, double dt ) {
@@ -52,32 +55,35 @@ public class DriftThenTeleportMotionStrategy extends MotionStrategy {
     }
 
     @Override public Point3D getNextLocation3D( Point3D currentLocation, Shape shape, double dt ) {
-        countdown -= dt;
-        if ( countdown <= 0 && !pointContainedInBoundsList( new Point2D.Double( currentLocation.getX(), currentLocation.getY() ), destinationZones ) ) {
-            // Time to teleport.  Should be at back of Z space when this occurs.
+
+        // Check if it is time to teleport.  This occurs when back of Z-space is reached.
+        if ( currentLocation.getZ() <= -1 ) {
+            // Time to teleport.
             Point2D destination2D = generateRandomLocationInBounds( destinationZones, shape );
             return new Point3D.Double( destination2D.getX(), destination2D.getY(), -1 );
         }
-        else {
-            // Move in the wander direction, if it doesn't take us out of bounds.
-            if ( motionBounds.testIfInMotionBounds( shape, velocityXY, dt ) ) {
-                return new Point3D.Double( currentLocation.getX() + velocityXY.getX() * dt,
-                                           currentLocation.getY() + velocityXY.getY() * dt,
-                                           MathUtil.clamp( -1, currentLocation.getZ() + velocityZ * dt, 0 ) );
-            }
-            else {
-                return currentLocation;
-            }
-        }
-    }
 
-    private boolean pointContainedInBoundsList( Point2D p, List<Rectangle2D> boundsList ) {
-        for ( Rectangle2D bounds : boundsList ) {
-            if ( bounds.contains( p ) ) {
-                return true;
-            }
+        // Determine movement for drift.
+        final ImmutableVector2D xyMovement;
+        if ( motionBounds.testIfInMotionBounds( shape, velocityXY, dt ) ) {
+            xyMovement = velocityXY.getScaledInstance( dt );
         }
-        return false;
+        else {
+            xyMovement = new ImmutableVector2D( 0, 0 );
+        }
+        double zMovement = 0;
+        if ( preFadeCountdown > 0 ) {
+            // In pre-fade state, so no movement in Z direction.
+            preFadeCountdown -= dt;
+        }
+        else {
+            // In fade-out state.
+            zMovement = velocityZ * dt;
+        }
+
+        return new Point3D.Double( currentLocation.getX() + xyMovement.getX(),
+                                   currentLocation.getY() + xyMovement.getY(),
+                                   MathUtil.clamp( -1, currentLocation.getZ() + zMovement, 0 ) );
     }
 
     private Point2D generateRandomLocationInBounds( List<Rectangle2D> destinationZones, Shape shape ) {
