@@ -133,16 +133,24 @@ public class MessengerRnaAttachmentStateMachine extends AttachmentStateMachine {
 
     // State where the mRNA is fading out of existence.
     protected class UnattachedAndFadingState extends AttachmentState {
+        private static final double PRE_FADE_TIME = 5;
         private static final double FADE_OUT_TIME = 2;
+        private double preFadeCountdown = PRE_FADE_TIME;
 
         @Override public void stepInTime( AttachmentStateMachine asm, double dt ) {
-            biomolecule.existenceStrength.set( Math.max( biomolecule.existenceStrength.get() - dt / FADE_OUT_TIME, 0 ) );
+            if ( preFadeCountdown > 0 ) {
+                preFadeCountdown -= dt;
+            }
+            else {
+                biomolecule.existenceStrength.set( Math.max( biomolecule.existenceStrength.get() - dt / FADE_OUT_TIME, 0 ) );
+            }
         }
 
         @Override public void entered( AttachmentStateMachine asm ) {
             assert biomolecule.existenceStrength.get() == 1.0; // State checking - should be at full strength.
+            preFadeCountdown = PRE_FADE_TIME;
             // Move upwards, away from the DNA and polymerase.
-            asm.biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( -0.5, 1 ),
+            asm.biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( 0, 0.75 ),
                                                                                            asm.biomolecule.motionBoundsProperty ) );
         }
     }
