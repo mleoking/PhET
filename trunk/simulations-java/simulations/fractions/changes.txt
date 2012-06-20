@@ -1,3 +1,4 @@
+Build a Fraction: Pictures: Containers animate back to the toolbox
 Build a Fraction: Pictures: Pieces animate back to the bucket
 Build a Fraction: Pictures: If all scored, then show smilie face and next button.
 Build a Fraction: Pictures: Animate picture fractions into the scoring cells
