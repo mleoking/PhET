@@ -17,6 +17,7 @@ public class Kit {
 
     private final List<MoleculeBucket> reactantBuckets;
     private final List<MoleculeBucket> productBuckets;
+    private final List<Reaction> possibleReactions;
 
     private final List<Atom> atoms = new LinkedList<Atom>();
     private final Set<Molecule> molecules = new HashSet<Molecule>();
@@ -29,9 +30,13 @@ public class Kit {
 
     private final Box2dModel box2dModel;
 
-    public Kit( final LayoutBounds layoutBounds, final List<MoleculeBucket> reactantBuckets, final List<MoleculeBucket> productBuckets ) {
+    public Kit( final LayoutBounds layoutBounds,
+                final List<MoleculeBucket> reactantBuckets,
+                final List<MoleculeBucket> productBuckets,
+                final List<Reaction> possibleReactions ) {
         this.reactantBuckets = reactantBuckets;
         this.productBuckets = productBuckets;
+        this.possibleReactions = possibleReactions;
 
         box2dModel = new Box2dModel( layoutBounds );
 

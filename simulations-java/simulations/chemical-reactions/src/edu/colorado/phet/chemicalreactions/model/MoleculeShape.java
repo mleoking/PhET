@@ -18,6 +18,7 @@ import static edu.colorado.phet.chemistry.model.Element.O;
 
 /**
  * Specifies the shape of a molecule
+ * TODO: add symmetry options
  */
 public class MoleculeShape {
 
@@ -37,6 +38,14 @@ public class MoleculeShape {
             this.element = element;
             this.position = position;
         }
+    }
+
+    public double getBoundingCircleRadius() {
+        double result = 0;
+        for ( AtomSpot spot : spots ) {
+            result = Math.max( result, spot.position.getMagnitude() + spot.element.getRadius() );
+        }
+        return result;
     }
 
     /*---------------------------------------------------------------------------*

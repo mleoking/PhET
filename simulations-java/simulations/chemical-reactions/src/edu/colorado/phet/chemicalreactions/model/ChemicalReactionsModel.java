@@ -1,8 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.chemicalreactions.model;
 
-import java.awt.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -20,65 +20,71 @@ public class ChemicalReactionsModel {
         kitCollection = new KitCollection() {{
             addKit( new Kit( layoutBounds,
                              // reactants
-                             new ArrayList<MoleculeBucket>() {{
-                                 add( new MoleculeBucket( O2, new Dimension( 600, 200 ), 5 ) );
-                                 add( new MoleculeBucket( H2, new Dimension( 600, 200 ), 5 ) );
-                             }},
+                             Arrays.asList(
+                                     new MoleculeBucket( O2, 5 ),
+                                     new MoleculeBucket( H2, 5 )
+                             ),
 
                              // products
-                             new ArrayList<MoleculeBucket>() {{
-                                 add( new MoleculeBucket( H2O, new Dimension( 600, 200 ), 5 ) );
-                             }}
+                             Arrays.asList(
+                                     new MoleculeBucket( H2O, 5 )
+                             ),
+
+                             Arrays.asList( Reaction.H2_O2_TO_H2O )
             ) );
             addKit( new Kit( layoutBounds,
                              // reactants
                              new ArrayList<MoleculeBucket>() {{
-                                 add( new MoleculeBucket( N2, new Dimension( 600, 200 ), 5 ) );
-                                 add( new MoleculeBucket( H2, new Dimension( 600, 200 ), 5 ) );
+                                 add( new MoleculeBucket( N2, 5 ) );
+                                 add( new MoleculeBucket( H2, 5 ) );
                              }},
 
                              // products
                              new ArrayList<MoleculeBucket>() {{
-                                 add( new MoleculeBucket( NH3, new Dimension( 600, 200 ), 5 ) );
-                             }}
+                                 add( new MoleculeBucket( NH3, 5 ) );
+                             }},
+                             new ArrayList<Reaction>()
             ) );
             addKit( new Kit( layoutBounds,
                              // reactants
                              new ArrayList<MoleculeBucket>() {{
-                                 add( new MoleculeBucket( Cl2, new Dimension( 600, 200 ), 5 ) );
-                                 add( new MoleculeBucket( H2, new Dimension( 600, 200 ), 5 ) );
+                                 add( new MoleculeBucket( Cl2, 5 ) );
+                                 add( new MoleculeBucket( H2, 5 ) );
                              }},
 
                              // products
                              new ArrayList<MoleculeBucket>() {{
-                                 add( new MoleculeBucket( HCl, new Dimension( 600, 200 ), 5 ) );
-                             }}
+                                 add( new MoleculeBucket( HCl, 5 ) );
+                             }},
+                             new ArrayList<Reaction>()
             ) );
             addKit( new Kit( layoutBounds,
                              // reactants
                              new ArrayList<MoleculeBucket>() {{
-                                 add( new MoleculeBucket( ClNO2, new Dimension( 600, 200 ), 5 ) );
-                                 add( new MoleculeBucket( NO, new Dimension( 600, 200 ), 5 ) );
+                                 add( new MoleculeBucket( ClNO2, 5 ) );
+                                 add( new MoleculeBucket( NO, 5 ) );
                              }},
 
                              // products
                              new ArrayList<MoleculeBucket>() {{
-                                 add( new MoleculeBucket( NO2, new Dimension( 600, 200 ), 5 ) );
-                                 add( new MoleculeBucket( ClNO, new Dimension( 600, 200 ), 5 ) );
-                             }}
+                                 add( new MoleculeBucket( NO2, 5 ) );
+                                 add( new MoleculeBucket( ClNO, 5 ) );
+                             }},
+                             new ArrayList<Reaction>()
             ) );
             addKit( new Kit( layoutBounds,
                              // reactants
                              new ArrayList<MoleculeBucket>() {{
-                                 add( new MoleculeBucket( CH4, new Dimension( 600, 200 ), 5 ) );
-                                 add( new MoleculeBucket( O2, new Dimension( 600, 200 ), 5 ) );
+                                 add( new MoleculeBucket( CH4, 5 ) );
+                                 add( new MoleculeBucket( O2, 5 ) );
                              }},
 
                              // products
                              new ArrayList<MoleculeBucket>() {{
-                                 add( new MoleculeBucket( CO2, new Dimension( 600, 200 ), 5 ) );
-                                 add( new MoleculeBucket( H2O, new Dimension( 600, 200 ), 5 ) );
-                             }}
+                                 add( new MoleculeBucket( CO2, 5 ) );
+                                 add( new MoleculeBucket( H2O, 5 ) );
+                             }},
+                             new ArrayList<Reaction>()
             ) );
         }};
 
