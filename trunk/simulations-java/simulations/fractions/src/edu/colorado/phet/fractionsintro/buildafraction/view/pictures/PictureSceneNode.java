@@ -76,9 +76,10 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
             PictureTarget target = model.getPictureLevel( levelIndex ).getTarget( i );
 
             FractionNode f = new FractionNode( target.fraction, 0.33 );
-            pairList.add( new Target( new PictureScoreBoxNode( target.fraction.numerator, target.fraction.denominator, model.getPictureCreatedFractions( levelIndex ), this, model.getNumberLevel( levelIndex ).flashTargetCellOnMatch ),
-                                      new ZeroOffsetNode( f ),
-                                      target.fraction ) );
+            final PictureScoreBoxNode cell = new PictureScoreBoxNode( target.fraction.numerator, target.fraction.denominator,
+                                                                      model.getPictureCreatedFractions( levelIndex ), this,
+                                                                      model.getNumberLevel( levelIndex ).flashTargetCellOnMatch );
+            pairList.add( new Target( cell, new ZeroOffsetNode( f ), target.fraction ) );
         }
         this.targetPairs = List.iterableList( pairList );
 
@@ -258,6 +259,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
                                                               pair.cell.getFullBounds().getCenterY() - containerNode.getFullBounds().getHeight() / 2 * scale, scale, 0, 200 );
                 pair.cell.setCompletedFraction( containerNode );
                 containerNode.setAllPickable( false );
+                containerNode.setInTargetCell( true );
                 hit = true;
                 break;
             }
@@ -327,11 +329,16 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
 
     //TODO: when we have multiple containers, this will have to be modified
     private List<Fraction> getUserCreatedFractions() {
-        return getContainerNodes().map( new F<ContainerNode, Fraction>() {
-            @Override public Fraction f( final ContainerNode containerNode ) {
-                return containerNode.getFractionValue();
+        return getContainerNodes().filter( new F<ContainerNode, Boolean>() {
+            @Override public Boolean f( final ContainerNode containerNode ) {
+                return !containerNode.isInTargetCell();
             }
-        } );
+        } ).
+                map( new F<ContainerNode, Fraction>() {
+                    @Override public Fraction f( final ContainerNode containerNode ) {
+                        return containerNode.getFractionValue();
+                    }
+                } );
     }
 
     public void splitPieceFromContainer( final RectangularPiece piece, final ContainerNode containerNode, final double relativeXOffset ) {
