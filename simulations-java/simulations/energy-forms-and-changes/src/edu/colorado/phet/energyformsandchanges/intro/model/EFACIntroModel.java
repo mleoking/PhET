@@ -69,7 +69,7 @@ public class EFACIntroModel {
 
     // Lists of thermal model elements for easy iteration.
     private final List<ThermalEnergyContainer> thermalEnergyContainers = new ArrayList<ThermalEnergyContainer>();
-    private final List<RectangularThermalMovableModelElement> nonAirThermalEnergyContainers = new ArrayList<RectangularThermalMovableModelElement>();
+    private final List<RectangularThermalMovableModelElement> movableThermalEnergyContainers = new ArrayList<RectangularThermalMovableModelElement>();
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -102,9 +102,9 @@ public class EFACIntroModel {
         thermalEnergyContainers.add( ironBlock );
         thermalEnergyContainers.add( beaker );
         thermalEnergyContainers.add( air );
-        nonAirThermalEnergyContainers.add( brick );
-        nonAirThermalEnergyContainers.add( ironBlock );
-        nonAirThermalEnergyContainers.add( beaker );
+        movableThermalEnergyContainers.add( brick );
+        movableThermalEnergyContainers.add( ironBlock );
+        movableThermalEnergyContainers.add( beaker );
 
         // Add the thermometers.  They should reside in the tool box when
         // the sim starts up or is reset, so their position here doesn't much
@@ -220,7 +220,7 @@ public class EFACIntroModel {
         // thermal energy containers.
         for ( Burner burner : Arrays.asList( leftBurner, rightBurner ) ) {
             if ( burner.areAnyOnTop( ironBlock, brick, beaker ) ) {
-                for ( ThermalEnergyContainer nonAirThermalEnergyContainer : nonAirThermalEnergyContainers ) {
+                for ( ThermalEnergyContainer nonAirThermalEnergyContainer : movableThermalEnergyContainers ) {
                     burner.addOrRemoveEnergy( nonAirThermalEnergyContainer, dt );
                 }
             }
@@ -242,28 +242,70 @@ public class EFACIntroModel {
             }
         }
 
-        // Exchange energy chunks between the non-air thermal energy containers.
-        for ( RectangularThermalMovableModelElement ec1 : nonAirThermalEnergyContainers ) {
-            for ( RectangularThermalMovableModelElement ec2 : nonAirThermalEnergyContainers.subList( nonAirThermalEnergyContainers.indexOf( ec1 ) + 1, nonAirThermalEnergyContainers.size() ) ) {
+        // Exchange energy chunks between movable elements and between the
+        // movable elements and the air.
+        for ( RectangularThermalMovableModelElement ec1 : movableThermalEnergyContainers ) {
+
+            // Evaluate exchange with other movable energy containers.
+            for ( RectangularThermalMovableModelElement ec2 : movableThermalEnergyContainers.subList( movableThermalEnergyContainers.indexOf( ec1 ) + 1, movableThermalEnergyContainers.size() ) ) {
                 if ( ec1.getThermalContactArea().getThermalContactLength( ec2.getThermalContactArea() ) > 0 ) {
+                    // Exchange chunks if appropriate.
                     if ( ec1.getEnergyChunkBalance() > 0 && ec2.getEnergyChunkBalance() < 0 ) {
+                        System.out.println( "Chunk from " + ec1 + " to " + ec2 );
                         ec2.addEnergyChunk( ec1.extractClosestEnergyChunk( ec2.getCenterPoint() ) );
                     }
                     else if ( ec1.getEnergyChunkBalance() < 0 && ec2.getEnergyChunkBalance() > 0 ) {
+                        System.out.println( "Chunk from " + ec2 + " to " + ec1 );
                         ec1.addEnergyChunk( ec2.extractClosestEnergyChunk( ec1.getCenterPoint() ) );
                     }
                 }
             }
-        }
 
-        // Exchange energy chunks between non-air model elements and air.
-        for ( RectangularThermalMovableModelElement ec1 : nonAirThermalEnergyContainers ) {
-            if ( ec1.getEnergyChunkBalance() > 0 && air.canAcceptEnergyChunk() ) {
-                ImmutableVector2D pointAbove = new ImmutableVector2D( ec1.getCenterPoint().getX(), ec1.getRect().getMaxY() );
-                air.addEnergyChunk( ec1.extractClosestEnergyChunk( pointAbove ) );
+            // Set up some variables that are used to decide whether or not
+            // energy chunks should be exchanged with the air.
+            boolean contactWithOtherMovableElement = false;
+            boolean immersedInBeaker = false;
+            double temperatureDifference = 0;
+
+            // TODO: This threshold is temporary, need to work out whether to use some other equation or what.
+            double temperatureDiffWhereAirExchangeOK = 10;
+
+            for ( ThermalEnergyContainer ec2 : movableThermalEnergyContainers ) {
+                if ( ec1 == ec2 ) {
+                    continue;
+                }
+                if ( ec1.getThermalContactArea().getThermalContactLength( ec2.getThermalContactArea() ) > 0 ) {
+                    contactWithOtherMovableElement = true;
+                    temperatureDifference = Math.abs( ec1.getTemperature() - ec2.getTemperature() );
+                    System.out.println( "temperatureDifference = " + temperatureDifference );
+                }
             }
-            else if ( ec1.getEnergyChunkBalance() < 0 && air.canSupplyEnergyChunk() ) {
-                ec1.addEnergyChunk( air.requestEnergyChunk( ec1.getCenterPoint() ) );
+
+            if ( beaker.getThermalContactArea().getBounds().contains( ec1.getRect() ) ) {
+                // This model element is immersed in the beaker.
+                immersedInBeaker = true;
+            }
+
+            // Exchange energy chunks with the air if appropriate conditions met.
+            if ( !contactWithOtherMovableElement || ( contactWithOtherMovableElement && !immersedInBeaker && temperatureDifference < temperatureDiffWhereAirExchangeOK ) ) {
+                boolean exchangeOccurred = false;
+                if ( ec1.getEnergyChunkBalance() > 0 && air.canAcceptEnergyChunk() ) {
+                    ImmutableVector2D pointAbove = new ImmutableVector2D( ec1.getCenterPoint().getX(), ec1.getRect().getMaxY() );
+                    System.out.println( "Chunk from " + ec1 + " to air" );
+                    air.addEnergyChunk( ec1.extractClosestEnergyChunk( pointAbove ) );
+                    exchangeOccurred = true;
+                }
+                else if ( ec1.getEnergyChunkBalance() < 0 && air.canSupplyEnergyChunk() ) {
+                    System.out.println( "Chunk from air to " + ec1 );
+                    ec1.addEnergyChunk( air.requestEnergyChunk( ec1.getCenterPoint() ) );
+                    exchangeOccurred = true;
+                }
+                if ( exchangeOccurred ) {
+                    System.out.println( "-------- exchanging with air ---------------" );
+                    System.out.println( "contactWithOtherMovableElement = " + contactWithOtherMovableElement );
+                    System.out.println( "immersedInBeaker = " + immersedInBeaker );
+                    System.out.println( "energyChunkDelta = " + temperatureDifference );
+                }
             }
         }
 
