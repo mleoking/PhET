@@ -377,8 +377,8 @@ public class RnaPolymeraseAttachmentStateMachine extends GenericAttachmentStateM
             asm.biomolecule.movableByUser.set( false );
 
             // Set the motion strategy that will move the polymerase clear of
-            // the DNA, then teleport it so a location within the specified bounds.
-            asm.biomolecule.setMotionStrategy( new DriftThenTeleportMotionStrategy( new ImmutableVector2D( 0, 1 ),
+            // the DNA, then teleport it to a location within the specified bounds.
+            asm.biomolecule.setMotionStrategy( new DriftThenTeleportMotionStrategy( new ImmutableVector2D( 0, RAND.nextBoolean() ? 1 : -1 ),
                                                                                     recycleReturnZones,
                                                                                     biomolecule.motionBoundsProperty ) );
         }
