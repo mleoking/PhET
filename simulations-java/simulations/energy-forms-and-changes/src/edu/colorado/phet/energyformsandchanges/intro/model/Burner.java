@@ -85,6 +85,8 @@ public class Burner extends ModelElement {
         heatCoolLevel.addObserver( new ChangeObserver<Double>() {
             public void update( Double newValue, Double oldValue ) {
                 if ( newValue == 0 || ( Math.signum( oldValue ) != Math.signum( newValue ) ) ) {
+                    // If the burner has been turned off or switched modes,
+                    // clear accumulated heat/cool amount.
                     energyExchangedWithAirSinceLastChunkTransfer = 0;
                 }
             }
@@ -122,10 +124,6 @@ public class Burner extends ModelElement {
     public void addOrRemoveEnergyToFromAir( Air air, double dt ) {
         double deltaEnergy = MAX_ENERGY_GENERATION_RATE * heatCoolLevel.get() * dt;
         air.changeEnergy( deltaEnergy );
-        if ( deltaEnergy != 0 ) {
-            System.out.println( "Burner added energy to air, deltaEnergy = " + deltaEnergy );
-            System.out.println( "  ---> Resulting air temp = " + air.getTemperature() );
-        }
         energyExchangedWithAirSinceLastChunkTransfer += deltaEnergy;
     }
 
@@ -150,14 +148,28 @@ public class Burner extends ModelElement {
 
     public EnergyChunk extractClosestEnergyChunk( ImmutableVector2D point ) {
         energyExchangedWithAirSinceLastChunkTransfer = 0;
-        if ( heatCoolLevel.get() > 0 ) {
+        EnergyChunk closestEnergyChunk = null;
+        if ( energyChunkList.size() > 0 ) {
+            for ( EnergyChunk energyChunk : energyChunkList ) {
+                if ( energyChunk.getExistenceStrength().get() == 1 && ( closestEnergyChunk == null || energyChunk.position.get().distance( point ) < closestEnergyChunk.position.get().distance( point ) ) ) {
+                    closestEnergyChunk = energyChunk;
+                }
+            }
+            energyChunkList.remove( closestEnergyChunk );
+            for ( EnergyChunkWanderController energyChunkWanderController : new ArrayList<EnergyChunkWanderController>( energyChunkWanderControllers ) ) {
+                if ( energyChunkWanderController.getEnergyChunk() == closestEnergyChunk ) {
+                    energyChunkWanderControllers.remove( energyChunkWanderController );
+                }
+            }
+        }
+        else if ( heatCoolLevel.get() > 0 ) {
             // Create an energy chunk.
-            return new EnergyChunk( clock, getEnergyChunkStartEndPoint(), energyChunksVisible, true );
+            closestEnergyChunk = new EnergyChunk( clock, getEnergyChunkStartEndPoint(), energyChunksVisible, true );
         }
         else {
-            System.out.println( getClass().getName() + " - Warning: Request for energy chunk from burner when not in heat mode, returning null" );
-            return null;
+            System.out.println( getClass().getName() + " - Warning: Request for energy chunk from burner when not in heat mode and no chunks contained, returning null." );
         }
+        return closestEnergyChunk;
     }
 
     public ImmutableVector2D getCenterPoint() {
@@ -227,7 +239,22 @@ public class Burner extends ModelElement {
     }
 
     public int getEnergyChunkCountForAir() {
-        return (int) Math.round( energyExchangedWithAirSinceLastChunkTransfer / EFACConstants.ENERGY_PER_CHUNK );
+        int count = 0;
+        // If there are approaching chunks, and the mode has switched to off or
+        // to heating, the chunks should go back to the air.
+        if ( energyChunkList.size() > 0 && heatCoolLevel.get() >= 0 ) {
+            for ( EnergyChunk energyChunk : energyChunkList ) {
+                if ( energyChunk.getExistenceStrength().get() == 1 ) {
+                    count++;
+                }
+            }
+        }
+        if ( count == 0 ) {
+            // See whether the energy exchanged with the air since the last
+            // chunk transfer warrants another chunk.
+            count = (int) Math.round( energyExchangedWithAirSinceLastChunkTransfer / EFACConstants.ENERGY_PER_CHUNK );
+        }
+        return count;
     }
 
     private void stepInTime( double dt ) {
