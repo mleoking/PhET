@@ -440,10 +440,10 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
         throw new RuntimeException( "Couldn't find a match" );
     }
 
-    private static <T> T chooseOne( final List<T> list ) { return list.index( random.nextInt( list.length() ) ); }
+    public static <T> T chooseOne( final List<T> list ) { return list.index( random.nextInt( list.length() ) ); }
 
     //Chooses 2 different values (i.e. without replacement)
-    private static <T> P2<T, T> chooseTwo( final List<T> list ) {
+    public static <T> P2<T, T> chooseTwo( final List<T> list ) {
         final List<Integer> indices = range( 0, list.length() );
         int firstIndexToChoose = chooseOne( indices );
         int secondIndexToChoose = chooseOne( indices.delete( firstIndexToChoose, intEqual ) );
@@ -451,7 +451,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
     }
 
     //Select the specified number without replacement
-    private static <T> List<T> choose( int num, final List<T> list ) {
+    public static <T> List<T> choose( int num, final List<T> list ) {
         ArrayList<T> mutableList = new ArrayList<T>( list.toCollection() );
         Collections.shuffle( mutableList );
         while ( mutableList.size() > num ) {

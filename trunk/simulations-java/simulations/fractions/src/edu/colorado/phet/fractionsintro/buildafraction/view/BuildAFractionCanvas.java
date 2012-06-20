@@ -217,23 +217,23 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
     }
 
     public void goToPictureLevel( int level ) {
-        model.goToNumberLevel( level );
-        for ( Object node : numberScene.getChildrenReference() ) {
+        model.goToPictureLevel( level );
+        for ( Object node : pictureScene.getChildrenReference() ) {
             PNode n2 = (PNode) node;
             //Fade out the other levels, but not the target one (if it already exists)
-            if ( n2 != getNumberSceneNode( level ) ) {
+            if ( n2 != getPictureSceneNode( level ) ) {
                 n2.animateToTransparency( 0.0f, FADE_OUT_TIME );
             }
         }
-        if ( getNumberSceneNode( level ) == null ) {
-            numberScene.addChild( new NumberSceneNode( model.numberLevel.get(), rootNode, model, STAGE_SIZE, this ) {{
-                setOffset( STAGE_SIZE.width * model.numberLevel.get(), STAGE_SIZE.height );
+        if ( getPictureSceneNode( level ) == null ) {
+            pictureScene.addChild( new PictureSceneNode( model.pictureLevel.get(), rootNode, model, STAGE_SIZE, this ) {{
+                setOffset( STAGE_SIZE.width * model.pictureLevel.get(), 0 );
             }} );
         }
         else {
-            getNumberSceneNode( level ).animateToTransparency( 1.0f, FADE_IN_TIME );
+            getPictureSceneNode( level ).animateToTransparency( 1.0f, FADE_IN_TIME );
         }
-        numberScene.animateToTransform( AffineTransform.getTranslateInstance( -STAGE_SIZE.getWidth() * model.numberLevel.get(), 0 ), 1000 );
+        pictureScene.animateToTransform( AffineTransform.getTranslateInstance( -STAGE_SIZE.getWidth() * model.pictureLevel.get(), 0 ), 1000 );
     }
 
     private NumberSceneNode getNumberSceneNode( final int level ) {
@@ -241,6 +241,16 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
             PNode node = (PNode) child;
             if ( node instanceof NumberSceneNode && ( (NumberSceneNode) node ).level == level ) {
                 return (NumberSceneNode) node;
+            }
+        }
+        return null;
+    }
+
+    private PictureSceneNode getPictureSceneNode( final int level ) {
+        for ( Object child : numberScene.getChildrenReference() ) {
+            PNode node = (PNode) child;
+            if ( node instanceof PictureSceneNode && ( (PictureSceneNode) node ).levelIndex == level ) {
+                return (PictureSceneNode) node;
             }
         }
         return null;
