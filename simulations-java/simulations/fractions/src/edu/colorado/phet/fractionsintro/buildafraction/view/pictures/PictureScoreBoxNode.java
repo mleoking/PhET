@@ -12,7 +12,6 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fractions.FractionsResources.Images;
-import edu.colorado.phet.fractionsintro.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
@@ -39,7 +38,7 @@ public class PictureScoreBoxNode extends PNode {
     private final PImage splitButton;
     private ContainerNode containerNode;
 
-    public PictureScoreBoxNode( final int numerator, final int denominator, final Property<List<Fraction>> matches, final PNode rootNode, final BuildAFractionModel model, final PictureSceneNode sceneNode, final boolean flashTargetCellOnMatch ) {
+    public PictureScoreBoxNode( final int numerator, final int denominator, final Property<List<Fraction>> matches, final PictureSceneNode sceneNode, final boolean flashTargetCellOnMatch ) {
         this.path = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 120, 120, 30, 30 ), CONTROL_PANEL_BACKGROUND, controlPanelStroke, Color.darkGray ) {{
 
             setStrokePaint( Color.darkGray );
@@ -98,16 +97,9 @@ public class PictureScoreBoxNode extends PNode {
                 containerNode.setScale( 1.0 );
                 containerNode.addBackSplitButton();
                 containerNode.setAllPickable( true );
-                //TODO:
-//                FractionCardNode cardNode = new FractionCardNode( fractionGraphic, rootNode, numberSceneNode.pairList, model, numberSceneNode );
-//                numberSceneNode.addChild( cardNode );
-//
-//                fractionGraphic = null;
-//
-//                cardNode.fractionNode.handleSplitEvent();
-//                cardNode.fractionNode.sendFractionSkeletonToStartingLocation();
+                containerNode = null;
 
-                //TODO:
+                //TODO: Maybe send the pieces home?
                 sceneNode.hideFace();
             }
         } );
