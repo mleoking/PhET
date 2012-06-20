@@ -255,7 +255,8 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         for ( Target pair : pairs ) {
             final boolean intersects = pair.cell.getGlobalFullBounds().intersects( containerNode.getGlobalFullBounds() );
             final boolean matchesValue = containerNode.getFractionValue().approxEquals( pair.value );
-            if ( intersects && matchesValue ) {
+            final boolean occupied = pair.getCell().isCompleted();
+            if ( intersects && matchesValue && !occupied ) {
                 final double scale = 0.5;
                 containerNode.removeSplitButton();
                 containerNode.animateToPositionScaleRotation( pair.cell.getFullBounds().getCenterX() - containerNode.getFullBounds().getWidth() / 2 * scale,
