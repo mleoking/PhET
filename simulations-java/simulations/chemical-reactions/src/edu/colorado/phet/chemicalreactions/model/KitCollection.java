@@ -7,6 +7,9 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
+/**
+ * A group of kits, with one kit selected as "active"
+ */
 public class KitCollection {
     private List<Kit> kits = new LinkedList<Kit>();
 

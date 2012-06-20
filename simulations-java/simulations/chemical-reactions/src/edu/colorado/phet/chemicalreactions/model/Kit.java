@@ -8,8 +8,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
+// TODO: doc, and add the reaction "target" or "targets"
 public class Kit {
     private final List<MoleculeBucket> buckets;
 
@@ -25,9 +27,13 @@ public class Kit {
 
     private final List<MoleculeListener> moleculeListeners = new LinkedList<MoleculeListener>();
 
+    private final Box2dModel box2dModel;
+
     public Kit( final LayoutBounds layoutBounds, final List<MoleculeBucket> reactantBuckets, final List<MoleculeBucket> productBuckets ) {
         this.reactantBuckets = reactantBuckets;
         this.productBuckets = productBuckets;
+
+        box2dModel = new Box2dModel( layoutBounds );
 
         this.buckets = new ArrayList<MoleculeBucket>() {{
             addAll( reactantBuckets );
@@ -85,6 +91,23 @@ public class Kit {
 
     public void hide() {
         visible.set( false );
+    }
+
+    public void tick( double simulationTimeChange ) {
+        box2dModel.tick( simulationTimeChange );
+    }
+
+    public void dragStart( Molecule molecule ) {
+        if ( molecule.getBody() != null ) {
+            box2dModel.removeBody( molecule );
+        }
+    }
+
+    public void dragEnd( Molecule molecule ) {
+        ImmutableVector2D position = molecule.position.get();
+        if ( layoutBounds.getAvailablePlayAreaModelBounds().contains( position.getX(), position.getY() ) ) {
+            box2dModel.addBody( molecule );
+        }
     }
 
     public boolean isContainedInBucket( Molecule molecule ) {

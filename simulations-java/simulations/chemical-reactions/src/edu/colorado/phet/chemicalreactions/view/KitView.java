@@ -1,8 +1,9 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.chemicalreactions.view;
 
-import java.awt.BasicStroke;
+import java.awt.*;
 import java.awt.geom.Area;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
@@ -18,11 +19,22 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PDragEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.util.PDimension;
 
-import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.*;
+import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.ARROW_VIEW_HEAD_LENGTH;
+import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.ARROW_VIEW_HEAD_WIDTH;
+import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.ARROW_VIEW_PADDING;
+import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.ARROW_VIEW_THICKNESS;
+import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.MODEL_VIEW_TRANSFORM;
+import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.OPERATOR_BORDER_COLOR;
+import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.OPERATOR_COLOR;
+import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.PLUS_VIEW_LENGTH;
+import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.PLUS_VIEW_THICKNESS;
 
 /**
- * Shows a kit (series of buckets full of different types of atoms)
+ * Shows a kit (series of buckets full of different types of atoms), along with the atoms in the play area
  */
 public class KitView {
     private PNode topLayer = new PNode();
@@ -49,8 +61,28 @@ public class KitView {
             topLayer.addChild( bucketView.getFrontNode() );
             bottomLayer.addChild( bucketView.getHoleNode() );
 
-            for ( Molecule molecule : bucket.getMolecules() ) {
-                atomLayer.addChild( new MoleculeNode( molecule ) );
+            for ( final Molecule molecule : bucket.getMolecules() ) {
+                atomLayer.addChild( new MoleculeNode( molecule ) {{
+                    addInputEventListener( new PDragEventHandler() {
+                        @Override public void mouseDragged( PInputEvent event ) {
+                            final PDimension delta = event.getDeltaRelativeTo( getParent() );
+                            final Dimension2D modelDelta = MODEL_VIEW_TRANSFORM.viewToModelDelta( delta );
+                            molecule.setPosition( molecule.position.get().plus( modelDelta ) );
+                        }
+
+                        @Override protected void startDrag( PInputEvent event ) {
+                            super.startDrag( event );
+                            kit.dragStart( molecule );
+                            molecule.userControlled.set( true );
+                        }
+
+                        @Override protected void endDrag( PInputEvent event ) {
+                            super.endDrag( event );
+                            kit.dragEnd( molecule );
+                            molecule.userControlled.set( false );
+                        }
+                    } );
+                }} );
             }
         }
 

@@ -1,3 +1,4 @@
+6/19/12 Added mathematics-related classes: Optimization1D for one-dimensional function minimization, and double-versions of the very useful Ray and Plane classes used in 3D sims.
 6/12/12 Added DampedMassSpringSystem for solving second-order linear differential equations (which is the same as a damped spring system)
 6/10/12 Added "subtract" method to IntegerProperty
 5/29/12 #3166 removed check for -sponsorPrototype command line arg, presence of sponsor.properties alone will trigger feature

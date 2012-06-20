@@ -1,9 +1,9 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.chemicalreactions;
 
-import java.awt.Frame;
+import java.awt.*;
 
-import javax.swing.JMenu;
+import javax.swing.*;
 
 import edu.colorado.phet.chemicalreactions.module.ChemicalReactionsModule;
 import edu.colorado.phet.common.phetcommon.application.Module;
@@ -13,6 +13,9 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
+/**
+ * Main entry point to the simulation
+ */
 public class ChemicalReactionsApplication extends PiccoloPhetApplication {
     /**
      * Sole constructor.

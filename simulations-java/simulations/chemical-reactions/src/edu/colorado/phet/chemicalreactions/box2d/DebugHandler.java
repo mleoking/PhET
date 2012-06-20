@@ -1,9 +1,9 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.chemicalreactions.box2d;
 
-import java.awt.Graphics;
+import java.awt.*;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 import org.jbox2d.dynamics.World;
 import org.jbox2d.testbed.framework.DebugDrawJ2D;

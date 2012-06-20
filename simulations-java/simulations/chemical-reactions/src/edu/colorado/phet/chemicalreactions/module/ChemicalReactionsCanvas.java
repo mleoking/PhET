@@ -1,9 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.chemicalreactions.module;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.util.Random;
+import java.awt.*;
 
 import edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants;
 import edu.colorado.phet.chemicalreactions.control.KitPanel;
@@ -11,16 +9,15 @@ import edu.colorado.phet.chemicalreactions.control.TimePanel;
 import edu.colorado.phet.chemicalreactions.model.ChemicalReactionsModel;
 import edu.colorado.phet.chemicalreactions.model.Kit;
 import edu.colorado.phet.chemicalreactions.model.LayoutBounds;
-import edu.colorado.phet.chemicalreactions.model.Molecule;
-import edu.colorado.phet.chemicalreactions.model.MoleculeShape;
 import edu.colorado.phet.chemicalreactions.view.KitView;
-import edu.colorado.phet.chemicalreactions.view.MoleculeNode;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
+/**
+ * Base canvas for everything visual in the simulation
+ */
 public class ChemicalReactionsCanvas extends PhetPCanvas {
 
     private final PNode root = new PNode();
@@ -56,24 +53,7 @@ public class ChemicalReactionsCanvas extends PhetPCanvas {
             root.addChild( kitView.getMetadataLayer() );
         }
 
-        Random random = new Random( System.currentTimeMillis() );
-        final MoleculeShape[] moleculeShapeOptions = {
-                MoleculeShape.H2O, MoleculeShape.H2O,
-                MoleculeShape.H2, MoleculeShape.H2,
-                MoleculeShape.O2
-//                MoleculeShape.Cl2,
-//                MoleculeShape.HCl,
-//                MoleculeShape.N2
-        };
-        for ( int y = -400; y <= 200; y += 200 ) {
-            for ( int x = 0; x <= 800; x += 400 ) {
-                final Molecule molecule = new Molecule( moleculeShapeOptions[random.nextInt( moleculeShapeOptions.length )] );
-                molecule.setPosition( new ImmutableVector2D( x, y ) );
-                model.addBody( molecule );
-                root.addChild( new MoleculeNode( molecule ) );
-            }
-        }
-
+        // TODO: remove the following once the collision targets have been decided
         /*---------------------------------------------------------------------------*
         * temporary example molecules
         *----------------------------------------------------------------------------*/

@@ -1,13 +1,15 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.chemicalreactions.model;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Bucket;
+import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 
 public class MoleculeBucket extends Bucket {
     private final MoleculeShape shape;
@@ -15,10 +17,16 @@ public class MoleculeBucket extends Bucket {
 
     private final List<Molecule> molecules = new ArrayList<Molecule>();
 
-    public MoleculeBucket( MoleculeShape shape, Dimension2D size ) {
+    public MoleculeBucket( final MoleculeShape shape, Dimension2D size, int initialQuantity ) {
         super( new Point2D.Double(), size, Color.GRAY, "" );
         this.shape = shape;
         this.size = size;
+
+        FunctionalUtils.repeat( new Runnable() {
+            public void run() {
+                molecules.add( new Molecule( shape ) );
+            }
+        }, initialQuantity );
     }
 
     public MoleculeShape getShape() {
@@ -39,5 +47,13 @@ public class MoleculeBucket extends Bucket {
 
     public Dimension2D getSize() {
         return size;
+    }
+
+    @Override public void setPosition( Point2D position ) {
+        super.setPosition( position );
+
+        for ( Molecule molecule : molecules ) {
+            molecule.setPosition( new ImmutableVector2D( getPosition().getX(), getPosition().getY() ) );
+        }
     }
 }
