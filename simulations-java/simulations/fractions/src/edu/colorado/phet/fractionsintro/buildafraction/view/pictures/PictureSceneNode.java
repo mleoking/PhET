@@ -151,12 +151,11 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
             int numInGroup = group.length();
             int index = 0;
             for ( final Integer pieceDenominator : group ) {
-
                 double dx = 4;
                 double totalHorizontalSpacing = dx * ( numInGroup - 1 );
                 LinearFunction offset = new LinearFunction( 0, numInGroup - 1, -totalHorizontalSpacing / 2, +totalHorizontalSpacing / 2 );
                 final RectangularPiece piece = new RectangularPiece( pieceDenominator, PictureSceneNode.this );
-                final double delta = offset.evaluate( index );
+                final double delta = numInGroup == 1 ? 0 : offset.evaluate( index );
                 piece.setInitialPosition( bucketView.getHoleNode().getFullBounds().getCenterX() - piece.getFullBounds().getWidth() / 2 + delta,
                                           bucketView.getHoleNode().getFullBounds().getCenterY() - piece.getFullBounds().getHeight() / 2 + delta );
                 PictureSceneNode.this.addChild( piece );
