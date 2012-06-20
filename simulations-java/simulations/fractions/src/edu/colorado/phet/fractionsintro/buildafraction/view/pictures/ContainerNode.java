@@ -122,7 +122,7 @@ public class ContainerNode extends PNode {
 
     public double getInitialY() { return initialY; }
 
-    public void animateHome() { animateToPositionScaleRotation( getInitialX(), getInitialY(), 1, 0, 1000 ); }
+    public void animateHome() { animateToPositionScaleRotation( getInitialX(), getInitialY(), 1, 0, 200 ); }
 
     public void addPiece( final RectangularPiece piece ) {
         Point2D offset = piece.getGlobalTranslation();
@@ -174,4 +174,6 @@ public class ContainerNode extends PNode {
     public void removeSplitButton() { removeChild( splitButton ); }
 
     public void addBackSplitButton() { addChild( splitButton ); }
+
+    public boolean isAtStartingLocation() { return getXOffset() == initialX && getYOffset() == initialY; }
 }

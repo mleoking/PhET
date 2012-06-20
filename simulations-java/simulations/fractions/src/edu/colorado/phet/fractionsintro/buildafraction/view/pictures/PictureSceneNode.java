@@ -247,6 +247,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
                 return targetPair.cell.getGlobalFullBounds().getCenter2D().distance( containerNode.getGlobalFullBounds().getCenter2D() );
             }
         } ) );
+        boolean hit = false;
         for ( Target pair : pairs ) {
             final boolean intersects = pair.cell.getGlobalFullBounds().intersects( containerNode.getGlobalFullBounds() );
             final boolean matchesValue = containerNode.getFractionValue().approxEquals( pair.value );
@@ -256,8 +257,12 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
                 containerNode.animateToPositionScaleRotation( pair.cell.getFullBounds().getCenterX() - containerNode.getFullBounds().getWidth() / 2 * scale,
                                                               pair.cell.getFullBounds().getCenterY() - containerNode.getFullBounds().getHeight() / 2 * scale, scale, 0, 200 );
                 pair.cell.setCompletedFraction( containerNode );
+                hit = true;
                 break;
             }
+        }
+        if ( !hit && containerNode.getGlobalFullBounds().intersects( toolboxNode.getGlobalFullBounds() ) ) {
+            containerNode.animateHome();
         }
 
         if ( allTargetsComplete() ) {
@@ -278,7 +283,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
             }
         } ) );
         for ( ContainerNode containerNode : containerNodes ) {
-            if ( containerNode.getGlobalFullBounds().intersects( piece.getGlobalFullBounds() ) ) {
+            if ( containerNode.getGlobalFullBounds().intersects( piece.getGlobalFullBounds() ) && !containerNode.isAtStartingLocation() ) {
                 dropInto( piece, containerNode );
                 droppedInto = true;
                 break;
@@ -291,6 +296,9 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
                piece.getGlobalFullBounds().intersects( bucketView.getFrontNode().getGlobalFullBounds() ) ) ) {
             piece.animateHome();
             frontLayer.moveToFront();
+        }
+        else if ( !droppedInto && piece.getGlobalFullBounds().intersects( toolboxNode.getGlobalFullBounds() ) ) {
+            piece.animateToPositionScaleRotation( piece.getXOffset(), piece.getYOffset() - 100, 1, 0, 200 );
         }
     }
 
