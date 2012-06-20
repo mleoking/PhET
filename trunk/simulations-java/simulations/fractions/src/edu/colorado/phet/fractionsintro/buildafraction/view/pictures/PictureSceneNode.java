@@ -257,6 +257,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
                 containerNode.animateToPositionScaleRotation( pair.cell.getFullBounds().getCenterX() - containerNode.getFullBounds().getWidth() / 2 * scale,
                                                               pair.cell.getFullBounds().getCenterY() - containerNode.getFullBounds().getHeight() / 2 * scale, scale, 0, 200 );
                 pair.cell.setCompletedFraction( containerNode );
+                containerNode.setAllPickable( false );
                 hit = true;
                 break;
             }

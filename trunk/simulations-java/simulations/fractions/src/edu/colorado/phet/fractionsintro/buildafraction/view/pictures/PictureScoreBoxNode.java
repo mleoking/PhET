@@ -97,6 +97,7 @@ public class PictureScoreBoxNode extends PNode {
 
                 containerNode.setScale( 1.0 );
                 containerNode.addBackSplitButton();
+                containerNode.setAllPickable( true );
                 //TODO:
 //                FractionCardNode cardNode = new FractionCardNode( fractionGraphic, rootNode, numberSceneNode.pairList, model, numberSceneNode );
 //                numberSceneNode.addChild( cardNode );
