@@ -5,6 +5,7 @@ import fj.data.List;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.event.DynamicCursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.fractions.FractionsResources.Images;
@@ -40,6 +42,7 @@ public class ContainerNode extends PNode {
     public static final double width = 130;
     public static final double height = 55;
     private PImage splitButton;
+    private final DynamicCursorHandler dynamicCursorHandler;
 
     public ContainerNode( PictureSceneNode parent, final int number, final ContainerContext context ) {
         this.parent = parent;
@@ -74,11 +77,13 @@ public class ContainerNode extends PNode {
         splitButton.setPickable( false );
         splitButton.translate( -splitButton.getFullBounds().getWidth(),
                                -splitButton.getFullBounds().getHeight() );
-        splitButton.addInputEventListener( new CursorHandler() );
+        dynamicCursorHandler = new DynamicCursorHandler( Cursor.HAND_CURSOR );
+        splitButton.addInputEventListener( dynamicCursorHandler );
         splitButton.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mouseReleased( final PInputEvent event ) {
                 SimSharingManager.sendButtonPressed( null );
                 splitAll();
+                dynamicCursorHandler.setCursor( Cursor.DEFAULT_CURSOR );
             }
         } );
     }
@@ -103,6 +108,7 @@ public class ContainerNode extends PNode {
             public void activityFinished( final PActivity activity ) {
                 splitButton.setVisible( false );
                 splitButton.setPickable( false );
+                dynamicCursorHandler.setCursor( Cursor.DEFAULT_CURSOR );
             }
         } );
     }
@@ -133,6 +139,7 @@ public class ContainerNode extends PNode {
             splitButton.setPickable( true );
             splitButton.setTransparency( 0 );
             splitButton.animateToTransparency( 1, 200 );
+            dynamicCursorHandler.setCursor( Cursor.HAND_CURSOR );
         }
     }
 
