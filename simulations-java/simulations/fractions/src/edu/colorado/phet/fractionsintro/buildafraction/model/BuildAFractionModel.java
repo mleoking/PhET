@@ -40,11 +40,18 @@ public class BuildAFractionModel {
         selectedScene.reset();
         clock.resetSimulationTime();
         numberLevel.reset();
-        for ( NumberLevel x : numberLevels ) {
-            x.resetAll();
+        for ( NumberLevel level : numberLevels ) {
+            level.resetAll();
         }
         numberLevels.clear();
         numberLevels.addAll( new NumberLevelList() );
+
+        pictureLevel.reset();
+        for ( PictureLevel level : pictureLevels ) {
+            level.resetAll();
+        }
+        pictureLevels.clear();
+        pictureLevels.addAll( new PictureLevelList() );
     }
 
     public void addCreatedValue( final Fraction value ) {
@@ -64,10 +71,12 @@ public class BuildAFractionModel {
 
     public void resample() {
         int n = numberLevel.get();
+        int m = pictureLevel.get();
         Scene scene = selectedScene.get();
         resetAll();
         selectedScene.set( scene );
         numberLevel.set( n );
+        pictureLevel.set( m );
     }
 
     public void goToPictureLevel( final int level ) { pictureLevel.set( level ); }
