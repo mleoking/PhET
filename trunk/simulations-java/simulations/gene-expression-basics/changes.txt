@@ -1,3 +1,4 @@
+2nd tab: Made messenger RNA move off screen (for most aspect ratios) before starting to fade.
 2nd tab: Made RNA polymerase detach either in the up or down direction with 50% probability.
 2nd tab: Modified the way that polymerase detaches from the DNA on such that it is fully detached before it starts to fade out.  Otherwise it looks odd when sim is blown up to full screen mode.
 # 0.00.22 (65314) Jun 19, 2012
