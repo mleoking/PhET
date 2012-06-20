@@ -120,9 +120,13 @@ public class Burner extends ModelElement {
     }
 
     public void addOrRemoveEnergyToFromAir( Air air, double dt ) {
-        double energy = MAX_ENERGY_GENERATION_RATE * heatCoolLevel.get() * dt;
-        air.changeEnergy( energy );
-        energyExchangedWithAirSinceLastChunkTransfer += energy;
+        double deltaEnergy = MAX_ENERGY_GENERATION_RATE * heatCoolLevel.get() * dt;
+        air.changeEnergy( deltaEnergy );
+        if ( deltaEnergy != 0 ) {
+            System.out.println( "Burner added energy to air, deltaEnergy = " + deltaEnergy );
+            System.out.println( "  ---> Resulting air temp = " + air.getTemperature() );
+        }
+        energyExchangedWithAirSinceLastChunkTransfer += deltaEnergy;
     }
 
 

@@ -17,6 +17,7 @@ public class HeatTransferConstants {
     private static final double IRON_WATER_HEAT_TRANSFER_FACTOR = 1000;
     private static final double IRON_AIR_HEAT_TRANSFER_FACTOR = 50;
     private static final double WATER_AIR_HEAT_TRANSFER_FACTOR = 50;
+    public static final double AIR_TO_SURROUNDING_AIR_HEAT_TRANSFER_FACTOR = 10000;
 
     private static final Map<EnergyContainerCategory, Double> HEAT_TRANSFER_FACTORS_FOR_BRICK = new HashMap<EnergyContainerCategory, Double>() {{
         put( EnergyContainerCategory.IRON, BRICK_IRON_HEAT_TRANSFER_FACTOR );
