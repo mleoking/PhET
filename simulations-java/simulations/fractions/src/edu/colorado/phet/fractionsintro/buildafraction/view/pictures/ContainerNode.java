@@ -43,6 +43,7 @@ public class ContainerNode extends PNode {
     public static final double height = 55;
     private PImage splitButton;
     private final DynamicCursorHandler dynamicCursorHandler;
+    private boolean inTargetCell = false;
 
     public ContainerNode( PictureSceneNode parent, final int number, final ContainerContext context ) {
         this.parent = parent;
@@ -111,6 +112,7 @@ public class ContainerNode extends PNode {
                 dynamicCursorHandler.setCursor( Cursor.DEFAULT_CURSOR );
             }
         } );
+        setInTargetCell( false );
     }
 
     public void setAllPickable( final boolean b ) {
@@ -183,4 +185,8 @@ public class ContainerNode extends PNode {
     public void addBackSplitButton() { addChild( splitButton ); }
 
     public boolean isAtStartingLocation() { return getXOffset() == initialX && getYOffset() == initialY; }
+
+    public Boolean isInTargetCell() {return inTargetCell;}
+
+    public void setInTargetCell( final boolean inTargetCell ) { this.inTargetCell = inTargetCell; }
 }
