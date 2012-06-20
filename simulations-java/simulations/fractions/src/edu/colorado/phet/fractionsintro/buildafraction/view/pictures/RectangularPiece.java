@@ -57,4 +57,6 @@ public class RectangularPiece extends PNode {
     public Fraction toFraction() {
         return new Fraction( 1, pieceSize );
     }
+
+    public void animateHome() { animateToPositionScaleRotation( initialX, initialY, 1, 0, 200 ); }
 }
