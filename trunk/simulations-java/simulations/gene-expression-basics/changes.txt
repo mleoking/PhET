@@ -1,3 +1,4 @@
+Modified this motion strategy so that polymerase detaching from the DNA will be fully detached before it starts to fade out.  Otherwise it looks odd when sim is blown up to full screen mode.
 # 0.00.22 (65314) Jun 19, 2012
 6/19/12 Deploying updated version to dev for upcoming interviews.
 Consolidated code for messenger RNA and the fragments produced.  This resulted in a change to the look of the mRNA fragments.
