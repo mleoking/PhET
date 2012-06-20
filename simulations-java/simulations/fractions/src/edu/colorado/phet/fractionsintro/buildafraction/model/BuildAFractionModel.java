@@ -69,4 +69,6 @@ public class BuildAFractionModel {
         selectedScene.set( scene );
         numberLevel.set( n );
     }
+
+    public void goToPictureLevel( final int level ) { pictureLevel.set( level ); }
 }

@@ -60,10 +60,12 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
     private final RichPNode toolboxNode;
     private final PNode frontLayer;
     private final VBox faceNodeDialog;
+    public final int levelIndex;
 
     public PictureSceneNode( int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension STAGE_SIZE, final PictureSceneContext context ) {
         this.rootNode = rootNode;
         this.model = model;
+        this.levelIndex = levelIndex;
         this.STAGE_SIZE = STAGE_SIZE;
 //        final PhetPText title = new PhetPText( MY_FRACTIONS, AbstractFractionsCanvas.CONTROL_FONT );
 
