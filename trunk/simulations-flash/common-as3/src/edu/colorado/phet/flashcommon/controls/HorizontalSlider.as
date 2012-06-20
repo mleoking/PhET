@@ -1,3 +1,4 @@
+
 //horizontal slider component
 
 package edu.colorado.phet.flashcommon.controls {
@@ -130,6 +131,13 @@ public class HorizontalSlider extends Sprite {
        this.units_txt.y = -this.label_txt.height - 1.0*this.units_txt.height;
     }
 
+    public function setTextColor( color: uint ):void{
+        this.tFormat1.color = color;
+        this.tFormat2.color = color;
+        this.label_txt.setTextFormat( this.tFormat1 );
+        this.units_txt.setTextFormat( this.tFormat2 );
+    }
+
     public function setLabelText( label_str: String ): void {
         this.label_txt.text = label_str;
         this.label_txt.setTextFormat( this.tFormat1 );
@@ -148,8 +156,6 @@ public class HorizontalSlider extends Sprite {
     public function removeReadout():void{
         this.removeChild( this.readout_txt );
         this.removeChild( this.units_txt );
-        //this.readout_txt.visible = false;
-        //this.units_txt.visible = false;
     }
 
     private function drawSlider(): void {
