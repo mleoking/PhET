@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.jamaphet.JamaUtils;
 
 import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.map;
 
@@ -51,7 +52,7 @@ public class AttractorModel {
         for ( int i = 0; i < groups.size(); i++ ) {
             PairGroup pair = groups.get( i );
 
-            ImmutableVector3D targetOrientation = vectorFromMatrix( mapping.target, i );
+            ImmutableVector3D targetOrientation = JamaUtils.vectorFromMatrix3D( mapping.target, i );
             double currentMagnitude = ( pair.position.get().minus( center ) ).magnitude();
             ImmutableVector3D targetLocation = targetOrientation.times( currentMagnitude ).plus( center );
 
@@ -100,8 +101,8 @@ public class AttractorModel {
                 ImmutableVector3D bOrientation = b.position.get().minus( center ).normalized();
 
                 // desired orientations
-                ImmutableVector3D aTarget = vectorFromMatrix( mapping.target, aIndex ).normalized();
-                ImmutableVector3D bTarget = vectorFromMatrix( mapping.target, bIndex ).normalized();
+                ImmutableVector3D aTarget = JamaUtils.vectorFromMatrix3D( mapping.target, aIndex ).normalized();
+                ImmutableVector3D bTarget = JamaUtils.vectorFromMatrix3D( mapping.target, bIndex ).normalized();
                 double targetAngle = Math.acos( MathUtil.clamp( -1, aTarget.dot( bTarget ), 1 ) );
                 double currentAngle = Math.acos( MathUtil.clamp( -1, aOrientation.dot( bOrientation ), 1 ) );
                 double angleDifference = ( targetAngle - currentAngle );
@@ -149,14 +150,14 @@ public class AttractorModel {
         final int n = currentOrientations.size(); // number of total pairs
 
         // y == electron pair positions
-        final Matrix y = matrixFromUnitVectors( currentOrientations );
+        final Matrix y = JamaUtils.matrixFromVectors3D( currentOrientations );
         final Matrix yTransposed = y.transpose();
 
         final Property<ResultMapping> bestResult = new Property<ResultMapping>( null );
 
         for ( Permutation permutation : allowablePermutations ) {
             // x == configuration positions
-            Matrix x = matrixFromUnitVectors( permutation.apply( idealOrientations ) );
+            Matrix x = JamaUtils.matrixFromVectors3D( permutation.apply( idealOrientations ) );
 
             // compute the rotation matrix
             Matrix rot = computeRotationMatrixWithTranspose( x, yTransposed );
@@ -188,20 +189,6 @@ public class AttractorModel {
         } );
     }
 
-    private static void dumpMatrix( Matrix m ) {
-        System.out.println( "dim: " + m.getRowDimension() + "x" + m.getColumnDimension() );
-        for ( int row = 0; row < m.getRowDimension(); row++ ) {
-            for ( int col = 0; col < m.getColumnDimension(); col++ ) {
-                System.out.print( m.get( row, col ) + " " );
-            }
-            System.out.println();
-        }
-    }
-
-    private static ImmutableVector3D vectorFromMatrix( Matrix matrix, int column ) {
-        return new ImmutableVector3D( matrix.get( 0, column ), matrix.get( 1, column ), matrix.get( 2, column ) );
-    }
-
     private static Matrix computeRotationMatrixWithTranspose( Matrix x, Matrix yTransposed ) {
         // S = X * Y^T
         Matrix s = x.times( yTransposed );
@@ -211,23 +198,7 @@ public class AttractorModel {
         SingularValueDecomposition svd = new SingularValueDecomposition( s );
         double det = svd.getV().times( svd.getU().transpose() ).det();
 
-        return svd.getV().times( new Matrix( new double[][] { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, det } } ).times( svd.getU().transpose() ) );
-    }
-
-    /**
-     * Create a Matrix where each column is a 3D normalized vector
-     */
-    private static Matrix matrixFromUnitVectors( final List<ImmutableVector3D> unitVectors ) {
-        final int n = unitVectors.size();
-        return new Matrix( 3, n ) {{
-            for ( int i = 0; i < n; i++ ) {
-                // fill the vector into the matrix as a column
-                ImmutableVector3D unitVector = unitVectors.get( i );
-                set( 0, i, unitVector.getX() );
-                set( 1, i, unitVector.getY() );
-                set( 2, i, unitVector.getZ() );
-            }
-        }};
+        return svd.getV().times( new Matrix( new double[][]{{1, 0, 0}, {0, 1, 0}, {0, 0, det}} ).times( svd.getU().transpose() ) );
     }
 
     public static class ResultMapping {
@@ -259,23 +230,10 @@ public class AttractorModel {
         }
 
         public ImmutableVector3D rotateVector( ImmutableVector3D v ) {
-            Matrix x = matrixFromUnitVectors( Arrays.asList( v ) );
+            Matrix x = JamaUtils.matrixFromVectors3D( Arrays.asList( v ) );
             Matrix rotated = rotation.times( x );
             return new ImmutableVector3D( rotated.get( 0, 0 ), rotated.get( 1, 0 ), rotated.get( 2, 0 ) );
         }
-    }
-
-    /**
-     * @param lists Lists to flatten
-     * @param <T>   Type
-     * @return Standard 1-step flattened list
-     */
-    private static <T> List<T> flatten( List<List<T>> lists ) {
-        List<T> ret = new ArrayList<T>();
-        for ( List<T> list : lists ) {
-            ret.addAll( list );
-        }
-        return ret;
     }
 
     /**
@@ -342,21 +300,6 @@ public class AttractorModel {
         }
     }
 
-    /**
-     * Returns a list of integers from A to B (including both A to B)
-     *
-     * @param a A
-     * @param b B
-     * @return A to B
-     */
-    public static List<Integer> rangeInclusive( int a, int b ) {
-        List<Integer> result = new ArrayList<Integer>( b - a + 1 );
-        for ( int i = a; i <= b; i++ ) {
-            result.add( i );
-        }
-        return result;
-    }
-
     public static void main( String[] args ) {
         /*
          Testing of permuting each individual list. Output:
@@ -387,11 +330,11 @@ public class AttractorModel {
                                              add( "F" );
                                          }} );
                                      }}, new VoidFunction1<List<List<String>>>() {
-            public void apply( List<List<String>> lists ) {
-                String ret = listPrint( lists );
-                System.out.println( ret );
-            }
-        }
+                                         public void apply( List<List<String>> lists ) {
+                                             String ret = listPrint( lists );
+                                             System.out.println( ret );
+                                         }
+                                     }
         );
     }
 

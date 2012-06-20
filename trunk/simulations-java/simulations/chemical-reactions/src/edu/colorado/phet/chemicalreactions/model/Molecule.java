@@ -21,6 +21,9 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.BOX2D_DENSITY;
 import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.BOX2D_MODEL_TRANSFORM;
 
+/**
+ * A molecule in this simulation. When a reaction happens, this instance would be discarded and replaced with new ones.
+ */
 public class Molecule extends BodyModel {
 
     private final List<Atom> atoms = new ArrayList<Atom>();
@@ -28,8 +31,8 @@ public class Molecule extends BodyModel {
 
     public Molecule() {
         super( new BodyDef() {{
-                   type = BodyType.DYNAMIC;
-               }}, BOX2D_MODEL_TRANSFORM );
+            type = BodyType.DYNAMIC;
+        }}, BOX2D_MODEL_TRANSFORM );
         final SimpleObserver updateObserver = new SimpleObserver() {
             public void update() {
                 updatePositions();

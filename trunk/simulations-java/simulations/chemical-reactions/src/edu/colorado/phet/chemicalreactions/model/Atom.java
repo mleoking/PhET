@@ -5,6 +5,9 @@ import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
+/**
+ * Atom + 2d position
+ */
 public class Atom extends edu.colorado.phet.chemistry.model.Atom {
 
     public final Property<ImmutableVector2D> position;

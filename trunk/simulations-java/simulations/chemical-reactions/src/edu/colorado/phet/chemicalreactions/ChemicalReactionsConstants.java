@@ -1,14 +1,16 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.chemicalreactions;
 
-import java.awt.Color;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.umd.cs.piccolo.util.PDimension;
 
+/**
+ * Important simulation constants
+ */
 public class ChemicalReactionsConstants {
 
     /*---------------------------------------------------------------------------*

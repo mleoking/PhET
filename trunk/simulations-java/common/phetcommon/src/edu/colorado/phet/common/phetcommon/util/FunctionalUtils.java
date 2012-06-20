@@ -6,12 +6,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.Function2;
 
 /**
  * Utilities that simplify everyday functional programming.
@@ -155,6 +157,83 @@ public class FunctionalUtils {
             result.add( mapper.apply( t ) );
         }
         return result;
+    }
+
+    // map, with an additional index parameter given to the mapping function. index depends on the collection's natural order
+    public static <T, U> List<U> mapWithIndex( Collection<T> collection, Function2<? super T, Integer, ? extends U> mapper ) {
+        List<U> result = new ArrayList<U>();
+        Iterator<T> iterator = collection.iterator();
+        int index = 0;
+        while ( iterator.hasNext() ) {
+            T t = iterator.next();
+            result.add( mapper.apply( t, index ) );
+            index++;
+        }
+        return result;
+    }
+
+    // also known as map2 sometimes, maps essentially pairs of objects together
+    public static <T, U, V> List<V> zip( Collection<T> a, Collection<U> b, Function2<? super T, ? super U, ? extends V> mapper ) {
+        assert a.size() == b.size();
+        List<V> result = new ArrayList<V>();
+        Iterator<T> aIter = a.iterator();
+        Iterator<U> bIter = b.iterator();
+        while ( aIter.hasNext() && bIter.hasNext() ) {
+            result.add( mapper.apply( aIter.next(), bIter.next() ) );
+        }
+        return result;
+    }
+
+    // typical left fold. i.e. foldLeft( [ a, b, c ], f, init ) => f( f( f( init, a ), b ), c )
+    public static <T, U> U foldLeft( Collection<T> collection, Function2<? super U, ? super T, ? extends U> f, U initialValue ) {
+        U result = initialValue;
+        for ( T t : collection ) {
+            result = f.apply( result, t );
+        }
+        return result;
+    }
+
+    // typical right fold. i.e. foldRight( [ a, b, c ], f, init ) => f( a, f( b, f( c, init ) ) )
+    public static <T, U> U foldRight( Collection<T> collection, final Function2<? super T, ? super U, ? extends U> f, U initialValue ) {
+        ArrayList<T> coll = new ArrayList<T>( collection );
+        Collections.reverse( coll );
+        return foldLeft( coll, new Function2<U, T, U>() {
+            public U apply( U a, T b ) {
+                return f.apply( b, a ); // argument reversal necessary for consistency
+            }
+        }, initialValue );
+    }
+
+    // typical left reduce, equal to foldLeft( tail( collection ), f, head( collection ) )
+    public static <T> T reduceLeft( Collection<T> collection, Function2<? super T, ? super T, ? extends T> f ) {
+        if ( collection.isEmpty() ) {
+            throw new IllegalArgumentException( "Empty collection is invalid for a reduce" );
+        }
+        T result = null;
+        boolean start = true; // use a start flag so we can only iterate through the collection once (so this can work if the order changes)
+
+        for ( T t : collection ) {
+            if ( start ) {
+                result = t;
+                start = false;
+            }
+            else {
+                result = f.apply( result, t );
+            }
+        }
+        return result;
+    }
+
+    // typical right reduce, equal to foldRight( allButLast( collection ), f, last( collection ) )
+    public static <T> T reduceRight( Collection<T> collection, final Function2<? super T, ? super T, ? extends T> f ) {
+        ArrayList<T> coll = new ArrayList<T>( collection );
+        Collections.reverse( coll );
+
+        return reduceLeft( coll, new Function2<T, T, T>() {
+            public T apply( T a, T b ) {
+                return f.apply( b, a ); // argument reversal necessary for consistency
+            }
+        } );
     }
 
     // Returns a unique list from a collection, in no particular order

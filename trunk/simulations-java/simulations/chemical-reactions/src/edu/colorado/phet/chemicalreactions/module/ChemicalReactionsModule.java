@@ -1,7 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.chemicalreactions.module;
 
-import java.awt.Frame;
+import java.awt.*;
 
 import edu.colorado.phet.chemicalreactions.ChemicalReactionsResources.Strings;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;

@@ -74,8 +74,10 @@ public class BodyModel {
 
     public void setBody( Body body ) {
         this.body = body;
-        for ( FixtureDef fixtureDef : fixtureDefs ) {
-            body.createFixture( fixtureDef );
+        if ( body != null ) {
+            for ( FixtureDef fixtureDef : fixtureDefs ) {
+                body.createFixture( fixtureDef );
+            }
         }
         setPosition( position.get() );
         setVelocity( velocity.get() );
