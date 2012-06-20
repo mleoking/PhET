@@ -39,6 +39,7 @@ public class BuildAFractionModel {
     public void resetAll() {
         selectedScene.reset();
         clock.resetSimulationTime();
+
         numberLevel.reset();
         for ( NumberLevel level : numberLevels ) {
             level.resetAll();
