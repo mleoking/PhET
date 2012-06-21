@@ -34,6 +34,7 @@ import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.createP
 import static edu.colorado.phet.fractions.util.immutable.Vector2D.v;
 import static edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Direction.*;
 import static fj.data.List.*;
+import static java.lang.Math.*;
 
 /**
  * An abstraction over shape-based representations for fractions, such as a grid of cells, or a pyramid of triangles.
@@ -134,8 +135,8 @@ public class Pattern {
         final double angle = Math.PI * 2 / 6;
         return new Pattern( range( 0, 6 ).map( new F<Integer, Shape>() {
             @Override public Shape f( final Integer index ) {
-                final double x = Math.sin( angle / 2 );
-                final double y = Math.cos( angle / 2 );
+                final double x = sin( angle / 2 );
+                final double y = cos( angle / 2 );
                 return AffineTransform.getRotateInstance( angle * index, 0, 0 ).createTransformedShape( pointsToShape( length, list( v( 0, 0 ), v( x, y ), v( 0, y * 2 ), v( -x, y ) ) ) );
             }
         } ) );
@@ -243,8 +244,8 @@ public class Pattern {
     private static Shape triangle( final double length, final Vector2D tip, final UnitVector2D direction ) {
         return new DoubleGeneralPath() {{
             moveTo( tip.toPoint2D() );
-            lineTo( tip.plus( direction.rotate( Math.toRadians( 90 + 60 ) ).times( length ) ).toPoint2D() );
-            lineTo( tip.plus( direction.rotate( Math.toRadians( -90 - 60 ) ).times( length ) ).toPoint2D() );
+            lineTo( tip.plus( direction.rotate( toRadians( 90 + 60 ) ).times( length ) ).toPoint2D() );
+            lineTo( tip.plus( direction.rotate( toRadians( -90 - 60 ) ).times( length ) ).toPoint2D() );
             lineTo( tip.toPoint2D() );
         }}.getGeneralPath();
     }
@@ -320,6 +321,25 @@ public class Pattern {
         }
     }
 
+    //Designed as the level icon for level 7
+    public static Pattern ringOfHexagons() {
+        double ds = 8;
+        final double r = ( 50 - ds ) * 0.5;
+        return new Pattern( list( translate( 0, -r, hex() ),
+                                  translate( 0, 0, hex() ),
+                                  translate( 0, r, hex() ),
+                                  translate( r * cos( toRadians( 30 ) ), r * sin( toRadians( 30 ) ), hex() ),
+                                  translate( r * cos( toRadians( 30 ) ), -r * sin( toRadians( 30 ) ), hex() ),
+                                  translate( -r * cos( toRadians( 30 ) ), r * sin( toRadians( 30 ) ), hex() ),
+                                  translate( -r * cos( toRadians( 30 ) ), -r * sin( toRadians( 30 ) ), hex() ) ) );
+    }
+
+    private static Shape hex() {return Polygon.createPolygon( 25, 6 ).outline;}
+
+    private static Shape translate( final double dx, final double dy, final Shape outline ) {
+        return AffineTransform.getTranslateInstance( dx, dy ).createTransformedShape( outline );
+    }
+
     public static void main( String[] args ) throws InvocationTargetException, InterruptedException {
         SwingUtilities.invokeAndWait( new Runnable() {
             public void run() {
@@ -338,7 +358,8 @@ public class Pattern {
 //                        addChild( new PatternNode( FilledPattern.sequentialFill( tetrisPiece( 50 ), 4 ), Color.red ) {{translate( 200, 400 );}} );
 //                        addChild( new PatternNode( FilledPattern.sequentialFill( letterLShapedDiagonal( 10, 2 ), 4 ), Color.red ) {{translate( 200, 500 );}} );
 //                        addChild( new PatternNode( FilledPattern.sequentialFill( sixFlower( 50 ), 4 ), Color.red ) {{translate( 300, 500 );}} );
-                        addChild( new PatternNode( FilledPattern.sequentialFill( interleavedLShape( 80, 2, 3 ), 6 ), Color.red ) {{translate( 400, 500 );}} );
+//                        addChild( new PatternNode( FilledPattern.sequentialFill( interleavedLShape( 80, 2, 3 ), 6 ), Color.red ) {{translate( 400, 500 );}} );
+                        addChild( new PatternNode( FilledPattern.sequentialFill( ringOfHexagons(), 7 ), Color.red ) {{translate( 400, 500 );}} );
                     }} );
                 }}.setVisible( true );
             }
