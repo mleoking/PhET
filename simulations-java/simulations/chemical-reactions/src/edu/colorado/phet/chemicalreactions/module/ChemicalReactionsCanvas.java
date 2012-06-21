@@ -51,6 +51,7 @@ public class ChemicalReactionsCanvas extends PhetPCanvas {
             root.addChild( kitView.getAtomLayer() );
             root.addChild( kitView.getTopLayer() );
             root.addChild( kitView.getMetadataLayer() );
+            root.addChild( kitView.getDebugOverlayLayer() );
         }
 
 //        for ( final ReactionShape.MoleculeSpot spot : ReactionShape.H2_O2_TO_H2O.reactantSpots ) {
@@ -58,104 +59,6 @@ public class ChemicalReactionsCanvas extends PhetPCanvas {
 //                setAngle( (float) spot.rotation );
 //                setPosition( spot.position );
 //            }} ) );
-//        }
-
-        // TODO: remove the following once the collision targets have been decided
-        /*---------------------------------------------------------------------------*
-        * temporary example molecules
-        *----------------------------------------------------------------------------*/
-//
-//        final double scale = ChemicalReactionsConstants.MODEL_VIEW_TRANSFORM.modelToViewDeltaX( 1 );
-//        {
-//            final double xCenter = 100;
-//            // 2H2, O2
-//            root.addChild( new MoleculeNode( new Molecule() {{
-//                addAtom( new Atom( O, new Property<ImmutableVector2D>( new ImmutableVector2D( 0, O.getRadius() ) ) ) );
-//                addAtom( new Atom( O, new Property<ImmutableVector2D>( new ImmutableVector2D( 0, -O.getRadius() ) ) ) );
-//
-//                addAtom( new Atom( H, new Property<ImmutableVector2D>( new ImmutableVector2D( -O.getRadius() * 1.9, H.getRadius() ) ) ) );
-//                addAtom( new Atom( H, new Property<ImmutableVector2D>( new ImmutableVector2D( -O.getRadius() * 1.9, -H.getRadius() ) ) ) );
-//
-//                addAtom( new Atom( H, new Property<ImmutableVector2D>( new ImmutableVector2D( O.getRadius() * 1.9, H.getRadius() ) ) ) );
-//                addAtom( new Atom( H, new Property<ImmutableVector2D>( new ImmutableVector2D( O.getRadius() * 1.9, -H.getRadius() ) ) ) );
-//            }} ) {{
-//                setOffset( xCenter, 250 );
-//                scale( scale );
-//            }} );
-//
-//            root.addChild( new MoleculeNode( new Molecule() {{
-//                addAtom( new Atom( O, new Property<ImmutableVector2D>( new ImmutableVector2D( 0, O.getRadius() ) ) ) );
-//                addAtom( new Atom( O, new Property<ImmutableVector2D>( new ImmutableVector2D( 0, -O.getRadius() ) ) ) );
-//
-//                addAtom( new Atom( H, new Property<ImmutableVector2D>( new ImmutableVector2D( -O.getRadius() * 1.5, H.getRadius() ) ) ) );
-//                addAtom( new Atom( H, new Property<ImmutableVector2D>( new ImmutableVector2D( -O.getRadius() * 1.5, -H.getRadius() ) ) ) );
-//
-//                addAtom( new Atom( H, new Property<ImmutableVector2D>( new ImmutableVector2D( O.getRadius() * 1.5, H.getRadius() ) ) ) );
-//                addAtom( new Atom( H, new Property<ImmutableVector2D>( new ImmutableVector2D( O.getRadius() * 1.5, -H.getRadius() ) ) ) );
-//            }} ) {{
-//                setOffset( xCenter, 375 );
-//                scale( scale );
-//            }} );
-//
-//            // H2Os
-//            root.addChild( new MoleculeNode( new Molecule( H2O ) ) {{
-//                setOffset( xCenter, 500 + O.getRadius() * scale );
-//                scale( scale );
-//            }} );
-//            root.addChild( new MoleculeNode( new Molecule( H2O ) ) {{
-//                setOffset( xCenter, 500 - O.getRadius() * scale );
-//                scale( scale );
-//            }} );
-//
-//            root.addChild( new MoleculeNode( new Molecule( H2O ) ) {{
-//                setOffset( xCenter, 615 + O.getRadius() * scale * 1.2 );
-//                scale( scale );
-//            }} );
-//            root.addChild( new MoleculeNode( new Molecule( H2O ) ) {{
-//                setOffset( xCenter, 615 - O.getRadius() * scale * 1.2 );
-//                scale( scale );
-//            }} );
-//        }
-//        {
-//            final double xCenter = 300;
-//            // 2NH3
-//            root.addChild( new MoleculeNode( new Molecule() {{
-//                addAtom( new Atom( N, new Property<ImmutableVector2D>( new ImmutableVector2D( N.getRadius(), 0 ) ) ) );
-//                addAtom( new Atom( N, new Property<ImmutableVector2D>( new ImmutableVector2D( -N.getRadius(), 0 ) ) ) );
-//
-//                final ImmutableVector2D a = new ImmutableVector2D( N.getRadius(), N.getRadius() + H.getRadius() );
-//                final ImmutableVector2D b = new ImmutableVector2D( N.getRadius() * 2 + H.getRadius(), 0 );
-//                final ImmutableVector2D c = a.plus( b.minus( a ).getNormalizedInstance().times( ( b.minus( a ).getMagnitude() - H.getRadius() * 2 ) / 2 ) ).plus( 18, 18 );
-//                final ImmutableVector2D d = b.plus( a.minus( b ).getNormalizedInstance().times( ( a.minus( b ).getMagnitude() - H.getRadius() * 2 ) / 2 ) ).plus( 18, 18 );
-//                addAtom( new Atom( H, new Property<ImmutableVector2D>( c ) ) );
-//                addAtom( new Atom( H, new Property<ImmutableVector2D>( d ) ) );
-//
-//                addAtom( new Atom( H, new Property<ImmutableVector2D>( new ImmutableVector2D( -c.getX(), c.getY() ) ) ) );
-//                addAtom( new Atom( H, new Property<ImmutableVector2D>( new ImmutableVector2D( -d.getX(), d.getY() ) ) ) );
-//
-//                addAtom( new Atom( H, new Property<ImmutableVector2D>( new ImmutableVector2D( -H.getRadius(), -N.getRadius() - H.getRadius() + 7 ) ) ) );
-//                addAtom( new Atom( H, new Property<ImmutableVector2D>( new ImmutableVector2D( H.getRadius(), -N.getRadius() - H.getRadius() + 7 ) ) ) );
-//            }} ) {{
-//                setOffset( xCenter, 400 );
-//                scale( scale );
-//            }} );
-//
-//            // N2, 3H2
-//            root.addChild( new MoleculeNode( new Molecule() {{
-//                addAtom( new Atom( N, new Property<ImmutableVector2D>( new ImmutableVector2D( N.getRadius(), 0 ) ) ) );
-//                addAtom( new Atom( N, new Property<ImmutableVector2D>( new ImmutableVector2D( -N.getRadius(), 0 ) ) ) );
-//
-//                addAtom( new Atom( H, new Property<ImmutableVector2D>( new ImmutableVector2D( N.getRadius(), N.getRadius() + H.getRadius() ) ) ) );
-//                addAtom( new Atom( H, new Property<ImmutableVector2D>( new ImmutableVector2D( N.getRadius(), -N.getRadius() - H.getRadius() ) ) ) );
-//                addAtom( new Atom( H, new Property<ImmutableVector2D>( new ImmutableVector2D( N.getRadius() * 2 + H.getRadius(), 0 ) ) ) );
-//
-//                addAtom( new Atom( H, new Property<ImmutableVector2D>( new ImmutableVector2D( -N.getRadius(), N.getRadius() + H.getRadius() ) ) ) );
-//                addAtom( new Atom( H, new Property<ImmutableVector2D>( new ImmutableVector2D( -N.getRadius(), -N.getRadius() - H.getRadius() ) ) ) );
-//                addAtom( new Atom( H, new Property<ImmutableVector2D>( new ImmutableVector2D( -N.getRadius() * 2 - H.getRadius(), 0 ) ) ) );
-//            }} ) {{
-//                setOffset( xCenter, 600 );
-//                scale( scale );
-//            }} );
 //        }
     }
 

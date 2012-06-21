@@ -26,13 +26,17 @@ import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.BOX
  */
 public class Molecule extends BodyModel {
 
+    public final MoleculeShape shape;
+
     private final List<Atom> atoms = new ArrayList<Atom>();
     private final Map<Atom, AtomSpot> atomMap = new HashMap<Atom, AtomSpot>();
 
-    public Molecule() {
+    public Molecule( MoleculeShape shape ) {
         super( new BodyDef() {{
             type = BodyType.DYNAMIC;
         }}, BOX2D_MODEL_TRANSFORM );
+        this.shape = shape;
+
         final SimpleObserver updateObserver = new SimpleObserver() {
             public void update() {
                 updatePositions();
@@ -40,10 +44,7 @@ public class Molecule extends BodyModel {
         };
         position.addObserver( updateObserver, false );
         angle.addObserver( updateObserver, false );
-    }
 
-    public Molecule( MoleculeShape shape ) {
-        this();
         for ( final AtomSpot spot : shape.spots ) {
             final Atom atom = new Atom( spot.element, new Property<ImmutableVector2D>( spot.position ) );
             addAtom( atom );
@@ -88,5 +89,10 @@ public class Molecule extends BodyModel {
             getBody().setLinearVelocity( new Vec2( v.x + r1 / 20, v.y + r2 / 20 ) );
             getBody().setAngularVelocity( getBody().getAngularVelocity() + r3 / 100 );
         }
+    }
+
+    public boolean isMovingCloserTo( Molecule other ) {
+        // this also measures the degree to how the distance between the two is CURRENTLY changing
+        return ( getPosition().minus( other.getPosition() ) ).dot( getVelocity().minus( other.getVelocity() ) ) < 0;
     }
 }

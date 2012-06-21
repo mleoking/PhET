@@ -160,8 +160,10 @@ public class RigidMotionLeastSquares {
 
             // if det == -1, then we have a reflection!
 
-            Matrix diagonalWithDet = Matrix.identity( n, n );
-            diagonalWithDet.set( n - 1, n - 1, det );
+            int diagonalSize = svd.getV().getColumnDimension();
+
+            Matrix diagonalWithDet = Matrix.identity( diagonalSize, diagonalSize );
+            diagonalWithDet.set( diagonalSize - 1, diagonalSize - 1, det );
 
             return svd.getV().times( diagonalWithDet.times( svd.getU().transpose() ) );
         }
