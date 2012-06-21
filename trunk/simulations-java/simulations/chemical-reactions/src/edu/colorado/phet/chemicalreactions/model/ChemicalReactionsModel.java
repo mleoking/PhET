@@ -30,7 +30,7 @@ public class ChemicalReactionsModel {
                                      new MoleculeBucket( H2O, 5 )
                              ),
 
-                             Arrays.asList( Reaction.H2_O2_TO_H2O )
+                             Arrays.asList( ReactionShape.H2_O2_TO_H2O )
             ) );
             addKit( new Kit( layoutBounds,
                              // reactants
@@ -43,7 +43,7 @@ public class ChemicalReactionsModel {
                              new ArrayList<MoleculeBucket>() {{
                                  add( new MoleculeBucket( NH3, 5 ) );
                              }},
-                             new ArrayList<Reaction>()
+                             new ArrayList<ReactionShape>()
             ) );
             addKit( new Kit( layoutBounds,
                              // reactants
@@ -56,7 +56,7 @@ public class ChemicalReactionsModel {
                              new ArrayList<MoleculeBucket>() {{
                                  add( new MoleculeBucket( HCl, 5 ) );
                              }},
-                             new ArrayList<Reaction>()
+                             new ArrayList<ReactionShape>()
             ) );
             addKit( new Kit( layoutBounds,
                              // reactants
@@ -70,7 +70,7 @@ public class ChemicalReactionsModel {
                                  add( new MoleculeBucket( NO2, 5 ) );
                                  add( new MoleculeBucket( ClNO, 5 ) );
                              }},
-                             new ArrayList<Reaction>()
+                             new ArrayList<ReactionShape>()
             ) );
             addKit( new Kit( layoutBounds,
                              // reactants
@@ -84,7 +84,7 @@ public class ChemicalReactionsModel {
                                  add( new MoleculeBucket( CO2, 5 ) );
                                  add( new MoleculeBucket( H2O, 5 ) );
                              }},
-                             new ArrayList<Reaction>()
+                             new ArrayList<ReactionShape>()
             ) );
         }};
 

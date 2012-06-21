@@ -11,7 +11,7 @@ import static edu.colorado.phet.chemicalreactions.model.MoleculeShape.O2;
 import static edu.colorado.phet.chemistry.model.Element.H;
 import static edu.colorado.phet.chemistry.model.Element.O;
 
-public class Reaction {
+public class ReactionShape {
 
     // positions of the reactant molecules at the "start" of a reaction
     public final List<MoleculeSpot> reactantSpots = new ArrayList<MoleculeSpot>();
@@ -19,7 +19,7 @@ public class Reaction {
     // positions of the product molecules at the "end" of a reaction
     public final List<MoleculeSpot> productSpots = new ArrayList<MoleculeSpot>();
 
-    private Reaction() {
+    private ReactionShape() {
     }
 
     public static class MoleculeSpot {
@@ -46,7 +46,7 @@ public class Reaction {
     * possible reaction types
     *----------------------------------------------------------------------------*/
 
-    public static final Reaction H2_O2_TO_H2O = new Reaction() {{
+    public static final ReactionShape H2_O2_TO_H2O = new ReactionShape() {{
         // 2H2 + O2 => 2H2O
 
         // computed X offset for the molecules to be flush. just use the pythagorean theorem

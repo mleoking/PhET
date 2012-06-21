@@ -53,7 +53,7 @@ public class ChemicalReactionsCanvas extends PhetPCanvas {
             root.addChild( kitView.getMetadataLayer() );
         }
 
-//        for ( final Reaction.MoleculeSpot spot : Reaction.H2_O2_TO_H2O.reactantSpots ) {
+//        for ( final ReactionShape.MoleculeSpot spot : ReactionShape.H2_O2_TO_H2O.reactantSpots ) {
 //            root.addChild( new MoleculeNode( new Molecule( spot.shape ) {{
 //                setAngle( (float) spot.rotation );
 //                setPosition( spot.position );

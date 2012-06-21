@@ -17,7 +17,7 @@ public class Kit {
 
     private final List<MoleculeBucket> reactantBuckets;
     private final List<MoleculeBucket> productBuckets;
-    private final List<Reaction> possibleReactions;
+    private final List<ReactionShape> possibleReactions;
 
     private final List<Atom> atoms = new LinkedList<Atom>();
     private final Set<Molecule> molecules = new HashSet<Molecule>();
@@ -33,7 +33,7 @@ public class Kit {
     public Kit( final LayoutBounds layoutBounds,
                 final List<MoleculeBucket> reactantBuckets,
                 final List<MoleculeBucket> productBuckets,
-                final List<Reaction> possibleReactions ) {
+                final List<ReactionShape> possibleReactions ) {
         this.reactantBuckets = reactantBuckets;
         this.productBuckets = productBuckets;
         this.possibleReactions = possibleReactions;
