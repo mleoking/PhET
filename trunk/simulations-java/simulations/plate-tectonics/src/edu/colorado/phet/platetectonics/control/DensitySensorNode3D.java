@@ -267,15 +267,6 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
         }
 
         public void setWrapAroundDensity( double density, double simulationTimeChange ) {
-
-            // use a damped oscillator system here to smoothly move the dial into the correct position
-            DampedMassSpringSystem system = new DampedMassSpringSystem( mass, k, c, p - density, d );
-            p = system.evaluatePosition( simulationTimeChange ) + density;
-            d = system.evaluateVelocity( simulationTimeChange );
-
-            // reference into the speedometer to change it
-            pointSensor.value.set( new Option.Some<Double>( p ) );
-
             // calculate using the speedometer what the angles are at 0 and max
             // speedometer returns angles that are actually the opposite (negative) of what is usually used in the cartesian
             // lane
@@ -284,12 +275,21 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
 
             // reverse the linear transformation to figure out how much density we need to wrap all the way around
             final double anglePerUnitDensity = Math.abs( minAngle - maxAngle ) / MAX_SPEEDOMETER_DENSITY;
-            final double wrapAroundDensityAmount = 2 * Math.PI / anglePerUnitDensity;
+            final double wrapAroundDensityAmount = ( -maxAngle + minAngle ) / anglePerUnitDensity;
 
-            int overflowQuantity = (int) Math.floor( density / wrapAroundDensityAmount );
+            // use a damped oscillator system here to smoothly move the dial into the correct position
+            DampedMassSpringSystem system = new DampedMassSpringSystem( mass, k, c, p - density, d );
+            p = system.evaluatePosition( simulationTimeChange ) + density;
+            d = system.evaluateVelocity( simulationTimeChange );
+
+            // reference into the speedometer to change it
+            double wrappedDensity = p % wrapAroundDensityAmount;
+            pointSensor.value.set( new Option.Some<Double>( wrappedDensity ) );
+
+            int overflowQuantity = (int) Math.floor( p / wrapAroundDensityAmount );
 
             bodyNode.underTicksLayer.removeAllChildren();
-            PhetPPath ringNode = createRingNode( -bodyNode.speedToAngle( p ) );
+            PhetPPath ringNode = createRingNode( -bodyNode.speedToAngle( wrappedDensity ) );
             bodyNode.underTicksLayer.addChild( ringNode );
 
             extraHolderNode.removeAllChildren();
@@ -310,19 +310,19 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
 
                     final double angleAtEnd = minAngle + angularGap / 2;
 
-                    underTicksLayer.addChild( createRingNode( -bodyNode.speedToAngle( 0 ) + Math.PI * 2 - 0.01 ) );
+                    underTicksLayer.addChild( createRingNode( maxAngle ) );
 
                     addChild( new PhetPPath( new Arc2D.Double( centerX - radius, centerY - radius, // center
                                                                radius * 2, radius * 2,
-                                                               Math.toDegrees( angleAtEnd ),
-                                                               Math.toDegrees( 2 * Math.PI - angularGap ),
+                                                               Math.toDegrees( minAngle ),
+                                                               Math.toDegrees( maxAngle - minAngle ),
                                                                Arc2D.OPEN ),
                                              null, new BasicStroke( 3 ), Color.RED ) );
 
                     addChild( new PPath() {{
                         GeneralPath path = new GeneralPath();
-                        double pointAngle = angleAtEnd - 0.1;
-                        double backAngle = angleAtEnd + 0.4;
+                        double pointAngle = maxAngle - 0.1;
+                        double backAngle = maxAngle + 0.4;
                         path.moveTo( Math.cos( pointAngle ) * radius,
                                      -Math.sin( pointAngle ) * radius );
 
