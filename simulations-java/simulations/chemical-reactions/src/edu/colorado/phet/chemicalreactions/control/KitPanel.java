@@ -13,6 +13,7 @@ import edu.colorado.phet.chemicalreactions.model.Kit;
 import edu.colorado.phet.chemicalreactions.model.KitCollection;
 import edu.colorado.phet.chemicalreactions.model.Molecule;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.NextPreviousNavigationNode;
@@ -98,12 +99,13 @@ public class KitPanel extends PNode {
                     }
                 };
                 for ( Kit kit : kitCollectionModel.getKits() ) {
-                    kit.addMoleculeListener( new Kit.MoleculeListener() {
-                        public void addedMolecule( Molecule molecule ) {
+                    kit.molecules.addElementAddedObserver( new VoidFunction1<Molecule>() {
+                        public void apply( Molecule molecule ) {
                             observer.update();
                         }
-
-                        public void removedMolecule( Molecule molecule ) {
+                    } );
+                    kit.molecules.addElementRemovedObserver( new VoidFunction1<Molecule>() {
+                        public void apply( Molecule molecule ) {
                             observer.update();
                         }
                     } );

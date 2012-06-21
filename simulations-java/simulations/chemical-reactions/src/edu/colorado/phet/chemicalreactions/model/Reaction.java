@@ -29,11 +29,14 @@ public class Reaction {
 
     // list of positions we need to target, for easy computational reference
     private final List<ImmutableVector2D> shapePositions = new ArrayList<ImmutableVector2D>();
+    private final Kit kit;
 
     private double fitness;
+    private double zeroError;
     private ReactionTarget target;
 
-    public Reaction( ReactionShape shape, List<Molecule> reactants ) {
+    public Reaction( Kit kit, ReactionShape shape, List<Molecule> reactants ) {
+        this.kit = kit;
         this.shape = shape;
         this.reactants = reactants;
 
@@ -51,6 +54,31 @@ public class Reaction {
     public void tweak( double simulationTimeChange ) {
         assert target != null;
         assert fitness > 0;
+
+        if ( zeroError < 15 ) {
+            double averageVelocity = 0;
+            for ( Molecule reactant : reactants ) {
+                averageVelocity += reactant.getVelocity().getMagnitude();
+            }
+            averageVelocity /= reactants.size();
+
+            final double finalAverageVelocity = averageVelocity;
+            kit.completeReaction( this, map( shape.productSpots, new Function1<ReactionShape.MoleculeSpot, Molecule>() {
+                public Molecule apply( final ReactionShape.MoleculeSpot spot ) {
+                    return new Molecule( spot.shape ) {{
+                        ImmutableVector2D transformedPosition = target.transformation.transformVector2D( spot.position );
+                        ImmutableVector2D transformedOrigin = target.transformation.transformVector2D( new ImmutableVector2D() );
+                        setPosition( transformedPosition );
+                        setAngle( (float) target.rotation );
+
+                        // approximately keep momentum with random direction of velocity
+                        double randomSpeed = Math.random() * finalAverageVelocity * 2;
+                        setVelocity( transformedPosition.minus( transformedOrigin ).getNormalizedInstance().times( randomSpeed ) );
+                    }};
+                }
+            } ) );
+            return;
+        }
 
         for ( int i = 0; i < reactants.size(); i++ ) {
             Molecule molecule = reactants.get( i );
@@ -132,6 +160,7 @@ public class Reaction {
         }
 
         ReactionTarget atZero = computeForTime( 0 );
+        zeroError = atZero.error;
         ReactionTarget afterZero = computeForTime( 0.001 );
         if ( atZero.error < afterZero.error ) {
             // increasing error!

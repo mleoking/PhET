@@ -4,11 +4,9 @@ package edu.colorado.phet.chemicalreactions.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
@@ -16,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.combinations;
 import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.filter;
@@ -31,14 +30,12 @@ public class Kit {
     private final List<ReactionShape> possibleReactions;
 
     private final List<Atom> atoms = new LinkedList<Atom>();
-    private final Set<Molecule> molecules = new HashSet<Molecule>();
-    private final ObservableList<Molecule> moleculesInPlayArea = new ObservableList<Molecule>();
+    public final ObservableList<Molecule> molecules = new ObservableList<Molecule>();
+    public final ObservableList<Molecule> moleculesInPlayArea = new ObservableList<Molecule>();
     public final Property<Boolean> visible = new Property<Boolean>( false );
     public final Property<Boolean> hasMoleculesInBoxes = new Property<Boolean>( false );
 
     private final LayoutBounds layoutBounds;
-
-    private final List<MoleculeListener> moleculeListeners = new LinkedList<MoleculeListener>();
 
     private final Box2dModel box2dModel;
 
@@ -62,6 +59,32 @@ public class Kit {
             addAll( productBuckets );
         }};
         this.layoutBounds = layoutBounds;
+
+        for ( MoleculeBucket bucket : buckets ) {
+            for ( Molecule molecule : bucket.getMolecules() ) {
+                molecules.add( molecule );
+            }
+        }
+
+        molecules.addElementRemovedObserver( new VoidFunction1<Molecule>() {
+            public void apply( Molecule molecule ) {
+                if ( moleculesInPlayArea.contains( molecule ) ) {
+                    moleculesInPlayArea.remove( molecule );
+                }
+            }
+        } );
+
+        moleculesInPlayArea.addElementAddedObserver( new VoidFunction1<Molecule>() {
+            public void apply( Molecule molecule ) {
+                box2dModel.addBody( molecule );
+            }
+        } );
+
+        moleculesInPlayArea.addElementRemovedObserver( new VoidFunction1<Molecule>() {
+            public void apply( Molecule molecule ) {
+                box2dModel.removeBody( molecule );
+            }
+        } );
 
         resetKit();
 
@@ -135,7 +158,7 @@ public class Kit {
                         continue;
                     }
                     // compute the reaction's properties
-                    final Reaction potentialReaction = new Reaction( reactionShape, reactants );
+                    final Reaction potentialReaction = new Reaction( this, reactionShape, reactants );
                     potentialReaction.update();
 
                     if ( potentialReaction.getFitness() <= 0 ) {
@@ -171,7 +194,7 @@ public class Kit {
         /*---------------------------------------------------------------------------*
         * tweak velocities based on reactions
         *----------------------------------------------------------------------------*/
-        for ( Reaction reaction : reactions ) {
+        for ( Reaction reaction : new ArrayList<Reaction>( reactions ) ) {
             reaction.tweak( simulationTimeChange );
         }
 
@@ -200,7 +223,6 @@ public class Kit {
 
     public void dragStart( Molecule molecule ) {
         if ( molecule.getBody() != null ) {
-            box2dModel.removeBody( molecule );
             moleculesInPlayArea.remove( molecule );
         }
     }
@@ -208,7 +230,6 @@ public class Kit {
     public void dragEnd( Molecule molecule ) {
         ImmutableVector2D position = molecule.position.get();
         if ( layoutBounds.getAvailablePlayAreaModelBounds().contains( position.getX(), position.getY() ) ) {
-            box2dModel.addBody( molecule );
             moleculesInPlayArea.add( molecule );
         }
     }
@@ -241,10 +262,6 @@ public class Kit {
         return buckets;
     }
 
-    public Set<Molecule> getMolecules() {
-        return molecules;
-    }
-
     public MoleculeBucket getBucketForShape( MoleculeShape shape ) {
         for ( MoleculeBucket bucket : buckets ) {
             if ( bucket.getShape() == shape ) {
@@ -255,15 +272,7 @@ public class Kit {
     }
 
     public boolean hasMoleculesOutsideOfBuckets() {
-        return !molecules.isEmpty() || hasMoleculesInBoxes.get();
-    }
-
-    public void addMoleculeListener( MoleculeListener listener ) {
-        moleculeListeners.add( listener );
-    }
-
-    public void removeMoleculeListener( MoleculeListener listener ) {
-        moleculeListeners.remove( listener );
+        return !moleculesInPlayArea.isEmpty();
     }
 
     public LayoutBounds getLayoutBounds() {
@@ -292,17 +301,14 @@ public class Kit {
         throw new RuntimeException( "molecule not found for atom: " + atom );
     }
 
-    public static interface MoleculeListener {
-        public void addedMolecule( Molecule molecule );
-
-        public void removedMolecule( Molecule molecule );
-    }
-
-    public static class MoleculeAdapter implements MoleculeListener {
-        public void addedMolecule( Molecule molecule ) {
+    public void completeReaction( Reaction reaction, List<Molecule> newMolecules ) {
+        for ( Molecule reactant : reaction.reactants ) {
+            molecules.remove( reactant );
         }
-
-        public void removedMolecule( Molecule molecule ) {
+        for ( Molecule newMolecule : newMolecules ) {
+            molecules.add( newMolecule );
+            moleculesInPlayArea.add( newMolecule );
         }
+        reactions.remove( reaction );
     }
 }
