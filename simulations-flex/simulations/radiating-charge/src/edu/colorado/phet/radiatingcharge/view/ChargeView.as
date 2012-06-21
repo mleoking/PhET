@@ -23,6 +23,7 @@ public class ChargeView extends Sprite {
     private var springGraphic:Sprite;
     private var springGraphic2: Sprite;   //for use when mouse_over, before mouse_down
     private var grabArea: Sprite;
+    private var grabbed: Boolean;   //true if charge is grabbed
 
     private var stageW: int;
     private var stageH: int;
@@ -47,6 +48,7 @@ public class ChargeView extends Sprite {
         this.springGraphic = new Sprite();
         this.delX = 0;
         this.delY = 0;
+        this.grabbed = false;
         this.dt = this.myFieldModel.getDT();
         this.springTimer = new Timer( this.dt * 1000 );
         this.springGraphic2 = new Sprite();
@@ -151,7 +153,9 @@ public class ChargeView extends Sprite {
         //var clickOffset: Point;
 
         function startShowSpring( evt: MouseEvent ):void{
-            thisObject.setSpringGraphic2WithNoForce();
+            if( !thisObject.grabbed ){
+                thisObject.setSpringGraphic2WithNoForce();
+            }
             //thisObject.chargeGraphic.addEventListener( MouseEvent.ROLL_OUT, stopShowSpring );
             stage.addEventListener( MouseEvent.MOUSE_MOVE, dragShowSpring );
             //trace("startShowSpring called");
@@ -160,7 +164,9 @@ public class ChargeView extends Sprite {
 
         function dragShowSpring( evt: MouseEvent ):void{
             //trace("dragging")
-            thisObject.setSpringGraphic2WithNoForce();
+            if( !thisObject.grabbed ){
+                thisObject.setSpringGraphic2WithNoForce();
+            }
             evt.updateAfterEvent();
         }
 
@@ -178,6 +184,7 @@ public class ChargeView extends Sprite {
             //clickOffset = new Point( evt.localX, evt.localY );
             //trace("ChargeVeiw: mouseX = "+evt.stageX+"      mouseY = "+evt.stageY );
             //thisObject.springGraphic2.graphics.clear();
+            thisObject.grabbed = true;
             stopShowSpring( evt );
             thisObject.setSpring();
             thisObject.springTimer.start();
@@ -190,6 +197,7 @@ public class ChargeView extends Sprite {
             //var xInPix:Number = thisObject.mouseX - clickOffset.x;    //screen coordinates, origin on left edge of stage
             //var yInPix:Number = thisObject.mouseY - clickOffset.y;    //screen coordinates, origin on left edge of stage
             //thisObject.myFieldModel.setXY( xInPix,  yInPix );
+            thisObject.grabbed = false;
             thisObject.springTimer.stop();
             thisObject.killSpring();
             evt.updateAfterEvent();
