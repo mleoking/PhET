@@ -238,7 +238,7 @@ public class ControlPanel extends Canvas {
     private function initializeRadioButton( rb:RadioButton, lbl:String,  value: int, selected: Boolean ){
         rb.group = presetMotion_rgb;
         rb.labelPlacement = "right";
-        rb.label = lbl;
+        rb.label = lbl + "   ";
         rb.value = value;
         rb.selected = selected;
         rb.setStyle( "color", 0xffffff );

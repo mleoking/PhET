@@ -21,6 +21,7 @@ public class ChargeView extends Sprite {
     private var myFieldModel: FieldModel;
     private var chargeGraphic:Sprite;
     private var springGraphic:Sprite;
+    private var springGraphic2: Sprite;   //for use when mouse_over, before mouse_down
     private var grabArea: Sprite;
 
     private var stageW: int;
@@ -31,6 +32,7 @@ public class ChargeView extends Sprite {
     private var originY:Number;     //
     private var dt:Number;          //time step, in seconds
     private var springTimer:Timer;  //spring timer
+
 
     public function ChargeView( myMainView:MainView, myFieldModel:FieldModel) {
         this.myMainView = myMainView;
@@ -47,15 +49,18 @@ public class ChargeView extends Sprite {
         this.delY = 0;
         this.dt = this.myFieldModel.getDT();
         this.springTimer = new Timer( this.dt * 1000 );
+        this.springGraphic2 = new Sprite();
         this.initialize();
     }
 
     private function initialize():void{
         this.stageW = this.myMainView.stageW;
         this.stageH = this.myMainView.stageH;
+        this.addChild( this.springGraphic2 );
         this.addChild( this.chargeGraphic );
-        this.chargeGraphic.addChild( this.grabArea );
         this.addChild( this.springGraphic );
+        //this.chargeGraphic.addChild( this.springGraphic );
+        this.chargeGraphic.addChild( this.grabArea );
         this.drawChargeGraphic();
         this.makeChargeGrabbable();
         this.springTimer.addEventListener( TimerEvent.TIMER, updateSpring );
@@ -77,12 +82,12 @@ public class ChargeView extends Sprite {
         g.moveTo( 0, -r );
         g.lineTo( 0, r );
         var gGrab: Graphics = this.grabArea.graphics;
-        var L: Number = 20;
+        var radius: Number = 100;
         with( gGrab ){
             clear();
             lineStyle( 1, 0xffffff, 0 );
             beginFill( 0x00ff00, 0 );
-            drawCircle( 0, 0, 40 );
+            drawCircle( 0, 0, radius );
             endFill();
 
         }
@@ -91,15 +96,36 @@ public class ChargeView extends Sprite {
     private function setSpring( ):void{
         var g:Graphics = this.springGraphic.graphics;
         g.clear();
-        g.lineStyle( 2, 0xff0000, 1 );
+        g.lineStyle( 4, 0xff5555, 1 );
         g.moveTo( this.chargeGraphic.x,  this.chargeGraphic.y );
         g.lineTo( this.mouseX,  this.mouseY );
+        g.lineStyle( 4, 0xff0000, 1 );
+        g.beginFill( 0xff0000, 1 );
+        g.drawCircle( mouseX,  mouseY,  5 );
+        g.endFill();
         this.delX = this.mouseX - this.chargeGraphic.x;
         this.delY = -( this.mouseY - this.chargeGraphic.y );
         this.myFieldModel.setForce( delX,  delY );
-        //trace("ChargeView.drawSpringGraphic mouseX = "+this.mouseX+"    this.chargeGraphic.x = "+this.chargeGraphic.x) ;
-        //g.lineTo( evt.stageX,  evt.stageY );     //does not work: evt.stageX is (1/2) value of mouseX ??
-        //trace("ChargeView: evt.stageX = "+evt.stageX );
+    }
+
+    private function setSpringGraphic2WithNoForce():void{
+        var g:Graphics = this.springGraphic2.graphics;
+        g.clear();
+        g.lineStyle( 2, 0xff0000, 1 );
+        //g.moveTo( this.chargeGraphic.x,  this.chargeGraphic.y );
+        var L: Number = 50;
+        var r: Number = 6;
+        g.moveTo( this.mouseX,  this.mouseY );
+        g.lineTo( this.mouseX, this.mouseY - L/4 )
+        g.lineTo( this.mouseX - r,  this.mouseY- L/4 - L/16 );
+        g.lineTo( this.mouseX + r,  this.mouseY- L/4 - 3*L/16 );
+        g.lineTo( this.mouseX - r,  this.mouseY- L/4 - 5*L/16 );
+        g.lineTo( this.mouseX + r,  this.mouseY- L/4 - 7*L/16 );
+        g.lineTo( this.mouseX, this.mouseY - 3*L/4 )
+        g.lineTo( this.mouseX,  this.mouseY - L );
+        g.beginFill( 0xff0000, 1 );
+        g.drawCircle( mouseX,  mouseY,  5 );
+        g.endFill();
     }
 
     private function updateSpring( evt:TimerEvent ):void{
@@ -118,15 +144,45 @@ public class ChargeView extends Sprite {
     private function makeChargeGrabbable():void{
         var thisObject:Object = this;
         this.chargeGraphic.buttonMode = true;
+        //this.springGraphic2.buttonMode = true;
         this.chargeGraphic.addEventListener( MouseEvent.MOUSE_DOWN, startTargetDrag );
+        this.chargeGraphic.addEventListener( MouseEvent.ROLL_OVER, startShowSpring );
+        this.chargeGraphic.addEventListener( MouseEvent.ROLL_OUT, stopShowSpring );
         //var clickOffset: Point;
+
+        function startShowSpring( evt: MouseEvent ):void{
+            thisObject.setSpringGraphic2WithNoForce();
+            //thisObject.chargeGraphic.addEventListener( MouseEvent.ROLL_OUT, stopShowSpring );
+            stage.addEventListener( MouseEvent.MOUSE_MOVE, dragShowSpring );
+            //trace("startShowSpring called");
+            evt.updateAfterEvent();
+        }
+
+        function dragShowSpring( evt: MouseEvent ):void{
+            //trace("dragging")
+            thisObject.setSpringGraphic2WithNoForce();
+            evt.updateAfterEvent();
+        }
+
+        function  stopShowSpring( evt: MouseEvent ):void{
+            //trace("stopShowSpring called");
+            thisObject.springGraphic2.graphics.clear();
+            //thisObject.chargeGraphic.removeEventListener( MouseEvent.ROLL_OVER, startShowSpring );
+            stage.removeEventListener( MouseEvent.MOUSE_MOVE, dragShowSpring );
+            //thisObject.chargeGraphic.removeEventListener ( MouseEvent.ROLL_OUT, stopShowSpring );
+            evt.updateAfterEvent();
+        }
+
 
         function startTargetDrag( evt: MouseEvent ): void {
             //clickOffset = new Point( evt.localX, evt.localY );
             //trace("ChargeVeiw: mouseX = "+evt.stageX+"      mouseY = "+evt.stageY );
+            //thisObject.springGraphic2.graphics.clear();
+            stopShowSpring( evt );
+            thisObject.setSpring();
             thisObject.springTimer.start();
             stage.addEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
-            stage.addEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
+            //stage.addEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
         }
 
         function stopTargetDrag( evt: MouseEvent ): void {
@@ -139,7 +195,8 @@ public class ChargeView extends Sprite {
             evt.updateAfterEvent();
             //clickOffset = null;
             stage.removeEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
-            stage.removeEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
+            //stage.removeEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
+            //stage.removeEventListener( MouseEvent.ROLL_OVER, showSpring );
         }
 
         function dragTarget( evt: MouseEvent ): void {
@@ -148,8 +205,8 @@ public class ChargeView extends Sprite {
             //trace("x: "+xInPix+"    y: "+yInPix);
             //thisObject.myFieldModel.setXY( xInPix,  yInPix );
             //trace("ChargeVeiw: mouseX = "+evt.stageX+"      mouseY = "+evt.stageY );
-            thisObject.setSpring();
-            evt.updateAfterEvent();
+            //thisObject.setSpring();
+            //evt.updateAfterEvent();
         }//end of dragTarget()
 
 
