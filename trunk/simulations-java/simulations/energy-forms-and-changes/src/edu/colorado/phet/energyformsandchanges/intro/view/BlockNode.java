@@ -94,23 +94,15 @@ public class BlockNode extends PComposite {
         ImmutableVector2D lowerLeftBackCorner = lowerLeftFrontCorner.getAddedInstance( backCornersOffset );
         DoubleGeneralPath blockBackPath = new DoubleGeneralPath();
         blockBackPath.moveTo( lowerLeftBackCorner );
-        blockBackPath.lineTo( lowerLeftFrontCorner );
-        blockBackPath.lineTo( lowerRightFrontCorner );
         blockBackPath.lineTo( lowerRightBackCorner );
-        blockBackPath.lineTo( lowerLeftBackCorner );
+        blockBackPath.moveTo( lowerLeftBackCorner );
         blockBackPath.lineTo( lowerLeftFrontCorner );
-        blockBackPath.lineTo( upperLeftFrontCorner );
+        blockBackPath.moveTo( lowerLeftBackCorner );
         blockBackPath.lineTo( upperLeftBackCorner );
-        blockBackPath.lineTo( lowerLeftBackCorner );
-        blockBackPath.lineTo( lowerRightBackCorner );
-        blockBackPath.lineTo( upperRightBackCorner );
-        blockBackPath.lineTo( upperLeftBackCorner );
-        blockBackPath.lineTo( lowerLeftBackCorner );
         Shape blockBackShape = blockBackPath.getGeneralPath();
 
         // Add the back of the block.
         final PNode blockBack = new PhetPPath( blockBackShape, OUTLINE_STROKE, OUTLINE_STROKE_COLOR );
-//        final PNode blockBack = createSurface( blockBackShape, block.getColor(), block.getFrontTextureImage() );
         addChild( blockBack );
 
         // Create the layers where the energy chunks will be placed.
