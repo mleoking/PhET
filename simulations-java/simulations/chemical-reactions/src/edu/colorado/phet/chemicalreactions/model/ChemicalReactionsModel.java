@@ -27,7 +27,7 @@ public class ChemicalReactionsModel {
 
                              // products
                              Arrays.asList(
-                                     new MoleculeBucket( H2O, 5 )
+                                     new MoleculeBucket( H2O, 0 )
                              ),
 
                              Arrays.asList( ReactionShape.H2_O2_TO_H2O )
@@ -41,7 +41,7 @@ public class ChemicalReactionsModel {
 
                              // products
                              new ArrayList<MoleculeBucket>() {{
-                                 add( new MoleculeBucket( NH3, 5 ) );
+                                 add( new MoleculeBucket( NH3, 0 ) );
                              }},
                              new ArrayList<ReactionShape>()
             ) );
@@ -54,7 +54,7 @@ public class ChemicalReactionsModel {
 
                              // products
                              new ArrayList<MoleculeBucket>() {{
-                                 add( new MoleculeBucket( HCl, 5 ) );
+                                 add( new MoleculeBucket( HCl, 0 ) );
                              }},
                              new ArrayList<ReactionShape>()
             ) );
@@ -67,8 +67,8 @@ public class ChemicalReactionsModel {
 
                              // products
                              new ArrayList<MoleculeBucket>() {{
-                                 add( new MoleculeBucket( NO2, 5 ) );
-                                 add( new MoleculeBucket( ClNO, 5 ) );
+                                 add( new MoleculeBucket( NO2, 0 ) );
+                                 add( new MoleculeBucket( ClNO, 0 ) );
                              }},
                              new ArrayList<ReactionShape>()
             ) );
@@ -81,8 +81,8 @@ public class ChemicalReactionsModel {
 
                              // products
                              new ArrayList<MoleculeBucket>() {{
-                                 add( new MoleculeBucket( CO2, 5 ) );
-                                 add( new MoleculeBucket( H2O, 5 ) );
+                                 add( new MoleculeBucket( CO2, 0 ) );
+                                 add( new MoleculeBucket( H2O, 0 ) );
                              }},
                              new ArrayList<ReactionShape>()
             ) );
