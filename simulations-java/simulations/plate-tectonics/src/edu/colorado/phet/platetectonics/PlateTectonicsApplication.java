@@ -15,10 +15,12 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetTabbedPane.TabbedModule;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.LWJGLPhetApplication;
 import edu.colorado.phet.lwjglphet.StartupUtils;
+import edu.colorado.phet.lwjglphet.utils.ColorPropertyControl;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.dev.PerformanceFrame;
 import edu.colorado.phet.platetectonics.modules.CrustTab;
@@ -127,6 +129,24 @@ public class PlateTectonicsApplication extends LWJGLPhetApplication {
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     new PerformanceFrame();
+                }
+            } );
+        }} );
+
+        developerMenu.add( new JMenuItem( "Color Options" ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    new JDialog( frame ) {{
+                        setTitle( "Color Options" );
+                        setResizable( false );
+
+                        setContentPane( new JPanel() {{
+                            setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+                            add( new ColorPropertyControl( frame, "Dial color: ", PlateTectonicsConstants.DIAL_HIGHLIGHT_COLOR ) );
+                        }} );
+                        pack();
+                        SwingUtils.centerInParent( this );
+                    }}.setVisible( true );
                 }
             } );
         }} );
