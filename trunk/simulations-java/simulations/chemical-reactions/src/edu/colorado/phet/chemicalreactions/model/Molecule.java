@@ -15,6 +15,7 @@ import org.jbox2d.dynamics.FixtureDef;
 import edu.colorado.phet.chemicalreactions.box2d.BodyModel;
 import edu.colorado.phet.chemicalreactions.model.MoleculeShape.AtomSpot;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
@@ -30,6 +31,8 @@ public class Molecule extends BodyModel {
 
     private final List<Atom> atoms = new ArrayList<Atom>();
     private final Map<Atom, AtomSpot> atomMap = new HashMap<Atom, AtomSpot>();
+
+    public final VoidNotifier disposeNotifier = new VoidNotifier();
 
     public Molecule( MoleculeShape shape ) {
         super( new BodyDef() {{

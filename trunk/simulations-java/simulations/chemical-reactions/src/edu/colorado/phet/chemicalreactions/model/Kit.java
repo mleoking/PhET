@@ -304,6 +304,7 @@ public class Kit {
     public void completeReaction( Reaction reaction, List<Molecule> newMolecules ) {
         for ( Molecule reactant : reaction.reactants ) {
             molecules.remove( reactant );
+            reactant.disposeNotifier.updateListeners();
         }
         for ( Molecule newMolecule : newMolecules ) {
             molecules.add( newMolecule );

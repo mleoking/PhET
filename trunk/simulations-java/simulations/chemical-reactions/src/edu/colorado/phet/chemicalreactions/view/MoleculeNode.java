@@ -5,6 +5,7 @@ import edu.colorado.phet.chemicalreactions.model.Atom;
 import edu.colorado.phet.chemicalreactions.model.Molecule;
 import edu.colorado.phet.chemistry.nodes.LabeledAtomNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
@@ -27,5 +28,11 @@ public class MoleculeNode extends PNode {
         }
 
         addInputEventListener( new CursorHandler() );
+
+        molecule.disposeNotifier.addUpdateListener( new UpdateListener() {
+            public void update() {
+                setVisible( false );
+            }
+        }, false );
     }
 }

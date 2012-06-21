@@ -177,18 +177,13 @@ public class KitView {
         }};
         moleculeMap.put( molecule, moleculeNode );
         atomLayer.addChild( moleculeNode );
-        if ( molecule.shape == MoleculeShape.O2 ) {
-            System.out.println( moleculeNode );
-        }
     }
 
     private void removeMolecule( final Molecule molecule ) {
-        System.out.println(atomLayer.getChildrenCount());
-        atomLayer.removeChild( moleculeMap.get( molecule ) );
-        System.out.println(atomLayer.getChildrenCount());
-        if ( molecule.shape == MoleculeShape.O2 ) {
-            System.out.println( "removing O2: " + moleculeMap.get( molecule ) );
-        }
+        MoleculeNode moleculeNode = moleculeMap.get( molecule );
+        moleculeNode.setVisible( false );
+        atomLayer.removeChild( moleculeNode );
+        assert moleculeNode.getParent() == null;
         moleculeMap.remove( molecule );
     }
 
