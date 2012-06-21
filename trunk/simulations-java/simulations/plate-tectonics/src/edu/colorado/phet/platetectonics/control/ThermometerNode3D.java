@@ -1,9 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.control;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Cursor;
+import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
@@ -134,7 +132,11 @@ public class ThermometerNode3D extends ThreadedPlanarPiccoloNode implements Drag
     public ImmutableVector3F getSensorModelPosition() {
         return PlateModel.convertToPlanar(
                 modelViewTransform.inversePosition(
-                        new ImmutableVector3F( draggedPosition.x, draggedPosition.y, 0 ) ) );
+                        getSensorViewPosition() ) );
+    }
+
+    public ImmutableVector3F getSensorViewPosition() {
+        return new ImmutableVector3F( draggedPosition.x, draggedPosition.y, 0 );
     }
 
     public Option<ImmutableVector3F> getSensorTerrainPosition() {

@@ -1,3 +1,4 @@
+Tools are moved back into the toolbox when they are not visible on the screen after zooming in
 Added density-sensor dial "highlight" band
 # 0.00.42 (64996) Jun 12, 2012
 Added inertia to the dial for the "single-dial" density meter
