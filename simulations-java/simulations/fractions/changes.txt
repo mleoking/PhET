@@ -1,3 +1,4 @@
+Fraction Matcher: Added ninja star for level 8 and as a new representation
 Fraction Matcher: Added ring of hexagons for level 7 and as a new representation
 # 0.00.92 (65358) Jun 21, 2012
 Build a Fraction: Pictures: Fixed: Bug: multiple pieces went into the same target box.

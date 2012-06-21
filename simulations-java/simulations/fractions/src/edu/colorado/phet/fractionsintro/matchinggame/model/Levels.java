@@ -145,7 +145,7 @@ class Levels {
         ArrayList<Cell> remainingCells = new ArrayList<Cell>( shuffle( cells ).toCollection() );
 
         final List<ShapeType> easy = list( pies, horizontalBars, verticalBars );
-        final List<ShapeType> medium = list( plusses, grid, pyramid, polygon, tetris, flower, letterLShapes, interleavedLShapes, ringOfHexagons ).append( easy );
+        final List<ShapeType> medium = list( plusses, grid, pyramid, polygon, tetris, flower, letterLShapes, interleavedLShapes, ringOfHexagons, ninjaStar ).append( easy );
 
         final List<GraphicalRepresentation> r =
                 level == 1 ? generateAll( easy, list( Sequential ) ) :
@@ -269,6 +269,7 @@ class Levels {
                s == letterLShapes ? d % 2 == 0 :
                s == interleavedLShapes ? ( d == 2 || d == 4 ) :
                s == ringOfHexagons ? d == 7 :
+               s == ninjaStar ? d == 8 :
                false;
     }
 
@@ -388,6 +389,7 @@ class Levels {
                                   s == interleavedLShapes && d == 2 ? Pattern.interleavedLShape( 80, 1, 1 ) :
                                   s == interleavedLShapes && d == 4 ? Pattern.interleavedLShape( 80, 2, 1 ) :
                                   s == ringOfHexagons && d == 7 ? Pattern.ringOfHexagons() :
+                                  s == ninjaStar && d == 8 ? Pattern.ninjaStar() :
                                   null;
         if ( container == null ) {
             throw new RuntimeException( "Null pattern for rep = " + s + ", f = " + fraction );

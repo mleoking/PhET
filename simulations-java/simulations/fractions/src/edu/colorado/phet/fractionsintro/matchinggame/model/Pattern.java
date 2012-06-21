@@ -321,7 +321,7 @@ public class Pattern {
         }
     }
 
-    //Designed as the level icon for level 7
+    //Designed as the level icon for level 7, also appears in the later levels
     public static Pattern ringOfHexagons() {
         double ds = 8;
         final double r = ( 50 - ds ) * 0.5;
@@ -335,6 +335,36 @@ public class Pattern {
     }
 
     private static Shape hex() {return Polygon.createPolygon( 25, 6 ).outline;}
+
+    //Designed as the icon for level 8, also appears in the later levels
+    public static Pattern ninjaStar() {
+        double s = 1.0 / 3;
+        double r1 = 100 * s;
+        double r2 = 60 * s;
+        double cos = Math.abs( Math.cos( toDegrees( 45 ) ) );
+        final List<Vector2D> points = list( v( 0, -r1 ),
+                                            v( r2 * cos, -r2 * cos ),
+                                            v( r1, 0 ),
+                                            v( r2 * cos, r2 * cos ),
+                                            v( 0, r1 ),
+                                            v( -r2 * cos, r2 * cos ),
+                                            v( -r1, 0 ),
+                                            v( -r2 * cos, -r2 * cos ) );
+        final F<Integer, Shape> tinyTriangle = new F<Integer, Shape>() {
+            @Override public Shape f( final Integer index ) {
+                return new DoubleGeneralPath( 0, 0 ) {{
+                    lineTo( points.index( index % points.length() ).toPoint2D() );
+                    lineTo( points.index( ( index + 1 ) % points.length() ).toPoint2D() );
+                    lineTo( 0, 0 );
+                }}.getGeneralPath();
+            }
+        };
+        return new Pattern( range( 0, 8 ).map( new F<Integer, Shape>() {
+            @Override public Shape f( final Integer integer ) {
+                return tinyTriangle.f( integer );
+            }
+        } ) );
+    }
 
     private static Shape translate( final double dx, final double dy, final Shape outline ) {
         return AffineTransform.getTranslateInstance( dx, dy ).createTransformedShape( outline );
@@ -359,7 +389,8 @@ public class Pattern {
 //                        addChild( new PatternNode( FilledPattern.sequentialFill( letterLShapedDiagonal( 10, 2 ), 4 ), Color.red ) {{translate( 200, 500 );}} );
 //                        addChild( new PatternNode( FilledPattern.sequentialFill( sixFlower( 50 ), 4 ), Color.red ) {{translate( 300, 500 );}} );
 //                        addChild( new PatternNode( FilledPattern.sequentialFill( interleavedLShape( 80, 2, 3 ), 6 ), Color.red ) {{translate( 400, 500 );}} );
-                        addChild( new PatternNode( FilledPattern.sequentialFill( ringOfHexagons(), 7 ), Color.red ) {{translate( 400, 500 );}} );
+//                        addChild( new PatternNode( FilledPattern.sequentialFill( ringOfHexagons(), 7 ), Color.red ) {{translate( 400, 500 );}} );
+                        addChild( new PatternNode( FilledPattern.sequentialFill( ninjaStar(), 8 ), Color.red ) {{translate( 400, 500 );}} );
                     }} );
                 }}.setVisible( true );
             }

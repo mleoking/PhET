@@ -48,7 +48,7 @@ public class LevelSelectionNode extends PNode {
                                                      new PatternNode( sequentialFill( sixFlower(), 6 ), Color.yellow ) );
 
         final List<PatternNode> appLevels = list( new PatternNode( sequentialFill( ringOfHexagons(), 7 ), Color.pink ),
-                                                  new PatternNode( sequentialFill( createPolygon( 60, 8 ), 8 ), Color.green ) );
+                                                  new PatternNode( sequentialFill( ninjaStar(), 8 ), Color.green ) );
 
         final List<PatternNode> patterns = standaloneSim ? moduleLevels.append( appLevels ) :
                                            moduleLevels;
