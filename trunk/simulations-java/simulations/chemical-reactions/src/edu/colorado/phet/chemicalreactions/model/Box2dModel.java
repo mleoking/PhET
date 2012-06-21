@@ -66,6 +66,8 @@ public class Box2dModel {
                     }
                 }, STEPS_PER_FRAME );
 
+        world.clearForces();
+
         if ( debugHandler != null ) {
             debugHandler.step();
         }

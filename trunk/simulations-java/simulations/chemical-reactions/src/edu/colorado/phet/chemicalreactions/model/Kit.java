@@ -3,13 +3,24 @@ package edu.colorado.phet.chemicalreactions.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
+
+import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.combinations;
+import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.filter;
+import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.map;
+import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.unique;
 
 // TODO: doc, and add the reaction "target" or "targets"
 public class Kit {
@@ -21,6 +32,7 @@ public class Kit {
 
     private final List<Atom> atoms = new LinkedList<Atom>();
     private final Set<Molecule> molecules = new HashSet<Molecule>();
+    private final ObservableList<Molecule> moleculesInPlayArea = new ObservableList<Molecule>();
     public final Property<Boolean> visible = new Property<Boolean>( false );
     public final Property<Boolean> hasMoleculesInBoxes = new Property<Boolean>( false );
 
@@ -29,6 +41,11 @@ public class Kit {
     private final List<MoleculeListener> moleculeListeners = new LinkedList<MoleculeListener>();
 
     private final Box2dModel box2dModel;
+
+    private final List<Reaction> reactions = new ArrayList<Reaction>();
+    private final Map<Molecule, Reaction> reactionMap = new HashMap<Molecule, Reaction>();
+
+    public final VoidNotifier stepCompleted = new VoidNotifier();
 
     public Kit( final LayoutBounds layoutBounds,
                 final List<MoleculeBucket> reactantBuckets,
@@ -99,12 +116,92 @@ public class Kit {
     }
 
     public void tick( double simulationTimeChange ) {
+        /*---------------------------------------------------------------------------*
+        * try to identify new reactions (potential collisions)
+        *----------------------------------------------------------------------------*/
+        for ( ReactionShape reactionShape : possibleReactions ) {
+            // TODO: replace with a more performant version
+            if ( moleculesInPlayArea.size() >= reactionShape.reactantSpots.size() ) {
+                for ( List<Molecule> reactants : combinations( moleculesInPlayArea, reactionShape.reactantSpots.size() ) ) {
+                    // for now, verify that the molecule types match up
+                    boolean matches = true;
+                    for ( int i = 0; i < reactionShape.reactantSpots.size(); i++ ) {
+                        if ( reactionShape.reactantSpots.get( i ).shape != reactants.get( i ).shape ) {
+                            matches = false;
+                            break;
+                        }
+                    }
+                    if ( !matches ) {
+                        continue;
+                    }
+                    // compute the reaction's properties
+                    final Reaction potentialReaction = new Reaction( reactionShape, reactants );
+                    potentialReaction.update();
+
+                    if ( potentialReaction.getFitness() <= 0 ) {
+                        continue;
+                    }
+                    // we need to check for all reactions that are currently in place and would use the molecules we want
+                    List<Reaction> replaceableReactions = filter( unique( map( reactants, new Function1<Molecule, Reaction>() {
+                        public Reaction apply( Molecule molecule ) {
+                            return reactionMap.get( molecule );
+                        }
+                    } ) ), new Function1<Reaction, Boolean>() {
+                        public Boolean apply( Reaction reaction ) {
+                            return reaction != null;
+                        }
+                    } );
+
+                    // only if we are better than every other reaction with those molecules do we become active
+                    if ( FunctionalUtils.every( replaceableReactions, new Function1<Reaction, Boolean>() {
+                        public Boolean apply( Reaction reaction ) {
+                            return potentialReaction.getFitness() > reaction.getFitness();
+                        }
+                    } ) ) {
+                        for ( Reaction replaceableReaction : replaceableReactions ) {
+                            removeReaction( replaceableReaction );
+                        }
+                        addReaction( potentialReaction );
+                    }
+                }
+            }
+        }
+
+
+        /*---------------------------------------------------------------------------*
+        * tweak velocities based on reactions
+        *----------------------------------------------------------------------------*/
+        for ( Reaction reaction : reactions ) {
+            reaction.tweak( simulationTimeChange );
+        }
+
+        /*---------------------------------------------------------------------------*
+        * run the physics
+        *----------------------------------------------------------------------------*/
         box2dModel.tick( simulationTimeChange );
+
+        /*---------------------------------------------------------------------------*
+        * update the reaction targets
+        *----------------------------------------------------------------------------*/
+        for ( Reaction reaction : new ArrayList<Reaction>( reactions ) ) {
+            reaction.update();
+
+            // kick out now-invalid reactions
+            if ( reaction.getFitness() == 0 ) {
+                removeReaction( reaction );
+            }
+        }
+
+        /*---------------------------------------------------------------------------*
+        * notify
+        *----------------------------------------------------------------------------*/
+        stepCompleted.updateListeners();
     }
 
     public void dragStart( Molecule molecule ) {
         if ( molecule.getBody() != null ) {
             box2dModel.removeBody( molecule );
+            moleculesInPlayArea.remove( molecule );
         }
     }
 
@@ -112,7 +209,23 @@ public class Kit {
         ImmutableVector2D position = molecule.position.get();
         if ( layoutBounds.getAvailablePlayAreaModelBounds().contains( position.getX(), position.getY() ) ) {
             box2dModel.addBody( molecule );
+            moleculesInPlayArea.add( molecule );
         }
+    }
+
+    private void addReaction( Reaction reaction ) {
+        for ( Molecule molecule : reaction.reactants ) {
+            assert reactionMap.get( molecule ) == null;
+            reactionMap.put( molecule, reaction );
+        }
+        reactions.add( reaction );
+    }
+
+    private void removeReaction( Reaction reaction ) {
+        for ( Molecule molecule : reaction.reactants ) {
+            reactionMap.remove( molecule );
+        }
+        reactions.remove( reaction );
     }
 
     public boolean isContainedInBucket( Molecule molecule ) {
@@ -163,6 +276,10 @@ public class Kit {
 
     public List<MoleculeBucket> getReactantBuckets() {
         return reactantBuckets;
+    }
+
+    public List<Reaction> getReactions() {
+        return reactions;
     }
 
     public Molecule getMolecule( Atom atom ) {

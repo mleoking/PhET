@@ -22,7 +22,7 @@ public class ChemicalReactionsModel {
                              // reactants
                              Arrays.asList(
                                      new MoleculeBucket( O2, 5 ),
-                                     new MoleculeBucket( H2, 5 )
+                                     new MoleculeBucket( H2, 10 )
                              ),
 
                              // products

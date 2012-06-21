@@ -26,7 +26,7 @@ import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.zip;
  * @author Jonathan Olson
  */
 public class CollisionUtils {
-    public static CollisionFit2D bestFitIntersection2D( final List<Collidable2D> objects ) {
+    public static CollisionFit2D bestFitIntersection2D( final List<? extends Collidable2D> objects ) {
         final int n = objects.size();
 
         // we need to intersect at least two rays, otherwise it is ill-defined

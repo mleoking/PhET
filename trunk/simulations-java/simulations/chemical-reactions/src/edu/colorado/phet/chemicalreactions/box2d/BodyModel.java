@@ -16,11 +16,12 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.jamaphet.collision.Collidable2D;
 
 /**
  * Wrapper for a box2d body that gives us more convenient properties in a possibly different frame of reference
  */
-public class BodyModel {
+public class BodyModel implements Collidable2D {
 
     public final Property<Boolean> userControlled = new Property<Boolean>( false );
 
@@ -169,5 +170,21 @@ public class BodyModel {
     private float inverseTransformAngle( float angle ) {
         ImmutableVector2D newVector = bodyToModelTransform.viewToModelDelta( new ImmutableVector2D( Math.cos( angle ), Math.sin( angle ) ) ).getNormalizedInstance();
         return (float) Math.atan2( newVector.getY(), newVector.getX() );
+    }
+
+    public ImmutableVector2D getPosition() {
+        return position.get();
+    }
+
+    public ImmutableVector2D getVelocity() {
+        return velocity.get();
+    }
+
+    public double getAngle() {
+        return angle.get();
+    }
+
+    public double getAngularVelocity() {
+        return angularVelocity.get();
     }
 }
