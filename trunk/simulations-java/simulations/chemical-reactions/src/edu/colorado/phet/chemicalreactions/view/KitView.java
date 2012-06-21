@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.colorado.phet.chemicalreactions.ChemicalReactionsApplication;
 import edu.colorado.phet.chemicalreactions.model.Kit;
 import edu.colorado.phet.chemicalreactions.model.Molecule;
 import edu.colorado.phet.chemicalreactions.model.MoleculeBucket;
@@ -22,6 +23,7 @@ import edu.colorado.phet.chemicalreactions.module.ChemicalReactionsCanvas;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -53,6 +55,7 @@ public class KitView {
     private final ChemicalReactionsCanvas canvas;
 
     private final Map<MoleculeBucket, MoleculeBucketNode> bucketMap = new HashMap<MoleculeBucket, MoleculeBucketNode>();
+    private final Map<Molecule, MoleculeNode> moleculeMap = new HashMap<Molecule, MoleculeNode>();
 
     // store the node-atom relationships
 //    private Map<Atom, LabeledAtomNode> atomNodeMap = new HashMap<Atom, LabeledAtomNode>();
@@ -69,29 +72,21 @@ public class KitView {
             bottomLayer.addChild( bucketView.getHoleNode() );
 
             for ( final Molecule molecule : bucket.getMolecules() ) {
-                atomLayer.addChild( new MoleculeNode( molecule ) {{
-                    addInputEventListener( new PDragEventHandler() {
-                        @Override public void mouseDragged( PInputEvent event ) {
-                            final PDimension delta = event.getDeltaRelativeTo( getParent() );
-                            final Dimension2D modelDelta = MODEL_VIEW_TRANSFORM.viewToModelDelta( delta );
-                            molecule.setPosition( molecule.position.get().plus( modelDelta ) );
-                        }
-
-                        @Override protected void startDrag( PInputEvent event ) {
-                            super.startDrag( event );
-                            kit.dragStart( molecule );
-                            molecule.userControlled.set( true );
-                        }
-
-                        @Override protected void endDrag( PInputEvent event ) {
-                            super.endDrag( event );
-                            kit.dragEnd( molecule );
-                            molecule.userControlled.set( false );
-                        }
-                    } );
-                }} );
+                addMolecule( molecule );
             }
         }
+
+        kit.molecules.addElementAddedObserver( new VoidFunction1<Molecule>() {
+            public void apply( Molecule molecule ) {
+                addMolecule( molecule );
+            }
+        } );
+
+        kit.molecules.addElementRemovedObserver( new VoidFunction1<Molecule>() {
+            public void apply( Molecule molecule ) {
+                removeMolecule( molecule );
+            }
+        } );
 
         // pluses between groups of reactant or product buckets
         for ( List<MoleculeBucket> moleculeBuckets : Arrays.asList( kit.getReactantBuckets(), kit.getProductBuckets() ) ) {
@@ -105,16 +100,18 @@ public class KitView {
                          kit.getProductBuckets().get( 0 ) );
 
         // update visibility based on the kit visibility
-        kit.visible.addObserver( new SimpleObserver() {
+        SimpleObserver visibilityObserver = new SimpleObserver() {
             public void update() {
                 Boolean visible = kit.visible.get();
-                debugOverlayLayer.setVisible( visible );
+                debugOverlayLayer.setVisible( visible && ChemicalReactionsApplication.SHOW_DEBUG_OVERLAY.get() );
                 topLayer.setVisible( visible );
                 metadataLayer.setVisible( visible );
                 atomLayer.setVisible( visible );
                 bottomLayer.setVisible( visible );
             }
-        } );
+        };
+        kit.visible.addObserver( visibilityObserver );
+        ChemicalReactionsApplication.SHOW_DEBUG_OVERLAY.addObserver( visibilityObserver );
 
         kit.stepCompleted.addUpdateListener( new UpdateListener() {
             public void update() {
@@ -154,6 +151,45 @@ public class KitView {
                 }
             }
         }, false );
+    }
+
+    private void addMolecule( final Molecule molecule ) {
+        MoleculeNode moleculeNode = new MoleculeNode( molecule ) {{
+            addInputEventListener( new PDragEventHandler() {
+                @Override public void mouseDragged( PInputEvent event ) {
+                    final PDimension delta = event.getDeltaRelativeTo( getParent() );
+                    final Dimension2D modelDelta = MODEL_VIEW_TRANSFORM.viewToModelDelta( delta );
+                    molecule.setPosition( molecule.position.get().plus( modelDelta ) );
+                }
+
+                @Override protected void startDrag( PInputEvent event ) {
+                    super.startDrag( event );
+                    kit.dragStart( molecule );
+                    molecule.userControlled.set( true );
+                }
+
+                @Override protected void endDrag( PInputEvent event ) {
+                    super.endDrag( event );
+                    kit.dragEnd( molecule );
+                    molecule.userControlled.set( false );
+                }
+            } );
+        }};
+        moleculeMap.put( molecule, moleculeNode );
+        atomLayer.addChild( moleculeNode );
+        if ( molecule.shape == MoleculeShape.O2 ) {
+            System.out.println( moleculeNode );
+        }
+    }
+
+    private void removeMolecule( final Molecule molecule ) {
+        System.out.println(atomLayer.getChildrenCount());
+        atomLayer.removeChild( moleculeMap.get( molecule ) );
+        System.out.println(atomLayer.getChildrenCount());
+        if ( molecule.shape == MoleculeShape.O2 ) {
+            System.out.println( "removing O2: " + moleculeMap.get( molecule ) );
+        }
+        moleculeMap.remove( molecule );
     }
 
     private PhetPPath createDebugCircle( ImmutableVector2D modelPoint, double modelRadius, Color color ) {

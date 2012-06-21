@@ -9,14 +9,21 @@ import edu.colorado.phet.chemicalreactions.module.ChemicalReactionsModule;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuItem;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+
+import static edu.colorado.phet.chemicalreactions.ChemicalReactionsSimSharing.UserComponents;
 
 /**
  * Main entry point to the simulation
  */
 public class ChemicalReactionsApplication extends PiccoloPhetApplication {
+
+    public static final Property<Boolean> SHOW_DEBUG_OVERLAY = new Property<Boolean>( false );
+
     /**
      * Sole constructor.
      *
@@ -63,6 +70,8 @@ public class ChemicalReactionsApplication extends PiccoloPhetApplication {
         // Developer menu
         JMenu developerMenu = frame.getDeveloperMenu();
         // add items to the Developer menu here...
+
+        developerMenu.add( new PropertyCheckBoxMenuItem( UserComponents.devToggleDebugOverlay, "Display debugging overlay", SHOW_DEBUG_OVERLAY ) );
 
     }
 
