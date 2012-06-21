@@ -340,7 +340,7 @@ public class Pattern {
     public static Pattern ninjaStar() {
         double s = 1.0 / 3;
         double r1 = 100 * s;
-        double r2 = 60 * s;
+        double r2 = 65 * s;
         double cos = Math.abs( Math.cos( toDegrees( 45 ) ) );
         final List<Vector2D> points = list( v( 0, -r1 ),
                                             v( r2 * cos, -r2 * cos ),
