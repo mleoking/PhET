@@ -5,6 +5,7 @@ DEADLINES
 DESIGN
 - Game
 - should saved line moveToFront on mouseOver?
+- revisit the placement algorithm for equations on graphed lines
 
 HIGH
 
