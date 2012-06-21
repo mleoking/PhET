@@ -6,17 +6,15 @@
     <string key="stop" value = "Stop"/>
     <string key="restart" value = "Restart"/>
     <string key="reset" value = "Reset"/>
-    <string key="userControlled" value = "User Controlled"/>
+    <string key="userControlled" value = "Manual"/>
     <string key="linear" value = "Linear"/>
     <string key="sinusoidal" value = "Sinusoidal"/>
     <string key="circular" value = "Circular"/>
     <string key="bump" value = "Bump"/>
-    <string key="random" value = "Random"/>
     <string key="amplitude" value = "Amplitude"/>
     <string key="frequency" value = "Frequency"/>
     <string key="speed" value = "Speed"/>
     <string key="speedOfLight" value = "c"/>
     <string key="duration" value = "duration"/>
-    <string key="moreSpeedLessRez" value = "More speed, less rez"/>
 </SimStrings>
 
