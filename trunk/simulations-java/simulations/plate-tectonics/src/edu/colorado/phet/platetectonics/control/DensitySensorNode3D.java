@@ -3,6 +3,8 @@ package edu.colorado.phet.platetectonics.control;
 
 import java.awt.*;
 import java.awt.geom.Arc2D;
+import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 
@@ -30,7 +32,9 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.math.Ray3F;
 import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
+import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.PlateTectonicsApplication;
+import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
 import edu.colorado.phet.platetectonics.model.PlateModel;
@@ -90,6 +94,17 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
         }, true );
 
         repaintOnEvent( tab.beforeFrameRender );
+
+        // when the dial color changes, update
+        PlateTectonicsConstants.DIAL_HIGHLIGHT_COLOR.addObserver( new SimpleObserver() {
+            public void update() {
+                LWJGLUtils.invoke( new Runnable() {
+                    public void run() {
+                        updateReadout();
+                    }
+                } );
+            }
+        } );
     }
 
     private float getScale() {
@@ -196,6 +211,10 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
         private double mass = 1; // "mass" for oscillation
         private double c = DampedMassSpringSystem.getCriticallyDampedDamping( mass, k );
 
+        private final double ringOffset = 1;
+        private final double ringWidth = 10;
+        private final double ringInnerOffset = ringOffset + ringWidth;
+
         /**
          * @param kmToViewUnit Number of view units (in 3D JME) that correspond to 1 km in the model. Extracted into
          *                     a parameter so that we can add a 2D version to the toolbox that is unaffected by future
@@ -269,6 +288,10 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
 
             int overflowQuantity = (int) Math.floor( density / wrapAroundDensityAmount );
 
+            bodyNode.underTicksLayer.removeAllChildren();
+            PhetPPath ringNode = createRingNode( -bodyNode.speedToAngle( p ) );
+            bodyNode.underTicksLayer.addChild( ringNode );
+
             extraHolderNode.removeAllChildren();
             for ( int i = 0; i < overflowQuantity; i++ ) {
                 final int finalI = i;
@@ -281,11 +304,13 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
                     final double centerX = 50;
                     final double centerY = 50;
 
-                    final double radius = 30;
+                    final double radius = 25;
 
                     double angularGap = 0.8;
 
                     final double angleAtEnd = minAngle + angularGap / 2;
+
+                    underTicksLayer.addChild( createRingNode( -bodyNode.speedToAngle( 0 ) + Math.PI * 2 - 0.01 ) );
 
                     addChild( new PhetPPath( new Arc2D.Double( centerX - radius, centerY - radius, // center
                                                                radius * 2, radius * 2,
@@ -314,6 +339,17 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
                     }} );
                 }} );
             }
+        }
+
+        private PhetPPath createRingNode( final double angle ) {
+            final double minAngle = -bodyNode.speedToAngle( 0 );
+            Color baseColor = PlateTectonicsConstants.DIAL_HIGHLIGHT_COLOR.get();
+            Color colorWithAlpha = new Color( baseColor.getRed(), baseColor.getGreen(), baseColor.getBlue(), 255 );
+            return new PhetPPath( new Area( new Ellipse2D.Double( ringOffset, ringOffset, 100 - ringOffset * 2, 100 - ringOffset * 2 ) ) {{
+                subtract( new Area( new Ellipse2D.Double( ringInnerOffset, ringInnerOffset, 100 - ringInnerOffset * 2, 100 - ringInnerOffset * 2 ) ) );
+                double angleDifference = ( angle - minAngle ) % ( Math.PI * 2 );
+                intersect( new Area( new Arc2D.Double( 0, 0, 100, 100, 180 * minAngle / Math.PI, 180 * angleDifference / Math.PI, Arc2D.PIE ) ) );
+            }}, colorWithAlpha, null, null );
         }
 
         public void setTwoDialDensity( double density ) {

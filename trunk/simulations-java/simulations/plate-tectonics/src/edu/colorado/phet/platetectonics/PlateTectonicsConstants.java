@@ -34,6 +34,8 @@ public class PlateTectonicsConstants {
     public static final Color DARK_LABEL = Color.BLACK;
     public static final Color LIGHT_LABEL = new Color( 0.9f, 0.9f, 0.9f, 1 );
 
+    public static final Property<Color> DIAL_HIGHLIGHT_COLOR = new Property<Color>( new Color( 255, 200, 80 ) );
+
     /*---------------------------------------------------------------------------*
     * fonts
     *----------------------------------------------------------------------------*/

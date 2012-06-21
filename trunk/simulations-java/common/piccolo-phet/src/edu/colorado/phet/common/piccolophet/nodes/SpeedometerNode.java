@@ -21,6 +21,8 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class SpeedometerNode extends PNode {
+    public final PNode underTicksLayer = new PNode(); // TODO: JO should remove this hack for plate tectonics
+
     private final double maxSpeed;
     private final double anglePerTick = Math.PI * 2 / 4 / 8;
     private final int numTicks = ( 8 + 2 ) * 2;
@@ -28,6 +30,7 @@ public class SpeedometerNode extends PNode {
     public SpeedometerNode( String title, final double width, final ObservableProperty<Option<Double>> speed, final double maxSpeed ) {
         this.maxSpeed = maxSpeed;
         addChild( new PhetPPath( new Ellipse2D.Double( 0, 0, width, width ), Color.white, new BasicStroke( 2 ), Color.gray ) );
+        addChild( underTicksLayer );
         addChild( new PhetPText( title ) {{
             setFont( new PhetFont( 16 ) );
 
