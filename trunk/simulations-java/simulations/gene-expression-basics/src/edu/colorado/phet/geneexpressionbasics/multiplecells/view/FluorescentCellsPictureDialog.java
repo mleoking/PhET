@@ -33,7 +33,7 @@ public class FluorescentCellsPictureDialog extends PaintImmediateDialog {
     // Class Data
     //----------------------------------------------------------------------------
 
-    private static final Font CAPTION_FONT = new PhetFont( 12 );
+    private static final Font CAPTION_FONT = new PhetFont( 14 );
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -54,19 +54,27 @@ public class FluorescentCellsPictureDialog extends PaintImmediateDialog {
         picture.setSize( image.getWidth(), image.getHeight() );
 
         // Caption
-        JTextArea text = new JTextArea( GeneExpressionBasicsResources.Strings.IMAGE_CAPTION + " " + GeneExpressionBasicsResources.Strings.IMAGE_ATTRIBUTION + " Dennis Kunkel Microscopy, Inc." );
-        text.setFont( CAPTION_FONT );
-        text.setColumns( 30 );
-        text.setEditable( false );
-        text.setOpaque( false );
+        JTextArea captionPane = new JTextArea( GeneExpressionBasicsResources.Strings.IMAGE_CAPTION + " " + GeneExpressionBasicsResources.Strings.IMAGE_ATTRIBUTION + " Dennis Kunkel Microscopy, Inc." );
+//        JScrollPane scrollPane = new JScrollPane();
+//        JTextPane captionPane = new JTextPane();
+//        captionPane.setPreferredSize( new Dimension( 100, 100 ) );
+//        scrollPane.add( captionPane );
+        captionPane.setText( GeneExpressionBasicsResources.Strings.IMAGE_CAPTION + "\n\n" + GeneExpressionBasicsResources.Strings.IMAGE_ATTRIBUTION + " Dennis Kunkel Microscopy, Inc." );
+        captionPane.setFont( CAPTION_FONT );
+        captionPane.setEditable( false );
+        captionPane.setOpaque( false );
+        captionPane.setColumns( 60 );
+//        StyledDocument doc = captionPane.getStyledDocument();
+//        SimpleAttributeSet center = new SimpleAttributeSet();
+//        StyleConstants.setAlignment( center, StyleConstants.ALIGN_CENTER );
+//        doc.setParagraphAttributes( 0, doc.getLength(), center, false );
 
         // Workaround for issue where line wrapping doesn't seem to work
         // correctly for right-to-left languages, see Unfuddle #2448 for more
         // information.
         if ( ComponentOrientation.getOrientation( PhetResources.readLocale() ).isLeftToRight() ) {
-            text.setFont( new PhetFont( 12 ) );
-            text.setLineWrap( true );
-            text.setWrapStyleWord( true );
+            captionPane.setLineWrap( true );
+            captionPane.setWrapStyleWord( true );
         }
 
         // Close button
@@ -89,7 +97,7 @@ public class FluorescentCellsPictureDialog extends PaintImmediateDialog {
         constraints.gridy++;
         constraints.insets.top = 15;
         constraints.insets.bottom = 15;
-        panel.add( text, constraints );
+        panel.add( captionPane, constraints );
         constraints.gridy++;
         panel.add( closeButton, constraints );
 
