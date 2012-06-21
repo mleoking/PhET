@@ -45,7 +45,6 @@ import edu.colorado.phet.platetectonics.control.ViewOptionsPanel;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateType;
-import edu.colorado.phet.platetectonics.model.labels.BoundaryLabel;
 import edu.colorado.phet.platetectonics.model.labels.RangeLabel;
 import edu.colorado.phet.platetectonics.model.labels.TextLabel;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
@@ -54,7 +53,6 @@ import edu.colorado.phet.platetectonics.util.Side;
 import edu.colorado.phet.platetectonics.view.BoxHighlightNode;
 import edu.colorado.phet.platetectonics.view.HandleNode;
 import edu.colorado.phet.platetectonics.view.PlateView;
-import edu.colorado.phet.platetectonics.view.labels.BoundaryLabelNode;
 import edu.colorado.phet.platetectonics.view.labels.RangeLabelNode;
 import edu.colorado.phet.platetectonics.view.labels.TextLabelNode;
 
@@ -560,7 +558,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
     }
 
     private boolean isMouseOverLeftSide() {
-        return getMousePositionOnZPlane().x < 0;
+        return getMouseViewPositionOnZPlane().x < 0;
     }
 
     private boolean isMouseOverCrustChooser() {
@@ -655,7 +653,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
             if ( Mouse.getEventButtonState() && ( overLeft || overRight ) ) {
                 // mouse down
                 draggingPlate = true;
-                draggingPlateStartMousePosition = getMousePositionOnZPlane();
+                draggingPlateStartMousePosition = getMouseViewPositionOnZPlane();
                 if ( overLeft ) {
                     leftHandle.startDrag( ray );
                     draggedHandle = leftHandle;

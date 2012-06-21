@@ -1,7 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.modules;
 
-import java.awt.Color;
+import java.awt.*;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
@@ -12,11 +13,13 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
 import edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing;
+import edu.colorado.phet.platetectonics.control.DraggableTool2D;
 import edu.colorado.phet.platetectonics.control.LegendPanel;
 import edu.colorado.phet.platetectonics.control.MyCrustPanel;
 import edu.colorado.phet.platetectonics.control.ViewOptionsPanel;
@@ -88,25 +91,25 @@ public class CrustTab extends PlateTectonicsTab {
         // crust label
         layerLabels.addChild( new RangeLabelNode( new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
             beforeFrameRender.addUpdateListener( new UpdateListener() {
-                                                     public void update() {
-                                                         set( flatModelToView.apply( new ImmutableVector3F( -10000, (float) getCrustModel().getCenterCrustElevation(), 0 ) ) );
-                                                     }
-                                                 }, true );
+                public void update() {
+                    set( flatModelToView.apply( new ImmutableVector3F( -10000, (float) getCrustModel().getCenterCrustElevation(), 0 ) ) );
+                }
+            }, true );
         }}, new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
             beforeFrameRender.addUpdateListener( new UpdateListener() {
-                                                     public void update() {
-                                                         set( flatModelToView.apply( new ImmutableVector3F( -10000, (float) getCrustModel().getCenterCrustBottomY(), 0 ) ) );
-                                                     }
-                                                 }, true );
+                public void update() {
+                    set( flatModelToView.apply( new ImmutableVector3F( -10000, (float) getCrustModel().getCenterCrustBottomY(), 0 ) ) );
+                }
+            }, true );
         }}, Strings.CRUST, scaleProperty, colorMode, true
         ) );
 
         final Property<ImmutableVector3F> upperMantleTop = new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
             beforeFrameRender.addUpdateListener( new UpdateListener() {
-                                                     public void update() {
-                                                         set( flatModelToView.apply( new ImmutableVector3F( 0, (float) getCrustModel().getCenterCrustBottomY(), 0 ) ) );
-                                                     }
-                                                 }, true );
+                public void update() {
+                    set( flatModelToView.apply( new ImmutableVector3F( 0, (float) getCrustModel().getCenterCrustBottomY(), 0 ) ) );
+                }
+            }, true );
         }};
         final Property<ImmutableVector3F> upperMantleBottom = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 0, CrustModel.UPPER_LOWER_MANTLE_BOUNDARY_Y, 0 ) ) );
 
@@ -246,6 +249,27 @@ public class CrustTab extends PlateTectonicsTab {
         }} );
 
         guiLayer.addChild( createFPSReadout( Color.BLACK ) );
+
+        zoomRatio.addObserver( new SimpleObserver() {
+            public void update() {
+                // TODO: make getCameraRay inversible so we can actually compute this better
+                ImmutableVector2F viewBottom = getViewPositionOnZPlane( 0.5f, 0 );
+                ImmutableVector2F viewLeft = getViewPositionOnZPlane( 0, 0.5f );
+                ImmutableVector2F viewRight = getViewPositionOnZPlane( 1, 0.5f );
+
+//                ImmutableVector3F modelBottom = PlateModel.convertToPlanar( getModelViewTransform().inversePosition( new ImmutableVector3F( bottom.x, bottom.y, 0 ) ) );
+
+                for ( GLNode glNode : new ArrayList<GLNode>( toolLayer.getChildren() ) ) {
+                    DraggableTool2D tool = (DraggableTool2D) glNode;
+                    ImmutableVector3F sensorViewPosition = tool.getSensorViewPosition();
+                    if ( sensorViewPosition.getY() < viewBottom.getY()
+                         || sensorViewPosition.getX() > viewRight.getX()
+                         || sensorViewPosition.getX() < viewLeft.getX() ) {
+                        toolDragHandler.putToolBackInToolbox( tool );
+                    }
+                }
+            }
+        } );
     }
 
     @Override public void resetAll() {

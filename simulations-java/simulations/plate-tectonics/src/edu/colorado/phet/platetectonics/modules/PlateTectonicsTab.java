@@ -1,20 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.modules;
 
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
+import java.awt.*;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -286,7 +280,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                                 movedCrustPiece( draggedCrustPiece );
                             }
                             else {
-                                toolDragHandler.mouseMove( getMousePositionOnZPlane() );
+                                toolDragHandler.mouseMove( getMouseViewPositionOnZPlane() );
                             }
                         }
                     }
@@ -311,7 +305,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                                     pickedCrustPiece( draggedCrustPiece );
                                 }
                                 else if ( toolCollision != null ) {
-                                    toolDragHandler.mouseDownOnTool( (DraggableTool2D) toolCollision, getMousePositionOnZPlane() );
+                                    toolDragHandler.mouseDownOnTool( (DraggableTool2D) toolCollision, getMouseViewPositionOnZPlane() );
                                 }
                                 else if ( guiCollision == null ) {
                                     uncaughtMouseButton();
@@ -366,7 +360,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                     toolLayer.addChild( ruler );
 
                     // offset the ruler slightly from the mouse, and start the drag
-                    ImmutableVector2F mousePosition = getMousePositionOnZPlane();
+                    ImmutableVector2F mousePosition = getMouseViewPositionOnZPlane();
                     ImmutableVector2F initialMouseOffset = ruler.getInitialMouseOffset();
                     final float initialX = mousePosition.x - initialMouseOffset.x;
                     final float initialY = mousePosition.y - initialMouseOffset.y;
@@ -390,7 +384,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                     toolLayer.addChild( thermometer );
 
                     // offset the ruler slightly from the mouse, and start the drag
-                    ImmutableVector2F mousePosition = getMousePositionOnZPlane();
+                    ImmutableVector2F mousePosition = getMouseViewPositionOnZPlane();
                     ImmutableVector2F initialMouseOffset = thermometer.getInitialMouseOffset();
                     final float initialX = mousePosition.x - initialMouseOffset.x;
                     final float initialY = mousePosition.y - initialMouseOffset.y;
@@ -415,7 +409,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                     toolLayer.addChild( sensorNode );
 
                     // offset the ruler slightly from the mouse, and start the drag
-                    ImmutableVector2F mousePosition = getMousePositionOnZPlane();
+                    ImmutableVector2F mousePosition = getMouseViewPositionOnZPlane();
                     ImmutableVector2F initialMouseOffset = sensorNode.getInitialMouseOffset();
                     final float initialX = mousePosition.x - initialMouseOffset.x;
                     final float initialY = mousePosition.y - initialMouseOffset.y;
@@ -718,14 +712,15 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         }};
     }
 
-    public ImmutableVector2F getMousePositionOnZPlane() {
+    public ImmutableVector2F getMouseViewPositionOnZPlane() {
         Ray3F cameraRay = getCameraRay( Mouse.getEventX(), Mouse.getEventY() );
         final ImmutableVector3F intersection = PlaneF.XY.intersectWithRay( cameraRay );
         return new ImmutableVector2F( intersection.x, intersection.y );
     }
 
-    public ImmutableVector2F getBottomCenterPositionOnZPlane() {
-        Ray3F cameraRay = getCameraRay( canvasSize.get().width / 2, 0 );
+    // x and y [0,1] with 0,0 bottom left
+    public ImmutableVector2F getViewPositionOnZPlane( float x, float y ) {
+        Ray3F cameraRay = getCameraRay( (int) ( canvasSize.get().width * x ), (int) ( canvasSize.get().height * y ) );
         final ImmutableVector3F intersection = PlaneF.XY.intersectWithRay( cameraRay );
         return new ImmutableVector2F( intersection.x, intersection.y );
     }

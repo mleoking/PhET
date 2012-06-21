@@ -27,6 +27,7 @@ public interface DraggableTool2D {
 
     // where the tool is making a read-out, if applicable
     public ImmutableVector3F getSensorModelPosition();
+    public ImmutableVector3F getSensorViewPosition();
 
     // for sim-sharing messages
     public ParameterSet getCustomParameters();

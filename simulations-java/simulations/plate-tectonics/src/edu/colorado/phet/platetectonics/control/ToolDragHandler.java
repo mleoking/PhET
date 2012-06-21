@@ -10,7 +10,9 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserActions;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.*;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.drag;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.endDrag;
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.startDrag;
 
 /**
  * Handles tool dragging, so that we don't clutter the module with this information
@@ -49,13 +51,7 @@ public class ToolDragHandler {
             SimSharingManager.sendUserMessage( tool.getUserComponent(), UserComponentTypes.sprite, endDrag, getToolLocationParameterSet( tool ) );
         }
         if ( dragging && overToolbox ) {
-            // get rid of the tool
-            tool.recycle();
-
-            // mark the toolbox as having the tool again
-            tool.getInsideToolboxProperty( toolboxState ).set( true );
-
-            SimSharingManager.sendUserMessage( tool.getUserComponent(), UserComponentTypes.sprite, UserActions.putBackInToolbox );
+            putToolBackInToolbox( tool );
         }
         dragging = false;
     }
@@ -69,12 +65,22 @@ public class ToolDragHandler {
         }
     }
 
+    public void putToolBackInToolbox( DraggableTool2D tool ) {
+        // get rid of the tool
+        tool.recycle();
+
+        // mark the toolbox as having the tool again
+        tool.getInsideToolboxProperty( toolboxState ).set( true );
+
+        SimSharingManager.sendUserMessage( tool.getUserComponent(), UserComponentTypes.sprite, UserActions.putBackInToolbox );
+    }
+
     public boolean isDragging() {
         return dragging;
     }
 
     private static ParameterSet getToolLocationParameterSet( DraggableTool2D tool ) {
-        return new ParameterSet( new Parameter[] {
+        return new ParameterSet( new Parameter[]{
                 new Parameter( ParameterKeys.x, tool.getSensorModelPosition().x ),
                 new Parameter( ParameterKeys.y, tool.getSensorModelPosition().y ),
                 new Parameter( ParameterKeys.z, tool.getSensorModelPosition().z )

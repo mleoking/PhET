@@ -128,7 +128,11 @@ public class RulerNode3D extends ThreadedPlanarPiccoloNode implements DraggableT
 
     // bottom-left corner of the ruler
     public ImmutableVector3F getSensorModelPosition() {
-        return modelViewTransform.inversePosition( new ImmutableVector3F( draggedPosition.x, draggedPosition.y, 0 ) );
+        return modelViewTransform.inversePosition( getSensorViewPosition() );
+    }
+
+    public ImmutableVector3F getSensorViewPosition() {
+        return new ImmutableVector3F( draggedPosition.x, draggedPosition.y, 0 );
     }
 
     public ParameterSet getCustomParameters() {
