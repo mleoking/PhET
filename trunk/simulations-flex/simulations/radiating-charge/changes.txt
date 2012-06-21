@@ -1,3 +1,5 @@
+# 1.00.07 (65357) Jun 21, 2012
+6/21/12 Corrected strings.
 # 1.00.06 (65354) Jun 21, 2012
 6/21/12 Changed pull-down menu to radio buttons.
 # 1.00.05 (65198) Jun 18, 2012
