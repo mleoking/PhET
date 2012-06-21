@@ -1,3 +1,4 @@
+# 0.00.92 (65358) Jun 21, 2012
 Build a Fraction: Pictures: Fixed: Bug: multiple pieces went into the same target box.
 Build a Fraction: Pictures: Fixed: Split button should change cursor back to arrow after clicking.
 Build a Fraction: Pictures: Fixed: Container shouldn't be draggable once in scoring cell.
