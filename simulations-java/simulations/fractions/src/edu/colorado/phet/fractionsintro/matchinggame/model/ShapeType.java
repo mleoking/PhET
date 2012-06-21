@@ -11,5 +11,5 @@ public enum ShapeType {
 
     //"More difficult ones"
     plusses, grid, pyramid,
-    polygon, tetris, flower, letterLShapes, interleavedLShapes
+    polygon, tetris, flower, letterLShapes, interleavedLShapes, ringOfHexagons
 }
