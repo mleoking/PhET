@@ -1,0 +1,43 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: June 7-20, 2012
+
+Beer's Law Lab
+- post-mortem meeting
+
+Fluid Pressure and Flow
+- additional code review, #3907
+
+Line Graphing
+- design meeting for Game tab
+- cleanup and refactoring of tabs 1 & 2
+- published 0.00.19, tabs 1 & 2 complete
+
+Misc
+- meeting with Pivotal Labs
+
+Environment
+- upgraded to IntelliJ IDEA 11
+
+Administrative
+- status meeting
+- Physics/Math meeting
+- reports
+
+WHAT'S NEXT:                                                                         '
+
+- Line Graphing: design & implement "Game" tab
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- June 25
+- July 5-11 (CT, working reduced hours)
+- August 6-19 (vacation, not working)
+- October 10-23 (CT, working reduced hours)
+
+--
