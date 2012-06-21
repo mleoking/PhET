@@ -71,11 +71,11 @@ public class BlockNode extends PComposite {
 
         // Create the shape of the top of the block.
         ImmutableVector2D upperLeftBackCorner = upperLeftFrontCorner.getAddedInstance( backCornersOffset );
-        ImmutableVector2D upperBackRightCorner = upperRightFrontCorner.getAddedInstance( backCornersOffset );
+        ImmutableVector2D upperRightBackCorner = upperRightFrontCorner.getAddedInstance( backCornersOffset );
         DoubleGeneralPath blockTopPath = new DoubleGeneralPath();
         blockTopPath.moveTo( upperLeftFrontCorner );
         blockTopPath.lineTo( upperRightFrontCorner );
-        blockTopPath.lineTo( upperBackRightCorner );
+        blockTopPath.lineTo( upperRightBackCorner );
         blockTopPath.lineTo( upperLeftBackCorner );
         blockTopPath.lineTo( upperLeftFrontCorner );
         Shape blockTopShape = blockTopPath.getGeneralPath();
@@ -86,22 +86,31 @@ public class BlockNode extends PComposite {
         blockSidePath.moveTo( upperRightFrontCorner );
         blockSidePath.lineTo( lowerRightFrontCorner );
         blockSidePath.lineTo( lowerRightBackCorner );
-        blockSidePath.lineTo( upperBackRightCorner );
+        blockSidePath.lineTo( upperRightBackCorner );
         blockSidePath.lineTo( upperRightFrontCorner );
         Shape blockSideShape = blockSidePath.getGeneralPath();
 
         // Create the shape for the back of the block.
         ImmutableVector2D lowerLeftBackCorner = lowerLeftFrontCorner.getAddedInstance( backCornersOffset );
         DoubleGeneralPath blockBackPath = new DoubleGeneralPath();
-        blockBackPath.moveTo( lowerLeftFrontCorner );
-        blockBackPath.lineTo( lowerLeftBackCorner );
-        blockBackPath.lineTo( upperLeftBackCorner );
         blockBackPath.moveTo( lowerLeftBackCorner );
+        blockBackPath.lineTo( lowerLeftFrontCorner );
+        blockBackPath.lineTo( lowerRightFrontCorner );
         blockBackPath.lineTo( lowerRightBackCorner );
+        blockBackPath.lineTo( lowerLeftBackCorner );
+        blockBackPath.lineTo( lowerLeftFrontCorner );
+        blockBackPath.lineTo( upperLeftFrontCorner );
+        blockBackPath.lineTo( upperLeftBackCorner );
+        blockBackPath.lineTo( lowerLeftBackCorner );
+        blockBackPath.lineTo( lowerRightBackCorner );
+        blockBackPath.lineTo( upperRightBackCorner );
+        blockBackPath.lineTo( upperLeftBackCorner );
+        blockBackPath.lineTo( lowerLeftBackCorner );
         Shape blockBackShape = blockBackPath.getGeneralPath();
 
         // Add the back of the block.
         final PNode blockBack = new PhetPPath( blockBackShape, OUTLINE_STROKE, OUTLINE_STROKE_COLOR );
+//        final PNode blockBack = createSurface( blockBackShape, block.getColor(), block.getFrontTextureImage() );
         addChild( blockBack );
 
         // Create the layers where the energy chunks will be placed.
@@ -191,19 +200,19 @@ public class BlockNode extends PComposite {
     * shape, color, and texture (if a texture is specified).
     */
 
-    private PNode createSurface( Shape blockFaceShape, Color fillColor, Image textureImage ) {
+    private PNode createSurface( Shape shape, Color fillColor, Image textureImage ) {
 
         PNode root = new PNode();
 
         // Add the filled shape.  Note that in cases where a texture is
         // provided, this may end up getting partially or entirely covered up.
-        root.addChild( new PhetPPath( blockFaceShape, fillColor ) );
+        root.addChild( new PhetPPath( shape, fillColor ) );
 
         if ( textureImage != null ) {
 
             // Add the clipped texture.
             PClip clippedTexture = new PClip();
-            clippedTexture.setPathTo( blockFaceShape );
+            clippedTexture.setPathTo( shape );
             PImage texture = new PImage( textureImage );
 
             // Scale up the texture image if needed.
@@ -223,7 +232,7 @@ public class BlockNode extends PComposite {
         }
 
         // Add the outlined shape so that edges are visible.
-        root.addChild( new PhetPPath( blockFaceShape, OUTLINE_STROKE, OUTLINE_STROKE_COLOR ) );
+        root.addChild( new PhetPPath( shape, OUTLINE_STROKE, OUTLINE_STROKE_COLOR ) );
 
         return root;
     }

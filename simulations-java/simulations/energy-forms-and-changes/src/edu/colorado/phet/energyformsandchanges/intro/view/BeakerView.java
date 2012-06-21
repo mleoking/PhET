@@ -14,6 +14,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
@@ -31,6 +32,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.nodes.PClip;
 
 /**
  * Object that represents a beaker in the view.  This representation is split
@@ -79,7 +81,7 @@ public class BeakerView {
         backNode.addChild( new PhetPPath( bottomEllipse, BEAKER_COLOR, OUTLINE_STROKE, OUTLINE_COLOR ) );
 
         // Create and add the shape for the body of the beaker.
-        Area beakerBody = new Area( beakerViewRect );
+        final Area beakerBody = new Area( beakerViewRect );
         beakerBody.add( new Area( bottomEllipse ) );
         beakerBody.subtract( new Area( topEllipse ) );
         frontNode.addChild( new PhetPPath( beakerBody, BEAKER_COLOR, OUTLINE_STROKE, OUTLINE_COLOR ) );
@@ -98,7 +100,8 @@ public class BeakerView {
         frontNode.addChild( label );
 
         // Create the layers where the energy chunks will be placed.
-        final PNode energyChunkRootNode = new PNode();
+        final PClip energyChunkRootNode = new PClip();
+        energyChunkRootNode.setStroke( null );
         backNode.addChild( energyChunkRootNode );
         for ( int i = beaker.getSlices().size() - 1; i >= 0; i-- ) {
             int colorBase = (int) ( 255 * (double) i / beaker.getSlices().size() );
@@ -121,6 +124,16 @@ public class BeakerView {
                 } );
             }
         } );
+
+        // Update the clipping mask when any of the blocks move.  The clipping
+        // mask hides energy chunks that overlap with blocks.
+        for ( Block block : model.getBlockList() ) {
+            block.position.addObserver( new SimpleObserver() {
+                public void update() {
+                    updateEnergyChunkClipMask( model, energyChunkRootNode );
+                }
+            } );
+        }
 
         // Adjust the transparency of the water and label based on energy
         // chunk visibility.
@@ -145,6 +158,8 @@ public class BeakerView {
                 // Compensate the energy chunk layer so that the energy chunk
                 // nodes can handle their own positioning.
                 energyChunkRootNode.setOffset( mvt.modelToView( position ).getRotatedInstance( Math.PI ).toPoint2D() );
+                // TODO: Temp for experimentation.
+                BeakerView.this.updateEnergyChunkClipMask( model, energyChunkRootNode );
             }
         } );
 
@@ -225,6 +240,20 @@ public class BeakerView {
                 }
             }
         } );
+    }
+
+    private void updateEnergyChunkClipMask( EFACIntroModel model, PClip clip ) {
+        ImmutableVector2D forwardPerspectiveOffset = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( Block.SURFACE_WIDTH / 2 );
+        ImmutableVector2D backwardPerspectiveOffset = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( -Block.SURFACE_WIDTH / 2 );
+        AffineTransform forwardTransform = AffineTransform.getTranslateInstance( forwardPerspectiveOffset.getX(), forwardPerspectiveOffset.getY() );
+        AffineTransform backwardTransform = AffineTransform.getTranslateInstance( backwardPerspectiveOffset.getX(), backwardPerspectiveOffset.getY() );
+
+        Area clippingMask = new Area( frontNode.getFullBoundsReference() );
+        for ( Block block : model.getBlockList() ) {
+            clippingMask.subtract( new Area( mvt.modelToView( forwardTransform.createTransformedShape( block.getRect() ) ) ) );
+            clippingMask.subtract( new Area( mvt.modelToView( backwardTransform.createTransformedShape( block.getRect() ) ) ) );
+        }
+        clip.setPathTo( clippingMask );
     }
 
     /**
