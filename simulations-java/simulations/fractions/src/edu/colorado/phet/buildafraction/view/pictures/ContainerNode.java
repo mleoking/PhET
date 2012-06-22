@@ -41,7 +41,7 @@ import static edu.colorado.phet.fractions.FractionsResources.Images.*;
  *
  * @author Sam Reid
  */
-public class DynamicContainerNode extends PNode {
+public class ContainerNode extends PNode {
     private PImage splitButton;
     final IntegerProperty selectedPieceSize = new IntegerProperty( 1 );
     private final DynamicCursorHandler dynamicCursorHandler;
@@ -52,7 +52,7 @@ public class DynamicContainerNode extends PNode {
     private double initialX;
     private double initialY;
 
-    public DynamicContainerNode( PictureSceneNode parent, final ContainerContext context ) {
+    public ContainerNode( PictureSceneNode parent, final ContainerContext context ) {
         this.parent = parent;
         this.context = context;
 
@@ -98,12 +98,12 @@ public class DynamicContainerNode extends PNode {
                             @Override protected void drag( final PInputEvent event ) {
                                 super.drag( event );
                                 final PDimension delta = event.getDeltaRelativeTo( getParent() );
-                                DynamicContainerNode.this.translate( delta.width, delta.height );
+                                ContainerNode.this.translate( delta.width, delta.height );
                             }
 
                             @Override protected void endDrag( final PInputEvent event ) {
                                 super.endDrag( event );
-                                context.endDrag( DynamicContainerNode.this, event );
+                                context.endDrag( ContainerNode.this, event );
                             }
                         } );
                         addInputEventListener( new CursorHandler() );
@@ -121,14 +121,14 @@ public class DynamicContainerNode extends PNode {
         return BufferedImageUtils.multiScaleToWidth( image, 50 );
     }
 
-    public static F<DynamicContainerNode, Boolean> _isInTargetCell = new F<DynamicContainerNode, Boolean>() {
-        @Override public Boolean f( final DynamicContainerNode containerNode ) {
+    public static F<ContainerNode, Boolean> _isInTargetCell = new F<ContainerNode, Boolean>() {
+        @Override public Boolean f( final ContainerNode containerNode ) {
             return containerNode.isInTargetCell();
         }
     };
 
-    public static F<DynamicContainerNode, Fraction> _getFractionValue = new F<DynamicContainerNode, Fraction>() {
-        @Override public Fraction f( final DynamicContainerNode containerNode ) {
+    public static F<ContainerNode, Fraction> _getFractionValue = new F<ContainerNode, Fraction>() {
+        @Override public Fraction f( final ContainerNode containerNode ) {
             return containerNode.getFractionValue();
         }
     };
