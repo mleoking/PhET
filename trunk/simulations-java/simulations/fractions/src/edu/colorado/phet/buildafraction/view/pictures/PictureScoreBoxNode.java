@@ -36,7 +36,7 @@ public class PictureScoreBoxNode extends PNode {
     private boolean completed;
     private PInterpolatingActivity activity;
     private final PImage splitButton;
-    private ContainerNode containerNode;
+    private DynamicContainerNode containerNode;
 
     public PictureScoreBoxNode( final int numerator, final int denominator, final Property<List<Fraction>> matches, final PictureSceneNode sceneNode, final boolean flashTargetCellOnMatch ) {
         this.path = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 120, 120, 30, 30 ), CONTROL_PANEL_BACKGROUND, controlPanelStroke, Color.darkGray ) {{
@@ -111,7 +111,7 @@ public class PictureScoreBoxNode extends PNode {
         addChild( splitButton );
     }
 
-    public void setCompletedFraction( ContainerNode containerNode ) {
+    public void setCompletedFraction( DynamicContainerNode containerNode ) {
         this.containerNode = containerNode;
         path.setStrokePaint( Color.darkGray );
         this.completed = true;

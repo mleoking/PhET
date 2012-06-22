@@ -36,8 +36,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import static edu.colorado.phet.buildafraction.view.pictures.ContainerNode._getFractionValue;
-import static edu.colorado.phet.buildafraction.view.pictures.ContainerNode._isInTargetCell;
 import static fj.function.Booleans.not;
 
 /**
@@ -122,7 +120,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
 
         PictureLevel level = model.getPictureLevel( levelIndex );
 
-        DynamicContainerNode dynamicContainerNode = new DynamicContainerNode( this ) {{
+        DynamicContainerNode dynamicContainerNode = new DynamicContainerNode( this, this ) {{
             setOffset( 285, 200 );
         }};
         addChild( dynamicContainerNode );
@@ -177,7 +175,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         return List.iterableList( children );
     }
 
-    public void endDrag( final ContainerNode containerNode, final PInputEvent event ) {
+    public void endDrag( final DynamicContainerNode containerNode, final PInputEvent event ) {
         //See if it hits any matches
         List<Target> pairs = targetPairs.sort( FJUtils.ord( new F<Target, Double>() {
             @Override public Double f( final Target targetPair ) {
@@ -219,12 +217,12 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
 
     public void endDrag( final RectangularPiece piece, final PInputEvent event ) {
         boolean droppedInto = false;
-        List<ContainerNode> containerNodes = getContainerNodes().sort( FJUtils.ord( new F<ContainerNode, Double>() {
-            @Override public Double f( final ContainerNode c ) {
+        List<DynamicContainerNode> containerNodes = getContainerNodes().sort( FJUtils.ord( new F<DynamicContainerNode, Double>() {
+            @Override public Double f( final DynamicContainerNode c ) {
                 return c.getGlobalFullBounds().getCenter2D().distance( piece.getGlobalFullBounds().getCenter2D() );
             }
         } ) );
-        for ( ContainerNode containerNode : containerNodes ) {
+        for ( DynamicContainerNode containerNode : containerNodes ) {
             if ( containerNode.getGlobalFullBounds().intersects( piece.getGlobalFullBounds() ) && !containerNode.isAtStartingLocation() ) {
                 dropInto( piece, containerNode );
                 droppedInto = true;
@@ -241,8 +239,9 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         }
     }
 
-    private void dropInto( final RectangularPiece piece, final ContainerNode containerNode ) {
-        PTransformActivity activity = piece.animateToPositionScaleRotation( containerNode.getOffset().getX() + containerNode.getPiecesWidth(), containerNode.getOffset().getY(), 1, 0, 200 );
+    //Rectangular piece dropped into container
+    private void dropInto( final RectangularPiece piece, final DynamicContainerNode containerNode ) {
+        PTransformActivity activity = piece.animateToPositionScaleRotation( containerNode.getOffset().getX() + containerNode.getPiecesWidth(), containerNode.getOffset().getY() + containerNode.getYOffsetForContainer(), 1, 0, 200 );
         piece.setPickable( false );
         piece.setChildrenPickable( false );
         activity.setDelegate( new PActivityDelegate() {
@@ -262,9 +261,9 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
     public void syncModelFractions() { model.getPictureCreatedFractions( model.pictureLevel.get() ).set( getUserCreatedFractions() ); }
 
     //TODO: when we have multiple containers, this will have to be modified
-    private List<Fraction> getUserCreatedFractions() { return getContainerNodes().filter( not( _isInTargetCell ) ).map( _getFractionValue ); }
+    private List<Fraction> getUserCreatedFractions() { return getContainerNodes().filter( not( DynamicContainerNode._isInTargetCell ) ).map( DynamicContainerNode._getFractionValue ); }
 
-    public void splitPieceFromContainer( final RectangularPiece piece, final ContainerNode containerNode, final double relativeXOffset ) {
+    public void splitPieceFromContainer( final RectangularPiece piece, final DynamicContainerNode containerNode, final double relativeXOffset ) {
         Point2D offset = piece.getGlobalTranslation();
         addChild( piece );
         piece.setGlobalTranslation( offset );
@@ -273,11 +272,11 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         piece.animateToPositionScaleRotation( piece.getXOffset() + relativeXOffset, piece.getYOffset() + containerNode.getFullBounds().getHeight() + 5, 1, 0, 200 );
     }
 
-    private List<ContainerNode> getContainerNodes() {
-        ArrayList<ContainerNode> children = new ArrayList<ContainerNode>();
+    private List<DynamicContainerNode> getContainerNodes() {
+        ArrayList<DynamicContainerNode> children = new ArrayList<DynamicContainerNode>();
         for ( Object child : this.getChildrenReference() ) {
-            if ( child instanceof ContainerNode ) {
-                children.add( (ContainerNode) child );
+            if ( child instanceof DynamicContainerNode ) {
+                children.add( (DynamicContainerNode) child );
             }
         }
         return List.iterableList( children );
