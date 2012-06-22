@@ -25,14 +25,14 @@ import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.ToggleButtonNode;
+import edu.colorado.phet.fractionmatcher.model.Pattern;
+import edu.colorado.phet.fractionmatcher.view.FilledPattern;
+import edu.colorado.phet.fractionmatcher.view.PaddedIcon;
+import edu.colorado.phet.fractionmatcher.view.PatternNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.common.view.Colors;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.intro.view.FractionNode;
-import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern;
-import edu.colorado.phet.fractionsintro.matchinggame.view.FilledPattern;
-import edu.colorado.phet.fractionsintro.matchinggame.view.PaddedIcon;
-import edu.colorado.phet.fractionsintro.matchinggame.view.PatternNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**

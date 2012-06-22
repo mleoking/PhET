@@ -12,16 +12,16 @@ import java.util.Collections;
 import java.util.Random;
 
 import edu.colorado.phet.buildafraction.model.Distribution;
+import edu.colorado.phet.fractionmatcher.model.Pattern;
+import edu.colorado.phet.fractionmatcher.model.Pattern.Polygon;
+import edu.colorado.phet.fractionmatcher.view.FilledPattern;
 import edu.colorado.phet.fractionsintro.common.util.DefaultP2;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
-import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern;
-import edu.colorado.phet.fractionsintro.matchinggame.model.Pattern.Polygon;
-import edu.colorado.phet.fractionsintro.matchinggame.view.FilledPattern;
 
+import static edu.colorado.phet.fractionmatcher.view.FilledPattern.randomFill;
+import static edu.colorado.phet.fractionmatcher.view.FilledPattern.sequentialFill;
 import static edu.colorado.phet.fractionsintro.common.view.Colors.*;
 import static edu.colorado.phet.fractionsintro.intro.model.Fraction.*;
-import static edu.colorado.phet.fractionsintro.matchinggame.view.FilledPattern.randomFill;
-import static edu.colorado.phet.fractionsintro.matchinggame.view.FilledPattern.sequentialFill;
 import static fj.Equal.intEqual;
 import static fj.data.List.*;
 import static java.awt.Color.orange;
