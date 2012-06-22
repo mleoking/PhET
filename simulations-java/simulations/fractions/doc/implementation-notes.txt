@@ -4,23 +4,20 @@ Models for all tabs are immutable classes with public final immutable attributes
 To support the functional paradigm, this sim used FunctionalJava, http://functionaljava.org/ and Lombok http://projectlombok.org/
 For a nice book on functional programming in Java, please see http://www.amazon.com/Functional-Programming-Java-Developers-Concurrency/dp/1449311032
 
-For historical reasons, the different tabs have different ways of representing the views.
-The Intro tab and Equality Lab tab map the immutable model into Property<T> instances which are used to sync with the model.
-For the matching game (and for the shape graphics in the other 2 tabs), the entire scene graph is reconstructed and redrawn whenever the model changes.
-This does not seem to have a significantly negative impact on the performance.  For future work, I would recommend the "matching game" strategy, if it is feasible
-for scenes that are more expensive to paint.
+In order to maintain a reasonable matching with piccolo, many model elements are converted into Property<T> instances which are used to sync with the model.
+Where performance allows, large piccolo subtrees are reconstructed (not mutated) when whenever the corresponding part of the model changes.
 
-The immutable model objects are updated using copy methods.  The convention that I used for this sim is to give the copy method the name of the variable being set,
+The immutable model objects are updated using copy methods.  The convention that I used for this sim is to give the copy method a name like "withValue",
 and to only provide one argument to each copy method.  Convention for copy methods is to use method of the name of the variable and to call the constructor with the
 arguments of the same names as the parameters to make it easy to see that everything is correct.
 These should be written right after the constructors (or field declarations) if no constructors, and use single-line method
 "simple methods in one line" in IntelliJ code style.  For example,
 if the main constructor was State(name,x,y), then the copy method for x would be:
 
-public State x(double x){ return new State(name,x,y);}
+public State withX(double x){ return new State(name,x,y);}
 
 To change multiple values, multiple copy calls would be made, such as:
-State newState = state.name("new name").x(123);
+State newState = state.withName("new name").withX(123);
 
 The Intro module uses a novel technique for supporting multiple representations with Property<T> while avoiding looping, please see this ticket for details:
 https://phet.unfuddle.com/a#/projects/9404/tickets/by_number/3259
