@@ -237,6 +237,12 @@ public class ContainerNode extends PNode {
 
     public boolean isAtStartingLocation() { return getXOffset() == initialX && getYOffset() == initialY; }
 
+    public static F<ContainerNode, Boolean> _isAtStartingLocation = new F<ContainerNode, Boolean>() {
+        @Override public Boolean f( final ContainerNode containerNode ) {
+            return containerNode.isAtStartingLocation();
+        }
+    };
+
     public Boolean isInTargetCell() {return inTargetCell;}
 
     public void setInTargetCell( final boolean inTargetCell ) { this.inTargetCell = inTargetCell; }

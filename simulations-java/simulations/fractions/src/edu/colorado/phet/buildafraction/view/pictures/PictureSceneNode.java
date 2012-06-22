@@ -36,6 +36,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
+import static edu.colorado.phet.buildafraction.view.pictures.ContainerNode._isAtStartingLocation;
 import static edu.colorado.phet.buildafraction.view.pictures.PieceIconNode.TINY_SCALE;
 import static edu.colorado.phet.fractions.util.FJUtils.ord;
 import static fj.function.Booleans.not;
@@ -227,6 +228,22 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
             containerNode.animateHome();
         }
 
+        //Add a new container when the previous one is completed
+        if ( !allTargetsComplete() ) {
+
+            //If no fraction skeleton in play area, move one there
+            final List<ContainerNode> inPlayArea = getContainerNodes().filter( new F<ContainerNode, Boolean>() {
+                @Override public Boolean f( final ContainerNode containerNode ) {
+                    return !containerNode.isInTargetCell() && !containerNode.isAtStartingLocation();
+                }
+            } );
+            final List<ContainerNode> inToolbox = getContainerNodes().filter( _isAtStartingLocation );
+            if ( inPlayArea.length() == 0 && inToolbox.length() > 0 ) {
+                ContainerNode g = inToolbox.head();
+                g.animateToPositionScaleRotation( toolboxNode.getCenterX() - g.getFullBounds().getWidth() / 2, 300, 1, 0, 1000 );
+            }
+        }
+
         if ( allTargetsComplete() ) {
             faceNodeDialog.setVisible( true );
             faceNodeDialog.animateToTransparency( 1f, 200 );
@@ -237,6 +254,10 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         }
 
         syncModelFractions();
+    }
+
+    private boolean allIncompleteContainersInToolbox() {
+        return getContainerNodes().filter( not( ContainerNode._isInTargetCell ) ).forall( _isAtStartingLocation );
     }
 
     public void endDrag( final RectangularPiece piece, final PInputEvent event ) {
