@@ -66,7 +66,7 @@ public class ContainerNode extends PNode {
 
                 @Override protected void endDrag( final PInputEvent event ) {
                     super.endDrag( event );
-                    context.endDrag( ContainerNode.this, event );
+//                    context.endDrag( ContainerNode.this, event );
                 }
             } );
             addInputEventListener( new CursorHandler() );
@@ -98,7 +98,7 @@ public class ContainerNode extends PNode {
         int index = 0;
         LinearFunction f = new LinearFunction( 0, numPieces - 1, -totalDeltaSpacing / 2, totalDeltaSpacing / 2 );
         for ( RectangularPiece child : getChildPieces() ) {
-            parent.splitPieceFromContainer( child, this, numPieces == 1 ? 0 : f.evaluate( index++ ) );
+            parent.splitPieceFromContainer( child, null, numPieces == 1 ? 0 : f.evaluate( index++ ) );
         }
         PInterpolatingActivity activity = splitButton.animateToTransparency( 0, 200 );
         activity.setDelegate( new PActivityDelegate() {
@@ -147,10 +147,10 @@ public class ContainerNode extends PNode {
         }
     }
 
-    public static Rectangle2D.Double createRect( int number ) {
-        final double pieceWidth = width / number;
-        return new Rectangle2D.Double( pieceWidth * number, 0, pieceWidth, height );
-    }
+//    public static Rectangle2D.Double createRect( int number ) {
+//        final double pieceWidth = width / number;
+//        return new Rectangle2D.Double( pieceWidth * number, 0, pieceWidth, height );
+//    }
 
     //How far over should a new piece be added in?
     public double getPiecesWidth() {
@@ -181,12 +181,6 @@ public class ContainerNode extends PNode {
         } ) );
     }
 
-    public static F<ContainerNode, Fraction> _getFractionValue = new F<ContainerNode, Fraction>() {
-        @Override public Fraction f( final ContainerNode containerNode ) {
-            return containerNode.getFractionValue();
-        }
-    };
-
     //Get rid of it because it disrupts the layout when dropping into the scoring cell.
     public void removeSplitButton() { removeChild( splitButton ); }
 
@@ -195,12 +189,6 @@ public class ContainerNode extends PNode {
     public boolean isAtStartingLocation() { return getXOffset() == initialX && getYOffset() == initialY; }
 
     public Boolean isInTargetCell() {return inTargetCell;}
-
-    public static F<ContainerNode, Boolean> _isInTargetCell = new F<ContainerNode, Boolean>() {
-        @Override public Boolean f( final ContainerNode containerNode ) {
-            return containerNode.isInTargetCell();
-        }
-    };
 
     public void setInTargetCell( final boolean inTargetCell ) { this.inTargetCell = inTargetCell; }
 }
