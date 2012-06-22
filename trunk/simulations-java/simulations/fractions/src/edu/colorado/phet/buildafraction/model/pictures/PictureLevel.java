@@ -1,6 +1,7 @@
 package edu.colorado.phet.buildafraction.model.pictures;
 
 import fj.F;
+import fj.Ord;
 import fj.data.List;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -32,7 +33,7 @@ public class PictureLevel {
     public PictureLevel( final List<Integer> containers, final List<Integer> pieces, final List<PictureTarget> targets ) {
         this.containers = containers;
         this.targets = targets;
-        this.pieces = pieces;
+        this.pieces = pieces.sort( Ord.intOrd );
     }
 
     public PictureTarget getTarget( final int i ) { return targets.index( i ); }
