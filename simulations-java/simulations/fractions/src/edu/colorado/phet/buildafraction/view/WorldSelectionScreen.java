@@ -31,7 +31,7 @@ public class WorldSelectionScreen extends PNode {
     public WorldSelectionScreen() {
         List<PNode> icons = List.list( new PatternNode( FilledPattern.sequentialFill( Pattern.pie( 4 ), 3 ), Colors.LIGHT_RED ),
                                        new FractionNode( 3, 4 ) {{scale( 0.5 );}} );
-        List<PaddedIcon> normalize = PaddedIcon.normalize( icons );
+        List<PNode> normalize = PaddedIcon.normalize( icons );
 
         List<ToggleButtonNode> toggleButtons = icons.map( new F<PNode, ToggleButtonNode>() {
             @Override public ToggleButtonNode f( final PNode icon ) {
