@@ -6,7 +6,8 @@
     <string key="stop" value = "Stop"/>
     <string key="restart" value = "Restart"/>
     <string key="reset" value = "Reset"/>
-    <string key="userControlled" value = "Manual"/>
+    <string key="frictionManual" value = "Manual"/>
+    <string key="noFrictionManual" value = "No Friction"/>
     <string key="linear" value = "Linear"/>
     <string key="sinusoidal" value = "Sinusoidal"/>
     <string key="circular" value = "Circular"/>

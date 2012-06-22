@@ -232,7 +232,7 @@ public class ControlPanel extends Canvas {
         stop_str = FlexSimStrings.get( "stop", "Stop" );
         restart_str = FlexSimStrings.get( "restart", "Restart" );
         reset_str = FlexSimStrings.get("reset", "Reset");
-        userChoice_str = FlexSimStrings.get( "userControlled", "No Friction" );
+        userChoice_str = FlexSimStrings.get( "noFrictionManual", "No Friction" );
         frictionManual_str = FlexSimStrings.get( "frictionManual", "Manual")
         linear_str = FlexSimStrings.get( "linear", "Linear" );
         sinusoid_str = FlexSimStrings.get( "sinusoid", "Sinusoid" );
