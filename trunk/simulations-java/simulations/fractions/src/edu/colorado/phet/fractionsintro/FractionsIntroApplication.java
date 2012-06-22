@@ -6,13 +6,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBoxMenuItem;
 
+import edu.colorado.phet.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.fractionsintro.buildafraction.BuildAFractionModule;
 import edu.colorado.phet.fractionsintro.equalitylab.EqualityLabModule;
 import edu.colorado.phet.fractionsintro.intro.FractionsIntroModule;
 import edu.colorado.phet.fractionsintro.matchinggame.MatchingGameModule;
