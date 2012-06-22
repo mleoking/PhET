@@ -25,7 +25,6 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.fractions.util.FJUtils;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.intro.view.FractionNode;
@@ -37,6 +36,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
+import static edu.colorado.phet.buildafraction.view.pictures.PieceIconNode.TINY_SCALE;
+import static edu.colorado.phet.fractions.util.FJUtils.ord;
 import static fj.function.Booleans.not;
 
 /**
@@ -112,7 +113,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
 
         //Add a piece container toolbox the user can use to get containers
         toolboxNode = new RichPNode() {{
-            final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 780, 160, 30, 30 ), BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND, BuildAFractionCanvas.controlPanelStroke, Color.darkGray );
+            final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 970, 120, 30, 30 ), BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND, BuildAFractionCanvas.controlPanelStroke, Color.darkGray );
             addChild( border );
             setOffset( AbstractFractionsCanvas.INSET, AbstractFractionsCanvas.STAGE_SIZE.height - AbstractFractionsCanvas.INSET - this.getFullHeight() );
         }};
@@ -140,8 +141,8 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
                 LinearFunction offset = new LinearFunction( 0, numInGroup - 1, -totalHorizontalSpacing / 2, +totalHorizontalSpacing / 2 );
                 final RectangularPiece piece = new RectangularPiece( pieceDenominator, PictureSceneNode.this );
                 final double delta = numInGroup == 1 ? 0 : offset.evaluate( pieceIndex );
-                piece.setInitialState( toolboxNode.getFullBounds().getX() + 20 + delta + groupIndex * 140,
-                                       toolboxNode.getFullBounds().getY() + 20 + delta, 0.5 );
+                piece.setInitialState( toolboxNode.getFullBounds().getX() + 20 + delta + groupIndex * 126,
+                                       toolboxNode.getFullBounds().getY() + 20 + delta, TINY_SCALE );
                 PictureSceneNode.this.addChild( piece );
                 pieceIndex++;
                 if ( bounds == null ) { bounds = piece.getFullBounds(); }
@@ -155,6 +156,13 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
             addChild( child );
             groupIndex++;
         }
+
+        addChild( new PieceIconNode( 1 ) {{
+            double delta = 0;
+            double groupIndex = 0;
+            setOffset( toolboxNode.getFullBounds().getX() + 20 + delta + groupIndex * 126,
+                       toolboxNode.getFullBounds().getY() + 20 + delta );
+        }} );
 
         faceNodeDialog = new VBox( new FaceNode( 300 ), new HTMLImageButtonNode( "Next", new PhetFont( 20, true ), Color.orange ) {{
             addActionListener( new ActionListener() {
@@ -186,9 +194,9 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
 
     public void endDrag( final ContainerNode containerNode, final PInputEvent event ) {
         //See if it hits any matches
-        List<Target> pairs = targetPairs.sort( FJUtils.ord( new F<Target, Double>() {
-            @Override public Double f( final Target targetPair ) {
-                return targetPair.cell.getGlobalFullBounds().getCenter2D().distance( containerNode.getGlobalFullBounds().getCenter2D() );
+        List<Target> pairs = targetPairs.sort( ord( new F<Target, Double>() {
+            @Override public Double f( final Target t ) {
+                return t.cell.getGlobalFullBounds().getCenter2D().distance( containerNode.getGlobalFullBounds().getCenter2D() );
             }
         } ) );
         boolean hit = false;
@@ -226,7 +234,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
 
     public void endDrag( final RectangularPiece piece, final PInputEvent event ) {
         boolean droppedInto = false;
-        List<ContainerNode> containerNodes = getContainerNodes().sort( FJUtils.ord( new F<ContainerNode, Double>() {
+        List<ContainerNode> containerNodes = getContainerNodes().sort( ord( new F<ContainerNode, Double>() {
             @Override public Double f( final ContainerNode c ) {
                 return c.getGlobalFullBounds().getCenter2D().distance( piece.getGlobalFullBounds().getCenter2D() );
             }

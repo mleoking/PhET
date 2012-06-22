@@ -30,6 +30,7 @@ public class RectangularPiece extends PNode {
         addInputEventListener( new SimSharingDragHandler( null, true ) {
             @Override protected void startDrag( final PInputEvent event ) {
                 super.startDrag( event );
+                RectangularPiece.this.moveToFront();
                 final LinearFunction function = new LinearFunction( 0, 1, getScale(), 1.00 );
                 PInterpolatingActivity activity = new PInterpolatingActivity( 200 ) {
 
