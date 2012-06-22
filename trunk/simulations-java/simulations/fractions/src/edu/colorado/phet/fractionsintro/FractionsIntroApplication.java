@@ -13,9 +13,9 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.fractionmatcher.MatchingGameModule;
 import edu.colorado.phet.fractionsintro.equalitylab.EqualityLabModule;
 import edu.colorado.phet.fractionsintro.intro.FractionsIntroModule;
-import edu.colorado.phet.fractionsintro.matchinggame.MatchingGameModule;
 import edu.umd.cs.piccolo.util.PDebug;
 
 /**

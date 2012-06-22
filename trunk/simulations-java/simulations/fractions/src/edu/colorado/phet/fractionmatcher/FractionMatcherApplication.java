@@ -4,7 +4,6 @@ package edu.colorado.phet.fractionmatcher;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.fractionsintro.matchinggame.MatchingGameModule;
 
 /**
  * "Fractions Intro" PhET Application
