@@ -6,7 +6,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * @author Sam Reid
  */
 public interface ContainerContext {
-    void endDrag( DynamicContainerNode containerNode, PInputEvent event );
+    void endDrag( ContainerNode containerNode, PInputEvent event );
 
     void syncModelFractions();
 }
