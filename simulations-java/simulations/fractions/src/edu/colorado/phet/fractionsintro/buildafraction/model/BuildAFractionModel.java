@@ -31,6 +31,9 @@ public class BuildAFractionModel {
     public final ConstantDtClock clock = new ConstantDtClock();
     public final Property<Scene> selectedScene = new Property<Scene>( Scene.pictures );
 
+    public BuildAFractionModel( final boolean standaloneApp ) {
+    }
+
     public void removeCreatedValueFromNumberLevel( final Fraction value ) {
         final Property<List<Fraction>> fractions = numberLevels.get( numberLevel.get() ).createdFractions;
         fractions.set( fractions.get().delete( value, Equal.<Fraction>anyEqual() ) );
