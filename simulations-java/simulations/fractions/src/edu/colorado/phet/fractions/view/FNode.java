@@ -2,6 +2,7 @@
 package edu.colorado.phet.fractions.view;
 
 import fj.Effect;
+import fj.F;
 import fj.data.List;
 
 import edu.colorado.phet.common.piccolophet.RichPNode;
@@ -25,6 +26,12 @@ public class FNode extends RichPNode {
     public final Effect<PNode> addChild = new Effect<PNode>() {
         @Override public void e( PNode p ) {
             addChild( p );
+        }
+    };
+
+    public static final F<PNode, Double> _fullWidth = new F<PNode, Double>() {
+        @Override public Double f( final PNode pnode ) {
+            return pnode.getFullBounds().getWidth();
         }
     };
 }
