@@ -1,11 +1,14 @@
 package edu.colorado.phet.fractionmatcher.view;
 
+import fj.F;
+import fj.Ord;
 import fj.data.List;
 
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.fractions.view.FNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -27,14 +30,12 @@ public class PaddedIcon extends PNode {
 
     //Take a list of icons and pad so they each have the same dimensions (of the max)
     public static List<PNode> normalize( final List<PNode> icons ) {
-//        double maxWidth = icons.map( FNode._fullWidth ).maximum( Ord.doubleOrd );
-//        double maxHeight = icons.map( FNode._fullWeight ).maximum( Ord.doubleOrd );
-//
-//        FunctionalUtils.map( icons.toCollection(), new Function1<PNode, Double>() {
-//            public Double apply( final PNode o ) {
-//                return null;
-//            }
-//        } );
-        return icons;
+        final double maxWidth = icons.map( FNode._fullWidth ).maximum( Ord.doubleOrd );
+        final double maxHeight = icons.map( FNode._fullHeight ).maximum( Ord.doubleOrd );
+        return icons.map( new F<PNode, PNode>() {
+            @Override public PNode f( final PNode node ) {
+                return new PaddedIcon( maxWidth, maxHeight, node );
+            }
+        } );
     }
 }
