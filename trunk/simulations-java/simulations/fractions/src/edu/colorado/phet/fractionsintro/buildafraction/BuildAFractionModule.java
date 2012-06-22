@@ -13,15 +13,15 @@ import static edu.colorado.phet.fractionsintro.FractionsIntroApplication.runModu
  * @author Sam Reid
  */
 public class BuildAFractionModule extends AbstractFractionsModule {
-    public BuildAFractionModule( boolean dev ) {
-        this( new BuildAFractionModel(), dev );
+    public BuildAFractionModule( boolean dev, boolean standaloneApp ) {
+        this( new BuildAFractionModel( standaloneApp ), dev );
     }
 
-    private BuildAFractionModule( BuildAFractionModel model, boolean dev ) {
+    public BuildAFractionModule( BuildAFractionModel model, boolean dev ) {
         super( Components.buildAFractionTab, "Build a Fraction", model.clock );
         setSimulationPanel( new BuildAFractionCanvas( model, dev ) );
     }
 
     //Test main for launching this module in an application by itself for testing
-    public static void main( String[] args ) { runModule( args, new BuildAFractionModule( true ) ); }
+    public static void main( String[] args ) { runModule( args, new BuildAFractionModule( true, false ) ); }
 }
