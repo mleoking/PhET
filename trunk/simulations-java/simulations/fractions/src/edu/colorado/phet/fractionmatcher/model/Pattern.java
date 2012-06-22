@@ -178,6 +178,33 @@ public class Pattern {
         return new Pattern( new Ellipse2D.Double( area.x, area.y, area.width, area.height ), iterableList( shapes ) );
     }
 
+    //Create a polygon with the specified diameter and number of sides
+    //http://www.mathsisfun.com/geometry/interior-angles-polygons.html
+    public static Pattern polygon( double diameter, final int numSides ) {
+        final double triAngle = Math.PI * 2.0 / numSides;
+        final double radius = diameter / 2;
+        final List<Shape> shapes = range( 0, numSides ).map( new F<Integer, Shape>() {
+            @Override public Shape f( final Integer side ) {
+                final double startAngle = Math.PI / 2 - triAngle / 2 + side * triAngle;
+                final double endAngle = Math.PI / 2 + triAngle / 2 + side * triAngle;
+                return new DoubleGeneralPath( ZERO ) {{
+                    lineTo( createPolar( radius, startAngle ) );
+                    lineTo( createPolar( radius, endAngle ) );
+                    lineTo( ZERO );
+                }}.getGeneralPath();
+            }
+        } );
+
+        //Create an explicit outline to avoid creating kinks in the outline stroke
+        final ImmutableVector2D startPoint = createPolar( radius, Math.PI / 2 - triAngle / 2 );
+        DoubleGeneralPath outlinePath = new DoubleGeneralPath( startPoint );
+        for ( int i = 0; i < numSides; i++ ) {
+            outlinePath.lineTo( createPolar( radius, Math.PI / 2 - triAngle / 2 + i * triAngle ) );
+        }
+        outlinePath.lineTo( startPoint );
+        return new Pattern( outlinePath.getGeneralPath(), shapes );
+    }
+
     public static class Direction {
         public static final Direction RIGHT = new Direction( 1, 0 );
         public static final Direction LEFT = new Direction( -1, 0 );
@@ -292,35 +319,6 @@ public class Pattern {
         }
     }
 
-    public static class Polygon {
-
-        //http://www.mathsisfun.com/geometry/interior-angles-polygons.html
-        public static Pattern createPolygon( double diameter, final int numSides ) {
-            final double triAngle = Math.PI * 2.0 / numSides;
-            final double radius = diameter / 2;
-            final List<Shape> shapes = range( 0, numSides ).map( new F<Integer, Shape>() {
-                @Override public Shape f( final Integer side ) {
-                    final double startAngle = Math.PI / 2 - triAngle / 2 + side * triAngle;
-                    final double endAngle = Math.PI / 2 + triAngle / 2 + side * triAngle;
-                    return new DoubleGeneralPath( ZERO ) {{
-                        lineTo( createPolar( radius, startAngle ) );
-                        lineTo( createPolar( radius, endAngle ) );
-                        lineTo( ZERO );
-                    }}.getGeneralPath();
-                }
-            } );
-
-            //Create an explicit outline to avoid creating kinks in the outline stroke
-            final ImmutableVector2D startPoint = createPolar( radius, Math.PI / 2 - triAngle / 2 );
-            DoubleGeneralPath outlinePath = new DoubleGeneralPath( startPoint );
-            for ( int i = 0; i < numSides; i++ ) {
-                outlinePath.lineTo( createPolar( radius, Math.PI / 2 - triAngle / 2 + i * triAngle ) );
-            }
-            outlinePath.lineTo( startPoint );
-            return new Pattern( outlinePath.getGeneralPath(), shapes );
-        }
-    }
-
     //Designed as the level icon for level 7, also appears in the later levels
     public static Pattern ringOfHexagons() {
         double ds = 8;
@@ -334,7 +332,7 @@ public class Pattern {
                                   translate( -r * cos( toRadians( 30 ) ), -r * sin( toRadians( 30 ) ), hex() ) ) );
     }
 
-    private static Shape hex() {return Polygon.createPolygon( 25, 6 ).outline;}
+    private static Shape hex() {return polygon( 25, 6 ).outline;}
 
     //Designed as the icon for level 8, also appears in the later levels
     public static Pattern ninjaStar() {
