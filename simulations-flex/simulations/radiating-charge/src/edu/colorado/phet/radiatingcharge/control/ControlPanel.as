@@ -45,6 +45,7 @@ public class ControlPanel extends Canvas {
     private var radioGroupVBox: VBox;
     public var presetMotion_rgb: RadioButtonGroup;
     private var manual_rb: RadioButton;
+    private var friction_rb: RadioButton;
     private var linear_rb: RadioButton;
     private var sinusoidal_rb: RadioButton;
     private var circular_rb : RadioButton;
@@ -81,6 +82,7 @@ public class ControlPanel extends Canvas {
     //private var moreSpeedLessRez_str:String;
     //Drop-down menu choices
     private var userChoice_str:String;
+    private var frictionManual_str:String;
     private var linear_str:String;
     private var sinusoid_str:String;
     private var circular_str:String;
@@ -120,7 +122,7 @@ public class ControlPanel extends Canvas {
 
         this.pauseButton = new NiceButton2( 80, 25, pause_str, pauseUnPause, 0xffff00, 0x000000 );
         this.stopButton = new NiceButton2( 80, 25, stop_str, stopCharge, 0xff0000, 0xffffff )
-        this.resetButton = new NiceButton2( 80, 25, reset_str, resetCharge, 0xff0000, 0xffffff )
+        this.resetButton = new NiceButton2( 80, 25, reset_str, resetCharge, 0xff8c00, 0x000000 )
         this.restartButton = new NiceButton2( 80, 25, restart_str, restart, 0x00ff00, 0x000000 );
         this.bumpButton = new NiceButton2( 80, 25, bump_str, bumpCharge, 0x00ff00, 0x000000 );
 
@@ -136,16 +138,18 @@ public class ControlPanel extends Canvas {
         radioGroupVBox.setStyle( "verticalPadding", 0 );
         presetMotion_rgb = new RadioButtonGroup();
         manual_rb = new RadioButton();
+        friction_rb = new RadioButton();
         linear_rb = new RadioButton();
         sinusoidal_rb = new RadioButton();
         circular_rb = new RadioButton();
         bump_rb = new RadioButton();
 
-        initializeRadioButton( manual_rb, userChoice_str, 0, true );
-        initializeRadioButton( linear_rb, linear_str, 1, false );
-        initializeRadioButton( sinusoidal_rb, sinusoid_str, 2, false );
-        initializeRadioButton( circular_rb, circular_str, 3, false );
-        initializeRadioButton( bump_rb, bump_str, 4, false );
+        initializeRadioButton( friction_rb, frictionManual_str, 0, true );
+        initializeRadioButton( manual_rb, userChoice_str, 1, false );
+        initializeRadioButton( linear_rb, linear_str, 2, false );
+        initializeRadioButton( sinusoidal_rb, sinusoid_str, 3, false );
+        initializeRadioButton( circular_rb, circular_str, 4, false );
+        initializeRadioButton( bump_rb, bump_str, 5, false );
 
         presetMotion_rgb.addEventListener( Event.CHANGE, radioGroupListener );
 
@@ -189,6 +193,7 @@ public class ControlPanel extends Canvas {
 
         //this.background.addChild( myComboBox );
         this.background.addChild( radioGroupVBox );
+        this.radioGroupVBox.addChild( friction_rb );
         this.radioGroupVBox.addChild( manual_rb );
         this.radioGroupVBox.addChild( linear_rb );
         this.radioGroupVBox.addChild( sinusoidal_rb );
@@ -221,7 +226,8 @@ public class ControlPanel extends Canvas {
         stop_str = FlexSimStrings.get( "stop", "Stop" );
         restart_str = FlexSimStrings.get( "restart", "Restart" );
         reset_str = FlexSimStrings.get("reset", "Reset");
-        userChoice_str = FlexSimStrings.get( "userControlled", "Manual" );
+        userChoice_str = FlexSimStrings.get( "userControlled", "No Friction" );
+        frictionManual_str = FlexSimStrings.get( "frictionManual", "Manual")
         linear_str = FlexSimStrings.get( "linear", "Linear" );
         sinusoid_str = FlexSimStrings.get( "sinusoid", "Sinusoid" );
         circular_str = FlexSimStrings.get( "circular", "Circular" );
@@ -286,20 +292,22 @@ public class ControlPanel extends Canvas {
         var choice:String = evt.currentTarget.selectedItem;
         if( choice == userChoice_str ){
             this.myFieldModel.setMotion( 0 );
+        }else if( choice == frictionManual_str ){
+            this.myFieldModel.setMotion( 1 );
         }else if( choice == linear_str ){
             if( isNaN(this.speedSlider.getVal()) ){
                 this.myFieldModel.setBeta( 0.5 );
                 this.speedSlider.setSliderWithoutAction( 0.5 );
             }
-            this.myFieldModel.setMotion( 1 );
+            this.myFieldModel.setMotion( 2 );
         }else if( choice == sinusoid_str ){
             this.amplitudeSlider.minVal = this.minAmplitudeOscillatory;
             this.amplitudeSlider.maxVal = this.maxAmplitudeOscillatory;
-            this.myFieldModel.setMotion( 2 );
+            this.myFieldModel.setMotion( 3 );
         }else if( choice == circular_str ){
             this.amplitudeSlider.minVal = this.minAmplitudeOscillatory;
             this.amplitudeSlider.maxVal = this.maxAmplitudeOscillatory;
-            this.myFieldModel.setMotion( 3 );
+            this.myFieldModel.setMotion( 4 );
         }else if( choice == bump_str ){
 //            if( isNaN(this.durationSlider.getVal()) ){
 //                this.myFieldModel.bumpDuration = 0.5;
@@ -307,8 +315,8 @@ public class ControlPanel extends Canvas {
 //            }
             this.amplitudeSlider.minVal = this.minAmplitudeBump;
             this.amplitudeSlider.maxVal = this.maxAmplitudeBump;
-            this.myFieldModel.setMotion( 4 );
-        }else if( choice == random_str ){ this.myFieldModel.setMotion( 5 );
+            this.myFieldModel.setMotion( 5 );
+        }else if( choice == random_str ){ this.myFieldModel.setMotion( 6 );
         }else {
             trace( "ERROR: ControlPanel.comboBoxListener() received invalid choice.") ;
         }
@@ -318,35 +326,40 @@ public class ControlPanel extends Canvas {
     private function radioGroupListener( evt: Event ):void{
         this.myFieldModel.paused = false;
         this.pauseButton.setLabel( pause_str );
-        var choice = presetMotion_rgb.selectedValue;
+        var choice:Object = presetMotion_rgb.selectedValue;
+        //trace("ControlPanel.radioGroupListener  selectedValue = " + presetMotion_rgb.selectedValue );
+        //this.myFieldModel.setMotion( int( choice ) );
         if( choice == 0 ){
-            this.myFieldModel.setMotion( 0 );
+            //this.myFieldModel.setMotion( 0 );
         }else if( choice == 1 ){
+            //this.myFieldModel.setMotion( 1 );
+        }else if( choice == 2 ){
             if( isNaN(this.speedSlider.getVal()) ){
-                this.myFieldModel.setBeta( 0.5 );
+                //this.myFieldModel.setBeta( 0.5 );
                 this.speedSlider.setSliderWithoutAction( 0.5 );
             }
-            this.myFieldModel.setMotion( 1 );
-        }else if( choice == 2 ){
-            this.amplitudeSlider.minVal = this.minAmplitudeOscillatory;
-            this.amplitudeSlider.maxVal = this.maxAmplitudeOscillatory;
-            this.myFieldModel.setMotion( 2 );
+            //this.myFieldModel.setMotion( 2 );
         }else if( choice == 3 ){
             this.amplitudeSlider.minVal = this.minAmplitudeOscillatory;
             this.amplitudeSlider.maxVal = this.maxAmplitudeOscillatory;
-            this.myFieldModel.setMotion( 3 );
+            //this.myFieldModel.setMotion( 3 );
         }else if( choice == 4 ){
+            this.amplitudeSlider.minVal = this.minAmplitudeOscillatory;
+            this.amplitudeSlider.maxVal = this.maxAmplitudeOscillatory;
+            //this.myFieldModel.setMotion( 4 );
+        }else if( choice == 5 ){
 //            if( isNaN(this.durationSlider.getVal()) ){
 //                this.myFieldModel.bumpDuration = 0.5;
 //                this.durationSlider.setSliderWithoutAction( 0.5 );
 //            }
             this.amplitudeSlider.minVal = this.minAmplitudeBump;
             this.amplitudeSlider.maxVal = this.maxAmplitudeBump;
-            this.myFieldModel.setMotion( 4 );
-        }else if( choice == 5 ){ this.myFieldModel.setMotion( 5 );
+            //this.myFieldModel.setMotion( 5 );
+        }else if( choice == 6 ){ this.myFieldModel.setMotion( 6 );
         }else {
             trace( "ERROR: ControlPanel.comboBoxListener() received invalid choice.") ;
         }
+        this.myFieldModel.setMotion( int( choice ) );
         this.setSliderVisiblity();
     }//end comboBoxListener
 
@@ -375,22 +388,22 @@ public class ControlPanel extends Canvas {
         restartButton_UI.includeInLayout = false;
         //var choice:int = myComboBox.selectedIndex;
         var choice = presetMotion_rgb.selectedValue;
-        if( choice == 0 ){      //user-controlled
+        if( choice == 0 || choice == 1){      //user-controlled
             //do nothing
-        }else if( choice == 1 ){  //linear
+        }else if( choice == 2 ){  //linear
             speedSlider_UI.visible = true;
             restartButton_UI.visible = true;
             speedSlider_UI.includeInLayout = true;
             restartButton_UI.includeInLayout = true;
             speedSlider.setSliderWithoutAction( myFieldModel.getBeta() );
-        } else if( choice == 2 || choice == 3 ){   //sinusoidal or circular or sawtooth
+        } else if( choice == 3 || choice == 4 ){   //sinusoidal or circular or sawtooth
             amplitudeSlider_UI.visible = true;
             frequencySlider_UI.visible = true;
             amplitudeSlider_UI.includeInLayout = true;
             frequencySlider_UI.includeInLayout = true;
             amplitudeSlider.setSliderWithoutAction( myFieldModel.amplitude );
             frequencySlider.setSliderWithoutAction( myFieldModel.frequency );
-        } else if( choice == 4 ){ //bump
+        } else if( choice == 5 ){ //bump
             amplitudeSlider_UI.visible = true;
             durationSlider_UI.visible = true;
             bumpButton_UI.visible = true;
@@ -401,7 +414,7 @@ public class ControlPanel extends Canvas {
             myFieldModel.bumpDuration = 0.3*durationSlider.maxVal;
             amplitudeSlider.setSliderWithoutAction( myFieldModel.amplitude );
             durationSlider.setSliderWithoutAction( myFieldModel.bumpDuration );
-        } else if( choice == 5 ){//random walk
+        } else if( choice == 6 ){//random walk
             //do nothing
         }
     }//end setSliderVisibility()
