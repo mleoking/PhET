@@ -51,6 +51,7 @@ public class ContainerNode extends PNode {
     private final PNode shapeNode;
     private double initialX;
     private double initialY;
+    private double initialScale;
 
     public ContainerNode( PictureSceneNode parent, final ContainerContext context ) {
         this.parent = parent;
@@ -86,8 +87,6 @@ public class ContainerNode extends PNode {
                 public void apply( final Integer number ) {
                     removeAllChildren();
                     addChild( new SimpleContainerNode( number ) {{
-
-
                         for ( int i = 0; i < number; i++ ) {
                             final double pieceWidth = width / number;
                             addChild( new PhetPPath( new Rectangle2D.Double( pieceWidth * i, 0, pieceWidth, height ), Color.white, new BasicStroke( 1 ), Color.black ) );
@@ -95,6 +94,12 @@ public class ContainerNode extends PNode {
                         //Thicker outer stroke
                         addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, width, height ), new BasicStroke( 2 ), Color.black ) );
                         addInputEventListener( new SimSharingDragHandler( null, true ) {
+                            @Override protected void startDrag( final PInputEvent event ) {
+                                super.startDrag( event );
+                                ContainerNode.this.moveToFront();
+                                addActivity( new AnimateToScale( ContainerNode.this, 1.0, 200 ) );
+                            }
+
                             @Override protected void drag( final PInputEvent event ) {
                                 super.drag( event );
                                 final PDimension delta = event.getDeltaRelativeTo( getParent() );
@@ -176,7 +181,7 @@ public class ContainerNode extends PNode {
 
     public double getInitialY() { return initialY; }
 
-    public void animateHome() { animateToPositionScaleRotation( getInitialX(), getInitialY(), 1, 0, 200 ); }
+    public void animateHome() { animateToPositionScaleRotation( initialX, initialY, initialScale, 0, 200 ); }
 
     public void addPiece( final RectangularPiece piece ) {
         Point2D offset = piece.getGlobalTranslation();
@@ -235,4 +240,12 @@ public class ContainerNode extends PNode {
     public Boolean isInTargetCell() {return inTargetCell;}
 
     public void setInTargetCell( final boolean inTargetCell ) { this.inTargetCell = inTargetCell; }
+
+    public void setInitialState( final double x, final double y, final double scale ) {
+        this.initialX = x;
+        this.initialY = y;
+        this.initialScale = scale;
+        setOffset( x, y );
+        setScale( scale );
+    }
 }
