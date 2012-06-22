@@ -14,7 +14,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class PieceIconNode extends PNode {
 
-    public static final double TINY_SCALE = 0.38;
+    public static final double TINY_SCALE = 0.43;
 
     public PieceIconNode( int divisions ) {
         for ( int i = 0; i < divisions; i++ ) {
