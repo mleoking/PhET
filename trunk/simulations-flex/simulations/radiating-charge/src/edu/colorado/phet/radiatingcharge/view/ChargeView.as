@@ -145,21 +145,26 @@ public class ChargeView extends Sprite {
 
     private function makeChargeGrabbable():void{
         var thisObject:Object = this;
-        this.chargeGraphic.buttonMode = true;
+        //this.chargeGraphic.buttonMode = true;
         //this.springGraphic2.buttonMode = true;
         this.chargeGraphic.addEventListener( MouseEvent.MOUSE_DOWN, startTargetDrag );
         this.chargeGraphic.addEventListener( MouseEvent.ROLL_OVER, startShowSpring );
         this.chargeGraphic.addEventListener( MouseEvent.ROLL_OUT, stopShowSpring );
-        //var clickOffset: Point;
 
         function startShowSpring( evt: MouseEvent ):void{
-            if( !thisObject.grabbed ){
-                thisObject.setSpringGraphic2WithNoForce();
+            var motion:String = myFieldModel.motionType_str;
+            var manual:String = myFieldModel.manual_str;
+            var noFriction:String = myFieldModel.noFriction_str;
+            if( motion == manual || motion == noFriction ){
+                thisObject.chargeGraphic.buttonMode = true;
+                if( !thisObject.grabbed ){
+                    thisObject.setSpringGraphic2WithNoForce();
+                }
+                stage.addEventListener( MouseEvent.MOUSE_MOVE, dragShowSpring );
+                evt.updateAfterEvent();
+            }else{
+                thisObject.chargeGraphic.buttonMode = false;
             }
-            //thisObject.chargeGraphic.addEventListener( MouseEvent.ROLL_OUT, stopShowSpring );
-            stage.addEventListener( MouseEvent.MOUSE_MOVE, dragShowSpring );
-            //trace("startShowSpring called");
-            evt.updateAfterEvent();
         }
 
         function dragShowSpring( evt: MouseEvent ):void{
@@ -173,48 +178,37 @@ public class ChargeView extends Sprite {
         function  stopShowSpring( evt: MouseEvent ):void{
             //trace("stopShowSpring called");
             thisObject.springGraphic2.graphics.clear();
-            //thisObject.chargeGraphic.removeEventListener( MouseEvent.ROLL_OVER, startShowSpring );
             stage.removeEventListener( MouseEvent.MOUSE_MOVE, dragShowSpring );
-            //thisObject.chargeGraphic.removeEventListener ( MouseEvent.ROLL_OUT, stopShowSpring );
             evt.updateAfterEvent();
         }
 
 
         function startTargetDrag( evt: MouseEvent ): void {
-            //clickOffset = new Point( evt.localX, evt.localY );
-            //trace("ChargeVeiw: mouseX = "+evt.stageX+"      mouseY = "+evt.stageY );
-            //thisObject.springGraphic2.graphics.clear();
-            thisObject.grabbed = true;
-            stopShowSpring( evt );
-            thisObject.setSpring();
-            thisObject.springTimer.start();
-            stage.addEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
-            //stage.addEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
+            var motion:String = myFieldModel.motionType_str;
+            var manual:String = myFieldModel.manual_str;
+            var noFriction:String = myFieldModel.noFriction_str;
+            if( motion == manual || motion == noFriction ){
+                thisObject.chargeGraphic.buttonMode = true;
+                thisObject.grabbed = true;
+                stopShowSpring( evt );
+                thisObject.setSpring();
+                thisObject.springTimer.start();
+                stage.addEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
+            }else{
+                thisObject.chargeGraphic.buttonMode = false;
+            }
         }
 
         function stopTargetDrag( evt: MouseEvent ): void {
-
-            //var xInPix:Number = thisObject.mouseX - clickOffset.x;    //screen coordinates, origin on left edge of stage
-            //var yInPix:Number = thisObject.mouseY - clickOffset.y;    //screen coordinates, origin on left edge of stage
-            //thisObject.myFieldModel.setXY( xInPix,  yInPix );
             thisObject.grabbed = false;
             thisObject.springTimer.stop();
             thisObject.killSpring();
             evt.updateAfterEvent();
-            //clickOffset = null;
             stage.removeEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
-            //stage.removeEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
-            //stage.removeEventListener( MouseEvent.ROLL_OVER, showSpring );
         }
 
         function dragTarget( evt: MouseEvent ): void {
-            //var xInPix:Number = thisObject.mouseX - clickOffset.x;    //screen coordinates, origin on left edge of stage
-            //var yInPix:Number = thisObject.mouseY - clickOffset.y;    //screen coordinates, origin on top edge of stage
-            //trace("x: "+xInPix+"    y: "+yInPix);
-            //thisObject.myFieldModel.setXY( xInPix,  yInPix );
-            //trace("ChargeVeiw: mouseX = "+evt.stageX+"      mouseY = "+evt.stageY );
-            //thisObject.setSpring();
-            //evt.updateAfterEvent();
+            //do nothing.  Motion is handled by springTimer function
         }//end of dragTarget()
 
 
