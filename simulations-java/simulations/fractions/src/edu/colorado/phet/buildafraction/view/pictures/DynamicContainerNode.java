@@ -142,7 +142,7 @@ public class DynamicContainerNode extends PNode {
         int index = 0;
         LinearFunction f = new LinearFunction( 0, numPieces - 1, -totalDeltaSpacing / 2, totalDeltaSpacing / 2 );
         for ( RectangularPiece child : getChildPieces() ) {
-            parent.splitPieceFromContainer( child, null, numPieces == 1 ? 0 : f.evaluate( index++ ) );
+            parent.splitPieceFromContainer( child, this, numPieces == 1 ? 0 : f.evaluate( index++ ) );
         }
         PInterpolatingActivity activity = splitButton.animateToTransparency( 0, 200 );
         activity.setDelegate( new PActivityDelegate() {

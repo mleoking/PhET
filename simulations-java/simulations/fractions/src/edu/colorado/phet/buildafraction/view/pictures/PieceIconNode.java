@@ -16,12 +16,12 @@ public class PieceIconNode extends PNode {
 
     public PieceIconNode( int divisions ) {
         for ( int i = 0; i < divisions; i++ ) {
-            final double pieceWidth = ContainerNode.width / divisions;
-            addChild( new PhetPPath( new Rectangle2D.Double( pieceWidth * i, 0, pieceWidth, ContainerNode.height ), i == 0 ? Color.red : Color.white, new BasicStroke( 1 ), Color.black ) );
+            final double pieceWidth = SimpleContainerNode.width / divisions;
+            addChild( new PhetPPath( new Rectangle2D.Double( pieceWidth * i, 0, pieceWidth, SimpleContainerNode.height ), i == 0 ? Color.red : Color.white, new BasicStroke( 1 ), Color.black ) );
         }
         //Thicker outer stroke
-        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, ContainerNode.width, ContainerNode.height ), new BasicStroke( 2 ), Color.black ) );
+        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, SimpleContainerNode.width, SimpleContainerNode.height ), new BasicStroke( 2 ), Color.black ) );
 
-        scale( 0.6 );
+        scale( 0.3 );
     }
 }

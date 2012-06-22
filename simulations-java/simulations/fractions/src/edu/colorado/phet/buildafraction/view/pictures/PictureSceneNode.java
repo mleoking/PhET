@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 
@@ -51,7 +52,6 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
     private final RichPNode toolboxNode;
     private final VBox faceNodeDialog;
     public final int levelIndex;
-//    private final BucketView bucketView;
 
     public PictureSceneNode( int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension STAGE_SIZE, final PictureSceneContext context ) {
         this.rootNode = rootNode;
@@ -133,6 +133,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
             int numInGroup = group.length();
             int pieceIndex = 0;
 
+            Rectangle2D bounds = null;
             for ( final Integer pieceDenominator : group ) {
                 double dx = 4;
                 double totalHorizontalSpacing = dx * ( numInGroup - 1 );
@@ -140,10 +141,18 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
                 final RectangularPiece piece = new RectangularPiece( pieceDenominator, PictureSceneNode.this );
                 final double delta = numInGroup == 1 ? 0 : offset.evaluate( pieceIndex );
                 piece.setInitialState( toolboxNode.getFullBounds().getX() + 20 + delta + groupIndex * 140,
-                                       toolboxNode.getFullBounds().getY() + 20 + delta, 0.75 );
+                                       toolboxNode.getFullBounds().getY() + 20 + delta, 0.5 );
                 PictureSceneNode.this.addChild( piece );
                 pieceIndex++;
+                if ( bounds == null ) { bounds = piece.getFullBounds(); }
+                else {
+                    bounds = bounds.createUnion( piece.getFullBounds() );
+                }
             }
+
+            final PieceIconNode child = new PieceIconNode( group.head() );
+            child.centerFullBoundsOnPoint( bounds.getCenterX(), bounds.getMaxY() + 34 );
+            addChild( child );
             groupIndex++;
         }
 
