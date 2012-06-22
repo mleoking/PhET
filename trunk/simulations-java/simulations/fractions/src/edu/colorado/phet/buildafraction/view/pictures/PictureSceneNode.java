@@ -166,9 +166,8 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
             LinearFunction offset = new LinearFunction( 0, numInGroup - 1, -totalHorizontalSpacing / 2, +totalHorizontalSpacing / 2 );
             final double delta = numInGroup == 1 ? 0 : offset.evaluate( i );
             addChild( new ContainerNode( this, this ) {{
-                setOffset( toolboxNode.getFullBounds().getX() + 20 + delta + finalGroupIndex * spacing,
-                           toolboxNode.getFullBounds().getY() + 20 + delta );
-                setScale( TINY_SCALE );
+                this.setInitialState( toolboxNode.getFullBounds().getX() + 20 + delta + finalGroupIndex * spacing,
+                                      toolboxNode.getFullBounds().getY() + 20 + delta, TINY_SCALE );
             }} );
         }
 
