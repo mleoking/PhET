@@ -122,7 +122,7 @@ public class ControlPanel extends Canvas {
 
         this.pauseButton = new NiceButton2( 80, 25, pause_str, pauseUnPause, 0xffff00, 0x000000 );
         this.stopButton = new NiceButton2( 80, 25, stop_str, stopCharge, 0xff0000, 0xffffff )
-        this.resetButton = new NiceButton2( 80, 25, reset_str, resetCharge, 0xff8c00, 0x000000 )
+        this.resetButton = new NiceButton2( 80, 25, reset_str, resetCharge, 0xffa500, 0x000000 )
         this.restartButton = new NiceButton2( 80, 25, restart_str, restart, 0x00ff00, 0x000000 );
         this.bumpButton = new NiceButton2( 80, 25, bump_str, bumpCharge, 0x00ff00, 0x000000 );
 
@@ -150,6 +150,7 @@ public class ControlPanel extends Canvas {
         initializeRadioButton( sinusoidal_rb, sinusoid_str, 3, false );
         initializeRadioButton( circular_rb, circular_str, 4, false );
         initializeRadioButton( bump_rb, bump_str, 5, false );
+
 
         presetMotion_rgb.addEventListener( Event.CHANGE, radioGroupListener );
 
@@ -217,8 +218,13 @@ public class ControlPanel extends Canvas {
         resetButton.x = 0.1*myMainView.stageW;
         resetButton.y = 0.9*myMainView.stageH;
 //        this.background.addChild( moreSpeedCheckBox );
-
+         //this.checkRadioButtonBounds();
     }//end init()
+
+    //Testing only
+    private function checkRadioButtonBounds():void{
+        trace("ControlPanel line 225.  radioButton height = " + this.bump_rb.height );
+    }
 
     private function initializeStrings():void{
         pause_str = FlexSimStrings.get( "pause", "Pause" );
@@ -252,6 +258,7 @@ public class ControlPanel extends Canvas {
         rb.setStyle( "textSelectedColor", 0xffff00 );
         rb.setStyle( "iconColor", 0xffffff );
         rb.setStyle( "fontSize", 16 );
+
         //rb.setStyle( "disabledIconColor", 0x000000 );   //doesn't work
     }
 

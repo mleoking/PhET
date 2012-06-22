@@ -1,3 +1,5 @@
+# 1.00.10 (65388) Jun 22, 2012
+6/22/12 Added friction to default manual mode.
 # 1.00.09 (65371) Jun 21, 2012
 6/21/12 Fixed bug in spring.
 # 1.00.08 (65368) Jun 21, 2012
