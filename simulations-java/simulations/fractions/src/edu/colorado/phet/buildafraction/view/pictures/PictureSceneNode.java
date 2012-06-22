@@ -63,7 +63,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
 
         //Create the scoring cells with target patterns
         ArrayList<Target> pairList = new ArrayList<Target>();
-        for ( int i = 0; i < 3; i++ ) {
+        for ( int i = 0; i < model.getPictureLevel( levelIndex ).targets.length(); i++ ) {
             PictureTarget target = model.getPictureLevel( levelIndex ).getTarget( i );
 
             FractionNode f = new FractionNode( target.fraction, 0.33 );
@@ -113,7 +113,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
 
         //Add a piece container toolbox the user can use to get containers
         toolboxNode = new RichPNode() {{
-            final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 970, 120, 30, 30 ), BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND, BuildAFractionCanvas.controlPanelStroke, Color.darkGray );
+            final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 970, 127, 30, 30 ), BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND, BuildAFractionCanvas.controlPanelStroke, Color.darkGray );
             addChild( border );
             setOffset( AbstractFractionsCanvas.INSET, AbstractFractionsCanvas.STAGE_SIZE.height - AbstractFractionsCanvas.INSET - this.getFullHeight() );
         }};
@@ -130,6 +130,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         //Pieces always in front of the containers--could be awkward if a container is moved across a container that already has pieces in it.
         List<List<Integer>> groups = level.pieces.group( Equal.intEqual );
         int groupIndex = 0;
+        final int spacing = 140;
         for ( List<Integer> group : groups ) {
             int numInGroup = group.length();
             int pieceIndex = 0;
@@ -141,7 +142,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
                 LinearFunction offset = new LinearFunction( 0, numInGroup - 1, -totalHorizontalSpacing / 2, +totalHorizontalSpacing / 2 );
                 final RectangularPiece piece = new RectangularPiece( pieceDenominator, PictureSceneNode.this );
                 final double delta = numInGroup == 1 ? 0 : offset.evaluate( pieceIndex );
-                piece.setInitialState( toolboxNode.getFullBounds().getX() + 20 + delta + groupIndex * 126,
+                piece.setInitialState( toolboxNode.getFullBounds().getX() + 20 + delta + groupIndex * spacing,
                                        toolboxNode.getFullBounds().getY() + 20 + delta, TINY_SCALE );
                 PictureSceneNode.this.addChild( piece );
                 pieceIndex++;
@@ -157,12 +158,19 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
             groupIndex++;
         }
 
-        addChild( new PieceIconNode( 1 ) {{
-            double delta = 0;
-            double groupIndex = 0;
-            setOffset( toolboxNode.getFullBounds().getX() + 20 + delta + groupIndex * 126,
-                       toolboxNode.getFullBounds().getY() + 20 + delta );
-        }} );
+        final int finalGroupIndex = groupIndex;
+        final int numInGroup = level.targets.length() - 1;
+        for ( int i = 0; i < numInGroup; i++ ) {
+            double dx = 4;
+            double totalHorizontalSpacing = dx * ( numInGroup - 1 );
+            LinearFunction offset = new LinearFunction( 0, numInGroup - 1, -totalHorizontalSpacing / 2, +totalHorizontalSpacing / 2 );
+            final double delta = numInGroup == 1 ? 0 : offset.evaluate( i );
+            addChild( new ContainerNode( this, this ) {{
+                setOffset( toolboxNode.getFullBounds().getX() + 20 + delta + finalGroupIndex * spacing,
+                           toolboxNode.getFullBounds().getY() + 20 + delta );
+                setScale( TINY_SCALE );
+            }} );
+        }
 
         faceNodeDialog = new VBox( new FaceNode( 300 ), new HTMLImageButtonNode( "Next", new PhetFont( 20, true ), Color.orange ) {{
             addActionListener( new ActionListener() {

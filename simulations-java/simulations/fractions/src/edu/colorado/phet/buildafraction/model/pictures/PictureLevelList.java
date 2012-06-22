@@ -102,7 +102,7 @@ Pieces: 6 each of (1/3, 1/4, 1/5, 1/6}*/
                                     fraction( 5, 4 ),
                                     fraction( 5, 3 ) );
 
-        List<Fraction> selected = choose( 3, list );
+        List<Fraction> selected = choose( 4, list );
         return pictureLevel( list( 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6 ),
                              pad( list( 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6 ) ), selected );
     }

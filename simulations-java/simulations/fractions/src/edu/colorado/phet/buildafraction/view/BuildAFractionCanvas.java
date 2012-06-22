@@ -80,7 +80,8 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
                 reloadViewsAfterReset( model );
             }
         }, this, 18, Color.black, Color.orange ) {{
-            setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - INSET, STAGE_SIZE.getHeight() - getFullBounds().getHeight() - INSET );
+//            setOffset( STAGE_SIZE.getWidth() - getFullBounds().getWidth() - INSET, STAGE_SIZE.getHeight() - getFullBounds().getHeight() - INSET );
+            setOffset( INSET, INSET + 100 );
             setConfirmationEnabled( false );
         }};
         addChild( resetButton );
@@ -118,7 +119,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Num
                 } );
             }}
             ) {{
-                setOffset( resetButton.getFullBounds().getX(), resetButton.getFullBounds().getY() - getFullBounds().getHeight() - INSET );
+                setOffset( INSET, resetButton.getMaxY() + INSET );
             }} );
         }
 
