@@ -12,7 +12,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
-import edu.colorado.phet.fractionmatcher.model.Pattern.Polygon;
 import edu.colorado.phet.fractionmatcher.view.PatternNode;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.intro.model.containerset.Container;
@@ -379,7 +378,7 @@ class Levels {
                                   s == flower && d == 6 ? Pattern.sixFlower() :
                                   s == tetris && d == 4 ? Pattern.tetrisPiece( 50 ) :
                                   s == plusses && d == 6 ? Pattern.plusSigns( d ) :
-                                  s == polygon ? Polygon.createPolygon( 80, d ) :
+                                  s == polygon ? Pattern.polygon( 80, d ) :
                                   s == pyramid && d == 1 ? Pattern.pyramidSingle() :
                                   s == pyramid && d == 4 ? Pattern.pyramidFour() :
                                   s == pyramid && d == 9 ? Pattern.pyramidNine() :

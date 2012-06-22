@@ -13,7 +13,6 @@ import java.util.Random;
 
 import edu.colorado.phet.buildafraction.model.Distribution;
 import edu.colorado.phet.fractionmatcher.model.Pattern;
-import edu.colorado.phet.fractionmatcher.model.Pattern.Polygon;
 import edu.colorado.phet.fractionmatcher.view.FilledPattern;
 import edu.colorado.phet.fractionsintro.common.util.DefaultP2;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
@@ -102,7 +101,7 @@ public class NumberLevelList extends ArrayList<NumberLevel> {
     };
     public static PatternMaker polygon = new PatternMaker() {
         @Override public Pattern f( final Fraction fraction ) {
-            return Polygon.createPolygon( 60, fraction.denominator );
+            return Pattern.polygon( 60, fraction.denominator );
         }
     };
 

@@ -26,7 +26,6 @@ import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.colorado.phet.fractionsintro.common.view.Colors;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.fractionmatcher.model.Pattern.Polygon.createPolygon;
 import static edu.colorado.phet.fractionmatcher.model.Pattern.*;
 import static edu.colorado.phet.fractionmatcher.view.FilledPattern.sequentialFill;
 import static fj.Ord.doubleOrd;
@@ -44,7 +43,7 @@ public class LevelSelectionNode extends PNode {
                                                      new PatternNode( sequentialFill( horizontalBars( 2 ), 2 ), Colors.LIGHT_GREEN ),
                                                      new PatternNode( sequentialFill( verticalBars( 3 ), 3 ), Colors.LIGHT_BLUE ),
                                                      new PatternNode( sequentialFill( letterLShapedDiagonal( 15, 2 ), 4 ), Color.orange ),
-                                                     new PatternNode( sequentialFill( createPolygon( 60, 5 ), 5 ), Color.magenta ),
+                                                     new PatternNode( sequentialFill( polygon( 60, 5 ), 5 ), Color.magenta ),
                                                      new PatternNode( sequentialFill( sixFlower(), 6 ), Color.yellow ) );
 
         final List<PatternNode> appLevels = list( new PatternNode( sequentialFill( ringOfHexagons(), 7 ), Color.pink ),
