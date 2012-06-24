@@ -20,6 +20,6 @@ public class BuildAFractionApplication extends PiccoloPhetApplication {
     }
 
     public static void main( String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, "fractions", "fraction-matcher", BuildAFractionApplication.class );
+        new PhetApplicationLauncher().launchSim( args, "fractions", "build-a-fraction", BuildAFractionApplication.class );
     }
 }

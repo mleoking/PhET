@@ -6,6 +6,7 @@ import lombok.Data;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
@@ -41,14 +42,15 @@ public class WorldSelectionScreen extends PNode {
         public final int perfect;
     }
 
-    public WorldSelectionScreen() {
+    public static interface Context {
+        void startShapesLevelSelection();
 
-        //Title text, only shown when the user is choosing a level
-        final PNode titleText = new PNode() {{
-            addChild( new PhetPText( "Build a Fraction", new PhetFont( 38, true ) ) );
-        }};
+        void startNumberLevelSelection();
+    }
 
-        final double scale = 1.75;
+    public WorldSelectionScreen( final Context context ) {
+
+        final double scale = 1.6;
         final PatternNode patternNode = new PatternNode( FilledPattern.sequentialFill( Pattern.pie( 20 ), 0 ), Colors.LIGHT_RED ) {{scale( 1.5 * scale );}};
         patternNode.scaleStrokes( 1.0 / scale );
         Level pictures = new Level( "Shapes", patternNode, 20, 0, 0 );
@@ -62,48 +64,56 @@ public class WorldSelectionScreen extends PNode {
         List<PNode> icons = List.list( (PNode) new VBox( normalizedText.index( 0 ), normalizedIcon.index( 0 ) ),
                                        (PNode) new VBox( normalizedText.index( 1 ), normalizedIcon.index( 1 ) ) );
 
-        List<ToggleButtonNode> toggleButtons = icons.map( new F<PNode, PNode>() {
+        List<PNode> buttonContentList = icons.map( new F<PNode, PNode>() {
             @Override public PNode f( final PNode p ) {
                 return new PaddedIcon( p.getFullBounds().getWidth() + 50, p.getFullBounds().getHeight() + 50, p );
             }
-        } ).map( new F<PNode, ToggleButtonNode>() {
-            @Override public ToggleButtonNode f( final PNode icon ) {
-                final Property<Boolean> selected = new Property<Boolean>( false );
-                ToggleButtonNode button = new ToggleButtonNode( icon, selected, new VoidFunction0() {
-                    public void apply() {
-                        //                    SimSharingManager.sendButtonPressed( UserComponentChain.chain( Components.levelButton, icon.levelName ) );
-                        selected.set( true );
-                        //                    gameSettings.level.set( icon.levelName );
-
-                        //Show it pressed in for a minute before starting up.
-                        new Timer( 100, new ActionListener() {
-                            public void actionPerformed( final ActionEvent e ) {
-
-                                //                            startGame.apply();
-
-                                //prep for next time
-                                selected.set( false );
-                            }
-                        } ) {{
-                            setInitialDelay( 100 );
-                            setRepeats( false );
-                        }}.start();
-                    }
-                } );
-                return button;
-            }
         } );
-        addChild( new VBox( 100, titleText,
-                            new HBox( 100, toggleButtons.array( ToggleButtonNode[].class ) ) {{
-                                setOffset( 200, 200 );
-                            }} ) );
+
+        ArrayList<ToggleButtonNode> buttonNodes = new ArrayList<ToggleButtonNode>();
+        for ( int i = 0; i < buttonContentList.length(); i++ ) {
+            final Property<Boolean> selected = new Property<Boolean>( false );
+            final int finalI = i;
+            ToggleButtonNode button = new ToggleButtonNode( buttonContentList.index( i ), selected, new VoidFunction0() {
+                public void apply() {
+                    //                    SimSharingManager.sendButtonPressed( UserComponentChain.chain( Components.levelButton, icon.levelName ) );
+                    selected.set( true );
+
+                    //                    gameSettings.level.set( icon.levelName );
+                    //Show it pressed in for a minute before starting up.
+                    new Timer( 100, new ActionListener() {
+                        public void actionPerformed( final ActionEvent e ) {
+
+                            //                            startGame.apply();
+                            if ( finalI == 0 ) {
+                                context.startShapesLevelSelection();
+                            }
+                            else {
+                                context.startNumberLevelSelection();
+                            }
+
+                            //prep for next time
+                            selected.set( false );
+                        }
+                    } ) {{
+                        setInitialDelay( 100 );
+                        setRepeats( false );
+                    }}.start();
+                }
+            } );
+            buttonNodes.add( button );
+        }
+
+        addChild( new HBox( 100, buttonNodes.toArray( new ToggleButtonNode[buttonNodes.size()] ) ) {{
+            setOffset( 200, 200 );
+        }} );
     }
 
     public static void main( String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 new PFrame() {{
-                    getCanvas().getLayer().addChild( new WorldSelectionScreen() );
+                    getCanvas().getLayer().addChild( new WorldSelectionScreen( null ) );
                     setSize( 1024, 768 );
                 }}.setVisible( true );
             }
