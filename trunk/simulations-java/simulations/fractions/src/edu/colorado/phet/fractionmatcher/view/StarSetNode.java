@@ -25,7 +25,7 @@ import static fj.data.List.list;
  *
  * @author Sam Reid
  */
-class StarSetNode extends PNode {
+public class StarSetNode extends PNode {
     public StarSetNode( final Property<List<GameResult>> gameResults, final int levelName ) {
         final BufferedImage star0 = multiScaleToWidth( STAR_0, 30 );
         final BufferedImage star1 = multiScaleToWidth( STAR_1, 30 );

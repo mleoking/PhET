@@ -1,15 +1,18 @@
 package edu.colorado.phet.fractionmatcher.view;
 
 import fj.F;
-import fj.Ord;
 import fj.data.List;
 
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.colorado.phet.fractions.view.FNode;
 import edu.umd.cs.piccolo.PNode;
+
+import static edu.colorado.phet.fractions.view.FNode._fullHeight;
+import static edu.colorado.phet.fractions.view.FNode._fullWidth;
+import static fj.Ord.doubleOrd;
 
 /**
  * Adds padding around an icon to make it a standardized size.
@@ -28,14 +31,19 @@ public class PaddedIcon extends PNode {
         }} );
     }
 
+    public PaddedIcon( final Dimension2DDouble maxSize, final PNode icon ) { this( maxSize.width, maxSize.height, icon ); }
+
     //Take a list of icons and pad so they each have the same dimensions (of the max)
     public static List<PNode> normalize( final List<PNode> icons ) {
-        final double maxWidth = icons.map( FNode._fullWidth ).maximum( Ord.doubleOrd );
-        final double maxHeight = icons.map( FNode._fullHeight ).maximum( Ord.doubleOrd );
+        final Dimension2DDouble maxSize = getMaxSize( icons );
         return icons.map( new F<PNode, PNode>() {
             @Override public PNode f( final PNode node ) {
-                return new PaddedIcon( maxWidth, maxHeight, node );
+                return new PaddedIcon( maxSize.width, maxSize.height, node );
             }
         } );
+    }
+
+    public static Dimension2DDouble getMaxSize( final List<PNode> icons ) {
+        return new Dimension2DDouble( icons.map( _fullWidth ).maximum( doubleOrd ), icons.map( _fullHeight ).maximum( doubleOrd ) );
     }
 }
