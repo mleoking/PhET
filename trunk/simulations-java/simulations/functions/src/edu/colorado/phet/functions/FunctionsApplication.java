@@ -1,6 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.functions;
 
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
@@ -20,6 +23,16 @@ public class FunctionsApplication extends PiccoloPhetApplication {
         addModule( new FunctionModule( "Multiple Inputs" ) );
         addModule( new FunctionModule( "Build a Function" ) );
         addModule( new FunctionModule( "Game Maker" ) );
+    }
+
+    //Utility method for testing a single module
+    public static void runModule( String[] args, final Module module ) {
+        final ApplicationConstructor constructor = new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig c ) {
+                return new PhetApplication( c ) {{addModule( module );}};
+            }
+        };
+        new PhetApplicationLauncher().launchSim( args, "fractions", "fractions-intro", constructor );
     }
 
     public static void main( String[] args ) {
