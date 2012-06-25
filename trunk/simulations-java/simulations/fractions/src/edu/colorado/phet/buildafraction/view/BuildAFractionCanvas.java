@@ -7,8 +7,9 @@ import java.awt.Stroke;
 
 import edu.colorado.phet.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.buildafraction.view.WorldSelectionScreen.Context;
-import edu.colorado.phet.buildafraction.view.pictures.PictureSceneContext;
+import edu.colorado.phet.buildafraction.view.numbers.NumberSceneNode;
 import edu.colorado.phet.buildafraction.view.pictures.PictureSceneNode;
+import edu.colorado.phet.buildafraction.view.pictures.SceneContext;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
@@ -30,7 +31,9 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Con
     private final PNode startScreen;
     private final AbstractLevelSelectionNode shapesLevelSelectionScreen;
     private final AbstractLevelSelectionNode numbersLevelSelectionScreen;
+
     private PictureSceneNode pictureSceneNode;
+    private NumberSceneNode numberSceneNode;
 
     public BuildAFractionCanvas( final BuildAFractionModel model, final boolean dev ) {
         startScreen = new PNode() {{
@@ -84,20 +87,40 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Con
     public void levelButtonPressed( final AbstractLevelSelectionNode parent, final LevelInfo info ) {
         shapesLevelSelectionScreen.animateToPositionScaleRotation( -STAGE_SIZE.width, 0, 1, 0, 400 );
         numbersLevelSelectionScreen.animateToPositionScaleRotation( -STAGE_SIZE.width, 0, 1, 0, 400 );
-        pictureSceneNode = new PictureSceneNode( info.levelIndex, rootNode, new BuildAFractionModel( true ), STAGE_SIZE, new PictureSceneContext() {
-            public void nextPictureLevel() {
-            }
+        if ( parent == shapesLevelSelectionScreen ) {
+            pictureSceneNode = new PictureSceneNode( info.levelIndex, rootNode, new BuildAFractionModel( true ), STAGE_SIZE, new SceneContext() {
+                public void nextLevel() {
+                }
 
-            public void goToLevelSelectionScreen() {
-                numbersLevelSelectionScreen.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
-                numbersLevelSelectionScreen.setTransparency( 0 );
-                shapesLevelSelectionScreen.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
-                pictureSceneNode.animateToPositionScaleRotation( STAGE_SIZE.width * 2, 0, 1, 0, 400 );
-            }
-        } ) {{
-            setOffset( STAGE_SIZE.width * 2, 0 );
-        }};
-        addChild( pictureSceneNode );
-        pictureSceneNode.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
+                public void goToLevelSelectionScreen() {
+                    numbersLevelSelectionScreen.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
+                    numbersLevelSelectionScreen.setTransparency( 0 );
+                    shapesLevelSelectionScreen.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
+                    pictureSceneNode.animateToPositionScaleRotation( STAGE_SIZE.width * 2, 0, 1, 0, 400 );
+                }
+            } ) {{
+                setOffset( STAGE_SIZE.width * 2, 0 );
+            }};
+            addChild( pictureSceneNode );
+            pictureSceneNode.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
+        }
+        else if ( parent == numbersLevelSelectionScreen ) {
+            numberSceneNode = new NumberSceneNode( info.levelIndex, rootNode, new BuildAFractionModel( true ), STAGE_SIZE, new SceneContext() {
+                public void nextLevel() {
+                }
+
+                public void goToLevelSelectionScreen() {
+                    shapesLevelSelectionScreen.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
+                    shapesLevelSelectionScreen.setTransparency( 0 );
+                    numbersLevelSelectionScreen.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
+                    numberSceneNode.animateToPositionScaleRotation( STAGE_SIZE.width * 2, 0, 1, 0, 400 );
+                }
+            } ) {{
+                setOffset( STAGE_SIZE.width * 2, 0 );
+            }};
+            addChild( numberSceneNode );
+            numberSceneNode.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
+        }
+
     }
 }
