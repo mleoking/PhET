@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.buildafraction.model.numbers.NumberLevel;
 import edu.colorado.phet.buildafraction.model.numbers.NumberTarget;
+import edu.colorado.phet.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
@@ -31,8 +32,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import static edu.colorado.phet.buildafraction.view.BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND;
-import static edu.colorado.phet.buildafraction.view.BuildAFractionCanvas.controlPanelStroke;
 import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
 import static java.awt.Color.darkGray;
 
@@ -176,7 +175,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
 
         //Create the toolbox node
         toolboxNode = new RichPNode() {{
-            final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, extentX, 160, 30, 30 ), CONTROL_PANEL_BACKGROUND, controlPanelStroke, darkGray );
+            final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, extentX, 160, 30, 30 ), BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND, BuildAFractionCanvas.controlPanelStroke, darkGray );
             addChild( border );
             setOffset( ( AbstractFractionsCanvas.STAGE_SIZE.width - 150 ) / 2 - this.getFullWidth() / 2, AbstractFractionsCanvas.STAGE_SIZE.height - AbstractFractionsCanvas.INSET - this.getFullHeight() );
         }};

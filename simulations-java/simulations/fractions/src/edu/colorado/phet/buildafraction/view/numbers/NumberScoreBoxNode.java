@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.buildafraction.model.BuildAFractionModel;
+import edu.colorado.phet.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -22,7 +23,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PUtil;
 
-import static edu.colorado.phet.buildafraction.view.BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND;
 import static edu.colorado.phet.buildafraction.view.BuildAFractionCanvas.controlPanelStroke;
 import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
 
@@ -40,7 +40,7 @@ public class NumberScoreBoxNode extends PNode {
     private FractionNode fractionGraphic;
 
     public NumberScoreBoxNode( final int numerator, final int denominator, final Property<List<Fraction>> matches, final PNode rootNode, final BuildAFractionModel model, final NumberSceneNode numberSceneNode, final boolean flashTargetCellOnMatch ) {
-        this.path = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 120, 120, 30, 30 ), CONTROL_PANEL_BACKGROUND, controlPanelStroke, Color.darkGray ) {{
+        this.path = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 120, 120, 30, 30 ), BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND, controlPanelStroke, Color.darkGray ) {{
 
             setStrokePaint( Color.darkGray );
             setStroke( controlPanelStroke );
