@@ -24,9 +24,8 @@ public class RectangularPiece extends PNode {
 
     public RectangularPiece( final Integer pieceSize, final PieceContext context ) {
         this.pieceSize = pieceSize;
-        pathNode = new PhetPPath( SimpleContainerNode.createRect( pieceSize ), new Color( 255, 0, 0, 213 ), new BasicStroke( 1 ), Color.black );
+        pathNode = new PhetPPath( SimpleContainerNode.createRect( pieceSize ), Color.red, new BasicStroke( 1 ), Color.black );
         PNode piece = new ZeroOffsetNode( pathNode );
-//        PNode piece = new ZeroOffsetNode( new PhetPPath( SimpleContainerNode.createRect( pieceSize ), new Color( 255, 0, 0, 213 ) ) );
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new SimSharingDragHandler( null, true ) {
             @Override protected void startDrag( final PInputEvent event ) {

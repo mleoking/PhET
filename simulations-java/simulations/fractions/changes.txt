@@ -1,3 +1,4 @@
+Build a Fraction: added ContainerFrontNode to hide seams and show the container divisions lines more clearly
 Build a Fraction: added level title to picture and number scenes
 Build a Fraction: Added new level selection screen
 Build a Fraction: Pictures: Removed border for dragged pieces
