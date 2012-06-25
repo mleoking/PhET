@@ -106,11 +106,10 @@ public class EFACIntroModel {
         movableThermalEnergyContainers.add( ironBlock );
         movableThermalEnergyContainers.add( beaker );
 
-        // Add the thermometers.  They should reside in the tool box when
-        // the sim starts up or is reset, so their position here doesn't much
-        // matter, since it will be changed by the view.
-        thermometer1 = new Thermometer( this, new ImmutableVector2D( 0, 0 ) );
-        thermometer2 = new Thermometer( this, new ImmutableVector2D( 0, 0 ) );
+        // Add the thermometers.  Set initial position to be off screen.
+        // Subsequent initialization will put them into the thermometer box.
+        thermometer1 = new Thermometer( this, new ImmutableVector2D( 100, 100 ) );
+        thermometer2 = new Thermometer( this, new ImmutableVector2D( 100, 100 ) );
     }
 
     //-------------------------------------------------------------------------
