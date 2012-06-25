@@ -100,17 +100,20 @@ public class ContainerNode extends PNode {
                                 super.startDrag( event );
                                 ContainerNode.this.moveToFront();
                                 addActivity( new AnimateToScale( ContainerNode.this, 1.0, 200 ) );
+                                notifyListeners();
                             }
 
                             @Override protected void drag( final PInputEvent event ) {
                                 super.drag( event );
                                 final PDimension delta = event.getDeltaRelativeTo( getParent() );
                                 ContainerNode.this.translate( delta.width, delta.height );
+                                notifyListeners();
                             }
 
                             @Override protected void endDrag( final PInputEvent event ) {
                                 super.endDrag( event );
                                 context.endDrag( ContainerNode.this, event );
+                                notifyListeners();
                             }
                         } );
                         addInputEventListener( new CursorHandler() );

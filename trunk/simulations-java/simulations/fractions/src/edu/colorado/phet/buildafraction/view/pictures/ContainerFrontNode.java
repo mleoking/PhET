@@ -27,7 +27,8 @@ public class ContainerFrontNode extends PNode {
                 shapeNode.removeAllChildren();
 
                 //Fill any seams
-                shapeNode.addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, SimpleContainerNode.width * parent.getFractionValue().toDouble(), SimpleContainerNode.height ), Color.red ) );
+                final PhetPPath overlay = new PhetPPath( new Rectangle2D.Double( 0, 0, SimpleContainerNode.width * parent.getFractionValue().toDouble(), SimpleContainerNode.height ), Color.red );
+                shapeNode.addChild( overlay );
 
                 shapeNode.addChild( new SimpleContainerNode( number, null ) {{
                     for ( int i = 0; i < number; i++ ) {
@@ -54,6 +55,7 @@ public class ContainerFrontNode extends PNode {
             public void propertyChange( final PropertyChangeEvent evt ) {
                 setGlobalTranslation( parent.shapeNode.getGlobalTranslation() );
                 setGlobalScale( parent.shapeNode.getGlobalScale() );
+                ContainerFrontNode.this.moveToFront();
             }
         };
         parent.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, listener );
