@@ -350,7 +350,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         piece.setGlobalTranslation( offset );
         piece.setPickable( true );
         piece.setChildrenPickable( true );
-        piece.animateToPositionScaleRotation( piece.getXOffset() + relativeXOffset, piece.getYOffset() + containerNode.getFullBounds().getHeight() + 5, 1, 0, 200 );
+        piece.animateHome();
     }
 
     private List<ContainerNode> getContainerNodes() {
