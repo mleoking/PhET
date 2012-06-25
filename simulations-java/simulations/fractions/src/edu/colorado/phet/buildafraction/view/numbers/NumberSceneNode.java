@@ -15,7 +15,10 @@ import java.util.ArrayList;
 import edu.colorado.phet.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.buildafraction.model.numbers.NumberLevel;
 import edu.colorado.phet.buildafraction.model.numbers.NumberTarget;
+import edu.colorado.phet.buildafraction.view.BackButton;
 import edu.colorado.phet.buildafraction.view.BuildAFractionCanvas;
+import edu.colorado.phet.buildafraction.view.pictures.SceneContext;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
@@ -45,7 +48,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
     public final PNode rootNode;
     private final BuildAFractionModel model;
     public final PDimension STAGE_SIZE;
-    public final NumberSceneContext context;
+    public final SceneContext context;
     public final List<Pair> pairList;
     public RichPNode toolboxNode;
     public final int level;
@@ -59,13 +62,21 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
         }
     }
 
-    public NumberSceneNode( int level, final PNode rootNode, final BuildAFractionModel model, final PDimension STAGE_SIZE, final NumberSceneContext context ) {
+    public NumberSceneNode( int level, final PNode rootNode, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context ) {
         this.rootNode = rootNode;
         this.level = level;
         this.model = model;
         this.STAGE_SIZE = STAGE_SIZE;
         this.context = context;
 //        final PhetPText title = new PhetPText( MY_FRACTIONS, AbstractFractionsCanvas.CONTROL_FONT );
+
+        addChild( new BackButton( new VoidFunction0() {
+            public void apply() {
+                context.goToLevelSelectionScreen();
+            }
+        } ) {{
+            setOffset( AbstractFractionsCanvas.INSET, AbstractFractionsCanvas.INSET );
+        }} );
 
         //Create the scoring cells with target patterns
         ArrayList<Pair> pairs = new ArrayList<Pair>();
@@ -230,7 +241,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
         faceNodeDialog = new VBox( new FaceNode( 300 ), new HTMLImageButtonNode( "Next", new PhetFont( 20, true ), Color.orange ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( final ActionEvent e ) {
-                    context.nextNumberLevel();
+                    context.nextLevel();
                 }
             } );
         }} ) {{

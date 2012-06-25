@@ -57,7 +57,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
     private final VBox faceNodeDialog;
     public final int levelIndex;
 
-    public PictureSceneNode( int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension STAGE_SIZE, final PictureSceneContext context ) {
+    public PictureSceneNode( int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context ) {
         this.rootNode = rootNode;
         this.model = model;
         this.levelIndex = levelIndex;
@@ -188,7 +188,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         faceNodeDialog = new VBox( new FaceNode( 300 ), new HTMLImageButtonNode( "Next", new PhetFont( 20, true ), Color.orange ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( final ActionEvent e ) {
-                    context.nextPictureLevel();
+                    context.nextLevel();
                 }
             } );
         }} ) {{
