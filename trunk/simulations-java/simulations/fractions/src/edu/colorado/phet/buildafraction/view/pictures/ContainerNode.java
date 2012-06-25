@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -48,10 +49,11 @@ public class ContainerNode extends PNode {
     private final PictureSceneNode parent;
     private final ContainerContext context;
     private boolean inTargetCell = false;
-    private final PNode shapeNode;
+    public final PNode shapeNode;
     private double initialX;
     private double initialY;
     private double initialScale;
+    private ArrayList<VoidFunction0> listeners = new ArrayList<VoidFunction0>();
 
     public ContainerNode( PictureSceneNode parent, final ContainerContext context ) {
         this.parent = parent;
@@ -86,7 +88,7 @@ public class ContainerNode extends PNode {
             selectedPieceSize.addObserver( new VoidFunction1<Integer>() {
                 public void apply( final Integer number ) {
                     removeAllChildren();
-                    addChild( new SimpleContainerNode( number ) {{
+                    addChild( new SimpleContainerNode( number, Color.white ) {{
                         for ( int i = 0; i < number; i++ ) {
                             final double pieceWidth = width / number;
                             addChild( new PhetPPath( new Rectangle2D.Double( pieceWidth * i, 0, pieceWidth, height ), Color.white, new BasicStroke( 1 ), Color.black ) );
@@ -164,6 +166,7 @@ public class ContainerNode extends PNode {
             }
         } );
         context.syncModelFractions();
+        notifyListeners();
     }
 
     public void setAllPickable( final boolean b ) {
@@ -193,6 +196,13 @@ public class ContainerNode extends PNode {
             splitButton.setTransparency( 0 );
             splitButton.animateToTransparency( 1, 200 );
             dynamicCursorHandler.setCursor( Cursor.HAND_CURSOR );
+        }
+        notifyListeners();
+    }
+
+    private void notifyListeners() {
+        for ( VoidFunction0 listener : listeners ) {
+            listener.apply();
         }
     }
 
@@ -253,5 +263,9 @@ public class ContainerNode extends PNode {
         this.initialScale = scale;
         setOffset( x, y );
         setScale( scale );
+    }
+
+    public void addListener( final VoidFunction0 listener ) {
+        listeners.add( listener );
     }
 }

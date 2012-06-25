@@ -135,10 +135,12 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
 
         PictureLevel level = model.getPictureLevel( levelIndex );
 
-        ContainerNode dynamicContainerNode = new ContainerNode( this, this ) {{
+        ContainerNode firstContainerNode = new ContainerNode( this, this ) {{
             setOffset( 285, 200 );
         }};
-        addChild( dynamicContainerNode );
+        addChild( firstContainerNode );
+
+        addChild( new ContainerFrontNode( firstContainerNode ) );
 
         //Pieces in the bucket
         //Pieces always in front of the containers--could be awkward if a container is moved across a container that already has pieces in it.
@@ -276,6 +278,16 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         }
 
         syncModelFractions();
+        moveContainerFrontsToFront();
+    }
+
+    private void moveContainerFrontsToFront() {
+        for ( Object child : List.iterableList( getChildrenReference() ) ) {
+            if ( child instanceof ContainerFrontNode ) {
+                ContainerFrontNode c = (ContainerFrontNode) child;
+                c.moveToFront();
+            }
+        }
     }
 
     private boolean allIncompleteContainersInToolbox() {
@@ -304,6 +316,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         else if ( !droppedInto && piece.getGlobalFullBounds().intersects( toolboxNode.getGlobalFullBounds() ) ) {
             piece.animateToPositionScaleRotation( piece.getXOffset(), piece.getYOffset() - 100, 1, 0, 200 );
         }
+        moveContainerFrontsToFront();
     }
 
     //Rectangular piece dropped into container

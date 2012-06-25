@@ -29,12 +29,17 @@ public class SimpleContainerNode extends PNode {
     public static final double height = 55 * scale;
     private boolean inTargetCell = false;
 
-    public SimpleContainerNode( final int number ) {
+    public SimpleContainerNode( final int number, final Color fill ) {
         this.number = number;
-        PNode content = new PNode() {{
+        final PNode content = new PNode() {{
             for ( int i = 0; i < number; i++ ) {
                 final double pieceWidth = width / number;
-                addChild( new PhetPPath( new Rectangle2D.Double( pieceWidth * i, 0, pieceWidth, height ), Color.white, new BasicStroke( 1 ), Color.black ) );
+                if ( fill != null ) {
+                    addChild( new PhetPPath( new Rectangle2D.Double( pieceWidth * i, 0, pieceWidth, height ), fill, new BasicStroke( 1 ), Color.black ) );
+                }
+                else {
+                    addChild( new PhetPPath( new Rectangle2D.Double( pieceWidth * i, 0, pieceWidth, height ), new BasicStroke( 1 ), Color.black ) );
+                }
             }
             //Thicker outer stroke
             addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, width, height ), new BasicStroke( 2 ), Color.black ) );
