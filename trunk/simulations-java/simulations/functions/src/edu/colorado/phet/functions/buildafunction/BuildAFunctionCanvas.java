@@ -16,13 +16,17 @@ public class BuildAFunctionCanvas extends AbstractFunctionCanvas implements Cont
     public BuildAFunctionCanvas() {
         //Set a really light blue because there is a lot of white everywhere
         setBackground( new Color( 236, 251, 251 ) );
-        addChild( new DraggableToken( 2, this ) );
-        final DraggableToken x = new DraggableToken( new LinearFunction( 1, 0 ), this );
+        addChild( new DraggableToken( 2, this ) {{
+            setOffset( 10, 25 + 60 );
+        }} );
+        final DraggableToken x = new DraggableToken( new LinearFunction( 1, 0 ), this ) {{
+            setOffset( 10, 100 + 60 );
+        }};
         addChild( x );
 
         addChild( new FunctionBoxWithText( "*2" ) {
             {
-                setOffset( 200, 200 );
+                setOffset( 200, 100 );
             }
 
             @Override public Object evaluate( final Object v ) {
@@ -39,7 +43,7 @@ public class BuildAFunctionCanvas extends AbstractFunctionCanvas implements Cont
         } );
         addChild( new FunctionBoxWithText( "+1" ) {
             {
-                setOffset( 600, 200 );
+                setOffset( 600, 100 );
             }
 
             @Override public Object evaluate( final Object v ) {
@@ -49,7 +53,7 @@ public class BuildAFunctionCanvas extends AbstractFunctionCanvas implements Cont
             }
         } );
 
-        addChild( new FunctionBoxWithText( "Mirror" ) {
+        addChild( new FunctionBoxWithText( "" ) {
             private final FunctionMirrorNode mirror;
 
             {
