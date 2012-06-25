@@ -5,4 +5,6 @@ package edu.colorado.phet.buildafraction.view.pictures;
  */
 public interface PictureSceneContext {
     void nextPictureLevel();
+
+    void goToLevelSelectionScreen();
 }

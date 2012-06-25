@@ -16,8 +16,10 @@ import java.util.ArrayList;
 import edu.colorado.phet.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.buildafraction.model.pictures.PictureLevel;
 import edu.colorado.phet.buildafraction.model.pictures.PictureTarget;
+import edu.colorado.phet.buildafraction.view.BackButton;
 import edu.colorado.phet.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
@@ -60,6 +62,15 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         this.model = model;
         this.levelIndex = levelIndex;
         this.STAGE_SIZE = STAGE_SIZE;
+
+        addChild( new BackButton( new VoidFunction0() {
+            public void apply() {
+                context.goToLevelSelectionScreen();
+            }
+        } ) {{
+            setOffset( AbstractFractionsCanvas.INSET, AbstractFractionsCanvas.INSET );
+        }} );
+
 //        final PhetPText title = new PhetPText( MY_FRACTIONS, AbstractFractionsCanvas.CONTROL_FONT );
 
         //Create the scoring cells with target patterns
@@ -112,8 +123,10 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         //Center title above the "my fractions" scoring cell boxes
 //        title.setOffset( pairs.get( 0 ).getTargetCell().getFullBounds().getCenterX() - title.getFullWidth() / 2, pairs.get( 0 ).getTargetCell().getFullBounds().getY() - title.getFullHeight() );
 
+
         //Add a piece container toolbox the user can use to get containers
         toolboxNode = new RichPNode() {{
+
             final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 970, 127, 30, 30 ), BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND, BuildAFractionCanvas.controlPanelStroke, Color.darkGray );
             addChild( border );
             setOffset( AbstractFractionsCanvas.INSET, AbstractFractionsCanvas.STAGE_SIZE.height - AbstractFractionsCanvas.INSET - this.getFullHeight() );

@@ -2,17 +2,26 @@ package edu.colorado.phet.buildafraction.view;
 
 import fj.F;
 import fj.data.List;
-import lombok.Data;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
+import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.fractionmatcher.model.GameResult;
+import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.ToggleButtonNode;
 import edu.colorado.phet.fractionmatcher.view.PaddedIcon;
-import edu.colorado.phet.fractionmatcher.view.PatternNode;
-import edu.colorado.phet.fractionmatcher.view.StarSetNode;
+import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components;
+import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -22,92 +31,95 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class AbstractLevelSelectionNode extends PNode {
 
-    private static @Data class LevelInfo {
-        public final String name;
-        public final PNode icon;
-        public final int maxStars;
-        public final int filledStars;
-
-        public static final F<LevelInfo, PNode> _icon = new F<LevelInfo, PNode>() {
-            @Override public PNode f( final LevelInfo levelInfo ) {
-                return levelInfo.icon;
-            }
-        };
-
-        public LevelInfo withIcon( final PNode icon ) { return new LevelInfo( name, icon, maxStars, filledStars ); }
-    }
+    private double initialX;
+    private double initialY;
+    private final Context context;
 
     //Rows + Columns
-    public AbstractLevelSelectionNode( List<List<LevelInfo>> _info ) {
+    public AbstractLevelSelectionNode( final String title, final List<List<LevelInfo>> allLevels, final Context context ) {
+        this.context = context;
 
-        final List<PNode> nodes = _info.bind( new F<List<LevelInfo>, List<PNode>>() {
+        addChild( new BackButton( new VoidFunction0() {
+            public void apply() {
+                context.homeButtonPressed();
+            }
+        } ) {{
+            setOffset( AbstractFractionsCanvas.INSET, AbstractFractionsCanvas.INSET );
+        }} );
+
+        //Title text, only shown when the user is choosing a level
+        PNode titleText = new PNode() {{
+            addChild( new PhetPText( title, new PhetFont( 38, true ) ) );
+        }};
+
+        titleText.centerFullBoundsOnPoint( AbstractFractionsCanvas.STAGE_SIZE.width / 2, AbstractFractionsCanvas.INSET + titleText.getFullBounds().getHeight() / 2 );
+        addChild( titleText );
+
+        ArrayList<HBox> boxes = new ArrayList<HBox>();
+        for ( List<LevelInfo> list : allLevels ) {
+            List<PNode> icons = list.map( new F<LevelInfo, PNode>() {
+                @Override public PNode f( final LevelInfo levelInfo ) {
+                    return toLevelIcon( AbstractLevelSelectionNode.this, levelInfo, allLevels, context );
+                }
+            } );
+            boxes.add( new HBox( 25, icons.array( PNode[].class ) ) );
+        }
+        VBox box = new VBox( 20, boxes.toArray( new PNode[boxes.size()] ) ) {{
+            centerFullBoundsOnPoint( AbstractFractionsCanvas.STAGE_SIZE.width / 2, AbstractFractionsCanvas.STAGE_SIZE.height / 2 );
+        }};
+        addChild( box );
+    }
+
+    private static PNode toLevelIcon( final AbstractLevelSelectionNode parent, final LevelInfo info, final List<List<LevelInfo>> allLevels, final Context context ) {
+        final List<PNode> nodes = allLevels.bind( new F<List<LevelInfo>, List<PNode>>() {
             @Override public List<PNode> f( final List<LevelInfo> list ) {
                 return list.map( LevelInfo._icon );
             }
         } );
         final Dimension2DDouble maxSize = PaddedIcon.getMaxSize( nodes );
-        List<List<LevelInfo>> info = _info.map( new F<List<LevelInfo>, List<LevelInfo>>() {
-            @Override public List<LevelInfo> f( final List<LevelInfo> list ) {
-                return list.map( new F<LevelInfo, LevelInfo>() {
-                    @Override public LevelInfo f( final LevelInfo info ) {
-                        return info.withIcon( new PaddedIcon( maxSize, info.icon ) );
+
+        final Property<Boolean> selected = new Property<Boolean>( false );
+        final PaddedIcon centerIcon = new PaddedIcon( maxSize, info.icon );
+        LevelIconNode node = new LevelIconNode( info.name, centerIcon, info.filledStars, info.maxStars );
+        ToggleButtonNode button = new ToggleButtonNode( node, selected, new VoidFunction0() {
+            public void apply() {
+                SimSharingManager.sendButtonPressed( UserComponentChain.chain( Components.levelButton, info.name ) );
+                selected.set( true );
+
+                //Show it pressed in for a minute before starting up.
+                new Timer( 100, new ActionListener() {
+                    public void actionPerformed( final ActionEvent e ) {
+
+                        //TODO: Start game with this level.
+                        context.levelButtonPressed( parent, info );
+
+                        //prep for next time
+                        selected.set( false );
                     }
-                } );
+                } ) {{
+                    setInitialDelay( 100 );
+                    setRepeats( false );
+                }}.start();
             }
         } );
 
-        //level buttons at the top
-//        List<LevelIconNode> icons = patterns.map( new F<PatternNode, LevelIconNode>() {
-//            @Override public LevelIconNode f( final PatternNode patternNode ) {
-//                final Integer levelIndex = patterns.elementIndex( Equal.<PatternNode>anyEqual(), patternNode ).some();
-//                int levelName = levelIndex + 1;
-//                return new LevelIconNode( MessageFormat.format( Strings.LEVEL__PATTERN, levelName ), patternNode, maxIconWidth, maxIconHeight, levelName, gameResults );
-//            }
-//        } );
-//
-//        int column = 0;
-//        int row = 0;
-//        for ( final LevelIconNode icon : icons ) {
-//            final Property<Boolean> selected = new Property<Boolean>( false );
-//            ToggleButtonNode button = new ToggleButtonNode( icon, selected, new VoidFunction0() {
-//                public void apply() {
-//                    SimSharingManager.sendButtonPressed( UserComponentChain.chain( Components.levelButton, icon.levelName ) );
-//                    selected.set( true );
-//                    gameSettings.level.set( icon.levelName );
-//
-//                    //Show it pressed in for a minute before starting up.
-//                    new Timer( 100, new ActionListener() {
-//                        public void actionPerformed( final ActionEvent e ) {
-//
-//                            startGame.apply();
-//
-//                            //prep for next time
-//                            selected.set( false );
-//                        }
-//                    } ) {{
-//                        setInitialDelay( 100 );
-//                        setRepeats( false );
-//                    }}.start();
-//                }
-//            } );
-//            addChild( button );
-//            button.setOffset( column * 200 + 50, row * 250 + 50 );
-//            column++;
-//            int maxColumns = standaloneSim ? 4 : 3;
-//            if ( column >= maxColumns ) {
-//                column = 0;
-//                row++;
-//            }
-//        }
+        return button;
+    }
+
+    public void animateHome( final int duration ) {
+        animateToPositionScaleRotation( initialX, initialY, 1, 0, duration );
     }
 
     //Button icon for a single level, shows the level name, a shape and the progress stars
     public static class LevelIconNode extends PNode {
-        public final Integer levelName;
-
-        public LevelIconNode( final String text, final PatternNode patternNode, final double maxIconWidth, final double maxIconHeight, final Integer levelName, final Property<List<GameResult>> gameResults ) {
-            this.levelName = levelName;
-            addChild( new VBox( new PhetPText( text, new PhetFont( 18, true ) ), new PaddedIcon( maxIconWidth, maxIconHeight, patternNode ), new StarSetNode( gameResults, levelName ) ) );
+        public LevelIconNode( final String text, PNode icon, int numStars, int maxStars ) {
+            addChild( new VBox( new PhetPText( text, new PhetFont( 18, true ) ), icon, new StarSetNode2( numStars, maxStars ) ) );
         }
+    }
+
+    public void setInitialPosition( double x, double y ) {
+        setOffset( x, y );
+        this.initialX = x;
+        this.initialY = y;
     }
 }
