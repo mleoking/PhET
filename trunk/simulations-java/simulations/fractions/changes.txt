@@ -1,3 +1,4 @@
+Build a Fraction: added level title to picture and number scenes
 Build a Fraction: Added new level selection screen
 Build a Fraction: Pictures: Removed border for dragged pieces
 # 0.00.94 (65403) Jun 22, 2012
