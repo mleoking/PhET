@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -242,16 +243,23 @@ public class BeakerView {
         } );
     }
 
+    // Update the clipping mask that hides energy chunks behind blocks that are in the beaker.
     private void updateEnergyChunkClipMask( EFACIntroModel model, PClip clip ) {
         ImmutableVector2D forwardPerspectiveOffset = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( Block.SURFACE_WIDTH / 2 );
         ImmutableVector2D backwardPerspectiveOffset = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( -Block.SURFACE_WIDTH / 2 );
-        AffineTransform forwardTransform = AffineTransform.getTranslateInstance( forwardPerspectiveOffset.getX(), forwardPerspectiveOffset.getY() );
-        AffineTransform backwardTransform = AffineTransform.getTranslateInstance( backwardPerspectiveOffset.getX(), backwardPerspectiveOffset.getY() );
 
         Area clippingMask = new Area( frontNode.getFullBoundsReference() );
         for ( Block block : model.getBlockList() ) {
-            clippingMask.subtract( new Area( mvt.modelToView( forwardTransform.createTransformedShape( block.getRect() ) ) ) );
-            clippingMask.subtract( new Area( mvt.modelToView( backwardTransform.createTransformedShape( block.getRect() ) ) ) );
+            DoubleGeneralPath path = new DoubleGeneralPath();
+            Rectangle2D rect = block.getRect();
+            path.moveTo( new ImmutableVector2D( rect.getX(), rect.getY() ).getAddedInstance( forwardPerspectiveOffset ) );
+            path.lineTo( new ImmutableVector2D( rect.getMaxX(), rect.getY() ).getAddedInstance( forwardPerspectiveOffset ) );
+            path.lineTo( new ImmutableVector2D( rect.getMaxX(), rect.getY() ).getAddedInstance( backwardPerspectiveOffset ) );
+            path.lineTo( new ImmutableVector2D( rect.getMaxX(), rect.getMaxY() ).getAddedInstance( backwardPerspectiveOffset ) );
+            path.lineTo( new ImmutableVector2D( rect.getMinX(), rect.getMaxY() ).getAddedInstance( backwardPerspectiveOffset ) );
+            path.lineTo( new ImmutableVector2D( rect.getMinX(), rect.getMaxY() ).getAddedInstance( forwardPerspectiveOffset ) );
+            path.closePath();
+            clippingMask.subtract( new Area( mvt.modelToView( path.getGeneralPath() ) ) );
         }
         clip.setPathTo( clippingMask );
     }
