@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.geneexpressionbasics.multiplecells.view;
 
-import java.awt.ComponentOrientation;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
@@ -16,10 +15,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.JTextPane;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources;
 
@@ -54,28 +55,14 @@ public class FluorescentCellsPictureDialog extends PaintImmediateDialog {
         picture.setSize( image.getWidth(), image.getHeight() );
 
         // Caption
-        JTextArea captionPane = new JTextArea( GeneExpressionBasicsResources.Strings.IMAGE_CAPTION + " " + GeneExpressionBasicsResources.Strings.IMAGE_ATTRIBUTION + " Dennis Kunkel Microscopy, Inc." );
-//        JScrollPane scrollPane = new JScrollPane();
-//        JTextPane captionPane = new JTextPane();
-//        captionPane.setPreferredSize( new Dimension( 100, 100 ) );
-//        scrollPane.add( captionPane );
-        captionPane.setText( GeneExpressionBasicsResources.Strings.IMAGE_CAPTION + "\n\n" + GeneExpressionBasicsResources.Strings.IMAGE_ATTRIBUTION + " Dennis Kunkel Microscopy, Inc." );
-        captionPane.setFont( CAPTION_FONT );
-        captionPane.setEditable( false );
-        captionPane.setOpaque( false );
-        captionPane.setColumns( 60 );
-//        StyledDocument doc = captionPane.getStyledDocument();
-//        SimpleAttributeSet center = new SimpleAttributeSet();
-//        StyleConstants.setAlignment( center, StyleConstants.ALIGN_CENTER );
-//        doc.setParagraphAttributes( 0, doc.getLength(), center, false );
-
-        // Workaround for issue where line wrapping doesn't seem to work
-        // correctly for right-to-left languages, see Unfuddle #2448 for more
-        // information.
-        if ( ComponentOrientation.getOrientation( PhetResources.readLocale() ).isLeftToRight() ) {
-            captionPane.setLineWrap( true );
-            captionPane.setWrapStyleWord( true );
-        }
+        JTextPane textPane = new JTextPane();
+        StyledDocument doc = textPane.getStyledDocument();
+        SimpleAttributeSet center = new SimpleAttributeSet();
+        StyleConstants.setAlignment( center, StyleConstants.ALIGN_CENTER );
+        doc.setParagraphAttributes( 0, doc.getLength(), center, false );
+        textPane.setOpaque( false );
+        textPane.setFont( CAPTION_FONT );
+        textPane.setText( GeneExpressionBasicsResources.Strings.IMAGE_CAPTION + "\n\n" + GeneExpressionBasicsResources.Strings.IMAGE_ATTRIBUTION + " Dennis Kunkel Microscopy, Inc." );
 
         // Close button
         JButton closeButton = new JButton( "Close" );
@@ -97,7 +84,7 @@ public class FluorescentCellsPictureDialog extends PaintImmediateDialog {
         constraints.gridy++;
         constraints.insets.top = 15;
         constraints.insets.bottom = 15;
-        panel.add( captionPane, constraints );
+        panel.add( textPane, constraints );
         constraints.gridy++;
         panel.add( closeButton, constraints );
 
