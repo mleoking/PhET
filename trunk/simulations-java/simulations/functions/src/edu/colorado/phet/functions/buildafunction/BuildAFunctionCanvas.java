@@ -49,12 +49,21 @@ public class BuildAFunctionCanvas extends AbstractFunctionCanvas implements Cont
             }
         } );
 
-        addChild( new FunctionBox() {{
-            setOffset( ( 200 + 600 ) / 2, 275 + 175 );
-            addChild( new FunctionMirrorNode( x ) {{
-                scale( FunctionBox.DEFAULT_WIDTH / STAGE_SIZE.width );
-            }} );
-        }} );
+        addChild( new FunctionBoxWithText( "Mirror" ) {
+            private final FunctionMirrorNode mirror;
+
+            {
+                setOffset( ( 200 + 600 ) / 2, 275 + 175 );
+                mirror = new FunctionMirrorNode( x ) {{
+                    scale( FunctionBox.DEFAULT_WIDTH / STAGE_SIZE.width );
+                }};
+                addChild( mirror );
+            }
+
+            @Override public Object evaluate( final Object v ) {
+                return mirror.evaluate( v );
+            }
+        } );
     }
 
     public List<FunctionBoxWithText> getFunctionBoxes() {

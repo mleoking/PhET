@@ -18,6 +18,13 @@ public class DraggableToken extends PNode {
     private ArrayList<Listener> listeners = new ArrayList<Listener>();
     private ArrayList<FunctionBoxWithText> functions = new ArrayList<FunctionBoxWithText>();
 
+    public Object evaluateAsFunction( Object v ) {
+        for ( FunctionBoxWithText function : functions ) {
+            v = function.evaluate( v );
+        }
+        return v;
+    }
+
     public static interface Listener {
         void functionApplied( DraggableToken t, FunctionBoxWithText function );
     }
