@@ -90,12 +90,18 @@ public class EFACIntroModel {
         rightBurner = new Burner( clock, new ImmutableVector2D( 0.18, 0 ), energyChunksVisible );
         leftBurner = new Burner( clock, new ImmutableVector2D( 0.08, 0 ), energyChunksVisible );
 
-        // Add and position the beaker.
-        beaker = new Beaker( clock, new ImmutableVector2D( -0.015, 0 ), energyChunksVisible );
-
         // Add and position the blocks
         brick = new Brick( clock, new ImmutableVector2D( -0.1, 0 ), energyChunksVisible );
         ironBlock = new IronBlock( clock, new ImmutableVector2D( -0.175, 0 ), energyChunksVisible );
+
+        // Add and position the beaker.
+        {
+            List<RectangularThermalMovableModelElement> listOfThingsThatCanGoInBeaker = new ArrayList<RectangularThermalMovableModelElement>() {{
+                add( brick );
+                add( ironBlock );
+            }};
+            beaker = new Beaker( clock, new ImmutableVector2D( -0.015, 0 ), listOfThingsThatCanGoInBeaker, energyChunksVisible );
+        }
 
         // Put all the thermal containers on a list for easy iteration.
         thermalEnergyContainers.add( brick );
