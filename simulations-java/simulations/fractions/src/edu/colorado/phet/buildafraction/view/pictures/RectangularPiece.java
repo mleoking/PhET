@@ -20,16 +20,20 @@ public class RectangularPiece extends PNode {
     private double initialY = Double.NaN;
     private final Integer pieceSize;
     private double initialScale = Double.NaN;
+    private final PhetPPath pathNode;
 
     public RectangularPiece( final Integer pieceSize, final PieceContext context ) {
         this.pieceSize = pieceSize;
-        PNode piece = new ZeroOffsetNode( new PhetPPath( SimpleContainerNode.createRect( pieceSize ), new Color( 255, 0, 0, 213 ), new BasicStroke( 1 ), Color.black ) );
+        pathNode = new PhetPPath( SimpleContainerNode.createRect( pieceSize ), new Color( 255, 0, 0, 213 ), new BasicStroke( 1 ), Color.black );
+        PNode piece = new ZeroOffsetNode( pathNode );
+//        PNode piece = new ZeroOffsetNode( new PhetPPath( SimpleContainerNode.createRect( pieceSize ), new Color( 255, 0, 0, 213 ) ) );
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new SimSharingDragHandler( null, true ) {
             @Override protected void startDrag( final PInputEvent event ) {
                 super.startDrag( event );
                 RectangularPiece.this.moveToFront();
                 addActivity( new AnimateToScale( RectangularPiece.this, 1.0, 200 ) );
+                pathNode.setStroke( null );
             }
 
             @Override protected void drag( final PInputEvent event ) {
@@ -67,5 +71,8 @@ public class RectangularPiece extends PNode {
         return new Fraction( 1, pieceSize );
     }
 
-    public void animateHome() { animateToPositionScaleRotation( initialX, initialY, initialScale, 0, 200 ); }
+    public void animateHome() {
+        animateToPositionScaleRotation( initialX, initialY, initialScale, 0, 200 );
+        pathNode.setStroke( new BasicStroke( 1 ) );
+    }
 }
