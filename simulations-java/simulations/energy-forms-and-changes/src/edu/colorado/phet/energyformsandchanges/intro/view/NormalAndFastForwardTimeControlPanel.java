@@ -40,7 +40,7 @@ public class NormalAndFastForwardTimeControlPanel extends RichPNode {
             getBackgroundNode().setVisible( false );
         }} );
         // TODO: i18n
-        PNode normalSpeedButton = new PSwing( new PropertyRadioButton<Boolean>( fastForwardRadioButton, "Normal Speed", normalSpeed, true ) {{
+        PNode normalSpeedButton = new PSwing( new PropertyRadioButton<Boolean>( fastForwardRadioButton, "Normal", normalSpeed, true ) {{
             setBackground( TRANSPARENT );
             setFont( RADIO_BUTTON_FONT );
         }} );
