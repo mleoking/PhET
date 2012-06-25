@@ -109,8 +109,8 @@ public class EFACIntroModel {
         // Add the thermometers.  They should reside in the tool box when
         // the sim starts up or is reset, so their position here doesn't much
         // matter, since it will be changed by the view.
-        thermometer1 = new Thermometer( new ImmutableVector2D( 0, 0 ) );
-        thermometer2 = new Thermometer( new ImmutableVector2D( 0, 0 ) );
+        thermometer1 = new Thermometer( this, new ImmutableVector2D( 0, 0 ) );
+        thermometer2 = new Thermometer( this, new ImmutableVector2D( 0, 0 ) );
     }
 
     //-------------------------------------------------------------------------
@@ -179,30 +179,6 @@ public class EFACIntroModel {
         // Update the fluid level in the beaker, which could be displaced by
         // one or more of the blocks.
         beaker.updateFluidLevel( Arrays.asList( brick.getRect(), ironBlock.getRect() ) );
-
-        // Update the temperature seen by the thermometers.
-        for ( Thermometer thermometer : Arrays.asList( thermometer1, thermometer2 ) ) {
-            boolean touchingSomething = false;
-            for ( ThermalEnergyContainer element : Arrays.asList( beaker, brick, ironBlock, air ) ) {
-                if ( element.getThermalContactArea().getBounds().contains( thermometer.position.get().toPoint2D() ) ) {
-                    thermometer.sensedTemperature.set( element.getTemperature() );
-                    touchingSomething = true;
-                    break;
-                }
-            }
-            for ( Burner burner : Arrays.asList( leftBurner, rightBurner ) ) {
-                if ( burner.getFlameIceRect().contains( thermometer.position.get().toPoint2D() ) ) {
-                    thermometer.sensedTemperature.set( burner.getTemperature() );
-                    touchingSomething = true;
-                    break;
-                }
-            }
-
-            if ( !touchingSomething ) {
-                // Set to the air temperature.  TODO: Uses room temperature for now, will need air temp eventually.
-                thermometer.sensedTemperature.set( EFACConstants.ROOM_TEMPERATURE );
-            }
-        }
 
         // Update heat/cool limits on the burners.
         leftBurner.updateHeatCoolLimits( dt, ironBlock, brick, beaker );
@@ -568,5 +544,24 @@ public class EFACIntroModel {
 
     public List<Thermometer> getThermometers() {
         return Arrays.asList( thermometer1, thermometer2 );
+    }
+
+    public double getTemperatureAtLocation( ImmutableVector2D location ) {
+        Point2D locationAsPoint = location.toPoint2D();
+        if ( beaker.getThermalContactArea().getBounds().contains( locationAsPoint ) ) {
+            return beaker.getTemperature();
+        }
+        for ( Block block : getBlockList() ) {
+            if ( block.getThermalContactArea().getBounds().contains( location.toPoint2D() ) ) {
+                return block.getTemperature();
+            }
+
+        }
+        for ( Burner burner : Arrays.asList( leftBurner, rightBurner ) ) {
+            if ( burner.getFlameIceRect().contains( locationAsPoint ) ) {
+                return burner.getTemperature();
+            }
+        }
+        return air.getTemperature();
     }
 }

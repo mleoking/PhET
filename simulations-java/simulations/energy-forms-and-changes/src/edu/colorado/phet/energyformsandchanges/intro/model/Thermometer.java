@@ -2,6 +2,8 @@
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
@@ -17,8 +19,17 @@ public class Thermometer extends UserMovableModelElement {
 
     public final Property<Double> sensedTemperature = new Property<Double>( EFACConstants.ROOM_TEMPERATURE );
 
-    public Thermometer( ImmutableVector2D initialPosition ) {
+    private final EFACIntroModel model;
+
+    public Thermometer( final EFACIntroModel model, ImmutableVector2D initialPosition ) {
         super( initialPosition );
+        this.model = model;
+
+        model.getClock().addClockListener( new ClockAdapter() {
+            @Override public void clockTicked( ClockEvent clockEvent ) {
+                sensedTemperature.set( model.getTemperatureAtLocation( position.get() ) );
+            }
+        } );
     }
 
     @Override public IUserComponent getUserComponent() {
