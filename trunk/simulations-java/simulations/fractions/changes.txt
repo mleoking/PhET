@@ -1,3 +1,4 @@
+Build a Fraction: Pictures: Removed border for dragged pieces
 # 0.00.94 (65403) Jun 22, 2012
 # 0.00.93 (65401) Jun 22, 2012
 Build a Fraction: Animate out containers when the play area has none
