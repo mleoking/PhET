@@ -25,6 +25,7 @@ import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
@@ -63,15 +64,14 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         this.levelIndex = levelIndex;
         this.STAGE_SIZE = STAGE_SIZE;
 
-        addChild( new BackButton( new VoidFunction0() {
+        final BackButton backButton = new BackButton( new VoidFunction0() {
             public void apply() {
                 context.goToLevelSelectionScreen();
             }
         } ) {{
             setOffset( AbstractFractionsCanvas.INSET, AbstractFractionsCanvas.INSET );
-        }} );
-
-//        final PhetPText title = new PhetPText( MY_FRACTIONS, AbstractFractionsCanvas.CONTROL_FONT );
+        }};
+        addChild( backButton );
 
         //Create the scoring cells with target patterns
         ArrayList<Target> pairList = new ArrayList<Target>();
@@ -201,6 +201,15 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         faceNodeDialog.setChildrenPickable( false );
 
         addChild( faceNodeDialog );
+
+        double minScoreCellX = List.iterableList( pairList ).map( new F<Target, Double>() {
+            @Override public Double f( final Target target ) {
+                return target.cell.getFullBounds().getMinX();
+            }
+        } ).minimum( Ord.doubleOrd );
+        final PhetPText title = new PhetPText( "Level " + ( levelIndex + 1 ), new PhetFont( 32, true ) );
+        title.setOffset( ( minScoreCellX - AbstractFractionsCanvas.INSET ) / 2 - title.getFullWidth() / 2, backButton.getFullBounds().getCenterY() - title.getFullHeight() / 2 );
+        addChild( title );
     }
 
     private List<RectangularPiece> getPieceNodes() {
