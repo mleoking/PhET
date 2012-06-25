@@ -139,7 +139,6 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
             setOffset( 285, 200 );
         }};
         addChild( firstContainerNode );
-
         addChild( new ContainerFrontNode( firstContainerNode ) );
 
         //Pieces in the bucket
@@ -181,10 +180,12 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
             double totalHorizontalSpacing = dx * ( numInGroup - 1 );
             LinearFunction offset = new LinearFunction( 0, numInGroup - 1, -totalHorizontalSpacing / 2, +totalHorizontalSpacing / 2 );
             final double delta = numInGroup == 1 ? 0 : offset.evaluate( i );
-            addChild( new ContainerNode( this, this ) {{
+            final ContainerNode containerNode = new ContainerNode( this, this ) {{
                 this.setInitialState( toolboxNode.getFullBounds().getX() + 20 + delta + finalGroupIndex * spacing,
                                       toolboxNode.getFullBounds().getY() + 20 + delta, TINY_SCALE );
-            }} );
+            }};
+            addChild( containerNode );
+            addChild( new ContainerFrontNode( containerNode ) );
         }
 
         faceNodeDialog = new VBox( new FaceNode( 300 ), new HTMLImageButtonNode( "Next", new PhetFont( 20, true ), Color.orange ) {{
