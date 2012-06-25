@@ -7,12 +7,22 @@ import edu.umd.cs.piccolo.PNode;
 /**
  * @author Sam Reid
  */
-public class FunctionBoxWithText extends PNode {
+public abstract class FunctionBoxWithText extends PNode {
+
+    private final PhetPText textNode;
+
     public FunctionBoxWithText( final String s ) {
         final FunctionBox functionBox = new FunctionBox();
         addChild( functionBox );
-        addChild( new PhetPText( s, new PhetFont( 32, true ) ) {{
+        textNode = new PhetPText( s, new PhetFont( 32, true ) ) {{
             centerFullBoundsOnPoint( functionBox.getFullBounds().getCenterX(), functionBox.getFullBounds().getCenterY() );
-        }} );
+        }};
+        addChild( textNode );
     }
+
+    public String getText() {
+        return textNode.getText();
+    }
+
+    public abstract Object evaluate( final Object v );
 }

@@ -13,7 +13,11 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class FunctionBox extends PNode {
+
+    public static final int DEFAULT_WIDTH = 150;
+    public static final int DEFAULT_HEIGHT = 150;
+
     public FunctionBox() {
-        addChild( new PhetPPath( new RoundRectangle2D.Double( 0, 0, 150, 150, 20, 20 ), new Color( 255, 255, 255, 230 ), new BasicStroke( 2 ), Color.black ) );
+        addChild( new PhetPPath( new RoundRectangle2D.Double( 0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT, 20, 20 ), new Color( 255, 255, 255, 230 ), new BasicStroke( 2 ), Color.black ) );
     }
 }
