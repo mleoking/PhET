@@ -45,12 +45,12 @@ public class ToggleButtonNode extends PNode {
         final double pressAmountY = 6;
         final PhetPPath hiddenBorder = new PhetPPath( RectangleUtils.expand( node.getFullBounds(), pressAmountX, pressAmountY ), null );
         final RoundRectangle2D.Double shape = new RoundRectangle2D.Double( node.getFullBounds().getMinX(), node.getFullBounds().getMinY(), node.getFullBounds().getWidth(), node.getFullBounds().getHeight(), 20, 20 );
-        final PhetPPath buttonBackground = new PhetPPath( shape, DEFAULT_BACKGROUND_COLOR, new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER ), null );
+        final PhetPPath buttonBackground = new PhetPPath( shape, DEFAULT_BACKGROUND_COLOR, new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER ), null );
         final PhetPPath shadow = new PhetPPath( shape, Color.darkGray );
 
         selected.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean selected ) {
-                buttonBackground.setStrokePaint( new Color( 178, 178, 178 ) );
+                buttonBackground.setStrokePaint( new Color( 120, 120, 120 ) );
                 buttonBackground.setPaint( selected ? pressedInColor : DEFAULT_BACKGROUND_COLOR );
                 node.setOffset( selected ? new Point( 0, 0 ) : new Point2D.Double( -pressAmountX, -pressAmountY ) );
                 buttonBackground.setOffset( selected ? new Point( 0, 0 ) : new Point2D.Double( -pressAmountX, -pressAmountY ) );
