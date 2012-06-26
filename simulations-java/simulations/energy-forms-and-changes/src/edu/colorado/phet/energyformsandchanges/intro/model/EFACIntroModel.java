@@ -218,13 +218,13 @@ public class EFACIntroModel {
                     thermalModelElement.addEnergyChunk( burner.extractClosestEnergyChunk( thermalModelElement.getCenterPoint() ) );
                 }
                 else if ( thermalModelElement.getEnergyChunkBalance() > 0 && burner.inContactWith( thermalModelElement ) && burner.canAcceptEnergyChunk() ) {
-                    burner.addEnergyChunk( thermalModelElement.extractClosestEnergyChunk( burner.getCenterPoint() ) );
+                    burner.addEnergyChunk( thermalModelElement.extractClosestEnergyChunk( burner.getFlameIceRect() ) );
                 }
             }
         }
 
-        // Exchange energy chunks between movable elements and between the
-        // movable elements and the air.
+        // Exchange energy chunks between the various movable elements and
+        // also between the movable elements and the air.
         for ( RectangularThermalMovableModelElement ec1 : movableThermalEnergyContainers ) {
 
             // Evaluate exchange with other movable energy containers.
@@ -232,10 +232,10 @@ public class EFACIntroModel {
                 if ( ec1.getThermalContactArea().getThermalContactLength( ec2.getThermalContactArea() ) > 0 ) {
                     // Exchange chunks if appropriate.
                     if ( ec1.getEnergyChunkBalance() > 0 && ec2.getEnergyChunkBalance() < 0 ) {
-                        ec2.addEnergyChunk( ec1.extractClosestEnergyChunk( ec2.getCenterPoint() ) );
+                        ec2.addEnergyChunk( ec1.extractClosestEnergyChunk( ec2.getThermalContactArea().getBounds() ) );
                     }
                     else if ( ec1.getEnergyChunkBalance() < 0 && ec2.getEnergyChunkBalance() > 0 ) {
-                        ec1.addEnergyChunk( ec2.extractClosestEnergyChunk( ec1.getCenterPoint() ) );
+                        ec1.addEnergyChunk( ec2.extractClosestEnergyChunk( ec1.getThermalContactArea().getBounds() ) );
                     }
                 }
             }

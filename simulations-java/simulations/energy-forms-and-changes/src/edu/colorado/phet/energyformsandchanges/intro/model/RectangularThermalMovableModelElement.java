@@ -45,6 +45,8 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
 
     /**
      * Constructor.
+     *
+     * @param clock
      */
     public RectangularThermalMovableModelElement( ConstantDtClock clock, ImmutableVector2D initialPosition, double width, double height, double mass, double specificHeat, BooleanProperty energyChunksVisible ) {
         super( initialPosition );
@@ -209,8 +211,74 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
             }
         }
 
+        // TODO: If this method can be private, make it so, and make it just find the chunk without removing it.
         removeEnergyChunk( closestEnergyChunk );
         return closestEnergyChunk;
+    }
+
+    /**
+     * Extract an energy chunk that is a good choice for being transferred to
+     * the provided shape.  Generally, this means that it is close to the
+     * shape.  This routine is not hugely general - it makes some assumptions
+     * that make it work for blocks in beakers and so forth.
+     *
+     * @param destinationShape
+     * @return
+     */
+    public EnergyChunk extractClosestEnergyChunk( Shape destinationShape ) {
+        EnergyChunk chunkToExtract = null;
+        Rectangle2D myBounds = getSliceBounds();
+        if ( destinationShape.contains( getThermalContactArea().getBounds() ) ) {
+            // Our shape is contained by the destination.  Pick a chunk near
+            // our right or left edge.
+            double closestDistanceToVerticalEdge = Double.POSITIVE_INFINITY;
+            for ( EnergyChunkContainerSlice slice : slices ) {
+                for ( EnergyChunk ec : slice.energyChunkList ) {
+                    double distanceToVerticalEdge = Math.min( Math.abs( myBounds.getMinX() - ec.position.get().getX() ), Math.abs( myBounds.getMaxX() - ec.position.get().getX() ) );
+                    if ( distanceToVerticalEdge < closestDistanceToVerticalEdge ) {
+                        chunkToExtract = ec;
+                        closestDistanceToVerticalEdge = distanceToVerticalEdge;
+                    }
+                }
+            }
+        }
+        else if ( getThermalContactArea().getBounds().contains( destinationShape.getBounds2D() ) ) {
+            // Our shape encloses the destination shape.  Choose a chunk that
+            // is close but doesn't overlap with the destination shape.
+            double closestDistanceToDestinationEdge = Double.POSITIVE_INFINITY;
+            Rectangle2D destinationBounds = destinationShape.getBounds2D();
+            for ( EnergyChunkContainerSlice slice : slices ) {
+                for ( EnergyChunk ec : slice.energyChunkList ) {
+                    double distanceToDestinationEdge = Math.min( Math.abs( destinationBounds.getMinX() - ec.position.get().getX() ), Math.abs( destinationBounds.getMaxX() - ec.position.get().getX() ) );
+                    if ( !destinationShape.contains( ec.position.get().toPoint2D() ) && distanceToDestinationEdge < closestDistanceToDestinationEdge ) {
+                        chunkToExtract = ec;
+                        closestDistanceToDestinationEdge = distanceToDestinationEdge;
+                    }
+                }
+            }
+        }
+        else {
+            // There is no or limited overlap, so use center points.
+            chunkToExtract = extractClosestEnergyChunk( new ImmutableVector2D( destinationShape.getBounds2D().getCenterX(), destinationShape.getBounds2D().getCenterY() ) );
+        }
+
+        // Fail safe - If nothing found, get the first chunk.
+        if ( chunkToExtract == null ) {
+            System.out.println( getClass().getName() + " - Warning: No energy chunk found by extraction algorithm, return one arbitrarily." );
+            assert getNumEnergyChunks() != 0; // Everything should always have at least one chunk.
+            for ( EnergyChunkContainerSlice slice : slices ) {
+                for ( EnergyChunk ec : slice.energyChunkList ) {
+                    chunkToExtract = ec;
+                    break;
+                }
+                if ( chunkToExtract != null ) {
+                    break;
+                }
+            }
+        }
+
+        removeEnergyChunk( chunkToExtract );
+        return chunkToExtract;
     }
 
     /**
