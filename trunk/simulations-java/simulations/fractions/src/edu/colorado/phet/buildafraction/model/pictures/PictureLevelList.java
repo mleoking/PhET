@@ -1,7 +1,6 @@
 package edu.colorado.phet.buildafraction.model.pictures;
 
 import fj.Equal;
-import fj.F;
 import fj.data.List;
 
 import java.util.ArrayList;
@@ -31,8 +30,7 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
     Containers: exact matches for targets (1/1, 2/2, 3/3)
     Pieces: exact matches for targets (1/2, 1/3, 1/1)*/
     private PictureLevel level1() {
-        return new PictureLevel( list( 1, 2, 3, 4, 5, 6 ),
-                                 list( 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6 ),
+        return new PictureLevel( list( 1, 1, 2, 2, 3, 3 ),
                                  shuffle( list( new PictureTarget( fraction( 1, 1 ) ),
                                                 new PictureTarget( fraction( 1, 2 ) ),
                                                 new PictureTarget( fraction( 2, 3 ) ) ) ) );
@@ -50,11 +48,7 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
                                        fraction( 2, 5 ) );
 
         List<Fraction> selected = choose( 3, targets );
-        return pictureLevel( selected.map( new F<Fraction, Integer>() {
-            @Override public Integer f( final Fraction fraction ) {
-                return fraction.denominator;
-            }
-        } ), list( 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6 ), selected );
+        return pictureLevel( list( 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6 ), selected );
     }
 
     /*Level 3:
@@ -68,7 +62,7 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
                                        fraction( 1, 2 ) );
 
         List<Fraction> selected = choose( 3, targets );
-        return pictureLevel( shuffle( list( 2, 4, 6 ) ), pad( list( 2, 4, 4, 6, 6, 6, 6 ) ), selected );
+        return pictureLevel( pad( list( 2, 4, 4, 6, 6, 6, 6 ) ), selected );
     }
 
     /* Level 4:
@@ -87,8 +81,8 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
                                          fraction( 1, 6 ) );
 
         List<Fraction> selected = shuffle( choose( 3, largeList ).snoc( chooseOne( smallList ) ) );
-        return pictureLevel( list( 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6 ),
-                             pad( list( 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6 ) ), selected );
+        return pictureLevel(
+                pad( list( 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6 ) ), selected );
     }
 
     /* Level 5:
@@ -103,8 +97,8 @@ Pieces: 6 each of (1/3, 1/4, 1/5, 1/6}*/
                                     fraction( 5, 3 ) );
 
         List<Fraction> selected = choose( 4, list );
-        return pictureLevel( list( 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6 ),
-                             pad( list( 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6 ) ), selected );
+        return pictureLevel(
+                pad( list( 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6 ) ), selected );
     }
 
     private List<Integer> pad( List<Integer> list ) {

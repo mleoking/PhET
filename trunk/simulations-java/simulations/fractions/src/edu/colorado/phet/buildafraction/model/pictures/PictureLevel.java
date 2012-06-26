@@ -17,21 +17,19 @@ public class PictureLevel {
     //Fractions the user has created in the play area, which may match a target
     public final Property<List<Fraction>> createdFractions = new Property<List<Fraction>>( List.<Fraction>nil() );
 
-    public final List<Integer> containers;
     public final List<PictureTarget> targets;
     public final List<Integer> pieces;
 
     //Cannot be a constructor because has same erasure
-    public static PictureLevel pictureLevel( final List<Integer> containers, final List<Integer> pieces, final List<Fraction> targets ) {
-        return new PictureLevel( containers, pieces, targets.map( new F<Fraction, PictureTarget>() {
+    public static PictureLevel pictureLevel( final List<Integer> pieces, final List<Fraction> targets ) {
+        return new PictureLevel( pieces, targets.map( new F<Fraction, PictureTarget>() {
             @Override public PictureTarget f( final Fraction fraction ) {
                 return new PictureTarget( fraction );
             }
         } ) );
     }
 
-    public PictureLevel( final List<Integer> containers, final List<Integer> pieces, final List<PictureTarget> targets ) {
-        this.containers = containers;
+    public PictureLevel( final List<Integer> pieces, final List<PictureTarget> targets ) {
         this.targets = targets;
         this.pieces = pieces.sort( Ord.intOrd );
     }
