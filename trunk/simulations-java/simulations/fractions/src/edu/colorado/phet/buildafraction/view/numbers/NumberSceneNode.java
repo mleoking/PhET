@@ -64,7 +64,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
         }
     }
 
-    public NumberSceneNode( int level, final PNode rootNode, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context ) {
+    public NumberSceneNode( final int level, final PNode rootNode, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context ) {
         this.rootNode = rootNode;
         this.level = level;
         this.model = model;
@@ -74,7 +74,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
 
         final BackButton backButton = new BackButton( new VoidFunction0() {
             public void apply() {
-                context.goToLevelSelectionScreen();
+                context.goToNumberLevelSelectionScreen();
             }
         } ) {{
             setOffset( AbstractFractionsCanvas.INSET, AbstractFractionsCanvas.INSET );
@@ -244,7 +244,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
         faceNodeDialog = new VBox( new FaceNode( 300 ), new HTMLImageButtonNode( "Next", new PhetFont( 20, true ), Color.orange ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( final ActionEvent e ) {
-                    context.nextLevel();
+                    context.goToNextNumberLevel( level + 1 );
                 }
             } );
         }} ) {{

@@ -4,7 +4,11 @@ package edu.colorado.phet.buildafraction.view.pictures;
  * @author Sam Reid
  */
 public interface SceneContext {
-    void nextLevel();
+    void goToNextPictureLevel( int newLevelIndex );
 
-    void goToLevelSelectionScreen();
+    void goToNextNumberLevel( int newLevelIndex );
+
+    void goToPictureLevelSelectionScreen();
+
+    void goToNumberLevelSelectionScreen();
 }
