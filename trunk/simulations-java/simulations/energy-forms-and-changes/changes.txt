@@ -1,5 +1,9 @@
+Made energy chunks exchanged between the liquid in the beaker and blocks immersed in the liquid only use visible chunks.
+Changed caption for the speed control from "Normal Speed" to simply "Normal".
+Added the "sticky thermometer" feature.
+Made the energy chunks in the beaker appear to be behind the blocks when the blocks are placed in the beaker.
 # 0.00.08 (65232) Jun 18, 2012
-6/18/12 Depolying to dev to capture a snapshot before some significant refactoring.
+6/18/12 Deploying to dev to capture a snapshot before some significant refactoring.
 Added back lines to the blocks.  These only show up when block is transparent.
 Fixed an issue where heat/cool limits weren't being cleared if an object remained on the burner after the burner was turned off.
 Made extraction of energy chunks work well in conjunction with the layering effect.
