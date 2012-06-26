@@ -1,1 +1,1 @@
-proguard 4.6
+proguard 4.8
