@@ -54,6 +54,8 @@ public class ContainerNode extends PNode {
     private double initialY;
     private double initialScale = 1;
     private ArrayList<VoidFunction0> listeners = new ArrayList<VoidFunction0>();
+    private final SpinnerButtonNode topSpinner;
+    private final SpinnerButtonNode bottomSpinner;
 
     public ContainerNode( PictureSceneNode parent, final ContainerContext context ) {
         this.parent = parent;
@@ -121,10 +123,12 @@ public class ContainerNode extends PNode {
                 }
             } );
         }};
+        topSpinner = new SpinnerButtonNode( spinnerImage( ROUND_BUTTON_UP ), spinnerImage( ROUND_BUTTON_UP_PRESSED ), spinnerImage( ROUND_BUTTON_UP_GRAY ), increment, selectedPieceSize.lessThan( 6 ) );
+        bottomSpinner = new SpinnerButtonNode( spinnerImage( ROUND_BUTTON_DOWN ), spinnerImage( ROUND_BUTTON_DOWN_PRESSED ), spinnerImage( ROUND_BUTTON_DOWN_GRAY ), decrement, selectedPieceSize.greaterThan( 1 ) );
         addChild( new VBox(
-                new SpinnerButtonNode( spinnerImage( ROUND_BUTTON_UP ), spinnerImage( ROUND_BUTTON_UP_PRESSED ), spinnerImage( ROUND_BUTTON_UP_GRAY ), increment, selectedPieceSize.lessThan( 6 ) ),
+                topSpinner,
                 shapeNode,
-                new SpinnerButtonNode( spinnerImage( ROUND_BUTTON_DOWN ), spinnerImage( ROUND_BUTTON_DOWN_PRESSED ), spinnerImage( ROUND_BUTTON_DOWN_GRAY ), decrement, selectedPieceSize.greaterThan( 1 ) ) ) );
+                bottomSpinner ) );
     }
 
     public static BufferedImage spinnerImage( final BufferedImage image ) {
@@ -183,11 +187,11 @@ public class ContainerNode extends PNode {
         setOffset( x, y );
     }
 
-    public double getInitialX() { return initialX; }
-
-    public double getInitialY() { return initialY; }
-
-    public void animateHome() { animateToPositionScaleRotation( initialX, initialY, initialScale, 0, 200 ); }
+    public void animateHome() {
+        animateToPositionScaleRotation( initialX, initialY, initialScale, 0, 200 );
+        topSpinner.animateToTransparency( 1, 200 );
+        bottomSpinner.animateToTransparency( 1, 200 );
+    }
 
     public void addPiece( final RectangularPiece piece ) {
         Point2D offset = piece.getGlobalTranslation();
@@ -258,7 +262,11 @@ public class ContainerNode extends PNode {
 
     public Boolean isInTargetCell() {return inTargetCell;}
 
-    public void setInTargetCell( final boolean inTargetCell ) { this.inTargetCell = inTargetCell; }
+    public void setInTargetCell( final boolean inTargetCell ) {
+        this.inTargetCell = inTargetCell;
+        topSpinner.animateToTransparency( inTargetCell ? 0 : 1, 200 );
+        bottomSpinner.animateToTransparency( inTargetCell ? 0 : 1, 200 );
+    }
 
     public void setInitialState( final double x, final double y, final double scale ) {
         this.initialX = x;
