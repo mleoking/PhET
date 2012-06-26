@@ -271,16 +271,10 @@ public class EFACIntroModel {
             // Exchange energy chunks with the air if appropriate conditions met.
             if ( !contactWithOtherMovableElement || ( contactWithOtherMovableElement && !immersedInBeaker && temperatureDifference < temperatureDiffWhereAirExchangeOK ) ) {
                 if ( ec1.getEnergyChunkBalance() > 0 && air.canAcceptEnergyChunk() ) {
-                    if ( ec1 instanceof Brick ) {
-                        System.out.println( "Brick exchanging chunks with air 1" );
-                    }
                     ImmutableVector2D pointAbove = new ImmutableVector2D( ec1.getCenterPoint().getX(), ec1.getRect().getMaxY() );
                     air.addEnergyChunk( ec1.extractClosestEnergyChunk( pointAbove ) );
                 }
                 else if ( ec1.getEnergyChunkBalance() < 0 && air.canSupplyEnergyChunk() ) {
-                    if ( ec1 instanceof Brick ) {
-                        System.out.println( "Brick exchanging chunks with air 2" );
-                    }
                     ec1.addEnergyChunk( air.requestEnergyChunk( ec1.getCenterPoint() ) );
                 }
             }
