@@ -2,7 +2,6 @@ package edu.colorado.phet.buildafraction.view.pictures;
 
 import fj.Equal;
 import fj.F;
-import fj.Ord;
 import fj.data.List;
 
 import java.awt.Color;
@@ -43,6 +42,10 @@ import edu.umd.cs.piccolo.util.PDimension;
 import static edu.colorado.phet.buildafraction.view.pictures.ContainerNode._isAtStartingLocation;
 import static edu.colorado.phet.buildafraction.view.pictures.PieceIconNode.TINY_SCALE;
 import static edu.colorado.phet.fractions.util.FJUtils.ord;
+import static edu.colorado.phet.fractions.view.FNode._maxX;
+import static edu.colorado.phet.fractions.view.FNode._minX;
+import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
+import static fj.Ord.doubleOrd;
 import static fj.function.Booleans.not;
 
 /**
@@ -66,7 +69,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
                 context.goToLevelSelectionScreen();
             }
         } ) {{
-            setOffset( AbstractFractionsCanvas.INSET, AbstractFractionsCanvas.INSET );
+            setOffset( INSET, INSET );
         }};
         addChild( backButton );
 
@@ -92,19 +95,19 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
             @Override public Double f( final PNode pNode ) {
                 return pNode.getFullBounds().getWidth();
             }
-        } ).maximum( Ord.doubleOrd );
+        } ).maximum( doubleOrd );
         double maxHeight = patterns.map( new F<PNode, Double>() {
             @Override public Double f( final PNode pNode ) {
                 return pNode.getFullBounds().getHeight();
             }
-        } ).maximum( Ord.doubleOrd );
+        } ).maximum( doubleOrd );
 
         //Layout for the scoring cells and target patterns
         double separation = 5;
         double rightInset = 10;
         final PBounds targetCellBounds = pairList.get( 0 ).getCell().getFullBounds();
         double offsetX = AbstractFractionsCanvas.STAGE_SIZE.width - maxWidth - separation - targetCellBounds.getWidth() - rightInset;
-        double offsetY = AbstractFractionsCanvas.INSET;
+        double offsetY = INSET;
         double insetY = 5;
 //        addChild( title );
         for ( Target pair : pairList ) {
@@ -117,19 +120,6 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
             offsetY += Math.max( maxHeight, targetCellBounds.getHeight() ) + insetY;
         }
 
-        //Center title above the "my fractions" scoring cell boxes
-//        title.setOffset( pairs.get( 0 ).getTargetCell().getFullBounds().getCenterX() - title.getFullWidth() / 2, pairs.get( 0 ).getTargetCell().getFullBounds().getY() - title.getFullHeight() );
-
-
-        //Add a piece container toolbox the user can use to get containers
-        toolboxNode = new RichPNode() {{
-
-            final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 970, 127, 30, 30 ), BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND, BuildAFractionCanvas.controlPanelStroke, Color.darkGray );
-            addChild( border );
-            setOffset( AbstractFractionsCanvas.INSET, AbstractFractionsCanvas.STAGE_SIZE.height - AbstractFractionsCanvas.INSET - this.getFullHeight() );
-        }};
-        addChild( toolboxNode );
-
         PictureLevel level = model.getPictureLevel( levelIndex );
 
         ContainerNode firstContainerNode = new ContainerNode( this, this ) {{
@@ -141,8 +131,10 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         //Pieces in the bucket
         //Pieces always in front of the containers--could be awkward if a container is moved across a container that already has pieces in it.
         List<List<Integer>> groups = level.pieces.group( Equal.intEqual );
+        int numGroups = groups.length();
         int groupIndex = 0;
         final int spacing = 140;
+        final int layoutXOffset = ( 6 - numGroups ) * spacing / 4;
         for ( List<Integer> group : groups ) {
             int numInGroup = group.length();
             int pieceIndex = 0;
@@ -154,8 +146,8 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
                 LinearFunction offset = new LinearFunction( 0, numInGroup - 1, -totalHorizontalSpacing / 2, +totalHorizontalSpacing / 2 );
                 final RectangularPiece piece = new RectangularPiece( pieceDenominator, PictureSceneNode.this );
                 final double delta = numInGroup == 1 ? 0 : offset.evaluate( pieceIndex );
-                piece.setInitialState( toolboxNode.getFullBounds().getX() + 20 + delta + groupIndex * spacing,
-                                       toolboxNode.getFullBounds().getY() + 20 + delta, TINY_SCALE );
+                piece.setInitialState( layoutXOffset + INSET + 20 + delta + groupIndex * spacing,
+                                       STAGE_SIZE.height - INSET - 127 + 20 + delta, TINY_SCALE );
                 PictureSceneNode.this.addChild( piece );
                 pieceIndex++;
                 if ( bounds == null ) { bounds = piece.getFullBounds(); }
@@ -178,12 +170,26 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
             LinearFunction offset = new LinearFunction( 0, numInGroup - 1, -totalHorizontalSpacing / 2, +totalHorizontalSpacing / 2 );
             final double delta = numInGroup == 1 ? 0 : offset.evaluate( i );
             final ContainerNode containerNode = new ContainerNode( this, this ) {{
-                this.setInitialState( toolboxNode.getFullBounds().getX() + 20 + delta + finalGroupIndex * spacing,
-                                      toolboxNode.getFullBounds().getY() + 20 + delta, TINY_SCALE );
+                this.setInitialState( layoutXOffset + INSET + 20 + delta + finalGroupIndex * spacing,
+                                      STAGE_SIZE.height - INSET - 127 + 20 + delta, TINY_SCALE );
             }};
             addChild( containerNode );
             addChild( new ContainerFrontNode( containerNode ) );
         }
+
+        //Add a piece container toolbox the user can use to get containers
+        toolboxNode = new RichPNode() {{
+
+            //Width is just before the first group to the last container node in the toolbox
+            double min = getChildrenOfType( PieceIconNode.class ).map( _minX ).minimum( doubleOrd );
+            double max = getChildrenOfType( ContainerNode.class ).map( _maxX ).maximum( doubleOrd );
+            double width = max - min;
+            final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, width + INSET * 6, 127, 30, 30 ), BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND, BuildAFractionCanvas.controlPanelStroke, Color.darkGray );
+            addChild( border );
+            setOffset( min - INSET * 3, AbstractFractionsCanvas.STAGE_SIZE.height - INSET - this.getFullHeight() );
+        }};
+        addChild( toolboxNode );
+        toolboxNode.moveToBack();
 
         faceNodeDialog = new VBox( new FaceNode( 300 ), new HTMLImageButtonNode( "Next", new PhetFont( 20, true ), Color.orange ) {{
             addActionListener( new ActionListener() {
@@ -206,9 +212,9 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
             @Override public Double f( final Target target ) {
                 return target.cell.getFullBounds().getMinX();
             }
-        } ).minimum( Ord.doubleOrd );
+        } ).minimum( doubleOrd );
         final PhetPText title = new PhetPText( "Level " + ( levelIndex + 1 ), new PhetFont( 32, true ) );
-        title.setOffset( ( minScoreCellX - AbstractFractionsCanvas.INSET ) / 2 - title.getFullWidth() / 2, backButton.getFullBounds().getCenterY() - title.getFullHeight() / 2 );
+        title.setOffset( ( minScoreCellX - INSET ) / 2 - title.getFullWidth() / 2, backButton.getFullBounds().getCenterY() - title.getFullHeight() / 2 );
         addChild( title );
 
         addChild( new TextButtonNode( "Reset", AbstractFractionsCanvas.CONTROL_FONT, Color.orange ) {{
@@ -219,6 +225,16 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
                 }
             } );
         }} );
+    }
+
+    private List<PNode> getChildrenOfType( final Class<? extends PNode> type ) {
+        List<PNode> list = List.nil();
+        for ( Object childO : getChildrenReference() ) {
+            if ( type.isInstance( childO ) ) {
+                list = list.snoc( (PNode) childO );
+            }
+        }
+        return list;
     }
 
     private void reset() {
