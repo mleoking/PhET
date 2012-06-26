@@ -1,3 +1,4 @@
+Build a Fraction: When ejecting a box from the scoring cell, move it back to toolboxes
 Build a Fraction: Up/down spinner buttons should fade out when going to target box.
 Build a Fraction: Improved level navigation and wired up smilie face buttons
 Build a Fraction: Numbers: Added "reset" button for each scene
