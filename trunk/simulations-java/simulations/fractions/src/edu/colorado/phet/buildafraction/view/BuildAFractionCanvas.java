@@ -88,7 +88,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Con
         shapesLevelSelectionScreen.animateToPositionScaleRotation( -STAGE_SIZE.width, 0, 1, 0, 400 );
         numbersLevelSelectionScreen.animateToPositionScaleRotation( -STAGE_SIZE.width, 0, 1, 0, 400 );
         if ( parent == shapesLevelSelectionScreen ) {
-            pictureSceneNode = new PictureSceneNode( info.levelIndex, rootNode, new BuildAFractionModel( true ), STAGE_SIZE, new SceneContext() {
+            pictureSceneNode = new PictureSceneNode( info.levelIndex, new BuildAFractionModel( true ), STAGE_SIZE, new SceneContext() {
                 public void nextLevel() {
                 }
 

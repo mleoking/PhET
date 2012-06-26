@@ -57,7 +57,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
     private final VBox faceNodeDialog;
     public final int levelIndex;
 
-    public PictureSceneNode( int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context ) {
+    public PictureSceneNode( int levelIndex, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context ) {
         this.model = model;
         this.levelIndex = levelIndex;
 
