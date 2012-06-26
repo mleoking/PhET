@@ -60,13 +60,13 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
     private final VBox faceNodeDialog;
     public final int levelIndex;
 
-    public PictureSceneNode( int levelIndex, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context ) {
+    public PictureSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context ) {
         this.model = model;
         this.levelIndex = levelIndex;
 
         final BackButton backButton = new BackButton( new VoidFunction0() {
             public void apply() {
-                context.goToLevelSelectionScreen();
+                context.goToPictureLevelSelectionScreen();
             }
         } ) {{
             setOffset( INSET, INSET );
@@ -120,7 +120,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
             offsetY += Math.max( maxHeight, targetCellBounds.getHeight() ) + insetY;
         }
 
-        PictureLevel level = model.getPictureLevel( levelIndex );
+        final PictureLevel level = model.getPictureLevel( levelIndex );
 
         ContainerNode firstContainerNode = new ContainerNode( this, this ) {{
             setInitialPosition( 285, 200 );
@@ -194,7 +194,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         faceNodeDialog = new VBox( new FaceNode( 300 ), new HTMLImageButtonNode( "Next", new PhetFont( 20, true ), Color.orange ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( final ActionEvent e ) {
-                    context.nextLevel();
+                    context.goToNextPictureLevel( levelIndex + 1 );
                 }
             } );
         }} ) {{

@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Context, edu.colorado.phet.buildafraction.view.Context {
+public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Context, MainContext, SceneContext {
 
     private static final int rgb = 240;
     public static final Color CONTROL_PANEL_BACKGROUND = new Color( rgb, rgb, rgb );
@@ -88,39 +88,39 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Con
         shapesLevelSelectionScreen.animateToPositionScaleRotation( -STAGE_SIZE.width, 0, 1, 0, 400 );
         numbersLevelSelectionScreen.animateToPositionScaleRotation( -STAGE_SIZE.width, 0, 1, 0, 400 );
         if ( parent == shapesLevelSelectionScreen ) {
-            pictureSceneNode = new PictureSceneNode( info.levelIndex, new BuildAFractionModel( true ), STAGE_SIZE, new SceneContext() {
-                public void nextLevel() {
-                }
-
-                public void goToLevelSelectionScreen() {
-                    numbersLevelSelectionScreen.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
-                    numbersLevelSelectionScreen.setTransparency( 0 );
-                    shapesLevelSelectionScreen.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
-                    pictureSceneNode.animateToPositionScaleRotation( STAGE_SIZE.width * 2, 0, 1, 0, 400 );
-                }
-            } ) {{
+            pictureSceneNode = new PictureSceneNode( info.levelIndex, new BuildAFractionModel( true ), STAGE_SIZE, this ) {{
                 setOffset( STAGE_SIZE.width * 2, 0 );
             }};
             addChild( pictureSceneNode );
             pictureSceneNode.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
         }
         else if ( parent == numbersLevelSelectionScreen ) {
-            numberSceneNode = new NumberSceneNode( info.levelIndex, rootNode, new BuildAFractionModel( true ), STAGE_SIZE, new SceneContext() {
-                public void nextLevel() {
-                }
-
-                public void goToLevelSelectionScreen() {
-                    shapesLevelSelectionScreen.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
-                    shapesLevelSelectionScreen.setTransparency( 0 );
-                    numbersLevelSelectionScreen.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
-                    numberSceneNode.animateToPositionScaleRotation( STAGE_SIZE.width * 2, 0, 1, 0, 400 );
-                }
-            } ) {{
+            numberSceneNode = new NumberSceneNode( info.levelIndex, rootNode, new BuildAFractionModel( true ), STAGE_SIZE, this ) {{
                 setOffset( STAGE_SIZE.width * 2, 0 );
             }};
             addChild( numberSceneNode );
             numberSceneNode.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
         }
 
+    }
+
+    public void goToNextPictureLevel( final int newLevelIndex ) {
+    }
+
+    public void goToNextNumberLevel( final int newLevelIndex ) {
+    }
+
+    public void goToPictureLevelSelectionScreen() {
+        numbersLevelSelectionScreen.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
+        numbersLevelSelectionScreen.setTransparency( 0 );
+        shapesLevelSelectionScreen.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
+        pictureSceneNode.animateToPositionScaleRotation( STAGE_SIZE.width * 2, 0, 1, 0, 400 );
+    }
+
+    public void goToNumberLevelSelectionScreen() {
+        shapesLevelSelectionScreen.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
+        shapesLevelSelectionScreen.setTransparency( 0 );
+        numbersLevelSelectionScreen.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
+        numberSceneNode.animateToPositionScaleRotation( STAGE_SIZE.width * 2, 0, 1, 0, 400 );
     }
 }

@@ -33,10 +33,10 @@ public class AbstractLevelSelectionNode extends PNode {
 
     private double initialX;
     private double initialY;
-    private final Context context;
+    private final MainContext context;
 
     //Rows + Columns
-    public AbstractLevelSelectionNode( final String title, final List<List<LevelInfo>> allLevels, final Context context ) {
+    public AbstractLevelSelectionNode( final String title, final List<List<LevelInfo>> allLevels, final MainContext context ) {
         this.context = context;
 
         addChild( new BackButton( new VoidFunction0() {
@@ -70,7 +70,7 @@ public class AbstractLevelSelectionNode extends PNode {
         addChild( box );
     }
 
-    private static PNode toLevelIcon( final AbstractLevelSelectionNode parent, final LevelInfo info, final List<List<LevelInfo>> allLevels, final Context context ) {
+    private static PNode toLevelIcon( final AbstractLevelSelectionNode parent, final LevelInfo info, final List<List<LevelInfo>> allLevels, final MainContext context ) {
         final List<PNode> nodes = allLevels.bind( new F<List<LevelInfo>, List<PNode>>() {
             @Override public List<PNode> f( final List<LevelInfo> list ) {
                 return list.map( LevelInfo._icon );
