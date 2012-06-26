@@ -1,3 +1,4 @@
+# 0.00.96 (65450) Jun 26, 2012
 Equality lab tab: Made the number line show tickmarks differently on left and right side
 # 0.00.95 (65443) Jun 26, 2012
 Build a Fraction: When ejecting a box from the scoring cell, move it back to toolboxes
