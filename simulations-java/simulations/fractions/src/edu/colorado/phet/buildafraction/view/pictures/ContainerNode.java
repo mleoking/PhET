@@ -52,7 +52,7 @@ public class ContainerNode extends PNode {
     public final PNode shapeNode;
     private double initialX;
     private double initialY;
-    private double initialScale;
+    private double initialScale = 1;
     private ArrayList<VoidFunction0> listeners = new ArrayList<VoidFunction0>();
 
     public ContainerNode( PictureSceneNode parent, final ContainerContext context ) {
@@ -145,7 +145,7 @@ public class ContainerNode extends PNode {
 
     public double getYOffsetForContainer() { return shapeNode.getYOffset(); }
 
-    private void splitAll() {
+    public void splitAll() {
         int numPieces = getChildPieces().length();
         double separationBetweenPieces = 4;
         double totalDeltaSpacing = separationBetweenPieces * ( numPieces - 1 );
@@ -270,5 +270,9 @@ public class ContainerNode extends PNode {
 
     public void addListener( final VoidFunction0 listener ) {
         listeners.add( listener );
+    }
+
+    public boolean isInToolbox() {
+        return isAtStartingLocation() && initialY > 600;
     }
 }
