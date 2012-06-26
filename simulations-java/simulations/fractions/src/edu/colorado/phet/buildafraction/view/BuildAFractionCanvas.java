@@ -14,6 +14,9 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.activities.PActivity;
+import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
+import edu.umd.cs.piccolo.activities.PInterpolatingActivity;
 
 /**
  * Canvas for the build a fraction tab.
@@ -28,99 +31,100 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Con
     public static final Paint TRANSPARENT = new Color( 0, 0, 0, 0 );
     public static final Stroke controlPanelStroke = new BasicStroke( 2 );
 
-    private final PNode startScreen;
-    private final AbstractLevelSelectionNode shapesLevelSelectionScreen;
-    private final AbstractLevelSelectionNode numbersLevelSelectionScreen;
+    private PNode currentScene;
 
-    private PictureSceneNode pictureSceneNode;
-    private NumberSceneNode numberSceneNode;
-
-    public BuildAFractionCanvas( final BuildAFractionModel model, final boolean dev ) {
-        startScreen = new PNode() {{
+    public static class StartScreen extends PNode {
+        public StartScreen( final Context context ) {
 
             //Title text, only shown when the user is choosing a level
             PNode titleText = new PNode() {{
                 addChild( new PhetPText( "Build a Fraction", new PhetFont( 38, true ) ) );
             }};
 
-            WorldSelectionScreen worldSelectionScreen = new WorldSelectionScreen( BuildAFractionCanvas.this ) {{
+            WorldSelectionScreen worldSelectionScreen = new WorldSelectionScreen( context ) {{
                 centerFullBoundsOnPoint( STAGE_SIZE.width / 2, STAGE_SIZE.height / 2 );
             }};
             addChild( worldSelectionScreen );
             titleText.centerFullBoundsOnPoint( STAGE_SIZE.width / 2, INSET + titleText.getFullBounds().getHeight() / 2 );
             addChild( titleText );
-        }};
-        addChild( startScreen );
+        }
+    }
 
+    public BuildAFractionCanvas( final BuildAFractionModel model, final boolean dev ) {
         //Set a really light blue because there is a lot of white everywhere
         setBackground( new Color( 236, 251, 251 ) );
 
-        shapesLevelSelectionScreen = new ShapesLevelSelectionScreen( "Build a Fraction: Shapes", this ) {{
-            setInitialPosition( STAGE_SIZE.width + STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2,
-                                INSET );
-        }};
-        addChild( shapesLevelSelectionScreen );
-
-        numbersLevelSelectionScreen = new NumbersLevelSelectionScreen( "Build a Fraction: Numbers", this ) {{
-            setInitialPosition( STAGE_SIZE.width + STAGE_SIZE.width / 2 - getFullBounds().getWidth() / 2,
-                                INSET );
-        }};
-        addChild( numbersLevelSelectionScreen );
+        currentScene = new StartScreen( this );
+        addChild( currentScene );
     }
 
-    public void startShapesLevelSelection() {
-        startScreen.animateToPositionScaleRotation( startScreen.getXOffset() - STAGE_SIZE.width, startScreen.getYOffset(), 1, 0, 400 );
-        shapesLevelSelectionScreen.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
+    public void startShapesLevelSelection() { animateTo( new ShapesLevelSelectionScreen( "Build a Fraction: Shapes", this ), true ); }
+
+    public void startNumberLevelSelection() { animateTo( new NumbersLevelSelectionScreen( "Build a Fraction: Numbers", this ), true ); }
+
+    private void animateTo( final PNode node, boolean right ) {
+        node.setOffset( right ? STAGE_SIZE.width : -STAGE_SIZE.width, 0 );
+        addChild( node );
+
+        final PNode oldNode = currentScene;
+        PActivity activity = currentScene.animateToPositionScaleRotation( right ? -STAGE_SIZE.width : STAGE_SIZE.width, 0, 1, 0, 400 );
+        activity.setDelegate( new PActivityDelegate() {
+            public void activityStarted( final PActivity activity ) {
+            }
+
+            public void activityStepped( final PActivity activity ) {
+            }
+
+            public void activityFinished( final PActivity activity ) {
+
+                PInterpolatingActivity fade = oldNode.animateToTransparency( 0, 1000 );
+                fade.setDelegate( new PActivityDelegate() {
+                    public void activityStarted( final PActivity activity ) {
+                    }
+
+                    public void activityStepped( final PActivity activity ) {
+                    }
+
+                    public void activityFinished( final PActivity activity ) {
+                        oldNode.removeFromParent();
+                    }
+                } );
+            }
+        } );
+        node.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
+        currentScene = node;
     }
 
-    public void startNumberLevelSelection() {
-        startScreen.animateToPositionScaleRotation( startScreen.getXOffset() - STAGE_SIZE.width, startScreen.getYOffset(), 1, 0, 400 );
-        numbersLevelSelectionScreen.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
-    }
-
-    public void homeButtonPressed() {
-        startScreen.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
-        shapesLevelSelectionScreen.animateHome( 400 );
-        numbersLevelSelectionScreen.animateHome( 400 );
+    public void goBackToHomeScreen() {
+        animateTo( new StartScreen( this ), false );
     }
 
     public void levelButtonPressed( final AbstractLevelSelectionNode parent, final LevelInfo info ) {
-        shapesLevelSelectionScreen.animateToPositionScaleRotation( -STAGE_SIZE.width, 0, 1, 0, 400 );
-        numbersLevelSelectionScreen.animateToPositionScaleRotation( -STAGE_SIZE.width, 0, 1, 0, 400 );
-        if ( parent == shapesLevelSelectionScreen ) {
-            pictureSceneNode = new PictureSceneNode( info.levelIndex, new BuildAFractionModel( true ), STAGE_SIZE, this ) {{
-                setOffset( STAGE_SIZE.width * 2, 0 );
-            }};
-            addChild( pictureSceneNode );
-            pictureSceneNode.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
-        }
-        else if ( parent == numbersLevelSelectionScreen ) {
-            numberSceneNode = new NumberSceneNode( info.levelIndex, rootNode, new BuildAFractionModel( true ), STAGE_SIZE, this ) {{
-                setOffset( STAGE_SIZE.width * 2, 0 );
-            }};
-            addChild( numberSceneNode );
-            numberSceneNode.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
-        }
+        animateTo( createLevelNode( parent, info.levelIndex ), true );
+    }
 
+    private PNode createLevelNode( final AbstractLevelSelectionNode parent, final int levelIndex ) {
+        if ( parent instanceof ShapesLevelSelectionScreen ) {
+            return new PictureSceneNode( levelIndex, new BuildAFractionModel( true ), STAGE_SIZE, this );
+        }
+        else {
+            return new NumberSceneNode( levelIndex, rootNode, new BuildAFractionModel( true ), STAGE_SIZE, this );
+        }
     }
 
     public void goToNextPictureLevel( final int newLevelIndex ) {
+        animateTo( new PictureSceneNode( newLevelIndex, new BuildAFractionModel( true ), STAGE_SIZE, this ), true );
     }
 
     public void goToNextNumberLevel( final int newLevelIndex ) {
+        animateTo( new NumberSceneNode( newLevelIndex, rootNode, new BuildAFractionModel( true ), STAGE_SIZE, this ), true );
     }
 
     public void goToPictureLevelSelectionScreen() {
-        numbersLevelSelectionScreen.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
-        numbersLevelSelectionScreen.setTransparency( 0 );
-        shapesLevelSelectionScreen.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
-        pictureSceneNode.animateToPositionScaleRotation( STAGE_SIZE.width * 2, 0, 1, 0, 400 );
+        animateTo( new ShapesLevelSelectionScreen( "Build a Fraction: Shapes", this ), false );
     }
 
     public void goToNumberLevelSelectionScreen() {
-        shapesLevelSelectionScreen.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
-        shapesLevelSelectionScreen.setTransparency( 0 );
-        numbersLevelSelectionScreen.animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
-        numberSceneNode.animateToPositionScaleRotation( STAGE_SIZE.width * 2, 0, 1, 0, 400 );
+        animateTo( new NumbersLevelSelectionScreen( "Build a Fraction: Numbers", this ), false );
     }
 }

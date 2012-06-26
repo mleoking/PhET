@@ -3,6 +3,7 @@ package edu.colorado.phet.fractionmatcher.view;
 import fj.F;
 import fj.data.List;
 
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
@@ -31,7 +32,7 @@ public class PaddedIcon extends PNode {
         }} );
     }
 
-    public PaddedIcon( final Dimension2DDouble maxSize, final PNode icon ) { this( maxSize.width, maxSize.height, icon ); }
+    public PaddedIcon( final Dimension2D maxSize, final PNode icon ) { this( maxSize.getWidth(), maxSize.getHeight(), icon ); }
 
     //Take a list of icons and pad so they each have the same dimensions (of the max)
     public static List<PNode> normalize( final List<PNode> icons ) {

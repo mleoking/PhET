@@ -104,9 +104,7 @@ public class WorldSelectionScreen extends PNode {
             buttonNodes.add( button );
         }
 
-        addChild( new HBox( 100, buttonNodes.toArray( new ToggleButtonNode[buttonNodes.size()] ) ) {{
-            setOffset( 200, 200 );
-        }} );
+        addChild( new HBox( 100, buttonNodes.toArray( new ToggleButtonNode[buttonNodes.size()] ) ) );
     }
 
     public static void main( String[] args ) {
