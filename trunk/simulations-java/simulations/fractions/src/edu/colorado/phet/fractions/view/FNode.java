@@ -14,6 +14,18 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class FNode extends RichPNode {
+    public static F<PNode, Double> _minX = new F<PNode, Double>() {
+        @Override public Double f( final PNode pNode ) {
+            return pNode.getFullBounds().getMinX();
+        }
+    };
+
+    public static F<PNode, Double> _maxX = new F<PNode, Double>() {
+        @Override public Double f( final PNode pNode ) {
+            return pNode.getFullBounds().getMaxX();
+        }
+    };
+
     public FNode() {
         this( List.<PNode>nil() );
     }
