@@ -38,6 +38,10 @@ public class EFACIntroModel {
     // floating point issues.
     private static final double MIN_INTER_ELEMENT_DISTANCE = 1E-9; // In meters.
 
+    // Threshold of temperature difference between the bodies in a multi-body
+    // system below which energy can be exchanged with air.
+    private static final double MIN_TEMPERATURE_DIFF_FOR_MULTI_BODY_AIR_ENERGY_EXCHANGE = 5; // In degrees C, empirically determined.
+
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
@@ -189,24 +193,28 @@ public class EFACIntroModel {
         leftBurner.updateHeatCoolLimits( dt, ironBlock, brick, beaker );
         rightBurner.updateHeatCoolLimits( dt, ironBlock, brick, beaker );
 
-        // Loop through all the thermal energy containers and have them
+        //---------------------------------------------------------------------
+        // Energy and Energy Chunk Exchange
+        //---------------------------------------------------------------------
+
+        // Loop through all the movable thermal energy containers and have them
         // exchange energy with one another.
-        for ( ThermalEnergyContainer ec1 : thermalEnergyContainers ) {
-            for ( ThermalEnergyContainer ec2 : thermalEnergyContainers.subList( thermalEnergyContainers.indexOf( ec1 ) + 1, thermalEnergyContainers.size() ) ) {
+        for ( ThermalEnergyContainer ec1 : movableThermalEnergyContainers ) {
+            for ( ThermalEnergyContainer ec2 : movableThermalEnergyContainers.subList( movableThermalEnergyContainers.indexOf( ec1 ) + 1, movableThermalEnergyContainers.size() ) ) {
                 ec1.exchangeEnergyWith( ec2, dt );
             }
         }
 
-        // Exchange thermal energy between the burners and the various
+        // Exchange thermal energy between the burners and the various thermal
         // thermal energy containers.
         for ( Burner burner : Arrays.asList( leftBurner, rightBurner ) ) {
             if ( burner.areAnyOnTop( ironBlock, brick, beaker ) ) {
-                for ( ThermalEnergyContainer nonAirThermalEnergyContainer : movableThermalEnergyContainers ) {
-                    burner.addOrRemoveEnergy( nonAirThermalEnergyContainer, dt );
+                for ( ThermalEnergyContainer movableThermalEnergyContainer : movableThermalEnergyContainers ) {
+                    burner.addOrRemoveEnergy( movableThermalEnergyContainer, dt );
                 }
             }
             else {
-                // Only heat/cool air if nothing is on top of the burner.
+                // Nothing on burner, so heat/cool the air.
                 burner.addOrRemoveEnergyToFromAir( air, dt );
             }
         }
@@ -223,11 +231,8 @@ public class EFACIntroModel {
             }
         }
 
-        // Exchange energy chunks between the various movable elements and
-        // also between the movable elements and the air.
+        // Exchange energy chunks between movable thermal energy containers.
         for ( RectangularThermalMovableModelElement ec1 : movableThermalEnergyContainers ) {
-
-            // Evaluate exchange with other movable energy containers.
             for ( RectangularThermalMovableModelElement ec2 : movableThermalEnergyContainers.subList( movableThermalEnergyContainers.indexOf( ec1 ) + 1, movableThermalEnergyContainers.size() ) ) {
                 if ( ec1.getThermalContactArea().getThermalContactLength( ec2.getThermalContactArea() ) > 0 ) {
                     // Exchange chunks if appropriate.
@@ -239,43 +244,44 @@ public class EFACIntroModel {
                     }
                 }
             }
+        }
+
+        // Exchange energy and energy chunks between the movable thermal energy
+        // containers and the air.
+        for ( RectangularThermalMovableModelElement movableEnergyContainer : movableThermalEnergyContainers ) {
 
             // Set up some variables that are used to decide whether or not
-            // energy chunks should be exchanged with the air.
+            // energy should be exchanged with air.
             boolean contactWithOtherMovableElement = false;
             boolean immersedInBeaker = false;
-            double temperatureDifference = 0;
+            double maxTemperatureDifference = 0;
 
-            // TODO: This threshold is temporary, need to work out whether to
-            // use some other equation or what.  One idea would be to use an
-            // equation that determines when less that one energy chunk can
-            // ever be exchanged, but we would also need to prevent air and the
-            // object from exchanging continuous energy in that case too.
-            double temperatureDiffWhereAirExchangeOK = 10;
-
-            for ( ThermalEnergyContainer ec2 : movableThermalEnergyContainers ) {
-                if ( ec1 == ec2 ) {
+            // Figure out the max temperature difference between touching
+            // energy containers.
+            for ( ThermalEnergyContainer otherMovableEnergyContainer : movableThermalEnergyContainers ) {
+                if ( movableEnergyContainer == otherMovableEnergyContainer ) {
                     continue;
                 }
-                if ( ec1.getThermalContactArea().getThermalContactLength( ec2.getThermalContactArea() ) > 0 ) {
+                if ( movableEnergyContainer.getThermalContactArea().getThermalContactLength( otherMovableEnergyContainer.getThermalContactArea() ) > 0 ) {
                     contactWithOtherMovableElement = true;
-                    temperatureDifference = Math.abs( ec1.getTemperature() - ec2.getTemperature() );
+                    maxTemperatureDifference = Math.max( Math.abs( movableEnergyContainer.getTemperature() - otherMovableEnergyContainer.getTemperature() ), maxTemperatureDifference );
                 }
             }
 
-            if ( beaker.getThermalContactArea().getBounds().contains( ec1.getRect() ) ) {
+            if ( beaker.getThermalContactArea().getBounds().contains( movableEnergyContainer.getRect() ) ) {
                 // This model element is immersed in the beaker.
                 immersedInBeaker = true;
             }
 
             // Exchange energy chunks with the air if appropriate conditions met.
-            if ( !contactWithOtherMovableElement || ( contactWithOtherMovableElement && !immersedInBeaker && temperatureDifference < temperatureDiffWhereAirExchangeOK ) ) {
-                if ( ec1.getEnergyChunkBalance() > 0 && air.canAcceptEnergyChunk() ) {
-                    ImmutableVector2D pointAbove = new ImmutableVector2D( ec1.getCenterPoint().getX(), ec1.getRect().getMaxY() );
-                    air.addEnergyChunk( ec1.extractClosestEnergyChunk( pointAbove ) );
+            if ( !contactWithOtherMovableElement || ( contactWithOtherMovableElement && !immersedInBeaker && maxTemperatureDifference < MIN_TEMPERATURE_DIFF_FOR_MULTI_BODY_AIR_ENERGY_EXCHANGE ) ) {
+                air.exchangeEnergyWith( movableEnergyContainer, dt );
+                if ( movableEnergyContainer.getEnergyChunkBalance() > 0 && air.canAcceptEnergyChunk() ) {
+                    ImmutableVector2D pointAbove = new ImmutableVector2D( movableEnergyContainer.getCenterPoint().getX(), movableEnergyContainer.getRect().getMaxY() );
+                    air.addEnergyChunk( movableEnergyContainer.extractClosestEnergyChunk( pointAbove ) );
                 }
-                else if ( ec1.getEnergyChunkBalance() < 0 && air.canSupplyEnergyChunk() ) {
-                    ec1.addEnergyChunk( air.requestEnergyChunk( ec1.getCenterPoint() ) );
+                else if ( movableEnergyContainer.getEnergyChunkBalance() < 0 && air.canSupplyEnergyChunk() ) {
+                    movableEnergyContainer.addEnergyChunk( air.requestEnergyChunk( movableEnergyContainer.getCenterPoint() ) );
                 }
             }
         }
