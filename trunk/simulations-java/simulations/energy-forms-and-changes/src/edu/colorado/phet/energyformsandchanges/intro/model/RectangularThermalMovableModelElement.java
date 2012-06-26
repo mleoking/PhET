@@ -41,7 +41,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
 
     // Energy chunks that are approaching this model element.
     public final ObservableList<EnergyChunk> approachingEnergyChunks = new ObservableList<EnergyChunk>();
-    private final List<EnergyChunkWanderController> energyChunkWanderControllers = new ArrayList<EnergyChunkWanderController>();
+    protected final List<EnergyChunkWanderController> energyChunkWanderControllers = new ArrayList<EnergyChunkWanderController>();
 
     /**
      * Constructor.
@@ -107,7 +107,11 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
         // Distribute the energy chunks contained within this model element.
         EnergyChunkDistributor.updatePositions( slices, dt );
 
-        // Animate the energy chunks that are outside this model element.
+        // Animate the energy chunks that are outside this model element.\
+        animateNonContainedEnergyChunks( dt );
+    }
+
+    protected void animateNonContainedEnergyChunks( double dt ) {
         for ( EnergyChunkWanderController energyChunkWanderController : new ArrayList<EnergyChunkWanderController>( energyChunkWanderControllers ) ) {
             energyChunkWanderController.updatePosition( dt );
             if ( getSliceBounds().contains( energyChunkWanderController.getEnergyChunk().position.get().toPoint2D() ) ) {
@@ -160,7 +164,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
         return new Rectangle2D.Double( minX, minY, maxX - minX, maxY - minY );
     }
 
-    private void moveEnergyChunkToSlices( EnergyChunk ec ) {
+    protected void moveEnergyChunkToSlices( EnergyChunk ec ) {
         approachingEnergyChunks.remove( ec );
         for ( EnergyChunkWanderController energyChunkWanderController : new ArrayList<EnergyChunkWanderController>( energyChunkWanderControllers ) ) {
             if ( energyChunkWanderController.getEnergyChunk() == ec ) {

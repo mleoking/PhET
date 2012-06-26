@@ -100,13 +100,15 @@ public class BeakerView {
         label.centerFullBoundsOnPoint( beakerViewRect.getCenterX(), beakerViewRect.getMaxY() - label.getFullBoundsReference().height * 1.5 );
         frontNode.addChild( label );
 
-        // Create the layers where the energy chunks will be placed.
-        final PClip energyChunkRootNode = new PClip();
-        energyChunkRootNode.setStroke( null );
+        // Create the layers where the contained energy chunks will be placed.
+        final PNode energyChunkRootNode = new PNode();
         backNode.addChild( energyChunkRootNode );
+        final PClip energyChunkClipNode = new PClip();
+        energyChunkRootNode.addChild( energyChunkClipNode );
+        energyChunkClipNode.setStroke( null );
         for ( int i = beaker.getSlices().size() - 1; i >= 0; i-- ) {
             int colorBase = (int) ( 255 * (double) i / beaker.getSlices().size() );
-            energyChunkRootNode.addChild( new EnergyChunkContainerSliceNode( beaker.getSlices().get( i ), mvt, new Color( colorBase, 255 - colorBase, colorBase ) ) );
+            energyChunkClipNode.addChild( new EnergyChunkContainerSliceNode( beaker.getSlices().get( i ), mvt, new Color( colorBase, 255 - colorBase, colorBase ) ) );
         }
 
         // Watch for coming and going of energy chunks that are approaching
@@ -131,7 +133,7 @@ public class BeakerView {
         for ( Block block : model.getBlockList() ) {
             block.position.addObserver( new SimpleObserver() {
                 public void update() {
-                    updateEnergyChunkClipMask( model, energyChunkRootNode );
+                    updateEnergyChunkClipMask( model, energyChunkClipNode );
                 }
             } );
         }
@@ -159,8 +161,7 @@ public class BeakerView {
                 // Compensate the energy chunk layer so that the energy chunk
                 // nodes can handle their own positioning.
                 energyChunkRootNode.setOffset( mvt.modelToView( position ).getRotatedInstance( Math.PI ).toPoint2D() );
-                // TODO: Temp for experimentation.
-                BeakerView.this.updateEnergyChunkClipMask( model, energyChunkRootNode );
+                BeakerView.this.updateEnergyChunkClipMask( model, energyChunkClipNode );
             }
         } );
 
