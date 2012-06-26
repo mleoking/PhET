@@ -43,6 +43,7 @@ public class ProguardCommand {
         createConfigurationFile();
 
         ProGuardTask proGuardTask = new ProGuardTask();
+        proGuardTask.setProject( antTaskRunner.getProject() );
         proGuardTask.setConfiguration( config.getProguardOutputFile() );
         // WARNING! If you are going to configure proguardTask using its setters, do so after calling setConfiguration.
 

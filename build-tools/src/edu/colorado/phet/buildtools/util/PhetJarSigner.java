@@ -6,7 +6,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.SortedMap;
+import java.util.StringTokenizer;
 import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Pack200;
@@ -21,6 +23,7 @@ import edu.colorado.phet.buildtools.AntTaskRunner;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.JarsignerInfo;
 import edu.colorado.phet.buildtools.MyAntTaskRunner;
+import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 
 import static java.util.jar.Pack200.Packer;
 import static java.util.jar.Pack200.Unpacker;
@@ -65,25 +68,62 @@ public class PhetJarSigner {
         // Sign the JAR using the ant task
         logger.info( "Signing JAR " + jarFile.getAbsolutePath() + "..." );
         JarsignerInfo jarsignerInfo = buildProperties.getJarsignerInfo();
-        SignJar signer = new SignJar();
-        signer.setKeystore( jarsignerInfo.getKeystore() );
-        signer.setStoretype( "pkcs12" );
-        signer.setStorepass( jarsignerInfo.getPassword() );
-        signer.setJar( jarFile );
-        signer.setAlias( jarsignerInfo.getAlias() );
-        signer.setTsaurl( jarsignerInfo.getTsaUrl() );
+
+        String[] cmdArray = {
+                "jarsigner",
+                "-J-Djsse.enableSNIExtension=false", // workaround for Java 7 jarsigner / TSA buggy interaction. see http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=7127374
+                "-keystore", jarsignerInfo.getKeystore(),
+                "-storetype",
+                "pkcs12",
+                "-storepass", jarsignerInfo.getPassword(),
+                "-tsa",
+                jarsignerInfo.getTsaUrl(), jarFile.getAbsolutePath(),
+                jarsignerInfo.getAlias()
+        };
+
+        // store success and output information, in case something goes wrong
+        boolean success = true;
+        String output = "";
+        String error = "";
+
         try {
-            antTaskRunner.runTask( signer );
+            Process process = Runtime.getRuntime().exec( cmdArray );
+
+            ProcessOutputReader outputReader = new ProcessOutputReader( process.getInputStream() );
+            ProcessOutputReader errorReader = new ProcessOutputReader( process.getErrorStream() );
+            outputReader.start();
+            errorReader.start();
+
+            try {
+                process.waitFor();
+            }
+            catch( InterruptedException e ) {
+                e.printStackTrace();
+            }
+
+            output = outputReader.getOutput();
+            error = errorReader.getOutput();
+
+            // TODO: no buffered streams need to be closed in the ProcessOutputReader instances?
+
+            if ( process.exitValue() != 0 ) {
+                success = false;
+            }
         }
-        catch ( Exception e ) {
+        catch( IOException e ) {
+            e.printStackTrace();
+            success = false;
+        }
+
+        if ( !success ) {
+            System.out.println( "Error encountered!" );
             //Show how to construct the equivalent command line call for debugging purposes
             //because failure explanations during antTaskRunner.runTask are poorly explained
             //Keep this commented out except during debugging so that our private data doesn't inadvertently end up in a public log file somewhere
             //maybe not too much of a problem.
-//            String commandLine = "jarsigner -keystore "+jarsignerInfo.getKeystore()+" -storetype "+"pkcs12"+" -storepass "+jarsignerInfo.getPassword()+" -tsa "+jarsignerInfo.getTsaUrl()+" "+jarFile.getAbsolutePath()+" "+jarsignerInfo.getAlias();
-//            System.err.println( "Exception caught while attempting to sign jar, command line is:\n "+commandLine);
-
-            e.printStackTrace();
+//            System.out.println( "command-line: = " + FunctionalUtils.mkString( Arrays.asList( cmdArray ), " " ) );
+            System.out.println( "output:\n**********\n" + output + "**********" );
+            System.out.println( "error:\n**********\n" + error + "**********" );
             return false;
         }
 
@@ -114,7 +154,7 @@ public class PhetJarSigner {
             verifier.setJar( jarFile );
             antTaskRunner.runTask( verifier );
         }
-        catch ( Exception e ) {
+        catch( Exception e ) {
             System.out.println( "Exception while attempting to verify signed JAR:" );
             e.printStackTrace();
             return false;
@@ -171,7 +211,7 @@ public class PhetJarSigner {
                 System.out.println( "Skipping pack-and-compress step due to previous packing failure" );
             }
         }
-        catch ( IOException e ) {
+        catch( IOException e ) {
             e.printStackTrace();
             return false;
         }
@@ -210,7 +250,7 @@ public class PhetJarSigner {
                 readFile.close();
             }
         }
-        catch ( IOException e ) {
+        catch( IOException e ) {
             // probably failed due to a corrupt scala attribute
             // beforehand: com.sun.java.util.jar.pack.Attribute$FormatException: class.ScalaSig: unknown in scala/LowPriorityImplicits
             success = false;
