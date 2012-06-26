@@ -28,9 +28,8 @@ import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.common.view.Colors;
 import edu.colorado.phet.fractionsintro.equalitylab.model.EqualityLabModel;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.PieSet;
+import edu.colorado.phet.fractionsintro.intro.view.DynamicNumberLineNode;
 import edu.colorado.phet.fractionsintro.intro.view.FractionControlNode;
-import edu.colorado.phet.fractionsintro.intro.view.NumberLineNode;
-import edu.colorado.phet.fractionsintro.intro.view.NumberLineNode.Vertical;
 import edu.colorado.phet.fractionsintro.intro.view.Representation;
 import edu.colorado.phet.fractionsintro.intro.view.RepresentationNode;
 import edu.colorado.phet.fractionsintro.intro.view.WaterGlassSetNode;
@@ -65,7 +64,10 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         final double representationControlPanelScale = 1.0;
         final int padding = 7;
         final RichPNode leftRepresentationControlPanel = new ZeroOffsetNode( new RadioButtonStripControlPanelNode<Representation>( leftRepresentation, getIcons( leftRepresentation, FractionsIntroSimSharing.green ), padding ) {{ scale( representationControlPanelScale ); }} ) {{
-            setOffset( 50, INSET );
+            setOffset( 50
+
+                       //Added extra offset for experimentation with "dynamic number line"
+                       + 100, INSET );
         }};
 
         // Instead of "same" and "number line" radio buttons, what we envisioned on the right hand side
@@ -153,10 +155,10 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         }} ) );
 
         //Number line
-
-        //Experiment with making semi-transparent
-//        addChild( new NumberLineNode( model.scaledNumerator, null, model.scaledDenominator, model.rightRepresentation.valueEquals( NUMBER_LINE ), model.maximum, new Vertical(), 15, new Color( LIGHT_BLUE.getRed(), LIGHT_BLUE.getGreen(), LIGHT_BLUE.getBlue(), 200 ) ) {{
-        addChild( new NumberLineNode( model.scaledNumerator, null, model.scaledDenominator, model.rightRepresentation.valueEquals( NUMBER_LINE ), model.maximum, new Vertical(), 15, new Color( Colors.LIGHT_BLUE.getRed(), Colors.LIGHT_BLUE.getGreen(), Colors.LIGHT_BLUE.getBlue(), 200 ), true ) {{
+        addChild( new DynamicNumberLineNode( model.scaledNumerator, null, model.scaledDenominator, model.rightRepresentation.valueEquals( NUMBER_LINE ),
+                                             model.maximum, 15,
+                                             new Color( Colors.LIGHT_BLUE.getRed(), Colors.LIGHT_BLUE.getGreen(), Colors.LIGHT_BLUE.getBlue(), 200 ), true,
+                                             model.denominator ) {{
             setOffset( 385 + 200, 445 );
 
             //Can't interact with right-side representations
@@ -197,15 +199,19 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         addChild( new RepresentationNode( representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode, Colors.LIGHT_GREEN, b.getWidth(), b.getHeight(), iconTextOnTheRight ) ) );
 
         //Number line
-        addChild( new NumberLineNode( model.numerator, model.numerator, model.denominator, representation.valueEquals( NUMBER_LINE ), model.maximum, new Vertical(), 15, Colors.LIGHT_GREEN, true ) {{
-            setOffset( 385, 445 );
-        }} );
+        //Commented out for experimentation with "dynamic number line"
+//        addChild( new NumberLineNode( model.numerator, model.numerator, model.denominator, representation.valueEquals( NUMBER_LINE ), model.maximum, new Vertical(), 15, Colors.LIGHT_GREEN, true ) {{
+//            setOffset( 385, 445 );
+//        }} );
     }
 
     private List<Element<Representation>> getIcons( SettableProperty<Representation> representation, String type ) {
         return Arrays.asList( new Element<Representation>( new PieIcon( representation, Colors.CIRCLE_COLOR ), PIE, UserComponentChain.chain( Components.pieRadioButton, type ) ),
                               new Element<Representation>( new HorizontalBarIcon( representation, Colors.HORIZONTAL_SLICE_COLOR ) {{scale( 0.8 );}}, HORIZONTAL_BAR, UserComponentChain.chain( Components.horizontalBarRadioButton, type ) ),
-                              new Element<Representation>( new WaterGlassIcon( representation, Colors.CUP_COLOR ) {{scale( 0.8 );}}, WATER_GLASSES, UserComponentChain.chain( Components.waterGlassesRadioButton, type ) ),
-                              new Element<Representation>( new NumberLineIcon( representation ), NUMBER_LINE, UserComponentChain.chain( Components.numberLineRadioButton, type ) ) );
+                              new Element<Representation>( new WaterGlassIcon( representation, Colors.CUP_COLOR ) {{scale( 0.8 );}}, WATER_GLASSES, UserComponentChain.chain( Components.waterGlassesRadioButton, type ) )
+
+                              //Commented out for experimentation with "dynamic number line"
+//                , new Element<Representation>( new NumberLineIcon( representation ), NUMBER_LINE, UserComponentChain.chain( Components.numberLineRadioButton, type ) )
+        );
     }
 }
