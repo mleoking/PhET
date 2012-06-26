@@ -51,19 +51,15 @@ import static fj.function.Booleans.not;
  * @author Sam Reid
  */
 public class PictureSceneNode extends PNode implements ContainerContext, PieceContext {
-    private final PNode rootNode;
     private final BuildAFractionModel model;
-    private final PDimension STAGE_SIZE;
     private final List<Target> targetPairs;
     private final RichPNode toolboxNode;
     private final VBox faceNodeDialog;
     public final int levelIndex;
 
     public PictureSceneNode( int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context ) {
-        this.rootNode = rootNode;
         this.model = model;
         this.levelIndex = levelIndex;
-        this.STAGE_SIZE = STAGE_SIZE;
 
         final BackButton backButton = new BackButton( new VoidFunction0() {
             public void apply() {
