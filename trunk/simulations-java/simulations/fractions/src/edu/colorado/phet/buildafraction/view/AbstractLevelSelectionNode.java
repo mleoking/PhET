@@ -41,7 +41,7 @@ public class AbstractLevelSelectionNode extends PNode {
 
         addChild( new BackButton( new VoidFunction0() {
             public void apply() {
-                context.homeButtonPressed();
+                context.goBackToHomeScreen();
             }
         } ) {{
             setOffset( AbstractFractionsCanvas.INSET, AbstractFractionsCanvas.INSET );
