@@ -37,8 +37,11 @@ public class PictureScoreBoxNode extends PNode {
     private PInterpolatingActivity activity;
     private final PImage splitButton;
     private ContainerNode containerNode;
+    private final PictureSceneNode sceneNode;
 
     public PictureScoreBoxNode( final int numerator, final int denominator, final Property<List<Fraction>> matches, final PictureSceneNode sceneNode, final boolean flashTargetCellOnMatch ) {
+        this.sceneNode = sceneNode;
+        if ( sceneNode == null ) { throw new RuntimeException( "Null scene" ); }
         this.path = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 120, 120, 30, 30 ), BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND, controlPanelStroke, Color.darkGray ) {{
 
             setStrokePaint( Color.darkGray );
@@ -87,28 +90,34 @@ public class PictureScoreBoxNode extends PNode {
         splitButton.addInputEventListener( new CursorHandler() );
         splitButton.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mouseReleased( final PInputEvent event ) {
-                completed = false;
-                path.setStrokePaint( Color.darkGray );
-                path.setStroke( controlPanelStroke );
-                splitButton.setVisible( false );
-                splitButton.setPickable( false );
-                splitButton.setChildrenPickable( false );
-
-                sceneNode.addChild( containerNode );
-
-                containerNode.setScale( 1.0 );
-                containerNode.addBackSplitButton();
-                containerNode.setAllPickable( true );
-                containerNode.setInTargetCell( false );
-                containerNode = null;
-
-                //TODO: Maybe send the pieces home?
-                sceneNode.hideFace();
-                sceneNode.syncModelFractions();
+                splitIt();
             }
         } );
         splitButton.setVisible( false );
         addChild( splitButton );
+    }
+
+    public void splitIt() {
+        if ( completed == true ) {
+            completed = false;
+            path.setStrokePaint( Color.darkGray );
+            path.setStroke( controlPanelStroke );
+            splitButton.setVisible( false );
+            splitButton.setPickable( false );
+            splitButton.setChildrenPickable( false );
+
+            sceneNode.addChild( containerNode );
+
+            containerNode.setScale( 1.0 );
+            containerNode.addBackSplitButton();
+            containerNode.setAllPickable( true );
+            containerNode.setInTargetCell( false );
+            containerNode = null;
+
+            //TODO: Maybe send the pieces home?
+            sceneNode.hideFace();
+            sceneNode.syncModelFractions();
+        }
     }
 
     public void setCompletedFraction( ContainerNode containerNode ) {
