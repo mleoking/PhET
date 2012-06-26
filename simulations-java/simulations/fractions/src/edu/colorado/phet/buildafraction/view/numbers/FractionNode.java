@@ -72,7 +72,7 @@ public class FractionNode extends RichPNode {
         splitButton.addInputEventListener( new CursorHandler() );
         splitButton.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( final PInputEvent event ) {
-                handleSplitEvent();
+                split();
             }
         } );
         splitButton.setVisible( false );
@@ -94,7 +94,7 @@ public class FractionNode extends RichPNode {
         } );
     }
 
-    public void handleSplitEvent() {
+    public void split() {
         setDragRegionPickable( true );
         Option<Fraction> value = isComplete() ? Option.some( getValue() ) : Option.<Fraction>none();
 

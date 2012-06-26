@@ -26,6 +26,7 @@ import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
+import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
@@ -266,6 +267,24 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
         final PhetPText title = new PhetPText( "Level " + ( levelIndex + 1 ), new PhetFont( 32, true ) );
         title.setOffset( ( minScoreCellX - AbstractFractionsCanvas.INSET ) / 2 - title.getFullWidth() / 2, backButton.getFullBounds().getCenterY() - title.getFullHeight() / 2 );
         addChild( title );
+
+        addChild( new TextButtonNode( "Reset", AbstractFractionsCanvas.CONTROL_FONT, Color.orange ) {{
+            setOffset( title.getMaxX() + 130, title.getCenterY() - getFullBounds().getHeight() / 2 );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( final ActionEvent e ) {
+                    reset();
+                }
+            } );
+        }} );
+    }
+
+    private void reset() {
+        for ( Pair pair : pairList ) {
+            pair.targetCell.split();
+        }
+        for ( FractionNode fractionGraphic : fractionGraphics ) {
+            fractionGraphic.split();
+        }
     }
 
     public void endDrag( final NumberCardNode numberCardNode, final PInputEvent event ) {

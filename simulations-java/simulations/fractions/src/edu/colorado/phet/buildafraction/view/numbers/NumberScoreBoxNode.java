@@ -38,8 +38,14 @@ public class NumberScoreBoxNode extends PNode {
     private PInterpolatingActivity activity;
     private final PImage splitButton;
     private FractionNode fractionGraphic;
+    private final PNode rootNode;
+    private final BuildAFractionModel model;
+    private final NumberSceneNode numberSceneNode;
 
     public NumberScoreBoxNode( final int numerator, final int denominator, final Property<List<Fraction>> matches, final PNode rootNode, final BuildAFractionModel model, final NumberSceneNode numberSceneNode, final boolean flashTargetCellOnMatch ) {
+        this.rootNode = rootNode;
+        this.model = model;
+        this.numberSceneNode = numberSceneNode;
         this.path = new PhetPPath( new RoundRectangle2D.Double( 0, 0, 120, 120, 30, 30 ), BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND, controlPanelStroke, Color.darkGray ) {{
 
             setStrokePaint( Color.darkGray );
@@ -88,28 +94,34 @@ public class NumberScoreBoxNode extends PNode {
         splitButton.addInputEventListener( new CursorHandler() );
         splitButton.addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mouseReleased( final PInputEvent event ) {
-                completed = false;
-                path.setStrokePaint( Color.darkGray );
-                path.setStroke( controlPanelStroke );
-                splitButton.setVisible( false );
-                splitButton.setPickable( false );
-                splitButton.setChildrenPickable( false );
-
-                fractionGraphic.setScale( 1.0 );
-                fractionGraphic.splitButton.setVisible( true );
-                FractionCardNode cardNode = new FractionCardNode( fractionGraphic, rootNode, numberSceneNode.pairList, model, numberSceneNode );
-                numberSceneNode.addChild( cardNode );
-
-                fractionGraphic = null;
-
-                cardNode.fractionNode.handleSplitEvent();
-                cardNode.fractionNode.sendFractionSkeletonToStartingLocation();
-
-                numberSceneNode.hideFace();
+                split();
             }
         } );
         splitButton.setVisible( false );
         addChild( splitButton );
+    }
+
+    public void split() {
+        if ( completed ) {
+            completed = false;
+            path.setStrokePaint( Color.darkGray );
+            path.setStroke( controlPanelStroke );
+            splitButton.setVisible( false );
+            splitButton.setPickable( false );
+            splitButton.setChildrenPickable( false );
+
+            fractionGraphic.setScale( 1.0 );
+            fractionGraphic.splitButton.setVisible( true );
+            FractionCardNode cardNode = new FractionCardNode( fractionGraphic, rootNode, numberSceneNode.pairList, model, numberSceneNode );
+            numberSceneNode.addChild( cardNode );
+
+            fractionGraphic = null;
+
+            cardNode.fractionNode.split();
+            cardNode.fractionNode.sendFractionSkeletonToStartingLocation();
+
+            numberSceneNode.hideFace();
+        }
     }
 
     public void setCompletedFraction( FractionNode fractionGraphic ) {

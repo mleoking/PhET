@@ -1,3 +1,4 @@
+Build a Fraction: Numbers: Added "reset" button for each scene
 Build a Fraction: Pictures: Added "reset" button for each scene
 Build a Fraction: Pictures: Pieces should go back to the toolbox if split from a container
 Build a Fraction: added ContainerFrontNode to hide seams and show the container divisions lines more clearly
