@@ -112,9 +112,12 @@ public class PictureScoreBoxNode extends PNode {
             containerNode.addBackSplitButton();
             containerNode.setAllPickable( true );
             containerNode.setInTargetCell( false );
+
+            //Send the pieces home
+            containerNode.splitAll();
+            containerNode.animateHome();
             containerNode = null;
 
-            //TODO: Maybe send the pieces home?
             sceneNode.hideFace();
             sceneNode.syncModelFractions();
         }
