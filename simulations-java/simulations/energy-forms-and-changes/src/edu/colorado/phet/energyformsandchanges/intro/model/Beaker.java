@@ -4,6 +4,7 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -231,6 +232,41 @@ public class Beaker extends RectangularThermalMovableModelElement {
         }
     }
 
+    @Override protected void animateNonContainedEnergyChunks( double dt ) {
+        for ( EnergyChunkWanderController energyChunkWanderController : new ArrayList<EnergyChunkWanderController>( energyChunkWanderControllers ) ) {
+            EnergyChunk ec = energyChunkWanderController.getEnergyChunk();
+            if ( isEnergyChunkObscured( ec ) ) {
+                // This chunk is being transferred from a container in the
+                // beaker to the fluid, so move it sideways.
+                double xVel = 0.05 * dt * ( getCenterPoint().getX() > ec.position.get().getX() ? -1 : 1 );
+                ImmutableVector2D motionVector = new ImmutableVector2D( xVel, 0 );
+                ec.translate( motionVector );
+            }
+            else {
+                energyChunkWanderController.updatePosition( dt );
+            }
+
+            if ( !isEnergyChunkObscured( ec ) && getSliceBounds().contains( ec.position.get().toPoint2D() ) ) {
+                // Chunk is in a place where it can migrate to the slices and
+                // stop moving.
+                moveEnergyChunkToSlices( energyChunkWanderController.getEnergyChunk() );
+            }
+        }
+    }
+
+    @Override public void addEnergyChunk( EnergyChunk ec ) {
+        if ( isEnergyChunkObscured( ec ) ) {
+            // Chunk obscured by a model element in the beaker, probably
+            // because the chunk just came from the model element.
+            ec.zPosition.set( 0.0 );
+            approachingEnergyChunks.add( ec );
+            energyChunkWanderControllers.add( new EnergyChunkWanderController( ec, getCenterPoint() ) );
+        }
+        else {
+            super.addEnergyChunk( ec );
+        }
+    }
+
     @Override public EnergyChunk extractClosestEnergyChunk( ImmutableVector2D point ) {
         EnergyChunk closestEnergyChunk = null;
         double closestCompensatedDistance = Double.POSITIVE_INFINITY;
@@ -260,7 +296,7 @@ public class Beaker extends RectangularThermalMovableModelElement {
 
     private boolean isEnergyChunkObscured( EnergyChunk ec ) {
         for ( RectangularThermalMovableModelElement potentiallyContainedElement : potentiallyContainedElements ) {
-            if ( potentiallyContainedElement.getProjectedShape().contains( ec.position.get().toPoint2D() ) ) {
+            if ( this.getThermalContactArea().getBounds().contains( potentiallyContainedElement.getRect() ) && potentiallyContainedElement.getProjectedShape().contains( ec.position.get().toPoint2D() ) ) {
                 return true;
             }
         }
