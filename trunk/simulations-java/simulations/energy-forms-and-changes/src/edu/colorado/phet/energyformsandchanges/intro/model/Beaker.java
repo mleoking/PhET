@@ -267,33 +267,6 @@ public class Beaker extends RectangularThermalMovableModelElement {
         }
     }
 
-    @Override public EnergyChunk extractClosestEnergyChunk( ImmutableVector2D point ) {
-        EnergyChunk closestEnergyChunk = null;
-        double closestCompensatedDistance = Double.POSITIVE_INFINITY;
-
-        // Identify the closest energy chunk that is not covered by some other
-        // model element.
-        for ( EnergyChunkContainerSlice slice : slices ) {
-            for ( EnergyChunk ec : slice.energyChunkList ) {
-                if ( isEnergyChunkObscured( ec ) ) {
-                    // This chunk is not available, so skip it.
-                    continue;
-                }
-                // Compensate for the Z offset.  Otherwise all the chunks on
-                // a particular slice are likely to get removed.
-                ImmutableVector2D compensatedEcPosition = ec.position.get().getSubtractedInstance( 0, EFACConstants.Z_TO_Y_OFFSET_MULTIPLIER * ec.zPosition.get() );
-                double compensatedDistance = compensatedEcPosition.distance( point );
-                if ( compensatedDistance < closestCompensatedDistance ) {
-                    closestEnergyChunk = ec;
-                    closestCompensatedDistance = compensatedDistance;
-                }
-            }
-        }
-
-        removeEnergyChunk( closestEnergyChunk );
-        return closestEnergyChunk;
-    }
-
     private boolean isEnergyChunkObscured( EnergyChunk ec ) {
         for ( RectangularThermalMovableModelElement potentiallyContainedElement : potentiallyContainedElements ) {
             if ( this.getThermalContactArea().getBounds().contains( potentiallyContainedElement.getRect() ) && potentiallyContainedElement.getProjectedShape().contains( ec.position.get().toPoint2D() ) ) {
