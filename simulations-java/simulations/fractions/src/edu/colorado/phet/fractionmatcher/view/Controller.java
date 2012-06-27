@@ -14,11 +14,12 @@ import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ParameterKeys;
 
 import static edu.colorado.phet.fractionmatcher.model.Mode.*;
 
-//REVIEW please elaborate on the use of "@Data classes for purposes of automated regression testing".
-
 /**
- * Commands send by the user to update the model.  They are @Data classes for purposes of automated regression testing.
+ * Commands send by the user to update the model.
  * They are inner classes since they are short and it is nice to be able to see them together.
+ * <p/>
+ * They are @Data classes for purposes of semi-automated regression testing, so they can be easily serialized, deserialized and compared.
+ * See edu.colorado.phet.fractionsintro.intro.model.RegressionTestRecorder for more information about semi-automated regression testing.
  *
  * @author Sam Reid
  */
