@@ -2,25 +2,12 @@ package edu.colorado.phet.fractionmatcher.model;
 
 import fj.data.List;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.Collections;
-
-import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
-import edu.colorado.phet.common.piccolophet.RichPNode;
-import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
-import edu.colorado.phet.fractionsintro.intro.view.FractionNode;
-import edu.colorado.phet.fractionsintro.intro.view.FractionNumberNode;
-import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.fractionmatcher.model.FillType.MIXED;
-import static edu.colorado.phet.fractionmatcher.model.FillType.SEQUENTIAL;
-import static edu.colorado.phet.fractionmatcher.model.ShapeType.*;
 import static edu.colorado.phet.fractions.util.FJUtils.shuffle;
 import static edu.colorado.phet.fractionsintro.intro.model.Fraction.fraction;
-import static fj.data.List.*;
+import static fj.data.List.list;
+import static fj.data.List.single;
 
 /**
  * Description for levels in the matching game
@@ -127,107 +114,6 @@ class IntroLevelFactory extends AbstractLevelFactory {
                                                   level == 8 ? list( 1, 2, 3, 4, 5, 6, 7, 8, 9 ) :
                                                   List.<Integer>nil();
         final List<Fraction> selectedFractions = fractionList.take( 6 );
-        ArrayList<Cell> remainingCells = new ArrayList<Cell>( shuffle( cells ).toCollection() );
-
-        final List<ShapeType> easy = list( PIES, HORIZONTAL_BARS, VERTICAL_BARS );
-        final List<ShapeType> medium = list( PLUSSES, GRID, PYRAMID, POLYGON, TETRIS, FLOWER, LETTER_L_SHAPES, INTERLEAVED_L_SHAPES, RING_OF_HEXAGONS, NINJA_STAR ).append( easy );
-
-        final List<GraphicalRepresentation> r =
-                level == 1 ? generateAll( easy, list( SEQUENTIAL ) ) :
-                level == 2 ||
-                level == 3 ? generateAll( medium, list( SEQUENTIAL ) ) :
-                level == 4 ? generateAll( medium, list( SEQUENTIAL ) ) :
-                level == 5 ? generateAll( medium, list( SEQUENTIAL, MIXED ) ) :
-                level == 6 ? generateAll( medium, list( MIXED, FillType.RANDOM ) ) :
-                level == 7 ? generateAll( medium, list( MIXED, FillType.RANDOM ) ) :
-                level == 8 ? generateAll( medium, list( MIXED, FillType.RANDOM ) ) :
-                null;
-        if ( r == null ) { throw new RuntimeException( "No representations found for level: " + level ); }
-        ArrayList<GraphicalRepresentation> representations = new ArrayList<GraphicalRepresentation>( r.toCollection() );
-
-        //for each cell, create a MovableFraction
-        ArrayList<MovableFraction> result = new ArrayList<MovableFraction>();
-        for ( int i = 0; i < selectedFractions.length(); i++ ) {
-
-            //choose one of the fractions at random, but don't repeat it.
-            final Fraction fraction = selectedFractions.index( i % 6 );
-
-            ArrayList<GraphicalRepresentation> allowedRepresentations = filter( representations, fraction );
-            Collections.shuffle( allowedRepresentations );
-
-            PNode node;
-            GraphicalRepresentation representation = null;
-
-            //Flag for the primary representation.  Ensure a minimum of 3 numeric representations per stage
-            boolean numeric = i < 3 || RANDOM.nextBoolean();
-            if ( numeric ) {
-                int scaleFactor = numericScaleFactors.index( RANDOM.nextInt( numericScaleFactors.length() ) );
-                final double fractionSizeScale = 0.3;
-
-                //AP: Usually mixed numbers are written with the "1" nearly as tall as the entire fraction
-                final double mixedNumberWholeScale = 2.4;
-                if ( level == 7 && fraction.toDouble() > 1 && RANDOM.nextBoolean() ) {
-                    //Try to use a mixed number representation
-                    node = new HBox( 0, new FractionNumberNode( new Property<Integer>( 1 ) ) {{setScale( fractionSizeScale * mixedNumberWholeScale );}},
-                                     new FractionNode( new Fraction( fraction.numerator - fraction.denominator, fraction.denominator ), fractionSizeScale ) );
-                }
-                else if ( level == 8 && fraction.toDouble() > 1 && RANDOM.nextBoolean() ) {
-                    //Try to use a mixed number representation
-                    node = new HBox( 0, new FractionNumberNode( new Property<Integer>( 1 ) ) {{setScale( fractionSizeScale * mixedNumberWholeScale );}},
-                                     new FractionNode( new Fraction( ( fraction.numerator - fraction.denominator ) * scaleFactor, fraction.denominator * scaleFactor ), fractionSizeScale ) );
-                }
-                else {
-                    node = new FractionNode( new Fraction( fraction.numerator * scaleFactor, fraction.denominator * scaleFactor ), fractionSizeScale );
-                }
-            }
-            //ensure a minimum of 3 shape representations per stage
-            else {
-                if ( allowedRepresentations.size() == 0 ) {
-                    allowedRepresentations = filter( new ArrayList<GraphicalRepresentation>( r.toCollection() ), fraction );
-                }
-                representation = allowedRepresentations.get( 0 );
-                node = createGraphic( fraction, representation );
-                representations.remove( representation );
-                allowedRepresentations.remove( representation );
-            }
-
-            {
-                Cell cell = remainingCells.remove( 0 );
-                final int id = MovableFraction.nextID();
-                final String representationString = numeric ? "numeric" : representation.toString();
-                result.add( new MovableFraction( id, cell.getPosition(), fraction.numerator, fraction.denominator,
-                                                 false, cell, 1.0, new RichPNode( node ), Motions.WAIT, false, new IUserComponent() {
-                    @Override public String toString() {
-                        return "fraction.id=" + id + ".value=" + fraction.numerator + "/" + fraction.denominator + ".representation=" + representationString;
-                    }
-                },
-                                                 numeric ? Color.black : representation.color,
-                                                 representationString ) );
-            }
-
-            //If fraction is numeric, partner must not also be numeric.
-            {
-                if ( allowedRepresentations.size() == 0 ) {
-                    allowedRepresentations = filter( new ArrayList<GraphicalRepresentation>( r.toCollection() ), fraction );
-                }
-                final GraphicalRepresentation alternateRepresentation = allowedRepresentations.get( 0 );
-                node = createGraphic( fraction, alternateRepresentation );
-                representations.remove( alternateRepresentation );
-
-                Cell cell = remainingCells.remove( 0 );
-
-                final int id = MovableFraction.nextID();
-                result.add( new MovableFraction( id, cell.getPosition(), fraction.numerator, fraction.denominator,
-                                                 false, cell, 1.0, new RichPNode( node ), Motions.WAIT, false, new IUserComponent() {
-                    @Override public String toString() {
-                        return "fraction.id=" + id + ".value=" + fraction.numerator + "/" + fraction.denominator + ".representation=" + alternateRepresentation.toString();
-                    }
-                },
-                                                 alternateRepresentation.color,
-                                                 alternateRepresentation.toString() ) );
-            }
-        }
-        return iterableList( result );
+        return generateLevel( level, cells, numericScaleFactors, selectedFractions );
     }
-
 }
