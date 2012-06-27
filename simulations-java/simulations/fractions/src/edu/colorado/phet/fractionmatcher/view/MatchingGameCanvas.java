@@ -166,7 +166,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                 }
             } ) ) );
 
-            //Show the draggable Fraction nodes.  if fraction ids changes or reveal clues changes, just update the lot of them
+            //Show the draggable Fraction nodes.  If fraction ids changes or reveal clues changes, just update the lot of them
             addChild( new UpdateNode( new Effect<PNode>() {
                 @Override public void e( final PNode parent ) {
                     //For each unique ID, show a graphic for that one.
@@ -207,6 +207,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                 }
             }, model.level, model.score, model.timerVisible, model.timeInSec ) );
 
+            //REVIEW: If this is vestigial, can it be removed now?
             //Way of creating game buttons, cache is vestigial and could be removed.
             final F<ButtonArgs, Button> buttonFactory = Cache.cache( new F<ButtonArgs, Button>() {
                 @Override public Button f( final ButtonArgs buttonArgs ) {
@@ -221,6 +222,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
             final ObservableProperty<Vector2D> buttonLocation = new CompositeProperty<Vector2D>( new Function0<Vector2D>() {
                 public Vector2D apply() {
 
+                    //REVIEW: This should be cleaned up, i.e. the question addressed and the commented-out code removed.
                     //Where should the "check answer" button should be shown?  Originally it was on the same side as the last dropped value, but in interviews one student said this was confusing.
                     //                    final boolean showButtonsOnRight = model.state.get().getLastDroppedScaleRight();
                     final boolean showButtonsOnRight = false;
@@ -240,8 +242,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                 @Override public void e( final PNode parent ) {
                     parent.addChild( model.revealClues.get() ? new SignNode( model.state.get(), scalesNode ) : new PNode() );
                 }
-            },
-                                      model.leftScaleValue, model.rightScaleValue, model.mode, model.revealClues ) );
+            }, model.leftScaleValue, model.rightScaleValue, model.mode, model.revealClues ) );
 
             //Show equals signs in the scoreboard.
             addChild( new UpdateNode( new Effect<PNode>() {
