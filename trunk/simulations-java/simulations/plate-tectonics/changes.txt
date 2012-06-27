@@ -1,3 +1,4 @@
+Moved "full density meter" icon arrow to the right.
 # 0.00.45 (65376) Jun 21, 2012
 # 0.00.44 (65375) Jun 21, 2012
 # 0.00.43 (65372) Jun 21, 2012
