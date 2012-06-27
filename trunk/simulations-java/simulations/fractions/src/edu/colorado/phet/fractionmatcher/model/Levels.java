@@ -35,6 +35,8 @@ import static fj.data.List.*;
  */
 class Levels {
 
+    //REVIEW violation of Java naming conventions, all constants should be uppercase
+
     /**
      * Level 1
      * No mixed numbers
@@ -82,6 +84,7 @@ class Levels {
                                                                fraction( 8, 9 ), fraction( 6, 9 ), fraction( 4, 9 ), fraction( 3, 9 ), fraction( 2, 9 ),
                                                                fraction( 9, 7 ) );
 
+    //REVIEW  level4Fraction and level5Fractions are identical. Is this significant? Should level5Fractions = level4Fractions?
     /**
      * Level 5:
      * All representations possible as well as complicated mixed/improper numbers

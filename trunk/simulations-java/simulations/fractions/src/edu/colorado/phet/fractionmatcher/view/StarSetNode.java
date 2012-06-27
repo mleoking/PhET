@@ -19,6 +19,7 @@ import static edu.colorado.phet.fractions.FractionsResources.Images.*;
 import static fj.Ord.intOrd;
 import static fj.data.List.list;
 
+//REVIEW This looks brute-force and brittle. What will happen if something changes elsewhere that allows the score to be > 12 ? At the very least, add assertions to verify your assumptions.
 /**
  * Node that shows the number of stars the user attained.  There are 3 stars for each level and each level is worth 12 points,
  * so each star can show up to 4 points (by filling up from the bottom).

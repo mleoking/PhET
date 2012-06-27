@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractionmatcher;
 
 import javax.swing.JComponent;
@@ -22,7 +22,7 @@ public class MatchingGameModule extends AbstractFractionsModule {
     }
 
     private MatchingGameModule( boolean dev, MatchingGameModel model, boolean standaloneSim ) {
-        super( Components.matchingGameTab, "Matching Game", model.clock );
+        super( Components.matchingGameTab, "Matching Game", model.clock );  //REVIEW literal will present an i18n problem if this module is ever used in a multi-tab sim
         setSimulationPanel( new MatchingGameCanvas( dev, model, standaloneSim ) );
     }
 
