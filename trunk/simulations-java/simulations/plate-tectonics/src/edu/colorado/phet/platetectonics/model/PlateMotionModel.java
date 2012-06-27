@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.ModelActions;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.ModelComponents;
@@ -28,6 +29,7 @@ import edu.colorado.phet.platetectonics.model.behaviors.TransformBehavior;
 import edu.colorado.phet.platetectonics.model.labels.BoundaryLabel;
 import edu.colorado.phet.platetectonics.model.labels.RangeLabel;
 import edu.colorado.phet.platetectonics.model.labels.TextLabel;
+import edu.colorado.phet.platetectonics.model.regions.Boundary;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Side;
@@ -74,6 +76,8 @@ public class PlateMotionModel extends PlateModel {
     public static final int TERRAIN_DEPTH_SAMPLES = 32;
 
     private boolean transformMotionCCW = true;
+
+    public BoundaryLabel joiningBoundaryLabel;
 
     private final StripTracker stripTracker = new StripTracker();
 
@@ -141,7 +145,10 @@ public class PlateMotionModel extends PlateModel {
                     motionTypeIfStarted.set( MotionType.TRANSFORM );
                 }
 
-                addMantleLabel();
+                if ( hasBothPlates.get() ) {
+                    addMantleLabel();
+                    addJoinedBoundary();
+                }
             }
         } );
     }
@@ -242,6 +249,16 @@ public class PlateMotionModel extends PlateModel {
             textLabels.clear();
             addMantleLabel();
         }
+
+    }
+
+    private void addJoinedBoundary() {
+        // add a joining boundary between the two plates (behaviors may change or destroy this)
+        joiningBoundaryLabel = new BoundaryLabel( new Boundary() {{
+            addSample( Side.LEFT, getPlate( Side.LEFT ).getLithosphere().getBottomBoundary().getEdgeSample( Side.RIGHT ) );
+            addSample( Side.RIGHT, getPlate( Side.RIGHT ).getLithosphere().getBottomBoundary().getEdgeSample( Side.LEFT ) );
+        }}, Side.LEFT ); // side of the boundary is arbitrary
+        boundaryLabels.add( joiningBoundaryLabel );
     }
 
     private void resetPlates() {
@@ -272,6 +289,8 @@ public class PlateMotionModel extends PlateModel {
 
 
     public void rewind() {
+        joiningBoundaryLabel = null;
+
         resetPlates();
         resetTerrain();
 
@@ -282,6 +301,8 @@ public class PlateMotionModel extends PlateModel {
         dropCrust( Side.LEFT, leftPlateType.get() );
         dropCrust( Side.RIGHT, rightPlateType.get() );
 
+        // joined boundary before behaviors, since the overriding behavior needs to modify the joined boundary
+        addJoinedBoundary();
         initializeBehaviors();
 
         smokePuffs.clear();
@@ -290,6 +311,8 @@ public class PlateMotionModel extends PlateModel {
     @Override
     public void resetAll() {
         super.resetAll();
+
+        joiningBoundaryLabel = null;
 
         clock.resetTimeLimit();
         clock.setTimeMultiplier( 1 ); // TODO: refactor so this is easier to reset (maybe property-based?)

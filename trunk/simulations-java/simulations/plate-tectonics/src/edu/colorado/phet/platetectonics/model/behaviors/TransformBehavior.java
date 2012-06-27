@@ -2,6 +2,7 @@
 package edu.colorado.phet.platetectonics.model.behaviors;
 
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
 import edu.colorado.phet.platetectonics.model.Sample;
 
@@ -16,6 +17,11 @@ public class TransformBehavior extends PlateBehavior {
     public TransformBehavior( PlateMotionPlate plate, PlateMotionPlate otherPlate, boolean towardsFront ) {
         super( plate, otherPlate );
         this.towardsFront = towardsFront;
+
+        PlateMotionModel model = plate.getModel();
+        if ( model.boundaryLabels.contains( model.joiningBoundaryLabel ) ) {
+            model.boundaryLabels.remove( model.joiningBoundaryLabel );
+        }
     }
 
     @Override public void stepInTime( float millionsOfYears ) {

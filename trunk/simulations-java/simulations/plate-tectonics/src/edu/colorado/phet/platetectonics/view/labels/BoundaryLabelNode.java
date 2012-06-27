@@ -7,6 +7,7 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.lwjglphet.GLOptions;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.model.PlateModel;
@@ -50,9 +51,32 @@ public class BoundaryLabelNode extends BaseLabelNode {
 
         glBegin( GL_LINE_STRIP );
         LWJGLUtils.color4f( getColor() );
+        Sample lastSample = null;
         for ( Sample sample : boundaryLabel.boundary.samples ) {
             // TODO: convert to tab-simplified LWJGL transform?
-            vertex3f( modelViewTransform.transformPosition( PlateModel.convertToRadial( sample.getPosition() ) ) );
+            ImmutableVector3F position = sample.getPosition();
+
+            // important not to draw points outside of the minX / maxX bounds
+            if ( position.getX() < boundaryLabel.minX.get() ) {
+
+            }
+            else if ( position.getX() > boundaryLabel.maxX.get() ) {
+                // cap it off early
+                float lastSampleX = lastSample.getPosition().getX();
+                float ratio = ( boundaryLabel.maxX.get() - lastSampleX ) / ( position.getX() - lastSampleX );
+                vertex3f( modelViewTransform.transformPosition( PlateModel.convertToRadial( position.times( ratio ).plus( lastSample.getPosition().times( 1 - ratio ) ) ) ) );
+            }
+            else {
+                if ( lastSample != null && lastSample.getPosition().getX() < boundaryLabel.minX.get() ) {
+                    // add an initial point here that is between two
+                    float lastSampleX = lastSample.getPosition().getX();
+                    float ratio = ( boundaryLabel.minX.get() - lastSampleX ) / ( position.getX() - lastSampleX );
+                    vertex3f( modelViewTransform.transformPosition( PlateModel.convertToRadial( position.times( ratio ).plus( lastSample.getPosition().times( 1 - ratio ) ) ) ) );
+                }
+                vertex3f( modelViewTransform.transformPosition( PlateModel.convertToRadial( position ) ) );
+            }
+
+            lastSample = sample;
         }
         glEnd();
 

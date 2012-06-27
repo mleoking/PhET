@@ -18,6 +18,12 @@ public class Boundary {
         side.removeFromList( samples );
     }
 
+    public void replaceSample( Sample oldSample, Sample newSample ) {
+        int position = samples.indexOf( oldSample );
+        samples.remove( position );
+        samples.add( position, newSample );
+    }
+
     public Sample getSample( int index ) {
         return samples.get( index );
     }

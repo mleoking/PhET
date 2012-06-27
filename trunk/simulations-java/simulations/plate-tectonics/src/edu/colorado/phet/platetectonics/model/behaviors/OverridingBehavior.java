@@ -15,8 +15,11 @@ import edu.colorado.phet.platetectonics.model.PlateType;
 import edu.colorado.phet.platetectonics.model.Sample;
 import edu.colorado.phet.platetectonics.model.SmokePuff;
 import edu.colorado.phet.platetectonics.model.TerrainSample;
+import edu.colorado.phet.platetectonics.model.labels.BoundaryLabel;
+import edu.colorado.phet.platetectonics.model.regions.Boundary;
 import edu.colorado.phet.platetectonics.model.regions.MagmaRegion;
 import edu.colorado.phet.platetectonics.model.regions.Region;
+import edu.colorado.phet.platetectonics.util.Side;
 
 public class OverridingBehavior extends PlateBehavior {
 
@@ -43,6 +46,9 @@ public class OverridingBehavior extends PlateBehavior {
     private float minElevationInTimestep;
     private float maxElevationInTimestep;
 
+    // provide a fake sample that will move underneath the subducting plate's edge to maintain the boundary label
+    private final Sample fakeUnderSubductionSample;
+
     private float timeElapsed = 0;
 
     private Region magmaTube;
@@ -58,6 +64,25 @@ public class OverridingBehavior extends PlateBehavior {
 
         magmaTarget = getMagmaChamberTop();
         magmaSpeed = MELT_SPEED;
+
+        fakeUnderSubductionSample = new Sample( getFakeSubductionSamplePosition(), 0, 0, new ImmutableVector2F() );
+        Sample replacedSample = plate.getLithosphere().getBottomBoundary().getEdgeSample( getSide().opposite() );
+        plate.getModel().joiningBoundaryLabel.getBoundary().replaceSample( replacedSample, fakeUnderSubductionSample );
+    }
+
+    private ImmutableVector3F getFakeSubductionSamplePosition() {
+        float ourDepth = getLithosphere().getBottomBoundary().getEdgeSample( getSide().opposite() ).getPosition().y;
+        ImmutableVector3F subductionPoint = getOtherPlate().getLithosphere().getBottomBoundary().getEdgeSample( getSide() ).getPosition();
+
+        if ( subductionPoint.y < ourDepth ) {
+            // subducting plate has sunk enough where this "fake" boundary is not needed anymore, thus we will set the
+            // position to the other point's position so the label will not show up.
+            return subductionPoint;
+        }
+        else {
+            // return the point under the subduction point that is at our depth
+            return new ImmutableVector3F( subductionPoint.x, ourDepth, subductionPoint.z );
+        }
     }
 
     private float getMagmaChamberScale() {
@@ -261,6 +286,28 @@ public class OverridingBehavior extends PlateBehavior {
                         plate.getTextureStrategy().mapFrontDelta( new ImmutableVector2F( 0, -textureDelta ) ) ) );
             }
         }
+
+        /*---------------------------------------------------------------------------*
+        * boundary label handling
+        *----------------------------------------------------------------------------*/
+        BoundaryLabel boundaryLabel = getPlate().getBoundaryLabel();
+
+        // need to cut off the boundary label on the middle side for the overriding plate
+        Property<Float> cutoffProperty = getSide() == Side.LEFT ? boundaryLabel.maxX : boundaryLabel.minX;
+
+        // calculate where the low edge of the subducting plate is
+        float cutoffValue = getOtherPlate().getLithosphere().getBottomBoundary().getEdgeSample( getSide() ).getPosition().x;
+
+        // but don't allow it to go past this threshold, since that would cause the boundary to disappear above the subducting plate
+        float maxXBoundaryCutoff = 55000;
+        if ( Math.abs( cutoffValue ) > maxXBoundaryCutoff ) {
+            cutoffValue = Math.signum( cutoffValue ) * maxXBoundaryCutoff;
+        }
+
+        cutoffProperty.set( cutoffValue );
+
+        // then update the "fake" boundary
+        fakeUnderSubductionSample.setPosition( getFakeSubductionSamplePosition() );
     }
 
     private void agePuff( float millionsOfYears, SmokePuff puff ) {

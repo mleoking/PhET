@@ -27,6 +27,9 @@ public class PlateMotionPlate extends Plate {
     private final TextureStrategy textureStrategy;
     private final Side side;
 
+    // main boundary label between the mantle and lithosphere for this plate
+    private BoundaryLabel boundaryLabel;
+
     private PlateType plateType = null;
 
     private PlateBehavior behavior;
@@ -164,7 +167,7 @@ public class PlateMotionPlate extends Plate {
                 Strings.LITHOSPHERE, this
         ) );
 
-        model.boundaryLabels.add( new BoundaryLabel( getLithosphere().getBottomBoundary(), side ) {
+        boundaryLabel = new BoundaryLabel( getLithosphere().getBottomBoundary(), side ) {
             @Override
             public boolean isReversed() {
                 if ( behavior == null ) {
@@ -175,7 +178,8 @@ public class PlateMotionPlate extends Plate {
                     return behavior instanceof RiftingBehavior;
                 }
             }
-        } );
+        };
+        model.boundaryLabels.add( boundaryLabel );
 
         final float mantleX = lithosphereBottom.get().getX();
 
@@ -438,6 +442,10 @@ public class PlateMotionPlate extends Plate {
 
     public PlateMotionModel getModel() {
         return model;
+    }
+
+    public BoundaryLabel getBoundaryLabel() {
+        return boundaryLabel;
     }
 
     public void randomizeTerrain() {
