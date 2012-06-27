@@ -10,5 +10,4 @@ import lombok.Data;
 public @Data class GameResult {
     public final int level;
     public final int score;
-    public final int maxPoints;  //REVIEW this field is flagged by IDEA as unused
 }
