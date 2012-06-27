@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
 import edu.colorado.phet.platetectonics.model.PlateType;
 import edu.colorado.phet.platetectonics.model.Sample;
@@ -69,6 +70,11 @@ public class RiftingBehavior extends PlateBehavior {
 
     @Override public void stepInTime( float millionsOfYears ) {
         timeElapsed += millionsOfYears;
+
+        PlateMotionModel model = plate.getModel();
+        if ( model.boundaryLabels.contains( model.joiningBoundaryLabel ) ) {
+            model.boundaryLabels.remove( model.joiningBoundaryLabel );
+        }
 
         // trim away things that are outside of our view (performance)
         removeEarthEdges();
