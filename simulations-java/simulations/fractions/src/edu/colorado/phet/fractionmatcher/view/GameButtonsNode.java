@@ -5,6 +5,7 @@ import fj.F;
 
 import java.awt.Color;
 
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -35,10 +36,10 @@ class GameButtonsNode extends PNode {
         if ( state.getLeftScaleValue() > 0 && state.getRightScaleValue() > 0 ) {
             if ( state.getMode() == SHOWING_WHY_ANSWER_WRONG ) {
                 if ( state.getChecks() < 2 ) {
-                    addChild( buttonFactory.f( new ButtonArgs( tryAgainButton, Strings.TRY_AGAIN, Color.red, buttonLocation, new TryAgain() ) ) );
+                    addChild( buttonFactory.f( new ButtonArgs( tryAgainButton, Strings.TRY_AGAIN, PhetColorScheme.RED_COLORBLIND, buttonLocation, new TryAgain() ) ) );
                 }
                 else {
-                    addChild( buttonFactory.f( new ButtonArgs( showAnswerButton, Strings.SHOW_ANSWER, Color.red, buttonLocation, new ShowAnswer() ) ) );
+                    addChild( buttonFactory.f( new ButtonArgs( showAnswerButton, Strings.SHOW_ANSWER, PhetColorScheme.RED_COLORBLIND, buttonLocation, new ShowAnswer() ) ) );
                 }
             }
 
