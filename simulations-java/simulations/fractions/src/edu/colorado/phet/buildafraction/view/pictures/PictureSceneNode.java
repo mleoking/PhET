@@ -122,7 +122,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
 
         final PictureLevel level = model.getPictureLevel( levelIndex );
 
-        ContainerNode firstContainerNode = new ContainerNode( this, this ) {{
+        ContainerNode firstContainerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne() ) {{
             setInitialPosition( 285, 200 );
         }};
         addChild( firstContainerNode );
@@ -169,7 +169,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
             double totalHorizontalSpacing = dx * ( numInGroup - 1 );
             LinearFunction offset = new LinearFunction( 0, numInGroup - 1, -totalHorizontalSpacing / 2, +totalHorizontalSpacing / 2 );
             final double delta = numInGroup == 1 ? 0 : offset.evaluate( i );
-            final ContainerNode containerNode = new ContainerNode( this, this ) {{
+            final ContainerNode containerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne() ) {{
                 this.setInitialState( layoutXOffset + INSET + 20 + delta + finalGroupIndex * spacing,
                                       STAGE_SIZE.height - INSET - 127 + 20 + delta, TINY_SCALE );
             }};

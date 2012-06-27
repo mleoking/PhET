@@ -59,8 +59,7 @@ public class ContainerNode extends PNode {
     private final SpinnerButtonNode bottomSpinner;
     private final PImage increaseButton;
 
-
-    public ContainerNode( PictureSceneNode parent, final ContainerContext context ) {
+    public ContainerNode( PictureSceneNode parent, final ContainerContext context, boolean showIncreaseButton ) {
         this.parent = parent;
         this.context = context;
 
@@ -135,8 +134,10 @@ public class ContainerNode extends PNode {
                 shapeNode,
                 bottomSpinner ) );
 
-        addChild( increaseButton );
-        increaseButton.setOffset( shapeNode.getFullBounds().getMaxX() + AbstractFractionsCanvas.INSET, shapeNode.getFullBounds().getCenterY() - increaseButton.getFullBounds().getHeight() / 2 );
+        if ( showIncreaseButton ) {
+            addChild( increaseButton );
+            increaseButton.setOffset( shapeNode.getFullBounds().getMaxX() + AbstractFractionsCanvas.INSET, shapeNode.getFullBounds().getCenterY() - increaseButton.getFullBounds().getHeight() / 2 );
+        }
     }
 
     private void fireIncreaseEvent() {
