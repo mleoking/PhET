@@ -8,10 +8,13 @@ import fj.data.List;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.umd.cs.piccolo.PNode;
 
-//REVIEW Please elaborate on why this class is necessary.
-
 /**
  * Piccolo PNode that adds some functionality for improved interoperability with the Functional Java library.
+ * In particular:
+ * 1. There is a constructor that takes a fj.data.List of PNodes.
+ * 2. addChild is provided as a fj.Effect so that it can be applied with foreach
+ * 3. Static function wrappers are provided for PNode bounds computation within functional java list comprehensions
+ * -(Note, these static function wrappers could be declared elsewhere, like in a utility class, but I thought it made sense to keep it with FNode since they can be used here).
  *
  * @author Sam Reid
  */

@@ -1,3 +1,4 @@
+Fraction Matcher: Added documentation for FNode class, see #3357
 Fraction Matcher: Generalized code in StarSetNode regarding generation of stars and pieces of stars, see #3357
 Fraction Matcher: Addressed a few review comments, see #3357
 Converted to use colorblind friendly red, see #3357
