@@ -82,18 +82,11 @@ class Levels {
                                                                   fraction( 8, 9 ), fraction( 6, 9 ), fraction( 4, 9 ), fraction( 3, 9 ), fraction( 2, 9 ),
                                                                   fraction( 9, 7 ) );
 
-    //REVIEW  level4Fraction and level5Fractions are identical. Is this significant? Should level5Fractions = level4Fractions?
     /**
      * Level 5:
-     * All representations possible as well as complicated mixed/improper numbers
+     * All representations possible as well as complicated mixed/improper numbers.  Same fractions as level 4 but different representations.
      */
-    private static final List<Fraction> LEVEL_5_FRACTIONS = list( fraction( 13, 7 ), fraction( 13, 7 ),
-                                                                  fraction( 14, 8 ),
-                                                                  fraction( 9, 5 ),
-                                                                  fraction( 6, 3 ),
-                                                                  fraction( 9, 8 ),
-                                                                  fraction( 8, 9 ), fraction( 6, 9 ), fraction( 4, 9 ), fraction( 3, 9 ), fraction( 2, 9 ),
-                                                                  fraction( 9, 7 ) );
+    private static final List<Fraction> LEVEL_5_FRACTIONS = LEVEL_4_FRACTIONS;
 
     /**
      * Level 6:
@@ -144,8 +137,8 @@ class Levels {
         final List<Fraction> selectedFractions = fractionList.take( 6 );
         ArrayList<Cell> remainingCells = new ArrayList<Cell>( shuffle( cells ).toCollection() );
 
-        final List<ShapeType> easy = list( pies, horizontalBars, verticalBars );
-        final List<ShapeType> medium = list( plusses, grid, pyramid, polygon, tetris, flower, letterLShapes, interleavedLShapes, ringOfHexagons, ninjaStar ).append( easy );
+        final List<ShapeType> easy = list( PIES, HORIZONTAL_BARS, VERTICAL_BARS );
+        final List<ShapeType> medium = list( PLUSSES, GRID, PYRAMID, POLYGON, TETRIS, FLOWER, LETTER_L_SHAPES, INTERLEAVED_L_SHAPES, RING_OF_HEXAGONS, NINJA_STAR ).append( easy );
 
         final List<GraphicalRepresentation> r =
                 level == 1 ? generateAll( easy, list( SEQUENTIAL ) ) :
@@ -257,19 +250,19 @@ class Levels {
     //See if the specified shape can render the given fraction.
     private boolean matches( final ShapeType s, final Fraction fraction ) {
         final int d = fraction.denominator;
-        return s == pies ? true :
-               s == horizontalBars ? true :
-               s == verticalBars ? true :
-               s == grid ? ( d == 4 || d == 9 ) :
-               s == flower ? d == 6 :
-               s == pyramid ? ( d == 1 || d == 4 || d == 9 ) :
-               s == plusses ? d == 6 :
-               s == polygon ? d >= 3 :
-               s == tetris ? d == 4 :
-               s == letterLShapes ? d % 2 == 0 :
-               s == interleavedLShapes ? ( d == 2 || d == 4 ) :
-               s == ringOfHexagons ? d == 7 :
-               s == ninjaStar ? d == 8 :
+        return s == PIES ? true :
+               s == HORIZONTAL_BARS ? true :
+               s == VERTICAL_BARS ? true :
+               s == GRID ? ( d == 4 || d == 9 ) :
+               s == FLOWER ? d == 6 :
+               s == PYRAMID ? ( d == 1 || d == 4 || d == 9 ) :
+               s == PLUSSES ? d == 6 :
+               s == POLYGON ? d >= 3 :
+               s == TETRIS ? d == 4 :
+               s == LETTER_L_SHAPES ? d % 2 == 0 :
+               s == INTERLEAVED_L_SHAPES ? ( d == 2 || d == 4 ) :
+               s == RING_OF_HEXAGONS ? d == 7 :
+               s == NINJA_STAR ? d == 8 :
                false;
     }
 
@@ -373,23 +366,23 @@ class Levels {
             throw new RuntimeException( "Failed assertion, fraction = " + fraction );
         }
         final int d = fraction.denominator;
-        final Pattern container = s == pies ? Pattern.pie( d ) :
-                                  s == verticalBars ? Pattern.verticalBars( d ) :
-                                  s == horizontalBars ? Pattern.horizontalBars( d ) :
-                                  s == flower && d == 6 ? Pattern.sixFlower() :
-                                  s == tetris && d == 4 ? Pattern.tetrisPiece( 50 ) :
-                                  s == plusses && d == 6 ? Pattern.plusSigns( d ) :
-                                  s == polygon ? Pattern.polygon( 80, d ) :
-                                  s == pyramid && d == 1 ? Pattern.pyramidSingle() :
-                                  s == pyramid && d == 4 ? Pattern.pyramidFour() :
-                                  s == pyramid && d == 9 ? Pattern.pyramidNine() :
-                                  s == grid && d == 4 ? Pattern.grid( 2 ) :
-                                  s == grid && d == 9 ? Pattern.grid( 3 ) :
-                                  s == letterLShapes && d % 2 == 0 ? Pattern.letterLShapedDiagonal( 14, d / 2 ) :
-                                  s == interleavedLShapes && d == 2 ? Pattern.interleavedLShape( 80, 1, 1 ) :
-                                  s == interleavedLShapes && d == 4 ? Pattern.interleavedLShape( 80, 2, 1 ) :
-                                  s == ringOfHexagons && d == 7 ? Pattern.ringOfHexagons() :
-                                  s == ninjaStar && d == 8 ? Pattern.ninjaStar() :
+        final Pattern container = s == PIES ? Pattern.pie( d ) :
+                                  s == VERTICAL_BARS ? Pattern.verticalBars( d ) :
+                                  s == HORIZONTAL_BARS ? Pattern.horizontalBars( d ) :
+                                  s == FLOWER && d == 6 ? Pattern.sixFlower() :
+                                  s == TETRIS && d == 4 ? Pattern.tetrisPiece( 50 ) :
+                                  s == PLUSSES && d == 6 ? Pattern.plusSigns( d ) :
+                                  s == POLYGON ? Pattern.polygon( 80, d ) :
+                                  s == PYRAMID && d == 1 ? Pattern.pyramidSingle() :
+                                  s == PYRAMID && d == 4 ? Pattern.pyramidFour() :
+                                  s == PYRAMID && d == 9 ? Pattern.pyramidNine() :
+                                  s == GRID && d == 4 ? Pattern.grid( 2 ) :
+                                  s == GRID && d == 9 ? Pattern.grid( 3 ) :
+                                  s == LETTER_L_SHAPES && d % 2 == 0 ? Pattern.letterLShapedDiagonal( 14, d / 2 ) :
+                                  s == INTERLEAVED_L_SHAPES && d == 2 ? Pattern.interleavedLShape( 80, 1, 1 ) :
+                                  s == INTERLEAVED_L_SHAPES && d == 4 ? Pattern.interleavedLShape( 80, 2, 1 ) :
+                                  s == RING_OF_HEXAGONS && d == 7 ? Pattern.ringOfHexagons() :
+                                  s == NINJA_STAR && d == 8 ? Pattern.ninjaStar() :
                                   null;
         if ( container == null ) {
             throw new RuntimeException( "Null pattern for rep = " + s + ", f = " + fraction );
