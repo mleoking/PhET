@@ -152,7 +152,6 @@ public class EnergyChunkDistributor {
 
                         // Handle case where point is too close to the container's edge.
                         if ( lengthBounds.getCenter() < minDistance ) {
-                            System.out.println( "Warning: point is on container edge." );
                             lengthBounds = new DoubleRange( minDistance, minDistance );
                         }
 
@@ -273,7 +272,6 @@ public class EnergyChunkDistributor {
 
                         // Handle case where point is too close to the container's edge.
                         if ( lengthBounds.getCenter() < minDistance ) {
-                            System.out.println( "Warning: point is on container edge." );
                             lengthBounds = new DoubleRange( minDistance, minDistance );
                         }
 
