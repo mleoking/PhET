@@ -63,7 +63,7 @@ public @Data class MatchingGameState {
             @Override public List<Cell> f( final Integer column ) {
                 return range( 0, rows ).map( new F<Integer, Cell>() {
                     @Override public Cell f( Integer row ) {
-                        return new Cell( new ImmutableRectangle2D( x + column * ( width + spacingX ), y + row * ( height + spacingY ), width, height ), column );
+                        return new Cell( new ImmutableRectangle2D( x + column * ( width + spacingX ), y + row * ( height + spacingY ), width, height ) );
                     }
                 } );
             }
