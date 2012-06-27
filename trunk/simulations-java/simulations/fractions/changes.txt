@@ -1,3 +1,4 @@
+Fraction Matcher: Added documentation to Vector2D class, see #3357
 Fraction Matcher: Added documentation for Controller class, see #3357
 Fraction Matcher: Added documentation for FNode class, see #3357
 Fraction Matcher: Generalized code in StarSetNode regarding generation of stars and pieces of stars, see #3357

@@ -13,11 +13,23 @@ import edu.umd.cs.piccolo.util.PDimension;
 import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
-//REVIEW Why is this class necessary? Why couldn't you use ImmutableVector2D? Having to create your own (duplicate) implementation of a basic class seems like a significant disadvantage.
-
 /**
  * Immutable vector 2D.  Provides a convenient and consistent way of accessing x & y, for use in the immutable models in this sim.
  * Uses Lombok to generate equals/hash code for use in other immutable objects.
+ * <p/>
+ * From code review ticket #3357 comment 18:
+ * <p/>
+ * ImmutableVector2D has several problems which could be remedied such as:
+ * (a) lacks hashcode implementation
+ * (b) bulky API containing methods lots of methods like "getAddedInstance"
+ * (c) lacking concise way to create them such as v(0,0)
+ * (d) a more concise name than "ImmutableVector2D".
+ * <p/>
+ * But the main reasons that I wanted something like Vector2D for this sim was for uniformity for data model within the sim.
+ * All model objects are now managed by Lombok, which provides them with equality, hashcode, serializability, etc.
+ * And all final fields within the model (including x and y) are provided as public final immutable fields.
+ * I think this would be something good to discuss later on, and I'd like to use immutable.Vector2D or something like it in future code.
+ * Also, since Vector2D is ~100 lines of code and a very simple concept, I do not believe it will be a significant maintenance cost.
  *
  * @author Sam Reid
  */
