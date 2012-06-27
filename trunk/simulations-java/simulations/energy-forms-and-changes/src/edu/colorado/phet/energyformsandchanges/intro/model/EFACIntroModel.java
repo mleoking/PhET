@@ -205,7 +205,7 @@ public class EFACIntroModel {
             }
         }
 
-        // Exchange thermal energy between the burners and the various thermal
+        // Exchange thermal energy between the burners and the various movable
         // thermal energy containers.
         for ( Burner burner : Arrays.asList( leftBurner, rightBurner ) ) {
             if ( burner.areAnyOnTop( ironBlock, brick, beaker ) ) {
@@ -222,10 +222,10 @@ public class EFACIntroModel {
         // Exchange energy chunks between burners and non-air energy containers.
         for ( RectangularThermalMovableModelElement thermalModelElement : Arrays.asList( ironBlock, brick, beaker ) ) {
             for ( Burner burner : Arrays.asList( leftBurner, rightBurner ) ) {
-                if ( thermalModelElement.getEnergyChunkBalance() < 0 && burner.inContactWith( thermalModelElement ) && burner.canSupplyEnergyChunk() ) {
+                if ( thermalModelElement.getSystemEnergyChunkBalance() < 0 && burner.inContactWith( thermalModelElement ) && burner.canSupplyEnergyChunk() ) {
                     thermalModelElement.addEnergyChunk( burner.extractClosestEnergyChunk( thermalModelElement.getCenterPoint() ) );
                 }
-                else if ( thermalModelElement.getEnergyChunkBalance() > 0 && burner.inContactWith( thermalModelElement ) && burner.canAcceptEnergyChunk() ) {
+                else if ( thermalModelElement.getSystemEnergyChunkBalance() > 0 && burner.inContactWith( thermalModelElement ) && burner.canAcceptEnergyChunk() ) {
                     burner.addEnergyChunk( thermalModelElement.extractClosestEnergyChunk( burner.getFlameIceRect() ) );
                 }
             }
@@ -280,7 +280,7 @@ public class EFACIntroModel {
                     ImmutableVector2D pointAbove = new ImmutableVector2D( movableEnergyContainer.getCenterPoint().getX(), movableEnergyContainer.getRect().getMaxY() );
                     air.addEnergyChunk( movableEnergyContainer.extractClosestEnergyChunk( pointAbove ) );
                 }
-                else if ( movableEnergyContainer.getEnergyChunkBalance() < 0 && air.canSupplyEnergyChunk() ) {
+                else if ( movableEnergyContainer.getEnergyChunkBalance() < 0 && movableEnergyContainer.getTemperature() < air.getTemperature() && air.canSupplyEnergyChunk() ) {
                     movableEnergyContainer.addEnergyChunk( air.requestEnergyChunk( movableEnergyContainer.getCenterPoint() ) );
                 }
             }
