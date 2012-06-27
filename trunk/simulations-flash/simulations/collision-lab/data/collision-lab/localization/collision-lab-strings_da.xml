@@ -1,41 +1,57 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--collision-lab-strings_da.xml created Sun Nov 21 18:15:46 CET 2010 using: collision-lab 0.01.00 (45337), translation-utility 2.09.00 (44031) sep 14, 2010-->
+<!--collision-lab-strings_da.xml created Tue Jun 26 22:44:59 CEST 2012 using: collision-lab 2.00.00 (65086), translation-utility 2.13.00 (59150) dec 8, 2011-->
 <SimStrings>
+<string key="ShowValues.velocityCaption" value="Hastighed (m/s)"/>
+<string key="ControlPanel.showValues" value="Vis værdier"/>
 <string key="PlayPauseButtons.step" value="Trin"/>
+<string key="DataTable.velocity" value="Hastighed"/>
 <string key="MomentumView.total" value="total"/>
+<string key="ShowValues.speedReadout" value="| v | = {0}"/>
 <string key="ControlPanel.sound" value="Lyd"/>
-<string key="ControlPanel.showMomentumVectors" value="Kraftvektorer"/>
-<string key="ControlPanel.oneHundredPercent" value="100%"/>
+<string key="ControlPanel.showMomentumVectors" value="Impulsvektorer"/>
+<string key="ShowValues.speedCaption" value="Hastighed (m/s)"/>
+<string key="ControlPanel.oneHundredPercent" value="Fjedrende"/>
 <string key="DataTable.lessData" value="Færre data"/>
-<string key="MomentumView.momenta" value="Moment"/>
-<string key="DataTable.ball" value="bold"/>
+<string key="DataTable.momentumWithUnits" value="Impuls (kg m/s)"/>
+<string key="MomentumView.momenta" value="Impuls"/>
+<string key="ControlPanel.elasticityReadout" value="Frastødning {0}%"/>
+<string key="DataTable.ball" value="Kugle"/>
 <string key="TableView.kineticEnergy" value="Kinetisk Energi = {0} J"/>
+<string key="advancedTab" value="Avanceret"/>
 <string key="ControlPanel.showVelocities" value="Hastighedsvektorer"/>
 <string key="ControlPanel.showPaths" value="Vis spor"/>
-<string key="DataTable.mass" value="vægt"/>
+<string key="DataTable.mass" value="Vægt"/>
 <string key="DataTable.addBall" value="Tilføj kugle"/>
 <string key="DataTable.py" value="Py"/>
 <string key="DataTable.px" value="Px"/>
 <string key="PlayPauseButtons.pause" value="Pause"/>
 <string key="DataTable.vy" value="Vy"/>
 <string key="DataTable.vx" value="Vx"/>
-<string key="ControlPanel.2d" value="To demensionel"/>
+<string key="ControlPanel.2d" value="To dimensionel"/>
 <string key="DataTable.moreData" value="Flere data"/>
 <string key="ControlPanel.reflectingBorder" value="Reflekterende kant"/>
 <string key="DataTable.y" value="y"/>
+<string key="DataTable.momentum" value="Impuls"/>
 <string key="DataTable.removeBall" value="Fjern kugle"/>
 <string key="DataTable.x" value="x"/>
+<string key="ShowValues.momentumCaption" value="Impuls (kg m/s)"/>
 <string key="ControlPanel.resetAll" value="Nulstil alt"/>
-<string key="ControlPanel.momentaDiagram" value="Momentdiagram"/>
-<string key="ControlPanel.elasticity" value="Frastødning"/>
+<string key="ControlPanel.momentaDiagram" value="Impulsdiagram"/>
+<string key="ControlPanel.elasticity" value="Elasticitet"/>
 <string key="ControlPanel.showCenterOfMass" value="Massemidtpunkt"/>
-<string key="ControlPanel.zeroPercent" value="0%"/>
-<string key="TableView.timeRate" value="Tidsskridt"/>
+<string key="ControlPanel.zeroPercent" value="Klæbrig"/>
+<string key="DataTable.velocityWithUnits" value="Hastighed (m/s)"/>
+<string key="TableView.returnBalls" value="Bolde tilbage"/>
+<string key="DataTable.massWithUnits" value="Vægt (kg)"/>
+<string key="introductionTab" value="Introduktion"/>
+<string key="TableView.timeRate" value="Sim-hastighed"/>
 <string key="simTitle" value="Stød-laboratorium"/>
+<string key="ShowValues.velocityReadout" value="v = {0}"/>
 <string key="PlayPauseButtons.play" value="Spil"/>
-<string key="PlayPauseButtons.back" value="Tilbage"/>
 <string key="MomentumView.tipToTail" value="sammenhængende vektorer"/>
+<string key="ControlPanel.kineticEnergy" value="Kinetisk energi"/>
+<string key="PlayPauseButtons.back" value="Tilbage"/>
 <string key="TableView.time" value="Tid = {0} s"/>
-<string key="PlayPauseButtons.rewind" value="Tilbage"/>
-<string key="ControlPanel.1d" value="En demensionel"/>
+<string key="ControlPanel.1d" value="En dimensionel"/>
+<string key="PlayPauseButtons.rewind" value="Genstart"/>
 </SimStrings>
