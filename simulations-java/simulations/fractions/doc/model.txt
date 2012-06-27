@@ -1,4 +1,4 @@
-Intro tab:
+[=======Intro tab=======]
 The maximum number of pieces allowed on the screen is 6--this cannot be exceeded by increasing the numerator or by decreasing the denominator.
 So as the user adjusts the numerator, then numerator's max is a function of the (fixed) denominator:
 
@@ -11,7 +11,11 @@ so
 or
     d >= n/MAX
 
-Equality lab:
+[=======Equality lab=======]
 The maximum number of pieces allowed on the screen is 4--this cannot be exceeded by increasing the numerator or by decreasing the denominator.
 
 These constraints were added to productively constrain the user to a reasonable range of values.
+
+[=======Fraction Matcher=======]
+The fraction matcher model is simple, various fractions are generated and the user compares their values, scoring a match when they are equal values (even if different representations).
+Descriptions of the levels are given in edu.colorado.phet.fractionmatcher.model.Levels
