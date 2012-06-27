@@ -376,4 +376,9 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
     public int getEnergyChunkBalance() {
         return getNumEnergyChunks() - EFACConstants.ENERGY_TO_NUM_CHUNKS_MAPPER.apply( energy );
     }
+
+    public int getSystemEnergyChunkBalance() {
+        // Override if the element can contain other elements.
+        return getEnergyChunkBalance();
+    }
 }
