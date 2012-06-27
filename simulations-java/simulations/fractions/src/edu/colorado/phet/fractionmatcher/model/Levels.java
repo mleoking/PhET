@@ -31,6 +31,8 @@ import static edu.colorado.phet.fractionsintro.intro.model.Fraction.fraction;
 import static fj.data.List.*;
 
 /**
+ * Description for levels in the matching game
+ *
  * @author Sam Reid
  */
 class Levels {
