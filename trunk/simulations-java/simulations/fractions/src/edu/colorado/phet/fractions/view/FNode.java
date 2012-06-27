@@ -16,17 +16,6 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class FNode extends RichPNode {
-    public static F<PNode, Double> _minX = new F<PNode, Double>() {
-        @Override public Double f( final PNode pNode ) {
-            return pNode.getFullBounds().getMinX();
-        }
-    };
-
-    public static F<PNode, Double> _maxX = new F<PNode, Double>() {
-        @Override public Double f( final PNode pNode ) {
-            return pNode.getFullBounds().getMaxX();
-        }
-    };
 
     public FNode() {
         this( List.<PNode>nil() );
@@ -43,6 +32,8 @@ public class FNode extends RichPNode {
         }
     };
 
+    //Function wrappers for use with the functional java library, for performing tasks such as finding the maximum width of a list of PNodes.
+
     public static final F<PNode, Double> _fullWidth = new F<PNode, Double>() {
         @Override public Double f( final PNode pnode ) {
             return pnode.getFullBounds().getWidth();
@@ -55,4 +46,15 @@ public class FNode extends RichPNode {
         }
     };
 
+    public static F<PNode, Double> _minX = new F<PNode, Double>() {
+        @Override public Double f( final PNode pNode ) {
+            return pNode.getFullBounds().getMinX();
+        }
+    };
+
+    public static F<PNode, Double> _maxX = new F<PNode, Double>() {
+        @Override public Double f( final PNode pNode ) {
+            return pNode.getFullBounds().getMaxX();
+        }
+    };
 }
