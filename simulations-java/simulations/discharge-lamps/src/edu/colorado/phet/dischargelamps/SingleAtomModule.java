@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic2;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.Tube;
 import edu.colorado.phet.dischargelamps.control.ElectronProductionControl;
@@ -94,13 +94,9 @@ public class SingleAtomModule extends DischargeLampModule {
             }
         } );
 
-        // Add text that labels the ground state
-        PhetTextGraphic2 groundStateTextGraphic = new PhetTextGraphic2( elmp.getElmp(),
-                                                                        new PhetFont( 12, true ),
-                                                                        DischargeLampsResources.getString( "Misc.groundState" ),
-                                                                        Color.black,
-                                                                        110,
-                                                                        270 );
+        HTMLGraphic groundStateTextGraphic = new HTMLGraphic( elmp, new PhetFont( 12, true ), DischargeLampsResources.getString( "Misc.groundState" ), Color.black );
+        groundStateTextGraphic.translate( 110, 270 + 8 - groundStateTextGraphic.getHeight() / 2 );
+
         elmp.getElmp().addGroundStateLabel( groundStateTextGraphic, -1 );
 
         // Set the size of the panel

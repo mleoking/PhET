@@ -11,7 +11,11 @@
 
 package edu.colorado.phet.dischargelamps.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.AffineTransform;
@@ -39,7 +43,6 @@ import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.transla
 import edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation.TranslationListener;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic2;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsState;
 import edu.colorado.phet.common.phetgraphics.view.util.GraphicsUtil;
 import edu.colorado.phet.common.quantum.model.Atom;
@@ -73,7 +76,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
         try {
             baseSphereImg = ImageLoader.loadBufferedImage( "lasers/images/particle-red-lrg.gif" );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
     }
@@ -120,7 +123,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
     private EnergyLevelGraphic.ColorStrategy colorStrategy = new EnergyLevelGraphic.BlackStrategy();
 
     private boolean squigglesEnabled;
-    private PhetTextGraphic2 groundStateTextGraphic;
+    private PhetGraphic groundStateTextGraphic;
 
     //----------------------------------------------------------------
     // Constructors and initialization
@@ -288,7 +291,7 @@ public class DischargeLampEnergyLevelMonitorPanel extends MonitorPanel implement
                                                        //changed so that isAdjustable=false to hide lifetime text (may have unintended consequences) 
                                                        atomicStates[i] instanceof GroundState ? false : true,
 //                                                       false,
-levelLineOriginX + levelLineLength + 20, false );
+                                                       levelLineOriginX + levelLineLength + 20, false );
             levelGraphics[i].setArrowsEnabled( false );
             // Set the strategy the level graphic uses to pick its color
             levelGraphics[i].setColorStrategy( this.colorStrategy );
@@ -542,7 +545,7 @@ levelLineOriginX + levelLineLength + 20, false );
         new ElectronGraphicManager( electron );
     }
 
-    public void addGroundStateLabel( final PhetTextGraphic2 groundStateTextGraphic, int layer ) {
+    public void addGroundStateLabel( final PhetGraphic groundStateTextGraphic, int layer ) {
         this.groundStateTextGraphic = groundStateTextGraphic;
         addGraphic( groundStateTextGraphic, layer );
     }
@@ -568,7 +571,7 @@ levelLineOriginX + levelLineLength + 20, false );
 
         public ElectronGraphicManager( Electron electron ) {
             electronGraphic = new PhetImageGraphic( DischargeLampEnergyLevelMonitorPanel.this,
-                    DischargeLampsResources.getImage( DischargeLampsConfig.ELECTRON_IMAGE_FILE_NAME ) );
+                                                    DischargeLampsResources.getImage( DischargeLampsConfig.ELECTRON_IMAGE_FILE_NAME ) );
             // The -10 is a hack to get the electron to be even with everything else on the panel. I can't figure
             // out why I need it
             int yLoc = (int) energyYTx.modelToView( electron.getEnergy() + groundStateEnergy );
