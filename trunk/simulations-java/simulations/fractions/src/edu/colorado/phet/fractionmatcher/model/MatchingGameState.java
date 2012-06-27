@@ -143,6 +143,7 @@ public @Data class MatchingGameState {
 
     boolean isOnScale( final MovableFraction m ) { return isOnScale( leftScale, m ) || isOnScale( rightScale, m ); }
 
+    //REVIEW difficult to understand
     public MatchingGameState animateMatchToScoreCell() {
         return withFractions( fractions.map( new F<MovableFraction, MovableFraction>() {
             @Override public MovableFraction f( MovableFraction m ) {
@@ -154,6 +155,7 @@ public @Data class MatchingGameState {
 
                 //Could shrink values >1 more so they will both fit in the score box using m.getValue() > 1 ? 0.5 : 0.5.  Not perfect, will have to be fine-tuned.
                 final F<UpdateArgs, MovableFraction> shrink = scale( 0.5 );
+                //REVIEW especially difficult to understand
                 return isOnScale( leftScale, m ) ? m.withMotion( composite( moveToLeftSide, shrink ) ).withScored( true ) :
                        isOnScale( rightScale, m ) ? m.withMotion( composite( moveToRightSide, shrink ) ).withScored( true ) :
                        m;
@@ -161,6 +163,7 @@ public @Data class MatchingGameState {
         } ) ).withScored( scored + 1 );
     }
 
+    // Returns true if a fraction was placed on the right scale after a fraction was placed on the left scale.
     boolean getLastDroppedScaleRight() { return rightScaleDropTime > leftScaleDropTime; }
 
     public Cell getClosestFreeStartCell( final MovableFraction f ) {
@@ -229,6 +232,7 @@ public @Data class MatchingGameState {
         } ) );
     }
 
+    //REVIEW arg maxPoints not used
     public MatchingGameState newGame( final int level, final int score, final int maxPoints ) {
         return withMode( Mode.CHOOSING_SETTINGS ).withGameResults( gameResults.snoc( new GameResult( level, score ) ) );
     }

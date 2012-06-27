@@ -42,6 +42,7 @@ public class Cache<T, U> extends F<T, U> {
     //Utility method that can be used at maintenance/debugging time in order to identify cache hits/misses
     public static <T, U> Cache<T, U> cache( F<T, U> f, boolean debug ) { return new Cache<T, U>( f, debug ); }
 
+    //REVIEW requiring clients to call this risks overflowing the cache, consider doing this automatically when you need to add something to the cache and the limit has been reached.
     public void checkAndClearCache() {
         if ( map.size() > 100 ) {
             map.clear();
