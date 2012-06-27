@@ -257,7 +257,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
             }, model.scored ) );
 
             if ( dev ) {
-                addChild( new HBox( buttonFactory.f( new ButtonArgs( null, "Resample", Color.red, new Vector2D( 100, 6 ), new Resample() ) ),
+                addChild( new HBox( buttonFactory.f( new ButtonArgs( null, "Resample", Color.red, new Vector2D( 100, 6 ), new Resample( model.levelFactory ) ) ),
                                     buttonFactory.f( new ButtonArgs( null, "Test game over", Color.green, new Vector2D( 100, 6 ), new GameOver() ) ) ) );
             }
         }};
@@ -273,8 +273,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
 
-                        final MatchingGameState m = newLevel(
-                                gameSettings.level.get(), model.state.get().gameResults ).
+                        final MatchingGameState m = newLevel( gameSettings.level.get(), model.state.get().gameResults, model.levelFactory ).
                                 withMode( Mode.WAITING_FOR_USER_TO_CHECK_ANSWER ).
                                 withAudio( gameSettings.soundEnabled.get() ).
                                 withTimerVisible( gameSettings.timerEnabled.get() );

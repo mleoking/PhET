@@ -5,6 +5,7 @@ import lombok.Data;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
+import edu.colorado.phet.fractionmatcher.model.AbstractLevelFactory;
 import edu.colorado.phet.fractionmatcher.model.MatchingGameState;
 import edu.colorado.phet.fractionmatcher.model.Mode;
 import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ModelActions;
@@ -64,8 +65,10 @@ class Controller {
     }
 
     public static @Data class Resample extends fj.F<MatchingGameState, MatchingGameState> {
+        public final AbstractLevelFactory levelFactory;
+
         @Override public MatchingGameState f( final MatchingGameState matchingGameState ) {
-            return MatchingGameState.newLevel( matchingGameState.info.level, matchingGameState.gameResults ).withMode( WAITING_FOR_USER_TO_CHECK_ANSWER );
+            return MatchingGameState.newLevel( matchingGameState.info.level, matchingGameState.gameResults, levelFactory ).withMode( WAITING_FOR_USER_TO_CHECK_ANSWER );
         }
     }
 
