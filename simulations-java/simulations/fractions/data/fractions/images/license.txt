@@ -1,9 +1,23 @@
-balance-base.png source=http://www.openclipart.org/detail/128839/balance--scale-by-lmproulx author=lmproulx license=public domain notes=split by sam reid
-balance-platform.png source=http://www.openclipart.org/detail/128839/balance--scale-by-lmproulx author=lmproulx license=public domain notes=split by sam reid
-scale.png source=PhET author=Ariel
-water_glass.png source=phet author=noah P
-locked.png source=tango
-unlocked.png source=tango
-split-blue.png notes=copied from build a molecule
-star-gold.png source=PhET notes=SR in Photoshop
-star-gray.png source=PhET notes=SR in Photoshop
+left_button_gray.png source=PhET notes=NP
+left_button_pressed.png source=PhET notes=NP
+left_button_up.png source=PhET notes=NP
+plus-button-pressed.png source=PhET notes=SR modified NP image
+plus-button.png source=PhET notes=SR modified NP image
+right_button_gray.png source=PhET notes=NP
+right_button_pressed.png source=PhET notes=NP
+right_button_up.png source=PhET notes=NP
+round_button_down.png source=PhET notes=NP
+round_button_down_gray.png source=PhET notes=NP
+round_button_down_pressed.png source=PhET notes=NP
+round_button_up.png source=PhET notes=NP
+round_button_up_gray.png source=PhET notes=NP
+round_button_up_pressed.png source=PhET notes=NP
+scale.png source=PhET notes=AP
+split-blue.png source=PhET notes=from build a molecule
+star-0.png source=PhET notes=SR in Photoshop
+star-1.png source=PhET notes=SR in Photoshop
+star-2.png source=PhET notes=SR in Photoshop
+star-3.png source=PhET notes=SR in Photoshop
+star-4.png source=PhET notes=SR in Photoshop
+water_glass_back.png source=PhET notes=NP
+water_glass_front.png source=PhET notes=NP

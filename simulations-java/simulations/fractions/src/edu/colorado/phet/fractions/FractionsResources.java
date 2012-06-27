@@ -38,7 +38,6 @@ public class FractionsResources {
         public static final BufferedImage LEFT_BUTTON_GRAY = RESOURCES.getImage( "left_button_gray.png" );
         public static final BufferedImage LEFT_BUTTON_PRESSED = RESOURCES.getImage( "left_button_pressed.png" );
         public static final BufferedImage LEFT_BUTTON_UP = RESOURCES.getImage( "left_button_up.png" );
-        public static final BufferedImage LOCKED = RESOURCES.getImage( "locked.png" );
         public static final BufferedImage PLUS_BUTTON_PRESSED = RESOURCES.getImage( "plus-button-pressed.png" );
         public static final BufferedImage PLUS_BUTTON = RESOURCES.getImage( "plus-button.png" );
         public static final BufferedImage RIGHT_BUTTON_GRAY = RESOURCES.getImage( "right_button_gray.png" );
@@ -51,17 +50,12 @@ public class FractionsResources {
         public static final BufferedImage ROUND_BUTTON_UP_GRAY = RESOURCES.getImage( "round_button_up_gray.png" );
         public static final BufferedImage ROUND_BUTTON_UP_PRESSED = RESOURCES.getImage( "round_button_up_pressed.png" );
         public static final BufferedImage SCALE = RESOURCES.getImage( "scale.png" );
-        public static final BufferedImage SOUND_MAX = RESOURCES.getImage( "sound-max.png" );
-        public static final BufferedImage SOUND_MIN = RESOURCES.getImage( "sound-min.png" );
         public static final BufferedImage SPLIT_BLUE = RESOURCES.getImage( "split-blue.png" );
         public static final BufferedImage STAR_0 = RESOURCES.getImage( "star-0.png" );
         public static final BufferedImage STAR_1 = RESOURCES.getImage( "star-1.png" );
         public static final BufferedImage STAR_2 = RESOURCES.getImage( "star-2.png" );
         public static final BufferedImage STAR_3 = RESOURCES.getImage( "star-3.png" );
         public static final BufferedImage STAR_4 = RESOURCES.getImage( "star-4.png" );
-        public static final BufferedImage STAR_GOLD = RESOURCES.getImage( "star-gold.png" );
-        public static final BufferedImage STAR_GRAY = RESOURCES.getImage( "star-gray.png" );
-        public static final BufferedImage UNLOCKED = RESOURCES.getImage( "unlocked.png" );
         public static final BufferedImage WATER_GLASS_BACK = RESOURCES.getImage( "water_glass_back.png" );
         public static final BufferedImage WATER_GLASS_FRONT = RESOURCES.getImage( "water_glass_front.png" );
     }
