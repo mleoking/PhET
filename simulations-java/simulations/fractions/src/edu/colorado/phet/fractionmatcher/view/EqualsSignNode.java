@@ -11,9 +11,8 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 
 import static java.awt.BasicStroke.JOIN_MITER;
 
-//REVIEW I don't see rounded edges when I run the sim. Is the javadoc wrong?
 /**
- * It was requested for the equals sign to have rounded edges, so we won't render with a font.
+ * It was requested for the equals sign to have a specific look instead of relying on the system font, so this is rendered with shapes.
  *
  * @author Sam Reid
  */

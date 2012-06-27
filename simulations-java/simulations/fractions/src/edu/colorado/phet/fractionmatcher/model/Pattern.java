@@ -379,16 +379,15 @@ public class Pattern {
                         addChild( new PatternNode( FilledPattern.sequentialFill( Pyramid.nine( 100 ), 3 ), Color.yellow ) {{
                             setOffset( 200, 200 );
                         }} );
-                        //REVIEW remove dead code
-//                        for ( int i = 4; i <= 8; i++ ) {
-//                            final int finalI = i;
-//                            addChild( new PatternNode( FilledPattern.sequentialFill( Polygon.create( 50, finalI ), finalI / 2 ), Color.red ) {{translate( 200 + finalI * 60, 200 );}} );
-//                        }
-//                        addChild( new PatternNode( FilledPattern.sequentialFill( tetrisPiece( 50 ), 4 ), Color.red ) {{translate( 200, 400 );}} );
-//                        addChild( new PatternNode( FilledPattern.sequentialFill( letterLShapedDiagonal( 10, 2 ), 4 ), Color.red ) {{translate( 200, 500 );}} );
-//                        addChild( new PatternNode( FilledPattern.sequentialFill( sixFlower( 50 ), 4 ), Color.red ) {{translate( 300, 500 );}} );
-//                        addChild( new PatternNode( FilledPattern.sequentialFill( interleavedLShape( 80, 2, 3 ), 6 ), Color.red ) {{translate( 400, 500 );}} );
-//                        addChild( new PatternNode( FilledPattern.sequentialFill( ringOfHexagons(), 7 ), Color.red ) {{translate( 400, 500 );}} );
+                        for ( int i = 4; i <= 8; i++ ) {
+                            final int finalI = i;
+                            addChild( new PatternNode( FilledPattern.sequentialFill( polygon( 50, finalI ), finalI / 2 ), Color.red ) {{translate( 200 + finalI * 60, 200 );}} );
+                        }
+                        addChild( new PatternNode( FilledPattern.sequentialFill( tetrisPiece( 50 ), 4 ), Color.red ) {{translate( 200, 400 );}} );
+                        addChild( new PatternNode( FilledPattern.sequentialFill( letterLShapedDiagonal( 10, 2 ), 4 ), Color.red ) {{translate( 200, 500 );}} );
+                        addChild( new PatternNode( FilledPattern.sequentialFill( sixFlower( 50 ), 4 ), Color.red ) {{translate( 300, 500 );}} );
+                        addChild( new PatternNode( FilledPattern.sequentialFill( interleavedLShape( 80, 2, 3 ), 6 ), Color.red ) {{translate( 400, 500 );}} );
+                        addChild( new PatternNode( FilledPattern.sequentialFill( ringOfHexagons(), 7 ), Color.red ) {{translate( 400, 500 );}} );
                         addChild( new PatternNode( FilledPattern.sequentialFill( ninjaStar(), 8 ), Color.red ) {{translate( 400, 500 );}} );
                     }} );
                 }}.setVisible( true );

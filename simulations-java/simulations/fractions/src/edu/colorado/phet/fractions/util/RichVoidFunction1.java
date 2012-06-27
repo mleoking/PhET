@@ -16,14 +16,4 @@ public abstract class RichVoidFunction1<T> implements VoidFunction1<T> {
             }
         };
     }
-
-    //REVIEW unused
-    public VoidFunction1<T> andThen( final VoidFunction1<T> after ) {
-        return new VoidFunction1<T>() {
-            public void apply( final T t ) {
-                RichVoidFunction1.this.apply( t );
-                after.apply( t );
-            }
-        };
-    }
 }
