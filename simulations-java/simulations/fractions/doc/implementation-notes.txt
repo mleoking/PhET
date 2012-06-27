@@ -5,7 +5,7 @@ To support the functional paradigm, this sim used FunctionalJava, http://functio
 For a nice book on functional programming in Java, please see http://www.amazon.com/Functional-Programming-Java-Developers-Concurrency/dp/1449311032
 
 In order to maintain a reasonable matching with piccolo, many model elements are converted into Property<T> instances which are used to sync with the model.
-Where performance allows, large piccolo subtrees are reconstructed (not mutated) when whenever the corresponding part of the model changes.
+Where performance allows, large piccolo subtrees are reconstructed (not mutated) whenever the corresponding part of the model changes.
 
 The immutable model objects are updated using copy methods.  The convention that I used for this sim is to give the copy method a name like "withValue",
 and to only provide one argument to each copy method.  Convention for copy methods is to use method of the name of the variable and to call the constructor with the
@@ -28,7 +28,8 @@ the value is changed from outside of the model.
 
 Package structure:
 The package structure was designed to be similiar to a structure in which sim had its own project.  That means:
-edu/colorado/phet/fractions: Common code, name of the project (may also have a sim later if we name a sim "fractions").  I will consider renaming this fractions-common, but that would require updating the resource generator
+edu/colorado/phet/fractions: Common code, name of the project (may also have a sim later if we name a sim "fractions").
+I will consider renaming this fractions-common, but that would require updating the resource generator
 edu/colorado/phet/fractionsintro: "Fractions Intro" sim
 
 Closures:
@@ -38,7 +39,7 @@ F(SliceNodeArgs s) {return new ShapeNode(s.slice);}
 instead of the more verbose:
 F(SliceNodeArgs sliceNodeArgs) {return new ShapeNode(sliceNodeArgs.slice);}
 
-This sim uses single-line methods elsewhere ("simple methods in one line" in IntelliJ) to improve readability for short methods
+This sim uses single-line methods elsewhere ("simple methods in one line" in IntelliJ) to improve readability for short methods.
 
 The animation is implemented in the model instead of piccolo because it is (a) conceptually natural (that the location of objects is in the model and not just how they look),
 (b) so that if we port it to another platform (such as Android), the model will still work properly and (c) it led to easy and uniform code
@@ -47,14 +48,16 @@ Build a Fraction:
 ID's are used to identify objects over time, they were introduced to facilitate integration with piccolo.  One separate ClassID class is created for each model type that needs ID.
 Not sure if there is a way around this or a better way to do this.  This is a significant drawback, and a good argument in favor of doing imperative instead of functional programming.
 On the other hand, tracking objects around the screen has been a requested feature of sim sharing, and this would make it trivial.
-Referencing objects by ID's also has the following tradeoff: lots of .some() calls sprinkled in the model code (or checks for isSome()).  In reference/identity equality, we typically don't check
+Referencing objects by ID's also has the following tradeoff: lots of .some() calls sprinkled in the model code (or checks for isSome()).
+In reference/identity equality, we typically don't check
 to see that the instance is still contained in the model and hence sometimes erroneously act on model items that have been removed already.
 
 Update: While functional programming worked well for the other tabs in Fractions Introduction, it is proving more problematic for the "build a fraction" tab for the following reasons:
     1. Graph-like structures (instead of tree-like) have led to creating a family of EntityID classes, which seems like a bad tradeoff
-    2. Creating/moving/changing lots of different data types is leading to tricky handling with piccolo code, in particular, when an object looks similar but behaves differently, should a different PNode be created?
-    3. It wasn't clear how to efficiently convert model changes into view observer events--my current implementation observes for state changes and checks to see what changed--a more efficient and straightforward implementation
-    may be to just fire those on the change methods themselves.
+    2. Creating/moving/changing lots of different data types is leading to tricky handling with piccolo code, in particular, when an object looks similar but behaves differently,
+       should a different PNode be created?
+    3. It wasn't clear how to efficiently convert model changes into view observer events--my current implementation observes for state changes and checks to see what
+       changed--a more efficient and straightforward implementation may be to just fire those on the change methods themselves.
 
     So I am going to try a more imperative approach for this model and see if it goes more smoothly.  I think functional programming should be reconsidered
     (a) for treelike models
