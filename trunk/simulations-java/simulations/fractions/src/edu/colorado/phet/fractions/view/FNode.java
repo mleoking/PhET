@@ -9,6 +9,7 @@ import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.umd.cs.piccolo.PNode;
 
 //REVIEW Please elaborate on why this class is necessary.
+
 /**
  * Piccolo PNode that adds some functionality for improved interoperability with the Functional Java library.
  *

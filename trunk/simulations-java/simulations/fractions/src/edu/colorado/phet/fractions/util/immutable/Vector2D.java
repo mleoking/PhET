@@ -14,6 +14,7 @@ import static java.lang.Math.cos;
 import static java.lang.Math.sin;
 
 //REVIEW Why is this class necessary? Why couldn't you use ImmutableVector2D? Having to create your own (duplicate) implementation of a basic class seems like a significant disadvantage.
+
 /**
  * Immutable vector 2D.  Provides a convenient and consistent way of accessing x & y, for use in the immutable models in this sim.
  * Uses Lombok to generate equals/hash code for use in other immutable objects.
