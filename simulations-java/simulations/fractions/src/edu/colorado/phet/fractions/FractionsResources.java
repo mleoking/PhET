@@ -20,6 +20,7 @@ public class FractionsResources {
         public static final String LEVEL = RESOURCES.getLocalizedString( "level" );
         public static final String LEVEL__PATTERN = RESOURCES.getLocalizedString( "level.pattern" );
         public static final String MATCHING_GAME = RESOURCES.getLocalizedString( "matchingGame" );
+        public static final String MIXED_NUMBERS = RESOURCES.getLocalizedString( "mixedNumbers" );
         public static final String MY_FRACTIONS = RESOURCES.getLocalizedString( "myFractions" );
         public static final String MY_MATCHES = RESOURCES.getLocalizedString( "myMatches" );
         public static final String NEW_GAME = RESOURCES.getLocalizedString( "newGame" );
