@@ -4,6 +4,7 @@ package edu.colorado.phet.fractionmatcher;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.fractions.FractionsResources;
 
 /**
  * "Fraction Matcher" simulation.
@@ -18,8 +19,7 @@ public class FractionMatcherApplication extends PiccoloPhetApplication {
         addModule( new MatchingGameModule( config.isDev(), true ) );
     }
 
-    //REVIEW replace "fractions" literal with FractionResources.PROJECT_NAME
     public static void main( String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, "fractions", "fraction-matcher", FractionMatcherApplication.class );
+        new PhetApplicationLauncher().launchSim( args, FractionsResources.PROJECT_NAME, "fraction-matcher", FractionMatcherApplication.class );
     }
 }

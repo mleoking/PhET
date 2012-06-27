@@ -6,6 +6,7 @@ import javax.swing.JComponent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.fractionmatcher.model.MatchingGameModel;
 import edu.colorado.phet.fractionmatcher.view.MatchingGameCanvas;
+import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.colorado.phet.fractionsintro.common.AbstractFractionsModule;
 
@@ -22,7 +23,7 @@ public class MatchingGameModule extends AbstractFractionsModule {
     }
 
     private MatchingGameModule( boolean dev, MatchingGameModel model, boolean standaloneSim ) {
-        super( Components.matchingGameTab, "Matching Game", model.clock );  //REVIEW literal will present an i18n problem if this module is ever used in a multi-tab sim
+        super( Components.matchingGameTab, Strings.MATCHING_GAME, model.clock );
         setSimulationPanel( new MatchingGameCanvas( dev, model, standaloneSim ) );
     }
 
