@@ -91,6 +91,7 @@ class MovableFractionNode extends PNode {
                         put( cell.getPosition(), moveToCell( cell ) );
                     }};
 
+                    //REVIEW: Needs some doc, hard to understand what's going on here.
                     final Ord<Vector2D> ord = ord( new F<Vector2D, Double>() {
                         @Override public Double f( final Vector2D u ) {
                             return draggingFraction.position.distance( u );
@@ -101,8 +102,12 @@ class MovableFractionNode extends PNode {
 
                     final Vector2D selectedAttachmentPoint = sorted.head();
 
-                    if ( selectedAttachmentPoint.equals( rightScaleAttachmentPoint ) ) { state = state.jettisonFraction( state.rightScale ).withRightScaleDropTime( System.currentTimeMillis() ); }
-                    if ( selectedAttachmentPoint.equals( leftScaleAttachmentPoint ) ) { state = state.jettisonFraction( state.leftScale ).withLeftScaleDropTime( System.currentTimeMillis() ); }
+                    if ( selectedAttachmentPoint.equals( rightScaleAttachmentPoint ) ) {
+                        state = state.jettisonFraction( state.rightScale ).withRightScaleDropTime( System.currentTimeMillis() );
+                    }
+                    if ( selectedAttachmentPoint.equals( leftScaleAttachmentPoint ) ) {
+                        state = state.jettisonFraction( state.leftScale ).withLeftScaleDropTime( System.currentTimeMillis() );
+                    }
 
                     //animate to the closest destination
                     final List<MovableFraction> newFractions = state.fractions.map( new F<MovableFraction, MovableFraction>() {
@@ -110,6 +115,9 @@ class MovableFractionNode extends PNode {
                             return f.dragging ? f.withDragging( false ).withMotion( tm.get( selectedAttachmentPoint ).some() ) : f;
                         }
                     } );
+                    // REVIEW: Why is this always being set to WAITING_FOR_USER_TO_CHECK_ANSWER at the end of a drag?  It seems
+                    // like both scales need to be loaded first.  Not sure what to suggest, we just were confused by it when
+                    // working through the code.
                     final MatchingGameState newState = state.withFractions( newFractions ).withMode( Mode.WAITING_FOR_USER_TO_CHECK_ANSWER );
                     model.set( newState );
                 }
