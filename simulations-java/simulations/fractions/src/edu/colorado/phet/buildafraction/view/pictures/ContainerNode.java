@@ -16,7 +16,6 @@ import edu.colorado.phet.common.phetcommon.model.property.integerproperty.Intege
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.DynamicCursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -25,6 +24,7 @@ import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractions.util.FJUtils;
 import edu.colorado.phet.fractions.view.SpinnerButtonNode;
+import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
@@ -35,6 +35,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
 
+import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
 import static edu.colorado.phet.fractions.FractionsResources.Images.*;
 
 /**
@@ -56,6 +57,8 @@ public class ContainerNode extends PNode {
     private ArrayList<VoidFunction0> listeners = new ArrayList<VoidFunction0>();
     private final SpinnerButtonNode topSpinner;
     private final SpinnerButtonNode bottomSpinner;
+    private final PImage increaseButton;
+
 
     public ContainerNode( PictureSceneNode parent, final ContainerContext context ) {
         this.parent = parent;
@@ -65,6 +68,37 @@ public class ContainerNode extends PNode {
         addChild( splitButton );
         splitButton.setVisible( false );
         splitButton.setPickable( false );
+
+        final BufferedImage greenButton = multiScaleToWidth( PLUS_BUTTON, 50 );
+        final BufferedImage greenButtonPressed = multiScaleToWidth( PLUS_BUTTON_PRESSED, 50 );
+        increaseButton = new PImage( greenButton ) {{
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new PBasicInputEventHandler() {
+                boolean pressed = false;
+
+                @Override public void mousePressed( final PInputEvent event ) {
+                    setImage( greenButtonPressed );
+                    pressed = true;
+                }
+
+                @Override public void mouseReleased( final PInputEvent event ) {
+                    if ( getImage() == greenButtonPressed ) {
+                        fireIncreaseEvent();
+                    }
+                    setImage( greenButton );
+                }
+
+                @Override public void mouseExited( final PInputEvent event ) {
+                    setImage( greenButton );
+                }
+
+                @Override public void mouseEntered( final PInputEvent event ) {
+                    if ( pressed ) {
+                        setImage( greenButtonPressed );
+                    }
+                }
+            } );
+        }};
         splitButton.translate( -splitButton.getFullBounds().getWidth(),
                                -splitButton.getFullBounds().getHeight() );
         dynamicCursorHandler = new DynamicCursorHandler( Cursor.HAND_CURSOR );
@@ -90,36 +124,7 @@ public class ContainerNode extends PNode {
             selectedPieceSize.addObserver( new VoidFunction1<Integer>() {
                 public void apply( final Integer number ) {
                     removeAllChildren();
-                    addChild( new SimpleContainerNode( number, Color.white ) {{
-                        for ( int i = 0; i < number; i++ ) {
-                            final double pieceWidth = width / number;
-                            addChild( new PhetPPath( new Rectangle2D.Double( pieceWidth * i, 0, pieceWidth, height ), Color.white, new BasicStroke( 1 ), Color.black ) );
-                        }
-                        //Thicker outer stroke
-                        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, width, height ), new BasicStroke( 2 ), Color.black ) );
-                        addInputEventListener( new SimSharingDragHandler( null, true ) {
-                            @Override protected void startDrag( final PInputEvent event ) {
-                                super.startDrag( event );
-                                ContainerNode.this.moveToFront();
-                                addActivity( new AnimateToScale( ContainerNode.this, 1.0, 200 ) );
-                                notifyListeners();
-                            }
-
-                            @Override protected void drag( final PInputEvent event ) {
-                                super.drag( event );
-                                final PDimension delta = event.getDeltaRelativeTo( getParent() );
-                                ContainerNode.this.translate( delta.width, delta.height );
-                                notifyListeners();
-                            }
-
-                            @Override protected void endDrag( final PInputEvent event ) {
-                                super.endDrag( event );
-                                context.endDrag( ContainerNode.this, event );
-                                notifyListeners();
-                            }
-                        } );
-                        addInputEventListener( new CursorHandler() );
-                    }} );
+                    addChild( new SingleContainerNode( number ) );
                 }
             } );
         }};
@@ -129,11 +134,18 @@ public class ContainerNode extends PNode {
                 topSpinner,
                 shapeNode,
                 bottomSpinner ) );
+
+        addChild( increaseButton );
+        increaseButton.setOffset( shapeNode.getFullBounds().getMaxX() + AbstractFractionsCanvas.INSET, shapeNode.getFullBounds().getCenterY() - increaseButton.getFullBounds().getHeight() / 2 );
     }
 
-    public static BufferedImage spinnerImage( final BufferedImage image ) {
-        return BufferedImageUtils.multiScaleToWidth( image, 50 );
+    private void fireIncreaseEvent() {
+        final SingleContainerNode child = new SingleContainerNode( selectedPieceSize.get() );
+        child.setOffset( shapeNode.getFullBounds().getMaxX() + AbstractFractionsCanvas.INSET, shapeNode.getFullBounds().getY() );
+        addChild( child );
     }
+
+    public static BufferedImage spinnerImage( final BufferedImage image ) { return multiScaleToWidth( image, 50 ); }
 
     public static F<ContainerNode, Boolean> _isInTargetCell = new F<ContainerNode, Boolean>() {
         @Override public Boolean f( final ContainerNode containerNode ) {
@@ -282,5 +294,43 @@ public class ContainerNode extends PNode {
 
     public boolean isInToolbox() {
         return isAtStartingLocation() && initialY > 600;
+    }
+
+    private class SingleContainerNode extends PNode {
+        private SingleContainerNode( final int number ) {
+
+            SimpleContainerNode node = new SimpleContainerNode( number, Color.white ) {{
+                for ( int i = 0; i < number; i++ ) {
+                    final double pieceWidth = width / number;
+                    addChild( new PhetPPath( new Rectangle2D.Double( pieceWidth * i, 0, pieceWidth, height ), Color.white, new BasicStroke( 1 ), Color.black ) );
+                }
+                //Thicker outer stroke
+                addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, width, height ), new BasicStroke( 2 ), Color.black ) );
+                addInputEventListener( new SimSharingDragHandler( null, true ) {
+                    @Override protected void startDrag( final PInputEvent event ) {
+                        super.startDrag( event );
+                        ContainerNode.this.moveToFront();
+                        addActivity( new AnimateToScale( ContainerNode.this, 1.0, 200 ) );
+                        notifyListeners();
+                    }
+
+                    @Override protected void drag( final PInputEvent event ) {
+                        super.drag( event );
+                        final PDimension delta = event.getDeltaRelativeTo( getParent() );
+                        ContainerNode.this.translate( delta.width, delta.height );
+                        notifyListeners();
+                    }
+
+                    @Override protected void endDrag( final PInputEvent event ) {
+                        super.endDrag( event );
+                        context.endDrag( ContainerNode.this, event );
+                        notifyListeners();
+                    }
+                } );
+                addInputEventListener( new CursorHandler() );
+            }};
+            addChild( node );
+
+        }
     }
 }
