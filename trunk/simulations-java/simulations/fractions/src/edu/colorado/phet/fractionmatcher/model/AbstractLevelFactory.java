@@ -35,7 +35,7 @@ import static fj.data.List.list;
  *
  * @author Sam Reid
  */
-public class AbstractLevelFactory {
+public abstract class AbstractLevelFactory {
 
     protected final Random RANDOM = new Random();
 
@@ -295,4 +295,6 @@ public class AbstractLevelFactory {
         }
         return iterableList( result );
     }
+
+    public abstract List<MovableFraction> createLevel( final int level, final List<Cell> cells );
 }

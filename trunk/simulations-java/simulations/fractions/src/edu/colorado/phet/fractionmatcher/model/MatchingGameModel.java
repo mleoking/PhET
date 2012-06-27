@@ -39,8 +39,10 @@ public class MatchingGameModel {
     //System that plays audio when the user makes a correct guess (and audio is enabled)
     private final GameAudioPlayer gameAudioPlayer = new GameAudioPlayer( true );
 
+    public final AbstractLevelFactory levelFactory = new IntroLevelFactory();
+
     //State of the game, including position of all objects.
-    public final Property<MatchingGameState> state = new Property<MatchingGameState>( initialState() ) {{
+    public final Property<MatchingGameState> state = new Property<MatchingGameState>( initialState( levelFactory ) ) {{
         addObserver( new ChangeObserver<MatchingGameState>() {
             public void update( final MatchingGameState newValue, final MatchingGameState oldValue ) {
                 if ( newValue.info.audio && oldValue.info.mode == Mode.WAITING_FOR_USER_TO_CHECK_ANSWER && newValue.info.mode == Mode.USER_CHECKED_CORRECT_ANSWER ) {

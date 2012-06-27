@@ -49,12 +49,14 @@ public @Data class MatchingGameState {
     //List of results from completing games.
     public final List<GameResult> gameResults;
 
-    public static MatchingGameState initialState() { return newLevel( 1, List.<GameResult>nil() ).withMode( Mode.CHOOSING_SETTINGS ); }
+    public static MatchingGameState initialState( AbstractLevelFactory factory ) {
+        return newLevel( 1, List.<GameResult>nil(), factory ).withMode( Mode.CHOOSING_SETTINGS );
+    }
 
-    public static MatchingGameState newLevel( int level, List<GameResult> gameResults ) {
+    public static MatchingGameState newLevel( int level, List<GameResult> gameResults, AbstractLevelFactory factory ) {
         final List<Cell> cells = createCells( 100, 415 + 12, 130, 120, 6, 2, 0, 0 );
         final List<Cell> scoreCells = createCells( 10, 12, 155, 90, 6, 1, 10, 0 );
-        return new MatchingGameState( new IntroLevelFactory().createLevel( level, cells ), cells, scoreCells, 0, 0, 0, new GameInfo( level, false, 0, Mode.WAITING_FOR_USER_TO_CHECK_ANSWER, 0, 0, 0, true ), 0, gameResults );
+        return new MatchingGameState( factory.createLevel( level, cells ), cells, scoreCells, 0, 0, 0, new GameInfo( level, false, 0, Mode.WAITING_FOR_USER_TO_CHECK_ANSWER, 0, 0, 0, true ), 0, gameResults );
     }
 
     //Create adjacent cells from which fractions can be dragged
