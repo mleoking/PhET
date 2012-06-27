@@ -11,15 +11,14 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.fractionmatcher.model.GameResult;
+import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
+import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
-import static edu.colorado.phet.fractions.FractionsResources.Images.*;
 import static fj.Ord.intOrd;
 import static fj.data.List.list;
-
-//REVIEW This looks brute-force and brittle. What will happen if something changes elsewhere that allows the score to be > 12 ? At the very least, add assertions to verify your assumptions.
 
 /**
  * Node that shows the number of stars the user attained.  There are 3 stars for each level and each level is worth 12 points,
@@ -28,31 +27,32 @@ import static fj.data.List.list;
  * @author Sam Reid
  */
 public class StarSetNode extends PNode {
-    public StarSetNode( final Property<List<GameResult>> gameResults, final int levelName ) {
-        final BufferedImage star0 = multiScaleToWidth( STAR_0, 30 );
-        final BufferedImage star1 = multiScaleToWidth( STAR_1, 30 );
-        final BufferedImage star2 = multiScaleToWidth( STAR_2, 30 );
-        final BufferedImage star3 = multiScaleToWidth( STAR_3, 30 );
-        final BufferedImage star4 = multiScaleToWidth( STAR_4, 30 );
 
+    //Images fill up with 4 segments each, here are the 5 pictures (including empty star) in order of filling up.
+    private static final List<BufferedImage> STAR_IMAGES = list( multiScaleToWidth( Images.STAR_0, 30 ),
+                                                                 multiScaleToWidth( Images.STAR_1, 30 ),
+                                                                 multiScaleToWidth( Images.STAR_2, 30 ),
+                                                                 multiScaleToWidth( Images.STAR_3, 30 ),
+                                                                 multiScaleToWidth( Images.STAR_4, 30 ) );
+
+    private static BufferedImage getImage( final int numberStarPieces ) {
+        return STAR_IMAGES.index( clamp( 0, numberStarPieces, 4 ) );
+    }
+
+    public StarSetNode( final Property<List<GameResult>> gameResults, final int levelName ) {
         gameResults.addObserver( new VoidFunction1<List<GameResult>>() {
             public void apply( final List<GameResult> gameResults ) {
                 removeAllChildren();
                 int score = getBestScore( gameResults );
-                List<BufferedImage> images = score == 0 ? list( star0, star0, star0 ) :
-                                             score == 1 ? list( star1, star0, star0 ) :
-                                             score == 2 ? list( star2, star0, star0 ) :
-                                             score == 3 ? list( star3, star0, star0 ) :
-                                             score == 4 ? list( star4, star0, star0 ) :
-                                             score == 5 ? list( star4, star1, star0 ) :
-                                             score == 6 ? list( star4, star2, star0 ) :
-                                             score == 7 ? list( star4, star3, star0 ) :
-                                             score == 8 ? list( star4, star4, star0 ) :
-                                             score == 9 ? list( star4, star4, star1 ) :
-                                             score == 10 ? list( star4, star4, star2 ) :
-                                             score == 11 ? list( star4, star4, star3 ) :
-                                             score == 12 ? list( star4, star4, star4 ) :
-                                             null;
+
+                int piecesPerStar = 4;
+
+                //One star segment (piece of a star) for each point the user attained
+                int numberPieces = score;
+
+                List<BufferedImage> images = list( getImage( numberPieces - piecesPerStar * 0 ),
+                                                   getImage( numberPieces - piecesPerStar * 1 ),
+                                                   getImage( numberPieces - piecesPerStar * 2 ) );
                 if ( images == null ) { throw new RuntimeException( "No images found for score: " + score ); }
                 addChild( new ControlPanelNode( new HBox( new PImage( images.index( 0 ) ), new PImage( images.index( 1 ) ), new PImage( images.index( 2 ) ) ), Color.white ) );
             }
