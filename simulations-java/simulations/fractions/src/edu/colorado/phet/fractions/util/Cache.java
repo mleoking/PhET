@@ -39,6 +39,7 @@ public class Cache<T, U> extends F<T, U> {
     //Utility method to avoid providing type arguments in client instantiation
     public static <T, U> Cache<T, U> cache( F<T, U> f ) { return new Cache<T, U>( f, false ); }
 
+    //REVIEW unused
     public static <T, U> Cache<T, U> cache( F<T, U> f, boolean debug ) { return new Cache<T, U>( f, debug ); }
 
     public void checkAndClearCache() {
