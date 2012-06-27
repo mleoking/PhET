@@ -16,6 +16,7 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
 @Data public class Cell {
     public final ImmutableRectangle2D rectangle;
 
+    //REVIEW you removed field j, now this comment is wrong and we don't know if i is row or column index.
     //Index of the site in the grid, top left is (0,0)
     public final int i;
 
