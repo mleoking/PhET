@@ -37,4 +37,12 @@ public class PictureLevel {
     public PictureTarget getTarget( final int i ) { return targets.index( i ); }
 
     public void resetAll() { createdFractions.reset(); }
+
+    public boolean hasValuesGreaterThanOne() {
+        return targets.exists( new F<PictureTarget, Boolean>() {
+            @Override public Boolean f( final PictureTarget pictureTarget ) {
+                return pictureTarget.fraction.numerator > pictureTarget.fraction.denominator;
+            }
+        } );
+    }
 }
