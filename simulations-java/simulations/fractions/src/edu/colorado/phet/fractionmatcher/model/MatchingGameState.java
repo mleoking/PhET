@@ -54,7 +54,7 @@ public @Data class MatchingGameState {
     public static MatchingGameState newLevel( int level, List<GameResult> gameResults ) {
         final List<Cell> cells = createCells( 100, 415 + 12, 130, 120, 6, 2, 0, 0 );
         final List<Cell> scoreCells = createCells( 10, 12, 155, 90, 6, 1, 10, 0 );
-        return new MatchingGameState( new Levels().createLevel( level, cells ), cells, scoreCells, 0, 0, 0, new GameInfo( level, false, 0, Mode.WAITING_FOR_USER_TO_CHECK_ANSWER, 0, 0, 0, true ), 0, gameResults );
+        return new MatchingGameState( new IntroLevelFactory().createLevel( level, cells ), cells, scoreCells, 0, 0, 0, new GameInfo( level, false, 0, Mode.WAITING_FOR_USER_TO_CHECK_ANSWER, 0, 0, 0, true ), 0, gameResults );
     }
 
     //Create adjacent cells from which fractions can be dragged
