@@ -379,6 +379,7 @@ public class Pattern {
                         addChild( new PatternNode( FilledPattern.sequentialFill( Pyramid.nine( 100 ), 3 ), Color.yellow ) {{
                             setOffset( 200, 200 );
                         }} );
+                        //REVIEW remove dead code
 //                        for ( int i = 4; i <= 8; i++ ) {
 //                            final int finalI = i;
 //                            addChild( new PatternNode( FilledPattern.sequentialFill( Polygon.create( 50, finalI ), finalI / 2 ), Color.red ) {{translate( 200 + finalI * 60, 200 );}} );

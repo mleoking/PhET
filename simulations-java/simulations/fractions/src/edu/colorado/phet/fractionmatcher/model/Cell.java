@@ -18,7 +18,7 @@ import edu.colorado.phet.fractions.util.immutable.Vector2D;
 
     //Index of the site in the grid, top left is (0,0)
     public final int i;
-    public final int j;
+    public final int j; //REVIEW this field is flagged by IDEA as unused.
 
     public Vector2D getPosition() {return new Vector2D( rectangle.getCenter() );}
 

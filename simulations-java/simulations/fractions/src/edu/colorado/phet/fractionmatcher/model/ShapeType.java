@@ -6,6 +6,9 @@ package edu.colorado.phet.fractionmatcher.model;
  * @author Sam Reid
  */
 public enum ShapeType {
+
+    //REVIEW Instances of an enum are constants and should follow the Java conventions for constants, uppercase. Also inconsistent with what you've done elsewhere, eg Mode and FillType.
+
     //"Easy ones"
     horizontalBars, verticalBars, pies,
 
