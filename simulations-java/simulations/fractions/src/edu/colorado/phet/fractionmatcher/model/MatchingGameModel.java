@@ -130,6 +130,7 @@ public class MatchingGameModel {
             return state.get().info.time / 1000L;
         }
     }, state );
+
     public final ObservableProperty<List<Integer>> fractionIDs = new CompositeProperty<List<Integer>>( new Function0<List<Integer>>() {
         public List<Integer> apply() {
             return state.get().fractions.map( new F<MovableFraction, Integer>() {
