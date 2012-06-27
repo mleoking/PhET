@@ -26,7 +26,7 @@ import edu.colorado.phet.fractionmatcher.view.FilledPattern;
 import edu.colorado.phet.fractionmatcher.view.PatternNode;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractions.util.immutable.Vector2D.UnitVector2D;
-import edu.colorado.phet.fractions.view.FNode;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.PFrame;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
@@ -374,7 +374,7 @@ public class Pattern {
                 new PFrame() {{
                     setDefaultCloseOperation( WindowConstants.EXIT_ON_CLOSE );
                     setSize( 1024, 768 );
-                    getCanvas().getLayer().addChild( new FNode() {{
+                    getCanvas().getLayer().addChild( new PNode() {{
 
                         addChild( new PatternNode( FilledPattern.sequentialFill( Pyramid.nine( 100 ), 3 ), Color.yellow ) {{
                             setOffset( 200, 200 );
