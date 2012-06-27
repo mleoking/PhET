@@ -297,7 +297,7 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
                 final int finalI = i;
 
                 // "wrapped around" image
-                extraHolderNode.addChild( new SpeedometerNode( "", 100, new Property<Option<Double>>( new Some<Double>( (double) 0 ) ), MAX_SPEEDOMETER_DENSITY ) {{
+                extraHolderNode.addChild( new SpeedometerNode( "", 100, new Property<Option<Double>>( new Some<Double>( (double) MAX_SPEEDOMETER_DENSITY ) ), MAX_SPEEDOMETER_DENSITY ) {{
                     setOffset( 110 + finalI * 50, 0 );
                     scale( 0.4 );
 
@@ -308,21 +308,21 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
 
                     double angularGap = 0.8;
 
-                    final double angleAtEnd = minAngle + angularGap / 2;
+                    final double endingAngle = maxAngle + 0.3;
 
                     underTicksLayer.addChild( createRingNode( maxAngle ) );
 
                     addChild( new PhetPPath( new Arc2D.Double( centerX - radius, centerY - radius, // center
                                                                radius * 2, radius * 2,
                                                                Math.toDegrees( minAngle ),
-                                                               Math.toDegrees( maxAngle - minAngle ),
+                                                               Math.toDegrees( endingAngle - minAngle ),
                                                                Arc2D.OPEN ),
                                              null, new BasicStroke( 3 ), Color.RED ) );
 
                     addChild( new PPath() {{
                         GeneralPath path = new GeneralPath();
-                        double pointAngle = maxAngle - 0.1;
-                        double backAngle = maxAngle + 0.4;
+                        double pointAngle = endingAngle - 0.1;
+                        double backAngle = endingAngle + 0.4;
                         path.moveTo( Math.cos( pointAngle ) * radius,
                                      -Math.sin( pointAngle ) * radius );
 
