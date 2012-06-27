@@ -228,7 +228,7 @@ public @Data class MatchingGameState {
     }
 
     public MatchingGameState newGame( final int level, final int score, final int maxPoints ) {
-        return withMode( Mode.CHOOSING_SETTINGS ).withGameResults( gameResults.snoc( new GameResult( level, score, maxPoints ) ) );
+        return withMode( Mode.CHOOSING_SETTINGS ).withGameResults( gameResults.snoc( new GameResult( level, score ) ) );
     }
 
     public MatchingGameState withChecks( final int checks ) { return withInfo( info.withChecks( checks ) ); }

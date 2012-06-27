@@ -20,8 +20,8 @@ import edu.colorado.phet.fractionsintro.intro.view.FractionNode;
 import edu.colorado.phet.fractionsintro.intro.view.FractionNumberNode;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.fractionmatcher.model.FillType.Mixed;
-import static edu.colorado.phet.fractionmatcher.model.FillType.Sequential;
+import static edu.colorado.phet.fractionmatcher.model.FillType.MIXED;
+import static edu.colorado.phet.fractionmatcher.model.FillType.SEQUENTIAL;
 import static edu.colorado.phet.fractionmatcher.model.ShapeType.*;
 import static edu.colorado.phet.fractionmatcher.view.FilledPattern.randomFill;
 import static edu.colorado.phet.fractionmatcher.view.FilledPattern.sequentialFill;
@@ -35,8 +35,6 @@ import static fj.data.List.*;
  */
 class Levels {
 
-    //REVIEW violation of Java naming conventions, all constants should be uppercase
-
     /**
      * Level 1
      * No mixed numbers
@@ -44,9 +42,9 @@ class Levels {
      * Only numbers/representations  ≦ 1 possible on this level
      * “Easy” shapes on this level (not some of the more abstract representations)
      */
-    private static final List<Fraction> level1Fraction = list( fraction( 1, 3 ), fraction( 2, 3 ),
-                                                               fraction( 1, 4 ), fraction( 3, 4 ), fraction( 1, 2 ),
-                                                               fraction( 1, 1 ) );
+    private static final List<Fraction> LEVEL_1_FRACTIONS = list( fraction( 1, 3 ), fraction( 2, 3 ),
+                                                                  fraction( 1, 4 ), fraction( 3, 4 ), fraction( 1, 2 ),
+                                                                  fraction( 1, 1 ) );
 
     /**
      * Level 2
@@ -54,10 +52,10 @@ class Levels {
      * Still only numbers/representations  ≦ 1 possible
      * More shapes can be introduced
      */
-    private static final List<Fraction> level2Fractions = list( fraction( 1, 2 ),
-                                                                fraction( 2, 4 ), fraction( 3, 4 ),
-                                                                fraction( 1, 3 ), fraction( 2, 3 ),
-                                                                fraction( 3, 6 ), fraction( 2, 6 ) );
+    private static final List<Fraction> LEVEL_2_FRACTIONS = list( fraction( 1, 2 ),
+                                                                  fraction( 2, 4 ), fraction( 3, 4 ),
+                                                                  fraction( 1, 3 ), fraction( 2, 3 ),
+                                                                  fraction( 3, 6 ), fraction( 2, 6 ) );
 
     /**
      * Level 3:
@@ -65,76 +63,76 @@ class Levels {
      * Still only numbers/representations  ≦ 1 possible
      * More shapes can be introduced
      */
-    private static final List<Fraction> level3Fraction = list( fraction( 3, 2 ), fraction( 4, 2 ),
-                                                               fraction( 4, 3 ), fraction( 6, 3 ),
-                                                               fraction( 4, 5 ),
-                                                               fraction( 7, 4 ), fraction( 5, 4 ), fraction( 6, 4 ),
-                                                               fraction( 5, 6 ), fraction( 4, 6 ), fraction( 3, 6 ), fraction( 2, 6 ), fraction( 7, 6 ),
-                                                               fraction( 3, 8 ), fraction( 4, 8 ), fraction( 5, 8 ), fraction( 6, 8 ), fraction( 7, 8 ) );
+    private static final List<Fraction> LEVEL_3_FRACTIONS = list( fraction( 3, 2 ), fraction( 4, 2 ),
+                                                                  fraction( 4, 3 ), fraction( 6, 3 ),
+                                                                  fraction( 4, 5 ),
+                                                                  fraction( 7, 4 ), fraction( 5, 4 ), fraction( 6, 4 ),
+                                                                  fraction( 5, 6 ), fraction( 4, 6 ), fraction( 3, 6 ), fraction( 2, 6 ), fraction( 7, 6 ),
+                                                                  fraction( 3, 8 ), fraction( 4, 8 ), fraction( 5, 8 ), fraction( 6, 8 ), fraction( 7, 8 ) );
 
     /**
      * Level 4:
      * All representations possible as well as complicated mixed/improper numbers
      */
-    private static final List<Fraction> level4Fraction = list( fraction( 13, 7 ), fraction( 13, 7 ),
-                                                               fraction( 14, 8 ),
-                                                               fraction( 9, 5 ),
-                                                               fraction( 6, 3 ),
-                                                               fraction( 9, 8 ),
-                                                               fraction( 8, 9 ), fraction( 6, 9 ), fraction( 4, 9 ), fraction( 3, 9 ), fraction( 2, 9 ),
-                                                               fraction( 9, 7 ) );
+    private static final List<Fraction> LEVEL_4_FRACTIONS = list( fraction( 13, 7 ), fraction( 13, 7 ),
+                                                                  fraction( 14, 8 ),
+                                                                  fraction( 9, 5 ),
+                                                                  fraction( 6, 3 ),
+                                                                  fraction( 9, 8 ),
+                                                                  fraction( 8, 9 ), fraction( 6, 9 ), fraction( 4, 9 ), fraction( 3, 9 ), fraction( 2, 9 ),
+                                                                  fraction( 9, 7 ) );
 
     //REVIEW  level4Fraction and level5Fractions are identical. Is this significant? Should level5Fractions = level4Fractions?
     /**
      * Level 5:
      * All representations possible as well as complicated mixed/improper numbers
      */
-    private static final List<Fraction> level5Fractions = list( fraction( 13, 7 ), fraction( 13, 7 ),
-                                                                fraction( 14, 8 ),
-                                                                fraction( 9, 5 ),
-                                                                fraction( 6, 3 ),
-                                                                fraction( 9, 8 ),
-                                                                fraction( 8, 9 ), fraction( 6, 9 ), fraction( 4, 9 ), fraction( 3, 9 ), fraction( 2, 9 ),
-                                                                fraction( 9, 7 ) );
+    private static final List<Fraction> LEVEL_5_FRACTIONS = list( fraction( 13, 7 ), fraction( 13, 7 ),
+                                                                  fraction( 14, 8 ),
+                                                                  fraction( 9, 5 ),
+                                                                  fraction( 6, 3 ),
+                                                                  fraction( 9, 8 ),
+                                                                  fraction( 8, 9 ), fraction( 6, 9 ), fraction( 4, 9 ), fraction( 3, 9 ), fraction( 2, 9 ),
+                                                                  fraction( 9, 7 ) );
 
     /**
      * Level 6:
      * All representations possible as well as complicated mixed/improper numbers
      */
-    private static final List<Fraction> level6Fractions = list( fraction( 9, 5 ), fraction( 8, 5 ), fraction( 7, 5 ), fraction( 6, 5 ),
-                                                                fraction( 7, 6 ), fraction( 8, 6 ), fraction( 9, 6 ),
-                                                                fraction( 9, 7 ), fraction( 10, 7 ), fraction( 13, 7 ),
-                                                                fraction( 9, 8 ), fraction( 10, 8 ), fraction( 11, 8 ), fraction( 14, 8 ),
-                                                                fraction( 4, 9 ), fraction( 6, 9 ), fraction( 8, 9 ), fraction( 10, 9 ), fraction( 11, 9 ) );
+    private static final List<Fraction> LEVEL_6_FRACTIONS = list( fraction( 9, 5 ), fraction( 8, 5 ), fraction( 7, 5 ), fraction( 6, 5 ),
+                                                                  fraction( 7, 6 ), fraction( 8, 6 ), fraction( 9, 6 ),
+                                                                  fraction( 9, 7 ), fraction( 10, 7 ), fraction( 13, 7 ),
+                                                                  fraction( 9, 8 ), fraction( 10, 8 ), fraction( 11, 8 ), fraction( 14, 8 ),
+                                                                  fraction( 4, 9 ), fraction( 6, 9 ), fraction( 8, 9 ), fraction( 10, 9 ), fraction( 11, 9 ) );
 
     /**
      * Level 7:
      * All representations possible as well as complicated mixed/improper numbers
      */
-    private static final List<Fraction> level7Fractions = list( fraction( 3, 2 ),
-                                                                fraction( 4, 3 ), fraction( 5, 3 ),
-                                                                fraction( 5, 4 ), fraction( 7, 4 ),
-                                                                fraction( 6, 5 ), fraction( 7, 5 ), fraction( 8, 5 ), fraction( 9, 5 ),
-                                                                fraction( 7, 6 ), fraction( 11, 6 ) );
+    private static final List<Fraction> LEVEL_7_FRACTIONS = list( fraction( 3, 2 ),
+                                                                  fraction( 4, 3 ), fraction( 5, 3 ),
+                                                                  fraction( 5, 4 ), fraction( 7, 4 ),
+                                                                  fraction( 6, 5 ), fraction( 7, 5 ), fraction( 8, 5 ), fraction( 9, 5 ),
+                                                                  fraction( 7, 6 ), fraction( 11, 6 ) );
 
-    private static final List<Fraction> level8Fractions = list( fraction( 8, 7 ), fraction( 9, 7 ), fraction( 10, 7 ), fraction( 11, 7 ), fraction( 12, 7 ), fraction( 13, 7 ),
-                                                                fraction( 9, 8 ), fraction( 10, 8 ), fraction( 11, 8 ), fraction( 12, 8 ), fraction( 13, 8 ), fraction( 14, 8 ),
-                                                                fraction( 15, 8 ),
-                                                                fraction( 10, 9 ), fraction( 11, 9 ), fraction( 12, 9 ), fraction( 13, 9 ), fraction( 14, 9 ), fraction( 15, 9 ),
-                                                                fraction( 16, 9 ), fraction( 17, 9 ) );
+    private static final List<Fraction> LEVEL_8_FRACTIONS = list( fraction( 8, 7 ), fraction( 9, 7 ), fraction( 10, 7 ), fraction( 11, 7 ), fraction( 12, 7 ), fraction( 13, 7 ),
+                                                                  fraction( 9, 8 ), fraction( 10, 8 ), fraction( 11, 8 ), fraction( 12, 8 ), fraction( 13, 8 ), fraction( 14, 8 ),
+                                                                  fraction( 15, 8 ),
+                                                                  fraction( 10, 9 ), fraction( 11, 9 ), fraction( 12, 9 ), fraction( 13, 9 ), fraction( 14, 9 ), fraction( 15, 9 ),
+                                                                  fraction( 16, 9 ), fraction( 17, 9 ) );
 
-    private final Random random = new Random();
+    private final Random RANDOM = new Random();
 
     //Primary method for this class, creates a set of movable fractions for a level.
     public List<MovableFraction> createLevel( final int level, final List<Cell> cells ) {
-        final List<Fraction> fractionList = shuffle( level == 1 ? level1Fraction :
-                                                     level == 2 ? level2Fractions :
-                                                     level == 3 ? level3Fraction :
-                                                     level == 4 ? level4Fraction :
-                                                     level == 5 ? level5Fractions :
-                                                     level == 6 ? level6Fractions :
-                                                     level == 7 ? level7Fractions :
-                                                     level == 8 ? level8Fractions :
+        final List<Fraction> fractionList = shuffle( level == 1 ? LEVEL_1_FRACTIONS :
+                                                     level == 2 ? LEVEL_2_FRACTIONS :
+                                                     level == 3 ? LEVEL_3_FRACTIONS :
+                                                     level == 4 ? LEVEL_4_FRACTIONS :
+                                                     level == 5 ? LEVEL_5_FRACTIONS :
+                                                     level == 6 ? LEVEL_6_FRACTIONS :
+                                                     level == 7 ? LEVEL_7_FRACTIONS :
+                                                     level == 8 ? LEVEL_8_FRACTIONS :
                                                      List.<Fraction>nil() );
 
         final List<Integer> numericScaleFactors = level < 5 ? single( 1 ) :
@@ -150,14 +148,14 @@ class Levels {
         final List<ShapeType> medium = list( plusses, grid, pyramid, polygon, tetris, flower, letterLShapes, interleavedLShapes, ringOfHexagons, ninjaStar ).append( easy );
 
         final List<GraphicalRepresentation> r =
-                level == 1 ? generateAll( easy, list( Sequential ) ) :
+                level == 1 ? generateAll( easy, list( SEQUENTIAL ) ) :
                 level == 2 ||
-                level == 3 ? generateAll( medium, list( Sequential ) ) :
-                level == 4 ? generateAll( medium, list( Sequential ) ) :
-                level == 5 ? generateAll( medium, list( Sequential, Mixed ) ) :
-                level == 6 ? generateAll( medium, list( Mixed, FillType.Random ) ) :
-                level == 7 ? generateAll( medium, list( Mixed, FillType.Random ) ) :
-                level == 8 ? generateAll( medium, list( Mixed, FillType.Random ) ) :
+                level == 3 ? generateAll( medium, list( SEQUENTIAL ) ) :
+                level == 4 ? generateAll( medium, list( SEQUENTIAL ) ) :
+                level == 5 ? generateAll( medium, list( SEQUENTIAL, MIXED ) ) :
+                level == 6 ? generateAll( medium, list( MIXED, FillType.RANDOM ) ) :
+                level == 7 ? generateAll( medium, list( MIXED, FillType.RANDOM ) ) :
+                level == 8 ? generateAll( medium, list( MIXED, FillType.RANDOM ) ) :
                 null;
         if ( r == null ) { throw new RuntimeException( "No representations found for level: " + level ); }
         ArrayList<GraphicalRepresentation> representations = new ArrayList<GraphicalRepresentation>( r.toCollection() );
@@ -176,19 +174,19 @@ class Levels {
             GraphicalRepresentation representation = null;
 
             //Flag for the primary representation.  Ensure a minimum of 3 numeric representations per stage
-            boolean numeric = i < 3 || random.nextBoolean();
+            boolean numeric = i < 3 || RANDOM.nextBoolean();
             if ( numeric ) {
-                int scaleFactor = numericScaleFactors.index( random.nextInt( numericScaleFactors.length() ) );
+                int scaleFactor = numericScaleFactors.index( RANDOM.nextInt( numericScaleFactors.length() ) );
                 final double fractionSizeScale = 0.3;
 
                 //AP: Usually mixed numbers are written with the "1" nearly as tall as the entire fraction
                 final double mixedNumberWholeScale = 2.4;
-                if ( level == 7 && fraction.toDouble() > 1 && random.nextBoolean() ) {
+                if ( level == 7 && fraction.toDouble() > 1 && RANDOM.nextBoolean() ) {
                     //Try to use a mixed number representation
                     node = new HBox( 0, new FractionNumberNode( new Property<Integer>( 1 ) ) {{setScale( fractionSizeScale * mixedNumberWholeScale );}},
                                      new FractionNode( new Fraction( fraction.numerator - fraction.denominator, fraction.denominator ), fractionSizeScale ) );
                 }
-                else if ( level == 8 && fraction.toDouble() > 1 && random.nextBoolean() ) {
+                else if ( level == 8 && fraction.toDouble() > 1 && RANDOM.nextBoolean() ) {
                     //Try to use a mixed number representation
                     node = new HBox( 0, new FractionNumberNode( new Property<Integer>( 1 ) ) {{setScale( fractionSizeScale * mixedNumberWholeScale );}},
                                      new FractionNode( new Fraction( ( fraction.numerator - fraction.denominator ) * scaleFactor, fraction.denominator * scaleFactor ), fractionSizeScale ) );
@@ -291,7 +289,7 @@ class Levels {
     //Create the graphic for one fraction.
     private PNode createGraphic( Fraction f, final GraphicalRepresentation r ) {
         if ( f.numerator <= f.denominator ) {
-            final PatternNode single = createSingle( f, r.shapeType, r.fillType == FillType.Random, r.color );
+            final PatternNode single = createSingle( f, r.shapeType, r.fillType == FillType.RANDOM, r.color );
             HBox box = new HBox( single );
             scaleBoxNode( box, 80 );
             return box;
@@ -302,9 +300,9 @@ class Levels {
                 throw new RuntimeException( "3+ not handled yet" );
             }
 
-            if ( r.fillType == Sequential || r.fillType == Mixed ) {
+            if ( r.fillType == SEQUENTIAL || r.fillType == MIXED ) {
                 PatternNode first = createSingle( new Fraction( f.denominator, f.denominator ), r.shapeType, false, r.color );
-                PatternNode second = createSingle( new Fraction( f.numerator - f.denominator, f.denominator ), r.shapeType, r.fillType == Mixed, r.color );
+                PatternNode second = createSingle( new Fraction( f.numerator - f.denominator, f.denominator ), r.shapeType, r.fillType == MIXED, r.color );
 
                 return addToBox( first, second );
             }
@@ -312,7 +310,7 @@ class Levels {
                 ContainerSet containerSet = new ContainerSet( f.denominator, list( new Container( f.denominator, List.<Integer>nil() ),
                                                                                    new Container( f.denominator, List.<Integer>nil() ) ) );
                 for ( int i = 0; i < f.numerator; i++ ) {
-                    containerSet = containerSet.toggle( containerSet.getRandomEmptyCell( random ) );
+                    containerSet = containerSet.toggle( containerSet.getRandomEmptyCell( RANDOM ) );
                 }
                 final int numInFirst = containerSet.containers.index( 0 ).getFilledCells().length();
                 Fraction firstFraction = new Fraction( numInFirst, f.denominator );
