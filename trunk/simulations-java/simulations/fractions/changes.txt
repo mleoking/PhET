@@ -1,3 +1,4 @@
+Converted to use colorblind friendly red, see #3357
 add REVIEW comments based on a quick scan of each class file in fractions package
 add REVIEW comments based on a quick scan of each class file in fractionmatcher package
 # 0.00.96 (65450) Jun 26, 2012
