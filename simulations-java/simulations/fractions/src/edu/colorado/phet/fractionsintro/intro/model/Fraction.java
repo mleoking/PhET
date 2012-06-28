@@ -79,4 +79,8 @@ public @Data class Fraction {
     public static void main( String[] args ) {
         System.out.println( "sum = " + sum( List.list( fraction( 1, 2 ), fraction( 2, 3 ), fraction( 1, 6 ) ) ) );
     }
+
+    public Fraction plus( final Fraction fraction ) {
+        return sum( List.list( this, fraction ) );
+    }
 }
