@@ -341,7 +341,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
             }
         } ) );
         for ( ContainerNode containerNode : containerNodes ) {
-            if ( containerNode.getGlobalFullBounds().intersects( piece.getGlobalFullBounds() ) && !containerNode.isInToolbox() ) {
+            if ( containerNode.getGlobalFullBounds().intersects( piece.getGlobalFullBounds() ) && !containerNode.isInToolbox() && !containerNode.willOverflow( piece ) ) {
                 dropInto( piece, containerNode );
                 droppedInto = true;
                 break;

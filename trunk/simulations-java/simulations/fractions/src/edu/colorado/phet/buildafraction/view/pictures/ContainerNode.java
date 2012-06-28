@@ -296,6 +296,12 @@ public class ContainerNode extends PNode {
         return isAtStartingLocation() && initialY > 600;
     }
 
+    //Return true if the piece will overflow this container
+    public boolean willOverflow( final RectangularPiece piece ) {
+        final Fraction sum = getFractionValue().plus( piece.toFraction() );
+        return sum.numerator > sum.denominator;
+    }
+
     private class SingleContainerNode extends PNode {
         private SingleContainerNode( final int number ) {
 
