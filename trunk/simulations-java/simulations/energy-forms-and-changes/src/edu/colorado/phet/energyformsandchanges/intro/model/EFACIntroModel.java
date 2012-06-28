@@ -40,7 +40,7 @@ public class EFACIntroModel {
 
     // Threshold of temperature difference between the bodies in a multi-body
     // system below which energy can be exchanged with air.
-    private static final double MIN_TEMPERATURE_DIFF_FOR_MULTI_BODY_AIR_ENERGY_EXCHANGE = 5; // In degrees C, empirically determined.
+    private static final double MIN_TEMPERATURE_DIFF_FOR_MULTI_BODY_AIR_ENERGY_EXCHANGE = 0.5; // In degrees C, empirically determined.
 
     //-------------------------------------------------------------------------
     // Instance Data
