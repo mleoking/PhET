@@ -280,7 +280,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
         };
 
         //Dialog for selecting and starting a level
-        final PNode levelSelectionDialog = new ZeroOffsetNode( new LevelSelectionNode( startGame, gameSettings, model.gameResults, standaloneSim ) ) {{
+        final PNode levelSelectionDialog = new ZeroOffsetNode( new LevelSelectionNode( startGame, gameSettings, model.gameResults ) ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 );
 
             model.choosingSettings.addObserver( setNodeVisible( this ) );
