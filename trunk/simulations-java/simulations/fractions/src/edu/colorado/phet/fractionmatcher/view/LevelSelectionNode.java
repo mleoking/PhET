@@ -66,22 +66,24 @@ public class LevelSelectionNode extends PNode {
         }
     } );
 
-    // REVIEW: Document 'patterns' and any assumptions being made about their order.  Are these the shapes that appear in the buttons?
+    //Main constructor
     public LevelSelectionNode( final VoidFunction0 startGame, final GameSettings gameSettings, final Property<List<GameResult>> gameResults,
-                               final List<PNode> patterns ) {
 
-        for ( PNode pattern : patterns ) {
+                               //Icons that appear for each level, in the order of the levels (1,2,3...).  These are the shapes that appear in the buttons
+                               final List<PNode> icons ) {
+
+        for ( PNode pattern : icons ) {
             pattern.scale( 90 / pattern.getFullBounds().getWidth() );
         }
 
         //Get bounds for layout so all buttons same size
-        final double maxIconWidth = patterns.map( FNode._fullWidth ).maximum( doubleOrd );
-        final double maxIconHeight = patterns.map( FNode._fullHeight ).maximum( doubleOrd );
+        final double maxIconWidth = icons.map( FNode._fullWidth ).maximum( doubleOrd );
+        final double maxIconHeight = icons.map( FNode._fullHeight ).maximum( doubleOrd );
 
         //level buttons at the top
-        List<LevelIconNode> icons = patterns.map( new F<PNode, LevelIconNode>() {
+        List<LevelIconNode> levelIcons = icons.map( new F<PNode, LevelIconNode>() {
             @Override public LevelIconNode f( final PNode patternNode ) {
-                final Integer levelIndex = patterns.elementIndex( Equal.<PNode>anyEqual(), patternNode ).some();
+                final Integer levelIndex = icons.elementIndex( Equal.<PNode>anyEqual(), patternNode ).some();
                 int levelName = levelIndex + 1;
                 return new LevelIconNode( MessageFormat.format( Strings.LEVEL__PATTERN, levelName ), patternNode, maxIconWidth, maxIconHeight, levelName, gameResults );
             }
@@ -89,7 +91,7 @@ public class LevelSelectionNode extends PNode {
 
         int column = 0;
         int row = 0;
-        for ( final LevelIconNode icon : icons ) {
+        for ( final LevelIconNode icon : levelIcons ) {
             final Property<Boolean> selected = new Property<Boolean>( false );
             ToggleButtonNode button = new ToggleButtonNode( icon, selected, new VoidFunction0() {
                 public void apply() {
