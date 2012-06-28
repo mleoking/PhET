@@ -112,7 +112,7 @@ public class SingleContainerNode extends PNode {
         int index = 0;
         LinearFunction f = new LinearFunction( 0, numPieces - 1, -totalDeltaSpacing / 2, totalDeltaSpacing / 2 );
         for ( RectangularPiece child : getRectangularPieces() ) {
-            parent.parent.splitPieceFromContainer( child, parent, numPieces == 1 ? 0 : f.evaluate( index++ ) );
+            parent.parent.splitPieceFromContainer( child );
         }
     }
 
