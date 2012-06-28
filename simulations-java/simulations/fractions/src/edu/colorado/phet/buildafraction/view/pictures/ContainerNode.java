@@ -12,13 +12,11 @@ import edu.colorado.phet.common.phetcommon.model.property.integerproperty.Intege
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.DynamicCursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractions.view.SpinnerButtonNode;
-import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
@@ -32,6 +30,7 @@ import static edu.colorado.phet.buildafraction.view.pictures.SingleContainerNode
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
 import static edu.colorado.phet.fractions.FractionsResources.Images.*;
 import static edu.colorado.phet.fractions.view.FNode.getChildren;
+import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
 import static edu.colorado.phet.fractionsintro.intro.model.Fraction.sum;
 
 /**
@@ -53,7 +52,7 @@ public class ContainerNode extends PNode {
     private ArrayList<VoidFunction0> listeners = new ArrayList<VoidFunction0>();
     private final SpinnerButtonNode leftSpinner;
     private final SpinnerButtonNode rightSpinner;
-    private final PImage increaseButton;
+    private final IncreaseDecreaseButton increaseDecreaseButton;
 
     public ContainerNode( PictureSceneNode parent, final ContainerContext context, boolean showIncreaseButton ) {
         this.parent = parent;
@@ -64,36 +63,16 @@ public class ContainerNode extends PNode {
         splitButton.setVisible( false );
         splitButton.setPickable( false );
 
-        final BufferedImage greenButton = multiScaleToWidth( PLUS_BUTTON, 50 );
-        final BufferedImage greenButtonPressed = multiScaleToWidth( PLUS_BUTTON_PRESSED, 50 );
-        increaseButton = new PImage( greenButton ) {{
-            addInputEventListener( new CursorHandler() );
-            addInputEventListener( new PBasicInputEventHandler() {
-                boolean pressed = false;
-
-                @Override public void mousePressed( final PInputEvent event ) {
-                    setImage( greenButtonPressed );
-                    pressed = true;
-                }
-
-                @Override public void mouseReleased( final PInputEvent event ) {
-                    if ( getImage() == greenButtonPressed ) {
-                        fireIncreaseEvent();
-                    }
-                    setImage( greenButton );
-                }
-
-                @Override public void mouseExited( final PInputEvent event ) {
-                    setImage( greenButton );
-                }
-
-                @Override public void mouseEntered( final PInputEvent event ) {
-                    if ( pressed ) {
-                        setImage( greenButtonPressed );
-                    }
-                }
-            } );
-        }};
+        increaseDecreaseButton = new IncreaseDecreaseButton( new VoidFunction0() {
+            public void apply() {
+                addContainer();
+            }
+        }, new VoidFunction0() {
+            public void apply() {
+                removeContainer();
+            }
+        }
+        );
         splitButton.translate( -splitButton.getFullBounds().getWidth(),
                                -splitButton.getFullBounds().getHeight() );
         dynamicCursorHandler = new DynamicCursorHandler( Cursor.HAND_CURSOR );
@@ -124,8 +103,8 @@ public class ContainerNode extends PNode {
                             new HBox( leftSpinner, rightSpinner ) ) );
 
         if ( showIncreaseButton ) {
-            addChild( increaseButton );
-            increaseButton.setOffset( containerLayer.getFullBounds().getMaxX() + AbstractFractionsCanvas.INSET, containerLayer.getFullBounds().getCenterY() - increaseButton.getFullBounds().getHeight() / 2 );
+            addChild( increaseDecreaseButton );
+            increaseDecreaseButton.setOffset( containerLayer.getFullBounds().getMaxX() + INSET, containerLayer.getFullBounds().getCenterY() - increaseDecreaseButton.getFullBounds().getHeight() / 2 );
         }
     }
 
@@ -137,10 +116,51 @@ public class ContainerNode extends PNode {
         }
     };
 
-    private void fireIncreaseEvent() {
+    private void addContainer() {
         final SingleContainerNode child = new SingleContainerNode( this, selectedPieceSize );
-        child.setOffset( containerLayer.getFullBounds().getMaxX() + AbstractFractionsCanvas.INSET, containerLayer.getFullBounds().getY() );
+        child.setOffset( containerLayer.getFullBounds().getMaxX() + INSET, containerLayer.getFullBounds().getY() );
+        child.setTransparency( 0 );
         containerLayer.addChild( child );
+        increaseDecreaseButton.animateToPositionScaleRotation( child.getFullBounds().getMaxX() + INSET, child.getFullBounds().getCenterY() - increaseDecreaseButton.getFullBounds().getHeight() / 2, 1, 0, 200 );
+        if ( getSingleContainerNodes().length() >= 3 ) {
+            increaseDecreaseButton.hideIncreaseButton();
+        }
+        PInterpolatingActivity activity = increaseDecreaseButton.showDecreaseButton();
+        activity.setDelegate( new PActivityDelegate() {
+            public void activityStarted( final PActivity activity ) {
+            }
+
+            public void activityStepped( final PActivity activity ) {
+            }
+
+            public void activityFinished( final PActivity activity ) {
+                child.animateToTransparency( 1, 200 );
+            }
+        } );
+    }
+
+    private void removeContainer() {
+        final SingleContainerNode last = getSingleContainerNodes().last();
+        PActivity activity = last.animateToTransparency( 0, 200 );
+        activity.setDelegate( new PActivityDelegate() {
+            public void activityStarted( final PActivity activity ) {
+            }
+
+            public void activityStepped( final PActivity activity ) {
+            }
+
+            public void activityFinished( final PActivity activity ) {
+                containerLayer.removeChild( last );
+                final SingleContainerNode child = getSingleContainerNodes().last();
+                increaseDecreaseButton.animateToPositionScaleRotation( child.getFullBounds().getMaxX() + INSET, child.getFullBounds().getCenterY() - increaseDecreaseButton.getFullBounds().getHeight() / 2, 1, 0, 200 );
+
+                if ( getSingleContainerNodes().length() <= 1 ) {
+                    increaseDecreaseButton.hideDecreaseButton();
+                }
+            }
+        } );
+
+        increaseDecreaseButton.showIncreaseButton();
     }
 
     public static BufferedImage spinnerImage( final BufferedImage image ) { return multiScaleToWidth( image, 50 ); }
