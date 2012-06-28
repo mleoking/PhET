@@ -1,7 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractionmatcher.view;
 
-import fj.F;
 import fj.data.List;
 
 import java.awt.geom.Dimension2D;
@@ -16,10 +15,9 @@ import static edu.colorado.phet.fractions.view.FNode._fullHeight;
 import static edu.colorado.phet.fractions.view.FNode._fullWidth;
 import static fj.Ord.doubleOrd;
 
-// REVIEW - Could this be replaced by PadBoundsNode from piccolo-phet?
-
 /**
- * Adds padding around an icon to make it a standardized size.
+ * Adds padding around a node to make it a standardized size.  Different than PadBoundsNode from piccolo-phet because that neither centers the node nor allows different
+ * sizes in the x and y directions.
  *
  * @author Sam Reid
  */
@@ -37,16 +35,6 @@ public class PaddedIcon extends PNode {
 
     public PaddedIcon( final Dimension2D maxSize, final PNode icon ) {
         this( maxSize.getWidth(), maxSize.getHeight(), icon );
-    }
-
-    //Take a list of icons and pad so they each have the same dimensions (of the max)
-    public static List<PNode> normalize( final List<PNode> icons ) {
-        final Dimension2DDouble maxSize = getMaxSize( icons );
-        return icons.map( new F<PNode, PNode>() {
-            @Override public PNode f( final PNode node ) {
-                return new PaddedIcon( maxSize.width, maxSize.height, node );
-            }
-        } );
     }
 
     public static Dimension2DDouble getMaxSize( final List<PNode> icons ) {
