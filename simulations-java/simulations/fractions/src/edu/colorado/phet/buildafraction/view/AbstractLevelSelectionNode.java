@@ -33,19 +33,9 @@ public class AbstractLevelSelectionNode extends PNode {
 
     private double initialX;
     private double initialY;
-    private final MainContext context;
 
     //Rows + Columns
     public AbstractLevelSelectionNode( final String title, final List<List<LevelInfo>> allLevels, final MainContext context ) {
-        this.context = context;
-
-        addChild( new BackButton( new VoidFunction0() {
-            public void apply() {
-                context.goBackToHomeScreen();
-            }
-        } ) {{
-            setOffset( AbstractFractionsCanvas.INSET, AbstractFractionsCanvas.INSET );
-        }} );
 
         //Title text, only shown when the user is choosing a level
         PNode titleText = new PNode() {{

@@ -1,3 +1,4 @@
+Build a Fraction: Removed "world selection screen" and merged shapes/numbers level selection screens
 Build a Fraction: Put the up/down arrows beneath the container and make them adjacent
 Fraction Matcher: Require the user to change their answer before pressing "check answer" again, see #3357 comment 21
 Fraction Matcher: For upside-down L shapes and other representations that are still too tall after shrinking based on width, undo previous shrink and shrink by another 20%

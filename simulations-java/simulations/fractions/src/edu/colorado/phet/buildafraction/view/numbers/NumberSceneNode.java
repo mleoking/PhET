@@ -70,11 +70,10 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
         this.model = model;
         this.STAGE_SIZE = STAGE_SIZE;
         this.context = context;
-//        final PhetPText title = new PhetPText( MY_FRACTIONS, AbstractFractionsCanvas.CONTROL_FONT );
 
         final BackButton backButton = new BackButton( new VoidFunction0() {
             public void apply() {
-                context.goToNumberLevelSelectionScreen();
+                context.goToLevelSelectionScreen();
             }
         } ) {{
             setOffset( AbstractFractionsCanvas.INSET, AbstractFractionsCanvas.INSET );
