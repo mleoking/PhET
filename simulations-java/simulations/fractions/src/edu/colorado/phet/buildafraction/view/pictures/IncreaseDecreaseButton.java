@@ -66,6 +66,8 @@ public class IncreaseDecreaseButton extends PNode {
         subtractButton = new SingleButton( multiScaleToWidth( MINUS_BUTTON, 50 ), multiScaleToWidth( MINUS_BUTTON_PRESSED, 50 ), subtract );
         addButton = new SingleButton( multiScaleToWidth( PLUS_BUTTON, 50 ), multiScaleToWidth( PLUS_BUTTON_PRESSED, 50 ), add );
         addChild( new VBox( addButton, subtractButton ) );
+        subtractButton.setTransparency( 0 );
+        subtractButton.setAllPickable( false );
     }
 
     public PInterpolatingActivity hideIncreaseButton() {
