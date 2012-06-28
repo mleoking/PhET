@@ -260,16 +260,14 @@ public abstract class AbstractLevelFactory {
 
             {
                 Cell cell = remainingCells.remove( 0 );
-                final int id = MovableFraction.nextID();
+                final MovableFractionID id = new MovableFractionID();
                 final String representationString = numeric ? "numeric" : representation.toString();
                 result.add( new MovableFraction( id, cell.getPosition(), fraction.numerator, fraction.denominator,
                                                  false, cell, 1.0, new RichPNode( node ), Motions.WAIT, false, new IUserComponent() {
                     @Override public String toString() {
                         return "fraction.id=" + id + ".value=" + fraction.numerator + "/" + fraction.denominator + ".representation=" + representationString;
                     }
-                },
-                                                 numeric ? Color.black : representation.color,
-                                                 representationString ) );
+                }, numeric ? Color.black : representation.color, representationString ) );
             }
 
             //If fraction is numeric, partner must not also be numeric.
@@ -283,7 +281,7 @@ public abstract class AbstractLevelFactory {
 
                 Cell cell = remainingCells.remove( 0 );
 
-                final int id = MovableFraction.nextID();
+                final MovableFractionID id = new MovableFractionID();
                 result.add( new MovableFraction( id, cell.getPosition(), fraction.numerator, fraction.denominator,
                                                  false, cell, 1.0, new RichPNode( node ), Motions.WAIT, false, new IUserComponent() {
                     @Override public String toString() {
