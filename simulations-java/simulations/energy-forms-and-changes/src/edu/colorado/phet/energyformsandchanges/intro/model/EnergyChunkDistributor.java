@@ -23,8 +23,8 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
  */
 public class EnergyChunkDistributor {
 
-    private static final double OUTSIDE_CONTAINER_FORCE = 1.5; // In Newtons, empirically determined.
-    private static final double MAX_TIME_STEP = 10E-3; // In seconds, for algorithm that moves the points.
+    private static final double OUTSIDE_CONTAINER_FORCE = 2.5; // In Newtons, empirically determined.
+    private static final double MAX_TIME_STEP = 5E-3; // In seconds, for algorithm that moves the points.
     private static final Random RAND = new Random( 2 ); // Seeded for greater consistency.
 
     public static void updatePositions( List<EnergyChunk> energyChunkList, Rectangle2D enclosingRect, double dt ) {
@@ -232,7 +232,7 @@ public class EnergyChunkDistributor {
         // Determine the force constants to use for the repulsive algorithm
         // that positions the energy chunks.  Formula was made up and has some
         // tweak factors, so it may require some adjustments.
-        double particleForceConstant = boundingRect.getWidth() * boundingRect.getHeight() / map.size() * 0.5;
+        double particleForceConstant = boundingRect.getWidth() * boundingRect.getHeight() / map.size() * 2;
         double edgeForceConstant = particleForceConstant / 2;
 
         // Determine the minimum distance that is allowed to be used in the
@@ -325,7 +325,6 @@ public class EnergyChunkDistributor {
         }
     }
 
-
     public static ImmutableVector2D generateRandomLocation( Rectangle2D rect ) {
         return new ImmutableVector2D( rect.getMinX() + ( RAND.nextDouble() * rect.getWidth() ), rect.getMinY() + ( RAND.nextDouble() * rect.getHeight() ) );
     }
@@ -359,11 +358,12 @@ public class EnergyChunkDistributor {
 
                 // Limit the velocity.  This acts much like a drag force that
                 // gets stronger as the velocity gets bigger.
-                double maxVelocity = Math.min( containerShape.getBounds2D().getWidth(), containerShape.getBounds2D().getHeight() ) / 10 / dt;
+                double maxVelocity = Math.min( containerShape.getBounds2D().getWidth(), containerShape.getBounds2D().getHeight() ) / 20 / dt;
                 velocity.setMagnitude( maxVelocity * velocity.getMagnitude() / ( velocity.getMagnitude() + maxVelocity ) );
 
                 // Check that the velocity won't move the point outside of the container.
                 if ( containerShape.contains( position.toPoint2D() ) && !containerShape.contains( position.getAddedInstance( velocity.getScaledInstance( dt ) ).toPoint2D() ) ) {
+                    System.out.println( "Limiting the velocity" );
                     velocity.setMagnitude( 0 );
                 }
             }

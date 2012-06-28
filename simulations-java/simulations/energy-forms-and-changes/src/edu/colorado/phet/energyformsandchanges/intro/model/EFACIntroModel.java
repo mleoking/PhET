@@ -130,6 +130,7 @@ public class EFACIntroModel {
      * Restore the initial conditions of the model.
      */
     public void reset() {
+        energyChunksVisible.reset();
         air.reset();
         leftBurner.reset();
         rightBurner.reset();
@@ -138,7 +139,6 @@ public class EFACIntroModel {
         beaker.reset();
         thermometer1.reset();
         thermometer2.reset();
-        energyChunksVisible.reset();
     }
 
     /**

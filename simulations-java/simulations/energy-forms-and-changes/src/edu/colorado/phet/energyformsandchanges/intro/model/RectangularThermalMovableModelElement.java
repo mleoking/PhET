@@ -72,12 +72,6 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
 
         // Add the initial energy chunks.
         addInitialEnergyChunks();
-
-        // Clock ourself for a while to allow the chunks to get distributed
-        // to their initial positions.
-        for ( int i = 0; i < 1000; i++ ) {
-            stepInTime( clock.getDt() );
-        }
     }
 
     /**
@@ -109,7 +103,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
         // Distribute the energy chunks contained within this model element.
         EnergyChunkDistributor.updatePositions( slices, dt );
 
-        // Animate the energy chunks that are outside this model element.\
+        // Animate the energy chunks that are outside this model element.
         animateNonContainedEnergyChunks( dt );
     }
 
@@ -303,6 +297,10 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
         while ( getNumEnergyChunks() < targetNumChunks ) {
             // Add a chunk at a random location in the block.
             addEnergyChunk( new EnergyChunk( clock, EnergyChunkDistributor.generateRandomLocation( energyChunkBounds ), energyChunksVisible, false ) );
+        }
+        // Distribute the energy chunks within the container.
+        for ( int i = 0; i < 1000; i++ ) {
+            EnergyChunkDistributor.updatePositions( slices, clock.getDt() );
         }
     }
 
