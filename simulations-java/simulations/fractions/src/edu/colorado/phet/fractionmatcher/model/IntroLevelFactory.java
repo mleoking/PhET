@@ -15,7 +15,7 @@ import static fj.data.List.single;
  *
  * @author Sam Reid
  */
-class IntroLevelFactory extends AbstractLevelFactory {
+public class IntroLevelFactory extends AbstractLevelFactory {
 
     /**
      * Level 1

@@ -15,7 +15,7 @@ import static fj.data.List.single;
  *
  * @author Sam Reid
  */
-class MixedFractionLevelFactory extends AbstractLevelFactory {
+public class MixedFractionLevelFactory extends AbstractLevelFactory {
 
     /**
      * Level 1

@@ -4,6 +4,7 @@ package edu.colorado.phet.fractionmatcher;
 import javax.swing.JComponent;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.fractionmatcher.model.IntroLevelFactory;
 import edu.colorado.phet.fractionmatcher.model.MatchingGameModel;
 import edu.colorado.phet.fractionmatcher.view.MatchingGameCanvas;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
@@ -19,7 +20,7 @@ import static edu.colorado.phet.fractionsintro.FractionsIntroApplication.runModu
  */
 public class MatchingGameModule extends AbstractFractionsModule {
     public MatchingGameModule( boolean dev, boolean standaloneSim ) {
-        this( dev, new MatchingGameModel(), standaloneSim );
+        this( dev, new MatchingGameModel( new IntroLevelFactory() ), standaloneSim );
     }
 
     private MatchingGameModule( boolean dev, MatchingGameModel model, boolean standaloneSim ) {

@@ -5,6 +5,7 @@ import javax.swing.JComponent;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.fractionmatcher.model.MatchingGameModel;
+import edu.colorado.phet.fractionmatcher.model.MixedFractionLevelFactory;
 import edu.colorado.phet.fractionmatcher.view.MatchingGameCanvas;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components;
@@ -19,7 +20,7 @@ import static edu.colorado.phet.fractionsintro.FractionsIntroApplication.runModu
  */
 public class MixedNumbersMatchingGameModule extends AbstractFractionsModule {
     public MixedNumbersMatchingGameModule( boolean dev, boolean standaloneSim ) {
-        this( dev, new MatchingGameModel(), standaloneSim );
+        this( dev, new MatchingGameModel( new MixedFractionLevelFactory() ), standaloneSim );
     }
 
     private MixedNumbersMatchingGameModule( boolean dev, MatchingGameModel model, boolean standaloneSim ) {
