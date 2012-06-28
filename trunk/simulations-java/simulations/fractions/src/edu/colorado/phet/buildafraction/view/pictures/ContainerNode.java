@@ -19,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.DynamicCursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.fractions.FractionsResources.Images;
@@ -55,8 +56,8 @@ public class ContainerNode extends PNode {
     private double initialY;
     private double initialScale = 1;
     private ArrayList<VoidFunction0> listeners = new ArrayList<VoidFunction0>();
-    private final SpinnerButtonNode topSpinner;
-    private final SpinnerButtonNode bottomSpinner;
+    private final SpinnerButtonNode leftSpinner;
+    private final SpinnerButtonNode rightSpinner;
     private final PImage increaseButton;
 
     public ContainerNode( PictureSceneNode parent, final ContainerContext context, boolean showIncreaseButton ) {
@@ -127,12 +128,10 @@ public class ContainerNode extends PNode {
                 }
             } );
         }};
-        topSpinner = new SpinnerButtonNode( spinnerImage( ROUND_BUTTON_UP ), spinnerImage( ROUND_BUTTON_UP_PRESSED ), spinnerImage( ROUND_BUTTON_UP_GRAY ), increment, selectedPieceSize.lessThan( 6 ) );
-        bottomSpinner = new SpinnerButtonNode( spinnerImage( ROUND_BUTTON_DOWN ), spinnerImage( ROUND_BUTTON_DOWN_PRESSED ), spinnerImage( ROUND_BUTTON_DOWN_GRAY ), decrement, selectedPieceSize.greaterThan( 1 ) );
-        addChild( new VBox(
-                topSpinner,
-                shapeNode,
-                bottomSpinner ) );
+        leftSpinner = new SpinnerButtonNode( spinnerImage( LEFT_BUTTON_UP ), spinnerImage( LEFT_BUTTON_PRESSED ), spinnerImage( LEFT_BUTTON_GRAY ), decrement, selectedPieceSize.greaterThan( 1 ) );
+        rightSpinner = new SpinnerButtonNode( spinnerImage( RIGHT_BUTTON_UP ), spinnerImage( RIGHT_BUTTON_PRESSED ), spinnerImage( RIGHT_BUTTON_GRAY ), increment, selectedPieceSize.lessThan( 6 ) );
+        addChild( new VBox( shapeNode,
+                            new HBox( leftSpinner, rightSpinner ) ) );
 
         if ( showIncreaseButton ) {
             addChild( increaseButton );
@@ -202,8 +201,8 @@ public class ContainerNode extends PNode {
 
     public void animateHome() {
         animateToPositionScaleRotation( initialX, initialY, initialScale, 0, 200 );
-        topSpinner.animateToTransparency( 1, 200 );
-        bottomSpinner.animateToTransparency( 1, 200 );
+        leftSpinner.animateToTransparency( 1, 200 );
+        rightSpinner.animateToTransparency( 1, 200 );
     }
 
     public void addPiece( final RectangularPiece piece ) {
@@ -277,8 +276,8 @@ public class ContainerNode extends PNode {
 
     public void setInTargetCell( final boolean inTargetCell ) {
         this.inTargetCell = inTargetCell;
-        topSpinner.animateToTransparency( inTargetCell ? 0 : 1, 200 );
-        bottomSpinner.animateToTransparency( inTargetCell ? 0 : 1, 200 );
+        leftSpinner.animateToTransparency( inTargetCell ? 0 : 1, 200 );
+        rightSpinner.animateToTransparency( inTargetCell ? 0 : 1, 200 );
     }
 
     public void setInitialState( final double x, final double y, final double scale ) {
