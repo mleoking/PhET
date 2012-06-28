@@ -215,6 +215,7 @@ public abstract class AbstractLevelFactory {
 
         //for each cell, create a MovableFraction
         ArrayList<MovableFraction> result = new ArrayList<MovableFraction>();
+        boolean usedMixedNumber = false;
         for ( int i = 0; i < selectedFractions.length(); i++ ) {
 
             //choose one of the fractions at random, but don't repeat it.
@@ -234,15 +235,18 @@ public abstract class AbstractLevelFactory {
 
                 //AP: Usually mixed numbers are written with the "1" nearly as tall as the entire fraction
                 final double mixedNumberWholeScale = 2.4;
-                if ( allowMixedNumbers && fraction.toDouble() > 1 && RANDOM.nextBoolean() ) {
+                final double probabilityForMixedNumbers = 0.2;
+                if ( allowMixedNumbers && fraction.toDouble() > 1 && ( RANDOM.nextDouble() > probabilityForMixedNumbers || !usedMixedNumber ) ) {
                     //Try to use a mixed number representation
                     node = new HBox( 0, new FractionNumberNode( new Property<Integer>( 1 ) ) {{setScale( fractionSizeScale * mixedNumberWholeScale );}},
                                      new FractionNode( new Fraction( fraction.numerator - fraction.denominator, fraction.denominator ), fractionSizeScale ) );
+                    usedMixedNumber = true;
                 }
-                else if ( allowMixedNumbers && fraction.toDouble() > 1 && RANDOM.nextBoolean() ) {
+                else if ( allowMixedNumbers && fraction.toDouble() > 1 && ( RANDOM.nextDouble() > probabilityForMixedNumbers || !usedMixedNumber ) ) {
                     //Try to use a mixed number representation
                     node = new HBox( 0, new FractionNumberNode( new Property<Integer>( 1 ) ) {{setScale( fractionSizeScale * mixedNumberWholeScale );}},
                                      new FractionNode( new Fraction( ( fraction.numerator - fraction.denominator ) * scaleFactor, fraction.denominator * scaleFactor ), fractionSizeScale ) );
+                    usedMixedNumber = true;
                 }
                 else {
                     node = new FractionNode( new Fraction( fraction.numerator * scaleFactor, fraction.denominator * scaleFactor ), fractionSizeScale );
