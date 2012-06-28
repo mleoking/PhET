@@ -1,6 +1,5 @@
 package edu.colorado.phet.buildafraction.view.pictures;
 
-import fj.Effect;
 import fj.Equal;
 import fj.F;
 import fj.data.List;
@@ -127,7 +126,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
             setInitialPosition( 285, 200 );
         }};
         addChild( firstContainerNode );
-        addChild( new ContainerFrontNode( firstContainerNode ) );
+//        addChild( new ContainerFrontNode( firstContainerNode ) );
 
         //Pieces in the bucket
         //Pieces always in front of the containers--could be awkward if a container is moved across a container that already has pieces in it.
@@ -175,7 +174,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
                                       STAGE_SIZE.height - INSET - 127 + 20 + delta, TINY_SCALE );
             }};
             addChild( containerNode );
-            addChild( new ContainerFrontNode( containerNode ) );
+//            addChild( new ContainerFrontNode( containerNode ) );
         }
 
         //Add a piece container toolbox the user can use to get containers
@@ -318,15 +317,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         }
 
         syncModelFractions();
-        moveContainerFrontsToFront();
-    }
-
-    private void moveContainerFrontsToFront() {
-        getChildren( this, ContainerFrontNode.class ).foreach( new Effect<ContainerFrontNode>() {
-            @Override public void e( final ContainerFrontNode c ) {
-                c.moveToFront();
-            }
-        } );
+//        moveContainerFrontsToFront();
     }
 
     private boolean allIncompleteContainersInToolbox() {
@@ -357,7 +348,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         else if ( !droppedInto && piece.getGlobalFullBounds().intersects( toolboxNode.getGlobalFullBounds() ) ) {
             piece.animateToPositionScaleRotation( piece.getXOffset(), piece.getYOffset() - 100, 1, 0, 200 );
         }
-        moveContainerFrontsToFront();
+//        moveContainerFrontsToFront();
     }
 
     //Rectangular piece dropped into container

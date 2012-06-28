@@ -23,10 +23,11 @@ public class RectangularPiece extends PNode {
     private final Integer pieceSize;
     private double initialScale = Double.NaN;
     private final PhetPPath pathNode;
+    private final BasicStroke stroke = new BasicStroke( 2 );
 
     public RectangularPiece( final Integer pieceSize, final PieceContext context ) {
         this.pieceSize = pieceSize;
-        pathNode = new PhetPPath( SimpleContainerNode.createRect( pieceSize ), Color.red, new BasicStroke( 1 ), Color.black );
+        pathNode = new PhetPPath( SimpleContainerNode.createRect( pieceSize ), Color.red, stroke, Color.black );
         PNode piece = new ZeroOffsetNode( pathNode );
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new SimSharingDragHandler( null, true ) {
@@ -34,7 +35,7 @@ public class RectangularPiece extends PNode {
                 super.startDrag( event );
                 RectangularPiece.this.moveToFront();
                 addActivity( new AnimateToScale( RectangularPiece.this, 1.0, 200 ) );
-                pathNode.setStroke( null );
+//                pathNode.setStroke( null );
             }
 
             @Override protected void drag( final PInputEvent event ) {
@@ -78,6 +79,6 @@ public class RectangularPiece extends PNode {
 
     public void animateHome() {
         animateToPositionScaleRotation( initialX, initialY, initialScale, 0, 200 );
-        pathNode.setStroke( new BasicStroke( 1 ) );
+        pathNode.setStroke( stroke );
     }
 }
