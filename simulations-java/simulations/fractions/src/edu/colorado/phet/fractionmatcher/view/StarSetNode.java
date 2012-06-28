@@ -39,7 +39,7 @@ public class StarSetNode extends PNode {
                                                                  multiScaleToWidth( Images.STAR_4, STAR_WIDTH ) );
 
     private static BufferedImage getImage( final int numberStarPieces ) {
-        return STAR_IMAGES.index( clamp( 0, numberStarPieces, 4 ) );  // REVIEW: Should the end of this range be STAR_IMAGES.size instead of a fixed number?
+        return STAR_IMAGES.index( clamp( 0, numberStarPieces, PIECES_PER_STAR ) );
     }
 
     public StarSetNode( final Property<List<GameResult>> gameResults, final int levelName ) {
