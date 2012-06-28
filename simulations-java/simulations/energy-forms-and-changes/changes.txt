@@ -1,3 +1,5 @@
+# 0.00.09 (65510) Jun 28, 2012
+6/28/12 Deploying snapshot to dev for testing and review.
 Made energy chunks exchanged between the liquid in the beaker and blocks immersed in the liquid only use visible chunks.
 Changed caption for the speed control from "Normal Speed" to simply "Normal".
 Added the "sticky thermometer" feature.
