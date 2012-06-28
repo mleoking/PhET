@@ -7,6 +7,7 @@
  */
 package edu.colorado.phet.projectilemotionflex.control {
 import edu.colorado.phet.flashcommon.controls.NiceButton2;
+import edu.colorado.phet.flashcommon.controls.NiceTextField;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
 import edu.colorado.phet.projectilemotionflex.model.TrajectoryModel;
@@ -36,10 +37,15 @@ public class ControlPanel extends Canvas {
     private var buttonBackground: HBox;
     private var projectileComboBox: ComboBox;
     private var choiceList_arr: Array;
-    private var HBox1: HBox;
-    private var HBox2: HBox;
-    private var HBox3: HBox;
-    private var HBox4: HBox;
+//    private var HBox1: HBox;
+//    private var HBox2: HBox;
+//    private var HBox3: HBox;
+//    private var HBox4: HBox;
+
+    private var angleReadout: NiceTextField;
+    private var speedReadout: NiceTextField;
+    private var massReadout: NiceTextField;
+    private var diameterReadout: NiceTextField;
 
     private var angle_lbl: Label;
     private var angle_txt: TextInput;
@@ -105,10 +111,15 @@ public class ControlPanel extends Canvas {
         choiceList_arr = new Array();
         choiceList_arr = [ userChoice_str, tankshell_str, golfball_str, baseball_str, bowlingball_str, football_str, pumpkin_str, adultHuman_str, piano_str, buick_str ];
         projectileComboBox.dataProvider = choiceList_arr;
-        HBox1 = new HBox();
-        HBox2 = new HBox();
-        HBox3 = new HBox();
-        HBox4 = new HBox();
+
+        angleReadout = new NiceTextField( setAngle, angle_str, -90, 180 );
+        speedReadout = new NiceTextField( setSpeed, speed_str, 0, 10000 );
+        massReadout = new NiceTextField( setMass, mass_str, 0.01, 1000 );
+        diameterReadout = new NiceTextField( setDiameter, diameter_str, 0.1, 10 );
+//        HBox1 = new HBox();
+//        HBox2 = new HBox();
+//        HBox3 = new HBox();
+//        HBox4 = new HBox();
         angle_lbl = new Label();
         angle_txt = new TextInput();
         speed_lbl = new Label();
@@ -118,20 +129,25 @@ public class ControlPanel extends Canvas {
         diameter_lbl = new Label();
         diameter_txt = new TextInput();
 
-        this.createInputControl( HBox1, angle_lbl, angle_str, angle_txt, angleListener ) ;
-        this.createInputControl( HBox2, speed_lbl, speed_str, speed_txt, speedListener ) ;
-        this.createInputControl( HBox3, mass_lbl, mass_str, mass_txt, massListener ) ;
-        this.createInputControl( HBox4, diameter_lbl, diameter_str, diameter_txt, diameterListener ) ;
+//        this.createInputControl( HBox1, angle_lbl, angle_str, angle_txt, angleListener ) ;
+//        this.createInputControl( HBox2, speed_lbl, speed_str, speed_txt, speedListener ) ;
+//        this.createInputControl( HBox3, mass_lbl, mass_str, mass_txt, massListener ) ;
+//        this.createInputControl( HBox4, diameter_lbl, diameter_str, diameter_txt, diameterListener ) ;
         //this.formatInputBox ( angle_txt );
         buttonBackground = new HBox();
         fireButton = new NiceButton2( 60, 25, fire_str, fireProjectile, 0x00ff00, 0x000000 );
         eraseButton = new NiceButton2( 60, 25, erase_str, eraseTrajectories, 0xff0000, 0xffffff );
         addChild( background );
         background.addChild( projectileComboBox );
-        background.addChild( HBox1 );
-        background.addChild( HBox2 );
-        background.addChild( HBox3 );
-        background.addChild( HBox4 );
+        background.addChild( new SpriteUIComponent( angleReadout ) );
+        background.addChild( new SpriteUIComponent( speedReadout ) );
+        background.addChild( new SpriteUIComponent( massReadout ) );
+        background.addChild( new SpriteUIComponent( diameterReadout ) );
+
+//        background.addChild( HBox1 );
+//        background.addChild( HBox2 );
+//        background.addChild( HBox3 );
+//        background.addChild( HBox4 );
 
         background.addChild( buttonBackground );
         buttonBackground.addChild( new SpriteUIComponent( fireButton, true ) );
@@ -186,6 +202,30 @@ public class ControlPanel extends Canvas {
 
     private function eraseTrajectories():void{
         mainView.backgroundView.trajectoryView.eraseTrajectory();
+    }
+
+    private function setAngle( angleInDeg ):void{
+        if( angleInDeg > 180 ){
+            angleInDeg = 180;
+        } else if(angleInDeg < -180 ){
+            angleInDeg = -180;
+        }
+        //trace("angleListener called text is "+ angleInDeg );
+        if( angleInDeg < 180 && angleInDeg > -180 && !isNaN( angleInDeg )){
+            trajectoryModel.angleInDeg = angleInDeg;
+        }
+    }
+
+    private function setSpeed( initSpeed ):void{
+        trajectoryModel.v0 = initSpeed;
+    }
+
+    private function setMass( massInkg ):void{
+
+    }
+
+    private function setDiameter( diameterInm ):void{
+
     }
 
     private function angleListener( evt:Event ):void{
