@@ -53,8 +53,8 @@ public class ContainerFrontNode extends PNode {
 
         final PropertyChangeListener listener = new PropertyChangeListener() {
             public void propertyChange( final PropertyChangeEvent evt ) {
-                setGlobalTranslation( parent.shapeNode.getGlobalTranslation() );
-                setGlobalScale( parent.shapeNode.getGlobalScale() );
+                setGlobalTranslation( parent.singleContainerNodeLayer.getGlobalTranslation() );
+                setGlobalScale( parent.singleContainerNodeLayer.getGlobalScale() );
                 ContainerFrontNode.this.moveToFront();
             }
         };

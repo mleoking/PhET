@@ -1,5 +1,6 @@
 package edu.colorado.phet.buildafraction.view.pictures;
 
+import fj.Effect;
 import fj.Equal;
 import fj.F;
 import fj.data.List;
@@ -39,11 +40,11 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
+import static edu.colorado.phet.buildafraction.view.pictures.ContainerNode._getSingleContainerNodes;
 import static edu.colorado.phet.buildafraction.view.pictures.ContainerNode._isAtStartingLocation;
 import static edu.colorado.phet.buildafraction.view.pictures.PieceIconNode.TINY_SCALE;
 import static edu.colorado.phet.fractions.util.FJUtils.ord;
-import static edu.colorado.phet.fractions.view.FNode._maxX;
-import static edu.colorado.phet.fractions.view.FNode._minX;
+import static edu.colorado.phet.fractions.view.FNode.*;
 import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
 import static fj.Ord.doubleOrd;
 import static fj.function.Booleans.not;
@@ -321,12 +322,11 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
     }
 
     private void moveContainerFrontsToFront() {
-        for ( Object child : List.iterableList( getChildrenReference() ) ) {
-            if ( child instanceof ContainerFrontNode ) {
-                ContainerFrontNode c = (ContainerFrontNode) child;
+        getChildren( this, ContainerFrontNode.class ).foreach( new Effect<ContainerFrontNode>() {
+            @Override public void e( final ContainerFrontNode c ) {
                 c.moveToFront();
             }
-        }
+        } );
     }
 
     private boolean allIncompleteContainersInToolbox() {
@@ -335,14 +335,16 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
 
     public void endDrag( final RectangularPiece piece, final PInputEvent event ) {
         boolean droppedInto = false;
-        List<ContainerNode> containerNodes = getContainerNodes().sort( ord( new F<ContainerNode, Double>() {
-            @Override public Double f( final ContainerNode c ) {
-                return c.getGlobalFullBounds().getCenter2D().distance( piece.getGlobalFullBounds().getCenter2D() );
+        List<SingleContainerNode> targets = getContainerNodes().bind( _getSingleContainerNodes );
+        List<SingleContainerNode> containerNodes = targets.sort( ord( new F<SingleContainerNode, Double>() {
+            @Override public Double f( final SingleContainerNode s ) {
+                return s.getGlobalFullBounds().getCenter2D().distance( piece.getGlobalFullBounds().getCenter2D() );
             }
         } ) );
-        for ( ContainerNode containerNode : containerNodes ) {
-            if ( containerNode.getGlobalFullBounds().intersects( piece.getGlobalFullBounds() ) && !containerNode.isInToolbox() && !containerNode.willOverflow( piece ) ) {
-                dropInto( piece, containerNode );
+
+        for ( SingleContainerNode target : containerNodes ) {
+            if ( target.getGlobalFullBounds().intersects( piece.getGlobalFullBounds() ) && !target.isInToolbox() && !target.willOverflow( piece ) ) {
+                dropInto( piece, target );
                 droppedInto = true;
                 break;
             }
@@ -359,8 +361,12 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
     }
 
     //Rectangular piece dropped into container
-    private void dropInto( final RectangularPiece piece, final ContainerNode containerNode ) {
-        PTransformActivity activity = piece.animateToPositionScaleRotation( containerNode.getOffset().getX() + containerNode.getPiecesWidth(), containerNode.getOffset().getY() + containerNode.getYOffsetForContainer(), 1, 0, 200 );
+    private void dropInto( final RectangularPiece piece, final SingleContainerNode container ) {
+        Point2D translation = container.getGlobalTranslation();
+        piece.globalToLocal( translation );
+        piece.localToParent( translation );
+        PTransformActivity activity = piece.animateToPositionScaleRotation( translation.getX() + container.getPiecesWidth(),
+                                                                            translation.getY(), 1, 0, 200 );
         piece.setPickable( false );
         piece.setChildrenPickable( false );
         activity.setDelegate( new PActivityDelegate() {
@@ -371,7 +377,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
             }
 
             public void activityFinished( final PActivity activity ) {
-                containerNode.addPiece( piece );
+                container.addPiece( piece );
                 syncModelFractions();
             }
         } );
@@ -391,15 +397,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         piece.animateHome();
     }
 
-    private List<ContainerNode> getContainerNodes() {
-        ArrayList<ContainerNode> children = new ArrayList<ContainerNode>();
-        for ( Object child : this.getChildrenReference() ) {
-            if ( child instanceof ContainerNode ) {
-                children.add( (ContainerNode) child );
-            }
-        }
-        return List.iterableList( children );
-    }
+    private List<ContainerNode> getContainerNodes() { return getChildren( this, ContainerNode.class ); }
 
     private boolean allTargetsComplete() {
         return targetPairs.map( new F<Target, Boolean>() {

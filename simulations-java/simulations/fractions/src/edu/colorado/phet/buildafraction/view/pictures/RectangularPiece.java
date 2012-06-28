@@ -1,5 +1,7 @@
 package edu.colorado.phet.buildafraction.view.pictures;
 
+import fj.F;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 
@@ -66,9 +68,13 @@ public class RectangularPiece extends PNode {
         setScale( scale );
     }
 
-    public Fraction toFraction() {
-        return new Fraction( 1, pieceSize );
-    }
+    public Fraction toFraction() { return new Fraction( 1, pieceSize );}
+
+    public static final F<RectangularPiece, Fraction> _toFraction = new F<RectangularPiece, Fraction>() {
+        @Override public Fraction f( final RectangularPiece r ) {
+            return r.toFraction();
+        }
+    };
 
     public void animateHome() {
         animateToPositionScaleRotation( initialX, initialY, initialScale, 0, 200 );
