@@ -43,7 +43,7 @@ class GameButtonsNode extends PNode {
                 }
             }
 
-            else if ( state.getChecks() < 2 && state.getMode() == WAITING_FOR_USER_TO_CHECK_ANSWER ) {
+            else if ( state.getChecks() < 2 && state.getMode() == USER_IS_MOVING_OBJECTS_TO_THE_SCALES ) {
                 addChild( buttonFactory.f( new ButtonArgs( Components.checkAnswerButton, Strings.CHECK_ANSWER, Color.orange, buttonLocation, new CheckAnswer() ) ) );
             }
 

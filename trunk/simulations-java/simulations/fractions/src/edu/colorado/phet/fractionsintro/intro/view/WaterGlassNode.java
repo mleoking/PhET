@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.fractions.FractionsResources;
+import edu.colorado.phet.fractions.util.Cache;
 import edu.colorado.phet.fractionsintro.intro.view.beaker.BeakerNode;
 import edu.colorado.phet.fractionsintro.intro.view.beaker.Solute;
 import edu.colorado.phet.fractionsintro.intro.view.beaker.Solution;
@@ -19,7 +20,6 @@ import edu.colorado.phet.fractionsintro.intro.view.beaker.SolutionNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.toBufferedImage;
-import static edu.colorado.phet.fractions.util.Cache.cache;
 
 /**
  * Shows a single glass possibly with some water in it.
@@ -45,7 +45,7 @@ public class WaterGlassNode extends RichPNode {
         public final double height;
     }
 
-    private static final F<Args, BufferedImage> images = cache( new F<Args, BufferedImage>() {
+    private static final F<Args, BufferedImage> images = new Cache<Args, BufferedImage>( new F<Args, BufferedImage>() {
         @Override public BufferedImage f( final Args args ) {
             return toBufferedImage( new WaterGlassNode( args.numerator, args.denominator, args.color, args.width, args.height ).toImage() );
         }

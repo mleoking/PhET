@@ -42,7 +42,7 @@ class Controller {
     //Moves to the next match.
     public static @Data class Next extends F<MatchingGameState, MatchingGameState> {
         @Override public MatchingGameState f( final MatchingGameState s ) {
-            final MatchingGameState updated = s.animateMatchToScoreCell().withMode( WAITING_FOR_USER_TO_CHECK_ANSWER ).withChecks( 0 );
+            final MatchingGameState updated = s.animateMatchToScoreCell().withMode( USER_IS_MOVING_OBJECTS_TO_THE_SCALES ).withChecks( 0 );
             return updated.allStartCellsFree() ?
                    updated.withInfo( updated.info.withBestTime( Math.min( updated.info.time, updated.info.bestTime ) ) ).withMode( SHOWING_GAME_OVER_SCREEN ) :
                    updated;
@@ -68,7 +68,7 @@ class Controller {
         public final AbstractLevelFactory levelFactory;
 
         @Override public MatchingGameState f( final MatchingGameState matchingGameState ) {
-            return MatchingGameState.newLevel( matchingGameState.info.level, matchingGameState.gameResults, levelFactory ).withMode( WAITING_FOR_USER_TO_CHECK_ANSWER );
+            return MatchingGameState.newLevel( matchingGameState.info.level, matchingGameState.gameResults, levelFactory ).withMode( USER_IS_MOVING_OBJECTS_TO_THE_SCALES );
         }
     }
 

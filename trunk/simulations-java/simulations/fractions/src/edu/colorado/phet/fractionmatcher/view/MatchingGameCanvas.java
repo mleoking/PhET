@@ -44,7 +44,6 @@ import edu.colorado.phet.fractionmatcher.model.MovableFraction;
 import edu.colorado.phet.fractionmatcher.view.Controller.GameOver;
 import edu.colorado.phet.fractionmatcher.view.Controller.Resample;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
-import edu.colorado.phet.fractions.util.Cache;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractions.view.FNode;
 import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components;
@@ -100,7 +99,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                                 centerFullBoundsOnPoint( STAGE_SIZE.getWidth() / 2, STAGE_SIZE.getHeight() / 2 );
                                 addGameOverListener( new GameOverListener() {
                                     public void newGamePressed() {
-                                        model.state.set( model.state.get().newGame( state.info.level, state.info.score, maxPoints ) );
+                                        model.state.set( model.state.get().newGame( state.info.level, state.info.score ) );
                                     }
                                 } );
                             }} );
@@ -207,9 +206,8 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                 }
             }, model.level, model.score, model.timerVisible, model.timeInSec ) );
 
-            //REVIEW: If this is vestigial, can it be removed now?
-            //Way of creating game buttons, cache is vestigial and could be removed.
-            final F<ButtonArgs, Button> buttonFactory = Cache.cache( new F<ButtonArgs, Button>() {
+            //Function for creating game buttons from a ButtonArgs
+            final F<ButtonArgs, Button> buttonFactory = new F<ButtonArgs, Button>() {
                 @Override public Button f( final ButtonArgs buttonArgs ) {
                     return new Button( buttonArgs.component, buttonArgs.text, buttonArgs.color, buttonArgs.location, new ActionListener() {
                         public void actionPerformed( final ActionEvent e ) {
@@ -217,16 +215,13 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                         }
                     } );
                 }
-            } );
+            };
 
             final ObservableProperty<Vector2D> buttonLocation = new CompositeProperty<Vector2D>( new Function0<Vector2D>() {
                 public Vector2D apply() {
 
-                    //REVIEW: This should be cleaned up, i.e. the question addressed and the commented-out code removed.
-                    //Where should the "check answer" button should be shown?  Originally it was on the same side as the last dropped value, but in interviews one student said this was confusing.
-                    //                    final boolean showButtonsOnRight = model.state.get().getLastDroppedScaleRight();
-                    final boolean showButtonsOnRight = false;
-                    return new Vector2D( showButtonsOnRight ? scalesNode.getFullBounds().getMaxX() + 80 : scalesNode.getFullBounds().getX() - 80,
+                    //Show the "check answer" button always on the left so it doesn't interfere with the scoreboard readout on the right
+                    return new Vector2D( scalesNode.getFullBounds().getX() - 80,
                                          scalesNode.getFullBounds().getCenterY() );
                 }
             }, model.leftScaleValue, model.rightScaleValue );
@@ -275,7 +270,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                     public void run() {
 
                         final MatchingGameState m = newLevel( gameSettings.level.get(), model.state.get().gameResults, model.levelFactory ).
-                                withMode( Mode.WAITING_FOR_USER_TO_CHECK_ANSWER ).
+                                withMode( Mode.USER_IS_MOVING_OBJECTS_TO_THE_SCALES ).
                                 withAudio( gameSettings.soundEnabled.get() ).
                                 withTimerVisible( gameSettings.timerEnabled.get() );
                         model.state.set( m );

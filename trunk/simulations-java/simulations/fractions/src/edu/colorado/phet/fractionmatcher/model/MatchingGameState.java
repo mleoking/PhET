@@ -54,9 +54,9 @@ public @Data class MatchingGameState {
     }
 
     public static MatchingGameState newLevel( int level, List<GameResult> gameResults, AbstractLevelFactory factory ) {
-        final List<Cell> startCells = createCells( 100, 415 + 12, 130, 120, 6, 2, 0, 0 ); //REVIEW collapse 415+12, or doc why it's expressed this way
+        final List<Cell> startCells = createCells( 100, 427, 130, 120, 6, 2, 0, 0 );
         final List<Cell> scoreCells = createCells( 10, 12, 155, 90, 6, 1, 10, 0 );
-        return new MatchingGameState( factory.createLevel( level, startCells ), startCells, scoreCells, 0, 0, 0, new GameInfo( level, false, 0, Mode.WAITING_FOR_USER_TO_CHECK_ANSWER, 0, 0, 0, true ), 0, gameResults );
+        return new MatchingGameState( factory.createLevel( level, startCells ), startCells, scoreCells, 0, 0, 0, new GameInfo( level, false, 0, Mode.USER_IS_MOVING_OBJECTS_TO_THE_SCALES, 0, 0, 0, true ), 0, gameResults );
     }
 
     //Create adjacent cells from which fractions can be dragged
@@ -232,8 +232,7 @@ public @Data class MatchingGameState {
         } ) );
     }
 
-    //REVIEW arg maxPoints not used
-    public MatchingGameState newGame( final int level, final int score, final int maxPoints ) {
+    public MatchingGameState newGame( final int level, final int score ) {
         return withMode( Mode.CHOOSING_SETTINGS ).withGameResults( gameResults.snoc( new GameResult( level, score ) ) );
     }
 

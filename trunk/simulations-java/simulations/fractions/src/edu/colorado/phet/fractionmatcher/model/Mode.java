@@ -11,7 +11,7 @@ public enum Mode {
     CHOOSING_SETTINGS,
 
     //User is moving objects
-    WAITING_FOR_USER_TO_CHECK_ANSWER,
+    USER_IS_MOVING_OBJECTS_TO_THE_SCALES,
 
     //User checked if their answer is correct
     USER_CHECKED_CORRECT_ANSWER,
