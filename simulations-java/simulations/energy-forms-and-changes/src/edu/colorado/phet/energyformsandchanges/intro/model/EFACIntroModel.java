@@ -17,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.intro.view.BlockNode;
@@ -64,9 +63,6 @@ public class EFACIntroModel {
 
     // Air.
     private final Air air;
-
-    // List of energy chucks.
-    public final ObservableList<EnergyChunk> energyChunkList = new ObservableList<EnergyChunk>();
 
     // Boolean for tracking whether the energy chunks are visible to the user.
     public final BooleanProperty energyChunksVisible = new BooleanProperty( false );
