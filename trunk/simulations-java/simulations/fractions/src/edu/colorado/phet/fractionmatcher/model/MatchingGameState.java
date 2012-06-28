@@ -87,7 +87,7 @@ public @Data class MatchingGameState {
     public MatchingGameState withRightScaleDropTime( long rightScaleDropTime ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults ); }
 
     //NOTE: changing modes resets the bar graph animation time
-    public MatchingGameState withMode( final Mode mode ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info.withMode( mode ), 0.0, gameResults ); }
+    public MatchingGameState withMode( final Mode mode ) { return withInfo( info.withMode( mode ) ).withBarGraphAnimationTime( 0.0 ); }
 
     public MatchingGameState withInfo( final GameInfo info ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults ); }
 
