@@ -10,33 +10,22 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 
-import javax.swing.SwingUtilities;
-
-import edu.colorado.phet.common.games.GameConstants;
 import edu.colorado.phet.common.games.GameOverNode;
-import edu.colorado.phet.common.games.GameSettings;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeBooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.Min;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
-import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
-import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.ToggleButtonNode;
 import edu.colorado.phet.fractionmatcher.model.Cell;
 import edu.colorado.phet.fractionmatcher.model.MatchingGameModel;
 import edu.colorado.phet.fractionmatcher.model.MatchingGameState;
@@ -47,15 +36,9 @@ import edu.colorado.phet.fractionmatcher.view.Controller.Resample;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.colorado.phet.fractions.view.FNode;
-import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components;
-import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ParameterKeys;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendUserMessage;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
-import static edu.colorado.phet.fractionmatcher.model.MatchingGameState.newLevel;
 import static java.awt.Color.lightGray;
 
 /**
@@ -73,10 +56,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
         final PNode emptyBarGraphNode = new EmptyBarGraphNode();
 
         //Show the start screen when the user is choosing a level.
-        // REVIEW - The approach to adding children is inconsistent.  The method below adds children directly to canvas,
-        // while a few lines below the complex node is created and added using addChild.  Consider using the same pattern
-        // in all places, i.e. addChild( createStartScreen(...)).
-        addStartScreen( model, title, patterns );
+        addChild( new StartScreen( model, title, patterns ) );
 
         //Show the reward node behind the main node so it won't interfere with the results the user collected.
         addChild( new RewardNode( model ) );
@@ -265,84 +245,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
         }};
     }
 
-    //Add all the parts of the start screen, including title, level selection buttons, audio+timer buttons
-    private void addStartScreen( final MatchingGameModel model, final String title, final List<PNode> patterns ) {//Game settings
-        final GameSettings gameSettings = new GameSettings( new IntegerRange( 1, 8, 1 ), false, false );
-
-        //Function invoked when the user pushes a level button to start the game.
-        final VoidFunction0 startGame = new VoidFunction0() {
-            public void apply() {
-                SwingUtilities.invokeLater( new Runnable() {
-                    public void run() {
-
-                        final MatchingGameState m = newLevel( gameSettings.level.get(), model.state.get().gameResults, model.levelFactory ).
-                                withMode( Mode.USER_IS_MOVING_OBJECTS_TO_THE_SCALES ).
-                                withAudio( gameSettings.soundEnabled.get() ).
-                                withTimerVisible( gameSettings.timerEnabled.get() );
-                        model.state.set( m );
-                    }
-                } );
-            }
-        };
-
-        //Dialog for selecting and starting a level
-        final PNode levelSelectionDialog = new ZeroOffsetNode( new LevelSelectionNode( startGame, gameSettings, model.gameResults, patterns ) ) {{
-            setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 );
-
-            model.choosingSettings.addObserver( setNodeVisible( this ) );
-        }};
-
-        //Title text, only shown when the user is choosing a level
-        final PNode titleText = new PNode() {{
-            addChild( new PhetPText( title, new PhetFont( 38, true ) ) );
-            model.choosingSettings.addObserver( setNodeVisible( this ) );
-
-            setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, levelSelectionDialog.getFullBounds().getMinY() / 3 - getFullBounds().getHeight() / 2 );
-        }};
-        addChild( levelSelectionDialog );
-        addChild( titleText );
-
-        final int iconWidth = 40;
-        final BufferedImage stopwatchIcon = BufferedImageUtils.multiScaleToWidth( GameConstants.STOPWATCH_ICON, iconWidth );
-        final BufferedImage soundIcon = BufferedImageUtils.multiScaleToWidth( GameConstants.SOUND_ICON, iconWidth );
-        final BufferedImage soundOffIcon = BufferedImageUtils.multiScaleToWidth( GameConstants.SOUND_OFF_ICON, iconWidth );
-        final int maxIconWidth = Math.max( stopwatchIcon.getWidth(), soundIcon.getWidth() ) + 10;
-        final int maxIconHeight = Math.max( stopwatchIcon.getHeight(), soundIcon.getHeight() ) + 10;
-        final ToggleButtonNode stopwatchButton = new ToggleButtonNode( new PaddedIcon( maxIconWidth, maxIconHeight, new PImage( stopwatchIcon ) ),
-                                                                       gameSettings.timerEnabled,
-                                                                       new VoidFunction0() {
-                                                                           public void apply() {
-                                                                               sendUserMessage( Components.stopwatchButton, UserComponentTypes.toggleButton, UserActions.pressed, parameterSet( ParameterKeys.timerEnabled, !gameSettings.timerEnabled.get() ) );
-                                                                               gameSettings.timerEnabled.toggle();
-                                                                           }
-                                                                       }, ToggleButtonNode.FAINT_GREEN, false );
-
-        // REVIEW - UpdateNode has been used elsewhere for this pattern.  Why not here?  Consider making this consistent with other similar code (and use UpdateNode).
-        class SoundIconNode extends PNode {
-            SoundIconNode() {
-                gameSettings.soundEnabled.addObserver( new VoidFunction1<Boolean>() {
-                    public void apply( final Boolean enabled ) {
-                        removeAllChildren();
-                        addChild( new PaddedIcon( maxIconWidth, maxIconHeight, new PImage( enabled ? soundIcon : soundOffIcon ) ) );
-                    }
-                } );
-            }
-        }
-
-        final ToggleButtonNode soundButton = new ToggleButtonNode( new SoundIconNode(), gameSettings.soundEnabled, new VoidFunction0() {
-            public void apply() {
-
-                sendUserMessage( Components.soundButton, UserComponentTypes.toggleButton, UserActions.pressed, parameterSet( ParameterKeys.soundEnabled, !gameSettings.soundEnabled.get() ) );
-                gameSettings.soundEnabled.toggle();
-            }
-        }, ToggleButtonNode.FAINT_GREEN, false );
-        addChild( new HBox( stopwatchButton, soundButton ) {{
-            setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - INSET, STAGE_SIZE.height - getFullBounds().getHeight() - INSET );
-            model.choosingSettings.addObserver( setNodeVisible( this ) );
-        }} );
-    }
-
-    private static VoidFunction1<Boolean> setNodeVisible( final PNode node ) {
+    public static VoidFunction1<Boolean> setNodeVisible( final PNode node ) {
         return new VoidFunction1<Boolean>() {
             public void apply( final Boolean visible ) {
                 node.setVisible( visible );
