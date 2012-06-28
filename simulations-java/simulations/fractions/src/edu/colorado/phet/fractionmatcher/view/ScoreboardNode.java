@@ -25,7 +25,7 @@ import edu.umd.cs.piccolo.PNode;
 class ScoreboardNode extends PNode {
 
     //Have to reuse buttons since they are animated outside of our model, and if they got reconstructed on each step, they would never animate nor press
-    private static Button newGameButton;
+    private Button newGameButton;
     private static final PhetFont font = new PhetFont( 16, true );
 
     public ScoreboardNode( final SettableProperty<MatchingGameState> model ) {
