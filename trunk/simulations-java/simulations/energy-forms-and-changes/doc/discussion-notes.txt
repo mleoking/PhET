@@ -1,0 +1,164 @@
+
+Notes from 6/27/2012 meeting
+
+Question about sticky thermometer: What should behavior be when dropped into beaker when attached to a block?
+- Ans: For now, should go inside beaker and stick to block, and measure the block.
+
+Chunks should move faster when block dropped in water so that user doesn't really see them move.
+Tweak temp difference threshold for air to best value for interviews.
+Fix clipping for beaker on top of blocks.
+Magic thermometer - inside the beaker.  Measures block first, beaker 2nd, air last.  Burner is the same.
+When a chunk comes out of the air into a thermal container, or goes out of the thermal container into the air, it should not pass through (or behind) any of the other thermal containers.
+Chunks moving between thermal energy containers when there are differences, and exchanges with air.  Address oddities.
+Thermometer triangle matches the color of the thing being measured.  Make a version with and one without, make both available for interviews.
+Make the burners block motion of the blocks and beaker so things can't be dragged in front of them.
+Tool tips for the speed controls are popping up in the wrong places on Mac, not seen on PC.
+
+----------------------------
+
+Notes from 6/21/2012 meeting:
+
+Clipping look good?
+
+How is the behavior of energy chunks when heating/cooling with nothing on burner?
+- Mostly looks good.
+- Should wander in more from the sides (not necessarily from directly above) when burner is cooling.
+
+Do we need greater randomization of positions of chunks in the blocks?
+- No, team thinks it looks reasonably good.
+
+Holding off interaction with air until temperatures within a certain range.
+- Team approved.
+
+Infrared view (goggles or something)?
+- Not too keen on this, since it shows temperature, not energy.
+
+- Sticky thermometer - sticks to the thing that it is in contact with.
+
+- Chunks have to come from outside the blocks when they are immersed in the beaker (could just do this all the time).
+
+- Change captions - Normal and Fast Forward.
+
+
+
+----------------------
+
+
+Thermometer size
+- Team says now good.
+
+Cursor change when slider moves out from under it.
+
+A little faster on the stove animation.
+
+E's in the air - A little more range for wandering.
+
+Add back lines for the cubes.
+
+Stage I - Try clipping out the water E's somehow when the blocks are in the water.
+Stage II - Squish the energy around the blocks, so that they are never in front or behind.
+
+Developer control for inter-heat exchange constants.
+
+---------------------------------------------------------
+
+
+Energy chunks heating the air:
+- Prototype is okay
+
+- Blocks should cool down in air over time, ejecting E's, having one after a long time would be fine.
+
+- Caption: "Energy Symbols".
+
+Should the energy chunks emerge fully formed from the bucket?
+- Fine the way it is on current version.
+
+- Make the chunk density match the one that has the brick with one value at 0 C and 2 at room temperature.  There will be a lot in water.
+
+- Try space filling, then some reasonable z-order layering but no size perspective.
+
+- Animate the flame/ice going out rather than just disappearing.
+
+Need to discuss how much to tweak specific heat values to get things looking good.
+- Add a unique set of transfer constants for brick versus iron.
+
+Okay to have only 1 E chunk removed to get to 0 C?
+- Yes.
+
+Demo the limits and get feedback.
+- Team liked and approved.
+
+Demo: Linear from 0 K with correct specific heat values.
+- No good due to expected issues - not enough transfer of heat.
+
+Demo: Brick has 1 at 0 K, 2 at room temp, correct specific heats.
+- This is what the team wants.
+
+Issue: Block on block on burner - limit is hit, then unhit.  Hysteresis?  Other ideas?
+- Team feels that this is OK.
+
+Does the E need to be translated?
+- No, use the graphic, put graphic in control box.
+
+
+------------------------------------
+
+How to do 3D-ish energy chunk positions
+
+Color scheme with E's and brick.
+
+Limits on temperature changes - how to do
+
+Different rates of energy transfer important?
+- Yes, go ahead with it.
+
+How is current quantity of E's?
+
+
+
+-------------------
+
+Had to modify chunks equation or there were too many at room temp.
+Okay to have a min energy, and have a small number of energy chunks, and users can't reduce below that?  Won't scale lineraly to absolute zero.
+- Okay as long as they have at least on chunk in them at min temperature.
+
+Given specific heat of water and relative energy amount, should we use something other than lead?
+- Try Iron
+
+Can energy chunks overlap?
+
+Design doc text says one block is iron, drawings show lead.  Which should it be?
+
+- Use the white-encased E's
+- Make the labels transparent when the objects go transparent.
+- Make the water more transparent.
+- Talk to Noah P about taller thermometer to make temp change more obvious.
+
+- No label on tool box.
+
+- Try making energy chunks on top but transparent.
+- see if I can make the E's look more 3D is through layering and size, especially in water
+
+- Talk with Noah about different color scheme for E's that doesn't interfere with brick.
+
+Should have a reset on the first tab, right?
+
+Down with the tool box for the thermometers?
+
+
+
+
+
+
+
+
+
+--------------------
+
+Where does energy go when cooling something down?  Does it flow back into the ice?
+Ans: Yes.
+
+What happens if they try to touch the thermometer to the flame or the ice?
+Ans: It should show a value.
+
+American Association for the Advancement of Science
