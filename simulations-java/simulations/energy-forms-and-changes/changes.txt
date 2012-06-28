@@ -1,3 +1,4 @@
+Adjusted thermometer behavior so that lowest and highest allowed temperatures match up with the lowest and highest tick marks.
 Made energy chunks that are coming from the air into a thermal element be on top of the z-order until they reach the target object.
 Made the thermometer appear to go inside the beaker, and to measure block temperatures in the beaker if over a block.
 Made the clipping region that hides energy chunks behind blocks NOT do so when the block is beneath the beaker.
