@@ -66,7 +66,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
 
         final BackButton backButton = new BackButton( new VoidFunction0() {
             public void apply() {
-                context.goToPictureLevelSelectionScreen();
+                context.goToLevelSelectionScreen();
             }
         } ) {{
             setOffset( INSET, INSET );

@@ -8,7 +8,5 @@ public interface SceneContext {
 
     void goToNextNumberLevel( int newLevelIndex );
 
-    void goToPictureLevelSelectionScreen();
-
-    void goToNumberLevelSelectionScreen();
+    void goToLevelSelectionScreen();
 }
