@@ -1,4 +1,10 @@
 
+Questions for next meeting:
+
+How is change where air chunks traveling through the air go over everything until they arrive?
+
+-------------------------------
+
 Notes from 6/27/2012 meeting
 
 Question about sticky thermometer: What should behavior be when dropped into beaker when attached to a block?
