@@ -1,5 +1,6 @@
 package edu.colorado.phet.fractionmatcher.view;
 
+import fj.Effect;
 import fj.data.List;
 
 import java.awt.image.BufferedImage;
@@ -12,7 +13,6 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -92,19 +92,15 @@ public class StartScreen extends PNode {
                                                                            }
                                                                        }, ToggleButtonNode.FAINT_GREEN, false );
 
-        // REVIEW - UpdateNode has been used elsewhere for this pattern.  Why not here?  Consider making this consistent with other similar code (and use UpdateNode).
-        class SoundIconNode extends PNode {
-            SoundIconNode() {
-                gameSettings.soundEnabled.addObserver( new VoidFunction1<Boolean>() {
-                    public void apply( final Boolean enabled ) {
-                        removeAllChildren();
-                        addChild( new PaddedIcon( maxIconWidth, maxIconHeight, new PImage( enabled ? soundIcon : soundOffIcon ) ) );
-                    }
-                } );
+        //Show the sound icon node, and update it when it is toggled on and off
+        UpdateNode soundIconNode = new UpdateNode( new Effect<PNode>() {
+            @Override public void e( final PNode parent ) {
+                parent.removeAllChildren();
+                parent.addChild( new PaddedIcon( maxIconWidth, maxIconHeight, new PImage( gameSettings.soundEnabled.get() ? soundIcon : soundOffIcon ) ) );
             }
-        }
+        }, gameSettings.soundEnabled );
 
-        final ToggleButtonNode soundButton = new ToggleButtonNode( new SoundIconNode(), gameSettings.soundEnabled, new VoidFunction0() {
+        final ToggleButtonNode soundButton = new ToggleButtonNode( soundIconNode, gameSettings.soundEnabled, new VoidFunction0() {
             public void apply() {
 
                 sendUserMessage( Components.soundButton, UserComponentTypes.toggleButton, UserActions.pressed, parameterSet( ParameterKeys.soundEnabled, !gameSettings.soundEnabled.get() ) );
