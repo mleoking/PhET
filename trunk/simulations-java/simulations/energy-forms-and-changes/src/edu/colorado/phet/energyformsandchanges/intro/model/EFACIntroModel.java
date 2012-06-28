@@ -549,14 +549,14 @@ public class EFACIntroModel {
 
     public double getTemperatureAtLocation( ImmutableVector2D location ) {
         Point2D locationAsPoint = location.toPoint2D();
-        if ( beaker.getThermalContactArea().getBounds().contains( locationAsPoint ) ) {
-            return beaker.getTemperature();
-        }
         for ( Block block : getBlockList() ) {
             if ( block.getThermalContactArea().getBounds().contains( location.toPoint2D() ) ) {
                 return block.getTemperature();
             }
 
+        }
+        if ( beaker.getThermalContactArea().getBounds().contains( locationAsPoint ) ) {
+            return beaker.getTemperature();
         }
         for ( Burner burner : Arrays.asList( leftBurner, rightBurner ) ) {
             if ( burner.getFlameIceRect().contains( locationAsPoint ) ) {

@@ -1,3 +1,4 @@
+Made the thermometer appear to go inside the beaker, and to measure block temperatures in the beaker if over a block.
 Made the clipping region that hides energy chunks behind blocks NOT do so when the block is beneath the beaker.
 Changed the energy chunk distribution algorithm to fill up the water more quickly when something is dropped into the beaker.
 Tweaked value at which a multi-body system is allowed to exchange energy with the air.
