@@ -3,27 +3,19 @@ package edu.colorado.phet.buildafraction.view.pictures;
 import fj.F;
 import fj.data.List;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.DynamicCursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.fractions.FractionsResources.Images;
-import edu.colorado.phet.fractions.util.FJUtils;
 import edu.colorado.phet.fractions.view.SpinnerButtonNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
@@ -34,10 +26,12 @@ import edu.umd.cs.piccolo.activities.PInterpolatingActivity;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.util.PDimension;
 
+import static edu.colorado.phet.buildafraction.view.pictures.SingleContainerNode._splitAll;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
 import static edu.colorado.phet.fractions.FractionsResources.Images.*;
+import static edu.colorado.phet.fractions.view.FNode.getChildren;
+import static edu.colorado.phet.fractionsintro.intro.model.Fraction.sum;
 
 /**
  * Container that can be subdivided into different divisions
@@ -45,13 +39,13 @@ import static edu.colorado.phet.fractions.FractionsResources.Images.*;
  * @author Sam Reid
  */
 public class ContainerNode extends PNode {
-    private PImage splitButton;
+    public PImage splitButton;
     final IntegerProperty selectedPieceSize = new IntegerProperty( 1 );
-    private final DynamicCursorHandler dynamicCursorHandler;
-    private final PictureSceneNode parent;
-    private final ContainerContext context;
+    public final DynamicCursorHandler dynamicCursorHandler;
+    public final PictureSceneNode parent;
+    public final ContainerContext context;
     private boolean inTargetCell = false;
-    public final PNode shapeNode;
+    public final PNode singleContainerNodeLayer;
     private double initialX;
     private double initialY;
     private double initialScale = 1;
@@ -120,29 +114,37 @@ public class ContainerNode extends PNode {
                 selectedPieceSize.decrement();
             }
         };
-        shapeNode = new PNode() {{
+        singleContainerNodeLayer = new PNode() {{
             selectedPieceSize.addObserver( new VoidFunction1<Integer>() {
                 public void apply( final Integer number ) {
                     removeAllChildren();
-                    addChild( new SingleContainerNode( number ) );
+                    addChild( new SingleContainerNode( ContainerNode.this, number ) );
                 }
             } );
         }};
         leftSpinner = new SpinnerButtonNode( spinnerImage( LEFT_BUTTON_UP ), spinnerImage( LEFT_BUTTON_PRESSED ), spinnerImage( LEFT_BUTTON_GRAY ), decrement, selectedPieceSize.greaterThan( 1 ) );
         rightSpinner = new SpinnerButtonNode( spinnerImage( RIGHT_BUTTON_UP ), spinnerImage( RIGHT_BUTTON_PRESSED ), spinnerImage( RIGHT_BUTTON_GRAY ), increment, selectedPieceSize.lessThan( 6 ) );
-        addChild( new VBox( shapeNode,
+        addChild( new VBox( singleContainerNodeLayer,
                             new HBox( leftSpinner, rightSpinner ) ) );
 
         if ( showIncreaseButton ) {
             addChild( increaseButton );
-            increaseButton.setOffset( shapeNode.getFullBounds().getMaxX() + AbstractFractionsCanvas.INSET, shapeNode.getFullBounds().getCenterY() - increaseButton.getFullBounds().getHeight() / 2 );
+            increaseButton.setOffset( singleContainerNodeLayer.getFullBounds().getMaxX() + AbstractFractionsCanvas.INSET, singleContainerNodeLayer.getFullBounds().getCenterY() - increaseButton.getFullBounds().getHeight() / 2 );
         }
     }
 
+    public List<SingleContainerNode> getSingleContainerNodes() {return getChildren( singleContainerNodeLayer, SingleContainerNode.class ); }
+
+    public static final F<ContainerNode, List<SingleContainerNode>> _getSingleContainerNodes = new F<ContainerNode, List<SingleContainerNode>>() {
+        @Override public List<SingleContainerNode> f( final ContainerNode c ) {
+            return c.getSingleContainerNodes();
+        }
+    };
+
     private void fireIncreaseEvent() {
-        final SingleContainerNode child = new SingleContainerNode( selectedPieceSize.get() );
-        child.setOffset( shapeNode.getFullBounds().getMaxX() + AbstractFractionsCanvas.INSET, shapeNode.getFullBounds().getY() );
-        addChild( child );
+        final SingleContainerNode child = new SingleContainerNode( this, selectedPieceSize.get() );
+        child.setOffset( singleContainerNodeLayer.getFullBounds().getMaxX() + AbstractFractionsCanvas.INSET, singleContainerNodeLayer.getFullBounds().getY() );
+        singleContainerNodeLayer.addChild( child );
     }
 
     public static BufferedImage spinnerImage( final BufferedImage image ) { return multiScaleToWidth( image, 50 ); }
@@ -159,17 +161,10 @@ public class ContainerNode extends PNode {
         }
     };
 
-    public double getYOffsetForContainer() { return shapeNode.getYOffset(); }
+    public double getYOffsetForContainer() { return singleContainerNodeLayer.getYOffset(); }
 
     public void splitAll() {
-        int numPieces = getChildPieces().length();
-        double separationBetweenPieces = 4;
-        double totalDeltaSpacing = separationBetweenPieces * ( numPieces - 1 );
-        int index = 0;
-        LinearFunction f = new LinearFunction( 0, numPieces - 1, -totalDeltaSpacing / 2, totalDeltaSpacing / 2 );
-        for ( RectangularPiece child : getChildPieces() ) {
-            parent.splitPieceFromContainer( child, this, numPieces == 1 ? 0 : f.evaluate( index++ ) );
-        }
+        getChildren( this, SingleContainerNode.class ).foreach( _splitAll );
         PInterpolatingActivity activity = splitButton.animateToTransparency( 0, 200 );
         activity.setDelegate( new PActivityDelegate() {
             public void activityStarted( final PActivity activity ) {
@@ -205,21 +200,7 @@ public class ContainerNode extends PNode {
         rightSpinner.animateToTransparency( 1, 200 );
     }
 
-    public void addPiece( final RectangularPiece piece ) {
-        Point2D offset = piece.getGlobalTranslation();
-        addChild( piece );
-        piece.setGlobalTranslation( offset );
-        if ( !splitButton.getVisible() ) {
-            splitButton.setVisible( true );
-            splitButton.setPickable( true );
-            splitButton.setTransparency( 0 );
-            splitButton.animateToTransparency( 1, 200 );
-            dynamicCursorHandler.setCursor( Cursor.HAND_CURSOR );
-        }
-        notifyListeners();
-    }
-
-    private void notifyListeners() {
+    void notifyListeners() {
         for ( VoidFunction0 listener : listeners ) {
             listener.apply();
         }
@@ -230,33 +211,8 @@ public class ContainerNode extends PNode {
 //        return new Rectangle2D.Double( pieceWidth * number, 0, pieceWidth, height );
 //    }
 
-    //How far over should a new piece be added in?
-    public double getPiecesWidth() {
-        List<RectangularPiece> children = getChildPieces();
-        return children.length() == 0 ? 0 :
-               fj.data.List.iterableList( children ).maximum( FJUtils.ord( new F<RectangularPiece, Double>() {
-                   @Override public Double f( final RectangularPiece r ) {
-                       return r.getFullBounds().getMaxX();
-                   }
-               } ) ).getFullBounds().getMaxX();
-    }
-
-    private List<RectangularPiece> getChildPieces() {
-        ArrayList<RectangularPiece> children = new ArrayList<RectangularPiece>();
-        for ( Object c : getChildrenReference() ) {
-            if ( c instanceof RectangularPiece ) {
-                children.add( (RectangularPiece) c );
-            }
-        }
-        return List.iterableList( children );
-    }
-
     public Fraction getFractionValue() {
-        return Fraction.sum( getChildPieces().map( new F<RectangularPiece, Fraction>() {
-            @Override public Fraction f( final RectangularPiece r ) {
-                return r.toFraction();
-            }
-        } ) );
+        return sum( getChildren( this, SingleContainerNode.class ).map( SingleContainerNode._getFractionValue ) );
     }
 
     //Get rid of it because it disrupts the layout when dropping into the scoring cell.
@@ -296,47 +252,14 @@ public class ContainerNode extends PNode {
         return isAtStartingLocation() && initialY > 600;
     }
 
-    //Return true if the piece will overflow this container
-    public boolean willOverflow( final RectangularPiece piece ) {
-        final Fraction sum = getFractionValue().plus( piece.toFraction() );
-        return sum.numerator > sum.denominator;
-    }
-
-    private class SingleContainerNode extends PNode {
-        private SingleContainerNode( final int number ) {
-
-            SimpleContainerNode node = new SimpleContainerNode( number, Color.white ) {{
-                for ( int i = 0; i < number; i++ ) {
-                    final double pieceWidth = width / number;
-                    addChild( new PhetPPath( new Rectangle2D.Double( pieceWidth * i, 0, pieceWidth, height ), Color.white, new BasicStroke( 1 ), Color.black ) );
-                }
-                //Thicker outer stroke
-                addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, width, height ), new BasicStroke( 2 ), Color.black ) );
-                addInputEventListener( new SimSharingDragHandler( null, true ) {
-                    @Override protected void startDrag( final PInputEvent event ) {
-                        super.startDrag( event );
-                        ContainerNode.this.moveToFront();
-                        addActivity( new AnimateToScale( ContainerNode.this, 1.0, 200 ) );
-                        notifyListeners();
-                    }
-
-                    @Override protected void drag( final PInputEvent event ) {
-                        super.drag( event );
-                        final PDimension delta = event.getDeltaRelativeTo( getParent() );
-                        ContainerNode.this.translate( delta.width, delta.height );
-                        notifyListeners();
-                    }
-
-                    @Override protected void endDrag( final PInputEvent event ) {
-                        super.endDrag( event );
-                        context.endDrag( ContainerNode.this, event );
-                        notifyListeners();
-                    }
-                } );
-                addInputEventListener( new CursorHandler() );
-            }};
-            addChild( node );
-
+    public void pieceAdded( final RectangularPiece piece ) {
+        if ( !splitButton.getVisible() ) {
+            splitButton.setVisible( true );
+            splitButton.setPickable( true );
+            splitButton.setTransparency( 0 );
+            splitButton.animateToTransparency( 1, 200 );
+            dynamicCursorHandler.setCursor( Cursor.HAND_CURSOR );
         }
+        notifyListeners();
     }
 }

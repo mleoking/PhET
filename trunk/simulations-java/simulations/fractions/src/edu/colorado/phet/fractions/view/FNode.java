@@ -60,4 +60,15 @@ public class FNode extends RichPNode {
             return pNode.getFullBounds().getMaxX();
         }
     };
+
+    //Get all immediate (i.e. non-recursively) children that are instances of the specified type
+    public static <T> List<T> getChildren( final PNode node, final Class<T> type ) {
+        List<T> list = List.nil();
+        for ( Object child : node.getChildrenReference() ) {
+            if ( type.isInstance( child ) ) {
+                list = list.snoc( (T) child );
+            }
+        }
+        return list;
+    }
 }
