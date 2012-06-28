@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChai
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
+import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.ToggleButtonNode;
 import edu.colorado.phet.fractionmatcher.model.GameResult;
@@ -38,22 +39,36 @@ import static fj.data.List.list;
  * @author Sam Reid
  */
 public class LevelSelectionNode extends PNode {
-    public LevelSelectionNode( final VoidFunction0 startGame, final GameSettings gameSettings, final Property<List<GameResult>> gameResults ) {
 
-        final List<PatternNode> _patterns = list( new PatternNode( sequentialFill( pie( 1 ), 1 ), Color.red ),
-                                                  new PatternNode( sequentialFill( horizontalBars( 2 ), 2 ), Colors.LIGHT_GREEN ),
-                                                  new PatternNode( sequentialFill( verticalBars( 3 ), 3 ), Colors.LIGHT_BLUE ),
-                                                  new PatternNode( sequentialFill( letterLShapedDiagonal( 15, 2 ), 4 ), Color.orange ),
-                                                  new PatternNode( sequentialFill( polygon( 60, 5 ), 5 ), Color.magenta ),
-                                                  new PatternNode( sequentialFill( sixFlower(), 6 ), Color.yellow ),
-                                                  new PatternNode( sequentialFill( ringOfHexagons(), 7 ), Color.pink ),
-                                                  new PatternNode( sequentialFill( ninjaStar(), 8 ), Color.green ) );
+    public static final List<PNode> properIcons = list( new PatternNode( sequentialFill( pie( 1 ), 1 ), Color.red ),
+                                                        new PatternNode( sequentialFill( horizontalBars( 2 ), 2 ), Colors.LIGHT_GREEN ),
+                                                        new PatternNode( sequentialFill( verticalBars( 3 ), 3 ), Colors.LIGHT_BLUE ),
+                                                        new PatternNode( sequentialFill( letterLShapedDiagonal( 15, 2 ), 4 ), Color.orange ),
+                                                        new PatternNode( sequentialFill( polygon( 60, 5 ), 5 ), Color.magenta ),
+                                                        new PatternNode( sequentialFill( sixFlower(), 6 ), Color.yellow ),
+                                                        new PatternNode( sequentialFill( ringOfHexagons(), 7 ), Color.pink ),
+                                                        new PatternNode( sequentialFill( ninjaStar(), 8 ), Color.green ) ).map( new F<PatternNode, PNode>() {
+        @Override public PNode f( final PatternNode patternNode ) {
+            return patternNode;
+        }
+    } );
 
-        final List<PNode> patterns = _patterns.map( new F<PatternNode, PNode>() {
-            @Override public PNode f( final PatternNode patternNode ) {
-                return patternNode;
-            }
-        } );
+    public static final List<PNode> mixedIcons = list( new HBox( new PatternNode( sequentialFill( pie( 1 ), 1 ), Color.red ), new PatternNode( sequentialFill( pie( 1 ), 1 ), Color.red ) ),
+                                                       new HBox( new PatternNode( sequentialFill( horizontalBars( 2 ), 2 ), Colors.LIGHT_GREEN ), new PatternNode( sequentialFill( horizontalBars( 2 ), 1 ), Colors.LIGHT_GREEN ) ),
+                                                       new HBox( new PatternNode( sequentialFill( verticalBars( 3 ), 3 ), Colors.LIGHT_BLUE ), new PatternNode( sequentialFill( verticalBars( 3 ), 1 ), Colors.LIGHT_BLUE ) ),
+                                                       new HBox( new PatternNode( sequentialFill( letterLShapedDiagonal( 15, 2 ), 4 ), Color.orange ), new PatternNode( sequentialFill( letterLShapedDiagonal( 15, 2 ), 1 ), Color.orange ) ),
+                                                       new HBox( new PatternNode( sequentialFill( polygon( 60, 5 ), 5 ), Color.magenta ), new PatternNode( sequentialFill( polygon( 60, 5 ), 1 ), Color.magenta ) ),
+                                                       new HBox( new PatternNode( sequentialFill( sixFlower(), 6 ), Color.yellow ), new PatternNode( sequentialFill( sixFlower(), 1 ), Color.yellow ) ),
+                                                       new HBox( new PatternNode( sequentialFill( ringOfHexagons(), 7 ), Color.pink ), new PatternNode( sequentialFill( ringOfHexagons(), 1 ), Color.pink ) ),
+                                                       new HBox( new PatternNode( sequentialFill( ninjaStar(), 8 ), Color.green ), new PatternNode( sequentialFill( ninjaStar(), 1 ), Color.green ) ) ).map( new F<HBox, PNode>() {
+        @Override public PNode f( final HBox hBox ) {
+            return hBox;
+        }
+    } );
+
+    public LevelSelectionNode( final VoidFunction0 startGame, final GameSettings gameSettings, final Property<List<GameResult>> gameResults,
+                               final List<PNode> patterns ) {
+
         for ( PNode pattern : patterns ) {
             pattern.scale( 90 / pattern.getFullBounds().getWidth() );
         }
