@@ -15,6 +15,8 @@ import static edu.colorado.phet.fractions.view.FNode._fullHeight;
 import static edu.colorado.phet.fractions.view.FNode._fullWidth;
 import static fj.Ord.doubleOrd;
 
+// REVIEW - Could this be replaced by PadBoundsNode from piccolo-phet?
+
 /**
  * Adds padding around an icon to make it a standardized size.
  *
@@ -32,7 +34,9 @@ public class PaddedIcon extends PNode {
         }} );
     }
 
-    public PaddedIcon( final Dimension2D maxSize, final PNode icon ) { this( maxSize.getWidth(), maxSize.getHeight(), icon ); }
+    public PaddedIcon( final Dimension2D maxSize, final PNode icon ) {
+        this( maxSize.getWidth(), maxSize.getHeight(), icon );
+    }
 
     //Take a list of icons and pad so they each have the same dimensions (of the max)
     public static List<PNode> normalize( final List<PNode> icons ) {

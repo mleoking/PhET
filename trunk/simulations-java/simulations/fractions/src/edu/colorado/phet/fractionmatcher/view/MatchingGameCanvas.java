@@ -73,6 +73,9 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
         final PNode emptyBarGraphNode = new EmptyBarGraphNode();
 
         //Show the start screen when the user is choosing a level.
+        // REVIEW - The approach to adding children is inconsistent.  The method below adds children directly to canvas,
+        // while a few lines below the complex node is created and added using addChild.  Consider using the same pattern
+        // in all places, i.e. addChild( createStartScreen(...)).
         addStartScreen( model, standaloneSim, title, patterns );
 
         //Show the reward node behind the main node so it won't interfere with the results the user collected.
@@ -85,6 +88,8 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
         //and only regenerated when new games end.
         addChild( createGameOverDialog( model ) );
     }
+
+    // REVIEW: Consider making the creation method static.  Seems like this should be possible.
 
     //Create the game over dialog, which is only shown when the game is over.
     private UpdateNode createGameOverDialog( final MatchingGameModel model ) {
@@ -195,7 +200,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                 }
             }, model.fractionIDs, model.revealClues ) );
 
-            //Update when level, score, timerVisible, time in seconds changes
+            //Update the scoreboard when level, score, timerVisible, or time (in seconds) changes
             addChild( new UpdateNode( new Effect<PNode>() {
                 @Override public void e( final PNode parent ) {
                     parent.addChild( new ScoreboardNode( model.state ) {{
@@ -261,6 +266,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
     }
 
     //Add all the parts of the start screen, including title, level selection buttons, audio+timer buttons
+    // REVIEW standaloneSim param is unused.
     private void addStartScreen( final MatchingGameModel model, final boolean standaloneSim, final String title, final List<PNode> patterns ) {//Game settings
         final GameSettings gameSettings = new GameSettings( new IntegerRange( 1, 8, 1 ), false, false );
 
@@ -312,6 +318,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                                                                            }
                                                                        }, ToggleButtonNode.FAINT_GREEN, false );
 
+        // REVIEW - UpdateNode has been used elsewhere for this pattern.  Why not here?  Consider making this consistent with other similar code (and use UpdateNode).
         class SoundIconNode extends PNode {
             SoundIconNode() {
                 gameSettings.soundEnabled.addObserver( new VoidFunction1<Boolean>() {

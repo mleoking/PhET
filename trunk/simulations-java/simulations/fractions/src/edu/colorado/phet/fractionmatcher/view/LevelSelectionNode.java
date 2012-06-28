@@ -66,6 +66,7 @@ public class LevelSelectionNode extends PNode {
         }
     } );
 
+    // REVIEW: Document 'patterns' and any assumptions being made about their order.  Are these the shapes that appear in the buttons?
     public LevelSelectionNode( final VoidFunction0 startGame, final GameSettings gameSettings, final Property<List<GameResult>> gameResults,
                                final List<PNode> patterns ) {
 
