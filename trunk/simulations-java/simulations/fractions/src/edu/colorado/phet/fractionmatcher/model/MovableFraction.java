@@ -20,9 +20,9 @@ import static edu.colorado.phet.fractionmatcher.model.Motions.WAIT;
 @Data public class MovableFraction {
 
     //For keeping track of which one is which.  Can't use object equality across time steps in functional programming without a sophisticated get/set lens
-    public final int id;
+    public final MovableFractionID id;
 
-    //The location of the fraction, I haven't decided if this is center or top left //REVIEW have you decided yet?
+    //The location of the fraction at the bottom center.
     public final Vector2D position;
 
     //Numerator and denominator of the unreduced fraction
@@ -38,17 +38,13 @@ import static edu.colorado.phet.fractionmatcher.model.Motions.WAIT;
     //Scale for the node, size changes as it animates to the scoring cell
     public final double scale;
 
-    //REVIEW why is this particular field transient?
-    //REVIEW this comment appears to be stale. This is indeed a node, not a function that creates nodes, please revise.
-    //REVIEW coupling like this (node and userComponent) breaks the MVC pattern and precludes having multiple view representations. You might want to note that here.
-    //Way of creating nodes for rendering and doing bounds/layouts.  This is in the model because object locations, bounds, animation are also in the model.
-    //It is a function that creates nodes instead of a single PNode because I am not sure if the same PNode can be used safely in multiple places in a piccolo scene graph
-    public transient final PNode node;
+    //Node used to render this fraction.
+    //Note: coupling like this (node and userComponent) breaks the MVC pattern and precludes having multiple view representations
+    public final PNode node;
 
-    //REVIEW why is this particular field transient?
     //Strategy for moving the fraction over time (e.g. toward the scale or back to its original cell)
     //Marked as transient so won't be considered for equality
-    public transient final F<UpdateArgs, MovableFraction> motion;
+    public final F<UpdateArgs, MovableFraction> motion;
 
     //Flag set to true if the user has scored with this fraction (making it no longer draggable)
     public final boolean scored;
@@ -111,18 +107,9 @@ import static edu.colorado.phet.fractionmatcher.model.Motions.WAIT;
     //Gets the node (but with the corrected scale).
     public PNode getNodeWithCorrectScale() {
 
-        //REVIEW this comment says "make sure parent is non-null", but you call setParent(null). ????
-        //But do update the scale and make sure parent is non-null (otherwise disappears on click)
+        //But do update the scale and make sure parent is null (otherwise disappears on click)
         node.setScale( scale );
         node.setParent( null );
         return node;
-    }
-
-    //REVIEW consider making this private and calling it in the constructor, rather than having clients call nextID and pass an id arg to constructor.
-    //Create a unique instance id, see "id" field above.
-    public static int nextID() {
-        int id = count;
-        count++;
-        return id;
     }
 }

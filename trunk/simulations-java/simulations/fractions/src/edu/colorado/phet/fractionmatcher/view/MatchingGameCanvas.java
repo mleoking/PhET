@@ -176,7 +176,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                                 public MovableFraction apply() {
                                     return model.state.get().fractions.find( new F<MovableFraction, Boolean>() {
                                         @Override public Boolean f( final MovableFraction movableFraction ) {
-                                            return movableFraction.id == finalI;
+                                            return movableFraction.id.value == finalI;
                                         }
                                     } ).orSome( (MovableFraction) null );
                                 }

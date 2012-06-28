@@ -135,7 +135,7 @@ public class MatchingGameModel {
         public List<Integer> apply() {
             return state.get().fractions.map( new F<MovableFraction, Integer>() {
                 @Override public Integer f( final MovableFraction m ) {
-                    return m.id;
+                    return m.id.value;
                 }
             } );
         }
