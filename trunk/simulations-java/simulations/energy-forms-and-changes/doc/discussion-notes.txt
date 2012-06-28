@@ -10,13 +10,13 @@ Notes from 6/27/2012 meeting
 Question about sticky thermometer: What should behavior be when dropped into beaker when attached to a block?
 - Ans: For now, should go inside beaker and stick to block, and measure the block.
 
-Chunks should move faster when block dropped in water so that user doesn't really see them move.
-Tweak temp difference threshold for air to best value for interviews.
-Fix clipping for beaker on top of blocks.
-Magic thermometer - inside the beaker.  Measures block first, beaker 2nd, air last.  Burner is the same.
-When a chunk comes out of the air into a thermal container, or goes out of the thermal container into the air, it should not pass through (or behind) any of the other thermal containers.
-Chunks moving between thermal energy containers when there are differences, and exchanges with air.  Address oddities.
+KINDA DONE: Chunks should move faster when block dropped in water so that user doesn't really see them move.
+DONE: Tweak temp difference threshold for air to best value for interviews.
+DONE: Fix clipping for beaker on top of blocks.
+DONE: Magic thermometer - inside the beaker.  Measures block first, beaker 2nd, air last.  Burner is the same.
+DONE: When a chunk comes out of the air into a thermal container, or goes out of the thermal container into the air, it should not pass through (or behind) any of the other thermal containers.
 Thermometer triangle matches the color of the thing being measured.  Make a version with and one without, make both available for interviews.
+Chunks moving between thermal energy containers when there are differences, and exchanges with air.  Address oddities.
 Make the burners block motion of the blocks and beaker so things can't be dragged in front of them.
 Tool tips for the speed controls are popping up in the wrong places on Mac, not seen on PC.
 
