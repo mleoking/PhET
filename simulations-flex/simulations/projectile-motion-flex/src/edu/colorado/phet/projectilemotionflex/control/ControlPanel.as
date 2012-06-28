@@ -116,10 +116,7 @@ public class ControlPanel extends Canvas {
         speedReadout = new NiceTextField( setSpeed, speed_str, 0, 10000 );
         massReadout = new NiceTextField( setMass, mass_str, 0.01, 1000 );
         diameterReadout = new NiceTextField( setDiameter, diameter_str, 0.1, 10 );
-//        HBox1 = new HBox();
-//        HBox2 = new HBox();
-//        HBox3 = new HBox();
-//        HBox4 = new HBox();
+
         angle_lbl = new Label();
         angle_txt = new TextInput();
         speed_lbl = new Label();
@@ -129,11 +126,7 @@ public class ControlPanel extends Canvas {
         diameter_lbl = new Label();
         diameter_txt = new TextInput();
 
-//        this.createInputControl( HBox1, angle_lbl, angle_str, angle_txt, angleListener ) ;
-//        this.createInputControl( HBox2, speed_lbl, speed_str, speed_txt, speedListener ) ;
-//        this.createInputControl( HBox3, mass_lbl, mass_str, mass_txt, massListener ) ;
-//        this.createInputControl( HBox4, diameter_lbl, diameter_str, diameter_txt, diameterListener ) ;
-        //this.formatInputBox ( angle_txt );
+
         buttonBackground = new HBox();
         fireButton = new NiceButton2( 60, 25, fire_str, fireProjectile, 0x00ff00, 0x000000 );
         eraseButton = new NiceButton2( 60, 25, erase_str, eraseTrajectories, 0xff0000, 0xffffff );
@@ -143,11 +136,6 @@ public class ControlPanel extends Canvas {
         background.addChild( new SpriteUIComponent( speedReadout ) );
         background.addChild( new SpriteUIComponent( massReadout ) );
         background.addChild( new SpriteUIComponent( diameterReadout ) );
-
-//        background.addChild( HBox1 );
-//        background.addChild( HBox2 );
-//        background.addChild( HBox3 );
-//        background.addChild( HBox4 );
 
         background.addChild( buttonBackground );
         buttonBackground.addChild( new SpriteUIComponent( fireButton, true ) );
@@ -229,7 +217,6 @@ public class ControlPanel extends Canvas {
     }
 
     private function angleListener( evt:Event ):void{
-
         var angleInDeg:Number = Number(evt.currentTarget.text);
         if( angleInDeg > 180 ){
             angleInDeg = 180;
@@ -258,16 +245,22 @@ public class ControlPanel extends Canvas {
 
     public function update():void{
         var angleNbr:Number = trajectoryModel.angleInDeg;
-        var angleStr:String;
-        //round to nearest tenth;
-        angleNbr = Math.round( 10*angleNbr )/10;
-        if( angleNbr%1 != 0 ){
-            this.angle_txt.text = angleNbr.toString();
-        }else{
-            this.angle_txt.text = angleNbr.toString() + ".0";
-        }
-        var initSpeed:Number = trajectoryModel.v0;
-        this.speed_txt.text = initSpeed.toString();
+        var speedNbr: Number = trajectoryModel.v0;
+        this.angleReadout.setVal( angleNbr );
+        this.speedReadout.setVal( speedNbr );
+
+//        var angleStr:String;
+//        //round to nearest tenth;
+//        angleNbr = Math.round( 10*angleNbr )/10;
+//        if( angleNbr%1 != 0 ){
+//            this.angle_txt.text = angleNbr.toString();
+//        }else{
+//            this.angle_txt.text = angleNbr.toString() + ".0";
+//        }
+//        var initSpeed:Number = trajectoryModel.v0;
+//        this.speed_txt.text = initSpeed.toString();
+
+
     }//end update()
 
 }//end class
