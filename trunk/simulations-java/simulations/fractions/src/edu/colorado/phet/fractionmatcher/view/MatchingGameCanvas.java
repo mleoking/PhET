@@ -76,7 +76,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
         // REVIEW - The approach to adding children is inconsistent.  The method below adds children directly to canvas,
         // while a few lines below the complex node is created and added using addChild.  Consider using the same pattern
         // in all places, i.e. addChild( createStartScreen(...)).
-        addStartScreen( model, standaloneSim, title, patterns );
+        addStartScreen( model, title, patterns );
 
         //Show the reward node behind the main node so it won't interfere with the results the user collected.
         addChild( new RewardNode( model ) );
@@ -266,8 +266,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
     }
 
     //Add all the parts of the start screen, including title, level selection buttons, audio+timer buttons
-    // REVIEW standaloneSim param is unused.
-    private void addStartScreen( final MatchingGameModel model, final boolean standaloneSim, final String title, final List<PNode> patterns ) {//Game settings
+    private void addStartScreen( final MatchingGameModel model, final String title, final List<PNode> patterns ) {//Game settings
         final GameSettings gameSettings = new GameSettings( new IntegerRange( 1, 8, 1 ), false, false );
 
         //Function invoked when the user pushes a level button to start the game.
