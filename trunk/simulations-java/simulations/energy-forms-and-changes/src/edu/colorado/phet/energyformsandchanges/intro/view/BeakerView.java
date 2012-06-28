@@ -30,8 +30,6 @@ import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
 import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunk;
 import edu.colorado.phet.energyformsandchanges.intro.model.EnergyChunkContainerSliceNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PClip;
 
@@ -94,10 +92,20 @@ public class BeakerView {
         // Add the top ellipse.  It is behind the water for proper Z-order behavior.
         backNode.addChild( new PhetPPath( topEllipse, BEAKER_COLOR, OUTLINE_STROKE, OUTLINE_COLOR ) );
 
+        // Add a rectangle to the back that is invisible but allows the user to
+        // grab the beaker.
+        backNode.addChild( new PhetPPath( beakerViewRect, new Color( 0, 0, 0, 0 ) ) );
+
+        // Make the front node non-pickable so that things in the beaker can be removed.
+        frontNode.setPickable( false );
+        frontNode.setChildrenPickable( false );
+
         // Add the label.
         final PText label = new PText( "Water" );
         label.setFont( LABEL_FONT );
         label.centerFullBoundsOnPoint( beakerViewRect.getCenterX(), beakerViewRect.getMaxY() - label.getFullBoundsReference().height * 1.5 );
+        label.setPickable( false );
+        label.setChildrenPickable( false );
         frontNode.addChild( label );
 
         // Create the layers where the contained energy chunks will be placed.
@@ -166,82 +174,20 @@ public class BeakerView {
         } );
 
         // Add the cursor handler.
-        frontNode.addInputEventListener( new CursorHandler( CursorHandler.HAND ) );
+        backNode.addInputEventListener( new CursorHandler( CursorHandler.HAND ) );
 
-        // Add the drag handler.  This handler is a bit tricky, since it needs
-        // to handle the case where a block is inside the beaker.
-        final ImmutableVector2D offsetPosToCenter = new ImmutableVector2D( frontNode.getFullBoundsReference().getCenterX() - mvt.modelToViewX( beaker.position.get().getX() ),
-                                                                           frontNode.getFullBoundsReference().getCenterY() - mvt.modelToViewY( beaker.position.get().getY() ) );
+        // Add the drag handler.
+        final ImmutableVector2D offsetPosToCenter = new ImmutableVector2D( backNode.getFullBoundsReference().getCenterX() - mvt.modelToViewX( beaker.position.get().getX() ),
+                                                                           backNode.getFullBoundsReference().getCenterY() - mvt.modelToViewY( beaker.position.get().getY() ) );
 
-        frontNode.addInputEventListener( new PBasicInputEventHandler() {
-
-            // Handler to use when the beaker itself is being dragged.
-            final ThermalElementDragHandler beakerDragHandler = new ThermalElementDragHandler( beaker,
-                                                                                               frontNode,
-                                                                                               mvt,
-                                                                                               new ThermalItemMotionConstraint( model,
-                                                                                                                                beaker,
-                                                                                                                                frontNode,
-                                                                                                                                mvt,
-                                                                                                                                offsetPosToCenter ) );
-
-            // Handler to use when block dragged from within beaker.
-            PBasicInputEventHandler blockDragHandler = null;
-
-            @Override public void mousePressed( PInputEvent event ) {
-                Block blockUnderCursor = null;
-                for ( Block block : model.getBlockList() ) {
-                    // If there is a block at the location inside the beaker
-                    // where the user has pressed the mouse, move that instead
-                    // of the beaker.
-                    if ( block.getRect().contains( convertCanvasPointToModelPoint( event.getCanvasPosition() ) ) ) {
-                        blockUnderCursor = block;
-                        break;
-                    }
-                }
-                if ( blockUnderCursor == null ) {
-                    // No blocks in the beaker where the user has clicked, so
-                    // the user is moving the beaker itself.
-                    frontNode.addInputEventListener( beakerDragHandler );
-                    beakerDragHandler.mousePressed( event );
-                }
-                else {
-                    // There is a block where the user has clicked, set up the
-                    // drag handler to allow the user to move it.
-                    blockDragHandler = new ThermalElementDragHandler( blockUnderCursor,
-                                                                      frontNode,
-                                                                      mvt,
-                                                                      new ThermalItemMotionConstraint( model,
-                                                                                                       blockUnderCursor,
-                                                                                                       frontNode,
-                                                                                                       mvt,
-                                                                                                       BLOCK_OFFSET_POST_TO_CENTER ) );
-                    frontNode.addInputEventListener( blockDragHandler );
-                    blockDragHandler.mousePressed( event );
-                }
-            }
-
-            @Override public void mouseDragged( PInputEvent event ) {
-                if ( blockDragHandler != null ) {
-                    blockDragHandler.mouseDragged( event );
-                }
-                else {
-                    beakerDragHandler.mouseDragged( event );
-                }
-            }
-
-            @Override public void mouseReleased( PInputEvent event ) {
-                if ( blockDragHandler != null ) {
-                    blockDragHandler.mouseReleased( event );
-                    frontNode.removeInputEventListener( blockDragHandler );
-                    blockDragHandler = null;
-                }
-                else {
-                    beakerDragHandler.mouseReleased( event );
-                    frontNode.removeInputEventListener( beakerDragHandler );
-                }
-            }
-        } );
+        backNode.addInputEventListener( new ThermalElementDragHandler( beaker,
+                                                                       backNode,
+                                                                       mvt,
+                                                                       new ThermalItemMotionConstraint( model,
+                                                                                                        beaker,
+                                                                                                        backNode,
+                                                                                                        mvt,
+                                                                                                        offsetPosToCenter ) ) );
     }
 
     // Update the clipping mask that hides energy chunks behind blocks that are in the beaker.
