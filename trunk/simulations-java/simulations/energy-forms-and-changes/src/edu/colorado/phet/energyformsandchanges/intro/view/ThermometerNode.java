@@ -40,7 +40,7 @@ public class ThermometerNode extends PComposite {
 
     // Temperature range handled by this thermometer.  Depiction is linear.
     private static final double MIN_TEMPERATURE = EFACConstants.FREEZING_POINT_TEMPERATURE; // In degrees Kelvin.
-    private static final double MAX_TEMPERATURE = EFACConstants.BOILING_POINT_TEMPERATURE + 10; // In degrees Kelvin.
+    private static final double MAX_TEMPERATURE = EFACConstants.BOILING_POINT_TEMPERATURE + 5; // In degrees Kelvin.
     private static final double TEMPERATURE_RANGE = MAX_TEMPERATURE - MIN_TEMPERATURE; // In degrees Kelvin.
 
     private final Thermometer thermometer;
@@ -81,7 +81,7 @@ public class ThermometerNode extends PComposite {
                                                              thermometerBack.getFullBoundsReference().getMaxY() - thermometerBack.getFullBoundsReference().height * 0.1 );
             final double liquidShaftWidth = thermometerBack.getFullBoundsReference().getWidth() * 0.45;
             final double maxLiquidShaftHeight = centerOfBulb.getY() - thermometerBack.getFullBoundsReference().getMinY() - thermometerBack.getFullBoundsReference().height * 0.05;
-            final double minLiquidShaftHeight = thermometerBack.getFullBoundsReference().width * 0.75; // Assumes round bulb that defines the width.
+            final double minLiquidShaftHeight = thermometerBack.getFullBoundsReference().width * 0.67; // Tweaked a bit in order to make min temp align with lowest tick mark on graphic.
             thermometer.sensedTemperature.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double temperature ) {
                     double proportion = MathUtil.clamp( 0, ( temperature - MIN_TEMPERATURE ) / TEMPERATURE_RANGE, 1 );
