@@ -45,7 +45,7 @@ public class ContainerNode extends PNode {
     public final PictureSceneNode parent;
     public final ContainerContext context;
     private boolean inTargetCell = false;
-    public final PNode singleContainerNodeLayer;
+    public final PNode containerLayer;
     private double initialX;
     private double initialY;
     private double initialScale = 1;
@@ -114,22 +114,17 @@ public class ContainerNode extends PNode {
                 selectedPieceSize.decrement();
             }
         };
-        singleContainerNodeLayer = new PNode() {{
-            selectedPieceSize.addObserver( new VoidFunction1<Integer>() {
-                public void apply( final Integer number ) {
-                    removeAllChildren();
-                    addChild( new SingleContainerNode( ContainerNode.this, number ) );
-                }
-            } );
+        containerLayer = new PNode() {{
+            addChild( new SingleContainerNode( ContainerNode.this, selectedPieceSize ) );
         }};
         leftSpinner = new SpinnerButtonNode( spinnerImage( LEFT_BUTTON_UP ), spinnerImage( LEFT_BUTTON_PRESSED ), spinnerImage( LEFT_BUTTON_GRAY ), decrement, selectedPieceSize.greaterThan( 1 ) );
         rightSpinner = new SpinnerButtonNode( spinnerImage( RIGHT_BUTTON_UP ), spinnerImage( RIGHT_BUTTON_PRESSED ), spinnerImage( RIGHT_BUTTON_GRAY ), increment, selectedPieceSize.lessThan( 6 ) );
-        addChild( new VBox( singleContainerNodeLayer,
+        addChild( new VBox( containerLayer,
                             new HBox( leftSpinner, rightSpinner ) ) );
 
         if ( showIncreaseButton ) {
             addChild( increaseButton );
-            increaseButton.setOffset( singleContainerNodeLayer.getFullBounds().getMaxX() + AbstractFractionsCanvas.INSET, singleContainerNodeLayer.getFullBounds().getCenterY() - increaseButton.getFullBounds().getHeight() / 2 );
+            increaseButton.setOffset( containerLayer.getFullBounds().getMaxX() + AbstractFractionsCanvas.INSET, containerLayer.getFullBounds().getCenterY() - increaseButton.getFullBounds().getHeight() / 2 );
         }
     }
 
@@ -142,9 +137,9 @@ public class ContainerNode extends PNode {
     };
 
     private void fireIncreaseEvent() {
-        final SingleContainerNode child = new SingleContainerNode( this, selectedPieceSize.get() );
-        child.setOffset( singleContainerNodeLayer.getFullBounds().getMaxX() + AbstractFractionsCanvas.INSET, singleContainerNodeLayer.getFullBounds().getY() );
-        singleContainerNodeLayer.addChild( child );
+        final SingleContainerNode child = new SingleContainerNode( this, selectedPieceSize );
+        child.setOffset( containerLayer.getFullBounds().getMaxX() + AbstractFractionsCanvas.INSET, containerLayer.getFullBounds().getY() );
+        containerLayer.addChild( child );
     }
 
     public static BufferedImage spinnerImage( final BufferedImage image ) { return multiScaleToWidth( image, 50 ); }
@@ -161,7 +156,7 @@ public class ContainerNode extends PNode {
         }
     };
 
-    public double getYOffsetForContainer() { return singleContainerNodeLayer.getYOffset(); }
+    public double getYOffsetForContainer() { return containerLayer.getYOffset(); }
 
     public void splitAll() {
         getSingleContainers().foreach( _splitAll );
@@ -210,7 +205,7 @@ public class ContainerNode extends PNode {
         return sum( getSingleContainers().map( SingleContainerNode._getFractionValue ) );
     }
 
-    private List<SingleContainerNode> getSingleContainers() {return getChildren( singleContainerNodeLayer, SingleContainerNode.class );}
+    private List<SingleContainerNode> getSingleContainers() {return getChildren( containerLayer, SingleContainerNode.class );}
 
     //Get rid of it because it disrupts the layout when dropping into the scoring cell.
     public void removeSplitButton() { removeChild( splitButton ); }

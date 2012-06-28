@@ -11,6 +11,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
@@ -29,21 +31,28 @@ import static edu.colorado.phet.fractionsintro.intro.model.Fraction.sum;
  */
 public class SingleContainerNode extends PNode {
     public final ContainerNode parent;
-    private final int number;
 
-    SingleContainerNode( final ContainerNode parent, final int number ) {
+    SingleContainerNode( final ContainerNode parent, final ObservableProperty<Integer> number ) {
         this.parent = parent;
-        this.number = number;
-
-        SimpleContainerNode node = new SimpleContainerNode( number, Color.white ) {{
+        final PNode dottedLineLayer = new PNode() {{
+            number.addObserver( new VoidFunction1<Integer>() {
+                public void apply( final Integer number ) {
+                    removeAllChildren();
+                    final double pieceWidth = SimpleContainerNode.width / number;
+                    double x = pieceWidth;
+                    for ( int i = 0; i < number - 1; i++ ) {
+                        addChild( new PhetPPath( new Line2D.Double( x, 0, x, SimpleContainerNode.height ), new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 10, 10 }, 0 ), Color.lightGray ) );
+                        x += pieceWidth;
+                    }
+                }
+            } );
+        }};
+        SimpleContainerNode node = new SimpleContainerNode( number.get(), Color.white ) {{
             //Thicker outer stroke
             addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, width, height ), Color.white, new BasicStroke( 2 ), Color.black ) );
-            final double pieceWidth = width / number;
-            double x = pieceWidth;
-            for ( int i = 0; i < number - 1; i++ ) {
-                addChild( new PhetPPath( new Line2D.Double( x, 0, x, height ), new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 10, 10 }, 0 ), Color.lightGray ) );
-                x += pieceWidth;
-            }
+
+            addChild( dottedLineLayer );
+
             addInputEventListener( new SimSharingDragHandler( null, true ) {
                 @Override protected void startDrag( final PInputEvent event ) {
                     super.startDrag( event );
