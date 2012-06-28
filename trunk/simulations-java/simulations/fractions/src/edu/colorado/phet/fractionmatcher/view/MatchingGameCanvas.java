@@ -3,6 +3,7 @@ package edu.colorado.phet.fractionmatcher.view;
 
 import fj.Effect;
 import fj.F;
+import fj.data.List;
 import fj.data.Option;
 
 import java.awt.BasicStroke;
@@ -66,13 +67,13 @@ import static java.awt.Color.lightGray;
  */
 public class MatchingGameCanvas extends AbstractFractionsCanvas {
 
-    public MatchingGameCanvas( final boolean dev, final MatchingGameModel model, final boolean standaloneSim, String title ) {
+    public MatchingGameCanvas( final boolean dev, final MatchingGameModel model, final boolean standaloneSim, String title, final List<PNode> patterns ) {
 
         //Bar graph node that shows now bars, shown when the user has put something on both scales but hasn't checked the answer
         final PNode emptyBarGraphNode = new EmptyBarGraphNode();
 
         //Show the start screen when the user is choosing a level.
-        addStartScreen( model, standaloneSim, title );
+        addStartScreen( model, standaloneSim, title, patterns );
 
         //Show the reward node behind the main node so it won't interfere with the results the user collected.
         addChild( new RewardNode( model ) );
@@ -260,7 +261,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
     }
 
     //Add all the parts of the start screen, including title, level selection buttons, audio+timer buttons
-    private void addStartScreen( final MatchingGameModel model, final boolean standaloneSim, final String title ) {//Game settings
+    private void addStartScreen( final MatchingGameModel model, final boolean standaloneSim, final String title, final List<PNode> patterns ) {//Game settings
         final GameSettings gameSettings = new GameSettings( new IntegerRange( 1, 8, 1 ), false, false );
 
         //Function invoked when the user pushes a level button to start the game.
@@ -280,7 +281,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
         };
 
         //Dialog for selecting and starting a level
-        final PNode levelSelectionDialog = new ZeroOffsetNode( new LevelSelectionNode( startGame, gameSettings, model.gameResults ) ) {{
+        final PNode levelSelectionDialog = new ZeroOffsetNode( new LevelSelectionNode( startGame, gameSettings, model.gameResults, patterns ) ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() / 2 - getFullBounds().getHeight() / 2 );
 
             model.choosingSettings.addObserver( setNodeVisible( this ) );

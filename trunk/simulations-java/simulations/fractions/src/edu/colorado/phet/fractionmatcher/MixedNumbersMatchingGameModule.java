@@ -6,6 +6,7 @@ import javax.swing.JComponent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.fractionmatcher.model.MatchingGameModel;
 import edu.colorado.phet.fractionmatcher.model.MixedFractionLevelFactory;
+import edu.colorado.phet.fractionmatcher.view.LevelSelectionNode;
 import edu.colorado.phet.fractionmatcher.view.MatchingGameCanvas;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components;
@@ -25,7 +26,7 @@ public class MixedNumbersMatchingGameModule extends AbstractFractionsModule {
 
     private MixedNumbersMatchingGameModule( boolean dev, MatchingGameModel model, boolean standaloneSim ) {
         super( Components.mixedNumbersTab, Strings.MIXED_NUMBERS, model.clock );
-        setSimulationPanel( new MatchingGameCanvas( dev, model, standaloneSim, Strings.FRACTION_MATCHER_MIXED_NUMBERS ) );
+        setSimulationPanel( new MatchingGameCanvas( dev, model, standaloneSim, Strings.FRACTION_MATCHER_MIXED_NUMBERS, LevelSelectionNode.mixedIcons ) );
     }
 
     @Override protected JComponent createClockControlPanel( final IClock clock ) {
