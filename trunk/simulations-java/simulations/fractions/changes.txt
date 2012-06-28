@@ -1,3 +1,4 @@
+Build a Fraction: Improved adding/removing multiple containers
 Fraction Matcher: Refactored StartScreen into a separate class, see #3357
 Build a Fraction: Added outline to pieces and added gray cutout line for container divisions
 Build a Fraction: Fixed: Split button was broken

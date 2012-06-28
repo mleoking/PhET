@@ -1,8 +1,12 @@
 left_button_gray.png source=PhET notes=NP
 left_button_pressed.png source=PhET notes=NP
 left_button_up.png source=PhET notes=NP
-plus-button-pressed.png source=PhET notes=SR modified NP image
-plus-button.png source=PhET notes=SR modified NP image
+minus_button.png source=PhET notes=NP
+minus_button_gray.png source=PhET notes=NP
+minus_button_pressed.png source=PhET notes=NP
+plus_button.png source=PhET notes=NP
+plus_button_gray.png source=PhET notes=NP
+plus_button_pressed.png source=PhET notes=NP
 right_button_gray.png source=PhET notes=NP
 right_button_pressed.png source=PhET notes=NP
 right_button_up.png source=PhET notes=NP

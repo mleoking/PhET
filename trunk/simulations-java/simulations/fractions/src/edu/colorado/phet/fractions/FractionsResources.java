@@ -40,8 +40,12 @@ public class FractionsResources {
         public static final BufferedImage LEFT_BUTTON_GRAY = RESOURCES.getImage( "left_button_gray.png" );
         public static final BufferedImage LEFT_BUTTON_PRESSED = RESOURCES.getImage( "left_button_pressed.png" );
         public static final BufferedImage LEFT_BUTTON_UP = RESOURCES.getImage( "left_button_up.png" );
-        public static final BufferedImage PLUS_BUTTON_PRESSED = RESOURCES.getImage( "plus-button-pressed.png" );
-        public static final BufferedImage PLUS_BUTTON = RESOURCES.getImage( "plus-button.png" );
+        public static final BufferedImage MINUS_BUTTON = RESOURCES.getImage( "minus_button.png" );
+        public static final BufferedImage MINUS_BUTTON_GRAY = RESOURCES.getImage( "minus_button_gray.png" );
+        public static final BufferedImage MINUS_BUTTON_PRESSED = RESOURCES.getImage( "minus_button_pressed.png" );
+        public static final BufferedImage PLUS_BUTTON = RESOURCES.getImage( "plus_button.png" );
+        public static final BufferedImage PLUS_BUTTON_GRAY = RESOURCES.getImage( "plus_button_gray.png" );
+        public static final BufferedImage PLUS_BUTTON_PRESSED = RESOURCES.getImage( "plus_button_pressed.png" );
         public static final BufferedImage RIGHT_BUTTON_GRAY = RESOURCES.getImage( "right_button_gray.png" );
         public static final BufferedImage RIGHT_BUTTON_PRESSED = RESOURCES.getImage( "right_button_pressed.png" );
         public static final BufferedImage RIGHT_BUTTON_UP = RESOURCES.getImage( "right_button_up.png" );
