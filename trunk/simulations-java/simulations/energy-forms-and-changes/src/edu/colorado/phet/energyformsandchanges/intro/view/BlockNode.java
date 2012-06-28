@@ -37,6 +37,10 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class BlockNode extends PComposite {
 
+    //-------------------------------------------------------------------------
+    // Class Data
+    //-------------------------------------------------------------------------
+
     // Constants that define the 3D projection.  Public so that model can reference.
     public static final double PERSPECTIVE_ANGLE = Math.atan2( -EFACConstants.Z_TO_Y_OFFSET_MULTIPLIER, -EFACConstants.Z_TO_X_OFFSET_MULTIPLIER );
     public static final double PERSPECTIVE_EDGE_PROPORTION = Math.sqrt( Math.pow( EFACConstants.Z_TO_X_OFFSET_MULTIPLIER, 2 ) +
@@ -48,6 +52,18 @@ public class BlockNode extends PComposite {
 
     // Debug controls.
     private static final boolean SHOW_2D_REPRESENTATION = false;
+
+    //-------------------------------------------------------------------------
+    // Instance Data
+    //-------------------------------------------------------------------------
+
+    // Node where approaching energy chunks are placed if set.  This can be
+    // used to make sure that approaching energy chunks stay "out front".
+    private PNode approachingEnergyChunkParentNode = null;
+
+    //-------------------------------------------------------------------------
+    // Constructor(s)
+    //-------------------------------------------------------------------------
 
     public BlockNode( final EFACIntroModel model, final Block block, final ModelViewTransform mvt ) {
 
@@ -142,11 +158,12 @@ public class BlockNode extends PComposite {
         block.approachingEnergyChunks.addElementAddedObserver( new VoidFunction1<EnergyChunk>() {
             public void apply( final EnergyChunk addedEnergyChunk ) {
                 final PNode energyChunkNode = new EnergyChunkNode( addedEnergyChunk, mvt );
-                energyChunkRootNode.addChild( energyChunkNode );
+                final PNode parentNode = approachingEnergyChunkParentNode == null ? energyChunkRootNode : approachingEnergyChunkParentNode;
+                parentNode.addChild( energyChunkNode );
                 block.approachingEnergyChunks.addElementRemovedObserver( new VoidFunction1<EnergyChunk>() {
                     public void apply( EnergyChunk removedEnergyChunk ) {
                         if ( removedEnergyChunk == addedEnergyChunk ) {
-                            energyChunkRootNode.removeChild( energyChunkNode );
+                            parentNode.removeChild( energyChunkNode );
                             block.approachingEnergyChunks.removeElementRemovedObserver( this );
                         }
                     }
@@ -185,6 +202,15 @@ public class BlockNode extends PComposite {
         ImmutableVector2D offsetPosToCenter = new ImmutableVector2D( getFullBoundsReference().getCenterX() - mvt.modelToViewX( block.position.get().getX() ),
                                                                      getFullBoundsReference().getCenterY() - mvt.modelToViewY( block.position.get().getY() ) );
         addInputEventListener( new ThermalElementDragHandler( block, this, mvt, new ThermalItemMotionConstraint( model, block, this, mvt, offsetPosToCenter ) ) );
+    }
+
+    //-------------------------------------------------------------------------
+    // Methods
+    //-------------------------------------------------------------------------
+
+    public void setApproachingEnergyChunkParentNode( PNode node ) {
+        assert approachingEnergyChunkParentNode == null; // This should not be set more than once.
+        approachingEnergyChunkParentNode = node;
     }
 
     /*

@@ -89,12 +89,12 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         rootNode.addChild( backLayer );
         PNode blockLayer = new PNode();
         rootNode.addChild( blockLayer );
+        PNode airLayer = new PNode();
+        rootNode.addChild( airLayer );
         final PNode thermometerLayer = new PNode();
         rootNode.addChild( thermometerLayer );
         final PNode beakerFrontLayer = new PNode();
         rootNode.addChild( beakerFrontLayer );
-        final PNode energyChuckLayer = new PNode(); // For energy chunks in the air.
-        rootNode.addChild( energyChuckLayer );
 
         // Add the lab bench surface.
         final PNode labBenchSurface = new PImage( EnergyFormsAndChangesResources.Images.SHELF_LONG );
@@ -178,12 +178,14 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         backLayer.addChild( new BurnerNode( model.getRightBurner(), mvt ) );
 
         // Add the air.
-        backLayer.addChild( new AirNode( model.getAir(), mvt ) );
+        airLayer.addChild( new AirNode( model.getAir(), mvt ) );
 
         // Add the movable objects.
-        final PNode brickNode = new BlockNode( model, model.getBrick(), mvt );
+        final BlockNode brickNode = new BlockNode( model, model.getBrick(), mvt );
+        brickNode.setApproachingEnergyChunkParentNode( airLayer );
         blockLayer.addChild( brickNode );
-        final PNode leadNode = new BlockNode( model, model.getIronBlock(), mvt );
+        final BlockNode leadNode = new BlockNode( model, model.getIronBlock(), mvt );
+        leadNode.setApproachingEnergyChunkParentNode( airLayer );
         blockLayer.addChild( leadNode );
         BeakerView beakerView = new BeakerView( model, this, mvt );
         beakerFrontLayer.addChild( beakerView.getFrontNode() );
