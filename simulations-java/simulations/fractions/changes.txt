@@ -1,3 +1,4 @@
+Build a Fraction: Added outline to pieces and added gray cutout line for container divisions
 Build a Fraction: Fixed: Split button was broken
 Build a Fraction: Allow pieces to move to any container within a group
 Build a Fraction: Made it so you cannot overflow a single piece

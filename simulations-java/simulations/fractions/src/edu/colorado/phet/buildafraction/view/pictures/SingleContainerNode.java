@@ -6,6 +6,7 @@ import fj.data.List;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -35,12 +36,14 @@ public class SingleContainerNode extends PNode {
         this.number = number;
 
         SimpleContainerNode node = new SimpleContainerNode( number, Color.white ) {{
-            for ( int i = 0; i < number; i++ ) {
-                final double pieceWidth = width / number;
-                addChild( new PhetPPath( new Rectangle2D.Double( pieceWidth * i, 0, pieceWidth, height ), Color.white, new BasicStroke( 1 ), Color.black ) );
-            }
             //Thicker outer stroke
-            addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, width, height ), new BasicStroke( 2 ), Color.black ) );
+            addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, width, height ), Color.white, new BasicStroke( 2 ), Color.black ) );
+            final double pieceWidth = width / number;
+            double x = pieceWidth;
+            for ( int i = 0; i < number - 1; i++ ) {
+                addChild( new PhetPPath( new Line2D.Double( x, 0, x, height ), new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 10, 10 }, 0 ), Color.lightGray ) );
+                x += pieceWidth;
+            }
             addInputEventListener( new SimSharingDragHandler( null, true ) {
                 @Override protected void startDrag( final PInputEvent event ) {
                     super.startDrag( event );
