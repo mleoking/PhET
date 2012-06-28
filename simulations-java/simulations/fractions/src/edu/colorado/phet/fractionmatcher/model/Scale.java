@@ -38,14 +38,13 @@ import static edu.colorado.phet.fractions.FractionsResources.Images.SCALE;
     }
 
     //Cached function to get the height of a MovableFraction, to know how high to position it on a scale
-    private static final Cache<MovableFraction, Double> HEIGHT = new Cache<MovableFraction, Double>( new F<MovableFraction, Double>() {
+    private static final Cache<MovableFraction, Double> HEIGHT = new Cache<MovableFraction, Double>( 100, new F<MovableFraction, Double>() {
         @Override public Double f( final MovableFraction movableFraction ) {
             return movableFraction.getNodeWithCorrectScale().getFullBounds().getHeight();
         }
     } );
 
     private static Vector2D getAttachmentPoint( Scale scale, MovableFraction fraction ) {
-        HEIGHT.checkAndClearCache();
         return scale.getAttachmentPoint().plus( 0, -HEIGHT.f( fraction ) / 2 );
     }
 }

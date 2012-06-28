@@ -16,14 +16,23 @@ public class Cache<T, U> extends F<T, U> {
     private final boolean debug;
     private final HashMap<T, U> map = new HashMap<T, U>();
 
-    public Cache( F<T, U> f ) { this( f, false ); }
+    //Max size of the cache, or -1 if unlimited
+    private int cacheSize;
 
-    public Cache( F<T, U> f, boolean debug ) {
+    public Cache( F<T, U> f ) { this( -1, f, false ); }
+
+    public Cache( int cacheSize, F<T, U> f ) { this( cacheSize, f, false ); }
+
+    public Cache( int cacheSize, F<T, U> f, boolean debug ) {
+        this.cacheSize = cacheSize;
         this.f = f;
         this.debug = debug;
     }
 
     @Override public U f( T t ) {
+        if ( cacheSize > 0 && map.size() > cacheSize ) {
+            map.clear();
+        }
         if ( !map.containsKey( t ) ) {
             if ( debug ) { System.out.println( "cache miss for key = " + t ); }
             final U result = f.f( t );
@@ -37,15 +46,8 @@ public class Cache<T, U> extends F<T, U> {
     }
 
     //Utility method to avoid providing type arguments in client instantiation
-    public static <T, U> Cache<T, U> cache( F<T, U> f ) { return new Cache<T, U>( f, false ); }
+    public static <T, U> Cache<T, U> cache( int cacheSize, F<T, U> f ) { return new Cache<T, U>( cacheSize, f, false ); }
 
     //Utility method that can be used at maintenance/debugging time in order to identify cache hits/misses
-    public static <T, U> Cache<T, U> cache( F<T, U> f, boolean debug ) { return new Cache<T, U>( f, debug ); }
-
-    //REVIEW requiring clients to call this risks overflowing the cache, consider doing this automatically when you need to add something to the cache and the limit has been reached.
-    public void checkAndClearCache() {
-        if ( map.size() > 100 ) {
-            map.clear();
-        }
-    }
+    public static <T, U> Cache<T, U> cache( int cacheSize, F<T, U> f, boolean debug ) { return new Cache<T, U>( cacheSize, f, debug ); }
 }

@@ -22,7 +22,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.fractions.FractionsResources.RESOURCES;
-import static edu.colorado.phet.fractions.util.Cache.cache;
 
 /**
  * Node for showing a set of draggable 3d cakes
@@ -37,7 +36,7 @@ public class CakeSetNode extends PieSetNode {
     }
 
     //Cache for performance, to avoid cropping each time
-    static final Cache<Arg, BufferedImage> cakeImages = cache( new F<Arg, BufferedImage>() {
+    static final Cache<Arg, BufferedImage> cakeImages = new Cache<Arg, BufferedImage>( new F<Arg, BufferedImage>() {
         @Override public BufferedImage f( Arg a ) {
             return cropAndTrim( RESOURCES.getImage( "cake/cake_" + a.denominator + "_" + ( a.cell + 1 ) + ".png" ) );
         }

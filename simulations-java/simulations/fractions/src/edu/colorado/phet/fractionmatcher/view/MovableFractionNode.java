@@ -16,13 +16,13 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.fractionmatcher.model.Cell;
 import edu.colorado.phet.fractionmatcher.model.MatchingGameState;
-import edu.colorado.phet.fractionmatcher.model.Mode;
 import edu.colorado.phet.fractionmatcher.model.MovableFraction;
 import edu.colorado.phet.fractionmatcher.model.UpdateArgs;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
+import static edu.colorado.phet.fractionmatcher.model.Mode.USER_IS_MOVING_OBJECTS_TO_THE_SCALES;
 import static edu.colorado.phet.fractionmatcher.model.Motions.*;
 import static edu.colorado.phet.fractions.util.FJUtils.ord;
 import static fj.data.TreeMap.fromMutableMap;
@@ -115,10 +115,7 @@ class MovableFractionNode extends PNode {
                             return f.dragging ? f.withDragging( false ).withMotion( tm.get( selectedAttachmentPoint ).some() ) : f;
                         }
                     } );
-                    // REVIEW: Why is this always being set to WAITING_FOR_USER_TO_CHECK_ANSWER at the end of a drag?  It seems
-                    // like both scales need to be loaded first.  Not sure what to suggest, we just were confused by it when
-                    // working through the code.
-                    final MatchingGameState newState = state.withFractions( newFractions ).withMode( Mode.WAITING_FOR_USER_TO_CHECK_ANSWER );
+                    final MatchingGameState newState = state.withFractions( newFractions ).withMode( USER_IS_MOVING_OBJECTS_TO_THE_SCALES );
                     model.set( newState );
                 }
             } );
