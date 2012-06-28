@@ -62,17 +62,15 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
         addChild( new RewardNode( model ) );
 
         //Things to show during the game (i.e. not when settings dialog showing.)
-        addChild( createGameNode( dev, model, emptyBarGraphNode ) );
+        addChild( createGameNode( dev, model, emptyBarGraphNode, rootNode ) );
 
         //Show the game over dialog, if the game has ended.  Also, it has a stateful piccolo button so must not be cleared when the model changes, so it is stored in a field
         //and only regenerated when new games end.
         addChild( createGameOverDialog( model ) );
     }
 
-    // REVIEW: Consider making the creation method static.  Seems like this should be possible.
-
     //Create the game over dialog, which is only shown when the game is over.
-    private UpdateNode createGameOverDialog( final MatchingGameModel model ) {
+    private static UpdateNode createGameOverDialog( final MatchingGameModel model ) {
         return new UpdateNode(
                 new Effect<PNode>() {
                     @Override public void e( final PNode parent ) {
@@ -95,7 +93,7 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
     }
 
     //Create the main game node.
-    private PNode createGameNode( final boolean dev, final MatchingGameModel model, final PNode emptyBarGraphNode ) {
+    private static PNode createGameNode( final boolean dev, final MatchingGameModel model, final PNode emptyBarGraphNode, final PNode rootNode ) {
         return new PNode() {{
             final CompositeBooleanProperty notChoosingSettings = new CompositeBooleanProperty( new Function0<Boolean>() {
                 public Boolean apply() {
