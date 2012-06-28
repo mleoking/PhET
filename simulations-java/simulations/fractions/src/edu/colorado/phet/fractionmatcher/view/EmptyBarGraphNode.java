@@ -10,6 +10,8 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.umd.cs.piccolo.PNode;
 
+// REVIEW - Header comment looks like it was copied from another class.  Would be nice to know why this is an "empty" bar graph node.
+
 /**
  * Bar graph for showing the value of fractions.
  *
@@ -47,5 +49,7 @@ class EmptyBarGraphNode extends PNode {
         }} );
     }
 
-    private PhetPPath createPath( double y, double width, float strokeWidth ) {return new PhetPPath( new Line2D.Double( -width / 2, y, width / 2, y ), new BasicStroke( strokeWidth ), Color.black );}
+    private PhetPPath createPath( double y, double width, float strokeWidth ) {
+        return new PhetPPath( new Line2D.Double( -width / 2, y, width / 2, y ), new BasicStroke( strokeWidth ), Color.black );
+    }
 }

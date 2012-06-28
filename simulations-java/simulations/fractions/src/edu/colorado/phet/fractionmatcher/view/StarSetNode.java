@@ -28,32 +28,35 @@ import static fj.data.List.list;
  */
 public class StarSetNode extends PNode {
 
+    private static final int PIECES_PER_STAR = 4;
+    private static final int STAR_WIDTH = 30;
+
     //Images fill up with 4 segments each, here are the 5 pictures (including empty star) in order of filling up.
-    private static final List<BufferedImage> STAR_IMAGES = list( multiScaleToWidth( Images.STAR_0, 30 ),
-                                                                 multiScaleToWidth( Images.STAR_1, 30 ),
-                                                                 multiScaleToWidth( Images.STAR_2, 30 ),
-                                                                 multiScaleToWidth( Images.STAR_3, 30 ),
-                                                                 multiScaleToWidth( Images.STAR_4, 30 ) );
+    private static final List<BufferedImage> STAR_IMAGES = list( multiScaleToWidth( Images.STAR_0, STAR_WIDTH ),
+                                                                 multiScaleToWidth( Images.STAR_1, STAR_WIDTH ),
+                                                                 multiScaleToWidth( Images.STAR_2, STAR_WIDTH ),
+                                                                 multiScaleToWidth( Images.STAR_3, STAR_WIDTH ),
+                                                                 multiScaleToWidth( Images.STAR_4, STAR_WIDTH ) );
 
     private static BufferedImage getImage( final int numberStarPieces ) {
-        return STAR_IMAGES.index( clamp( 0, numberStarPieces, 4 ) );
+        return STAR_IMAGES.index( clamp( 0, numberStarPieces, 4 ) );  // REVIEW: Should the end of this range be STAR_IMAGES.size instead of a fixed number?
     }
 
     public StarSetNode( final Property<List<GameResult>> gameResults, final int levelName ) {
         gameResults.addObserver( new VoidFunction1<List<GameResult>>() {
             public void apply( final List<GameResult> gameResults ) {
                 removeAllChildren();
-                int score = getBestScore( gameResults );
-
-                int piecesPerStar = 4;
 
                 //One star segment (piece of a star) for each point the user attained
-                int numberPieces = score;
+                final int score = getBestScore( gameResults );
+                final int numberPieces = score;
 
-                List<BufferedImage> images = list( getImage( numberPieces - piecesPerStar * 0 ),
-                                                   getImage( numberPieces - piecesPerStar * 1 ),
-                                                   getImage( numberPieces - piecesPerStar * 2 ) );
-                if ( images == null ) { throw new RuntimeException( "No images found for score: " + score ); }
+                List<BufferedImage> images = list( getImage( numberPieces - PIECES_PER_STAR * 0 ),
+                                                   getImage( numberPieces - PIECES_PER_STAR * 1 ),
+                                                   getImage( numberPieces - PIECES_PER_STAR * 2 ) );
+                if ( images == null ) {
+                    throw new RuntimeException( "No images found for score: " + score );
+                }
                 addChild( new ControlPanelNode( new HBox( new PImage( images.index( 0 ) ), new PImage( images.index( 1 ) ), new PImage( images.index( 2 ) ) ), Color.white ) );
             }
 

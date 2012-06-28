@@ -37,6 +37,7 @@ public class FNode extends RichPNode {
 
     //Function wrappers for use with the functional java library, for performing tasks such as finding the maximum width of a list of PNodes.
 
+    // REVIEW: Why the underscores here?  That naming convention isn't used in other places.
     public static final F<PNode, Double> _fullWidth = new F<PNode, Double>() {
         @Override public Double f( final PNode pnode ) {
             return pnode.getFullBounds().getWidth();

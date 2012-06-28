@@ -13,6 +13,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 class UpdateNode extends PNode {
+    // REVIEW: Why is this parameter called "block"?  Doesn't make much sense to this reader.
     public UpdateNode( final Effect<PNode> block, ObservableProperty... p ) {
         new RichSimpleObserver() {
             @Override public void update() {
