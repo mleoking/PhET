@@ -1,3 +1,4 @@
+Fraction Matcher: Require the user to change their answer before pressing "check answer" again, see #3357 comment 21
 Fraction Matcher: For upside-down L shapes and other representations that are still too tall after shrinking based on width, undo previous shrink and shrink by another 20%
 Fraction Matcher: Show different icons for mixed fraction level selection screen
 Fraction Matcher: Fixed: Reset all broken for mixed numbers tab

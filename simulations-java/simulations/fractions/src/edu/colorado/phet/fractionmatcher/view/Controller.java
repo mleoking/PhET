@@ -1,11 +1,13 @@
 package edu.colorado.phet.fractionmatcher.view;
 
 import fj.F;
+import fj.data.Option;
 import lombok.Data;
 
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.fractionmatcher.model.AbstractLevelFactory;
+import edu.colorado.phet.fractionmatcher.model.Answer;
 import edu.colorado.phet.fractionmatcher.model.MatchingGameState;
 import edu.colorado.phet.fractionmatcher.model.Mode;
 import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ModelActions;
@@ -42,7 +44,7 @@ class Controller {
     //Moves to the next match.
     public static @Data class Next extends F<MatchingGameState, MatchingGameState> {
         @Override public MatchingGameState f( final MatchingGameState s ) {
-            final MatchingGameState updated = s.animateMatchToScoreCell().withMode( USER_IS_MOVING_OBJECTS_TO_THE_SCALES ).withChecks( 0 );
+            final MatchingGameState updated = s.animateMatchToScoreCell().withMode( USER_IS_MOVING_OBJECTS_TO_THE_SCALES ).withChecks( 0 ).withLastWrongAnswer( Option.<Answer>none() );
             return updated.allStartCellsFree() ?
                    updated.withInfo( updated.info.withBestTime( Math.min( updated.info.time, updated.info.bestTime ) ) ).withMode( SHOWING_GAME_OVER_SCREEN ) :
                    updated;
@@ -60,8 +62,9 @@ class Controller {
             return correct ?
                    state.withChecks( state.info.checks + 1 ).
                            withMode( USER_CHECKED_CORRECT_ANSWER ).
-                           withScore( state.info.score + points ) :
-                   state.withChecks( state.info.checks + 1 ).withMode( SHOWING_WHY_ANSWER_WRONG );
+                           withScore( state.info.score + points ).
+                           withLastWrongAnswer( Option.<Answer>none() ) :
+                   state.withChecks( state.info.checks + 1 ).withMode( SHOWING_WHY_ANSWER_WRONG ).recordWrongAnswer();
         }
     }
 

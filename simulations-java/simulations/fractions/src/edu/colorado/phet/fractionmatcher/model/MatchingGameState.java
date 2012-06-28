@@ -49,6 +49,9 @@ public @Data class MatchingGameState {
     //List of results from completing games.
     public final List<GameResult> gameResults;
 
+    //Last wrong answer, stored for purposes of making sure the user changes their answer before pressing try again
+    public final Option<Answer> lastWrongAnswer;
+
     public static MatchingGameState initialState( AbstractLevelFactory factory ) {
         return newLevel( 1, List.<GameResult>nil(), factory ).withMode( Mode.CHOOSING_SETTINGS );
     }
@@ -56,7 +59,7 @@ public @Data class MatchingGameState {
     public static MatchingGameState newLevel( int level, List<GameResult> gameResults, AbstractLevelFactory factory ) {
         final List<Cell> startCells = createCells( 100, 427, 130, 120, 6, 2, 0, 0 );
         final List<Cell> scoreCells = createCells( 10, 12, 155, 90, 6, 1, 10, 0 );
-        return new MatchingGameState( factory.createLevel( level, startCells ), startCells, scoreCells, 0, 0, 0, new GameInfo( level, false, 0, Mode.USER_IS_MOVING_OBJECTS_TO_THE_SCALES, 0, 0, 0, true ), 0, gameResults );
+        return new MatchingGameState( factory.createLevel( level, startCells ), startCells, scoreCells, 0, 0, 0, new GameInfo( level, false, 0, Mode.USER_IS_MOVING_OBJECTS_TO_THE_SCALES, 0, 0, 0, true ), 0, gameResults, Option.<Answer>none() );
     }
 
     //Create adjacent cells from which fractions can be dragged
@@ -76,24 +79,26 @@ public @Data class MatchingGameState {
 
     public int getChecks() {return info.checks;}
 
-    public MatchingGameState withFractions( List<MovableFraction> fractions ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults ); }
+    public MatchingGameState withFractions( List<MovableFraction> fractions ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults, lastWrongAnswer ); }
 
-    MatchingGameState withScored( int scored ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults ); }
+    MatchingGameState withScored( int scored ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults, lastWrongAnswer ); }
 
-    public MatchingGameState withAudio( boolean audio ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info.withAudio( audio ), barGraphAnimationTime, gameResults ); }
+    public MatchingGameState withAudio( boolean audio ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info.withAudio( audio ), barGraphAnimationTime, gameResults, lastWrongAnswer ); }
 
-    public MatchingGameState withLeftScaleDropTime( long leftScaleDropTime ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults ); }
+    public MatchingGameState withLeftScaleDropTime( long leftScaleDropTime ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults, lastWrongAnswer ); }
 
-    public MatchingGameState withRightScaleDropTime( long rightScaleDropTime ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults ); }
+    public MatchingGameState withRightScaleDropTime( long rightScaleDropTime ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults, lastWrongAnswer ); }
 
     //NOTE: changing modes resets the bar graph animation time
     public MatchingGameState withMode( final Mode mode ) { return withInfo( info.withMode( mode ) ).withBarGraphAnimationTime( 0.0 ); }
 
-    public MatchingGameState withInfo( final GameInfo info ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults ); }
+    public MatchingGameState withInfo( final GameInfo info ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults, lastWrongAnswer ); }
 
-    MatchingGameState withBarGraphAnimationTime( final double barGraphAnimationTime ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults ); }
+    MatchingGameState withBarGraphAnimationTime( final double barGraphAnimationTime ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults, lastWrongAnswer ); }
 
-    MatchingGameState withGameResults( final List<GameResult> gameResults ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults ); }
+    MatchingGameState withGameResults( final List<GameResult> gameResults ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults, lastWrongAnswer ); }
+
+    public MatchingGameState withLastWrongAnswer( final Option<Answer> lastWrongAnswer ) { return new MatchingGameState( fractions, startCells, scoreCells, scored, leftScaleDropTime, rightScaleDropTime, info, barGraphAnimationTime, gameResults, lastWrongAnswer ); }
 
     public MatchingGameState stepInTime( final double dt ) {
         return withFractions( fractions.map( new F<MovableFraction, MovableFraction>() {
@@ -258,4 +263,17 @@ public @Data class MatchingGameState {
     public MatchingGameState withScore( final int score ) { return withInfo( info.withScore( score ) ); }
 
     public MatchingGameState withTimerVisible( final Boolean timerVisible ) { return withInfo( info.withTimerVisible( timerVisible ) ); }
+
+    //Store the user's current answer as a wrong answer for purposes of making sure they change the answer before pressing "try again"
+    public MatchingGameState recordWrongAnswer() { return withLastWrongAnswer( getCurrentAnswer() ); }
+
+    //Record the user's current answer (must exist) for purposes of making sure they change the answer before pressing "try again"
+    private Option<Answer> getCurrentAnswer() {
+        assert getScaleFraction( leftScale ).isSome() && getScaleFraction( rightScale ).isSome();
+        return Option.some( new Answer( getScaleFraction( leftScale ).some().id,
+                                        getScaleFraction( rightScale ).some().id ) );
+    }
+
+    //Check whether the user changed their answer since the last time they pressed "try again",
+    public boolean changedFromWrongAnswer() { return !lastWrongAnswer.equals( getCurrentAnswer() ); }
 }

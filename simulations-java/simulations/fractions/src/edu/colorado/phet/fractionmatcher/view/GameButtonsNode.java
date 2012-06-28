@@ -43,7 +43,8 @@ class GameButtonsNode extends PNode {
                 }
             }
 
-            else if ( state.getChecks() < 2 && state.getMode() == USER_IS_MOVING_OBJECTS_TO_THE_SCALES ) {
+            else if ( ( state.getChecks() == 0 && state.getMode() == USER_IS_MOVING_OBJECTS_TO_THE_SCALES ) ||
+                      ( state.getChecks() == 1 && state.getMode() == USER_IS_MOVING_OBJECTS_TO_THE_SCALES && state.changedFromWrongAnswer() ) ) {
                 addChild( buttonFactory.f( new ButtonArgs( Components.checkAnswerButton, Strings.CHECK_ANSWER, Color.orange, buttonLocation, new CheckAnswer() ) ) );
             }
 
