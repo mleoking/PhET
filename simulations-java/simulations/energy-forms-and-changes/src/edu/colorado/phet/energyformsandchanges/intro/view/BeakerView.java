@@ -251,16 +251,18 @@ public class BeakerView {
 
         Area clippingMask = new Area( frontNode.getFullBoundsReference() );
         for ( Block block : model.getBlockList() ) {
-            DoubleGeneralPath path = new DoubleGeneralPath();
-            Rectangle2D rect = block.getRect();
-            path.moveTo( new ImmutableVector2D( rect.getX(), rect.getY() ).getAddedInstance( forwardPerspectiveOffset ) );
-            path.lineTo( new ImmutableVector2D( rect.getMaxX(), rect.getY() ).getAddedInstance( forwardPerspectiveOffset ) );
-            path.lineTo( new ImmutableVector2D( rect.getMaxX(), rect.getY() ).getAddedInstance( backwardPerspectiveOffset ) );
-            path.lineTo( new ImmutableVector2D( rect.getMaxX(), rect.getMaxY() ).getAddedInstance( backwardPerspectiveOffset ) );
-            path.lineTo( new ImmutableVector2D( rect.getMinX(), rect.getMaxY() ).getAddedInstance( backwardPerspectiveOffset ) );
-            path.lineTo( new ImmutableVector2D( rect.getMinX(), rect.getMaxY() ).getAddedInstance( forwardPerspectiveOffset ) );
-            path.closePath();
-            clippingMask.subtract( new Area( mvt.modelToView( path.getGeneralPath() ) ) );
+            if ( model.getBeaker().getRect().contains( block.getRect() ) ) {
+                DoubleGeneralPath path = new DoubleGeneralPath();
+                Rectangle2D rect = block.getRect();
+                path.moveTo( new ImmutableVector2D( rect.getX(), rect.getY() ).getAddedInstance( forwardPerspectiveOffset ) );
+                path.lineTo( new ImmutableVector2D( rect.getMaxX(), rect.getY() ).getAddedInstance( forwardPerspectiveOffset ) );
+                path.lineTo( new ImmutableVector2D( rect.getMaxX(), rect.getY() ).getAddedInstance( backwardPerspectiveOffset ) );
+                path.lineTo( new ImmutableVector2D( rect.getMaxX(), rect.getMaxY() ).getAddedInstance( backwardPerspectiveOffset ) );
+                path.lineTo( new ImmutableVector2D( rect.getMinX(), rect.getMaxY() ).getAddedInstance( backwardPerspectiveOffset ) );
+                path.lineTo( new ImmutableVector2D( rect.getMinX(), rect.getMaxY() ).getAddedInstance( forwardPerspectiveOffset ) );
+                path.closePath();
+                clippingMask.subtract( new Area( mvt.modelToView( path.getGeneralPath() ) ) );
+            }
         }
         clip.setPathTo( clippingMask );
     }
