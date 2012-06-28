@@ -22,6 +22,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.ToggleButtonNode;
 import edu.colorado.phet.fractionmatcher.model.GameResult;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
+import edu.colorado.phet.fractions.view.FNode;
 import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.colorado.phet.fractionsintro.common.view.Colors;
 import edu.umd.cs.piccolo.PNode;
@@ -37,41 +38,34 @@ import static fj.data.List.list;
  * @author Sam Reid
  */
 public class LevelSelectionNode extends PNode {
-    public LevelSelectionNode( final VoidFunction0 startGame, final GameSettings gameSettings, final Property<List<GameResult>> gameResults, final boolean standaloneSim ) {
+    public LevelSelectionNode( final VoidFunction0 startGame, final GameSettings gameSettings, final Property<List<GameResult>> gameResults ) {
 
-        final List<PatternNode> moduleLevels = list( new PatternNode( sequentialFill( pie( 1 ), 1 ), Color.red ),
-                                                     new PatternNode( sequentialFill( horizontalBars( 2 ), 2 ), Colors.LIGHT_GREEN ),
-                                                     new PatternNode( sequentialFill( verticalBars( 3 ), 3 ), Colors.LIGHT_BLUE ),
-                                                     new PatternNode( sequentialFill( letterLShapedDiagonal( 15, 2 ), 4 ), Color.orange ),
-                                                     new PatternNode( sequentialFill( polygon( 60, 5 ), 5 ), Color.magenta ),
-                                                     new PatternNode( sequentialFill( sixFlower(), 6 ), Color.yellow ) );
-
-        final List<PatternNode> appLevels = list( new PatternNode( sequentialFill( ringOfHexagons(), 7 ), Color.pink ),
+        final List<PatternNode> _patterns = list( new PatternNode( sequentialFill( pie( 1 ), 1 ), Color.red ),
+                                                  new PatternNode( sequentialFill( horizontalBars( 2 ), 2 ), Colors.LIGHT_GREEN ),
+                                                  new PatternNode( sequentialFill( verticalBars( 3 ), 3 ), Colors.LIGHT_BLUE ),
+                                                  new PatternNode( sequentialFill( letterLShapedDiagonal( 15, 2 ), 4 ), Color.orange ),
+                                                  new PatternNode( sequentialFill( polygon( 60, 5 ), 5 ), Color.magenta ),
+                                                  new PatternNode( sequentialFill( sixFlower(), 6 ), Color.yellow ),
+                                                  new PatternNode( sequentialFill( ringOfHexagons(), 7 ), Color.pink ),
                                                   new PatternNode( sequentialFill( ninjaStar(), 8 ), Color.green ) );
 
-        final List<PatternNode> patterns = standaloneSim ? moduleLevels.append( appLevels ) :
-                                           moduleLevels;
-
-        for ( PatternNode pattern : patterns ) {
+        final List<PNode> patterns = _patterns.map( new F<PatternNode, PNode>() {
+            @Override public PNode f( final PatternNode patternNode ) {
+                return patternNode;
+            }
+        } );
+        for ( PNode pattern : patterns ) {
             pattern.scale( 90 / pattern.getFullBounds().getWidth() );
         }
 
         //Get bounds for layout so all buttons same size
-        final double maxIconWidth = patterns.map( new F<PatternNode, Double>() {
-            @Override public Double f( final PatternNode n ) {
-                return n.getFullBounds().getWidth();
-            }
-        } ).maximum( doubleOrd );
-        final double maxIconHeight = patterns.map( new F<PatternNode, Double>() {
-            @Override public Double f( final PatternNode n ) {
-                return n.getFullBounds().getHeight();
-            }
-        } ).maximum( doubleOrd );
+        final double maxIconWidth = patterns.map( FNode._fullWidth ).maximum( doubleOrd );
+        final double maxIconHeight = patterns.map( FNode._fullHeight ).maximum( doubleOrd );
 
         //level buttons at the top
-        List<LevelIconNode> icons = patterns.map( new F<PatternNode, LevelIconNode>() {
-            @Override public LevelIconNode f( final PatternNode patternNode ) {
-                final Integer levelIndex = patterns.elementIndex( Equal.<PatternNode>anyEqual(), patternNode ).some();
+        List<LevelIconNode> icons = patterns.map( new F<PNode, LevelIconNode>() {
+            @Override public LevelIconNode f( final PNode patternNode ) {
+                final Integer levelIndex = patterns.elementIndex( Equal.<PNode>anyEqual(), patternNode ).some();
                 int levelName = levelIndex + 1;
                 return new LevelIconNode( MessageFormat.format( Strings.LEVEL__PATTERN, levelName ), patternNode, maxIconWidth, maxIconHeight, levelName, gameResults );
             }
@@ -105,7 +99,7 @@ public class LevelSelectionNode extends PNode {
             addChild( button );
             button.setOffset( column * 200 + 50, row * 250 + 50 );
             column++;
-            int maxColumns = standaloneSim ? 4 : 3;
+            int maxColumns = 4;
             if ( column >= maxColumns ) {
                 column = 0;
                 row++;
@@ -117,7 +111,7 @@ public class LevelSelectionNode extends PNode {
     public static class LevelIconNode extends PNode {
         public final Integer levelName;
 
-        public LevelIconNode( final String text, final PatternNode patternNode, final double maxIconWidth, final double maxIconHeight, final Integer levelName, final Property<List<GameResult>> gameResults ) {
+        public LevelIconNode( final String text, final PNode patternNode, final double maxIconWidth, final double maxIconHeight, final Integer levelName, final Property<List<GameResult>> gameResults ) {
             this.levelName = levelName;
             addChild( new VBox( new PhetPText( text, new PhetFont( 18, true ) ), new PaddedIcon( maxIconWidth, maxIconHeight, patternNode ), new StarSetNode( gameResults, levelName ) ) );
         }
