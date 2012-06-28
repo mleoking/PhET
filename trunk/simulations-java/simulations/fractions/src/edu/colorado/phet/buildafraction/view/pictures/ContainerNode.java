@@ -133,7 +133,7 @@ public class ContainerNode extends PNode {
         }
     }
 
-    public List<SingleContainerNode> getSingleContainerNodes() {return getChildren( singleContainerNodeLayer, SingleContainerNode.class ); }
+    public List<SingleContainerNode> getSingleContainerNodes() {return getSingleContainers(); }
 
     public static final F<ContainerNode, List<SingleContainerNode>> _getSingleContainerNodes = new F<ContainerNode, List<SingleContainerNode>>() {
         @Override public List<SingleContainerNode> f( final ContainerNode c ) {
@@ -164,7 +164,7 @@ public class ContainerNode extends PNode {
     public double getYOffsetForContainer() { return singleContainerNodeLayer.getYOffset(); }
 
     public void splitAll() {
-        getChildren( this, SingleContainerNode.class ).foreach( _splitAll );
+        getSingleContainers().foreach( _splitAll );
         PInterpolatingActivity activity = splitButton.animateToTransparency( 0, 200 );
         activity.setDelegate( new PActivityDelegate() {
             public void activityStarted( final PActivity activity ) {
@@ -206,14 +206,11 @@ public class ContainerNode extends PNode {
         }
     }
 
-//    public static Rectangle2D.Double createRect( int number ) {
-//        final double pieceWidth = width / number;
-//        return new Rectangle2D.Double( pieceWidth * number, 0, pieceWidth, height );
-//    }
-
     public Fraction getFractionValue() {
-        return sum( getChildren( this, SingleContainerNode.class ).map( SingleContainerNode._getFractionValue ) );
+        return sum( getSingleContainers().map( SingleContainerNode._getFractionValue ) );
     }
+
+    private List<SingleContainerNode> getSingleContainers() {return getChildren( singleContainerNodeLayer, SingleContainerNode.class );}
 
     //Get rid of it because it disrupts the layout when dropping into the scoring cell.
     public void removeSplitButton() { removeChild( splitButton ); }

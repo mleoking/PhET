@@ -388,7 +388,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
     //TODO: when we have multiple containers, this will have to be modified
     private List<Fraction> getUserCreatedFractions() { return getContainerNodes().filter( not( ContainerNode._isInTargetCell ) ).map( ContainerNode._getFractionValue ); }
 
-    public void splitPieceFromContainer( final RectangularPiece piece, final ContainerNode containerNode, final double relativeXOffset ) {
+    public void splitPieceFromContainer( final RectangularPiece piece ) {
         Point2D offset = piece.getGlobalTranslation();
         addChild( piece );
         piece.setGlobalTranslation( offset );
