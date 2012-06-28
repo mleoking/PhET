@@ -10,10 +10,8 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.umd.cs.piccolo.PNode;
 
-// REVIEW - Header comment looks like it was copied from another class.  Would be nice to know why this is an "empty" bar graph node.
-
 /**
- * Bar graph for showing the value of fractions.
+ * This shows the background (ticks and labels) for the bar graph.  The bars are added and animated elsewhere.
  *
  * @author Sam Reid
  */
