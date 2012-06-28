@@ -29,17 +29,18 @@ public class NiceTextField extends Sprite {
     //private var units_txt:TextField;    //units displayed next to readout
     private var label_fmt: TextFormat;	//format of label
     private var readout_fmt: TextFormat;	//format of readout
-    private var decimalPlaces: int;		//number of figures past decimal point in readout
+    private var _decimalPlaces: int;		//number of figures past decimal point in readout
     private var manualUpdating: Boolean;	//true if user is manually entering text in readout textfield
 
 
-    public function NiceTextField( action:Function, labelText:String, minVal:Number,  maxVal:Number,  readoutWidth:Number = 50, editable:Boolean = true ) {
+    public function NiceTextField( action:Function, labelText:String, minVal:Number,  maxVal:Number,  readoutWidth:Number = 50, editable:Boolean = true, decimalPlaces:int = 1 ) {
         this.action = action;
         this._label_str = labelText;
         this._minVal = minVal;
         this._maxVal = maxVal;
         this.readoutWidth = readoutWidth;
         this.editable = editable;
+        this._decimalPlaces = decimalPlaces;
         this.createLabel();
         this.createReadoutField();
         this.locateFields();
@@ -118,9 +119,28 @@ public class NiceTextField extends Sprite {
 
     private function onFocusOut( focusEvt: FocusEvent ):void{
         //trace( "ControlPanel.onFocuOut called.");
+        this.manualUpdating = true;
         var inputText:String  = this.readout_txt.text;
         var inputNumber:Number = Number(inputText);
         this.action( inputNumber );
+        this.manualUpdating = false;
+    }
+
+    public function setVal( value:Number ):void{
+        //round value to nbr of decimal places
+        var factor:Number = Math.pow( 10, decimalPlaces );
+        value = Math.round( value*factor );
+        value = value/factor;
+        if(value > _maxVal ){
+            this.readoutValue = _maxVal;
+        }else if (value < _minVal ){
+            this.readoutValue = _minVal;
+        }else{
+            this.readoutValue = value;
+        }
+        if( !manualUpdating ){
+            this.readout_txt.text = this.readoutValue.toString();
+        }
     }
 
     private function updateReadout(): void {
@@ -134,14 +154,14 @@ public class NiceTextField extends Sprite {
         var decimal_str:String = decimalPortion.toString();
         var nbrDecimalPlaces:Number = decimal_str.length - 2;
         //trace("The number "+decimalPortion+" has "+nbrDecimalPlaces + " decimal places.")
-        var readoutPlaces:int = this.decimalPlaces;
-        if(nbrDecimalPlaces > this.decimalPlaces){
+        var readoutPlaces:int = this._decimalPlaces;
+        if(nbrDecimalPlaces > this._decimalPlaces){
             readoutPlaces = nbrDecimalPlaces;
             if(nbrDecimalPlaces > 4){
                 readoutPlaces = 4;   //limits display to 4 places past decimal point
             }
-        } else if(nbrDecimalPlaces < this.decimalPlaces){
-            readoutPlaces = this.decimalPlaces;
+        } else if(nbrDecimalPlaces < this._decimalPlaces){
+            readoutPlaces = this._decimalPlaces;
         }
         //trace("HorizontalSlider.updateReadout readoutPlaces is "+readoutPlaces);
         this.readout_txt.text = readout.toFixed( readoutPlaces );
@@ -162,6 +182,14 @@ public class NiceTextField extends Sprite {
 
     public function set label_str(value:String):void {
         _label_str = value;
+    }
+
+    public function get decimalPlaces():int {
+        return _decimalPlaces;
+    }
+
+    public function set decimalPlaces( value:int ):void {
+        _decimalPlaces = value;
     }
 }//end class
 }//end package
