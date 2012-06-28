@@ -1,3 +1,4 @@
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.buildafraction.view.pictures;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
