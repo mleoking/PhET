@@ -25,7 +25,7 @@ public class MixedNumbersMatchingGameModule extends AbstractFractionsModule {
 
     private MixedNumbersMatchingGameModule( boolean dev, MatchingGameModel model, boolean standaloneSim ) {
         super( Components.mixedNumbersTab, Strings.MIXED_NUMBERS, model.clock );
-        setSimulationPanel( new MatchingGameCanvas( dev, model, standaloneSim ) );
+        setSimulationPanel( new MatchingGameCanvas( dev, model, standaloneSim, Strings.FRACTION_MATCHER_MIXED_NUMBERS ) );
     }
 
     @Override protected JComponent createClockControlPanel( final IClock clock ) {

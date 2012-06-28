@@ -25,7 +25,7 @@ public class MatchingGameModule extends AbstractFractionsModule {
 
     private MatchingGameModule( boolean dev, MatchingGameModel model, boolean standaloneSim ) {
         super( Components.matchingGameTab, Strings.MATCHING_GAME, model.clock );
-        setSimulationPanel( new MatchingGameCanvas( dev, model, standaloneSim ) );
+        setSimulationPanel( new MatchingGameCanvas( dev, model, standaloneSim, Strings.FRACTION_MATCHER ) );
     }
 
     @Override protected JComponent createClockControlPanel( final IClock clock ) {
