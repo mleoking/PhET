@@ -141,21 +141,34 @@ public abstract class AbstractLevelFactory {
     }
 
     //Scale the node so it will be a good fit for the starting cells and score cells and still have the right stroke.
-    protected void scaleBoxNode( final PNode box, double newWidth ) {
+    protected void scaleBoxNode( final HBox box, double newWidth ) {
+        //but if upside-down L shapes, then size by height instead of width
+        double aspectRatio = box.getFullHeight() / box.getFullWidth();
+
         double size = box.getFullBounds().getWidth();
-        final double scale = newWidth / size;
+        final double scale1 = newWidth / size;
 
         double size2 = box.getFullBounds().getHeight();
         final double scale2 = newWidth / size2;
 
-        box.scale( Math.min( scale, scale2 ) );
+        double scale = Math.min( scale1, scale2 );
+        box.scale( scale );
+
+        double newHeight = box.getFullHeight();
+
+        //For upside-down L shapes and other representations that are still too tall, undo previous shrink and shrink by another 20%
+        if ( newHeight > 90 ) {
+            box.scale( 1.0 / scale );
+            box.scale( scale * 0.8 );
+            scale = scale * 0.8;
+        }
 
         if ( scale < 1 ) {
             //if the objects got scaled down, then scale up the strokes so they will look like they have the same width
             for ( Object child : box.getChildrenReference() ) {
                 if ( child instanceof PatternNode ) {
                     PatternNode patternNode = (PatternNode) child;
-                    patternNode.scaleStrokes( 1.0 / scale );
+                    patternNode.scaleStrokes( 1.0 / scale1 );
                 }
             }
         }
