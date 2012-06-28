@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractionsintro.common;
 
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;

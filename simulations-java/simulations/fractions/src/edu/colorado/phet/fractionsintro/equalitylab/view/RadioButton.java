@@ -1,3 +1,4 @@
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractionsintro.equalitylab.view;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
