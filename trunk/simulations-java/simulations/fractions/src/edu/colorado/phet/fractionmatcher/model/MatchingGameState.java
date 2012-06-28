@@ -143,24 +143,41 @@ public @Data class MatchingGameState {
 
     boolean isOnScale( final MovableFraction m ) { return isOnScale( leftScale, m ) || isOnScale( rightScale, m ); }
 
-    //REVIEW difficult to understand
+    //After the user created a correct match, it should be animated to the top of the screen so it will be visible as an equality for the rest of the sim run.
     public MatchingGameState animateMatchToScoreCell() {
-        return withFractions( fractions.map( new F<MovableFraction, MovableFraction>() {
+
+        //Create the list of fractions which has the matched values moving toward the appropriate locations in the cells at the top of the screenl
+        final List<MovableFraction> newFractionList = fractions.map( new F<MovableFraction, MovableFraction>() {
             @Override public MovableFraction f( MovableFraction m ) {
+
+                //Metrics for where to move the fractions.
                 double width = m.withScale( 0.5 ).getNodeWithCorrectScale().getFullBounds().getWidth();
                 final Cell cell = scoreCells.index( scored );
                 final int offset = 15;
+
+                //Create functions for moving to the correct location at the top of the screen.
                 final F<UpdateArgs, MovableFraction> moveToLeftSide = moveToPosition( new Vector2D( cell.rectangle.getCenter().getX() - width / 2 - offset, cell.rectangle.getCenter().getY() ) );
                 final F<UpdateArgs, MovableFraction> moveToRightSide = moveToPosition( new Vector2D( cell.rectangle.getCenter().getX() + width / 2 + offset, cell.rectangle.getCenter().getY() ) );
 
-                //Could shrink values >1 more so they will both fit in the score box using m.getValue() > 1 ? 0.5 : 0.5.  Not perfect, will have to be fine-tuned.
-                final F<UpdateArgs, MovableFraction> shrink = scale( 0.5 );
-                //REVIEW especially difficult to understand
-                return isOnScale( leftScale, m ) ? m.withMotion( composite( moveToLeftSide, shrink ) ).withScored( true ) :
-                       isOnScale( rightScale, m ) ? m.withMotion( composite( moveToRightSide, shrink ) ).withScored( true ) :
+                //Combine moving and shrinking
+                final F<UpdateArgs, MovableFraction> moveLeftAndShrink = composite( moveToLeftSide, scale( 0.5 ) );
+                final F<UpdateArgs, MovableFraction> moveRightAndShrink = composite( moveToRightSide, scale( 0.5 ) );
+
+                //Precompute variables to make ternary operator more palatable
+                final boolean onLeftScale = isOnScale( leftScale, m );
+                final boolean onRightScale = isOnScale( rightScale, m );
+                final MovableFraction movingLeft = m.withMotion( moveLeftAndShrink ).withScored( true );
+                final MovableFraction movingRight = m.withMotion( moveRightAndShrink ).withScored( true );
+
+                //If it was on the left scale, move it to the left half of the scoring cell, and vice versa.
+                return onLeftScale ? movingLeft :
+                       onRightScale ? movingRight :
                        m;
             }
-        } ) ).withScored( scored + 1 );
+        } );
+
+        //Return a new MatchingGameState, with the matched fractions animating toward the top of the screen.
+        return withFractions( newFractionList ).withScored( scored + 1 );
     }
 
     // Returns true if a fraction was placed on the right scale after a fraction was placed on the left scale.
