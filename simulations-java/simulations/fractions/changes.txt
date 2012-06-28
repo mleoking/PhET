@@ -1,3 +1,4 @@
+Fraction Matcher: Added docs to MovableFractionNode, see #3557
 Fraction Matcher: Created MovableFractionID, see #3557
 Fraction Matcher: Added documentation for animateMatchToScoreCell, see #3557
 Fraction Matcher: Addressed some review issues, see #3557

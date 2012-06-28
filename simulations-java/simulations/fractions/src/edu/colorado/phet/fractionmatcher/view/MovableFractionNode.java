@@ -5,7 +5,6 @@ import fj.Equal;
 import fj.F;
 import fj.Ord;
 import fj.data.List;
-import fj.data.TreeMap;
 
 import java.awt.geom.Dimension2D;
 import java.util.HashMap;
@@ -84,24 +83,27 @@ class MovableFractionNode extends PNode {
                     final MatchingGameState finalState = state;
                     final Vector2D rightScaleAttachmentPoint = finalState.rightScale.getAttachmentPoint( draggingFraction );
                     final Vector2D leftScaleAttachmentPoint = finalState.leftScale.getAttachmentPoint( draggingFraction );
-                    HashMap<Vector2D, F<UpdateArgs, MovableFraction>> map = new HashMap<Vector2D, F<UpdateArgs, MovableFraction>>() {{
+                    final HashMap<Vector2D, F<UpdateArgs, MovableFraction>> map = new HashMap<Vector2D, F<UpdateArgs, MovableFraction>>() {{
                         put( rightScaleAttachmentPoint, MOVE_TO_RIGHT_SCALE );
                         put( leftScaleAttachmentPoint, MOVE_TO_LEFT_SCALE );
                         Cell cell = model.get().getClosestFreeStartCell( draggingFraction );
                         put( cell.getPosition(), moveToCell( cell ) );
                     }};
 
-                    //REVIEW: Needs some doc, hard to understand what's going on here.
-                    final Ord<Vector2D> ord = ord( new F<Vector2D, Double>() {
+                    //Create an ordering that will sort based on distance from the dragging fraction.
+                    final Ord<Vector2D> ordering = ord( new F<Vector2D, Double>() {
                         @Override public Double f( final Vector2D u ) {
                             return draggingFraction.position.distance( u );
                         }
                     } );
-                    final TreeMap<Vector2D, F<UpdateArgs, MovableFraction>> tm = fromMutableMap( ord, map );
-                    List<Vector2D> sorted = tm.keys().sort( ord );
 
+                    //List the keys in order of distance from the dragging fraction.
+                    List<Vector2D> sorted = fromMutableMap( ordering, map ).keys().sort( ordering );
+
+                    //Find the closest.
                     final Vector2D selectedAttachmentPoint = sorted.head();
 
+                    //If attached to the right side, then jettison the pre-existing right-side fraction (and vice-versa) so this can take its place.
                     if ( selectedAttachmentPoint.equals( rightScaleAttachmentPoint ) ) {
                         state = state.jettisonFraction( state.rightScale ).withRightScaleDropTime( System.currentTimeMillis() );
                     }
@@ -109,12 +111,15 @@ class MovableFractionNode extends PNode {
                         state = state.jettisonFraction( state.leftScale ).withLeftScaleDropTime( System.currentTimeMillis() );
                     }
 
-                    //animate to the closest destination
+                    //Animate the fraction to the nearest scale
                     final List<MovableFraction> newFractions = state.fractions.map( new F<MovableFraction, MovableFraction>() {
                         @Override public MovableFraction f( final MovableFraction f ) {
-                            return f.dragging ? f.withDragging( false ).withMotion( tm.get( selectedAttachmentPoint ).some() ) : f;
+                            final F<UpdateArgs, MovableFraction> moveToScale = fromMutableMap( ordering, map ).get( selectedAttachmentPoint ).some();
+                            return f.dragging ? f.withDragging( false ).withMotion( moveToScale ) : f;
                         }
                     } );
+
+                    //Update the state with the new list of fractions, new mode and set it back to the model.
                     final MatchingGameState newState = state.withFractions( newFractions ).withMode( USER_IS_MOVING_OBJECTS_TO_THE_SCALES );
                     model.set( newState );
                 }
