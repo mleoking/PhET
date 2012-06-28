@@ -115,6 +115,6 @@ public class MixedFractionLevelFactory extends AbstractLevelFactory {
                                                   level == 8 ? list( 1, 2, 3, 4, 5, 6, 7, 8, 9 ) :
                                                   List.<Integer>nil();
         final List<Fraction> selectedFractions = fractionList.take( 6 );
-        return generateLevel( level, cells, numericScaleFactors, selectedFractions );
+        return generateLevel( level, cells, numericScaleFactors, selectedFractions, true );
     }
 }

@@ -193,7 +193,8 @@ public abstract class AbstractLevelFactory {
                                 sequentialFill( container, fraction.numerator ), color );
     }
 
-    protected List<MovableFraction> generateLevel( final int level, final List<Cell> cells, final List<Integer> numericScaleFactors, final List<Fraction> selectedFractions ) {
+    protected List<MovableFraction> generateLevel( final int level, final List<Cell> cells, final List<Integer> numericScaleFactors, final List<Fraction> selectedFractions,
+                                                   boolean allowMixedNumbers ) {
         ArrayList<Cell> remainingCells = new ArrayList<Cell>( shuffle( cells ).toCollection() );
 
         final List<ShapeType> easy = list( PIES, HORIZONTAL_BARS, VERTICAL_BARS );
@@ -233,12 +234,12 @@ public abstract class AbstractLevelFactory {
 
                 //AP: Usually mixed numbers are written with the "1" nearly as tall as the entire fraction
                 final double mixedNumberWholeScale = 2.4;
-                if ( level == 7 && fraction.toDouble() > 1 && RANDOM.nextBoolean() ) {
+                if ( allowMixedNumbers && fraction.toDouble() > 1 && RANDOM.nextBoolean() ) {
                     //Try to use a mixed number representation
                     node = new HBox( 0, new FractionNumberNode( new Property<Integer>( 1 ) ) {{setScale( fractionSizeScale * mixedNumberWholeScale );}},
                                      new FractionNode( new Fraction( fraction.numerator - fraction.denominator, fraction.denominator ), fractionSizeScale ) );
                 }
-                else if ( level == 8 && fraction.toDouble() > 1 && RANDOM.nextBoolean() ) {
+                else if ( allowMixedNumbers && fraction.toDouble() > 1 && RANDOM.nextBoolean() ) {
                     //Try to use a mixed number representation
                     node = new HBox( 0, new FractionNumberNode( new Property<Integer>( 1 ) ) {{setScale( fractionSizeScale * mixedNumberWholeScale );}},
                                      new FractionNode( new Fraction( ( fraction.numerator - fraction.denominator ) * scaleFactor, fraction.denominator * scaleFactor ), fractionSizeScale ) );
