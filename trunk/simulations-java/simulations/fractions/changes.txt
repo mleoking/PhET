@@ -1,3 +1,5 @@
+Fraction Matcher: On the mixed number tab, always use a scale factor for level 7 and 8
+Fraction Matcher: On the mixed number tab, show mixed numbers only (never show improper fractions)
 Build a Fraction: Added a "refresh" button, not wired up
 # 0.00.98 (65549) Jun 28, 2012
 Build a Fraction: Improved adding/removing multiple containers
