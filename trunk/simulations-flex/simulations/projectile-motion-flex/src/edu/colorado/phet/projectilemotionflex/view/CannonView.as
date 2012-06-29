@@ -17,7 +17,8 @@ import flash.geom.Point;
 public class CannonView extends Sprite {
     private var mainView: MainView;
     private var trajectoryModel: TrajectoryModel;
-    private var container: BackgroundView;
+    private var background: BackgroundView;
+    //public var trajectoryView: TrajectoryView;
     private var stageW: Number;
     private var stageH: Number;
     private var barrel: Sprite;
@@ -25,13 +26,15 @@ public class CannonView extends Sprite {
     private var platform: Sprite;
     private var flames: Sprite;
     private var pixPerMeter: Number;
+    private var originXinPix: Number;   //location of model's origin in stage coordinates
+    private var originYinPix: Number;
 
 
 
-    public function CannonView( mainView:MainView,  trajectoryModel: TrajectoryModel, container:BackgroundView ) {
+    public function CannonView( mainView:MainView,  trajectoryModel: TrajectoryModel, background:BackgroundView ) {
         this.mainView = mainView;
         this.trajectoryModel = trajectoryModel;
-        this.container = container;
+        this.background = background;
         this.stageW = mainView.stageW;
         this.stageH = mainView.stageH;
         this.barrel = new Sprite();
@@ -44,13 +47,19 @@ public class CannonView extends Sprite {
     private function initialize():void{
         trajectoryModel.registerView( this );
         this.pixPerMeter = mainView.pixPerMeter;
+        this.originXinPix = mainView.originXInPix;    //must set originInPix before instantiating trajectoryView
+        this.originYinPix = mainView.originYInPix;
+        //this.trajectoryView = new TrajectoryView( mainView,  trajectoryModel );
         this.drawCannon();
         this.drawCarriage();
         this.makeBarrelTiltable();
         this.makeCarriageMovable();
+
         this.addChild( barrel );
         this.addChild( carriage );
         this.addChild( platform );
+        //this.addChild( trajectoryView );
+
         this.update();
     }//end initialize()
 
@@ -137,15 +146,17 @@ public class CannonView extends Sprite {
 
         function startTargetDrag( evt: MouseEvent ): void {
             clickOffset = new Point( evt.localX, evt.localY );
+
             stage.addEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
             stage.addEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
         }
 
         function stopTargetDrag( evt: MouseEvent ): void {
-            var xInPix:Number = thisObject.container.container.mouseX - clickOffset.x;    //screen coordinates, origin on left edge of stage
-            var yInPix:Number = thisObject.container.container.mouseY - clickOffset.y;    //screen coordinates, origin on left edge of stage
-            thisObject.trajectoryModel.xP0 = xInPix/(thisObject.mainView.pixPerMeter);
-            thisObject.trajectoryModel.yP0 = (thisObject.stageH - yInPix)/(thisObject.mainView.pixPerMeter);
+            var xInPix:Number = thisObject.background.mouseX - clickOffset.x;    //screen coordinates
+            var yInPix:Number = thisObject.background.mouseY - clickOffset.y;    //screen coordinates
+
+            thisObject.trajectoryModel.xP0 = ( xInPix - thisObject.originXinPix )/(thisObject.mainView.pixPerMeter);
+            thisObject.trajectoryModel.yP0 = ( thisObject.originYinPix - yInPix ) /(thisObject.mainView.pixPerMeter);   //minus sign is tricky!  Remember that stageY and modelY are in opposite directions
             evt.updateAfterEvent();
             clickOffset = null;
             stage.removeEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
@@ -153,10 +164,13 @@ public class CannonView extends Sprite {
         }
 
         function dragTarget( evt: MouseEvent ): void {
-            var xInPix:Number = thisObject.container.container.mouseX - clickOffset.x;    //screen coordinates, origin on left edge of stage
-            var yInPix:Number = thisObject.container.container.mouseY - clickOffset.y;
-            thisObject.trajectoryModel.xP0 = xInPix/(thisObject.mainView.pixPerMeter);
-            thisObject.trajectoryModel.yP0 = (thisObject.stageH - yInPix)/(thisObject.mainView.pixPerMeter);
+            var xInPix:Number = thisObject.background.mouseX - clickOffset.x;    //screen coordinates
+            trace("CannonView.dragTarget  xInPix = " + xInPix );
+            var yInPix:Number = thisObject.background.mouseY - clickOffset.y;
+            //trace("CannonView.dragTarget  yInPix = " + yInPix );
+            thisObject.trajectoryModel.xP0 = ( xInPix - thisObject.originXinPix )/(thisObject.mainView.pixPerMeter);
+            //trace("CannonView.thisObject.originXinPix = " + thisObject.originXinPix );
+            thisObject.trajectoryModel.yP0 = ( thisObject.originYinPix - yInPix )/(thisObject.mainView.pixPerMeter);
             evt.updateAfterEvent();
         }//end of dragTarget()
 
@@ -166,9 +180,9 @@ public class CannonView extends Sprite {
     public function update():void{
         this.barrel.rotation = -trajectoryModel.angleInDeg;
         //trace("cannonView.update called, angle = " + trajectoryModel.angleInDeg );
-        this.x = this.trajectoryModel.xP0*mainView.pixPerMeter;
-        this.y = this.stageH - this.trajectoryModel.yP0*mainView.pixPerMeter;
-        //trace("cannonView.update called, y = " + this.trajectoryModel.yP0 + "   pixPerMeter" + mainView.pixPerMeter );
+        this.x = this.originXinPix + this.trajectoryModel.xP0*mainView.pixPerMeter;
+        this.y = this.originYinPix - this.trajectoryModel.yP0*mainView.pixPerMeter;
+        //trace("cannonView.update called, y in meters = " + this.trajectoryModel.yP0  );
     }
 
 

@@ -12,6 +12,7 @@ import flash.display.Graphics;
 
 import flash.display.Sprite;
 
+//backgroundView (= earth&sky ) contains a zoomable container for the cannon + trajectory + projectiles
 public class BackgroundView extends Sprite {
     private var mainView: MainView;
     private var trajectoryModel: TrajectoryModel;
@@ -21,8 +22,8 @@ public class BackgroundView extends Sprite {
     public var cannonView: CannonView;
     public var trajectoryView: TrajectoryView;
     private var pixPerMeter: Number;   //in mainView
-    private var xOrigin: Number;       //x- and y-coords of origin in screen coordinates
-    private var yOrigin: Number;
+    private var _originXInPix: Number;       //x- and y-coords of origin in screen coordinates
+    private var _originYInPix: Number;
 
 
     public function BackgroundView( mainView:MainView,  trajectoryModel: TrajectoryModel ) {
@@ -37,14 +38,16 @@ public class BackgroundView extends Sprite {
     private function initialize():void{
         trajectoryModel.registerView( this );
         this.container = new Sprite();
-        this.cannonView = new CannonView( mainView, trajectoryModel, this );
-        this.trajectoryView = new TrajectoryView( this.mainView, this.trajectoryModel );
+        this._originXInPix = mainView.originXInPix;    //must set originInPix prior to instantiating CannonView, since cannonView needs these coordinates
+        this._originYInPix = mainView.originYInPix;
         this.drawBackground();
         this.addChild( container );
+        this.cannonView = new CannonView( mainView, trajectoryModel, this );
+        this.trajectoryView = new TrajectoryView( mainView, trajectoryModel );
         this.container.addChild( cannonView );
         this.container.addChild( trajectoryView );
-        this.cannonView.x = trajectoryModel.xP0*mainView.pixPerMeter;
-        this.cannonView.y = trajectoryModel.yP0*mainView.pixPerMeter;
+        this.cannonView.x = this._originXInPix;
+        this.cannonView.y = this._originYInPix;
     }
 
     private function drawBackground():void{
@@ -73,5 +76,20 @@ public class BackgroundView extends Sprite {
     public function update():void{
     }
 
+    public function get originXInPix():Number {
+        return _originXInPix;
+    }
+
+    public function set originXInPix( value:Number ):void {
+        _originXInPix = value;
+    }
+
+    public function get originYInPix():Number {
+        return _originYInPix;
+    }
+
+    public function set originYInPix( value:Number ):void {
+        _originYInPix = value;
+    }
 }//end class
 }//end package

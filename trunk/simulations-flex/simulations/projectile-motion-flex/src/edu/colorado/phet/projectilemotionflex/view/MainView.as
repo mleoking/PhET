@@ -26,6 +26,8 @@ public class MainView extends Canvas {
     public var backgroundView: BackgroundView;
     public var controlPanel: ControlPanel;
     private var _pixPerMeter: Number;
+    private var _originXInPix: Number;
+    private var _originYInPix: Number;
 
     //Internalized strings are located at:
     //
@@ -36,6 +38,8 @@ public class MainView extends Canvas {
         this.stageH = stageH;
         this.stageW = stageW;
         this._pixPerMeter = stageW/30 ;   //width of stage is 40 meters
+        this._originXInPix = 0.2*stageW;
+        this._originYInPix = 0.8*stageH;
 
         this.trajectoryModel = new TrajectoryModel( this );
         this.backgroundView = new BackgroundView( this, trajectoryModel );
@@ -67,8 +71,21 @@ public class MainView extends Canvas {
         return _pixPerMeter;
     }
 
-//    public function set pixPerMeter(value:Number):void {
-//        _pixPerMeter = value;
-//    }
+
+    public function get originXInPix():Number {
+        return _originXInPix;
+    }
+
+    public function set originXInPix( value:Number ):void {
+        _originXInPix = value;
+    }
+
+    public function get originYInPix():Number {
+        return _originYInPix;
+    }
+
+    public function set originYInPix( value:Number ):void {
+        _originYInPix = value;
+    }
 }//end of class
 } //end of package
