@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.energyformsandchanges.energysystems.EnergySystemsModule;
 import edu.colorado.phet.energyformsandchanges.intro.EFACIntroModule;
 import edu.colorado.phet.energyformsandchanges.intro.view.EFACIntroCanvas;
 
@@ -28,7 +27,7 @@ public class EnergyFormsAndChangesApplication extends PiccoloPhetApplication {
 
         // Create the modules
         addModule( new EFACIntroModule() );
-        addModule( new EnergySystemsModule() );
+//        addModule( new EnergySystemsModule() );
         initMenuBar();
     }
 
