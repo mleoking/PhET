@@ -1,3 +1,4 @@
+Build a Fraction: Added a "refresh" button, not wired up
 # 0.00.98 (65549) Jun 28, 2012
 Build a Fraction: Improved adding/removing multiple containers
 Fraction Matcher: Refactored StartScreen into a separate class, see #3357
