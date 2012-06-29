@@ -10,6 +10,7 @@ import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.buildafraction.view.numbers.NumberSceneNode;
 import edu.colorado.phet.fractions.buildafraction.view.pictures.PictureSceneNode;
 import edu.colorado.phet.fractions.buildafraction.view.pictures.SceneContext;
+import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 import edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
@@ -39,12 +40,28 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Mai
         addChild( currentScene );
     }
 
-    private void animateTo( final PNode node, boolean right ) {
-        node.setOffset( right ? STAGE_SIZE.width : -STAGE_SIZE.width, 0 );
+    public static enum Direction {
+        RIGHT,
+        LEFT,
+        DOWN
+    }
+
+    private void animateTo( final PNode node, Direction direction ) {
+        Vector2D nodeOffset = direction == Direction.RIGHT ? new Vector2D( STAGE_SIZE.width, 0 ) :
+                              direction == Direction.LEFT ? new Vector2D( -STAGE_SIZE.width, 0 ) :
+                              direction == Direction.DOWN ? new Vector2D( 0, STAGE_SIZE.height ) :
+                              Vector2D.ZERO;
+        node.setOffset( nodeOffset.toPoint2D() );
         addChild( node );
 
         final PNode oldNode = currentScene;
-        PActivity activity = currentScene.animateToPositionScaleRotation( right ? -STAGE_SIZE.width : STAGE_SIZE.width, 0, 1, 0, 400 );
+
+        Vector2D oldNodeOffset = direction == Direction.RIGHT ? new Vector2D( -STAGE_SIZE.width, 0 ) :
+                                 direction == Direction.LEFT ? new Vector2D( STAGE_SIZE.width, 0 ) :
+                                 direction == Direction.DOWN ? new Vector2D( 0, -STAGE_SIZE.height ) :
+                                 Vector2D.ZERO;
+
+        PActivity activity = currentScene.animateToPositionScaleRotation( oldNodeOffset.x, oldNodeOffset.y, 1, 0, 400 );
         activity.setDelegate( new PActivityDelegate() {
             public void activityStarted( final PActivity activity ) {
             }
@@ -73,7 +90,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Mai
     }
 
     public void levelButtonPressed( final AbstractLevelSelectionNode parent, final LevelInfo info ) {
-        animateTo( createLevelNode( info.levelIndex, info.levelType ), true );
+        animateTo( createLevelNode( info.levelIndex, info.levelType ), Direction.RIGHT );
     }
 
     private PNode createLevelNode( final int levelIndex, final LevelType levelType ) {
@@ -82,14 +99,18 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Mai
     }
 
     public void goToNextPictureLevel( final int newLevelIndex ) {
-        animateTo( new PictureSceneNode( newLevelIndex, new BuildAFractionModel( true ), STAGE_SIZE, this ), true );
+        animateTo( new PictureSceneNode( newLevelIndex, new BuildAFractionModel( true ), STAGE_SIZE, this ), Direction.RIGHT );
     }
 
     public void goToNextNumberLevel( final int newLevelIndex ) {
-        animateTo( new NumberSceneNode( newLevelIndex, rootNode, new BuildAFractionModel( true ), STAGE_SIZE, this ), true );
+        animateTo( new NumberSceneNode( newLevelIndex, rootNode, new BuildAFractionModel( true ), STAGE_SIZE, this ), Direction.RIGHT );
     }
 
     public void goToLevelSelectionScreen() {
-        animateTo( new DefaultLevelSelectionScreen( "Build a Fraction", this ), false );
+        animateTo( new DefaultLevelSelectionScreen( "Build a Fraction", this ), Direction.LEFT );
+    }
+
+    public void resamplePictureLevel( final int levelIndex ) {
+        animateTo( new PictureSceneNode( levelIndex, new BuildAFractionModel( true ), STAGE_SIZE, this ), Direction.DOWN );
     }
 }

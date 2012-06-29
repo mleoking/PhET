@@ -49,17 +49,22 @@ public class FNode extends RichPNode {
         }
     };
 
-    public static final F<PNode, Double> _minX = new F<PNode, Double>() {
-        @Override public Double f( final PNode pNode ) {
-            return pNode.getFullBounds().getMinX();
-        }
-    };
+    //See declaration site variance discussion here: https://groups.google.com/forum/?fromgroups#!topic/functionaljava/uGzU8x-rKJ4
+    public static <A extends PNode> F<A, Double> _minX() {
+        return new F<A, Double>() {
+            @Override public Double f( final PNode pNode ) {
+                return pNode.getFullBounds().getMinX();
+            }
+        };
+    }
 
-    public static final F<PNode, Double> _maxX = new F<PNode, Double>() {
-        @Override public Double f( final PNode pNode ) {
-            return pNode.getFullBounds().getMaxX();
-        }
-    };
+    public static <A extends PNode> F<A, Double> _maxX() {
+        return new F<A, Double>() {
+            @Override public Double f( final PNode pNode ) {
+                return pNode.getFullBounds().getMaxX();
+            }
+        };
+    }
 
     //Get all immediate (i.e. non-recursively) children that are instances of the specified type
     public static <T> List<T> getChildren( final PNode node, final Class<T> type ) {
