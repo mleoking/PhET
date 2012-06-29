@@ -1,12 +1,15 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
+import java.awt.Color;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 
 /**
@@ -19,6 +22,7 @@ import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 public class Thermometer extends UserMovableModelElement {
 
     public final Property<Double> sensedTemperature = new Property<Double>( EFACConstants.ROOM_TEMPERATURE );
+    public final Property<Color> sensedElementColor = new Property<Color>( PhetColorScheme.RED_COLORBLIND );
     private ElementFollower elementFollower = new ElementFollower( this.position );
 
     public Thermometer( final EFACIntroModel model, ImmutableVector2D initialPosition ) {
@@ -28,6 +32,7 @@ public class Thermometer extends UserMovableModelElement {
         model.getClock().addClockListener( new ClockAdapter() {
             @Override public void clockTicked( ClockEvent clockEvent ) {
                 sensedTemperature.set( model.getTemperatureAtLocation( position.get() ) );
+                sensedElementColor.set( model.getElementColorAtLocation( position.get() ) );
             }
         } );
 

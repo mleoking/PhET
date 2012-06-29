@@ -77,7 +77,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
                 new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.5 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.85 ) ),
                 2200 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
-        setBackground( new Color( 245, 246, 247 ) );
+        setBackground( EFACConstants.FIRST_TAB_BACKGROUND_COLOR );
 
         // Set up a root node for our scene graph.
         final PNode rootNode = new PNode();

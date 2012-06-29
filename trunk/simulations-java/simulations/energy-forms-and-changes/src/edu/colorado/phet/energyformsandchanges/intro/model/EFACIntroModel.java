@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
+import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -17,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.intro.view.BlockNode;
@@ -564,5 +566,24 @@ public class EFACIntroModel {
             }
         }
         return air.getTemperature();
+    }
+
+    public Color getElementColorAtLocation( ImmutableVector2D location ) {
+        Point2D locationAsPoint = location.toPoint2D();
+        for ( Block block : getBlockList() ) {
+            if ( block.getThermalContactArea().getBounds().contains( location.toPoint2D() ) ) {
+                return block.getColor();
+            }
+        }
+        if ( beaker.getThermalContactArea().getBounds().contains( locationAsPoint ) ) {
+            return EFACConstants.WATER_COLOR;
+        }
+        for ( Burner burner : Arrays.asList( leftBurner, rightBurner ) ) {
+            if ( burner.getFlameIceRect().contains( locationAsPoint ) ) {
+                return PhetColorScheme.RED_COLORBLIND;
+            }
+        }
+        // Return the color for air, which is the background color.
+        return EFACConstants.FIRST_TAB_BACKGROUND_COLOR;
     }
 }

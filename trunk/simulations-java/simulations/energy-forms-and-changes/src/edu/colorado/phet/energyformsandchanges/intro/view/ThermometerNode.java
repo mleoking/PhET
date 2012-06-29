@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -114,7 +113,15 @@ public class ThermometerNode extends PComposite {
             lineTo( triangleLowerRightPoint );
             closePath();
         }};
-        middleLayer.addChild( new PhetPPath( trianglePath.getGeneralPath(), PhetColorScheme.RED, new BasicStroke( 2 ), Color.BLACK ) );
+        final PPath triangle = new PhetPPath( trianglePath.getGeneralPath(), new Color( 0, 0, 0, 0 ), new BasicStroke( 2 ), Color.BLACK );
+        middleLayer.addChild( triangle );
+
+        // Update the triangle color based on whatever is being sensed.
+        thermometer.sensedElementColor.addObserver( new VoidFunction1<Color>() {
+            public void apply( Color color ) {
+                triangle.setPaint( color );
+            }
+        } );
 
         // Add the root node, but enclose it in a ZeroOffsetNode, so that the
         // whole node follows the Piccolo convention of having the upper left
