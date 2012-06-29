@@ -1,3 +1,4 @@
+# 0.00.99 (65559) Jun 29, 2012
 Fraction Matcher: Made entire bounds of fraction number grabbable, not just directly over the number themselves
 Fraction Matcher: Moved the mixed numbers a bit lower in the pan
 Fraction Matcher: On the mixed number tab, always use a scale factor for level 7 and 8
