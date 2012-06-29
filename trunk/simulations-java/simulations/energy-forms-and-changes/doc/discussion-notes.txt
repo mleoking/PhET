@@ -15,9 +15,9 @@ DONE: Tweak temp difference threshold for air to best value for interviews.
 DONE: Fix clipping for beaker on top of blocks.
 DONE: Magic thermometer - inside the beaker.  Measures block first, beaker 2nd, air last.  Burner is the same.
 DONE: When a chunk comes out of the air into a thermal container, or goes out of the thermal container into the air, it should not pass through (or behind) any of the other thermal containers.
-Thermometer triangle matches the color of the thing being measured.  Make a version with and one without, make both available for interviews.
+DONE: Thermometer triangle matches the color of the thing being measured.  Make a version with and one without, make both available for interviews.
 Chunks moving between thermal energy containers when there are differences, and exchanges with air.  Address oddities.
-Make the burners block motion of the blocks and beaker so things can't be dragged in front of them.
+Make the burner stands block motion of the blocks and beaker so things can't be dragged in front of them.
 Tool tips for the speed controls are popping up in the wrong places on Mac, not seen on PC.
 
 ----------------------------
