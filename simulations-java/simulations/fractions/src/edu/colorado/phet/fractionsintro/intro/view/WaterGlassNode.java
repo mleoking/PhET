@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.fractions.FractionsResources;
-import edu.colorado.phet.fractions.util.Cache;
+import edu.colorado.phet.fractions.common.util.Cache;
 import edu.colorado.phet.fractionsintro.intro.view.beaker.BeakerNode;
 import edu.colorado.phet.fractionsintro.intro.view.beaker.Solute;
 import edu.colorado.phet.fractionsintro.intro.view.beaker.Solution;

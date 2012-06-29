@@ -8,7 +8,7 @@ import java.awt.Shape;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Ellipse2D;
 
-import edu.colorado.phet.fractions.util.immutable.Vector2D;
+import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
 
 /**

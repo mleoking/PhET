@@ -10,7 +10,7 @@ import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.fractions.view.SpinnerButtonPanelVBox;
+import edu.colorado.phet.fractions.common.view.SpinnerButtonPanelVBox;
 
 import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.maxSpinnerDownButton;
 import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.maxSpinnerUpButton;

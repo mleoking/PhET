@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.fractions.FractionsResources.Images;
-import edu.colorado.phet.fractions.view.SpinnerButtonNode;
+import edu.colorado.phet.fractions.common.view.SpinnerButtonNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**

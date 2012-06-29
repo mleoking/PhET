@@ -2,7 +2,7 @@
 package edu.colorado.phet.fractionsintro.intro.view;
 
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
-import edu.colorado.phet.fractions.view.SpinnerButtonPanelVBox;
+import edu.colorado.phet.fractions.common.view.SpinnerButtonPanelVBox;
 import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ParameterKeys;
 
 import static edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components.numeratorSpinnerDownButton;

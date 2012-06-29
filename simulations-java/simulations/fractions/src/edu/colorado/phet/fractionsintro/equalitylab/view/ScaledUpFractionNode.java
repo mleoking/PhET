@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.property.integerproperty.Times;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.colorado.phet.fractions.view.SpinnerButtonPanelHBox;
+import edu.colorado.phet.fractions.common.view.SpinnerButtonPanelHBox;
 import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.ParameterKeys;
 import edu.colorado.phet.fractionsintro.intro.view.FractionNumberNode;
 

@@ -16,7 +16,7 @@ import edu.colorado.phet.fractionsintro.intro.model.containerset.Container;
 import edu.colorado.phet.fractionsintro.intro.model.containerset.ContainerSet;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.factories.SliceFactory;
 
-import static edu.colorado.phet.fractions.util.FJUtils.ord;
+import static edu.colorado.phet.fractions.common.util.FJUtils.ord;
 import static fj.data.List.range;
 
 /**

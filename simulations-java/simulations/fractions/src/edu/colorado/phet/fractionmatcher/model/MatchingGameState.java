@@ -7,10 +7,10 @@ import fj.data.Option;
 import lombok.Data;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
-import edu.colorado.phet.fractions.util.immutable.Vector2D;
+import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 
 import static edu.colorado.phet.fractionmatcher.model.Motions.*;
-import static edu.colorado.phet.fractions.util.FJUtils.ord;
+import static edu.colorado.phet.fractions.common.util.FJUtils.ord;
 import static fj.data.List.range;
 
 /**

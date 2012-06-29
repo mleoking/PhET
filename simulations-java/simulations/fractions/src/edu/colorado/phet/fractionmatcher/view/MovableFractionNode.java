@@ -17,13 +17,13 @@ import edu.colorado.phet.fractionmatcher.model.Cell;
 import edu.colorado.phet.fractionmatcher.model.MatchingGameState;
 import edu.colorado.phet.fractionmatcher.model.MovableFraction;
 import edu.colorado.phet.fractionmatcher.model.UpdateArgs;
-import edu.colorado.phet.fractions.util.immutable.Vector2D;
+import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static edu.colorado.phet.fractionmatcher.model.Mode.USER_IS_MOVING_OBJECTS_TO_THE_SCALES;
 import static edu.colorado.phet.fractionmatcher.model.Motions.*;
-import static edu.colorado.phet.fractions.util.FJUtils.ord;
+import static edu.colorado.phet.fractions.common.util.FJUtils.ord;
 import static fj.data.TreeMap.fromMutableMap;
 
 /**

@@ -16,7 +16,7 @@ import edu.colorado.phet.common.piccolophet.event.DynamicCursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.FractionsResources.Images;
-import edu.colorado.phet.fractions.view.SpinnerButtonNode;
+import edu.colorado.phet.fractions.common.view.SpinnerButtonNode;
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
@@ -29,7 +29,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import static edu.colorado.phet.buildafraction.view.pictures.SingleContainerNode._splitAll;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
 import static edu.colorado.phet.fractions.FractionsResources.Images.*;
-import static edu.colorado.phet.fractions.view.FNode.getChildren;
+import static edu.colorado.phet.fractions.common.view.FNode.getChildren;
 import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
 import static edu.colorado.phet.fractionsintro.intro.model.Fraction.sum;
 

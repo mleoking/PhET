@@ -8,7 +8,7 @@ import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.fractionmatcher.model.MatchingGameState;
-import edu.colorado.phet.fractions.util.immutable.Vector2D;
+import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 
 /**
  * Arguments for creating a button.

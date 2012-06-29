@@ -7,7 +7,7 @@ import lombok.Data;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.fractions.util.immutable.Vector2D;
+import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.intro.model.pieset.Slice;
 
 /**

@@ -16,7 +16,7 @@ import edu.colorado.phet.fractionmatcher.view.Controller.Next;
 import edu.colorado.phet.fractionmatcher.view.Controller.ShowAnswer;
 import edu.colorado.phet.fractionmatcher.view.Controller.TryAgain;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
-import edu.colorado.phet.fractions.util.immutable.Vector2D;
+import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.umd.cs.piccolo.PNode;
 

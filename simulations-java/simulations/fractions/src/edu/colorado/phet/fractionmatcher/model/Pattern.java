@@ -24,15 +24,15 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.fractionmatcher.view.FilledPattern;
 import edu.colorado.phet.fractionmatcher.view.PatternNode;
-import edu.colorado.phet.fractions.util.immutable.Vector2D;
-import edu.colorado.phet.fractions.util.immutable.Vector2D.UnitVector2D;
+import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
+import edu.colorado.phet.fractions.common.util.immutable.Vector2D.UnitVector2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.PFrame;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.createPolar;
 import static edu.colorado.phet.fractionmatcher.model.Pattern.Direction.*;
-import static edu.colorado.phet.fractions.util.immutable.Vector2D.v;
+import static edu.colorado.phet.fractions.common.util.immutable.Vector2D.v;
 import static fj.data.List.*;
 import static java.lang.Math.*;
 
