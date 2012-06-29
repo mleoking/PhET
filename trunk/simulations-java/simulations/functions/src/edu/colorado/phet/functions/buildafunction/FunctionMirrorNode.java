@@ -7,7 +7,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.fractions.util.immutable.Vector2D;
+import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 import edu.colorado.phet.functions.buildafunction.DraggableToken.Listener;
 import edu.umd.cs.piccolo.PNode;
 
