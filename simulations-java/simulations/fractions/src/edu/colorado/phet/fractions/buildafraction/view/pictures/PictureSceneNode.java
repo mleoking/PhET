@@ -61,10 +61,12 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
     private final RichPNode toolboxNode;
     private final VBox faceNodeDialog;
     public final int levelIndex;
+    private final SceneContext context;
 
     public PictureSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context ) {
         this.model = model;
         this.levelIndex = levelIndex;
+        this.context = context;
 
         final BackButton backButton = new BackButton( new VoidFunction0() {
             public void apply() {
@@ -229,10 +231,21 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         }};
         addChild( resetButton );
 
-        addChild( new RefreshButtonNode() {{
+        addChild( new RefreshButtonNode( _resampleLevel ) {{
             setOffset( resetButton.getMaxX() + 20, title.getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
     }
+
+    private void resampleLevel() {
+        //clear cards and target values, then get some new ones
+
+    }
+
+    public VoidFunction0 _resampleLevel = new VoidFunction0() {
+        public void apply() {
+            resampleLevel();
+        }
+    };
 
     private List<PNode> getChildrenOfType( final Class<? extends PNode> type ) {
         List<PNode> list = List.nil();

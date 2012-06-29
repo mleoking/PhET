@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.fractions.FractionsResources.Images;
@@ -27,7 +28,7 @@ public class RefreshButtonNode extends PNode {
         return copy;
     }
 
-    public RefreshButtonNode() {
+    public RefreshButtonNode( VoidFunction0 effect ) {
         final BufferedImage pad = copyWithPadding( BufferedImageUtils.multiScaleToWidth( Images.VIEW_REFRESH, 25 ), 12 );
         addChild( new HTMLImageButtonNode( pad ) {{
             setBackground( BUTTON_COLOR );
