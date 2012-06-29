@@ -22,6 +22,7 @@ public class EFACIntroModule extends SimSharingPiccoloModule {
     private EFACIntroModule( EFACIntroModel model ) {
         super( EnergyFormsAndChangesSimSharing.UserComponents.introTab, EnergyFormsAndChangesResources.Strings.INTRO, model.getClock() );
         setClockControlPanel( null );
+        setLogoPanel( null );
         setSimulationPanel( new EFACIntroCanvas( model ) );
         reset();
     }
