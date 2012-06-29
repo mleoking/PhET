@@ -1,3 +1,4 @@
+# 0.00.103 (65578) Jun 29, 2012
 Fraction Matcher: Require vertical or horizontal bars to have less than 9 segments
 Fraction Matcher: Added 3x3 grid back
 Build a Fraction: Put the shape cards directly on the shape container icons
