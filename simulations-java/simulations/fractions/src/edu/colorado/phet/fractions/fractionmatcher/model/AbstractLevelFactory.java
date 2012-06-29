@@ -53,7 +53,7 @@ public abstract class AbstractLevelFactory {
         return s == PIES ? true :
                s == HORIZONTAL_BARS ? true :
                s == VERTICAL_BARS ? true :
-               s == GRID ? ( d == 4 || d == 9 ) :
+               s == GRID ? d == 4 :
                s == FLOWER ? d == 6 :
                s == PYRAMID ? ( d == 1 || d == 4 || d == 9 ) :
                s == PLUSSES ? d == 6 :
@@ -190,7 +190,6 @@ public abstract class AbstractLevelFactory {
                                   s == PYRAMID && d == 4 ? Pattern.pyramidFour() :
                                   s == PYRAMID && d == 9 ? Pattern.pyramidNine() :
                                   s == GRID && d == 4 ? Pattern.grid( 2 ) :
-                                  s == GRID && d == 9 ? Pattern.grid( 3 ) :
                                   s == LETTER_L_SHAPES && d % 2 == 0 ? Pattern.letterLShapedDiagonal( 14, d / 2 ) :
                                   s == INTERLEAVED_L_SHAPES && d == 2 ? Pattern.interleavedLShape( 80, 1, 1 ) :
                                   s == INTERLEAVED_L_SHAPES && d == 4 ? Pattern.interleavedLShape( 80, 2, 1 ) :

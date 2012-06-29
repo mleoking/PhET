@@ -1,3 +1,4 @@
+Fraction Matcher: Removed 3x3 grid pattern
 Build a Fraction: Added "refresh" button to the number scene
 Build a Fraction: Wired up the "refresh" button
 # 0.00.101 (65565) Jun 29, 2012
