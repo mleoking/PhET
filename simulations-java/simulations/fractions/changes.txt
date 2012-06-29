@@ -1,3 +1,4 @@
+# 0.00.101 (65565) Jun 29, 2012
 Changed the scale factors for mixed fractions level 7 and 8
 # 0.00.100 (65562) Jun 29, 2012
 Fraction Matcher: Fixed a bug that caused the "new game" button on the right to malfunction sometimes, especially when holding the button down for more than a second
