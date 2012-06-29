@@ -12,4 +12,6 @@ public interface SceneContext {
     void goToLevelSelectionScreen();
 
     void resamplePictureLevel( int levelIndex );
+
+    void resampleNumberLevel( int levelIndex );
 }
