@@ -8,8 +8,7 @@ import java.awt.Color;
 import edu.colorado.phet.fractions.fractionmatcher.model.Pattern;
 import edu.colorado.phet.fractions.fractionmatcher.view.PatternNode;
 import edu.colorado.phet.fractions.fractionsintro.common.view.Colors;
-import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
-import edu.colorado.phet.fractions.fractionsintro.intro.view.FractionNode;
+import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern.sequentialFill;
 
@@ -45,5 +44,9 @@ public class DefaultLevelSelectionScreen extends AbstractLevelSelectionNode {
         return new LevelInfo( "Level " + level, new PatternNode( sequentialFill( pattern, level ), colors[levelIndex % colors.length] ), 0, 3, levelIndex, LevelType.SHAPES );
     }
 
-    private static LevelInfo createNumberLevel( int level ) {return new LevelInfo( "Level " + level, new FractionNode( new Fraction( level, level ), 0.35 ), 0, 3, level - 1, LevelType.NUMBERS );}
+    private static LevelInfo createNumberLevel( int level ) {return new LevelInfo( "Level " + level, createLevelIcon( level ), 0, 3, level - 1, LevelType.NUMBERS );}
+
+    private static PNode createLevelIcon( final int level ) {
+        return null;
+    }
 }
