@@ -43,6 +43,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 import static edu.colorado.phet.buildafraction.view.pictures.ContainerNode._getSingleContainerNodes;
 import static edu.colorado.phet.buildafraction.view.pictures.ContainerNode._isAtStartingLocation;
 import static edu.colorado.phet.buildafraction.view.pictures.PieceIconNode.TINY_SCALE;
+import static edu.colorado.phet.buildafraction.view.pictures.RefreshButtonNode.BUTTON_COLOR;
 import static edu.colorado.phet.fractions.util.FJUtils.ord;
 import static edu.colorado.phet.fractions.view.FNode.*;
 import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
@@ -192,7 +193,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         addChild( toolboxNode );
         toolboxNode.moveToBack();
 
-        faceNodeDialog = new VBox( new FaceNode( 300 ), new HTMLImageButtonNode( "Next", new PhetFont( 20, true ), Color.orange ) {{
+        faceNodeDialog = new VBox( new FaceNode( 300 ), new HTMLImageButtonNode( "Next", new PhetFont( 20, true ), BUTTON_COLOR ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( final ActionEvent e ) {
                     context.goToNextPictureLevel( levelIndex + 1 );
@@ -218,13 +219,18 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         title.setOffset( ( minScoreCellX - INSET ) / 2 - title.getFullWidth() / 2, backButton.getFullBounds().getCenterY() - title.getFullHeight() / 2 );
         addChild( title );
 
-        addChild( new TextButtonNode( "Reset", AbstractFractionsCanvas.CONTROL_FONT, Color.orange ) {{
+        final TextButtonNode resetButton = new TextButtonNode( "Reset", AbstractFractionsCanvas.CONTROL_FONT, BUTTON_COLOR ) {{
             setOffset( title.getMaxX() + 130, title.getCenterY() - getFullBounds().getHeight() / 2 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( final ActionEvent e ) {
                     reset();
                 }
             } );
+        }};
+        addChild( resetButton );
+
+        addChild( new RefreshButtonNode() {{
+            setOffset( resetButton.getMaxX() + 20, title.getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
     }
 
