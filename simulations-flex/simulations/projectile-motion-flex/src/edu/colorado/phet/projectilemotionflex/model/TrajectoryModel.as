@@ -22,17 +22,17 @@ public class TrajectoryModel {
     private var _xP: Number;    //x- and y_coords of position of projectile in meters
     private var _yP: Number;
     private var _xP0: Number;   //x- and y- coordinates of initial position of projectile
-    private var _yP0: Number;
+    private var _yP0: Number;   //relative to origin, which is at ground level (y = 0)
     private var vX: Number;     //x- and y-coords of velocity of projectile
     private var vY: Number;
     private var _vX0: Number;   //x- and y-components of initial velocity
     private var _vY0: Number;
-    private var _v0: Number;      //speed of projectile
+    private var _v0: Number;    //speed of projectile
     private var _mP: Number;    //mass of projectile in kg
     private var _angleInDeg: Number;  //angle of cannon barrel in degrees, measured CCW from horizontal
     private var _theta: Number; //initial angle of projectile, in radians, measured CCW from horizontal
     private var _t: Number;     //time in seconds, projectile fired at t = 0
-    private var _inFlight: Boolean;  //true if projectile is in fligt
+    private var _inFlight: Boolean;  //true if projectile is in flight
     private var stepsPerFrame: int;      //number of algorithm steps between screen updates
     private var frameCounter: int;
     private var _tRate:Number;   //Normal time rate: tRate = 1;
@@ -54,8 +54,9 @@ public class TrajectoryModel {
         this.g = 9.8;
         this._xP = 0;            //origin is at lower left
         this._yP = 0;
-        this._xP0 = 0.2*stageW/mainView.pixPerMeter;
-        this._yP0 = 4;
+        this._xP0 = 0; //0.2*stageW/mainView.pixPerMeter;
+        this._yP0 = 0; //
+        // 4;
         this.vX = 0;
         this.vY = 0;
         this._v0 = 18;
