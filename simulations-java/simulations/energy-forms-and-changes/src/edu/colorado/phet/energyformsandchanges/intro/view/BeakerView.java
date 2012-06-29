@@ -151,7 +151,7 @@ public class BeakerView {
         model.energyChunksVisible.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean energyChunksVisible ) {
                 label.setTransparency( energyChunksVisible ? 0.5f : 1f );
-                water.setTransparency( energyChunksVisible ? PerspectiveWaterNode.NOMINAL_OPAQUENESS / 2 : PerspectiveWaterNode.NOMINAL_OPAQUENESS );
+                water.setTransparency( energyChunksVisible ? EFACConstants.NOMINAL_WATER_OPACITY / 2 : EFACConstants.NOMINAL_WATER_OPACITY );
             }
         } );
 
@@ -223,16 +223,14 @@ public class BeakerView {
     }
 
     private static class PerspectiveWaterNode extends PNode {
-        public static final float NOMINAL_OPAQUENESS = 0.75f;
-        private static final Color WATER_COLOR = new Color( 175, 238, 238, (int) ( Math.round( NOMINAL_OPAQUENESS * 255 ) ) );
-        private static final Color WATER_OUTLINE_COLOR = ColorUtils.darkerColor( WATER_COLOR, 0.2 );
+        private static final Color WATER_OUTLINE_COLOR = ColorUtils.darkerColor( EFACConstants.WATER_COLOR, 0.2 );
         private static final Stroke WATER_OUTLINE_STROKE = new BasicStroke( 2 );
 
         private PerspectiveWaterNode( final Rectangle2D beakerOutlineRect, Property<Double> waterLevel ) {
 
-            final PhetPPath waterBodyNode = new PhetPPath( WATER_COLOR, WATER_OUTLINE_STROKE, WATER_OUTLINE_COLOR );
+            final PhetPPath waterBodyNode = new PhetPPath( EFACConstants.WATER_COLOR, WATER_OUTLINE_STROKE, WATER_OUTLINE_COLOR );
             addChild( waterBodyNode );
-            final PhetPPath waterTopNode = new PhetPPath( WATER_COLOR, WATER_OUTLINE_STROKE, WATER_OUTLINE_COLOR );
+            final PhetPPath waterTopNode = new PhetPPath( EFACConstants.WATER_COLOR, WATER_OUTLINE_STROKE, WATER_OUTLINE_COLOR );
             addChild( waterTopNode );
 
 

@@ -1,6 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.common;
 
+import java.awt.Color;
+
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -34,9 +36,8 @@ public class EFACConstants {
     // For comparing temperatures.
     public static final double SIGNIFICANT_TEMPERATURE_DIFFERENCE = 1E-3; // In degrees K.
 
+    // Constants and constant functions for energy chunk mapping.
     public static final double ENERGY_PER_CHUNK = 40000;
-
-    // Constant function for mapping energy level to number of energy chunks.
     public static final Function1<Double, Integer> ENERGY_TO_NUM_CHUNKS_MAPPER = new Function1<Double, Integer>() {
         private final Function.LinearFunction MAPPER_TO_DOUBLE = new Function.LinearFunction( ENERGY_PER_CHUNK, 45000, 1, 2 ); // Brick has 1 at 0 C, 2 at room temp.  Brick SH = 800
 
@@ -47,4 +48,9 @@ public class EFACConstants {
 
     // Threshold for deciding when two temperatures can be considered equal.
     public static final double TEMPERATURES_EQUAL_THRESHOLD = 1E-6; // In Kelvin.
+
+    // Colors that are used in multiple places.
+    public static final float NOMINAL_WATER_OPACITY = 0.75f;
+    public static final Color WATER_COLOR = new Color( 175, 238, 238, (int) ( Math.round( NOMINAL_WATER_OPACITY * 255 ) ) );
+    public static final Color FIRST_TAB_BACKGROUND_COLOR = new Color( 245, 246, 247 );
 }
