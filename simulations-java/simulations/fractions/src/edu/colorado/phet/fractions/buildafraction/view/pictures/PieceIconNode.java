@@ -20,7 +20,7 @@ public class PieceIconNode extends PNode {
     public PieceIconNode( int divisions ) {
         for ( int i = 0; i < divisions; i++ ) {
             final double pieceWidth = SimpleContainerNode.width / divisions;
-            addChild( new PhetPPath( new Rectangle2D.Double( pieceWidth * i, 0, pieceWidth, SimpleContainerNode.height ), i == 0 ? Color.red : Color.white, new BasicStroke( 1 ), Color.black ) );
+            addChild( new PhetPPath( new Rectangle2D.Double( pieceWidth * i, 0, pieceWidth, SimpleContainerNode.height ), Color.white, new BasicStroke( 1 ), Color.black ) );
         }
         //Thicker outer stroke
         addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, SimpleContainerNode.width, SimpleContainerNode.height ), new BasicStroke( 2 ), Color.black ) );

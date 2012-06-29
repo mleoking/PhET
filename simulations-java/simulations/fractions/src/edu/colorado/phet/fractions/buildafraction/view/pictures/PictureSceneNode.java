@@ -137,7 +137,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         addChild( firstContainerNode );
 //        addChild( new ContainerFrontNode( firstContainerNode ) );
 
-        //Pieces in the bucket
+        //Pieces in the toolbar that the user can drag
         //Pieces always in front of the containers--could be awkward if a container is moved across a container that already has pieces in it.
         List<List<Integer>> groups = level.pieces.group( Equal.intEqual );
         int numGroups = groups.length();
@@ -149,6 +149,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
             int pieceIndex = 0;
 
             Rectangle2D bounds = null;
+            ArrayList<RectangularPiece> pieces = new ArrayList<RectangularPiece>();
             for ( final Integer pieceDenominator : group ) {
                 double dx = 4;
                 double totalHorizontalSpacing = dx * ( numInGroup - 1 );
@@ -163,14 +164,17 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
                 else {
                     bounds = bounds.createUnion( piece.getFullBounds() );
                 }
+                pieces.add( piece );
             }
 
             final PieceIconNode child = new PieceIconNode( group.head() );
-            child.centerFullBoundsOnPoint( bounds.getCenterX(), bounds.getMaxY() + 34 );
+            child.setOffset( pieces.get( 0 ).getOffset() );
             addChild( child );
+            child.moveToBack();
             groupIndex++;
         }
 
+        //Containers the user can drag out of the toolbox.
         final int finalGroupIndex = groupIndex;
         final int numInGroup = level.targets.length() - 1;
         for ( int i = 0; i < numInGroup; i++ ) {
