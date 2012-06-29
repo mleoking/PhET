@@ -24,6 +24,8 @@ public class TrajectoryView extends Sprite {
     private var trajectories_arr: Array;  //array of trajectories, each trajectory is an array of (x, y) positions
     private var trajectory_arr: Array;
     private var currentTrajectoryView: Sprite;
+    private var currentTicMarkView: Sprite;
+    private var nextTicMarkTime: int;     //time in seconds of the previous 1-second interval tic mark on the trajectory
 //    private var x0InPix: Number;
 //    private var y0InPix: Number;
     private var currentX: Number;          //most recent (x, y, t) coordinates in meters and seconds
@@ -50,7 +52,9 @@ public class TrajectoryView extends Sprite {
         trajectoryModel.registerView( this );
         trajectory_arr = new Array();
         this.currentTrajectoryView = new Sprite();
+        this.currentTicMarkView = new Sprite();
         this.addChild( currentTrajectoryView );
+        this.addChild( currentTicMarkView );
         //TEST
 //        var g:Graphics = this.graphics;
 //        g.lineStyle( 10, 0x000000, 1 );
@@ -58,9 +62,10 @@ public class TrajectoryView extends Sprite {
     }
 
     public function startTrajectory():void{
-        trace("TrajectoryView.startTrajectory() called") ;
+        //trace("TrajectoryView.startTrajectory() called") ;
         currentIndex = 0;
         currentT = 0;
+        nextTicMarkTime = 1;
 //        currentX = trajectoryModel.xP0;
 //        currentY = trajectoryModel.yP0;
         trajectory_arr[0] = new XytPoint( currentX,  currentY, currentT,  0 );
@@ -85,9 +90,23 @@ public class TrajectoryView extends Sprite {
 //        this.y = this.originYInPix - this.trajectoryModel.yP0*mainView.pixPerMeter;
     }
 
+    private function drawTicMarkOnTrajectory():void{
+        var gM: Graphics = currentTicMarkView.graphics;
+        var xInPix: Number = this.originXInPix + currentX*mainView.pixPerMeter;
+        var yInPix: Number = this.originYInPix - currentY*mainView.pixPerMeter;
+        gM.lineStyle( 4, 0x000000, 1 );
+        var ticRadius = 10;
+        gM.moveTo( xInPix - ticRadius, yInPix );
+        gM.lineTo( xInPix + ticRadius, yInPix );
+        gM.moveTo( xInPix, yInPix - ticRadius );
+        gM.lineTo( xInPix, yInPix + ticRadius )
+    }
+
     public function eraseTrajectory():void{
         var gT: Graphics = currentTrajectoryView.graphics;
         gT.clear();
+        var gM: Graphics = currentTicMarkView.graphics;
+        gM.clear();
     }
 
     public function update():void{
@@ -99,6 +118,11 @@ public class TrajectoryView extends Sprite {
         }
         currentT = trajectoryModel.t;
         addNewPointToTrajectory();
+        if( currentT > nextTicMarkTime ){
+            drawTicMarkOnTrajectory();
+            nextTicMarkTime += 1;
+            trace("TrajectoryView.update  currentT = " + currentT );
+        }
         //trace( "trajectoryView.update  currentX = " + currentX) ;
     }
 
