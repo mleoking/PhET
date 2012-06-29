@@ -32,17 +32,22 @@ import static edu.colorado.phet.fractionsintro.intro.model.Fraction.sum;
  */
 public class SingleContainerNode extends PNode {
     public final ContainerNode parent;
+    private final PNode dottedLineLayer;
 
     SingleContainerNode( final ContainerNode parent, final ObservableProperty<Integer> number ) {
         this.parent = parent;
-        final PNode dottedLineLayer = new PNode() {{
+        dottedLineLayer = new PNode() {{
             number.addObserver( new VoidFunction1<Integer>() {
                 public void apply( final Integer number ) {
                     removeAllChildren();
                     final double pieceWidth = SimpleContainerNode.width / number;
                     double x = pieceWidth;
                     for ( int i = 0; i < number - 1; i++ ) {
-                        addChild( new PhetPPath( new Line2D.Double( x, 0, x, SimpleContainerNode.height ), new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 10, 10 }, 0 ), Color.lightGray ) );
+                        addChild( new PhetPPath( new Line2D.Double( x, 0, x, SimpleContainerNode.height ), new BasicStroke( 1.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 10, 10 }, 0 ), Color.lightGray ) );
+
+                        //Lines that stick out
+//                        addChild( new PhetPPath( new Line2D.Double( x, -5, x, 0 ), new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1 ), Color.lightGray ) );
+//                        addChild( new PhetPPath( new Line2D.Double( x, SimpleContainerNode.height, x, SimpleContainerNode.height+5 ), new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1 ), Color.lightGray ) );
                         x += pieceWidth;
                     }
                 }
@@ -51,8 +56,6 @@ public class SingleContainerNode extends PNode {
         SimpleContainerNode node = new SimpleContainerNode( number.get(), Color.white ) {{
             //Thicker outer stroke
             addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, width, height ), Color.white, new BasicStroke( 2 ), Color.black ) );
-
-            addChild( dottedLineLayer );
 
             addInputEventListener( new SimSharingDragHandler( null, true ) {
                 @Override protected void startDrag( final PInputEvent event ) {
@@ -78,6 +81,8 @@ public class SingleContainerNode extends PNode {
             addInputEventListener( new CursorHandler() );
         }};
         addChild( node );
+
+        addChild( dottedLineLayer );
 
     }
 
@@ -116,6 +121,7 @@ public class SingleContainerNode extends PNode {
         addChild( piece );
         piece.setGlobalTranslation( offset );
         parent.pieceAdded( piece );
+        dottedLineLayer.moveToFront();
     }
 
     public void splitAll() {
