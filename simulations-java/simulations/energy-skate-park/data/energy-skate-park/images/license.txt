@@ -20,4 +20,5 @@ rocket5.png source= Open Clip Art notes="Rocket blue and red", 'http://www.openc
 ruler-thumb.png source= Open Clip Art notes="Ruller", 'http://www.openclipart.org/detail/13549'
 skater3.png author=PhET 
 starskater2.gif author=PhET 
-tape.gif author=PhET 
+tape.gif author=PhET
+sponsor-TI.jpg author=Texas Instruments notes=provided by Danny Gremillion (dannyg@ti.com) for PhET sponsorship program
