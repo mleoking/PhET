@@ -3,6 +3,8 @@ package edu.colorado.phet.fractions.buildafraction.view.pictures;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -28,10 +30,15 @@ public class RefreshButtonNode extends PNode {
         return copy;
     }
 
-    public RefreshButtonNode( VoidFunction0 effect ) {
+    public RefreshButtonNode( final VoidFunction0 effect ) {
         final BufferedImage pad = copyWithPadding( BufferedImageUtils.multiScaleToWidth( Images.VIEW_REFRESH, 25 ), 12 );
         addChild( new HTMLImageButtonNode( pad ) {{
             setBackground( BUTTON_COLOR );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( final ActionEvent e ) {
+                    effect.apply();
+                }
+            } );
         }} );
     }
 }

@@ -29,6 +29,7 @@ import edu.colorado.phet.fractions.buildafraction.model.pictures.PictureLevel;
 import edu.colorado.phet.fractions.buildafraction.model.pictures.PictureTarget;
 import edu.colorado.phet.fractions.buildafraction.view.BackButton;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
+import edu.colorado.phet.fractions.common.view.FNode;
 import edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractions.fractionsintro.intro.view.FractionNode;
@@ -45,7 +46,7 @@ import static edu.colorado.phet.fractions.buildafraction.view.pictures.Container
 import static edu.colorado.phet.fractions.buildafraction.view.pictures.PieceIconNode.TINY_SCALE;
 import static edu.colorado.phet.fractions.buildafraction.view.pictures.RefreshButtonNode.BUTTON_COLOR;
 import static edu.colorado.phet.fractions.common.util.FJUtils.ord;
-import static edu.colorado.phet.fractions.common.view.FNode.*;
+import static edu.colorado.phet.fractions.common.view.FNode.getChildren;
 import static edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
 import static fj.Ord.doubleOrd;
 import static fj.function.Booleans.not;
@@ -62,6 +63,10 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
     private final VBox faceNodeDialog;
     public final int levelIndex;
     private final SceneContext context;
+
+    //Declare type-specific wrappers for declaration site variance to make map call site more readable
+    private final F<PieceIconNode, Double> _minX = FNode._minX();
+    private final F<ContainerNode, Double> _maxX = FNode._maxX();
 
     public PictureSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context ) {
         this.model = model;
@@ -185,8 +190,8 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         toolboxNode = new RichPNode() {{
 
             //Width is just before the first group to the last container node in the toolbox
-            double min = getChildrenOfType( PieceIconNode.class ).map( _minX ).minimum( doubleOrd );
-            double max = getChildrenOfType( ContainerNode.class ).map( _maxX ).maximum( doubleOrd );
+            double min = FNode.getChildren( PictureSceneNode.this, PieceIconNode.class ).map( _minX ).minimum( doubleOrd );
+            double max = FNode.getChildren( PictureSceneNode.this, ContainerNode.class ).map( _maxX ).maximum( doubleOrd );
             double width = max - min;
             final PhetPPath border = new PhetPPath( new RoundRectangle2D.Double( 0, 0, width + INSET * 6, 127, 30, 30 ), BuildAFractionCanvas.CONTROL_PANEL_BACKGROUND, BuildAFractionCanvas.controlPanelStroke, Color.darkGray );
             addChild( border );
@@ -236,26 +241,12 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         }} );
     }
 
-    private void resampleLevel() {
-        //clear cards and target values, then get some new ones
-
-    }
-
+    //clear cards and target values, then get some new ones
     public VoidFunction0 _resampleLevel = new VoidFunction0() {
         public void apply() {
-            resampleLevel();
+            context.resamplePictureLevel( levelIndex );
         }
     };
-
-    private List<PNode> getChildrenOfType( final Class<? extends PNode> type ) {
-        List<PNode> list = List.nil();
-        for ( Object childO : getChildrenReference() ) {
-            if ( type.isInstance( childO ) ) {
-                list = list.snoc( (PNode) childO );
-            }
-        }
-        return list;
-    }
 
     private void reset() {
         //Eject everything from target containers

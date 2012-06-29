@@ -10,4 +10,6 @@ public interface SceneContext {
     void goToNextNumberLevel( int newLevelIndex );
 
     void goToLevelSelectionScreen();
+
+    void resamplePictureLevel( int levelIndex );
 }
