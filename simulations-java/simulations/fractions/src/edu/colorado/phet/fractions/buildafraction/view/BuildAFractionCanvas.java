@@ -71,7 +71,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Mai
 
             public void activityFinished( final PActivity activity ) {
 
-                PInterpolatingActivity fade = oldNode.animateToTransparency( 0, 1000 );
+                PInterpolatingActivity fade = oldNode.animateToTransparency( 0, 200 );
                 fade.setDelegate( new PActivityDelegate() {
                     public void activityStarted( final PActivity activity ) {
                     }
