@@ -6,6 +6,7 @@ import lombok.Data;
 
 import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.fractions.util.Cache;
 import edu.colorado.phet.fractions.util.immutable.Vector2D;
 import edu.umd.cs.piccolo.PNode;
@@ -33,9 +34,7 @@ import static edu.colorado.phet.fractions.FractionsResources.Images.SCALE;
 
     private Vector2D getAttachmentPoint() { return getCenter().plus( 0, -25 ); }
 
-    public Vector2D getAttachmentPoint( MovableFraction fraction ) {
-        return getAttachmentPoint( this, fraction );
-    }
+    public Vector2D getAttachmentPoint( MovableFraction fraction ) { return getAttachmentPoint( this, fraction ); }
 
     //Cached function to get the height of a MovableFraction, to know how high to position it on a scale
     private static final Cache<MovableFraction, Double> HEIGHT = new Cache<MovableFraction, Double>( 100, new F<MovableFraction, Double>() {
@@ -45,6 +44,10 @@ import static edu.colorado.phet.fractions.FractionsResources.Images.SCALE;
     } );
 
     private static Vector2D getAttachmentPoint( Scale scale, MovableFraction fraction ) {
-        return scale.getAttachmentPoint().plus( 0, -HEIGHT.f( fraction ) / 2 );
+
+        //Move the mixed numbers a bit lower in the pan
+        final int offset = fraction.getNode() instanceof RichPNode && fraction.getNode().getChild( 0 ) instanceof MixedNumberNode ? 9 : 0;
+
+        return scale.getAttachmentPoint().plus( 0, -HEIGHT.f( fraction ) / 2 + offset );
     }
 }
