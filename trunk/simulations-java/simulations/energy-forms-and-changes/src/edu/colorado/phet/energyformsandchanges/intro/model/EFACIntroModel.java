@@ -552,10 +552,9 @@ public class EFACIntroModel {
     public double getTemperatureAtLocation( ImmutableVector2D location ) {
         Point2D locationAsPoint = location.toPoint2D();
         for ( Block block : getBlockList() ) {
-            if ( block.getThermalContactArea().getBounds().contains( location.toPoint2D() ) ) {
+            if ( block.getProjectedShape().contains( locationAsPoint ) ) {
                 return block.getTemperature();
             }
-
         }
         if ( beaker.getThermalContactArea().getBounds().contains( locationAsPoint ) ) {
             return beaker.getTemperature();
@@ -571,7 +570,7 @@ public class EFACIntroModel {
     public Color getElementColorAtLocation( ImmutableVector2D location ) {
         Point2D locationAsPoint = location.toPoint2D();
         for ( Block block : getBlockList() ) {
-            if ( block.getThermalContactArea().getBounds().contains( location.toPoint2D() ) ) {
+            if ( block.getProjectedShape().contains( locationAsPoint ) ) {
                 return block.getColor();
             }
         }
