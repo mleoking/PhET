@@ -1,3 +1,4 @@
+Build a Fraction: Added "refresh" button to the number scene
 Build a Fraction: Wired up the "refresh" button
 # 0.00.101 (65565) Jun 29, 2012
 Changed the scale factors for mixed fractions level 7 and 8

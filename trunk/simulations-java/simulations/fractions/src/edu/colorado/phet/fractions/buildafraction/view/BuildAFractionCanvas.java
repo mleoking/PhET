@@ -113,4 +113,8 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Mai
     public void resamplePictureLevel( final int levelIndex ) {
         animateTo( new PictureSceneNode( levelIndex, new BuildAFractionModel( true ), STAGE_SIZE, this ), Direction.DOWN );
     }
+
+    public void resampleNumberLevel( final int levelIndex ) {
+        animateTo( new NumberSceneNode( levelIndex, rootNode, new BuildAFractionModel( true ), STAGE_SIZE, this ), Direction.DOWN );
+    }
 }

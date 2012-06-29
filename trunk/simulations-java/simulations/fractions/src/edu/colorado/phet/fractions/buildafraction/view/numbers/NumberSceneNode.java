@@ -30,6 +30,7 @@ import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevel;
 import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget;
 import edu.colorado.phet.fractions.buildafraction.view.BackButton;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
+import edu.colorado.phet.fractions.buildafraction.view.pictures.RefreshButtonNode;
 import edu.colorado.phet.fractions.buildafraction.view.pictures.SceneContext;
 import edu.colorado.phet.fractions.fractionmatcher.view.PatternNode;
 import edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas;
@@ -54,8 +55,13 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
     public final SceneContext context;
     public final List<Pair> pairList;
     public RichPNode toolboxNode;
-    public final int level;
+    public final int levelIndex;
     private final VBox faceNodeDialog;
+    private VoidFunction0 _resampleLevel = new VoidFunction0() {
+        public void apply() {
+            context.resampleNumberLevel( levelIndex );
+        }
+    };
 
     public void endDrag( final FractionNode fractionGraphic, final PInputEvent event ) {
 
@@ -65,9 +71,9 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
         }
     }
 
-    public NumberSceneNode( final int level, final PNode rootNode, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context ) {
+    public NumberSceneNode( final int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context ) {
         this.rootNode = rootNode;
-        this.level = level;
+        this.levelIndex = levelIndex;
         this.model = model;
         this.STAGE_SIZE = STAGE_SIZE;
         this.context = context;
@@ -83,8 +89,8 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
 
         //Create the scoring cells with target patterns
         ArrayList<Pair> pairs = new ArrayList<Pair>();
-        for ( int i = 0; i < model.getNumberLevel( level ).targets.length(); i++ ) {
-            NumberTarget target = model.getNumberLevel( level ).getTarget( i );
+        for ( int i = 0; i < model.getNumberLevel( levelIndex ).targets.length(); i++ ) {
+            NumberTarget target = model.getNumberLevel( levelIndex ).getTarget( i );
 
             ArrayList<PatternNode> nodes = new ArrayList<PatternNode>();
             for ( int k = 0; k < target.filledPattern.length(); k++ ) {
@@ -99,8 +105,8 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
                 }} );
             }
             HBox patternNode = new HBox( nodes.toArray( new PNode[nodes.size()] ) );
-            pairs.add( new Pair( new NumberScoreBoxNode( target.fraction.numerator, target.fraction.denominator, model.getNumberCreatedFractions( level ),
-                                                         rootNode, model, this, model.getNumberLevel( level ).flashTargetCellOnMatch ), new ZeroOffsetNode( patternNode ) ) );
+            pairs.add( new Pair( new NumberScoreBoxNode( target.fraction.numerator, target.fraction.denominator, model.getNumberCreatedFractions( levelIndex ),
+                                                         rootNode, model, this, model.getNumberLevel( levelIndex ).flashTargetCellOnMatch ), new ZeroOffsetNode( patternNode ) ) );
         }
         pairList = List.iterableList( pairs );
 
@@ -146,7 +152,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
         //Add a piece container toolbox the user can use to get containers
         //Put numbers on cards so you can see how many there are in a stack
         //I suspect it will look awkward unless all cards have the same dimensions
-        NumberLevel myLevel = model.getNumberLevel( level );
+        NumberLevel myLevel = model.getNumberLevel( levelIndex );
         List<List<Integer>> stacks = myLevel.numbers.group( Equal.intEqual );
 
         //Find the max size of each number node, so we can create a consistent card size
@@ -244,7 +250,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
         faceNodeDialog = new VBox( new FaceNode( 300 ), new HTMLImageButtonNode( "Next", new PhetFont( 20, true ), Color.orange ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( final ActionEvent e ) {
-                    context.goToNextNumberLevel( level + 1 );
+                    context.goToNextNumberLevel( levelIndex + 1 );
                 }
             } );
         }} ) {{
@@ -258,7 +264,6 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
 
         addChild( faceNodeDialog );
 
-        int levelIndex = level;
         double minScoreCellX = List.iterableList( pairList ).map( new F<Pair, Double>() {
             @Override public Double f( final Pair target ) {
                 return target.patternNode.getFullBounds().getMinX();
@@ -268,13 +273,18 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
         title.setOffset( ( minScoreCellX - AbstractFractionsCanvas.INSET ) / 2 - title.getFullWidth() / 2, backButton.getFullBounds().getCenterY() - title.getFullHeight() / 2 );
         addChild( title );
 
-        addChild( new TextButtonNode( "Reset", AbstractFractionsCanvas.CONTROL_FONT, Color.orange ) {{
-            setOffset( title.getMaxX() + 130, title.getCenterY() - getFullBounds().getHeight() / 2 );
+        final TextButtonNode resetButton = new TextButtonNode( "Reset", AbstractFractionsCanvas.CONTROL_FONT, RefreshButtonNode.BUTTON_COLOR ) {{
+            setOffset( title.getMaxX() + 100, title.getCenterY() - getFullBounds().getHeight() / 2 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( final ActionEvent e ) {
                     reset();
                 }
             } );
+        }};
+        addChild( resetButton );
+
+        addChild( new RefreshButtonNode( _resampleLevel ) {{
+            setOffset( resetButton.getMaxX() + 20, title.getCenterY() - getFullBounds().getHeight() / 2 );
         }} );
     }
 
