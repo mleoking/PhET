@@ -36,6 +36,7 @@ import edu.colorado.phet.fractions.fractionmatcher.model.Mode;
 import edu.colorado.phet.fractions.fractionmatcher.model.MovableFraction;
 import edu.colorado.phet.fractions.fractionmatcher.view.Controller.GameOver;
 import edu.colorado.phet.fractions.fractionmatcher.view.Controller.Resample;
+import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.umd.cs.piccolo.PNode;
 
@@ -178,10 +179,16 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                 }
             }, model.fractionIDs, model.revealClues ) );
 
+            final Button newGameButton = new Button( Components.newGameButton, Strings.NEW_GAME, Color.yellow, Vector2D.ZERO, new ActionListener() {
+                public void actionPerformed( final ActionEvent e ) {
+                    model.state.set( model.state.get().withMode( Mode.CHOOSING_SETTINGS ) );
+                }
+            } );
+
             //Update the scoreboard when level, score, timerVisible, or time (in seconds) changes
             addChild( new UpdateNode( new Effect<PNode>() {
                 @Override public void e( final PNode parent ) {
-                    parent.addChild( new ScoreboardNode( model.state ) {{
+                    parent.addChild( new ScoreboardNode( newGameButton, model.state ) {{
 
                         //Update the location, but get it approximately right so it doesn't expand the dirty region
                         setOffset( STAGE_SIZE.width - INSET, scoreCellsLayer.getMaxY() + INSET );

@@ -1,3 +1,4 @@
+Fraction Matcher: Fixed a bug that caused the "new game" button on the right to malfunction sometimes, especially when holding the button down for more than a second
 # 0.00.99 (65559) Jun 29, 2012
 Fraction Matcher: Made entire bounds of fraction number grabbable, not just directly over the number themselves
 Fraction Matcher: Moved the mixed numbers a bit lower in the pan
