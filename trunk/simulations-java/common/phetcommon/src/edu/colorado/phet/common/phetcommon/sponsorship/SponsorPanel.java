@@ -3,6 +3,8 @@ package edu.colorado.phet.common.phetcommon.sponsorship;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.MessageFormat;
 
 import javax.swing.Box;
@@ -14,6 +16,7 @@ import javax.swing.border.LineBorder;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils.InteractiveHTMLPane;
@@ -33,7 +36,7 @@ public class SponsorPanel extends GridPanel {
 
         // property values, optional ones are null
         String imageResourceName = properties.getImageResourceName();
-        String actualURL = properties.getActualURL();
+        final String actualURL = properties.getActualURL();
         String visibleURL = properties.getVisibleURL();
         String sinceDate = properties.getSinceDate();
 
@@ -49,7 +52,16 @@ public class SponsorPanel extends GridPanel {
         add( Box.createVerticalStrut( 15 ) );
         // image
         if ( imageResourceName != null ) {
-            add( new JLabel( new ImageIcon( config.getResourceLoader().getImage( imageResourceName ) ) ) );
+            add( new JLabel( new ImageIcon( config.getResourceLoader().getImage( imageResourceName ) ) ) {{
+                if ( actualURL != null ) {
+                    // #3364, clicking on the image opens a web browser to the URL
+                    addMouseListener( new MouseAdapter() {
+                        @Override public void mousePressed( MouseEvent e ) {
+                            PhetServiceManager.showWebPage( actualURL );
+                        }
+                    } );
+                }
+            }} );
         }
         // url (both actual and visible required if you want any URL displayed)
         if ( actualURL != null && visibleURL != null ) {
