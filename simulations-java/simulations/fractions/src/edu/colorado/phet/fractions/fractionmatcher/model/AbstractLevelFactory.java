@@ -51,8 +51,8 @@ public abstract class AbstractLevelFactory {
     protected boolean matches( final ShapeType s, final Fraction fraction ) {
         final int d = fraction.denominator;
         return s == PIES ? true :
-               s == HORIZONTAL_BARS ? true :
-               s == VERTICAL_BARS ? true :
+               s == HORIZONTAL_BARS ? d < 9 :
+               s == VERTICAL_BARS ? d < 9 :
                s == GRID ? ( d == 4 || d == 9 ) :
                s == FLOWER ? d == 6 :
                s == PYRAMID ? ( d == 1 || d == 4 || d == 9 ) :

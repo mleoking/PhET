@@ -5,6 +5,7 @@ import fj.data.List;
 
 import java.awt.Color;
 
+import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.fractions.fractionmatcher.model.Pattern;
 import edu.colorado.phet.fractions.fractionmatcher.view.PatternNode;
 import edu.colorado.phet.fractions.fractionsintro.common.view.Colors;
@@ -47,6 +48,6 @@ public class DefaultLevelSelectionScreen extends AbstractLevelSelectionNode {
     private static LevelInfo createNumberLevel( int level ) {return new LevelInfo( "Level " + level, createLevelIcon( level ), 0, 3, level - 1, LevelType.NUMBERS );}
 
     private static PNode createLevelIcon( final int level ) {
-        return null;
+        return new PhetPText( "" + level );
     }
 }
