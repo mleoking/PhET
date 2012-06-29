@@ -24,13 +24,14 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.ToggleButtonNode;
 import edu.colorado.phet.fractionmatcher.model.GameResult;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
-import edu.colorado.phet.fractions.view.FNode;
 import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.colorado.phet.fractionsintro.common.view.Colors;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.fractionmatcher.model.Pattern.*;
 import static edu.colorado.phet.fractionmatcher.view.FilledPattern.sequentialFill;
+import static edu.colorado.phet.fractions.view.FNode._fullHeight;
+import static edu.colorado.phet.fractions.view.FNode._fullWidth;
 import static fj.Ord.doubleOrd;
 import static fj.data.List.list;
 
@@ -78,8 +79,8 @@ public class LevelSelectionNode extends PNode {
         }
 
         //Get bounds for layout so all buttons same size
-        final double maxIconWidth = icons.map( FNode._fullWidth ).maximum( doubleOrd );
-        final double maxIconHeight = icons.map( FNode._fullHeight ).maximum( doubleOrd );
+        final double maxIconWidth = icons.map( _fullWidth ).maximum( doubleOrd );
+        final double maxIconHeight = icons.map( _fullHeight ).maximum( doubleOrd );
 
         //level buttons at the top
         List<LevelIconNode> levelIcons = icons.map( new F<PNode, LevelIconNode>() {
