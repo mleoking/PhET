@@ -1,3 +1,4 @@
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.functionalscenegraph;
 
 import fj.data.Option;
@@ -6,7 +7,7 @@ import lombok.Data;
 import java.awt.Shape;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
-import edu.colorado.phet.fractions.util.immutable.Vector2D;
+import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 
 /**
  * @author Sam Reid

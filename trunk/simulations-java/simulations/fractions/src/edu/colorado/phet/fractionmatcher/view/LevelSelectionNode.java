@@ -30,8 +30,8 @@ import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.fractionmatcher.model.Pattern.*;
 import static edu.colorado.phet.fractionmatcher.view.FilledPattern.sequentialFill;
-import static edu.colorado.phet.fractions.view.FNode._fullHeight;
-import static edu.colorado.phet.fractions.view.FNode._fullWidth;
+import static edu.colorado.phet.fractions.common.view.FNode._fullHeight;
+import static edu.colorado.phet.fractions.common.view.FNode._fullWidth;
 import static fj.Ord.doubleOrd;
 import static fj.data.List.list;
 

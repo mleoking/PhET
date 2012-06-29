@@ -6,7 +6,7 @@ import lombok.Data;
 import java.awt.Shape;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
-import edu.colorado.phet.fractions.util.immutable.Vector2D;
+import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 
 /**
  * Cells where the fractions start (i.e. where the user drags them from)

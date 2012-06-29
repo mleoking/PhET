@@ -44,8 +44,8 @@ import static edu.colorado.phet.buildafraction.view.pictures.ContainerNode._getS
 import static edu.colorado.phet.buildafraction.view.pictures.ContainerNode._isAtStartingLocation;
 import static edu.colorado.phet.buildafraction.view.pictures.PieceIconNode.TINY_SCALE;
 import static edu.colorado.phet.buildafraction.view.pictures.RefreshButtonNode.BUTTON_COLOR;
-import static edu.colorado.phet.fractions.util.FJUtils.ord;
-import static edu.colorado.phet.fractions.view.FNode.*;
+import static edu.colorado.phet.fractions.common.util.FJUtils.ord;
+import static edu.colorado.phet.fractions.common.view.FNode.*;
 import static edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
 import static fj.Ord.doubleOrd;
 import static fj.function.Booleans.not;

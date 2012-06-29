@@ -5,7 +5,7 @@ import fj.data.List;
 
 import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 
-import static edu.colorado.phet.fractions.util.FJUtils.shuffle;
+import static edu.colorado.phet.fractions.common.util.FJUtils.shuffle;
 import static edu.colorado.phet.fractionsintro.intro.model.Fraction.fraction;
 import static fj.data.List.list;
 import static fj.data.List.single;

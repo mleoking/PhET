@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Random;
 
-import static edu.colorado.phet.fractions.util.FJUtils.ord;
+import static edu.colorado.phet.fractions.common.util.FJUtils.ord;
 import static fj.Function.curry;
 
 /**

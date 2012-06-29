@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponentTyp
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.fractions.util.RichVoidFunction1;
+import edu.colorado.phet.fractions.common.util.RichVoidFunction1;
 
 import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendUserMessage;
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;

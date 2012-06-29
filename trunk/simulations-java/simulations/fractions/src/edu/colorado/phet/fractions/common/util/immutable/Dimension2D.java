@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.fractions.util.immutable;
+package edu.colorado.phet.fractions.common.util.immutable;
 
 import lombok.Data;
 

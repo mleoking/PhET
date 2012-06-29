@@ -14,7 +14,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractionmatcher.model.MatchingGameState;
 import edu.colorado.phet.fractionmatcher.model.Mode;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
-import edu.colorado.phet.fractions.util.immutable.Vector2D;
+import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 import edu.colorado.phet.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.umd.cs.piccolo.PNode;
 

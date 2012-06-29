@@ -7,7 +7,7 @@ import lombok.Data;
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
-import edu.colorado.phet.fractions.util.immutable.Vector2D;
+import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.fractionmatcher.model.Motions.WAIT;

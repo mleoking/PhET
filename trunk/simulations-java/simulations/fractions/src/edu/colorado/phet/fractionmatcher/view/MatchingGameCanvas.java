@@ -34,8 +34,8 @@ import edu.colorado.phet.fractionmatcher.model.MovableFraction;
 import edu.colorado.phet.fractionmatcher.view.Controller.GameOver;
 import edu.colorado.phet.fractionmatcher.view.Controller.Resample;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
-import edu.colorado.phet.fractions.util.immutable.Vector2D;
-import edu.colorado.phet.fractions.view.FNode;
+import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
+import edu.colorado.phet.fractions.common.view.FNode;
 import edu.colorado.phet.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.umd.cs.piccolo.PNode;
 

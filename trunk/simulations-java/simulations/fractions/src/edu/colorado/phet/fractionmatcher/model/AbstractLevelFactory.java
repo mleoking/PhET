@@ -24,7 +24,7 @@ import static edu.colorado.phet.fractionmatcher.model.FillType.SEQUENTIAL;
 import static edu.colorado.phet.fractionmatcher.model.ShapeType.*;
 import static edu.colorado.phet.fractionmatcher.view.FilledPattern.randomFill;
 import static edu.colorado.phet.fractionmatcher.view.FilledPattern.sequentialFill;
-import static edu.colorado.phet.fractions.util.FJUtils.shuffle;
+import static edu.colorado.phet.fractions.common.util.FJUtils.shuffle;
 import static edu.colorado.phet.fractionsintro.common.view.Colors.*;
 import static fj.data.List.iterableList;
 import static fj.data.List.list;
