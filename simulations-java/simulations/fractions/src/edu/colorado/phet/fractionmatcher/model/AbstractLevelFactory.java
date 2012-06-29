@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
@@ -18,7 +17,6 @@ import edu.colorado.phet.fractionsintro.intro.model.Fraction;
 import edu.colorado.phet.fractionsintro.intro.model.containerset.Container;
 import edu.colorado.phet.fractionsintro.intro.model.containerset.ContainerSet;
 import edu.colorado.phet.fractionsintro.intro.view.FractionNode;
-import edu.colorado.phet.fractionsintro.intro.view.FractionNumberNode;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.fractionmatcher.model.FillType.MIXED;
@@ -207,7 +205,7 @@ public abstract class AbstractLevelFactory {
     }
 
     protected List<MovableFraction> generateLevel( final int level, final List<Cell> cells, final List<Integer> numericScaleFactors, final List<Fraction> selectedFractions,
-                                                   boolean allowMixedNumbers ) {
+                                                   boolean mixedNumbers ) {
         ArrayList<Cell> remainingCells = new ArrayList<Cell>( shuffle( cells ).toCollection() );
 
         final List<ShapeType> easy = list( PIES, HORIZONTAL_BARS, VERTICAL_BARS );
@@ -228,7 +226,6 @@ public abstract class AbstractLevelFactory {
 
         //for each cell, create a MovableFraction
         ArrayList<MovableFraction> result = new ArrayList<MovableFraction>();
-        boolean usedMixedNumber = false;
         for ( int i = 0; i < selectedFractions.length(); i++ ) {
 
             //choose one of the fractions at random, but don't repeat it.
@@ -248,18 +245,10 @@ public abstract class AbstractLevelFactory {
 
                 //AP: Usually mixed numbers are written with the "1" nearly as tall as the entire fraction
                 final double mixedNumberWholeScale = 2.4;
-                final double probabilityForMixedNumbers = 0.2;
-                if ( allowMixedNumbers && fraction.toDouble() > 1 && ( RANDOM.nextDouble() > probabilityForMixedNumbers || !usedMixedNumber ) ) {
-                    //Try to use a mixed number representation
-                    node = new HBox( 0, new FractionNumberNode( new Property<Integer>( 1 ) ) {{setScale( fractionSizeScale * mixedNumberWholeScale );}},
-                                     new FractionNode( new Fraction( fraction.numerator - fraction.denominator, fraction.denominator ), fractionSizeScale ) );
-                    usedMixedNumber = true;
-                }
-                else if ( allowMixedNumbers && fraction.toDouble() > 1 && ( RANDOM.nextDouble() > probabilityForMixedNumbers || !usedMixedNumber ) ) {
-                    //Try to use a mixed number representation
-                    node = new HBox( 0, new FractionNumberNode( new Property<Integer>( 1 ) ) {{setScale( fractionSizeScale * mixedNumberWholeScale );}},
-                                     new FractionNode( new Fraction( ( fraction.numerator - fraction.denominator ) * scaleFactor, fraction.denominator * scaleFactor ), fractionSizeScale ) );
-                    usedMixedNumber = true;
+
+                //Try to use a mixed number representation
+                if ( mixedNumbers && fraction.numerator > fraction.denominator ) {
+                    node = new MixedNumberNode( fraction, scaleFactor, fractionSizeScale, mixedNumberWholeScale );
                 }
                 else {
                     node = new FractionNode( new Fraction( fraction.numerator * scaleFactor, fraction.denominator * scaleFactor ), fractionSizeScale );
