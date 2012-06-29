@@ -4,7 +4,9 @@ package edu.colorado.phet.fractions.fractionsintro.intro.view;
 import java.awt.Font;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
 
@@ -37,5 +39,10 @@ public class FractionNode extends PNode {
             setOffset( line.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, line.getFullBounds().getY() );
         }};
         addChild( den );
+
+        //Make the entire region grabbable
+        final PhetPPath background = new PhetPPath( getFullBounds(), BuildAFractionCanvas.TRANSPARENT );
+        addChild( background );
+        background.moveToBack();
     }
 }
