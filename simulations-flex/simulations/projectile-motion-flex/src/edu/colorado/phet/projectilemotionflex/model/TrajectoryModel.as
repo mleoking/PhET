@@ -11,7 +11,9 @@ import edu.colorado.phet.projectilemotionflex.view.MainView;
 import flash.events.TimerEvent;
 
 import flash.utils.Timer;
+import flash.utils.getTimer;
 
+//model of projectile motion, including air resistance
 public class TrajectoryModel {
 
     public var views_arr: Array;     //views associated with this model
@@ -32,8 +34,11 @@ public class TrajectoryModel {
     private var _angleInDeg: Number;  //angle of cannon barrel in degrees, measured CCW from horizontal
     private var _theta: Number; //initial angle of projectile, in radians, measured CCW from horizontal
     private var _t: Number;     //time in seconds, projectile fired at t = 0
-    private var _inFlight: Boolean;  //true if projectile is in flight
-    private var stepsPerFrame: int;      //number of algorithm steps between screen updates
+    public var startTime: Number;       //real time in seconds that the projectile was fired (used with flash.utils.getTimer() )
+    public var previousTime: Number;    //previous real time in seconds that getTimer() was called.
+    public var elapsedTime: Number;     //real elapsed time in seconds since previous call to getTimer()
+    private var _inFlight: Boolean;     //true if projectile is in flight
+    private var stepsPerFrame: int;     //number of algorithm steps between screen updates
     private var frameCounter: int;
     private var _tRate:Number;   //Normal time rate: tRate = 1;
     private var dt: Number;     //time step for trajectory algorithm, all times in seconds
@@ -80,11 +85,20 @@ public class TrajectoryModel {
         vX = _vX0;
         vY = _vY0;
         this._t = 0;
+        this.startTime = getTimer()/1000;     //getTimer() returns time in milliseconds
+        this.previousTime = startTime;
         msTimer.start();
     }
 
+    //time-based animation
     private function stepForward( evt: TimerEvent ):void{
-        _t += dt;
+        var currentTime:Number = getTimer()/1000;
+        elapsedTime = currentTime - previousTime;
+        previousTime = currentTime;
+        if(elapsedTime > 2*dt){
+            elapsedTime = dt;
+        }
+        _t += elapsedTime;
         frameCounter += 1;
         var aX: Number = 0;
         var aY: Number = -g;
@@ -98,7 +112,7 @@ public class TrajectoryModel {
             this._inFlight = true;
             //trace( "Trajectory Model:  y = " + this._yP );
         }
-        if( _yP <= 0 ){
+        if( _yP <= 0 ){       //stop when projectile hits the ground (y = 0)
             _inFlight = false;
             msTimer.stop();
             trace("timer stopped")

@@ -12,6 +12,7 @@ import flash.display.Graphics;
 
 import flash.display.Sprite;
 import flash.geom.Point;
+import flash.utils.getTimer;
 
 public class TrajectoryView extends Sprite {
     private var mainView: MainView;
@@ -122,6 +123,8 @@ public class TrajectoryView extends Sprite {
             drawTicMarkOnTrajectory();
             nextTicMarkTime += 1;
             trace("TrajectoryView.update  currentT = " + currentT );
+            var elapsedTime:Number = getTimer()/1000 - trajectoryModel.startTime;
+            trace(" real elapsed time = " + elapsedTime );
         }
         //trace( "trajectoryView.update  currentX = " + currentX) ;
     }
