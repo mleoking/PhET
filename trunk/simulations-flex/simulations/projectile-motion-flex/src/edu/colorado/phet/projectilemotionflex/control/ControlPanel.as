@@ -20,6 +20,7 @@ import flash.events.TextEvent;
 import mx.containers.Canvas;
 import mx.containers.HBox;
 import mx.containers.VBox;
+import mx.controls.CheckBox;
 import mx.controls.ComboBox;
 import mx.controls.Label;
 import mx.controls.TextInput;
@@ -46,6 +47,8 @@ public class ControlPanel extends Canvas {
     private var speedReadout: NiceTextField;
     private var massReadout: NiceTextField;
     private var diameterReadout: NiceTextField;
+
+    private var airResistance_cb: CheckBox;
 
     private var angle_lbl: Label;
     private var angle_txt: TextInput;
@@ -117,6 +120,8 @@ public class ControlPanel extends Canvas {
         massReadout = new NiceTextField( setMass, mass_str, 0.01, 1000 );
         diameterReadout = new NiceTextField( setDiameter, diameter_str, 0.1, 10 );
 
+        airResistance_cb = new CheckBox();
+
         angle_lbl = new Label();
         angle_txt = new TextInput();
         speed_lbl = new Label();
@@ -136,6 +141,7 @@ public class ControlPanel extends Canvas {
         background.addChild( new SpriteUIComponent( speedReadout ) );
         background.addChild( new SpriteUIComponent( massReadout ) );
         background.addChild( new SpriteUIComponent( diameterReadout ) );
+        background.addChild( airResistance_cb );
 
         background.addChild( buttonBackground );
         buttonBackground.addChild( new SpriteUIComponent( fireButton, true ) );
