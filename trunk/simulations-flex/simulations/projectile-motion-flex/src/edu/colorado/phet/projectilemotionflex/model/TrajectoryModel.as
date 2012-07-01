@@ -25,7 +25,6 @@ public class TrajectoryModel {
     private var altitude: Number;   //altitude above sea level in meters
     private var rho: Number;        //density of air in kg/m^3.  At sea level, rho = 1.6 m/s^3
 
-    private var _airResistance: Boolean;  //true if air resistance is on
     private var _xP: Number;        //current x- and y_coords of position of projectile in meters
     private var _yP: Number;
     private var _xP0: Number;       //x- and y- coordinates of initial position of projectile
@@ -38,12 +37,21 @@ public class TrajectoryModel {
     private var _vX0: Number;       //x- and y-components of initial velocity
     private var _vY0: Number;
     private var _v0: Number;        //initial speed of projectile
-    private var _mass: Number;        //mass of current projectile in kg
-    private var _diameter: Number;    //diameter of curent projectile in kg
-    private var dragCoefficient: Number;      //used in drag calc, when air resistance is on
-    private var B: Number;              //drag acceleration ~ -B*v*v
     private var _angleInDeg: Number;    //angle of cannon barrel in degrees, measured CCW from horizontal
     private var _theta: Number;         //initial angle of projectile, in radians, measured CCW from horizontal
+
+    private var _airResistance: Boolean;  //true if air resistance is on
+//    private var _mass: Number;        //mass of current projectile in kg
+//    private var _diameter: Number;    //diameter of curent projectile in kg
+//    private var dragCoefficient: Number;      //used in drag calc, when air resistance is on
+    private var B: Number;              //drag acceleration ~ -B*v*v
+
+    private var _projectiles:Array;  //array of projectiles
+    private var _pIndex: int;        //index of currently selected projectile: projectiles[pIndex] = current projectile
+    private var mass0: Number;     //mass, diameter, and dragC of user-controlled projectile
+    private var diameter0: Number;
+    private var dragCoefficient0: Number;
+
     private var _t: Number;             //time in seconds, projectile fired at t = 0
     public var startTime: Number;       //real time in seconds that the projectile was fired, from flash.utils.getTimer() 
     public var previousTime: Number;    //previous real time in seconds that getTimer() was called.
@@ -67,6 +75,12 @@ public class TrajectoryModel {
     }
 
     private function initialize():void{
+        mass0 = 2;        //mass, diameter, and dragCoefficient of user-choice projectile
+        diameter0 = 0.1;
+        dragCoefficient0 = 1;
+        this._pIndex = 0;
+        this._projectiles = new Array(10);  //10 different projectiles
+        this.initializeProjectiles();
         this.g = 9.8;            //acceleration of gravity in m/s^2; all units in SI
         this._xP = 0;            //origin is near (but not at) lower left corner of stage
         this._yP = 0;
@@ -83,9 +97,9 @@ public class TrajectoryModel {
         this._inFlight = false;
         this._airResistance = false;
         this.rho = 1.6;
-        this.mass = 1;
-        this.diameter = 0.1;
-        this.dragCoefficient = 1;
+//        this.mass = 1;
+//        this.diameter = 0.1;
+//        this.dragCoefficient = 1;
         this.setDragFactor();
         this.dt = 0.01;
         this._tRate = 1;
@@ -96,7 +110,23 @@ public class TrajectoryModel {
         this.updateViews();
     }
 
+    private function initializeProjectiles():void{
+        _projectiles[0] = new Projectile( mainView, this, mass0, diameter0, dragCoefficient0 );  //user-choice
+        _projectiles[1] = new Projectile( mainView, this, 150, 0.15, 0.05 );        //tankshell
+        _projectiles[2] = new Projectile( mainView, this, 0.046, 0.043, 0.24 );     //golfball
+        _projectiles[3] = new Projectile( mainView, this, 0.145, 0.074, 0.4 );      //baseball
+        _projectiles[4] = new Projectile( mainView, this, 7.3, 0.25, 0.46 );        //bowlingball
+        _projectiles[5] = new Projectile( mainView, this, 0.41, 0.17, 0.15 );       //football
+        _projectiles[6] = new Projectile( mainView, this, 5, 0.37, 0.6 );           //pumpkin
+        _projectiles[7] = new Projectile( mainView, this, 70, 0.5, 1.3 );           //adult human
+        _projectiles[8] = new Projectile( mainView, this, 400, 2, 1.2 );            //piano
+        _projectiles[9] = new Projectile( mainView, this, 1000, 2.5, 1.3 );         //Buick
+    }
+
     private function setDragFactor():void{
+        var diameter: Number = _projectiles[_pIndex].diameter;
+        var mass: Number = _projectiles[_pIndex].mass;
+        var dragCoefficient: Number = _projectiles[_pIndex].dragCoefficient;
         var area: Number = Math.PI*diameter*diameter/4;
         B = dragCoefficient*rho*area/mass;
     }
@@ -129,6 +159,10 @@ public class TrajectoryModel {
         }else{       //if air resistance on
             aX = - B*vX*v;
             aY = -g - B*vY*v;
+            //if air resistance so large that results are unphysical, then reduce time step
+            if( B*v*dt > 0.25 ){
+                dt = dt/( B*v*dt/0.25 )
+            }
         }
         _xP += vX * dt + (0.5) * aX * dt*dt;
         _yP += vY * dt + (0.5) * aY * dt*dt;
@@ -143,12 +177,13 @@ public class TrajectoryModel {
             if( aY != 0 ){
                 delT = ( vY - vY0 ) / aY;
             }else{
-                delT = _yP / vY ;
+                delT = -_yP / vY ;
             }
             _t -= delT;
             _yP = 0;
             var vX0: Number = vX - aX*delT;
             _xP = _xP - vX0*delT - (0.5)*aX*delT*delT;
+            updateViews();
             _inFlight = false;
             trajectoryTimer.stop();
         }//end if (_yP < 0 )
@@ -240,6 +275,16 @@ public class TrajectoryModel {
         _vY0 = v0*Math.sin( angleInDeg*Math.PI/180 );
     }
 
+    public function setMass( mass:Number ):void{
+        this.projectiles[0].mass = mass;
+        this.setDragFactor();
+    }
+
+    public function setDiameter( diameter:Number ):void{
+        this.projectiles[0].diameter = diameter;
+        this.setDragFactor();
+    }
+
     public function get inFlight():Boolean {
         return _inFlight;
     }
@@ -252,20 +297,22 @@ public class TrajectoryModel {
         _airResistance = value;
     }
 
-    public function get mass():Number {
-        return _mass;
+
+
+    public function get projectiles():Array {
+        return _projectiles;
     }
 
-    public function set mass(value:Number):void {
-        _mass = value;
+    public function set projectiles(value:Array):void {
+        _projectiles = value;
     }
 
-    public function get diameter():Number {
-        return _diameter;
+    public function get pIndex():int {
+        return _pIndex;
     }
 
-    public function set diameter(value:Number):void {
-        _diameter = value;
+    public function set pIndex(value:int):void {
+        _pIndex = value;
     }
 }//end class
 }//end package
