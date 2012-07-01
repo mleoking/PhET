@@ -1,6 +1,6 @@
 /**
  * Created with IntelliJ IDEA.
- * User: Duso
+ * User: Dubson
  * Date: 6/16/12
  * Time: 7:48 PM
  * To change this template use File | Settings | File Templates.
@@ -41,7 +41,7 @@ public class TrajectoryModel {
     private var _theta: Number;         //initial angle of projectile, in radians, measured CCW from horizontal
 
     private var _airResistance: Boolean;  //true if air resistance is on
-    private var B: Number;                //drag acceleration ~ -B*v*v
+    private var B: Number;                //drag acceleration = -B*v*v
 
     private var _projectiles:Array;     //array of projectiles
     private var _pIndex: int;           //index of currently selected projectile: projectiles[pIndex] = current projectile
@@ -54,7 +54,7 @@ public class TrajectoryModel {
     public var previousTime: Number;    //previous real time in seconds that getTimer() was called.
     public var elapsedTime: Number;     //real elapsed time in seconds since previous call to getTimer()
     private var _inFlight: Boolean;     //true if projectile is in flight
-    private var stepsPerFrame: int;     //number of algorithm steps between screen/view updates
+    private var stepsPerFrame: int;     //number of algorithm steps between screen refreshes
     private var frameCounter: int;      //counts algorithm steps between view updates
     private var _tRate:Number;          //Normal time rate: tRate = 1;
     private var dt: Number;             //time step for trajectory algorithm, all times in seconds
@@ -134,6 +134,7 @@ public class TrajectoryModel {
         this._t = 0;
         this.startTime = getTimer()/1000;     //getTimer() returns time in milliseconds
         this.previousTime = startTime;
+        this._inFlight = true;
         trajectoryTimer.start();
     }
 
@@ -186,7 +187,6 @@ public class TrajectoryModel {
         if( frameCounter > stepsPerFrame ){
             frameCounter = 0;
             this.updateViews();
-            this._inFlight = true;
             //trace( "Trajectory Model:  y = " + this._yP );
         }
 
