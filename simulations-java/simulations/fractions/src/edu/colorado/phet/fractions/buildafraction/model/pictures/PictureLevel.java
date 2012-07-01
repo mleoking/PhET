@@ -5,6 +5,8 @@ import fj.F;
 import fj.Ord;
 import fj.data.List;
 
+import java.awt.Color;
+
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 
@@ -21,18 +23,21 @@ public class PictureLevel {
     public final List<PictureTarget> targets;
     public final List<Integer> pieces;
 
+    public final Color color;
+
     //Cannot be a constructor because has same erasure
-    public static PictureLevel pictureLevel( final List<Integer> pieces, final List<Fraction> targets ) {
+    public static PictureLevel pictureLevel( final List<Integer> pieces, final List<Fraction> targets, Color color ) {
         return new PictureLevel( pieces, targets.map( new F<Fraction, PictureTarget>() {
             @Override public PictureTarget f( final Fraction fraction ) {
                 return new PictureTarget( fraction );
             }
-        } ) );
+        } ), color );
     }
 
-    public PictureLevel( final List<Integer> pieces, final List<PictureTarget> targets ) {
+    public PictureLevel( final List<Integer> pieces, final List<PictureTarget> targets, Color color ) {
         this.targets = targets;
         this.pieces = pieces.sort( Ord.intOrd );
+        this.color = color;
     }
 
     public PictureTarget getTarget( final int i ) { return targets.index( i ); }
