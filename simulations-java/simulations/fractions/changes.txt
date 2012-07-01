@@ -1,3 +1,4 @@
+Build a Fraction: Added number icons
 # 1.00.00 (65580) Jun 29, 2012
 Fraction Matcher: Added screenshot
 # 0.00.103 (65578) Jun 29, 2012
