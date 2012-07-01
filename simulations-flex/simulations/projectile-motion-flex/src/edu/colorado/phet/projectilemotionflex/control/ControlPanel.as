@@ -37,13 +37,10 @@ public class ControlPanel extends Canvas {
     private var stageH: Number;
 
     private var background: VBox;
+    private var zoomControlBackground: HBox;
     private var buttonBackground: HBox;
     private var projectileComboBox: ComboBox;
     private var choiceList_arr: Array;
-//    private var HBox1: HBox;
-//    private var HBox2: HBox;
-//    private var HBox3: HBox;
-//    private var HBox4: HBox;
 
     private var angleReadout: NiceTextField;
     private var speedReadout: NiceTextField;
@@ -54,14 +51,6 @@ public class ControlPanel extends Canvas {
     private var airResistanceCheckBox: CheckBox;
     private var airResistanceLabel: NiceLabel;
 
-//    private var angle_lbl: Label;
-//    private var angle_txt: TextInput;
-//    private var speed_lbl: Label;
-//    private var speed_txt: TextInput;
-//    private var mass_lbl: Label;
-//    private var mass_txt: TextInput;
-//    private var diameter_lbl: Label;
-//    private var diameter_txt: TextInput;
 
     private var fireButton: NiceButton2;
     private var eraseButton: NiceButton2;
@@ -114,6 +103,8 @@ public class ControlPanel extends Canvas {
             setStyle( "verticalGap", 10 );
             setStyle( "horizontalAlign", "right" );
         }
+
+        zoomControlBackground = new HBox();
         buttonBackground = new HBox();
 
         projectileComboBox = new ComboBox();
@@ -124,7 +115,7 @@ public class ControlPanel extends Canvas {
         angleReadout = new NiceTextField( setAngle, angle_str, -90, 180 );
         speedReadout = new NiceTextField( setSpeed, speed_str, 0, 10000 );
         massReadout = new NiceTextField( setMass, mass_str, 0.01, 1000 );
-        diameterReadout = new NiceTextField( setDiameter, diameter_str, 0.1, 10 );
+        diameterReadout = new NiceTextField( setDiameter, diameter_str, 0.01, 10 );
 
         airResistanceHBox = new HBox();
         //airResistanceHBox.setStyle( "horizontalGap", 0 );
@@ -132,14 +123,6 @@ public class ControlPanel extends Canvas {
         airResistanceLabel = new NiceLabel( 12, airResistance_str );
         airResistanceCheckBox.addEventListener( Event.CHANGE , clickAirResistance );
 
-//        angle_lbl = new Label();
-//        angle_txt = new TextInput();
-//        speed_lbl = new Label();
-//        speed_txt = new TextInput();
-//        mass_lbl = new Label();
-//        mass_txt = new TextInput();
-//        diameter_lbl = new Label();
-//        diameter_txt = new TextInput();
 
 
         buttonBackground = new HBox();
@@ -233,38 +216,12 @@ public class ControlPanel extends Canvas {
     }
 
     private function setMass( massInkg ):void{
-
+        trajectoryModel.setMass( massInkg );
     }
 
-    private function setDiameter( diameterInm ):void{
-
-    }
-
-    private function angleListener( evt:Event ):void{
-        var angleInDeg:Number = Number(evt.currentTarget.text);
-        if( angleInDeg > 180 ){
-            angleInDeg = 180;
-        } else if(angleInDeg < -180 ){
-            angleInDeg = -180;
-        }
-        //trace("angleListener called text is "+ angleInDeg );
-        if( angleInDeg < 180 && angleInDeg > -180 && !isNaN( angleInDeg )){
-            trajectoryModel.angleInDeg = angleInDeg;
-        }
-
-    }//end angleListener
-
-    private function speedListener( evt:Event ):void{
-        var initSpeed:Number = Number(evt.currentTarget.text);
-        trajectoryModel.v0 = initSpeed;
-    }
-
-    private function massListener( evt:Event ):void{
-
-    }
-
-    private function diameterListener( evt:Event ):void{
-
+    private function setDiameter( diameterInMeters ):void{
+       trajectoryModel.setDiameter( diameterInMeters );
+        this.mainView.backgroundView.projectileView.drawProjectile();
     }
 
     private function clickAirResistance( evt: Event ):void{
@@ -275,8 +232,12 @@ public class ControlPanel extends Canvas {
     public function update():void{
         var angleNbr:Number = trajectoryModel.angleInDeg;
         var speedNbr: Number = trajectoryModel.v0;
+        var massNbr: Number = trajectoryModel.projectiles[0].mass;
+        var diameterNbr: Number = trajectoryModel.projectiles[0].diameter;
         this.angleReadout.setVal( angleNbr );
         this.speedReadout.setVal( speedNbr );
+        this.massReadout.setVal( massNbr );
+        this.diameterReadout.setVal ( diameterNbr );
 
 //        var angleStr:String;
 //        //round to nearest tenth;
