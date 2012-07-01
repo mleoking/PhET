@@ -84,6 +84,15 @@ public class TrajectoryView extends Sprite {
         gT.moveTo( x0InPix, y0InPix );
     }
 
+    public function updateTrajectoryColor():void{
+        var gT: Graphics = currentTrajectoryView.graphics;
+        if( trajectoryModel.airResistance ){
+            gT.lineStyle( 4, 0xff0000, 1 );
+        }else{
+            gT.lineStyle( 4, 0x0000ff, 1 );
+        }
+    }
+
     private function addNewPointToTrajectory():void{
         var xytPoint: XytPoint = new XytPoint( currentX, currentY, currentT, currentIndex );
         trajectory_arr[ currentIndex ] = xytPoint;

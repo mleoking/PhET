@@ -221,12 +221,14 @@ public class ControlPanel extends Canvas {
 
     private function setDiameter( diameterInMeters ):void{
        trajectoryModel.setDiameter( diameterInMeters );
-        this.mainView.backgroundView.projectileView.drawProjectile();
+        this.mainView.backgroundView.projectileView.drawProjectileInFlight();
+        //this.mainView.backgroundView.projectileView.drawProjectileOnGround();
     }
 
     private function clickAirResistance( evt: Event ):void{
         var selected:Boolean = airResistanceCheckBox.selected;
         trajectoryModel.airResistance = selected;
+        mainView.backgroundView.trajectoryView.updateTrajectoryColor();
     }
 
     public function update():void{

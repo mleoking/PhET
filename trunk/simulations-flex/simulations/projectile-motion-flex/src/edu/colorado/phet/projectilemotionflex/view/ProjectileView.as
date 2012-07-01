@@ -21,7 +21,8 @@ public class ProjectileView extends Sprite {
 //    private var stageH: Number;
     private var originXInPix: Number;
     private var originYInPix: Number;
-    private var projectileSprite: Sprite;
+    private var projectileInFlight: Sprite;
+    private var projectileOnGround: Sprite;
     private var pIndex: int;        //index of current projectile, which is trajectoryModel.projectiles[pIndex]
 
     public function ProjectileView( mainView:MainView,  trajectoryModel: TrajectoryModel  ) {
@@ -29,7 +30,8 @@ public class ProjectileView extends Sprite {
         this.originXInPix = mainView.originXInPix;
         this.originYInPix = mainView.originYInPix;
         this.trajectoryModel = trajectoryModel;
-        this.projectileSprite = new Sprite();
+        this.projectileInFlight = new Sprite();
+        this.projectileOnGround = new Sprite();
 //        this.stageW = mainView.stageW;
 //        this.stageH = mainView.stageH;
 
@@ -39,21 +41,44 @@ public class ProjectileView extends Sprite {
     private function initialize():void{
         trajectoryModel.registerView( this );
         pIndex = trajectoryModel.pIndex;
-        drawProjectile();
-        this.addChild( projectileSprite );
+        drawProjectileInFlight();
+        //drawProjectileOnGround();
+        this.addChild( projectileInFlight );
+        this.addChild( projectileOnGround );
     }
 
-    public function drawProjectile():void {     //must be recalled if diameter is changed
+    public function drawProjectileInFlight():void {     //must be recalled if diameter is changed
         var radius:Number;
         var projectile: Projectile = trajectoryModel.projectiles[ pIndex ];
         radius = (0.5) * projectile.diameter * mainView.pixPerMeter;
         trace("ProjectileView.drawProjectile.radius = "+radius);
-        var g:Graphics = this.projectileSprite.graphics;
+        var g:Graphics = this.projectileInFlight.graphics;
         g.clear();
         g.lineStyle(1, 0x000000, 1);
         g.beginFill(0x000000);
         g.drawCircle(0, 0, radius);
         g.endFill();
+    }
+
+    public function drawProjectileOnGround():void {     //must be recalled if diameter is changed
+        var radius:Number;
+        var projectile: Projectile = trajectoryModel.projectiles[ pIndex ];
+        radius = (0.5) * projectile.diameter * mainView.pixPerMeter;
+        trace("ProjectileView.drawProjectile.radius = "+radius);
+        var g:Graphics = this.projectileInFlight.graphics;
+        g.clear();
+        g.lineStyle(1, 0x000000, 1);
+        g.beginFill(0x000000);
+        g.moveTo( radius,  0 );
+        for( var angle: Number = 0; angle <= Math.PI; angle += Math.PI/30 ){
+            g.lineTo( radius*Math.cos( angle ), -radius*Math.sin( angle ) );
+        }
+        g.lineTo( radius,  0 );
+        g.endFill();
+    }
+
+    public function setVisibilityOfProjectiles():void{
+
     }
 
 
@@ -62,8 +87,8 @@ public class ProjectileView extends Sprite {
         var yInMeters: Number = trajectoryModel.yP;
         var xInPix: Number = this.originXInPix + xInMeters*mainView.pixPerMeter;
         var yInPix: Number = this.originYInPix - yInMeters*mainView.pixPerMeter;
-        this.projectileSprite.x = xInPix;
-        this.projectileSprite.y = yInPix;
+        this.projectileInFlight.x = xInPix;
+        this.projectileInFlight.y = yInPix;
     }
 }//end class
 }//end package
