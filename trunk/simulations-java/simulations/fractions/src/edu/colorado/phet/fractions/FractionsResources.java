@@ -43,6 +43,16 @@ public class FractionsResources {
         public static final BufferedImage MINUS_BUTTON = RESOURCES.getImage( "minus_button.png" );
         public static final BufferedImage MINUS_BUTTON_GRAY = RESOURCES.getImage( "minus_button_gray.png" );
         public static final BufferedImage MINUS_BUTTON_PRESSED = RESOURCES.getImage( "minus_button_pressed.png" );
+        public static final BufferedImage NUMBER_0 = RESOURCES.getImage( "number_0.png" );
+        public static final BufferedImage NUMBER_1 = RESOURCES.getImage( "number_1.png" );
+        public static final BufferedImage NUMBER_2 = RESOURCES.getImage( "number_2.png" );
+        public static final BufferedImage NUMBER_3 = RESOURCES.getImage( "number_3.png" );
+        public static final BufferedImage NUMBER_4 = RESOURCES.getImage( "number_4.png" );
+        public static final BufferedImage NUMBER_5 = RESOURCES.getImage( "number_5.png" );
+        public static final BufferedImage NUMBER_6 = RESOURCES.getImage( "number_6.png" );
+        public static final BufferedImage NUMBER_7 = RESOURCES.getImage( "number_7.png" );
+        public static final BufferedImage NUMBER_8 = RESOURCES.getImage( "number_8.png" );
+        public static final BufferedImage NUMBER_9 = RESOURCES.getImage( "number_9.png" );
         public static final BufferedImage PLUS_BUTTON = RESOURCES.getImage( "plus_button.png" );
         public static final BufferedImage PLUS_BUTTON_GRAY = RESOURCES.getImage( "plus_button_gray.png" );
         public static final BufferedImage PLUS_BUTTON_PRESSED = RESOURCES.getImage( "plus_button_pressed.png" );

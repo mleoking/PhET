@@ -4,6 +4,16 @@ left_button_up.png source=PhET notes=NP
 minus_button.png source=PhET notes=NP
 minus_button_gray.png source=PhET notes=NP
 minus_button_pressed.png source=PhET notes=NP
+number_0.png source=PhET notes=SR
+number_1.png source=PhET notes=SR
+number_2.png source=PhET notes=SR
+number_3.png source=PhET notes=SR
+number_4.png source=PhET notes=SR
+number_5.png source=PhET notes=SR
+number_6.png source=PhET notes=SR
+number_7.png source=PhET notes=SR
+number_8.png source=PhET notes=SR
+number_9.png source=PhET notes=SR
 plus_button.png source=PhET notes=NP
 plus_button_gray.png source=PhET notes=NP
 plus_button_pressed.png source=PhET notes=NP
