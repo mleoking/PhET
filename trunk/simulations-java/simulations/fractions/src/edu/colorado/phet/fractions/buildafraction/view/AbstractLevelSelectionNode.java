@@ -4,12 +4,14 @@ package edu.colorado.phet.fractions.buildafraction.view;
 import fj.F;
 import fj.data.List;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.Timer;
 
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
@@ -17,13 +19,16 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
+import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.ToggleButtonNode;
+import edu.colorado.phet.fractions.buildafraction.view.pictures.RefreshButtonNode;
 import edu.colorado.phet.fractions.fractionmatcher.view.PaddedIcon;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
-import edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.umd.cs.piccolo.PNode;
+
+import static edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas.*;
 
 /**
  * Node that shows the levels and lets the user choose the level and settings
@@ -43,7 +48,7 @@ public class AbstractLevelSelectionNode extends PNode {
             addChild( new PhetPText( title, new PhetFont( 38, true ) ) );
         }};
 
-        titleText.centerFullBoundsOnPoint( AbstractFractionsCanvas.STAGE_SIZE.width / 2, AbstractFractionsCanvas.INSET + titleText.getFullBounds().getHeight() / 2 );
+        titleText.centerFullBoundsOnPoint( STAGE_SIZE.width / 2, INSET + titleText.getFullBounds().getHeight() / 2 );
         addChild( titleText );
 
         ArrayList<HBox> boxes = new ArrayList<HBox>();
@@ -56,9 +61,20 @@ public class AbstractLevelSelectionNode extends PNode {
             boxes.add( new HBox( 25, icons.array( PNode[].class ) ) );
         }
         VBox box = new VBox( 20, boxes.toArray( new PNode[boxes.size()] ) ) {{
-            centerFullBoundsOnPoint( AbstractFractionsCanvas.STAGE_SIZE.width / 2, AbstractFractionsCanvas.STAGE_SIZE.height / 2 );
+            centerFullBoundsOnPoint( STAGE_SIZE.width / 2, STAGE_SIZE.height / 2 );
         }};
         addChild( box );
+
+        ResetAllButtonNode resetAllButton = new ResetAllButtonNode( new Resettable() {
+            public void reset() {
+                context.reset();
+            }
+        }, context.getComponent(), CONTROL_FONT, Color.black, RefreshButtonNode.BUTTON_COLOR ) {{
+            setOffset( STAGE_SIZE.width - this.getFullWidth() - INSET, STAGE_SIZE.height - this.getFullHeight() - INSET );
+            setConfirmationEnabled( false );
+        }};
+
+        addChild( resetAllButton );
     }
 
     private static PNode toLevelIcon( final AbstractLevelSelectionNode parent, final LevelInfo info, final List<List<LevelInfo>> allLevels, final MainContext context ) {
@@ -106,6 +122,7 @@ public class AbstractLevelSelectionNode extends PNode {
         public LevelIconNode( final String text, PNode icon, int numStars, int maxStars ) {
             addChild( new VBox( new PhetPText( text, new PhetFont( 18, true ) ), icon, new StarSetNode2( numStars, maxStars ) ) );
         }
+
     }
 
     public void setInitialPosition( double x, double y ) {
