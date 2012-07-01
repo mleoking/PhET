@@ -1,3 +1,4 @@
+Build a Fraction: Added a reset all button to the level selection page
 Build a Fraction: Made it so a filled container cannot be returned to the toolbox
 Build a Fraction: Added number icons
 # 1.00.00 (65580) Jun 29, 2012

@@ -3,6 +3,7 @@ package edu.colorado.phet.fractions.buildafraction.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Paint;
 import java.awt.Stroke;
 
@@ -44,6 +45,27 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Mai
         RIGHT,
         LEFT,
         DOWN
+    }
+
+    private void crossFadeTo( final PNode newNode ) {
+        newNode.setTransparency( 0 );
+        addChild( newNode );
+        final PNode oldNode = currentScene;
+
+        PActivity activity = oldNode.animateToTransparency( 0, 500 );
+        activity.setDelegate( new PActivityDelegate() {
+            public void activityStarted( final PActivity activity ) {
+            }
+
+            public void activityStepped( final PActivity activity ) {
+            }
+
+            public void activityFinished( final PActivity activity ) {
+                oldNode.removeFromParent();
+                newNode.animateToTransparency( 1, 500 );
+            }
+        } );
+        currentScene = newNode;
     }
 
     private void animateTo( final PNode node, Direction direction ) {
@@ -91,6 +113,14 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Mai
 
     public void levelButtonPressed( final AbstractLevelSelectionNode parent, final LevelInfo info ) {
         animateTo( createLevelNode( info.levelIndex, info.levelType ), Direction.RIGHT );
+    }
+
+    public void reset() {
+        crossFadeTo( new DefaultLevelSelectionScreen( "Build a Fraction", this ) );
+    }
+
+    public Component getComponent() {
+        return this;
     }
 
     private PNode createLevelNode( final int levelIndex, final LevelType levelType ) {
