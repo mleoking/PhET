@@ -6,8 +6,7 @@ import fj.data.List;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
-import edu.colorado.phet.fractions.fractionsintro.common.view.Colors;
+import edu.colorado.phet.fractions.buildafraction.view.DefaultLevelSelectionScreen;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 
 import static edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList.*;
@@ -36,7 +35,7 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
         return new PictureLevel( list( 1, 1, 2, 2, 3, 3 ),
                                  shuffle( list( new PictureTarget( fraction( 1, 1 ) ),
                                                 new PictureTarget( fraction( 1, 2 ) ),
-                                                new PictureTarget( fraction( 2, 3 ) ) ) ), PhetColorScheme.RED_COLORBLIND );
+                                                new PictureTarget( fraction( 2, 3 ) ) ) ), DefaultLevelSelectionScreen.colors[0] );
     }
 
     /* Level 2:
@@ -51,7 +50,7 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
                                        fraction( 2, 5 ) );
 
         List<Fraction> selected = choose( 3, targets );
-        return pictureLevel( list( 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6 ), selected, Colors.LIGHT_BLUE );
+        return pictureLevel( list( 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6 ), selected, DefaultLevelSelectionScreen.colors[1] );
     }
 
     /*Level 3:
@@ -65,7 +64,7 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
                                        fraction( 1, 2 ) );
 
         List<Fraction> selected = choose( 3, targets );
-        return pictureLevel( pad( list( 2, 4, 4, 6, 6, 6, 6 ) ), selected, Colors.LIGHT_GREEN );
+        return pictureLevel( pad( list( 2, 4, 4, 6, 6, 6, 6 ) ), selected, DefaultLevelSelectionScreen.colors[2] );
     }
 
     /* Level 4:
@@ -85,7 +84,7 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
 
         List<Fraction> selected = shuffle( choose( 3, largeList ).snoc( chooseOne( smallList ) ) );
         return pictureLevel(
-                pad( list( 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6 ) ), selected, Colors.LIGHT_ORANGE );
+                pad( list( 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6 ) ), selected, DefaultLevelSelectionScreen.colors[3] );
     }
 
     /* Level 5:
@@ -101,7 +100,7 @@ Pieces: 6 each of (1/3, 1/4, 1/5, 1/6}*/
 
         List<Fraction> selected = choose( 4, list );
         return pictureLevel(
-                pad( list( 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6 ) ), selected, PhetColorScheme.RED_COLORBLIND );
+                pad( list( 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6 ) ), selected, DefaultLevelSelectionScreen.colors[4] );
     }
 
     private List<Integer> pad( List<Integer> list ) {
