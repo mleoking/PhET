@@ -71,7 +71,12 @@ public class TrajectoryView extends Sprite {
 //        currentY = trajectoryModel.yP0;
         trajectory_arr[0] = new XytPoint( currentX,  currentY, currentT,  0 );
         var gT: Graphics = currentTrajectoryView.graphics;
-        gT.lineStyle( 4, 0x0000ff, 1 );
+        if( trajectoryModel.airResistance ){
+            gT.lineStyle( 4, 0xff0000, 1 );
+        }else{
+            gT.lineStyle( 4, 0x0000ff, 1 );
+        }
+
         var x0: Number = trajectoryModel.xP0;
         var y0: Number = trajectoryModel.yP0;
         var x0InPix: Number = this.originXInPix + x0*mainView.pixPerMeter;
@@ -122,9 +127,7 @@ public class TrajectoryView extends Sprite {
         if( currentT > nextTicMarkTime ){
             drawTicMarkOnTrajectory();
             nextTicMarkTime += 1;
-            trace("TrajectoryView.update  currentT = " + currentT );
             var elapsedTime:Number = getTimer()/1000 - trajectoryModel.startTime;
-            trace(" real elapsed time = " + elapsedTime );
         }
         //trace( "trajectoryView.update  currentX = " + currentX) ;
     }

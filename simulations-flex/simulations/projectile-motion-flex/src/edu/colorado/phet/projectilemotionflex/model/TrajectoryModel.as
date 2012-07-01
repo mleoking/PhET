@@ -6,6 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.projectilemotionflex.model {
+import edu.colorado.phet.flexcommon.AboutDialog;
 import edu.colorado.phet.projectilemotionflex.view.MainView;
 
 import flash.events.TimerEvent;
@@ -23,8 +24,8 @@ public class TrajectoryModel {
     private var g: Number;          //acceleration of gravity, all units are SI
     private var altitude: Number;   //altitude above sea level in meters
     private var rho: Number;        //density of air in kg/m^3.  At sea level, rho = 1.6 m/s^3
-    private var dragCoefficient: Number;      //used in drag calc, when air resistance is on
-    private var airResistance: Boolean;  //true if air resistance is on
+
+    private var _airResistance: Boolean;  //true if air resistance is on
     private var _xP: Number;        //current x- and y_coords of position of projectile in meters
     private var _yP: Number;
     private var _xP0: Number;       //x- and y- coordinates of initial position of projectile
@@ -37,8 +38,11 @@ public class TrajectoryModel {
     private var _vX0: Number;       //x- and y-components of initial velocity
     private var _vY0: Number;
     private var _v0: Number;        //initial speed of projectile
-    private var _mP: Number;        //mass of projectile in kg
-    private var _angleInDeg: Number;  //angle of cannon barrel in degrees, measured CCW from horizontal
+    private var _mass: Number;        //mass of current projectile in kg
+    private var _diameter: Number;    //diameter of curent projectile in kg
+    private var dragCoefficient: Number;      //used in drag calc, when air resistance is on
+    private var B: Number;              //drag acceleration ~ -B*v*v
+    private var _angleInDeg: Number;    //angle of cannon barrel in degrees, measured CCW from horizontal
     private var _theta: Number;         //initial angle of projectile, in radians, measured CCW from horizontal
     private var _t: Number;             //time in seconds, projectile fired at t = 0
     public var startTime: Number;       //real time in seconds that the projectile was fired, from flash.utils.getTimer() 
@@ -77,7 +81,12 @@ public class TrajectoryModel {
         this._vY0 = v0*Math.sin( angleInDeg*Math.PI/180 );
         this._t = 0;
         this._inFlight = false;
-        this.airResistance = false;
+        this._airResistance = false;
+        this.rho = 1.6;
+        this.mass = 1;
+        this.diameter = 0.1;
+        this.dragCoefficient = 1;
+        this.setDragFactor();
         this.dt = 0.01;
         this._tRate = 1;
         this.stepsPerFrame = 2;
@@ -87,11 +96,17 @@ public class TrajectoryModel {
         this.updateViews();
     }
 
+    private function setDragFactor():void{
+        var area: Number = Math.PI*diameter*diameter/4;
+        B = dragCoefficient*rho*area/mass;
+    }
+
     public function fireCannon():void{
         _xP = xP0;
         _yP = yP0;
         vX = _vX0;
         vY = _vY0;
+        v = Math.sqrt( vX*vX + vY*vY );
         this._t = 0;
         this.startTime = getTimer()/1000;     //getTimer() returns time in milliseconds
         this.previousTime = startTime;
@@ -108,17 +123,19 @@ public class TrajectoryModel {
         }
         _t += elapsedTime;
         frameCounter += 1;
-        if( !airResistance ){
+        if( !_airResistance ){
             aX = 0;
             aY = -g;
-            _xP += vX * dt + (0.5) * aX * dt*dt;
-            _yP += vY * dt + (0.5) * aY * dt*dt;
-            vX += aX * dt;
-            vY += aY * dt;
-            v = Math.sqrt( vX*vX + vY*vY );
         }else{       //if air resistance on
-
+            aX = - B*vX*v;
+            aY = -g - B*vY*v;
         }
+        _xP += vX * dt + (0.5) * aX * dt*dt;
+        _yP += vY * dt + (0.5) * aY * dt*dt;
+        vX += aX * dt;
+        vY += aY * dt;
+        v = Math.sqrt( vX*vX + vY*vY );
+
         if( _yP <= 0 ){       //stop when projectile hits the ground (y = 0)
             //must first backtrack to exact moment when y = 0
             var vY0: Number = -Math.sqrt( vY*vY - 2*aY*_yP );   //vY at y = 0, assumes aY = constant
@@ -225,6 +242,30 @@ public class TrajectoryModel {
 
     public function get inFlight():Boolean {
         return _inFlight;
+    }
+
+    public function get airResistance():Boolean {
+        return _airResistance;
+    }
+
+    public function set airResistance(value:Boolean):void {
+        _airResistance = value;
+    }
+
+    public function get mass():Number {
+        return _mass;
+    }
+
+    public function set mass(value:Number):void {
+        _mass = value;
+    }
+
+    public function get diameter():Number {
+        return _diameter;
+    }
+
+    public function set diameter(value:Number):void {
+        _diameter = value;
     }
 }//end class
 }//end package

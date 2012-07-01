@@ -7,6 +7,7 @@
  */
 package edu.colorado.phet.projectilemotionflex.control {
 import edu.colorado.phet.flashcommon.controls.NiceButton2;
+import edu.colorado.phet.flashcommon.controls.NiceLabel;
 import edu.colorado.phet.flashcommon.controls.NiceTextField;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
@@ -15,6 +16,7 @@ import edu.colorado.phet.projectilemotionflex.view.MainView;
 
 import flash.events.Event;
 import flash.events.KeyboardEvent;
+import flash.events.MouseEvent;
 import flash.events.TextEvent;
 
 import mx.containers.Canvas;
@@ -48,16 +50,18 @@ public class ControlPanel extends Canvas {
     private var massReadout: NiceTextField;
     private var diameterReadout: NiceTextField;
 
-    private var airResistance_cb: CheckBox;
+    private var airResistanceHBox: HBox;
+    private var airResistanceCheckBox: CheckBox;
+    private var airResistanceLabel: NiceLabel;
 
-    private var angle_lbl: Label;
-    private var angle_txt: TextInput;
-    private var speed_lbl: Label;
-    private var speed_txt: TextInput;
-    private var mass_lbl: Label;
-    private var mass_txt: TextInput;
-    private var diameter_lbl: Label;
-    private var diameter_txt: TextInput;
+//    private var angle_lbl: Label;
+//    private var angle_txt: TextInput;
+//    private var speed_lbl: Label;
+//    private var speed_txt: TextInput;
+//    private var mass_lbl: Label;
+//    private var mass_txt: TextInput;
+//    private var diameter_lbl: Label;
+//    private var diameter_txt: TextInput;
 
     private var fireButton: NiceButton2;
     private var eraseButton: NiceButton2;
@@ -81,6 +85,8 @@ public class ControlPanel extends Canvas {
     private var speed_str: String;
     private var mass_str: String;
     private var diameter_str: String;
+    //check box string
+    private var airResistance_str: String;
 
     public function ControlPanel( mainView:MainView,  trajectoryModel: TrajectoryModel ) {
         this.mainView = mainView;
@@ -120,28 +126,39 @@ public class ControlPanel extends Canvas {
         massReadout = new NiceTextField( setMass, mass_str, 0.01, 1000 );
         diameterReadout = new NiceTextField( setDiameter, diameter_str, 0.1, 10 );
 
-        airResistance_cb = new CheckBox();
+        airResistanceHBox = new HBox();
+        //airResistanceHBox.setStyle( "horizontalGap", 0 );
+        airResistanceCheckBox = new CheckBox();
+        airResistanceLabel = new NiceLabel( 12, airResistance_str );
+        airResistanceCheckBox.addEventListener( Event.CHANGE , clickAirResistance );
 
-        angle_lbl = new Label();
-        angle_txt = new TextInput();
-        speed_lbl = new Label();
-        speed_txt = new TextInput();
-        mass_lbl = new Label();
-        mass_txt = new TextInput();
-        diameter_lbl = new Label();
-        diameter_txt = new TextInput();
+//        angle_lbl = new Label();
+//        angle_txt = new TextInput();
+//        speed_lbl = new Label();
+//        speed_txt = new TextInput();
+//        mass_lbl = new Label();
+//        mass_txt = new TextInput();
+//        diameter_lbl = new Label();
+//        diameter_txt = new TextInput();
 
 
         buttonBackground = new HBox();
         fireButton = new NiceButton2( 60, 25, fire_str, fireProjectile, 0x00ff00, 0x000000 );
         eraseButton = new NiceButton2( 60, 25, erase_str, eraseTrajectories, 0xff0000, 0xffffff );
+
+        //layout of compoenents
         addChild( background );
         background.addChild( projectileComboBox );
         background.addChild( new SpriteUIComponent( angleReadout ) );
         background.addChild( new SpriteUIComponent( speedReadout ) );
         background.addChild( new SpriteUIComponent( massReadout ) );
         background.addChild( new SpriteUIComponent( diameterReadout ) );
-        background.addChild( airResistance_cb );
+
+        background.addChild( airResistanceHBox );
+        airResistanceHBox.addChild( airResistanceCheckBox );
+        airResistanceHBox.addChild( new SpriteUIComponent( airResistanceLabel, true ));
+
+
 
         background.addChild( buttonBackground );
         buttonBackground.addChild( new SpriteUIComponent( fireButton, true ) );
@@ -149,22 +166,22 @@ public class ControlPanel extends Canvas {
         this.update();
     }//end initialize()
 
-    private function createInputControl( hBox:HBox,  label:Label, label_str:String,  txtInput:TextInput, listener: Function ):void {
-        hBox.addChild( label );
-        hBox.addChild( txtInput );
-        hBox.setStyle( "horizontalGap", 2 );
-        hBox.setStyle( "horizontalAlign", "right" );
-        label.text = label_str;
-        label.truncateToFit = false;
-        label.setStyle( "textAlign", "right" );
-        label.setStyle( "fontSize", 12 );
-        txtInput.setStyle( "right", 5 );
-        txtInput.setStyle( "fontSize", 14 );
-        txtInput.width = 40;
-        txtInput.restrict = "0-9 . \\-" ;
-        //txtInput.setStyle( "", "right")
-        txtInput.addEventListener( Event.CHANGE, listener )
-    }
+//    private function createInputControl( hBox:HBox,  label:Label, label_str:String,  txtInput:TextInput, listener: Function ):void {
+//        hBox.addChild( label );
+//        hBox.addChild( txtInput );
+//        hBox.setStyle( "horizontalGap", 2 );
+//        hBox.setStyle( "horizontalAlign", "right" );
+//        label.text = label_str;
+//        label.truncateToFit = false;
+//        label.setStyle( "textAlign", "right" );
+//        label.setStyle( "fontSize", 12 );
+//        txtInput.setStyle( "right", 5 );
+//        txtInput.setStyle( "fontSize", 14 );
+//        txtInput.width = 40;
+//        txtInput.restrict = "0-9 . \\-" ;
+//        //txtInput.setStyle( "", "right")
+//        txtInput.addEventListener( Event.CHANGE, listener )
+//    }
 
     private function initializeStrings():void{
         this.fire_str = FlexSimStrings.get( "fire", "Fire" );
@@ -183,6 +200,7 @@ public class ControlPanel extends Canvas {
         speed_str = FlexSimStrings.get( "speed", "initial speed(m/s)" );
         mass_str = FlexSimStrings.get( "mass", "mass(kg)" );
         diameter_str = FlexSimStrings.get( "diameter", "diameter(m)" );
+        airResistance_str = FlexSimStrings.get( "airResistance", "Air Resistance" );
     } //end initializeStrings()
 
     private function formatInputBox( box: TextInput ):void{
@@ -247,6 +265,11 @@ public class ControlPanel extends Canvas {
 
     private function diameterListener( evt:Event ):void{
 
+    }
+
+    private function clickAirResistance( evt: Event ):void{
+        var selected:Boolean = airResistanceCheckBox.selected;
+        trajectoryModel.airResistance = selected;
     }
 
     public function update():void{
