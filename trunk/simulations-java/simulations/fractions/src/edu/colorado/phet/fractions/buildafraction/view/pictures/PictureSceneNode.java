@@ -302,7 +302,9 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
                 break;
             }
         }
-        if ( !hit && containerNode.getGlobalFullBounds().intersects( toolboxNode.getGlobalFullBounds() ) ) {
+
+        //Put the piece back in its starting location, but only if it is empty
+        if ( !hit && containerNode.getGlobalFullBounds().intersects( toolboxNode.getGlobalFullBounds() ) && containerNode.getFractionValue().numerator == 0 ) {
             containerNode.animateHome();
         }
 
