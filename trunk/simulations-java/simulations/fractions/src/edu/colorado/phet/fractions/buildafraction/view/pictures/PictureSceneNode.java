@@ -154,7 +154,7 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
                 double dx = 4;
                 double totalHorizontalSpacing = dx * ( numInGroup - 1 );
                 LinearFunction offset = new LinearFunction( 0, numInGroup - 1, -totalHorizontalSpacing / 2, +totalHorizontalSpacing / 2 );
-                final RectangularPiece piece = new RectangularPiece( pieceDenominator, PictureSceneNode.this );
+                final RectangularPiece piece = new RectangularPiece( pieceDenominator, PictureSceneNode.this, level.color );
                 final double delta = numInGroup == 1 ? 0 : offset.evaluate( pieceIndex );
                 piece.setInitialState( layoutXOffset + INSET + 20 + delta + groupIndex * spacing,
                                        STAGE_SIZE.height - INSET - 127 + 20 + delta, TINY_SCALE );
