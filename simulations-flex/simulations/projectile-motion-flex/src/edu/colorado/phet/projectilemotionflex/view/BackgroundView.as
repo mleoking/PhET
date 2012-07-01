@@ -8,9 +8,12 @@
 package edu.colorado.phet.projectilemotionflex.view {
 import edu.colorado.phet.projectilemotionflex.model.TrajectoryModel;
 
+import flash.display.GradientType;
+
 import flash.display.Graphics;
 
 import flash.display.Sprite;
+import flash.geom.Matrix;
 
 //backgroundView (= earth&sky ) contains a zoomable container for the cannon + trajectory + projectiles
 public class BackgroundView extends Sprite {
@@ -56,23 +59,26 @@ public class BackgroundView extends Sprite {
     private function drawBackground():void{   //draw earth and sky
         var gB: Graphics = this.graphics;
         gB.clear();
-        gB.lineStyle( 1, 0x000000, 1 );
+        //gB.lineStyle( 1, 0x000000, 0 );
         var yHorizon = 0.7*stageH;
-        gB.moveTo( 0, yHorizon);
-        gB.lineTo( stageW,  yHorizon );
-        gB.beginFill( 0xddddff,  1);     //sky blue
-        gB.moveTo( 0, 0 );
-        gB.lineTo( 0, yHorizon );
-        gB.lineTo( stageW,  yHorizon );
-        gB.lineTo( stageW,  0 );
-        gB.lineTo( 0, 0 );
-        gB.endFill()
-        gB.beginFill( 0xaaffaa,  1);     //grass green
-        gB.moveTo( 0, yHorizon );
-        gB.lineTo( 0, stageH );
-        gB.lineTo( stageW,  stageH );
-        gB.lineTo( stageW,  yHorizon );
-        gB.lineTo( 0, yHorizon );
+        var rectWidth: Number = 2*stageW;
+        var rectHeight: Number = yHorizon;
+        var skyMatrix: Matrix = new Matrix();
+        skyMatrix.createGradientBox( rectWidth, rectHeight, Math.PI/2, 0, 0);
+        var colors: Array = [0x55b7ff, 0xffffff];   //sky blue to white
+        var alphas: Array = [1, 1];
+        var ratios: Array = [0, 255];
+        gB.beginGradientFill(GradientType.LINEAR, colors, alphas, ratios, skyMatrix);
+        gB.drawRect( 0, 0, rectWidth, rectHeight );
+
+        var grdMatrix: Matrix = new Matrix();
+        rectHeight = 0.3*stageH;
+        grdMatrix.createGradientBox( rectWidth, rectHeight, Math.PI/2, 0, yHorizon);
+        colors= [0x01741E, 0x1afb1a];    //dark green to light green
+        alphas = [1, 1];
+        ratios = [0, 255];
+        gB.beginGradientFill(GradientType.LINEAR, colors, alphas, ratios, grdMatrix);
+        gB.drawRect( 0, yHorizon, rectWidth,  rectHeight )
         gB.endFill()
     }
 

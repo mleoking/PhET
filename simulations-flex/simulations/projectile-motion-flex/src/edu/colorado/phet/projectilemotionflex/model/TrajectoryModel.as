@@ -41,14 +41,11 @@ public class TrajectoryModel {
     private var _theta: Number;         //initial angle of projectile, in radians, measured CCW from horizontal
 
     private var _airResistance: Boolean;  //true if air resistance is on
-//    private var _mass: Number;        //mass of current projectile in kg
-//    private var _diameter: Number;    //diameter of curent projectile in kg
-//    private var dragCoefficient: Number;      //used in drag calc, when air resistance is on
-    private var B: Number;              //drag acceleration ~ -B*v*v
+    private var B: Number;                //drag acceleration ~ -B*v*v
 
-    private var _projectiles:Array;  //array of projectiles
-    private var _pIndex: int;        //index of currently selected projectile: projectiles[pIndex] = current projectile
-    private var mass0: Number;     //mass, diameter, and dragC of user-controlled projectile
+    private var _projectiles:Array;     //array of projectiles
+    private var _pIndex: int;           //index of currently selected projectile: projectiles[pIndex] = current projectile
+    private var mass0: Number;          //mass, diameter, and dragC of user-controlled projectile
     private var diameter0: Number;
     private var dragCoefficient0: Number;
 
@@ -97,9 +94,6 @@ public class TrajectoryModel {
         this._inFlight = false;
         this._airResistance = false;
         this.rho = 1.6;
-//        this.mass = 1;
-//        this.diameter = 0.1;
-//        this.dragCoefficient = 1;
         this.setDragFactor();
         this.dt = 0.01;
         this._tRate = 1;
@@ -143,7 +137,7 @@ public class TrajectoryModel {
         trajectoryTimer.start();
     }
 
-    //time-based animation
+    //single-step in time-based animation
     private function stepForward( evt: TimerEvent ):void{
         var currentTime:Number = getTimer()/1000;
         elapsedTime = currentTime - previousTime;
@@ -171,19 +165,20 @@ public class TrajectoryModel {
         v = Math.sqrt( vX*vX + vY*vY );
 
         if( _yP <= 0 ){       //stop when projectile hits the ground (y = 0)
-            //must first backtrack to exact moment when y = 0
-            var vY0: Number = -Math.sqrt( vY*vY - 2*aY*_yP );   //vY at y = 0, assumes aY = constant
+            //must first backtrack from yFinal to exact moment when y = 0
+            var vY0: Number = -Math.sqrt( vY*vY - 2*aY*_yP );   //vY at y = 0, assuming aY = constant
             var delT: Number;  //time elapsed from y = 0 to y = yFinal
             if( aY != 0 ){
                 delT = ( vY - vY0 ) / aY;
             }else{
                 delT = -_yP / vY ;
             }
-            _t -= delT;
+            _t -= delT;    //exact time when y = 0 (ground)
             _yP = 0;
-            var vX0: Number = vX - aX*delT;
-            _xP = _xP - vX0*delT - (0.5)*aX*delT*delT;
+            var vX0: Number = vX - aX*delT;    //vX at y = 0, assuming aX = constant
+            _xP = _xP - vX0*delT - (0.5)*aX*delT*delT;     //exact value of x when y = 0
             updateViews();
+            mainView.backgroundView.projectileView.drawProjectileOnGround();
             _inFlight = false;
             trajectoryTimer.stop();
         }//end if (_yP < 0 )
