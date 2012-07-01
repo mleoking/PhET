@@ -6,7 +6,6 @@ import fj.F;
 import java.awt.BasicStroke;
 import java.awt.Color;
 
-import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
@@ -27,9 +26,9 @@ public class RectangularPiece extends PNode {
     private final PhetPPath pathNode;
     private final BasicStroke stroke = new BasicStroke( 2 );
 
-    public RectangularPiece( final Integer pieceSize, final PieceContext context ) {
+    public RectangularPiece( final Integer pieceSize, final PieceContext context, Color color ) {
         this.pieceSize = pieceSize;
-        pathNode = new PhetPPath( SimpleContainerNode.createRect( pieceSize ), PhetColorScheme.RED_COLORBLIND, stroke, Color.black );
+        pathNode = new PhetPPath( SimpleContainerNode.createRect( pieceSize ), color, stroke, Color.black );
         PNode piece = new ZeroOffsetNode( pathNode );
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new SimSharingDragHandler( null, true ) {
