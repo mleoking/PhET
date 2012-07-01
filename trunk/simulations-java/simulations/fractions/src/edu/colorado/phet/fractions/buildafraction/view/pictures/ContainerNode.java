@@ -2,6 +2,7 @@
 package edu.colorado.phet.fractions.buildafraction.view.pictures;
 
 import fj.F;
+import fj.Ord;
 import fj.data.List;
 
 import java.awt.Cursor;
@@ -16,6 +17,7 @@ import edu.colorado.phet.common.piccolophet.event.DynamicCursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.FractionsResources.Images;
+import edu.colorado.phet.fractions.common.view.FNode;
 import edu.colorado.phet.fractions.common.view.SpinnerButtonNode;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
@@ -274,5 +276,13 @@ public class ContainerNode extends PNode {
             dynamicCursorHandler.setCursor( Cursor.HAND_CURSOR );
         }
         notifyListeners();
+    }
+
+    public double getPiecesHeight() {
+        return getSingleContainerNodes().map( FNode.<SingleContainerNode>_fullHeight() ).maximum( Ord.doubleOrd );
+    }
+
+    public double getPiecesWidth() {
+        return getSingleContainerNodes().map( FNode.<SingleContainerNode>_fullWidth() ).maximum( Ord.doubleOrd );
     }
 }
