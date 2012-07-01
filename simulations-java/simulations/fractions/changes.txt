@@ -1,3 +1,4 @@
+Build a Fraction: Pictures: Use the same colors in each level as the icon
 Build a Fraction: Pictures: Use the specified color in each level
 Build a Fraction: Added a reset all button to the level selection page
 Build a Fraction: Made it so a filled container cannot be returned to the toolbox

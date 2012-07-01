@@ -21,11 +21,11 @@ import static edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern.seq
  * @author Sam Reid
  */
 public class DefaultLevelSelectionScreen extends AbstractLevelSelectionNode {
+    public static Color[] colors = new Color[] { Colors.LIGHT_RED, Colors.LIGHT_BLUE, Colors.LIGHT_GREEN, Colors.LIGHT_ORANGE, Color.magenta, Color.yellow };
+
     public DefaultLevelSelectionScreen( final String title, final BuildAFractionCanvas canvas2 ) {
         super( title, createInfo(), canvas2 );
     }
-
-    public static Color[] colors = new Color[] { Colors.LIGHT_RED, Colors.LIGHT_BLUE, Colors.LIGHT_GREEN, Colors.LIGHT_ORANGE, Color.magenta, Color.yellow };
 
     private static List<List<LevelInfo>> createInfo() {
         return List.list( List.list( toShapeLevelInfo( 1, Pattern.pie( 1 ) ),
