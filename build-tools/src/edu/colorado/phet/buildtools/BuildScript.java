@@ -396,13 +396,12 @@ public class BuildScript {
         String s = "";
         for ( int i = 0; i < project.getSimulationNames().length; i++ ) {
             String title = project.getSimulations()[i].getTitle();
-            String launchFile = project.getSimulationNames()[i] + "_en." + project.getLaunchFileSuffix();
-            String prodLaunchFile = project.getSimulationNames()[i] + "_en-production." + project.getLaunchFileSuffix();
+            String devLaunchFile = project.getSimulationNames()[i] + "_en-dev." + project.getLaunchFileSuffix();
+            String prodLaunchFile = project.getSimulationNames()[i] + "_en." + project.getLaunchFileSuffix();
 
             /* 
             * See #2142, dev servers can launch with and without developer features, so create links for both.
-            * On developer servers, the -dev flag is added to the standard JNLP files, and an additional
-            * "production" JNLP file is created without the -dev flag.
+            * On development servers, we create an additional "dev" jnlp flag with a "-dev" argument.
             */
             if ( dev ) {
                 // <li>@title@ : <a href="@prodLaunchFile@">production</a> : <a href="@devLaunchFile@">dev</a></li>
@@ -411,12 +410,12 @@ public class BuildScript {
                 if ( !( project instanceof FlashSimulationProject ) ) {  //TODO: add support for the link to the prod/dev versions of flash/flex sims
                     s += " : <a href=\"" + prodLaunchFile + "\">production</a>";
                 }
-                s += " : <a href=\"" + launchFile + "\">dev</a>";
+                s += " : <a href=\"" + devLaunchFile + "\">dev</a>";
                 s += "</li>";
             }
             else {
                 // <li><a href="@prodLaunchFile@">@title</a></li>
-                s += "<li><a href=\"" + launchFile + "\">" + title + "</a></li>";
+                s += "<li><a href=\"" + prodLaunchFile + "\">" + title + "</a></li>";
             }
             if ( i < project.getSimulationNames().length - 1 ) {
                 s += "\n";
