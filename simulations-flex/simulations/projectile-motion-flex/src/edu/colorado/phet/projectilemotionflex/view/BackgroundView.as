@@ -6,7 +6,9 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.projectilemotionflex.view {
+import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
 import edu.colorado.phet.projectilemotionflex.model.TrajectoryModel;
+import edu.colorado.phet.projectilemotionflex.tools.TapeMeasure;
 
 import flash.display.GradientType;
 
@@ -25,6 +27,7 @@ public class BackgroundView extends Sprite {
     public var cannonView: CannonView;
     public var trajectoryView: TrajectoryView;
     public var projectileView: ProjectileView;
+    public var tapeMeasure: TapeMeasure;
     private var pixPerMeter: Number;   //in mainView
     private var magFactor: Number;      //magnification/demagnification linear scale factor = root-of-2
     private var nbrMag: Number;         //number of time screen is magnified: 0 = none, -1 = mag, +1 = demag, etc
@@ -56,9 +59,26 @@ public class BackgroundView extends Sprite {
         this.container.addChild( cannonView );
         this.container.addChild( trajectoryView );
         this.container.addChild( projectileView );
+        this.tapeMeasure = new TapeMeasure();
+        this.addChild( tapeMeasure );
+        //this.tapeMeasure.makeBodyGrabbable();
+        this.tapeMeasure.x = 0.5*stageW;
+        this.tapeMeasure.y = 0.8*stageH;
         this.cannonView.x = this._originXInPix;
         this.cannonView.y = this._originYInPix;
     }
+
+
+    //for testing only
+//    private function drawTapeMeasureMark():void{
+//        var g:Graphics = this.tapeMeasure.graphics;
+//        with(g){
+//            lineStyle( 4, 0x0000ff );
+//            beginFill( 0xffff00 );
+//            drawCircle( 0, 0, 30 );
+//            endFill();
+//        }
+//    }
 
     private function drawBackground():void{   //draw earth and sky
         var gB: Graphics = this.graphics;
