@@ -18,7 +18,7 @@ public class TapeMeasure extends Sprite {
     var tape: Sprite;           //graphic of tape
 
     public function TapeMeasure() {
-        this.outputField = new NiceTextField();
+        this.outputField = new NiceTextField( null,"", 0, 100000 );
         this.tapeMeasureBody = new Sprite();
         this.tape = new Sprite();
         this.addChild( tapeMeasureBody );
