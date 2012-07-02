@@ -210,10 +210,11 @@ public abstract class JavaProject extends PhetProject {
         System.out.println( "Building JNLP for locale=" + locale + ", simulation=" + simulationName );
         BuildJNLPTask j = new BuildJNLPTask();
         // generate the production JNLP
-        j.buildJNLP( this, simulationName, locale, false /* dev */, codebase );
-        // generate a dev JNLP for English
+        j.buildJNLP( this, simulationName, locale, false /* dev */, false /* interviews */, codebase );
+        // generate dev and interviews JNLPs for English
         if ( dev && locale.equals( LocaleUtils.stringToLocale( "en" ) ) ) {
-            j.buildJNLP( this, simulationName, locale, true /* dev */, codebase, "-dev" );
+            j.buildJNLP( this, simulationName, locale, true /* dev */, false /*interviews */, codebase, "-dev" );
+            j.buildJNLP( this, simulationName, locale, false /* dev */, true /*interviews */, codebase, "-interviews" );
         }
         System.out.println( "Finished Building JNLP" );
     }
