@@ -1,3 +1,4 @@
+7/2/12 added generation of interviews.jnlp file, #3329
 7/2/12 changed JNLP suffixes, #3329
 Fixed trunk identification for build-all task, see #3326
 Added build-all task for jenkins, see #3326

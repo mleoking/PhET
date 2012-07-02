@@ -396,8 +396,9 @@ public class BuildScript {
         String s = "";
         for ( int i = 0; i < project.getSimulationNames().length; i++ ) {
             String title = project.getSimulations()[i].getTitle();
-            String devLaunchFile = project.getSimulationNames()[i] + "_en-dev." + project.getLaunchFileSuffix();
             String prodLaunchFile = project.getSimulationNames()[i] + "_en." + project.getLaunchFileSuffix();
+            String devLaunchFile = project.getSimulationNames()[i] + "_en-dev." + project.getLaunchFileSuffix();
+            String interviewsLaunchFile = project.getSimulationNames()[i] + "_en-interviews." + project.getLaunchFileSuffix();
 
             /* 
             * See #2142, dev servers can launch with and without developer features, so create links for both.
@@ -411,6 +412,7 @@ public class BuildScript {
                     s += " : <a href=\"" + prodLaunchFile + "\">production</a>";
                 }
                 s += " : <a href=\"" + devLaunchFile + "\">dev</a>";
+                s += " : <a href=\"" + interviewsLaunchFile + "\">interviews</a>";
                 s += "</li>";
             }
             else {

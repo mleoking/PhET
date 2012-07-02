@@ -17,18 +17,28 @@ import edu.colorado.phet.common.phetcommon.util.FileUtils;
 
 /*
  * Do not change this task without changing the WebsiteTranslationDeployPublisher, which makes
-  * assumptions about the structure of the generated JNLP files. 
+ * assumptions about the structure of the generated JNLP files.
  */
 public class BuildJNLPTask {
 
-    protected void buildJNLP( JavaProject project, String simulationName, Locale locale, boolean dev, String codebase ) throws Exception {
-        buildJNLP( project, simulationName, locale, dev, codebase, "" );
+    /**
+     *
+     * @param project
+     * @param simulationName
+     * @param locale
+     * @param devArg include "-dev" argument in JNLP file?
+     * @param interviewsArg include "-study interviews" argument in JNLP file?
+     * @param codebase
+     * @throws Exception
+     */
+    protected void buildJNLP( JavaProject project, String simulationName, Locale locale, boolean devArg, boolean interviewsArg, String codebase ) throws Exception {
+        buildJNLP( project, simulationName, locale, devArg, interviewsArg, codebase, "" );
     }
 
-    protected void buildJNLP( JavaProject project, String simulationName, Locale locale, boolean dev, String codebase, String suffix ) throws Exception {
+    protected void buildJNLP( JavaProject project, String simulationName, Locale locale, boolean devArg, boolean interviewsArg, String codebase, String suffix ) throws Exception {
         Simulation simulation = project.getSimulation( simulationName, locale );
         File JNLP_TEMPLATE = new File( project.getTrunk(), BuildToolsPaths.WEBSTART_TEMPLATE );
-        FileUtils.filter( JNLP_TEMPLATE, getDestFile( project, simulationName, locale, suffix ), createJNLPFilterMap( simulation, project, simulationName, locale, codebase, dev, suffix ), "UTF-16" );
+        FileUtils.filter( JNLP_TEMPLATE, getDestFile( project, simulationName, locale, suffix ), createJNLPFilterMap( simulation, project, simulationName, locale, codebase, devArg, interviewsArg, suffix ), "UTF-16" );
     }
 
     private String getJNLPFileName( String simulationName, Locale locale, String suffix ) {
@@ -39,26 +49,27 @@ public class BuildJNLPTask {
         return new File( phetProject.getDeployDir(), getJNLPFileName( simulationName, locale, suffix ) );
     }
 
-    private HashMap createJNLPFilterMap( Simulation simulation, JavaProject project, String simulationName, Locale locale, String codebase, boolean dev, String suffix ) {
+    private HashMap createJNLPFilterMap( Simulation simulation, JavaProject project, String simulationName, Locale locale, String codebase,
+                                         boolean devArg, boolean interviewsArg, String suffix ) {
         HashMap map = new HashMap();
         map.put( "PROJECT.NAME", StringEscapeUtils.escapeHtml( simulation.getTitle() ) );
         map.put( "JNLP.NAME", getJNLPFileName( simulationName, locale, suffix ) );
         map.put( "PROJECT.JAR", project.getJarFile().getName() );
         map.put( "PROJECT.SCREENSHOT", "http://phet.colorado.edu/Design/Assets/images/Phet-Kavli-logo.jpg" );//TODO: map this to correct sim-specific (possibly online) URL
         map.put( "PROJECT.MAINCLASS", simulation.getMainclass() );
-        map.put( "PROJECT.ARGS", toJNLPArgs( getArgs( simulation, dev ) ) );
+        map.put( "PROJECT.ARGS", toJNLPArgs( getArgs( simulation, devArg, interviewsArg ) ) );
         map.put( "PROJECT.PROPERTIES", getJNLPProperties( locale ) );
         map.put( "PROJECT.DEPLOY.PATH", codebase );
         map.put( "ADDITIONAL.RESOURCES", project.getAdditionalJnlpResources() );
-        map.put( "SECURITY", getSecurity( project, simulation ) );
+        map.put( "SECURITY", getSecurity( project, simulation, interviewsArg ) );
         return map;
     }
 
     /*
-     * Determine whether the "all-permissions" tag should be used for the combination of project/simulation
+     * Determine whether the "all-permissions" tag should be used for the combination of project/simulation/interviews.
      */
-    private String getSecurity( PhetProject phetProject, Simulation simulation ) {
-        if ( phetProject.requestAllPermissions() || simulation.requestAllPermissions() ) {
+    private String getSecurity( PhetProject phetProject, Simulation simulation, boolean interviewsArg ) {
+        if ( phetProject.requestAllPermissions() || simulation.requestAllPermissions() || interviewsArg ) {
             return "<security>\n" +
                    "      <all-permissions/>\n" +
                    "</security>";
@@ -68,11 +79,19 @@ public class BuildJNLPTask {
         }
     }
 
-    private String[] getArgs( Simulation simulation, boolean dev ) {
+    private String[] getArgs( Simulation simulation, boolean devArg, boolean interviewsArg ) {
         ArrayList args = new ArrayList( Arrays.asList( simulation.getArgs() ) );
-        if ( dev ) {
+        if ( devArg ) {
+            // add the arg to enable developer features
             if ( !args.contains( "-dev" ) ) {
                 args.add( "-dev" );
+            }
+        }
+        if ( interviewsArg ) {
+            // add the arg to enable data collection for interviews, must be added as 2 args so we get 2 <argument> tags in the JNLP file.
+            if ( !args.contains( "-study" ) ) {
+                args.add( "-study" );
+                args.add( "interviews" );
             }
         }
         return (String[]) args.toArray( new String[args.size()] );
