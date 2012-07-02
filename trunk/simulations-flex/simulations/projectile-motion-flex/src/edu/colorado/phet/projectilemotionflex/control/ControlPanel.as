@@ -7,12 +7,17 @@
  */
 package edu.colorado.phet.projectilemotionflex.control {
 import edu.colorado.phet.flashcommon.controls.NiceButton2;
+import edu.colorado.phet.flashcommon.controls.NiceIconButton;
 import edu.colorado.phet.flashcommon.controls.NiceLabel;
 import edu.colorado.phet.flashcommon.controls.NiceTextField;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
 import edu.colorado.phet.projectilemotionflex.model.TrajectoryModel;
 import edu.colorado.phet.projectilemotionflex.view.MainView;
+
+import flash.display.Graphics;
+
+import flash.display.Sprite;
 
 import flash.events.Event;
 import flash.events.KeyboardEvent;
@@ -51,6 +56,11 @@ public class ControlPanel extends Canvas {
     private var airResistanceCheckBox: CheckBox;
     private var airResistanceLabel: NiceLabel;
 
+    private var zoomHBox: HBox;
+    private var minusZoomIcon: Sprite;
+    private var plusZoomIcon: Sprite;
+    private var minusZoomButton: NiceIconButton;
+    private var plusZoomButton: NiceIconButton;
 
     private var fireButton: NiceButton2;
     private var eraseButton: NiceButton2;
@@ -123,7 +133,12 @@ public class ControlPanel extends Canvas {
         airResistanceLabel = new NiceLabel( 12, airResistance_str );
         airResistanceCheckBox.addEventListener( Event.CHANGE , clickAirResistance );
 
-
+        zoomHBox = new HBox();
+        plusZoomIcon = new Sprite();
+        minusZoomIcon = new Sprite();
+        drawZoomIcons();
+        plusZoomButton = new NiceIconButton( plusZoomIcon, zoomIn );
+        minusZoomButton = new NiceIconButton( minusZoomIcon, zoomOut );
 
         buttonBackground = new HBox();
         fireButton = new NiceButton2( 60, 25, fire_str, fireProjectile, 0x00ff00, 0x000000 );
@@ -141,6 +156,9 @@ public class ControlPanel extends Canvas {
         airResistanceHBox.addChild( airResistanceCheckBox );
         airResistanceHBox.addChild( new SpriteUIComponent( airResistanceLabel, true ));
 
+        background.addChild( zoomHBox );
+        zoomHBox.addChild( new SpriteUIComponent( plusZoomButton, true ));
+        zoomHBox.addChild( new SpriteUIComponent( minusZoomButton, true ));
 
 
         background.addChild( buttonBackground );
@@ -185,6 +203,41 @@ public class ControlPanel extends Canvas {
         diameter_str = FlexSimStrings.get( "diameter", "diameter(m)" );
         airResistance_str = FlexSimStrings.get( "airResistance", "Air Resistance" );
     } //end initializeStrings()
+
+    private function drawZoomIcons():void{
+        var g1:Graphics = plusZoomIcon.graphics;
+        var g2:Graphics = minusZoomIcon.graphics;
+        var radius: Number = 15;
+        var w: Number = 10;
+        with(g1){
+            g1.clear();
+            g1.lineStyle( 2, 0x0000ff, 1 );
+            beginFill( 0xffffff, 1 );
+            drawCircle( 0, 0, radius );
+            moveTo( -w, 0 );
+            lineTo( +w,  0);
+            moveTo( 0, -w );
+            lineTo( 0, +w );
+            endFill();
+        }
+        with(g2){
+            clear();
+            lineStyle( 2, 0x0000ff, 1 );
+            beginFill( 0xffffff, 1 );
+            drawCircle( 0, 0, radius );
+            moveTo( -w, 0 );
+            lineTo( +w,  0);
+            endFill();
+        }
+    }
+
+    private function zoomIn():void{
+        trace("ControlPanel.zoomIn called.") ;
+    }
+
+    private function zoomOut():void{
+        trace("ControlPanel.zoomOut called.") ;
+    }
 
     private function formatInputBox( box: TextInput ):void{
 
