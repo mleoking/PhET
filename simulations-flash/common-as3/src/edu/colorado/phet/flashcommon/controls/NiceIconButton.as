@@ -25,8 +25,8 @@ public class NiceIconButton extends Sprite {
     private var buttonFunction: Function;
     
     public function NiceIconButton( icon: Sprite, buttonFunction: Function, labelText: String = "", fontColor:Number = 0x000000) {
-        this.icon = new Sprite();
-        this.drawTestIcon();
+        this.icon = icon;
+        //this.drawTestIcon();
         this.label_txt = new TextField();
         this.label_txt.text = labelText;
         this.label_txt.selectable = false;

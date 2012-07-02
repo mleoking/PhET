@@ -26,6 +26,8 @@ public class BackgroundView extends Sprite {
     public var trajectoryView: TrajectoryView;
     public var projectileView: ProjectileView;
     private var pixPerMeter: Number;   //in mainView
+    private var magFactor: Number;      //magnification/demagnification linear scale factor = root-of-2
+    private var nbrMag: Number;         //number of time screen is magnified: 0 = none, -1 = mag, +1 = demag, etc
     private var _originXInPix: Number;       //x- and y-coords of origin in screen coordinates
     private var _originYInPix: Number;
 
@@ -42,6 +44,8 @@ public class BackgroundView extends Sprite {
     private function initialize():void{
         trajectoryModel.registerView( this );
         this.container = new Sprite();
+        this.magFactor = 1.41421356;
+        this.nbrMag = 0;
         this._originXInPix = mainView.originXInPix;    //must set originInPix prior to instantiating CannonView, since cannonView needs these coordinates
         this._originYInPix = mainView.originYInPix;
         this.drawBackground();
@@ -80,6 +84,30 @@ public class BackgroundView extends Sprite {
         gB.beginGradientFill(GradientType.LINEAR, colors, alphas, ratios, grdMatrix);
         gB.drawRect( 0, yHorizon, rectWidth,  rectHeight )
         gB.endFill()
+    }
+
+    public function magnify():void{
+        //trace("backgroundView.magnify called");
+        nbrMag -= 1;
+        var magF: Number = Math.pow( magFactor, nbrMag );  //total magnification factor = 2^0.5^nbrMag
+        container.scaleX *= magFactor;
+        container.scaleY *= magFactor;
+        container.x = _originXInPix*( 1.0 - 1/magF );
+        container.y = _originYInPix*( 1.0 - 1/magF );
+        //must update tapeMeasure
+        //must reset linewidths on trajectories
+    }
+
+    public function demagnify():void{
+        //trace("backgroundView.demagnify called");
+        nbrMag += 1;
+        var magF: Number = Math.pow( magFactor, nbrMag );  //total magnification factor = 2^0.5^nbrMag
+        container.scaleX *= 1/magFactor;
+        container.scaleY *= 1/magFactor;
+        container.x = _originXInPix*( 1.0 - 1/magF );
+        container.y = _originYInPix*( 1.0 - 1/magF );
+        //must update tapeMeasure
+        //must reset linewidths on trajectories
     }
 
     public function update():void{
