@@ -1,7 +1,7 @@
 # 2.32.00 (65613) Jul 2, 2012
-7/2/12 testing "deploy prod" for #3329
+7/2/12 testing "deploy prod" for JNLP suffix changes, #3329
 # 2.31.02 (65612) Jul 2, 2012
-7/2/12 testing for #3329
+7/2/12 testing "deploy dev" for JNLP suffix changes, #3329
 Changed the name of this project to be the test-java-project.
 # 2.31.01 (57063) Sep 29, 2011
 9/29/11 Testing Kannada preferred fonts
