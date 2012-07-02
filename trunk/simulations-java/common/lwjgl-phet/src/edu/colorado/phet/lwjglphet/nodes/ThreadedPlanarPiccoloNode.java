@@ -11,12 +11,15 @@ import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.PiccoloImage;
+import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.PlaneF;
 import edu.colorado.phet.lwjglphet.math.Ray3F;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
+import edu.umd.cs.piccolo.PCamera;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolo.util.PPickPath;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -71,8 +74,11 @@ public class ThreadedPlanarPiccoloNode extends GLNode {
     }
 
     public boolean doesLocalRayHit( Ray3F ray ) {
+        // find out where the ray hits the z=0 plane
         ImmutableVector3F planeHitPoint = PlaneF.XY.intersectWithRay( ray );
-        return get2DBounds().contains( planeHitPoint.x, planeHitPoint.y );
+
+        // check for actual intersection, not just bounds intersection
+        return intersects( new ImmutableVector2F( planeHitPoint.x, getComponentHeight() - planeHitPoint.y ) );
     }
 
     public PBounds get2DBounds() {
@@ -136,6 +142,11 @@ public class ThreadedPlanarPiccoloNode extends GLNode {
 
         // hook up new HUD node.
         piccoloImage = newPiccoloImage;
+    }
+
+    // intersection "hit" test for the underlying node. the point needs to be in piccolo coordinates for proper intersection (check for flipped y)
+    public boolean intersects( ImmutableVector2F piccoloPosition ) {
+        return getNode().fullPick( new PPickPath( new PCamera(), new PBounds( piccoloPosition.x, piccoloPosition.y, 0.1, 0.1 ) ) );
     }
 
     public int getComponentWidth() {

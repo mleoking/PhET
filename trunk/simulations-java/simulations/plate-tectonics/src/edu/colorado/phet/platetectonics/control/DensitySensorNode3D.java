@@ -41,9 +41,12 @@ import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
 import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
+import edu.umd.cs.piccolo.PCamera;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolo.util.PPickPath;
 
 /**
  * Displays a speedometer-style draggable readout.
@@ -112,14 +115,21 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
     }
 
     public boolean allowsDrag( ImmutableVector2F initialPosition ) {
-//        ImmutableVector2F localPosition = new ImmutableVector2F(
-//                initialPosition.x - draggedPosition.x + getSensorXOffset(),
-//                initialPosition.y - draggedPosition.y
-//        );
-//        System.out.println( "initialPosition = " + initialPosition );
-//        System.out.println( "localPosition = " + localPosition );
-//        return getNode().fullIntersects( new PBounds( localPosition.x, localPosition.y, 0.1, 0.1 ) );
-        return true; // if this node is picked, always allow a drag anywhere on it
+        // correctly offset "view" position
+        ImmutableVector2F localPosition = new ImmutableVector2F(
+                initialPosition.x - draggedPosition.x + getSensorXOffset(),
+                initialPosition.y - draggedPosition.y
+        );
+
+        // position in the piccolo coordinate frame, re-scaled and y-axis flipped
+        ImmutableVector2F piccoloPosition = new ImmutableVector2F(
+                localPosition.getX() / getScale(),
+                getComponentHeight() - localPosition.getY() / getScale()
+        );
+
+        // create a "fake" camera to get the intersection to work correctly
+        //return intersects( piccoloPosition );
+        return true; // if the tool is intersected in doesLocalRayHit, then we don't need to filter here
     }
 
     public void dragDelta( ImmutableVector2F delta ) {
