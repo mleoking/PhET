@@ -147,6 +147,10 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
 
     public void initialize() {
         stageSize = initialCanvasSize;
+        if ( Math.abs( stageSize.getWidth() - 1008 ) > 20 || Math.abs( stageSize.getHeight() - 676 ) > 20 ) {
+            // if our stage size is far enough away from pixel-perfect graphics on the initial canvas size, simply set to the default
+            stageSize = new Dimension( 1008, 676 );
+        }
         canvasTransform = new StageCenteringCanvasTransform( canvasSize, stageSize );
 
         clock.addClockListener( new ClockAdapter() {
