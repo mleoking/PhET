@@ -207,24 +207,26 @@ public class ControlPanel extends Canvas {
     private function drawZoomIcons():void{
         var g1:Graphics = plusZoomIcon.graphics;
         var g2:Graphics = minusZoomIcon.graphics;
-        var radius: Number = 15;
-        var w: Number = 10;
-        with(g1){
+        var radius: Number = 10;
+        var w: Number = 6;
+
             g1.clear();
             g1.lineStyle( 2, 0x0000ff, 1 );
-            beginFill( 0xffffff, 1 );
-            drawCircle( 0, 0, radius );
-            moveTo( -w, 0 );
-            lineTo( +w,  0);
-            moveTo( 0, -w );
-            lineTo( 0, +w );
-            endFill();
-        }
+            g1.beginFill( 0xffffff, 1 );
+            g1.drawCircle( 0, 0, radius );
+            g1.lineStyle( 3, 0x0000ff, 1 );
+            g1. moveTo( -w, 0 );
+            g1.lineTo( +w,  0);
+            g1.moveTo( 0, -w );
+            g1.lineTo( 0, +w );
+            g1.endFill();
+
         with(g2){
             clear();
             lineStyle( 2, 0x0000ff, 1 );
             beginFill( 0xffffff, 1 );
             drawCircle( 0, 0, radius );
+            lineStyle( 3, 0x0000ff, 1 );
             moveTo( -w, 0 );
             lineTo( +w,  0);
             endFill();
@@ -232,11 +234,11 @@ public class ControlPanel extends Canvas {
     }
 
     private function zoomIn():void{
-        trace("ControlPanel.zoomIn called.") ;
+        mainView.backgroundView.magnify();
     }
 
     private function zoomOut():void{
-        trace("ControlPanel.zoomOut called.") ;
+        mainView.backgroundView.demagnify();
     }
 
     private function formatInputBox( box: TextInput ):void{
