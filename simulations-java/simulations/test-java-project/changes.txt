@@ -1,4 +1,3 @@
-# 2.32.01 (65622) Jul 2, 2012
 7/2/12 testing "deploy dev" for addition of "interviews" link, #3329
 # 2.32.00 (65613) Jul 2, 2012
 7/2/12 testing "deploy prod" for JNLP suffix changes, #3329
