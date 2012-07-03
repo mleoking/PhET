@@ -128,6 +128,7 @@ public class NiceTextField extends Sprite {
         this.manualUpdating = false;
     }
 
+    //sets the numerical value, with optional units, shown in the output field
     public function setVal( value:Number ):void{
         //round value to nbr of decimal places
         var factor:Number = Math.pow( 10, decimalPlaces );
@@ -175,6 +176,34 @@ public class NiceTextField extends Sprite {
         //trace("HorizontalSlider.updateReadout readoutPlaces is "+readoutPlaces);
         this.readout_txt.text = readout.toFixed( readoutPlaces );
     }//end updateReadout()
+
+    public function setLabelPosition( position:String ):void{
+        switch( position ){
+            case "below":
+                readout_txt.x = readout_txt.y = 0;
+                label_txt.x = (readout_txt.width/2) - label_txt.width/2;
+                label_txt.y = readout_txt.height + 3;
+                break;
+            case "above":
+                readout_txt.x = readout_txt.y = 0;
+                readout_txt.x = readout_txt.y = 0;
+                label_txt.x = (readout_txt.width/2) - label_txt.width/2;
+                label_txt.y = - readout_txt.height - 3;
+                break;
+            case "right":
+                this.readout_txt.x = 0;
+                this.readout_txt.y = 0;
+                this.label_txt.x = this.label_txt.width;
+                this.label_txt.y = 0;
+                break;
+            case "left":
+
+                break;
+            default:
+                break;
+
+        }
+    }//end of setLabelPosition()
 
     //draws border around entire slider, for testing purposes only
     private function drawBorder():void{
