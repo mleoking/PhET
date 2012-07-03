@@ -59,7 +59,7 @@ public class BackgroundView extends Sprite {
         this.container.addChild( cannonView );
         this.container.addChild( trajectoryView );
         this.container.addChild( projectileView );
-        this.tapeMeasure = new TapeMeasure();
+        this.tapeMeasure = new TapeMeasure( this.mainView );
         this.addChild( tapeMeasure );
         //this.tapeMeasure.makeBodyGrabbable();
         this.tapeMeasure.x = 0.5*stageW;

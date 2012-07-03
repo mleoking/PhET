@@ -26,6 +26,7 @@ public class NiceTextField extends Sprite {
     private var _maxVal: Number;
     private var label_txt: TextField;	//static label
     private var readout_txt: TextField; //dynamic readout
+    private var _units_str: String;      //optional units string to add to output field
     //private var units_txt:TextField;    //units displayed next to readout
     private var label_fmt: TextFormat;	//format of label
     private var readout_fmt: TextFormat;	//format of readout
@@ -36,6 +37,7 @@ public class NiceTextField extends Sprite {
     public function NiceTextField( action:Function, labelText:String, minVal:Number,  maxVal:Number,  readoutWidth:Number = 50, editable:Boolean = true, decimalPlaces:int = 1 ) {
         this.action = action;
         this._label_str = labelText;
+        this._units_str = "";
         this._minVal = minVal;
         this._maxVal = maxVal;
         this.readoutWidth = readoutWidth;
@@ -139,9 +141,16 @@ public class NiceTextField extends Sprite {
             this.readoutValue = value;
         }
         if( !manualUpdating ){
-            this.readout_txt.text = this.readoutValue.toString();
+            var readoutString: String = this.readoutValue.toString();
+            var zeroString: String = "";
+            if( readoutValue%1 == 0 ){
+                if( decimalPlaces = 1 ){
+                    var zeroString:String = ".0";
+                }
+            }
+            this.readout_txt.text = readoutString + zeroString + _units_str;
         }
-    }
+    } //end setVal
 
     private function updateReadout(): void {
         var readout: Number = this.readoutValue;
@@ -190,6 +199,10 @@ public class NiceTextField extends Sprite {
 
     public function set decimalPlaces( value:int ):void {
         _decimalPlaces = value;
+    }
+
+    public function set units_str(value:String):void {
+        _units_str = value;
     }
 }//end class
 }//end package
