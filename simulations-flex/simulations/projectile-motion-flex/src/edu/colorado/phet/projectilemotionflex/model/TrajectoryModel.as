@@ -192,6 +192,7 @@ public class TrajectoryModel {
             _yP = 0;
             var vX0: Number = _vX - aX*delT;    //vX at y = 0, assuming aX = constant
             _xP = _xP - vX0*delT - (0.5)*aX*delT*delT;     //exact value of x when y = 0
+            updateReadoutsNow = true;
             updateViews();
             mainView.backgroundView.projectileView.drawProjectileOnGround();
             _inFlight = false;
