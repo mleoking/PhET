@@ -29,8 +29,8 @@ public class TrajectoryModel {
     private var _yP: Number;
     private var _xP0: Number;       //x- and y- coordinates of initial position of projectile
     private var _yP0: Number;       //relative to origin, which is at ground level (y = 0)
-    private var vX: Number;         //x- and y-coords of velocity of projectile
-    private var vY: Number;
+    private var _vX: Number;         //x- and y-coords of velocity of projectile
+    private var _vY: Number;
     private var v: Number;          //current speed of projectile
     private var aX: Number;         //x- and y-components of acceleration
     private var aY: Number;
@@ -39,6 +39,10 @@ public class TrajectoryModel {
     private var _v0: Number;        //initial speed of projectile
     private var _angleInDeg: Number;    //angle of cannon barrel in degrees, measured CCW from horizontal
     private var _theta: Number;         //initial angle of projectile, in radians, measured CCW from horizontal
+
+    private var _ticMarkTime: Number;
+    private var _drawTicMarkNow: Boolean;
+    private var _updateReadoutsNow: Boolean;
 
     private var _airResistance: Boolean;  //true if air resistance is on
     private var B: Number;                //drag acceleration = -B*v*v
@@ -83,9 +87,9 @@ public class TrajectoryModel {
         this._yP = 0;
         this._xP0 = 0;
         this._yP0 = 0;
-        this.vX = 0;
-        this.vY = 0;
-        this.v = Math.sqrt( vX*vX + vY*vY );
+        this._vX = 0;
+        this._vY = 0;
+        this.v = Math.sqrt( _vX*_vX + _vY*_vY );
         this._v0 = 18;
         this._angleInDeg = 45;
         this._vX0 = v0*Math.cos( angleInDeg*Math.PI/180 );
@@ -101,6 +105,7 @@ public class TrajectoryModel {
         this.frameCounter = 0;
         this.trajectoryTimer = new Timer( dt * 1000 );   //argument of Timer constructor is time step in ms
         this.trajectoryTimer.addEventListener( TimerEvent.TIMER, stepForward );
+        this.updateReadoutsNow = true;
         this.updateViews();
     }
 
@@ -128,14 +133,17 @@ public class TrajectoryModel {
     public function fireCannon():void{
         _xP = xP0;
         _yP = yP0;
-        vX = _vX0;
-        vY = _vY0;
-        v = Math.sqrt( vX*vX + vY*vY );
+        _vX = _vX0;
+        _vY = _vY0;
+        v = Math.sqrt( _vX*_vX + _vY*_vY );
         this._t = 0;
         this.startTime = getTimer()/1000;     //getTimer() returns time in milliseconds
         this.previousTime = startTime;
         this._inFlight = true;
+        this._drawTicMarkNow = false;
+        this._ticMarkTime = 1;
         trajectoryTimer.start();
+        updateReadoutsNow = true;
     }
 
     //single-step in time-based animation
@@ -151,32 +159,37 @@ public class TrajectoryModel {
         if( !_airResistance ){
             aX = 0;
             aY = -g;
+            _xP = xP0 + _vX0*t;
+            _yP = yP0 + _vY0*t + 0.5*aY*t*t;
+            _vX = _vX0;
+            _vY = _vY0 +aY*t;
         }else{       //if air resistance on
-            aX = - B*vX*v;
-            aY = -g - B*vY*v;
+            aX = - B*_vX*v;
+            aY = -g - B*_vY*v;
             //if air resistance so large that results are unphysical, then reduce time step
             if( B*v*dt > 0.25 ){
                 dt = dt/( B*v*dt/0.25 )
             }
+            _xP += _vX * dt + (0.5) * aX * dt*dt;
+            _yP += _vY * dt + (0.5) * aY * dt*dt;
+            _vX += aX * dt;
+            _vY += aY * dt;
         }
-        _xP += vX * dt + (0.5) * aX * dt*dt;
-        _yP += vY * dt + (0.5) * aY * dt*dt;
-        vX += aX * dt;
-        vY += aY * dt;
-        v = Math.sqrt( vX*vX + vY*vY );
+
+        v = Math.sqrt( _vX*_vX + _vY*_vY );
 
         if( _yP <= 0 ){       //stop when projectile hits the ground (y = 0)
             //must first backtrack from yFinal to exact moment when y = 0
-            var vY0: Number = -Math.sqrt( vY*vY - 2*aY*_yP );   //vY at y = 0, assuming aY = constant
+            var vY0: Number = -Math.sqrt( _vY*_vY - 2*aY*_yP );   //vY at y = 0, assuming aY = constant
             var delT: Number;  //time elapsed from y = 0 to y = yFinal
             if( aY != 0 ){
-                delT = ( vY - vY0 ) / aY;
+                delT = ( _vY - vY0 ) / aY;
             }else{
-                delT = -_yP / vY ;
+                delT = -_yP / _vY ;
             }
             _t -= delT;    //exact time when y = 0 (ground)
             _yP = 0;
-            var vX0: Number = vX - aX*delT;    //vX at y = 0, assuming aX = constant
+            var vX0: Number = _vX - aX*delT;    //vX at y = 0, assuming aX = constant
             _xP = _xP - vX0*delT - (0.5)*aX*delT*delT;     //exact value of x when y = 0
             updateViews();
             mainView.backgroundView.projectileView.drawProjectileOnGround();
@@ -188,6 +201,14 @@ public class TrajectoryModel {
             frameCounter = 0;
             this.updateViews();
             //trace( "Trajectory Model:  y = " + this._yP );
+        }
+
+        if( t >= ticMarkTime ){
+            drawTicMarkNow = true;
+            updateReadoutsNow = true;
+            updateViews();
+            ticMarkTime += 1
+            
         }
 
     }//stepForward()
@@ -308,6 +329,46 @@ public class TrajectoryModel {
 
     public function set pIndex(value:int):void {
         _pIndex = value;
+    }
+
+    public function get drawTicMarkNow():Boolean {
+        return _drawTicMarkNow;
+    }
+
+    public function set drawTicMarkNow(value:Boolean):void {
+        _drawTicMarkNow = value;
+    }
+
+    public function get ticMarkTime():Number {
+        return _ticMarkTime;
+    }
+
+    public function set ticMarkTime(value:Number):void {
+        _ticMarkTime = value;
+    }
+
+    public function get vX():Number {
+        return _vX;
+    }
+
+    public function set vX(value:Number):void {
+        _vX = value;
+    }
+
+    public function get vY():Number {
+        return _vY;
+    }
+
+    public function set vY(value:Number):void {
+        _vY = value;
+    }
+
+    public function get updateReadoutsNow():Boolean {
+        return _updateReadoutsNow;
+    }
+
+    public function set updateReadoutsNow(value:Boolean):void {
+        _updateReadoutsNow = value;
     }
 }//end class
 }//end package

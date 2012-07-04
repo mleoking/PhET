@@ -246,8 +246,8 @@ public class ControlPanel extends Canvas {
     }
 
     private function fireProjectile():void{
-        trajectoryModel.fireCannon();
         mainView.backgroundView.trajectoryView.startTrajectory();
+        trajectoryModel.fireCannon();
     }
 
     private function eraseTrajectories():void{
