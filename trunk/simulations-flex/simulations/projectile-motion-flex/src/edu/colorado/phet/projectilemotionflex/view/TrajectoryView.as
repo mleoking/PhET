@@ -32,7 +32,8 @@ public class TrajectoryView extends Sprite {
     private var currentX: Number;          //most recent (x, y, t) coordinates in meters and seconds
     private var currentY: Number;
     private var currentT: Number;
-    private var currentIndex: Number;
+    private var currentIndex: int;      //index for individual points along trajectory
+    private var ticIndex: int;          //index for 1-s tic marks on trajectory
     
 
     public function TrajectoryView( mainView:MainView,  trajectoryModel: TrajectoryModel ) {
@@ -100,13 +101,12 @@ public class TrajectoryView extends Sprite {
         var xInPix: Number = this.originXInPix + currentX*mainView.pixPerMeter;
         var yInPix: Number = this.originYInPix - currentY*mainView.pixPerMeter;
         gT.lineTo( xInPix,  yInPix );
-        //trace("TrajectoryView.addNewPoint  yInPix = " + yInPix );
-//        this.x = this.originXInPix + this.trajectoryModel.xP0*mainView.pixPerMeter;
-//        this.y = this.originYInPix - this.trajectoryModel.yP0*mainView.pixPerMeter;
     }
 
-    private function drawTicMarkOnTrajectory():void{
+    private function drawTicMarkOnTrajectory( delT: Number ):void{
         var gM: Graphics = currentTicMarkView.graphics;
+        currentX -= trajectoryModel.vX*delT;
+        currentY -= trajectoryModel.vY*delT;
         var xInPix: Number = this.originXInPix + currentX*mainView.pixPerMeter;
         var yInPix: Number = this.originYInPix - currentY*mainView.pixPerMeter;
         gM.lineStyle( 4, 0x000000, 1 );
@@ -133,10 +133,14 @@ public class TrajectoryView extends Sprite {
         }
         currentT = trajectoryModel.t;
         addNewPointToTrajectory();
-        if( currentT > nextTicMarkTime ){
-            drawTicMarkOnTrajectory();
-            nextTicMarkTime += 1;
-            var elapsedTime:Number = getTimer()/1000 - trajectoryModel.startTime;
+        if( trajectoryModel.drawTicMarkNow ){
+            var delT: Number = currentT - trajectoryModel.ticMarkTime;
+            drawTicMarkOnTrajectory( delT );
+            trajectoryModel.drawTicMarkNow = false;
+            //var elapsedTime:Number = getTimer()/1000 - trajectoryModel.startTime;
+            //var delT:Number = currentT - nextTicMarkTime
+            //nextTicMarkTime += 1;
+            trace("TrajectoryView.update   current time  = " + currentT ) ;
         }
         //trace( "trajectoryView.update  currentX = " + currentX) ;
     }

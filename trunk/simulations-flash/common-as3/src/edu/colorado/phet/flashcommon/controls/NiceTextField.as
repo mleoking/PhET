@@ -25,6 +25,7 @@ public class NiceTextField extends Sprite {
     private var _minVal: Number;
     private var _maxVal: Number;
     private var label_txt: TextField;	//static label
+    private var labelPosition:String;   //position of label relative to textField: "left"(default), "right", "top", or "bottom"
     private var readout_txt: TextField; //dynamic readout
     private var _units_str: String;      //optional units string to add to output field
     //private var units_txt:TextField;    //units displayed next to readout
@@ -34,18 +35,20 @@ public class NiceTextField extends Sprite {
     private var manualUpdating: Boolean;	//true if user is manually entering text in readout textfield
 
 
-    public function NiceTextField( action:Function, labelText:String, minVal:Number,  maxVal:Number,  readoutWidth:Number = 50, editable:Boolean = true, decimalPlaces:int = 1 ) {
+    public function NiceTextField( action:Function, labelText:String, minVal:Number,  maxVal:Number, labelPosition:String = "left", readoutWidth:Number = 50, editable:Boolean = true, decimalPlaces:int = 1 ) {
         this.action = action;
         this._label_str = labelText;
         this._units_str = "";
         this._minVal = minVal;
         this._maxVal = maxVal;
+        this.labelPosition = labelPosition;
         this.readoutWidth = readoutWidth;
         this.editable = editable;
         this._decimalPlaces = decimalPlaces;
         this.createLabel();
         this.createReadoutField();
-        this.locateFields();
+        this.setLabelPosition( labelPosition );
+        //this.locateFields();
 
     }//end constructor
 
@@ -101,12 +104,13 @@ public class NiceTextField extends Sprite {
         this.readout_txt.addEventListener( FocusEvent.FOCUS_OUT, onFocusOut)
     }//end createReadoutfield()
 
-    private function locateFields():void{
-        this.label_txt.x = 0;
-        this.label_txt.y = 0;
-        this.readout_txt.x = this.label_txt.width ;
-        this.readout_txt.y = 0;
-    }
+
+//    private function locateFields():void{
+//        this.label_txt.x = 0;
+//        this.label_txt.y = 0;
+//        this.readout_txt.x = this.label_txt.width ;
+//        this.readout_txt.y = 0;
+//    }
 
     //update readout when user hits Enter
     private function onHitEnter( keyEvt: KeyboardEvent ):void{
@@ -177,27 +181,39 @@ public class NiceTextField extends Sprite {
         this.readout_txt.text = readout.toFixed( readoutPlaces );
     }//end updateReadout()
 
+    //position label relative to textField: left(default), right, top, or bottom.
+    // Default is label to the left of the textField.
     public function setLabelPosition( position:String ):void{
+        this.labelPosition = position;
+        //trace( "NiceTextField.setLabelPosition called.  position = " + position)
         switch( position ){
-            case "below":
+            case "bottom":
+                    //trace("NiceTextField.setLabelPosition  readout_txt.height = " + readout_txt.height);
+                this.label_txt.autoSize = TextFieldAutoSize.CENTER;
                 readout_txt.x = readout_txt.y = 0;
                 label_txt.x = (readout_txt.width/2) - label_txt.width/2;
                 label_txt.y = readout_txt.height + 3;
                 break;
-            case "above":
+            case "top":
+                this.label_txt.autoSize = TextFieldAutoSize.CENTER;
                 readout_txt.x = readout_txt.y = 0;
                 readout_txt.x = readout_txt.y = 0;
                 label_txt.x = (readout_txt.width/2) - label_txt.width/2;
                 label_txt.y = - readout_txt.height - 3;
                 break;
             case "right":
+                this.label_txt.autoSize = TextFieldAutoSize.LEFT;
                 this.readout_txt.x = 0;
                 this.readout_txt.y = 0;
                 this.label_txt.x = this.label_txt.width;
                 this.label_txt.y = 0;
                 break;
             case "left":
-
+                this.label_txt.autoSize = TextFieldAutoSize.RIGHT;
+                this.label_txt.x = 0;
+                this.label_txt.y = 0;
+                this.readout_txt.x = this.label_txt.width ;
+                this.readout_txt.y = 0;
                 break;
             default:
                 break;

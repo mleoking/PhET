@@ -6,6 +6,8 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.projectilemotionflex.view {
+import edu.colorado.phet.flashcommon.controls.NiceTextField;
+import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
 import edu.colorado.phet.projectilemotionflex.model.TrajectoryModel;
 import edu.colorado.phet.projectilemotionflex.tools.TapeMeasure;
@@ -23,6 +25,12 @@ public class BackgroundView extends Sprite {
     private var trajectoryModel: TrajectoryModel;
     private var stageW: Number;
     private var stageH: Number;
+    private var rangeReadout: NiceTextField;
+    private var heightReadout: NiceTextField;
+    private var timeReadout: NiceTextField;
+    private var range_str: String;
+    private var height_str: String;
+    private var time_str: String;
     public var container: Sprite;      //container for cannon, trajectory, projectiles, etc.  Can be zoomed
     public var cannonView: CannonView;
     public var trajectoryView: TrajectoryView;
@@ -46,13 +54,25 @@ public class BackgroundView extends Sprite {
 
     private function initialize():void{
         trajectoryModel.registerView( this );
+        this.initializeStrings();
+        this.rangeReadout = new NiceTextField( null, range_str, 0, 1000000, "bottom", 50, false, 1 );
+        this.heightReadout = new NiceTextField( null, height_str, -100000, 100000, "bottom", 50, false, 1 );
+        this.timeReadout = new NiceTextField( null, time_str, 0, 1000000, "bottom", 50, false, 1 );
+        this.rangeReadout.y = this.heightReadout.y = this.timeReadout.y = 10;
+        this.rangeReadout.x = 0.3*stageW;
+        this.heightReadout.x = 0.4*stageW;
+        this.timeReadout.x = 0.5*stageW;
         this.container = new Sprite();
         this.magFactor = 1.41421356;
         this.nbrMag = 0;
         this._originXInPix = mainView.originXInPix;    //must set originInPix prior to instantiating CannonView, since cannonView needs these coordinates
         this._originYInPix = mainView.originYInPix;
         this.drawBackground();
+        this.addChild( rangeReadout );
+        this.addChild( heightReadout );
+        this.addChild( timeReadout );
         this.addChild( container );
+
         this.cannonView = new CannonView( mainView, trajectoryModel, this );
         this.trajectoryView = new TrajectoryView( mainView, trajectoryModel );
         this.projectileView = new ProjectileView( mainView, trajectoryModel );
@@ -68,7 +88,11 @@ public class BackgroundView extends Sprite {
         this.cannonView.y = this._originYInPix;
     }
 
-
+    private function initializeStrings():void{
+        this.range_str = FlexSimStrings.get( "range(m)", "range(m)");
+        this.height_str = FlexSimStrings.get( "height(m)", "height(m)");
+        this.time_str = FlexSimStrings.get( "time(s)", "time(s)");
+    }
     //for testing only
 //    private function drawTapeMeasureMark():void{
 //        var g:Graphics = this.tapeMeasure.graphics;
@@ -131,6 +155,12 @@ public class BackgroundView extends Sprite {
     }
 
     public function update():void{
+        if( trajectoryModel.updateReadoutsNow ){
+            this.rangeReadout.setVal( trajectoryModel.xP );
+            this.heightReadout.setVal( trajectoryModel.yP );
+            this.timeReadout.setVal( trajectoryModel.t );
+            trajectoryModel.updateReadoutsNow = false;
+        }
     }
 
     public function get originXInPix():Number {
@@ -148,5 +178,7 @@ public class BackgroundView extends Sprite {
     public function set originYInPix( value:Number ):void {
         _originYInPix = value;
     }
+
+
 }//end class
 }//end package
