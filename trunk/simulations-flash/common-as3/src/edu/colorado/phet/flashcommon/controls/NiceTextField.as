@@ -104,6 +104,10 @@ public class NiceTextField extends Sprite {
         this.readout_txt.addEventListener( FocusEvent.FOCUS_OUT, onFocusOut)
     }//end createReadoutfield()
 
+    public function setTextFieldToAutoSize( ):void{
+        this.readout_txt.autoSize = "center";
+    }
+
 
 //    private function locateFields():void{
 //        this.label_txt.x = 0;
