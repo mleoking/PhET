@@ -140,7 +140,7 @@ public class TrajectoryView extends Sprite {
             //var elapsedTime:Number = getTimer()/1000 - trajectoryModel.startTime;
             //var delT:Number = currentT - nextTicMarkTime
             //nextTicMarkTime += 1;
-            trace("TrajectoryView.update   current time  = " + currentT ) ;
+            //trace("TrajectoryView.update   current time  = " + currentT ) ;
         }
         //trace( "trajectoryView.update  currentX = " + currentX) ;
     }

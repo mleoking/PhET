@@ -19,7 +19,8 @@ import flash.display.Graphics;
 import flash.display.Sprite;
 import flash.geom.Matrix;
 
-//backgroundView (= earth&sky ) contains a zoomable container for the cannon + trajectory + projectiles
+//backgroundView (= earth&sky ) contains readout fields for range, height, and time of projectile
+// contains a zoomable container for the cannon + trajectory + projectiles
 public class BackgroundView extends Sprite {
     private var mainView: MainView;
     private var trajectoryModel: TrajectoryModel;
@@ -28,7 +29,7 @@ public class BackgroundView extends Sprite {
     private var rangeReadout: NiceTextField;
     private var heightReadout: NiceTextField;
     private var timeReadout: NiceTextField;
-    private var range_str: String;
+    private var range_str: String;             //labels for readout fields
     private var height_str: String;
     private var time_str: String;
     public var container: Sprite;      //container for cannon, trajectory, projectiles, etc.  Can be zoomed
@@ -36,9 +37,10 @@ public class BackgroundView extends Sprite {
     public var trajectoryView: TrajectoryView;
     public var projectileView: ProjectileView;
     public var tapeMeasure: TapeMeasure;
-    private var pixPerMeter: Number;   //in mainView
+    //private var pixPerMeter: Number;   //in mainView
     private var magFactor: Number;      //magnification/demagnification linear scale factor = root-of-2
     private var nbrMag: Number;         //number of time screen is magnified: 0 = none, -1 = mag, +1 = demag, etc
+    private var _totMagF: Number;        //total magnification factor = magFactor^nbrMag
     private var _originXInPix: Number;       //x- and y-coords of origin in screen coordinates
     private var _originYInPix: Number;
 
@@ -65,6 +67,7 @@ public class BackgroundView extends Sprite {
         this.container = new Sprite();
         this.magFactor = 1.41421356;
         this.nbrMag = 0;
+        this._totMagF = 1;
         this._originXInPix = mainView.originXInPix;    //must set originInPix prior to instantiating CannonView, since cannonView needs these coordinates
         this._originYInPix = mainView.originYInPix;
         this.drawBackground();
@@ -105,11 +108,11 @@ public class BackgroundView extends Sprite {
 //    }
 
     private function drawBackground():void{   //draw earth and sky
-        var gB: Graphics = this.graphics;
+        var gB: Graphics = this.graphics;      //background graphics
         gB.clear();
         //gB.lineStyle( 1, 0x000000, 0 );
-        var yHorizon = 0.7*stageH;
-        var rectWidth: Number = 2*stageW;
+        var yHorizon = 0.7*stageH;             //level of horizon on screen, never changes
+        var rectWidth: Number = 2*stageW;      //width and heigh of rectangle that sky will be drawn in
         var rectHeight: Number = yHorizon;
         var skyMatrix: Matrix = new Matrix();
         skyMatrix.createGradientBox( rectWidth, rectHeight, Math.PI/2, 0, 0);
@@ -120,7 +123,7 @@ public class BackgroundView extends Sprite {
         gB.drawRect( 0, 0, rectWidth, rectHeight );
 
         var grdMatrix: Matrix = new Matrix();
-        rectHeight = 0.3*stageH;
+        rectHeight = 0.3*stageH;             //height of rectangle that ground will be drawn in
         grdMatrix.createGradientBox( rectWidth, rectHeight, Math.PI/2, 0, yHorizon);
         colors= [0x01741E, 0x1afb1a];    //dark green to light green
         alphas = [1, 1];
@@ -130,27 +133,33 @@ public class BackgroundView extends Sprite {
         gB.endFill()
     }
 
+    //called when user clicks on magnify button in control panel
+    //increases magnification of container by magFactor = root-of-2
     public function magnify():void{
         //trace("backgroundView.magnify called");
         nbrMag -= 1;
-        var magF: Number = Math.pow( magFactor, nbrMag );  //total magnification factor = 2^0.5^nbrMag
+        totMagF = Math.pow( magFactor, nbrMag );  //total magnification factor = 2^0.5^nbrMag
         container.scaleX *= magFactor;
         container.scaleY *= magFactor;
-        container.x = _originXInPix*( 1.0 - 1/magF );
-        container.y = _originYInPix*( 1.0 - 1/magF );
+        container.x = _originXInPix*( 1.0 - 1/totMagF );
+        container.y = _originYInPix*( 1.0 - 1/totMagF );
         //must update tapeMeasure
+        mainView.backgroundView.tapeMeasure.resetReadout()
         //must reset linewidths on trajectories
     }
 
+    //called when user clicks on demagnify button in control panel
+    //decreases magnification of container by magFactor = root-of-2
     public function demagnify():void{
         //trace("backgroundView.demagnify called");
         nbrMag += 1;
-        var magF: Number = Math.pow( magFactor, nbrMag );  //total magnification factor = 2^0.5^nbrMag
+        totMagF = Math.pow( magFactor, nbrMag );  //total magnification factor = 2^0.5^nbrMag
         container.scaleX *= 1/magFactor;
         container.scaleY *= 1/magFactor;
-        container.x = _originXInPix*( 1.0 - 1/magF );
-        container.y = _originYInPix*( 1.0 - 1/magF );
+        container.x = _originXInPix*( 1.0 - 1/totMagF );
+        container.y = _originYInPix*( 1.0 - 1/totMagF );
         //must update tapeMeasure
+        mainView.backgroundView.tapeMeasure.resetReadout()
         //must reset linewidths on trajectories
     }
 
@@ -180,5 +189,12 @@ public class BackgroundView extends Sprite {
     }
 
 
+    public function get totMagF():Number {
+        return _totMagF;
+    }
+
+    public function set totMagF(value:Number):void {
+        _totMagF = value;
+    }
 }//end class
 }//end package

@@ -7,6 +7,7 @@
  */
 package edu.colorado.phet.projectilemotionflex.tools {
 import edu.colorado.phet.flashcommon.controls.NiceTextField;
+import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.projectilemotionflex.view.MainView;
 
 import flash.display.DisplayObjectContainer;
@@ -18,20 +19,27 @@ import flash.events.MouseEvent;
 import flash.geom.Point;
 
 public class TapeMeasure extends Sprite {
-    var mainView: MainView;
-    var value: Number;                  //length of tape in meters
-    var outputField: NiceTextField;     //readout of length of tape
-    var angleInRad: Number;             //rotated angle of tape measure
-    var tapeMeasureHolder: Sprite;      //container for parts of tapeMeasure
-    var tapeMeasureBody: Sprite;        //graphic of tape measure body
-    var tapeEnd: Sprite;                //graphic of grabbable end of tape
-    var tape: Sprite;                   //tape stretching from body to end of tape
+    private var mainView: MainView;
+    private var value: Number;                  //length of tape in meters
+    private var outputField: NiceTextField;     //readout of length of tape
+    private var lengthInPix: Number;            //length of tape in screen pixels
+    private var _magF:Number;                    //magnification factor, read in from ControlPanel
+    private var angleInDeg: Number;             //rotated angle of tape measure
+    private var tapeMeasureHolder: Sprite;      //container for parts of tapeMeasure
+    private var tapeMeasureBody: Sprite;        //graphic of tape measure body
+    private var tapeEnd: Sprite;                //graphic of grabbable end of tape
+    private var tape: Sprite;                   //tape stretching from body to end of tape
 
     public function TapeMeasure( mainView:MainView ) {
         this.mainView = mainView;
-        this.value = 10;
         this.outputField = new NiceTextField( null,"", 0, 100000 );
-        this.outputField.units_str = " m";
+        this.outputField.setTextFieldToAutoSize();
+        this.outputField.units_str = FlexSimStrings.get( "m", " m" );
+
+        this.value = 10;
+        this.lengthInPix = value*mainView.pixPerMeter;
+        this._magF = 1;
+        this.angleInDeg = 0;
         this.tapeMeasureHolder = new Sprite();
         this.tapeMeasureBody = new Sprite();
         this.tapeEnd = new Sprite();
@@ -46,7 +54,8 @@ public class TapeMeasure extends Sprite {
         drawTapeMeasureParts();
         makeBodyGrabbable();
         makeEndGrabbable();
-        setTape( value*mainView.pixPerMeter, 0 );
+
+        setTapeConfigurationAndReadout( );
         //makeClipDraggable( this.tapeMeasureBody );
         //makeTapeGrabbableAndRotatable();
     }//end constructor
@@ -115,8 +124,8 @@ public class TapeMeasure extends Sprite {
         var thisStage: DisplayObjectContainer;
         var delXInPix: Number;
         var delYInPix: Number;
-        var lengthInPix: Number;
-        var angleInDeg: Number;
+        //var lengthInPix: Number;
+        //var angleInDeg: Number;
         this.tapeEnd.buttonMode = true;
         this.tapeEnd.addEventListener( MouseEvent.MOUSE_DOWN, startTargetDrag );
         function startTargetDrag( evt: MouseEvent ): void {
@@ -131,7 +140,7 @@ public class TapeMeasure extends Sprite {
             delYInPix = thisStage.mouseY - thisObject.y;    //screen coordinates
             lengthInPix = Math.sqrt( delXInPix*delXInPix + delYInPix*delYInPix );
             angleInDeg = Math.atan2( delYInPix, delXInPix )*180/Math.PI;
-            thisObject.setTape( lengthInPix,  angleInDeg );
+            thisObject.setTapeConfigurationAndReadout();
             evt.updateAfterEvent();
             //clickOffset = null;
             stage.removeEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
@@ -146,13 +155,13 @@ public class TapeMeasure extends Sprite {
 
             //trace("TapeMeasure.makeTapeEndGrabbable  delX = " + delXInPix + "   delY = " + delYInPix );
             //trace("TapeMeasure.makeTapeEndGrabbable  angleInDeg = " + angleInDeg );
-            thisObject.setTape( lengthInPix,  angleInDeg );
+            thisObject.setTapeConfigurationAndReadout();
             evt.updateAfterEvent();
         }//end of dragTarget()
 
     }
 
-    private function setTape( lengthInPix:Number,  angleInDeg: Number ):void{
+    private function setTapeConfigurationAndReadout():void{
         if( lengthInPix > 0) {
             tapeMeasureHolder.visible = false;
             tapeMeasureHolder.rotation = 0;
@@ -160,13 +169,20 @@ public class TapeMeasure extends Sprite {
             tape.width = lengthInPix;
             tapeMeasureHolder.rotation = angleInDeg;
             tapeMeasureHolder.visible = true;
-            var lengthInMeters = lengthInPix/mainView.pixPerMeter;
+            var lengthInMeters:Number = lengthInPix*magF/mainView.pixPerMeter;
             //lengthInMeters = Math.round( 10*lengthInMeters )/10;
             this.outputField.setVal( lengthInMeters );
         }
     }
 
-    public function makeBodyGrabbable():void{
+    public function resetReadout():void{
+        magF = mainView.backgroundView.totMagF;
+        trace("TapeMeasure.resetReadout called.  magF = "+ magF) ;
+        setTapeConfigurationAndReadout();
+    }
+
+
+    private function makeBodyGrabbable():void{
         var thisObject: TapeMeasure = this;
         var thisStage: DisplayObjectContainer;
         //var body: Object = this.tapeMeasureBody;
@@ -207,7 +223,13 @@ public class TapeMeasure extends Sprite {
     }
 
 
+    public function get magF():Number {
+        return _magF;
+    }
 
-
+    //called from ControlPanel when user uses zoom controls
+    public function set magF(value:Number):void {
+        _magF = value;
+    }
 } //end class
 } //end package

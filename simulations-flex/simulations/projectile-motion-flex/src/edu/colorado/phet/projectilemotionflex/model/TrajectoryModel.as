@@ -137,7 +137,7 @@ public class TrajectoryModel {
         _vY = _vY0;
         v = Math.sqrt( _vX*_vX + _vY*_vY );
         this._t = 0;
-        this.startTime = getTimer()/1000;     //getTimer() returns time in milliseconds
+        this.startTime = tRate*getTimer()/1000;     //getTimer() returns time in milliseconds
         this.previousTime = startTime;
         this._inFlight = true;
         this._drawTicMarkNow = false;
@@ -148,11 +148,11 @@ public class TrajectoryModel {
 
     //single-step in time-based animation
     private function stepForward( evt: TimerEvent ):void{
-        var currentTime:Number = getTimer()/1000;
+        var currentTime:Number = tRate*getTimer()/1000;
         elapsedTime = currentTime - previousTime;
         previousTime = currentTime;
-        if(elapsedTime > 2*dt){    //if cpu can't keep up, revert to frame-based animation
-            elapsedTime = dt;
+        if(elapsedTime > 2*tRate*dt){    //if cpu can't keep up, revert to frame-based animation
+            elapsedTime = tRate*dt;
         }
         _t += elapsedTime;
         frameCounter += 1;
@@ -166,14 +166,15 @@ public class TrajectoryModel {
         }else{       //if air resistance on
             aX = - B*_vX*v;
             aY = -g - B*_vY*v;
+            var dtr = dt*tRate;        //adjusted time increment
             //if air resistance so large that results are unphysical, then reduce time step
-            if( B*v*dt > 0.25 ){
-                dt = dt/( B*v*dt/0.25 )
+            if( B*v*dtr > 0.25 ){
+                dtr = dtr/( B*v*dtr/0.25 )
             }
-            _xP += _vX * dt + (0.5) * aX * dt*dt;
-            _yP += _vY * dt + (0.5) * aY * dt*dt;
-            _vX += aX * dt;
-            _vY += aY * dt;
+            _xP += _vX * dtr + (0.5) * aX * dtr*dtr;
+            _yP += _vY * dtr + (0.5) * aY * dtr*dtr;
+            _vX += aX * dtr;
+            _vY += aY * dtr;
         }
 
         v = Math.sqrt( _vX*_vX + _vY*_vY );
