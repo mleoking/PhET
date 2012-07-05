@@ -27,9 +27,14 @@ import flash.display.Sprite;
 
 import mx.containers.Canvas;
 import mx.controls.sliderClasses.Slider;
-
+/*
+ *Class MainView initializes all models, views, and controllers, and initializes layout of Views.
+ *Acts as communications hub for sim.  Every model, view, and controller has an instance of MainView.
+ *Internalized strings are always set with intializeStrings() method in:
+ *MainView, ControlPanel, PausedSign, SliderArrayPanel, SloMoStepControl, PolarizationPanel, ButtonArrayPanel
+ */
 public class MainView extends Canvas {
-    private var tabBar: TabBar;
+    private var tabBar: TabBar;       //tabBar at top of screen
     private var oneDimension_str:String;
     private var twoDimensions_str:String;
 
@@ -40,18 +45,14 @@ public class MainView extends Canvas {
     public var myView1DModes: View1DModes; //another view for Model1, showing individual modes
     public var myView2: View2;         //view for Model2
 
-    //public var mySloMoStepControl: SloMoStepControl;
     public var mySliderArrayPanel: SliderArrayPanel;
     public var myButtonArrayPanel: ButtonArrayPanel;
     public var myControlPanel: ControlPanel;
-    //public var myPolarizationPanel:PolarizationPanel;
     public var myPausedSign: PausedSign;
     public var phetLogo: Sprite;
     public var stageH: Number;
     public var stageW: Number;
 
-    //Internalized strings are located at:
-    //ControlPanel, PausedSign, SliderArrayPanel, SloMoStepControl, PolarizationPanel, ButtonArrayPanel
 
     public function MainView( stageW: Number, stageH: Number ) {
         percentWidth = 100;
@@ -84,7 +85,7 @@ public class MainView extends Canvas {
         } );
 
         this.addChild( new SpriteUIComponent( tabBar ));
-
+        //Model
         this.myModel1 = new Model1( ) ;
         this.myModel2 = new Model2( this );
         this.myModel2.stopMotion();
@@ -92,28 +93,20 @@ public class MainView extends Canvas {
         this.myView1DModes = new View1DModes( this, myModel1 );
         this.myView2 = new View2( this, myModel2 );
 
-        this.myView1.x = 0 * stageW;
-        this.myView1.y = 0 * stageH;
+        this.myView1.x = 0;
+        this.myView1.y = 0;
         this.myView1DModes.x = 0.83*stageW;
         this.myView1DModes.y = 0.55*stageH;
-        this.myView2.x = 0 * stageW;
-        this.myView2.y = 0 * stageH;
+        this.myView2.x = 0;
+        this.myView2.y = 0;
 
-        //this.mySloMoStepControl = new SloMoStepControl( this, myModel1 );
-        //this.mySloMoStepControl.x = 0.93 * stageW ;           // hard-coded, unfortunately
-        //this.mySloMoStepControl.y = 0.42 * stageH; //this.myShakerView.y + this.myPlayPauseButtons.height;
-        //trace("MainView:  "+this.myPlayPauseButtons.width )
-        //trace("MainView starting.");
         this.mySliderArrayPanel = new SliderArrayPanel( this, this.myModel1 );
-        this.mySliderArrayPanel.x = 0*stageW;
+        this.mySliderArrayPanel.x = 0;
         this.mySliderArrayPanel.y = 0.5*stageH;
 
         this.myControlPanel = new ControlPanel( this, myModel1 );
         this.myControlPanel.x = 0.83 * stageW; //- 3 * this.myControlPanel.width;
         this.myControlPanel.y = 0.075 * stageH;
-
-        //this.myPolarizationPanel = new PolarizationPanel( this, myModel1 );
-        //this.locatePolarizationPanel( 1 );
 
         this.myButtonArrayPanel =  new ButtonArrayPanel( this, this.myModel2 );
         this.myButtonArrayPanel.x = 0.70*stageW;
@@ -125,42 +118,32 @@ public class MainView extends Canvas {
         this.myPausedSign.y = 0.1*stageH;
 
         this.phetLogo = new PhetIcon();
-
         this.phetLogo.x = stageW - 2.0 * this.phetLogo.width;
         this.phetLogo.y = 0;// stageH - 1.5 * this.phetLogo.height;
 
-        //this.addChild( this.mySloMoStepControl );
         this.addChild( myPausedSign );
         this.addChild( mySliderArrayPanel );
-        //this.addChild( new SpriteUIComponent ( mySliderArrayPanel ) );
         this.addChild( new SpriteUIComponent( myView1 ) );
         this.addChild( new SpriteUIComponent( myView1DModes ) );
         this.addChild( new SpriteUIComponent( myView2 ) );
         this.myView2.visible = false;
         this.addChild( myControlPanel );
-        //this.addChild( myPolarizationPanel );
         this.addChild( myButtonArrayPanel); //new SpriteUIComponent( myButtonArrayPanel ) );
 
-        //phetLogo now in tab area
+        //phetLogo is in tab area
         this.addChild( new SpriteUIComponent( phetLogo ) );
         this.initializeAll();
     }//end of constructor
 
-    /*
-    private function locatePolarizationPanel( oneDOr2D:int ):void{
-        if( oneDOr2D == 1 ){
-            this.myPolarizationPanel.x = 0.8*stageW;
-            this.myPolarizationPanel.y = 0.5*stageH;
-        }else{
-            this.myPolarizationPanel.x = 0.8*stageW;
-            this.myPolarizationPanel.y = 0.5*stageH;
-        }
-    }//end locatePolarizationPanel
-    */
     private function initializeStrings():void{
         oneDimension_str = FlexSimStrings.get("one Dimension", "1 Dimension   ") ;
         twoDimensions_str = FlexSimStrings.get("two Dimensions", "2 Dimensions   ") ;
     }
+
+/*
+* This sim has two models, with accompanying views: a 1D array of coupled masses and a 2D array of coupled masses
+* The tab bar controls which model/view the user sees by calling the set1DOr2D function.
+* */
 
     public function set1DOr2D(oneOrTwo:int):void{
         if(oneOrTwo == 1){
@@ -178,8 +161,8 @@ public class MainView extends Canvas {
             this.myControlPanel.mySloMoStepControl.setModel( this.myModel1 );
             this.myPausedSign.setModel( this.myModel1 );
             this.myControlPanel.setNbrMassesExternallyWithNoAction( this.myModel1.N );
-            this.myControlPanel.x = 0.83 * stageW; //- 3 * this.myControlPanel.width;
-            //this.myControlPanel.showPhasesVisible( true );
+            this.myControlPanel.x = 0.83 * stageW;
+
         }else if(oneOrTwo == 2){
             this.myModel1.interruptSim();
             this.myModel2.resumeSim();
@@ -195,8 +178,7 @@ public class MainView extends Canvas {
             this.myControlPanel.mySloMoStepControl.setModel( this.myModel2 );
             this.myPausedSign.setModel( this.myModel2 );
             this.myControlPanel.setNbrMassesExternallyWithNoAction( this.myModel2.N );
-            this.myControlPanel.x = 0.78 * stageW; //- 3 * this.myControlPanel.width;
-            //this.myControlPanel.showPhasesVisible( false );
+            this.myControlPanel.x = 0.78 * stageW;
         }
         this.myControlPanel.setShowPhasesControl();
         this.myControlPanel.initializeStartStopButton();
@@ -214,10 +196,7 @@ public class MainView extends Canvas {
         this.myModel2.setN( 2 );                            //this initializes Model2
         this.mySliderArrayPanel.drawBoundingBox();
         this.myButtonArrayPanel.initializeButtonArray();
-        //this.myModel1.setTorL( "T" );
-        //this.setNbrResonators(2);
     }
-
 
 
 }//end of class
