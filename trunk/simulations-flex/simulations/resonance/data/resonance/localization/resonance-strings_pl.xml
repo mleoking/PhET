@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resonance-strings_pl.xml created Wed Jul 04 11:45:00 CEST 2012 using: resonance 1.01.00 (54775), translation-utility 2.13.00 (59150) gru 8, 2011--><SimStrings>
+<string key="simSpeed" value="prędkość odtwarzania"/>
+<string key="sameFrequency" value="ta sama częstotliwość"/>
+<string key="sameSpring" value="ten sam współczynnik sprężystości k"/>
+<string key="slow" value="wolno"/>
+<string key="mixedMAndK" value="różne m i k"/>
+<string key="numberOfResonators" value="liczba rezonatorów"/>
+<string key="pause" value="pauza"/>
+<string key="amplitude" value="amplituda"/>
+<string key="frequencyEqualsXHz" value="częstotliwość = {0} Hz"/>
+<string key="sloMo" value="zwolnione tempo"/>
+<string key="step" value="krok"/>
+<string key="driver" value="GENERATOR"/>
+<string key="ruler" value="linijka"/>
+<string key="resonance.simTitle" value="Rezonans"/>
+<string key="springConstant" value="współczynnik sprężystości"/>
+<string key="frequency" value="częstotliwość"/>
+<string key="resetAll" value="wyzeruj"/>
+<string key="mass" value="masa"/>
+<string key="sameMass" value="ta sama masa m"/>
+<string key="resonator" value="rezonator"/>
+<string key="translation.credits" value="Andrzej Batorski"/>
+<string key="gravityColon" value="pole grawitacyjne"/>
+<string key="paused" value="zatrzymane"/>
+<string key="dampingConstant" value="tłumienie drgań"/>
+<string key="normal" value="normalna"/>
+<string key="selectPreset" value="ustal m i k"/>
+</SimStrings>
