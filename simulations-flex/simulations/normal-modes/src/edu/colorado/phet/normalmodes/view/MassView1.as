@@ -151,6 +151,7 @@ public class MassView1 extends Sprite{
         this.arrowV.visible = false;
     }
 
+    //Called by View1 when any mass is moved.
     public function killArrowListeners():void{
         this.removeEventListener( MouseEvent.ROLL_OVER, this.showArrows );
         this.removeEventListener( MouseEvent.ROLL_OUT, this.hideArrows );
