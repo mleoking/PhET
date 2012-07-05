@@ -1,10 +1,7 @@
-/**
- * Created by IntelliJ IDEA.
- * User: Dubson
- * Date: 5/31/11
- * Time: 2:59 PM
- * To change this template use File | Settings | File Templates.
+/*
+ * Copyright 2002-2012, University of Colorado
  */
+
 package edu.colorado.phet.projectilemotionflex {
 import edu.colorado.phet.projectilemotionflex.view.MainView;
 
@@ -13,6 +10,9 @@ import flash.events.Event;
 
 import mx.containers.Canvas;
 
+/**
+ *
+ */
 public class ProjectileMotionFlexCanvas extends Canvas {
     public function ProjectileMotionFlexCanvas() {
     }//end constructor
@@ -24,10 +24,10 @@ public class ProjectileMotionFlexCanvas extends Canvas {
         setStyle( "backgroundColor", 0xf0e68c );  //build an atom color is 0xffff99
         percentWidth = 100;
         percentHeight = 100;
-        const myMainView : MainView = new MainView( RENDER_WIDTH, RENDER_HEIGHT )
+        const myMainView: MainView = new MainView( RENDER_WIDTH, RENDER_HEIGHT )
         this.addChild( myMainView );
-       // addChild( res );
-        const listener: Function = function( event: Event ): void {
+        // addChild( res );
+        const listener: Function = function ( event: Event ): void {
             const sx = stage.stageWidth / RENDER_WIDTH;
             const sy = stage.stageHeight / RENDER_HEIGHT;
 
@@ -42,10 +42,11 @@ public class ProjectileMotionFlexCanvas extends Canvas {
         listener( null );
     }//end init()
 
-    public function setResolution( rez:String):void{
-        if( rez == "LOW"){
+    public function setResolution( rez: String ): void {
+        if ( rez == "LOW" ) {
             stage.quality = StageQuality.LOW;
-        }else if (rez == "HIGH"){
+        }
+        else if ( rez == "HIGH" ) {
             stage.quality = StageQuality.HIGH;
         }
     }
