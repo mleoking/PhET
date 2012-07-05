@@ -4,18 +4,18 @@ import edu.colorado.phet.normalmodes.model.Model1;
 import flash.display.*;
 import flash.events.MouseEvent;
 
-//view for Model1, a 1-dimensional array of masses and springs
+/*
+*view for Model1, a 1-dimensional array of masses and springs
+*/
 public class View1 extends Sprite {
-
     public var myMainView: MainView;		//MainView
     private var myModel1: Model1;			//model for this view
-
     private var _pixPerMeter: Number;		//scale: number of pixels in 1 meter
-    private var LinMeters:Number;           //distance between fixed walls in meters
+    private var LinMeters:Number;           //distance, in meters, between fixed walls at edges of 1D array
     private var _LinPix:Number;             //distance between fixed walls in pixels
     private var L0Spring:Number;            //equilibrium length of spring in pixels
-    private var _leftEdgeY:Number;          //y-position of leftEdge in pixels measured down from top of screen
-    private var _leftEdgeX:Number;          //x-position of leftEdge in pixels measured right from left edge of screen
+    private var _leftEdgeY:Number;          //y-position of upper left corner of this view in pixels measured down from top of screen
+    private var _leftEdgeX:Number;          //x-position of upper left corner of this view in pixels measured right from left edge of screen
     private var mass_arr:Array;             //array of massView instances , index 0 = mobile mass 1
     private var spring_arr:Array;           //array of spring sprites
     private var walls:Sprite;               //graphic for the fixed walls
@@ -24,9 +24,6 @@ public class View1 extends Sprite {
 
     private var stageW: int;
     private var stageH: int;
-
-    //strings for internationalization
-    //public var any_str: String;     //no strings in this view yet
 
     public function View1( myMainView: MainView, myModel1: Model1 ) {
         this.myMainView = myMainView;
@@ -54,7 +51,7 @@ public class View1 extends Sprite {
         for(var i:int =0; i <= nMax; i++){       //notice one more spring than nbr masses
             this.spring_arr[i] = new Sprite();
         }
-        this.drawSprings();       //need to positions springs behind masses
+        this.drawSprings();             //positions springs behind masses
         this.walls = new Sprite();
         this.drawWalls();
 
@@ -116,21 +113,23 @@ public class View1 extends Sprite {
         g.lineTo(this._leftEdgeX + this._LinPix, this._leftEdgeY + h/2);
     }
 
+    //Determines how many masses are visible, called when user changes number of masses
     private function setVisiblityGraphics():void{
         var N:int = this.myModel1.N;            //number of visible, mobile masses
         var nMax:int = this.myModel1.nMax;
         //Not necessary to position massView graphics or springGraphics here,
         //since these are automatically positioned by update();
+        //Make all masses visible and then hide excess masses
         for(var i:int = 0; i < N; i++){
             this.mass_arr[i].visible = true;
             this.mass_arr[i].drawBorderZone( this.L0Spring, 300 );
         }
-
         for(i = N; i < nMax; i++){
             this.mass_arr[i].visible = false;
         }
     }
 
+    //Called when user changes number of masses.
     public function setNbrMasses():void{
         this.drawSprings();
         this.setVisiblityGraphics();
@@ -146,7 +145,6 @@ public class View1 extends Sprite {
     }
 
     public function initializeControls(): void {
-        //trace("initializeControls() called");
         this.update();
     }
 
@@ -166,11 +164,10 @@ public class View1 extends Sprite {
         return this._leftEdgeY;
     }
 
-    //called from startTargetDrag() inside MassView1
+    //Called from startTargetDrag() inside MassView1
     public function clearBorderZones():void{
         this._massGrabbedByUser = true;
         for(var i:int = 0; i < this.myModel1.nMax; i++ ){
-            //this.mass_arr[i].removeEventListener( MouseEvent.ROLL_OVER, showArrows );
             this.mass_arr[i].killArrowListeners();
         }
     }
@@ -185,7 +182,6 @@ public class View1 extends Sprite {
 
         if( this.myModel1.nChanged ){
             this.setNbrMasses();
-            //this.myModel1.nChanged = false;
         }
 
         //position masses
