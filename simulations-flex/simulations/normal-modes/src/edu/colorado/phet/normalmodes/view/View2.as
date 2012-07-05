@@ -12,6 +12,9 @@ import flash.display.Graphics;
 import flash.display.LineScaleMode;
 import flash.display.Sprite;
 
+/*
+ * View for Model2, a 2-dimensional array of masses and springs
+ */
 public class View2 extends Sprite {
 
     public var myMainView: MainView;		//MainView
@@ -32,9 +35,6 @@ public class View2 extends Sprite {
 
     private var stageW: int;
     private var stageH: int;
-
-    //strings for internationalization
-    //public var any_str: String;     //no strings in this view yet
 
     public function View2( myMainView: MainView, myModel2: Model2 ) {
         this.myMainView = myMainView;
@@ -59,7 +59,7 @@ public class View2 extends Sprite {
         for(var i:int = 0; i < nMax; i++){
             mass_arr[i] = new Array( nMax );
         }
-        //mass graphic drawn in MassView
+        //Mass graphic is drawn in MassView
         for(i =0; i < nMax; i++){
             for(j = 0; j < nMax; j++){
                this.mass_arr[i][j] = new MassView2( i+1, j+1, this.myModel2, this );
@@ -97,17 +97,13 @@ public class View2 extends Sprite {
                 this.addChild(this.mass_arr[i][j]);
             }
         }
-
-        //this.showMasses();
         this.addChild(this.walls);
-
         this.initializeControls();
     }//end of initialize()
 
     private function drawSprings():void{        //only the visible springs are drawn
         //trace("View2.drawSprings() called.");
-        //var d:Number = 10;                    //radius of each mass in pixels, all distance in this function in pixels
-        var nMasses:Number = this.myModel2.N;   //number of mobile masses in 1D chain
+        var nMasses:int = this.myModel2.N;   //number of mobile masses in 1D chain
         this.L0Spring = ( this._LinPix )/(nMasses + 1);  //equilibrium length of single spring in pixels
         var leadL:Number = 20;                  //length of each straight end of spring
         var nTurns:Number = 5;                  //number of turns in spring
@@ -203,8 +199,6 @@ public class View2 extends Sprite {
 
 
     public function initializeControls(): void {
-        //trace("initializeControls() called");
-
         this.update();
     }
 
@@ -300,7 +294,6 @@ public class View2 extends Sprite {
                     yInPix = this._topLeftCornerY + yInMeters*this._pixPerMeter;
                     this.springV_arr[i][j].x = xInPix;
                     this.springV_arr[i][j].y = yInPix;
-
                     //position bottom end of vertical springs; this requires rotation
                     sprLX = (this.myModel2.getXY(i+1, j+1)[0] - this.myModel2.getXY(i, j+1)[0])*this.pixPerMeter;
                     sprLY = (this.myModel2.getXY(i+1, j+1)[1] - this.myModel2.getXY(i, j+1)[1])*this.pixPerMeter;
