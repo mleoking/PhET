@@ -9,6 +9,7 @@ package edu.colorado.phet.projectilemotionflex.view {
 import edu.colorado.phet.flashcommon.controls.NiceTextField;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
+import edu.colorado.phet.projectilemotionflex.control.SloMoStepControl;
 import edu.colorado.phet.projectilemotionflex.model.TrajectoryModel;
 import edu.colorado.phet.projectilemotionflex.tools.TapeMeasure;
 
@@ -32,6 +33,7 @@ public class BackgroundView extends Sprite {
     private var range_str: String;             //labels for readout fields
     private var height_str: String;
     private var time_str: String;
+    //private var sloMoStepControl: SloMoStepControl;
     public var container: Sprite;      //container for cannon, trajectory, projectiles, etc.  Can be zoomed
     public var cannonView: CannonView;
     public var trajectoryView: TrajectoryView;
@@ -64,6 +66,9 @@ public class BackgroundView extends Sprite {
         this.rangeReadout.x = 0.3*stageW;
         this.heightReadout.x = 0.4*stageW;
         this.timeReadout.x = 0.5*stageW;
+//        this.sloMoStepControl = new SloMoStepControl( mainView, trajectoryModel );
+//        this.sloMoStepControl.x = 0.5*stageW;
+//        this.sloMoStepControl.y = 0.5*stageH;
         this.container = new Sprite();
         this.magFactor = 1.41421356;
         this.nbrMag = 0;
@@ -74,6 +79,7 @@ public class BackgroundView extends Sprite {
         this.addChild( rangeReadout );
         this.addChild( heightReadout );
         this.addChild( timeReadout );
+
         this.addChild( container );
 
         this.cannonView = new CannonView( mainView, trajectoryModel, this );
@@ -84,8 +90,9 @@ public class BackgroundView extends Sprite {
         this.container.addChild( projectileView );
         this.tapeMeasure = new TapeMeasure( this.mainView );
         this.addChild( tapeMeasure );
+        //this.addChild( sloMoStepControl );
         //this.tapeMeasure.makeBodyGrabbable();
-        this.tapeMeasure.x = 0.5*stageW;
+        this.tapeMeasure.x = 0.8*stageW;
         this.tapeMeasure.y = 0.8*stageH;
         this.cannonView.x = this._originXInPix;
         this.cannonView.y = this._originYInPix;
