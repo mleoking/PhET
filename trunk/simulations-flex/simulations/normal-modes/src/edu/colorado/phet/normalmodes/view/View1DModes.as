@@ -18,8 +18,9 @@ import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
 import flash.text.TextFormatAlign;
 
-//View of individual 1D Modes. 1 Graph for each mode, with graphs lined up aligned vertically
-//Each graph is simple sine wave
+/*View of individual 1D Modes. 1 Graph for each mode, with graphs lined up aligned vertically
+* Each graph is simple sine wave.
+* */
 
 public class View1DModes extends Sprite {
 
@@ -31,14 +32,12 @@ public class View1DModes extends Sprite {
     private var _LinPix: Number;            //wall-to-wall distance in pixels
     private var _ySeparationOfGraphs;       //vertical pixel separation between adjacent graphs
 
-    private var showHideButton:ShowHideButton;
+    private var showHideButton:ShowHideButton;  //Button to show or hide this view
     private var walls_arr:Array;            //array of wall graphics, one for each mode
     private var sineWave_arr:Array;         //array of sine wave graphiscs, one for each mode
     private var nbrLabel_arr:Array;         //array of number labels
     private var normalModes_txt:TextField;  //Label above mode display
     public var normalModes_str:String;
-    private var tFormat1:TextFormat;
-    private var tFormat2:TextFormat;
 
     private var stageW: Number;
     private var stageH: Number;
@@ -60,11 +59,9 @@ public class View1DModes extends Sprite {
         this._pixPerMeter = this._LinPix/this._LinMeters;
         //trace("View1DMode.initialize. pixPerMeter =" + _pixPerMeter );
         this._ySeparationOfGraphs = 30;
-        var nMax = this.myModel1.nMax;
-
+        var nMax:int  = this.myModel1.nMax;
         this.walls_arr = new Array( nMax + 1 );  //need nMax+1 elements, since zero element is dummy
         this.sineWave_arr = new Array( nMax + 1);
-
         for( var i:int = 0; i <= nMax; i++ ){
             walls_arr[i] = new Sprite();
             sineWave_arr[i] = new Sprite();
@@ -72,18 +69,21 @@ public class View1DModes extends Sprite {
             this.addChild( sineWave_arr[i] );
         }
         this.drawWalls();
-
         this.makeLabels();
         this.positionLabels();
     }//end initialize()
 
+/*
+* Draws the sine wave representing the Nth mode.
+* */
     private function drawModeN( modeN: int ):void{
+        //Get amplitude, frequency, and phase of mode from the model
         var amplitude:Number = myModel1.getModeAmpli( modeN );
         var omega:Number = myModel1.getModeOmega( modeN );
         var phase:Number = myModel1.getModePhase( modeN );
         var time:Number = myModel1.t;
-        var leftEdgeX = 0;
-        var leftEdgeY = ( modeN - 1) * this._ySeparationOfGraphs;
+        var leftEdgeX: Number = 0;
+        var leftEdgeY: Number  = ( modeN - 1) * this._ySeparationOfGraphs;
         var g:Graphics = this.sineWave_arr[ modeN ].graphics;
         g.clear();
         g.lineStyle(3, 0x0000ff, 1);   //blue string
@@ -96,12 +96,13 @@ public class View1DModes extends Sprite {
         }
     }//end drawModeN()
 
+    //Draw walls at left and right edges of sine wave
     private function drawWalls():void{
         var nMax: int = this.myModel1.nMax;
         var h:Number = 10; //height of wall in pix
-        var leftEdgeX = 0;
+        var leftEdgeX: Number = 0;
         for(var i:int = 1; i <= nMax; i++ ){
-            var leftEdgeY = (i-1)*this._ySeparationOfGraphs;
+            var leftEdgeY: Number = (i-1)*this._ySeparationOfGraphs;
             var g:Graphics = this.walls_arr[i].graphics;
             g.clear();
             g.lineStyle(5, 0x444444, 1);   //gray walls
@@ -113,9 +114,8 @@ public class View1DModes extends Sprite {
     }//end drawWalls()
 
     private function makeLabels():void{
-        //normalModes_str = "Normal Modes";
         normalModes_str = FlexSimStrings.get( "normalModes", "Normal Modes");
-        var nMax = this.myModel1.nMax;
+        var nMax: int = this.myModel1.nMax;
         this.nbrLabel_arr = new Array( nMax + 1 );
         var tFormat1:TextFormat = new TextFormat();
         tFormat1.align = TextFormatAlign.CENTER;
@@ -137,11 +137,11 @@ public class View1DModes extends Sprite {
     }//end make Labels
 
     private function positionLabels():void{
-        var nMax = this.myModel1.nMax;
+        var nMax: int = this.myModel1.nMax;
         this.normalModes_txt.y = -40;
         this.normalModes_txt.x = 0.5*_LinPix - 0.5*this.normalModes_txt.width;
         this.showHideButton.y = -30;
-        this.showHideButton.x = this.normalModes_txt.x - 15; //+ this.normalModes_txt.width + 15;
+        this.showHideButton.x = this.normalModes_txt.x - 15;
         for( var i:int = 1; i <= nMax; i++ ){
             this.nbrLabel_arr[i].x = -nbrLabel_arr[i].width - 7;
             this.nbrLabel_arr[i].y = (i - 1)*this._ySeparationOfGraphs - 0.5*nbrLabel_arr[i].height;
@@ -150,7 +150,6 @@ public class View1DModes extends Sprite {
 
     //show() hide() functions required by ShowHideButton
     public function show():void{
-        var nMax: int = this.myModel1.nMax;
         for(var i:int = 1; i <= _N; i++ ){
             this.walls_arr[i].visible = true;
             this.sineWave_arr[i].visible = true;
@@ -159,7 +158,6 @@ public class View1DModes extends Sprite {
     }
 
     public function hide():void{
-        var nMax: int = this.myModel1.nMax;
         for(var i:int = 1; i <= _N; i++ ){
             this.walls_arr[i].visible = false;
             this.sineWave_arr[i].visible = false;
