@@ -1,4 +1,3 @@
-# 2.12.00 (65639) Jul 5, 2012
 > sponsored by Texas Instruments
 # 2.11.02 (65574) Jun 29, 2012
 6/29/12 dev version for regression testing
