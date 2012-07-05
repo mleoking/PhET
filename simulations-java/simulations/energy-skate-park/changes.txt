@@ -1,3 +1,4 @@
+> sponsored by Texas Instruments
 # 2.11.02 (65574) Jun 29, 2012
 6/29/12 dev version for regression testing
 6/29/12 #3363 add sponsor.properties, populate using info supplied by TI
