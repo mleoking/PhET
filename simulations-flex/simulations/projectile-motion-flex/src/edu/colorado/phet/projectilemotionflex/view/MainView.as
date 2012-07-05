@@ -10,6 +10,7 @@ package edu.colorado.phet.projectilemotionflex.view {
 import edu.colorado.phet.flashcommon.view.PhetIcon;
 import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
 import edu.colorado.phet.projectilemotionflex.control.ControlPanel;
+import edu.colorado.phet.projectilemotionflex.control.SloMoStepControl;
 import edu.colorado.phet.projectilemotionflex.model.TrajectoryModel;
 
 import flash.display.Sprite;
@@ -25,6 +26,7 @@ public class MainView extends Canvas {
     public var trajectoryModel: TrajectoryModel;
     public var backgroundView: BackgroundView;
     public var controlPanel: ControlPanel;
+    public var sloMoStepControl: SloMoStepControl;
     private var _pixPerMeter: Number;
     private var _originXInPix: Number;
     private var _originYInPix: Number;
@@ -44,12 +46,16 @@ public class MainView extends Canvas {
         this.trajectoryModel = new TrajectoryModel( this );
         this.backgroundView = new BackgroundView( this, trajectoryModel );
         this.controlPanel = new ControlPanel( this, trajectoryModel );
+        this.sloMoStepControl = new SloMoStepControl( this, trajectoryModel );
         trajectoryModel.updateViews();
 
         this.addChild( new SpriteUIComponent( backgroundView ));
         this.addChild( controlPanel );
+        this.addChild( sloMoStepControl );
         controlPanel.x = 0.8 * stageW;
         controlPanel.y = 0.05 * stageH;
+        this.sloMoStepControl.x = 0.5*stageW;
+        this.sloMoStepControl.y = 0.93*stageH;
 
         this.phetLogo = new PhetIcon();
         this.phetLogo.x = stageW - 2.0 * this.phetLogo.width;

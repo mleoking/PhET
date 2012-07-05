@@ -58,6 +58,7 @@ public class TrajectoryModel {
     public var previousTime: Number;    //previous real time in seconds that getTimer() was called.
     public var elapsedTime: Number;     //real elapsed time in seconds since previous call to getTimer()
     private var _inFlight: Boolean;     //true if projectile is in flight
+    private var _paused: Boolean;       //true if sim is paused
     private var stepsPerFrame: int;     //number of algorithm steps between screen refreshes
     private var frameCounter: int;      //counts algorithm steps between view updates
     private var _tRate:Number;          //Normal time rate: tRate = 1;
@@ -154,7 +155,12 @@ public class TrajectoryModel {
         if(elapsedTime > 2*tRate*dt){    //if cpu can't keep up, revert to frame-based animation
             elapsedTime = tRate*dt;
         }
-        _t += elapsedTime;
+        singleStep( elapsedTime );
+    }
+
+    private function singleStep( timeStep: Number ):void{
+
+        _t += timeStep;
         frameCounter += 1;
         if( !_airResistance ){
             aX = 0;
@@ -214,6 +220,20 @@ public class TrajectoryModel {
         }
 
     }//stepForward()
+
+    public function pauseSim():void{
+        this._paused = true;
+        this.trajectoryTimer.stop();
+    }
+
+    public function unPauseSim():void{
+        this._paused = false;
+       this.trajectoryTimer.start()
+    }
+
+    public function singleStepWhenPaused():void{
+       this.singleStep( dt*tRate )
+    }
 
     public function registerView( view: Object ): void {
         this.views_arr.push( view );
