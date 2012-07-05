@@ -14,12 +14,14 @@ import flash.text.TextFormat;
 
 import mx.core.UIComponent;
 
+/*
+* "Paused sign" appears in background when user pauses sim.
+* Different pausedSigns for the two different model/views (view1 and view2)
+* */
 public class PausedSign extends UIComponent {
-
     private var paused_txt:TextField;
     private var tFormat:TextFormat;
     private var paused_str:String;
-    private var _visible:Boolean;
     private var myModel:Object;     //either model1 or model2
 
     public function PausedSign( myModel:Object ) {
@@ -36,9 +38,9 @@ public class PausedSign extends UIComponent {
         paused_txt.autoSize = TextFieldAutoSize.CENTER;
         paused_txt.setTextFormat( tFormat );
         this.addChild( paused_txt );
-
     }//end constructor
 
+    //register this pausedSign view with the appropriate model
     public function setModel( currentModel: Object ):void{
         this.myModel.unregisterView( this );
         this.myModel = currentModel;
