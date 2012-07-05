@@ -1,4 +1,3 @@
-# 1.24.00 (65669) Jul 5, 2012
 deploy with new strings related to sponsor feature, #3166
 # 1.23.00 (57909) Oct 24, 2011
 Exit the VM after the dialog is closed, see #3127
