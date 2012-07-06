@@ -7,7 +7,6 @@
 package edu.colorado.phet.flashcommon.controls {
 import flash.display.Graphics;
 import flash.display.Sprite;
-import flash.events.KeyboardEvent;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFieldType;
@@ -18,24 +17,25 @@ public class NiceLabel extends Sprite {
     public var label_txt: TextField;
     private var tFormat: TextFormat;
     private var fontSize: int;
-    private var fontColor:Number;
-    private var action:Function;    //action to be performed if label is editable
+    private var fontColor: Number;
+    private var action: Function;    //action to be performed if label is editable
 
-    public function NiceLabel( fontSize:int = 15, labelText_str:String = "Label", htmlTextUsed:Boolean = false ) {
+    public function NiceLabel( fontSize: int = 15, labelText_str: String = "Label", htmlTextUsed: Boolean = false ) {
         this.fontSize = fontSize;
         this.fontColor = 0x000000;       //default color is black
         this.label_txt = new TextField();
-        if( htmlTextUsed ){
+        if ( htmlTextUsed ) {
             this.label_txt.multiline = true;
             this.label_txt.htmlText = labelText_str;
             //trace("NiceLabel: htmlText used")
-        }else{
+        }
+        else {
             this.label_txt.text = labelText_str;
         }
         this.tFormat = new TextFormat();
         this.setDefaultTextFormat();
         this.setLabel();
-        this.addChild(this.label_txt)
+        this.addChild( this.label_txt )
     } //end of constructor
 
 
@@ -54,38 +54,38 @@ public class NiceLabel extends Sprite {
         //this.label_txt.border = true;      //for testing only
     }//end setLabel()
 
-    public function setBold( tOrF:Boolean ):void{
+    public function setBold( tOrF: Boolean ): void {
         this.tFormat.bold = tOrF;
         this.label_txt.setTextFormat( this.tFormat );
     }
 
-    public function makeEditable( allowedInput:String = "0-9.\\-" ):void{
+    public function makeEditable( allowedInput: String = "0-9.\\-" ): void {
         this.action = action;
         this.label_txt.restrict = allowedInput;
         this.label_txt.type = TextFieldType.INPUT;
         this.label_txt.selectable = true;
         this.label_txt.border = true;
         this.label_txt.background = true;
-        this.label_txt.backgroundColor = 0xffffff ;
+        this.label_txt.backgroundColor = 0xffffff;
     }
 
-    public function makeTextMultiline( maxWidthOfText:Number ):void{
+    public function makeTextMultiline( maxWidthOfText: Number ): void {
         this.label_txt.wordWrap = true;
         this.label_txt.width = maxWidthOfText;
     }
 
 
-    public function setTextFormat (tFormat:TextFormat):void{
+    public function setTextFormat( tFormat: TextFormat ): void {
         this.tFormat = tFormat;
         this.label_txt.setTextFormat( this.tFormat );
     }
 
-    public function centerText():void{
+    public function centerText(): void {
         this.tFormat.align = TextFormatAlign.CENTER;
         this.label_txt.setTextFormat( this.tFormat );
     }
 
-    public function setText(labelText_str:String):void{
+    public function setText( labelText_str: String ): void {
         this.label_txt.text = labelText_str;
         this.label_txt.setTextFormat( this.tFormat );
         //following code for testing only
@@ -95,33 +95,40 @@ public class NiceLabel extends Sprite {
         //this.drawBounds( pixWidth,  pixHeight );
     }//end setText()
 
-    public function setFontSize( fontSize:int ):void{
+    public function setFontSize( fontSize: int ): void {
         this.fontSize = fontSize;
         this.tFormat.size = this.fontSize;
         this.label_txt.setTextFormat( this.tFormat );
     }
 
-    public function setFontColor( fontColor:Number):void{
+    public function setFontColor( fontColor: Number ): void {
         this.fontColor = fontColor;
         this.tFormat.color = this.fontColor;
         this.label_txt.setTextFormat( this.tFormat );
     }
 
+    public function setBackgroundColor( color: uint ):void{
+        this.label_txt.background = true;
+        this.label_txt.backgroundColor = color;
+    }
+
     //used to tweek position of label is flex layout
     //This does not seem to work.  I tried it.
-    public function setYOffset( yPix:int ):void{
+    public function setYOffset( yPix: int ): void {
         this.label_txt.y = yPix;
     }
 
     //for testing purposes only
-    private function drawBounds(w:Number,  h:Number):void{
-      var g:Graphics = this.graphics;
-      g.clear();
-      g.lineStyle(1, 0x000000, 0);
-      g.beginFill(0xff0000);
-      g.drawRect(0, 0, w, h);
-      g.endFill();
-      //trace("NiceLabel.drawBounds this.width = "+this.width);
+    public function drawBounds(): void {
+        var w: Number = this.width;
+        var h: Number = this.height;
+        var g: Graphics = this.graphics;
+        g.clear();
+        g.lineStyle( 1, 0x000000, 0 );
+        g.beginFill( 0xff0000 );
+        g.drawRect( 0, 0, w, h );
+        g.endFill();
+        trace( "NiceLabel.drawBounds this.width = " + this.width );
     }
 
 }//end of class

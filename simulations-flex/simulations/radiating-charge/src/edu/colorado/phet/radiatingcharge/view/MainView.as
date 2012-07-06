@@ -33,6 +33,7 @@ public class MainView extends Canvas {
     public var myFieldModel:FieldModel;
     public var myChargeView:ChargeView;
     public var myFieldView:FieldView;
+    public var myVelocityArrowView: VelocityArrowView;
     public var myControlPanel:ControlPanel;
     public var topCanvas:RadiatingChargeCanvas;
 
@@ -50,6 +51,7 @@ public class MainView extends Canvas {
         this.stageH = stageH;
         this.stageW = stageW;
         this.myFieldModel = new FieldModel(this);
+        this.myVelocityArrowView = new VelocityArrowView( this, myFieldModel );
         this.myChargeView = new ChargeView( this, myFieldModel ) ;
         this.myFieldView = new FieldView(this, myFieldModel );
         this.myControlPanel = new ControlPanel( this, this.myFieldModel );
