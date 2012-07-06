@@ -7,11 +7,17 @@
 package edu.colorado.phet.flashcommon.controls {
 import flash.display.Graphics;
 import flash.display.Sprite;
+import flash.events.Event;
+import flash.events.MouseEvent;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFieldType;
 import flash.text.TextFormat;
 import flash.text.TextFormatAlign;
+
+import mx.controls.Button;
+
+import mx.core.UIComponent;
 
 public class NiceLabel extends Sprite {
     public var label_txt: TextField;
@@ -19,8 +25,10 @@ public class NiceLabel extends Sprite {
     private var fontSize: int;
     private var fontColor: Number;
     private var action: Function;    //action to be performed if label is editable
+    private var component: UIComponent;  //optional mx.control that this is label for
+    private var pushedIn: Boolean;   //true if TextField is clicked on by mouse
 
-    public function NiceLabel( fontSize: int = 15, labelText_str: String = "Label", htmlTextUsed: Boolean = false ) {
+    public function NiceLabel( fontSize: int = 15, labelText_str: String = "Label", htmlTextUsed: Boolean = false, component:Button = null ) {
         this.fontSize = fontSize;
         this.fontColor = 0x000000;       //default color is black
         this.label_txt = new TextField();
@@ -33,6 +41,12 @@ public class NiceLabel extends Sprite {
             this.label_txt.text = labelText_str;
         }
         this.tFormat = new TextFormat();
+        //this.action = action;
+        this.component = component;
+        this.pushedIn = false;
+        if( component != null ){
+            activateTextField();
+        }
         this.setDefaultTextFormat();
         this.setLabel();
         this.addChild( this.label_txt )
@@ -130,6 +144,59 @@ public class NiceLabel extends Sprite {
         g.endFill();
         trace( "NiceLabel.drawBounds this.width = " + this.width );
     }
+
+    private function activateTextField(): void {
+        //trace("this.label_txt = " , this.label_txt);
+        //this.label_txt.background.width = this.myButtonWidth;
+        //this.label_txt.background.height = 30;
+        //this.label_txt.label_txt.mouseEnabled = false;
+        //this.label_txt.buttonMode = true;
+        //this.label_txt.mouseChildren = false;
+        this.label_txt.addEventListener( MouseEvent.MOUSE_DOWN, buttonBehave );
+        this.label_txt.addEventListener( MouseEvent.MOUSE_OVER, buttonBehave );
+        this.label_txt.addEventListener( MouseEvent.MOUSE_OUT, buttonBehave );
+        this.label_txt.addEventListener( MouseEvent.MOUSE_UP, buttonBehave );
+        var localRef: Object = this;
+
+        function buttonBehave( evt: MouseEvent ): void {
+
+            if ( evt.type == "mouseDown" ) {
+                if(!localRef.pushedIn ){
+                    localRef.pushedIn = true;
+                    localRef.label_txt.x += 2;
+                    localRef.label_txt.y += 2;
+                    localRef.component.selected = !localRef.component.selected;
+                    localRef.component.dispatchEvent(new Event(Event.CHANGE))
+                    //localRef.action();
+                }
+                //trace("evt.name:"+evt.type);
+            } else if ( evt.type == "mouseOver" ) {
+                localRef.tFormat.bold = true;
+                localRef.label_txt.setTextFormat( localRef.tFormat );
+                //trace("evt.name:"+evt.type);
+            } else if ( evt.type == "mouseUp" ) {
+                //trace("evt.name:"+evt.type);
+                if(localRef.pushedIn ){
+                    localRef.pushedIn = false;
+                    localRef.label_txt.x -= 2;
+                    localRef.label_txt.y -= 2;
+                    //localRef.action();
+                }
+
+            } else if ( evt.type == "mouseOut" ) {
+                if(localRef.pushedIn ){
+                    localRef.pushedIn = false;
+                    localRef.label_txt.x -= 2;
+                    localRef.label_txt.y -= 2;
+                    //localRef.action();
+                }
+                localRef.tFormat.bold = false;
+                localRef.label_txt.setTextFormat( localRef.tFormat );
+                //trace("evt.name:"+evt.type);
+            }
+        }//end of buttonBehave()
+
+    }//end of activateButton()
 
 }//end of class
 } //end of package
