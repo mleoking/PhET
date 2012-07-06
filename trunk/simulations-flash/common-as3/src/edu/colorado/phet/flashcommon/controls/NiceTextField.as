@@ -185,8 +185,10 @@ public class NiceTextField extends Sprite {
         this.readout_txt.text = readout.toFixed( readoutPlaces );
     }//end updateReadout()
 
-    //position label relative to textField: left(default), right, top, or bottom.
-    // Default is label to the left of the textField.
+    /**
+     * Position label relative to textField: left(default), right, top, or bottom.
+     * Default is label to the left of the textField.
+     */
     public function setLabelPosition( position:String ):void{
         this.labelPosition = position;
         //trace( "NiceTextField.setLabelPosition called.  position = " + position)

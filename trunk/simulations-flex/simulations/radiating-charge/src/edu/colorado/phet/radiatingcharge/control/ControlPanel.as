@@ -203,7 +203,7 @@ public class ControlPanel extends Canvas {
         showVelocity_cb = new CheckBox();
 
         showVelocity_cb.addEventListener( Event.CHANGE, showVelocityListener )
-        var showVelocityLabel: NiceLabel = new NiceLabel( 15, showVelocity_str );
+        var showVelocityLabel: NiceLabel = new NiceLabel( 15, showVelocity_str, false, showVelocity_cb );
         showVelocityLabel.setFontColor( 0xffffff );
         //showVelocityLabel.drawBounds();
 
@@ -245,6 +245,7 @@ public class ControlPanel extends Canvas {
         showVelocityVBox.addChild( speedOLightArrow_UI );
         myMainView.myVelocityArrowView.velocityArrow.visible = showVelocity_cb.selected;       //start with velocity arrow invisible
 
+
         this.setVisibilityOfControls();
 
         this.addChild( new SpriteUIComponent( resetButton ) );
@@ -284,7 +285,7 @@ public class ControlPanel extends Canvas {
     private function initializeRadioButton( rb:RadioButton, lbl:String,  value: int, selected: Boolean ){
         rb.group = presetMotion_rgb;
         rb.labelPlacement = "right";
-        rb.label = lbl + "   ";
+        rb.label = lbl;// + "   ";
         rb.value = value;
         rb.selected = selected;
         rb.setStyle( "color", 0xffffff );
@@ -423,7 +424,18 @@ public class ControlPanel extends Canvas {
         //trace("ControlPanel.showVelocityListener selected = " + selected );
     }
 
+//    private function toggleShowVelocityCheckBox():void{
+//        var selected: Boolean = showVelocity_cb.selected;
+//        if( selected ){
+//            showVelocity_cb.selected = false;
+//        }else{
+//            showVelocity_cb.selected = true;
+//        }
+//        showVelocity_cb.dispatchEvent( new Event(Event.CHANGE) );
+//    }
+
     private function setVisibilityOfControls():void{
+        //Begin with controls invisible and then make selected controls visible
         amplitudeSlider_UI.visible = false;
         frequencySlider_UI.visible = false;
         durationSlider_UI.visible = false;
