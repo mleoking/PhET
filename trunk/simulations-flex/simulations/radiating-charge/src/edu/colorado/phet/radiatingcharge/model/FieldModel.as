@@ -23,8 +23,8 @@ public class FieldModel {
     private var c:Number;           //speed of light in pixels per second, charge cannot move faster than c
     private var _xC:Number;         //x-position of charge in pixels
     private var _yC:Number;         //y-position of charge in pixels
-    private var vX:Number;          //x-component of charge velocity
-    private var vY:Number;          //y-component of charge velocity
+    private var _vX:Number;          //x-component of charge velocity
+    private var _vY:Number;          //y-component of charge velocity
     private var vXInit:Number;      //x-comp of velocity when starting to brake stopping charge
     private var vYInit:Number;      //y-comp of velocity when starting to brake stopping charge
     private var _v:Number;          //speed of charge
@@ -120,9 +120,9 @@ public class FieldModel {
 
         this.fX = 0;
         this.fY = 0;
-        this.vX = 0;
-        this.vY = 0;
-        this._v = Math.sqrt( vX*vX + vY*vY );
+        this._vX = 0;
+        this._vY = 0;
+        this._v = Math.sqrt( _vX*_vX + _vY*_vY );
         this.beta = v/c;
         this.gamma = 1/Math.sqrt( 1 - beta*beta );
         this._amplitude = 5;
@@ -214,8 +214,8 @@ public class FieldModel {
     public function setBeta( beta:Number ):void{
         this.beta = beta;
         this._v = beta*this.c;
-        this.vX = _v;
-        this.vY = 0;
+        this._vX = _v;
+        this._vY = 0;
     }
 
     public function getBeta():Number{
@@ -234,16 +234,16 @@ public class FieldModel {
         this.myMainView.myControlPanel.presetMotion_rgb.selectedValue = 0;
         //this.myMainView.myControlPanel.myComboBox.selectedIndex = 0;         //is there a more elegant way?
         this._motionType_str = stopping_str;
-        this.vXInit = this.vX;
-        this.vYInit = this.vY;
+        this.vXInit = this._vX;
+        this.vYInit = this._vY;
     }
 
     public function centerCharge():void{
         this._xC = 0;
         this._yC = 0;
         _motionType_str = _manual_str;
-        this.vX = 0;
-        this.vY = 0;
+        this._vX = 0;
+        this._vY = 0;
         this._v = 0;
         this.beta = this._v/this.c;
         this.myMainView.myControlPanel.presetMotion_rgb.selectedValue = 0;
@@ -303,8 +303,8 @@ public class FieldModel {
             this.fY = 0;
             this.beta = this.myMainView.myControlPanel.speedSlider.getVal();
             trace("FieldModel.setMotion  linear motion, beta = " + this.beta);
-            this.vX = this.beta*this.c;//0;
-            this.vY = 0;//0.95*this.c;
+            this._vX = this.beta*this.c;//0;
+            this._vY = 0;//0.95*this.c;
             this._v = beta*this.c;
             this._xC = -stageW/2;//
             this._yC = 0;//-stageH; //0;
@@ -321,8 +321,8 @@ public class FieldModel {
             _motionType_str = bump_str;
             _xC = 0;
             _yC = 0;
-            vX = 0;
-            vY = 0;
+            _vX = 0;
+            _vY = 0;
             tBump = this._t;
             this._bumpDuration = this.myMainView.myControlPanel.durationSlider.getVal();
             //slopeSign = 1;
@@ -332,8 +332,8 @@ public class FieldModel {
             _yC = 0;
             this.delTRandomWalk = 0.5;
             this.tLastRandomStep = this._t;
-            this.vX = this.c*1*(Math.random() - 0.5);   //c * random number between -1 and +1
-            this.vY = this.c*1*(Math.random() - 0.5);
+            this._vX = this.c*1*(Math.random() - 0.5);   //c * random number between -1 and +1
+            this._vY = this.c*1*(Math.random() - 0.5);
         }
         //this.initializeFieldLines();
         this.startRadiation();
@@ -352,8 +352,8 @@ public class FieldModel {
         }else if (_motionType_str == _manual_str){
             this.manualWithFrictionStep();
         } else if( _motionType_str == linear_str ){
-            _xC += vX*dt;
-            _yC += vY*dt;
+            _xC += _vX*dt;
+            _yC += _vY*dt;
         }else if( _motionType_str == sinusoidal_str ) {
             this.sinusiodalStep();
         }else if( _motionType_str == circular_str ) {
@@ -371,21 +371,21 @@ public class FieldModel {
         this.beta = this._v/this.c;
         this.gamma = 1/Math.sqrt( 1 - beta*beta );
         var g3:Number = Math.pow( gamma, 3 );
-        _v = Math.sqrt( vX*vX + vY*vY );
+        _v = Math.sqrt( _vX*_vX + _vY*_vY );
         var aX:Number = fX/( g3*m ); //- b*_v*vX;  //x-component of acceleration, no drag
         var aY:Number = fY/( g3*m ); //- b*_v*vY;  //y-component of acceleration
-        _xC += vX*dt + 0.5*aX*dt*dt;
-        _yC += vY*dt + 0.5*aY*dt*dt;
-        vX += aX*dt;
-        vY += aY*dt;
-        _v = Math.sqrt( vX*vX + vY*vY );
+        _xC += _vX*dt + 0.5*aX*dt*dt;
+        _yC += _vY*dt + 0.5*aY*dt*dt;
+        _vX += aX*dt;
+        _vY += aY*dt;
+        _v = Math.sqrt( _vX*_vX + _vY*_vY );
         this.beta = this._v/this.c;
         if( _v > c ){
             while( _v >= c ){
                 trace( "error: _v > c, beta = " + this.beta );
-                vX = 0.99*vX*c/_v;
-                vY = 0.99*vY*c/_v;
-                _v = Math.sqrt( vX*vX + vY*vY );
+                _vX = 0.99*_vX*c/_v;
+                _vY = 0.99*_vY*c/_v;
+                _v = Math.sqrt( _vX*_vX + _vY*_vY );
                 beta = this._v/this.c;
             }
         }
@@ -395,26 +395,26 @@ public class FieldModel {
         this.beta = this._v/this.c;
         this.gamma = 1/Math.sqrt( 1 - beta*beta );
         var g3:Number = Math.pow( gamma, 3 );
-        _v = Math.sqrt( vX*vX + vY*vY );
+        _v = Math.sqrt( _vX*_vX + _vY*_vY );
         var b:Number = 2000/g3;   //friction coefficient
         var dragX: Number = 0;
         var dragY: Number = 0;
-        dragX = b*vX/(c) ; //b*_v*vX/(c*c) ;
-        dragY = b*vY/(c) ; //b*_v*vY/(c*c) ;
+        dragX = b*_vX/(c) ; //b*_v*vX/(c*c) ;
+        dragY = b*_vY/(c) ; //b*_v*vY/(c*c) ;
         var aX:Number = fX/( g3*m ) - dragX ;  //- b*_v*vX;  //x-component of acceleration, no drag
         var aY:Number = fY/( g3*m ) - dragY ;  //- b*_v*vY;  //y-component of acceleration
-        _xC += vX*dt + 0.5*aX*dt*dt;
-        _yC += vY*dt + 0.5*aY*dt*dt;
-        vX += aX*dt;
-        vY += aY*dt;
-        _v = Math.sqrt( vX*vX + vY*vY );
+        _xC += _vX*dt + 0.5*aX*dt*dt;
+        _yC += _vY*dt + 0.5*aY*dt*dt;
+        _vX += aX*dt;
+        _vY += aY*dt;
+        _v = Math.sqrt( _vX*_vX + _vY*_vY );
         this.beta = this._v/this.c;
         if( _v > c ){
             while( _v >= c ){
                 trace( "error: _v > c, beta = " + this.beta );
-                vX = 0.99*vX*c/_v;
-                vY = 0.99*vY*c/_v;
-                _v = Math.sqrt( vX*vX + vY*vY );
+                _vX = 0.99*_vX*c/_v;
+                _vY = 0.99*_vY*c/_v;
+                _v = Math.sqrt( _vX*_vX + _vY*_vY );
                 beta = this._v/this.c;
             }
         }
@@ -425,9 +425,9 @@ public class FieldModel {
         var f:Number = this._frequency;   //_frequency of motion in hertz
         this._xC = 0;
         this._yC = A*Math.sin( 2*Math.PI*f*this._t + phi ) ;
-        this.vX = 0;
-        this.vY = A*2*Math.PI*f*Math.cos( 2*Math.PI*f*this._t + phi );
-        this._v = Math.sqrt( vX*vX + vY*vY );
+        this._vX = 0;
+        this._vY = A*2*Math.PI*f*Math.cos( 2*Math.PI*f*this._t + phi );
+        this._v = Math.sqrt( _vX*_vX + _vY*_vY );
         this.beta = this._v/this.c;
     } //end sinusoidal step
 
@@ -436,9 +436,9 @@ public class FieldModel {
         var omega:Number = 2*Math.PI*_frequency;
         this._xC = R*Math.cos( omega*this._t + phi );
         this._yC = R*Math.sin( omega*this._t + phi );
-        this.vX = -R*omega*Math.sin( omega*_t + phi );
-        this.vY = R*omega*Math.cos( omega*_t + phi );
-        _v = Math.sqrt( vX*vX + vY*vY );
+        this._vX = -R*omega*Math.sin( omega*_t + phi );
+        this._vY = R*omega*Math.cos( omega*_t + phi );
+        _v = Math.sqrt( _vX*_vX + _vY*_vY );
         this.beta = this._v/this.c;
     }//end cicularStep();
 
@@ -451,19 +451,19 @@ public class FieldModel {
         var omega:Number = 2*Math.PI*f;
         if( t < tBump + bumpDuration ){
             this._yC = A*Math.cos( omega*(t - tBump) - Math.PI/2);
-            this.vY = -A*omega*Math.sin( omega*(t - tBump) );
+            this._vY = -A*omega*Math.sin( omega*(t - tBump) );
         }else{
             this._yC = 0;
-            this.vY = 0;
+            this._vY = 0;
         }
-        this._v = Math.sqrt( vX*vX + vY*vY );
+        this._v = Math.sqrt( _vX*_vX + _vY*_vY );
         this.beta = this._v/this.c;
     }
 
     //NOT USED
     private function sawToothStep():void{
         _xC = 0;
-        vX = 0;
+        _vX = 0;
         this.fX = 0;
         if( _yC >= 0 ){
             slopeSign = -1;
@@ -472,7 +472,7 @@ public class FieldModel {
         }
         var extraForceFactor:Number = 100*(Math.abs( yC ))/amplitude;
         var signY:Number = yC/Math.abs( yC );
-        var signVY:Number = vY/Math.abs( vY );
+        var signVY:Number = _vY/Math.abs( _vY );
         if( signY != signVY  ){
             extraForceFactor *= 0.7;
         }
@@ -481,22 +481,22 @@ public class FieldModel {
         this.gamma = 1/Math.sqrt( 1 - beta*beta );
         var g3:Number = Math.pow( gamma, 3 );
         var aY:Number = fY/( g3*m ); //- b*_v*vY;  //y-component of acceleration
-        _yC += vY*dt + 0.5*aY*dt*dt;
-        vY += aY*dt;
-        _v = Math.sqrt( vX*vX + vY*vY );
+        _yC += _vY*dt + 0.5*aY*dt*dt;
+        _vY += aY*dt;
+        _v = Math.sqrt( _vX*_vX + _vY*_vY );
         this.beta = this._v/this.c;
     }//end sawToothStep();
 
     private function randomWalkStep():void{
         if( (this._t - this.tLastRandomStep) > this.delTRandomWalk ){
             this.tLastRandomStep = this._t;
-            this.vX = this.c*0.5*(Math.random() - 0.5);   //fMax * random number between -0.25 and +0.25
-            this.vY = this.c*0.5*(Math.random() - 0.5);
+            this._vX = this.c*0.5*(Math.random() - 0.5);   //fMax * random number between -0.25 and +0.25
+            this._vY = this.c*0.5*(Math.random() - 0.5);
         }
         this.beta = this._v/this.c;
-        _xC += vX*dt;// + 0.5*aX*dt*dt;
-        _yC += vY*dt;// + 0.5*aY*dt*dt;
-        _v = Math.sqrt( vX*vX + vY*vY );
+        _xC += _vX*dt;// + 0.5*aX*dt*dt;
+        _yC += _vY*dt;// + 0.5*aY*dt*dt;
+        _v = Math.sqrt( _vX*_vX + _vY*_vY );
         this.beta = this._v/this.c;
     }//end randomWalkStep()
 
@@ -507,24 +507,24 @@ public class FieldModel {
         var g3:Number = Math.pow( gamma, 3 );
         var aX:Number = -vXInit/(g3*m*div*dt);
         var aY:Number = -vYInit/(g3*m*div*dt);
-        vX += aX*dt;
-        vY += aY*dt;
-        this._v = Math.sqrt( vX*vX + vY*vY );
+        _vX += aX*dt;
+        _vY += aY*dt;
+        this._v = Math.sqrt( _vX*_vX + _vY*_vY );
         var signVXInit:Number = vXInit/Math.abs( vXInit );
         var signVYInit:Number = vYInit/Math.abs( vYInit );
-        var signVX:Number = vX/Math.abs(vX);
-        var signVY:Number = vY/Math.abs(vY);
+        var signVX:Number = _vX/Math.abs(_vX);
+        var signVY:Number = _vY/Math.abs(_vY);
         var ratioX:Number = signVX/signVXInit;
         var ratioY:Number = signVY/signVYInit;
         if( ratioX < 0  || ratioY < 0 ){
-            vX = 0;
-            vY = 0;
+            _vX = 0;
+            _vY = 0;
             aX = 0;
             aY = 0;
             _motionType_str = manual_str;
         }
-        _xC += vX*dt + (0.5)*aX*dt*dt;
-        _yC += vY*dt + (0.5)*aY*dt*dt;
+        _xC += _vX*dt + (0.5)*aX*dt*dt;
+        _yC += _vY*dt + (0.5)*aY*dt*dt;
         this.beta = this._v/this.c;
     }//end stoppingStep();
 
@@ -565,7 +565,7 @@ public class FieldModel {
     private function initializeEmittedPhotons():void{
         this.beta = this._v/this.c;
         var inverseGamma = Math.sqrt( 1 - beta*beta );
-        var thetaC:Number = Math.atan2( this.vY, this.vX );   //angle of velocity vector of charge
+        var thetaC:Number = Math.atan2( this._vY, this._vX );   //angle of velocity vector of charge
         var cosThetaC:Number = Math.cos( thetaC );
         var sinThetaC:Number = Math.sin( thetaC );
         //trace("cos = "+cosThetaC+"    sin = " + sinThetaC )
@@ -632,6 +632,14 @@ public class FieldModel {
 
     public function set manual_str( value:String ):void {
         _manual_str = value;
+    }
+
+    public function get vX(): Number {
+        return _vX;
+    }
+
+    public function get vY(): Number {
+        return _vY;
     }
 } //end of class
 } //end of package

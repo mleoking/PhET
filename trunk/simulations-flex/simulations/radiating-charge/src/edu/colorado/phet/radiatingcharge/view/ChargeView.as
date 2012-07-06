@@ -60,6 +60,7 @@ public class ChargeView extends Sprite {
         this.stageH = this.myMainView.stageH;
         this.addChild( this.springGraphic2 );
         this.addChild( this.chargeGraphic );
+        this.chargeGraphic.addChild( myMainView.myVelocityArrowView.velocityArrow );
         this.addChild( this.springGraphic );
         //this.chargeGraphic.addChild( this.springGraphic );
         this.chargeGraphic.addChild( this.grabArea );
