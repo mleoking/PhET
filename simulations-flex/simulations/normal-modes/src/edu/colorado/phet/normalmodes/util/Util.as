@@ -1,5 +1,4 @@
-﻿//General utilities.  Useful for all sims
-
+﻿
 package edu.colorado.phet.normalmodes.util {
 import edu.colorado.phet.normalmodes.*;
 

@@ -4,11 +4,14 @@ import edu.colorado.phet.flexcommon.AboutDialog;
 import edu.colorado.phet.normalmodes.*;
 import edu.colorado.phet.normalmodes.view.View1;
 
-//model of 1D array of coupled masses and springs
 
 import flash.events.*;
 import flash.utils.*;
 
+/**
+ * Model of 1D horizontal array of coupled masses and springs.  In equilibrium, all masses are on x-axis (y = 0)
+ * Displacement from equilibrium is either in x-direction (longitudinal mode) or y-direction(transverse mode)
+ */
 public class Model1 {
 
     public var views_arr:Array;     //views associated with this model
@@ -19,22 +22,21 @@ public class Model1 {
     private var _L:Number;          //distance between fixed walls in meters
     private var _nMax:int;          //maximum possible number of mobile masses in 1D array
     private var _N:int;             //number of mobile masses in 1D array; does not include the 2 virtual stationary masses at wall positions
-    private var _nChanged:Boolean;  //flag to indicate number of mobile masses has changed, so must update view
+
+    private var _nChanged:Boolean;  //flag to indicate that number of mobile masses has changed, so must update view
     private var _modesChanged:Boolean;//flag to indicate that mode amplitudes and phases have been zeroed, so must update Slider positions
-    //public var nbrStepsSinceRelease:int; //number of time steps since one of the masses was ungrabbed;
     private var x0_arr:Array;       //array of equilibrium x-positions of masses; array length = N + 2, since 2 stationary masses at x = 0 and x = L
     private var y0_arr:Array;       //array of equilibrium y-positions of masses, all = 0
     private var s_arr:Array;        //array of s-positions of masses, s = distance from equilibrium positions in either x or y-direction
     private var v_arr:Array;        //array of velocities of masses, array length = N+2, elements 0 and N+1 have value zero
     private var a_arr:Array;        //array of accelerations of masses,
-    private var aPre_arr:Array;     //array of accelerations in previous time step, needed for velocity verlet
-    private var modeOmega_arr:Array; //array of normal mode angular frequencies, omega = 2*pi*f
+    private var aPre_arr:Array;     //array of accelerations in previous time step, needed for velocity verlet algorithm
+    private var modeOmega_arr:Array;//array of normal mode angular frequencies, omega = 2*pi*f
     public var freqDividedByOmega_arr:Array;  //frequency coefficients
     private var modeAmpli_arr:Array;//array of normal mode amplitudes
     private var modePhase_arr:Array;//array of normal mode phases
     private var _grabbedMassIndex:int;      //index of mass grabbed by mouse
-    //private var _longitudinalMode:Boolean;  //true if in longitudinal mode, false if in transverse mode
-    private var _xModes:Boolean;    //true if x-motion modes only; false if y-motion modes only
+    private var _xModes:Boolean;    //true if x-motion modes only (longitudinal) ; false if y-motion modes only(transverse)
 
     //time variables
     private var _paused: Boolean;   //true if sim paused
@@ -44,11 +46,11 @@ public class Model1 {
     private var lastTime: Number;	//time in previous timeStep
     private var tRate: Number;	    //1 = real time; 0.25 = 1/4 of real time, etc.
     private var dt: Number;  	    //default time step in seconds
-    private var msTimer: Timer;	    //millisecond timer
+    private var msTimer: Timer;	    //millisecond timer, master timer for advancing time
 
     public function Model1( ) {
         this.views_arr = new Array();
-        this.x0_arr = new Array(_nMax + 2);     //_nMax = max nbr of mobile masses, +2 virtual stationary masses at ends
+        this.x0_arr = new Array(_nMax + 2);     //_nMax = max nbr of mobile masses + 2 virtual stationary masses at ends
         this.y0_arr = new Array(_nMax + 2);
         this.s_arr = new Array(_nMax + 2);
         this.v_arr = new Array(_nMax + 2);
@@ -63,29 +65,25 @@ public class Model1 {
 
     private function initialize():void{
         this._nMax = 10;             //maximum of 10 mobile masses in array
-        this._N = 5;                 //start with 5 mobile masses
+        this._N = 5;                 //start sim with 5 mobile masses
         this._nChanged = false;
         this._modesChanged = false;
-        //this.nbrStepsSinceRelease = 10;  //just needs to be larger than 3
         this.m = 0.1;               //100 gram masses
         this.k = this.m*4*Math.PI*Math.PI;  //k set so that period of motion is about 1 sec
-        this.b = 0;                 //initial damping = 0, F_drag = -b*v
+        this.b = 0;                 //initial damping = 0, F_drag = -b*v, currently model has no damping
         this._L = 1;                //1 meter between fixed walls
         this._grabbedMassIndex = 0;      //left mass (index 0) is always stationary
-        //this._longitudinalMode = true;
-        this._xModes = false;
+        this._xModes = false;       //start with transverse motion
         this.initializeKinematicArrays();
         this.initializeModeArrays();
-        //this.setInitialPositions(); //for testing only
         this._paused = true;
         this._interrupted = false;
         this._t = 0;
         //this.tInt = 1;              //testing only
         this.dt = 0.01;
         this.tRate = 1;
-        this.msTimer = new Timer( this.dt * 1000 );   //argument of Timer constructor is time step in ms
+        this.msTimer = new Timer( this.dt * 1000 );   //argument of master Timer constructor is time step in ms
         this.msTimer.addEventListener( TimerEvent.TIMER, stepForward );
-        //this.startMotion();
     }//end initialize()
 
     public function initializeKinematicArrays():void{
@@ -98,9 +96,7 @@ public class Model1 {
             this.a_arr[i] = 0;                      //initial accelerations = 0
             this.aPre_arr[i] = 0;
         }
-        //reset time
-        this._t = 0;
-        //this.computeModeAmplitudesAndPhases();
+        this._t = 0;    //reset time
     }//end initializeKinematicArrays()
 
     private function initializeModeArrays():void{
@@ -131,6 +127,9 @@ public class Model1 {
     }
 
     //SETTERS and GETTERS
+    /**
+     * Set number of mobile masses
+     */
     public function setN(nbrOfMobileMasses:int):void{
         if(nbrOfMobileMasses > this._nMax){
             this._N = this._nMax;
@@ -163,7 +162,6 @@ public class Model1 {
         return this._nMax;
     }
 
-
     public function get modesChanged():Boolean{
         return this._modesChanged;
     }
@@ -180,16 +178,16 @@ public class Model1 {
         this._nChanged = tOrF;
     }
 
-    //called from MassView dragTarget
+    /**
+     * Set x-position of ith mass.  First mobile mass is i = 1.
+     * Called from MassView dragTarget
+     */
     public function setX(i:int, xPos:Number):void{
         if( _xModes ){
             var sPos:Number = xPos - this.x0_arr[i];
             this.s_arr[i] = sPos;
             this.updateViews();
         }
-        //if( this._paused ){
-        //   this.updateViews();
-        //}
     }
 
     public function getX(i:int):Number{
@@ -202,7 +200,10 @@ public class Model1 {
         return xPos ;
     }
 
-    //used when in transverse mode
+    /**
+     * Set y-position of ith mass
+     * Used when in transverse mode
+     */
     public function setY(i:int, yPos:Number):void{
         if(!_xModes){
             this.s_arr[i] = yPos;
@@ -220,11 +221,10 @@ public class Model1 {
         return yPos
     }//end getY()
 
-//    public function get longitudinalMode():Boolean{
-//        return this._longitudinalMode;
-//    }
-
-    //currently unused, because model has no damping
+    /**
+     * currently unused, because model has no damping.
+     * b is damping constant
+     */
     public function setB(b:Number):void{
         if(b < 0 || b > 2*Math.sqrt(this.m*this.k)){         //if b negative or if b > critical damping value
             trace("ERROR: damping constant out of bounds")
@@ -296,9 +296,8 @@ public class Model1 {
     public function set grabbedMass(indx:int){
         this._grabbedMassIndex = indx;
     }
-
-
     //END SETTERS and GETTERS
+
     public function pauseSim(): void {
         if( !this._paused ){
             this._paused = true;

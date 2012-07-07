@@ -9,8 +9,14 @@ package edu.colorado.phet.normalmodes.util {
 import flash.display.Graphics;
 import flash.display.Sprite;
 
-//A double-headed horizontal arrow, with the registration point on the left tip
-//dimensions are length = 2*headWidth + shaftLength = 2*15+25 = 55 pix, height = 2*headRadius = 2*10 = 20 pix
+/**
+ * A double-headed horizontal arrow, with the initial registration point on the left tip.
+ * Used as graphic in PolarizationPanel and ButtonArrayPanel
+ * Default dimensions are length = 2*headWidth + shaftLength = 2*15+25 = 55 pix,
+ * height = 2*headRadius = 2*10 = 20 pix.
+ * Dimesions can be altered with public method.
+ */
+
 public class TwoHeadedArrow extends Sprite {
     private var colorFill:Number;
     private var canvas:Sprite;
@@ -22,7 +28,9 @@ public class TwoHeadedArrow extends Sprite {
         this.addChild( this.canvas );
     } //end constructor
 
-    //draw double-headed horizontal arrow
+    /**
+     * Draw double-headed horizontal arrow
+     */
     private function drawArrow( headRadius:Number, headWidth:Number, shaftRadius:Number,  shaftLength:Number ):void{
         //trace("TwoHeadedArrow.drawArrow called.");
         var g:Graphics = this.canvas.graphics;
@@ -47,10 +55,16 @@ public class TwoHeadedArrow extends Sprite {
         g.endFill();
     } //end drawArrow()
 
+    /**
+     * Draw arrow according to user specs.
+     */
     public function setArrowDimensions( headRadius:Number, headWidth:Number, shaftRadius:Number, shaftLength:Number ):void{
         this.drawArrow( headRadius, headWidth, shaftRadius, shaftLength );
     }
 
+    /**
+     * Move registration point from left tip to center.
+     */
     public function setRegistrationPointAtCenter( tOrF:Boolean ):void{
         if( tOrF ){
             this.canvas.x = - 0.5*this.canvas.width;
