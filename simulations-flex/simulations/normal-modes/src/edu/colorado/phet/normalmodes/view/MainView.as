@@ -28,9 +28,9 @@ import flash.display.Sprite;
 import mx.containers.Canvas;
 import mx.controls.sliderClasses.Slider;
 /*
- *Class MainView initializes all models, views, and controllers, and initializes layout of Views.
+ *Class MainView initializes all models, views, and controllers, and creates layout of Views.
  *Acts as communications hub for sim.  Every model, view, and controller has an instance of MainView.
- *Internalized strings are always set with intializeStrings() method in:
+ *Internationalized strings are always set with intializeStrings() method in:
  *MainView, ControlPanel, PausedSign, SliderArrayPanel, SloMoStepControl, PolarizationPanel, ButtonArrayPanel
  */
 public class MainView extends Canvas {
@@ -141,8 +141,8 @@ public class MainView extends Canvas {
     }
 
 /*
-* This sim has two models, with accompanying views: a 1D array of coupled masses and a 2D array of coupled masses
-* The tab bar controls which model/view the user sees by calling the set1DOr2D function.
+* This sim has two models, with accompanying views: Model1 = a 1D array of coupled masses and Model2 = a 2D array of coupled masses
+* The tab bar controls which model/view the user accesses/sees by calling the set1DOr2D function.
 * */
 
     public function set1DOr2D(oneOrTwo:int):void{
