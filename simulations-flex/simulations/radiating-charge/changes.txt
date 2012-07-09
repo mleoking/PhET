@@ -1,3 +1,5 @@
+# 1.00.12 (65702) Jul 9, 2012
+7/9/12 Added velocity vector
 # 1.00.11 (65390) Jun 22, 2012
 6/22/12 Corrected strings.
 # 1.00.10 (65388) Jun 22, 2012
