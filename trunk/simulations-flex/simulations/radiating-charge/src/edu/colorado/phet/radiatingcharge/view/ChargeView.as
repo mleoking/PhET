@@ -153,9 +153,12 @@ public class ChargeView extends Sprite {
         this.chargeGraphic.addEventListener( MouseEvent.ROLL_OUT, stopShowSpring );
 
         function startShowSpring( evt: MouseEvent ):void{
-            var motion:String = myFieldModel.motionType_str;
-            var manual:String = myFieldModel.manual_str;
-            var noFriction:String = myFieldModel.noFriction_str;
+//            var motion:String = myFieldModel.motionType_str;
+//            var manual:String = myFieldModel.manual_str;
+//            var noFriction:String = myFieldModel.noFriction_str;
+            var motion: int = myFieldModel.motionType;
+            var manual: int = myFieldModel.MANUAL_WITH_FRICTION;
+            var noFriction: int = myFieldModel.MANUAL_NO_FRICTION;
             if( motion == manual || motion == noFriction ){
                 thisObject.chargeGraphic.buttonMode = true;
                 if( !thisObject.grabbed ){
@@ -185,9 +188,9 @@ public class ChargeView extends Sprite {
 
 
         function startTargetDrag( evt: MouseEvent ): void {
-            var motion:String = myFieldModel.motionType_str;
-            var manual:String = myFieldModel.manual_str;
-            var noFriction:String = myFieldModel.noFriction_str;
+            var motion: int = myFieldModel.motionType;
+            var manual: int = myFieldModel.MANUAL_WITH_FRICTION;
+            var noFriction: int = myFieldModel.MANUAL_NO_FRICTION;
             if( motion == manual || motion == noFriction ){
                 thisObject.chargeGraphic.buttonMode = true;
                 thisObject.grabbed = true;
