@@ -51,7 +51,7 @@ public class ButtonArrayPanel extends Canvas{
     private var modeSpectrumDisplay_str: String; //text of top label
     private var modesNxNy_str: String;      //text of bottom label
     private var button_arr:Array;           //N x N array of pushbuttons
-    private var topLeftX;Number;
+    private var topLeftX:Number;
     private var topLeftY:Number;
     private var nMax:int;
 
@@ -219,7 +219,7 @@ public class ButtonArrayPanel extends Canvas{
             polarizationX = false;
         }
         var springLength:Number = 1/(N + 1);
-        var largeAmplitude = 0.3*springLength;
+        var largeAmplitude:Number = 0.3*springLength;
         for(var i: int = 1; i <= N; i++ ){
             for( var j: int = 1; j <= N; j++ ){
                 //var Xamplitude = this.myModel2.getModeAmpliX( i, j );

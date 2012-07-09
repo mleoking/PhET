@@ -23,13 +23,13 @@ import mx.utils.object_proxy;
 //button which displays amplitude of x,y 2D mode by filling with color
 //amount of color fill indicates amplitude of mode
 public class ModeButton extends Sprite{
-    private var myModel2; Model2;
+    private var myModel2: Model2;
     private var rIndex:int;                //r-Index = x mode number
     private var sIndex:int;                //s-Index = y mode number
     //private var polarization:String;       //polarization = "vertical" or "horizontal" indicates which polarization the button displays
     private var colorLayer:Sprite;         //bottom layer of sprite is a solid color
     private var colorLayerMask:Sprite;     //mask for colorLayer.  mask is shape of rounded rect button
-    private var nMax;                      //number of different color fill heights
+    private var nMax: int;                 //number of different color fill heights
     private var trimAndLabelLayer:Sprite;  //next layer has trim and label
     private var sizeInPix:Number;          //width of button body in pix
     private var lineWidth:Number;          //width of button body border in pix
@@ -42,7 +42,7 @@ public class ModeButton extends Sprite{
     private var myColorTransform:ColorTransform;   //to change color of colorLayer
     private var modeXColor:Number;                 //color corresponding to x-polarization mode
     private var modeYColor:Number;                 //color corresponding to y-polarization mode
-    private var label_txt; TextField;
+    private var label_txt: TextField;
     private var tFormat: TextFormat;
     private var _activatedH:Boolean;         //state of button in horizontal polarization Mode: true if button pressed once, false is pressed again
     private var _activatedV:Boolean;         //state of button in vertical polarization Mode: true = on; false = off
@@ -54,7 +54,7 @@ public class ModeButton extends Sprite{
         this.sIndex = jIndx;
         this.sizeInPix = sizeInPix;
         //this.buttonColor = 0xffffff ;      //default color
-        this.fillColor;// = 0x00ff00;
+        //this.fillColor;// = 0x00ff00;
         this.fillColorV = 0x009900;          //green for vertical
         this.fillColorH = 0xff5500;          //orange for horizontal
         this.emptyColor = 0xffffff;
@@ -106,7 +106,7 @@ public class ModeButton extends Sprite{
         gC.drawRoundRect( 0, 0, w,  h,  w/2 );
         gC.endFill();
         */
-        var nbrButtonsInRow = this.myModel2.N;
+        var nbrButtonsInRow: int = this.myModel2.N;
         var textSize:Number;
         if(nbrButtonsInRow == 10){
            textSize = 10;
@@ -243,7 +243,7 @@ public class ModeButton extends Sprite{
 
         function buttonBehave( evt: MouseEvent ): void {
             var springLength:Number = 1/(localRef.myModel2.N + 1);
-            var largeAmplitude = 0.3*springLength;
+            var largeAmplitude: Number = 0.3*springLength;
             if ( evt.type == "mouseDown" ) {
                 if( !localRef._pushedIn ){
                     localRef.x += 2;

@@ -40,7 +40,7 @@ public class SliderArrayPanel extends Canvas {
     private var container: Sprite;
     private var boundingBox:Sprite;
     private var myPolarizationPanel: PolarizationPanel;
-    private var leftEdgeX;
+    private var leftEdgeX: int;
     private var ampliSlider_arr:Array;   //array of verticalSliders for setting amplitude of mode.
     private var phaseSlider_arr:Array    //array of vertical Sliders for setting phase of mode
     private var nMax:int;                //maximum number of mobile masses = max nbr of normal modes
@@ -231,7 +231,7 @@ public class SliderArrayPanel extends Canvas {
 
     private function createFrequencyLabels():void{
         //label showing frequency of mode at bottom of each amplitude slider
-        var tFormatGreek = new TextFormat();
+        var tFormatGreek: TextFormat = new TextFormat();
         tFormatGreek.align = TextFormatAlign.CENTER;
         //tFormatGreek.font = "Symbol";            //don't need to set the font
         tFormatGreek.size = 15;
@@ -269,9 +269,9 @@ public class SliderArrayPanel extends Canvas {
     public function locateSlidersAndLabels():void{
         var nbrSliders:int = this.myModel1.N;    //number of mobile masses = number normal modes
         var lengthBetweenWallsInPix:Number =  this.myMainView.myView1.LinPix;
-        var horizSpacing:Number = 0.7*lengthBetweenWallsInPix/(nbrSliders + 1);
+        var horizSpacing: Number = 0.7*lengthBetweenWallsInPix/(nbrSliders + 1);
         var yOffset:int = 60;       //nbr of pixels graphics are shifted down
-        var widthOfAllVisibleSliders = ( nbrSliders - 1) * horizSpacing;
+        var widthOfAllVisibleSliders: Number = ( nbrSliders - 1) * horizSpacing;
         for(var i:int = 0; i < nbrSliders; i++){
             this.ampliSlider_arr[i].visible = true;
             this.ampliSlider_arr[i].x = this.leftEdgeX + 0.5*lengthBetweenWallsInPix - 0.5*widthOfAllVisibleSliders + i*horizSpacing;
@@ -284,7 +284,7 @@ public class SliderArrayPanel extends Canvas {
             this.ampliSlider_arr[i].visible = false;
             //this.phaseSlider_arr[i].visible = false;
         }
-        var rightEdgeOfSliders = this.ampliSlider_arr[nbrSliders - 1].x + this.ampliSlider_arr[nbrSliders - 1].width;
+        var rightEdgeOfSliders: Number = this.ampliSlider_arr[nbrSliders - 1].x + this.ampliSlider_arr[nbrSliders - 1].width;
         this.setFrequencyLabels();
         this.showPhaseSliders( this.phasesShown );
         var leftEdgeOfSliders:Number = this.leftEdgeX + 0.5*lengthBetweenWallsInPix - 0.5*widthOfAllVisibleSliders - 30;   //-30 to put 30 pix of space between label and leftEdge slider

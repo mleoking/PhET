@@ -294,7 +294,7 @@ public class Model1 {
     }
 
     //called form MassView.startTargetDrag();
-    public function set grabbedMass(indx:int){
+    public function set grabbedMass(indx:int):void{
         this._grabbedMassIndex = indx;
     }
     //END SETTERS and GETTERS

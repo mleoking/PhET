@@ -78,7 +78,7 @@ public class MiniTab extends Sprite{
         }
     } //end setIcon()
 
-    private function drawTabShape(){
+    private function drawTabShape(): void{
         var tW:Number = this.tabWidth;
         var tH:Number = this.tabHeight;
         var fW:Number = this.folderWidth;

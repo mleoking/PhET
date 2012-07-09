@@ -30,7 +30,7 @@ public class View1DModes extends Sprite {
     private var _pixPerMeter: Number;		//scale: number of pixels in 1 meter
     private var _LinMeters: Number;         //wall-to-wall distance in meters
     private var _LinPix: Number;            //wall-to-wall distance in pixels
-    private var _ySeparationOfGraphs;       //vertical pixel separation between adjacent graphs
+    private var _ySeparationOfGraphs: Number;       //vertical pixel separation between adjacent graphs
 
     private var showHideButton:ShowHideButton;  //Button to show or hide this view
     private var walls_arr:Array;            //array of wall graphics, one for each mode
