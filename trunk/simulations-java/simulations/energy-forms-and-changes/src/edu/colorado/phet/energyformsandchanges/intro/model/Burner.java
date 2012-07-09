@@ -146,8 +146,13 @@ public class Burner extends ModelElement {
         return new ImmutableVector2D( getCenterPoint().getX(), getCenterPoint().getY() + HEIGHT * 0.1 );
     }
 
+    /**
+     * Request an energy chunk from the burner.
+     *
+     * @param point
+     * @return
+     */
     public EnergyChunk extractClosestEnergyChunk( ImmutableVector2D point ) {
-        energyExchangedWithAirSinceLastChunkTransfer = 0;
         EnergyChunk closestEnergyChunk = null;
         if ( energyChunkList.size() > 0 ) {
             for ( EnergyChunk energyChunk : energyChunkList ) {
@@ -162,13 +167,19 @@ public class Burner extends ModelElement {
                 }
             }
         }
-        else if ( heatCoolLevel.get() > 0 ) {
+
+        if ( closestEnergyChunk == null && ( heatCoolLevel.get() > 0 || getEnergyChunkCountForAir() > 0 ) ) {
             // Create an energy chunk.
             closestEnergyChunk = new EnergyChunk( clock, getEnergyChunkStartEndPoint(), energyChunksVisible, true );
+        }
+
+        if ( closestEnergyChunk != null ) {
+            energyExchangedWithAirSinceLastChunkTransfer = 0;
         }
         else {
             System.out.println( getClass().getName() + " - Warning: Request for energy chunk from burner when not in heat mode and no chunks contained, returning null." );
         }
+
         return closestEnergyChunk;
     }
 
