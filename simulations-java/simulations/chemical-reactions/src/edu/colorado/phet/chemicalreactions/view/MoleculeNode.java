@@ -1,6 +1,9 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.chemicalreactions.view;
 
+import java.awt.geom.AffineTransform;
+
+import edu.colorado.phet.chemicalreactions.ChemicalReactionsApplication;
 import edu.colorado.phet.chemicalreactions.model.Atom;
 import edu.colorado.phet.chemicalreactions.model.Molecule;
 import edu.colorado.phet.chemistry.nodes.LabeledAtomNode;
@@ -22,6 +25,13 @@ public class MoleculeNode extends PNode {
                         final ImmutableVector2D modelPosition = atom.position.get();
                         final ImmutableVector2D viewPosition = MODEL_VIEW_TRANSFORM.modelToView( modelPosition );
                         setOffset( viewPosition.getX(), viewPosition.getY() );
+
+                        if ( ChemicalReactionsApplication.ATOM_LABELS_ROTATE.get() ) {
+                            rotateTo( molecule.getAngle() );
+                        }
+                        else {
+                            rotateTo( 0 );
+                        }
                     }
                 } );
             }} );
