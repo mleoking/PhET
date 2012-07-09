@@ -26,15 +26,12 @@ public class ProjectileMotionFlexCanvas extends Canvas {
         percentHeight = 100;
         const myMainView: MainView = new MainView( RENDER_WIDTH, RENDER_HEIGHT )
         this.addChild( myMainView );
-        // addChild( res );
         const listener: Function = function ( event: Event ): void {
             const sx = stage.stageWidth / RENDER_WIDTH;
             const sy = stage.stageHeight / RENDER_HEIGHT;
 
             myMainView.scaleX = Math.min( sx, sy );
             myMainView.scaleY = Math.min( sx, sy );
-            //myMainView.pixPerMeter = sx*80;
-            //trace("FlexCanvas  sx = " + sx );
         }
 
 

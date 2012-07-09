@@ -31,9 +31,9 @@ public class TrajectoryModel {
 
     private var _xP: Number;        //current x- and y_coords of position of projectile in meters
     private var _yP: Number;
-    private var _xP0: Number;       //x- and y- coordinates of initial position of projectile
+    private var _xP0: Number;       //x- and y- coordinates of initial position of projectile,
     private var _yP0: Number;       //relative to origin, which is at ground level (y = 0)
-    private var _vX: Number;         //x- and y-coords of velocity of projectile
+    private var _vX: Number;        //x- and y-coords of velocity of projectile
     private var _vY: Number;
     private var v: Number;          //current speed of projectile
     private var aX: Number;         //x- and y-components of acceleration
@@ -44,7 +44,7 @@ public class TrajectoryModel {
     private var _angleInDeg: Number;    //angle of cannon barrel in degrees, measured CCW from horizontal
     private var _theta: Number;         //initial angle of projectile, in radians, measured CCW from horizontal
 
-    private var _ticMarkTime: Number;
+    private var _ticMarkTime: Number;   //time of tic Mark, which are at 1 second intervals
     private var _drawTicMarkNow: Boolean;
     private var _updateReadoutsNow: Boolean;
 
@@ -68,7 +68,9 @@ public class TrajectoryModel {
     private var _tRate:Number;          //Normal time rate: tRate = 1;
     private var dt: Number;             //time step for trajectory algorithm, all times in seconds
 
-    private var trajectoryTimer: Timer;	        //millisecond timer
+    private var timers_arr:Array;       //array of timers, one time for each projectile in motion
+    private var currentTimerIndex: int; //index of most recent timer started
+    private var trajectoryTimer: Timer;	//master millisecond timer
 
 
 

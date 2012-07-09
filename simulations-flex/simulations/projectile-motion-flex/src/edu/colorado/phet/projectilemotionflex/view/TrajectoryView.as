@@ -4,7 +4,7 @@
 
 /**
  * Created with IntelliJ IDEA.
- * User: Duso
+ * User: Dubson
  * Date: 6/17/12
  * Time: 9:09 AM
  * To change this template use File | Settings | File Templates.
@@ -26,11 +26,12 @@ public class TrajectoryView extends Sprite {
     private var originXInPix: Number;
     private var originYInPix: Number;
 
-    private var trajectories_arr: Array;  //array of trajectories, each trajectory is an array of (x, y) positions
+    private var trajectories_arr: Array;  //array of trajectories, each trajectory is an array of (x, y, t) positions
     private var trajectory_arr: Array;
     private var currentTrajectoryView: Sprite;
     private var currentTicMarkView: Sprite;
-    private var nextTicMarkTime: int;     //time in seconds of the previous 1-second interval tic mark on the trajectory
+    //private var ticMark: Sprite;
+    private var nextTicMarkTime: int;     //time in seconds of the next 1-second interval tic mark on the trajectory
 //    private var x0InPix: Number;
 //    private var y0InPix: Number;
     private var currentX: Number;          //most recent (x, y, t) coordinates in meters and seconds
@@ -59,6 +60,8 @@ public class TrajectoryView extends Sprite {
         trajectory_arr = new Array();
         this.currentTrajectoryView = new Sprite();
         this.currentTicMarkView = new Sprite();
+        //this.ticMark = new Sprite()
+        //this.drawTicMark();
         this.addChild( currentTrajectoryView );
         this.addChild( currentTicMarkView );
         //TEST
@@ -118,8 +121,20 @@ public class TrajectoryView extends Sprite {
         gM.moveTo( xInPix - ticRadius, yInPix );
         gM.lineTo( xInPix + ticRadius, yInPix );
         gM.moveTo( xInPix, yInPix - ticRadius );
-        gM.lineTo( xInPix, yInPix + ticRadius )
+        gM.lineTo( xInPix, yInPix + ticRadius );
     }
+
+//    private function drawTicMark():void{
+//        var g: Graphics = ticMark.graphics;
+//        var ticRadius: Number = 10;
+//        with(g){
+//            lineStyle( 4, 0x000000, 1 );
+//            moveTo( 0 - ticRadius, 0 );
+//            lineTo( 0 + ticRadius, 0 );
+//            moveTo( 0, 0 - ticRadius );
+//            lineTo( 0, 0 + ticRadius );
+//        }
+//    }
 
     public function eraseTrajectory():void{
         var gT: Graphics = currentTrajectoryView.graphics;

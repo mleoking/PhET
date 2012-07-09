@@ -23,8 +23,8 @@ public class FieldModel {
     private var c:Number;           //speed of light in pixels per second, charge cannot move faster than c
     private var _xC:Number;         //x-position of charge in pixels
     private var _yC:Number;         //y-position of charge in pixels
-    private var _vX:Number;          //x-component of charge velocity
-    private var _vY:Number;          //y-component of charge velocity
+    private var _vX:Number;         //x-component of charge velocity
+    private var _vY:Number;         //y-component of charge velocity
     private var vXInit:Number;      //x-comp of velocity when starting to brake stopping charge
     private var vYInit:Number;      //y-comp of velocity when starting to brake stopping charge
     private var _v:Number;          //speed of charge
@@ -35,15 +35,23 @@ public class FieldModel {
     private var m:Number;           //mass of charge
     private var _amplitude:Number;  //amplitude of motion of charge (for sinusoidal or circular motion)
     private var _frequency:Number;  //frequency(Hz) of motion of charge (for sinusoidal or circular motion)
-    private var slopeSign:Number;   //+1 or -1, used in sawtooth generator
+    //private var slopeSign:Number;   //+1 or -1, used in sawtooth generator
     private var phi:Number;         //phase of oscillatory motion (sinusoidal or circular)
     private var beta:Number;        //ratio (speed of charge)/c
-    private var _nbrLines:int;      //number of field lines coming from charge
-    private var _nbrPhotonsPerLine:int //number of photons in a given field line
+    private var _nbrFieldLines:int;      //number of field lines coming from charge
+    private var _nbrPhotonsPerLine:int; //number of photons in a given field line
     private var cos_arr:Array;      //cosines of angles of the rays, CCW from horizontal, angle must be in radians
     private var theta_arr:Array;    //angles of rest frame rays (in rads)
     private var sin_arr:Array;      //sines of angles of the rays,
     private var _fieldLine_arr:Array;  //array of field lines
+
+    //types of motion called from radio button group in control panel
+    private const MANUAL_WITH_FRICTION: Number = 0;
+    private const MANUAL_NO_FRICTION: Number = 1;
+    private const LINEAR: Number = 2;
+    private const SINUSOIDAL: Number = 3;
+    private const CIRCULAR: Number = 4;
+    private const BUMP: Number = 5;
 
     private var _paused:Boolean;        //true if sim is paused
     private var _outOfBounds:Boolean;   //true if charge is off-screen
@@ -72,36 +80,36 @@ public class FieldModel {
     private var stageH:int;
 
 
-    public function FieldModel( myMainView ) {
+    public function FieldModel( myMainView: MainView ) {
         this.myMainView = myMainView;
         this.views_arr = new Array();
         this.stageW = this.myMainView.stageW;
         this.stageH = this.myMainView.stageH;
-        this._nbrLines = 16;
+        this._nbrFieldLines = 16;
         this._nbrPhotonsPerLine = 100;
-        this.theta_arr = new Array( this._nbrLines );
-        this.cos_arr = new Array( this._nbrLines );
-        this.sin_arr = new Array( this._nbrLines );
-        this._fieldLine_arr = new Array ( this._nbrLines );
-
+        this.theta_arr = new Array( this._nbrFieldLines );
+        this.cos_arr = new Array( this._nbrFieldLines );
+        this.sin_arr = new Array( this._nbrFieldLines );
+        this._fieldLine_arr = new Array ( this._nbrFieldLines );
         this.initialize();
     }//end constructor
 
+
     private function initialize():void{
-        for(var i:int = 0; i < this._nbrLines; i++ ){
-           this.theta_arr[i] = i*2*Math.PI/this._nbrLines;
+        for(var i:int = 0; i < this._nbrFieldLines; i++ ){
+           this.theta_arr[i] = i*2*Math.PI/this._nbrFieldLines;
            this.cos_arr[i] = Math.cos( theta_arr[i] ) ;
            this.sin_arr[i] = Math.sin( theta_arr[i] ) ;
         }
         this._xC = 0; //place charge at origin, which is at center of stage
         this._yC = 0;
         //populate rays with photons
-        for( var i:int = 0; i < this._nbrLines ; i++ ) {
+        for( var i:int = 0; i < this._nbrFieldLines ; i++ ) {
             this._fieldLine_arr[i] = new Array( this._nbrPhotonsPerLine );
             for (var j:int = 0; j < this._nbrPhotonsPerLine; j++ ){
                 this._fieldLine_arr[i][j]= new Photon( _xC,  _yC );     //each photon has a position (x,y) and direction vector (cos, sin)
             }
-        } //end for loop
+        }
 
         //set motion-type strings. NOTE: these are not visible on the stage and should NOT be internationalized.
         this._noFriction_str = "noFriction";
@@ -145,7 +153,7 @@ public class FieldModel {
     }
 
     public function get nbrLines():int{
-        return this._nbrLines
+        return this._nbrFieldLines
     }
     
     public function get nbrPhotonsPerLine():int{
@@ -252,7 +260,7 @@ public class FieldModel {
     }
 
     public function restartCharge():void{
-        this.setMotion( 2 );  //restart linear motion of charge at left edge of screen
+        this.setTypeOfMotion( 2 );  //restart linear motion of charge at left edge of screen
     }
 
     public function bumpCharge( bumpDuration:Number ):void{
@@ -278,7 +286,7 @@ public class FieldModel {
     }
 
     private function initializeFieldLines():void{
-        for( var i:int = 0; i < this._nbrLines; i++ ){
+        for( var i:int = 0; i < this._nbrFieldLines; i++ ){
             for( var j:int = 0; j < this._nbrPhotonsPerLine; j++ ){
                 this._fieldLine_arr[i][j].xP = this._xC;
                 this._fieldLine_arr[i][j].yP = this._yC;
@@ -289,34 +297,34 @@ public class FieldModel {
         }
     }
 
-    public function setMotion( choice:int ):void{
+    public function setTypeOfMotion( choice:int ):void{
         this.stopRadiation();
-        trace("FieldModel.setMotion() called. choice = " + choice );
-        if( choice == 0 ){  //do nothing
+        //trace("FieldModel.setTypeOfMotion() called. choice = " + choice );
+        if( choice == MANUAL_WITH_FRICTION ){  //do nothing
             _motionType_str = _manual_str;
-        }else if( choice == 1 ){
+        }else if( choice == MANUAL_NO_FRICTION ){
             _motionType_str = _noFriction_str;
-        }else if( choice == 2 ){    //linear
+        }else if( choice == LINEAR ){    //linear
             this.initializeFieldLines();
             _motionType_str = linear_str;
             this.fX = 0;
             this.fY = 0;
             this.beta = this.myMainView.myControlPanel.speedSlider.getVal();
-            trace("FieldModel.setMotion  linear motion, beta = " + this.beta);
+            trace("FieldModel.setTypeOfMotion  linear motion, beta = " + this.beta);
             this._vX = this.beta*this.c;//0;
             this._vY = 0;//0.95*this.c;
             this._v = beta*this.c;
             this._xC = -stageW/2;//
             this._yC = 0;//-stageH; //0;
-        }else if(choice == 3 ){  //sinusoid
+        }else if(choice == SINUSOIDAL ){  //sinusoid
             this.initializeFieldLines();
             _motionType_str = sinusoidal_str;
             this.phi = 0;
-        }else if( choice == 4 ){  //circular
+        }else if( choice == CIRCULAR ){  //circular
             //this._t = 0;      //this is FATAL!!  Why??
             this.initializeFieldLines();
             _motionType_str = circular_str;
-        }else if( choice == 5 ){   //bump
+        }else if( choice == BUMP ){   //bump
             this.initializeFieldLines();
             _motionType_str = bump_str;
             _xC = 0;
@@ -326,25 +334,25 @@ public class FieldModel {
             tBump = this._t;
             this._bumpDuration = this.myMainView.myControlPanel.durationSlider.getVal();
             //slopeSign = 1;
-        }else if( choice == 6 ){  //randomWalk
+        }else if( choice == 6 ){  //randomWalk, CURRENTLY NOT USED
             _motionType_str = random_str;
             _xC = 0;
             _yC = 0;
             this.delTRandomWalk = 0.5;
             this.tLastRandomStep = this._t;
-            this._vX = this.c*1*(Math.random() - 0.5);   //c * random number between -1 and +1
-            this._vY = this.c*1*(Math.random() - 0.5);
+            this._vX = this.c*(Math.random() - 0.5);   //c * random number between -1 and +1
+            this._vY = this.c*(Math.random() - 0.5);
         }
         //this.initializeFieldLines();
         this.startRadiation();
         this.paused = false;
-    }//end setMotion()
+    }//end setTypeOfMotion()
 
 
     private function moveCharge():void{
-        var f1:Number = 1.4;
-        var f2:Number = 1.6;
-        if( xC > f1*stageW/2 || xC < -f1*stageW/2 || yC > f2*stageH/2 || yC < -f2*stageH/2 ){
+        var fw:Number = 1.4;     //fudge factors: recenter charge if outside zone fw*stageW x fh*stageH
+        var fh:Number = 1.6;
+        if( xC > fw*stageW/2 || xC < -fw*stageW/2 || yC > fh*stageH/2 || yC < -fh*stageH/2 ){
             outOfBounds = true;          //charge is recentered in ChargeView if outOfBounds
         }
         if( _motionType_str == _noFriction_str ){
@@ -461,31 +469,31 @@ public class FieldModel {
     }
 
     //NOT USED
-    private function sawToothStep():void{
-        _xC = 0;
-        _vX = 0;
-        this.fX = 0;
-        if( _yC >= 0 ){
-            slopeSign = -1;
-        } else if(_yC < 0 ){
-            slopeSign = 1;
-        }
-        var extraForceFactor:Number = 100*(Math.abs( yC ))/amplitude;
-        var signY:Number = yC/Math.abs( yC );
-        var signVY:Number = _vY/Math.abs( _vY );
-        if( signY != signVY  ){
-            extraForceFactor *= 0.7;
-        }
-        this.fY = slopeSign*(100+extraForceFactor)*amplitude;
-        this.beta = this._v/this.c;
-        this.gamma = 1/Math.sqrt( 1 - beta*beta );
-        var g3:Number = Math.pow( gamma, 3 );
-        var aY:Number = fY/( g3*m ); //- b*_v*vY;  //y-component of acceleration
-        _yC += _vY*dt + 0.5*aY*dt*dt;
-        _vY += aY*dt;
-        _v = Math.sqrt( _vX*_vX + _vY*_vY );
-        this.beta = this._v/this.c;
-    }//end sawToothStep();
+//    private function sawToothStep():void{
+//        _xC = 0;
+//        _vX = 0;
+//        this.fX = 0;
+//        if( _yC >= 0 ){
+//            slopeSign = -1;
+//        } else if(_yC < 0 ){
+//            slopeSign = 1;
+//        }
+//        var extraForceFactor:Number = 100*(Math.abs( yC ))/amplitude;
+//        var signY:Number = yC/Math.abs( yC );
+//        var signVY:Number = _vY/Math.abs( _vY );
+//        if( signY != signVY  ){
+//            extraForceFactor *= 0.7;
+//        }
+//        this.fY = slopeSign*(100+extraForceFactor)*amplitude;
+//        this.beta = this._v/this.c;
+//        this.gamma = 1/Math.sqrt( 1 - beta*beta );
+//        var g3:Number = Math.pow( gamma, 3 );
+//        var aY:Number = fY/( g3*m ); //- b*_v*vY;  //y-component of acceleration
+//        _yC += _vY*dt + 0.5*aY*dt*dt;
+//        _vY += aY*dt;
+//        _v = Math.sqrt( _vX*_vX + _vY*_vY );
+//        this.beta = this._v/this.c;
+//    }//end sawToothStep();
 
     private function randomWalkStep():void{
         if( (this._t - this.tLastRandomStep) > this.delTRandomWalk ){
@@ -537,7 +545,7 @@ public class FieldModel {
             }
             this.moveCharge();
         }
-        for( var i:int = 0; i < this._nbrLines; i++ ){  //for each ray
+        for( var i:int = 0; i < this._nbrFieldLines; i++ ){  //for each ray
             for( var j:int = 0; j < this._nbrPhotonsPerLine; j++ ){    //for each photon in a ray.
                 var t0:Number = this._fieldLine_arr[i][j].tEmitted;
                 var x0:Number = this._fieldLine_arr[i][j].x0;
@@ -552,7 +560,7 @@ public class FieldModel {
 
     private function emitPhotons():void{
         //add new photon to 1st element of photon array
-        for( var i:int = 0; i < this._nbrLines; i++ ){
+        for( var i:int = 0; i < this._nbrFieldLines; i++ ){
             //recycle photon at end of ray and place at front end of ray
             this._fieldLine_arr[i].unshift( _fieldLine_arr[i][nbrPhotonsPerLine - 1])
             // remove last element of ray
@@ -569,7 +577,7 @@ public class FieldModel {
         var cosThetaC:Number = Math.cos( thetaC );
         var sinThetaC:Number = Math.sin( thetaC );
         //trace("cos = "+cosThetaC+"    sin = " + sinThetaC )
-        for( var i:int = 0; i < this._nbrLines; i++ ){
+        for( var i:int = 0; i < this._nbrFieldLines; i++ ){
             //reset positions
             this._fieldLine_arr[i][0].xP = this._xC;
             this._fieldLine_arr[i][0].yP = this._yC;
