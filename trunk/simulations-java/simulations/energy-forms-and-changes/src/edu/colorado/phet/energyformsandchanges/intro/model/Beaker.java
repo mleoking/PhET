@@ -276,7 +276,7 @@ public class Beaker extends RectangularThermalMovableModelElement {
             // because the chunk just came from the model element.
             ec.zPosition.set( 0.0 );
             approachingEnergyChunks.add( ec );
-            energyChunkWanderControllers.add( new EnergyChunkWanderController( ec, getCenterPoint() ) );
+            energyChunkWanderControllers.add( new EnergyChunkWanderController( ec, position ) );
         }
         else {
             super.addEnergyChunk( ec );

@@ -1,3 +1,4 @@
+Fixed an issue where energy chunks coming from the air wouldn't follow the thermal object if it was moved.
 # 0.00.11 (65551) Jun 28, 2012
 6/28/12 Publishing version to dev with only first tab for use in early interviews.
 # 0.00.10 (65547) Jun 28, 2012
