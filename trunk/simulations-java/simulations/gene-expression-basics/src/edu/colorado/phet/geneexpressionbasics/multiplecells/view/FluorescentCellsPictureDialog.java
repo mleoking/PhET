@@ -18,7 +18,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
 
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -35,6 +34,7 @@ public class FluorescentCellsPictureDialog extends PaintImmediateDialog {
     //----------------------------------------------------------------------------
 
     private static final Font CAPTION_FONT = new PhetFont( 14 );
+    private static final Font ATTRIBUTION_FONT = new PhetFont( 12 );
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -55,14 +55,26 @@ public class FluorescentCellsPictureDialog extends PaintImmediateDialog {
         picture.setSize( image.getWidth(), image.getHeight() );
 
         // Caption
-        JTextPane textPane = new JTextPane();
-        StyledDocument doc = textPane.getStyledDocument();
-        SimpleAttributeSet center = new SimpleAttributeSet();
-        StyleConstants.setAlignment( center, StyleConstants.ALIGN_CENTER );
-        doc.setParagraphAttributes( 0, doc.getLength(), center, false );
-        textPane.setOpaque( false );
-        textPane.setFont( CAPTION_FONT );
-        textPane.setText( GeneExpressionBasicsResources.Strings.IMAGE_CAPTION + "\n\n" + GeneExpressionBasicsResources.Strings.IMAGE_ATTRIBUTION + " Dennis Kunkel Microscopy, Inc." );
+        JTextPane captionTextPane = new JTextPane() {{
+            SimpleAttributeSet center = new SimpleAttributeSet();
+            StyleConstants.setAlignment( center, StyleConstants.ALIGN_CENTER );
+            getStyledDocument().setParagraphAttributes( 0, 0, center, false );
+            setOpaque( false );
+            setEditable( false );
+            setFont( CAPTION_FONT );
+            setText( GeneExpressionBasicsResources.Strings.IMAGE_CAPTION );
+        }};
+
+        // Attribution
+        JTextPane attributionTextPane = new JTextPane() {{
+            SimpleAttributeSet center = new SimpleAttributeSet();
+            StyleConstants.setAlignment( center, StyleConstants.ALIGN_CENTER );
+            getStyledDocument().setParagraphAttributes( 0, 0, center, false );
+            setOpaque( false );
+            setEditable( false );
+            setFont( ATTRIBUTION_FONT );
+            setText( " Image Copyright Dennis Kunkel Microscopy, Inc." );
+        }};
 
         // Close button
         JButton closeButton = new JButton( "Close" );
@@ -84,7 +96,9 @@ public class FluorescentCellsPictureDialog extends PaintImmediateDialog {
         constraints.gridy++;
         constraints.insets.top = 15;
         constraints.insets.bottom = 15;
-        panel.add( textPane, constraints );
+        panel.add( captionTextPane, constraints );
+        constraints.gridy++;
+        panel.add( attributionTextPane, constraints );
         constraints.gridy++;
         panel.add( closeButton, constraints );
 
