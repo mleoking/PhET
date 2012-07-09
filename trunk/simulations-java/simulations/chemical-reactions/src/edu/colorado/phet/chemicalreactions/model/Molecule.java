@@ -56,6 +56,7 @@ public class Molecule extends BodyModel {
             addFixtureDef( new FixtureDef() {{
                 density = BOX2D_DENSITY;
                 restitution = 1;
+                friction = 0;
                 shape = new CircleShape() {{
                     m_radius = (float) BOX2D_MODEL_TRANSFORM.viewToModelDeltaX( atom.getRadius() );
                     ImmutableVector2D box2dPosition = BOX2D_MODEL_TRANSFORM.viewToModelDelta( spot.position );
@@ -83,15 +84,17 @@ public class Molecule extends BodyModel {
 
     @Override public void intraStep() {
         super.intraStep();
-        float multiplier = 3;
-        if ( !userControlled.get() ) {
-            final Vec2 v = getBody().getLinearVelocity();
-            final float r1 = (float) ( Math.random() - 0.5 ) * multiplier;
-            final float r2 = (float) ( Math.random() - 0.5 ) * multiplier;
-            final float r3 = (float) ( Math.random() - 0.5 ) * multiplier;
-            getBody().setLinearVelocity( new Vec2( v.x + r1 / 20, v.y + r2 / 20 ) );
-            getBody().setAngularVelocity( getBody().getAngularVelocity() + r3 / 100 );
-        }
+
+        // disabled the brownian motion for now
+//        float multiplier = 3;
+//        if ( !userControlled.get() ) {
+//            final Vec2 v = getBody().getLinearVelocity();
+//            final float r1 = (float) ( Math.random() - 0.5 ) * multiplier;
+//            final float r2 = (float) ( Math.random() - 0.5 ) * multiplier;
+//            final float r3 = (float) ( Math.random() - 0.5 ) * multiplier;
+//            getBody().setLinearVelocity( new Vec2( v.x + r1 / 20, v.y + r2 / 20 ) );
+//            getBody().setAngularVelocity( getBody().getAngularVelocity() + r3 / 100 );
+//        }
     }
 
     public boolean isMovingCloserTo( Molecule other ) {

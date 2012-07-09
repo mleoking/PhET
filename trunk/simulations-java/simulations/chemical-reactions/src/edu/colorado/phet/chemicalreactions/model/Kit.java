@@ -77,6 +77,14 @@ public class Kit {
         moleculesInPlayArea.addElementAddedObserver( new VoidFunction1<Molecule>() {
             public void apply( Molecule molecule ) {
                 box2dModel.addBody( molecule );
+                double angle = Math.random() * 2 * Math.PI;
+                double magnitude = Math.random() * 500; // TODO: make initial velocity proportional to the heat?
+                molecule.setVelocity( new ImmutableVector2D(
+                        Math.cos( angle ) * magnitude,
+                        Math.sin( angle ) * magnitude
+                ) );
+
+                molecule.setAngularVelocity( (float) ( Math.random() - 0.5 ) * 3 );
             }
         } );
 
