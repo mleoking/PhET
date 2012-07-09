@@ -47,8 +47,8 @@ public class ControlPanel extends Canvas {
 
     private var radioGroupVBox: VBox;
     public var presetMotion_rgb: RadioButtonGroup;
-    private var manual_rb: RadioButton;
-    private var friction_rb: RadioButton;
+    private var manualNoFricton_rb: RadioButton;
+    private var manualWithFricton_rb: RadioButton;
     private var linear_rb: RadioButton;
     private var sinusoidal_rb: RadioButton;
     private var circular_rb : RadioButton;
@@ -88,8 +88,8 @@ public class ControlPanel extends Canvas {
     //private var s_str:String;
     //private var moreSpeedLessRez_str:String;
     //Drop-down menu choices
-    private var userChoice_str:String;
-    private var frictionManual_str:String;
+    private var manualNoFricton_str:String;
+    private var manualWithFricton_str:String;
     private var linear_str:String;
     private var sinusoid_str:String;
     private var circular_str:String;
@@ -139,7 +139,7 @@ public class ControlPanel extends Canvas {
 //        this.myComboBox = new ComboBox();
 //        myComboBox.width = 100;
 //        this.choiceList_arr = new Array( );
-//        choiceList_arr = [ userChoice_str, linear_str, sinusoid_str, circular_str, bump_str, random_str ];
+//        choiceList_arr = [ manualNoFricton_str, linear_str, sinusoid_str, circular_str, bump_str, random_str ];
 //        myComboBox.dataProvider = choiceList_arr;
 //        myComboBox.addEventListener( DropdownEvent.CLOSE, comboBoxListener );
 
@@ -147,15 +147,15 @@ public class ControlPanel extends Canvas {
         radioGroupVBox.setStyle( "align", "left" );
         radioGroupVBox.setStyle( "verticalPadding", 0 );
         presetMotion_rgb = new RadioButtonGroup();
-        manual_rb = new RadioButton();
-        friction_rb = new RadioButton();
+        manualNoFricton_rb = new RadioButton();
+        manualWithFricton_rb = new RadioButton();
         linear_rb = new RadioButton();
         sinusoidal_rb = new RadioButton();
         circular_rb = new RadioButton();
         bump_rb = new RadioButton();
 
-        initializeRadioButton( friction_rb, frictionManual_str, 0, true );
-        initializeRadioButton( manual_rb, userChoice_str, 1, false );
+        initializeRadioButton( manualWithFricton_rb, manualWithFricton_str, 0, true );
+        initializeRadioButton( manualNoFricton_rb, manualNoFricton_str, 1, false );
         initializeRadioButton( linear_rb, linear_str, 2, false );
         initializeRadioButton( sinusoidal_rb, sinusoid_str, 3, false );
         initializeRadioButton( circular_rb, circular_str, 4, false );
@@ -215,8 +215,8 @@ public class ControlPanel extends Canvas {
 
         //this.background.addChild( myComboBox );
         this.background.addChild( radioGroupVBox );
-        this.radioGroupVBox.addChild( friction_rb );
-        this.radioGroupVBox.addChild( manual_rb );
+        this.radioGroupVBox.addChild( manualWithFricton_rb );
+        this.radioGroupVBox.addChild( manualNoFricton_rb );
         this.radioGroupVBox.addChild( linear_rb );
         this.radioGroupVBox.addChild( sinusoidal_rb );
         this.radioGroupVBox.addChild( circular_rb );
@@ -266,8 +266,8 @@ public class ControlPanel extends Canvas {
         stop_str = FlexSimStrings.get( "stop", "Stop" );
         restart_str = FlexSimStrings.get( "restart", "Restart" );
         reset_str = FlexSimStrings.get("reset", "Reset");
-        userChoice_str = FlexSimStrings.get( "noFrictionManual", "No Friction" );
-        frictionManual_str = FlexSimStrings.get( "frictionManual", "Manual");
+        manualNoFricton_str = FlexSimStrings.get( "noFrictionManual", "No Friction" );
+        manualWithFricton_str = FlexSimStrings.get( "frictionManual", "Manual");
         linear_str = FlexSimStrings.get( "linear", "Linear" );
         sinusoid_str = FlexSimStrings.get( "sinusoid", "Sinusoid" );
         circular_str = FlexSimStrings.get( "circular", "Circular" );
@@ -332,9 +332,9 @@ public class ControlPanel extends Canvas {
 //        this.myFieldModel.paused = false;
 //        this.pauseButton.setLabel( pause_str );
 //        var choice:String = evt.currentTarget.selectedItem;
-//        if( choice == userChoice_str ){
+//        if( choice == manualNoFricton_str ){
 //            this.myFieldModel.setTypeOfMotion( 0 );
-//        }else if( choice == frictionManual_str ){
+//        }else if( choice == manualWithFricton_str ){
 //            this.myFieldModel.setTypeOfMotion( 1 );
 //        }else if( choice == linear_str ){
 //            if( isNaN(this.speedSlider.getVal()) ){
