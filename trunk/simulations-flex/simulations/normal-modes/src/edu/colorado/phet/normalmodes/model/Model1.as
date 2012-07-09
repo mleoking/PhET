@@ -11,6 +11,7 @@ import flash.utils.*;
 /**
  * Model of 1D horizontal array of coupled masses and springs.  In equilibrium, all masses are on x-axis (y = 0)
  * Displacement from equilibrium is either in x-direction (longitudinal mode) or y-direction(transverse mode)
+ * Initial configuration is set by MainView.initializeAll()
  */
 public class Model1 {
 
@@ -65,7 +66,7 @@ public class Model1 {
 
     private function initialize():void{
         this._nMax = 10;             //maximum of 10 mobile masses in array
-        this._N = 5;                 //start sim with 5 mobile masses
+        this._N = 5;                 //although initial number of masses set in MainView.initializeAll() , this line needed for correct startup
         this._nChanged = false;
         this._modesChanged = false;
         this.m = 0.1;               //100 gram masses
@@ -127,6 +128,7 @@ public class Model1 {
     }
 
     //SETTERS and GETTERS
+
     /**
      * Set number of mobile masses
      */
@@ -201,7 +203,7 @@ public class Model1 {
     }
 
     /**
-     * Set y-position of ith mass
+     * Set y-position of ith mass.
      * Used when in transverse mode
      */
     public function setY(i:int, yPos:Number):void{
@@ -222,7 +224,7 @@ public class Model1 {
     }//end getY()
 
     /**
-     * currently unused, because model has no damping.
+     * SetB() is currently unused, because model has no damping.
      * b is damping constant
      */
     public function setB(b:Number):void{
@@ -232,7 +234,6 @@ public class Model1 {
         this.b = b;
     }
 
-    //get/set polarization in x-direction or y-direction
     public function get xModes():Boolean{
         return this._xModes;
     }
@@ -314,7 +315,7 @@ public class Model1 {
         }
     }
 
-    //used when switching tabs between 1D and 2D
+    //Used when switching tabs between 1D and 2D views
     public function interruptSim():void{
         if( !_paused ){
             pauseSim();
@@ -390,26 +391,33 @@ public class Model1 {
         this.updateViews();
     } //end singleStep()
 
-    private function setVerletPositions():void{       //velocity verlet algorithm
+    /**
+     * Update positions of masses at next time step, using Velocity Verlet algorithm.
+     * Needed when user has grabbed mass with mouse, making exact calculation of positions impossible
+     */
+    private function setVerletPositions():void{     //velocity verlet algorithm
         for(var i:int = 1; i <= this._N; i++){      //loop thru all mobile masses  (masses on ends always stationary)
-            if(i != this._grabbedMassIndex ){            //grabbed mass position determined by mouse, not by this algorithm
+            if(i != this._grabbedMassIndex ){       //grabbed mass position determined by mouse, not by this algorithm
                 s_arr[i] = s_arr[i] + v_arr[i] * dt + (1 / 2) * a_arr[i] * dt * dt;
-                aPre_arr[i] = a_arr[i];   //store current accelerations for next step
+                aPre_arr[i] = a_arr[i];             //store current accelerations for next step
             }
             //var vp:Number = v_arr[i] + a_arr[i] * dt;		//post velocity, only needed if computing drag
         }//end 1st for loop
-
         for( i = 1; i <= this._N; i++){             //loop thru all mobile masses  (masses on ends always stationary)
-            if( i != this._grabbedMassIndex ){           //grabbed mass position determined by mouse, not by this algorithm
+            if( i != this._grabbedMassIndex ){      //grabbed mass position determined by mouse, not by this algorithm
                this.a_arr[i] = (this.k/this.m)*(s_arr[i+1] + s_arr[i-1] - 2*s_arr[i]);		//post-acceleration
                 v_arr[i] = v_arr[i] + 0.5 * (this.aPre_arr[i] + a_arr[i]) * dt;
             }
         }//end 2nd for loop
     }
 
+    /**
+     * Update positions of masses at next time step, using exact calculation.
+     * Only used if no mass is grabbed by mouse.
+     */
     private function setExactPositions():void{
         for(var i:int = 1; i <= this._N; i++){          //step thru N mobile masses
-            s_arr[i] = 0
+            s_arr[i] = 0;
             for( var r:int = 1; r <= this._N; r++){     //step thru N normal modes
                var j:int = r - 1;
                this.s_arr[i] +=  modeAmpli_arr[j]*Math.sin(i*r*Math.PI/(_N + 1))*Math.cos(modeOmega_arr[j]*this._t - modePhase_arr[j]);
@@ -425,7 +433,6 @@ public class Model1 {
     }
 
     public function registerView( view: Object ): void {
-        //this.view = view;    //only one view, so far
         this.views_arr.push( view );
     }
 
