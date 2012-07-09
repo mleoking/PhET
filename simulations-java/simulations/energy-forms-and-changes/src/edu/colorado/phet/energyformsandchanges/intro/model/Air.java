@@ -103,7 +103,7 @@ public class Air implements ThermalEnergyContainer {
             double leftoverTime = dt - ( numFullTimeStepExchanges * MAX_HEAT_EXCHANGE_TIME_STEP );
             for ( int i = 0; i < numFullTimeStepExchanges + 1; i++ ) {
                 double timeStep = i < numFullTimeStepExchanges ? MAX_HEAT_EXCHANGE_TIME_STEP : leftoverTime;
-                double thermalEnergyLost = ( getTemperature() - EFACConstants.ROOM_TEMPERATURE ) * HeatTransferConstants.AIR_TO_SURROUNDING_AIR_HEAT_TRANSFER_FACTOR * timeStep;
+                double thermalEnergyLost = ( getTemperature() - EFACConstants.ROOM_TEMPERATURE ) * HeatTransferConstants.AIR_TO_SURROUNDING_AIR_HEAT_TRANSFER_FACTOR.get() * timeStep;
                 changeEnergy( -thermalEnergyLost );
             }
         }
