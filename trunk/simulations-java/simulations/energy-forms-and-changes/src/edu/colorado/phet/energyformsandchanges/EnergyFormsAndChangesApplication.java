@@ -37,8 +37,8 @@ public class EnergyFormsAndChangesApplication extends PiccoloPhetApplication {
         // Developer menu
         JMenu developerMenu = frame.getDeveloperMenu();
 
-        // Add an item for controlling whether unstable nuclei are animated.
-        final JCheckBoxMenuItem animateNucleusCheckBox = new JCheckBoxMenuItem( "Show Dump Energies Button" ) {{
+        // Add a check box for controlling whether the button for dumping energy values is visible.
+        final JCheckBoxMenuItem showDumpEnergiesButton = new JCheckBoxMenuItem( "Show Dump Energies Button" ) {{
             setSelected( EFACIntroCanvas.showDumpEnergiesButton.get() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -47,7 +47,7 @@ public class EnergyFormsAndChangesApplication extends PiccoloPhetApplication {
             } );
         }};
 
-        developerMenu.add( animateNucleusCheckBox );
+        developerMenu.add( showDumpEnergiesButton );
     }
 
     public static void main( String[] args ) {
