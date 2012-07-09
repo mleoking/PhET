@@ -26,7 +26,6 @@ public class GeneExpressionBasicsResources {
         public static final String FAST = RESOURCES.getLocalizedString( "fast" );
         public static final String GENE = RESOURCES.getLocalizedString( "gene" );
         public static final String HIGH = RESOURCES.getLocalizedString( "high" );
-        public static final String IMAGE_ATTRIBUTION = RESOURCES.getLocalizedString( "imageAttribution" );
         public static final String IMAGE_CAPTION = RESOURCES.getLocalizedString( "imageCaption" );
         public static final String LOTS = RESOURCES.getLocalizedString( "lots" );
         public static final String LOW = RESOURCES.getLocalizedString( "low" );
