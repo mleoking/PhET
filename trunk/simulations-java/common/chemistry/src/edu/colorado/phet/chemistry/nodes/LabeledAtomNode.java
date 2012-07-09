@@ -12,6 +12,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class LabeledAtomNode extends PNode {
 
     private final ShadedSphereNode sphericalNode;
+    private final PNode labelContainer = new PNode();
 
     public LabeledAtomNode( final Element element ) {
 
@@ -29,9 +30,15 @@ public class LabeledAtomNode extends PNode {
             }
             setOffset( -getFullBoundsReference().width / 2, -getFullBoundsReference().height / 2 );
         }};
-        sphericalNode.addChild( labelNode );
+        labelContainer.addChild( labelNode );
+        sphericalNode.addChild( labelContainer );
 
         // Add a cursor handler to signal to the user that this is movable.
 //        addInputEventListener( new CursorHandler() );
+    }
+
+    // added this in, because rotating the ShadedSphereNode actually causes painting errors
+    public void rotateTo( double theta ) {
+        labelContainer.setRotation( -theta );
     }
 }
