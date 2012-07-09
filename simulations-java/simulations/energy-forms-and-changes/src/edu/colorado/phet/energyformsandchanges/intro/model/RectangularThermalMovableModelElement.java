@@ -127,7 +127,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
             // towards it.
             ec.zPosition.set( 0.0 );
             approachingEnergyChunks.add( ec );
-            energyChunkWanderControllers.add( new EnergyChunkWanderController( ec, getCenterPoint() ) );
+            energyChunkWanderControllers.add( new EnergyChunkWanderController( ec, position ) );
         }
     }
 
