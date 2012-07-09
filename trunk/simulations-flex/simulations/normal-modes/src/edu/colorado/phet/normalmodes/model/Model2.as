@@ -54,11 +54,11 @@ public class Model2 {
 
     //time variables
     private var _paused: Boolean;   //true if sim paused
-    private var _interrupted;       //model interrupted when model unPaused and user switches to other tab/model
+    private var _interrupted: Boolean;  //model interrupted when model unPaused and user switches to other tab/model
     private var _t: Number;		    //time in seconds
     private var tInt: Number;       //time rounded down to nearest whole sec, for testing only
     private var lastTime: Number;	//time in previous timeStep
-    private var lastTimeDuringMouseDrag; //used to allow mouse user to "throw" the mass
+    private var lastTimeDuringMouseDrag: Number; //used to allow mouse user to "throw" the mass
     private var tRate: Number;	    //1 = real time; 0.25 = 1/4 of real time, etc.
     private var dt: Number;  	    //default time step in seconds
     private var msTimer: Timer;	    //millisecond timer
@@ -374,7 +374,7 @@ public class Model2 {
     }
 
     //called from MassView.startTargetDrag();
-    public function set grabbedMassIndices(iJIndices:Array){
+    public function set grabbedMassIndices(iJIndices:Array):void{
         this._grabbedMassIndices = iJIndices;
         //trace("Model2.setGrabbeMassIndices called. u = " + this._grabbedMassIndices[0] + "   j = " + this._grabbedMassIndices[1]);
     }
@@ -444,7 +444,7 @@ public class Model2 {
         }
 
         for (i = 0; i <= N; i++){
-            for (var r = 0; r <= N; r++){
+            for (var r:int  = 0; r <= N; r++){
                 for( var s:int = 0; s <= N; s++ ){
                     sineProduct_arr[i][r][s] = new Array( N + 1 );
                 }
@@ -452,7 +452,7 @@ public class Model2 {
         }
 
         for (i = 0; i <= N; i++){
-            for (var r = 0; r <= N; r++){
+            for (var r:int  = 0; r <= N; r++){
                 for( var j:int = 0; j <= N; j++ ){
                     for( var s:int = 0; s <= N; s++ ){
                         sineProduct_arr[i][r][j][s] = Math.sin(i*r*Math.PI/(N+1))*Math.sin(j*s*Math.PI/(N+1));
