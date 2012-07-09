@@ -46,24 +46,26 @@ public class FieldModel {
     private var _fieldLine_arr:Array;  //array of field lines
 
     //types of motion called from radio button group in control panel
-    private const MANUAL_WITH_FRICTION: Number = 0;
-    private const MANUAL_NO_FRICTION: Number = 1;
-    private const LINEAR: Number = 2;
-    private const SINUSOIDAL: Number = 3;
-    private const CIRCULAR: Number = 4;
-    private const BUMP: Number = 5;
+    private var motionType: int;
+    private const STOPPING: int = -1
+    private const MANUAL_WITH_FRICTION: int = 0;
+    private const MANUAL_NO_FRICTION: int = 1;
+    private const LINEAR: int = 2;
+    private const SINUSOIDAL: int = 3;
+    private const CIRCULAR: int = 4;
+    private const BUMP: int = 5;
 
     private var _paused:Boolean;        //true if sim is paused
     private var _outOfBounds:Boolean;   //true if charge is off-screen
-    private var _motionType_str:String;  //type of motion: user-controlled, linear, sinusoidal, circular, etc
-    private var _noFriction_str:String;
-    private var _manual_str:String;
-    private var linear_str:String;
-    private var sinusoidal_str:String;
-    private var circular_str:String;
-    private var bump_str:String;
+    //private var motionType:String;  //type of motion: user-controlled, linear, sinusoidal, circular, etc
+    //private var _noFriction_str:String;
+    //private var MANUAL_WITH_FRICTION:String;
+    //private var LINEAR:String;
+    //private var SINUSOIDAL:String;
+    //private var CIRCULAR:String;
+    //private var BUMP:String;
     private var random_str:String;
-    private var stopping_str:String;
+    //private var stopping_str:String;
 
     private var _t:Number;              //time in arbitrary units
     private var _tLastPhoton: Number;	//time of previous Photon emission
@@ -112,15 +114,15 @@ public class FieldModel {
         }
 
         //set motion-type strings. NOTE: these are not visible on the stage and should NOT be internationalized.
-        this._noFriction_str = "noFriction";
-        this._manual_str = "manual";
-        this.linear_str = "linear";
-        this.sinusoidal_str = "sinusoidal";
-        this.circular_str = "circular";
-        this.bump_str = "bump";
+//        this.MANUAL_NO_FRICTION = "noFriction";
+//        this.MANUAL_WITH_FRICTION = "manual";
+//        this.LINEAR = "linear";
+//        this.SINUSOIDAL = "sinusoidal";
+//        this.CIRCULAR = "circular";
+//        this.BUMP = "bump";
         this.random_str = "random";
-        this.stopping_str = "stopping";
-        this._motionType_str = _manual_str;
+        //this.stopping_str = "stopping";
+        this.motionType = MANUAL_WITH_FRICTION;
 
         this.c = this.stageW/4;     //n seconds to cross height of stage
         this.k = 10;                //spring constant
@@ -241,7 +243,7 @@ public class FieldModel {
     public function stopCharge():void{
         this.myMainView.myControlPanel.presetMotion_rgb.selectedValue = 0;
         //this.myMainView.myControlPanel.myComboBox.selectedIndex = 0;         //is there a more elegant way?
-        this._motionType_str = stopping_str;
+        this.motionType = STOPPING;
         this.vXInit = this._vX;
         this.vYInit = this._vY;
     }
@@ -249,7 +251,7 @@ public class FieldModel {
     public function centerCharge():void{
         this._xC = 0;
         this._yC = 0;
-        _motionType_str = _manual_str;
+        motionType = MANUAL_WITH_FRICTION;
         this._vX = 0;
         this._vY = 0;
         this._v = 0;
@@ -301,12 +303,12 @@ public class FieldModel {
         this.stopRadiation();
         //trace("FieldModel.setTypeOfMotion() called. choice = " + choice );
         if( choice == MANUAL_WITH_FRICTION ){  //do nothing
-            _motionType_str = _manual_str;
+            motionType = MANUAL_WITH_FRICTION;
         }else if( choice == MANUAL_NO_FRICTION ){
-            _motionType_str = _noFriction_str;
+            motionType = MANUAL_NO_FRICTION;
         }else if( choice == LINEAR ){    //linear
             this.initializeFieldLines();
-            _motionType_str = linear_str;
+            motionType = LINEAR;
             this.fX = 0;
             this.fY = 0;
             this.beta = this.myMainView.myControlPanel.speedSlider.getVal();
@@ -318,15 +320,15 @@ public class FieldModel {
             this._yC = 0;//-stageH; //0;
         }else if(choice == SINUSOIDAL ){  //sinusoid
             this.initializeFieldLines();
-            _motionType_str = sinusoidal_str;
+            motionType = SINUSOIDAL;
             this.phi = 0;
         }else if( choice == CIRCULAR ){  //circular
             //this._t = 0;      //this is FATAL!!  Why??
             this.initializeFieldLines();
-            _motionType_str = circular_str;
+            motionType = CIRCULAR;
         }else if( choice == BUMP ){   //bump
             this.initializeFieldLines();
-            _motionType_str = bump_str;
+            motionType = BUMP;
             _xC = 0;
             _yC = 0;
             _vX = 0;
@@ -335,7 +337,7 @@ public class FieldModel {
             this._bumpDuration = this.myMainView.myControlPanel.durationSlider.getVal();
             //slopeSign = 1;
         }else if( choice == 6 ){  //randomWalk, CURRENTLY NOT USED
-            _motionType_str = random_str;
+            motionType = random_str;
             _xC = 0;
             _yC = 0;
             this.delTRandomWalk = 0.5;
@@ -355,22 +357,22 @@ public class FieldModel {
         if( xC > fw*stageW/2 || xC < -fw*stageW/2 || yC > fh*stageH/2 || yC < -fh*stageH/2 ){
             outOfBounds = true;          //charge is recentered in ChargeView if outOfBounds
         }
-        if( _motionType_str == _noFriction_str ){
+        if( motionType == MANUAL_NO_FRICTION ){
             this.userControlledStep();
-        }else if (_motionType_str == _manual_str){
+        }else if (motionType == MANUAL_WITH_FRICTION){
             this.manualWithFrictionStep();
-        } else if( _motionType_str == linear_str ){
+        } else if( motionType == LINEAR ){
             _xC += _vX*dt;
             _yC += _vY*dt;
-        }else if( _motionType_str == sinusoidal_str ) {
+        }else if( motionType == SINUSOIDAL ) {
             this.sinusiodalStep();
-        }else if( _motionType_str == circular_str ) {
+        }else if( motionType == CIRCULAR ) {
             this.circularStep();
-        }else if( _motionType_str == bump_str ){
+        }else if( motionType == BUMP ){
             this.bumpStep();
-        }else if( _motionType_str == random_str ){
+        }else if( motionType == random_str ){
             this.randomWalkStep();
-        }else if( _motionType_str == stopping_str ){
+        }else if( motionType == STOPPING ){
             this.stoppingStep();
         }
     }//end moveCharge()
@@ -529,7 +531,7 @@ public class FieldModel {
             _vY = 0;
             aX = 0;
             aY = 0;
-            _motionType_str = manual_str;
+            motionType = manual_str;
         }
         _xC += _vX*dt + (0.5)*aX*dt*dt;
         _yC += _vY*dt + (0.5)*aY*dt*dt;
@@ -619,27 +621,27 @@ public class FieldModel {
     }
 
     public function get motionType_str():String {
-        return _motionType_str;
+        return motionType;
     }
 
     public function set motionType_str( value:String ):void {
-        _motionType_str = value;
+        motionType = value;
     }
 
     public function get noFriction_str():String {
-        return _noFriction_str;
+        return MANUAL_NO_FRICTION;
     }
 
     public function set noFriction_str( value:String ):void {
-        _noFriction_str = value;
+        MANUAL_NO_FRICTION = value;
     }
 
     public function get manual_str():String {
-        return _manual_str;
+        return MANUAL_WITH_FRICTION;
     }
 
     public function set manual_str( value:String ):void {
-        _manual_str = value;
+        MANUAL_WITH_FRICTION = value;
     }
 
     public function get vX(): Number {
