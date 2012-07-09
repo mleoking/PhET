@@ -24,7 +24,7 @@ import mx.containers.Canvas;
 //main view and communications hub for Projectile Motion sim (Flex version)
 public class MainView extends Canvas {
 
-    public var phetLogo: Sprite;
+    private var phetLogo: Sprite;
     public var stageH: Number;
     public var stageW: Number;
     public var trajectoryModel: TrajectoryModel;
@@ -43,7 +43,7 @@ public class MainView extends Canvas {
         percentHeight = 100;
         this.stageH = stageH;
         this.stageW = stageW;
-        this._pixPerMeter = stageW/30 ;   //width of stage is 40 meters
+        _pixPerMeter = stageW/30;   //width of stage is 40 meters
         this._originXInPix = 0.2*stageW;
         this._originYInPix = 0.8*stageH;
 

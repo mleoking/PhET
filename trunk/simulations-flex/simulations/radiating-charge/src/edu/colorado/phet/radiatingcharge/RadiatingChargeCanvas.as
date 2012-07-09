@@ -31,8 +31,8 @@ public class RadiatingChargeCanvas extends Canvas {
         this.addChild( myMainView );
        // addChild( res );
         const listener: Function = function( event: Event ): void {
-            const sx = stage.stageWidth / RENDER_WIDTH;
-            const sy = stage.stageHeight / RENDER_HEIGHT;
+            const sx: Number = stage.stageWidth / RENDER_WIDTH;
+            const sy: Number = stage.stageHeight / RENDER_HEIGHT;
 
             myMainView.scaleX = Math.min( sx, sy );
             myMainView.scaleY = Math.min( sx, sy );
