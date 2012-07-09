@@ -19,12 +19,12 @@ public class HeatTransferConstants {
     // Heat transfer values.  NOTE: Originally, these were constants, but the
     // design team requested that they be changeable via a developer control,
     // which is why they are now properties.
-    private static final Property<Double> BRICK_IRON_HEAT_TRANSFER_FACTOR = new Property<Double>( 1000.0 );
-    private static final Property<Double> BRICK_WATER_HEAT_TRANSFER_FACTOR = new Property<Double>( 1000.0 );
-    private static final Property<Double> BRICK_AIR_HEAT_TRANSFER_FACTOR = new Property<Double>( 50.0 );
-    private static final Property<Double> IRON_WATER_HEAT_TRANSFER_FACTOR = new Property<Double>( 1000.0 );
-    private static final Property<Double> IRON_AIR_HEAT_TRANSFER_FACTOR = new Property<Double>( 50.0 );
-    private static final Property<Double> WATER_AIR_HEAT_TRANSFER_FACTOR = new Property<Double>( 50.0 );
+    public static final Property<Double> BRICK_IRON_HEAT_TRANSFER_FACTOR = new Property<Double>( 1000.0 );
+    public static final Property<Double> BRICK_WATER_HEAT_TRANSFER_FACTOR = new Property<Double>( 1000.0 );
+    public static final Property<Double> BRICK_AIR_HEAT_TRANSFER_FACTOR = new Property<Double>( 50.0 );
+    public static final Property<Double> IRON_WATER_HEAT_TRANSFER_FACTOR = new Property<Double>( 1000.0 );
+    public static final Property<Double> IRON_AIR_HEAT_TRANSFER_FACTOR = new Property<Double>( 50.0 );
+    public static final Property<Double> WATER_AIR_HEAT_TRANSFER_FACTOR = new Property<Double>( 50.0 );
     public static final Property<Double> AIR_TO_SURROUNDING_AIR_HEAT_TRANSFER_FACTOR = new Property<Double>( 10000.0 );
 
     // Maps for obtaining transfer constants for a given thermal element.

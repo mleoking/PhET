@@ -1,3 +1,4 @@
+Added developer dialog for setting the heat transfer constants.
 Fixed some cases where changing the burner back and forth from heating to cooling a number of times could lead to null pointer exceptions.
 Fixed an issue where energy chunks coming from the air wouldn't follow the thermal object if it was moved.
 # 0.00.11 (65551) Jun 28, 2012
