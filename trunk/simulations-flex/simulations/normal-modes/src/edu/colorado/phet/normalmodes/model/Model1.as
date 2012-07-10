@@ -369,6 +369,7 @@ public class Model1 {
         this._modesChanged = false;
     }//computeModeAmplitudesAndPhases();
 
+    /*Step forward in time one time step.  Time-based animation.*/
     private function singleStep(): void {
         var currentTime:Number = getTimer() / 1000;              //flash.utils.getTimer()
         var realDt: Number = currentTime - this.lastTime;
@@ -393,7 +394,7 @@ public class Model1 {
 
     /**
      * Update positions of masses at next time step, using Velocity Verlet algorithm.
-     * Needed when user has grabbed mass with mouse, making exact calculation of positions impossible
+     * Needed when user has grabbed mass with mouse, making exact calculation of positions impossible.
      */
     private function setVerletPositions():void{     //velocity verlet algorithm
         for(var i:int = 1; i <= this._N; i++){      //loop thru all mobile masses  (masses on ends always stationary)
