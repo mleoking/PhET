@@ -366,6 +366,10 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
             } );
         }};
         frontControlsLayer.addChild( zoomInButton );
+        // TODO: 7/10/2012 - The design team requested that the zoom out button
+        // be removed and the functionality moved to a teacher control.  If
+        // and when this change is finalized, the code for zoom out button -
+        // commented out below - should be permanently removed.
 //        final PNode zoomOutButton = new TextButtonNode( ZOOM_OUT, new PhetFont( 18 ), Color.YELLOW ) {{
 //            centerFullBoundsOnPoint( previousGeneButton.getFullBoundsReference().getCenterX(), previousGeneButton.getFullBoundsReference().getMaxY() + 40 );
 //            addActionListener( new ActionListener() {
