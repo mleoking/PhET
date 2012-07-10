@@ -1,13 +1,14 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
-import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -18,7 +19,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.intro.view.BlockNode;
@@ -69,8 +69,6 @@ public class EFACIntroModel {
     // Boolean for tracking whether the energy chunks are visible to the user.
     public final BooleanProperty energyChunksVisible = new BooleanProperty( false );
 
-    // Lists of thermal model elements for easy iteration.
-    private final List<ThermalEnergyContainer> thermalEnergyContainers = new ArrayList<ThermalEnergyContainer>();
     private final List<RectangularThermalMovableModelElement> movableThermalEnergyContainers = new ArrayList<RectangularThermalMovableModelElement>();
 
     //-------------------------------------------------------------------------
@@ -106,6 +104,7 @@ public class EFACIntroModel {
         }
 
         // Put all the thermal containers on a list for easy iteration.
+        List<ThermalEnergyContainer> thermalEnergyContainers = new ArrayList<ThermalEnergyContainer>();
         thermalEnergyContainers.add( brick );
         thermalEnergyContainers.add( ironBlock );
         thermalEnergyContainers.add( beaker );
@@ -142,7 +141,7 @@ public class EFACIntroModel {
     /**
      * Update the state of the model.
      *
-     * @param dt
+     * @param dt Time step.
      */
     private void stepInTime( double dt ) {
 
@@ -272,7 +271,7 @@ public class EFACIntroModel {
             }
 
             // Exchange energy chunks with the air if appropriate conditions met.
-            if ( !contactWithOtherMovableElement || ( contactWithOtherMovableElement && !immersedInBeaker && maxTemperatureDifference < MIN_TEMPERATURE_DIFF_FOR_MULTI_BODY_AIR_ENERGY_EXCHANGE ) ) {
+            if ( !contactWithOtherMovableElement || ( !immersedInBeaker && maxTemperatureDifference < MIN_TEMPERATURE_DIFF_FOR_MULTI_BODY_AIR_ENERGY_EXCHANGE ) ) {
                 air.exchangeEnergyWith( movableEnergyContainer, dt );
                 if ( movableEnergyContainer.getEnergyChunkBalance() > 0 && air.canAcceptEnergyChunk() ) {
                     ImmutableVector2D pointAbove = new ImmutableVector2D( movableEnergyContainer.getCenterPoint().getX(), movableEnergyContainer.getRect().getMaxY() );
@@ -302,9 +301,10 @@ public class EFACIntroModel {
      * something that would look weird to the user and, if so, prevent the odd
      * behavior from happening by returning a location that works better.
      *
-     * @param modelElement
-     * @param proposedPosition
-     * @return
+     * @param modelElement     Element whose position is being validated.
+     * @param proposedPosition Proposed new position for element
+     * @return The original proposed position if valid, or alternative position
+     *         if not.
      */
     public Point2D validatePosition( RectangularThermalMovableModelElement modelElement, Point2D proposedPosition ) {
 
@@ -375,7 +375,7 @@ public class EFACIntroModel {
         }
     }
 
-    /**
+    /*
      * Determine the portion of a proposed translation that may occur given
      * a moving rectangle and a stationary rectangle that can block the moving
      * one.
@@ -451,8 +451,7 @@ public class EFACIntroModel {
         return new ImmutableVector2D( xTranslation, yTranslation );
     }
 
-    /**
-     * Project a line into a 2D shape based on the provided projection vector.
+    /* Project a line into a 2D shape based on the provided projection vector.
      * This is a convenience function used by the code that detects potential
      * collisions between the 2D objects in model space.
      */
@@ -507,7 +506,7 @@ public class EFACIntroModel {
                 // so skip it.
                 continue;
             }
-            if ( potentialSupportingElement != element && element.getBottomSurfaceProperty().get().overlapsWith( potentialSupportingElement.getTopSurfaceProperty().get() ) ) {
+            if ( element.getBottomSurfaceProperty().get().overlapsWith( potentialSupportingElement.getTopSurfaceProperty().get() ) ) {
 
                 // There is at least some overlap.  Determine if this surface
                 // is the best one so far.
@@ -549,40 +548,51 @@ public class EFACIntroModel {
         return Arrays.asList( thermometer1, thermometer2 );
     }
 
-    public double getTemperatureAtLocation( ImmutableVector2D location ) {
+    /**
+     * Get the temperature and color that would be sensed by a thermometer at
+     * the provided location.
+     *
+     * @param location Location to be sensed.
+     * @return Composite object with temperature and color at the provided
+     *         location.
+     */
+    public TemperatureAndColor getTemperatureAndColorAtLocation( ImmutableVector2D location ) {
         Point2D locationAsPoint = location.toPoint2D();
-        for ( Block block : getBlockList() ) {
-            if ( block.getProjectedShape().contains( locationAsPoint ) ) {
-                return block.getTemperature();
-            }
-        }
-        if ( beaker.getThermalContactArea().getBounds().contains( locationAsPoint ) ) {
-            return beaker.getTemperature();
-        }
-        for ( Burner burner : Arrays.asList( leftBurner, rightBurner ) ) {
-            if ( burner.getFlameIceRect().contains( locationAsPoint ) ) {
-                return burner.getTemperature();
-            }
-        }
-        return air.getTemperature();
-    }
 
-    public Color getElementColorAtLocation( ImmutableVector2D location ) {
-        Point2D locationAsPoint = location.toPoint2D();
-        for ( Block block : getBlockList() ) {
+        // Test blocks first.  This is a little complicated since the z-order
+        // must be taken into account.
+        List<Block> copyOfBlockList = new ArrayList<Block>( getBlockList() );
+        Collections.sort( copyOfBlockList, new Comparator<Block>() {
+            public int compare( Block b1, Block b2 ) {
+                if ( b1.position.get().equals( b2.position.get() ) ) {
+                    return 0;
+                }
+                if ( b2.position.get().getX() > b1.position.get().getX() || b2.position.get().getY() > b1.position.get().getY() ) {
+                    return 1;
+                }
+                return -1;
+            }
+        } );
+        for ( Block block : copyOfBlockList ) {
             if ( block.getProjectedShape().contains( locationAsPoint ) ) {
-                return block.getColor();
+                return new TemperatureAndColor( block.getTemperature(), block.getColor() );
             }
         }
+
+        // Test if this point is in the beaker.
         if ( beaker.getThermalContactArea().getBounds().contains( locationAsPoint ) ) {
-            return EFACConstants.WATER_COLOR;
+            return new TemperatureAndColor( beaker.getTemperature(), EFACConstants.WATER_COLOR );
         }
+
+        // Test if the point is a burner.
         for ( Burner burner : Arrays.asList( leftBurner, rightBurner ) ) {
             if ( burner.getFlameIceRect().contains( locationAsPoint ) ) {
-                return PhetColorScheme.RED_COLORBLIND;
+                return new TemperatureAndColor( burner.getTemperature(), EFACConstants.FIRST_TAB_BACKGROUND_COLOR );
+
             }
         }
-        // Return the color for air, which is the background color.
-        return EFACConstants.FIRST_TAB_BACKGROUND_COLOR;
+
+        // Point is in nothing else, so return the air temperature.
+        return new TemperatureAndColor( air.getTemperature(), EFACConstants.FIRST_TAB_BACKGROUND_COLOR );
     }
 }

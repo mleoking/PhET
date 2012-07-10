@@ -184,9 +184,9 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         final BlockNode brickNode = new BlockNode( model, model.getBrick(), mvt );
         brickNode.setApproachingEnergyChunkParentNode( airLayer );
         blockLayer.addChild( brickNode );
-        final BlockNode leadNode = new BlockNode( model, model.getIronBlock(), mvt );
-        leadNode.setApproachingEnergyChunkParentNode( airLayer );
-        blockLayer.addChild( leadNode );
+        final BlockNode ironBlockNode = new BlockNode( model, model.getIronBlock(), mvt );
+        ironBlockNode.setApproachingEnergyChunkParentNode( airLayer );
+        blockLayer.addChild( ironBlockNode );
         BeakerView beakerView = new BeakerView( model, this, mvt );
         beakerFrontLayer.addChild( beakerView.getFrontNode() );
         backLayer.addChild( beakerView.getBackNode() );
@@ -238,11 +238,11 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
                     brickNode.moveToBack();
                 }
                 else if ( model.getBrick().isStackedUpon( model.getIronBlock() ) ) {
-                    leadNode.moveToBack();
+                    ironBlockNode.moveToBack();
                 }
                 else if ( model.getIronBlock().getRect().getMinX() >= model.getBrick().getRect().getMaxX() ||
                           model.getIronBlock().getRect().getMinY() >= model.getBrick().getRect().getMaxY() ) {
-                    leadNode.moveToFront();
+                    ironBlockNode.moveToFront();
                 }
                 else if ( model.getBrick().getRect().getMinX() >= model.getIronBlock().getRect().getMaxX() ||
                           model.getBrick().getRect().getMinY() >= model.getIronBlock().getRect().getMaxY() ) {
