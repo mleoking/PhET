@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.geneexpressionbasics.multiplecells.view;
 
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
@@ -51,18 +52,21 @@ public class FluorescentCellsPictureDialog extends PaintImmediateDialog {
 
         // Picture
         BufferedImage image = GeneExpressionBasicsResources.Images.ECOLI;
-        JLabel picture = new JLabel( new ImageIcon( image ) );
+        final JLabel picture = new JLabel( new ImageIcon( image ) );
         picture.setSize( image.getWidth(), image.getHeight() );
 
         // Caption
         JTextPane captionTextPane = new JTextPane() {{
-            SimpleAttributeSet center = new SimpleAttributeSet();
-            StyleConstants.setAlignment( center, StyleConstants.ALIGN_CENTER );
-            getStyledDocument().setParagraphAttributes( 0, 0, center, false );
+            SimpleAttributeSet left = new SimpleAttributeSet();
+            StyleConstants.setAlignment( left, StyleConstants.ALIGN_LEFT );
+            getStyledDocument().setParagraphAttributes( 0, 0, left, false );
             setOpaque( false );
             setEditable( false );
+            setPreferredSize( new Dimension( picture.getWidth(), getFontMetrics( CAPTION_FONT ).getHeight() * 3 + getFontMetrics( CAPTION_FONT ).getDescent() ) );
             setFont( CAPTION_FONT );
             setText( GeneExpressionBasicsResources.Strings.IMAGE_CAPTION );
+            System.out.println( "getHeight() = " + getHeight() );
+            System.out.println( "getPreferredScrollableViewportSize() = " + getPreferredScrollableViewportSize() );
         }};
 
         // Attribution
@@ -73,11 +77,11 @@ public class FluorescentCellsPictureDialog extends PaintImmediateDialog {
             setOpaque( false );
             setEditable( false );
             setFont( ATTRIBUTION_FONT );
-            setText( " Image Copyright Dennis Kunkel Microscopy, Inc." );
+            setText( "Image Copyright Dennis Kunkel Microscopy, Inc." );
         }};
 
         // Close button
-        JButton closeButton = new JButton( "Close" );
+        JButton closeButton = new JButton( GeneExpressionBasicsResources.Strings.CLOSE );
         closeButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent event ) {
                 FluorescentCellsPictureDialog.this.dispose();
@@ -86,7 +90,7 @@ public class FluorescentCellsPictureDialog extends PaintImmediateDialog {
 
         // Panel
         JPanel panel = new JPanel( new GridBagLayout() );
-        panel.setBorder( BorderFactory.createEmptyBorder( 15, 15, 15, 15 ) ); // top, left, bottom, right
+        panel.setBorder( BorderFactory.createEmptyBorder( 10, 10, 10, 10 ) ); // top, left, bottom, right
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.gridx = 0;
         constraints.gridy = 0;
@@ -94,12 +98,12 @@ public class FluorescentCellsPictureDialog extends PaintImmediateDialog {
         constraints.insets.bottom = 5;
         panel.add( picture, constraints );
         constraints.gridy++;
-        constraints.insets.top = 15;
-        constraints.insets.bottom = 15;
         panel.add( captionTextPane, constraints );
         constraints.gridy++;
         panel.add( attributionTextPane, constraints );
         constraints.gridy++;
+        constraints.insets.top = 15;
+        constraints.insets.bottom = 15;
         panel.add( closeButton, constraints );
 
         // Add to the dialog
