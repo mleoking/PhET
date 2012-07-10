@@ -1,3 +1,4 @@
+Added in reaction models for the 2nd and 3rd reactions (kits)
 Added developer option to allow atom labels rotate with the molecules
 Removed brownian motion randomness, added in initial velocity
 # 0.00.04 (65350) Jun 21, 2012

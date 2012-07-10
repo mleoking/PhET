@@ -3,14 +3,20 @@ package edu.colorado.phet.chemicalreactions.module;
 
 import java.awt.*;
 
+import edu.colorado.phet.chemicalreactions.ChemicalReactionsApplication;
 import edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants;
 import edu.colorado.phet.chemicalreactions.control.KitPanel;
 import edu.colorado.phet.chemicalreactions.control.TimePanel;
 import edu.colorado.phet.chemicalreactions.model.ChemicalReactionsModel;
 import edu.colorado.phet.chemicalreactions.model.Kit;
 import edu.colorado.phet.chemicalreactions.model.LayoutBounds;
+import edu.colorado.phet.chemicalreactions.model.Molecule;
+import edu.colorado.phet.chemicalreactions.model.ReactionShape;
 import edu.colorado.phet.chemicalreactions.view.KitView;
+import edu.colorado.phet.chemicalreactions.view.MoleculeNode;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -54,12 +60,60 @@ public class ChemicalReactionsCanvas extends PhetPCanvas {
             root.addChild( kitView.getDebugOverlayLayer() );
         }
 
-//        for ( final ReactionShape.MoleculeSpot spot : ReactionShape.H2_O2_TO_H2O.reactantSpots ) {
-//            root.addChild( new MoleculeNode( new Molecule( spot.shape ) {{
-//                setAngle( (float) spot.rotation );
-//                setPosition( spot.position );
-//            }} ) );
-//        }
+        /*---------------------------------------------------------------------------*
+        * reaction shape debugging
+        *----------------------------------------------------------------------------*/
+
+        final PNode reactionShapeDebuggingNode = new PNode();
+        root.addChild( reactionShapeDebuggingNode );
+        ChemicalReactionsApplication.SHOW_DEBUG_REACTION_SHAPES.addObserver( new SimpleObserver() {
+            public void update() {
+                reactionShapeDebuggingNode.setVisible( ChemicalReactionsApplication.SHOW_DEBUG_REACTION_SHAPES.get() );
+            }
+        } );
+
+        ReactionShape[] reactions = new ReactionShape[]{ReactionShape.H2_O2_TO_H2O, ReactionShape.H2_N2_TO_NH3, ReactionShape.H2_Cl2_TO_HCl};
+
+//        final double xOffset = 600;
+        final double xOffset = 600;
+        final double yOffset = 400;
+        final ImmutableVector2D offset = new ImmutableVector2D( -800, -800 );
+        for ( int i = 0; i < reactions.length; i++ ) {
+            final double y = i * yOffset;
+            ReactionShape reactionShape = reactions[i];
+
+            // left: reactant
+            for ( final ReactionShape.MoleculeSpot spot : reactionShape.reactantSpots ) {
+                reactionShapeDebuggingNode.addChild( new MoleculeNode( new Molecule( spot.shape ) {{
+                    setAngle( (float) spot.rotation );
+                    setPosition( spot.position.plus( 0, y ).plus( offset ) );
+                }} ) );
+            }
+
+            // middle: product
+            for ( final ReactionShape.MoleculeSpot spot : reactionShape.productSpots ) {
+                reactionShapeDebuggingNode.addChild( new MoleculeNode( new Molecule( spot.shape ) {{
+                    setAngle( (float) spot.rotation );
+                    setPosition( spot.position.plus( new ImmutableVector2D( xOffset, y ).plus( offset ) ) );
+                }} ) );
+            }
+
+            // right: both (overlapping)
+            for ( final ReactionShape.MoleculeSpot spot : reactionShape.reactantSpots ) {
+                reactionShapeDebuggingNode.addChild( new MoleculeNode( new Molecule( spot.shape ) {{
+                    setAngle( (float) spot.rotation );
+                    setPosition( spot.position.plus( xOffset * 2, y ).plus( offset ) );
+                }} ) );
+            }
+            for ( final ReactionShape.MoleculeSpot spot : reactionShape.productSpots ) {
+                reactionShapeDebuggingNode.addChild( new MoleculeNode( new Molecule( spot.shape ) {{
+                    setAngle( (float) spot.rotation );
+                    setPosition( spot.position.plus( new ImmutableVector2D( xOffset * 2, y ).plus( offset ) ) );
+                }} ) {{
+                    setTransparency( 0.5f );
+                }} );
+            }
+        }
     }
 
 }
