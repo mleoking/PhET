@@ -54,15 +54,14 @@ public class ModeButton extends Sprite {
         this._borderColor = 0x0000ff;        //blue border
         myColorTransform = new ColorTransform();
         this.nMax = 16;                      //16 different amplitude heights
-        this._activatedH = false;      //true if button activated for horizontal polarization mode
-        this._activatedV = false;      //true if button activated for vertical polarization mode
+        this._activatedH = false;      //true if button controls horizontal polarization mode
+        this._activatedV = false;      //true if button controls vertical polarization mode
         this._pushedIn = false;
         this.colorLayer = new Sprite();
         this.colorLayerMask = new Sprite();
         this.trimAndLabelLayer = new Sprite();
         this.label_txt = new TextField();
         this.tFormat = new TextFormat();
-        //this.createColorLayerArray();
         this.drawEmptyButton();
 
         this.makeLabel();
@@ -223,7 +222,8 @@ public class ModeButton extends Sprite {
         var localRef: Object = this;
 
         function buttonBehave( evt: MouseEvent ): void {
-            var springLength: Number = 1 / (localRef.myModel2.N + 1);
+            //When button pushed, amplitude of mode set to "largeAmplitude" = 0.3*equilibrium spring length
+            var springLength: Number = 1 / (localRef.myModel2.N + 1);   // ~ distance between masses = equilibrium spring length
             var largeAmplitude: Number = 0.3 * springLength;
             if ( evt.type == "mouseDown" ) {
                 if ( !localRef._pushedIn ) {
@@ -266,12 +266,12 @@ public class ModeButton extends Sprite {
                 }
                 if ( localRef.myModel2.xModes ) {
                     if ( !localRef._activatedH ) {
-                        localRef.changeColor( 0xffffff );//drawButton( 0xffffff );
+                        localRef.changeColor( 0xffffff );
                     }
                 }
                 else {
                     if ( !localRef._activatedV ) {
-                        localRef.changeColor( 0xffffff );//drawButton( 0xffffff );
+                        localRef.changeColor( 0xffffff );
                     }
                 }
             }
