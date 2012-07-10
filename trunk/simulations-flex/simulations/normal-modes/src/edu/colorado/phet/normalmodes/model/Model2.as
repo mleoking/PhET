@@ -6,10 +6,6 @@
  * To change this template use File | Settings | File Templates.
  */
 
-
-/**
- * Model for 2D array of masses and springs
- */
 package edu.colorado.phet.normalmodes.model {
 import edu.colorado.phet.normalmodes.*;
 import edu.colorado.phet.normalmodes.view.MainView;
@@ -19,6 +15,11 @@ import flash.events.TimerEvent;
 import flash.utils.Timer;
 import flash.utils.getTimer;
 
+/**
+ * Model of 2D array of coupled masses and springs.
+ * Displacement from equilibrium is either in x-direction (x polarization mode) or y-direction(y polarization mode)
+ * Initial configuration is set by MainView.initializeAll()
+ */
 public class Model2 {
 
     public var myMainView: MainView;
@@ -112,7 +113,7 @@ public class Model2 {
         this._nChanged = false;
         this._modesChanged = false;
         this._modesZeroed = false;
-        this._xModes = false;            //start up showing yModes (vertical modes)
+        this._xModes = false;            //start up showing y modes (vertical modes)
         this.nbrStepsSinceRelease = 10;  //just needs to be larger than 3
         this._verletOn = false;
         this.m = 0.1;               //100 gram masses

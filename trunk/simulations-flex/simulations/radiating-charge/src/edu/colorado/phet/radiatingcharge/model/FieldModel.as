@@ -47,7 +47,8 @@ public class FieldModel {
 
     //types of motion called from radio button group in control panel
     private var _motionType: int;
-    private const STOPPING: int = -1
+    private const STOPPING: int = -1;
+    private const STARTING: int = -2;
     private const _MANUAL_WITH_FRICTION: int = 0;
     private const _MANUAL_NO_FRICTION: int = 1;
     private const LINEAR: int = 2;
@@ -249,6 +250,10 @@ public class FieldModel {
         this.vYInit = this._vY;
     }
 
+    public function startCharge():void{
+        this._motionType = STARTING;
+    }
+
     public function centerCharge():void{
         this._xC = 0;
         this._yC = 0;
@@ -303,7 +308,7 @@ public class FieldModel {
     public function setTypeOfMotion( choice:int ):void{
         this.stopRadiation();
         //trace("FieldModel.setTypeOfMotion() called. choice = " + choice );
-        if( choice == _MANUAL_WITH_FRICTION ){  //do nothing
+        if( choice == _MANUAL_WITH_FRICTION ){
             _motionType = _MANUAL_WITH_FRICTION;
         }else if( choice == _MANUAL_NO_FRICTION ){
             _motionType = _MANUAL_NO_FRICTION;
@@ -314,11 +319,11 @@ public class FieldModel {
             this.fY = 0;
             this.beta = this.myMainView.myControlPanel.speedSlider.getVal();
             trace("FieldModel.setTypeOfMotion  linear motion, beta = " + this.beta);
-            this._vX = this.beta*this.c;//0;
-            this._vY = 0;//0.95*this.c;
+            this._vX = this.beta*this.c;
+            this._vY = 0;
             this._v = beta*this.c;
-            this._xC = -stageW/2;//
-            this._yC = 0;//-stageH; //0;
+            this._xC = -stageW/2;
+            this._yC = 0;
         }else if(choice == SINUSOIDAL ){  //sinusoid
             this.initializeFieldLines();
             _motionType = SINUSOIDAL;
@@ -336,7 +341,6 @@ public class FieldModel {
             _vY = 0;
             tBump = this._t;
             this._bumpDuration = this.myMainView.myControlPanel.durationSlider.getVal();
-            //slopeSign = 1;
         }else if( choice == 6 ){  //randomWalk, CURRENTLY NOT USED
             _motionType = RANDOM;
             _xC = 0;
@@ -359,7 +363,7 @@ public class FieldModel {
             outOfBounds = true;          //charge is recentered in ChargeView if outOfBounds
         }
         if( _motionType == _MANUAL_NO_FRICTION ){
-            this.userControlledStep();
+            this.manualNoFrictionStep();
         }else if (_motionType == _MANUAL_WITH_FRICTION){
             this.manualWithFrictionStep();
         } else if( _motionType == LINEAR ){
@@ -375,10 +379,12 @@ public class FieldModel {
             this.randomWalkStep();
         }else if( _motionType == STOPPING ){
             this.stoppingStep();
+        }else if ( _motionType == STARTING ){
+            this.startingStep();
         }
     }//end moveCharge()
 
-    private function userControlledStep():void{
+    private function manualNoFrictionStep():void{
         this.beta = this._v/this.c;
         this.gamma = 1/Math.sqrt( 1 - beta*beta );
         var g3:Number = Math.pow( gamma, 3 );
@@ -400,7 +406,7 @@ public class FieldModel {
                 beta = this._v/this.c;
             }
         }
-    }//end userControlledStep()
+    }//end manualNoFrictionStep()
 
     private function manualWithFrictionStep():void{
         this.beta = this._v/this.c;
@@ -511,6 +517,34 @@ public class FieldModel {
         this.beta = this._v/this.c;
     }//end randomWalkStep()
 
+    private function startingStep():void{
+        var startingTime:Number = 0.1;  //time to accelerate from stop to final velocity, in seconds
+        var div:Number = startingTime/this.dt;   //number of time steps to accelerate from stop to full velocity
+        this.gamma = 1/Math.sqrt( 1 - beta*beta );
+        var g3:Number = Math.pow( gamma, 3 );
+        var aX:Number = vXInit/(g3*m*div*dt);
+        var aY:Number = vYInit/(g3*m*div*dt);
+        _vX += aX*dt;
+        _vY += aY*dt;
+        this._v = Math.sqrt( _vX*_vX + _vY*_vY );
+        var signVXInit:Number = vXInit/Math.abs( vXInit );
+        var signVYInit:Number = vYInit/Math.abs( vYInit );
+        var signVX:Number = _vX/Math.abs(_vX);
+        var signVY:Number = _vY/Math.abs(_vY);
+        var ratioX:Number = signVX/signVXInit;
+        var ratioY:Number = signVY/signVYInit;
+        if( ratioX < 0  || ratioY < 0 ){
+            _vX = 0;
+            _vY = 0;
+            aX = 0;
+            aY = 0;
+            _motionType = _MANUAL_WITH_FRICTION; //manual_str;
+        }
+        _xC += _vX*dt + (0.5)*aX*dt*dt;
+        _yC += _vY*dt + (0.5)*aY*dt*dt;
+        this.beta = this._v/this.c;
+    }
+
     private function stoppingStep():void{
         var stoppingTime:Number = 0.1;  //time to stop in seconds
         var div:Number = stoppingTime/this.dt;   //number of time steps to brake to a stop
@@ -527,12 +561,13 @@ public class FieldModel {
         var signVY:Number = _vY/Math.abs(_vY);
         var ratioX:Number = signVX/signVXInit;
         var ratioY:Number = signVY/signVYInit;
+        //If charge reverses direction, in either x or y direction, it has overshot full stop and must be reset to full stop
         if( ratioX < 0  || ratioY < 0 ){
             _vX = 0;
             _vY = 0;
             aX = 0;
             aY = 0;
-            _motionType = _MANUAL_WITH_FRICTION; //manual_str;
+            _motionType = _MANUAL_WITH_FRICTION;
         }
         _xC += _vX*dt + (0.5)*aX*dt*dt;
         _yC += _vY*dt + (0.5)*aY*dt*dt;
