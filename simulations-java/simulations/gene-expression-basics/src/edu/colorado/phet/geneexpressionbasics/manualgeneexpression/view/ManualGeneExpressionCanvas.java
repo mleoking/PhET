@@ -19,6 +19,8 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -50,7 +52,6 @@ import edu.umd.cs.piccolo.util.PDimension;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.flipX;
 import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources.Images.GRAY_ARROW;
 import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources.Strings.ZOOM_IN;
-import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources.Strings.ZOOM_OUT;
 
 /**
  * Primary canvas for the tab in which the user interacts with individual
@@ -60,6 +61,10 @@ import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResourc
  * @author John Blanco
  */
 public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettable {
+
+    //-------------------------------------------------------------------------
+    // Class Data
+    //-------------------------------------------------------------------------
 
     // Stage size, based on default screen size.
     private static final Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
@@ -85,6 +90,10 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
     // Debug variable for turning on the visibility of the motion bounds.
     private static final boolean SHOW_MOTION_BOUNDS = false;
 
+    //-------------------------------------------------------------------------
+    // Instance Data
+    //-------------------------------------------------------------------------
+
     private final ModelViewTransform mvt;
     private final Vector2D viewportOffset = new Vector2D( 0, 0 );
     private final List<BiomoleculeToolBoxNode> biomoleculeToolBoxNodeList = new ArrayList<BiomoleculeToolBoxNode>();
@@ -96,6 +105,13 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
 
     // Background cell that the user zooms in and out of.
     private final BackgroundCellNode backgroundCell;
+
+    // Property that allows external observers to monitor zoomed in state.
+    private final BooleanProperty zoomedIn = new BooleanProperty( true );
+
+    //-------------------------------------------------------------------------
+    // Constructor(s)
+    //-------------------------------------------------------------------------
 
     /**
      * Constructor.
@@ -350,15 +366,15 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
             } );
         }};
         frontControlsLayer.addChild( zoomInButton );
-        final PNode zoomOutButton = new TextButtonNode( ZOOM_OUT, new PhetFont( 18 ), Color.YELLOW ) {{
-            centerFullBoundsOnPoint( previousGeneButton.getFullBoundsReference().getCenterX(), previousGeneButton.getFullBoundsReference().getMaxY() + 40 );
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    zoomOut( ZOOM_ANIMATION_TIME );
-                }
-            } );
-        }};
-        frontControlsLayer.addChild( zoomOutButton );
+//        final PNode zoomOutButton = new TextButtonNode( ZOOM_OUT, new PhetFont( 18 ), Color.YELLOW ) {{
+//            centerFullBoundsOnPoint( previousGeneButton.getFullBoundsReference().getCenterX(), previousGeneButton.getFullBoundsReference().getMaxY() + 40 );
+//            addActionListener( new ActionListener() {
+//                public void actionPerformed( ActionEvent e ) {
+//                    zoomOut( ZOOM_ANIMATION_TIME );
+//                }
+//            } );
+//        }};
+//        frontControlsLayer.addChild( zoomOutButton );
 
         // Monitor the zoom and set the visibility of various controls.
         modelRootNode.addPropertyChangeListener( new PropertyChangeListener() {
@@ -378,7 +394,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
                     proteinCollectionNode.setVisible( zoomedIn );
                     previousGeneButton.setVisible( zoomedIn );
                     nextGeneButton.setVisible( zoomedIn );
-                    zoomOutButton.setVisible( zoomedIn );
+//                    zoomOutButton.setVisible( zoomedIn );
                     resetAllButton.setVisible( zoomedIn );
 
                     // Set the visibility of the controls that aren't shown
@@ -425,25 +441,55 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         }
     }
 
-    private void zoomIn( long duration ) {
+    //-------------------------------------------------------------------------
+    // Methods
+    //-------------------------------------------------------------------------
+
+    public void zoomIn( long duration ) {
         zoomInOnNodes( duration, backgroundCellLayer, modelRootNode );
     }
 
-    private void zoomOut( long duration ) {
+    public void zoomOut( long duration ) {
         zoomOutFromNodes( duration, backgroundCellLayer, modelRootNode );
     }
 
     private void zoomInOnNodes( long duration, PNode... nodesToZoom ) {
         terminateAnyRunningActivities();
+        PActivity activity = null;
+
+        // Animate the zoom for all of the provided nodes.
         for ( PNode node : nodesToZoom ) {
-            node.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), MAX_ZOOM, 0, duration );
+            activity = node.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), MAX_ZOOM, 0, duration );
+        }
+
+        // Update the zoomed in property when the animation activity finishes.
+        if ( activity != null ) {
+            activity.setDelegate( new PActivityDelegateAdapter() {
+                @Override public void activityFinished( PActivity activity ) {
+                    zoomedIn.set( isZoomedIn() );
+                    activity.setDelegate( null );
+                }
+            } );
         }
     }
 
     private void zoomOutFromNodes( long duration, PNode... nodesToZoom ) {
         terminateAnyRunningActivities();
+        PActivity activity = null;
+
+        // Animate the zoom for all of the provided nodes.
         for ( PNode node : nodesToZoom ) {
-            node.animateToPositionScaleRotation( STAGE_SIZE.getWidth() / 2, mvt.modelToViewY( DnaMolecule.Y_POS ), MIN_ZOOM, 0, duration );
+            activity = node.animateToPositionScaleRotation( STAGE_SIZE.getWidth() / 2, mvt.modelToViewY( DnaMolecule.Y_POS ), MIN_ZOOM, 0, duration );
+        }
+
+        // Update the zoomed in property when the animation activity finishes.
+        if ( activity != null ) {
+            activity.setDelegate( new PActivityDelegateAdapter() {
+                @Override public void activityFinished( PActivity activity ) {
+                    zoomedIn.set( isZoomedIn() );
+                    activity.setDelegate( null );
+                }
+            } );
         }
     }
 
@@ -483,6 +529,10 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         return new ImmutableVector2D( viewportOffset );
     }
 
+    public ObservableProperty<Boolean> getZoomedInProperty() {
+        return zoomedIn;
+    }
+
     public void reset() {
         for ( BiomoleculeToolBoxNode biomoleculeToolBoxNode : biomoleculeToolBoxNodeList ) {
             biomoleculeToolBoxNode.reset();
@@ -491,6 +541,10 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
             zoomIn( 0 );
         }
     }
+
+    //-------------------------------------------------------------------------
+    // Inner Classes and Interfaces
+    //-------------------------------------------------------------------------
 
     private static class PActivityDelegateAdapter implements PActivity.PActivityDelegate {
 
