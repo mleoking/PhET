@@ -49,17 +49,15 @@ public class Thermometer extends UserMovableModelElement {
                 else {
                     // The user has dropped this thermometer.  See if it was
                     // dropped over something that it should follow.
-                    if ( model.getBeaker().getThermalContactArea().getBounds().contains( position.get().toPoint2D() ) ) {
+                    for ( Block block : model.getBlockList() ) {
+                        if ( block.getProjectedShape().contains( position.get().toPoint2D() ) ) {
+                            // Stick to this block.
+                            elementFollower.follow( block.position );
+                        }
+                    }
+                    if ( !elementFollower.isFollowing() && model.getBeaker().getThermalContactArea().getBounds().contains( position.get().toPoint2D() ) ) {
                         // Stick to the beaker.
                         elementFollower.follow( model.getBeaker().position );
-                    }
-                    else {
-                        for ( Block block : model.getBlockList() ) {
-                            if ( block.getThermalContactArea().getBounds().contains( position.get().toPoint2D() ) ) {
-                                // Follow this block.
-                                elementFollower.follow( block.position );
-                            }
-                        }
                     }
                 }
             }
@@ -110,6 +108,10 @@ public class Thermometer extends UserMovableModelElement {
                 locationBeingFollowed.removeObserver( followerFunction );
                 locationBeingFollowed = null;
             }
+        }
+
+        public boolean isFollowing() {
+            return locationBeingFollowed != null;
         }
     }
 }
