@@ -19,15 +19,17 @@ import flash.events.MouseEvent;
 
 import mx.containers.Canvas;
 
-//2 miniTabs used for control of ButtonArrayPanel, each tab is the top of a rectangular folder which surrounds the button array
-//registration point is top left corner of 1st tab.
+/**
+ * 2 miniTabs used for control of ButtonArrayPanel, each tab is the top of a rectangular folder which surrounds the button array.
+ * Registration point is top left corner of 1st tab.
+ */
 public class MiniTab extends Sprite{
     private var myMiniTabBar: MiniTabBar;
-    private var polarizationType:String;  //"H" for horiz polarization or "V" for vert polarization
-    private var tabNumber:int;  //1 for 1st tab on left, 2 for second tab, etc
-    private var tabWidth:Number;   //width of tab in pixels
-    private var tabHeight:Number;   //height of tab
-    private var xStartPosition:Number; //pixel coordinate of left edge of tab
+    private var polarizationType:String;    //"H" for horiz polarization or "V" for vert polarization
+    private var tabNumber:int;              //1 for 1st tab on left, 2 for second tab, etc
+    private var tabWidth:Number;            //width of tab in pixels
+    private var tabHeight:Number;           //height of tab
+    private var xStartPosition:Number;      //stage coordinate of left edge of tab in pixels
     private var tabColor: uint;
     private var _selected:Boolean;
     private var tabLabel:NiceLabel;
