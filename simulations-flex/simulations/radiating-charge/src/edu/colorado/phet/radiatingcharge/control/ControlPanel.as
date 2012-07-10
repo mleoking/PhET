@@ -1,6 +1,6 @@
 /**
  * Created with IntelliJ IDEA.
- * User: Duso
+ * User: Dubson
  * Date: 6/11/12
  * Time: 6:56 PM
  * To change this template use File | Settings | File Templates.
@@ -85,17 +85,14 @@ public class ControlPanel extends Canvas {
     private var reset_str:String;
     private var c_str:String;
     private var duration_str:String;
-    //private var s_str:String;
-    //private var moreSpeedLessRez_str:String;
-    //Drop-down menu choices
+    //radio button choices
     private var manualNoFricton_str:String;
     private var manualWithFricton_str:String;
     private var linear_str:String;
     private var sinusoid_str:String;
     private var circular_str:String;
-    //private var sawTooth_str:String;
     private var bump_str:String;
-    private var random_str:String;
+    private var random_str:String;  //not used
     //slider labels
     private var amplitude_str:String;
     private var frequency_str:String;
@@ -162,6 +159,7 @@ public class ControlPanel extends Canvas {
         initializeRadioButton( bump_rb, bump_str, 5, false );
 
 
+
         presetMotion_rgb.addEventListener( Event.CHANGE, radioGroupListener );
 
         var sliderWidth: Number = 100;
@@ -191,11 +189,7 @@ public class ControlPanel extends Canvas {
         speedSlider.setTextColor( 0xffffff );
         speedSlider.drawKnob( 0x00ff00, 0x009900 );
         durationSlider.setLabelText( duration_str );
-        //durationSlider.setUnitsText( s_str );
         durationSlider.removeReadout();
-//        moreSpeedCheckBox = new CheckBox();
-//        moreSpeedCheckBox.label = moreSpeedLessRez_str;
-//        moreSpeedCheckBox.addEventListener( Event.CHANGE, radioButtonListener );
 
         var showVelocityVBox: VBox = new VBox();
         showVelocityVBox.setStyle ( "verticalGap", 10 );
@@ -251,7 +245,6 @@ public class ControlPanel extends Canvas {
         this.addChild( new SpriteUIComponent( resetButton ) );
         resetButton.x = 0.1 * myMainView.stageW;
         resetButton.y = 0.9 * myMainView.stageH;
-//        this.background.addChild( moreSpeedCheckBox );
         //this.checkRadioButtonBounds();
     }//end init()
 
@@ -279,7 +272,6 @@ public class ControlPanel extends Canvas {
         c_str = FlexSimStrings.get( "speedOfLight", "c");
         duration_str = FlexSimStrings.get( "duration", "duration" );
         showVelocity_str = FlexSimStrings.get ("showVelocity", "Show velocity" );
-        //moreSpeedLessRez_str = FlexSimStrings.get("moreSpeedLessRez", "less rez")
     }
 
     private function initializeRadioButton( rb:RadioButton, lbl:String,  value: int, selected: Boolean ):void{
@@ -293,7 +285,6 @@ public class ControlPanel extends Canvas {
         rb.setStyle( "textSelectedColor", 0xffff00 );
         rb.setStyle( "iconColor", 0xffffff );
         rb.setStyle( "fontSize", 16 );
-
         //rb.setStyle( "disabledIconColor", 0x000000 );   //doesn't work
     }
 
@@ -327,43 +318,6 @@ public class ControlPanel extends Canvas {
     private function bumpCharge():void{
         this.myFieldModel.bumpCharge( durationSlider.getVal() );
     }
-    //OBSOLETE function
-//    private function comboBoxListener( evt: DropdownEvent ):void{
-//        this.myFieldModel.paused = false;
-//        this.pauseButton.setLabel( pause_str );
-//        var choice:String = evt.currentTarget.selectedItem;
-//        if( choice == manualNoFricton_str ){
-//            this.myFieldModel.setTypeOfMotion( 0 );
-//        }else if( choice == manualWithFricton_str ){
-//            this.myFieldModel.setTypeOfMotion( 1 );
-//        }else if( choice == linear_str ){
-//            if( isNaN(this.speedSlider.getVal()) ){
-//                this.myFieldModel.setBeta( 0.5 );
-//                this.speedSlider.setSliderWithoutAction( 0.5 );
-//            }
-//            this.myFieldModel.setTypeOfMotion( 2 );
-//        }else if( choice == sinusoid_str ){
-//            this.amplitudeSlider.minVal = this.minAmplitudeOscillatory;
-//            this.amplitudeSlider.maxVal = this.maxAmplitudeOscillatory;
-//            this.myFieldModel.setTypeOfMotion( 3 );
-//        }else if( choice == circular_str ){
-//            this.amplitudeSlider.minVal = this.minAmplitudeOscillatory;
-//            this.amplitudeSlider.maxVal = this.maxAmplitudeOscillatory;
-//            this.myFieldModel.setTypeOfMotion( 4 );
-//        }else if( choice == bump_str ){
-////            if( isNaN(this.durationSlider.getVal()) ){
-////                this.myFieldModel.bumpDuration = 0.5;
-////                this.durationSlider.setSliderWithoutAction( 0.5 );
-////            }
-//            this.amplitudeSlider.minVal = this.minAmplitudeBump;
-//            this.amplitudeSlider.maxVal = this.maxAmplitudeBump;
-//            this.myFieldModel.setTypeOfMotion( 5 );
-//        }else if( choice == random_str ){ this.myFieldModel.setTypeOfMotion( 6 );
-//        }else {
-//            trace( "ERROR: ControlPanel.comboBoxListener() received invalid choice.") ;
-//        }
-//        this.setVisibilityOfControls();
-//    }//end comboBoxListener
 
     private function radioGroupListener( evt: Event ):void{
         this.myFieldModel.paused = false;
@@ -372,23 +326,18 @@ public class ControlPanel extends Canvas {
         //trace("ControlPanel.radioGroupListener  selectedValue = " + presetMotion_rgb.selectedValue );
         //this.myFieldModel.setTypeOfMotion( int( choice ) );
         if( choice == 0 ){
-            //this.myFieldModel.setTypeOfMotion( 0 );
         }else if( choice == 1 ){
-            //this.myFieldModel.setTypeOfMotion( 1 );
         }else if( choice == 2 ){
             if( isNaN(this.speedSlider.getVal()) ){
                 //this.myFieldModel.setBeta( 0.5 );
                 this.speedSlider.setSliderWithoutAction( 0.5 );
             }
-            //this.myFieldModel.setTypeOfMotion( 2 );
         }else if( choice == 3 ){
             this.amplitudeSlider.minVal = this.minAmplitudeOscillatory;
             this.amplitudeSlider.maxVal = this.maxAmplitudeOscillatory;
-            //this.myFieldModel.setTypeOfMotion( 3 );
         }else if( choice == 4 ){
             this.amplitudeSlider.minVal = this.minAmplitudeOscillatory;
             this.amplitudeSlider.maxVal = this.maxAmplitudeOscillatory;
-            //this.myFieldModel.setTypeOfMotion( 4 );
         }else if( choice == 5 ){
 //            if( isNaN(this.durationSlider.getVal()) ){
 //                this.myFieldModel.bumpDuration = 0.5;
@@ -396,24 +345,33 @@ public class ControlPanel extends Canvas {
 //            }
             this.amplitudeSlider.minVal = this.minAmplitudeBump;
             this.amplitudeSlider.maxVal = this.maxAmplitudeBump;
-            //this.myFieldModel.setTypeOfMotion( 5 );
         }else if( choice == 6 ){ this.myFieldModel.setTypeOfMotion( 6 );
         }else {
             trace( "ERROR: ControlPanel.comboBoxListener() received invalid choice.") ;
         }
         this.myFieldModel.setTypeOfMotion( int( choice ) );
         this.setVisibilityOfControls();
-    }//end comboBoxListener
+//        switch( choice ){
+//            case 2:
+//                if( isNaN(this.speedSlider.getVal()) ){
+//                    this.speedSlider.setSliderWithoutAction( 0.5 );
+//                }
+//                break;
+//            case 3:
+//                this.amplitudeSlider.minVal = this.minAmplitudeOscillatory;
+//                this.amplitudeSlider.maxVal = this.maxAmplitudeOscillatory;
+//                break;
+//            case 4:
+//                this.amplitudeSlider.minVal = this.minAmplitudeOscillatory;
+//                this.amplitudeSlider.maxVal = this.maxAmplitudeOscillatory;
+//                break;
+//            case 5:
+//                this.amplitudeSlider.minVal = this.minAmplitudeBump;
+//                this.amplitudeSlider.maxVal = this.maxAmplitudeBump;
+//                break;
+//        }//end switch( choice )
+    }//end radioGroupListener
 
-//    private function radioButtonListener( evt: Event ) :void{
-//        //trace( "ControlPanel.radioButtonListener  state = "+evt.currentTarget.selected );
-//        if( evt.currentTarget.selected ) {
-//            this.myMainView.topCanvas.setResolution( "LOW" );
-//        }else{
-//            this.myMainView.topCanvas.setResolution( "HIGH" );
-//        }
-//
-//    }
 
     private function showVelocityListener( evt: Event ):void{
         var selected:Boolean = evt.target.selected;
