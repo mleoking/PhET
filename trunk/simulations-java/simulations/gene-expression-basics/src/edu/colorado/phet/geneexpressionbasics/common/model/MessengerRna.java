@@ -30,8 +30,8 @@ public class MessengerRna extends WindingBiomolecule {
     public static final double LEADER_LENGTH = INTER_POINT_DISTANCE * 2;
 
     // Distance within which this will connect to a ribosome.
-    private static final double RIBOSOME_CONNECTION_DISTANCE = 200; // picometers
-    private static final double MRNA_DESTROYER_CONNECT_DISTANCE = 200; // picometers
+    private static final double RIBOSOME_CONNECTION_DISTANCE = 400; // picometers
+    private static final double MRNA_DESTROYER_CONNECT_DISTANCE = 400; // picometers
 
     //-------------------------------------------------------------------------
     // Instance Data
