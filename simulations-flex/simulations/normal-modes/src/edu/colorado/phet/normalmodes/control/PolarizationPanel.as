@@ -6,8 +6,8 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.normalmodes.control {
-import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flashcommon.controls.NiceLabel;
+import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
 import edu.colorado.phet.normalmodes.util.TwoHeadedArrow;
 import edu.colorado.phet.normalmodes.view.MainView;
@@ -19,11 +19,10 @@ import mx.containers.HBox;
 import mx.containers.VBox;
 import mx.controls.RadioButton;
 import mx.controls.RadioButtonGroup;
-import mx.core.UIComponent;
 
 public class PolarizationPanel extends Canvas {
-    private var myMainView:MainView;
-    private var myModel:Object;     //either Model1 or Model2
+    private var myMainView: MainView;
+    private var myModel: Object;     //either Model1 or Model2
 
     //Polarization radio buttons
     private var innerBckgrnd: VBox;
@@ -44,8 +43,8 @@ public class PolarizationPanel extends Canvas {
         this.init();
     }//end constructor
 
-    private function init():void{
-        this.polarization_str = FlexSimStrings.get( "polarization:", "Polarization<br>Control:");
+    private function init(): void {
+        this.polarization_str = FlexSimStrings.get( "polarization:", "Polarization<br>Control:" );
 
         this.innerBckgrnd = new VBox();
         with ( this.innerBckgrnd ) {
@@ -60,7 +59,7 @@ public class PolarizationPanel extends Canvas {
             setStyle( "paddingRight", 3 );
             setStyle( "paddingLeft", 8 );
             setStyle( "verticalGap", 0 );
-            setStyle( "horizontalAlign" , "center" );
+            setStyle( "horizontalAlign", "center" );
         }
 
         //Set up polarization radio button box
@@ -73,7 +72,7 @@ public class PolarizationPanel extends Canvas {
         this.horizArrow = new TwoHeadedArrow();
         this.horizArrow.height = 10;
         this.horizArrow.width = 20;
-        this.horizArrow.y = -0.5*this.horizArrow.height;   //I don't understand why this must be negative.
+        this.horizArrow.y = -0.5 * this.horizArrow.height;   //I don't understand why this must be negative.
         this.horizArrow.x = 5;                              //and why this is positive
         this.vertArrow = new TwoHeadedArrow();
         this.vertArrow.height = 10;
@@ -90,15 +89,15 @@ public class PolarizationPanel extends Canvas {
 
         //Polarization type radio buttons
         this.addChild( this.innerBckgrnd );
-        this.innerBckgrnd.addChild( new SpriteUIComponent( this.polarizationLabel ));
+        this.innerBckgrnd.addChild( new SpriteUIComponent( this.polarizationLabel ) );
         this.innerBckgrnd.addChild( this.modeTypeHBox );
         this.modeTypeHBox.addChild( this.horizPolarizationButton );
-        this.modeTypeHBox.addChild( new SpriteUIComponent( this.horizArrow, true) );
+        this.modeTypeHBox.addChild( new SpriteUIComponent( this.horizArrow, true ) );
         this.modeTypeHBox.addChild( this.vertPolarizationButton );
-        this.modeTypeHBox.addChild( new SpriteUIComponent( this.vertArrow, true) );
+        this.modeTypeHBox.addChild( new SpriteUIComponent( this.vertArrow, true ) );
     }//end init()
 
-    public function setModel( currentModel: Object ):void{
+    public function setModel( currentModel: Object ): void {
         this.myModel = currentModel;
     }
 
@@ -109,7 +108,7 @@ public class PolarizationPanel extends Canvas {
             //this.myMainView.myButtonArrayPanel.showVerticalPolarization( false );
         }
         else {
-            this.myModel.xModes =  false;
+            this.myModel.xModes = false;
             //this.myMainView.myButtonArrayPanel.showVerticalPolarization( true );
         }
     }//end setPolarization();

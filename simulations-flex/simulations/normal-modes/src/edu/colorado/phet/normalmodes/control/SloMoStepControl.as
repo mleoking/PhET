@@ -6,11 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.normalmodes.control {
-import edu.colorado.phet.normalmodes.*;
-
 import edu.colorado.phet.flexcommon.FlexSimStrings;
-import edu.colorado.phet.normalmodes.model.Model1;
-import edu.colorado.phet.normalmodes.view.MainView;
 
 import flash.display.Graphics;
 import flash.display.LineScaleMode;
@@ -21,8 +17,6 @@ import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
 
-import mx.containers.Canvas;
-
 import mx.controls.HSlider;
 import mx.core.UIComponent;
 
@@ -32,16 +26,16 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
     private var myControlPanel: ControlPanel;
     private var myModel: Object; //Model1 or Model1, can change with setModel();
     //private var backGroundRectangle:Sprite;
-    private var timeRateSlider:HSlider;
+    private var timeRateSlider: HSlider;
     //private var playPauseButton: Sprite;
     private var stepButton: Sprite;
     private var playIcon: Sprite;                //overlayed on playPauseButton
     private var pauseIcon: Sprite;              //overlayed on playPauseButton
     //private var stepIcon:Sprite;                //overlayed on stepButton
-    private var currentTime_txt:TextField;
-    private var simSpeed_txt:TextField;
-    private var slow_txt:TextField;
-    private var normal_txt:TextField;
+    private var currentTime_txt: TextField;
+    private var simSpeed_txt: TextField;
+    private var slow_txt: TextField;
+    private var normal_txt: TextField;
     //private var playPause_txt: TextField;
     private var singleStep_txt: TextField;
     //private var sloMo_txt: TextField;
@@ -54,9 +48,9 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
     //public var playSlashPause_str: String;
     //public var timeEquals_str:String;
     //public var timeInSec_str:String;
-    public var simSpeed_str:String;
-    public var slow_str:String;
-    public var normal_str:String;
+    public var simSpeed_str: String;
+    public var slow_str: String;
+    public var normal_str: String;
     public var singleStep_str: String;
 
 
@@ -84,15 +78,15 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
 
         this.drawGraphics();
         this.initializeTextFields();
-        this.formatSlider(this.timeRateSlider);
+        this.formatSlider( this.timeRateSlider );
         this.positionFields();
         this.initializeControls();
 
         //this.addChild( this.backGroundRectangle );
-        this.addChild(this.simSpeed_txt);
-        this.addChild(this.slow_txt);
-        this.addChild(this.normal_txt);
-        this.addChild(this.timeRateSlider);
+        this.addChild( this.simSpeed_txt );
+        this.addChild( this.slow_txt );
+        this.addChild( this.normal_txt );
+        this.addChild( this.timeRateSlider );
         this.addChild( this.stepButton );
         this.addChild( this.singleStep_txt );
         //this.addChild( this.paused_txt );
@@ -104,10 +98,10 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
 
     public function initializeStrings(): void {
         //this.timeEquals_str = "time = ";  //this string set by setTimeLabel() but need initial string to make height for positionLabels()
-        this.simSpeed_str = FlexSimStrings.get("simSpeed", "sim speed");
-        this.slow_str = FlexSimStrings.get("slow", "slow");
-        this.normal_str = FlexSimStrings.get("normal", "normal");
-        this.singleStep_str = FlexSimStrings.get("step", "step");
+        this.simSpeed_str = FlexSimStrings.get( "simSpeed", "sim speed" );
+        this.slow_str = FlexSimStrings.get( "slow", "slow" );
+        this.normal_str = FlexSimStrings.get( "normal", "normal" );
+        this.singleStep_str = FlexSimStrings.get( "step", "step" );
     }
 
     private function drawGraphics(): void {
@@ -171,14 +165,14 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
         this.playIcon.visible = false;
         this.pauseIcon.visible = true;
         var thisObject: SloMoStepControl = this;
-        this.timeRateSlider.addEventListener(Event.CHANGE, onChangeTimeRate );
+        this.timeRateSlider.addEventListener( Event.CHANGE, onChangeTimeRate );
         this.stepButton.addEventListener( MouseEvent.MOUSE_DOWN, singleStep );
         this.stepButton.addEventListener( MouseEvent.MOUSE_OVER, buttonBehave );
         this.stepButton.addEventListener( MouseEvent.MOUSE_OUT, buttonBehave );
 
-        function onChangeTimeRate(evt:Event):void{
-             var rate:Number = evt.target.value;
-             thisObject.myModel.setTRate(rate);
+        function onChangeTimeRate( evt: Event ): void {
+            var rate: Number = evt.target.value;
+            thisObject.myModel.setTRate( rate );
 //            if(rate != 1){
 //               thisObject.sloMo_txt.visible = true;
 //            }else{
@@ -204,7 +198,8 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
 
             if ( evt.type == "mouseOver" ) {
                 thisObject.tFormat1.bold = true;
-            } else if ( evt.type == "mouseOut" ) {
+            }
+            else if ( evt.type == "mouseOut" ) {
                 thisObject.tFormat1.bold = false;
             }
             thisObject.singleStep_txt.setTextFormat( thisObject.tFormat1 )
@@ -221,7 +216,7 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
         }
     }//end initializeControls
 
-    public function setModel( currentModel: Object ):void{
+    public function setModel( currentModel: Object ): void {
         this.myModel.unregisterView( this );
         this.myModel = currentModel;
         this.myModel.registerView( this );
@@ -237,15 +232,15 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
         }
     }
 
-    public function setSliderExternally(rate:Number):void{
+    public function setSliderExternally( rate: Number ): void {
         this.timeRateSlider.value = rate;
-        this.myModel.setTRate(rate);
+        this.myModel.setTRate( rate );
     }
 
     private function initializeTextFields(): void {
-        this.setTextField( this.simSpeed_txt);
-        this.setTextField(this.slow_txt);
-        this.setTextField(this.normal_txt);
+        this.setTextField( this.simSpeed_txt );
+        this.setTextField( this.slow_txt );
+        this.setTextField( this.normal_txt );
         //this.setTextField( this.playPause_txt );
         this.setTextField( this.singleStep_txt );
         this.setTextField( this.paused_txt );
@@ -310,40 +305,40 @@ public class SloMoStepControl extends UIComponent {          //cannot extend Spr
         //registration point at upper left, required for flex layout
         //careful layout and setting of explicitWidth and explicitHeight required for UIComponent to function
         //properly in autolayout
-        this.timeRateSlider.x = 0;  
-        this.simSpeed_txt.x = timeRateSlider.x + 0.5*timeRateSlider.width - 0.5*simSpeed_txt.width;
-        this.slow_txt.x =  this.timeRateSlider.x;
+        this.timeRateSlider.x = 0;
+        this.simSpeed_txt.x = timeRateSlider.x + 0.5 * timeRateSlider.width - 0.5 * simSpeed_txt.width;
+        this.slow_txt.x = this.timeRateSlider.x;
         this.normal_txt.x = timeRateSlider.x + timeRateSlider.width - normal_txt.width;
 
         this.simSpeed_txt.y = 0;
-        this.timeRateSlider.y = simSpeed_txt.height - 0.5*this.timeRateSlider.height;
-        this.slow_txt.y = this.timeRateSlider.y + 0.6*this.timeRateSlider.height;
-        this.normal_txt.y = this.timeRateSlider.y + 0.6*this.timeRateSlider.height;
+        this.timeRateSlider.y = simSpeed_txt.height - 0.5 * this.timeRateSlider.height;
+        this.slow_txt.y = this.timeRateSlider.y + 0.6 * this.timeRateSlider.height;
+        this.normal_txt.y = this.timeRateSlider.y + 0.6 * this.timeRateSlider.height;
         //registration point of step button is at center of button
         this.stepButton.x = this.timeRateSlider.width + 0.8 * this.stepButton.width;
-        this.stepButton.y = 0.5*this.stepButton.height;
+        this.stepButton.y = 0.5 * this.stepButton.height;
         this.singleStep_txt.x = this.stepButton.x - 0.5 * this.singleStep_txt.width;
         this.singleStep_txt.y = this.stepButton.y + 0.5 * this.stepButton.height;
-        
-        this.explicitHeight = this.singleStep_txt.y + 0.8*this.singleStep_txt.height;
+
+        this.explicitHeight = this.singleStep_txt.y + 0.8 * this.singleStep_txt.height;
         this.explicitWidth = this.singleStep_txt.x + this.singleStep_txt.width;
         //this.currentTime_txt.x = this.timeRateSlider.x;
         //this.currentTime_txt.y = this.timeRateSlider.y - 1.5*this.currentTime_txt.height;
- 
+
         //this.timeRateSlider.y - 0.5*this.simSpeed_txt.height;
         //this.paused_txt.x = -0.5 * this.paused_txt.width;
         //this.paused_txt.y = -1.3 * this.paused_txt.height;
     } //end position fields
 
     //unused in this sim
-   /* public function setTimeLabel():void{
-        var timeInSec:Number = this.myModel.t;
-        var timeInSec_str:String = timeInSec.toFixed( 2 );
-        //this.timeEquals_str =  FlexSimStrings.get("timesEquals", "time = {0} s",[timeInSec_str]);
-        this.currentTime_txt.text =  FlexSimStrings.get("timesEquals", "time = {0} s",[timeInSec_str]);
-    }
-    */
-    public function update():void{
+    /* public function setTimeLabel():void{
+     var timeInSec:Number = this.myModel.t;
+     var timeInSec_str:String = timeInSec.toFixed( 2 );
+     //this.timeEquals_str =  FlexSimStrings.get("timesEquals", "time = {0} s",[timeInSec_str]);
+     this.currentTime_txt.text =  FlexSimStrings.get("timesEquals", "time = {0} s",[timeInSec_str]);
+     }
+     */
+    public function update(): void {
         //do nothing in this sim
         //this.setTimeLabel();
     }
