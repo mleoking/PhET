@@ -2,6 +2,7 @@
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.ManualGeneExpressionCanvas;
 
@@ -9,6 +10,8 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.ManualGe
  * @author John Blanco
  */
 public class ManualGeneExpressionModule extends Module {
+
+    private static final long ZOOM_ANIMATION_TIME = 2000; // In milliseconds.
 
     private final ManualGeneExpressionModel model;
     private final ManualGeneExpressionCanvas canvas;
@@ -24,6 +27,19 @@ public class ManualGeneExpressionModule extends Module {
         canvas = new ManualGeneExpressionCanvas( model );
         setSimulationPanel( canvas );
         reset();
+    }
+
+    public void setCanvasZoomedIn( boolean isZoomedIn ) {
+        if ( isZoomedIn ) {
+            canvas.zoomIn( ZOOM_ANIMATION_TIME );
+        }
+        else {
+            canvas.zoomOut( ZOOM_ANIMATION_TIME );
+        }
+    }
+
+    public ObservableProperty<Boolean> getCanvasZoomedInProperty() {
+        return canvas.getZoomedInProperty();
     }
 
     @Override public void reset() {
