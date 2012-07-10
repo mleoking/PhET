@@ -162,7 +162,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
         }};
 
         // Create button for showing a picture of real fluorescent cells.
-        PNode showRealCells = new HTMLImageButtonNode( SHOW_REAL_CELLS, new PhetFont( 18 ), Color.YELLOW ) {{
+        PNode showRealCellsButton = new HTMLImageButtonNode( SHOW_REAL_CELLS, new PhetFont( 18 ), Color.YELLOW ) {{
             centerFullBoundsOnPoint( concentrationControlPanel.getFullBoundsReference().getCenterX(), resetAllButton.getFullBoundsReference().getCenterY() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -175,7 +175,7 @@ public class MultipleCellsCanvas extends PhetPCanvas implements Resettable {
 
         // Create a panel containing the clock control, reset button, and the
         // button for showing real cells.
-        PNode globalControlsPanel = new VBox( 20, floatingClockControl, resetAllButton, showRealCells );
+        PNode globalControlsPanel = new VBox( 20, floatingClockControl, resetAllButton, showRealCellsButton );
         addWorldChild( globalControlsPanel );
 
         if ( SHOW_CELL_BOUNDING_BOX ) {
