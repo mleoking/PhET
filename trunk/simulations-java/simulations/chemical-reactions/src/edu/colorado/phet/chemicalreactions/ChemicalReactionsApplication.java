@@ -23,6 +23,7 @@ import static edu.colorado.phet.chemicalreactions.ChemicalReactionsSimSharing.Us
 public class ChemicalReactionsApplication extends PiccoloPhetApplication {
 
     public static final Property<Boolean> SHOW_DEBUG_OVERLAY = new Property<Boolean>( false );
+    public static final Property<Boolean> SHOW_DEBUG_REACTION_SHAPES = new Property<Boolean>( false );
     public static final Property<Boolean> ATOM_LABELS_ROTATE = new Property<Boolean>( false );
 
     /**
@@ -73,6 +74,7 @@ public class ChemicalReactionsApplication extends PiccoloPhetApplication {
         // add items to the Developer menu here...
 
         developerMenu.add( new PropertyCheckBoxMenuItem( UserComponents.devToggleDebugOverlay, "Display debugging overlay", SHOW_DEBUG_OVERLAY ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( UserComponents.devToggleDebugReactionShapes, "Display debugging reaction shapes", SHOW_DEBUG_REACTION_SHAPES ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( UserComponents.atomLabelsRotate, "Atom Labels Rotate", ATOM_LABELS_ROTATE ) );
 
     }

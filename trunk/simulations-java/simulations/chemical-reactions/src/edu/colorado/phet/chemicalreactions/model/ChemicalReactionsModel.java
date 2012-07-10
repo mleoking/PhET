@@ -21,8 +21,8 @@ public class ChemicalReactionsModel {
             addKit( new Kit( layoutBounds,
                              // reactants
                              Arrays.asList(
-                                     new MoleculeBucket( O2, 5 ),
-                                     new MoleculeBucket( H2, 10 )
+                                     new MoleculeBucket( O2, 2 ),
+                                     new MoleculeBucket( H2, 4 )
                              ),
 
                              // products
@@ -35,15 +35,15 @@ public class ChemicalReactionsModel {
             addKit( new Kit( layoutBounds,
                              // reactants
                              new ArrayList<MoleculeBucket>() {{
-                                 add( new MoleculeBucket( N2, 5 ) );
-                                 add( new MoleculeBucket( H2, 5 ) );
+                                 add( new MoleculeBucket( N2, 3 ) );
+                                 add( new MoleculeBucket( H2, 9 ) );
                              }},
 
                              // products
                              new ArrayList<MoleculeBucket>() {{
                                  add( new MoleculeBucket( NH3, 0 ) );
                              }},
-                             new ArrayList<ReactionShape>()
+                             Arrays.asList( ReactionShape.H2_N2_TO_NH3 )
             ) );
             addKit( new Kit( layoutBounds,
                              // reactants
@@ -56,36 +56,36 @@ public class ChemicalReactionsModel {
                              new ArrayList<MoleculeBucket>() {{
                                  add( new MoleculeBucket( HCl, 0 ) );
                              }},
-                             new ArrayList<ReactionShape>()
+                             Arrays.asList( ReactionShape.H2_Cl2_TO_HCl )
             ) );
-            addKit( new Kit( layoutBounds,
-                             // reactants
-                             new ArrayList<MoleculeBucket>() {{
-                                 add( new MoleculeBucket( ClNO2, 5 ) );
-                                 add( new MoleculeBucket( NO, 5 ) );
-                             }},
-
-                             // products
-                             new ArrayList<MoleculeBucket>() {{
-                                 add( new MoleculeBucket( NO2, 0 ) );
-                                 add( new MoleculeBucket( ClNO, 0 ) );
-                             }},
-                             new ArrayList<ReactionShape>()
-            ) );
-            addKit( new Kit( layoutBounds,
-                             // reactants
-                             new ArrayList<MoleculeBucket>() {{
-                                 add( new MoleculeBucket( CH4, 5 ) );
-                                 add( new MoleculeBucket( O2, 5 ) );
-                             }},
-
-                             // products
-                             new ArrayList<MoleculeBucket>() {{
-                                 add( new MoleculeBucket( CO2, 0 ) );
-                                 add( new MoleculeBucket( H2O, 0 ) );
-                             }},
-                             new ArrayList<ReactionShape>()
-            ) );
+//            addKit( new Kit( layoutBounds,
+//                             // reactants
+//                             new ArrayList<MoleculeBucket>() {{
+//                                 add( new MoleculeBucket( ClNO2, 5 ) );
+//                                 add( new MoleculeBucket( NO, 5 ) );
+//                             }},
+//
+//                             // products
+//                             new ArrayList<MoleculeBucket>() {{
+//                                 add( new MoleculeBucket( NO2, 0 ) );
+//                                 add( new MoleculeBucket( ClNO, 0 ) );
+//                             }},
+//                             new ArrayList<ReactionShape>()
+//            ) );
+//            addKit( new Kit( layoutBounds,
+//                             // reactants
+//                             new ArrayList<MoleculeBucket>() {{
+//                                 add( new MoleculeBucket( CH4, 5 ) );
+//                                 add( new MoleculeBucket( O2, 5 ) );
+//                             }},
+//
+//                             // products
+//                             new ArrayList<MoleculeBucket>() {{
+//                                 add( new MoleculeBucket( CO2, 0 ) );
+//                                 add( new MoleculeBucket( H2O, 0 ) );
+//                             }},
+//                             new ArrayList<ReactionShape>()
+//            ) );
         }};
 
         clock.addClockListener( new ClockAdapter() {
