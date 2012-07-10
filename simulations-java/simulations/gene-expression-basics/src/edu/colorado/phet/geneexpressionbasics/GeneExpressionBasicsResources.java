@@ -59,8 +59,6 @@ public class GeneExpressionBasicsResources {
         public static final String YOUR_PROTEIN_COLLECTION = RESOURCES.getLocalizedString( "yourProteinCollection" );
         public static final String ZOOM_IN = RESOURCES.getLocalizedString( "zoomIn" );
         public static final String ZOOM_OUT = RESOURCES.getLocalizedString( "zoomOut" );
-        public static final String ZOOMED_IN = RESOURCES.getLocalizedString( "zoomedIn" );
-        public static final String ZOOMED_OUT = RESOURCES.getLocalizedString( "zoomedOut" );
     }
 
     //Images

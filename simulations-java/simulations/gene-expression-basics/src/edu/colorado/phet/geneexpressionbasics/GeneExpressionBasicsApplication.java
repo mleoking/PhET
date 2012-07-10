@@ -4,8 +4,7 @@ package edu.colorado.phet.geneexpressionbasics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JMenuItem;
 
 import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
@@ -52,37 +51,37 @@ public class GeneExpressionBasicsApplication extends PiccoloPhetApplication {
      */
     protected void initMenuBar() {
 
-        // Create menu buttons that can be used to control the zoom in/out
-        // state of the manual gene expression canvas.
-        final JRadioButtonMenuItem zoomedInButton = new JRadioButtonMenuItem( GeneExpressionBasicsResources.Strings.ZOOMED_IN ) {{
+        // Create the teacher menu that will contain the zoom in/out buttons.
+        final TeacherMenu teacherMenu = new TeacherMenu();
+
+        // Create menu items that can be used to control the zoom in/out state
+        // of the manual gene expression canvas.
+        final JMenuItem zoomIn = new JMenuItem( GeneExpressionBasicsResources.Strings.ZOOM_IN ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    manualGeneExpressionModule.setCanvasZoomedIn( isSelected() );
+                    manualGeneExpressionModule.setCanvasZoomedIn( true );
                 }
             } );
         }};
-        final JRadioButtonMenuItem zoomedOutButton = new JRadioButtonMenuItem( GeneExpressionBasicsResources.Strings.ZOOMED_OUT ) {{
+        final JMenuItem zoomOut = new JMenuItem( GeneExpressionBasicsResources.Strings.ZOOM_OUT ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    manualGeneExpressionModule.setCanvasZoomedIn( !isSelected() );
+                    manualGeneExpressionModule.setCanvasZoomedIn( false );
                 }
             } );
-        }};
-        new ButtonGroup() {{
-            add( zoomedInButton );
-            add( zoomedOutButton );
         }};
         manualGeneExpressionModule.getCanvasZoomedInProperty().addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean zoomedIn ) {
-                zoomedInButton.setSelected( zoomedIn );
+                if ( zoomedIn ) {
+                    teacherMenu.remove( zoomIn );
+                    teacherMenu.add( zoomOut );
+                }
+                else {
+                    teacherMenu.add( zoomIn );
+                    teacherMenu.remove( zoomOut );
+                }
             }
         } );
-
-        // Add the teacher menu that contains the zoom in/out buttons.
-        final TeacherMenu teacherMenu = new TeacherMenu() {{
-            add( zoomedInButton );
-            add( zoomedOutButton );
-        }};
 
         // Only display this teacher menu for the manual gene expression tab,
         // since it is irrelevant to the other tabs.
