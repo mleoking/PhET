@@ -31,8 +31,9 @@ public class Thermometer extends UserMovableModelElement {
         // Update the sensed temperature at each clock tick.
         model.getClock().addClockListener( new ClockAdapter() {
             @Override public void clockTicked( ClockEvent clockEvent ) {
-                sensedTemperature.set( model.getTemperatureAtLocation( position.get() ) );
-                sensedElementColor.set( model.getElementColorAtLocation( position.get() ) );
+                TemperatureAndColor temperatureAndColor = model.getTemperatureAndColorAtLocation( position.get() );
+                sensedTemperature.set( temperatureAndColor.temperature );
+                sensedElementColor.set( temperatureAndColor.color );
             }
         } );
 
