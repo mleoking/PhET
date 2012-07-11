@@ -59,6 +59,7 @@ public class ControlPanel extends Canvas {
 //    public var myComboBox: ComboBox;
 //    private var choiceList_arr:Array;
 
+    private var selectedMotionControlsVBox: VBox;
     private var amplitudeSlider:HorizontalSlider;   //amplitude of both oscillatory and bumb motions
     private var minAmplitudeOscillatory:Number;     //max and min values for amplitude of oscillation
     private var maxAmplitudeOscillatory:Number;
@@ -162,6 +163,20 @@ public class ControlPanel extends Canvas {
 
         presetMotion_rgb.addEventListener( Event.CHANGE, radioGroupListener );
 
+        selectedMotionControlsVBox = new VBox();
+        with(selectedMotionControlsVBox){
+            setStyle( "backgroundColor", 0x000000 );    //0x88ff88
+            setStyle( "borderStyle", "solid" )
+            setStyle( "borderColor", 0x00ff00 );  //0x009900
+            setStyle( "cornerRadius", 5 );
+            setStyle( "borderThickness", 2 );
+            setStyle( "paddingTop", 3 );
+            setStyle( "paddingBottom", 3 );
+            setStyle( "paddingRight", 3 );
+            setStyle( "paddingLeft", 3 );
+            setStyle( "verticalGap", 10 );
+            setStyle( "horizontalAlign", "center" );
+        }
         var sliderWidth: Number = 100;
         minAmplitudeOscillatory = 0;
         maxAmplitudeOscillatory = 10;
@@ -216,21 +231,22 @@ public class ControlPanel extends Canvas {
         this.radioGroupVBox.addChild( circular_rb );
         this.radioGroupVBox.addChild( bump_rb );
 
-        this.amplitudeSlider_UI = new SpriteUIComponent( amplitudeSlider, true );
-        this.background.addChild( amplitudeSlider_UI );
-        this.frequencySlider_UI = new SpriteUIComponent( frequencySlider, true );
-        this.background.addChild( frequencySlider_UI );
-        this.speedSlider_UI = new SpriteUIComponent( speedSlider, true );
-        this.background.addChild( speedSlider_UI );
-        this.durationSlider_UI = new SpriteUIComponent( durationSlider, true );
-        this.background.addChild( durationSlider_UI );
-        this.restartButton_UI = new SpriteUIComponent( restartButton, true );
-        this.background.addChild( restartButton_UI );
-        this.bumpButton_UI = new SpriteUIComponent( bumpButton, true );
-        this.background.addChild( bumpButton_UI );
+        background.addChild( selectedMotionControlsVBox );
+        amplitudeSlider_UI = new SpriteUIComponent( amplitudeSlider, true );
+        selectedMotionControlsVBox.addChild( amplitudeSlider_UI );
+        frequencySlider_UI = new SpriteUIComponent( frequencySlider, true );
+        selectedMotionControlsVBox.addChild( frequencySlider_UI );
+        speedSlider_UI = new SpriteUIComponent( speedSlider, true );
+        selectedMotionControlsVBox.addChild( speedSlider_UI );
+        durationSlider_UI = new SpriteUIComponent( durationSlider, true );
+        selectedMotionControlsVBox.addChild( durationSlider_UI );
+        restartButton_UI = new SpriteUIComponent( restartButton, true );
+        selectedMotionControlsVBox.addChild( restartButton_UI );
+        bumpButton_UI = new SpriteUIComponent( bumpButton, true );
+        selectedMotionControlsVBox.addChild( bumpButton_UI );
 
 
-        this.background.addChild( showVelocityVBox );
+        background.addChild( showVelocityVBox );
         showVelocityVBox.addChild( showVelocityHBox );
         showVelocityHBox.addChild( showVelocity_cb );
         showVelocityHBox.addChild( new SpriteUIComponent( showVelocityLabel, true ) );
@@ -240,7 +256,7 @@ public class ControlPanel extends Canvas {
         myMainView.myVelocityArrowView.velocityArrow.visible = showVelocity_cb.selected;       //start with velocity arrow invisible
 
 
-        this.setVisibilityOfControls();
+        setVisibilityOfControls();
 
         this.addChild( new SpriteUIComponent( resetButton ) );
         resetButton.x = 0.1 * myMainView.stageW;
@@ -394,6 +410,7 @@ public class ControlPanel extends Canvas {
 
     private function setVisibilityOfControls():void{
         //Begin with controls invisible and then make selected controls visible
+        selectedMotionControlsVBox.visible = false;
         amplitudeSlider_UI.visible = false;
         frequencySlider_UI.visible = false;
         durationSlider_UI.visible = false;
@@ -401,6 +418,7 @@ public class ControlPanel extends Canvas {
         restartButton_UI.visible = false;
         bumpButton_UI.visible = false;
         speedOLightArrow_UI.visible = false;
+        selectedMotionControlsVBox.includeInLayout = false;
         amplitudeSlider_UI.includeInLayout = false;
         frequencySlider_UI.includeInLayout = false;
         durationSlider_UI.includeInLayout = false;
@@ -413,22 +431,28 @@ public class ControlPanel extends Canvas {
         if( choice == 0 || choice == 1){      //user-controlled
             //do nothing
         }else if( choice == 2 ){  //linear
+            selectedMotionControlsVBox.visible = true;
             speedSlider_UI.visible = true;
             restartButton_UI.visible = true;
+            selectedMotionControlsVBox.includeInLayout = true;
             speedSlider_UI.includeInLayout = true;
             restartButton_UI.includeInLayout = true;
             speedSlider.setSliderWithoutAction( myFieldModel.getBeta() );
         } else if( choice == 3 || choice == 4 ){   //sinusoidal or circular or sawtooth
+            selectedMotionControlsVBox.visible = true;
             amplitudeSlider_UI.visible = true;
             frequencySlider_UI.visible = true;
+            selectedMotionControlsVBox.includeInLayout = true;
             amplitudeSlider_UI.includeInLayout = true;
             frequencySlider_UI.includeInLayout = true;
             amplitudeSlider.setSliderWithoutAction( myFieldModel.amplitude );
             frequencySlider.setSliderWithoutAction( myFieldModel.frequency );
         } else if( choice == 5 ){ //bump
+            selectedMotionControlsVBox.visible = true;
             amplitudeSlider_UI.visible = true;
             durationSlider_UI.visible = true;
             bumpButton_UI.visible = true;
+            selectedMotionControlsVBox.includeInLayout = true;
             amplitudeSlider_UI.includeInLayout = true;
             durationSlider_UI.includeInLayout = true;
             bumpButton_UI.includeInLayout = true;
