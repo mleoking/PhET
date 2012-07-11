@@ -16,7 +16,7 @@ public class FractionMatcherApplication extends PiccoloPhetApplication {
     public FractionMatcherApplication( PhetApplicationConfig config ) {
         super( config );
 
-        addModule( new MatchingGameModule( config.isDev(), true ) );
+        addModule( new MatchingGameModule( config.isDev() ) );
         addModule( new MixedNumbersMatchingGameModule( config.isDev(), true ) );
     }
 

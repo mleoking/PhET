@@ -21,12 +21,12 @@ import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroApplicati
  */
 public class MixedNumbersMatchingGameModule extends AbstractFractionsModule {
     public MixedNumbersMatchingGameModule( boolean dev, boolean standaloneSim ) {
-        this( dev, new MatchingGameModel( new MixedFractionLevelFactory() ), standaloneSim );
+        this( dev, new MatchingGameModel( new MixedFractionLevelFactory() ) );
     }
 
-    private MixedNumbersMatchingGameModule( boolean dev, MatchingGameModel model, boolean standaloneSim ) {
+    private MixedNumbersMatchingGameModule( boolean dev, MatchingGameModel model ) {
         super( Components.mixedNumbersTab, Strings.MIXED_NUMBERS, model.clock );
-        setSimulationPanel( new MatchingGameCanvas( dev, model, standaloneSim, Strings.FRACTION_MATCHER_MIXED_NUMBERS, LevelSelectionNode.mixedIcons ) );
+        setSimulationPanel( new MatchingGameCanvas( dev, model, Strings.FRACTION_MATCHER_MIXED_NUMBERS, LevelSelectionNode.mixedIcons ) );
     }
 
     @Override protected JComponent createClockControlPanel( final IClock clock ) {
@@ -34,5 +34,5 @@ public class MixedNumbersMatchingGameModule extends AbstractFractionsModule {
     }
 
     //Test main for launching this module in an application by itself for testing
-    public static void main( String[] args ) { runModule( args, new MatchingGameModule( true, false ) ); }
+    public static void main( String[] args ) { runModule( args, new MatchingGameModule( true ) ); }
 }

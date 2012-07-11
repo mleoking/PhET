@@ -51,7 +51,7 @@ import static java.awt.Color.lightGray;
  */
 public class MatchingGameCanvas extends AbstractFractionsCanvas {
 
-    public MatchingGameCanvas( final boolean dev, final MatchingGameModel model, final boolean standaloneSim, String title, final List<PNode> patterns ) {
+    public MatchingGameCanvas( final boolean dev, final MatchingGameModel model, String title, final List<PNode> patterns ) {
 
         //Bar graph node that shows now bars, shown when the user has put something on both scales but hasn't checked the answer
         final PNode emptyBarGraphNode = new EmptyBarGraphNode();
