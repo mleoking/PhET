@@ -86,13 +86,16 @@ public class EnergySystemsCanvas extends PhetPCanvas {
                                                       new BasicStroke( 1 ),
                                                       Color.BLACK );
 
-        // Create the control for showing/hiding object energy. TODO: i18n
+        // Create the control for showing/hiding energy chunks. TODO: i18n
         PropertyCheckBox showEnergyCheckBox = new PropertyCheckBox( EnergyFormsAndChangesSimSharing.UserComponents.showEnergyCheckBox,
                                                                     "Energy Symbols",
                                                                     model.energyChunksVisible ) {{
             setFont( new PhetFont( 20 ) );
         }};
         ControlPanelNode showEnergyControlPanel = new ControlPanelNode( showEnergyCheckBox, new Color( 180, 211, 51 ) );
+
+        // Create the legend for energy chunks.
+        PNode energyChunkLegend = new EnergyChunkLegend();
 
         //------- Node Layering -----------------------------------------------
 
@@ -102,6 +105,7 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         rootNode.addChild( clockControlBackground );
         rootNode.addChild( clockControl );
         rootNode.addChild( showEnergyControlPanel );
+        rootNode.addChild( energyChunkLegend );
 
         //------- Node Layout -------------------------------------------------
 
@@ -111,6 +115,8 @@ public class EnergySystemsCanvas extends PhetPCanvas {
                                 STAGE_SIZE.getHeight() - clockControl.getFullBoundsReference().height );
         showEnergyControlPanel.setOffset( STAGE_SIZE.getWidth() - showEnergyControlPanel.getFullBoundsReference().getWidth() - CONTROL_INSET,
                                           clockControlBackground.getFullBoundsReference().getMinY() - showEnergyControlPanel.getFullBoundsReference().getHeight() - CONTROL_INSET );
+        energyChunkLegend.setOffset( STAGE_SIZE.getWidth() - energyChunkLegend.getFullBoundsReference().getWidth() - CONTROL_INSET, CONTROL_INSET );
+
 
     }
 
