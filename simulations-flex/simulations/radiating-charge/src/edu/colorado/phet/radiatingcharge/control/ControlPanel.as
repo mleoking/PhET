@@ -10,27 +10,20 @@ import edu.colorado.phet.flashcommon.controls.HorizontalSlider;
 import edu.colorado.phet.flashcommon.controls.NiceButton2;
 import edu.colorado.phet.flashcommon.controls.NiceLabel;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
-import edu.colorado.phet.radiatingcharge.model.FieldModel;
 import edu.colorado.phet.flexcommon.util.SpriteUIComponent;
+import edu.colorado.phet.radiatingcharge.model.FieldModel;
 import edu.colorado.phet.radiatingcharge.view.MainView;
 
 import flash.display.Sprite;
-
 import flash.events.Event;
-import flash.events.MouseEvent;
 
 import mx.containers.Canvas;
 import mx.containers.HBox;
 import mx.containers.VBox;
 import mx.controls.CheckBox;
-import mx.controls.ComboBox;
 import mx.controls.RadioButton;
 import mx.controls.RadioButtonGroup;
-import mx.core.UIComponent;
-import mx.events.DropdownEvent;
-import mx.events.FlexEvent;
 import mx.events.ItemClickEvent;
-import mx.skins.halo.HaloBorder;
 
 //Control Panel for Radiating Charge sim
 public class ControlPanel extends Canvas {
@@ -73,8 +66,10 @@ public class ControlPanel extends Canvas {
     private var speedSlider_UI:SpriteUIComponent;
     private var durationSlider_UI:SpriteUIComponent;
     //private var lessRezRadioButton:RadioButton;
-    private var speedOfLightArrow: Sprite;
-    private var speedOLightArrow_UI: SpriteUIComponent;
+    private var speedIndicatorContainer: Sprite;
+    private var speedIndicatorContainer_UI: SpriteUIComponent;
+    //private var speedOfLightArrow: Sprite;
+    //private var speedOLightArrow_UI: SpriteUIComponent;
     private var moreSpeedCheckBox:CheckBox;
 
     //internationalized strings
@@ -93,7 +88,7 @@ public class ControlPanel extends Canvas {
     private var sinusoid_str:String;
     private var circular_str:String;
     private var bump_str:String;
-    private var random_str:String;  //not used
+    //private var random_str:String;  //not used
     //slider labels
     private var amplitude_str:String;
     private var frequency_str:String;
@@ -160,8 +155,13 @@ public class ControlPanel extends Canvas {
         initializeRadioButton( bump_rb, bump_str, 5, false );
 
 
+        /**
+         * NOTE: Despite what flex documentation says, the itemClick event is only dispatched when an clicking on a *new* item.
+         * Repeated clicking on the same radio button does not produce repeated itemClick events, which is my desired behavior.
+         * I know of no way to get that desired behavior.
+         */
 
-        presetMotion_rgb.addEventListener( Event.CHANGE, radioGroupListener );
+        presetMotion_rgb.addEventListener( ItemClickEvent.ITEM_CLICK, radioGroupListener );   //works same as Event.CHANGE
 
         selectedMotionControlsVBox = new VBox();
         with(selectedMotionControlsVBox){
@@ -191,7 +191,7 @@ public class ControlPanel extends Canvas {
         amplitudeSlider.drawKnob( 0x00ff00, 0x009900 );  //lighter color than default
         frequencySlider.drawKnob( 0x00ff00, 0x009900 );
         durationSlider.drawKnob( 0x00ff00, 0x009900 );
-        var c: Number = myFieldModel.getSpeedOfLight();
+        //var c: Number = myFieldModel.getSpeedOfLight();
         speedSlider = new HorizontalSlider( setSpeed, sliderWidth, 0.1, 0.95 );
 
         amplitudeSlider.setLabelText( amplitude_str );
@@ -250,9 +250,12 @@ public class ControlPanel extends Canvas {
         showVelocityVBox.addChild( showVelocityHBox );
         showVelocityHBox.addChild( showVelocity_cb );
         showVelocityHBox.addChild( new SpriteUIComponent( showVelocityLabel, true ) );
-        speedOfLightArrow = myMainView.myVelocityArrowView.speedOfLightArrow;
-        speedOLightArrow_UI = new SpriteUIComponent( speedOfLightArrow );
-        showVelocityVBox.addChild( speedOLightArrow_UI );
+        speedIndicatorContainer = myMainView.myVelocityArrowView.speedIndicatorContainer;
+        speedIndicatorContainer_UI = new SpriteUIComponent( speedIndicatorContainer, true );
+        showVelocityVBox.addChild( speedIndicatorContainer_UI );
+        //speedOfLightArrow = myMainView.myVelocityArrowView.speedOfLightArrow;
+        //speedOLightArrow_UI = new SpriteUIComponent( speedOfLightArrow );
+        //showVelocityVBox.addChild( speedOLightArrow_UI );
         myMainView.myVelocityArrowView.velocityArrow.visible = showVelocity_cb.selected;       //start with velocity arrow invisible
 
 
@@ -281,7 +284,7 @@ public class ControlPanel extends Canvas {
         sinusoid_str = FlexSimStrings.get( "sinusoid", "Sinusoid" );
         circular_str = FlexSimStrings.get( "circular", "Circular" );
         bump_str = FlexSimStrings.get( "bump", "Bump" );
-        random_str = FlexSimStrings.get( "random", "Random" );
+        //random_str = FlexSimStrings.get( "random", "Random" );
         amplitude_str = FlexSimStrings.get( "amplitude", "amplitude" );
         frequency_str = FlexSimStrings.get( "frequency", "frequency" );
         speed_str = FlexSimStrings.get( "speed", "speed" );
@@ -335,10 +338,11 @@ public class ControlPanel extends Canvas {
         this.myFieldModel.bumpCharge( durationSlider.getVal() );
     }
 
-    private function radioGroupListener( evt: Event ):void{
+    private function radioGroupListener( evt: ItemClickEvent ):void{
         this.myFieldModel.paused = false;
         this.pauseButton.setLabel( pause_str );
         var choice:Object = presetMotion_rgb.selectedValue;
+        //trace("ControlPanel.radioGroupListener  event = " + evt );
         //trace("ControlPanel.radioGroupListener  selectedValue = " + presetMotion_rgb.selectedValue );
         //this.myFieldModel.setTypeOfMotion( int( choice ) );
         if( choice == 0 ){
@@ -391,7 +395,8 @@ public class ControlPanel extends Canvas {
 
     private function showVelocityListener( evt: Event ):void{
         var selected:Boolean = evt.target.selected;
-        speedOfLightArrow.visible = selected;
+        speedIndicatorContainer.visible = selected;
+        //speedOfLightArrow.visible = selected;
         myMainView.myVelocityArrowView.velocityArrow.visible = selected;
         //myMainView.myVelocityArrowView.setVisibilityOfVelocityArrow( selected );
         setVisibilityOfControls();
@@ -417,7 +422,8 @@ public class ControlPanel extends Canvas {
         speedSlider_UI.visible = false;
         restartButton_UI.visible = false;
         bumpButton_UI.visible = false;
-        speedOLightArrow_UI.visible = false;
+        speedIndicatorContainer_UI.visible = false;
+        //speedOLightArrow_UI.visible = false;
         selectedMotionControlsVBox.includeInLayout = false;
         amplitudeSlider_UI.includeInLayout = false;
         frequencySlider_UI.includeInLayout = false;
@@ -425,7 +431,8 @@ public class ControlPanel extends Canvas {
         speedSlider_UI.includeInLayout = false;
         bumpButton_UI.includeInLayout = false;
         restartButton_UI.includeInLayout = false;
-        speedOLightArrow_UI.includeInLayout = false;
+        speedIndicatorContainer_UI.includeInLayout = false;
+        //speedOLightArrow_UI.includeInLayout = false;
         //var choice:int = myComboBox.selectedIndex;
         var choice: Object = presetMotion_rgb.selectedValue;
         if( choice == 0 || choice == 1){      //user-controlled
@@ -467,8 +474,10 @@ public class ControlPanel extends Canvas {
         var velocityArrowShown: Boolean = this.showVelocity_cb.selected;
         //trace("ControlPanel.setSliderVisibility  velocityArrowShown =  "+velocityArrowShown );
         if( velocityArrowShown ) {
-            speedOLightArrow_UI.visible = true;
-            speedOLightArrow_UI.includeInLayout = true;
+            speedIndicatorContainer_UI.visible = true;
+            speedIndicatorContainer_UI.includeInLayout = true;
+            //speedOLightArrow_UI.visible = true;
+            //speedOLightArrow_UI.includeInLayout = true;
         }
     }//end setSliderVisibility()
 
