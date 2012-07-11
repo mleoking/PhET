@@ -84,7 +84,7 @@ public class BuildScript {
         try {
             new PhetCleanCommand( project, new MyAntTaskRunner() ).execute();
         }
-        catch ( Exception e ) {
+        catch( Exception e ) {
             e.printStackTrace();
         }
     }
@@ -211,7 +211,7 @@ public class BuildScript {
                     notifyError( project, "Automatically generated resource file changed.  Please review the changed and revert or commit before proceeding." );
                 }
             }
-            catch ( IOException e ) {
+            catch( IOException e ) {
                 throw new RuntimeException( e );
             }
         }
@@ -248,7 +248,7 @@ public class BuildScript {
                 // TODO: possibly roll back .properties file and changes
                 return false;
             }
-            success = SvnUtils.verifyRevision( newRevision, new String[] { project.getProjectPropertiesFile().getAbsolutePath() } );
+            success = SvnUtils.verifyRevision( newRevision, new String[]{project.getProjectPropertiesFile().getAbsolutePath()} );
             if ( !success ) {
                 notifyError( project, "Commit of version and change file did not result with the expected revision number. Stopping (see console)" );
                 return false;
@@ -272,7 +272,7 @@ public class BuildScript {
         try {
             project.copyAssets();
         }
-        catch ( IOException e ) {
+        catch( IOException e ) {
             throw new RuntimeException( "Problem copying files to the deployment directory", e );
         }
 
@@ -341,11 +341,11 @@ public class BuildScript {
                 try {
                     ScpTo.uploadFile( fileToUpload, authenticationInfo.getUsername(), host, remotePathDir + "/" + fileToUpload.getName(), authenticationInfo.getPassword() );
                 }
-                catch ( JSchException e ) {
+                catch( JSchException e ) {
                     e.printStackTrace();
                     return false;
                 }
-                catch ( IOException e ) {
+                catch( IOException e ) {
                     e.printStackTrace();
                     return false;
                 }
@@ -367,7 +367,7 @@ public class BuildScript {
             System.out.println( "**** Finished BuildScript.build" );
             return success;
         }
-        catch ( Exception e ) {
+        catch( Exception e ) {
             e.printStackTrace();
             return false;
         }
@@ -377,7 +377,7 @@ public class BuildScript {
         try {
             FileUtils.filter( new File( trunk, "build-tools/templates/header-template.html" ), project.getDeployHeaderFile(), createHeaderFilterMap( dev ), "UTF-8" );
         }
-        catch ( IOException e ) {
+        catch( IOException e ) {
             e.printStackTrace();
         }
     }
@@ -396,29 +396,30 @@ public class BuildScript {
         String s = "";
         for ( int i = 0; i < project.getSimulationNames().length; i++ ) {
             String title = project.getSimulations()[i].getTitle();
-            String prodLaunchFile = project.getSimulationNames()[i] + "_en." + project.getLaunchFileSuffix();
+            String mainLaunchFile = project.getSimulationNames()[i] + "_en." + project.getLaunchFileSuffix();
             String devLaunchFile = project.getSimulationNames()[i] + "_en-dev." + project.getLaunchFileSuffix();
             String interviewsLaunchFile = project.getSimulationNames()[i] + "_en-interviews." + project.getLaunchFileSuffix();
 
-            /* 
-            * See #2142, dev servers can launch with and without developer features, so create links for both.
-            * On development servers, we create an additional "dev" jnlp flag with a "-dev" argument.
-            */
+            s += "<li>";
             if ( dev ) {
-                // <li>@title@ : <a href="@prodLaunchFile@">production</a> : <a href="@devLaunchFile@">dev</a></li>
-                s += "<li>";
-                s += title;
-                if ( !( project instanceof FlashSimulationProject ) ) {  //TODO: add support for the link to the prod/dev versions of flash/flex sims
-                    s += " : <a href=\"" + prodLaunchFile + "\">production</a>";
+                if ( project instanceof FlashSimulationProject ) {
+                    s += " : <a href=\"" + mainLaunchFile + "\">dev</a>";
                 }
-                s += " : <a href=\"" + devLaunchFile + "\">dev</a>";
-                s += " : <a href=\"" + interviewsLaunchFile + "\">interviews</a>";
-                s += "</li>";
+                else {
+                    /*
+                    * See #2142, dev servers can launch with and without developer features, so create links for both.
+                    * On development servers, we create an additional "dev" jnlp flag with a "-dev" argument.
+                    */
+                    s += " : <a href=\"" + mainLaunchFile + "\">production</a>";
+                    s += " : <a href=\"" + devLaunchFile + "\">dev</a>";
+                    s += " : <a href=\"" + interviewsLaunchFile + "\">interviews</a>";
+                }
             }
             else {
-                // <li><a href="@prodLaunchFile@">@title</a></li>
-                s += "<li><a href=\"" + prodLaunchFile + "\">" + title + "</a></li>";
+                s += "<a href=\"" + mainLaunchFile + "\">" + title + "</a>";
             }
+            s += "</li>";
+
             if ( i < project.getSimulationNames().length - 1 ) {
                 s += "\n";
             }
@@ -454,13 +455,13 @@ public class BuildScript {
                         return true;
                     }
                 }, OldPhetServer.DEFAULT_DEVELOPMENT_SERVER, devAuth, new VersionIncrement.UpdateDev(), new Task() {
-            public boolean invoke() {
-                if ( generateOfflineJARs ) {
-                    generateOfflineJars( project, OldPhetServer.DEFAULT_DEVELOPMENT_SERVER, devAuth );
+                    public boolean invoke() {
+                        if ( generateOfflineJARs ) {
+                            generateOfflineJars( project, OldPhetServer.DEFAULT_DEVELOPMENT_SERVER, devAuth );
+                        }
+                        return true;
+                    }
                 }
-                return true;
-            }
-        }
         );
     }
 
@@ -478,20 +479,20 @@ public class BuildScript {
                         return prepareStagingArea( productionSite );
                     }
                 }, productionSite.getOldProductionServer(), prodAuth, versionIncrement, new Task() {
-            public boolean invoke() {
-                System.out.println( "Executing website post-upload deployment process" );
+                    public boolean invoke() {
+                        System.out.println( "Executing website post-upload deployment process" );
 
-                boolean genjars = project instanceof JavaProject && ( (JavaProject) project ).getSignJar() && generateJARs;
-                SshUtils.executeCommand( productionSite, "chmod -R a+rw " + productionSite.getSimsStagingPath() + "/" + project.getName() );
-                if ( project.isSimulationProject() ) {
-                    // this is a LOCAL connection that we are executing the curl from. TODO: move this to PhetWebsite
-                    String deployCommand = "curl '" + productionSite.getWebBaseURL() + "/admin/deploy?project=" + project.getName() + "&generate-jars=" + genjars + "'";
-                    SshUtils.executeCommand( productionSite, deployCommand );
+                        boolean genjars = project instanceof JavaProject && ( (JavaProject) project ).getSignJar() && generateJARs;
+                        SshUtils.executeCommand( productionSite, "chmod -R a+rw " + productionSite.getSimsStagingPath() + "/" + project.getName() );
+                        if ( project.isSimulationProject() ) {
+                            // this is a LOCAL connection that we are executing the curl from. TODO: move this to PhetWebsite
+                            String deployCommand = "curl '" + productionSite.getWebBaseURL() + "/admin/deploy?project=" + project.getName() + "&generate-jars=" + genjars + "'";
+                            SshUtils.executeCommand( productionSite, deployCommand );
+                        }
+
+                        return true;
+                    }
                 }
-
-                return true;
-            }
-        }
         );
     }
 
@@ -503,7 +504,7 @@ public class BuildScript {
 
     private boolean prepareStagingArea( PhetWebsite website ) {
         assert project.getName().length() >= 2;//reduce probability of a scary rm
-        return SshUtils.executeCommands( website, new String[] {
+        return SshUtils.executeCommands( website, new String[]{
                 "mkdir -p -m 775 " + website.getSimsStagingPath() + "/" + project.getName(),
                 "rm -f " + website.getSimsStagingPath() + "/" + project.getName() + "/*"
         } );
@@ -536,7 +537,7 @@ public class BuildScript {
             try {
                 SshUtils.executeCommand( getJARGenerationCommand( (JavaProject) project, server ), server.getHost(), authenticationInfo );
             }
-            catch ( IOException e ) {
+            catch( IOException e ) {
                 e.printStackTrace();
             }
         }
