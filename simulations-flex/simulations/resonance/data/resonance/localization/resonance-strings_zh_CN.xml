@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--resonance-strings_zh_CN.xml created Sat Feb 18 21:28:11 CST 2012 using: resonance 1.01.00 (54775), translation-utility 2.13.00 (59150) 十二月 8, 2011-->
+<!--resonance-strings_zh_CN.xml created Wed Jul 11 17:49:34 CST 2012 using: resonance 1.01.00 (54775), translation-utility 2.13.00 (59150) 十二月 8, 2011-->
 <SimStrings>
 <string key="simSpeed" value="模拟速度"/>
 <string key="sameFrequency" value="相同频率 "/>
-<string key="sameSpring" value="相同弹性 k"/>
+<string key="sameSpring" value="相同劲度系数 k"/>
 <string key="slow" value="慢"/>
-<string key="mixedMAndK" value="混合 m 和  k"/>
+<string key="mixedMAndK" value="调节m 和  k"/>
 <string key="numberOfResonators" value="共振器数量"/>
-<string key="kg" value="Hz"/>
+<string key="kg" value="千克"/>
 <string key="pause" value="暂停"/>
 <string key="amplitude" value="振幅"/>
 <string key="frequencyEqualsXHz" value="频率 = {0} Hz"/>
@@ -25,8 +25,8 @@
 <string key="mass" value="质量"/>
 <string key="sameMass" value="相同质量 m"/>
 <string key="resonator" value="共振器"/>
-<string key="translation.credits" value="陈江涛  华南师范大学  cjtmw@163.com"/>
-<string key="hz" value="Hz"/>
+<string key="translation.credits" value="天铁二中（张大红）"/>
+<string key="hz" value="赫兹"/>
 <string key="NperM" value="N/m"/>
 <string key="gravityColon" value="重力:"/>
 <string key="play" value="开始"/>
