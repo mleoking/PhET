@@ -7,10 +7,8 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.EnergySystemsModel;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEFAULT_STAGE_SIZE;
 
@@ -42,11 +40,5 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         // Set up a root node for our scene graph.
         final PNode rootNode = new PNode();
         addWorldChild( rootNode );
-
-        // TODO: Temp - Drawing of the design of the tab.
-        PImage drawing = new PImage( EnergyFormsAndChangesResources.Images.SECOND_TAB_DRAWING );
-        drawing.setOffset( 0, 0 );
-        drawing.setScale( DEFAULT_STAGE_SIZE.getWidth() / drawing.getFullBoundsReference().getWidth() );
-        rootNode.addChild( drawing );
     }
 }
