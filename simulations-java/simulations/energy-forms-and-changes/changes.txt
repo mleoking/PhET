@@ -1,3 +1,5 @@
+2nd tab: Added check box for controlling energy chunk visibility.
+2nd tab: Added clock control panel.
 Added back the 2nd tab, removed static picture.
 # 0.00.12 (65717) Jul 10, 2012
 7/10/12 Deploying to dev for review and possible interviews prior to turning other (unfinished) tabs on.

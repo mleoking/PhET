@@ -11,9 +11,13 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.EnergySystemsModel;
 import edu.colorado.phet.energyformsandchanges.intro.view.NormalAndFastForwardTimeControlPanel;
@@ -34,12 +38,14 @@ public class EnergySystemsCanvas extends PhetPCanvas {
     //-------------------------------------------------------------------------
 
     public static final Dimension2D STAGE_SIZE = CenteredStage.DEFAULT_STAGE_SIZE;
+    private static final Color CONTROL_PANEL_COLOR = new Color( 255, 255, 224 );
 
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
 
     private final BooleanProperty normalSimSpeed = new BooleanProperty( true );
+    private static final double CONTROL_INSET = 5;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -80,6 +86,14 @@ public class EnergySystemsCanvas extends PhetPCanvas {
                                                       new BasicStroke( 1 ),
                                                       Color.BLACK );
 
+        // Create the control for showing/hiding object energy. TODO: i18n
+        PropertyCheckBox showEnergyCheckBox = new PropertyCheckBox( EnergyFormsAndChangesSimSharing.UserComponents.showEnergyCheckBox,
+                                                                    "Energy Symbols",
+                                                                    model.energyChunksVisible ) {{
+            setFont( new PhetFont( 20 ) );
+        }};
+        ControlPanelNode showEnergyControlPanel = new ControlPanelNode( showEnergyCheckBox, new Color( 180, 211, 51 ) );
+
         //------- Node Layering -----------------------------------------------
 
         PNode rootNode = new PNode();
@@ -87,6 +101,7 @@ public class EnergySystemsCanvas extends PhetPCanvas {
 
         rootNode.addChild( clockControlBackground );
         rootNode.addChild( clockControl );
+        rootNode.addChild( showEnergyControlPanel );
 
         //------- Node Layout -------------------------------------------------
 
@@ -94,6 +109,8 @@ public class EnergySystemsCanvas extends PhetPCanvas {
                                           STAGE_SIZE.getHeight() - clockControlBackground.getFullBoundsReference().getHeight() );
         clockControl.setOffset( STAGE_SIZE.getWidth() / 2 - clockControl.getFullBoundsReference().getWidth() / 2,
                                 STAGE_SIZE.getHeight() - clockControl.getFullBoundsReference().height );
+        showEnergyControlPanel.setOffset( STAGE_SIZE.getWidth() - showEnergyControlPanel.getFullBoundsReference().getWidth() - CONTROL_INSET,
+                                          clockControlBackground.getFullBoundsReference().getMinY() - showEnergyControlPanel.getFullBoundsReference().getHeight() - CONTROL_INSET );
 
     }
 
