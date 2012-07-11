@@ -58,7 +58,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
     /**
      * Constructor.
      *
-     * @param model
+     * @param model Model being portrayed on this canvas.
      */
     public EFACIntroCanvas( final EFACIntroModel model ) {
         this.model = model;
