@@ -94,7 +94,7 @@ public class VelocityArrowView {
         var h: Number =  4*maxLength/30;  //height of horizontal bar = height of speed-of-light arrow
         with(gS){
             clear();
-            lineStyle( 1, 0x007700 );
+            lineStyle( 2, 0x007700 );
             beginFill( 0x007700 );
             drawRect( 0, -h/2, beta*maxLength, h );
             endFill();
