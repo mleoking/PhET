@@ -8,7 +8,6 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -20,7 +19,6 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
-import edu.colorado.phet.energyformsandchanges.energysystems.model.Carousel;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.EnergySystemsModel;
 import edu.colorado.phet.energyformsandchanges.intro.view.NormalAndFastForwardTimeControlPanel;
 import edu.umd.cs.piccolo.PNode;
@@ -106,9 +104,10 @@ public class EnergySystemsCanvas extends PhetPCanvas {
             }
         } );
 
-        addWorldChild( new CarouselElementSelectorNode( new Carousel( new ImmutableVector2D( 0, 0 ), new ImmutableVector2D( 0, 0 ) ) ) {{
-            setOffset( 50, 50 );
-        }} );
+        // Create the carousel control nodes.
+        PNode energySourcesCarouselController = new CarouselControllerNode( model.energySourcesCarousel );
+        PNode energyConvertersCarouselController = new CarouselControllerNode( model.energyConvertersCarousel );
+        PNode energyUsersCarouselController = new CarouselControllerNode( model.energyUsersCarousel );
 
         //------- Node Layering -----------------------------------------------
 
@@ -119,16 +118,28 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         rootNode.addChild( clockControl );
         rootNode.addChild( showEnergyControlPanel );
         rootNode.addChild( energyChunkLegend );
+        rootNode.addChild( energySourcesCarouselController );
+        rootNode.addChild( energyConvertersCarouselController );
+        rootNode.addChild( energyUsersCarouselController );
 
         //------- Node Layout -------------------------------------------------
 
+        // Clock controls
         clockControlBackground.setOffset( STAGE_SIZE.getWidth() / 2 - clockControlBackground.getFullBoundsReference().getWidth() / 2,
                                           STAGE_SIZE.getHeight() - clockControlBackground.getFullBoundsReference().getHeight() );
         clockControl.setOffset( STAGE_SIZE.getWidth() / 2 - clockControl.getFullBoundsReference().getWidth() / 2,
                                 STAGE_SIZE.getHeight() - clockControl.getFullBoundsReference().height );
+
+        // Energy chunk control.
         showEnergyControlPanel.setOffset( STAGE_SIZE.getWidth() - showEnergyControlPanel.getFullBoundsReference().getWidth() - CONTROL_INSET,
                                           clockControlBackground.getFullBoundsReference().getMinY() - showEnergyControlPanel.getFullBoundsReference().getHeight() - CONTROL_INSET );
         energyChunkLegend.setOffset( STAGE_SIZE.getWidth() - energyChunkLegend.getFullBoundsReference().getWidth() - CONTROL_INSET, CONTROL_INSET );
+
+        // Carousel control.  TODO: Will ultimately be linked to horizontal carousel position.
+        double carouselControllersYPos = clockControlBackground.getFullBoundsReference().getMinY() - energyConvertersCarouselController.getFullBoundsReference().getHeight() - CONTROL_INSET;
+        energySourcesCarouselController.setOffset( 100, carouselControllersYPos );
+        energyConvertersCarouselController.setOffset( 350, carouselControllersYPos );
+        energyUsersCarouselController.setOffset( 650, carouselControllersYPos );
 
 
     }
