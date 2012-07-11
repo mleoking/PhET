@@ -1,3 +1,5 @@
+# 1.00.13 (65723) Jul 11, 2012
+7/11/12 Added velocity vector, subpanel for controls of selected motion.
 # 1.00.12 (65702) Jul 9, 2012
 7/9/12 Added velocity vector
 # 1.00.11 (65390) Jun 22, 2012
