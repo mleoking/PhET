@@ -1,3 +1,5 @@
+# 0.00.23 (65743) Jul 11, 2012
+7/11/12 Deploying version with several minor changes based on recent (and hopefully final) interviews.
 3rd tab: Slight change to caption wording for "Show Real Cells" dialog.
 1st tab: Made the distance threshold greater for connecting ribosomes and mRNA destroyers to mRNA.  This makes it easier for the user to connect these biomolecules.
 1st tab: Removed the zoom out button, added controls for zooming in/out to a teacher menu.
