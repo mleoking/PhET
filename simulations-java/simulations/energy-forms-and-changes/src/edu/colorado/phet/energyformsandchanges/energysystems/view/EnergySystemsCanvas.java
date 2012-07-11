@@ -10,6 +10,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -17,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.faucet.FaucetNode;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.EnergySystemsModel;
@@ -108,6 +110,13 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         PNode energySourcesCarouselController = new CarouselControllerNode( model.energySourcesCarousel );
         PNode energyConvertersCarouselController = new CarouselControllerNode( model.energyConvertersCarousel );
         PNode energyUsersCarouselController = new CarouselControllerNode( model.energyUsersCarousel );
+
+        // TODO: Temp.
+        addWorldChild( new FaucetNode( EnergyFormsAndChangesSimSharing.UserComponents.faucet,
+                                       new Property<Double>( 0.0 ),
+                                       new BooleanProperty( true ),
+                                       200,
+                                       true ) {{ setOffset( 130, 20 );}} );
 
         //------- Node Layering -----------------------------------------------
 

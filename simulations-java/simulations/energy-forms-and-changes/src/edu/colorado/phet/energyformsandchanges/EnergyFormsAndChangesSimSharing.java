@@ -26,7 +26,7 @@ public class EnergyFormsAndChangesSimSharing {
         brick, ironBlock, beaker,
 
         // Controls
-        showEnergyCheckBox, fastForwardRadioButton, normalMotionRadioButton
+        showEnergyCheckBox, fastForwardRadioButton, normalMotionRadioButton, faucet
     }
 
     public static enum ModelComponents implements IUserComponent, IModelComponent {
