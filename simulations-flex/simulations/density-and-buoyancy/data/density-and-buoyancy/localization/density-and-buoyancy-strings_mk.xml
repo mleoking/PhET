@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--density-and-buoyancy-strings_mk.xml created Tue Jul 10 19:18:09 CEST 2012 using: density-and-buoyancy 1.05.00 (50250), translation-utility 2.13.00 (59150) декем. 8, 2011-->
+<SimStrings>
+<string key="buoyancy.tab.intro" value="Вовед"/>
+<string key="properties.mass" value="Маса"/>
+<string key="controlPanel.showVectorValues" value="Вредности на силата"/>
+<string key="forceArrows.contact" value="Реакција на подлогата"/>
+<string key="mode.objectsOfSameVolume" value="Ист волумен"/>
+<string key="mysteryObject.densityColumnHeader" value="Густина ({0})"/>
+<string key="material.aluminum" value="Алуминиум"/>
+<string key="material.air" value="Воздух"/>
+<string key="material.custom" value="Моја коцка"/>
+<string key="material.gasoline" value="Бензин "/>
+<string key="customObject.material" value="Материјал"/>
+<string key="mode.mysteryObjects" value="Непознато"/>
+<string key="customObject.custom" value="Моја коцка"/>
+<string key="material.wood" value="Дрво"/>
+<string key="mode.two" value="Два"/>
+<string key="material.styrofoam" value="Стиропор"/>
+<string key="material.honey" value="Мед"/>
+<string key="material.apple" value="Јаболко"/>
+<string key="material.ice" value="Лед"/>
+<string key="translation.credits" value="Превод: Зоран Христовски"/>
+<string key="buoyancy.tab.playground" value="Потисок"/>
+<string key="fluid.controls.intro.label" value="Флуид"/>
+<string key="material.diamond" value="Дијамант"/>
+<string key="mode.title" value="Објекти"/>
+<string key="material.oliveOil" value="Маслина"/>
+<string key="material.lead" value="Проводна жица"/>
+<string key="forceArrows.buoyancy" value="Потисок"/>
+<string key="properties.fluidDensity" value="Густина на флуиди"/>
+<string key="customObject.properties" value="Особини"/>
+<string key="forceArrows.gravity" value="Гравитација"/>
+<string key="mysteryObject.table.title" value="Густина на различни материјали"/>
+<string key="material.brick" value="Тула"/>
+<string key="mysteryObject.material" value="Материјал"/>
+<string key="properties.weightPoundValue" value="{0} lb"/>
+<string key="material.oil" value="Уље"/>
+<string key="properties.volumeLiterValue" value="{0} литар"/>
+<string key="mode.objectsOfSameDensity" value="Иста густина"/>
+<string key="density.simTitle" value="Густина"/>
+<string key="controlPanel.readouts" value="Отчитувања"/>
+<string key="properties.volumeMilliLiterValue" value="{0} милилитар"/>
+<string key="mode.customObject" value="Уреди"/>
+<string key="mode.objectsOfSameMass" value="Иста маса"/>
+<string key="application.resetAll" value="На почетoк се"/>
+<string key="material.gold" value="Злато"/>
+<string key="forceArrowControlPanelTitle" value="Покажи ги силите"/>
+<string key="customObject.name" value="име"/>
+<string key="controlPanel.showMasses" value="Маси"/>
+<string key="material.water" value="Вода"/>
+<string key="properties.density" value="Густина"/>
+<string key="material.waterBalloon" value="Вода (балон)"/>
+<string key="mysteryObject.table.showTable" value="Покажи ја таблата"/>
+<string key="mode.one" value="Еден"/>
+<string key="properties.volume" value="Волумен"/>
+<string key="buoyancy.simTitle" value="Потисок"/>
+</SimStrings>
