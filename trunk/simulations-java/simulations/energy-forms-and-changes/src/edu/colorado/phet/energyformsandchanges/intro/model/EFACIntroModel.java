@@ -66,7 +66,7 @@ public class EFACIntroModel {
     // Air.
     private final Air air;
 
-    // Boolean for tracking whether the energy chunks are visible to the user.
+    // Boolean property that controls whether the energy chunks are visible to the user.
     public final BooleanProperty energyChunksVisible = new BooleanProperty( false );
 
     private final List<RectangularThermalMovableModelElement> movableThermalEnergyContainers = new ArrayList<RectangularThermalMovableModelElement>();
