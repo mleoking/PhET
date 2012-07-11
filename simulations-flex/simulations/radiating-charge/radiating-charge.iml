@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="Flex" version="4">
+  <component name="Flex.Build.Configuration">
+    <option name="VERSION" value="3" />
+  </component>
   <component name="FlexBuildConfigurationManager" active="radiating-charge">
     <configurations>
       <configuration name="radiating-charge" main-class="edu.colorado.phet.radiatingcharge.RadiatingChargeApplication" output-file="radiating-charge.swf" output-folder="$MODULE_DIR$/../../out">
