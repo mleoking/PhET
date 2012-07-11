@@ -20,14 +20,27 @@ import edu.umd.cs.piccolo.PNode;
  * @author John Blanco
  */
 public class CarouselControllerNode extends PNode {
-    private static final Dimension2D SIZE = new Dimension2DDouble( 40, 75 );
+
+    //-------------------------------------------------------------------------
+    // Class Data
+    //-------------------------------------------------------------------------
+
+    private static final Dimension2D SIZE = new Dimension2DDouble( 35, 65 );
     private static final double ROUNDED_AMOUNT = SIZE.getWidth();
-    private static final double BUTTON_WIDTH = SIZE.getWidth() * 0.8;
+    private static final double BUTTON_WIDTH = SIZE.getWidth() * 0.85;
     private static final Color BACKGROUND_COLOR = new Color( 158, 187, 45 );
     private static final Color BUTTON_BASE_COLOR = new Color( 80, 201, 243 );
 
+    //-------------------------------------------------------------------------
+    // Instance Data
+    //-------------------------------------------------------------------------
+
     private final ArrowButtonNode previousElementButton;
     private final ArrowButtonNode nextElementButton;
+
+    //-------------------------------------------------------------------------
+    // Constructor(s)
+    //-------------------------------------------------------------------------
 
     public CarouselControllerNode( Carousel carousel ) {
         PNode outline = new PhetPPath( new RoundRectangle2D.Double( 0, 0, SIZE.getWidth(), SIZE.getHeight(), ROUNDED_AMOUNT, ROUNDED_AMOUNT ),
@@ -47,5 +60,4 @@ public class CarouselControllerNode extends PNode {
         nextElementButton.centerFullBoundsOnPoint( SIZE.getWidth() / 2, SIZE.getHeight() - nextElementButton.getFullBoundsReference().getHeight() / 2 - buttonInset );
         addChild( nextElementButton );
     }
-
 }
