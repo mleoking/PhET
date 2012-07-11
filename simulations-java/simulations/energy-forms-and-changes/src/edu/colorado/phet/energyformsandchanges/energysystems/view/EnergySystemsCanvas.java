@@ -95,7 +95,16 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         ControlPanelNode showEnergyControlPanel = new ControlPanelNode( showEnergyCheckBox, new Color( 180, 211, 51 ) );
 
         // Create the legend for energy chunks.
-        PNode energyChunkLegend = new EnergyChunkLegend();
+        final PNode energyChunkLegend = new EnergyChunkLegend();
+
+        // Control the visibility of energy chunks and the energy chunk legend.
+        model.energyChunksVisible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean energyChunksVisible ) {
+                energyChunkLegend.setVisible( energyChunksVisible );
+
+
+            }
+        } );
 
         //------- Node Layering -----------------------------------------------
 
