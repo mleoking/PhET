@@ -1,12 +1,20 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /** Sam Reid*/
 package edu.colorado.phet.selfdrivenparticlemodel.util;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.URL;
 
-import javax.sound.sampled.*;
+import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.SourceDataLine;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class JSAudioPlayer {
     private static final int EXTERNAL_BUFFER_SIZE = 128000;
@@ -15,7 +23,7 @@ public class JSAudioPlayer {
      * Blocks until finished.
      */
     public static void play( URL url ) throws IOException, UnsupportedAudioFileException {
-        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream( url.openStream() );
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream( new BufferedInputStream( url.openStream() ) );
 
         AudioFileFormat aff = AudioSystem.getAudioFileFormat( url );
         AudioFormat audioFormat = aff.getFormat();

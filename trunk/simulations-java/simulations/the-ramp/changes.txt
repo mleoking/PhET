@@ -1,3 +1,4 @@
+> Fixed a bug that could prevent audio from working, see #3375
 # 1.06.00 (65147) Jun 16, 2012
 > Fixed an audio problem that caused the simulation to crash on Java 7
 # 1.05.02 (64990) Jun 12, 2012
