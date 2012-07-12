@@ -62,6 +62,7 @@ Update: While functional programming worked well for the other tabs in Fractions
        should a different PNode be created?
     3. It wasn't clear how to efficiently convert model changes into view observer events--my current implementation observes for state changes and checks to see what
        changed--a more efficient and straightforward implementation may be to just fire those on the change methods themselves.
+    4. Piccolo already provides great animation features that would have to be duplicated in a functional re-implementation.
 
     So I am going to try a more imperative approach for this model and see if it goes more smoothly.  I think functional programming should be reconsidered
     (a) for treelike models
