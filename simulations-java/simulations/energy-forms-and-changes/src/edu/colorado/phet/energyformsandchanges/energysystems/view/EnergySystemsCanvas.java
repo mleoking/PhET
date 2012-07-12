@@ -7,6 +7,8 @@ import java.awt.Point;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -22,6 +24,7 @@ import edu.colorado.phet.common.piccolophet.nodes.faucet.FaucetNode;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.EnergySystemsModel;
+import edu.colorado.phet.energyformsandchanges.energysystems.model.ShapeModelElement;
 import edu.colorado.phet.energyformsandchanges.intro.view.NormalAndFastForwardTimeControlPanel;
 import edu.umd.cs.piccolo.PNode;
 
@@ -40,14 +43,13 @@ public class EnergySystemsCanvas extends PhetPCanvas {
     //-------------------------------------------------------------------------
 
     public static final Dimension2D STAGE_SIZE = CenteredStage.DEFAULT_STAGE_SIZE;
-    private static final Color CONTROL_PANEL_COLOR = new Color( 255, 255, 224 );
+    private static final double CONTROL_INSET = 5;
 
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
 
     private final BooleanProperty normalSimSpeed = new BooleanProperty( true );
-    private static final double CONTROL_INSET = 5;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -65,7 +67,7 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         ModelViewTransform mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
                 new Point( (int) Math.round( DEFAULT_STAGE_SIZE.getWidth() * 0.5 ), (int) Math.round( DEFAULT_STAGE_SIZE.getHeight() * 0.5 ) ),
-                1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
+                2200 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         setBackground( new Color( 245, 246, 247 ) );
 
@@ -118,11 +120,21 @@ public class EnergySystemsCanvas extends PhetPCanvas {
                                        200,
                                        true ) {{ setOffset( 130, 20 );}} );
 
+        // Add the nodes that exist in the carousels.
+        List<ShapeNode> shapeNodes = new ArrayList<ShapeNode>();
+        for ( ShapeModelElement shapeModelElement : model.shapeModelElementList ) {
+            shapeNodes.add( new ShapeNode( shapeModelElement, mvt ) );
+        }
+
+
         //------- Node Layering -----------------------------------------------
 
         PNode rootNode = new PNode();
         addWorldChild( rootNode );
 
+        for ( PNode shapeNode : shapeNodes ) {
+            rootNode.addChild( shapeNode );
+        }
         rootNode.addChild( clockControlBackground );
         rootNode.addChild( clockControl );
         rootNode.addChild( showEnergyControlPanel );
