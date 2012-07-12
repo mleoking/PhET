@@ -79,6 +79,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/line-graphing/line-graphing.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/line-graphing/line-graphing.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/localization-strings/localization-strings.iml" filepath="$PROJECT_DIR$/util/localization-strings/localization-strings.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/log4j/log4j.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/log4j/log4j.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/lombok/lombok.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/lombok/lombok.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/lwjgl/lwjgl.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/lwjgl/lwjgl.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/lwjgl-phet/lwjgl-phet.iml" filepath="$PROJECT_DIR$/simulations-java/common/lwjgl-phet/lwjgl-phet.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/maze-game/maze-game.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/maze-game/maze-game.iml" />

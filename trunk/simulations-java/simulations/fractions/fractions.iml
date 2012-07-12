@@ -19,16 +19,8 @@
     </orderEntry>
     <orderEntry type="module" module-name="piccolo-phet" />
     <orderEntry type="module" module-name="functionaljava" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../contrib/lombok/lombok.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
     <orderEntry type="module" module-name="games" />
+    <orderEntry type="module" module-name="lombok" />
   </component>
 </module>
 
