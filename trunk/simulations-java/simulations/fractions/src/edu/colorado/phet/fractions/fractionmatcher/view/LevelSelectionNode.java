@@ -42,7 +42,7 @@ import static fj.data.List.list;
  */
 public class LevelSelectionNode extends PNode {
 
-    public static final List<PNode> properIcons = list( new PatternNode( sequentialFill( pie( 1 ), 1 ), Color.red ),
+    public static final List<PNode> properIcons = list( new PatternNode( sequentialFill( pie( 1 ), 1 ), Colors.LIGHT_RED ),
                                                         new PatternNode( sequentialFill( horizontalBars( 2 ), 2 ), Colors.LIGHT_GREEN ),
                                                         new PatternNode( sequentialFill( verticalBars( 3 ), 3 ), Colors.LIGHT_BLUE ),
                                                         new PatternNode( sequentialFill( letterLShapedDiagonal( 15, 2 ), 4 ), Color.orange ),
