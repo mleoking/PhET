@@ -1,3 +1,4 @@
+7/11/12 added back sim title for generation of HTML, see #3329
 7/2/12 added generation of interviews.jnlp file, #3329
 7/2/12 changed JNLP suffixes, #3329
 Fixed trunk identification for build-all task, see #3326

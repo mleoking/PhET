@@ -1,3 +1,4 @@
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.buildtools;
 
 import java.io.File;
@@ -84,7 +85,7 @@ public class BuildScript {
         try {
             new PhetCleanCommand( project, new MyAntTaskRunner() ).execute();
         }
-        catch( Exception e ) {
+        catch ( Exception e ) {
             e.printStackTrace();
         }
     }
@@ -211,7 +212,7 @@ public class BuildScript {
                     notifyError( project, "Automatically generated resource file changed.  Please review the changed and revert or commit before proceeding." );
                 }
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 throw new RuntimeException( e );
             }
         }
@@ -248,7 +249,7 @@ public class BuildScript {
                 // TODO: possibly roll back .properties file and changes
                 return false;
             }
-            success = SvnUtils.verifyRevision( newRevision, new String[]{project.getProjectPropertiesFile().getAbsolutePath()} );
+            success = SvnUtils.verifyRevision( newRevision, new String[] { project.getProjectPropertiesFile().getAbsolutePath() } );
             if ( !success ) {
                 notifyError( project, "Commit of version and change file did not result with the expected revision number. Stopping (see console)" );
                 return false;
@@ -272,7 +273,7 @@ public class BuildScript {
         try {
             project.copyAssets();
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             throw new RuntimeException( "Problem copying files to the deployment directory", e );
         }
 
@@ -341,11 +342,11 @@ public class BuildScript {
                 try {
                     ScpTo.uploadFile( fileToUpload, authenticationInfo.getUsername(), host, remotePathDir + "/" + fileToUpload.getName(), authenticationInfo.getPassword() );
                 }
-                catch( JSchException e ) {
+                catch ( JSchException e ) {
                     e.printStackTrace();
                     return false;
                 }
-                catch( IOException e ) {
+                catch ( IOException e ) {
                     e.printStackTrace();
                     return false;
                 }
@@ -367,7 +368,7 @@ public class BuildScript {
             System.out.println( "**** Finished BuildScript.build" );
             return success;
         }
-        catch( Exception e ) {
+        catch ( Exception e ) {
             e.printStackTrace();
             return false;
         }
@@ -377,7 +378,7 @@ public class BuildScript {
         try {
             FileUtils.filter( new File( trunk, "build-tools/templates/header-template.html" ), project.getDeployHeaderFile(), createHeaderFilterMap( dev ), "UTF-8" );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
     }
@@ -402,6 +403,7 @@ public class BuildScript {
 
             s += "<li>";
             if ( dev ) {
+                s += title;
                 if ( project instanceof FlashSimulationProject ) {
                     s += " : <a href=\"" + mainLaunchFile + "\">dev</a>";
                 }
@@ -504,7 +506,7 @@ public class BuildScript {
 
     private boolean prepareStagingArea( PhetWebsite website ) {
         assert project.getName().length() >= 2;//reduce probability of a scary rm
-        return SshUtils.executeCommands( website, new String[]{
+        return SshUtils.executeCommands( website, new String[] {
                 "mkdir -p -m 775 " + website.getSimsStagingPath() + "/" + project.getName(),
                 "rm -f " + website.getSimsStagingPath() + "/" + project.getName() + "/*"
         } );
@@ -537,7 +539,7 @@ public class BuildScript {
             try {
                 SshUtils.executeCommand( getJARGenerationCommand( (JavaProject) project, server ), server.getHost(), authenticationInfo );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
             }
         }
