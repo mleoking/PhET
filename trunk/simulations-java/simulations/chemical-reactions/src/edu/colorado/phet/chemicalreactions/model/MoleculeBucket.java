@@ -10,6 +10,7 @@ import java.util.List;
 import edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Bucket;
+import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -24,6 +25,9 @@ public class MoleculeBucket extends Bucket {
     private static final double INFLATION_FACTOR = 1.1; // how much the radius is "inflated" to compensate for the visual look
 
     private final List<Molecule> molecules = new ArrayList<Molecule>();
+
+    // fires to notify what stacking order (z-order) the molecules are in within the bucket
+    public final Notifier<List<Molecule>> moleculeOrderNotifier = new Notifier<List<Molecule>>();
 
     public MoleculeBucket( final MoleculeShape shape, int initialQuantity ) {
         this( shape, initialQuantity, initialQuantity );
@@ -130,6 +134,9 @@ public class MoleculeBucket extends Bucket {
                 remainingMolecules.remove( closestMolecule );
             }
         }
+
+        moleculeOrderNotifier.updateListeners( moleculeOrder );
+
     }
 
     private static int bottomDimension( int max ) {
