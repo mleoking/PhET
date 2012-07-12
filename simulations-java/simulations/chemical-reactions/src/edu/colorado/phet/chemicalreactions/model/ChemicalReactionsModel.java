@@ -27,7 +27,7 @@ public class ChemicalReactionsModel {
 
                              // products
                              Arrays.asList(
-                                     new MoleculeBucket( H2O, 0 )
+                                     new MoleculeBucket( H2O, 0, 4 )
                              ),
 
                              Arrays.asList( ReactionShape.H2_O2_TO_H2O )
@@ -41,20 +41,20 @@ public class ChemicalReactionsModel {
 
                              // products
                              new ArrayList<MoleculeBucket>() {{
-                                 add( new MoleculeBucket( NH3, 0 ) );
+                                 add( new MoleculeBucket( NH3, 0, 6 ) );
                              }},
                              Arrays.asList( ReactionShape.H2_N2_TO_NH3 )
             ) );
             addKit( new Kit( layoutBounds,
                              // reactants
                              new ArrayList<MoleculeBucket>() {{
-                                 add( new MoleculeBucket( Cl2, 5 ) );
-                                 add( new MoleculeBucket( H2, 5 ) );
+                                 add( new MoleculeBucket( Cl2, 3 ) );
+                                 add( new MoleculeBucket( H2, 3 ) );
                              }},
 
                              // products
                              new ArrayList<MoleculeBucket>() {{
-                                 add( new MoleculeBucket( HCl, 0 ) );
+                                 add( new MoleculeBucket( HCl, 0, 6 ) );
                              }},
                              Arrays.asList( ReactionShape.H2_Cl2_TO_HCl )
             ) );

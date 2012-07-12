@@ -18,19 +18,27 @@ import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.MOD
 public class MoleculeBucket extends Bucket {
     private final MoleculeShape shape;
     private final Dimension2D size;
+    private final int initialQuantity;
+    private final int maxQuantity;
 
-    private static final double MOTION_VELOCITY = 1500; // In picometers per second of sim time.
+    private static final double INFLATION_FACTOR = 1.1; // how much the radius is "inflated" to compensate for the visual look
 
     private final List<Molecule> molecules = new ArrayList<Molecule>();
 
     public MoleculeBucket( final MoleculeShape shape, int initialQuantity ) {
-        this( shape, new PDimension( MODEL_VIEW_TRANSFORM.modelToViewDeltaX( shape.getBoundingCircleRadius() * 0.7 * ChemicalReactionsConstants.THIS_CONSTANT_SHOULD_NOT_EXIST + 200 ), 200 ), initialQuantity );
+        this( shape, initialQuantity, initialQuantity );
     }
 
-    public MoleculeBucket( final MoleculeShape shape, Dimension2D size, int initialQuantity ) {
+    public MoleculeBucket( final MoleculeShape shape, int initialQuantity, int maxQuantity ) {
+        this( shape, new PDimension( MODEL_VIEW_TRANSFORM.modelToViewDeltaX( bottomDimension( maxQuantity ) * 0.7 * shape.getBoundingCircleRadius() * ChemicalReactionsConstants.THIS_CONSTANT_SHOULD_NOT_EXIST + 200 ), 200 ), initialQuantity, maxQuantity );
+    }
+
+    public MoleculeBucket( final MoleculeShape shape, Dimension2D size, int initialQuantity, int maxQuantity ) {
         super( new Point2D.Double(), size, Color.GRAY, "" );
         this.shape = shape;
         this.size = size;
+        this.initialQuantity = initialQuantity;
+        this.maxQuantity = maxQuantity;
 
         FunctionalUtils.repeat( new Runnable() {
             public void run() {
@@ -41,25 +49,103 @@ public class MoleculeBucket extends Bucket {
 
     public void addMolecule( Molecule molecule ) {
         molecules.add( molecule );
+
+        calculateDestinations();
     }
 
     public void removeMolecule( Molecule molecule ) {
         molecules.remove( molecule );
+
+        calculateDestinations();
+    }
+
+    private List<ImmutableVector2D> calculateSpots() {
+        List<ImmutableVector2D> result = new ArrayList<ImmutableVector2D>();
+
+        int d = bottomDimension( maxQuantity );
+        int row = 0;
+        int col = 0;
+        double centerX = getPosition().getX();
+        double baseY = getPosition().getY();
+
+        double radius = shape.getBoundingCircleRadius() * INFLATION_FACTOR;
+        double diameter = radius * 2;
+
+        for ( Molecule molecule : molecules ) {
+            result.add( new ImmutableVector2D(
+                    centerX - diameter * ( (double) d ) / 2 + radius + diameter * col,
+                    baseY + row * radius * 0.4
+            ) );
+
+            col++;
+            if ( col >= d ) {
+                row++;
+                col = 0;
+                d--;
+            }
+        }
+
+        return result;
+    }
+
+    public void calculateDestinations() {
+        List<Molecule> moleculeOrder = new ArrayList<Molecule>();
+        List<Molecule> remainingMolecules = new ArrayList<Molecule>( molecules );
+
+        // fill spots in order
+        for ( ImmutableVector2D spot : calculateSpots() ) {
+            if ( !remainingMolecules.isEmpty() ) {
+                // first check to see if a molecule is in that spot
+                Molecule filledMolecule = null;
+                for ( Molecule molecule : remainingMolecules ) {
+                    if ( molecule.getPosition().equals( spot ) ) {
+                        filledMolecule = molecule;
+                        break;
+                    }
+                }
+
+                // if there is one there, don't change it, and continue with remaining molecules
+                if ( filledMolecule != null ) {
+                    moleculeOrder.add( filledMolecule );
+                    remainingMolecules.remove( filledMolecule );
+                    continue;
+                }
+
+                // otherwise, find the closest molecule to fill that spot
+                Molecule closestMolecule = null;
+                double smallestDistance = Double.POSITIVE_INFINITY;
+                for ( Molecule molecule : remainingMolecules ) {
+                    double distance = molecule.getPosition().distance( spot );
+                    if ( distance < smallestDistance ) {
+                        smallestDistance = distance;
+                        closestMolecule = molecule;
+                    }
+                }
+
+                assert closestMolecule != null; // there are remaining molecules, so this would probably signal NaN
+
+                // move that molecule into place, and continue
+                closestMolecule.setDestination( spot );
+                moleculeOrder.add( closestMolecule );
+                remainingMolecules.remove( closestMolecule );
+            }
+        }
+    }
+
+    private static int bottomDimension( int max ) {
+        int d = 1;
+        int q = 1;
+        while ( q < max ) {
+            d++;
+            q += d;
+        }
+        return d;
     }
 
     public void attractMolecules( double dt ) {
         for ( Molecule molecule : molecules ) {
-            accelerateMoleculeIntoPosition( molecule, getDestinationFor( molecule ), dt );
+            molecule.outsidePlayAreaAcceleration( dt );
         }
-    }
-
-    private ImmutableVector2D getDestinationFor( Molecule molecule ) {
-        int p = molecules.indexOf( molecule );
-        System.out.println( "p = " + p );
-        return new ImmutableVector2D( getPosition() ).plus( new ImmutableVector2D(
-                0,
-                p * 20
-        ) );
     }
 
     public MoleculeShape getShape() {
@@ -82,45 +168,13 @@ public class MoleculeBucket extends Bucket {
         return size;
     }
 
-    private void accelerateMoleculeIntoPosition( Molecule molecule, ImmutableVector2D destination, double dt ) {
-        if ( molecule.getPosition().getDistance( destination ) != 0 ) {
-            // Move towards the current destination.
-            double distanceToTravel = MOTION_VELOCITY * dt;
-            double distanceToTarget = molecule.getPosition().getDistance( destination );
-
-            double farDistanceMultiple = 10; // if we are this many times away, we speed up
-
-            // if we are far from the target, let's speed up the velocity
-            if ( distanceToTarget > distanceToTravel * farDistanceMultiple ) {
-                double extraDistance = distanceToTarget - distanceToTravel * farDistanceMultiple;
-                distanceToTravel *= 1 + extraDistance / 300;
-            }
-
-            if ( distanceToTravel >= distanceToTarget ) {
-                // Closer than one step, so just go there.
-                molecule.setPosition( destination );
-                molecule.setAngle( 0 );
-            }
-            else {
-                // Move towards the destination.
-                double angle = Math.atan2( destination.getY() - molecule.getPosition().getY(),
-                                           destination.getX() - molecule.getPosition().getX() );
-                molecule.setPosition( molecule.getPosition().plus( new ImmutableVector2D(
-                        distanceToTravel * Math.cos( angle ),
-                        distanceToTravel * Math.sin( angle )
-                ) ) );
-
-                double angleDelta = Reaction.angleDifference( 0, molecule.getAngle() );
-                molecule.setAngle( (float) ( molecule.getAngle() + angleDelta * distanceToTravel / distanceToTarget ) );
-            }
-        }
-    }
-
     @Override public void setPosition( Point2D position ) {
         super.setPosition( position );
 
+        calculateDestinations();
+
         for ( Molecule molecule : molecules ) {
-            molecule.setPosition( new ImmutableVector2D( getPosition().getX(), getPosition().getY() ) );
+            molecule.setPosition( molecule.getDestination() );
         }
     }
 }
