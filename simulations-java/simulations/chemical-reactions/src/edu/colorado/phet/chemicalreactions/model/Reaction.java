@@ -129,7 +129,7 @@ public class Reaction {
     }
 
     // return angle inclusive in [-pi, pi]
-    private double fixAngle( double angle ) {
+    private static double fixAngle( double angle ) {
         double result = angle % ( 2 * Math.PI );
         if ( result < -Math.PI ) {
             return result + 2 * Math.PI;
@@ -142,7 +142,7 @@ public class Reaction {
         }
     }
 
-    private double angleDifference( double a, double b ) {
+    public static double angleDifference( double a, double b ) {
         return fixAngle( a - b );
     }
 

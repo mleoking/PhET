@@ -224,6 +224,13 @@ public class Kit {
         }
 
         /*---------------------------------------------------------------------------*
+        * handle molecule/bucket animations
+        *----------------------------------------------------------------------------*/
+        for ( MoleculeBucket bucket : buckets ) {
+            bucket.attractMolecules( simulationTimeChange );
+        }
+
+        /*---------------------------------------------------------------------------*
         * notify
         *----------------------------------------------------------------------------*/
         stepCompleted.updateListeners();
@@ -231,14 +238,34 @@ public class Kit {
 
     public void dragStart( Molecule molecule ) {
         if ( molecule.getBody() != null ) {
+            // it's in the play area. remove it while we drag
             moleculesInPlayArea.remove( molecule );
+        }
+        else {
+            // dragged out of a bucket. remove it from it's bucket
+            for ( MoleculeBucket bucket : buckets ) {
+                if ( bucket.getShape() == molecule.shape ) {
+                    bucket.removeMolecule( molecule );
+                    break;
+                }
+            }
         }
     }
 
     public void dragEnd( Molecule molecule ) {
         ImmutableVector2D position = molecule.position.get();
         if ( layoutBounds.getAvailablePlayAreaModelBounds().contains( position.getX(), position.getY() ) ) {
+            // dropped in the play area, so re-enable physics on it
             moleculesInPlayArea.add( molecule );
+        }
+        else {
+            // dropped outside, so put it back in it's bucket
+            for ( MoleculeBucket bucket : buckets ) {
+                if ( bucket.getShape() == molecule.shape ) {
+                    bucket.addMolecule( molecule );
+                    break;
+                }
+            }
         }
     }
 
