@@ -1,6 +1,13 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.energysystems.model;
 
+import java.awt.Color;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -31,12 +38,30 @@ public class EnergySystemsModel {
     // Carousels that control the positions of the energy sources, converters,
     // and users.
     public final Carousel energySourcesCarousel = new Carousel( new ImmutableVector2D( 0, 0 ), new ImmutableVector2D( 0, 0 ) ); // TODO - Position and offset.
-    public final Carousel energyConvertersCarousel = new Carousel( new ImmutableVector2D( 0, 0 ), new ImmutableVector2D( 0, 0 ) ); // TODO - Position and offset.
+    public final Carousel energyConvertersCarousel = new Carousel( new ImmutableVector2D( -0.01, 0 ), new ImmutableVector2D( 0, -0.12 ) ); // TODO - Position and offset.
     public final Carousel energyUsersCarousel = new Carousel( new ImmutableVector2D( 0, 0 ), new ImmutableVector2D( 0, 0 ) ); // TODO - Position and offset.
+
+    // TODO temp.
+    public final List<ShapeModelElement> shapeModelElementList = new ArrayList<ShapeModelElement>();
 
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
+
+    public EnergySystemsModel() {
+        // TODO: Add some shapes to the carousels for testing purposes.
+        ShapeModelElement redRectangle = new ShapeModelElement( new Rectangle2D.Double( -0.05, -0.05, 0.1, 0.1 ), Color.RED );
+        shapeModelElementList.add( redRectangle );
+        energyConvertersCarousel.add( redRectangle );
+
+        ShapeModelElement purpleRoundedRect = new ShapeModelElement( new RoundRectangle2D.Double( -0.05, -0.05, 0.1, 0.1, 0.05, 0.05 ), new Color( 153, 50, 204 ) );
+        shapeModelElementList.add( purpleRoundedRect );
+        energyConvertersCarousel.add( purpleRoundedRect );
+
+        ShapeModelElement greenCircle = new ShapeModelElement( new Ellipse2D.Double( -0.05, -0.05, 0.1, 0.1 ), Color.GREEN );
+        shapeModelElementList.add( greenCircle );
+        energyConvertersCarousel.add( greenCircle );
+    }
 
     //-------------------------------------------------------------------------
     // Methods

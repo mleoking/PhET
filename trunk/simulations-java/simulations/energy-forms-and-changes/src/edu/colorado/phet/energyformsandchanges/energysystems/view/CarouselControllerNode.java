@@ -3,6 +3,8 @@ package edu.colorado.phet.energyformsandchanges.energysystems.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.RoundRectangle2D;
 
@@ -42,7 +44,7 @@ public class CarouselControllerNode extends PNode {
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    public CarouselControllerNode( Carousel carousel ) {
+    public CarouselControllerNode( final Carousel carousel ) {
         PNode outline = new PhetPPath( new RoundRectangle2D.Double( 0, 0, SIZE.getWidth(), SIZE.getHeight(), ROUNDED_AMOUNT, ROUNDED_AMOUNT ),
                                        BACKGROUND_COLOR,
                                        new BasicStroke( 2 ),
@@ -53,11 +55,21 @@ public class CarouselControllerNode extends PNode {
         previousElementButton.setScale( BUTTON_WIDTH / previousElementButton.getFullBoundsReference().getWidth() );
         previousElementButton.setEnabled( true );
         previousElementButton.centerFullBoundsOnPoint( SIZE.getWidth() / 2, previousElementButton.getFullBoundsReference().getHeight() / 2 + buttonInset );
+        previousElementButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                carousel.setPrev();
+            }
+        } );
         addChild( previousElementButton );
         nextElementButton = new ArrowButtonNode( ArrowButtonNode.Orientation.DOWN, new ArrowButtonNode.ColorScheme( BUTTON_BASE_COLOR ) );
         nextElementButton.setScale( BUTTON_WIDTH / nextElementButton.getFullBoundsReference().getWidth() );
         nextElementButton.setEnabled( true );
         nextElementButton.centerFullBoundsOnPoint( SIZE.getWidth() / 2, SIZE.getHeight() - nextElementButton.getFullBoundsReference().getHeight() / 2 - buttonInset );
+        nextElementButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                carousel.setNext();
+            }
+        } );
         addChild( nextElementButton );
     }
 }

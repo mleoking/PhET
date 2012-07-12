@@ -63,12 +63,21 @@ public class Carousel {
     }
 
     public void setNext() {
-        // TODO: Create an activity to animate to next element.
-
+        if ( currentlySelectedElementIndex < managedElements.size() ) {
+            currentlySelectedElementIndex++;
+            for ( int i = 0; i < managedElements.size(); i++ ) {
+                managedElements.get( i ).setPosition( selectedElementPosition.getAddedInstance( offsetBetweenElements.getScaledInstance( i - currentlySelectedElementIndex ) ) );
+            }
+        }
     }
 
     public void setPrev() {
-        // TODO: Create an activity to animate to previous element.
+        if ( currentlySelectedElementIndex > 0 ) {
+            currentlySelectedElementIndex--;
+            for ( int i = 0; i < managedElements.size(); i++ ) {
+                managedElements.get( i ).setPosition( selectedElementPosition.getAddedInstance( offsetBetweenElements.getScaledInstance( i - currentlySelectedElementIndex ) ) );
+            }
+        }
     }
 
     public boolean hasNext() {
