@@ -1,6 +1,7 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.common.phetcommon.audio;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.URL;
 
@@ -79,7 +80,8 @@ public class PhetAudioClip {
             SourceDataLine line;
 
             try {
-                audioInputStream = AudioSystem.getAudioInputStream( url.openStream() );
+                //Load the audio input stream and decorate with a BufferedInputStream to support mark/reset, see #3375
+                audioInputStream = AudioSystem.getAudioInputStream( new BufferedInputStream( url.openStream() ) );
 
                 AudioFileFormat aff = AudioSystem.getAudioFileFormat( url );
 
