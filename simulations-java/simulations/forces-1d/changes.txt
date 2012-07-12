@@ -1,3 +1,4 @@
+> Fixed a bug that could prevent audio from working, see #3375
 # 1.23.00 (52641) Jun 5, 2011
 6/5/11 > added new translation credits features
 # 1.22.01 (52624) Jun 2, 2011

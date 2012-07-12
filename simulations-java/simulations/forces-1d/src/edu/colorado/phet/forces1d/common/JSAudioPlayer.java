@@ -1,10 +1,18 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.forces1d.common;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.URL;
 
-import javax.sound.sampled.*;
+import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.SourceDataLine;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  * User: Sam Reid
@@ -37,10 +45,10 @@ public class JSAudioPlayer {
                     try {
                         play( url );
                     }
-                    catch( IOException e ) {
+                    catch ( IOException e ) {
                         e.printStackTrace();
                     }
-                    catch( UnsupportedAudioFileException e ) {
+                    catch ( UnsupportedAudioFileException e ) {
                         e.printStackTrace();
                     }
                 }
@@ -55,7 +63,7 @@ public class JSAudioPlayer {
      * Blocks until finished.
      */
     public static void play( URL url ) throws IOException, UnsupportedAudioFileException {
-        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream( url.openStream() );
+        AudioInputStream audioInputStream = AudioSystem.getAudioInputStream( new BufferedInputStream( url.openStream() ) );
 
         AudioFileFormat aff = AudioSystem.getAudioFileFormat( url );
         AudioFormat audioFormat = aff.getFormat();
@@ -71,11 +79,11 @@ public class JSAudioPlayer {
             */
             line.open( audioFormat );
         }
-        catch( LineUnavailableException e ) {
+        catch ( LineUnavailableException e ) {
             e.printStackTrace();
             System.exit( 1 );
         }
-        catch( Exception e ) {
+        catch ( Exception e ) {
             e.printStackTrace();
             System.exit( 1 );
         }
@@ -105,7 +113,7 @@ public class JSAudioPlayer {
             try {
                 nBytesRead = audioInputStream.read( abData, 0, abData.length );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
             }
             if ( nBytesRead >= 0 ) {
@@ -130,10 +138,10 @@ public class JSAudioPlayer {
                 try {
                     play( preyURL );
                 }
-                catch( IOException e ) {
+                catch ( IOException e ) {
                     e.printStackTrace();
                 }
-                catch( UnsupportedAudioFileException e ) {
+                catch ( UnsupportedAudioFileException e ) {
                     e.printStackTrace();
                 }
             }

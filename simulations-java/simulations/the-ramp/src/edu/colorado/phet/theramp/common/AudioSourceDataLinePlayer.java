@@ -1,11 +1,19 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.theramp.common;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
-import javax.sound.sampled.*;
+import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.SourceDataLine;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 /**
  * User: Sam Reid
@@ -72,7 +80,7 @@ public class AudioSourceDataLinePlayer {
      */
     public static void play( URL url ) throws IOException, UnsupportedAudioFileException {
         if ( audioEnabled ) {
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream( url.openStream() );
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream( new BufferedInputStream( url.openStream() ) );
 
             AudioFileFormat aff = AudioSystem.getAudioFileFormat( url );
             AudioFormat audioFormat = aff.getFormat();
