@@ -63,7 +63,7 @@ public class Carousel {
     }
 
     public void setNext() {
-        if ( currentlySelectedElementIndex < managedElements.size() ) {
+        if ( currentlySelectedElementIndex < managedElements.size() - 1 ) {
             currentlySelectedElementIndex++;
             for ( int i = 0; i < managedElements.size(); i++ ) {
                 managedElements.get( i ).setPosition( selectedElementPosition.getAddedInstance( offsetBetweenElements.getScaledInstance( i - currentlySelectedElementIndex ) ) );

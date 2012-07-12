@@ -50,7 +50,7 @@ public class EnergySystemsModel {
 
     public EnergySystemsModel() {
         // TODO: Add some shapes to the carousels for testing purposes.
-        ShapeModelElement redRectangle = new ShapeModelElement( new Rectangle2D.Double( -0.05, -0.05, 0.1, 0.1 ), Color.RED );
+        ShapeModelElement redRectangle = new ShapeModelElement( new Rectangle2D.Double( -0.05, -0.05, 0.1, 0.1 ), new Color( 210, 105, 30 ) );
         shapeModelElementList.add( redRectangle );
         energyConvertersCarousel.add( redRectangle );
 
@@ -58,7 +58,7 @@ public class EnergySystemsModel {
         shapeModelElementList.add( purpleRoundedRect );
         energyConvertersCarousel.add( purpleRoundedRect );
 
-        ShapeModelElement greenCircle = new ShapeModelElement( new Ellipse2D.Double( -0.05, -0.05, 0.1, 0.1 ), Color.GREEN );
+        ShapeModelElement greenCircle = new ShapeModelElement( new Ellipse2D.Double( -0.05, -0.05, 0.1, 0.1 ), new Color( 0, 128, 0 ) );
         shapeModelElementList.add( greenCircle );
         energyConvertersCarousel.add( greenCircle );
     }
