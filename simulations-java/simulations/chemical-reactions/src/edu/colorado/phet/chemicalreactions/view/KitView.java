@@ -8,7 +8,9 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -73,9 +75,28 @@ public class KitView {
             topLayer.addChild( bucketView.getFrontNode() );
             bottomLayer.addChild( bucketView.getHoleNode() );
 
+            // update the z-order of molecules when needed
+            bucket.moleculeOrderNotifier.addListener( new VoidFunction1<List<Molecule>>() {
+                public void apply( List<Molecule> molecules ) {
+                    for ( Molecule molecule : new ArrayList<Molecule>( molecules ){{
+                        Collections.reverse( this );
+                    }} ) {
+                        MoleculeNode moleculeNode = moleculeMap.get( molecule );
+                        // TODO: why is moveToBack / front / setVisible not working here?
+//                        moleculeNode.moveToBack();
+//                        moleculeNode.setVisible( false );
+                        atomLayer.removeChild( moleculeNode );
+                        atomLayer.addChild( moleculeNode );
+                    }
+                }
+            } );
+
             for ( final Molecule molecule : bucket.getMolecules() ) {
                 addMolecule( molecule );
             }
+
+            // re-add the molecules in the correct order, essentially
+            bucket.calculateDestinations();
         }
 
         kit.molecules.addElementAddedObserver( new VoidFunction1<Molecule>() {
@@ -183,6 +204,7 @@ public class KitView {
 
     private void removeMolecule( final Molecule molecule ) {
         MoleculeNode moleculeNode = moleculeMap.get( molecule );
+        // TODO: why is setVisible necessary here, since we are removing it? something must be wrong
         moleculeNode.setVisible( false );
         atomLayer.removeChild( moleculeNode );
         assert moleculeNode.getParent() == null;
