@@ -1,0 +1,47 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: June 21 - July 11, 2012
+
+Fraction Matcher
+- code review with JB, #3357
+- thoughts about use of functional programming, #3357
+- created various bug reports (#3366,3367,3368,3369,3370)
+
+Normal Modes
+- preliminary code review, #3362
+
+Glaciers
+- replied to customer request for model info, #3248
+- integrated TI sponsor info, deployed energy-skate-park 2.12, #3363
+
+Sponsor
+- open web browser when clicking on sponsor image, #3364
+
+Build Process
+- add "interviews" link to dev deployments
+
+Unfuddle
+- cleaned up various tickets related to my sims
+- reported a bug with creating custom reports to Unfuddle
+
+Administrative
+- status meeting
+- Physics/Math meeting
+- reports
+
+WHAT'S NEXT:                                                                         '
+
+- Line Graphing: design & implement "Game" tab
+- Normal Modes: continue code review when preliminary issues have been addressed, #3362
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- August 6-19 (vacation, not working)
+- October 10-23 (CT, working reduced hours)
+
+--
