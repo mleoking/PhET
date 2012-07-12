@@ -15,6 +15,7 @@ import org.jbox2d.dynamics.FixtureDef;
 import edu.colorado.phet.chemicalreactions.box2d.BodyModel;
 import edu.colorado.phet.chemicalreactions.model.MoleculeShape.AtomSpot;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.IBucketSphere;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -33,6 +34,8 @@ public class Molecule extends BodyModel {
     private final Map<Atom, AtomSpot> atomMap = new HashMap<Atom, AtomSpot>();
 
     public final VoidNotifier disposeNotifier = new VoidNotifier();
+
+    public final Property<ImmutableVector2D> destination = new Property<ImmutableVector2D>( new ImmutableVector2D() );
 
     public Molecule( MoleculeShape shape ) {
         super( new BodyDef() {{
@@ -63,6 +66,40 @@ public class Molecule extends BodyModel {
                     m_p.set( (float) box2dPosition.getX(), (float) box2dPosition.getY() );
                 }};
             }} );
+        }
+    }
+
+    public void outsidePlayAreaAcceleration( double dt ) {
+        if ( getPosition().getDistance( getDestination() ) != 0 ) {
+            // Move towards the current destination.
+            double distanceToTravel = 1500 * dt;
+            double distanceToTarget = getPosition().getDistance( getDestination() );
+
+            double farDistanceMultiple = 10; // if we are this many times away, we speed up
+
+            // if we are far from the target, let's speed up the velocity
+            if ( distanceToTarget > distanceToTravel * farDistanceMultiple ) {
+                double extraDistance = distanceToTarget - distanceToTravel * farDistanceMultiple;
+                distanceToTravel *= 1 + extraDistance / 300;
+            }
+
+            if ( distanceToTravel >= distanceToTarget ) {
+                // Closer than one step, so just go there.
+                setPosition( getDestination() );
+                setAngle( 0 );
+            }
+            else {
+                // Move towards the destination.
+                double angle = Math.atan2( getDestination().getY() - getPosition().getY(),
+                                           getDestination().getX() - getPosition().getX() );
+                setPosition( getPosition().plus( new ImmutableVector2D(
+                        distanceToTravel * Math.cos( angle ),
+                        distanceToTravel * Math.sin( angle )
+                ) ) );
+
+                double angleDelta = Reaction.angleDifference( 0, getAngle() );
+                setAngle( (float) ( getAngle() + angleDelta * distanceToTravel / distanceToTarget ) );
+            }
         }
     }
 
@@ -100,5 +137,13 @@ public class Molecule extends BodyModel {
     public boolean isMovingCloserTo( Molecule other ) {
         // this also measures the degree to how the distance between the two is CURRENTLY changing
         return ( getPosition().minus( other.getPosition() ) ).dot( getVelocity().minus( other.getVelocity() ) ) < 0;
+    }
+
+    public ImmutableVector2D getDestination() {
+        return destination.get();
+    }
+
+    public void setDestination( ImmutableVector2D position ) {
+        destination.set( position );
     }
 }
