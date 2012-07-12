@@ -1,3 +1,4 @@
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.reids.admin;
 
 import java.io.File;
@@ -174,6 +175,7 @@ public class MonthlyReportFilter {
         if ( category.equals( "sim-event-collection" ) ) { return mapCategory( "Sim data collection/processing" ); }
         if ( category.equals( "server" ) ) { return mapCategory( "misc" ); }
         if ( category.equals( "gas-properties" ) ) { return mapCategory( "ideal-gas" ); }
+        if ( category.equals( "radiating-charge" ) ) { return mapCategory( "radiating-charges" ); }
 
         System.out.println( "No match found for the category: " + category );
         return "unknown: " + category;
