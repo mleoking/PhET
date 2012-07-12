@@ -18,4 +18,4 @@ These constraints were added to productively constrain the user to a reasonable 
 
 [=======Fraction Matcher=======]
 The fraction matcher model is simple, various fractions are generated and the user compares their values, scoring a match when they are equal values (even if different representations).
-Descriptions of the levels are given in edu.colorado.phet.fractions.fractionmatcher.model.Levels
+Descriptions of the levels are given in edu.colorado.phet.fractions.fractionmatcher.model.AbstractLevelFactory and subclasses.
