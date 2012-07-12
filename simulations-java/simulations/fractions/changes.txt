@@ -1,3 +1,4 @@
+# 1.00.01 (65767) Jul 11, 2012
 Fraction Matcher: Use a consistent color for red in the level selection screen, see #3357
 Fraction Matcher: Removed unused "standaloneSim" parameter, see #3357
 Build a Fraction: Pictures: Fixed: Piece should move down in the target cell, it is too high now that the piece size buttons appear beneath.
