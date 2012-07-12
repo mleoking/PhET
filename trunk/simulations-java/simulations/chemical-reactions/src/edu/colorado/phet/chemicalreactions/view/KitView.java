@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import edu.colorado.phet.chemicalreactions.ChemicalReactionsApplication;
+import edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants;
 import edu.colorado.phet.chemicalreactions.model.Kit;
 import edu.colorado.phet.chemicalreactions.model.Molecule;
 import edu.colorado.phet.chemicalreactions.model.MoleculeBucket;
@@ -38,6 +39,7 @@ import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.ARR
 import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.MODEL_VIEW_TRANSFORM;
 import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.OPERATOR_BORDER_COLOR;
 import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.OPERATOR_COLOR;
+import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.OPERATOR_HIGHLIGHT_COLOR;
 import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.PLUS_VIEW_LENGTH;
 import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.PLUS_VIEW_THICKNESS;
 
@@ -228,9 +230,14 @@ public class KitView {
                 ARROW_VIEW_HEAD_WIDTH,
                 ARROW_VIEW_THICKNESS
         ) {{
-            setPaint( OPERATOR_COLOR );
             setStroke( new BasicStroke( 1 ) );
             setStrokePaint( OPERATOR_BORDER_COLOR );
+
+            kit.hasProductInPlayArea.addObserver( new SimpleObserver() {
+                public void update() {
+                    setPaint( kit.hasProductInPlayArea.get() ? OPERATOR_HIGHLIGHT_COLOR : OPERATOR_COLOR );
+                }
+            } );
         }} );
     }
 
