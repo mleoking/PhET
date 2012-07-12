@@ -4,9 +4,11 @@ package edu.colorado.phet.chemicalreactions.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
@@ -34,10 +36,13 @@ public class Kit {
     public final ObservableList<Molecule> moleculesInPlayArea = new ObservableList<Molecule>();
     public final Property<Boolean> visible = new Property<Boolean>( false );
     public final Property<Boolean> hasMoleculesInBoxes = new Property<Boolean>( false );
+    public final Property<Boolean> hasProductInPlayArea = new Property<Boolean>( false );
 
     private final LayoutBounds layoutBounds;
 
     private final Box2dModel box2dModel;
+
+    private final Set<MoleculeShape> productShapes = new HashSet<MoleculeShape>();
 
     private final List<Reaction> reactions = new ArrayList<Reaction>();
     private final Map<Molecule, Reaction> reactionMap = new HashMap<Molecule, Reaction>();
@@ -53,6 +58,13 @@ public class Kit {
         this.possibleReactions = possibleReactions;
 
         box2dModel = new Box2dModel( layoutBounds );
+
+        // calculate what molecule shapes are "product" shapes
+        for ( ReactionShape possibleReaction : possibleReactions ) {
+            for ( ReactionShape.MoleculeSpot productSpot : possibleReaction.productSpots ) {
+                productShapes.add( productSpot.shape );
+            }
+        }
 
         this.buckets = new ArrayList<MoleculeBucket>() {{
             addAll( reactantBuckets );
@@ -85,12 +97,16 @@ public class Kit {
                 ) );
 
                 molecule.setAngularVelocity( (float) ( Math.random() - 0.5 ) * 3 );
+
+                checkForProducts();
             }
         } );
 
         moleculesInPlayArea.addElementRemovedObserver( new VoidFunction1<Molecule>() {
             public void apply( Molecule molecule ) {
                 box2dModel.removeBody( molecule );
+
+                checkForProducts();
             }
         } );
 
@@ -267,6 +283,16 @@ public class Kit {
                 }
             }
         }
+    }
+
+    private void checkForProducts() {
+        for ( Molecule molecule : moleculesInPlayArea ) {
+            if ( productShapes.contains( molecule.shape ) ) {
+                hasProductInPlayArea.set( true );
+                return;
+            }
+        }
+        hasProductInPlayArea.set( false );
     }
 
     private void addReaction( Reaction reaction ) {

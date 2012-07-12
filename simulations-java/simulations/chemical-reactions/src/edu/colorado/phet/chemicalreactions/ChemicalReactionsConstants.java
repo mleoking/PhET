@@ -39,6 +39,7 @@ public class ChemicalReactionsConstants {
     public static final Color PLAY_AREA_BACKGROUND_COLOR = Color.WHITE;
 
     public static final Color OPERATOR_COLOR = new Color( 160, 210, 255 );
+    public static final Color OPERATOR_HIGHLIGHT_COLOR = new Color( 255, 254, 108 );
     public static final Color OPERATOR_BORDER_COLOR = new Color( 110, 160, 200 );
 
     /*---------------------------------------------------------------------------*
