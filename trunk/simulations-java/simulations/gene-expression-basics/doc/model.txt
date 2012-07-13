@@ -21,7 +21,7 @@ subunits come together as mRNA transcription begins.
 o Individual amino acids are not depicted.
 o Transfer RNA (tRNA) is not depicted.
 o Protein folding is not depicted.
-o The sizes and shapes of the biomolecules were inspired by the drawing in
-"The Machinery of Life" by David S. Goodsell.
+o The sizes and shapes of the biomolecules were inspired by the drawing in "The
+Machinery of Life" by David S. Goodsell.
 
 
