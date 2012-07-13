@@ -46,7 +46,6 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
 
     public static final Dimension2D STAGE_SIZE = CenteredStage.DEFAULT_STAGE_SIZE;
     private static final double EDGE_INSET = 10;
-    private static final Color CONTROL_PANEL_COLOR = new Color( 255, 255, 224 );
 
     // Boolean property for showing/hiding developer control for dumping energy levels.
     public static final BooleanProperty showDumpEnergiesButton = new BooleanProperty( false );
@@ -149,7 +148,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
                                                                                         new PhetFont( 20 ),
                                                                                         EnergyFormsAndChangesResources.Images.ENERGY_CHUNKS_WHITE_SEMIBOLD,
                                                                                         model.energyChunksVisible );
-            backLayer.addChild( new ControlPanelNode( new PSwing( showEnergyCheckBox ), CONTROL_PANEL_COLOR ) {{
+            backLayer.addChild( new ControlPanelNode( new PSwing( showEnergyCheckBox ), EFACConstants.CONTROL_PANEL_BACKGROUND_COLOR ) {{
                 setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - EDGE_INSET, EDGE_INSET );
             }} );
         }
@@ -192,7 +191,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         backLayer.addChild( beakerView.getBackNode() );
 
         // Add the tool box for the thermometers.
-        thermometerToolBox = new ThermometerToolBox( model, mvt, CONTROL_PANEL_COLOR );
+        thermometerToolBox = new ThermometerToolBox( model, mvt, EFACConstants.CONTROL_PANEL_BACKGROUND_COLOR );
         thermometerToolBox.setOffset( EDGE_INSET, EDGE_INSET );
         backLayer.addChild( thermometerToolBox );
 
