@@ -124,16 +124,16 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Mai
     }
 
     private PNode createLevelNode( final int levelIndex, final LevelType levelType ) {
-        return levelType == LevelType.SHAPES ? new PictureSceneNode( levelIndex, new BuildAFractionModel( true ), STAGE_SIZE, this ) :
-               new NumberSceneNode( levelIndex, rootNode, new BuildAFractionModel( true ), STAGE_SIZE, this );
+        return levelType == LevelType.SHAPES ? new PictureSceneNode( levelIndex, new BuildAFractionModel(), STAGE_SIZE, this ) :
+               new NumberSceneNode( levelIndex, rootNode, new BuildAFractionModel(), STAGE_SIZE, this );
     }
 
     public void goToNextPictureLevel( final int newLevelIndex ) {
-        animateTo( new PictureSceneNode( newLevelIndex, new BuildAFractionModel( true ), STAGE_SIZE, this ), Direction.RIGHT );
+        animateTo( new PictureSceneNode( newLevelIndex, new BuildAFractionModel(), STAGE_SIZE, this ), Direction.RIGHT );
     }
 
     public void goToNextNumberLevel( final int newLevelIndex ) {
-        animateTo( new NumberSceneNode( newLevelIndex, rootNode, new BuildAFractionModel( true ), STAGE_SIZE, this ), Direction.RIGHT );
+        animateTo( new NumberSceneNode( newLevelIndex, rootNode, new BuildAFractionModel(), STAGE_SIZE, this ), Direction.RIGHT );
     }
 
     public void goToLevelSelectionScreen() {
@@ -141,10 +141,10 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Mai
     }
 
     public void resamplePictureLevel( final int levelIndex ) {
-        crossFadeTo( new PictureSceneNode( levelIndex, new BuildAFractionModel( true ), STAGE_SIZE, this ) );
+        crossFadeTo( new PictureSceneNode( levelIndex, new BuildAFractionModel(), STAGE_SIZE, this ) );
     }
 
     public void resampleNumberLevel( final int levelIndex ) {
-        crossFadeTo( new NumberSceneNode( levelIndex, rootNode, new BuildAFractionModel( true ), STAGE_SIZE, this ) );
+        crossFadeTo( new NumberSceneNode( levelIndex, rootNode, new BuildAFractionModel(), STAGE_SIZE, this ) );
     }
 }
