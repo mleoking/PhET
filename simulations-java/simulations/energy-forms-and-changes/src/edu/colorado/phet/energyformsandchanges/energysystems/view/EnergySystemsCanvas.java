@@ -43,7 +43,7 @@ public class EnergySystemsCanvas extends PhetPCanvas {
     //-------------------------------------------------------------------------
 
     public static final Dimension2D STAGE_SIZE = CenteredStage.DEFAULT_STAGE_SIZE;
-    private static final double CONTROL_INSET = 5;
+    private static final double CONTROL_INSET = 10;
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -152,9 +152,12 @@ public class EnergySystemsCanvas extends PhetPCanvas {
                                 STAGE_SIZE.getHeight() - clockControl.getFullBoundsReference().height );
 
         // Energy chunk control.
-        showEnergyControlPanel.setOffset( STAGE_SIZE.getWidth() - showEnergyControlPanel.getFullBoundsReference().getWidth() - CONTROL_INSET,
-                                          clockControlBackground.getFullBoundsReference().getMinY() - showEnergyControlPanel.getFullBoundsReference().getHeight() - CONTROL_INSET );
-        energyChunkLegend.setOffset( STAGE_SIZE.getWidth() - energyChunkLegend.getFullBoundsReference().getWidth() - CONTROL_INSET, CONTROL_INSET );
+        {
+            double energyControlsCenterX = STAGE_SIZE.getWidth() - Math.max( showEnergyControlPanel.getFullWidth() / 2, energyChunkLegend.getFullBoundsReference().getWidth() / 2 ) - CONTROL_INSET;
+            showEnergyControlPanel.setOffset( energyControlsCenterX - showEnergyControlPanel.getFullBoundsReference().getWidth() / 2, CONTROL_INSET );
+            energyChunkLegend.setOffset( energyControlsCenterX - energyChunkLegend.getFullBoundsReference().getWidth() / 2,
+                                         showEnergyControlPanel.getFullBoundsReference().getMaxY() + CONTROL_INSET );
+        }
 
         // Carousel control.  TODO: Will ultimately be linked to horizontal carousel position.
         double carouselControllersYPos = clockControlBackground.getFullBoundsReference().getMinY() - energyConvertersCarouselController.getFullBoundsReference().getHeight() - CONTROL_INSET;
