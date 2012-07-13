@@ -128,7 +128,7 @@ public class GameOverNode extends PhetPNode {
         HTMLImageButtonNode buttonNode = new HTMLImageButtonNode( BUTTON_NEW_GAME, GameSettingsPanel.DEFAULT_BUTTON_COLOR ) {{
             setUserComponent( UserComponents.newGameButton );
             addActionListener( new ActionListener() {
-                @Override public void actionPerformed( final ActionEvent e ) {
+                public void actionPerformed( final ActionEvent e ) {
                     fireNewGamePressed();
                 }
             } );
