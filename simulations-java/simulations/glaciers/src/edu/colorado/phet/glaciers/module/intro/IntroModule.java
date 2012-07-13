@@ -4,9 +4,10 @@ package edu.colorado.phet.glaciers.module.intro;
 
 import java.awt.Frame;
 
-import edu.colorado.phet.common.piccolophet.help.HelpBalloon;
-import edu.colorado.phet.common.piccolophet.help.HelpPane;
-import edu.colorado.phet.glaciers.*;
+import edu.colorado.phet.glaciers.GlaciersApplication;
+import edu.colorado.phet.glaciers.GlaciersConstants;
+import edu.colorado.phet.glaciers.GlaciersResources;
+import edu.colorado.phet.glaciers.GlaciersStrings;
 import edu.colorado.phet.glaciers.control.ClimateControlPanel;
 import edu.colorado.phet.glaciers.control.MiscControlPanel;
 import edu.colorado.phet.glaciers.control.ViewControlPanel;
@@ -50,23 +51,6 @@ public class IntroModule extends GlaciersModule {
         _controlPanel = new IntroControlPanel( model, _playArea, dialogOwner, this, GlaciersConstants.DEFAULT_TO_ENGLISH_UNITS, minHeight );
         setClockControlPanel( _controlPanel );
         
-        // Help
-        if ( hasHelp() ) {
-            HelpPane helpPane = getDefaultHelpPane();
-            
-            HelpBalloon steadyStateButtonHelp = new GlaciersHelpBalloon( helpPane, GlaciersStrings.HELP_STEADY_STATE_BUTTON, HelpBalloon.BOTTOM_LEFT, 200 );
-            helpPane.add( steadyStateButtonHelp );
-            steadyStateButtonHelp.pointAt( _controlPanel.getMiscControlPanel().getSteadyStateButton() );
-            
-            HelpBalloon simSpeedHelp = new GlaciersHelpBalloon( helpPane, GlaciersStrings.HELP_SIM_SPEED, HelpBalloon.BOTTOM_LEFT, 190 );
-            helpPane.add( simSpeedHelp );
-            simSpeedHelp.pointAt( _controlPanel.getClockControlPanel().getFrameRateControl() );
-            
-            HelpBalloon toolboxHelp = new GlaciersHelpBalloon( helpPane, GlaciersStrings.HELP_TOOLBOX, HelpBalloon.BOTTOM_CENTER, 30 );
-            helpPane.add( toolboxHelp );
-            toolboxHelp.pointAt( _playArea.getToolboxNode(), _playArea.getZoomedCanvas() );
-        }
-        
         // Set initial state
         reset();
     }
@@ -83,15 +67,6 @@ public class IntroModule extends GlaciersModule {
     public void deactivate() {
         _controlPanel.deactivate();
         super.deactivate();
-    }
-    
-    /**
-     * Does this module have help
-     * 
-     * @return true or false
-     */
-    public boolean hasHelp() {
-        return false; // disabled until Unfuddle 725 is addressed
     }
     
     /**
