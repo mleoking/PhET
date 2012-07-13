@@ -47,7 +47,7 @@ import static java.awt.Color.darkGray;
  *
  * @author Sam Reid
  */
-public class NumberSceneNode extends PNode implements NumberDragContext, FractionDraggingContext {
+public class NumberSceneNode extends SceneNode implements NumberDragContext, FractionDraggingContext {
     public final ArrayList<FractionNode> fractionGraphics = new ArrayList<FractionNode>();
     public final PNode rootNode;
     private final BuildAFractionModel model;
@@ -313,6 +313,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
                 break;
             }
         }
+
         //If it didn't hit a fraction, send back to its starting place--the user is not allowed to have free floating numbers in the play area
         if ( !hitFraction ) {
             numberCardNode.animateHome();
@@ -355,6 +356,8 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
         //Add a new fraction skeleton when the previous one is completed
         if ( !allTargetsComplete() ) {
 
+            playSoundForOneComplete();
+
             //If no fraction skeleton in play area, move one there
             if ( allIncompleteFractionsInToolbox() ) {
                 FractionNode g = null;
@@ -376,11 +379,15 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
             faceNodeDialog.setPickable( true );
             faceNodeDialog.setChildrenPickable( true );
             faceNodeDialog.moveToFront();
+
+            playSoundForAllComplete();
             model.numberScore.add( 1 );
         }
     }
 
-    private boolean allTargetsComplete() {
+    private boolean allTargetsComplete() { return numCompletedTargets() == pairList.length(); }
+
+    private int numCompletedTargets() {
         return pairList.map( new F<Pair, Boolean>() {
             @Override public Boolean f( final Pair pair ) {
                 return pair.targetCell.isCompleted();
@@ -389,7 +396,7 @@ public class NumberSceneNode extends PNode implements NumberDragContext, Fractio
             @Override public Boolean f( final Boolean b ) {
                 return b;
             }
-        } ).length() == pairList.length();
+        } ).length();
     }
 
     public void hideFace() {
