@@ -44,7 +44,7 @@ public class Carousel {
 
     private double elapsedTransitionTime = 0;
     private ImmutableVector2D currentCarouselOffset = new Vector2D( 0, 0 );
-    private ImmutableVector2D carouselOffsetWhenTransitionSharted = new ImmutableVector2D( 0, 0 );
+    private ImmutableVector2D carouselOffsetWhenTransitionStarted = new ImmutableVector2D( 0, 0 );
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -77,9 +77,9 @@ public class Carousel {
         if ( transitionInProgress() ) {
             elapsedTransitionTime += dt;
             ImmutableVector2D targetCarouselOffset = offsetBetweenElements.getScaledInstance( -targetIndex );
-            ImmutableVector2D totalTravelVector = targetCarouselOffset.minus( carouselOffsetWhenTransitionSharted );
+            ImmutableVector2D totalTravelVector = targetCarouselOffset.minus( carouselOffsetWhenTransitionStarted );
             double proportionOfTimeElapsed = MathUtil.clamp( 0, elapsedTransitionTime / TRANSITION_DURATION, 1 );
-            currentCarouselOffset = carouselOffsetWhenTransitionSharted.plus( totalTravelVector.getScaledInstance( proportionOfTimeElapsed ) );
+            currentCarouselOffset = carouselOffsetWhenTransitionStarted.plus( totalTravelVector.getScaledInstance( proportionOfTimeElapsed ) );
             updateManagedElementPositions();
             if ( proportionOfTimeElapsed == 1 ) {
                 currentlySelectedElementIndex = targetIndex;
@@ -98,26 +98,26 @@ public class Carousel {
     }
 
     public void setNext() {
-        if ( currentlySelectedElementIndex < managedElements.size() - 1 ) {
-            targetIndex = currentlySelectedElementIndex + 1;
+        if ( hasNext() ) {
+            targetIndex++;
             elapsedTransitionTime = 0;
-            carouselOffsetWhenTransitionSharted = currentCarouselOffset;
+            carouselOffsetWhenTransitionStarted = currentCarouselOffset;
         }
     }
 
     public void setPrev() {
-        if ( currentlySelectedElementIndex > 0 ) {
-            targetIndex = currentlySelectedElementIndex - 1;
+        if ( hasPrev() ) {
+            targetIndex--;
             elapsedTransitionTime = 0;
-            carouselOffsetWhenTransitionSharted = currentCarouselOffset;
+            carouselOffsetWhenTransitionStarted = currentCarouselOffset;
         }
     }
 
     public boolean hasNext() {
-        return currentlySelectedElementIndex < managedElements.size();
+        return targetIndex + 1 < managedElements.size();
     }
 
     public boolean hasPrev() {
-        return currentlySelectedElementIndex > 0;
+        return targetIndex > 0;
     }
 }
