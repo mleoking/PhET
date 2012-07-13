@@ -1,0 +1,54 @@
+PhET Progress Report, J. Blanco, 7-12-2012
+
+PhET Weekly Progress Report
+John Blanco
+July 12th, 2012
+
+Time period covered: June 27th through July 11th.  This is a two week period due to vacation.
+
+Energy Forms and Changes - 19.0 hrs
+
+o	Made projected shapes available in model to improve interaction.
+o	Blocked out cooling interaction with air for multi-object stacks until temperature is more equalized.
+o	Fixed issue with energy chunks going from water to block when combination is heated.
+o	Made E chunk positions equalize more quickly when blocks put in beaker.
+o	Fixed issue where clipping region for blocks in beaker was kicking in when beaker put on top of blocks.
+o	Adjusted thermometer range so that max and min temperatures matched max and min tick marks.
+o	Made thermometer triangle turn the color of the sensed item, instead of being always red.
+o	Published a version for use in early interviews.
+o	Fixed bug where E chunks coming in from the air weren't following the block or beaker if it was moved.
+o	Fixed an issue with handling of energy chunks coming/going to the burner when burner changed.
+o	Added developer control for adjusting the heat/cool constants.
+o	Worked on the design of the 2nd tab.
+o	Added clock control panel for 2nd tab.
+o	Added model and view control of energy chunk visibility.
+o	Added energy chunk legend.
+o	Added "carousels" for switching between energy sources, converters, and users.
+
+Gene Expression Basics - 4.5 hrs
+
+o	Made the "snap to" distance larger for mRNA-to-Ribosome and mRNA-to-mRNA-Destroyer connections.
+o	Adjusted layout of caption on "Real Cells" dialog, fixed an issue where it was editable, and made the attribution smaller.
+o	Got word wrapping working in caption so that it will handle internationalization better.
+o	Made "Zoom Out" into a teacher control.
+o	Published a snapshot.
+
+Fraction Matcher - 4.0 hrs
+
+o	Code review.
+
+Customer Support - 1.0 hrs
+
+o	Investigated a report of expired digital signature on States of Matter.
+
+Meetings, Email, and Other Administrative Overhead - 3.5 hrs
+
+o	Weekly status meeting.
+o	Weekly status report.
+o	Logged May hours in tracking spreadsheet.
+o	Review, prioritization, and updating of Unfuddle issues.
+o	Normal email and administrative overhead.
+
+Vacation and Holidays - 48 hrs
+
+o	On vacation from Friday, June 29th through Friday July 6th.  This was 5 vacation days an one holiday (July 4th).
