@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  *
  * @author John Blanco
  */
-public class PositionableModelElement {
+public abstract class PositionableModelElement {
     private final Property<ImmutableVector2D> position = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
 
     public PositionableModelElement() {
