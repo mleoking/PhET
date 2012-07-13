@@ -113,6 +113,9 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         PNode energyConvertersCarouselController = new CarouselControllerNode( model.energyConvertersCarousel );
         PNode energyUsersCarouselController = new CarouselControllerNode( model.energyUsersCarousel );
 
+        // Add the various energy system elements.
+        EnergySystemElementNode waterPoweredGeneratorNode = new EnergySystemElementNode( model.getWaterPoweredGenerator(), mvt );
+
         // TODO: Temp.
         addWorldChild( new FaucetNode( EnergyFormsAndChangesSimSharing.UserComponents.faucet,
                                        new Property<Double>( 0.0 ),
@@ -126,7 +129,6 @@ public class EnergySystemsCanvas extends PhetPCanvas {
             shapeNodes.add( new ShapeNode( shapeModelElement, mvt ) );
         }
 
-
         //------- Node Layering -----------------------------------------------
 
         PNode rootNode = new PNode();
@@ -135,6 +137,7 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         for ( PNode shapeNode : shapeNodes ) {
             rootNode.addChild( shapeNode );
         }
+        rootNode.addChild( waterPoweredGeneratorNode );
         rootNode.addChild( clockControlBackground );
         rootNode.addChild( clockControl );
         rootNode.addChild( showEnergyControlPanel );
