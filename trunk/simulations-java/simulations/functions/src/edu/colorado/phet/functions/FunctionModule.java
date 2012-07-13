@@ -37,6 +37,7 @@ public class FunctionModule extends PiccoloModule {
             }, this, new PhetFont( 18, true ), Color.black, Color.orange ) {{
                 setOffset( 1024 - this.getFullWidth() - INSET - INSET - INSET, 768 - this.getFullHeight() - INSET - 40 - 40 - 10 - INSET );
             }} );
+            addScreenChild( new Iso3DNode() );
         }} );
         setClockControlPanel( null );
     }
