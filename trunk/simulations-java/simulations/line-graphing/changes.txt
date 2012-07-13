@@ -1,3 +1,4 @@
+7/13/12 set up basic "phases" of game, add dependency on common "games" module
 # 0.00.19 (65067) Jun 14, 2012
 6/14/12 first 2 tabs cleaned up, feature complete, all known issues addressed
 6/14/12 fix jumpiness of slope manipulator that was happening when skipping over slope=0/0
