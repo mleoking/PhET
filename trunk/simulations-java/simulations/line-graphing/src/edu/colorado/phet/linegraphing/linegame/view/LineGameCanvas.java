@@ -1,8 +1,9 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.linegame.view;
 
+import edu.colorado.phet.common.games.GameAudioPlayer;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.linegraphing.common.view.LGCanvas;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.GamePhase;
@@ -13,28 +14,45 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class LineGameCanvas extends LGCanvas {
+public class LineGameCanvas extends LGCanvas  {
 
     private final PNode settingsNode; // parent of the nodes related to choosing game settings
     private final PNode playNode; // parent of nodes related to playing the game
     private final PNode resultsNode; // parent of nodes related to displaying game results
     private final PNode rewardNode; // parent of nodes related to displaying rewards for exceptional scores
+    private final GameAudioPlayer audioPlayer;
 
-    public LineGameCanvas( LineGameModel model ) {
+    public LineGameCanvas( final LineGameModel model ) {
 
         // parent nodes for various "phases" of the game
-        settingsNode = new PhetPNode();
-        playNode = new PhetPNode();
-        resultsNode = new PhetPNode();
-        rewardNode = new PhetPNode();
+        settingsNode = new SettingsNode( model, getStageSize() );
+        playNode = new PlayNode( model, getStageSize() );
+        resultsNode = new ResultsNode( model, getStageSize() );
+        rewardNode = new RewardNode( model, getStageSize() );
 
-        // set visibility of scenegraph branches based on what "phase" of the game we're in
+        // rendering order
+        {
+            addChild( rewardNode );
+            addChild( resultsNode );
+            addChild( playNode );
+            addChild( settingsNode );
+        }
+
+        // visibility of scenegraph branches, based on which "phase" of the game we're in
         model.phase.addObserver( new VoidFunction1<GamePhase>() {
             public void apply( GamePhase gamePhase ) {
                 settingsNode.setVisible( gamePhase == GamePhase.SETTINGS );
                 playNode.setVisible( gamePhase == GamePhase.PLAY );
                 resultsNode.setVisible( gamePhase == GamePhase.RESULTS );
                 rewardNode.setVisible( gamePhase == GamePhase.REWARD );
+            }
+        } );
+
+        // audio
+        audioPlayer = new GameAudioPlayer( model.settings.soundEnabled.get() );
+        model.settings.soundEnabled.addObserver( new SimpleObserver() {
+            public void update() {
+                audioPlayer.setEnabled( model.settings.soundEnabled.get() );
             }
         } );
     }
