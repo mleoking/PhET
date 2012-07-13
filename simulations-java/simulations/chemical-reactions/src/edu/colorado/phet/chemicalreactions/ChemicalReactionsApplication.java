@@ -24,7 +24,7 @@ public class ChemicalReactionsApplication extends PiccoloPhetApplication {
 
     public static final Property<Boolean> SHOW_DEBUG_OVERLAY = new Property<Boolean>( false );
     public static final Property<Boolean> SHOW_DEBUG_REACTION_SHAPES = new Property<Boolean>( false );
-    public static final Property<Boolean> ATOM_LABELS_ROTATE = new Property<Boolean>( false );
+    public static final Property<Boolean> ATOM_LABELS_ROTATE = new Property<Boolean>( true );
 
     /**
      * Sole constructor.
