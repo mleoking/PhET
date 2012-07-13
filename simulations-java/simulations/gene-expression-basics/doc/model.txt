@@ -1,0 +1,27 @@
+
+Model Notes for the Gene Expression Basics Simulation
+
+Protein synthesis in living cells is a very complex process.  The Gene
+Expression Basics simulation depicts a version of protein synthesis that is
+simplified in order to present enough information for students to understand
+the basics of the process without overwhelming them with they myriad details
+and variations.
+
+Here are some of the simplifications that were made:
+o The process being portrayed does not show the mRNA moving out of the nucleus,
+and is thus essentially showing a prokaryotic, as opposed to a eukaryotic,
+cell.
+o The genes being transcribed are significantly shorter (in terms of the
+number of base pairs) than real-life genes. On average, a real gene in a
+prokaryotic organism is 1000 base pairs, whereas the genes in this simulation
+contain less than 100 base pairs.
+o Ribosomes are available to the user in "pre-assembled" form, meaning that
+the large and small subunits are already together, rather than having the
+subunits come together as mRNA transcription begins.
+o Individual amino acids are not depicted.
+o Transfer RNA (tRNA) is not depicted.
+o Protein folding is not depicted.
+o The sizes and shapes of the biomolecules were inspired by the drawing in
+"The Machinery of Life" by David S. Goodsell.
+
+
