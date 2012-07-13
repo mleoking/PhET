@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.*;
+
 import edu.colorado.phet.chemicalreactions.ChemicalReactionsApplication;
 import edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants;
 import edu.colorado.phet.chemicalreactions.model.Kit;
@@ -68,7 +70,7 @@ public class KitView {
         this.kit = kit;
         this.canvas = canvas;
 
-        for ( MoleculeBucket bucket : kit.getBuckets() ) {
+        for ( final MoleculeBucket bucket : kit.getBuckets() ) {
             MoleculeBucketNode bucketView = new MoleculeBucketNode( bucket );
             bucketMap.put( bucket, bucketView );
 
@@ -78,15 +80,10 @@ public class KitView {
             // update the z-order of molecules when needed
             bucket.moleculeOrderNotifier.addListener( new VoidFunction1<List<Molecule>>() {
                 public void apply( List<Molecule> molecules ) {
-                    for ( Molecule molecule : new ArrayList<Molecule>( molecules ){{
+                    for ( Molecule molecule : new ArrayList<Molecule>( molecules ) {{
                         Collections.reverse( this );
                     }} ) {
-                        MoleculeNode moleculeNode = moleculeMap.get( molecule );
-                        // TODO: why is moveToBack / front / setVisible not working here?
-//                        moleculeNode.moveToBack();
-//                        moleculeNode.setVisible( false );
-                        atomLayer.removeChild( moleculeNode );
-                        atomLayer.addChild( moleculeNode );
+                        moleculeMap.get( molecule ).moveToFront();
                     }
                 }
             } );
@@ -103,7 +100,7 @@ public class KitView {
             public void apply( Molecule molecule ) {
                 addMolecule( molecule );
             }
-        } );
+        }, false );
 
         kit.molecules.addElementRemovedObserver( new VoidFunction1<Molecule>() {
             public void apply( Molecule molecule ) {
@@ -204,8 +201,6 @@ public class KitView {
 
     private void removeMolecule( final Molecule molecule ) {
         MoleculeNode moleculeNode = moleculeMap.get( molecule );
-        // TODO: why is setVisible necessary here, since we are removing it? something must be wrong
-        moleculeNode.setVisible( false );
         atomLayer.removeChild( moleculeNode );
         assert moleculeNode.getParent() == null;
         moleculeMap.remove( molecule );
