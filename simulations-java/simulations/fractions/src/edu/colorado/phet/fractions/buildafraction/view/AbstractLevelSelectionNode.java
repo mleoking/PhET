@@ -40,7 +40,7 @@ public class AbstractLevelSelectionNode extends PNode {
     protected final ResetAllButtonNode resetAllButton;
 
     //Rows + Columns
-    public AbstractLevelSelectionNode( final String title, final List<List<LevelInfo>> allLevels, final MainContext context ) {
+    public AbstractLevelSelectionNode( final String title, final List<List<LevelInfo>> page1Levels, final MainContext context ) {
 
         //Title text, only shown when the user is choosing a level
         PNode titleText = new PNode() {{
@@ -50,19 +50,8 @@ public class AbstractLevelSelectionNode extends PNode {
         titleText.centerFullBoundsOnPoint( STAGE_SIZE.width / 2, INSET + titleText.getFullBounds().getHeight() / 2 );
         addChild( titleText );
 
-        ArrayList<HBox> boxes = new ArrayList<HBox>();
-        for ( List<LevelInfo> list : allLevels ) {
-            List<PNode> icons = list.map( new F<LevelInfo, PNode>() {
-                @Override public PNode f( final LevelInfo levelInfo ) {
-                    return toLevelIcon( AbstractLevelSelectionNode.this, levelInfo, allLevels, context );
-                }
-            } );
-            boxes.add( new HBox( 25, icons.array( PNode[].class ) ) );
-        }
-        VBox box = new VBox( 20, boxes.toArray( new PNode[boxes.size()] ) ) {{
-            centerFullBoundsOnPoint( STAGE_SIZE.width / 2, STAGE_SIZE.height / 2 );
-        }};
-        addChild( box );
+        VBox page1Box = toButtonSetNode( page1Levels, context );
+        addChild( page1Box );
 
         resetAllButton = new ResetAllButtonNode( new Resettable() {
             public void reset() {
@@ -74,6 +63,21 @@ public class AbstractLevelSelectionNode extends PNode {
         }};
 
         addChild( resetAllButton );
+    }
+
+    private VBox toButtonSetNode( final List<List<LevelInfo>> page1Levels, final MainContext context ) {
+        ArrayList<HBox> boxes = new ArrayList<HBox>();
+        for ( List<LevelInfo> list : page1Levels ) {
+            List<PNode> icons = list.map( new F<LevelInfo, PNode>() {
+                @Override public PNode f( final LevelInfo levelInfo ) {
+                    return toLevelIcon( AbstractLevelSelectionNode.this, levelInfo, page1Levels, context );
+                }
+            } );
+            boxes.add( new HBox( 25, icons.array( PNode[].class ) ) );
+        }
+        return new VBox( 20, boxes.toArray( new PNode[boxes.size()] ) ) {{
+            centerFullBoundsOnPoint( STAGE_SIZE.width / 2, STAGE_SIZE.height / 2 );
+        }};
     }
 
     private static PNode toLevelIcon( final AbstractLevelSelectionNode parent, final LevelInfo info, final List<List<LevelInfo>> allLevels, final MainContext context ) {
