@@ -11,7 +11,7 @@ import edu.colorado.phet.fractions.fractionsintro.common.AbstractFractionsModule
  */
 public class BuildAMixedFractionModule extends AbstractFractionsModule {
     public BuildAMixedFractionModule( boolean dev, boolean standaloneApp ) {
-        this( new BuildAFractionModel( standaloneApp ), dev );
+        this( new BuildAFractionModel(), dev );
     }
 
     public BuildAMixedFractionModule( BuildAFractionModel model, boolean dev ) {

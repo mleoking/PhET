@@ -16,8 +16,8 @@ public class BuildAFractionApplication extends PiccoloPhetApplication {
     public BuildAFractionApplication( PhetApplicationConfig config ) {
         super( config );
 
-        addModule( new BuildAFractionModule( new BuildAFractionModel( true ), config.isDev() ) );
-        addModule( new BuildAMixedFractionModule( new BuildAFractionModel( true ), config.isDev() ) );
+        addModule( new BuildAFractionModule( new BuildAFractionModel(), config.isDev() ) );
+        addModule( new BuildAMixedFractionModule( new BuildAFractionModel(), config.isDev() ) );
     }
 
     public static void main( String[] args ) {

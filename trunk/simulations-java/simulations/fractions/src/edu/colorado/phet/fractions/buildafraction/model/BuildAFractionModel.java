@@ -7,6 +7,7 @@ import fj.data.List;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevel;
@@ -32,8 +33,7 @@ public class BuildAFractionModel {
     public final ConstantDtClock clock = new ConstantDtClock();
     public final Property<Scene> selectedScene = new Property<Scene>( Scene.pictures );
 
-    public BuildAFractionModel( final boolean standaloneApp ) {
-    }
+    public final BooleanProperty audioEnabled = new BooleanProperty( true );
 
     public void removeCreatedValueFromNumberLevel( final Fraction value ) {
         final Property<List<Fraction>> fractions = numberLevels.get( numberLevel.get() ).createdFractions;
