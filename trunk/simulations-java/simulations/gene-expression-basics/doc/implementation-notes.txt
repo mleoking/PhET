@@ -1,8 +1,31 @@
 
+1. Implementation Notes for Tabs 1 and 2
 
-General rules about how the biomolecules interact with one another.
+Gene Expression Basics is a relatively complex simulation as PhET sims go.  The
+model, in particular, is complex due to the complexity of the domain that is
+being modeled, which is the molecular basis for protein synthesis.  One of the
+main abstractions used in the design of the model code is the “Biomolecule”.
+Everything that moves on the first and second tabs of the simulation is a
+descendant of a class called “MobileBiomolecule”.  The model code controls the
+motion of these biomolecules and the interaction between them, and the
+interaction between the mobile biomolecules and the DNA.  Note that, although
+DNA is considered a biomolecule in real life, it is not a mobile biomolecule in
+this simulation and is thus treated somewhat differently.
 
-Summary: Here is what a biomolecule does at each time step:
+The motion and attachment behavior of the mobile biomolecules are controlled by
+a set of classes that were designed to communize as much of this code as
+possible.  The motion is controlled by the MotionStrategy classes.  These are
+reasonably straightforward.
+
+The attachment behavior for each biomolecule is governed by the
+AttachmentStateMachine classes, and these can become fairly complex.  The
+attachment state machines are responsible for determining when a biomolecule
+should attach to another, to the DNA, detach from a current attachment, avoid
+attaching to anything, and so forth.  In designing the class hierarchy, a
+generic version of the attachment state machine was created, and specialized
+behavior is added through inheritance as needed for each of the biomolecules.
+
+At each time step, each biomolecule does the following:
 - Moves.
 - Updates its "attachment state", which determine how it will move during the
   subsequent time step.
@@ -50,7 +73,7 @@ open, it will generally accept the attachment request.  Once a proposal is
 accepted, the proposing molecule starts moving toward the attachment site on
 the accepting molecule.
 
-Motion Strategies
+1.1 Motion Strategies
 
 The motion of each biomolecule is controlled by a motion strategy, which is a
 class that essentially decides where the molecule should go next in model
@@ -60,7 +83,7 @@ molecule's attachment state machine (more on attachment state machines below).
 Question to self: Are there places where the ASM doesn't set the motion
 strategy and, if so, why is it necessary to do this?
 
-Attachment Sites
+1.2 Attachment Sites
 
 Attachment sites can only have one biomolecule attached at a time.
 
@@ -72,24 +95,21 @@ are appropriate for which biomolecules.  This was done because it is possible
 in some cases to have one attachment site pertain to a number of different
 types of biomolecules.
 
-12/12/2011 - Here's a thought: Should there be two attachment sites involved
-in each attachment?  Then, when they overlap one another, the attachment has
-been made.  This way, the attacher and the attachee can behave more
-symmetrically than they currently do.
+1.3 View
 
-Attachment State Machine
+The view is fairly straightforward.  Each biomolecule in the model has a view
+component that portrays its position, shape, and color.  The view provides
+tool box nodes that allow the user to create and remove biomolecules by
+dragging them out of the tool box.
 
-There are many aspects of the way that biomolecules interact with each other
-that is common to all or most of the biomolecules.  In order to enable reuse
-of the code that controls this behavior, the design encapsulates the attachment
-behavior in an Attachment State Machine.  Each mobile biomolecule has one of
-of these.  The state machine is designed so that each subclass of mobile
-biomolecule can use as much or as little of the default attachment behavior as
-needed.
+2. Tab 3 - Multiple Cells Model
 
-
-
-
-Note about something to add: I should say that the desired behavior is
-often intended to emerge from the model, and is not explicitly directed.
-
+The 3rd tab shares very little code with the first two.  The central part of
+the underlying model for the third tab is a class called
+CellProteinSynthesisSimulator, which simulates the behavior of a single cell
+that exhibits varying levels of protein expression based on a set of parameters
+for the cell, such as transcription factor level, polymerase affinity, and so
+forth.  A set of instances of this protein synthesizer class are created and
+depicted for the user so that they can see the variations that occur in the
+cells as time goes on, and can also experiment with the effects of changing
+several of the parameters that affect protein production.
