@@ -10,19 +10,23 @@ import java.util.List;
  * @author John Blanco
  */
 public abstract class EnergySystemElement extends PositionableModelElement {
-    private final List<ModelElementImage> images = new ArrayList<ModelElementImage>();
+    private final List<ModelElementImage> imageList = new ArrayList<ModelElementImage>();
 
     protected EnergySystemElement() {
         // Default constructor, used when no images are needed.
     }
 
     protected EnergySystemElement( List<ModelElementImage> images ) {
-        this.images.addAll( images );
+        this.imageList.addAll( images );
     }
 
     protected EnergySystemElement( ModelElementImage... images ) {
         for ( ModelElementImage image : images ) {
-            this.images.add( image );
+            this.imageList.add( image );
         }
+    }
+
+    public List<ModelElementImage> getImageList() {
+        return imageList;
     }
 }

@@ -51,6 +51,9 @@ public class EnergySystemsModel {
     // TODO temp.
     public final List<ShapeModelElement> shapeModelElementList = new ArrayList<ShapeModelElement>();
 
+    // The various energy system elements.
+    private final WaterPoweredGenerator waterPoweredGenerator = new WaterPoweredGenerator();
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
@@ -75,6 +78,8 @@ public class EnergySystemsModel {
         ShapeModelElement greenCircle = new ShapeModelElement( new Ellipse2D.Double( -0.05, -0.05, 0.1, 0.1 ), new Color( 0, 128, 0 ) );
         shapeModelElementList.add( greenCircle );
         energyConvertersCarousel.add( greenCircle );
+
+        energyConvertersCarousel.add( waterPoweredGenerator );
     }
 
     //-------------------------------------------------------------------------
@@ -89,6 +94,10 @@ public class EnergySystemsModel {
         return clock;
     }
 
+    public WaterPoweredGenerator getWaterPoweredGenerator() {
+        return waterPoweredGenerator;
+    }
+
     private void stepInTime( double dt ) {
         for ( Carousel carousel : carousels ) {
             carousel.stepInTime( dt );
@@ -98,4 +107,5 @@ public class EnergySystemsModel {
     //-------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //-------------------------------------------------------------------------
+
 }
