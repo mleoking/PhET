@@ -72,15 +72,6 @@ public class LevelSelectionNode extends AbstractLevelSelectionNode {
     } );
 
     private static PNode createLevelIcon( final int level ) {
-        return new PNode() {{
-            final int width = 110;
-//            Color prototype = colors[( level - 1 ) % colors.length];
-//            RoundGradientPaint paint = new RoundGradientPaint( width / 2, width / 2, new Color( prototype.getRed(), prototype.getGreen(), prototype.getBlue(), 100 ), new Point2D.Double( width / 3, width / 3 ), new Color( prototype.getRed(), prototype.getGreen(), prototype.getBlue(), 0 ) );
-//            final PhetPPath circle = new PhetPPath( new Ellipse2D.Double( 0, 0, width, width ), paint );
-//            addChild( circle );
-            final PImage image = new PImage( images.index( level ) );
-            addChild( image );
-//            image.centerFullBoundsOnPoint( circle.getFullBounds().getCenterX(), circle.getFullBounds().getCenterY() );
-        }};
+        return new PImage( images.index( level ) );
     }
 }
