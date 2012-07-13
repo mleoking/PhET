@@ -24,6 +24,8 @@ public class EnergyFormsAndChangesResources {
         public static final BufferedImage BRICK_TEXTURE_FRONT = RESOURCES.getImage( "brick_texture_front.png" );
         public static final BufferedImage BRICK_TEXTURE_RIGHT = RESOURCES.getImage( "brick_texture_right.png" );
         public static final BufferedImage BRICK_TEXTURE_TOP = RESOURCES.getImage( "brick_texture_top.png" );
+        public static final BufferedImage CONNECTOR = RESOURCES.getImage( "connector.png" );
+        public static final BufferedImage ELEMENT_BASE = RESOURCES.getImage( "element_base.png" );
         public static final BufferedImage ENERGY_CHUNKS_WHITE_SEMIBOLD = RESOURCES.getImage( "energy-chunks-white-semibold.png" );
         public static final BufferedImage ENERGY_CHUNKS_WHITE = RESOURCES.getImage( "energy-chunks-white.png" );
         public static final BufferedImage E_ELECTRIC_OUTLINE = RESOURCES.getImage( "E_electric_outline.png" );
@@ -32,8 +34,14 @@ public class EnergyFormsAndChangesResources {
         public static final BufferedImage E_MECH_OUTLINE_BLACK = RESOURCES.getImage( "E_mech_outline_black.png" );
         public static final BufferedImage E_THERM_OUTLINE = RESOURCES.getImage( "E_therm_outline.png" );
         public static final BufferedImage E_THERM_OUTLINE_BLACK = RESOURCES.getImage( "E_therm_outline_black.png" );
+        public static final BufferedImage GENERATOR = RESOURCES.getImage( "generator.png" );
+        public static final BufferedImage GENERATOR_WHEEL = RESOURCES.getImage( "generator_wheel.png" );
+        public static final BufferedImage HEATER_ELEMENT = RESOURCES.getImage( "heater_element.png" );
+        public static final BufferedImage INCANDESCENT = RESOURCES.getImage( "incandescent.png" );
         public static final BufferedImage SHELF_LONG = RESOURCES.getImage( "shelf_long.png" );
+        public static final BufferedImage TEAPOT = RESOURCES.getImage( "teapot.png" );
         public static final BufferedImage THERMOMETER_MEDIUM_BACK = RESOURCES.getImage( "thermometer_medium_back.png" );
         public static final BufferedImage THERMOMETER_MEDIUM_FRONT = RESOURCES.getImage( "thermometer_medium_front.png" );
+        public static final BufferedImage WIRE_BLACK = RESOURCES.getImage( "wire_black.png" );
     }
 }
