@@ -15,9 +15,11 @@ import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -29,6 +31,8 @@ import edu.colorado.phet.fractions.buildafraction.view.pictures.RefreshButtonNod
 import edu.colorado.phet.fractions.fractionmatcher.view.PaddedIcon;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.activities.PActivity;
+import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 
 import static edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas.*;
 
@@ -58,9 +62,10 @@ public class AbstractLevelSelectionNode extends PNode {
 
         final PNode allPages = new PNode();
 
+        final IntegerProperty selectedIndex = new IntegerProperty( 0 );
         for ( P2<Page, Integer> page : pages.zipIndex() ) {
 
-            int index = page._2();
+            final int index = page._2();
             final VBox box = toButtonSetNode( page._1().infos, context );
 
             final PNode pageNode = new PNode();
@@ -69,6 +74,7 @@ public class AbstractLevelSelectionNode extends PNode {
             if ( index < pages.length() - 1 ) {
                 pageNode.addChild( new ForwardButton( new VoidFunction0() {
                     public void apply() {
+                        selectedIndex.increment();
                         allPages.animateToPositionScaleRotation( -STAGE_SIZE.width, 0, 1, 0, 200 );
                     }
                 } ) {{
@@ -78,6 +84,7 @@ public class AbstractLevelSelectionNode extends PNode {
             if ( index > 0 ) {
                 pageNode.addChild( new BackButton( new VoidFunction0() {
                     public void apply() {
+                        selectedIndex.decrement();
                         allPages.animateToPositionScaleRotation( 0, 0, 1, 0, 200 );
                     }
                 } ) {{
@@ -87,6 +94,32 @@ public class AbstractLevelSelectionNode extends PNode {
 
             allPages.addChild( pageNode );
             pageNode.setOffset( STAGE_SIZE.width * index, 0 );
+
+            selectedIndex.addObserver( new VoidFunction1<Integer>() {
+                public void apply( final Integer integer ) {
+                    if ( integer == index ) {
+                        pageNode.setTransparency( 1 );
+                    }
+                    else {
+
+                        //Wait then fade
+                        PActivity activity = pageNode.animateToTransparency( pageNode.getTransparency(), 200 );
+                        activity.setDelegate( new PActivityDelegate() {
+                            public void activityStarted( final PActivity activity ) {
+                            }
+
+                            public void activityStepped( final PActivity activity ) {
+                            }
+
+                            public void activityFinished( final PActivity activity ) {
+                                pageNode.animateToTransparency( index == integer ? 1 : 0, 200 );
+                            }
+                        } );
+                    }
+
+                }
+            } );
+            pageNode.setTransparency( index == 0 ? 1 : 0 );
         }
 
         addChild( allPages );
