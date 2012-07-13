@@ -54,10 +54,16 @@ public class SettingsOnOffPanel extends PNode {
                 setOpaque( false );
             }} );
             box.addChild( new HBox( 4, new PNode() {{
+                addChild( element.on );
+                addChild( element.off );
                 element.onProperty.addObserver( new VoidFunction1<Boolean>() {
                     public void apply( final Boolean on ) {
-                        removeAllChildren();
-                        addChild( on ? element.on : element.off );
+                        if ( on ) {
+                            element.on.animateToTransparency( 1, 300 );
+                        }
+                        else {
+                            element.on.animateToTransparency( 0, 300 );
+                        }
                     }
                 } );
             }}, offButton, onButton ) );
