@@ -53,4 +53,5 @@ public class EFACConstants {
     public static final float NOMINAL_WATER_OPACITY = 0.75f;
     public static final Color WATER_COLOR = new Color( 175, 238, 238, (int) ( Math.round( NOMINAL_WATER_OPACITY * 255 ) ) );
     public static final Color FIRST_TAB_BACKGROUND_COLOR = new Color( 245, 246, 247 );
+    public static final Color CONTROL_PANEL_BACKGROUND_COLOR = new Color( 255, 255, 224 );
 }

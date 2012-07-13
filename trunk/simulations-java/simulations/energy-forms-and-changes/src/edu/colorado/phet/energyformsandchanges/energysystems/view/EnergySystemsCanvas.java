@@ -96,7 +96,7 @@ public class EnergySystemsCanvas extends PhetPCanvas {
                                                                     model.energyChunksVisible ) {{
             setFont( new PhetFont( 20 ) );
         }};
-        ControlPanelNode showEnergyControlPanel = new ControlPanelNode( showEnergyCheckBox, new Color( 180, 211, 51 ) );
+        ControlPanelNode showEnergyControlPanel = new ControlPanelNode( showEnergyCheckBox, EFACConstants.CONTROL_PANEL_BACKGROUND_COLOR );
 
         // Create the legend for energy chunks.
         final PNode energyChunkLegend = new EnergyChunkLegend();
@@ -164,8 +164,6 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         energySourcesCarouselController.setOffset( 100, carouselControllersYPos );
         energyConvertersCarouselController.setOffset( 350, carouselControllersYPos );
         energyUsersCarouselController.setOffset( 650, carouselControllersYPos );
-
-
     }
 
     //-------------------------------------------------------------------------
