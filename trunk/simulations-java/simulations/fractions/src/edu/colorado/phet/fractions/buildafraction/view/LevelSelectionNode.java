@@ -32,7 +32,7 @@ public class LevelSelectionNode extends AbstractLevelSelectionNode {
     public static Color[] colors = new Color[] { Colors.LIGHT_RED, Colors.LIGHT_BLUE, Colors.LIGHT_GREEN, Colors.LIGHT_ORANGE, Color.magenta, Color.yellow };
 
     public LevelSelectionNode( final String title, final BuildAFractionCanvas canvas2, BooleanProperty audioEnabled ) {
-        super( title, createInfo(), canvas2 );
+        super( title, list( new Page( createPage1() ), new Page( createPage2() ) ), canvas2 );
 
         //Add the audio on/off panel
         addChild( new SettingsOnOffPanel( list( new Element( new PImage( SOUND_OFF_ICON ),
@@ -41,7 +41,7 @@ public class LevelSelectionNode extends AbstractLevelSelectionNode {
         }} );
     }
 
-    private static List<List<LevelInfo>> createInfo() {
+    private static List<List<LevelInfo>> createPage1() {
         return list( list( toShapeLevelInfo( 1, Pattern.pie( 1 ) ),
                            toShapeLevelInfo( 2, Pattern.verticalBars( 2 ) ),
                            toShapeLevelInfo( 3 ),
@@ -52,6 +52,19 @@ public class LevelSelectionNode extends AbstractLevelSelectionNode {
                            createNumberLevel( 3 ),
                            createNumberLevel( 4 ),
                            createNumberLevel( 5 ) ) );
+    }
+
+    private static List<List<LevelInfo>> createPage2() {
+        return list( list( toShapeLevelInfo( 6 ),
+                           toShapeLevelInfo( 7 ),
+                           toShapeLevelInfo( 8 ),
+                           toShapeLevelInfo( 9 ),
+                           toShapeLevelInfo( 10 ) ),
+                     list( createNumberLevel( 6 ),
+                           createNumberLevel( 7 ),
+                           createNumberLevel( 8 ),
+                           createNumberLevel( 9 ),
+                           createNumberLevel( 10 ) ) );
     }
 
     private static LevelInfo toShapeLevelInfo( final int level ) {
@@ -65,7 +78,7 @@ public class LevelSelectionNode extends AbstractLevelSelectionNode {
 
     private static LevelInfo createNumberLevel( int level ) {return new LevelInfo( "Level " + level, createLevelIcon( level ), 0, 3, level - 1, LevelType.NUMBERS );}
 
-    private static List<BufferedImage> images = list( NUMBER_0, NUMBER_1, NUMBER_2, NUMBER_3, NUMBER_4, NUMBER_5, NUMBER_6, NUMBER_7, NUMBER_8, NUMBER_9 ).map( new F<BufferedImage, BufferedImage>() {
+    private static List<BufferedImage> images = list( NUMBER_0, NUMBER_1, NUMBER_2, NUMBER_3, NUMBER_4, NUMBER_5, NUMBER_6, NUMBER_7, NUMBER_8, NUMBER_9, NUMBER_0 ).map( new F<BufferedImage, BufferedImage>() {
         @Override public BufferedImage f( final BufferedImage bufferedImage ) {
             return BufferedImageUtils.multiScaleToHeight( bufferedImage, 100 );
         }

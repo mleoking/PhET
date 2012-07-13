@@ -5,10 +5,11 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractions.common.view.SpinnerButtonNode;
 import edu.umd.cs.piccolo.PNode;
+
+import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
 
 /**
  * @author Sam Reid
@@ -22,7 +23,7 @@ public class BackButton extends PNode {
         } ) );
     }
 
-    private BufferedImage scale( final BufferedImage image ) {
-        return BufferedImageUtils.multiScaleToWidth( image, 50 );
+    public static BufferedImage scale( final BufferedImage image ) {
+        return multiScaleToWidth( image, 50 );
     }
 }

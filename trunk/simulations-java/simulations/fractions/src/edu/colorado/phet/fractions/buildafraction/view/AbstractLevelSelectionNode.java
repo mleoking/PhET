@@ -2,7 +2,9 @@
 package edu.colorado.phet.fractions.buildafraction.view;
 
 import fj.F;
+import fj.P2;
 import fj.data.List;
+import lombok.Data;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -39,8 +41,12 @@ public class AbstractLevelSelectionNode extends PNode {
 
     protected final ResetAllButtonNode resetAllButton;
 
+    public static @Data class Page {
+        public final List<List<LevelInfo>> infos;
+    }
+
     //Rows + Columns
-    public AbstractLevelSelectionNode( final String title, final List<List<LevelInfo>> page1Levels, final MainContext context ) {
+    public AbstractLevelSelectionNode( final String title, final List<Page> pages, final MainContext context ) {
 
         //Title text, only shown when the user is choosing a level
         PNode titleText = new PNode() {{
@@ -50,8 +56,40 @@ public class AbstractLevelSelectionNode extends PNode {
         titleText.centerFullBoundsOnPoint( STAGE_SIZE.width / 2, INSET + titleText.getFullBounds().getHeight() / 2 );
         addChild( titleText );
 
-        VBox page1Box = toButtonSetNode( page1Levels, context );
-        addChild( page1Box );
+        final PNode allPages = new PNode();
+
+        for ( P2<Page, Integer> page : pages.zipIndex() ) {
+
+            int index = page._2();
+            final VBox box = toButtonSetNode( page._1().infos, context );
+
+            final PNode pageNode = new PNode();
+            pageNode.addChild( box );
+
+            if ( index < pages.length() - 1 ) {
+                pageNode.addChild( new ForwardButton( new VoidFunction0() {
+                    public void apply() {
+                        allPages.animateToPositionScaleRotation( -STAGE_SIZE.width, 0, 1, 0, 200 );
+                    }
+                } ) {{
+                    setOffset( box.getMaxX() + INSET, box.getCenterY() - getFullBounds().getHeight() / 2 );
+                }} );
+            }
+            if ( index > 0 ) {
+                pageNode.addChild( new BackButton( new VoidFunction0() {
+                    public void apply() {
+                        allPages.animateToPositionScaleRotation( 0, 0, 1, 0, 200 );
+                    }
+                } ) {{
+                    setOffset( box.getMinX() - INSET - getFullBounds().getWidth(), box.getCenterY() - getFullBounds().getHeight() / 2 );
+                }} );
+            }
+
+            allPages.addChild( pageNode );
+            pageNode.setOffset( STAGE_SIZE.width * index, 0 );
+        }
+
+        addChild( allPages );
 
         resetAllButton = new ResetAllButtonNode( new Resettable() {
             public void reset() {
