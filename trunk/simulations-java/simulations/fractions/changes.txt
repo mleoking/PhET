@@ -1,3 +1,4 @@
+Build a Fraction: Play "ding" sound when a match complete instead of when placed in target box
 # 1.00.04 (65804) Jul 13, 2012
 Build a Fraction: Added audio on/off controls on the level selection screen
 # 1.00.03 (65796) Jul 13, 2012

@@ -314,8 +314,6 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         //Add a new container when the previous one is completed
         if ( !allTargetsComplete() ) {
 
-            playSoundForOneComplete();
-
             //If no fraction skeleton in play area, move one there
             final List<ContainerNode> inPlayArea = getContainerNodes().filter( new F<ContainerNode, Boolean>() {
                 @Override public Boolean f( final ContainerNode containerNode ) {

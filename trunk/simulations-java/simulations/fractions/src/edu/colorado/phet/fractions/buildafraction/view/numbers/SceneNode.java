@@ -12,7 +12,6 @@ import edu.umd.cs.piccolo.PNode;
 public class SceneNode extends PNode {
     public SceneNode( BooleanProperty audioEnabled ) {
         gameAudioPlayer = new GameAudioPlayer( audioEnabled.get() );
-        System.out.println( "audioEnabled = " + audioEnabled );
         audioEnabled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( final Boolean enabled ) {
                 gameAudioPlayer.setEnabled( enabled );
@@ -22,7 +21,7 @@ public class SceneNode extends PNode {
 
     private final GameAudioPlayer gameAudioPlayer;
 
-    protected void playSoundForOneComplete() { gameAudioPlayer.correctAnswer(); }
+    public void playSoundForOneComplete() { gameAudioPlayer.correctAnswer(); }
 
-    protected void playSoundForAllComplete() { gameAudioPlayer.gameOverPerfectScore(); }
+    public void playSoundForAllComplete() { gameAudioPlayer.gameOverPerfectScore(); }
 }
