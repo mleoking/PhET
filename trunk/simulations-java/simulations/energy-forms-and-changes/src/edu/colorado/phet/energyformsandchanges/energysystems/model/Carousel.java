@@ -79,7 +79,7 @@ public class Carousel {
             ImmutableVector2D targetCarouselOffset = offsetBetweenElements.getScaledInstance( -targetIndex );
             ImmutableVector2D totalTravelVector = targetCarouselOffset.minus( carouselOffsetWhenTransitionStarted );
             double proportionOfTimeElapsed = MathUtil.clamp( 0, elapsedTransitionTime / TRANSITION_DURATION, 1 );
-            currentCarouselOffset = carouselOffsetWhenTransitionStarted.plus( totalTravelVector.getScaledInstance( proportionOfTimeElapsed ) );
+            currentCarouselOffset = carouselOffsetWhenTransitionStarted.plus( totalTravelVector.getScaledInstance( computeSlowInSlowOut( proportionOfTimeElapsed ) ) );
             updateManagedElementPositions();
             if ( proportionOfTimeElapsed == 1 ) {
                 currentlySelectedElementIndex = targetIndex;
@@ -119,5 +119,20 @@ public class Carousel {
 
     public boolean hasPrev() {
         return targetIndex > 0;
+    }
+
+    /*
+    * Maps a linear value to a value that can be used for animated motion that
+    * accelerates, then slows as destination is reached.  This was leveraged
+    * from Piccolo's PInterpolatingActivity class.
+    */
+    private static double computeSlowInSlowOut( final double zeroToOne ) {
+        if ( zeroToOne < 0.5f ) {
+            return 2.0f * zeroToOne * zeroToOne;
+        }
+        else {
+            final double complement = 1.0f - zeroToOne;
+            return 1.0f - 2.0f * complement * complement;
+        }
     }
 }
