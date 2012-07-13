@@ -37,8 +37,6 @@ import static edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFra
  */
 public class AbstractLevelSelectionNode extends PNode {
 
-    private double initialX;
-    private double initialY;
     protected final ResetAllButtonNode resetAllButton;
 
     //Rows + Columns
@@ -114,21 +112,11 @@ public class AbstractLevelSelectionNode extends PNode {
         return button;
     }
 
-    public void animateHome( final int duration ) {
-        animateToPositionScaleRotation( initialX, initialY, 1, 0, duration );
-    }
-
     //Button icon for a single level, shows the level name, a shape and the progress stars
     public static class LevelIconNode extends PNode {
         public LevelIconNode( final String text, PNode icon, int numStars, int maxStars ) {
             addChild( new VBox( new PhetPText( text, new PhetFont( 18, true ) ), icon, new StarSetNode2( numStars, maxStars ) ) );
         }
 
-    }
-
-    public void setInitialPosition( double x, double y ) {
-        setOffset( x, y );
-        this.initialX = x;
-        this.initialY = y;
     }
 }
