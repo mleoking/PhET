@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * This class implements a container of sorts for positionable model elements.
@@ -20,6 +22,8 @@ public class Carousel {
     // Class Data
     //-------------------------------------------------------------------------
 
+    private final static double TRANSITION_DURATION = 0.5;
+
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
@@ -34,6 +38,13 @@ public class Carousel {
     private final List<PositionableModelElement> managedElements = new ArrayList<PositionableModelElement>();
 
     private int currentlySelectedElementIndex = 0;
+
+    // TODO: comment and clean up
+    private int targetIndex = currentlySelectedElementIndex;
+
+    private double elapsedTransitionTime = 0;
+    private ImmutableVector2D currentCarouselOffset = new Vector2D( 0, 0 );
+    private ImmutableVector2D carouselOffsetWhenTransitionSharted = new ImmutableVector2D( 0, 0 );
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -62,21 +73,43 @@ public class Carousel {
         managedElements.add( element );
     }
 
+    public void stepInTime( double dt ) {
+        if ( transitionInProgress() ) {
+            elapsedTransitionTime += dt;
+            ImmutableVector2D targetCarouselOffset = offsetBetweenElements.getScaledInstance( -targetIndex );
+            ImmutableVector2D totalTravelVector = targetCarouselOffset.minus( carouselOffsetWhenTransitionSharted );
+            double proportionOfTimeElapsed = MathUtil.clamp( 0, elapsedTransitionTime / TRANSITION_DURATION, 1 );
+            currentCarouselOffset = carouselOffsetWhenTransitionSharted.plus( totalTravelVector.getScaledInstance( proportionOfTimeElapsed ) );
+            updateManagedElementPositions();
+            if ( proportionOfTimeElapsed == 1 ) {
+                currentlySelectedElementIndex = targetIndex;
+            }
+        }
+    }
+
+    private void updateManagedElementPositions() {
+        for ( int i = 0; i < managedElements.size(); i++ ) {
+            managedElements.get( i ).setPosition( selectedElementPosition.getAddedInstance( offsetBetweenElements.getScaledInstance( i ) ).getAddedInstance( currentCarouselOffset ) );
+        }
+    }
+
+    public boolean transitionInProgress() {
+        return currentlySelectedElementIndex != targetIndex;
+    }
+
     public void setNext() {
         if ( currentlySelectedElementIndex < managedElements.size() - 1 ) {
-            currentlySelectedElementIndex++;
-            for ( int i = 0; i < managedElements.size(); i++ ) {
-                managedElements.get( i ).setPosition( selectedElementPosition.getAddedInstance( offsetBetweenElements.getScaledInstance( i - currentlySelectedElementIndex ) ) );
-            }
+            targetIndex = currentlySelectedElementIndex + 1;
+            elapsedTransitionTime = 0;
+            carouselOffsetWhenTransitionSharted = currentCarouselOffset;
         }
     }
 
     public void setPrev() {
         if ( currentlySelectedElementIndex > 0 ) {
-            currentlySelectedElementIndex--;
-            for ( int i = 0; i < managedElements.size(); i++ ) {
-                managedElements.get( i ).setPosition( selectedElementPosition.getAddedInstance( offsetBetweenElements.getScaledInstance( i - currentlySelectedElementIndex ) ) );
-            }
+            targetIndex = currentlySelectedElementIndex - 1;
+            elapsedTransitionTime = 0;
+            carouselOffsetWhenTransitionSharted = currentCarouselOffset;
         }
     }
 
