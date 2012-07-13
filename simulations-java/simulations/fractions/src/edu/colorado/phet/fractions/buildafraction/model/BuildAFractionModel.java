@@ -57,6 +57,8 @@ public class BuildAFractionModel {
         }
         pictureLevels.clear();
         pictureLevels.addAll( new PictureLevelList() );
+
+        audioEnabled.reset();
     }
 
     public void addCreatedValue( final Fraction value ) {

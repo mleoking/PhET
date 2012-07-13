@@ -32,12 +32,14 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Mai
     public static final Stroke controlPanelStroke = new BasicStroke( 2 );
 
     private PNode currentScene;
+    private final BuildAFractionModel model;
 
     public BuildAFractionCanvas( final BuildAFractionModel model, final boolean dev ) {
+        this.model = model;
         //Set a really light blue because there is a lot of white everywhere
         setBackground( new Color( 236, 251, 251 ) );
 
-        currentScene = new LevelSelectionScreen( "Build a Fraction", this );
+        currentScene = new LevelSelectionNode( "Build a Fraction", this, model.audioEnabled );
         addChild( currentScene );
     }
 
@@ -116,7 +118,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Mai
     }
 
     public void reset() {
-        crossFadeTo( new LevelSelectionScreen( "Build a Fraction", this ) );
+        crossFadeTo( new LevelSelectionNode( "Build a Fraction", this, model.audioEnabled ) );
     }
 
     public Component getComponent() {
@@ -124,27 +126,27 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Mai
     }
 
     private PNode createLevelNode( final int levelIndex, final LevelType levelType ) {
-        return levelType == LevelType.SHAPES ? new PictureSceneNode( levelIndex, new BuildAFractionModel(), STAGE_SIZE, this ) :
-               new NumberSceneNode( levelIndex, rootNode, new BuildAFractionModel(), STAGE_SIZE, this );
+        return levelType == LevelType.SHAPES ? new PictureSceneNode( levelIndex, model, STAGE_SIZE, this, model.audioEnabled ) :
+               new NumberSceneNode( levelIndex, rootNode, model, STAGE_SIZE, this, model.audioEnabled );
     }
 
     public void goToNextPictureLevel( final int newLevelIndex ) {
-        animateTo( new PictureSceneNode( newLevelIndex, new BuildAFractionModel(), STAGE_SIZE, this ), Direction.RIGHT );
+        animateTo( new PictureSceneNode( newLevelIndex, model, STAGE_SIZE, this, model.audioEnabled ), Direction.RIGHT );
     }
 
     public void goToNextNumberLevel( final int newLevelIndex ) {
-        animateTo( new NumberSceneNode( newLevelIndex, rootNode, new BuildAFractionModel(), STAGE_SIZE, this ), Direction.RIGHT );
+        animateTo( new NumberSceneNode( newLevelIndex, rootNode, model, STAGE_SIZE, this, model.audioEnabled ), Direction.RIGHT );
     }
 
     public void goToLevelSelectionScreen() {
-        animateTo( new LevelSelectionScreen( "Build a Fraction", this ), Direction.LEFT );
+        animateTo( new LevelSelectionNode( "Build a Fraction", this, model.audioEnabled ), Direction.LEFT );
     }
 
     public void resamplePictureLevel( final int levelIndex ) {
-        crossFadeTo( new PictureSceneNode( levelIndex, new BuildAFractionModel(), STAGE_SIZE, this ) );
+        crossFadeTo( new PictureSceneNode( levelIndex, model, STAGE_SIZE, this, model.audioEnabled ) );
     }
 
     public void resampleNumberLevel( final int levelIndex ) {
-        crossFadeTo( new NumberSceneNode( levelIndex, rootNode, new BuildAFractionModel(), STAGE_SIZE, this ) );
+        crossFadeTo( new NumberSceneNode( levelIndex, rootNode, model, STAGE_SIZE, this, model.audioEnabled ) );
     }
 }
