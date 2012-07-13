@@ -1,3 +1,4 @@
+Build a Fraction: Added audio on/off controls on the level selection screen
 # 1.00.03 (65796) Jul 13, 2012
 Build a Fraction: Play a "ding" sound when filling a box, or "ta-da" sound when all boxes full
 Build a Fraction: When refreshing a level, cross fade instead of panning the camera

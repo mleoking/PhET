@@ -2,13 +2,25 @@
 package edu.colorado.phet.fractions.buildafraction.view.numbers;
 
 import edu.colorado.phet.common.games.GameAudioPlayer;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.umd.cs.piccolo.PNode;
 
 /**
  * @author Sam Reid
  */
 public class SceneNode extends PNode {
-    private final GameAudioPlayer gameAudioPlayer = new GameAudioPlayer( true );
+    public SceneNode( BooleanProperty audioEnabled ) {
+        gameAudioPlayer = new GameAudioPlayer( audioEnabled.get() );
+        System.out.println( "audioEnabled = " + audioEnabled );
+        audioEnabled.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( final Boolean enabled ) {
+                gameAudioPlayer.setEnabled( enabled );
+            }
+        } );
+    }
+
+    private final GameAudioPlayer gameAudioPlayer;
 
     protected void playSoundForOneComplete() { gameAudioPlayer.correctAnswer(); }
 

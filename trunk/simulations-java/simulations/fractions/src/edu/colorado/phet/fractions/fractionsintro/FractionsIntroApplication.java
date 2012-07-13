@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.fractions.buildafraction.BuildAFractionModule;
+import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.fractionmatcher.MatchingGameModule;
 import edu.colorado.phet.fractions.fractionsintro.equalitylab.EqualityLabModule;
 import edu.colorado.phet.fractions.fractionsintro.intro.FractionsIntroModule;
@@ -34,7 +35,7 @@ public class FractionsIntroApplication extends PiccoloPhetApplication {
         //Another way to do this would be to pass a FunctionInvoker to all the modules
         recordRegressionData = config.hasCommandLineArg( "-recordRegressionData" );
         addModule( new FractionsIntroModule() );
-        addModule( new BuildAFractionModule( config.isDev(), false ) );
+        addModule( new BuildAFractionModule( new BuildAFractionModel(), config.isDev() ) );
         addModule( new EqualityLabModule() );
         addModule( new MatchingGameModule( config.isDev() ) );
 

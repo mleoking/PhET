@@ -10,10 +10,6 @@ import edu.colorado.phet.fractions.fractionsintro.common.AbstractFractionsModule
  * @author Sam Reid
  */
 public class BuildAMixedFractionModule extends AbstractFractionsModule {
-    public BuildAMixedFractionModule( boolean dev, boolean standaloneApp ) {
-        this( new BuildAFractionModel(), dev );
-    }
-
     public BuildAMixedFractionModule( BuildAFractionModel model, boolean dev ) {
         super( Components.buildAFractionTab, "Mixed Fractions", model.clock );
         setSimulationPanel( new BuildAFractionCanvas( model, dev ) );

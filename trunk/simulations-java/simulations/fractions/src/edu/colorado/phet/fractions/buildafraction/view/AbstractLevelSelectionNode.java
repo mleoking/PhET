@@ -39,6 +39,7 @@ public class AbstractLevelSelectionNode extends PNode {
 
     private double initialX;
     private double initialY;
+    protected final ResetAllButtonNode resetAllButton;
 
     //Rows + Columns
     public AbstractLevelSelectionNode( final String title, final List<List<LevelInfo>> allLevels, final MainContext context ) {
@@ -65,7 +66,7 @@ public class AbstractLevelSelectionNode extends PNode {
         }};
         addChild( box );
 
-        ResetAllButtonNode resetAllButton = new ResetAllButtonNode( new Resettable() {
+        resetAllButton = new ResetAllButtonNode( new Resettable() {
             public void reset() {
                 context.reset();
             }
