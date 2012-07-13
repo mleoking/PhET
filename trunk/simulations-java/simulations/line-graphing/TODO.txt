@@ -16,3 +16,4 @@ LOW
 SIM-SHARING
 
 MIGRATE TO COMMON
+GameTimer, copied from BCE and RPAL
