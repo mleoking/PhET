@@ -29,6 +29,7 @@ import edu.colorado.phet.fractions.buildafraction.model.pictures.PictureLevel;
 import edu.colorado.phet.fractions.buildafraction.model.pictures.PictureTarget;
 import edu.colorado.phet.fractions.buildafraction.view.BackButton;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
+import edu.colorado.phet.fractions.buildafraction.view.numbers.SceneNode;
 import edu.colorado.phet.fractions.common.view.FNode;
 import edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
@@ -56,7 +57,7 @@ import static fj.function.Booleans.not;
  *
  * @author Sam Reid
  */
-public class PictureSceneNode extends PNode implements ContainerContext, PieceContext {
+public class PictureSceneNode extends SceneNode implements ContainerContext, PieceContext {
     private final BuildAFractionModel model;
     private final List<Target> targetPairs;
     private final RichPNode toolboxNode;
@@ -311,6 +312,8 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         //Add a new container when the previous one is completed
         if ( !allTargetsComplete() ) {
 
+            playSoundForOneComplete();
+
             //If no fraction skeleton in play area, move one there
             final List<ContainerNode> inPlayArea = getContainerNodes().filter( new F<ContainerNode, Boolean>() {
                 @Override public Boolean f( final ContainerNode containerNode ) {
@@ -325,6 +328,8 @@ public class PictureSceneNode extends PNode implements ContainerContext, PieceCo
         }
 
         if ( allTargetsComplete() ) {
+            playSoundForAllComplete();
+
             faceNodeDialog.setVisible( true );
             faceNodeDialog.animateToTransparency( 1f, 200 );
             faceNodeDialog.setPickable( true );
