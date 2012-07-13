@@ -1,3 +1,4 @@
+# 1.00.03 (65796) Jul 13, 2012
 Build a Fraction: Play a "ding" sound when filling a box, or "ta-da" sound when all boxes full
 Build a Fraction: When refreshing a level, cross fade instead of panning the camera
 # 1.00.02 (65769) Jul 11, 2012
