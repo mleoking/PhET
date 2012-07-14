@@ -1,35 +1,33 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.fractionmatcher.view;
 
-import fj.Effect;
 import fj.data.List;
 
+import java.awt.BasicStroke;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.games.GameConstants;
 import edu.colorado.phet.common.games.GameSettings;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
-import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
-import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.ToggleButtonNode;
+import edu.colorado.phet.fractions.common.view.SettingsOnOffPanel;
+import edu.colorado.phet.fractions.common.view.SettingsOnOffPanel.Element;
 import edu.colorado.phet.fractions.fractionmatcher.model.MatchingGameModel;
 import edu.colorado.phet.fractions.fractionmatcher.model.MatchingGameState;
 import edu.colorado.phet.fractions.fractionmatcher.model.Mode;
-import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
-import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.ParameterKeys;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-import static edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager.sendUserMessage;
-import static edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet.parameterSet;
+import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
 import static edu.colorado.phet.fractions.fractionmatcher.model.MatchingGameState.newLevel;
 import static edu.colorado.phet.fractions.fractionmatcher.view.MatchingGameCanvas.setNodeVisible;
 import static edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
@@ -78,39 +76,27 @@ public class StartScreen extends PNode {
         addChild( levelSelectionDialog );
         addChild( titleText );
 
-        final int iconWidth = 40;
-        final BufferedImage stopwatchIcon = BufferedImageUtils.multiScaleToWidth( GameConstants.STOPWATCH_ICON, iconWidth );
-        final BufferedImage soundIcon = BufferedImageUtils.multiScaleToWidth( GameConstants.SOUND_ICON, iconWidth );
-        final BufferedImage soundOffIcon = BufferedImageUtils.multiScaleToWidth( GameConstants.SOUND_OFF_ICON, iconWidth );
-        final int maxIconWidth = Math.max( stopwatchIcon.getWidth(), soundIcon.getWidth() ) + 10;
-        final int maxIconHeight = Math.max( stopwatchIcon.getHeight(), soundIcon.getHeight() ) + 10;
-        final ToggleButtonNode stopwatchButton = new ToggleButtonNode( new PaddedIcon( maxIconWidth, maxIconHeight, new PImage( stopwatchIcon ) ),
-                                                                       gameSettings.timerEnabled,
-                                                                       new VoidFunction0() {
-                                                                           public void apply() {
-                                                                               sendUserMessage( Components.stopwatchButton, UserComponentTypes.toggleButton, UserActions.pressed, parameterSet( ParameterKeys.timerEnabled, !gameSettings.timerEnabled.get() ) );
-                                                                               gameSettings.timerEnabled.toggle();
-                                                                           }
-                                                                       }, ToggleButtonNode.FAINT_GREEN, false );
+        final int iconWidth = 30;
+        final BufferedImage stopwatchIcon = multiScaleToWidth( GameConstants.STOPWATCH_ICON, iconWidth );
+        final BufferedImage stopwatchOffIcon = redX( BufferedImageUtils.copyImage( stopwatchIcon ) );
+        final BufferedImage soundIcon = multiScaleToWidth( GameConstants.SOUND_ICON, iconWidth );
+        final BufferedImage soundOffIcon = multiScaleToWidth( GameConstants.SOUND_OFF_ICON, iconWidth );
 
-        //Show the sound icon node, and update it when it is toggled on and off
-        UpdateNode soundIconNode = new UpdateNode( new Effect<PNode>() {
-            @Override public void e( final PNode parent ) {
-                parent.removeAllChildren();
-                parent.addChild( new PaddedIcon( maxIconWidth, maxIconHeight, new PImage( gameSettings.soundEnabled.get() ? soundIcon : soundOffIcon ) ) );
-            }
-        }, gameSettings.soundEnabled );
-
-        final ToggleButtonNode soundButton = new ToggleButtonNode( soundIconNode, gameSettings.soundEnabled, new VoidFunction0() {
-            public void apply() {
-
-                sendUserMessage( Components.soundButton, UserComponentTypes.toggleButton, UserActions.pressed, parameterSet( ParameterKeys.soundEnabled, !gameSettings.soundEnabled.get() ) );
-                gameSettings.soundEnabled.toggle();
-            }
-        }, ToggleButtonNode.FAINT_GREEN, false );
-        addChild( new HBox( stopwatchButton, soundButton ) {{
+        addChild( new SettingsOnOffPanel( List.list( new Element( new PImage( stopwatchOffIcon ), new PImage( stopwatchIcon ), gameSettings.timerEnabled ),
+                                                     new Element( new PImage( soundOffIcon ), new PImage( soundIcon ), gameSettings.soundEnabled ) ) ) {{
             setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - INSET, STAGE_SIZE.height - getFullBounds().getHeight() - INSET );
             model.choosingSettings.addObserver( setNodeVisible( this ) );
         }} );
+    }
+
+    private BufferedImage redX( final BufferedImage icon ) {
+        Graphics2D g2 = icon.createGraphics();
+        g2.setStroke( new BasicStroke( 2 ) );
+        g2.setPaint( PhetColorScheme.RED_COLORBLIND );
+        g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
+        g2.drawLine( 0, 0, icon.getWidth(), icon.getHeight() );
+        g2.drawLine( icon.getWidth(), 0, 0, icon.getHeight() );
+        g2.dispose();
+        return icon;
     }
 }
