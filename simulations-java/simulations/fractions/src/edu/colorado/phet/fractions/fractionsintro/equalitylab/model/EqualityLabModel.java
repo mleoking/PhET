@@ -103,6 +103,7 @@ public class EqualityLabModel {
     private final FractionsIntroModel model = new FractionsIntroModel( IntroState.newState( 4, primaryFactorySet, System.currentTimeMillis() ), primaryFactorySet );
     public final SettableProperty<PieSet> pieSet = model.pieSet;
     public final SettableProperty<PieSet> horizontalBarSet = model.horizontalBarSet;
+    public final SettableProperty<PieSet> verticalBarSet = model.verticalBarSet;
     public final Clock clock = model.clock;
     public final IntegerProperty numerator = model.numerator;
     public final IntegerProperty denominator = model.denominator;
