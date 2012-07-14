@@ -12,7 +12,6 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
-import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -42,6 +41,9 @@ import edu.colorado.phet.fractions.fractionsintro.intro.view.representationcontr
 import edu.colorado.phet.fractions.fractionsintro.intro.view.representationcontrolpanel.WaterGlassIcon;
 import edu.umd.cs.piccolo.PNode;
 
+import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentChain.chain;
+import static edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components.horizontalBarRadioButton;
+import static edu.colorado.phet.fractions.fractionsintro.common.view.Colors.HORIZONTAL_SLICE_COLOR;
 import static edu.colorado.phet.fractions.fractionsintro.equalitylab.model.EqualityLabModel.scaledFactorySet;
 import static edu.colorado.phet.fractions.fractionsintro.intro.view.Representation.*;
 import static edu.colorado.phet.fractions.fractionsintro.intro.view.pieset.PieSetNode.CreateEmptyCellsNode;
@@ -85,25 +87,25 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
 
                     final List<Element<Boolean>> icons = new ArrayList<Element<Boolean>>();
                     if ( representation == PIE ) {
-                        icons.add( new Element<Boolean>( new PieIcon( new Property<Representation>( PIE ), Colors.CIRCLE_COLOR ), true, UserComponentChain.chain( Components.pieRadioButton, FractionsIntroSimSharing.blue ) ) );
+                        icons.add( new Element<Boolean>( new PieIcon( new Property<Representation>( PIE ), Colors.CIRCLE_COLOR ), true, chain( Components.pieRadioButton, FractionsIntroSimSharing.blue ) ) );
                     }
                     else if ( representation == HORIZONTAL_BAR ) {
-                        icons.add( new Element<Boolean>( new HorizontalBarIcon( new Property<Representation>( HORIZONTAL_BAR ), Colors.HORIZONTAL_SLICE_COLOR ) {{scale( 0.8 );}}, true, UserComponentChain.chain( Components.horizontalBarRadioButton, FractionsIntroSimSharing.blue ) ) );
+                        icons.add( new Element<Boolean>( new HorizontalBarIcon( new Property<Representation>( HORIZONTAL_BAR ), HORIZONTAL_SLICE_COLOR ) {{scale( 0.8 );}}, true, chain( horizontalBarRadioButton, FractionsIntroSimSharing.blue ) ) );
                     }
                     else if ( representation == VERTICAL_BAR ) {
-                        final VerticalBarIcon verticalBarIcon = new VerticalBarIcon( scaledFactorySet.verticalSliceFactory, Colors.HORIZONTAL_SLICE_COLOR );
+                        final VerticalBarIcon verticalBarIcon = new VerticalBarIcon( scaledFactorySet.verticalSliceFactory, HORIZONTAL_SLICE_COLOR );
                         PNode node = verticalBarIcon.getNode();
                         node.scale( 0.8 );
-                        icons.add( new Element<Boolean>( node, true, UserComponentChain.chain( Components.horizontalBarRadioButton, FractionsIntroSimSharing.blue ) ) );
+                        icons.add( new Element<Boolean>( node, true, chain( horizontalBarRadioButton, FractionsIntroSimSharing.blue ) ) );
                     }
                     else if ( representation == WATER_GLASSES ) {
-                        icons.add( new Element<Boolean>( new WaterGlassIcon( new Property<Representation>( WATER_GLASSES ), Colors.CUP_COLOR ) {{scale( 0.8 );}}, true, UserComponentChain.chain( Components.waterGlassesRadioButton, FractionsIntroSimSharing.blue ) ) );
+                        icons.add( new Element<Boolean>( new WaterGlassIcon( new Property<Representation>( WATER_GLASSES ), Colors.CUP_COLOR ) {{scale( 0.8 );}}, true, chain( Components.waterGlassesRadioButton, FractionsIntroSimSharing.blue ) ) );
                     }
                     else if ( representation == NUMBER_LINE ) {
-                        icons.add( new Element<Boolean>( new NumberLineIcon( new Property<Representation>( NUMBER_LINE ) ), true, UserComponentChain.chain( Components.numberLineRadioButton, FractionsIntroSimSharing.blue ) ) );
+                        icons.add( new Element<Boolean>( new NumberLineIcon( new Property<Representation>( NUMBER_LINE ) ), true, chain( Components.numberLineRadioButton, FractionsIntroSimSharing.blue ) ) );
                     }
 
-                    icons.add( new Element<Boolean>( new NumberLineIcon( new Property<Representation>( NUMBER_LINE ) ), false, UserComponentChain.chain( Components.numberLineRadioButton, FractionsIntroSimSharing.green ) ) );
+                    icons.add( new Element<Boolean>( new NumberLineIcon( new Property<Representation>( NUMBER_LINE ) ), false, chain( Components.numberLineRadioButton, FractionsIntroSimSharing.green ) ) );
                     addChild( new RadioButtonStripControlPanelNode<Boolean>( model.sameAsLeft, icons, padding ) {{ scale( representationControlPanelScale ); }} );
                 }
             } );
@@ -215,10 +217,10 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
     private List<Element<Representation>> getIcons( SettableProperty<Representation> representation, String type ) {
         final PNode verticalBarIcon = new VerticalBarIcon( scaledFactorySet.verticalSliceFactory, Colors.VERTICAL_SLICE_COLOR ).getNode();
         verticalBarIcon.scale( 0.8 );
-        return Arrays.asList( new Element<Representation>( new PieIcon( representation, Colors.CIRCLE_COLOR ), PIE, UserComponentChain.chain( Components.pieRadioButton, type ) ),
-                              new Element<Representation>( new HorizontalBarIcon( representation, Colors.HORIZONTAL_SLICE_COLOR ) {{scale( 0.8 );}}, HORIZONTAL_BAR, UserComponentChain.chain( Components.horizontalBarRadioButton, type ) ),
-                              new Element<Representation>( verticalBarIcon, VERTICAL_BAR, UserComponentChain.chain( Components.horizontalBarRadioButton, type ) ),
-                              new Element<Representation>( new WaterGlassIcon( representation, Colors.CUP_COLOR ) {{scale( 0.8 );}}, WATER_GLASSES, UserComponentChain.chain( Components.waterGlassesRadioButton, type ) )
+        return Arrays.asList( new Element<Representation>( new PieIcon( representation, Colors.CIRCLE_COLOR ), PIE, chain( Components.pieRadioButton, type ) ),
+                              new Element<Representation>( new HorizontalBarIcon( representation, HORIZONTAL_SLICE_COLOR ) {{scale( 0.8 );}}, HORIZONTAL_BAR, chain( horizontalBarRadioButton, type ) ),
+                              new Element<Representation>( verticalBarIcon, VERTICAL_BAR, chain( horizontalBarRadioButton, type ) ),
+                              new Element<Representation>( new WaterGlassIcon( representation, Colors.CUP_COLOR ) {{scale( 0.8 );}}, WATER_GLASSES, chain( Components.waterGlassesRadioButton, type ) )
         );
     }
 }
