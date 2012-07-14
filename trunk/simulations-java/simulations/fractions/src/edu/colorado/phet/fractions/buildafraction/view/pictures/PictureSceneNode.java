@@ -30,7 +30,7 @@ import edu.colorado.phet.fractions.buildafraction.model.pictures.PictureLevel;
 import edu.colorado.phet.fractions.buildafraction.model.pictures.PictureTarget;
 import edu.colorado.phet.fractions.buildafraction.view.BackButton;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
-import edu.colorado.phet.fractions.buildafraction.view.numbers.SceneNode;
+import edu.colorado.phet.fractions.buildafraction.view.SceneNode;
 import edu.colorado.phet.fractions.common.view.FNode;
 import edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
