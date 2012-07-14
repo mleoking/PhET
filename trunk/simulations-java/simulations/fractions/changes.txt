@@ -1,3 +1,4 @@
+Fraction Matcher: Changed stopwatch and timer components to pairs of radio buttons instead of toggle buttons
 Build a Fraction: Augment level list for picture levels 6-10 (with copies of level 5)
 Build a Fraction: When going back to level selection carousel, remember which page you were on.
 Build a Fraction: Play sound for completing individual challenges when placed in the target box rather than when built
