@@ -24,6 +24,13 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
         add( level3() );
         add( level4() );
         add( level5() );
+
+        //Copy level 5 for now until we have declarations 6-10
+        add( level5() );
+        add( level5() );
+        add( level5() );
+        add( level5() );
+        add( level5() );
     }
 
     /*Level 1:
