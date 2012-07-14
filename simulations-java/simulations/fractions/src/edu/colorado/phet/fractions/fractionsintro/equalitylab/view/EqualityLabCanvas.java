@@ -154,6 +154,18 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
             setChildrenPickable( false );
         }} ) );
 
+        //Show the vertical bar set node when selected for the right-side
+        addChild( new RepresentationNode( rightRepresentation, VERTICAL_BAR, new PNode() {{
+            model.rightVerticalBars.addObserver( new SimpleObserver() {
+                public void update() {
+                    removeAllChildren();
+                    addChild( CreateEmptyCellsNode.f( model.rightVerticalBars.get() ) );
+                    addChild( new MovableSliceLayer( model.rightVerticalBars.get(), NodeToShape, model.rightVerticalBars, rootNode, null ) );
+                }
+            } );
+            setChildrenPickable( false );
+        }} ) );
+
         //Show the water glasses when selected for the right-side
         addChild( new RepresentationNode( rightRepresentation, WATER_GLASSES, new PNode() {{
             model.rightWaterGlasses.addObserver( new SimpleObserver() {
