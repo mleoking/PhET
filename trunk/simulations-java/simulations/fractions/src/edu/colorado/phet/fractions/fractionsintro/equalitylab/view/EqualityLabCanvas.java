@@ -73,7 +73,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         final RichPNode leftRepresentationControlPanel = new ZeroOffsetNode( node ) {{
 
             //Added extra offset for experimentation with "dynamic number line"
-            setOffset( 50 + 100, INSET );
+            setOffset( 60, INSET );
         }};
 
         // Instead of "same" and "number line" radio buttons, what we envisioned on the right hand side
@@ -110,7 +110,7 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
                 }
             } );
         }} ) {{
-            setOffset( leftRepresentationControlPanel.getMaxX() + 120, leftRepresentationControlPanel.getCenterY() - getFullBounds().getHeight() / 2 );
+            setOffset( leftRepresentationControlPanel.getMaxX() + 110, leftRepresentationControlPanel.getCenterY() - getFullBounds().getHeight() / 2 );
         }};
 
         addChildren( leftRepresentationControlPanel, rightRepresentationControlPanel );
