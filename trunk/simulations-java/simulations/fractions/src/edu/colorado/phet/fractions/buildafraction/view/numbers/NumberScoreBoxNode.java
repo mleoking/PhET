@@ -70,7 +70,6 @@ public class NumberScoreBoxNode extends PNode {
                         };
                         activity.setSlowInSlowOut( false );
                         addActivity( activity );
-                        numberSceneNode.playSoundForOneComplete();
                     }
                     else {
                         doTerminate();
