@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.common.phetcommon.model.property.integerproperty;
 
 import java.util.ArrayList;
@@ -81,13 +81,9 @@ public class IntegerProperty extends Property<Integer> {
         return new LessThanOrEqualTo( this, b );
     }
 
-    public void increment() {
-        set( get() + 1 );
-    }
+    public void increment() { set( get() + 1 ); }
 
-    public void decrement() {
-        set( get() - 1 );
-    }
+    public void decrement() { set( get() - 1 ); }
 
     //Returns a function that when invoked, adds the specified value to this instance
     public VoidFunction0 add_( final int delta ) {
@@ -97,4 +93,8 @@ public class IntegerProperty extends Property<Integer> {
             }
         };
     }
+
+    public VoidFunction0 _increment() { return add_( 1 ); }
+
+    public VoidFunction0 _decrement() {return add_( -1 );}
 }

@@ -1,3 +1,4 @@
+7/14/12 Added _increment and _decrement functions to IntegerProperty
 7/11/12 #3375, Load the audio input stream and decorate with a BufferedInputStream to support mark/reset, see #3375
 6/29/12 #3364, clicking on the sponsor image opens a web browser to the URL
 6/19/12 Added mathematics-related classes: Optimization1D for one-dimensional function minimization, and double-versions of the very useful Ray and Plane classes used in 3D sims.
