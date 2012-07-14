@@ -358,6 +358,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
     public void fractionCardNodeDragEnded( final FractionCardNode fractionCardNode, final PInputEvent event ) {
         //Add a new fraction skeleton when the previous one is completed
         if ( !allTargetsComplete() ) {
+            playSoundForOneComplete();
 
             //If no fraction skeleton in play area, move one there
             if ( allIncompleteFractionsInToolbox() ) {

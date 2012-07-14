@@ -66,7 +66,6 @@ public class PictureScoreBoxNode extends PNode {
                         };
                         activity.setSlowInSlowOut( false );
                         addActivity( activity );
-                        sceneNode.playSoundForOneComplete();
                     }
                     else {
                         doTerminate();

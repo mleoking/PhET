@@ -1,3 +1,4 @@
+Build a Fraction: Play sound for completing individual challenges when placed in the target box rather than when built
 Equality lab: Water glasses are the wrong color in the bucket
 Equality lab: Fixed icon colors to match the drawn representations
 Equality Lab: added vertical bars
