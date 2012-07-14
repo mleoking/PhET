@@ -34,6 +34,7 @@ public class BuildAFractionModel {
     public final Property<Scene> selectedScene = new Property<Scene>( Scene.pictures );
 
     public final BooleanProperty audioEnabled = new BooleanProperty( true );
+    public final IntegerProperty selectedPage = new IntegerProperty( 0 );
 
     public void removeCreatedValueFromNumberLevel( final Fraction value ) {
         final Property<List<Fraction>> fractions = numberLevels.get( numberLevel.get() ).createdFractions;

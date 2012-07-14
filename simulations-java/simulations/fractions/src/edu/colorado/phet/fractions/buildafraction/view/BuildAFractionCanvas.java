@@ -39,7 +39,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Mai
         //Set a really light blue because there is a lot of white everywhere
         setBackground( new Color( 236, 251, 251 ) );
 
-        currentScene = new LevelSelectionNode( "Build a Fraction", this, model.audioEnabled );
+        currentScene = new LevelSelectionNode( "Build a Fraction", this, model.audioEnabled, model.selectedPage );
         addChild( currentScene );
     }
 
@@ -118,7 +118,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Mai
     }
 
     public void reset() {
-        crossFadeTo( new LevelSelectionNode( "Build a Fraction", this, model.audioEnabled ) );
+        crossFadeTo( new LevelSelectionNode( "Build a Fraction", this, model.audioEnabled, model.selectedPage ) );
     }
 
     public Component getComponent() {
@@ -139,7 +139,7 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Mai
     }
 
     public void goToLevelSelectionScreen() {
-        animateTo( new LevelSelectionNode( "Build a Fraction", this, model.audioEnabled ), Direction.LEFT );
+        animateTo( new LevelSelectionNode( "Build a Fraction", this, model.audioEnabled, model.selectedPage ), Direction.LEFT );
     }
 
     public void resamplePictureLevel( final int levelIndex ) {

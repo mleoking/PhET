@@ -50,7 +50,7 @@ public class AbstractLevelSelectionNode extends PNode {
     }
 
     //Rows + Columns
-    public AbstractLevelSelectionNode( final String title, final List<Page> pages, final MainContext context ) {
+    public AbstractLevelSelectionNode( final String title, final List<Page> pages, final MainContext context, final IntegerProperty selectedPage ) {
 
         //Title text, only shown when the user is choosing a level
         PNode titleText = new PNode() {{
@@ -62,7 +62,6 @@ public class AbstractLevelSelectionNode extends PNode {
 
         final PNode allPages = new PNode();
 
-        final IntegerProperty selectedIndex = new IntegerProperty( 0 );
         for ( P2<Page, Integer> page : pages.zipIndex() ) {
 
             final int index = page._2();
@@ -72,22 +71,12 @@ public class AbstractLevelSelectionNode extends PNode {
             pageNode.addChild( box );
 
             if ( index < pages.length() - 1 ) {
-                pageNode.addChild( new ForwardButton( new VoidFunction0() {
-                    public void apply() {
-                        selectedIndex.increment();
-                        allPages.animateToPositionScaleRotation( -STAGE_SIZE.width, 0, 1, 0, 200 );
-                    }
-                } ) {{
+                pageNode.addChild( new ForwardButton( selectedPage._increment() ) {{
                     setOffset( box.getMaxX() + INSET, box.getCenterY() - getFullBounds().getHeight() / 2 );
                 }} );
             }
             if ( index > 0 ) {
-                pageNode.addChild( new BackButton( new VoidFunction0() {
-                    public void apply() {
-                        selectedIndex.decrement();
-                        allPages.animateToPositionScaleRotation( 0, 0, 1, 0, 200 );
-                    }
-                } ) {{
+                pageNode.addChild( new BackButton( selectedPage._decrement() ) {{
                     setOffset( box.getMinX() - INSET - getFullBounds().getWidth(), box.getCenterY() - getFullBounds().getHeight() / 2 );
                 }} );
             }
@@ -95,9 +84,9 @@ public class AbstractLevelSelectionNode extends PNode {
             allPages.addChild( pageNode );
             pageNode.setOffset( STAGE_SIZE.width * index, 0 );
 
-            selectedIndex.addObserver( new VoidFunction1<Integer>() {
-                public void apply( final Integer integer ) {
-                    if ( integer == index ) {
+            selectedPage.addObserver( new VoidFunction1<Integer>() {
+                public void apply( final Integer selectedPage ) {
+                    if ( selectedPage == index ) {
                         pageNode.setTransparency( 1 );
                     }
                     else {
@@ -112,15 +101,24 @@ public class AbstractLevelSelectionNode extends PNode {
                             }
 
                             public void activityFinished( final PActivity activity ) {
-                                pageNode.animateToTransparency( index == integer ? 1 : 0, 200 );
+                                pageNode.animateToTransparency( index == selectedPage ? 1 : 0, 200 );
                             }
                         } );
                     }
 
                 }
             } );
-            pageNode.setTransparency( index == 0 ? 1 : 0 );
+            pageNode.setTransparency( index == selectedPage.get() ? 1 : 0 );
         }
+
+        selectedPage.addObserver( new VoidFunction1<Integer>() {
+            public void apply( final Integer selectedPage ) {
+                allPages.animateToPositionScaleRotation( -STAGE_SIZE.width * selectedPage, 0, 1, 0, 200 );
+            }
+        } );
+
+        // Have to set the initial offset manually since animateTo only works after attached to scene graph
+        allPages.setOffset( -STAGE_SIZE.width * selectedPage.get(), 0 );
 
         addChild( allPages );
 

@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.fractions.common.view.SettingsOnOffPanel;
 import edu.colorado.phet.fractions.common.view.SettingsOnOffPanel.Element;
@@ -31,8 +32,8 @@ import static fj.data.List.list;
 public class LevelSelectionNode extends AbstractLevelSelectionNode {
     public static Color[] colors = new Color[] { Colors.LIGHT_RED, Colors.LIGHT_BLUE, Colors.LIGHT_GREEN, Colors.LIGHT_ORANGE, Color.magenta, Color.yellow };
 
-    public LevelSelectionNode( final String title, final BuildAFractionCanvas canvas2, BooleanProperty audioEnabled ) {
-        super( title, list( new Page( createPage1() ), new Page( createPage2() ) ), canvas2 );
+    public LevelSelectionNode( final String title, final BuildAFractionCanvas canvas2, BooleanProperty audioEnabled, IntegerProperty selectedPage ) {
+        super( title, list( new Page( createPage1() ), new Page( createPage2() ) ), canvas2, selectedPage );
 
         //Add the audio on/off panel
         addChild( new SettingsOnOffPanel( list( new Element( new PImage( SOUND_OFF_ICON ),
