@@ -201,12 +201,6 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         //For water glasses
         final Rectangle2D b = model.primaryFactorySet.waterGlassSetFactory.createEmptyPies( 1, 1 ).head().cells.head().getShape().getBounds2D();
         addChild( new RepresentationNode( representation, WATER_GLASSES, new WaterGlassSetNode( model.waterGlassSet, rootNode, Colors.LIGHT_GREEN, b.getWidth(), b.getHeight(), iconTextOnTheRight ) ) );
-
-        //Number line
-        //Commented out for experimentation with "dynamic number line"
-//        addChild( new NumberLineNode( model.numerator, model.numerator, model.denominator, representation.valueEquals( NUMBER_LINE ), model.maximum, new Vertical(), 15, Colors.LIGHT_GREEN, true ) {{
-//            setOffset( 385, 445 );
-//        }} );
     }
 
     private List<Element<Representation>> getIcons( SettableProperty<Representation> representation, String type ) {
@@ -216,9 +210,6 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
                               new Element<Representation>( new HorizontalBarIcon( representation, Colors.HORIZONTAL_SLICE_COLOR ) {{scale( 0.8 );}}, HORIZONTAL_BAR, UserComponentChain.chain( Components.horizontalBarRadioButton, type ) ),
                               new Element<Representation>( verticalBarIcon, VERTICAL_BAR, UserComponentChain.chain( Components.horizontalBarRadioButton, type ) ),
                               new Element<Representation>( new WaterGlassIcon( representation, Colors.CUP_COLOR ) {{scale( 0.8 );}}, WATER_GLASSES, UserComponentChain.chain( Components.waterGlassesRadioButton, type ) )
-
-                              //Commented out for experimentation with "dynamic number line"
-//                , new Element<Representation>( new NumberLineIcon( representation ), NUMBER_LINE, UserComponentChain.chain( Components.numberLineRadioButton, type ) )
         );
     }
 }
