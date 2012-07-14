@@ -38,8 +38,11 @@ public class EqualityLabModel {
 
     public static final double pieY = 225 - 12.5;
     public static final double pieDiameter = 135;
-    public static final double distanceBetweenBars = 5;
+    public static final double distanceBetweenGlasses = 5;
+    public static final double distanceBetweenBars = 12;
     public static final double horizontalSliceY = 25 - 41.5 - 15 + 30;
+
+    public static final double verticalSliceScale = 0.75;
 
     //For filling the circular pies in the equality lab, for the primary (left side) fraction, the bottom-right pie fills first, then it goes up
     //so that the left and right representations match up at the center of the screen for as long as possible (until the value increases too high)
@@ -56,10 +59,10 @@ public class EqualityLabModel {
             Dimension2D littleBucket = new Dimension2D( 250, 100 );
             return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, littleBucket, pieDiameter, pieX, pieY, siteMap, Colors.CIRCLE_COLOR ),
                                    new StackedHorizontalSliceFactory( bucketPosition.plus( -20, 0 ), littleBucket, Colors.HORIZONTAL_SLICE_COLOR, 125 + 114, horizontalSliceY, false ),
-                                   new VerticalSliceFactory( 0, 125, 225, false, bucketPosition, littleBucket, Colors.VERTICAL_SLICE_COLOR, distanceBetweenBars ),
+                                   new VerticalSliceFactory( -120, 125 * verticalSliceScale, 225 * verticalSliceScale, false, bucketPosition, littleBucket, Colors.VERTICAL_SLICE_COLOR, distanceBetweenBars ),
 
                                    //Align the right side of the water glasses with the right edge of the representation control panel
-                                   new VerticalSliceFactory( -117, 100, 200, true, bucketPosition, littleBucket, Colors.CUP_COLOR, distanceBetweenBars ),
+                                   new VerticalSliceFactory( -117, 100, 200, true, bucketPosition, littleBucket, Colors.CUP_COLOR, distanceBetweenGlasses ),
                                    new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ), littleBucket ) );
 
         }
@@ -90,10 +93,10 @@ public class EqualityLabModel {
 
             return new FactorySet( new CircularSliceFactory( numPerRow, bucketPosition, littleBucket, pieDiameter, pieX, pieY, siteMap, LIGHT_BLUE ),
                                    new StackedHorizontalSliceFactory( bucketPosition.plus( -20, 0 ), bigBucket, LIGHT_BLUE, 125 + 445, horizontalSliceY, true ),
-                                   new VerticalSliceFactory( 0, 125, 225, false, bucketPosition, littleBucket, LIGHT_BLUE, distanceBetweenBars ),
+                                   new VerticalSliceFactory( 400, 125 * verticalSliceScale, 225 * verticalSliceScale, false, bucketPosition, littleBucket, LIGHT_BLUE, distanceBetweenBars ),
 
                                    //Align the left side of the water glasses with the left edge of the right representation control panel
-                                   new VerticalSliceFactory( 400 - 27, 100, 200, true, bucketPosition, littleBucket, LIGHT_BLUE, distanceBetweenBars ),
+                                   new VerticalSliceFactory( 400 - 27, 100, 200, true, bucketPosition, littleBucket, LIGHT_BLUE, distanceBetweenGlasses ),
                                    new CakeSliceFactory( new Vector2D( SliceFactory.stageSize.width / 2, -SliceFactory.stageSize.height + 200 ), littleBucket ) );
 
         }
