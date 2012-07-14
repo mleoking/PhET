@@ -38,6 +38,7 @@ import edu.colorado.phet.fractions.fractionsintro.intro.view.pieset.PieSetNode;
 import edu.colorado.phet.fractions.fractionsintro.intro.view.representationcontrolpanel.HorizontalBarIcon;
 import edu.colorado.phet.fractions.fractionsintro.intro.view.representationcontrolpanel.NumberLineIcon;
 import edu.colorado.phet.fractions.fractionsintro.intro.view.representationcontrolpanel.PieIcon;
+import edu.colorado.phet.fractions.fractionsintro.intro.view.representationcontrolpanel.VerticalBarIcon;
 import edu.colorado.phet.fractions.fractionsintro.intro.view.representationcontrolpanel.WaterGlassIcon;
 import edu.umd.cs.piccolo.PNode;
 
@@ -209,8 +210,11 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
     }
 
     private List<Element<Representation>> getIcons( SettableProperty<Representation> representation, String type ) {
+        final PNode verticalBarIcon = new VerticalBarIcon( scaledFactorySet.verticalSliceFactory, Colors.VERTICAL_SLICE_COLOR ).getNode();
+        verticalBarIcon.scale( 0.8 );
         return Arrays.asList( new Element<Representation>( new PieIcon( representation, Colors.CIRCLE_COLOR ), PIE, UserComponentChain.chain( Components.pieRadioButton, type ) ),
                               new Element<Representation>( new HorizontalBarIcon( representation, Colors.HORIZONTAL_SLICE_COLOR ) {{scale( 0.8 );}}, HORIZONTAL_BAR, UserComponentChain.chain( Components.horizontalBarRadioButton, type ) ),
+                              new Element<Representation>( verticalBarIcon, VERTICAL_BAR, UserComponentChain.chain( Components.horizontalBarRadioButton, type ) ),
                               new Element<Representation>( new WaterGlassIcon( representation, Colors.CUP_COLOR ) {{scale( 0.8 );}}, WATER_GLASSES, UserComponentChain.chain( Components.waterGlassesRadioButton, type ) )
 
                               //Commented out for experimentation with "dynamic number line"
