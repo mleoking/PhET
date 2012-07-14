@@ -48,7 +48,7 @@ public class MovableSliceLayer extends PNode {
                            new Area() {{
                                add( new Area( new Rectangle2D.Double( -far, -far, far * 3, far * 3 ) ) );
                                final PBounds fullBounds = bucketView.getFrontNode().getFullBounds();
-                               Rectangle2D rect = new Rectangle2D.Double( fullBounds.getX() + 34, fullBounds.getMaxY() - 15, fullBounds.getWidth() - 34 * 2, fullBounds.getMaxY() + 1000 );
+                               Rectangle2D rect = new Rectangle2D.Double( fullBounds.getX() + 34, fullBounds.getMaxY() - 15, fullBounds.getWidth() - 34 * 2 + 6, fullBounds.getMaxY() + 1000 );
                                subtract( new Area( rect ) );
                            }} );
                 addChild( childNodes );
