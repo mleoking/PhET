@@ -63,11 +63,14 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
         //Control panel for choosing different representations, can be split into separate controls for each display
         final double representationControlPanelScale = 1.0;
         final int padding = 7;
-        final RichPNode leftRepresentationControlPanel = new ZeroOffsetNode( new RadioButtonStripControlPanelNode<Representation>( leftRepresentation, getIcons( leftRepresentation, FractionsIntroSimSharing.green ), padding ) {{ scale( representationControlPanelScale ); }} ) {{
-            setOffset( 50
+        final List<Element<Representation>> icons = getIcons( leftRepresentation, FractionsIntroSimSharing.green );
+        final RadioButtonStripControlPanelNode<Representation> node = new RadioButtonStripControlPanelNode<Representation>( leftRepresentation, icons, padding ) {{
+            scale( representationControlPanelScale );
+        }};
+        final RichPNode leftRepresentationControlPanel = new ZeroOffsetNode( node ) {{
 
-                       //Added extra offset for experimentation with "dynamic number line"
-                       + 100, INSET );
+            //Added extra offset for experimentation with "dynamic number line"
+            setOffset( 50 + 100, INSET );
         }};
 
         // Instead of "same" and "number line" radio buttons, what we envisioned on the right hand side
