@@ -31,6 +31,7 @@ import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevel;
 import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget;
 import edu.colorado.phet.fractions.buildafraction.view.BackButton;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
+import edu.colorado.phet.fractions.buildafraction.view.SceneNode;
 import edu.colorado.phet.fractions.buildafraction.view.pictures.RefreshButtonNode;
 import edu.colorado.phet.fractions.buildafraction.view.pictures.SceneContext;
 import edu.colorado.phet.fractions.fractionmatcher.view.PatternNode;
