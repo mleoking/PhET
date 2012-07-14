@@ -90,6 +90,12 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
                     else if ( representation == HORIZONTAL_BAR ) {
                         icons.add( new Element<Boolean>( new HorizontalBarIcon( new Property<Representation>( HORIZONTAL_BAR ), Colors.HORIZONTAL_SLICE_COLOR ) {{scale( 0.8 );}}, true, UserComponentChain.chain( Components.horizontalBarRadioButton, FractionsIntroSimSharing.blue ) ) );
                     }
+                    else if ( representation == VERTICAL_BAR ) {
+                        final VerticalBarIcon verticalBarIcon = new VerticalBarIcon( scaledFactorySet.verticalSliceFactory, Colors.HORIZONTAL_SLICE_COLOR );
+                        PNode node = verticalBarIcon.getNode();
+                        node.scale( 0.8 );
+                        icons.add( new Element<Boolean>( node, true, UserComponentChain.chain( Components.horizontalBarRadioButton, FractionsIntroSimSharing.blue ) ) );
+                    }
                     else if ( representation == WATER_GLASSES ) {
                         icons.add( new Element<Boolean>( new WaterGlassIcon( new Property<Representation>( WATER_GLASSES ), Colors.CUP_COLOR ) {{scale( 0.8 );}}, true, UserComponentChain.chain( Components.waterGlassesRadioButton, FractionsIntroSimSharing.blue ) ) );
                     }
@@ -197,6 +203,9 @@ public class EqualityLabCanvas extends AbstractFractionsCanvas {
 
         //For horizontal bars
         addChild( new RepresentationNode( representation, HORIZONTAL_BAR, new PieSetNode( model.horizontalBarSet, rootNode, iconTextOnTheRight ) ) );
+
+        //For vertical bars
+        addChild( new RepresentationNode( representation, VERTICAL_BAR, new PieSetNode( model.verticalBarSet, rootNode, iconTextOnTheRight ) ) );
 
         //For water glasses
         final Rectangle2D b = model.primaryFactorySet.waterGlassSetFactory.createEmptyPies( 1, 1 ).head().cells.head().getShape().getBounds2D();
