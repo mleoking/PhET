@@ -1,3 +1,4 @@
+"Refill Kit" now essentially resets the kit molecules
 Added graphical labels to the molecule buckets
 # 0.00.05 (65776) Jul 12, 2012
 Reaction arrow turns yellow when products are in the play area

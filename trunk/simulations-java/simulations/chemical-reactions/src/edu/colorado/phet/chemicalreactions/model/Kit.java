@@ -23,19 +23,21 @@ import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.filter;
 import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.map;
 import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.unique;
 
-// TODO: doc, and add the reaction "target" or "targets"
+/**
+ * A kit is basically a collection of buckets (some hold reactants, some hold products), and all of the molecules and reactions that are
+ * contained either in the buckets or in the play area. It has its own physics model, and can have its visibility toggled
+ */
 public class Kit {
-    private final List<MoleculeBucket> buckets;
 
-    private final List<MoleculeBucket> reactantBuckets;
-    private final List<MoleculeBucket> productBuckets;
-    private final List<ReactionShape> possibleReactions;
+    private final List<MoleculeBucket> buckets; // all of the buckets
+    private final List<MoleculeBucket> reactantBuckets; // just the buckets that hold reactants
+    private final List<MoleculeBucket> productBuckets; // just the buckets that hold the products
 
-    private final List<Atom> atoms = new LinkedList<Atom>();
+    private final List<ReactionShape> possibleReactions; // types of reactions that may occur in this kit
+
     public final ObservableList<Molecule> molecules = new ObservableList<Molecule>();
     public final ObservableList<Molecule> moleculesInPlayArea = new ObservableList<Molecule>();
     public final Property<Boolean> visible = new Property<Boolean>( false );
-    public final Property<Boolean> hasMoleculesInBoxes = new Property<Boolean>( false );
     public final Property<Boolean> hasProductInPlayArea = new Property<Boolean>( false );
 
     private final LayoutBounds layoutBounds;
@@ -83,6 +85,9 @@ public class Kit {
                 if ( moleculesInPlayArea.contains( molecule ) ) {
                     moleculesInPlayArea.remove( molecule );
                 }
+                else {
+                    getBucketForShape( molecule.shape ).removeMolecule( molecule );
+                }
             }
         } );
 
@@ -109,8 +114,6 @@ public class Kit {
                 checkForProducts();
             }
         } );
-
-        resetKit();
 
         // lays out the buckets correctly, and takes care of changing atom positions
         layout();
@@ -150,8 +153,23 @@ public class Kit {
         }
     }
 
-    public void resetKit() {
-        // TODO fill in here
+    public void refillKit() {
+        // remove all of the molecules
+        for ( Molecule molecule : new ArrayList<Molecule>( molecules ) ) {
+            molecules.remove( molecule );
+            molecule.disposeNotifier.updateListeners();
+        }
+
+        for ( MoleculeBucket bucket : buckets ) {
+            bucket.addInitialMolecules();
+
+            // add them to the kit (and thus the view), so that when the bucket positions are computed (in positionMoleculesInBucket), it will get the z-order correct
+            for ( Molecule molecule : bucket.getMolecules() ) {
+                molecules.add( molecule );
+            }
+
+            bucket.positionMoleculesInBucket();
+        }
     }
 
     public void show() {
