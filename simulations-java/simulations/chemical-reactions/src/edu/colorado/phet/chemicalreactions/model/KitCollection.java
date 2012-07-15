@@ -79,7 +79,7 @@ public class KitCollection {
 
     public void resetAll() {
         for ( Kit kit : kits ) {
-            kit.resetKit();
+            kit.refillKit();
         }
         while ( hasPreviousKit() ) {
             goToPreviousKit();

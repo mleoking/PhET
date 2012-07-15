@@ -44,11 +44,23 @@ public class MoleculeBucket extends Bucket {
         this.initialQuantity = initialQuantity;
         this.maxQuantity = maxQuantity;
 
+        addInitialMolecules();
+    }
+
+    public void addInitialMolecules() {
         FunctionalUtils.repeat( new Runnable() {
             public void run() {
                 molecules.add( new Molecule( shape ) );
             }
         }, initialQuantity );
+    }
+
+    public void positionMoleculesInBucket() {
+        calculateDestinations();
+
+        for ( Molecule molecule : molecules ) {
+            molecule.setPosition( molecule.getDestination() );
+        }
     }
 
     public void addMolecule( Molecule molecule ) {

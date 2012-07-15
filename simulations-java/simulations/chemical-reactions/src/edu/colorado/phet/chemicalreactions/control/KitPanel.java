@@ -90,7 +90,7 @@ public class KitPanel extends PNode {
             {
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
-                        kitCollectionModel.getCurrentKit().resetKit();
+                        kitCollectionModel.getCurrentKit().refillKit();
                     }
                 } );
                 observer = new SimpleObserver() {
@@ -98,6 +98,11 @@ public class KitPanel extends PNode {
                         setEnabled( kitCollectionModel.getCurrentKit().hasMoleculesOutsideOfBuckets() );
                     }
                 };
+
+                // update when we change kits
+                kitCollectionModel.getCurrentKitProperty().addObserver( observer );
+
+                // update when a molecule is created or destroyed
                 for ( Kit kit : kitCollectionModel.getKits() ) {
                     kit.molecules.addElementAddedObserver( new VoidFunction1<Molecule>() {
                         public void apply( Molecule molecule ) {
@@ -110,7 +115,22 @@ public class KitPanel extends PNode {
                         }
                     } );
                 }
-                kitCollectionModel.getCurrentKitProperty().addObserver( observer );
+
+                // update whether we are enabled whenever molecules are added or removed from ANY play area
+                for ( Kit kit : kitCollectionModel.getKits() ) {
+                    kit.moleculesInPlayArea.addElementAddedObserver( new VoidFunction1<Molecule>() {
+                        public void apply( Molecule molecule ) {
+                            observer.update();
+                        }
+                    }, false );
+                    kit.moleculesInPlayArea.addElementRemovedObserver( new VoidFunction1<Molecule>() {
+                        public void apply( Molecule molecule ) {
+                            observer.update();
+                        }
+                    } );
+                }
+
+                // offset slightly from the outside of the kit
                 setOffset( kitViewBounds.getMinX() + 5, kitViewBounds.getMinY() + 5 );
             }
         } );
