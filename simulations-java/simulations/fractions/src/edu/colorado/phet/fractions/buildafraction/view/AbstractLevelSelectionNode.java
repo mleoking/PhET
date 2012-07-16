@@ -190,6 +190,5 @@ public class AbstractLevelSelectionNode extends PNode {
         public LevelIconNode( final String text, PNode icon, int numStars, int maxStars ) {
             addChild( new VBox( new PhetPText( text, new PhetFont( 18, true ) ), icon, new StarSetNode2( numStars, maxStars ) ) );
         }
-
     }
 }
