@@ -43,41 +43,41 @@ public class LevelSelectionNode extends AbstractLevelSelectionNode {
     }
 
     private static List<List<LevelInfo>> createPage1() {
-        return list( list( toShapeLevelInfo( 1, Pattern.pie( 1 ) ),
-                           toShapeLevelInfo( 2, Pattern.verticalBars( 2 ) ),
-                           toShapeLevelInfo( 3 ),
-                           toShapeLevelInfo( 4 ),
-                           toShapeLevelInfo( 5 ) ),
-                     list( createNumberLevel( 1 ),
-                           createNumberLevel( 2 ),
-                           createNumberLevel( 3 ),
-                           createNumberLevel( 4 ),
-                           createNumberLevel( 5 ) ) );
+        return list( list( toShapeLevelInfo( 1, Pattern.pie( 1 ), 3 ),
+                           toShapeLevelInfo( 2, Pattern.verticalBars( 2 ), 3 ),
+                           toShapeLevelInfo( 3, 3 ),
+                           toShapeLevelInfo( 4, 3 ),
+                           toShapeLevelInfo( 5, 3 ) ),
+                     list( createNumberLevel( 1, 3 ),
+                           createNumberLevel( 2, 3 ),
+                           createNumberLevel( 3, 3 ),
+                           createNumberLevel( 4, 3 ),
+                           createNumberLevel( 5, 3 ) ) );
     }
 
     private static List<List<LevelInfo>> createPage2() {
-        return list( list( toShapeLevelInfo( 6 ),
-                           toShapeLevelInfo( 7 ),
-                           toShapeLevelInfo( 8 ),
-                           toShapeLevelInfo( 9 ),
-                           toShapeLevelInfo( 10 ) ),
-                     list( createNumberLevel( 6 ),
-                           createNumberLevel( 7 ),
-                           createNumberLevel( 8 ),
-                           createNumberLevel( 9 ),
-                           createNumberLevel( 10 ) ) );
+        return list( list( toShapeLevelInfo( 6, 4 ),
+                           toShapeLevelInfo( 7, 4 ),
+                           toShapeLevelInfo( 8, 4 ),
+                           toShapeLevelInfo( 9, 4 ),
+                           toShapeLevelInfo( 10, 4 ) ),
+                     list( createNumberLevel( 6, 4 ),
+                           createNumberLevel( 7, 4 ),
+                           createNumberLevel( 8, 4 ),
+                           createNumberLevel( 9, 4 ),
+                           createNumberLevel( 10, 4 ) ) );
     }
 
-    private static LevelInfo toShapeLevelInfo( final int level ) {
-        return toShapeLevelInfo( level, Pattern.polygon( 80, level ) );
+    private static LevelInfo toShapeLevelInfo( final int level, int maxStars ) {
+        return toShapeLevelInfo( level, Pattern.polygon( 80, level ), maxStars );
     }
 
-    private static LevelInfo toShapeLevelInfo( final int level, Pattern pattern ) {
+    private static LevelInfo toShapeLevelInfo( final int level, Pattern pattern, int maxStars ) {
         final int levelIndex = level - 1;
-        return new LevelInfo( "Level " + level, new PatternNode( sequentialFill( pattern, level ), colors[levelIndex % colors.length] ), 0, 3, levelIndex, LevelType.SHAPES );
+        return new LevelInfo( "Level " + level, new PatternNode( sequentialFill( pattern, level ), colors[levelIndex % colors.length] ), 0, maxStars, levelIndex, LevelType.SHAPES );
     }
 
-    private static LevelInfo createNumberLevel( int level ) {return new LevelInfo( "Level " + level, createLevelIcon( level ), 0, 3, level - 1, LevelType.NUMBERS );}
+    private static LevelInfo createNumberLevel( int level, int maxStars ) {return new LevelInfo( "Level " + level, createLevelIcon( level ), 0, maxStars, level - 1, LevelType.NUMBERS );}
 
     private static List<BufferedImage> images = list( NUMBER_0, NUMBER_1, NUMBER_2, NUMBER_3, NUMBER_4, NUMBER_5, NUMBER_6, NUMBER_7, NUMBER_8, NUMBER_9, NUMBER_0 ).map( new F<BufferedImage, BufferedImage>() {
         @Override public BufferedImage f( final BufferedImage bufferedImage ) {
