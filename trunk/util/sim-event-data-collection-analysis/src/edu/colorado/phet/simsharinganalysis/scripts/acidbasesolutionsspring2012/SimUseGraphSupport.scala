@@ -48,5 +48,7 @@ object SimUseGraphSupport {
     report("Never clicked on magnifying glass radio button (2nd tab)", r => r.states.filter(_.tab1.viewAndTestState.numTimesPressedMagnifyingGlassRadioButton > 0).length == 0)
     report("Never used acid solution controls (2nd tab)", r => r.neverUsedAcidSolutionControls)
     report("Never used base solution controls (2nd tab)", r => r.neverUsedBaseSolutionControls)
+    report("Used phmeter but never dunked it", r => r.used("phMeter") && !r.dunkedPHMeter)
+    report("Used phPaper but never dunked it", r => r.used("phPaper") && !r.dunkedPHPaper)
   }
 }
