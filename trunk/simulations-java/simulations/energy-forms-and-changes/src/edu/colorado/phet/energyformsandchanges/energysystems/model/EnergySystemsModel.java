@@ -47,9 +47,13 @@ public class EnergySystemsModel {
     // TODO temp.
     public final List<ShapeModelElement> shapeModelElementList = new ArrayList<ShapeModelElement>();
 
-    // The various energy system elements.
+    // Energy sources.
+
+    // Energy Converters.
     private final WaterPoweredGenerator waterPoweredGenerator = new WaterPoweredGenerator();
-    private final WaterPoweredGenerator waterPoweredGenerator2 = new WaterPoweredGenerator();
+
+    // Energy users.
+    private final IncandescentLightBulb incandescentLightBulb = new IncandescentLightBulb();
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -64,7 +68,7 @@ public class EnergySystemsModel {
         } );
 
         energyConvertersCarousel.add( waterPoweredGenerator );
-        energyConvertersCarousel.add( waterPoweredGenerator2 );
+        energyConvertersCarousel.add( incandescentLightBulb );
     }
 
     //-------------------------------------------------------------------------
@@ -81,6 +85,10 @@ public class EnergySystemsModel {
 
     public WaterPoweredGenerator getWaterPoweredGenerator() {
         return waterPoweredGenerator;
+    }
+
+    public IncandescentLightBulb getIncandescentLightBulb() {
+        return incandescentLightBulb;
     }
 
     private void stepInTime( double dt ) {

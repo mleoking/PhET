@@ -115,6 +115,7 @@ public class EnergySystemsCanvas extends PhetPCanvas {
 
         // Add the various energy system elements.
         EnergySystemElementNode waterPoweredGeneratorNode = new EnergySystemElementNode( model.getWaterPoweredGenerator(), mvt );
+        EnergySystemElementNode incandescentLightBulbNode = new EnergySystemElementNode( model.getIncandescentLightBulb(), mvt );
 
         // TODO: Temp.
         addWorldChild( new FaucetNode( EnergyFormsAndChangesSimSharing.UserComponents.faucet,
@@ -138,6 +139,7 @@ public class EnergySystemsCanvas extends PhetPCanvas {
             rootNode.addChild( shapeNode );
         }
         rootNode.addChild( waterPoweredGeneratorNode );
+        rootNode.addChild( incandescentLightBulbNode );
         rootNode.addChild( clockControlBackground );
         rootNode.addChild( clockControl );
         rootNode.addChild( showEnergyControlPanel );
