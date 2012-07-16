@@ -1,3 +1,4 @@
+7/16/12 add PhetPCanvas.getWorldBounds
 6/25/12 Reduced ToggleButtonNode stroke to make buttons look crisper.  Usages only appear in Fractions intro application
 5/14/12 #3330, fix HSlider/VSlider so that drag handler considers whether the slider is enabled
 5/11/12 #3327, prevent WavelengthControl bounds from changing when thumb is dragged to min/max

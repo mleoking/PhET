@@ -13,6 +13,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.logging.Logger;
 
@@ -23,6 +24,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDebug;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolo.util.PPaintContext;
@@ -309,7 +311,7 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
     }
 
     /**
-     * Gets the size of the canvas is world coordinates.
+     * Gets the size of the canvas in world coordinates.
      *
      * @return Dimension2D
      */
@@ -317,6 +319,17 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
         Dimension2D dim = getScreenSize();
         getPhetRootNode().screenToWorld( dim ); // modifies dim!
         return dim;
+    }
+
+    /*
+     * Gets the bounds of the canvas in world coordinates.
+     * @return PBounds
+     */
+    public PBounds getWorldBounds() {
+        Point2D origin = new Point2D.Double( 0, 0 );
+        getPhetRootNode().screenToWorld( origin ); // modifies origin!
+        Dimension2D worldSize = getWorldSize();
+        return new PBounds( origin.getX(), origin.getY(), worldSize.getWidth(), worldSize.getHeight() );
     }
 
     /**
