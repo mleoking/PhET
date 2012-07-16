@@ -25,27 +25,24 @@ object SimUseGraphSupport {
     Group("a3", load(files.filter(_.getName.indexOf("_a3_") >= 0)) map toReport) :: Nil
   }
 
-  def main(args: Array[String]) {
-    println("Clicked on ph meter radio button but didn't dunk ph meter:")
-    for ( group <- groups ) {
-      println(group.name + ": " + group.reports.count(r => r.used("phMeterRadioButton") && !r.dunkedPHMeter) + "/" + group.size)
-    }
-
-    println("\nClicked on ph paper radio button but didn't dunk ph paper:")
-    for ( group <- groups ) {
-      println(group.name + ": " + group.reports.count(r => r.used("phPaperRadioButton") && !r.dunkedPHPaper) + "/" + group.size)
-    }
-
-    println("\nClicked on conductivity tester radio button but didn't dunk conductivity tester:")
-    for ( group <- groups ) {
-      println(group.name + ": " + group.reports.count(r => r.used("conductivityTesterRadioButton") && !r.completedCircuit) + "/" + group.size)
-    }
-
-    println("\nHow many moved the conductivity probes but never completed the circuit:")
-    for ( group <- groups ) {
-      println(group.name + ": " + group.reports.count(r => r.movedConductivityProbesButDidNotCompleteCircuit) + "/" + group.size)
-    }
-
+  def reportLine(group: Group, filtered: List[AcidBaseReport]) {
+    println(group.name + ": " + filtered.length + "/" + group.size + ", sessions = " + filtered.map(_.session) + ", filenames = " + filtered.map(_.filename))
   }
 
+  def report(name: String, filter: AcidBaseReport => Boolean) {
+    println(name + ":")
+    for ( group <- groups ) {
+      reportLine(group, group.reports.filter(filter))
+    }
+    println("\n")
+  }
+
+  def main(args: Array[String]) {
+    report("Clicked on ph meter radio button but didn't dunk ph meter", r => r.used("phMeterRadioButton") && !r.dunkedPHMeter)
+    report("Clicked on ph paper radio button but didn't dunk ph paper", r => r.used("phPaperRadioButton") && !r.dunkedPHPaper)
+    report("Clicked on conductivity tester radio button but didn't dunk conductivity tester", r => r.used("conductivityTesterRadioButton") && !r.completedCircuit)
+    report("Moved the conductivity probes but never completed the circuit", r => r.movedConductivityProbesButDidNotCompleteCircuit)
+    report("Never clicked on acidRadioButton", r => r.neverUsed("acidRadioButton"))
+    report("Never clicked on magnifyingGlassRadioButton", r => r.neverUsed("magnifyingGlassRadioButton"))
+  }
 }
