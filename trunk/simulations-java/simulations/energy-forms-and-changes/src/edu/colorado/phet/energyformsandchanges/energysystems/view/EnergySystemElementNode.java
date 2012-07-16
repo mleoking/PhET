@@ -17,6 +17,9 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * Base class for PNodes that represent energy system elements in the view.
+ * At this level of the class hierarchy, images are added.  Other functionality
+ * that is more specific to the particular energy system should be added in
+ * subclasses.
  *
  * @author John Blanco
  */
