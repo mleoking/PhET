@@ -38,7 +38,7 @@ public class SponsorPanel extends GridPanel {
         String imageResourceName = properties.getImageResourceName();
         final String actualURL = properties.getActualURL();
         String visibleURL = properties.getVisibleURL();
-        String sinceDate = properties.getSinceDate();
+        String sinceYear = properties.getSinceYear();
 
         // layout components, some of which are optional
         int xMargin = 40;
@@ -69,9 +69,9 @@ public class SponsorPanel extends GridPanel {
             add( createInteractiveHTMLPane( actualURL, visibleURL, new PhetFont( 14 ) ) );
         }
         add( Box.createVerticalStrut( 15 ) );
-        // since date
-        if ( sinceDate != null ) {
-            add( new JLabel( MessageFormat.format( PhetCommonResources.getString( "Sponsor.sinceDate" ), sinceDate ) ) {{
+        // since year
+        if ( sinceYear != null ) {
+            add( new JLabel( MessageFormat.format( PhetCommonResources.getString( "Sponsor.sinceDate" ), sinceYear ) ) {{
                 setFont( new PhetFont( 10 ) );
             }} );
         }

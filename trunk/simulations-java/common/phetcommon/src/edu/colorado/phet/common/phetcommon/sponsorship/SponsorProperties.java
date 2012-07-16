@@ -45,8 +45,8 @@ public class SponsorProperties {
         return properties.getProperty( sim + ".visibleURL" );
     }
 
-    // The date when the sponsor started its sponsorship.
-    public String getSinceDate() {
-        return properties.getProperty( sim + ".sinceDate" );
+    // The year when the sponsor started its sponsorship.
+    public String getSinceYear() {
+        return properties.getProperty( sim + ".sinceYear" );
     }
 }
