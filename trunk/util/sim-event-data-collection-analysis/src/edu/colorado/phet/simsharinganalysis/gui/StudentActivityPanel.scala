@@ -5,7 +5,7 @@ import javax.swing.{JTextArea, JScrollPane, JPanel}
 import java.io.File
 import java.awt.{Dimension, BorderLayout}
 import edu.colorado.phet.simsharinganalysis.util.MyStringBuffer
-import edu.colorado.phet.simsharinganalysis.scripts.acidbasesolutionsspring2012.AcidBaseSolutionSpring2012AnalysisReport
+import edu.colorado.phet.simsharinganalysis.scripts.acidbasesolutionsspring2012.AcidBaseReport
 import edu.colorado.phet.simsharinganalysis.phet
 
 
@@ -31,7 +31,7 @@ class StudentActivityPanel(dir: File) extends JPanel(new BorderLayout) {
     val logs = phet.load(dir).sortBy(_.startTime)
     writeLine("found: " + logs.length + " logs")
     for ( log <- logs ) {
-      new AcidBaseSolutionSpring2012AnalysisReport(log)
+      new AcidBaseReport(log)
     }
   }
 }
