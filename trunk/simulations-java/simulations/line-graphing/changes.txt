@@ -1,3 +1,4 @@
+7/16/12 encapsulate handling of "best scores"
 7/16/12 play end-of-game sounds
 7/16/12 add basic structure of game reward
 7/13/12 implemented basic game flow between settings, play and results phases
