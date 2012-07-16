@@ -113,6 +113,10 @@ class AcidBaseReport(log: Log) {
 
   writeLine("Session: " + log.session)
 
+  val session = log.session
+
+  val filename = log.file.getName
+
   val clicks: List[Entry] = log.entries.filter(isAcidBaseClick(log, _)).toList
 
   if ( clicks.length > 0 ) {
@@ -231,9 +235,10 @@ class AcidBaseReport(log: Log) {
   val firstClickToLastClick = if ( clicks.length == 0 ) 0 else ( clicks.last.time - clicks.head.time ) / 1000.0 / 60.0
   val numberOfClicks = clicks.length
 
+  val movedProbe = used("conductivityTester.negativeProbe") || used("conductivityTester.positiveProbe")
+  val movedConductivityProbesButDidNotCompleteCircuit = movedProbe && !completedCircuit
+
   def used(component: String) = log.entries.filter(_.messageType == "user").filter(_.component == component).length > 0
 
-  val movedProbe = used("conductivityTester.negativeProbe") || used("conductivityTester.positiveProbe")
-
-  val movedConductivityProbesButDidNotCompleteCircuit = movedProbe && !completedCircuit
+  def neverUsed(component: String) = log.entries.filter(_.messageType == "user").filter(_.component == component).length == 0
 }
