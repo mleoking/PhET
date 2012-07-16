@@ -19,7 +19,9 @@ generator_wheel.png source=PhET author=Noah P
 heater_element.png source=PhET author=Noah P
 incandescent.png source=PhET author=Noah P
 incandescent_icon.png source=PhET author=Noah P
+solar_panel.png source=PhET author=Noah P
 solar_panel_icon.png source=PhET author=Noah P
+solar_panel_base.png source=PhET author=Noah P
 sun_icon.png source=PhET author=Noah P
 thermometer_medium_back.png source=PhET author=Noah P
 thermometer_medium_front.png source=PhET author=Noah P
