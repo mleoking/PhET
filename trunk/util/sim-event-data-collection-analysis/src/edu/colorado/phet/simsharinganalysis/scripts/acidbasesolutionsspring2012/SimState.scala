@@ -31,7 +31,7 @@ trait AcidBaseSolutionsTab {
 }
 
 //Factored out state that is shared between all tabs, since case classes do not inherit well.
-case class ViewAndTestState(view: String, test: String, somethingEnabled: Boolean) {
+case class ViewAndTestState(view: String, test: String, somethingEnabled: Boolean, numTimesPressedMagnifyingGlassRadioButton: Int) {
   assert(view != null)
   assert(test != null)
 
@@ -43,7 +43,7 @@ case class ViewAndTestState(view: String, test: String, somethingEnabled: Boolea
       case x: Entry if x.enabled == false => this
 
       //Watch which view the user selects
-      case Entry(_, "user", c, _, "pressed", _) if List("magnifyingGlassRadioButton", "magnifyingGlassIcon").contains(c) => copy(view = molecules)
+      case Entry(_, "user", c, _, "pressed", _) if List("magnifyingGlassRadioButton", "magnifyingGlassIcon").contains(c) => copy(view = molecules, numTimesPressedMagnifyingGlassRadioButton = numTimesPressedMagnifyingGlassRadioButton + 1)
       case Entry(_, "user", c, _, "pressed", _) if List("concentrationGraphRadioButton", "concentrationGraphIcon").contains(c) => copy(view = barGraph)
       case Entry(_, "user", c, _, "pressed", _) if List("liquidRadioButton", "liquidIcon").contains(c) => copy(view = liquid)
 

@@ -38,11 +38,15 @@ object SimUseGraphSupport {
   }
 
   def main(args: Array[String]) {
-    report("Clicked on ph meter radio button but didn't dunk ph meter", r => r.used("phMeterRadioButton") && !r.dunkedPHMeter)
-    report("Clicked on ph paper radio button but didn't dunk ph paper", r => r.used("phPaperRadioButton") && !r.dunkedPHPaper)
-    report("Clicked on conductivity tester radio button but didn't dunk conductivity tester", r => r.used("conductivityTesterRadioButton") && !r.completedCircuit)
-    report("Moved the conductivity probes but never completed the circuit", r => r.movedConductivityProbesButDidNotCompleteCircuit)
-    report("Never clicked on acidRadioButton", r => r.neverUsed("acidRadioButton"))
-    report("Never clicked on magnifyingGlassRadioButton", r => r.neverUsed("magnifyingGlassRadioButton"))
+    report("Clicked on ph meter radio button but didn't dunk ph meter", r => r.used("phMeterRadioButton", "phMeterIcon") && !r.dunkedPHMeter)
+    report("Clicked on ph paper radio button but didn't dunk ph paper", r => r.used("phPaperRadioButton", "phPaperIcon") && !r.dunkedPHPaper)
+    report("Clicked on conductivity tester radio button but didn't dunk conductivity tester", r => r.used("conductivityTesterRadioButton", "conductivityTesterIcon") && !r.completedCircuit)
+    report("Moved the conductivity probes but never completed the circuit", r => r.movedProbe && !r.completedCircuit)
+    report("Never clicked on acidRadioButton", r => r.neverUsed("acidRadioButton")) //no icon for this one on the 2nd tab.
+    report("Never clicked on magnifyingGlassRadioButton", r => r.neverUsed("magnifyingGlassRadioButton", "magnifyingGlassIcon"))
+    report("Never clicked on magnifying glass radio button (1st tab)", r => r.states.filter(_.tab0.viewAndTestState.numTimesPressedMagnifyingGlassRadioButton > 0).length == 0)
+    report("Never clicked on magnifying glass radio button (2nd tab)", r => r.states.filter(_.tab1.viewAndTestState.numTimesPressedMagnifyingGlassRadioButton > 0).length == 0)
+    report("Never used acid solution controls (2nd tab)", r => r.neverUsedAcidSolutionControls)
+    report("Never used base solution controls (2nd tab)", r => r.neverUsedBaseSolutionControls)
   }
 }

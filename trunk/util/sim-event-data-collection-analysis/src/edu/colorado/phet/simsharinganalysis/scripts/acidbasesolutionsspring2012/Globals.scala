@@ -24,6 +24,6 @@ object Globals {
   val phPaper = "phPaper"
   val conductivityTester = "conductivityTester"
 
-  val initialTab0 = Tab0(water, ViewAndTestState(molecules, phMeter, false))
-  val initialTab1 = Tab1(ViewAndTestState(molecules, phMeter, false), true, true)
+  val initialTab0 = Tab0(water, ViewAndTestState(molecules, phMeter, false, 0))
+  val initialTab1 = Tab1(ViewAndTestState(molecules, phMeter, false, 0), true, true)
 }

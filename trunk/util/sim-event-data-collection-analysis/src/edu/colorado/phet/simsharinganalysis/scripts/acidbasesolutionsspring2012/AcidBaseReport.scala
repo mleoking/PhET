@@ -78,12 +78,19 @@ class AcidBaseReport(log: Log) {
 
   //Find the sequence of states of the sim
   //The list will contain one state per event, indicating the state of the sim after the event.
-  def getStates(log: Log) = {
-    val states = new ArrayBuffer[SimState]
+  def getStates(log: Log) = SimState() :: getStatesWithTransitions(log).map(_.end)
+
+  case class StateTransition(start: SimState, entry: Entry, end: SimState)
+
+  //Find the sequence of states of the sim
+  //The list will contain one state per event, indicating the state of the sim after the event.
+  def getStatesWithTransitions(log: Log) = {
+    val states = new ArrayBuffer[StateTransition]
     var state = SimState()
     for ( e <- log.entries ) {
+      val orig = state
       state = nextState(state, e)
-      states += state
+      states += StateTransition(orig, e, state)
     }
     states.toList
   }
@@ -161,7 +168,9 @@ class AcidBaseReport(log: Log) {
   writeLine("Dunk phPaper: \t" + indicator(log.filter(_.component == "phPaper").filter(_.hasParameter("isInSolution", "true")).filter(_.action == "drag")))
   writeLine("Complete circuit:\t" + indicator(log.userEntries.filter(e => e.hasParameter("isCircuitCompleted", "true"))))
 
-  val states = getStates(log)
+  val statesWithTransitions = getStatesWithTransitions(log)
+  val states = SimState() :: statesWithTransitions.map(_.end)
+  //  println("entries: "+log.entries.length+", states = "+states.length)
 
   val solutionTable = new GrowingTable
   val viewTable = new GrowingTable
@@ -179,9 +188,7 @@ class AcidBaseReport(log: Log) {
   writeLine("Time on views (min):\t" + viewTable.toMinuteMap)
   writeLine("Time on tests (min):\t" + testTable.toMinuteMap)
 
-  val a = states.tail
-  val b = states.reverse.tail.reverse
-  val statePairs = b.zip(a)
+  val statePairs = statesWithTransitions.map(s => (s.start, s.end))
   val numTabTransitions = statePairs.map(pair => if ( pair._2.selectedTab != pair._1.selectedTab ) 1 else 0).sum
 
   //If the conductivity test is selected, the analysis tool should not count it as a view transition
@@ -192,14 +199,15 @@ class AcidBaseReport(log: Log) {
   //KL: Pressing reset all should not count as a solution transition, but it can affect the time on solutions.  I presume this pattern should hold true for "test" and "view" as well as "solution"
   def wasReset(p: Pair[SimState, SimState]) = {
 
-    //Use reference equality to lookup index
-    val indexA = states.indexWhere(p._1 eq _)
-    val indexB = states.indexWhere(p._2 eq _)
-    val intermediateEntry = log.entries(indexB)
+    val found = statesWithTransitions.find(x => x.start == p._1 && x.end == p._2).get
+    found.entry.component == "resetAllConfirmationDialogYesButton"
+    //    //Use reference equality to lookup index
+    //    val indexA = states.indexWhere(p._1 eq _)
+    //    val indexB = states.indexWhere(p._2 eq _)
+    //    val intermediateEntry = log.entries(indexB)
+    //
+    //    //      println("indexA= " + indexA + ", indexB = " + indexB + ", a = " + p._1 + ", b = " + p._2 + ", intermediateEntry = " + intermediateEntry)
 
-    //      println("indexA= " + indexA + ", indexB = " + indexB + ", a = " + p._1 + ", b = " + p._2 + ", intermediateEntry = " + intermediateEntry)
-
-    intermediateEntry.component == "resetAllConfirmationDialogYesButton"
   }
 
   val clicksPerMinute = getClickTimeHistogram(log)
@@ -236,9 +244,23 @@ class AcidBaseReport(log: Log) {
   val numberOfClicks = clicks.length
 
   val movedProbe = used("conductivityTester.negativeProbe") || used("conductivityTester.positiveProbe")
-  val movedConductivityProbesButDidNotCompleteCircuit = movedProbe && !completedCircuit
 
-  def used(component: String) = log.entries.filter(_.messageType == "user").filter(_.component == component).length > 0
+  def used(component: String): Boolean = log.entries.filter(_.messageType == "user").filter(_.component == component).length > 0
 
-  def neverUsed(component: String) = log.entries.filter(_.messageType == "user").filter(_.component == component).length == 0
+  def used(radioButton: String, icon: String): Boolean = used(radioButton) || used(icon)
+
+  def used(elm: List[String]): Boolean = elm.find(used).isDefined
+
+  def neverUsed(component: String): Boolean = log.entries.filter(_.messageType == "user").filter(_.component == component).length == 0
+
+  def neverUsed(radioButton: String, icon: String): Boolean = neverUsed(radioButton) && neverUsed(icon)
+
+  val everUsedAcidSolutionControl = {
+    statesWithTransitions.find(s => s.start.tab1.acid && s.start.selectedTab == 1 && used("weakStrengthControl" :: "weakRadioButton" :: "strongRadioButton" :: "concentrationControl" :: Nil)).isDefined
+  }
+  val everUsedBaseSolutionControl = {
+    statesWithTransitions.find(s => !s.start.tab1.acid && s.start.selectedTab == 1 && used("weakStrengthControl" :: "weakRadioButton" :: "strongRadioButton" :: "concentrationControl" :: Nil)).isDefined
+  }
+  val neverUsedAcidSolutionControls = !everUsedAcidSolutionControl
+  val neverUsedBaseSolutionControls = !everUsedBaseSolutionControl
 }
