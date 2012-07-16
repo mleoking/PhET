@@ -9,12 +9,12 @@ DESIGN
 
 HIGH
 - ordering problem with notification of game "phase" change
-- configure game reward based on level
 - create quick-and-dirty examples of each type of challenge
 
 MEDIUM
 
 LOW
+- items for the game reward
 
 SIM-SHARING
 

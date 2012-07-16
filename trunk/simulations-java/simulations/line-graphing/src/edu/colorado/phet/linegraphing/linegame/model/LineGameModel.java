@@ -96,6 +96,10 @@ public class LineGameModel {
         }};
     }
 
+    public boolean isPerfectScore() {
+        return score.get() == getPerfectScore();
+    }
+
     // Gets the number of points in a perfect score (ie, correct answers for all challenges on the first try)
     public int getPerfectScore() {
        return CHALLENGES_PER_GAME * computePoints( 1 );

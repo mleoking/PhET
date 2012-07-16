@@ -4,11 +4,10 @@ package edu.colorado.phet.linegraphing.linegame.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -34,7 +33,6 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas.TransformStrategy;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
@@ -51,7 +49,6 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class RewardNode extends PhetPNode {
 
     private static final int DEFAULT_CLOCK_DELAY = 60; // ms
-    private static final double FACE_DIAMETER = 40; // size of smiley face images
 
     private final ConstantDtClock clock; // clock that controls the animation
 
@@ -119,15 +116,28 @@ public class RewardNode extends PhetPNode {
         {
             //TODO
             ones = new ArrayList<Image>();
-            ones.add( new PhetPText( "1", new PhetFont( 28 ), Color.RED ).toImage() );
+            ones.add( new PhetPText( "1", new PhetFont( Font.BOLD, 32 ), Color.RED ).toImage() );
+            ones.add( new PhetPText( "1", new PhetFont( Font.BOLD, 32 ), Color.GREEN ).toImage() );
+            ones.add( new PhetPText( "1", new PhetFont( Font.BOLD, 32 ), Color.BLUE ).toImage() );
+            ones.add( new PhetPText( "1", new PhetFont( Font.BOLD, 32 ), Color.ORANGE ).toImage() );
+            ones.add( new PhetPText( "1", new PhetFont( Font.BOLD, 32 ), Color.MAGENTA ).toImage() );
 
             //TODO
             twos = new ArrayList<Image>();
-            twos.add( new PhetPText( "2", new PhetFont( 28 ), Color.GREEN ).toImage() );
+            twos.add( new PhetPText( "2", new PhetFont( Font.BOLD, 32 ), Color.RED ).toImage() );
+            twos.add( new PhetPText( "2", new PhetFont( Font.BOLD, 32 ), Color.GREEN ).toImage() );
+            twos.add( new PhetPText( "2", new PhetFont( Font.BOLD, 32 ), Color.BLUE ).toImage() );
+            twos.add( new PhetPText( "2", new PhetFont( Font.BOLD, 32 ), Color.ORANGE ).toImage() );
+            twos.add( new PhetPText( "2", new PhetFont( Font.BOLD, 32 ), Color.MAGENTA ).toImage() );
 
             // smiley face
             smileyFaces = new ArrayList<Image>();
-            smileyFaces.add( new FaceNode( FACE_DIAMETER ).toImage() );
+            smileyFaces.add( new FaceNode( 40, Color.YELLOW ).toImage() );
+            smileyFaces.add( new FaceNode( 40, Color.ORANGE ).toImage() );
+            smileyFaces.add( new FaceNode( 40, Color.MAGENTA ).toImage() );
+            smileyFaces.add( new FaceNode( 40, Color.GREEN ).toImage() );
+            smileyFaces.add( new FaceNode( 40, Color.PINK ).toImage() );
+            smileyFaces.add( new FaceNode( 40, Color.CYAN ).toImage() );
 
             // image pool, images that are in use by the animation
             imagePool = new ArrayList<Image>();
@@ -149,54 +159,20 @@ public class RewardNode extends PhetPNode {
     }
 
     /**
-     * Sets the animation parameters based on game difficulty level
-     * and whether the user got a perfect score.
+     * Sets the animation parameters based on game difficulty level.
      * @param level
-     * @param perfectScore
+     *
      */
-    public void setLevel( int level, boolean perfectScore ) {
-        if ( perfectScore ) {
+    public void setLevel( int level ) {
 
-            // all levels share these settings for a perfect score
-            setClockDelay( 40 );
-            setPopulation( 300 );
-            setMotionDelta( 10 );
+        // all levels share these settings for a perfect score
+        setClockDelay( 40 );
+        setPopulation( 300 );
+        setMotionDelta( 10 );
 
-            switch( level ) {
-                case 1:
-                    setImagesVisible( ones, true );
-                    setImagesVisible( twos, false );
-                    setImagesVisible( smileyFaces, false );
-                    break;
-
-                case 2:
-                    setImagesVisible( ones, false );
-                    setImagesVisible( twos, true );
-                    setImagesVisible( smileyFaces, false );
-                    break;
-
-                case 3:
-                    // show only smiley faces
-                    setImagesVisible( ones, false );
-                    setImagesVisible( twos, false );
-                    setImagesVisible( smileyFaces, true );
-                    break;
-
-                default:
-                    throw new IllegalArgumentException( "unsupported level: " + level );
-            }
-        }
-        else {
-            // In case we ever decide to show something for imperfect scores...
-            // These settings give the feeling of slow and not exciting.
-            setClockDelay( 40 );
-            setPopulation( 50 );
-            setMotionDelta( 2 );
-            // show nothing
-            setOnesVisible( false );
-            setTwosVisible( false );
-            setSmileyFacesVisible( false );
-        }
+        setImagesVisible( ones, level == 1 );
+        setImagesVisible( twos, level == 2 );
+        setImagesVisible( smileyFaces, level == 3 );
     }
 
     /**

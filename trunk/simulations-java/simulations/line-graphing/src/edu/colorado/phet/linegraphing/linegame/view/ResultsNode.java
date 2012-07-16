@@ -30,9 +30,9 @@ class ResultsNode extends PhetPNode {
                 if ( phase == GamePhase.RESULTS ) {
 
                     // game reward, shown for perfect score
-                    if ( model.score.get() == model.getPerfectScore() ) {
+                    if ( model.isPerfectScore() ) {
                         rewardNode = new RewardNode();
-                        //TODO configure the reward for the game level
+                        rewardNode.setLevel( model.settings.level.get() );
                         addChild( rewardNode );
                         rewardNode.play();
                     }
