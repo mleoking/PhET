@@ -19,6 +19,9 @@ public class LineGameModel {
 
     private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( LineGameModel.class.getCanonicalName() );
 
+    private static final int CHALLENGES_PER_GAME = 5;
+    private static final int MAX_POINTS_PER_CHALLENGE = 2;
+
     // phases of a game, mutually exclusive
     public enum GamePhase {
         SETTINGS,  // user is choosing game settings
@@ -93,8 +96,9 @@ public class LineGameModel {
         }};
     }
 
+    // Gets the number of points in a perfect score (ie, correct answers for all challenges on the first try)
     public int getPerfectScore() {
-       return 10; //XXX compute based on point scheme and number of challenges per game
+       return CHALLENGES_PER_GAME * computePoints( 1 );
     }
 
     /**
@@ -132,5 +136,10 @@ public class LineGameModel {
                 isNewBestTime = true;
             }
         }
+    }
+
+    // Compute points to be awarded for a correct answer.
+    private static int computePoints( int attempts ) {
+        return Math.max( 0, MAX_POINTS_PER_CHALLENGE - attempts + 1 ) ;
     }
 }

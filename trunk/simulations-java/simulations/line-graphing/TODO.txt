@@ -13,8 +13,6 @@ HIGH
 - create quick-and-dirty examples of each type of challenge
 
 MEDIUM
-- game reward bounds should be set to visible bounds of the world, not (0,0,width,height)
-- compute value returned by LineGameModel.getPerfectScore
 
 LOW
 
