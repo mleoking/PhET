@@ -67,7 +67,7 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         ModelViewTransform mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
                 new Point( (int) Math.round( DEFAULT_STAGE_SIZE.getWidth() * 0.5 ), (int) Math.round( DEFAULT_STAGE_SIZE.getHeight() * 0.5 ) ),
-                2200 ); // "Zoom factor" - smaller zooms out, larger zooms in.
+                EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         setBackground( new Color( 245, 246, 247 ) );
 

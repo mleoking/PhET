@@ -6,6 +6,7 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
+import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 
 /**
  * This class represents an electrical generator that is powered by flowing
@@ -16,8 +17,12 @@ import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 public class WaterPoweredGenerator extends EnergyConverter {
 
     private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
-        add( new ModelElementImage( EnergyFormsAndChangesResources.Images.GENERATOR, 0.1, new ImmutableVector2D( 0, 0 ) ) );
-        add( new ModelElementImage( EnergyFormsAndChangesResources.Images.GENERATOR_WHEEL, 0.12, new ImmutableVector2D( 0, 0 ) ) );
+        add( new ModelElementImage( EnergyFormsAndChangesResources.Images.GENERATOR,
+                                    EnergyFormsAndChangesResources.Images.GENERATOR.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
+                                    new ImmutableVector2D( 0, 0 ) ) );
+        add( new ModelElementImage( EnergyFormsAndChangesResources.Images.GENERATOR_WHEEL,
+                                    EnergyFormsAndChangesResources.Images.GENERATOR_WHEEL.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
+                                    new ImmutableVector2D( 0, 0 ) ) );
     }};
 
     public WaterPoweredGenerator() {
