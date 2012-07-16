@@ -6,6 +6,7 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
+import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 
 /**
  * @author John Blanco
@@ -13,7 +14,9 @@ import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 public class IncandescentLightBulb extends EnergyUser {
 
     private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
-        add( new ModelElementImage( EnergyFormsAndChangesResources.Images.INCANDESCENT, 0.1, new ImmutableVector2D( 0, 0 ) ) );
+        add( new ModelElementImage( EnergyFormsAndChangesResources.Images.INCANDESCENT,
+                                    EnergyFormsAndChangesResources.Images.INCANDESCENT.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR,
+                                    new ImmutableVector2D( 0, 0 ) ) );
     }};
 
 
