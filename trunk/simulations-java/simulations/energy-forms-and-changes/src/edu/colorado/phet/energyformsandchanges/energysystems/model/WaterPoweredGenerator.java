@@ -16,7 +16,7 @@ import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 public class WaterPoweredGenerator extends EnergyConverter {
 
     private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
-        new ModelElementImage( EnergyFormsAndChangesResources.Images.GENERATOR, 0.1, new ImmutableVector2D( 0, 0 ) );
+        add( new ModelElementImage( EnergyFormsAndChangesResources.Images.GENERATOR, 0.1, new ImmutableVector2D( 0, 0 ) ) );
     }};
 
     public WaterPoweredGenerator() {
