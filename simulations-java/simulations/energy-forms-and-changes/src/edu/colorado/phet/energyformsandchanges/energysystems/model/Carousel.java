@@ -113,6 +113,17 @@ public class Carousel {
         }
     }
 
+    public void setSelection( int selection ) {
+        if ( selection < managedElements.size() ) {
+            targetIndex = selection;
+            elapsedTransitionTime = 0;
+            carouselOffsetWhenTransitionStarted = currentCarouselOffset;
+        }
+        else {
+            System.out.println( getClass().getName() + "Out of range selection value, selection = " + selection );
+        }
+    }
+
     public boolean hasNext() {
         return targetIndex + 1 < managedElements.size();
     }
