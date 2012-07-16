@@ -13,7 +13,6 @@ HIGH
 - create quick-and-dirty examples of each type of challenge
 
 MEDIUM
-- update bounds of game reward when the canvas is resized
 - game reward bounds should be set to visible bounds of the world, not (0,0,width,height)
 - compute value returned by LineGameModel.getPerfectScore
 

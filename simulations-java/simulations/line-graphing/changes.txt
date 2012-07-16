@@ -1,3 +1,4 @@
+7/16/12 update bounds of game reward when the canvas is resized
 7/16/12 encapsulate handling of "best scores"
 7/16/12 play end-of-game sounds
 7/16/12 add basic structure of game reward

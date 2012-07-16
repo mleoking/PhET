@@ -8,6 +8,7 @@ import edu.colorado.phet.linegraphing.common.view.LGCanvas;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.GamePhase;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * Canvas for the "Line Game" module.
@@ -18,7 +19,7 @@ public class LineGameCanvas extends LGCanvas  {
 
     private final PNode settingsNode; // parent of the nodes related to choosing game settings
     private final PNode playNode; // parent of nodes related to playing the game
-    private final PNode resultsNode; // parent of nodes related to displaying game results
+    private final ResultsNode resultsNode; // parent of nodes related to displaying game results
     private final GameAudioPlayer audioPlayer;
 
     public LineGameCanvas( final LineGameModel model ) {
@@ -26,7 +27,7 @@ public class LineGameCanvas extends LGCanvas  {
         // parent nodes for various "phases" of the game
         settingsNode = new SettingsNode( model, getStageSize() );
         playNode = new PlayNode( model, getStageSize() );
-        resultsNode = new ResultsNode( model, getStageSize() );
+        resultsNode = new ResultsNode( model, getStageSize(), this );
 
         // rendering order
         {
@@ -52,6 +53,9 @@ public class LineGameCanvas extends LGCanvas  {
                 playNode.setVisible( gamePhase == GamePhase.PLAY );
                 resultsNode.setVisible( gamePhase == GamePhase.RESULTS );
 
+                // make the reward fill the canvas
+                resultsNode.setRewardBounds( getWorldBounds() );
+
                 // play audio when game ends
                 if ( gamePhase == GamePhase.RESULTS ) {
                     if ( model.score.get() == model.getPerfectScore() ) {
@@ -63,5 +67,13 @@ public class LineGameCanvas extends LGCanvas  {
                 }
             }
         } );
+    }
+
+    // When the canvas size changes, update the rewards bounds so that the reward fills the canvas.
+    @Override protected void updateLayout() {
+        PBounds worldBounds = getWorldBounds();
+        if ( worldBounds.getWidth() > 0 && worldBounds.getHeight() > 0 ) {
+            resultsNode.setRewardBounds( worldBounds );
+        }
     }
 }

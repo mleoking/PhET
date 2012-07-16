@@ -467,8 +467,9 @@ public class RewardNode extends PhetPNode {
         final PhetPCanvas canvas = new PhetPCanvas() {
             // when the canvas size changes, update the reward node's bounds
             @Override protected void updateLayout() {
-                if ( getWorldSize().getWidth() > 0 && getWorldSize().getHeight() > 0 ) {
-                    rewardNode.setBounds( new PBounds( 0, 0, getWorldSize().getWidth(), getWorldSize().getHeight() ) );
+                PBounds worldBounds = getWorldBounds();
+                if ( worldBounds.getWidth() > 0 && worldBounds.getHeight() > 0 ) {
+                    rewardNode.setBounds( worldBounds );
                 }
             }
         };
