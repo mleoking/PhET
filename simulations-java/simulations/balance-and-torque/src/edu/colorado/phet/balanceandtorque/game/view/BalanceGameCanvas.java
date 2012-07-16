@@ -318,7 +318,7 @@ public class BalanceGameCanvas extends PhetPCanvas {
         // Add and lay out the buttons.
         checkAnswerButton.centerFullBoundsOnPoint( mvt.modelToViewX( 0 ), mvt.modelToViewY( 0 ) + 40 );
 
-        // Add the listener that will submit the users answers to the model.
+        // Add the listener that will submit the user's answers to the model.
         // Note that the Mass Deduction challenges submit through the mass
         // dialog instead of via this button.
         checkAnswerButton.addActionListener( new ActionListener() {
