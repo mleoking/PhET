@@ -19,7 +19,6 @@ public class LineGameCanvas extends LGCanvas  {
     private final PNode settingsNode; // parent of the nodes related to choosing game settings
     private final PNode playNode; // parent of nodes related to playing the game
     private final PNode resultsNode; // parent of nodes related to displaying game results
-    private final PNode rewardNode; // parent of nodes related to displaying rewards for exceptional scores
     private final GameAudioPlayer audioPlayer;
 
     public LineGameCanvas( final LineGameModel model ) {
@@ -28,11 +27,9 @@ public class LineGameCanvas extends LGCanvas  {
         settingsNode = new SettingsNode( model, getStageSize() );
         playNode = new PlayNode( model, getStageSize() );
         resultsNode = new ResultsNode( model, getStageSize() );
-        rewardNode = new RewardNode( model, getStageSize() );
 
         // rendering order
         {
-            addChild( rewardNode );
             addChild( resultsNode );
             addChild( playNode );
             addChild( settingsNode );
@@ -44,7 +41,6 @@ public class LineGameCanvas extends LGCanvas  {
                 settingsNode.setVisible( gamePhase == GamePhase.SETTINGS );
                 playNode.setVisible( gamePhase == GamePhase.PLAY );
                 resultsNode.setVisible( gamePhase == GamePhase.RESULTS );
-                rewardNode.setVisible( gamePhase == GamePhase.REWARD );
             }
         } );
 

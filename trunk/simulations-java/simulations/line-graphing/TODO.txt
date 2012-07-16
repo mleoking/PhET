@@ -8,6 +8,8 @@ DESIGN
 - revisit the placement algorithm for equations on graphed lines
 
 HIGH
+- configure game reward based on level
+- play sound for end-of-game with perfect score
 
 MEDIUM
 
@@ -17,3 +19,4 @@ SIM-SHARING
 
 MIGRATE TO COMMON
 GameTimer, copied from BCE and RPAL
+RewardNode, copied and adapted from BCE and RPAL
