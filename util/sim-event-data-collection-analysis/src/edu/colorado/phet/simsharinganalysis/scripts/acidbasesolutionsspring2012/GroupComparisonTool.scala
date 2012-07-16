@@ -10,16 +10,12 @@ import org.jfree.chart.renderer.category.StatisticalBarRenderer
 import java.io.File
 import edu.colorado.phet.simsharinganalysis.phet
 import edu.colorado.phet.simsharinganalysis.util.MathUtil
+import AcidBaseSolutionSpring2012AnalysisReport.toReport
 
 object GroupComparisonTool extends App {
 
   //Recursively list all files under a directory, see http://stackoverflow.com/questions/4629984/scala-cleanest-way-to-recursively-parse-files-checking-for-multiple-strings
-  def filesAt(f: File): List[File] = if ( f.isDirectory ) {
-    f.listFiles.flatMap(filesAt).toList
-  }
-  else {
-    f :: Nil
-  }
+  def filesAt(f: File): List[File] = if ( f.isDirectory ) f.listFiles.flatMap(filesAt).toList else f :: Nil
 
   process(new File("C:\\Users\\Sam\\Desktop\\abs-study-data"))
 
@@ -37,7 +33,7 @@ object GroupComparisonTool extends App {
     println("group 3\n" + group3._1.mkString("\n"))
 
     val groups = for ( g <- group1 :: group2 :: group3 :: Nil; logs = phet.load(g._1) ) yield {
-      GroupResult(logs.map(AcidBaseSolutionSpring2012AnalysisReport.toReport(_)).toList, g._2)
+      GroupResult(logs.map(toReport).toList, g._2)
     }
     for ( group <- groups ) {
       println("Processing group: " + group)
@@ -71,14 +67,14 @@ object GroupComparisonTool extends App {
         addToPlot(group, _.firstClickToLastClick, "first to last click")
 
         //Time on solutions
-        addToPlot(group, s => s.solutionTable.getOrElse(Globals.weakAcid, 0L) / 60.0 / 1000.0 + s.solutionTable.getOrElse(Globals.strongAcid, 0L) / 60.0 / 1000.0, "solution: acid")
-        addToPlot(group, s => s.solutionTable.getOrElse(Globals.weakBase, 0L) / 60.0 / 1000.0 + s.solutionTable.getOrElse(Globals.strongBase, 0L) / 60.0 / 1000.0, "solution: base")
-        addToPlot(group, s => s.solutionTable.getOrElse(Globals.water, 0L) / 60.0 / 1000.0, "solution: water")
+        addToPlot(group, s => s.solutionTable.toMap.getOrElse(Globals.weakAcid, 0L) / 60.0 / 1000.0 + s.solutionTable.toMap.getOrElse(Globals.strongAcid, 0L) / 60.0 / 1000.0, "solution: acid")
+        addToPlot(group, s => s.solutionTable.toMap.getOrElse(Globals.weakBase, 0L) / 60.0 / 1000.0 + s.solutionTable.toMap.getOrElse(Globals.strongBase, 0L) / 60.0 / 1000.0, "solution: base")
+        addToPlot(group, s => s.solutionTable.toMap.getOrElse(Globals.water, 0L) / 60.0 / 1000.0, "solution: water")
 
         //Time on views
-        addToPlot(group, _.viewTable.getOrElse(Globals.molecules, 0L) / 60.0 / 1000.0, "view: molecules")
-        addToPlot(group, _.viewTable.getOrElse(Globals.barGraph, 0L) / 60.0 / 1000.0, "view: bar graph")
-        addToPlot(group, _.viewTable.getOrElse(Globals.liquid, 0L) / 60.0 / 1000.0, "view: liquid")
+        addToPlot(group, _.viewTable.toMap.getOrElse(Globals.molecules, 0L) / 60.0 / 1000.0, "view: molecules")
+        addToPlot(group, _.viewTable.toMap.getOrElse(Globals.barGraph, 0L) / 60.0 / 1000.0, "view: bar graph")
+        addToPlot(group, _.viewTable.toMap.getOrElse(Globals.liquid, 0L) / 60.0 / 1000.0, "view: liquid")
       }
     })
 
@@ -98,7 +94,7 @@ object GroupComparisonTool extends App {
   //    Plot the histogram of clicks for each condition? So for
   //    instance, the first bin (0-1 min) would include the average number of
   //    clicks for a1, a2, and a3. And so forth.
-  def plotHistogram(title: String, groups: List[GroupResult], histogram: SessionResult => Map[Long, Int]) {
+  def plotHistogram(title: String, groups: List[GroupResult], histogram: AcidBaseSolutionSpring2012AnalysisReport => Map[Long, Int]) {
     def maxMinute(g: GroupResult): Int = g.sessionResults.map(histogram(_).keys.max).max.toInt
     val maxTime = groups.map(maxMinute(_)).max
     println("max time = " + maxTime)
@@ -127,7 +123,7 @@ object GroupComparisonTool extends App {
 }
 
 class MyStatisticalDataSet extends DefaultStatisticalCategoryDataset {
-  def addBooleanToPlot(group: GroupResult, f: SessionResult => Boolean, label: String) {
+  def addBooleanToPlot(group: GroupResult, f: AcidBaseSolutionSpring2012AnalysisReport => Boolean, label: String) {
     val values: Seq[Double] = group.sessionResults.map(f).map(x => if ( x ) {
       1.0
     }
@@ -137,19 +133,14 @@ class MyStatisticalDataSet extends DefaultStatisticalCategoryDataset {
     add(MathUtil average values, MathUtil standardDeviation values, group.name, label)
   }
 
-  def addToPlot(group: GroupResult, f: SessionResult => Double, label: String) {
+  def addToPlot(group: GroupResult, f: AcidBaseSolutionSpring2012AnalysisReport => Double, label: String) {
     val values: Seq[Double] = group.sessionResults.map(f)
     add(MathUtil average values, MathUtil standardDeviation values, group.name, label)
   }
 }
 
-case class GroupResult(sessionResults: List[SessionResult], name: String) {
-  def indicator(b: Boolean) = if ( b ) {
-    1
-  }
-  else {
-    0
-  }
+case class GroupResult(sessionResults: List[AcidBaseSolutionSpring2012AnalysisReport], name: String) {
+  def indicator(b: Boolean) = if ( b ) 1 else 0
 
   def averageTimeOpen = MathUtil average sessionResults.map(_.timeSimOpenMin)
 
@@ -173,28 +164,3 @@ case class GroupResult(sessionResults: List[SessionResult], name: String) {
 
   def averageNumberTestTransitions = MathUtil averageInt sessionResults.map(_.numTestTransitions)
 }
-
-//Results from parsing and analyzing, so they can be averaged, composited, etc.
-case class SessionResult(session: String,
-                         timeSimOpenMin: Double,
-                         firstClickToLastClick: Double,
-                         solutionTable: Map[String, Long],
-                         viewTable: Map[String, Long],
-                         testTable: Map[String, Long],
-                         numberOfClicks: Int,
-                         clicksPerMinute: Map[Long, Int],
-                         clicksPerMinuteBasedOnFirstClick: Map[Long, Int],
-                         interactiveComponentsResult: InteractionResult,
-                         selectedBase: Boolean,
-                         showedSolvent: Boolean,
-                         dunkedPHMeter: Boolean,
-                         dunkedPHPaper: Boolean,
-                         completedCircuit: Boolean,
-                         numTabTransitions: Int,
-                         numSolutionTransitions: Int,
-                         numViewTransitions: Int,
-                         numTestTransitions: Int,
-                         nonInteractiveComponentsResult: InteractionResult)
-
-//Case classes max out at 22 parameters, so combine in composites
-case class InteractionResult(numberEvents: Int, componentsUsed: List[String], componentsNotUsed: List[String])
