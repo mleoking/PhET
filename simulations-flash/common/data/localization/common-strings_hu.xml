@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--common-strings_hu.xml created Tue May 10 18:33:44 CEST 2011 using: flash-common-strings 2.03.00 (48823), translation-utility 2.10.00 (48775) Feb 9, 2011-->
+<!--common-strings_hu.xml created Thu Jul 12 11:58:12 CEST 2012 using: flash-common-strings 2.03.00 (48823), translation-utility 2.13.00 (59150) Dec 8, 2011-->
 <SimStrings>
 <string key="About..." value="Névjegy"/>
 <string key="SoftwareDevelopment" value="Szoftverfejlesztés"/>
@@ -56,7 +56,7 @@
 <string key="InstallerInfo2" value="Ha a frissítés mellett dönt, egy új böngészőablak nyílik meg a PhET-webhellyel, ahonnan letöltheti az offlájn PhET- webhely telepítőjét."/>
 <string key="InstallerInfo1" value="Az offlájn PhET- webhely  frissítése lehetővé teszi, hogy elérje a legújabb PhET-szimulációkat&lt;br&gt;és a kiegészítő anyagokat."/>
 <string key="StatisticsField-sim_minor_version" value="Szimulációverzió (minor):"/>
-<string key="translation.credits" value="&lt;html&gt;&lt;a href=&quot;http://nasa.web.elte.hu/&quot;&gt;Nagy Sándor&lt;/a&gt;&lt;br&gt;ELTE, &lt;a href=&quot;http://www.chem.elte.hu/pr/&quot;&gt;Kémiai Intézet&lt;/a&gt;, Budapest&lt;/html&gt;"/>
+<string key="translation.credits" value="&lt;html&gt;&lt;a href=&quot;http://nagysandor.eu/&quot;&gt;Nagy Sándor&lt;/a&gt;&lt;br&gt;ELTE, &lt;a href=&quot;http://www.chem.elte.hu/pr/&quot;&gt;Kémiai Intézet&lt;/a&gt;, Budapest&lt;/html&gt;"/>
 <string key="Credits" value="Hivatkozás"/>
 <string key="StatisticsField-host_flash_version" value="Flash -lejátszó verziója:"/>
 <string key="TryNow" value="Kipróbálás"/>
