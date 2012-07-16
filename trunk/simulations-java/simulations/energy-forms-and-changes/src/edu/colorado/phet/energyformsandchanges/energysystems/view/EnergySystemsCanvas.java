@@ -21,12 +21,15 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.faucet.FaucetNode;
+import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.RadioButtonStripControlPanelNode;
+import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.EnergySystemsModel;
 import edu.colorado.phet.energyformsandchanges.energysystems.model.ShapeModelElement;
 import edu.colorado.phet.energyformsandchanges.intro.view.NormalAndFastForwardTimeControlPanel;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage.DEFAULT_STAGE_SIZE;
 
@@ -112,6 +115,12 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         PNode energySourcesCarouselController = new CarouselControllerNode( model.energySourcesCarousel );
         PNode energyConvertersCarouselController = new CarouselControllerNode( model.energyConvertersCarousel );
         PNode energyUsersCarouselController = new CarouselControllerNode( model.energyUsersCarousel );
+
+        List<RadioButtonStripControlPanelNode.Element<Integer>> panelList = new ArrayList<RadioButtonStripControlPanelNode.Element<Integer>>() {{
+            add( new RadioButtonStripControlPanelNode.Element<Integer>( new PImage( EnergyFormsAndChangesResources.Images.GENERATOR_ICON ), 0, EnergyFormsAndChangesSimSharing.UserComponents.selectWaterPoweredGeneratorButton ) );
+            add( new RadioButtonStripControlPanelNode.Element<Integer>( new PImage( EnergyFormsAndChangesResources.Images.FAUCET_ICON ), 1, EnergyFormsAndChangesSimSharing.UserComponents.selectFaucetButton ) );
+        }};
+        addWorldChild( new RadioButtonStripControlPanelNode<Integer>( new Property<Integer>( 0 ), panelList, 0 ) );
 
         // Add the various energy system elements.
         EnergySystemElementNode waterPoweredGeneratorNode = new EnergySystemElementNode( model.getWaterPoweredGenerator(), mvt );
