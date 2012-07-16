@@ -13,10 +13,6 @@ import java.util.List;
  */
 public abstract class EnergyConverter extends EnergySystemElement {
 
-    protected EnergyConverter( Image iconImage ) {
-        super( iconImage );
-    }
-
     protected EnergyConverter( Image iconImage, List<ModelElementImage> images ) {
         super( iconImage, images );
     }
