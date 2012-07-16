@@ -35,20 +35,32 @@ public class LineGameCanvas extends LGCanvas  {
             addChild( settingsNode );
         }
 
-        // visibility of scenegraph branches, based on which "phase" of the game we're in
-        model.phase.addObserver( new VoidFunction1<GamePhase>() {
-            public void apply( GamePhase gamePhase ) {
-                settingsNode.setVisible( gamePhase == GamePhase.SETTINGS );
-                playNode.setVisible( gamePhase == GamePhase.PLAY );
-                resultsNode.setVisible( gamePhase == GamePhase.RESULTS );
-            }
-        } );
-
         // audio
         audioPlayer = new GameAudioPlayer( model.settings.soundEnabled.get() );
         model.settings.soundEnabled.addObserver( new SimpleObserver() {
             public void update() {
                 audioPlayer.setEnabled( model.settings.soundEnabled.get() );
+            }
+        } );
+
+        // game "phase" changes
+        model.phase.addObserver( new VoidFunction1<GamePhase>() {
+            public void apply( GamePhase gamePhase ) {
+
+                // visibility of scenegraph branches
+                settingsNode.setVisible( gamePhase == GamePhase.SETTINGS );
+                playNode.setVisible( gamePhase == GamePhase.PLAY );
+                resultsNode.setVisible( gamePhase == GamePhase.RESULTS );
+
+                // play audio when game ends
+                if ( gamePhase == GamePhase.RESULTS ) {
+                    if ( model.score.get() == model.getPerfectScore() ) {
+                        audioPlayer.gameOverPerfectScore();
+                    }
+                    else {
+                        audioPlayer.gameOverImperfectScore();
+                    }
+                }
             }
         } );
     }
