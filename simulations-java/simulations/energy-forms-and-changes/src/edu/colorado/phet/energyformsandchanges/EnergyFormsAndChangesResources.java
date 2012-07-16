@@ -15,6 +15,7 @@ public class EnergyFormsAndChangesResources {
 
     //Strings
     public static class Strings {
+        public static final String ENERGY_STORIES = RESOURCES.getLocalizedString( "energyStories" );
         public static final String ENERGY_SYSTEMS = RESOURCES.getLocalizedString( "energySystems" );
         public static final String INTRO = RESOURCES.getLocalizedString( "intro" );
     }
@@ -39,6 +40,7 @@ public class EnergyFormsAndChangesResources {
         public static final BufferedImage HEATER_ELEMENT = RESOURCES.getImage( "heater_element.png" );
         public static final BufferedImage INCANDESCENT = RESOURCES.getImage( "incandescent.png" );
         public static final BufferedImage SHELF_LONG = RESOURCES.getImage( "shelf_long.png" );
+        public static final BufferedImage TAB_3_DRAWING = RESOURCES.getImage( "tab-3-drawing.png" );
         public static final BufferedImage TEAPOT = RESOURCES.getImage( "teapot.png" );
         public static final BufferedImage THERMOMETER_MEDIUM_BACK = RESOURCES.getImage( "thermometer_medium_back.png" );
         public static final BufferedImage THERMOMETER_MEDIUM_FRONT = RESOURCES.getImage( "thermometer_medium_front.png" );
