@@ -31,20 +31,20 @@ public class GameTimer {
         } );
     }
 
-    /**
-     * Starts the timer.
-     * When the timer is started, it restarts from zero.
-     */
+    // Starts the timer. When the timer is started, it restarts from zero.
     public void start() {
         time.set( 0L );
         startTime = System.currentTimeMillis(); // don't use clock.getWallTime, it's not valid until the clock ticks
         clock.start();
     }
 
-    /**
-     * Stops the timer.
-     */
+    // Stops the timer.
     public void stop() {
         clock.pause();
+    }
+
+    // Is the timer running?
+    public boolean isRunning() {
+        return clock.isRunning();
     }
 }

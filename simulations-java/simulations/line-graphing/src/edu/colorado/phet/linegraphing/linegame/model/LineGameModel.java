@@ -62,19 +62,22 @@ public class LineGameModel {
         }
 
         phase = new Property<GamePhase>( GamePhase.SETTINGS ) {{
-            //XXX Problem: best time won't necessarily be updated before other observers are notified.
+            //XXX Problem: best time won't necessarily be updated before other observers are notified. Override Property.set?
             addObserver( new VoidFunction1<GamePhase>() {
                 public void apply( GamePhase phase ) {
                     LOGGER.info( "game phase = " + phase );
-                    if ( phase == GamePhase.PLAY ) {
+                    if ( phase == GamePhase.SETTINGS ) {
+
+                    }
+                    else if ( phase == GamePhase.PLAY ) {
                         timer.start();
                     }
-                    else {
+                    else if ( phase == GamePhase.RESULTS ) {
                         timer.stop();
-                        // record new best time
-                        if ( settings.timerEnabled.get() && ( timer.time.get() < bestTimes.get( settings.level.get() ) ) ) {
-                            bestTimes.put( settings.level.get(), timer.time.get() );
-                        }
+                        updateBestTime();
+                    }
+                    else {
+                        throw new UnsupportedOperationException( "unsupported game phase = " + phase );
                     }
                 }
             } );
@@ -111,5 +114,23 @@ public class LineGameModel {
 
     public boolean isNewBestTime() {
         return isNewBestTime;
+    }
+
+    // Updates the best time for the current level, at the end of a game with a perfect score.
+    private void updateBestTime() {
+        assert( phase.get() == GamePhase.RESULTS );
+        assert( !timer.isRunning() );
+        if ( settings.timerEnabled.get() && score.get() == getPerfectScore() ) {
+            isNewBestTime = false;
+            if ( bestTimes.get( settings.level.get() ) == 0 ) {
+                // there was no previous time for this level
+                bestTimes.put( settings.level.get(), timer.time.get() );
+            }
+            else if ( timer.time.get() < bestTimes.get( settings.level.get() ) ) {
+                // we have a new best time for this level
+                bestTimes.put( settings.level.get(), timer.time.get() );
+                isNewBestTime = true;
+            }
+        }
     }
 }
