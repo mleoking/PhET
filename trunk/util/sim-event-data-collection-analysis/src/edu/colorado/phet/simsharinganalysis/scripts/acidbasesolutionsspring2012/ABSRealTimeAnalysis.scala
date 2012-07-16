@@ -7,5 +7,5 @@ import edu.colorado.phet.simsharinganalysis.RealTimeAnalysis
  * @author Sam Reid
  */
 object ABSRealTimeAnalysis extends App {
-  new RealTimeAnalysis(log => ( AcidBaseSolutionSpring2012AnalysisReport toReport log ).toString).main(args)
+  new RealTimeAnalysis(log => new AcidBaseSolutionSpring2012AnalysisReport(log).reportText).main(args)
 }

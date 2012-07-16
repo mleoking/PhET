@@ -17,7 +17,7 @@ class StudentActivityPanel(dir: File) extends JPanel(new BorderLayout) {
   add(new StudentActivityCanvas(phet load dir.getAbsolutePath), BorderLayout.CENTER)
 
   val myBuffer = new MyStringBuffer
-  val abs = AcidBaseSolutionSpring2012AnalysisReport.report(dir, myBuffer.println)
+  val abs = report(dir, myBuffer.println)
 
   println("my buffer = " + myBuffer)
   add(new JScrollPane(new JTextArea(myBuffer.toString) {
@@ -25,4 +25,13 @@ class StudentActivityPanel(dir: File) extends JPanel(new BorderLayout) {
   }) {
     setPreferredSize(new Dimension(800, 300))
   }, BorderLayout.SOUTH)
+
+  def report(dir: File, writeLine: String => Unit) {
+
+    val logs = phet.load(dir).sortBy(_.startTime)
+    writeLine("found: " + logs.length + " logs")
+    for ( log <- logs ) {
+      new AcidBaseSolutionSpring2012AnalysisReport(log)
+    }
+  }
 }
