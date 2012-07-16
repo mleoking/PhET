@@ -23,8 +23,7 @@ public class LineGameModel {
     public enum GamePhase {
         SETTINGS,  // user is choosing game settings
         PLAY, // user is playing the game
-        RESULTS, // user is receiving results of playing the game
-        REWARD // user is receiving a reward for exceptional game play
+        RESULTS // user is receiving results of playing the game
     }
 
     /*

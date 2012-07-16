@@ -24,6 +24,17 @@ class ResultsNode extends PhetPNode {
         model.phase.addObserver( new VoidFunction1<GamePhase>() {
             public void apply( GamePhase phase ) {
                 if ( phase == GamePhase.RESULTS ) {
+
+                    // game reward, shown for perfect score
+                    if ( model.score.get() == model.getPerfectScore() ) {
+                        addChild( new RewardNode() {{
+                            //TODO configure the reward for the game level
+                            play();
+                        }} );
+                        //TODO adjust bounds of reward when canvas (or main frame) is resized
+                    }
+
+                    // game results
                     final GameOverNode gameOverNode = new GameOverNode( model.settings.level.get(),
                                                                  model.score.get(),
                                                                  model.getPerfectScore(),
@@ -33,14 +44,15 @@ class ResultsNode extends PhetPNode {
                                                                  model.isNewBestTime(),
                                                                  model.settings.timerEnabled.get() );
                     addChild( gameOverNode );
-                    setOffset( ( stageSize.getWidth() - getFullBoundsReference().getWidth() ) / 2,
-                               ( stageSize.getHeight() - getFullBoundsReference().getHeight() ) / 2 );
+                    gameOverNode.setOffset( ( stageSize.getWidth() - gameOverNode.getFullBoundsReference().getWidth() ) / 2,
+                               ( stageSize.getHeight() - gameOverNode.getFullBoundsReference().getHeight() ) / 2 );
 
                     gameOverNode.addGameOverListener( new GameOverListener() {
                         public void newGamePressed() {
                             model.phase.set( GamePhase.SETTINGS );
                         }
                     } );
+
                 }
                 else {
                     removeAllChildren();
