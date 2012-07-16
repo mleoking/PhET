@@ -7,6 +7,8 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
  * This class implements a container of sorts for positionable model elements.
@@ -16,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
  *
  * @author John Blanco
  */
-public class Carousel {
+public class Carousel<T extends PositionableModelElement> {
 
     //-------------------------------------------------------------------------
     // Class Data
@@ -35,12 +37,13 @@ public class Carousel {
     private final ImmutableVector2D offsetBetweenElements;
 
     // List of the elements whose position is managed by this carousel.
-    private final List<PositionableModelElement> managedElements = new ArrayList<PositionableModelElement>();
+    private final List<T> managedElements = new ArrayList<T>();
 
     private int currentlySelectedElementIndex = 0;
 
-    // TODO: comment and clean up
-    private int targetIndex = currentlySelectedElementIndex;
+    // Target selected element.  Will be the same as the current selection
+    // except when animating to a new selection.
+    public Property<Integer> targetIndex = new Property<Integer>( 0 );
 
     private double elapsedTransitionTime = 0;
     private ImmutableVector2D currentCarouselOffset = new Vector2D( 0, 0 );
@@ -53,13 +56,23 @@ public class Carousel {
     public Carousel( ImmutableVector2D selectedElementPosition, ImmutableVector2D offsetBetweenElements ) {
         this.selectedElementPosition = selectedElementPosition;
         this.offsetBetweenElements = offsetBetweenElements;
+
+        // Monitor our own target setting and set up the variables needed for
+        // animation each time the target changes.
+        targetIndex.addObserver( new VoidFunction1<Integer>() {
+            public void apply( Integer targetIndexValue ) {
+                assert targetIndexValue == 0 || targetIndexValue < managedElements.size(); // Bounds checking.
+                elapsedTransitionTime = 0;
+                carouselOffsetWhenTransitionStarted = currentCarouselOffset;
+            }
+        } );
     }
 
     //-------------------------------------------------------------------------
     // Methods
     //-------------------------------------------------------------------------
 
-    public void add( PositionableModelElement element ) {
+    public void add( T element ) {
 
         // Set the element's position to be at the end of the carousel.
         if ( managedElements.size() == 0 ) {
@@ -73,16 +86,33 @@ public class Carousel {
         managedElements.add( element );
     }
 
+    public int getNumElements() {
+        return managedElements.size();
+    }
+
+    public T getElement( int index ) {
+        if ( index <= managedElements.size() ) {
+            return managedElements.get( index );
+        }
+        else {
+            System.out.println( getClass().getName() + " - Warning: Request of out of range element from carousel, index = " + index );
+            return null;
+        }
+    }
+
+    /*
+     * Perform any animation changes needed.
+     */
     public void stepInTime( double dt ) {
         if ( transitionInProgress() ) {
             elapsedTransitionTime += dt;
-            ImmutableVector2D targetCarouselOffset = offsetBetweenElements.getScaledInstance( -targetIndex );
+            ImmutableVector2D targetCarouselOffset = offsetBetweenElements.getScaledInstance( -targetIndex.get() );
             ImmutableVector2D totalTravelVector = targetCarouselOffset.minus( carouselOffsetWhenTransitionStarted );
             double proportionOfTimeElapsed = MathUtil.clamp( 0, elapsedTransitionTime / TRANSITION_DURATION, 1 );
             currentCarouselOffset = carouselOffsetWhenTransitionStarted.plus( totalTravelVector.getScaledInstance( computeSlowInSlowOut( proportionOfTimeElapsed ) ) );
             updateManagedElementPositions();
             if ( proportionOfTimeElapsed == 1 ) {
-                currentlySelectedElementIndex = targetIndex;
+                currentlySelectedElementIndex = targetIndex.get();
             }
         }
     }
@@ -94,42 +124,7 @@ public class Carousel {
     }
 
     public boolean transitionInProgress() {
-        return currentlySelectedElementIndex != targetIndex;
-    }
-
-    public void setNext() {
-        if ( hasNext() ) {
-            targetIndex++;
-            elapsedTransitionTime = 0;
-            carouselOffsetWhenTransitionStarted = currentCarouselOffset;
-        }
-    }
-
-    public void setPrev() {
-        if ( hasPrev() ) {
-            targetIndex--;
-            elapsedTransitionTime = 0;
-            carouselOffsetWhenTransitionStarted = currentCarouselOffset;
-        }
-    }
-
-    public void setSelection( int selection ) {
-        if ( selection < managedElements.size() ) {
-            targetIndex = selection;
-            elapsedTransitionTime = 0;
-            carouselOffsetWhenTransitionStarted = currentCarouselOffset;
-        }
-        else {
-            System.out.println( getClass().getName() + "Out of range selection value, selection = " + selection );
-        }
-    }
-
-    public boolean hasNext() {
-        return targetIndex + 1 < managedElements.size();
-    }
-
-    public boolean hasPrev() {
-        return targetIndex > 0;
+        return currentlySelectedElementIndex != targetIndex.get();
     }
 
     /*

@@ -1,10 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.energysystems.model;
 
-import java.awt.Color;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,7 +36,7 @@ public class EnergySystemsModel {
     // Carousels that control the positions of the energy sources, converters,
     // and users.
     public final Carousel energySourcesCarousel = new Carousel( new ImmutableVector2D( 0, 0 ), new ImmutableVector2D( 0, 0 ) ); // TODO - Position and offset.
-    public final Carousel energyConvertersCarousel = new Carousel( new ImmutableVector2D( -0.01, 0 ), new ImmutableVector2D( 0, -0.12 ) ); // TODO - Position and offset.
+    public final EnergySystemElementCarousel energyConvertersCarousel = new EnergySystemElementCarousel( new ImmutableVector2D( -0.01, 0 ), new ImmutableVector2D( 0, -0.12 ) ); // TODO - Position and offset.
     public final Carousel energyUsersCarousel = new Carousel( new ImmutableVector2D( 0, 0 ), new ImmutableVector2D( 0, 0 ) ); // TODO - Position and offset.
     private final List<Carousel> carousels = new ArrayList<Carousel>() {{
         add( energySourcesCarousel );
@@ -53,6 +49,7 @@ public class EnergySystemsModel {
 
     // The various energy system elements.
     private final WaterPoweredGenerator waterPoweredGenerator = new WaterPoweredGenerator();
+    private final WaterPoweredGenerator waterPoweredGenerator2 = new WaterPoweredGenerator();
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -66,20 +63,8 @@ public class EnergySystemsModel {
             }
         } );
 
-        // TODO: This is temporary. Add some shapes to the carousels for testing purposes.
-        ShapeModelElement redRectangle = new ShapeModelElement( new Rectangle2D.Double( -0.05, -0.05, 0.1, 0.1 ), new Color( 210, 105, 30 ) );
-        shapeModelElementList.add( redRectangle );
-        energyConvertersCarousel.add( redRectangle );
-
-        ShapeModelElement purpleRoundedRect = new ShapeModelElement( new RoundRectangle2D.Double( -0.05, -0.05, 0.1, 0.1, 0.05, 0.05 ), new Color( 153, 50, 204 ) );
-        shapeModelElementList.add( purpleRoundedRect );
-        energyConvertersCarousel.add( purpleRoundedRect );
-
-        ShapeModelElement greenCircle = new ShapeModelElement( new Ellipse2D.Double( -0.05, -0.05, 0.1, 0.1 ), new Color( 0, 128, 0 ) );
-        shapeModelElementList.add( greenCircle );
-        energyConvertersCarousel.add( greenCircle );
-
         energyConvertersCarousel.add( waterPoweredGenerator );
+        energyConvertersCarousel.add( waterPoweredGenerator2 );
     }
 
     //-------------------------------------------------------------------------

@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.energysystems.model;
 
+import java.awt.Image;
 import java.util.List;
 
 /**
@@ -12,16 +13,12 @@ import java.util.List;
  */
 public abstract class EnergyConverter extends EnergySystemElement {
 
-    protected EnergyConverter() {
-        // Default constructor, used if no images are used for this element.
+    protected EnergyConverter( Image iconImage ) {
+        super( iconImage );
     }
 
-    protected EnergyConverter( List<ModelElementImage> images ) {
-        super( images );
-    }
-
-    protected EnergyConverter( ModelElementImage... images ) {
-        super( images );
+    protected EnergyConverter( Image iconImage, List<ModelElementImage> images ) {
+        super( iconImage, images );
     }
 
     public abstract double stepInTime( double dt, double incomingEnergy );
