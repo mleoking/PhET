@@ -57,7 +57,7 @@ public class CarouselControllerNode extends PNode {
         previousElementButton.centerFullBoundsOnPoint( SIZE.getWidth() / 2, previousElementButton.getFullBoundsReference().getHeight() / 2 + buttonInset );
         previousElementButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                carousel.setPrev();
+//                carousel.setPrev();
             }
         } );
         addChild( previousElementButton );
@@ -67,7 +67,7 @@ public class CarouselControllerNode extends PNode {
         nextElementButton.centerFullBoundsOnPoint( SIZE.getWidth() / 2, SIZE.getHeight() - nextElementButton.getFullBoundsReference().getHeight() / 2 - buttonInset );
         nextElementButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                carousel.setNext();
+//                carousel.setNext();
             }
         } );
         addChild( nextElementButton );
