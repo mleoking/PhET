@@ -7,9 +7,11 @@ import edu.colorado.phet.common.games.GameOverNode;
 import edu.colorado.phet.common.games.GameOverNode.GameOverListener;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel;
 import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.GamePhase;
+import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * Portion of the scenegraph that corresponds to the "results" game phase
@@ -18,7 +20,9 @@ import edu.colorado.phet.linegraphing.linegame.model.LineGameModel.GamePhase;
  */
 class ResultsNode extends PhetPNode {
 
-    public ResultsNode( final LineGameModel model, final Dimension2D stageSize ) {
+    private RewardNode rewardNode;
+
+    public ResultsNode( final LineGameModel model, final Dimension2D stageSize, final PhetPCanvas canvas ) {
 
         // show results when we enter this phase
         model.phase.addObserver( new VoidFunction1<GamePhase>() {
@@ -27,11 +31,10 @@ class ResultsNode extends PhetPNode {
 
                     // game reward, shown for perfect score
                     if ( model.score.get() == model.getPerfectScore() ) {
-                        addChild( new RewardNode() {{
-                            //TODO configure the reward for the game level
-                            play();
-                        }} );
-                        //TODO adjust bounds of reward when canvas (or main frame) is resized
+                        rewardNode = new RewardNode();
+                        //TODO configure the reward for the game level
+                        addChild( rewardNode );
+                        rewardNode.play();
                     }
 
                     // game results
@@ -46,8 +49,9 @@ class ResultsNode extends PhetPNode {
                     gameOverNode.scale( 1.5 );
                     addChild( gameOverNode );
                     gameOverNode.setOffset( ( stageSize.getWidth() - gameOverNode.getFullBoundsReference().getWidth() ) / 2,
-                               ( stageSize.getHeight() - gameOverNode.getFullBoundsReference().getHeight() ) / 2 );
+                                            ( stageSize.getHeight() - gameOverNode.getFullBoundsReference().getHeight() ) / 2 );
 
+                    // change phase when "New Game" button is pressed
                     gameOverNode.addGameOverListener( new GameOverListener() {
                         public void newGamePressed() {
                             model.phase.set( GamePhase.SETTINGS );
@@ -57,8 +61,16 @@ class ResultsNode extends PhetPNode {
                 }
                 else {
                     removeAllChildren();
+                    rewardNode = null;
                 }
             }
         } );
+    }
+
+    // Sets the bounds of the reward node, called when the canvas is resized so that the reward fills the canvas.
+    public void setRewardBounds( PBounds bounds ) {
+        if ( rewardNode != null ) {
+            rewardNode.setBounds( bounds );
+        }
     }
 }
