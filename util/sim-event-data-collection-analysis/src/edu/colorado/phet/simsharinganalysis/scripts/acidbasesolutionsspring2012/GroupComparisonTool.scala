@@ -10,7 +10,7 @@ import org.jfree.chart.renderer.category.StatisticalBarRenderer
 import java.io.File
 import edu.colorado.phet.simsharinganalysis.phet
 import edu.colorado.phet.simsharinganalysis.util.MathUtil
-import AcidBaseSolutionSpring2012AnalysisReport.toReport
+import AcidBaseReport.toReport
 
 object GroupComparisonTool extends App {
 
@@ -94,7 +94,7 @@ object GroupComparisonTool extends App {
   //    Plot the histogram of clicks for each condition? So for
   //    instance, the first bin (0-1 min) would include the average number of
   //    clicks for a1, a2, and a3. And so forth.
-  def plotHistogram(title: String, groups: List[GroupResult], histogram: AcidBaseSolutionSpring2012AnalysisReport => Map[Long, Int]) {
+  def plotHistogram(title: String, groups: List[GroupResult], histogram: AcidBaseReport => Map[Long, Int]) {
     def maxMinute(g: GroupResult): Int = g.sessionResults.map(histogram(_).keys.max).max.toInt
     val maxTime = groups.map(maxMinute(_)).max
     println("max time = " + maxTime)
@@ -123,7 +123,7 @@ object GroupComparisonTool extends App {
 }
 
 class MyStatisticalDataSet extends DefaultStatisticalCategoryDataset {
-  def addBooleanToPlot(group: GroupResult, f: AcidBaseSolutionSpring2012AnalysisReport => Boolean, label: String) {
+  def addBooleanToPlot(group: GroupResult, f: AcidBaseReport => Boolean, label: String) {
     val values: Seq[Double] = group.sessionResults.map(f).map(x => if ( x ) {
       1.0
     }
@@ -133,13 +133,13 @@ class MyStatisticalDataSet extends DefaultStatisticalCategoryDataset {
     add(MathUtil average values, MathUtil standardDeviation values, group.name, label)
   }
 
-  def addToPlot(group: GroupResult, f: AcidBaseSolutionSpring2012AnalysisReport => Double, label: String) {
+  def addToPlot(group: GroupResult, f: AcidBaseReport => Double, label: String) {
     val values: Seq[Double] = group.sessionResults.map(f)
     add(MathUtil average values, MathUtil standardDeviation values, group.name, label)
   }
 }
 
-case class GroupResult(sessionResults: List[AcidBaseSolutionSpring2012AnalysisReport], name: String) {
+case class GroupResult(sessionResults: List[AcidBaseReport], name: String) {
   def indicator(b: Boolean) = if ( b ) 1 else 0
 
   def averageTimeOpen = MathUtil average sessionResults.map(_.timeSimOpenMin)

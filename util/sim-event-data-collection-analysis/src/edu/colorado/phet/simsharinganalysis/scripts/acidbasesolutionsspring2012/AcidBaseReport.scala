@@ -9,11 +9,11 @@ import java.text.DecimalFormat
 
 //TODO: mouse releases shouldn't count as "clicks"
 
-object AcidBaseSolutionSpring2012AnalysisReport {
-  def toReport(log: Log) = new AcidBaseSolutionSpring2012AnalysisReport(log)
+object AcidBaseReport {
+  def toReport(log: Log) = new AcidBaseReport(log)
 }
 
-class AcidBaseSolutionSpring2012AnalysisReport(log: Log) {
+class AcidBaseReport(log: Log) {
 
   def getSign(d: Double) = d match {
     case x if x < 0 => -1
@@ -231,6 +231,9 @@ class AcidBaseSolutionSpring2012AnalysisReport(log: Log) {
   val firstClickToLastClick = if ( clicks.length == 0 ) 0 else ( clicks.last.time - clicks.head.time ) / 1000.0 / 60.0
   val numberOfClicks = clicks.length
 
-  //TODO: IMPLEMENT ME
-  def clickedPHMeterRadioButton = log.entries.filter(_.messageType == "user").filter(_.component == "phMeterRadioButton").length > 0
+  def used(component: String) = log.entries.filter(_.messageType == "user").filter(_.component == component).length > 0
+
+  val movedProbe = used("conductivityTester.negativeProbe") || used("conductivityTester.positiveProbe")
+
+  val movedConductivityProbesButDidNotCompleteCircuit = movedProbe && !completedCircuit
 }
