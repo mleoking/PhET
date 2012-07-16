@@ -1,3 +1,4 @@
+7/16/12 #3376, shorten sponsor date to show year only, "(since 2012)"
 # 2.12.00 (65644) Jul 5, 2012
 > sponsored by Texas Instruments
 # 2.11.02 (65574) Jun 29, 2012
