@@ -43,6 +43,7 @@ class ResultsNode extends PhetPNode {
                                                                  model.getBestTime( model.settings.level.get() ),
                                                                  model.isNewBestTime(),
                                                                  model.settings.timerEnabled.get() );
+                    gameOverNode.scale( 1.5 );
                     addChild( gameOverNode );
                     gameOverNode.setOffset( ( stageSize.getWidth() - gameOverNode.getFullBoundsReference().getWidth() ) / 2,
                                ( stageSize.getHeight() - gameOverNode.getFullBoundsReference().getHeight() ) / 2 );

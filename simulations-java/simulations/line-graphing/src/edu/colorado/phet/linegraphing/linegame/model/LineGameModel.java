@@ -50,7 +50,7 @@ public class LineGameModel {
 
     public LineGameModel() {
 
-        settings = new GameSettings( new IntegerRange( 1, 3 ), false, false );
+        settings = new GameSettings( new IntegerRange( 1, 3 ), true /* soundEnabled */, true /* timerEnabled */ );
 
         score = new Property<Integer>( 0 );
 

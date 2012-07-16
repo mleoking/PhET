@@ -9,7 +9,6 @@ DESIGN
 
 HIGH
 - configure game reward based on level
-- play sound for end-of-game with perfect score
 
 MEDIUM
 
