@@ -41,8 +41,8 @@ public @Data class Stack {
 
     private Option<NumberCardNode> getFrontCardInStack() {
         List<NumberCardNode> sorted = cards.sort( FJUtils.ord( new F<NumberCardNode, Double>() {
-            @Override public Double f( final NumberCardNode numberCardNode ) {
-                return numberCardNode.getPositionInStack().isSome() ? numberCardNode.getPositionInStack().some() : -1.0;
+            @Override public Double f( final NumberCardNode n ) {
+                return n.getPositionInStack().orSome( -1 ).doubleValue();
             }
         } ) );
         return sorted.isEmpty() ? Option.<NumberCardNode>none() : Option.some( sorted.last() );
