@@ -11,7 +11,6 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.fractions.common.util.FJUtils;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
 
@@ -66,17 +65,6 @@ public class SimpleContainerNode extends PNode {
         return new Rectangle2D.Double( pieceWidth * number, 0, pieceWidth, height );
     }
 
-    //How far over should a new piece be added in?
-    public double getPiecesWidth() {
-        List<RectangularPiece> children = getChildPieces();
-        return children.length() == 0 ? 0 :
-               List.iterableList( children ).maximum( FJUtils.ord( new F<RectangularPiece, Double>() {
-                   @Override public Double f( final RectangularPiece r ) {
-                       return r.getFullBounds().getMaxX();
-                   }
-               } ) ).getFullBounds().getMaxX();
-    }
-
     private List<RectangularPiece> getChildPieces() {
         ArrayList<RectangularPiece> children = new ArrayList<RectangularPiece>();
         for ( Object c : getChildrenReference() ) {
@@ -94,22 +82,4 @@ public class SimpleContainerNode extends PNode {
             }
         } ) );
     }
-
-    public static F<SimpleContainerNode, Fraction> _getFractionValue = new F<SimpleContainerNode, Fraction>() {
-        @Override public Fraction f( final SimpleContainerNode containerNode ) {
-            return containerNode.getFractionValue();
-        }
-    };
-
-    public boolean isAtStartingLocation() { return getXOffset() == initialX && getYOffset() == initialY; }
-
-    public Boolean isInTargetCell() {return inTargetCell;}
-
-    public static F<SimpleContainerNode, Boolean> _isInTargetCell = new F<SimpleContainerNode, Boolean>() {
-        @Override public Boolean f( final SimpleContainerNode containerNode ) {
-            return containerNode.isInTargetCell();
-        }
-    };
-
-    public void setInTargetCell( final boolean inTargetCell ) { this.inTargetCell = inTargetCell; }
 }
