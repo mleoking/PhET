@@ -366,12 +366,11 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
             faceNodeDialog.moveToFront();
             model.numberScore.add( 1 );
         }
-        else {
+        if ( !allTargetsComplete() && hit ) {
             playSoundForOneComplete();
         }
 
         syncModelFractions();
-//        moveContainerFrontsToFront();
     }
 
     private boolean allIncompleteContainersInToolbox() {
