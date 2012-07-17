@@ -8,4 +8,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 public interface FractionDraggingContext {
     void endDrag( FractionNode fractionGraphic, PInputEvent event );
+
+    void updateStacks();
 }

@@ -417,4 +417,11 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
         faceNodeDialog.setPickable( false );
         faceNodeDialog.setChildrenPickable( false );
     }
+
+    //Fix the z-ordering and location within stacks when something comes back to the toolbox to make sure the stacks look correct.
+    public void updateStacks() {
+        for ( Stack stack : stackList ) {
+            stack.update();
+        }
+    }
 }

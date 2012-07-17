@@ -43,4 +43,11 @@ public @Data class Stack {
     public boolean contains( final double xOffset, final double yOffset ) {
         return cards.exists( _initialPositionEquals( xOffset, yOffset ) );
     }
+
+    //Fix Z ordering so that stacks will look like they did on startup
+    public void update() {
+        for ( NumberCardNode card : cards ) {
+            card.moveToFront();
+        }
+    }
 }
