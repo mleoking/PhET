@@ -25,6 +25,7 @@ public class Carousel<T extends PositionableModelElement> {
     //-------------------------------------------------------------------------
 
     private final static double TRANSITION_DURATION = 0.5;
+    private final static double FLOATING_POINT_TOLERANCE = 1E-7; // For avoiding issues with inequality due to floating point errors.
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -38,8 +39,6 @@ public class Carousel<T extends PositionableModelElement> {
 
     // List of the elements whose position is managed by this carousel.
     private final List<T> managedElements = new ArrayList<T>();
-
-    private int currentlySelectedElementIndex = 0;
 
     // Target selected element.  Will be the same as the current selection
     // except when animating to a new selection.
@@ -108,7 +107,7 @@ public class Carousel<T extends PositionableModelElement> {
      * Perform any animation changes needed.
      */
     public void stepInTime( double dt ) {
-        if ( transitionInProgress() ) {
+        if ( !atTargetPosition() ) {
             elapsedTransitionTime += dt;
             ImmutableVector2D targetCarouselOffset = offsetBetweenElements.getScaledInstance( -targetIndex.get() );
             ImmutableVector2D totalTravelVector = targetCarouselOffset.minus( carouselOffsetWhenTransitionStarted );
@@ -116,7 +115,7 @@ public class Carousel<T extends PositionableModelElement> {
             currentCarouselOffset = carouselOffsetWhenTransitionStarted.plus( totalTravelVector.getScaledInstance( computeSlowInSlowOut( proportionOfTimeElapsed ) ) );
             updateManagedElementPositions();
             if ( proportionOfTimeElapsed == 1 ) {
-                currentlySelectedElementIndex = targetIndex.get();
+                currentCarouselOffset = targetCarouselOffset;
             }
         }
     }
@@ -127,8 +126,9 @@ public class Carousel<T extends PositionableModelElement> {
         }
     }
 
-    public boolean transitionInProgress() {
-        return currentlySelectedElementIndex != targetIndex.get();
+    private boolean atTargetPosition() {
+        ImmutableVector2D targetCarouselOffset = new ImmutableVector2D( offsetBetweenElements.getScaledInstance( -targetIndex.get() ) );
+        return currentCarouselOffset.equals( targetCarouselOffset );
     }
 
     /*
