@@ -41,8 +41,12 @@ public class RadioButtonStripControlPanelNode<T> extends ControlPanelNode {
         }
     }
 
-    public RadioButtonStripControlPanelNode( SettableProperty<T> selected, List<Element<T>> elements, int padding ) {
-        super( new RadioButtonStripNode<T>( selected, elements, padding ), new Color( 230, 230, 230 ), new BasicStroke( 2 ), new Color( 102, 102, 102 ) );
+    public RadioButtonStripControlPanelNode( SettableProperty<T> selected, List<Element<T>> elements, int buttonPadding ) {
+        this( selected, elements, buttonPadding, new Color( 230, 230, 230 ), new BasicStroke( 2 ), new Color( 102, 102, 102 ), ControlPanelNode.DEFAULT_INSET );
+    }
+
+    public RadioButtonStripControlPanelNode( SettableProperty<T> selected, List<Element<T>> elements, int buttonPadding, Color backgroundColor, BasicStroke outlineStroke, Color strokeColor, int controlPanelInset ) {
+        super( new RadioButtonStripNode<T>( selected, elements, buttonPadding ), backgroundColor, outlineStroke, strokeColor, controlPanelInset );
     }
 
     //Inner class enables us to wrap the parent in ControlPanelNode.  Public in case clients want to use it without the control panel exterior decoration.
