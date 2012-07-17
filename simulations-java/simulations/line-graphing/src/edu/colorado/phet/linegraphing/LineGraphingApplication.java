@@ -1,10 +1,13 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing;
 
+import javax.swing.JMenu;
+
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.linegraphing.common.LGResources;
+import edu.colorado.phet.linegraphing.dev.DevTestGameRewardMenuItem;
 import edu.colorado.phet.linegraphing.linegame.LineGameModule;
 import edu.colorado.phet.linegraphing.pointslope.PointSlopeModule;
 import edu.colorado.phet.linegraphing.slopeintercept.SlopeInterceptModule;
@@ -22,6 +25,10 @@ public class LineGraphingApplication extends PiccoloPhetApplication {
         addModule( new SlopeInterceptModule() );
         addModule( new PointSlopeModule() );
         addModule( new LineGameModule() );
+
+        // Developer menu
+        JMenu developerMenu = getPhetFrame().getDeveloperMenu();
+        developerMenu.add( new DevTestGameRewardMenuItem() );
 
         // Dev: Start with the module number specified on the command line.
         if ( isDeveloperControlsEnabled() ) {
