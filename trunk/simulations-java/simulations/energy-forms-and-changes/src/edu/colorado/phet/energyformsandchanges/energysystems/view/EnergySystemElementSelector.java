@@ -1,6 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.energysystems.view;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,12 +35,9 @@ public class EnergySystemElementSelector extends PNode {
                         setScale( BUTTON_IMAGE_HEIGHT_OR_WIDTH / getFullBoundsReference().height );
                     }
                 }};
-                System.out.println( "------------------------------------" );
-                System.out.println( "getFullBoundsReference().getHeight() = " + buttonImageNode.getFullBoundsReference().getHeight() );
-                System.out.println( "getFullBoundsReference().getHeight() = " + buttonImageNode.getFullBoundsReference().getHeight() );
                 add( new RadioButtonStripControlPanelNode.Element<Integer>( buttonImageNode, i, carousel.getElement( i ).getUserComponent() ) );
             }
         }};
-        addChild( new RadioButtonStripControlPanelNode<Integer>( carousel.targetIndex, buttonElementList, 4 ) );
+        addChild( new RadioButtonStripControlPanelNode<Integer>( carousel.targetIndex, buttonElementList, 4, new Color( 180, 211, 51 ), new BasicStroke( 2f ), new Color( 0, 128, 0 ), 4 ) );
     }
 }
