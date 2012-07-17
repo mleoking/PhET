@@ -210,7 +210,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
         stackList = new ArrayList<Stack>();
         for ( P2<List<NumberCardNode>, Integer> cards : cardNodes.zipIndex() ) {
             final Integer stackIndex = cards._2();
-            final Stack stack = new Stack( cards._1(), stackIndex, this );
+            final Stack<NumberCardNode> stack = new Stack<NumberCardNode>( cards._1(), stackIndex, this );
             stackList.add( stack );
             for ( P2<NumberCardNode, Integer> cardNode : cards._1().zipIndex() ) {
                 final Integer index = cardNode._2();

@@ -2,6 +2,7 @@
 package edu.colorado.phet.fractions.buildafraction.view.pictures;
 
 import fj.F;
+import fj.data.Option;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -10,6 +11,9 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
+import edu.colorado.phet.fractions.buildafraction.view.Stack;
+import edu.colorado.phet.fractions.buildafraction.view.Stackable;
+import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -18,7 +22,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 /**
  * @author Sam Reid
  */
-public class RectangularPiece extends PNode {
+public class RectangularPiece extends Stackable {
     private double initialX = Double.NaN;
     private double initialY = Double.NaN;
     private final Integer pieceSize;
@@ -81,5 +85,22 @@ public class RectangularPiece extends PNode {
     public void animateHome() {
         animateToPositionScaleRotation( initialX, initialY, initialScale, 0, 200 );
         pathNode.setStroke( stroke );
+    }
+
+    public Option<Integer> getPositionInStack() {
+        return null;
+    }
+
+    public void setPositionInStack( final Option<Integer> positionInStack ) {
+    }
+
+    public void animateTo( final Vector2D location ) {
+    }
+
+    public boolean isAtStackIndex( final Integer site ) {
+        return false;
+    }
+
+    public void setStack( final Stack<RectangularPiece> stack ) {
     }
 }

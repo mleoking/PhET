@@ -23,12 +23,11 @@ import edu.umd.cs.piccolo.util.PDimension;
 /**
  * @author Sam Reid
  */
-public class NumberCardNode extends PNode implements Stackable {
+public class NumberCardNode extends Stackable {
     public final int number;
     public final PhetPPath cardShape;
     public final NumberNode numberNode;
-    private Stack stack;
-    private Option<Integer> positionInStack = Option.none();
+    private Stack<NumberCardNode> stack;
 
     public NumberCardNode( final Dimension2DDouble size, final Integer number, final NumberDragContext context ) {
         this.number = number;
@@ -43,7 +42,7 @@ public class NumberCardNode extends PNode implements Stackable {
             @Override protected void drag( final PInputEvent event ) {
                 super.drag( event );
                 moveToFront();
-                positionInStack = Option.none();
+                setPositionInStack( Option.<Integer>none() );
                 final PDimension delta = event.getDeltaRelativeTo( getParent() );
                 translate( delta.width, delta.height );
             }
@@ -54,11 +53,6 @@ public class NumberCardNode extends PNode implements Stackable {
             }
         } );
         addInputEventListener( new CursorHandler() );
-    }
-
-    public void setAllPickable( final boolean b ) {
-        setPickable( b );
-        setChildrenPickable( b );
     }
 
     public void animateTo( Vector2D v ) { animateToPositionScaleRotation( v.x, v.y, 1, 0, 1000 ); }
@@ -80,15 +74,5 @@ public class NumberCardNode extends PNode implements Stackable {
         this.stack = stack;
     }
 
-    public void setPositionInStack( final Option<Integer> some ) { this.positionInStack = some; }
-
     public void moveToTopOfStack() { stack.moveToTopOfStack( this ); }
-
-    public Option<Integer> getPositionInStack() {
-        return positionInStack;
-    }
-
-    public boolean isAtStackIndex( final Integer site ) {
-        return positionInStack.isSome() && positionInStack.some().equals( site );
-    }
 }
