@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
+import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 
 /**
@@ -32,5 +34,9 @@ public class WaterPoweredGenerator extends EnergyConverter {
     @Override public double stepInTime( double dt, double incomingEnergy ) {
         // TODO - Implement.
         return 0;
+    }
+
+    @Override public IUserComponent getUserComponent() {
+        return EnergyFormsAndChangesSimSharing.UserComponents.selectWaterPoweredGeneratorButton;
     }
 }
