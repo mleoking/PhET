@@ -14,8 +14,23 @@ import edu.colorado.phet.linegraphing.linegame.view.LineGameCanvas;
  */
 public class LineGameModule extends LGModule {
 
+    private final LineGameCanvas canvas;
+    private boolean rewardWasRunning = false; // Was the game reward animation running when this module was deactivated?
+
     public LineGameModule() {
         super( UserComponents.lineGameTab, Strings.TAB_LINE_GAME );
-        setSimulationPanel( new LineGameCanvas( new LineGameModel() ) );
+        canvas = new LineGameCanvas( new LineGameModel() );
+        setSimulationPanel( canvas );
+    }
+
+    @Override public void activate() {
+        super.activate();
+        canvas.setRewardRunning( rewardWasRunning );
+    }
+
+    @Override public void deactivate() {
+        super.deactivate();
+        rewardWasRunning = canvas.isRewardRunning();
+        canvas.setRewardRunning( false );
     }
 }

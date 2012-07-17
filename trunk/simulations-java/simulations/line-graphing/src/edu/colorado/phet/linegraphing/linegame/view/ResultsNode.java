@@ -34,7 +34,7 @@ class ResultsNode extends PhetPNode {
                         rewardNode = new RewardNode();
                         rewardNode.setLevel( model.settings.level.get() );
                         addChild( rewardNode );
-                        rewardNode.play();
+                        rewardNode.setRunning( true );
                     }
 
                     // game results
@@ -71,6 +71,16 @@ class ResultsNode extends PhetPNode {
     public void setRewardBounds( PBounds bounds ) {
         if ( rewardNode != null ) {
             rewardNode.setBounds( bounds );
+        }
+    }
+
+    public boolean isRewardRunning() {
+        return ( rewardNode != null && rewardNode.isRunning() );
+    }
+
+    public void setRewardRunning( boolean running ) {
+        if ( rewardNode != null ) {
+            rewardNode.setRunning( running );
         }
     }
 }

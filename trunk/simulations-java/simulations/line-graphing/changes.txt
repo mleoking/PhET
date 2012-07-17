@@ -1,3 +1,4 @@
+7/17/12 save/restore the game reward node's animation state when deactivating/activating the game module
 7/17/12 add "Developer->Test game reward" menu item
 7/17/12 add graph images to game reward
 7/17/12 add point tool images to game reward
