@@ -11,6 +11,14 @@ import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 
 /**
  * Keep track of a stack or pile of cards for purposes of making sure only the top one is grabbable, and if a middle card is taken out, then the top card will fall down one slot.
+ * <p/>
+ * Notes: Weird restacking order when pieces or cards go back to the control panel.
+ * Need to remember and restore the z-ordering somehow.
+ * But pieces should also "fall" to the locations closer to the container icon--this should be accounted for at the same time.
+ * Maybe make it so you can only grab the topmost one.
+ * Then when reset or sending back cards, send to recorded location.
+ * Well, I'm not sure that will work, since in a stack ABC with C in the front, you could send B to the collection box then send C back to the toolbox.
+ * It should go to B's location in that case.
  *
  * @author Sam Reid
  */
