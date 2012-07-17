@@ -11,9 +11,8 @@ import edu.umd.cs.piccolo.activities.PInterpolatingActivity;
 public class AnimateToScale extends PInterpolatingActivity {
     private final PNode node;
     private final LinearFunction linearFunction;
-    private final long duration;
 
-    public AnimateToScale( PNode node, final double scale, long duration ) {
+    public AnimateToScale( PNode node, long duration ) {
         this( node, new LinearFunction( 0, 1, node.getScale(), 1.00 ), duration );
     }
 
@@ -21,7 +20,6 @@ public class AnimateToScale extends PInterpolatingActivity {
         super( duration );
         this.node = node;
         this.linearFunction = linearFunction;
-        this.duration = duration;
     }
 
     @Override public void setRelativeTargetValue( final float zeroToOne ) {

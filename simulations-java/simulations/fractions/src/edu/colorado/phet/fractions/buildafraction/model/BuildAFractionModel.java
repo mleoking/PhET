@@ -75,8 +75,6 @@ public class BuildAFractionModel {
 
     public PictureLevel getPictureLevel( final int level ) { return pictureLevels.get( level ); }
 
-    public void goToNumberLevel( final int level ) { numberLevel.set( level ); }
-
     public void resample() {
         int n = numberLevel.get();
         int m = pictureLevel.get();
@@ -86,6 +84,4 @@ public class BuildAFractionModel {
         numberLevel.set( n );
         pictureLevel.set( m );
     }
-
-    public void goToPictureLevel( final int level ) { pictureLevel.set( level ); }
 }
