@@ -1,26 +1,26 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.view;
 
-import fj.F;
 import fj.data.List;
 
 import java.awt.Color;
-import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.integerproperty.IntegerProperty;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
+import edu.colorado.phet.fractions.buildafraction.view.numbers.NumberCardNode;
+import edu.colorado.phet.fractions.buildafraction.view.numbers.NumberDragContext;
 import edu.colorado.phet.fractions.common.view.SettingsOnOffPanel;
 import edu.colorado.phet.fractions.common.view.SettingsOnOffPanel.Element;
 import edu.colorado.phet.fractions.fractionmatcher.model.Pattern;
 import edu.colorado.phet.fractions.fractionmatcher.view.PatternNode;
 import edu.colorado.phet.fractions.fractionsintro.common.view.Colors;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.games.GameConstants.SOUND_ICON;
 import static edu.colorado.phet.common.games.GameConstants.SOUND_OFF_ICON;
-import static edu.colorado.phet.fractions.FractionsResources.Images.*;
 import static edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern.sequentialFill;
 import static edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
 import static edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas.STAGE_SIZE;
@@ -79,13 +79,16 @@ public class LevelSelectionNode extends AbstractLevelSelectionNode {
 
     private static LevelInfo createNumberLevel( int level, int maxStars ) {return new LevelInfo( "Level " + level, createLevelIcon( level ), 0, maxStars, level - 1, LevelType.NUMBERS );}
 
-    private static List<BufferedImage> images = list( NUMBER_0, NUMBER_1, NUMBER_2, NUMBER_3, NUMBER_4, NUMBER_5, NUMBER_6, NUMBER_7, NUMBER_8, NUMBER_9, NUMBER_0 ).map( new F<BufferedImage, BufferedImage>() {
-        @Override public BufferedImage f( final BufferedImage bufferedImage ) {
-            return BufferedImageUtils.multiScaleToHeight( bufferedImage, 100 );
-        }
-    } );
-
     private static PNode createLevelIcon( final int level ) {
-        return new PImage( images.index( level ) );
+        return new PNode() {{
+            for ( int i = 0; i < level; i++ ) {
+                NumberCardNode card = new NumberCardNode( new Dimension2DDouble( level < 10 ? 60 : 70, 75 ), level, new NumberDragContext() {
+                    public void endDrag( final NumberCardNode draggableNumberNode, final PInputEvent event ) {
+                    }
+                } );
+                addChild( card );
+                card.setOffset( i * 4, i * 4 );
+            }
+        }};
     }
 }
