@@ -36,6 +36,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -129,8 +130,8 @@ public class RewardNode extends PhetPNode {
             // graphs
             graphImages = new ArrayList<Image>();
             for ( Color color : colors ) {
-                graphImages.add( iconToImage( GraphNode.createYEqualsXIcon( 50, color ) ) );
-                graphImages.add( iconToImage( GraphNode.createYEqualsNegativeXIcon( 50, color ) ) );
+                graphImages.add( BufferedImageUtils.toImage( GraphNode.createYEqualsXIcon( 50, color ) ) );
+                graphImages.add( BufferedImageUtils.toImage( GraphNode.createYEqualsNegativeXIcon( 50, color ) ) );
             }
 
             // point tools
@@ -181,25 +182,6 @@ public class RewardNode extends PhetPNode {
 
     private Image createSmileyFaceImage( Color color ) {
         return new PadBoundsNode( new FaceNode( 40, color ) ).toImage();
-    }
-
-    // https://groups.google.com/forum/?fromgroups#!topic/comp.lang.java.programmer/OI_IdebPL68
-    static Image iconToImage( Icon icon ) {
-        if ( icon instanceof ImageIcon ) {
-            return ( (ImageIcon) icon ).getImage();
-        }
-        else {
-            int w = icon.getIconWidth();
-            int h = icon.getIconHeight();
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            GraphicsDevice gd = ge.getDefaultScreenDevice();
-            GraphicsConfiguration gc = gd.getDefaultConfiguration();
-            BufferedImage image = gc.createCompatibleImage( w, h );
-            Graphics2D g = image.createGraphics();
-            icon.paintIcon( null, g, 0, 0 );
-            g.dispose();
-            return image;
-        }
     }
 
     /**

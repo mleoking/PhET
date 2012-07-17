@@ -27,6 +27,7 @@ import java.awt.image.BufferedImageOp;
 import java.awt.image.ColorModel;
 import java.awt.image.PixelGrabber;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 /**
@@ -407,5 +408,25 @@ public class BufferedImageUtils {
         int green = ( pixel & 0x0000ff00 ) >> 8;
         int blue = pixel & 0x000000ff;
         return new Color( red, green, blue );
+    }
+
+    // Converts an Icon to an Image
+    // https://groups.google.com/forum/?fromgroups#!topic/comp.lang.java.programmer/OI_IdebPL68
+    public static Image toImage( Icon icon ) {
+        if ( icon instanceof ImageIcon ) {
+            return ( (ImageIcon) icon ).getImage();
+        }
+        else {
+            int w = icon.getIconWidth();
+            int h = icon.getIconHeight();
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            GraphicsDevice gd = ge.getDefaultScreenDevice();
+            GraphicsConfiguration gc = gd.getDefaultConfiguration();
+            BufferedImage image = gc.createCompatibleImage( w, h );
+            Graphics2D g = image.createGraphics();
+            icon.paintIcon( null, g, 0, 0 );
+            g.dispose();
+            return image;
+        }
     }
 }
