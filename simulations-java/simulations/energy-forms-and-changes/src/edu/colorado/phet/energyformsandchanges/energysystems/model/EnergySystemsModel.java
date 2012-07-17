@@ -50,10 +50,11 @@ public class EnergySystemsModel {
     public final List<ShapeModelElement> shapeModelElementList = new ArrayList<ShapeModelElement>();
 
     // Energy sources.
-    public final SolarPanel solarPanel = new SolarPanel();
+    public final TeaPot teaPot = new TeaPot();
 
     // Energy Converters.
     public final WaterPoweredGenerator waterPoweredGenerator = new WaterPoweredGenerator();
+    public final SolarPanel solarPanel = new SolarPanel();
 
     // Energy users.
     public final IncandescentLightBulb incandescentLightBulb = new IncandescentLightBulb();
@@ -72,6 +73,7 @@ public class EnergySystemsModel {
             }
         } );
 
+        energySourcesCarousel.add( teaPot );
         energyConvertersCarousel.add( waterPoweredGenerator );
         energyConvertersCarousel.add( solarPanel );
         energyUsersCarousel.add( beakerHeater );
