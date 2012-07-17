@@ -65,13 +65,8 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
         }
     };
 
-    public void endDrag( final FractionNode fractionGraphic, final PInputEvent event ) {
-
-        //if fraction graphic overlaps the toolbox when dropped, animate back to the toolbox position.
-        if ( toolboxNode.getGlobalFullBounds().intersects( fractionGraphic.getGlobalFullBounds() ) ) {
-            fractionGraphic.animateToPositionScaleRotation( 300, 300, 1, 0, 1000 );
-        }
-    }
+    //When sending cards back to the toolbox, make sure they have the right location and z-order.
+    private final ArrayList<Stack> stackList;
 
     public NumberSceneNode( final int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context, BooleanProperty soundEnabled ) {
         super( soundEnabled );
@@ -208,7 +203,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
         double cardDeltaX = 4;
         double cardDeltaY = 4;
 
-        ArrayList<Stack> stackList = new ArrayList<Stack>();
+        stackList = new ArrayList<Stack>();
         for ( List<NumberCardNode> cardStack : cardNodes ) {
 
             int indexInStack = 0;
@@ -299,6 +294,14 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
         }
         for ( FractionNode fractionGraphic : fractionGraphics ) {
             fractionGraphic.split();
+        }
+    }
+
+    public void endDrag( final FractionNode fractionGraphic, final PInputEvent event ) {
+
+        //if fraction graphic overlaps the toolbox when dropped, animate back to the toolbox position.
+        if ( toolboxNode.getGlobalFullBounds().intersects( fractionGraphic.getGlobalFullBounds() ) ) {
+            fractionGraphic.animateToPositionScaleRotation( 300, 300, 1, 0, 1000 );
         }
     }
 
