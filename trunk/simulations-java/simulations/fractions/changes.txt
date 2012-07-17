@@ -1,3 +1,4 @@
+Build a Fraction: Shapes: Fixed: Shapes put into container on level 3 have pieces drag when they shouldn't.
 Build a Fraction: Shapes: Fixed: Target cell isn't flashing
 Build a Fraction: Shapes: Fixed: Level refresh wasn't working
 Build a Fraction: Shapes: Fixed z-ordering and card layout positions

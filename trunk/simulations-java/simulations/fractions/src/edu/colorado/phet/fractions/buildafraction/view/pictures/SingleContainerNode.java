@@ -121,6 +121,7 @@ public class SingleContainerNode extends PNode {
         piece.setGlobalTranslation( offset );
         parent.pieceAdded( piece );
         dottedLineLayer.moveToFront();
+        piece.setAllPickable( false );
     }
 
     //TODO: have cards separate for a minute before animating home?  Maybe unnecessary now that we are showing individual cards in the container.
