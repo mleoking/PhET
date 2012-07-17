@@ -50,6 +50,7 @@ public class EnergySystemsModel {
     public final List<ShapeModelElement> shapeModelElementList = new ArrayList<ShapeModelElement>();
 
     // Energy sources.
+    private final SolarPanel solarPanel = new SolarPanel();
 
     // Energy Converters.
     private final WaterPoweredGenerator waterPoweredGenerator = new WaterPoweredGenerator();
@@ -71,6 +72,7 @@ public class EnergySystemsModel {
         } );
 
         energyConvertersCarousel.add( waterPoweredGenerator );
+        energyConvertersCarousel.add( solarPanel );
         energyUsersCarousel.add( incandescentLightBulb );
         energyUsersCarousel.add( fluorescentLightBulb );
     }
@@ -97,6 +99,10 @@ public class EnergySystemsModel {
 
     public FluorescentLightBulb getFluorescentLightBulb() {
         return fluorescentLightBulb;
+    }
+
+    public SolarPanel getSolarPanel() {
+        return solarPanel;
     }
 
     private void stepInTime( double dt ) {
