@@ -3,7 +3,9 @@ package edu.colorado.phet.fractions.buildafraction.view.pictures;
 
 import fj.Equal;
 import fj.F;
+import fj.P2;
 import fj.data.List;
+import fj.data.Option;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -31,6 +33,9 @@ import edu.colorado.phet.fractions.buildafraction.model.pictures.PictureTarget;
 import edu.colorado.phet.fractions.buildafraction.view.BackButton;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractions.buildafraction.view.SceneNode;
+import edu.colorado.phet.fractions.buildafraction.view.Stack;
+import edu.colorado.phet.fractions.buildafraction.view.StackContext;
+import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 import edu.colorado.phet.fractions.common.view.FNode;
 import edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
@@ -51,6 +56,7 @@ import static edu.colorado.phet.fractions.common.util.FJUtils.ord;
 import static edu.colorado.phet.fractions.common.view.FNode.getChildren;
 import static edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
 import static fj.Ord.doubleOrd;
+import static fj.data.List.iterableList;
 import static fj.function.Booleans.not;
 
 /**
@@ -58,7 +64,7 @@ import static fj.function.Booleans.not;
  *
  * @author Sam Reid
  */
-public class PictureSceneNode extends SceneNode implements ContainerContext, PieceContext {
+public class PictureSceneNode extends SceneNode implements ContainerContext, PieceContext, StackContext<RectangularPiece> {
     private final BuildAFractionModel model;
     private final List<Target> targetPairs;
     private final RichPNode toolboxNode;
@@ -69,6 +75,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
     //Declare type-specific wrappers for declaration site variance to make map call site more readable
     private final F<PieceIconNode, Double> _minX = FNode._minX();
     private final F<ContainerNode, Double> _maxX = FNode._maxX();
+    private ArrayList<Stack> stackList;
 
     public PictureSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context, BooleanProperty soundEnabled ) {
         super( soundEnabled );
@@ -96,7 +103,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
                                                                       model.getNumberLevel( levelIndex ).flashTargetCellOnMatch );
             pairList.add( new Target( cell, new ZeroOffsetNode( f ), target.fraction ) );
         }
-        this.targetPairs = List.iterableList( pairList );
+        this.targetPairs = iterableList( pairList );
 
         List<PNode> patterns = this.targetPairs.map( new F<Target, PNode>() {
             @Override public PNode f( final Target pair ) {
@@ -144,9 +151,10 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         //Pieces always in front of the containers--could be awkward if a container is moved across a container that already has pieces in it.
         List<List<Integer>> groups = level.pieces.group( Equal.intEqual );
         int numGroups = groups.length();
-        int groupIndex = 0;
+        int stackIndex = 0;
         final int spacing = 140;
         final int layoutXOffset = ( 6 - numGroups ) * spacing / 4;
+        stackList = new ArrayList<Stack>();
         for ( List<Integer> group : groups ) {
             int numInGroup = group.length();
             int pieceIndex = 0;
@@ -159,8 +167,10 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
                 LinearFunction offset = new LinearFunction( 0, numInGroup - 1, -totalHorizontalSpacing / 2, +totalHorizontalSpacing / 2 );
                 final RectangularPiece piece = new RectangularPiece( pieceDenominator, PictureSceneNode.this, level.color );
                 final double delta = numInGroup == 1 ? 0 : offset.evaluate( pieceIndex );
-                piece.setInitialState( layoutXOffset + INSET + 20 + delta + groupIndex * spacing,
+                piece.setInitialState( layoutXOffset + INSET + 20 + delta + stackIndex * spacing,
                                        STAGE_SIZE.height - INSET - 127 + 20 + delta, TINY_SCALE );
+
+
                 PictureSceneNode.this.addChild( piece );
                 pieceIndex++;
                 if ( bounds == null ) { bounds = piece.getFullBounds(); }
@@ -170,15 +180,26 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
                 pieces.add( piece );
             }
 
+            final List<RectangularPiece> pieceList = iterableList( pieces );
+            final Stack<RectangularPiece> stack = new Stack<RectangularPiece>( pieceList, stackIndex, this );
+            for ( P2<RectangularPiece, Integer> pieceAndIndex : pieceList.zipIndex() ) {
+                final RectangularPiece piece = pieceAndIndex._1();
+                final Integer index = pieceAndIndex._2();
+                piece.setStack( stack );
+                piece.setPositionInStack( Option.some( index ) );
+            }
+            stack.update();
+            stackList.add( stack );
+
             final PieceIconNode child = new PieceIconNode( group.head() );
             child.setOffset( pieces.get( 0 ).getOffset() );
             addChild( child );
             child.moveToBack();
-            groupIndex++;
+            stackIndex++;
         }
 
         //Containers the user can drag out of the toolbox.
-        final int finalGroupIndex = groupIndex;
+        final int finalGroupIndex = stackIndex;
         final int numInGroup = level.targets.length() - 1;
         for ( int i = 0; i < numInGroup; i++ ) {
             double dx = 4;
@@ -224,7 +245,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
 
         addChild( faceNodeDialog );
 
-        double minScoreCellX = List.iterableList( pairList ).map( new F<Target, Double>() {
+        double minScoreCellX = iterableList( pairList ).map( new F<Target, Double>() {
             @Override public Double f( final Target target ) {
                 return target.cell.getFullBounds().getMinX();
             }
@@ -278,7 +299,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
                 children.add( (RectangularPiece) child );
             }
         }
-        return List.iterableList( children );
+        return iterableList( children );
     }
 
     public void endDrag( final ContainerNode containerNode, final PInputEvent event ) {
@@ -438,4 +459,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         faceNodeDialog.setChildrenPickable( false );
     }
 
+    public Vector2D getLocation( final int stackIndex, final int cardIndex, final RectangularPiece card ) {
+        return Vector2D.ZERO;
+    }
 }

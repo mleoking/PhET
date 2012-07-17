@@ -4,20 +4,32 @@ package edu.colorado.phet.fractions.buildafraction.view;
 import fj.data.Option;
 
 import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * @author Sam Reid
  */
-public interface Stackable {
-    void setAllPickable( boolean pickable );
+public abstract class Stackable extends PNode {
+    private Option<Integer> positionInStack = Option.none();
 
-    void moveToFront();
+    public void setAllPickable( boolean pickable ) {
+        setPickable( pickable );
+        setChildrenPickable( pickable );
+    }
 
-    Option<Integer> getPositionInStack();
+    public Option<Integer> getPositionInStack() {
+        return positionInStack;
+    }
 
-    void setPositionInStack( Option<Integer> index );
+    public void setPositionInStack( Option<Integer> positionInStack ) {
+        this.positionInStack = positionInStack;
+    }
 
-    void animateTo( Vector2D location );
+    public void animateTo( Vector2D v ) {
+        animateToPositionScaleRotation( v.x, v.y, 1, 0, 1000 );
+    }
 
-    boolean isAtStackIndex( Integer site );
+    public boolean isAtStackIndex( Integer site ) {
+        return positionInStack.isSome() && positionInStack.some().equals( site );
+    }
 }
