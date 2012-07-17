@@ -207,20 +207,22 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
         int groupIndex = 0;
         double cardDeltaX = 4;
         double cardDeltaY = 4;
-        for ( List<NumberCardNode> cardNodeStack : cardNodes ) {
 
-            int numInStack = cardNodeStack.length();
+        ArrayList<Stack> stackList = new ArrayList<Stack>();
+        for ( List<NumberCardNode> cardStack : cardNodes ) {
+
             int indexInStack = 0;
-            for ( NumberCardNode cardNode : cardNodeStack ) {
+            for ( NumberCardNode cardNode : cardStack ) {
                 int index = indexInStack;
 
-                //To reverse the card order, use //                int index = numInStack - 1 - indexInStack;
                 cardNode.setInitialPosition( toolboxNode.getMinX() + leftRightInset + ( cardWidth + spacingBetweenNumbers ) * groupIndex + index * cardDeltaX,
                                              toolboxNode.getCenterY() - cardNode.getFullBounds().getHeight() / 2 + index * cardDeltaY );
+
                 addChild( cardNode );
                 indexInStack++;
             }
             groupIndex++;
+            stackList.add( new Stack( cardStack ) );
         }
 
         addChild( fractionGraphic );
