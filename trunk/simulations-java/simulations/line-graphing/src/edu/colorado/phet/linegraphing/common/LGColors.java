@@ -34,4 +34,6 @@ public class LGColors {
 
     public static final Color EQUATION_CONTROL_PANEL = new Color( 238, 238, 238 );
     public static final Color GRAPH_CONTROL_PANEL = new Color( 238, 238, 238 );
+
+    public static final Color GAME_INSTRUCTION_COLORS = Color.YELLOW;
 }
