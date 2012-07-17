@@ -16,6 +16,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -25,6 +26,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -125,26 +128,15 @@ public class RewardNode extends PhetPNode {
 
         // images
         {
-            Color[] colors = new Color[] { Color.YELLOW, Color.RED, Color.ORANGE, Color.MAGENTA, Color.CYAN, Color.GREEN };
-
-            // graphs
             graphImages = new ArrayList<Image>();
+            pointToolImages = new ArrayList<Image>();
+            smileyFaceImages = new ArrayList<Image>();
+
+            Color[] colors = new Color[] { Color.YELLOW, Color.RED, Color.ORANGE, Color.MAGENTA, Color.CYAN, Color.GREEN };
             for ( Color color : colors ) {
                 graphImages.add( BufferedImageUtils.toImage( GraphNode.createYEqualsXIcon( 50, color ) ) );
                 graphImages.add( BufferedImageUtils.toImage( GraphNode.createYEqualsNegativeXIcon( 50, color ) ) );
-            }
-
-            // point tools
-            pointToolImages = new ArrayList<Image>();
-            Color[] pointToolColors = new Color[] { Color.YELLOW, Color.RED, Color.ORANGE, Color.MAGENTA, Color.CYAN, Color.GREEN };
-            for ( Color color : pointToolColors ) {
                 pointToolImages.add( createPointToolImage( color ) );
-            }
-
-            // smiley faces
-            smileyFaceImages = new ArrayList<Image>();
-            Color[] smileyFaceColors = new Color[] { Color.YELLOW, Color.RED, Color.ORANGE, Color.MAGENTA, Color.CYAN, Color.GREEN };
-            for ( Color color : smileyFaceColors ) {
                 smileyFaceImages.add( createSmileyFaceImage( color ) );
             }
 
@@ -509,7 +501,38 @@ public class RewardNode extends PhetPNode {
         motionControlPanel.add( jitteryMotionButton );
         motionControlPanel.add( fallingMotionButton );
 
+        final JCheckBox graphsCheckBox = new JCheckBox( "graphs" );
+        graphsCheckBox.setSelected( rewardNode.isGraphsVisible() );
+        graphsCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                rewardNode.setGraphsVisible( graphsCheckBox.isSelected() );
+            }
+        } );
+
+        final JCheckBox pointToolsCheckBox = new JCheckBox( "point tools" );
+        pointToolsCheckBox.setSelected( rewardNode.isPointToolsVisible() );
+        pointToolsCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                rewardNode.setPointToolsVisible( pointToolsCheckBox.isSelected() );
+            }
+        } );
+
+        final JCheckBox smileyFacesCheckBox = new JCheckBox( "smiley faces" );
+        smileyFacesCheckBox.setSelected( rewardNode.isSmileyFacesVisible() );
+        smileyFacesCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                rewardNode.setSmileyFacesVisible( smileyFacesCheckBox.isSelected() );
+            }
+        } );
+
+        JPanel objectsControlPanel = new VerticalLayoutPanel();
+        objectsControlPanel.setBorder( new TitledBorder( "Objects" ) );
+        objectsControlPanel.add( graphsCheckBox );
+        objectsControlPanel.add( pointToolsCheckBox );
+        objectsControlPanel.add( smileyFacesCheckBox );
+
         final LinearValueControl clockDelayControl = new LinearValueControl( clockDelayRange.getMin(), clockDelayRange.getMax(), "clock delay:", "##0", "ms" );
+        clockDelayControl.setBorder( BorderFactory.createEtchedBorder() );
         clockDelayControl.setToolTipText( "how frequently the simulation clock ticks" );
         clockDelayControl.setValue( rewardNode.getClockDelay() );
         clockDelayControl.addChangeListener( new ChangeListener() {
@@ -519,6 +542,7 @@ public class RewardNode extends PhetPNode {
         } );
 
         final LinearValueControl populationControl = new LinearValueControl( populationRange.getMin(), populationRange.getMax(), "population:", "##0", "" );
+        populationControl.setBorder( BorderFactory.createEtchedBorder() );
         populationControl.setValue( populationRange.getDefault() );
         populationControl.setToolTipText( "how many images are in the play area" );
         populationControl.addChangeListener( new ChangeListener() {
@@ -528,6 +552,7 @@ public class RewardNode extends PhetPNode {
         } );
 
         final LinearValueControl motionDeltaControl = new LinearValueControl( motionDeltaRange.getMin(), motionDeltaRange.getMax(), "motion delta:", "##0", "pixels" );
+        motionDeltaControl.setBorder( BorderFactory.createEtchedBorder() );
         motionDeltaControl.setValue( motionDeltaRange.getDefault() );
         motionDeltaControl.setToolTipText( "how far images move each time the clock ticks" );
         motionDeltaControl.addChangeListener( new ChangeListener() {
@@ -536,39 +561,12 @@ public class RewardNode extends PhetPNode {
             }
         } );
 
-        final JCheckBox atomsCheckBox = new JCheckBox( "show graphs" );
-        atomsCheckBox.setSelected( rewardNode.isGraphsVisible() );
-        atomsCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                rewardNode.setGraphsVisible( atomsCheckBox.isSelected() );
-            }
-        } );
-
-        final JCheckBox moleculesCheckBox = new JCheckBox( "show point tools" );
-        moleculesCheckBox.setSelected( rewardNode.isPointToolsVisible() );
-        moleculesCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                rewardNode.setPointToolsVisible( moleculesCheckBox.isSelected() );
-            }
-        } );
-
-        final JCheckBox smileyFacesCheckBox = new JCheckBox( "show smiley faces" );
-        smileyFacesCheckBox.setSelected( rewardNode.isSmileyFacesVisible() );
-        smileyFacesCheckBox.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                rewardNode.setSmileyFacesVisible( smileyFacesCheckBox.isSelected() );
-            }
-        } );
-
         JPanel devControlPanel = new VerticalLayoutPanel();
-        devControlPanel.setBorder( new TitledBorder( "Developer Controls" ) );
         devControlPanel.add( motionControlPanel );
+        devControlPanel.add( objectsControlPanel );
         devControlPanel.add( clockDelayControl );
         devControlPanel.add( populationControl );
         devControlPanel.add( motionDeltaControl );
-        devControlPanel.add( atomsCheckBox );
-        devControlPanel.add( moleculesCheckBox );
-        devControlPanel.add( smileyFacesCheckBox );
 
         JPanel controlPanel = new JPanel();
         controlPanel.setBorder( new EmptyBorder( 10, 10, 10, 10 ) );
