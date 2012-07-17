@@ -54,6 +54,8 @@ public class EnergyFormsAndChangesResources {
         public static final BufferedImage TAB_3_DRAWING = RESOURCES.getImage( "tab-3-drawing.png" );
         public static final BufferedImage TEAPOT = RESOURCES.getImage( "teapot.png" );
         public static final BufferedImage TEAPOT_ICON = RESOURCES.getImage( "teapot_icon.png" );
+        public static final BufferedImage TEMP_FAUCET = RESOURCES.getImage( "temp_faucet.png" );
+        public static final BufferedImage TEMP_SUN = RESOURCES.getImage( "temp_sun.png" );
         public static final BufferedImage THERMOMETER_MEDIUM_BACK = RESOURCES.getImage( "thermometer_medium_back.png" );
         public static final BufferedImage THERMOMETER_MEDIUM_FRONT = RESOURCES.getImage( "thermometer_medium_front.png" );
         public static final BufferedImage WATER_ICON = RESOURCES.getImage( "water_icon.png" );

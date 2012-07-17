@@ -115,6 +115,7 @@ public class EnergySystemsCanvas extends PhetPCanvas {
 
         // Add the various energy system elements.
         EnergySystemElementNode teaPotNode = new EnergySystemElementNode( model.teaPot, mvt );
+        EnergySystemElementNode sunNode = new EnergySystemElementNode( model.sun, mvt );
         EnergySystemElementNode waterPoweredGeneratorNode = new EnergySystemElementNode( model.waterPoweredGenerator, mvt );
         EnergySystemElementNode incandescentLightBulbNode = new EnergySystemElementNode( model.incandescentLightBulb, mvt );
         EnergySystemElementNode fluorescentLightBulbNode = new EnergySystemElementNode( model.fluorescentLightBulb, mvt );
@@ -142,6 +143,7 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         for ( PNode shapeNode : shapeNodes ) {
             rootNode.addChild( shapeNode );
         }
+        rootNode.addChild( sunNode );
         rootNode.addChild( teaPotNode );
         rootNode.addChild( waterPoweredGeneratorNode );
         rootNode.addChild( solarPanelNode );
