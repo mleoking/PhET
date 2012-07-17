@@ -91,7 +91,7 @@ public class NumberCardNode extends PNode {
         assert this.stack == null;
         addPropertyChangeListener( PNode.PROPERTY_TRANSFORM, new PropertyChangeListener() {
             public void propertyChange( final PropertyChangeEvent evt ) {
-                stack.cardMoved( NumberCardNode.this );
+                stack.cardMoved();
             }
         } );
         this.stack = stack;
