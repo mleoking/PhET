@@ -37,6 +37,16 @@ public @Data class Stack<T extends Stackable> {
             front.some().setAllPickable( true );
             front.some().moveToFront();
         }
+        moveNonStackCardsToFront();
+    }
+
+    //Make sure dragged card remains in front
+    private void moveNonStackCardsToFront() {
+        for ( T card : cards ) {
+            if ( card.getPositionInStack().isNone() ) {
+                card.moveToFront();
+            }
+        }
     }
 
     private Option<T> getFrontCardInStack() {
@@ -53,6 +63,7 @@ public @Data class Stack<T extends Stackable> {
         for ( T card : cards ) {
             card.moveToFront();
         }
+        moveNonStackCardsToFront();
         updatePickable();
     }
 
@@ -73,6 +84,7 @@ public @Data class Stack<T extends Stackable> {
                 break;
             }
         }
+        moveNonStackCardsToFront();
     }
 
     private boolean hasCardAtSite( final Integer site ) {
