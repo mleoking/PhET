@@ -1,3 +1,5 @@
+# 1.00.17 (65941) Jul 17, 2012
+7/17/12 Attempting dev deploy after some issues with dev.
 # 1.00.16 (65753) Jul 11, 2012
 # 1.00.15 (65752) Jul 11, 2012
 # 1.00.14 (65748) Jul 11, 2012
