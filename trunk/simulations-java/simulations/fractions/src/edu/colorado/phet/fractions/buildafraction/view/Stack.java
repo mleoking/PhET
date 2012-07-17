@@ -52,7 +52,8 @@ public @Data class Stack<T extends Stackable> {
     private Option<T> getFrontCardInStack() {
         List<T> sorted = cards.sort( FJUtils.ord( new F<T, Double>() {
             @Override public Double f( final T n ) {
-                return n.getPositionInStack().orSome( -1 ).doubleValue();
+                final Option<Integer> positionInStack = n.getPositionInStack();
+                return positionInStack.orSome( -1 ).doubleValue();
             }
         } ) );
         return sorted.isEmpty() ? Option.<T>none() : Option.some( sorted.last() );

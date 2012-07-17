@@ -55,6 +55,7 @@ import static edu.colorado.phet.fractions.buildafraction.view.pictures.RefreshBu
 import static edu.colorado.phet.fractions.common.util.FJUtils.ord;
 import static edu.colorado.phet.fractions.common.view.FNode.getChildren;
 import static edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
+import static edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas.STAGE_SIZE;
 import static fj.Ord.doubleOrd;
 import static fj.data.List.iterableList;
 import static fj.function.Booleans.not;
@@ -76,6 +77,11 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
     private final F<PieceIconNode, Double> _minX = FNode._minX();
     private final F<ContainerNode, Double> _maxX = FNode._maxX();
     private ArrayList<Stack> stackList;
+
+    final int spacing = 140;
+    private final int layoutXOffset;
+    double dx = 4;
+    private final PictureLevel level;
 
     public PictureSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context, BooleanProperty soundEnabled ) {
         super( soundEnabled );
@@ -139,7 +145,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
             offsetY += Math.max( maxHeight, targetCellBounds.getHeight() ) + insetY;
         }
 
-        final PictureLevel level = model.getPictureLevel( levelIndex );
+        level = model.getPictureLevel( levelIndex );
 
         ContainerNode firstContainerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne() ) {{
             setInitialPosition( 285, 200 );
@@ -152,8 +158,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         List<List<Integer>> groups = level.pieces.group( Equal.intEqual );
         int numGroups = groups.length();
         int stackIndex = 0;
-        final int spacing = 140;
-        final int layoutXOffset = ( 6 - numGroups ) * spacing / 4;
+        layoutXOffset = ( 6 - numGroups ) * spacing / 4;
         stackList = new ArrayList<Stack>();
         for ( List<Integer> group : groups ) {
             int numInGroup = group.length();
@@ -162,14 +167,10 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
             Rectangle2D bounds = null;
             ArrayList<RectangularPiece> pieces = new ArrayList<RectangularPiece>();
             for ( final Integer pieceDenominator : group ) {
-                double dx = 4;
-                double totalHorizontalSpacing = dx * ( numInGroup - 1 );
-                LinearFunction offset = new LinearFunction( 0, numInGroup - 1, -totalHorizontalSpacing / 2, +totalHorizontalSpacing / 2 );
+                final double delta = toDelta( numInGroup, pieceIndex );
                 final RectangularPiece piece = new RectangularPiece( pieceDenominator, PictureSceneNode.this, level.color );
-                final double delta = numInGroup == 1 ? 0 : offset.evaluate( pieceIndex );
-                piece.setInitialState( layoutXOffset + INSET + 20 + delta + stackIndex * spacing,
-                                       STAGE_SIZE.height - INSET - 127 + 20 + delta, TINY_SCALE );
-
+                piece.setOffset( layoutXOffset + INSET + 20 + delta + stackIndex * spacing, STAGE_SIZE.height - INSET - 127 + 20 + delta );
+                piece.setInitialScale( TINY_SCALE );
 
                 PictureSceneNode.this.addChild( piece );
                 pieceIndex++;
@@ -202,10 +203,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         final int finalGroupIndex = stackIndex;
         final int numInGroup = level.targets.length() - 1;
         for ( int i = 0; i < numInGroup; i++ ) {
-            double dx = 4;
-            double totalHorizontalSpacing = dx * ( numInGroup - 1 );
-            LinearFunction offset = new LinearFunction( 0, numInGroup - 1, -totalHorizontalSpacing / 2, +totalHorizontalSpacing / 2 );
-            final double delta = numInGroup == 1 ? 0 : offset.evaluate( i );
+            final double delta = toDelta( numInGroup, i );
             final ContainerNode containerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne() ) {{
                 this.setInitialState( layoutXOffset + INSET + 20 + delta + finalGroupIndex * spacing,
                                       STAGE_SIZE.height - INSET - 127 + 20 + delta, TINY_SCALE );
@@ -269,6 +267,16 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         }} );
     }
 
+    private double toDelta( final int numInGroup, final int pieceIndex ) {
+        double totalHorizontalSpacing = dx * ( numInGroup - 1 );
+        return getDelta( numInGroup, pieceIndex, totalHorizontalSpacing );
+    }
+
+    private double getDelta( final int numInGroup, final int pieceIndex, final double totalHorizontalSpacing ) {
+        LinearFunction offset = new LinearFunction( 0, numInGroup - 1, -totalHorizontalSpacing / 2, +totalHorizontalSpacing / 2 );
+        return numInGroup == 1 ? 0 : offset.evaluate( pieceIndex );
+    }
+
     //clear cards and target values, then get some new ones
     public VoidFunction0 _resampleLevel = new VoidFunction0() {
         public void apply() {
@@ -288,7 +296,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
             containerNode.animateHome();
         }
         for ( RectangularPiece rectangularPiece : getPieceNodes() ) {
-            rectangularPiece.animateHome();
+            rectangularPiece.moveToTopOfStack();
         }
     }
 
@@ -389,7 +397,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
 
         //If didn't intersect a container, see if it should go back to the bucket
         if ( !droppedInto ) {
-            piece.animateHome();
+            piece.moveToTopOfStack();
         }
         else if ( !droppedInto && piece.getGlobalFullBounds().intersects( toolboxNode.getGlobalFullBounds() ) ) {
             piece.animateToPositionScaleRotation( piece.getXOffset(), piece.getYOffset() - 100, 1, 0, 200 );
@@ -431,7 +439,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         piece.setGlobalTranslation( offset );
         piece.setPickable( true );
         piece.setChildrenPickable( true );
-        piece.animateHome();
+        piece.moveToTopOfStack();
     }
 
     private List<ContainerNode> getContainerNodes() { return getChildren( this, ContainerNode.class ); }
@@ -460,6 +468,8 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
     }
 
     public Vector2D getLocation( final int stackIndex, final int cardIndex, final RectangularPiece card ) {
-        return Vector2D.ZERO;
+        List<List<Integer>> groups = level.pieces.group( Equal.intEqual );
+        double delta = toDelta( groups.index( stackIndex ).length(), cardIndex );
+        return new Vector2D( layoutXOffset + INSET + 20 + delta + stackIndex * spacing, STAGE_SIZE.height - INSET - 127 + 20 + delta );
     }
 }
