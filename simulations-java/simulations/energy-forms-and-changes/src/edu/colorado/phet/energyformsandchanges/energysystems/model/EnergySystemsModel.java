@@ -37,8 +37,8 @@ public class EnergySystemsModel {
 
     // Carousels that control the positions of the energy sources, converters,
     // and users.
-    public final EnergySystemElementCarousel energySourcesCarousel = new EnergySystemElementCarousel( new ImmutableVector2D( -0.1, 0 ), OFFSET_BETWEEN_ELEMENTS_ON_CAROUSEL );
-    public final EnergySystemElementCarousel energyConvertersCarousel = new EnergySystemElementCarousel( new ImmutableVector2D( 0, 0 ), OFFSET_BETWEEN_ELEMENTS_ON_CAROUSEL );
+    public final EnergySystemElementCarousel energySourcesCarousel = new EnergySystemElementCarousel( new ImmutableVector2D( -0.15, 0 ), OFFSET_BETWEEN_ELEMENTS_ON_CAROUSEL );
+    public final EnergySystemElementCarousel energyConvertersCarousel = new EnergySystemElementCarousel( new ImmutableVector2D( -0.025, 0 ), OFFSET_BETWEEN_ELEMENTS_ON_CAROUSEL );
     public final EnergySystemElementCarousel energyUsersCarousel = new EnergySystemElementCarousel( new ImmutableVector2D( 0.1, 0 ), OFFSET_BETWEEN_ELEMENTS_ON_CAROUSEL );
     private final List<Carousel> carousels = new ArrayList<Carousel>() {{
         add( energySourcesCarousel );
