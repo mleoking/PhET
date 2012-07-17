@@ -373,10 +373,6 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         syncModelFractions();
     }
 
-    private boolean allIncompleteContainersInToolbox() {
-        return getContainerNodes().filter( not( ContainerNode._isInTargetCell ) ).forall( _isAtStartingLocation );
-    }
-
     public void endDrag( final RectangularPiece piece, final PInputEvent event ) {
         boolean droppedInto = false;
         List<SingleContainerNode> targets = getContainerNodes().bind( _getSingleContainerNodes );
