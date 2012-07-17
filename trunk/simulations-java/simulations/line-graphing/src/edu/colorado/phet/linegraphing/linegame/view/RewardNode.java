@@ -35,11 +35,16 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
+import edu.colorado.phet.common.piccolophet.nodes.PadBoundsNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.common.LGColors;
+import edu.colorado.phet.linegraphing.common.LGResources.Images;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * The reward that is displayed when the game is completed with a perfect score.
@@ -54,7 +59,7 @@ public class RewardNode extends PhetPNode {
 
     // types of images
     private final ArrayList<Image> ones;
-    private final ArrayList<Image> twos;
+    private final ArrayList<Image> pointTools;
     private final ArrayList<Image> smileyFaces;
 
     private final ArrayList<Image> imagePool; // images currently in use by the animation
@@ -122,22 +127,19 @@ public class RewardNode extends PhetPNode {
             ones.add( new PhetPText( "1", new PhetFont( Font.BOLD, 32 ), Color.ORANGE ).toImage() );
             ones.add( new PhetPText( "1", new PhetFont( Font.BOLD, 32 ), Color.MAGENTA ).toImage() );
 
-            //TODO
-            twos = new ArrayList<Image>();
-            twos.add( new PhetPText( "2", new PhetFont( Font.BOLD, 32 ), Color.RED ).toImage() );
-            twos.add( new PhetPText( "2", new PhetFont( Font.BOLD, 32 ), Color.GREEN ).toImage() );
-            twos.add( new PhetPText( "2", new PhetFont( Font.BOLD, 32 ), Color.BLUE ).toImage() );
-            twos.add( new PhetPText( "2", new PhetFont( Font.BOLD, 32 ), Color.ORANGE ).toImage() );
-            twos.add( new PhetPText( "2", new PhetFont( Font.BOLD, 32 ), Color.MAGENTA ).toImage() );
+            // point tools
+            pointTools = new ArrayList<Image>();
+            Color[] pointToolColors = new Color[] { Color.YELLOW, Color.RED, Color.ORANGE, Color.MAGENTA, Color.CYAN, Color.GREEN };
+            for ( Color color : pointToolColors ) {
+                pointTools.add( createPointToolImage( color ) );
+            }
 
             // smiley face
             smileyFaces = new ArrayList<Image>();
-            smileyFaces.add( new FaceNode( 40, Color.YELLOW ).toImage() );
-            smileyFaces.add( new FaceNode( 40, Color.ORANGE ).toImage() );
-            smileyFaces.add( new FaceNode( 40, Color.MAGENTA ).toImage() );
-            smileyFaces.add( new FaceNode( 40, Color.GREEN ).toImage() );
-            smileyFaces.add( new FaceNode( 40, Color.PINK ).toImage() );
-            smileyFaces.add( new FaceNode( 40, Color.CYAN ).toImage() );
+            Color[] smileyFaceColors = new Color[] { Color.YELLOW, Color.RED, Color.ORANGE, Color.MAGENTA, Color.CYAN, Color.GREEN };
+            for ( Color color : smileyFaceColors ) {
+                smileyFaces.add( createSmileyFaceImage( color ) );
+            }
 
             // image pool, images that are in use by the animation
             imagePool = new ArrayList<Image>();
@@ -154,8 +156,25 @@ public class RewardNode extends PhetPNode {
         // initial state, everything visible
         setBounds( bounds );
         setOnesVisible( true );
-        setTwosVisible( true );
+        setPointToolsVisible( true );
         setSmileyFacesVisible( true );
+    }
+
+    private Image createPointToolImage( Color color ) {
+        final PNode bodyNode = new PImage( Images.POINT_TOOL );
+        final PPath backgroundNode = new PPath( new Rectangle2D.Double( 5, 5,
+                                                                        bodyNode.getFullBoundsReference().getWidth() - 10,
+                                                                        0.55 * bodyNode.getFullBoundsReference().getHeight() ) );
+        backgroundNode.setPaint( color );
+        PComposite parentNode = new PComposite();
+        parentNode.addChild( backgroundNode );
+        parentNode.addChild( bodyNode );
+        parentNode.scale( 0.5 );
+        return new PadBoundsNode( parentNode ).toImage();
+    }
+
+    private Image createSmileyFaceImage( Color color ) {
+        return new PadBoundsNode( new FaceNode( 40, color ) ).toImage();
     }
 
     /**
@@ -171,7 +190,7 @@ public class RewardNode extends PhetPNode {
         setMotionDelta( 10 );
 
         setImagesVisible( ones, level == 1 );
-        setImagesVisible( twos, level == 2 );
+        setImagesVisible( pointTools, level == 2 );
         setImagesVisible( smileyFaces, level == 3 );
     }
 
@@ -242,11 +261,11 @@ public class RewardNode extends PhetPNode {
     }
 
     private boolean isTwosVisible() {
-        return isImagesVisible( twos );
+        return isImagesVisible( pointTools );
     }
 
-    private void setTwosVisible( boolean visible ) {
-        setImagesVisible( twos, visible );
+    private void setPointToolsVisible( boolean visible ) {
+        setImagesVisible( pointTools, visible );
     }
 
     private boolean isSmileyFacesVisible() {
@@ -511,7 +530,7 @@ public class RewardNode extends PhetPNode {
             }
         } );
 
-        final JCheckBox atomsCheckBox = new JCheckBox( "show 1" );
+        final JCheckBox atomsCheckBox = new JCheckBox( "show 1's" );
         atomsCheckBox.setSelected( rewardNode.isOnesVisible() );
         atomsCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
@@ -519,18 +538,16 @@ public class RewardNode extends PhetPNode {
             }
         } );
 
-        final JCheckBox moleculesCheckBox = new JCheckBox( "show 2" );
+        final JCheckBox moleculesCheckBox = new JCheckBox( "show point tools" );
         moleculesCheckBox.setSelected( rewardNode.isTwosVisible() );
-        moleculesCheckBox.setToolTipText( "determines whether molecules will be shown" );
         moleculesCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                rewardNode.setTwosVisible( moleculesCheckBox.isSelected() );
+                rewardNode.setPointToolsVisible( moleculesCheckBox.isSelected() );
             }
         } );
 
         final JCheckBox smileyFacesCheckBox = new JCheckBox( "show smiley faces" );
         smileyFacesCheckBox.setSelected( rewardNode.isSmileyFacesVisible() );
-        smileyFacesCheckBox.setToolTipText( "determines whether smiley faces will be shown" );
         smileyFacesCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rewardNode.setSmileyFacesVisible( smileyFacesCheckBox.isSelected() );

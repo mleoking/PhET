@@ -1,3 +1,4 @@
+7/17/12 add point tool images to game reward
 7/16/12 configure game reward based on level
 7/16/12 compute what a perfect score is
 7/16/12 update bounds of game reward when the canvas is resized
