@@ -559,19 +559,27 @@ class edu.colorado.phet.flashcommon.FlashCommon {
 		return undefined;
 	}
 
-	private var cachedOverrideFont : String = null;
-	public function getOverrideFont() : String {
-		if( getLocale() == "km" ) {
-			if( cachedOverrideFont == null ) {
-				var khmerFonts : Array = ["Khmer OS", "MoolBoran", "Limon"];
-				var font : String = existingSystemFont( khmerFonts );
-				cachedOverrideFont = font;
-			}
-			return cachedOverrideFont;
-		} else {
-			return undefined;
-		}
-	}
+    private function checkOverrideFont( arr: Array ) {
+        if ( cachedOverrideFont == null ) {
+            cachedOverrideFont = existingSystemFont( arr );
+        }
+        return cachedOverrideFont;
+    }
+
+    private var cachedOverrideFont: String = null;
+
+    public function getOverrideFont(): String {
+        if ( getLocale() == "km" ) { // Khmer
+            checkOverrideFont( ["Khmer OS", "MoolBoran", "Limon"] )
+        }
+        else if ( getLocale() == "lo" ) {
+            checkOverrideFont( ["Saysettha OT"] )
+        }
+        else {
+            return undefined;
+        }
+        return cachedOverrideFont;
+    }
 
 	public function fixLocaleFont( field : TextField ) {
 		var font : String = getOverrideFont();
