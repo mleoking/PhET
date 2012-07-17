@@ -4,30 +4,21 @@ package edu.colorado.phet.linegraphing.linegame.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -356,12 +347,7 @@ public class RewardNode extends PhetPNode {
     @Override
     public void setVisible( boolean visible ) {
         super.setVisible( visible );
-        if ( visible ) {
-            play();
-        }
-        else {
-            pause();
-        }
+        setRunning( visible );
     }
 
     /**
@@ -378,10 +364,16 @@ public class RewardNode extends PhetPNode {
         clock.pause();
     }
 
-    /**
-     * Is the animation running?
-     * @return
-     */
+    public void setRunning( boolean running ) {
+        if ( running ) {
+            clock.start();
+        }
+        else {
+            clock.pause();
+        }
+    }
+
+    // Is the animation running?
     public boolean isRunning() {
         return clock.isRunning();
     }
@@ -456,7 +448,7 @@ public class RewardNode extends PhetPNode {
 
         PBounds bounds = new PBounds( 0, 0, 100, 100 );
         final RewardNode rewardNode = new RewardNode( bounds, populationRange.getDefault(), motionDeltaRange.getDefault() );
-        rewardNode.play();
+        rewardNode.setRunning( true );
 
         final PhetPCanvas canvas = new PhetPCanvas() {
             // when the canvas size changes, update the reward node's bounds

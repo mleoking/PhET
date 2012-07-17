@@ -76,4 +76,12 @@ public class LineGameCanvas extends LGCanvas  {
             resultsNode.setRewardBounds( worldBounds );
         }
     }
+
+    public boolean isRewardRunning() {
+        return resultsNode.isRewardRunning();
+    }
+
+    public void setRewardRunning( boolean running ) {
+        resultsNode.setRewardRunning( running );
+    }
 }
