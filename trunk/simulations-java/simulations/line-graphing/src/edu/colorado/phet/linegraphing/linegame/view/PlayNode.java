@@ -27,16 +27,13 @@ class PlayNode extends PhetPNode {
 
     public PlayNode( final LineGameModel model, Dimension2D stageSize ) {
 
-        final double xMargin = 10;
-        final double yMargin = 10;
-
         final GameScoreboardNode scoreboardNode = new GameScoreboardNode( model.settings.level.getMax(), model.getPerfectScore(), new DecimalFormat( "0" ) );
-        scoreboardNode.setBackgroundWidth( stageSize.getWidth() - ( 2 * xMargin ) );
+        scoreboardNode.setBackgroundWidth( stageSize.getWidth() - 150 );
         addChild( scoreboardNode );
 
         // bottom center
         scoreboardNode.setOffset( ( stageSize.getWidth() - scoreboardNode.getFullBoundsReference().getWidth() ) / 2,
-                                  stageSize.getHeight() - scoreboardNode.getFullBoundsReference().getHeight() - yMargin );
+                                  stageSize.getHeight() - scoreboardNode.getFullBoundsReference().getHeight() - 10 );
 
         // When "New Game" button is pressed, change game phase
         scoreboardNode.addGameScoreboardListener( new GameScoreboardListener() {
@@ -69,7 +66,7 @@ class PlayNode extends PhetPNode {
         //XXX temporary test buttons for ending game
         {
             // end game with perfect score
-            TextButtonNode endWithPerfectScoreButton = new TextButtonNode( "End with perfect score", new PhetFont( 14 ), Color.RED );
+            TextButtonNode endWithPerfectScoreButton = new TextButtonNode( "End with perfect score", new PhetFont( 30 ), Color.RED );
             endWithPerfectScoreButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     model.score.set( model.getPerfectScore() );
@@ -80,7 +77,7 @@ class PlayNode extends PhetPNode {
             endWithPerfectScoreButton.setOffset( ( stageSize.getWidth() - endWithPerfectScoreButton.getFullBoundsReference().getWidth() ) / 2, 100 );
 
             // end game with imperfect score
-            TextButtonNode endWithImperfectScoreButton = new TextButtonNode( "End with imperfect score", new PhetFont( 14 ), Color.RED );
+            TextButtonNode endWithImperfectScoreButton = new TextButtonNode( "End with imperfect score", new PhetFont( 30 ), Color.RED );
             endWithImperfectScoreButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     model.score.set( model.getPerfectScore() - 1 );
@@ -89,7 +86,7 @@ class PlayNode extends PhetPNode {
             } );
             addChild( endWithImperfectScoreButton );
             endWithImperfectScoreButton.setOffset( ( stageSize.getWidth() - endWithImperfectScoreButton.getFullBoundsReference().getWidth() ) / 2,
-                                                   endWithPerfectScoreButton.getFullBoundsReference().getMaxY() + 5 );
+                                                   endWithPerfectScoreButton.getFullBoundsReference().getMaxY() + 25 );
         }
     }
 }
