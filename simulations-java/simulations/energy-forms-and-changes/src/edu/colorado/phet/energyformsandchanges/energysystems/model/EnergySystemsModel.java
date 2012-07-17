@@ -50,8 +50,9 @@ public class EnergySystemsModel {
     public final List<ShapeModelElement> shapeModelElementList = new ArrayList<ShapeModelElement>();
 
     // Energy sources.
-    public final TeaPot teaPot = new TeaPot();
+    public final Faucet faucet = new Faucet();
     public final Sun sun = new Sun();
+    public final TeaPot teaPot = new TeaPot();
 
     // Energy Converters.
     public final WaterPoweredGenerator waterPoweredGenerator = new WaterPoweredGenerator();
@@ -74,8 +75,9 @@ public class EnergySystemsModel {
             }
         } );
 
-        energySourcesCarousel.add( teaPot );
+        energySourcesCarousel.add( faucet );
         energySourcesCarousel.add( sun );
+        energySourcesCarousel.add( teaPot );
         energyConvertersCarousel.add( waterPoweredGenerator );
         energyConvertersCarousel.add( solarPanel );
         energyUsersCarousel.add( beakerHeater );
