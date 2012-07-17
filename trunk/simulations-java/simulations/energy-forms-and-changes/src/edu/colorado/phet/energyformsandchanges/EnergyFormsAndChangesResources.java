@@ -25,6 +25,7 @@ public class EnergyFormsAndChangesResources {
         public static final BufferedImage BRICK_TEXTURE_FRONT = RESOURCES.getImage( "brick_texture_front.png" );
         public static final BufferedImage BRICK_TEXTURE_RIGHT = RESOURCES.getImage( "brick_texture_right.png" );
         public static final BufferedImage BRICK_TEXTURE_TOP = RESOURCES.getImage( "brick_texture_top.png" );
+        public static final BufferedImage CLOUD_1 = RESOURCES.getImage( "cloud_1.png" );
         public static final BufferedImage CONNECTOR = RESOURCES.getImage( "connector.png" );
         public static final BufferedImage ELEMENT_BASE = RESOURCES.getImage( "element_base.png" );
         public static final BufferedImage ENERGY_CHUNKS_WHITE_SEMIBOLD = RESOURCES.getImage( "energy-chunks-white-semibold.png" );
@@ -36,7 +37,9 @@ public class EnergyFormsAndChangesResources {
         public static final BufferedImage E_THERM_OUTLINE = RESOURCES.getImage( "E_therm_outline.png" );
         public static final BufferedImage E_THERM_OUTLINE_BLACK = RESOURCES.getImage( "E_therm_outline_black.png" );
         public static final BufferedImage FAUCET_ICON = RESOURCES.getImage( "faucet_icon.png" );
+        public static final BufferedImage FLUORESCENT = RESOURCES.getImage( "fluorescent.png" );
         public static final BufferedImage FLUORESCENT_ICON = RESOURCES.getImage( "fluorescent_icon.png" );
+        public static final BufferedImage FLUORESCENT_ON = RESOURCES.getImage( "fluorescent_on.png" );
         public static final BufferedImage GENERATOR = RESOURCES.getImage( "generator.png" );
         public static final BufferedImage GENERATOR_ICON = RESOURCES.getImage( "generator_icon.png" );
         public static final BufferedImage GENERATOR_WHEEL = RESOURCES.getImage( "generator_wheel.png" );
