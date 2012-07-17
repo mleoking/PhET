@@ -21,7 +21,7 @@ import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResou
 public class Faucet extends EnergySource {
 
     private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
-        add( new ModelElementImage( TEMP_FAUCET, TEMP_FAUCET.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR, new ImmutableVector2D( -0.1, 0.1 ) ) );
+        add( new ModelElementImage( TEMP_FAUCET, TEMP_FAUCET.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR, new ImmutableVector2D( -0.04, 0.1 ) ) );
     }};
 
     protected Faucet() {
