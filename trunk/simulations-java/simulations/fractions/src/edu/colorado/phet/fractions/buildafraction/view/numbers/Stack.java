@@ -83,4 +83,8 @@ public @Data class Stack {
         }
         return false;
     }
+
+    public void cardMoved( final NumberCardNode numberCardNode ) {
+        updatePickable();
+    }
 }
