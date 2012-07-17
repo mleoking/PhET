@@ -56,8 +56,8 @@ public class GraphControls extends PNode {
         // components
         final JComponent linesCheckBox = new PropertyCheckBox( UserComponents.linesCheckBox, Strings.HIDE_LINES, new SettableNot( linesVisible ) );
         linesCheckBox.setFont( CONTROL_FONT );
-        final JComponent positiveCheckBox = new PropertyCheckBoxWithIcon( yEqualsXCheckBox, Y_EQUALS_X, CONTROL_FONT, GraphNode.createYEqualsXIcon( 60 ), yEqualsXVisible );
-        final JComponent negativeCheckBox = new PropertyCheckBoxWithIcon( yEqualsNegativeXCheckBox, Y_EQUALS_NEGATIVE_X, CONTROL_FONT, GraphNode.createYEqualsNegativeXIcon( 60 ), yEqualsNegativeXVisible );
+        final JComponent positiveCheckBox = new PropertyCheckBoxWithIcon( yEqualsXCheckBox, Y_EQUALS_X, CONTROL_FONT, GraphNode.createYEqualsXIcon( 60, LGColors.Y_EQUALS_X ), yEqualsXVisible );
+        final JComponent negativeCheckBox = new PropertyCheckBoxWithIcon( yEqualsNegativeXCheckBox, Y_EQUALS_NEGATIVE_X, CONTROL_FONT, GraphNode.createYEqualsNegativeXIcon( 60, LGColors.Y_EQUALS_NEGATIVE_X ), yEqualsNegativeXVisible );
         final JComponent slopeCheckBox = new PropertyCheckBoxWithIcon( riseOverRunCheckBox, Strings.SLOPE, CONTROL_FONT, RiseRunBracketNode.createIcon( 60 ), slopeVisible );
 
         // layout

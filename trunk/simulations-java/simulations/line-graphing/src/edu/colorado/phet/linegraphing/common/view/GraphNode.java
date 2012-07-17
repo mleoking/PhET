@@ -268,13 +268,13 @@ public class GraphNode extends PhetPNode {
     }
 
     // Creates an icon for the "y = +x" feature
-    public static Icon createYEqualsXIcon( double width ) {
-        return createIcon( width, LGColors.Y_EQUALS_X, -3, -3, 3, 3 );
+    public static Icon createYEqualsXIcon( double width, Color color ) {
+        return createIcon( width, color, -3, -3, 3, 3 );
     }
 
     // Creates an icon for the "y = -x" feature
-    public static Icon createYEqualsNegativeXIcon( double width ) {
-        return createIcon( width, LGColors.Y_EQUALS_NEGATIVE_X, -3, 3, 3, -3 );
+    public static Icon createYEqualsNegativeXIcon( double width, Color color ) {
+        return createIcon( width, color, -3, 3, 3, -3 );
     }
 
     // Creates an icon for a line between 2 points on a grid with fixed dimensions.
