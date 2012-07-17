@@ -396,7 +396,6 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         else if ( !droppedInto && piece.getGlobalFullBounds().intersects( toolboxNode.getGlobalFullBounds() ) ) {
             piece.animateToPositionScaleRotation( piece.getXOffset(), piece.getYOffset() - 100, 1, 0, 200 );
         }
-//        moveContainerFrontsToFront();
     }
 
     //Rectangular piece dropped into container
