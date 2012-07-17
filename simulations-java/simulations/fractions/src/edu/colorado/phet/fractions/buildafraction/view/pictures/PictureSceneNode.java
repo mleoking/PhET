@@ -85,6 +85,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
 
     public PictureSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context, BooleanProperty soundEnabled ) {
         super( soundEnabled );
+        this.level = model.getPictureLevel( levelIndex );
         this.model = model;
         this.levelIndex = levelIndex;
         this.context = context;
@@ -105,7 +106,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
 
             FractionNode f = new FractionNode( target.fraction, 0.33 );
             final PictureScoreBoxNode cell = new PictureScoreBoxNode( target.fraction.numerator, target.fraction.denominator,
-                                                                      model.getPictureCreatedFractions( levelIndex ), this,
+                                                                      level.createdFractions, this,
                                                                       model.getNumberLevel( levelIndex ).flashTargetCellOnMatch );
             pairList.add( new Target( cell, new ZeroOffsetNode( f ), target.fraction ) );
         }
@@ -144,8 +145,6 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
 
             offsetY += Math.max( maxHeight, targetCellBounds.getHeight() ) + insetY;
         }
-
-        level = model.getPictureLevel( levelIndex );
 
         ContainerNode firstContainerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne() ) {{
             setInitialPosition( 285, 200 );
@@ -423,7 +422,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         } );
     }
 
-    public void syncModelFractions() { model.getPictureCreatedFractions( model.pictureLevel.get() ).set( getUserCreatedFractions() ); }
+    public void syncModelFractions() { level.createdFractions.set( getUserCreatedFractions() ); }
 
     //TODO: when we have multiple containers, this will have to be modified
     private List<Fraction> getUserCreatedFractions() { return getContainerNodes().filter( not( ContainerNode._isInTargetCell ) ).map( ContainerNode._getFractionValue ); }

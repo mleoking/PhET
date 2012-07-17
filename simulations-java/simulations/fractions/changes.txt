@@ -1,3 +1,4 @@
+Build a Fraction: Shapes: Fixed: Target cell isn't flashing
 Build a Fraction: Shapes: Fixed: Level refresh wasn't working
 Build a Fraction: Shapes: Fixed z-ordering and card layout positions
 Build a Fraction: Numbers: Move cards closer to the bottom of the stack instead of original location when stack is depleting
