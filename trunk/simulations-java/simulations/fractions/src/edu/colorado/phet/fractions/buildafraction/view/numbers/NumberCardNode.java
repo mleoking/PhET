@@ -1,9 +1,13 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.view.numbers;
 
+import fj.F;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.RoundRectangle2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -22,6 +26,7 @@ public class NumberCardNode extends PNode {
     public final int number;
     public final PhetPPath cardShape;
     public final NumberNode numberNode;
+    private Stack stack;
 
     public NumberCardNode( final Dimension2DDouble size, final Integer number, final NumberDragContext context ) {
         this.number = number;
@@ -59,6 +64,12 @@ public class NumberCardNode extends PNode {
         setOffset( x, y );
     }
 
+    public static F<NumberCardNode, Boolean> _isInStackLocation = new F<NumberCardNode, Boolean>() {
+        @Override public Boolean f( final NumberCardNode numberCardNode ) {
+            return numberCardNode.stack.contains( numberCardNode.getXOffset(), numberCardNode.getYOffset() );
+        }
+    };
+
     public double getInitialX() { return initialX; }
 
     public double getInitialY() { return initialY; }
@@ -70,5 +81,23 @@ public class NumberCardNode extends PNode {
     public void addNumberNodeBackIn( final NumberNode numberNode ) {
         addChild( numberNode );
         numberNode.setOffset( cardShape.getCenterX() - numberNode.getFullWidth() / 2, cardShape.getCenterY() - numberNode.getFullHeight() / 2 );
+    }
+
+    public void setStack( final Stack stack ) {
+        assert this.stack == null;
+        addPropertyChangeListener( PNode.PROPERTY_TRANSFORM, new PropertyChangeListener() {
+            public void propertyChange( final PropertyChangeEvent evt ) {
+                stack.cardMoved( NumberCardNode.this );
+            }
+        } );
+        this.stack = stack;
+    }
+
+    public static F<NumberCardNode, Boolean> _initialPositionEquals( final double xOffset, final double yOffset ) {
+        return new F<NumberCardNode, Boolean>() {
+            @Override public Boolean f( final NumberCardNode numberCardNode ) {
+                return numberCardNode.getInitialX() == xOffset && numberCardNode.getInitialY() == yOffset;
+            }
+        };
     }
 }

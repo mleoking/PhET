@@ -1,3 +1,4 @@
+Build a Fraction: Numbers: Only allow front card to be picked
 Build a Fraction: On 2nd page of level selection screen, use 4 stars as max
 Fraction Matcher: Changed stopwatch and timer components to pairs of radio buttons instead of toggle buttons
 Build a Fraction: Augment level list for picture levels 6-10 (with copies of level 5)
