@@ -91,7 +91,7 @@ public class FlashCommon {
     // and this page for their language codes
     //http://en.wikipedia.org/wiki/ISO_639-1_language_matrix
 
-    private const rtlLanguageList: Array = ["ar","iw","fa","ur","ji","jv","so","ks","ku","tk","ug","az","ms"];
+    private const rtlLanguageList: Array = ["ar", "iw", "fa", "ur", "ji", "jv", "so", "ks", "ku", "tk", "ug", "az", "ms"];
 
     public static function getInstance(): FlashCommon {
         if ( instance == null ) {
@@ -177,14 +177,14 @@ public class FlashCommon {
         //        keyboardHandler = new KeyboardHandler();
 
         // load the statistics handler, but do not send the session-start message!!!
-        debug("Loading statistics\n");
+        debug( "Loading statistics\n" );
         statistics = new Statistics();
-        debug("Finished loading statistics\n");
+        debug( "Finished loading statistics\n" );
 
         // load preferences data
-        debug("Loading preferences\n");
+        debug( "Loading preferences\n" );
         preferences = new Preferences();
-        debug("Finished loading preferences\n");
+        debug( "Finished loading preferences\n" );
 
         // DEVELOPMENT: load the inspector
         if ( getDev() ) {
@@ -240,12 +240,12 @@ public class FlashCommon {
         logoHolder.graphics.lineTo( left - padding, bottom + padding );
         logoHolder.graphics.endFill();
 
-        logoHolder.addEventListener( MouseEvent.CLICK, function( e: MouseEvent ): void {
+        logoHolder.addEventListener( MouseEvent.CLICK, function ( e: MouseEvent ): void {
             logoHolder.visible = false;
         } );
 
         var timer: Timer = new Timer( 4000, 1 );
-        timer.addEventListener( TimerEvent.TIMER_COMPLETE, function( e: TimerEvent ): void {
+        timer.addEventListener( TimerEvent.TIMER_COMPLETE, function ( e: TimerEvent ): void {
             logoHolder.visible = false;
         } );
         timer.start();
@@ -274,7 +274,7 @@ public class FlashCommon {
         }
 
         if ( getDev() ) { // so we can enable buttons for debugging
-            root.stage.addEventListener( KeyboardEvent.KEY_DOWN, function( e: KeyboardEvent ): void {
+            root.stage.addEventListener( KeyboardEvent.KEY_DOWN, function ( e: KeyboardEvent ): void {
                 if ( (e.keyCode == Keyboard.PAGE_UP || e.keyCode == Keyboard.F10) && e.shiftKey ) {
                     // page up OR F10
                     if ( debugFrame.isVisible() ) {
@@ -356,10 +356,10 @@ public class FlashCommon {
             return false;
         }
         return (
-               !fromPhetWebsite()
-                       && !isPlaceholder( getFlashArg( "installationTimestamp" ) )
-                       && null_replace( getFlashArg( "installationTimestamp" ) ) != FlashCommon.NULLVAL
-               );
+                !fromPhetWebsite()
+                        && !isPlaceholder( getFlashArg( "installationTimestamp" ) )
+                        && null_replace( getFlashArg( "installationTimestamp" ) ) != FlashCommon.NULLVAL
+                );
     }
 
     // returns whether the sim was run from a standalone jar
@@ -653,7 +653,7 @@ public class FlashCommon {
     public function stripNewlines( str: String ): String {
         var ret: String = "";
 
-        for ( var idx: Number = 0; idx < str.length; idx++ ) {
+        for ( var idx: Number = 0 ; idx < str.length ; idx++ ) {
             if ( str.charCodeAt( idx ) == 10 || str.charCodeAt( idx ) == 13 ) {
                 continue;
             }
@@ -734,20 +734,26 @@ public class FlashCommon {
         return null;
     }
 
+    private function checkOverrideFont( arr: Array ) {
+        if ( cachedOverrideFont == null ) {
+            cachedOverrideFont = existingSystemFont( arr );
+        }
+        return cachedOverrideFont;
+    }
+
     private var cachedOverrideFont: String = null;
 
     public function getOverrideFont(): String {
         if ( getLocale() == "km" ) {
-            if ( cachedOverrideFont == null ) {
-                var khmerFonts: Array = ["Khmer OS", "MoolBoran", "Limon"];
-                var font: String = existingSystemFont( khmerFonts );
-                cachedOverrideFont = font;
-            }
-            return cachedOverrideFont;
+            checkOverrideFont( ["Khmer OS", "MoolBoran", "Limon"] );
+        }
+        else if ( getLocale() == "lo" ) {
+            checkOverrideFont( ["Saysettha OT"] );
         }
         else {
             return null;
         }
+        return cachedOverrideFont;
     }
 
     public function fixLocaleFont( field: TextField ): void {
@@ -772,7 +778,7 @@ public class FlashCommon {
         barrierSprite.graphics.endFill();
 
         barrierSprite.useHandCursor = false;
-        barrierSprite.addEventListener( MouseEvent.CLICK, function( evt: MouseEvent ): void {
+        barrierSprite.addEventListener( MouseEvent.CLICK, function ( evt: MouseEvent ): void {
         } );
     }
 
