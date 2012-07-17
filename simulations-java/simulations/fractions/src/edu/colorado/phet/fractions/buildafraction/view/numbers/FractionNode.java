@@ -230,10 +230,6 @@ public class FractionNode extends RichPNode {
         this.toolboxPositionY = y;
     }
 
-    public double getToolboxPositionX() { return toolboxPositionX; }
-
-    public double getToolboxPositionY() { return toolboxPositionY; }
-
     public void setCardNode( final FractionCardNode fractionCardNode ) { this.cardNode = fractionCardNode; }
 
     public void sendFractionSkeletonToStartingLocation() {

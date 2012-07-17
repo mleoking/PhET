@@ -179,8 +179,6 @@ public class ContainerNode extends PNode {
         }
     };
 
-    public double getYOffsetForContainer() { return containerLayer.getYOffset(); }
-
     public void splitAll() {
         getSingleContainers().foreach( _splitAll );
         PInterpolatingActivity activity = splitButton.animateToTransparency( 0, 200 );
@@ -257,10 +255,6 @@ public class ContainerNode extends PNode {
         this.initialScale = scale;
         setOffset( x, y );
         setScale( scale );
-    }
-
-    public void addListener( final VoidFunction0 listener ) {
-        listeners.add( listener );
     }
 
     public boolean isInToolbox() {

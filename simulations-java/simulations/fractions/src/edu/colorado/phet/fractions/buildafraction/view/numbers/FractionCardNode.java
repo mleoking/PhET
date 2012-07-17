@@ -31,12 +31,10 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  */
 public class FractionCardNode extends RichPNode {
-    private final NumberSceneNode numberSceneNode;
     public final FractionNode fractionNode;
     private final PNode fractionNodeParent;
 
     public FractionCardNode( final FractionNode fractionNode, final PNode rootNode, final List<Pair> pairList, final BuildAFractionModel model, final NumberSceneNode numberSceneNode ) {
-        this.numberSceneNode = numberSceneNode;
         this.fractionNode = fractionNode;
         this.fractionNode.setCardNode( this );
         this.fractionNodeParent = fractionNode.getParent();
