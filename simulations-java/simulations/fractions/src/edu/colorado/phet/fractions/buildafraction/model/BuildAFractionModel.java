@@ -36,11 +36,6 @@ public class BuildAFractionModel {
     public final BooleanProperty audioEnabled = new BooleanProperty( true );
     public final IntegerProperty selectedPage = new IntegerProperty( 0 );
 
-    public void removeCreatedValueFromNumberLevel( final Fraction value ) {
-        final Property<List<Fraction>> fractions = numberLevels.get( numberLevel.get() ).createdFractions;
-        fractions.set( fractions.get().delete( value, Equal.<Fraction>anyEqual() ) );
-    }
-
     public void resetAll() {
         selectedScene.reset();
         clock.resetSimulationTime();
@@ -65,6 +60,11 @@ public class BuildAFractionModel {
     public void addCreatedValue( final Fraction value ) {
         final Property<List<Fraction>> fractions = numberLevels.get( numberLevel.get() ).createdFractions;
         fractions.set( fractions.get().snoc( value ) );
+    }
+
+    public void removeCreatedValueFromNumberLevel( final Fraction value ) {
+        final Property<List<Fraction>> fractions = numberLevels.get( numberLevel.get() ).createdFractions;
+        fractions.set( fractions.get().delete( value, Equal.<Fraction>anyEqual() ) );
     }
 
     public Property<List<Fraction>> getNumberCreatedFractions( final int level ) { return numberLevels.get( level ).createdFractions; }
