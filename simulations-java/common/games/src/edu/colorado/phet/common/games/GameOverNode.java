@@ -72,6 +72,11 @@ public class GameOverNode extends PhetPNode {
     private final NumberFormat scoreFormat;
     private final EventListenerList listeners;
 
+    // Constructor with default button color.
+    public GameOverNode( int level, double score, double perfectScore, NumberFormat scoreFormat, long time, long bestTime, boolean isNewBestTime, boolean timerVisible ) {
+         this( level, score, perfectScore, scoreFormat, time, bestTime, isNewBestTime, timerVisible, GameSettingsPanel.DEFAULT_BUTTON_COLOR );
+    }
+
     /**
      * Constructor.
      *
@@ -83,8 +88,10 @@ public class GameOverNode extends PhetPNode {
      * @param bestTime      the user's best time on all games played so far (typically for a specific level)
      * @param isNewBestTime is the user's time a new "best" time? If so, this identifies the time as "new best".
      * @param timerVisible  was the timer visible during the game that just ended? Time is only shown if the timer was used during game play.
+     * @param buttonColor   color of the "New Game" button
      */
-    public GameOverNode( int level, double score, double perfectScore, NumberFormat scoreFormat, long time, long bestTime, boolean isNewBestTime, boolean timerVisible ) {
+    public GameOverNode( int level, double score, double perfectScore, NumberFormat scoreFormat,
+                         long time, long bestTime, boolean isNewBestTime, boolean timerVisible, Color buttonColor ) {
         super();
 
         /*
@@ -125,7 +132,7 @@ public class GameOverNode extends PhetPNode {
         addChild( timeNode );
 
         // buttons
-        HTMLImageButtonNode buttonNode = new HTMLImageButtonNode( BUTTON_NEW_GAME, GameSettingsPanel.DEFAULT_BUTTON_COLOR ) {{
+        HTMLImageButtonNode buttonNode = new HTMLImageButtonNode( BUTTON_NEW_GAME, buttonColor ) {{
             setUserComponent( UserComponents.newGameButton );
             addActionListener( new ActionListener() {
                 public void actionPerformed( final ActionEvent e ) {
