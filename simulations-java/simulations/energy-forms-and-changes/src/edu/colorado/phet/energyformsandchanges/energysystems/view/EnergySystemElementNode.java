@@ -26,7 +26,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 public class EnergySystemElementNode extends PNode {
 
     // Debug flag, adds small node that depicts center point of this node.
-    private static final boolean SHOW_CENTER = true;
+    private static final boolean SHOW_CENTER = false;
 
     public EnergySystemElementNode( EnergySystemElement energySystemElement, final ModelViewTransform mvt ) {
         for ( ModelElementImage imageInfo : energySystemElement.getImageList() ) {
