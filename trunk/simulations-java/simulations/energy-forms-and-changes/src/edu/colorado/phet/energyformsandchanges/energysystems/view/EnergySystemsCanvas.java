@@ -109,13 +109,14 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         } );
 
         // Create the carousel control nodes.
-        PNode energySourcesCarouselController = new CarouselControllerNode( model.energySourcesCarousel );
+        PNode energySourcesCarouselController = new EnergySystemElementSelector( model.energySourcesCarousel );
         PNode energyConvertersCarouselController = new EnergySystemElementSelector( model.energyConvertersCarousel );
-        PNode energyUsersCarouselController = new CarouselControllerNode( model.energyUsersCarousel );
+        PNode energyUsersCarouselController = new EnergySystemElementSelector( model.energyUsersCarousel );
 
         // Add the various energy system elements.
         EnergySystemElementNode waterPoweredGeneratorNode = new EnergySystemElementNode( model.getWaterPoweredGenerator(), mvt );
         EnergySystemElementNode incandescentLightBulbNode = new EnergySystemElementNode( model.getIncandescentLightBulb(), mvt );
+        EnergySystemElementNode fluorescentLightBulbNode = new EnergySystemElementNode( model.getFluorescentLightBulb(), mvt );
 
         // TODO: Temp.
         addWorldChild( new FaucetNode( EnergyFormsAndChangesSimSharing.UserComponents.faucet,
@@ -140,6 +141,7 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         }
         rootNode.addChild( waterPoweredGeneratorNode );
         rootNode.addChild( incandescentLightBulbNode );
+        rootNode.addChild( fluorescentLightBulbNode );
         rootNode.addChild( clockControlBackground );
         rootNode.addChild( clockControl );
         rootNode.addChild( showEnergyControlPanel );
