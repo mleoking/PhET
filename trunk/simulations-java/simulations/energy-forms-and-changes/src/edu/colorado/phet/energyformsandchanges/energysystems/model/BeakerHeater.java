@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
+import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
 
 import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources.Images.HEATER_ELEMENT;
@@ -26,5 +28,9 @@ public class BeakerHeater extends EnergyUser {
 
     @Override public void stepInTime( double dt, double incomingEnergy ) {
         // TODO: Implement.
+    }
+
+    @Override public IUserComponent getUserComponent() {
+        return EnergyFormsAndChangesSimSharing.UserComponents.selectBeakerHeaterButton;
     }
 }

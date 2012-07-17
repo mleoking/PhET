@@ -5,6 +5,8 @@ import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
+
 /**
  * Base class for energy sources, converters, and users.
  *
@@ -34,4 +36,6 @@ public abstract class EnergySystemElement extends PositionableModelElement {
     public Image getIconImage() {
         return iconImage;
     }
+
+    public abstract IUserComponent getUserComponent();
 }
