@@ -1,3 +1,4 @@
+7/17/12 use a consistent color for game buttons/instructions
 7/17/12 save/restore the game reward node's animation state when deactivating/activating the game module
 7/17/12 add "Developer->Test game reward" menu item
 7/17/12 add graph images to game reward
