@@ -143,10 +143,12 @@ public class BuildAFractionCanvas extends AbstractFractionsCanvas implements Mai
     }
 
     public void resamplePictureLevel( final int levelIndex ) {
+        model.resample();
         crossFadeTo( new PictureSceneNode( levelIndex, model, STAGE_SIZE, this, model.audioEnabled ) );
     }
 
     public void resampleNumberLevel( final int levelIndex ) {
+        model.resample();
         crossFadeTo( new NumberSceneNode( levelIndex, rootNode, model, STAGE_SIZE, this, model.audioEnabled ) );
     }
 }

@@ -1,3 +1,4 @@
+Build a Fraction: Shapes: Fixed: Level refresh wasn't working
 Build a Fraction: Shapes: Fixed z-ordering and card layout positions
 Build a Fraction: Numbers: Move cards closer to the bottom of the stack instead of original location when stack is depleting
 Build a Fraction: Numbers: Fix z-ordering when returning number cards to the toolbox so that stacks will look like they did at startup

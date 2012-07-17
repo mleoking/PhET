@@ -36,7 +36,7 @@ public class RectangularPiece extends Stackable {
                 super.startDrag( event );
                 RectangularPiece.this.moveToFront();
                 setPositionInStack( Option.<Integer>none() );
-                addActivity( new AnimateToScale( RectangularPiece.this, 1.0, 200 ) );
+                addActivity( new AnimateToScale( RectangularPiece.this, 200 ) );
             }
 
             @Override protected void drag( final PInputEvent event ) {

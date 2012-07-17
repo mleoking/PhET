@@ -60,7 +60,7 @@ public class SingleContainerNode extends PNode {
                 @Override protected void startDrag( final PInputEvent event ) {
                     super.startDrag( event );
                     parent.moveToFront();
-                    addActivity( new AnimateToScale( parent, 1.0, 200 ) );
+                    addActivity( new AnimateToScale( parent, 200 ) );
                     parent.notifyListeners();
                 }
 
