@@ -1,8 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.view.numbers;
 
-import fj.Effect;
-import fj.F;
 import fj.data.Option;
 
 import java.awt.BasicStroke;
@@ -23,29 +21,12 @@ import edu.umd.cs.piccolo.util.PDimension;
 /**
  * @author Sam Reid
  */
-public class NumberCardNode extends PNode {
+public class NumberCardNode extends PNode implements Stackable {
     public final int number;
     public final PhetPPath cardShape;
     public final NumberNode numberNode;
     private Stack stack;
     private Option<Integer> positionInStack = Option.none();
-
-    public static F<NumberCardNode, Boolean> _isInStack = new F<NumberCardNode, Boolean>() {
-        @Override public Boolean f( final NumberCardNode numberCardNode ) {
-            return numberCardNode.positionInStack.isSome();
-        }
-    };
-
-    public static F<NumberCardNode, Option<Integer>> _stackIndex = new F<NumberCardNode, Option<Integer>>() {
-        @Override public Option<Integer> f( final NumberCardNode numberCardNode ) {
-            return numberCardNode.positionInStack;
-        }
-    };
-    public static Effect<NumberCardNode> _setAllPickable = new Effect<NumberCardNode>() {
-        @Override public void e( final NumberCardNode numberCardNode ) {
-            numberCardNode.setAllPickable( true );
-        }
-    };
 
     public NumberCardNode( final Dimension2DDouble size, final Integer number, final NumberDragContext context ) {
         this.number = number;
