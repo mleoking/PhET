@@ -1,3 +1,5 @@
+# 0.00.13 (65960) Jul 17, 2012
+7/17/12 Deploying a snapshot to dev with initial UI for the 2nd tab.
 2nd tab: Added the various energy sources, converters, and users.
 2nd tab: Added initial version of energy chunk legend.
 2nd tab: Added check box for controlling energy chunk visibility.
