@@ -100,6 +100,10 @@ public class Carousel<T extends PositionableModelElement> {
         }
     }
 
+    public ImmutableVector2D getSelectedElementPosition() {
+        return selectedElementPosition;
+    }
+
     /*
      * Perform any animation changes needed.
      */

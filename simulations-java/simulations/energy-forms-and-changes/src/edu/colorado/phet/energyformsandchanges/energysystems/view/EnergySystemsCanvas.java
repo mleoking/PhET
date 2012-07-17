@@ -168,11 +168,14 @@ public class EnergySystemsCanvas extends PhetPCanvas {
                                          showEnergyControlPanel.getFullBoundsReference().getMaxY() + CONTROL_INSET );
         }
 
-        // Carousel control.  TODO: Will ultimately be linked to horizontal carousel position.
-        double carouselControllersYPos = clockControlBackground.getFullBoundsReference().getMinY() - energyConvertersCarouselController.getFullBoundsReference().getHeight() - CONTROL_INSET;
-        energySourcesCarouselController.setOffset( 100, carouselControllersYPos );
-        energyConvertersCarouselController.setOffset( 350, carouselControllersYPos );
-        energyUsersCarouselController.setOffset( 650, carouselControllersYPos );
+        // Carousel control.
+        double carouselControllersCenterYPos = clockControlBackground.getFullBoundsReference().getMinY() - energyConvertersCarouselController.getFullBoundsReference().getHeight() / 2 - CONTROL_INSET;
+        energySourcesCarouselController.centerFullBoundsOnPoint( mvt.modelToViewX( model.energySourcesCarousel.getSelectedElementPosition().getX() ),
+                                                                 carouselControllersCenterYPos );
+        energyConvertersCarouselController.centerFullBoundsOnPoint( mvt.modelToViewX( model.energyConvertersCarousel.getSelectedElementPosition().getX() ),
+                                                                    carouselControllersCenterYPos );
+        energyUsersCarouselController.centerFullBoundsOnPoint( mvt.modelToViewX( model.energyUsersCarousel.getSelectedElementPosition().getX() ),
+                                                               carouselControllersCenterYPos );
     }
 
     //-------------------------------------------------------------------------
