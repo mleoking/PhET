@@ -13,7 +13,6 @@ HIGH
 MEDIUM
 
 LOW
-- items for the game reward
 
 SIM-SHARING
 
