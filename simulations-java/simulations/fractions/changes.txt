@@ -1,3 +1,4 @@
+Build a Fraction: Numbers: Fixed: Ding sound wasn't playing for individual matches
 # 1.00.06 (65965) Jul 17, 2012
 Build a Fraction: Shapes: Use stacks of cards for level selection icon
 Build a Fraction: Shapes: Fixed: Shapes put into container on level 3 have pieces drag when they shouldn't.
