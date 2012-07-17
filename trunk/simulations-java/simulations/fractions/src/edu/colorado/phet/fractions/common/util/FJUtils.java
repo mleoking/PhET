@@ -6,6 +6,7 @@ import fj.F2;
 import fj.Ord;
 import fj.Ordering;
 import fj.data.List;
+import fj.data.Option;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,5 +36,13 @@ public class FJUtils {
         ArrayList<T> c = new ArrayList<T>( list.toCollection() );
         Collections.shuffle( c );
         return iterableList( c );
+    }
+
+    public static <T> F<Option<T>, List<T>> optionToList() {
+        return new F<Option<T>, List<T>>() {
+            @Override public List<T> f( final Option<T> ts ) {
+                return ts.toList();
+            }
+        };
     }
 }

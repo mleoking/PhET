@@ -124,7 +124,7 @@ public class FractionNode extends RichPNode {
             topCard.setPickable( true );
             topCard.setChildrenPickable( true );
 
-            topCard.animateHome();
+            topCard.moveToTopOfStack();
             topCard = null;
         }
         if ( bottomCard != null ) {
@@ -142,7 +142,7 @@ public class FractionNode extends RichPNode {
             bottomCard.setPickable( true );
             bottomCard.setChildrenPickable( true );
 
-            bottomCard.animateHome();
+            bottomCard.moveToTopOfStack();
             bottomCard = null;
         }
         splitButton.setVisible( false );

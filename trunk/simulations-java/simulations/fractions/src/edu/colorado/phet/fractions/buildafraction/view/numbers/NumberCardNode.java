@@ -1,7 +1,9 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.view.numbers;
 
+import fj.Effect;
 import fj.F;
+import fj.data.Option;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -13,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
+import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -21,12 +24,28 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  */
 public class NumberCardNode extends PNode {
-    private double initialX;
-    private double initialY;
     public final int number;
     public final PhetPPath cardShape;
     public final NumberNode numberNode;
     private Stack stack;
+    private Option<Integer> positionInStack = Option.none();
+
+    public static F<NumberCardNode, Boolean> _isInStack = new F<NumberCardNode, Boolean>() {
+        @Override public Boolean f( final NumberCardNode numberCardNode ) {
+            return numberCardNode.positionInStack.isSome();
+        }
+    };
+
+    public static F<NumberCardNode, Option<Integer>> _stackIndex = new F<NumberCardNode, Option<Integer>>() {
+        @Override public Option<Integer> f( final NumberCardNode numberCardNode ) {
+            return numberCardNode.positionInStack;
+        }
+    };
+    public static Effect<NumberCardNode> _setAllPickable = new Effect<NumberCardNode>() {
+        @Override public void e( final NumberCardNode numberCardNode ) {
+            numberCardNode.setAllPickable( true );
+        }
+    };
 
     public NumberCardNode( final Dimension2DDouble size, final Integer number, final NumberDragContext context ) {
         this.number = number;
@@ -41,6 +60,7 @@ public class NumberCardNode extends PNode {
             @Override protected void drag( final PInputEvent event ) {
                 super.drag( event );
                 moveToFront();
+                positionInStack = Option.none();
                 final PDimension delta = event.getDeltaRelativeTo( getParent() );
                 translate( delta.width, delta.height );
             }
@@ -58,23 +78,7 @@ public class NumberCardNode extends PNode {
         setChildrenPickable( b );
     }
 
-    public void setInitialPosition( final double x, final double y ) {
-        this.initialX = x;
-        this.initialY = y;
-        setOffset( x, y );
-    }
-
-    public static F<NumberCardNode, Boolean> _isInStackLocation = new F<NumberCardNode, Boolean>() {
-        @Override public Boolean f( final NumberCardNode numberCardNode ) {
-            return numberCardNode.stack.contains( numberCardNode.getXOffset(), numberCardNode.getYOffset() );
-        }
-    };
-
-    public double getInitialX() { return initialX; }
-
-    public double getInitialY() { return initialY; }
-
-    public void animateHome() { animateToPositionScaleRotation( getInitialX(), getInitialY(), 1, 0, 1000 ); }
+    public void animateTo( Vector2D v ) { animateToPositionScaleRotation( v.x, v.y, 1, 0, 1000 ); }
 
     public void setCardShapeVisible( boolean visible ) { cardShape.setVisible( visible ); }
 
@@ -93,11 +97,15 @@ public class NumberCardNode extends PNode {
         this.stack = stack;
     }
 
-    public static F<NumberCardNode, Boolean> _initialPositionEquals( final double xOffset, final double yOffset ) {
-        return new F<NumberCardNode, Boolean>() {
-            @Override public Boolean f( final NumberCardNode numberCardNode ) {
-                return numberCardNode.getInitialX() == xOffset && numberCardNode.getInitialY() == yOffset;
-            }
-        };
+    public void setPositionInStack( final Option<Integer> some ) { this.positionInStack = some; }
+
+    public void moveToTopOfStack() { stack.moveToTopOfStack( this ); }
+
+    public Option<Integer> getPositionInStack() {
+        return positionInStack;
+    }
+
+    public boolean isAtStackIndex( final Integer site ) {
+        return positionInStack.isSome() && positionInStack.some().equals( site );
     }
 }
