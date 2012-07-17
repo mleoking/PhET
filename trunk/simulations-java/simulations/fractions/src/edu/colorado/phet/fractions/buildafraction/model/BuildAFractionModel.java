@@ -1,9 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.model;
 
-import fj.Equal;
-import fj.data.List;
-
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -14,7 +11,6 @@ import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevel;
 import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberLevelList;
 import edu.colorado.phet.fractions.buildafraction.model.pictures.PictureLevel;
 import edu.colorado.phet.fractions.buildafraction.model.pictures.PictureLevelList;
-import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 
 /**
  * Model for the Build a Fraction tab.
@@ -56,20 +52,6 @@ public class BuildAFractionModel {
 
         audioEnabled.reset();
     }
-
-    public void addCreatedValue( final Fraction value ) {
-        final Property<List<Fraction>> fractions = numberLevels.get( numberLevel.get() ).createdFractions;
-        fractions.set( fractions.get().snoc( value ) );
-    }
-
-    public void removeCreatedValueFromNumberLevel( final Fraction value ) {
-        final Property<List<Fraction>> fractions = numberLevels.get( numberLevel.get() ).createdFractions;
-        fractions.set( fractions.get().delete( value, Equal.<Fraction>anyEqual() ) );
-    }
-
-    public Property<List<Fraction>> getNumberCreatedFractions( final int level ) { return numberLevels.get( level ).createdFractions; }
-
-    public Property<List<Fraction>> getPictureCreatedFractions( final int level ) { return pictureLevels.get( level ).createdFractions; }
 
     public NumberLevel getNumberLevel( final int level ) { return numberLevels.get( level ); }
 

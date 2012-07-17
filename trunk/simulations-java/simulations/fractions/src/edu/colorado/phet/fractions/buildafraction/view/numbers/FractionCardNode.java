@@ -1,6 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fractions.buildafraction.view.numbers;
 
+import fj.Equal;
 import fj.F;
 import fj.data.List;
 import fj.data.Option;
@@ -132,7 +133,7 @@ public class FractionCardNode extends RichPNode {
             public void apply( final Option<Fraction> fractions ) {
                 removeChild( cardShapeNode );
                 if ( fractions.isSome() ) {
-                    model.removeCreatedValueFromNumberLevel( fractions.some() );
+                    numberSceneNode.myLevel.createdFractions.set( numberSceneNode.myLevel.createdFractions.get().delete( fractions.some(), Equal.<Fraction>anyEqual() ) );
                 }
             }
         } );

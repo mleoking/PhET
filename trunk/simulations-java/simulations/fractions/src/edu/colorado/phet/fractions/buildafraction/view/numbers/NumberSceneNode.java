@@ -78,9 +78,11 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
     double spacingBetweenNumbers = 20;
     double leftRightInset = 20;
     double spacingBetweenNumbersAndFractionSkeleton = 50;
+    public final NumberLevel myLevel;
 
     public NumberSceneNode( final int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context, BooleanProperty soundEnabled ) {
         super( soundEnabled );
+        myLevel = model.getNumberLevel( levelIndex );
         this.rootNode = rootNode;
         this.levelIndex = levelIndex;
         this.model = model;
@@ -114,7 +116,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
                 }} );
             }
             HBox patternNode = new HBox( nodes.toArray( new PNode[nodes.size()] ) );
-            pairs.add( new Pair( new NumberScoreBoxNode( target.fraction.numerator, target.fraction.denominator, model.getNumberCreatedFractions( levelIndex ),
+            pairs.add( new Pair( new NumberScoreBoxNode( target.fraction.numerator, target.fraction.denominator, myLevel.createdFractions,
                                                          rootNode, model, this, model.getNumberLevel( levelIndex ).flashTargetCellOnMatch ), new ZeroOffsetNode( patternNode ) ) );
         }
         pairList = List.iterableList( pairs );
@@ -161,7 +163,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
         //Add a piece container toolbox the user can use to get containers
         //Put numbers on cards so you can see how many there are in a stack
         //I suspect it will look awkward unless all cards have the same dimensions
-        NumberLevel myLevel = model.getNumberLevel( levelIndex );
+
         List<List<Integer>> stacks = myLevel.numbers.group( Equal.intEqual );
 
         //Find the max size of each number node, so we can create a consistent card size
@@ -340,7 +342,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
         fractionGraphic.splitButton.setVisible( true );
         fractionGraphic.attachNumber( box, numberCardNode );
         if ( fractionGraphic.isComplete() ) {
-            model.addCreatedValue( fractionGraphic.getValue() );
+            myLevel.createdFractions.set( myLevel.createdFractions.get().snoc( fractionGraphic.getValue() ) );
 
             FractionCardNode fractionCard = new FractionCardNode( fractionGraphic, rootNode, pairList, model, this );
             addChild( fractionCard );
