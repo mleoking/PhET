@@ -33,6 +33,8 @@ import edu.colorado.phet.fractions.buildafraction.model.numbers.NumberTarget;
 import edu.colorado.phet.fractions.buildafraction.view.BackButton;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractions.buildafraction.view.SceneNode;
+import edu.colorado.phet.fractions.buildafraction.view.Stack;
+import edu.colorado.phet.fractions.buildafraction.view.StackContext;
 import edu.colorado.phet.fractions.buildafraction.view.pictures.RefreshButtonNode;
 import edu.colorado.phet.fractions.buildafraction.view.pictures.SceneContext;
 import edu.colorado.phet.fractions.common.util.immutable.Vector2D;

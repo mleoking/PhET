@@ -13,6 +13,8 @@ import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
+import edu.colorado.phet.fractions.buildafraction.view.Stack;
+import edu.colorado.phet.fractions.buildafraction.view.Stackable;
 import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;

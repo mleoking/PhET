@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.fractions.buildafraction.view.numbers;
+package edu.colorado.phet.fractions.buildafraction.view;
 
 import fj.data.Option;
 
