@@ -23,6 +23,8 @@ public class EnergySystemsModel {
     // Class Data
     //-------------------------------------------------------------------------
 
+    private static final ImmutableVector2D OFFSET_BETWEEN_ELEMENTS_ON_CAROUSEL = new ImmutableVector2D( 0, -0.4 );
+
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
@@ -35,9 +37,9 @@ public class EnergySystemsModel {
 
     // Carousels that control the positions of the energy sources, converters,
     // and users.
-    public final Carousel energySourcesCarousel = new Carousel( new ImmutableVector2D( 0, 0 ), new ImmutableVector2D( 0, 0 ) ); // TODO - Position and offset.
-    public final EnergySystemElementCarousel energyConvertersCarousel = new EnergySystemElementCarousel( new ImmutableVector2D( -0.01, 0 ), new ImmutableVector2D( 0, -0.12 ) ); // TODO - Position and offset.
-    public final Carousel energyUsersCarousel = new Carousel( new ImmutableVector2D( 0, 0 ), new ImmutableVector2D( 0, 0 ) ); // TODO - Position and offset.
+    public final EnergySystemElementCarousel energySourcesCarousel = new EnergySystemElementCarousel( new ImmutableVector2D( -0.1, 0 ), OFFSET_BETWEEN_ELEMENTS_ON_CAROUSEL );
+    public final EnergySystemElementCarousel energyConvertersCarousel = new EnergySystemElementCarousel( new ImmutableVector2D( 0, 0 ), OFFSET_BETWEEN_ELEMENTS_ON_CAROUSEL );
+    public final EnergySystemElementCarousel energyUsersCarousel = new EnergySystemElementCarousel( new ImmutableVector2D( 0.1, 0 ), OFFSET_BETWEEN_ELEMENTS_ON_CAROUSEL );
     private final List<Carousel> carousels = new ArrayList<Carousel>() {{
         add( energySourcesCarousel );
         add( energyConvertersCarousel );
@@ -54,6 +56,7 @@ public class EnergySystemsModel {
 
     // Energy users.
     private final IncandescentLightBulb incandescentLightBulb = new IncandescentLightBulb();
+    private final FluorescentLightBulb fluorescentLightBulb = new FluorescentLightBulb();
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -68,7 +71,8 @@ public class EnergySystemsModel {
         } );
 
         energyConvertersCarousel.add( waterPoweredGenerator );
-        energyConvertersCarousel.add( incandescentLightBulb );
+        energyUsersCarousel.add( incandescentLightBulb );
+        energyUsersCarousel.add( fluorescentLightBulb );
     }
 
     //-------------------------------------------------------------------------
@@ -89,6 +93,10 @@ public class EnergySystemsModel {
 
     public IncandescentLightBulb getIncandescentLightBulb() {
         return incandescentLightBulb;
+    }
+
+    public FluorescentLightBulb getFluorescentLightBulb() {
+        return fluorescentLightBulb;
     }
 
     private void stepInTime( double dt ) {
