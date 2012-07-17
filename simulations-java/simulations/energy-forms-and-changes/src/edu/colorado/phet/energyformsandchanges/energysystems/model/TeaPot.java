@@ -20,7 +20,7 @@ import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResou
 public class TeaPot extends EnergySource {
 
     private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
-        add( new ModelElementImage( TEAPOT, TEAPOT.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR, new ImmutableVector2D( 0, -0.05 ) ) );
+        add( new ModelElementImage( TEAPOT, TEAPOT.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR, new ImmutableVector2D( 0.02, -0.05 ) ) );
     }};
 
     protected TeaPot() {
