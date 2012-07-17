@@ -1,3 +1,5 @@
+# 2.03.01 (65949) Jul 17, 2012
+7/17/12 Testing Lao translation
 # 2.03.00 (51677) May 8, 2011
 5/8/11 > added new translation credits features
 # 2.02.06 (51565) May 5, 2011
