@@ -4,6 +4,7 @@ package edu.colorado.phet.fractions.buildafraction.view.numbers;
 import fj.Equal;
 import fj.F;
 import fj.Ord;
+import fj.P2;
 import fj.data.List;
 
 import java.awt.Color;
@@ -34,6 +35,7 @@ import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractions.buildafraction.view.SceneNode;
 import edu.colorado.phet.fractions.buildafraction.view.pictures.RefreshButtonNode;
 import edu.colorado.phet.fractions.buildafraction.view.pictures.SceneContext;
+import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 import edu.colorado.phet.fractions.fractionmatcher.view.PatternNode;
 import edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.umd.cs.piccolo.PNode;
@@ -42,6 +44,7 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
+import static fj.data.Option.some;
 import static java.awt.Color.darkGray;
 
 /**
@@ -49,7 +52,7 @@ import static java.awt.Color.darkGray;
  *
  * @author Sam Reid
  */
-public class NumberSceneNode extends SceneNode implements NumberDragContext, FractionDraggingContext {
+public class NumberSceneNode extends SceneNode implements NumberDragContext, FractionDraggingContext, StackContext {
     public final ArrayList<FractionNode> fractionGraphics = new ArrayList<FractionNode>();
     public final PNode rootNode;
     private final BuildAFractionModel model;
@@ -67,6 +70,12 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
 
     //When sending cards back to the toolbox, make sure they have the right location and z-order.
     private final ArrayList<Stack> stackList;
+
+    private final double cardDeltaX = 4;
+    private final double cardDeltaY = 4;
+    double spacingBetweenNumbers = 20;
+    double leftRightInset = 20;
+    double spacingBetweenNumbersAndFractionSkeleton = 50;
 
     public NumberSceneNode( final int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context, BooleanProperty soundEnabled ) {
         super( soundEnabled );
@@ -186,9 +195,6 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
         final FractionNode fractionGraphic = new FractionNode( this );
         double cardWidth = cardSize.width;
 
-        double spacingBetweenNumbers = 20;
-        double leftRightInset = 20;
-        double spacingBetweenNumbersAndFractionSkeleton = 50;
         final double extentX = cardWidth * stacks.length() + spacingBetweenNumbers * ( stacks.length() - 1 ) + leftRightInset * 2 + spacingBetweenNumbersAndFractionSkeleton + fractionGraphic.getFullBounds().getWidth();
 
         //Create the toolbox node
@@ -199,25 +205,21 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
         }};
         addChild( toolboxNode );
 
-        int groupIndex = 0;
-        double cardDeltaX = 4;
-        double cardDeltaY = 4;
-
         stackList = new ArrayList<Stack>();
-        for ( List<NumberCardNode> cardStack : cardNodes ) {
+        for ( P2<List<NumberCardNode>, Integer> cards : cardNodes.zipIndex() ) {
+            final Integer stackIndex = cards._2();
+            final Stack stack = new Stack( cards._1(), stackIndex, this );
+            stackList.add( stack );
+            for ( P2<NumberCardNode, Integer> cardNode : cards._1().zipIndex() ) {
+                final Integer index = cardNode._2();
+                final NumberCardNode node = cardNode._1();
+                node.setOffset( stack.getLocation( index, node ).toPoint2D() );
+                node.setPositionInStack( some( index ) );
+                node.setStack( stack );
 
-            int indexInStack = 0;
-            for ( NumberCardNode cardNode : cardStack ) {
-                int index = indexInStack;
-
-                cardNode.setInitialPosition( toolboxNode.getMinX() + leftRightInset + ( cardWidth + spacingBetweenNumbers ) * groupIndex + index * cardDeltaX,
-                                             toolboxNode.getCenterY() - cardNode.getFullBounds().getHeight() / 2 + index * cardDeltaY );
-
-                addChild( cardNode );
-                indexInStack++;
+                addChild( node );
             }
-            groupIndex++;
-            stackList.add( new Stack( cardStack ) );
+            stack.update();
         }
 
         addChild( fractionGraphic );
@@ -324,7 +326,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
 
         //If it didn't hit a fraction, send back to its starting place--the user is not allowed to have free floating numbers in the play area
         if ( !hitFraction ) {
-            numberCardNode.animateHome();
+            numberCardNode.moveToTopOfStack();
         }
     }
 
@@ -424,4 +426,10 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
             stack.update();
         }
     }
+
+    public Vector2D getLocation( final int stackIndex, final int cardIndex, NumberCardNode cardNode ) {
+        return new Vector2D( toolboxNode.getMinX() + leftRightInset + ( cardNode.getFullBounds().getWidth() + spacingBetweenNumbers ) * stackIndex + cardIndex * cardDeltaX,
+                             toolboxNode.getCenterY() - cardNode.getFullBounds().getHeight() / 2 + cardIndex * cardDeltaY );
+    }
+
 }
