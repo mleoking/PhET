@@ -30,7 +30,7 @@ public class ControlPanelNode extends RichPNode {
     private static final Color DEFAULT_BACKGROUND_COLOR = new Color( 238, 238, 238 );
     private static final Color DEFAULT_BORDER_COLOR = Color.gray;
     private static final BasicStroke DEFAULT_STROKE = new BasicStroke( 2 );
-    private static final int DEFAULT_INSET = 9;
+    public static final int DEFAULT_INSET = 9;
 
     protected final PhetPPath background;
 
