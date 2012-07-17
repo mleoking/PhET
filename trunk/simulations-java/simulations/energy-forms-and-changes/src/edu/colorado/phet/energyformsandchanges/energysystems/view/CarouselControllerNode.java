@@ -17,7 +17,12 @@ import edu.umd.cs.piccolo.PNode;
 
 /**
  * PNode that allows the user to move through the elements contained in a
- * carousel.
+ * carousel by clicking on up and down buttons.
+ * <p/>
+ * TODO: This was eliminated from the design in favor of image-based radio
+ * buttons in mid-July 2012.  If that design decision sticks, this node should
+ * be permanently removed.  It should be retained for a month or so until the
+ * design team approves the change.
  *
  * @author John Blanco
  */
