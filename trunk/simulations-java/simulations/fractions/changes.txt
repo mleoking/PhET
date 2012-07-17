@@ -1,3 +1,4 @@
+Build a Fraction: Numbers: Fix z-ordering when returning number cards to the toolbox so that stacks will look like they did at startup
 Build a Fraction: Numbers: Only allow front card to be picked
 Build a Fraction: On 2nd page of level selection screen, use 4 stars as max
 Fraction Matcher: Changed stopwatch and timer components to pairs of radio buttons instead of toggle buttons

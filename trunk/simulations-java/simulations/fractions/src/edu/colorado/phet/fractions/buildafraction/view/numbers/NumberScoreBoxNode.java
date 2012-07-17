@@ -122,6 +122,7 @@ public class NumberScoreBoxNode extends PNode {
             cardNode.fractionNode.sendFractionSkeletonToStartingLocation();
 
             numberSceneNode.hideFace();
+            numberSceneNode.updateStacks();
         }
     }
 

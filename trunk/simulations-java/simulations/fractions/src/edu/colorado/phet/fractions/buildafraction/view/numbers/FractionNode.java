@@ -52,8 +52,10 @@ public class FractionNode extends RichPNode {
     private NumberNode topNumberNode;
     private NumberNode bottomNumberNode;
     private FractionCardNode cardNode;
+    private final FractionDraggingContext context;
 
     public FractionNode( final FractionDraggingContext context ) {
+        this.context = context;
         topBox = box( true );
         bottomBox = box( true );
         divisorLine = new PhetPPath( new Line2D.Double( 0, 0, 50, 0 ), new BasicStroke( 4, CAP_ROUND, JOIN_MITER ), black );
@@ -147,6 +149,8 @@ public class FractionNode extends RichPNode {
         for ( VoidFunction1<Option<Fraction>> splitListener : splitListeners ) {
             splitListener.apply( value );
         }
+
+        context.updateStacks();
     }
 
     private static PhetPPath box( boolean showOutline ) {
