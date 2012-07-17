@@ -50,14 +50,15 @@ public class EnergySystemsModel {
     public final List<ShapeModelElement> shapeModelElementList = new ArrayList<ShapeModelElement>();
 
     // Energy sources.
-    private final SolarPanel solarPanel = new SolarPanel();
+    public final SolarPanel solarPanel = new SolarPanel();
 
     // Energy Converters.
-    private final WaterPoweredGenerator waterPoweredGenerator = new WaterPoweredGenerator();
+    public final WaterPoweredGenerator waterPoweredGenerator = new WaterPoweredGenerator();
 
     // Energy users.
-    private final IncandescentLightBulb incandescentLightBulb = new IncandescentLightBulb();
-    private final FluorescentLightBulb fluorescentLightBulb = new FluorescentLightBulb();
+    public final IncandescentLightBulb incandescentLightBulb = new IncandescentLightBulb();
+    public final FluorescentLightBulb fluorescentLightBulb = new FluorescentLightBulb();
+    public final BeakerHeater beakerHeater = new BeakerHeater();
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -73,6 +74,7 @@ public class EnergySystemsModel {
 
         energyConvertersCarousel.add( waterPoweredGenerator );
         energyConvertersCarousel.add( solarPanel );
+        energyUsersCarousel.add( beakerHeater );
         energyUsersCarousel.add( incandescentLightBulb );
         energyUsersCarousel.add( fluorescentLightBulb );
     }
@@ -87,22 +89,6 @@ public class EnergySystemsModel {
 
     public IClock getClock() {
         return clock;
-    }
-
-    public WaterPoweredGenerator getWaterPoweredGenerator() {
-        return waterPoweredGenerator;
-    }
-
-    public IncandescentLightBulb getIncandescentLightBulb() {
-        return incandescentLightBulb;
-    }
-
-    public FluorescentLightBulb getFluorescentLightBulb() {
-        return fluorescentLightBulb;
-    }
-
-    public SolarPanel getSolarPanel() {
-        return solarPanel;
     }
 
     private void stepInTime( double dt ) {

@@ -114,10 +114,11 @@ public class EnergySystemsCanvas extends PhetPCanvas {
         PNode energyUsersCarouselController = new EnergySystemElementSelector( model.energyUsersCarousel );
 
         // Add the various energy system elements.
-        EnergySystemElementNode waterPoweredGeneratorNode = new EnergySystemElementNode( model.getWaterPoweredGenerator(), mvt );
-        EnergySystemElementNode incandescentLightBulbNode = new EnergySystemElementNode( model.getIncandescentLightBulb(), mvt );
-        EnergySystemElementNode fluorescentLightBulbNode = new EnergySystemElementNode( model.getFluorescentLightBulb(), mvt );
-        EnergySystemElementNode solarPanelNode = new EnergySystemElementNode( model.getSolarPanel(), mvt );
+        EnergySystemElementNode waterPoweredGeneratorNode = new EnergySystemElementNode( model.waterPoweredGenerator, mvt );
+        EnergySystemElementNode incandescentLightBulbNode = new EnergySystemElementNode( model.incandescentLightBulb, mvt );
+        EnergySystemElementNode fluorescentLightBulbNode = new EnergySystemElementNode( model.fluorescentLightBulb, mvt );
+        EnergySystemElementNode solarPanelNode = new EnergySystemElementNode( model.solarPanel, mvt );
+        EnergySystemElementNode beakerHeaterNode = new EnergySystemElementNode( model.beakerHeater, mvt );
 
         // TODO: Temp.
         addWorldChild( new FaucetNode( EnergyFormsAndChangesSimSharing.UserComponents.faucet,
@@ -141,9 +142,11 @@ public class EnergySystemsCanvas extends PhetPCanvas {
             rootNode.addChild( shapeNode );
         }
         rootNode.addChild( waterPoweredGeneratorNode );
+        rootNode.addChild( solarPanelNode );
         rootNode.addChild( incandescentLightBulbNode );
         rootNode.addChild( fluorescentLightBulbNode );
-        rootNode.addChild( solarPanelNode );
+        rootNode.addChild( beakerHeaterNode );
+
         rootNode.addChild( clockControlBackground );
         rootNode.addChild( clockControl );
         rootNode.addChild( showEnergyControlPanel );
