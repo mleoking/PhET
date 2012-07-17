@@ -11,9 +11,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
-import edu.colorado.phet.fractions.buildafraction.view.Stack;
 import edu.colorado.phet.fractions.buildafraction.view.Stackable;
-import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -23,8 +21,6 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  */
 public class RectangularPiece extends Stackable {
-    private double initialX = Double.NaN;
-    private double initialY = Double.NaN;
     private final Integer pieceSize;
     private double initialScale = Double.NaN;
     private final PhetPPath pathNode;
@@ -39,8 +35,8 @@ public class RectangularPiece extends Stackable {
             @Override protected void startDrag( final PInputEvent event ) {
                 super.startDrag( event );
                 RectangularPiece.this.moveToFront();
+                setPositionInStack( Option.<Integer>none() );
                 addActivity( new AnimateToScale( RectangularPiece.this, 1.0, 200 ) );
-//                pathNode.setStroke( null );
             }
 
             @Override protected void drag( final PInputEvent event ) {
@@ -57,21 +53,9 @@ public class RectangularPiece extends Stackable {
         addChild( piece );
     }
 
-    public boolean isAtInitialPosition() {
-        if ( Double.isNaN( initialX ) || Double.isNaN( initialY ) ) {
-            throw new RuntimeException( "Position not initialized" );
-        }
-        else {
-            return getXOffset() == initialX && getYOffset() == initialY;
-        }
-    }
-
-    public void setInitialState( final double x, final double y, double scale ) {
-        this.initialX = x;
-        this.initialY = y;
-        this.initialScale = scale;
-        setOffset( x, y );
-        setScale( scale );
+    public void setInitialScale( double s ) {
+        this.initialScale = s;
+        setScale( s );
     }
 
     public Fraction toFraction() { return new Fraction( 1, pieceSize );}
@@ -82,25 +66,7 @@ public class RectangularPiece extends Stackable {
         }
     };
 
-    public void animateHome() {
-        animateToPositionScaleRotation( initialX, initialY, initialScale, 0, 200 );
-        pathNode.setStroke( stroke );
-    }
+    public void moveToTopOfStack() { stack.moveToTopOfStack( this ); }
 
-    public Option<Integer> getPositionInStack() {
-        return null;
-    }
-
-    public void setPositionInStack( final Option<Integer> positionInStack ) {
-    }
-
-    public void animateTo( final Vector2D location ) {
-    }
-
-    public boolean isAtStackIndex( final Integer site ) {
-        return false;
-    }
-
-    public void setStack( final Stack<RectangularPiece> stack ) {
-    }
+    protected double getAnimateToScale() { return this.initialScale; }
 }

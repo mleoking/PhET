@@ -11,7 +11,6 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -124,12 +123,13 @@ public class SingleContainerNode extends PNode {
         dottedLineLayer.moveToFront();
     }
 
+    //TODO: have cards separate for a minute before animating home?  Maybe unnecessary now that we are showing individual cards in the container.
     public void splitAll() {
         int numPieces = getRectangularPieces().length();
         double separationBetweenPieces = 4;
         double totalDeltaSpacing = separationBetweenPieces * ( numPieces - 1 );
-        int index = 0;
-        LinearFunction f = new LinearFunction( 0, numPieces - 1, -totalDeltaSpacing / 2, totalDeltaSpacing / 2 );
+//        int index = 0;
+//        LinearFunction f = new LinearFunction( 0, numPieces - 1, -totalDeltaSpacing / 2, totalDeltaSpacing / 2 );
         for ( RectangularPiece child : getRectangularPieces() ) {
             parent.parent.splitPieceFromContainer( child );
         }

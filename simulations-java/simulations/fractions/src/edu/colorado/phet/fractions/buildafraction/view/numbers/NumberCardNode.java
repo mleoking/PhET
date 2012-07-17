@@ -6,17 +6,13 @@ import fj.data.Option;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.RoundRectangle2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
-import edu.colorado.phet.fractions.buildafraction.view.Stack;
 import edu.colorado.phet.fractions.buildafraction.view.Stackable;
 import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -27,7 +23,6 @@ public class NumberCardNode extends Stackable {
     public final int number;
     public final PhetPPath cardShape;
     public final NumberNode numberNode;
-    private Stack<NumberCardNode> stack;
 
     public NumberCardNode( final Dimension2DDouble size, final Integer number, final NumberDragContext context ) {
         this.number = number;
@@ -62,16 +57,6 @@ public class NumberCardNode extends Stackable {
     public void addNumberNodeBackIn( final NumberNode numberNode ) {
         addChild( numberNode );
         numberNode.setOffset( cardShape.getCenterX() - numberNode.getFullWidth() / 2, cardShape.getCenterY() - numberNode.getFullHeight() / 2 );
-    }
-
-    public void setStack( final Stack stack ) {
-        assert this.stack == null;
-        addPropertyChangeListener( PNode.PROPERTY_TRANSFORM, new PropertyChangeListener() {
-            public void propertyChange( final PropertyChangeEvent evt ) {
-                stack.cardMoved();
-            }
-        } );
-        this.stack = stack;
     }
 
     public void moveToTopOfStack() { stack.moveToTopOfStack( this ); }

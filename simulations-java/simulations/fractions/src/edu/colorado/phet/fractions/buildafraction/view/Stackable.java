@@ -3,14 +3,18 @@ package edu.colorado.phet.fractions.buildafraction.view;
 
 import fj.data.Option;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 import edu.umd.cs.piccolo.PNode;
 
 /**
  * @author Sam Reid
  */
-public abstract class Stackable extends PNode {
+public abstract class Stackable<T extends Stackable> extends PNode {
     private Option<Integer> positionInStack = Option.none();
+    protected Stack<T> stack;
 
     public void setAllPickable( boolean pickable ) {
         setPickable( pickable );
@@ -26,10 +30,24 @@ public abstract class Stackable extends PNode {
     }
 
     public void animateTo( Vector2D v ) {
-        animateToPositionScaleRotation( v.x, v.y, 1, 0, 1000 );
+        animateToPositionScaleRotation( v.x, v.y, getAnimateToScale(), 0, 1000 );
+    }
+
+    protected double getAnimateToScale() {
+        return 1.0;
     }
 
     public boolean isAtStackIndex( Integer site ) {
         return positionInStack.isSome() && positionInStack.some().equals( site );
+    }
+
+    public void setStack( final Stack<T> stack ) {
+        assert this.stack == null;
+        addPropertyChangeListener( PNode.PROPERTY_TRANSFORM, new PropertyChangeListener() {
+            public void propertyChange( final PropertyChangeEvent evt ) {
+                stack.cardMoved();
+            }
+        } );
+        this.stack = stack;
     }
 }
