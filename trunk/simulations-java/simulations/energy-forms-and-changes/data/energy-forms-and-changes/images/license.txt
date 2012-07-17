@@ -1,6 +1,7 @@
 brick_texture_front.png source=PhET author=Noah P
 brick_texture_top.png source=PhET author=Noah P
 brick_texture_right.png source=PhET author=Noah P
+cloud_1.png source=PhET author=Noah P
 connector.png source=PhET author=Noah P
 E_electric_outline.png source=PhET author=Noah P
 E_electric_outline_black.png source=PhET author=Noah P
@@ -12,7 +13,9 @@ energy-chunks-white.png source=PhET author=Noah P
 energy-chunks-white-semibold.png source=PhET author=Noah P
 element_base.png source=PhET author=Noah P
 faucet_icon.png source=PhET author=Noah P
+fluorescent.png source=PhET author=Noah P
 fluorescent_icon.png source=PhET author=Noah P
+fluorescent_on.png source=PhET author=Noah P
 generator.png source=PhET author=Noah P
 generator_icon.png source=PhET author=Noah P
 generator_wheel.png source=PhET author=Noah P
