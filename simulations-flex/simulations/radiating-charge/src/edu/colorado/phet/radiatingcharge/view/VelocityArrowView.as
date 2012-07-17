@@ -19,16 +19,18 @@ import flash.display.Sprite;
 import flash.sampler.getSampleCount;
 
 /**
- * View of an arrow representing velocity of charge. Velocity cannot exceed c.
+ * View of an arrow representing velocity of charge. Velocity cannot exceed c, which corresponds to maxLength of arrow graphic.
+ * Two different arrows
+ * A green bar, whose length represents the current speed
  */
 public class VelocityArrowView {
     private var mainVeiw: MainView;
     private var fieldModel: FieldModel;
     private var maxLength: Number;      //maximum length of arrow in pixels, corresponding to speed c
-    private var _speedIndicatorContainer: Sprite;
-    private var _speedOfLightArrow: Sprite;  //speed-of-light arrow graphic of fixed length = maxLength
-    private var _currentSpeedIndicator: Sprite; //bar under speed-of-light arrow indicating current fraction of speed of light
-    private var _velocityArrow: Sprite;      //current velocity arrow
+    private var _speedIndicatorContainer: Sprite; //container for static speed-of-light arrow and current speed indicator bar
+    private var _speedOfLightArrow: Sprite;     //speed-of-light arrow graphic of fixed length = maxLength
+    private var _currentSpeedIndicator: Sprite; //bar on static speed-of-light arrow, indicating current fraction of speed of light
+    private var _velocityArrow: Sprite;         //current velocity arrow, length varies with speed
     private var cLabel: NiceLabel;
     private var c_str: String;
 
@@ -54,7 +56,7 @@ public class VelocityArrowView {
 
     /**
      * Static horizontal arrow sprite representing speed of light.
-     * Origin at tail of arrow.
+     * Arrow appears in Control Panel. Origin at tail of arrow.
      */
     private function drawSpeedOfLightArrow(): void {
         var gc: Graphics = _speedOfLightArrow.graphics;
@@ -86,6 +88,7 @@ public class VelocityArrowView {
 
     /**
      * Horizontal green bar indicating current speed.
+     * This is superimposed on static speed-of-light arrow
      */
 
     private function updateCurrentSpeedIndicator():void{
@@ -103,7 +106,7 @@ public class VelocityArrowView {
 
     private function drawArrow( g: Graphics ): void {
         var r: Number = maxLength / 30;      //radius of arrow shaft
-        var w: Number = 0.8 * maxLength;      //length of arrow shaft
+        var w: Number = 0.8 * maxLength;     //length of arrow shaft
         with ( g ) {
             moveTo( 0, 0 );
             lineTo( 0, -r );
