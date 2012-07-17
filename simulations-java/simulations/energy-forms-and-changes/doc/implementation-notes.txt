@@ -1,8 +1,9 @@
 
-Convention
+Convention: Getters, Setters, and Public Member Variables
 
-Property types (e.g. Property< Double > position) are public.  All other
-attributes of a class are private and are accessed via accessor methods.
+Property types (e.g. Property< Double > position) are public.  Member variables
+that are final and also public.  All other attributes of a class are private
+and are accessed via accessor methods.
 
 A convention used in this sim which is a bit unusual is that the position of a
 2D model object is the center bottom of the objects shape, i.e. the center of
