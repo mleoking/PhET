@@ -52,7 +52,7 @@ import static java.awt.Color.darkGray;
  *
  * @author Sam Reid
  */
-public class NumberSceneNode extends SceneNode implements NumberDragContext, FractionDraggingContext, StackContext {
+public class NumberSceneNode extends SceneNode implements NumberDragContext, FractionDraggingContext, StackContext<NumberCardNode> {
     public final ArrayList<FractionNode> fractionGraphics = new ArrayList<FractionNode>();
     public final PNode rootNode;
     private final BuildAFractionModel model;

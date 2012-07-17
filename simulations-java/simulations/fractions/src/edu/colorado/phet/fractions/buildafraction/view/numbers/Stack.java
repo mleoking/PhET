@@ -14,12 +14,12 @@ import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
  *
  * @author Sam Reid
  */
-public @Data class Stack {
-    public final List<NumberCardNode> cards;
+public @Data class Stack<T extends Stackable> {
+    public final List<T> cards;
     private final Integer stackIndex;
     private final StackContext context;
 
-    public Stack( List<NumberCardNode> cards, final Integer stackIndex, final StackContext context ) {
+    public Stack( List<T> cards, final Integer stackIndex, final StackContext<T> context ) {
         this.cards = cards;
         this.stackIndex = stackIndex;
         this.context = context;
@@ -29,28 +29,28 @@ public @Data class Stack {
 
     //find the frontmost card in the stack, and make it grabbable
     private void updatePickable() {
-        for ( NumberCardNode card : cards ) {
+        for ( T card : cards ) {
             card.setAllPickable( false );
         }
-        final Option<NumberCardNode> front = getFrontCardInStack();
-        front.foreach( NumberCardNode._setAllPickable );
+        final Option<T> front = getFrontCardInStack();
         if ( front.isSome() ) {
+            front.some().setAllPickable( true );
             front.some().moveToFront();
         }
     }
 
-    private Option<NumberCardNode> getFrontCardInStack() {
-        List<NumberCardNode> sorted = cards.sort( FJUtils.ord( new F<NumberCardNode, Double>() {
-            @Override public Double f( final NumberCardNode n ) {
+    private Option<T> getFrontCardInStack() {
+        List<T> sorted = cards.sort( FJUtils.ord( new F<T, Double>() {
+            @Override public Double f( final T n ) {
                 return n.getPositionInStack().orSome( -1 ).doubleValue();
             }
         } ) );
-        return sorted.isEmpty() ? Option.<NumberCardNode>none() : Option.some( sorted.last() );
+        return sorted.isEmpty() ? Option.<T>none() : Option.some( sorted.last() );
     }
 
     //Fix Z ordering so that stacks will look like they did on startup
     public void update() {
-        for ( NumberCardNode card : cards ) {
+        for ( T card : cards ) {
             card.moveToFront();
         }
         updatePickable();
@@ -58,12 +58,12 @@ public @Data class Stack {
 
     private final F<Option<Integer>, List<Integer>> optionToList = FJUtils.optionToList();
 
-    public Vector2D getLocation( final int index, NumberCardNode card ) {
+    public Vector2D getLocation( final int index, T card ) {
         return context.getLocation( stackIndex, index, card );
     }
 
     //Find the location for the topmost (in z-ordering) card and move the card there.  Also mark the site as used so no other cards will go there.
-    public void moveToTopOfStack( final NumberCardNode cardNode ) {
+    public void moveToTopOfStack( final T cardNode ) {
         List<Integer> sites = List.range( 0, cards.length() );
         for ( Integer site : sites ) {
             if ( !hasCardAtSite( site ) ) {
@@ -76,7 +76,7 @@ public @Data class Stack {
     }
 
     private boolean hasCardAtSite( final Integer site ) {
-        for ( NumberCardNode card : cards ) {
+        for ( T card : cards ) {
             if ( card.isAtStackIndex( site ) ) {
                 return true;
             }

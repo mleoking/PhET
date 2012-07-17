@@ -6,6 +6,6 @@ import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 /**
  * @author Sam Reid
  */
-public interface StackContext {
-    Vector2D getLocation( int stackIndex, int cardIndex, NumberCardNode card );
+public interface StackContext<T extends Stackable> {
+    Vector2D getLocation( int stackIndex, int cardIndex, T card );
 }
