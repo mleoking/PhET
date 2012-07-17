@@ -4,15 +4,21 @@ package edu.colorado.phet.linegraphing.linegame.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -30,15 +36,14 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.PadBoundsNode;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGResources.Images;
+import edu.colorado.phet.linegraphing.common.view.GraphNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -58,9 +63,9 @@ public class RewardNode extends PhetPNode {
     private final ConstantDtClock clock; // clock that controls the animation
 
     // types of images
-    private final ArrayList<Image> ones;
-    private final ArrayList<Image> pointTools;
-    private final ArrayList<Image> smileyFaces;
+    private final ArrayList<Image> graphImages;
+    private final ArrayList<Image> pointToolImages;
+    private final ArrayList<Image> smileyFaceImages;
 
     private final ArrayList<Image> imagePool; // images currently in use by the animation
 
@@ -119,26 +124,27 @@ public class RewardNode extends PhetPNode {
 
         // images
         {
-            //TODO
-            ones = new ArrayList<Image>();
-            ones.add( new PhetPText( "1", new PhetFont( Font.BOLD, 32 ), Color.RED ).toImage() );
-            ones.add( new PhetPText( "1", new PhetFont( Font.BOLD, 32 ), Color.GREEN ).toImage() );
-            ones.add( new PhetPText( "1", new PhetFont( Font.BOLD, 32 ), Color.BLUE ).toImage() );
-            ones.add( new PhetPText( "1", new PhetFont( Font.BOLD, 32 ), Color.ORANGE ).toImage() );
-            ones.add( new PhetPText( "1", new PhetFont( Font.BOLD, 32 ), Color.MAGENTA ).toImage() );
+            Color[] colors = new Color[] { Color.YELLOW, Color.RED, Color.ORANGE, Color.MAGENTA, Color.CYAN, Color.GREEN };
 
-            // point tools
-            pointTools = new ArrayList<Image>();
-            Color[] pointToolColors = new Color[] { Color.YELLOW, Color.RED, Color.ORANGE, Color.MAGENTA, Color.CYAN, Color.GREEN };
-            for ( Color color : pointToolColors ) {
-                pointTools.add( createPointToolImage( color ) );
+            // graphs
+            graphImages = new ArrayList<Image>();
+            for ( Color color : colors ) {
+                graphImages.add( iconToImage( GraphNode.createYEqualsXIcon( 50, color ) ) );
+                graphImages.add( iconToImage( GraphNode.createYEqualsNegativeXIcon( 50, color ) ) );
             }
 
-            // smiley face
-            smileyFaces = new ArrayList<Image>();
+            // point tools
+            pointToolImages = new ArrayList<Image>();
+            Color[] pointToolColors = new Color[] { Color.YELLOW, Color.RED, Color.ORANGE, Color.MAGENTA, Color.CYAN, Color.GREEN };
+            for ( Color color : pointToolColors ) {
+                pointToolImages.add( createPointToolImage( color ) );
+            }
+
+            // smiley faces
+            smileyFaceImages = new ArrayList<Image>();
             Color[] smileyFaceColors = new Color[] { Color.YELLOW, Color.RED, Color.ORANGE, Color.MAGENTA, Color.CYAN, Color.GREEN };
             for ( Color color : smileyFaceColors ) {
-                smileyFaces.add( createSmileyFaceImage( color ) );
+                smileyFaceImages.add( createSmileyFaceImage( color ) );
             }
 
             // image pool, images that are in use by the animation
@@ -155,7 +161,7 @@ public class RewardNode extends PhetPNode {
 
         // initial state, everything visible
         setBounds( bounds );
-        setOnesVisible( true );
+        setGraphsVisible( true );
         setPointToolsVisible( true );
         setSmileyFacesVisible( true );
     }
@@ -177,6 +183,25 @@ public class RewardNode extends PhetPNode {
         return new PadBoundsNode( new FaceNode( 40, color ) ).toImage();
     }
 
+    // https://groups.google.com/forum/?fromgroups#!topic/comp.lang.java.programmer/OI_IdebPL68
+    static Image iconToImage( Icon icon ) {
+        if ( icon instanceof ImageIcon ) {
+            return ( (ImageIcon) icon ).getImage();
+        }
+        else {
+            int w = icon.getIconWidth();
+            int h = icon.getIconHeight();
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            GraphicsDevice gd = ge.getDefaultScreenDevice();
+            GraphicsConfiguration gc = gd.getDefaultConfiguration();
+            BufferedImage image = gc.createCompatibleImage( w, h );
+            Graphics2D g = image.createGraphics();
+            icon.paintIcon( null, g, 0, 0 );
+            g.dispose();
+            return image;
+        }
+    }
+
     /**
      * Sets the animation parameters based on game difficulty level.
      * @param level
@@ -189,9 +214,9 @@ public class RewardNode extends PhetPNode {
         setPopulation( 300 );
         setMotionDelta( 10 );
 
-        setImagesVisible( ones, level == 1 );
-        setImagesVisible( pointTools, level == 2 );
-        setImagesVisible( smileyFaces, level == 3 );
+        setImagesVisible( graphImages, level == 1 );
+        setImagesVisible( pointToolImages, level == 2 );
+        setImagesVisible( smileyFaceImages, level == 3 );
     }
 
     /**
@@ -252,28 +277,28 @@ public class RewardNode extends PhetPNode {
         return motionDelta;
     }
 
-    private boolean isOnesVisible() {
-        return isImagesVisible( ones );
+    private boolean isGraphsVisible() {
+        return isImagesVisible( graphImages );
     }
 
-    private void setOnesVisible( boolean visible ) {
-        setImagesVisible( ones, visible );
+    private void setGraphsVisible( boolean visible ) {
+        setImagesVisible( graphImages, visible );
     }
 
-    private boolean isTwosVisible() {
-        return isImagesVisible( pointTools );
+    private boolean isPointToolsVisible() {
+        return isImagesVisible( pointToolImages );
     }
 
     private void setPointToolsVisible( boolean visible ) {
-        setImagesVisible( pointTools, visible );
+        setImagesVisible( pointToolImages, visible );
     }
 
     private boolean isSmileyFacesVisible() {
-        return isImagesVisible( smileyFaces );
+        return isImagesVisible( smileyFaceImages );
     }
 
     private void setSmileyFacesVisible( boolean visible ) {
-        setImagesVisible( smileyFaces, visible );
+        setImagesVisible( smileyFaceImages, visible );
     }
 
     private void setImagesVisible( ArrayList<Image> images, boolean visible ) {
@@ -471,7 +496,6 @@ public class RewardNode extends PhetPNode {
         final PDimension stageSize = new PDimension( 1008, 679 );
         canvas.setWorldTransformStrategy( new CenteredStage( canvas, stageSize ) );
         canvas.setBackground( LGColors.CANVAS );
-        canvas.addBoundsNode( stageSize );
         canvas.addWorldChild( rewardNode );
 
         final IMotionStrategy jitteryMotionStrategy = new JitteryMotionStrategy();
@@ -530,16 +554,16 @@ public class RewardNode extends PhetPNode {
             }
         } );
 
-        final JCheckBox atomsCheckBox = new JCheckBox( "show 1's" );
-        atomsCheckBox.setSelected( rewardNode.isOnesVisible() );
+        final JCheckBox atomsCheckBox = new JCheckBox( "show graphs" );
+        atomsCheckBox.setSelected( rewardNode.isGraphsVisible() );
         atomsCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                rewardNode.setOnesVisible( atomsCheckBox.isSelected() );
+                rewardNode.setGraphsVisible( atomsCheckBox.isSelected() );
             }
         } );
 
         final JCheckBox moleculesCheckBox = new JCheckBox( "show point tools" );
-        moleculesCheckBox.setSelected( rewardNode.isTwosVisible() );
+        moleculesCheckBox.setSelected( rewardNode.isPointToolsVisible() );
         moleculesCheckBox.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rewardNode.setPointToolsVisible( moleculesCheckBox.isSelected() );
