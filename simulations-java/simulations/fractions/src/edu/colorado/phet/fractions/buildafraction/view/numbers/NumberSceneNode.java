@@ -79,6 +79,9 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
     double leftRightInset = 20;
     double spacingBetweenNumbersAndFractionSkeleton = 50;
     public final NumberLevel myLevel;
+    private final Dimension2DDouble singleDigitCardSize;
+    private final Dimension2DDouble doubleDigitCardSize;
+    private final List<List<Integer>> stacks;
 
     public NumberSceneNode( final int levelIndex, final PNode rootNode, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context, BooleanProperty soundEnabled ) {
         super( soundEnabled );
@@ -156,41 +159,30 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
             offsetY += Math.max( maxHeight, targetCellBounds.getHeight() ) + insetY;
         }
 
-        //Center title above the "my fractions" scoring cell boxes
-//        title.setOffset( pairs.get( 0 ).getTargetCell().getFullBounds().getCenterX() - title.getFullWidth() / 2,
-//                         pairs.get( 0 ).getTargetCell().getFullBounds().getY() - title.getFullHeight() - INSET / 2 );
-
         //Add a piece container toolbox the user can use to get containers
         //Put numbers on cards so you can see how many there are in a stack
         //I suspect it will look awkward unless all cards have the same dimensions
 
-        List<List<Integer>> stacks = myLevel.numbers.group( Equal.intEqual );
+        stacks = myLevel.numbers.group( Equal.intEqual );
 
         //Find the max size of each number node, so we can create a consistent card size
-        List<NumberNode> prototypes = stacks.map( new F<List<Integer>, NumberNode>() {
-            @Override public NumberNode f( final List<Integer> integers ) {
-                return new NumberNode( integers.head() );
+        singleDigitCardSize = getCardSize( stacks, new F<Integer, Boolean>() {
+            @Override public Boolean f( final Integer integer ) {
+                return integer.toString().length() < 2;
             }
         } );
-        double maxNumberNodeWidth = prototypes.map( new F<NumberNode, Double>() {
-            @Override public Double f( final NumberNode numberNode ) {
-                return numberNode.getFullBounds().getWidth();
+        doubleDigitCardSize = getCardSize( stacks, new F<Integer, Boolean>() {
+            @Override public Boolean f( final Integer integer ) {
+                return integer.toString().length() >= 2;
             }
-        } ).maximum( Ord.doubleOrd );
-        double maxNumberNodeHeight = prototypes.map( new F<NumberNode, Double>() {
-            @Override public Double f( final NumberNode numberNode ) {
-                return numberNode.getFullBounds().getHeight();
-            }
-        } ).maximum( Ord.doubleOrd );
-
-        final Dimension2DDouble cardSize = new Dimension2DDouble( maxNumberNodeWidth + 22, maxNumberNodeHeight );
+        } );
 
         //Create a stack of cards for each unique number
         List<List<NumberCardNode>> cardNodes = stacks.map( new F<List<Integer>, List<NumberCardNode>>() {
             @Override public List<NumberCardNode> f( final List<Integer> integers ) {
                 return integers.map( new F<Integer, NumberCardNode>() {
                     @Override public NumberCardNode f( final Integer integer ) {
-                        return new NumberCardNode( cardSize, integer, NumberSceneNode.this );
+                        return new NumberCardNode( integer.toString().length() < 2 ? singleDigitCardSize : doubleDigitCardSize, integer, NumberSceneNode.this );
                     }
                 } );
             }
@@ -198,9 +190,8 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
 
         final FractionNode fractionGraphic = new FractionNode( this );
         fractionGraphic.setScale( 1.0 );
-        double cardWidth = cardSize.width;
 
-        final double extentX = cardWidth * stacks.length() + spacingBetweenNumbers * ( stacks.length() - 1 ) + leftRightInset * 2 + spacingBetweenNumbersAndFractionSkeleton + fractionGraphic.getFullBounds().getWidth();
+        final double extentX = leftRightInset * 2 + getStackOffset( stacks.length() ) - singleDigitCardSize.width + spacingBetweenNumbersAndFractionSkeleton + fractionGraphic.getFullBounds().getWidth();
 
         //Create the toolbox node
         toolboxNode = new RichPNode() {{
@@ -294,7 +285,33 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
         addChild( new HBox( resetButton, refreshButton ) {{
             setOffset( levelReadoutTitle.getCenterX() - getFullBounds().getWidth() / 2, levelReadoutTitle.getMaxY() + INSET );
         }} );
+    }
 
+    //Find the max size of each number node, so we can create a consistent card size
+    private Dimension2DDouble getCardSize( final List<List<Integer>> stacks, final F<Integer, Boolean> match ) {
+        List<NumberNode> prototypes = stacks.map( new F<List<Integer>, NumberNode>() {
+            @Override public NumberNode f( final List<Integer> integers ) {
+                return new NumberNode( integers.head() );
+            }
+        } );
+        final List<NumberNode> filtered = prototypes.filter( new F<NumberNode, Boolean>() {
+            @Override public Boolean f( final NumberNode numberNode ) {
+                return match.f( numberNode.number );
+            }
+        } );
+        if ( filtered.length() == 0 ) { return new Dimension2DDouble( 0, 0 ); }
+        double maxNumberNodeWidth = filtered.map( new F<NumberNode, Double>() {
+            @Override public Double f( final NumberNode numberNode ) {
+                return numberNode.getFullBounds().getWidth();
+            }
+        } ).maximum( Ord.doubleOrd );
+        double maxNumberNodeHeight = filtered.map( new F<NumberNode, Double>() {
+            @Override public Double f( final NumberNode numberNode ) {
+                return numberNode.getFullBounds().getHeight();
+            }
+        } ).maximum( Ord.doubleOrd );
+
+        return new Dimension2DDouble( maxNumberNodeWidth + 22, maxNumberNodeHeight );
     }
 
     private void reset() {
@@ -436,8 +453,20 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
     }
 
     public Vector2D getLocation( final int stackIndex, final int cardIndex, NumberCardNode cardNode ) {
-        return new Vector2D( toolboxNode.getMinX() + leftRightInset + ( cardNode.getFullBounds().getWidth() + spacingBetweenNumbers ) * stackIndex + cardIndex * cardDeltaX,
+
+        final double cardOffset = cardIndex * cardDeltaX;
+        return new Vector2D( toolboxNode.getMinX() + leftRightInset + getStackOffset( stackIndex ) + cardOffset,
                              toolboxNode.getCenterY() - cardNode.getFullBounds().getHeight() / 2 + cardIndex * cardDeltaY );
+    }
+
+    //How far over the stack should be in the x-coordinate.
+    private double getStackOffset( final int stackIndex ) {
+        double stackOffset = 0;
+        for ( List<Integer> stack : stacks.take( stackIndex ) ) {
+            stackOffset += stack.head().toString().length() < 2 ? singleDigitCardSize.width : doubleDigitCardSize.width;
+            stackOffset += spacingBetweenNumbers;
+        }
+        return stackOffset;
     }
 
 }
