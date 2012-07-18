@@ -1,4 +1,4 @@
-Fraction Matcher: Fixed: "My Matches" text can go offscreen to the left
+Fraction Matcher: Fixed: "My Matches" text can go offscreen to the left, see #3368
 # 1.00.07 (65969) Jul 17, 2012
 Build a Fraction: Numbers: Fixed: Scoring cells weren't highlighting on levels >=2
 Build a Fraction: Numbers: Fixed: Ding sound wasn't playing for individual matches
