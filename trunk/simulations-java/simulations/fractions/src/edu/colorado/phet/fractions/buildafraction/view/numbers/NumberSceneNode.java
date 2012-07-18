@@ -331,7 +331,7 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
 
         //if fraction graphic overlaps the toolbox when dropped, animate back to the toolbox position.
         if ( toolboxNode.getGlobalFullBounds().intersects( fractionGraphic.getGlobalFullBounds() ) ) {
-            fractionGraphic.animateToPositionScaleRotation( 300, 300, 1, 0, 1000 );
+            fractionGraphic.sendFractionSkeletonToToolbox();
         }
     }
 
