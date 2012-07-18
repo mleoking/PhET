@@ -105,8 +105,8 @@ public class TrajectoryView extends Sprite {
         var xytPoint: XytPoint = new XytPoint( currentX, currentY, currentT, currentIndex );
         trajectory_arr[ currentIndex ] = xytPoint;
         var gT: Graphics = currentTrajectoryView.graphics;
-        var xInPix: Number = this.originXInPix + currentX*mainView.pixPerMeter;
-        var yInPix: Number = this.originYInPix - currentY*mainView.pixPerMeter;
+        var xInPix: Number = this.originXInPix + currentX*mainView.pixPerMeterUnZoomed;
+        var yInPix: Number = this.originYInPix - currentY*mainView.pixPerMeterUnZoomed;
         gT.lineTo( xInPix,  yInPix );
     }
 
@@ -114,8 +114,8 @@ public class TrajectoryView extends Sprite {
         var gM: Graphics = currentTicMarkView.graphics;
         currentX -= trajectoryModel.vX*delT;
         currentY -= trajectoryModel.vY*delT;
-        var xInPix: Number = this.originXInPix + currentX*mainView.pixPerMeter;
-        var yInPix: Number = this.originYInPix - currentY*mainView.pixPerMeter;
+        var xInPix: Number = this.originXInPix + currentX*mainView.pixPerMeterUnZoomed;
+        var yInPix: Number = this.originYInPix - currentY*mainView.pixPerMeterUnZoomed;
         gM.lineStyle( 4, 0x000000, 1 );
         var ticRadius = 10;
         gM.moveTo( xInPix - ticRadius, yInPix );
@@ -147,6 +147,7 @@ public class TrajectoryView extends Sprite {
 
         currentX = trajectoryModel.xP;         //P for projectile
         currentY = trajectoryModel.yP;
+        trace("TrajectoryView.update. currentY = "  + currentY );
         if( currentT != trajectoryModel.t ){
             currentIndex += 1;
         }
@@ -156,10 +157,6 @@ public class TrajectoryView extends Sprite {
             var delT: Number = currentT - trajectoryModel.ticMarkTime;
             drawTicMarkOnTrajectory( delT );
             trajectoryModel.drawTicMarkNow = false;
-            //var elapsedTime:Number = getTimer()/1000 - trajectoryModel.startTime;
-            //var delT:Number = currentT - nextTicMarkTime
-            //nextTicMarkTime += 1;
-            //trace("TrajectoryView.update   current time  = " + currentT ) ;
         }
         //trace( "trajectoryView.update  currentX = " + currentX) ;
     }

@@ -173,7 +173,7 @@ public class TapeMeasure extends Sprite {
             tape.width = lengthInPix;
             tapeMeasureHolder.rotation = angleInDeg;
             tapeMeasureHolder.visible = true;
-            var lengthInMeters:Number = lengthInPix*magF/mainView.pixPerMeter;
+            var lengthInMeters:Number = lengthInPix/mainView.pixPerMeter;//lengthInPix*magF/mainView.pixPerMeter;
             //lengthInMeters = Math.round( 10*lengthInMeters )/10;
             this.outputField.setVal( lengthInMeters );
         }
@@ -181,7 +181,7 @@ public class TapeMeasure extends Sprite {
 
     public function resetReadout():void{
         magF = mainView.backgroundView.totMagF;
-        trace("TapeMeasure.resetReadout called.  magF = "+ magF) ;
+        //trace("TapeMeasure.resetReadout called.  magF = "+ magF) ;
         setTapeConfigurationAndReadout();
     }
 

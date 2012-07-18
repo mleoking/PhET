@@ -13,6 +13,7 @@ package edu.colorado.phet.projectilemotionflex.view {
 import edu.colorado.phet.projectilemotionflex.model.TrajectoryModel;
 
 import flash.display.Graphics;
+import flash.display.MovieClip;
 
 import flash.display.Sprite;
 import flash.events.MouseEvent;
@@ -28,11 +29,17 @@ public class CannonView extends Sprite {
     private var barrel: Sprite;
     private var carriage: Sprite;
     private var platform: Sprite;
+    //private var oldCannon: Sprite;
     private var flames: Sprite;
     private var pixPerMeter: Number;
     private var originXinPix: Number;   //location of model's origin in stage coordinates
     private var originYinPix: Number;
 
+    [Embed(source='projectile-motion-flex-graphics.swf',symbol='barrel')]
+    public static var Barrel: Class;
+
+    [Embed(source='projectile-motion-flex-graphics.swf',symbol='cannonCarriage')]
+    public static var Carriage: Class;
 
 
     public function CannonView( mainView:MainView,  trajectoryModel: TrajectoryModel, background:BackgroundView ) {
@@ -41,10 +48,12 @@ public class CannonView extends Sprite {
         this.background = background;
         this.stageW = mainView.stageW;
         this.stageH = mainView.stageH;
-        this.barrel = new Sprite();
-        this.carriage = new Sprite();
+        this.barrel = new Barrel(); //new Sprite();
+        this.carriage = new Carriage(); //new Sprite();
         this.platform = new Sprite();
         this.flames = new Sprite();
+        //this.oldCannon = new Cannon2();
+//        this.oldCannon.gotoAndStop(1);
         this.initialize();
     }//end constructor
 
@@ -54,14 +63,15 @@ public class CannonView extends Sprite {
         this.originXinPix = mainView.originXInPix;    //must set originInPix before instantiating trajectoryView
         this.originYinPix = mainView.originYInPix;
         //this.trajectoryView = new TrajectoryView( mainView,  trajectoryModel );
-        this.drawCannon();
-        this.drawCarriage();
+        //this.drawCannon();
+        //this.drawCarriage();
         this.makeBarrelTiltable();
         this.makeCarriageMovable();
 
         this.addChild( barrel );
         this.addChild( carriage );
         this.addChild( platform );
+        //this.addChild( oldCannon );
         //this.addChild( trajectoryView );
 
         this.update();
@@ -148,8 +158,10 @@ public class CannonView extends Sprite {
         this.carriage.addEventListener( MouseEvent.MOUSE_DOWN, startTargetDrag );
         var clickOffset: Point;
 
+
         function startTargetDrag( evt: MouseEvent ): void {
-            clickOffset = new Point( evt.localX, evt.localY );
+            var scaleFactor: Number = thisObject.background.container.scaleX;
+            clickOffset = new Point( evt.localX*scaleFactor, evt.localY*scaleFactor );
 
             stage.addEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
             stage.addEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
@@ -169,7 +181,7 @@ public class CannonView extends Sprite {
 
         function dragTarget( evt: MouseEvent ): void {
             var xInPix:Number = thisObject.background.mouseX - clickOffset.x;    //screen coordinates
-            trace("CannonView.dragTarget  xInPix = " + xInPix );
+            //trace("CannonView.dragTarget  xInPix = " + xInPix );
             var yInPix:Number = thisObject.background.mouseY - clickOffset.y;
             //trace("CannonView.dragTarget  yInPix = " + yInPix );
             thisObject.trajectoryModel.xP0 = ( xInPix - thisObject.originXinPix )/(thisObject.mainView.pixPerMeter);
@@ -184,8 +196,9 @@ public class CannonView extends Sprite {
     public function update():void{
         this.barrel.rotation = -trajectoryModel.angleInDeg;
         //trace("cannonView.update called, angle = " + trajectoryModel.angleInDeg );
-        this.x = this.originXinPix + this.trajectoryModel.xP0*mainView.pixPerMeter;
-        this.y = this.originYinPix - this.trajectoryModel.yP0*mainView.pixPerMeter;
+        this.x = (this.originXinPix + this.trajectoryModel.xP0*mainView.pixPerMeter /this.background.container.scaleX );
+        this.y = (this.originYinPix - this.trajectoryModel.yP0*mainView.pixPerMeter /this.background.container.scaleY );
+        //trace("cannonView.update called, y in pix = " + this.y  );
         //trace("cannonView.update called, y in meters = " + this.trajectoryModel.yP0  );
     }
 

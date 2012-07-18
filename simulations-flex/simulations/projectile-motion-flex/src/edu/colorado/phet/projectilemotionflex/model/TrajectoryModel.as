@@ -18,11 +18,14 @@ import flash.events.TimerEvent;
 import flash.utils.Timer;
 import flash.utils.getTimer;
 
-//model of projectile motion, including air resistance
+/**
+ * model of projectile motion, including air resistance
+ */
+
 public class TrajectoryModel {
 
     public var views_arr: Array;     //views associated with this model
-    public var mainView: MainView;
+    public var mainView: MainView;   //communications hub
     private var stageH: Number;
     private var stageW: Number;
     private var g: Number;          //acceleration of gravity, all units are SI
@@ -31,8 +34,10 @@ public class TrajectoryModel {
 
     private var _xP: Number;        //current x- and y_coords of position of projectile in meters
     private var _yP: Number;
-    private var _xP0: Number;       //x- and y- coordinates of initial position of projectile,
+    private var _xP0: Number;       //x- and y- coordinates of current position of cannon,
     private var _yP0: Number;       //relative to origin, which is at ground level (y = 0)
+    private var xP00: Number;       //x- and y-coordinates of initial position of projectile when projectile was fired
+    private var yP00: Number
     private var _vX: Number;        //x- and y-coords of velocity of projectile
     private var _vY: Number;
     private var v: Number;          //current speed of projectile
@@ -45,15 +50,15 @@ public class TrajectoryModel {
     private var _theta: Number;         //initial angle of projectile, in radians, measured CCW from horizontal
 
     private var _ticMarkTime: Number;   //time of tic Mark, which are at 1 second intervals
-    private var _drawTicMarkNow: Boolean;
-    private var _updateReadoutsNow: Boolean;
+    private var _drawTicMarkNow: Boolean;      //flag to indicate that 1-sec tic mark should be drawn on trajectory
+    private var _updateReadoutsNow: Boolean;   //flag to indicate that readouts should be updated, 1 update per second
 
     private var _airResistance: Boolean;  //true if air resistance is on
-    private var B: Number;                //drag acceleration = -B*v*v
+    private var B: Number;                //parameter that measures drag:  acceleration due to drag = -B*v*v
 
-    private var _projectiles:Array;     //array of projectiles
+    private var _projectiles:Array;     //array of projectiles: golfball, football, buick, etc
     private var _pIndex: int;           //index of currently selected projectile: projectiles[pIndex] = current projectile
-    private var mass0: Number;          //mass, diameter, and dragC of user-controlled projectile
+    private var mass0: Number;          //mass, diameter, and drag coefficient of user-controlled projectile
     private var diameter0: Number;
     private var dragCoefficient0: Number;
 
@@ -69,7 +74,7 @@ public class TrajectoryModel {
     private var dt: Number;             //time step for trajectory algorithm, all times in seconds
 
     private var timers_arr:Array;       //array of timers, one time for each projectile in motion
-    private var currentTimerIndex: int; //index of most recent timer started
+    private var currentTimerIndex: int; //index of most recent timer started: timers_arr[currentTimerIndex] = current timer
     private var trajectoryTimer: Timer;	//master millisecond timer
 
 
@@ -94,6 +99,8 @@ public class TrajectoryModel {
         this._yP = 0;
         this._xP0 = 0;
         this._yP0 = 0;
+        this.xP00 = _xP0;
+        this.yP00 = _yP0;
         this._vX = 0;
         this._vY = 0;
         this.v = Math.sqrt( _vX*_vX + _vY*_vY );
@@ -129,6 +136,7 @@ public class TrajectoryModel {
         _projectiles[9] = new Projectile( mainView, this, 1000, 2.5, 1.3 );         //Buick
     }
 
+    /*Set drag factor of current projectile*/
     private function setDragFactor():void{
         var diameter: Number = _projectiles[_pIndex].diameter;
         var mass: Number = _projectiles[_pIndex].mass;
@@ -140,6 +148,8 @@ public class TrajectoryModel {
     public function fireCannon():void{
         _xP = xP0;
         _yP = yP0;
+        xP00 = xP0;
+        yP00 = yP0;
         _vX = _vX0;
         _vY = _vY0;
         v = Math.sqrt( _vX*_vX + _vY*_vY );
@@ -165,20 +175,19 @@ public class TrajectoryModel {
     }
 
     private function singleStep( timeStep: Number ):void{
-
         _t += timeStep;
         frameCounter += 1;
         if( !_airResistance ){
             aX = 0;
             aY = -g;
-            _xP = xP0 + _vX0*t;
-            _yP = yP0 + _vY0*t + 0.5*aY*t*t;
+            _xP = xP00 + _vX0*t;
+            _yP = yP00 + _vY0*t + 0.5*aY*t*t;
             _vX = _vX0;
             _vY = _vY0 +aY*t;
         }else{       //if air resistance on
             aX = - B*_vX*v;
             aY = -g - B*_vY*v;
-            var dtr = dt*tRate;        //adjusted time increment
+            var dtr: Number = dt*tRate;        //adjusted time increment
             //if air resistance so large that results are unphysical, then reduce time step
             if( B*v*dtr > 0.25 ){
                 dtr = dtr/( B*v*dtr/0.25 )
@@ -190,20 +199,20 @@ public class TrajectoryModel {
         }
 
         v = Math.sqrt( _vX*_vX + _vY*_vY );
-
-        if( _yP <= 0 ){       //stop when projectile hits the ground (y = 0)
+        //stop when projectile hits the ground (y = 0)
+        if( _yP <= 0 ){
             //must first backtrack from yFinal to exact moment when y = 0
-            var vY0: Number = -Math.sqrt( _vY*_vY - 2*aY*_yP );   //vY at y = 0, assuming aY = constant
+            var vYground: Number = -Math.sqrt( _vY*_vY - 2*aY*_yP );   //vY at y = 0, assuming aY = constant
             var delT: Number;  //time elapsed from y = 0 to y = yFinal
             if( aY != 0 ){
-                delT = ( _vY - vY0 ) / aY;
+                delT = ( _vY - vYground ) / aY;
             }else{
                 delT = -_yP / _vY ;
             }
             _t -= delT;    //exact time when y = 0 (ground)
             _yP = 0;
-            var vX0: Number = _vX - aX*delT;    //vX at y = 0, assuming aX = constant
-            _xP = _xP - vX0*delT - (0.5)*aX*delT*delT;     //exact value of x when y = 0
+            var vXground: Number = _vX - aX*delT;    //vX at y = 0, assuming aX = constant
+            _xP = _xP - vXground*delT - (0.5)*aX*delT*delT;     //exact value of x when y = 0
             updateReadoutsNow = true;
             updateViews();
             mainView.backgroundView.projectileView.drawProjectileOnGround();

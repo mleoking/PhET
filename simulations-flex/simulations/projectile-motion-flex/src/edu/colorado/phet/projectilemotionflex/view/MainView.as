@@ -32,6 +32,7 @@ public class MainView extends Canvas {
     public var controlPanel: ControlPanel;
     public var sloMoStepControl: SloMoStepControl;
     private var _pixPerMeter: Number;
+    private var _pixPerMeterUnZoomed: Number;
     private var _originXInPix: Number;
     private var _originYInPix: Number;
 
@@ -43,7 +44,8 @@ public class MainView extends Canvas {
         percentHeight = 100;
         this.stageH = stageH;
         this.stageW = stageW;
-        _pixPerMeter = stageW/30;   //width of stage is 40 meters
+        _pixPerMeterUnZoomed = stageW/30;//width of stage is 40 meters
+        _pixPerMeter = pixPerMeterUnZoomed;
         this._originXInPix = 0.2*stageW;
         this._originYInPix = 0.8*stageH;
 
@@ -96,6 +98,14 @@ public class MainView extends Canvas {
 
     public function set originYInPix( value:Number ):void {
         _originYInPix = value;
+    }
+
+    public function get pixPerMeterUnZoomed(): Number {
+        return _pixPerMeterUnZoomed;
+    }
+
+    public function set pixPerMeter( value: Number ): void {
+        _pixPerMeter = value;
     }
 }//end of class
 } //end of package
