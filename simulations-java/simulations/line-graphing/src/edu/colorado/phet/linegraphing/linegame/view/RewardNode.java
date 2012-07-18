@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -24,9 +25,11 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
@@ -38,10 +41,13 @@ import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.PadBoundsNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
 import edu.colorado.phet.linegraphing.common.LGResources.Images;
+import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.view.GraphNode;
+import edu.colorado.phet.linegraphing.common.view.PointToolGraphicNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -151,16 +157,10 @@ public class RewardNode extends PhetPNode {
     }
 
     private Image createPointToolImage( Color color ) {
-        final PNode bodyNode = new PImage( Images.POINT_TOOL );
-        final PPath backgroundNode = new PPath( new Rectangle2D.Double( 5, 5,
-                                                                        bodyNode.getFullBoundsReference().getWidth() - 10,
-                                                                        0.55 * bodyNode.getFullBoundsReference().getHeight() ) );
-        backgroundNode.setPaint( color );
-        PComposite parentNode = new PComposite();
-        parentNode.addChild( backgroundNode );
-        parentNode.addChild( bodyNode );
-        parentNode.scale( 0.5 );
-        return new PadBoundsNode( parentNode ).toImage();
+        ImmutableVector2D point = new ImmutableVector2D( Math.random() * 20, Math.random() * 20 );
+        final PointToolGraphicNode pointToolNode = new PointToolGraphicNode( point, color );
+        pointToolNode.scale( 0.75 );
+        return new PadBoundsNode( pointToolNode ).toImage();
     }
 
     private Image createSmileyFaceImage( Color color ) {

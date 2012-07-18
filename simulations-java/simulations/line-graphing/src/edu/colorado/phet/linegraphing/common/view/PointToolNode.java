@@ -1,10 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.common.view;
 
-import java.awt.Font;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.text.MessageFormat;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -15,12 +13,9 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentType
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.linegraphing.common.LGColors;
-import edu.colorado.phet.linegraphing.common.LGResources.Images;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.ParameterKeys;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
@@ -29,9 +24,6 @@ import edu.colorado.phet.linegraphing.common.model.PointTool;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Tool that displays the (x,y) coordinates of a point on the graph.
@@ -39,38 +31,18 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PointToolNode extends PhetPNode {
-
-    private static final NumberFormat COORDINATES_FORMAT = new DefaultDecimalFormat( "0" );
-    private static final double COORDINATES_Y_CENTER = 21; // center of the display area, measured from the top of the unscaled image file
+public class PointToolNode extends PointToolGraphicNode {
 
     /**
      * Constructor
      * @param pointTool the point tool
      * @param mvt transform between model and view coordinate frames
+     * @param graph
      * @param dragBounds drag bounds, in view coordinate frame
+     * @param linesVisible
      */
     public PointToolNode( final PointTool pointTool, final ModelViewTransform mvt, final Graph graph, Rectangle2D dragBounds, final Property<Boolean> linesVisible ) {
-
-        // tool body
-        final PNode bodyNode = new PImage( Images.POINT_TOOL );
-        bodyNode.setOffset( -bodyNode.getFullBoundsReference().getWidth() / 2, -bodyNode.getFullBoundsReference().getHeight() );
-
-        // coordinate display
-        final PText coordinatesNode = new PText();
-        coordinatesNode.setFont( new PhetFont( Font.BOLD, 15 ) );
-
-        // display background, shows through a transparent hole in the display area portion of the body image
-        final PPath backgroundNode = new PPath( new Rectangle2D.Double( 5, 5,
-                                                                        bodyNode.getFullBoundsReference().getWidth() - 10,
-                                                                        0.55 * bodyNode.getFullBoundsReference().getHeight() ) );
-        backgroundNode.setStroke( null );
-        backgroundNode.setOffset( bodyNode.getOffset() );
-
-        // rendering order
-        addChild( backgroundNode );
-        addChild( bodyNode );
-        addChild( coordinatesNode );
+        super( pointTool.location.get(), LGColors.POINT_TOOL_BACKGROUND_NORMAL_COLOR );
 
         // location and display
         RichSimpleObserver observer = new RichSimpleObserver() {
@@ -82,27 +54,23 @@ public class PointToolNode extends PhetPNode {
 
                 // display value and highlighting
                 if ( graph.contains( location ) ) {
-                    coordinatesNode.setText( MessageFormat.format( Strings.POINT_XY, COORDINATES_FORMAT.format( location.getX() ), COORDINATES_FORMAT.format( location.getY() ) ) );
+                    setCoordinates( location );
                     if ( linesVisible.get() ) {
                         // use the line's color to highlight
                         StraightLine onLine = pointTool.onLine.get();
-                        coordinatesNode.setTextPaint( onLine == null ? LGColors.POINT_TOOL_FOREGROUND_NORMAL_COLOR : LGColors.POINT_TOOL_FOREGROUND_HIGHLIGHT_COLOR );
-                        backgroundNode.setPaint( onLine == null ? LGColors.POINT_TOOL_BACKGROUND_NORMAL_COLOR : onLine.color );
+                        setForeground( onLine == null ? LGColors.POINT_TOOL_FOREGROUND_NORMAL_COLOR : LGColors.POINT_TOOL_FOREGROUND_HIGHLIGHT_COLOR );
+                        setBackground( onLine == null ? LGColors.POINT_TOOL_BACKGROUND_NORMAL_COLOR : onLine.color );
                     }
                     else {
-                        coordinatesNode.setTextPaint( LGColors.POINT_TOOL_FOREGROUND_NORMAL_COLOR );
-                        backgroundNode.setPaint( LGColors.POINT_TOOL_BACKGROUND_NORMAL_COLOR );
+                        setForeground( LGColors.POINT_TOOL_FOREGROUND_NORMAL_COLOR );
+                        setBackground( LGColors.POINT_TOOL_BACKGROUND_NORMAL_COLOR );
                     }
                 }
                 else {
-                    coordinatesNode.setText( Strings.POINT_UNKNOWN );
-                    coordinatesNode.setTextPaint( LGColors.POINT_TOOL_FOREGROUND_NORMAL_COLOR );
-                    backgroundNode.setPaint( LGColors.POINT_TOOL_BACKGROUND_NORMAL_COLOR );
+                    setCoordinates( Strings.POINT_UNKNOWN );
+                    setForeground( LGColors.POINT_TOOL_FOREGROUND_NORMAL_COLOR );
+                    setBackground( LGColors.POINT_TOOL_BACKGROUND_NORMAL_COLOR );
                 }
-
-                // horizontally centered
-                coordinatesNode.setOffset( bodyNode.getFullBoundsReference().getCenterX() - ( coordinatesNode.getFullBoundsReference().getWidth() / 2 ),
-                                           bodyNode.getFullBoundsReference().getMinY() + COORDINATES_Y_CENTER - ( coordinatesNode.getFullBoundsReference().getHeight() / 2 ) );
             }
         };
         observer.observe( pointTool.location, pointTool.onLine, linesVisible );
