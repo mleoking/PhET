@@ -55,13 +55,15 @@ public class FractionNode extends RichPNode {
     private FractionCardNode cardNode;
     private final FractionDraggingContext context;
 
+    final double SCALE_IN_TOOLBOX = 0.7;
+
     public FractionNode( final FractionDraggingContext context ) {
         this.context = context;
         topBox = box( true );
         bottomBox = box( true );
 
         //Size in the toolbox is smaller to keep the toolbox size good
-        setScale( 0.7 );
+        setScale( SCALE_IN_TOOLBOX );
         divisorLine = new PhetPPath( new Line2D.Double( 0, 0, 50, 0 ), new BasicStroke( 4, CAP_ROUND, JOIN_MITER ), black );
 
         splitButton = new PImage( Images.SPLIT_BLUE );
@@ -90,7 +92,7 @@ public class FractionNode extends RichPNode {
                 super.startDrag( event );
 
                 //Grow as it moves out of the toolbox
-                addActivity( new AnimateToScale( FractionNode.this, 400 ) );
+                addActivity( new AnimateToScale( FractionNode.this, 200 ) );
             }
 
             @Override protected void drag( final PInputEvent event ) {
@@ -242,7 +244,11 @@ public class FractionNode extends RichPNode {
 
     public void setCardNode( final FractionCardNode fractionCardNode ) { this.cardNode = fractionCardNode; }
 
-    public void sendFractionSkeletonToStartingLocation() {
-        animateToPositionScaleRotation( toolboxPositionX, toolboxPositionY, 1, 0, 1000 );
+    public void sendFractionSkeletonToToolbox() {
+        animateToPositionScaleRotation( toolboxPositionX, toolboxPositionY, SCALE_IN_TOOLBOX, 0, 1000 );
+    }
+
+    public void sendFractionSkeletonToCenterOfScreen( double x, double y ) {
+        animateToPositionScaleRotation( x - getFullBounds().getWidth() / 2, y, 1.0, 0, 1000 );
     }
 }

@@ -119,7 +119,7 @@ public class NumberScoreBoxNode extends PNode {
             fractionGraphic = null;
 
             cardNode.fractionNode.split();
-            cardNode.fractionNode.sendFractionSkeletonToStartingLocation();
+            cardNode.fractionNode.sendFractionSkeletonToToolbox();
 
             numberSceneNode.hideFace();
             numberSceneNode.updateStacks();
