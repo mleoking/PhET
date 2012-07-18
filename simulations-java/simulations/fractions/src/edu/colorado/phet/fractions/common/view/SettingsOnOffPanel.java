@@ -23,6 +23,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.getString;
 import static edu.colorado.phet.fractions.common.view.SettingsOnOffPanel.Element.nodes;
 
 /**
@@ -62,11 +63,11 @@ public class SettingsOnOffPanel extends PNode {
             element.on.addInputEventListener( new CursorHandler() );
             element.off.addInputEventListener( toggle );
             element.off.addInputEventListener( new CursorHandler() );
-            PNode offButton = new PSwing( new PropertyRadioButton<Boolean>( null, "off", element.onProperty, false ) {{
+            PNode offButton = new PSwing( new PropertyRadioButton<Boolean>( null, getString( "Games.radioButton.off" ), element.onProperty, false ) {{
                 setFont( new PhetFont( 20, true ) );
                 setOpaque( false );
             }} );
-            PNode onButton = new PSwing( new PropertyRadioButton<Boolean>( null, "on", element.onProperty, true ) {{
+            PNode onButton = new PSwing( new PropertyRadioButton<Boolean>( null, getString( "Games.radioButton.on" ), element.onProperty, true ) {{
                 setFont( new PhetFont( 20, true ) );
                 setOpaque( false );
             }} );
