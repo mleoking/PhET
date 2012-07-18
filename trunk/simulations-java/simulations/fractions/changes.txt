@@ -1,3 +1,4 @@
+Fraction Matcher: Moved smiling face to the right so it doesn't overlap with back button
 Fraction Matcher: Converted "new game" button to a back button
 Build a Fraction: Shapes: Stack pieces up and to the left with less spacing
 Fraction Matcher: Fixed: "My Matches" text can go offscreen to the left, see #3368
