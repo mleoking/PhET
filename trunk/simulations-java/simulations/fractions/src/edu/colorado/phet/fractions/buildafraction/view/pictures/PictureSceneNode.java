@@ -80,7 +80,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
 
     final int spacing = 140;
     private final int layoutXOffset;
-    double dx = 4;
+    double dx = -3;
     private final PictureLevel level;
 
     public PictureSceneNode( final int levelIndex, final BuildAFractionModel model, final PDimension STAGE_SIZE, final SceneContext context, BooleanProperty soundEnabled ) {
