@@ -4,6 +4,7 @@ package edu.colorado.phet.fractions.buildafraction.view;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.fractions.FractionsResources.Images;
+import edu.colorado.phet.fractions.common.view.BackButton;
 import edu.colorado.phet.fractions.common.view.SpinnerButtonNode;
 import edu.umd.cs.piccolo.PNode;
 

@@ -28,6 +28,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.radiobuttonstrip.ToggleButtonNode;
 import edu.colorado.phet.fractions.buildafraction.view.pictures.RefreshButtonNode;
+import edu.colorado.phet.fractions.common.view.BackButton;
 import edu.colorado.phet.fractions.fractionmatcher.view.PaddedIcon;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.umd.cs.piccolo.PNode;
