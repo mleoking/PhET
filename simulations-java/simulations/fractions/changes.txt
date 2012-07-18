@@ -1,3 +1,4 @@
+Build a Fraction: Numbers: Send fraction skeleton to toolbox location when dropped in toolbox
 Build a Fraction: Numbers: Fixed reset for fraction skeletons
 Build a Fraction: Numbers: Made different card size for 1 vs 2 digit numbers
 Build a Fraction: Numbers: Have the fraction skeleton start smaller in the toolbox, and reduce the toolbox height
