@@ -18,7 +18,9 @@ import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.Min;
+import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.RichPNode;
@@ -28,6 +30,7 @@ import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
+import edu.colorado.phet.fractions.common.view.BackButton;
 import edu.colorado.phet.fractions.common.view.FNode;
 import edu.colorado.phet.fractions.fractionmatcher.model.Cell;
 import edu.colorado.phet.fractions.fractionmatcher.model.MatchingGameModel;
@@ -138,12 +141,13 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
             } ) );
             addChild( scoreCellsLayer );
 
-            addChild( new PhetPText( Strings.MY_MATCHES, new PhetFont( 18, true ) ) {{
+            final PhetPText myMatchesText = new PhetPText( Strings.MY_MATCHES, new PhetFont( 18, true ) ) {{
 
                 //Show "my matches" under the top left cell
                 final double offsetX = scoreCellsLayer.getChild( 0 ).getFullBounds().getX();
                 setOffset( offsetX, scoreCellsLayer.getMaxY() );
-            }} );
+            }};
+            addChild( myMatchesText );
 
             addChild( new FNode( model.state.get().startCells.map( new F<Cell, PNode>() {
                 @Override public PNode f( Cell c ) {
@@ -180,16 +184,21 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                 }
             }, model.fractionIDs, model.revealClues ) );
 
-            final Button newGameButton = new Button( Components.newGameButton, Strings.NEW_GAME, Color.yellow, Vector2D.ZERO, new ActionListener() {
-                public void actionPerformed( final ActionEvent e ) {
+            final BackButton backButton = new BackButton( new VoidFunction0() {
+                public void apply() {
+                    SimSharingManager.sendButtonPressed( Components.backButton );
                     model.state.set( model.state.get().withMode( Mode.CHOOSING_SETTINGS ) );
                 }
-            } );
+            } ) {{
+                setOffset( INSET, myMatchesText.getMaxY() + INSET * 2 );
+            }};
+
+            addChild( backButton );
 
             //Update the scoreboard when level, score, timerVisible, or time (in seconds) changes
             addChild( new UpdateNode( new Effect<PNode>() {
                 @Override public void e( final PNode parent ) {
-                    parent.addChild( new ScoreboardNode( newGameButton, model.state ) {{
+                    parent.addChild( new ScoreboardNode( model.state ) {{
 
                         //Update the location, but get it approximately right so it doesn't expand the dirty region
                         setOffset( STAGE_SIZE.width - INSET, scoreCellsLayer.getMaxY() + INSET );

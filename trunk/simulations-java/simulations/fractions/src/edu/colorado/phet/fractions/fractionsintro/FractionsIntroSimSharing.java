@@ -56,7 +56,7 @@ public class FractionsIntroSimSharing {
 
         levelButton,
         soundButton, stopwatchButton,
-        newGameButton, mixedNumbersTab,
+        backButton, mixedNumbersTab,
     }
 
     //For chaining with component types
