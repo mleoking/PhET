@@ -1,0 +1,48 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: July 12-18, 2012
+
+Line Graphing
+- worked on Game tab (top-level flow, reward)
+- summarized Game design notes
+- latest: http://www.colorado.edu/physics/phet/dev/line-graphing/0.00.21
+
+Fractions
+- discussed RTL translation issue with SR, #3369
+
+Sponsor
+- dropped month from "since", show only the year (eg, "since 2012"), #3376
+- restored the "CCK DC" sponsor prototype, #3380
+
+Common
+- discussions about vector classes, #3374
+
+Translations
+- answered question about Lao font for JO
+
+Unfuddle
+- cleaned up various tickets related to my sims
+- reported a bug with creating custom reports to Unfuddle
+
+Administrative
+- status meeting
+- Physics/Math meeting
+- reports
+
+WHAT'S NEXT:                                                                         '
+
+- Line Graphing: design & implement "Game" tab
+- Normal Modes: continue code review when preliminary issues have been addressed, #3362
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- July 30 (out of town)
+- August 6-19 (vacation, not working)
+- October 10-23 (CT, working reduced hours)
+
+--
