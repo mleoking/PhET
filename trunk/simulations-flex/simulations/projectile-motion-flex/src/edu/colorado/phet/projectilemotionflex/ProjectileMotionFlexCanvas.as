@@ -27,8 +27,8 @@ public class ProjectileMotionFlexCanvas extends Canvas {
         const myMainView: MainView = new MainView( RENDER_WIDTH, RENDER_HEIGHT )
         this.addChild( myMainView );
         const listener: Function = function ( event: Event ): void {
-            const sx = stage.stageWidth / RENDER_WIDTH;
-            const sy = stage.stageHeight / RENDER_HEIGHT;
+            const sx: Number = stage.stageWidth / RENDER_WIDTH;
+            const sy: Number = stage.stageHeight / RENDER_HEIGHT;
 
             myMainView.scaleX = Math.min( sx, sy );
             myMainView.scaleY = Math.min( sx, sy );
@@ -39,13 +39,6 @@ public class ProjectileMotionFlexCanvas extends Canvas {
         listener( null );
     }//end init()
 
-    public function setResolution( rez: String ): void {
-        if ( rez == "LOW" ) {
-            stage.quality = StageQuality.LOW;
-        }
-        else if ( rez == "HIGH" ) {
-            stage.quality = StageQuality.HIGH;
-        }
-    }
+
 }//end class
 }//end package

@@ -4,7 +4,7 @@
 
 /**
  * Created with IntelliJ IDEA.
- * User: Duso
+ * User: Dubson
  * Date: 7/1/12
  * Time: 6:12 AM
  * To change this template use File | Settings | File Templates.
@@ -14,21 +14,28 @@ import edu.colorado.phet.projectilemotionflex.view.MainView;
 import edu.colorado.phet.projectilemotionflex.view.MainView;
 import edu.colorado.phet.projectilemotionflex.view.ProjectileView;
 
+import flash.display.Sprite;
+
 public class Projectile {
 
     private var mainView: MainView;
     private var trajectoryModel: TrajectoryModel;
+    private var _t: Number;                    //time in seconds, projectile is fired at t = 0
     private var _mass: Number;
     private var _diameter: Number;
     private var _dragCoefficient: Number;
+    private var inFlightGraphic: Sprite;       //graphic of projectile while in flight
+    private var onGroundGraphic: Sprite;       //graphic of projectile after it has hit the ground
 
 
-    public function Projectile( mainView:MainView, trajectoryModel:TrajectoryModel, mass:Number,  diameter:Number,  dragCoefficient:Number ) {
+    public function Projectile( mainView:MainView, trajectoryModel:TrajectoryModel, mass:Number,  diameter:Number,  dragCoefficient:Number, inFlightGraphic: Sprite = null, onGroundGraphic: Sprite = null ) {
         this.mainView = mainView;
         this.trajectoryModel = trajectoryModel
         _mass = mass;
         _diameter = diameter;
         _dragCoefficient = dragCoefficient;
+        this.inFlightGraphic = inFlightGraphic;
+        this.onGroundGraphic = onGroundGraphic;
     }//end constructor
 
     public function get mass():Number {
@@ -55,5 +62,12 @@ public class Projectile {
         _dragCoefficient = value;
     }
 
+    public function get t(): Number {
+        return _t;
+    }
+
+    public function set t( value: Number ): void {
+        _t = value;
+    }
 }//end lclass
 }//end package

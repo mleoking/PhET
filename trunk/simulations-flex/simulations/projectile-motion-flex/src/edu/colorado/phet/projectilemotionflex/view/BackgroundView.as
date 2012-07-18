@@ -144,8 +144,10 @@ public class BackgroundView extends Sprite {
         gB.endFill()
     }
 
-    //called when user clicks on magnify button in control panel
-    //increases magnification of container by magFactor = root-of-2
+    /**
+     * Called when user clicks on magnify button in control panel,
+     * increases magnification of container by magFactor = root-of-2
+     */
     public function magnify():void{
         //trace("backgroundView.magnify called");
         nbrMag -= 1;
@@ -154,8 +156,12 @@ public class BackgroundView extends Sprite {
         container.scaleY *= magFactor;
         container.x = _originXInPix*( 1.0 - 1/totMagF );
         container.y = _originYInPix*( 1.0 - 1/totMagF );
+
+        //reset pixPerMeter
+        mainView.pixPerMeter = mainView.pixPerMeterUnZoomed/totMagF;
+
         //must update tapeMeasure
-        mainView.backgroundView.tapeMeasure.resetReadout()
+        mainView.backgroundView.tapeMeasure.resetReadout();
         //must reset linewidths on trajectories
     }
 
@@ -169,8 +175,10 @@ public class BackgroundView extends Sprite {
         container.scaleY *= 1/magFactor;
         container.x = _originXInPix*( 1.0 - 1/totMagF );
         container.y = _originYInPix*( 1.0 - 1/totMagF );
+        //reset pixPerMeter
+        mainView.pixPerMeter = mainView.pixPerMeterUnZoomed/totMagF;
         //must update tapeMeasure
-        mainView.backgroundView.tapeMeasure.resetReadout()
+        mainView.backgroundView.tapeMeasure.resetReadout();
         //must reset linewidths on trajectories
     }
 
