@@ -1,3 +1,5 @@
+# 0.00.20 (65976) Jul 18, 2012
+7/18/12 dev version to demonstrate top-level flow of game and reward
 7/17/12 use a consistent color for game buttons/instructions
 7/17/12 save/restore the game reward node's animation state when deactivating/activating the game module
 7/17/12 add "Developer->Test game reward" menu item
