@@ -1,3 +1,4 @@
+Fraction Matcher: Animate level selection screen/game screen
 Fraction Matcher: Added support for RTL languages in the control panel, see #3369
 Fraction Matcher: Moved smiling face to the right so it doesn't overlap with back button
 Fraction Matcher: Converted "new game" button to a back button
