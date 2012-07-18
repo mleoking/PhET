@@ -201,8 +201,8 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
                     parent.addChild( new ScoreboardNode( model.state ) {{
 
                         //Update the location, but get it approximately right so it doesn't expand the dirty region
-                        setOffset( STAGE_SIZE.width - INSET, scoreCellsLayer.getMaxY() + INSET );
-                        setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - INSET, scoreCellsLayer.getMaxY() + INSET );
+                        setOffset( STAGE_SIZE.width - INSET * 2, scoreCellsLayer.getMaxY() + INSET );
+                        setOffset( STAGE_SIZE.width - getFullBounds().getWidth() - INSET * 2, scoreCellsLayer.getMaxY() + INSET );
                     }} );
                 }
             }, model.level, model.score, model.timerVisible, model.timeInSec ) );
