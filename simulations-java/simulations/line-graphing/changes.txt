@@ -1,3 +1,4 @@
+# 0.00.21 (65997) Jul 18, 2012
 7/18/12 tweak game reward parameters
 7/18/12 add images of simplified equations to game reward
 7/18/12 flatten PointToolNode hierarchy
