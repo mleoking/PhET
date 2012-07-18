@@ -26,6 +26,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
+import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.buildafraction.model.pictures.PictureLevel;
@@ -247,22 +248,22 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
                 return target.cell.getFullBounds().getMinX();
             }
         } ).minimum( doubleOrd );
-        final PhetPText title = new PhetPText( "Level " + ( levelIndex + 1 ), new PhetFont( 32, true ) );
-        title.setOffset( ( minScoreCellX - INSET ) / 2 - title.getFullWidth() / 2, backButton.getFullBounds().getCenterY() - title.getFullHeight() / 2 );
-        addChild( title );
+        final PhetPText levelReadoutTitle = new PhetPText( "Level " + ( levelIndex + 1 ), new PhetFont( 32, true ) );
+        levelReadoutTitle.setOffset( ( minScoreCellX - INSET ) / 2 - levelReadoutTitle.getFullWidth() / 2, backButton.getFullBounds().getCenterY() - levelReadoutTitle.getFullHeight() / 2 );
+        addChild( levelReadoutTitle );
 
         final TextButtonNode resetButton = new TextButtonNode( "Reset", AbstractFractionsCanvas.CONTROL_FONT, BUTTON_COLOR ) {{
-            setOffset( title.getMaxX() + 130, title.getCenterY() - getFullBounds().getHeight() / 2 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( final ActionEvent e ) {
                     reset();
                 }
             } );
         }};
-        addChild( resetButton );
 
-        addChild( new RefreshButtonNode( _resampleLevel ) {{
-            setOffset( resetButton.getMaxX() + 20, title.getCenterY() - getFullBounds().getHeight() / 2 );
+        final RefreshButtonNode refreshButton = new RefreshButtonNode( _resampleLevel );
+
+        addChild( new HBox( resetButton, refreshButton ) {{
+            setOffset( levelReadoutTitle.getCenterX() - getFullBounds().getWidth() / 2, levelReadoutTitle.getMaxY() + INSET );
         }} );
     }
 
