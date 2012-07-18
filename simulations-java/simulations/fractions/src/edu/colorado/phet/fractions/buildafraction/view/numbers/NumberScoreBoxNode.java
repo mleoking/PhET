@@ -56,7 +56,6 @@ public class NumberScoreBoxNode extends PNode {
 
                 //Light up if the user matched
                 public void apply( final List<Fraction> fractions ) {
-                    System.out.println( "fractions = " + fractions );
                     if ( fraction != null && fractions.find( new F<Fraction, Boolean>() {
                         @Override public Boolean f( final Fraction f ) {
                             return f.approxEquals( fraction );
