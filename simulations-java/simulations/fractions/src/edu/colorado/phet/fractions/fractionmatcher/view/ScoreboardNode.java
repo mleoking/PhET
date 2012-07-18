@@ -6,6 +6,7 @@ import java.text.MessageFormat;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
+import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
 import edu.colorado.phet.fractions.fractionmatcher.model.MatchingGameState;
@@ -32,8 +33,9 @@ class ScoreboardNode extends PNode {
         final VBox valueBox = new VBox( 3, VBox.LEFT_ALIGNED,
                                         text( model.get().info.level + "" ),
                                         text( model.get().info.score + "" ),
-                                        optionalTimerValue
-        );
+                                        optionalTimerValue );
+
+        addChild( new VBox( new HBox( textBox, valueBox ) ) );
     }
 
     private static PhetPText text( String text ) { return new PhetPText( text, font ); }
