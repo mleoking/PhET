@@ -66,7 +66,7 @@ class PlayNode extends PhetPNode {
         //XXX temporary test buttons for ending game
         {
             // end game with perfect score
-            TextButtonNode endWithPerfectScoreButton = new TextButtonNode( "End with perfect score", new PhetFont( 30 ), Color.RED );
+            TextButtonNode endWithPerfectScoreButton = new TextButtonNode( "End with perfect score", new PhetFont( 30 ), Color.GREEN );
             endWithPerfectScoreButton.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     model.score.set( model.getPerfectScore() );
