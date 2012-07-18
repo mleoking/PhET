@@ -25,7 +25,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-class PointSlopeEquationFactory extends SimplifiedEquationFactory {
+public class PointSlopeEquationFactory extends SimplifiedEquationFactory {
 
     public EquationNode createNode( StraightLine line, PhetFont font ) {
         if ( line.run == 0 ) {

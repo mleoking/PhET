@@ -4,6 +4,7 @@ package edu.colorado.phet.linegraphing.linegame.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,14 +33,19 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas.CenteredStage;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.PadBoundsNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
+import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.colorado.phet.linegraphing.common.view.GraphNode;
 import edu.colorado.phet.linegraphing.common.view.PointToolNode;
+import edu.colorado.phet.linegraphing.common.view.SimplifiedEquationFactory;
+import edu.colorado.phet.linegraphing.pointslope.view.PointSlopeEquationFactory;
+import edu.colorado.phet.linegraphing.slopeintercept.view.SlopeInterceptEquationFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -58,6 +64,7 @@ public class RewardNode extends PhetPNode {
 
     // types of images
     private final ArrayList<Image> graphImages;
+    private final ArrayList<Image> equationImages;
     private final ArrayList<Image> pointToolImages;
     private final ArrayList<Image> smileyFaceImages;
 
@@ -119,6 +126,7 @@ public class RewardNode extends PhetPNode {
         // images
         {
             graphImages = new ArrayList<Image>();
+            equationImages = new ArrayList<Image>();
             pointToolImages = new ArrayList<Image>();
             smileyFaceImages = new ArrayList<Image>();
 
@@ -128,6 +136,10 @@ public class RewardNode extends PhetPNode {
                 graphImages.add( BufferedImageUtils.toImage( GraphNode.createYEqualsNegativeXIcon( 50, color ) ) );
                 pointToolImages.add( createPointToolImage( color ) );
                 smileyFaceImages.add( createSmileyFaceImage( color ) );
+                // add additional variations of equations
+                for ( int i = 0; i < 5; i++ ) {
+                    equationImages.add( createEquationImage( color ) );
+                }
             }
 
             // image pool, images that are in use by the animation
@@ -145,8 +157,38 @@ public class RewardNode extends PhetPNode {
         // initial state, everything visible
         setBounds( bounds );
         setGraphsVisible( true );
+        setEquationsVisible( true );
         setPointToolsVisible( true );
         setSmileyFacesVisible( true );
+    }
+
+    private Image createEquationImage( Color color ) {
+        boolean useSlopeInterceptForm = ( Math.random() < 0.5 );
+        final PhetFont font = new PhetFont( Font.BOLD, 24 );
+        PNode node;
+        if ( useSlopeInterceptForm ) {
+            StraightLine line = new StraightLine( getRandomNonZeroInteger( -20, 20 ), getRandomNonZeroInteger( -20, 20 ),
+                                                  getRandomNonZeroInteger( -20, 20 ),
+                                                  color, color );
+            SimplifiedEquationFactory factory = new SlopeInterceptEquationFactory();
+            node = factory.createNode( line, font );
+        }
+        else {
+            StraightLine line = new StraightLine( getRandomNonZeroInteger( -20, 20 ), getRandomNonZeroInteger( -20, 20 ),
+                                                  getRandomNonZeroInteger( -20, 20 ), getRandomNonZeroInteger( -20, 20 ),
+                                                  color, color );
+            SimplifiedEquationFactory factory = new PointSlopeEquationFactory();
+            node = factory.createNode( line, font );
+        }
+        return new PadBoundsNode( node ).toImage();
+    }
+
+    private static int getRandomNonZeroInteger( int min, int max ) {
+        int i = (int)( min + ( Math.random() * ( max - min ) ) );
+        if ( i == 0 ) {
+            i = 1;
+        }
+        return i;
     }
 
     private Image createPointToolImage( Color color ) {
@@ -173,6 +215,7 @@ public class RewardNode extends PhetPNode {
         setMotionDelta( 10 );
 
         setImagesVisible( graphImages, level == 1 );
+        setImagesVisible( equationImages, level == 1 );
         setImagesVisible( pointToolImages, level == 2 );
         setImagesVisible( smileyFaceImages, level == 3 );
     }
@@ -241,6 +284,14 @@ public class RewardNode extends PhetPNode {
 
     private void setGraphsVisible( boolean visible ) {
         setImagesVisible( graphImages, visible );
+    }
+
+    private boolean isEquationsVisible() {
+        return isImagesVisible( equationImages );
+    }
+
+    private void setEquationsVisible( boolean visible ) {
+        setImagesVisible( equationImages, visible );
     }
 
     private boolean isPointToolsVisible() {
@@ -494,6 +545,14 @@ public class RewardNode extends PhetPNode {
             }
         } );
 
+        final JCheckBox equationsCheckBox = new JCheckBox( "equations" );
+        equationsCheckBox.setSelected( rewardNode.isEquationsVisible() );
+        equationsCheckBox.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                rewardNode.setEquationsVisible( equationsCheckBox.isSelected() );
+            }
+        } );
+
         final JCheckBox pointToolsCheckBox = new JCheckBox( "point tools" );
         pointToolsCheckBox.setSelected( rewardNode.isPointToolsVisible() );
         pointToolsCheckBox.addActionListener( new ActionListener() {
@@ -513,6 +572,7 @@ public class RewardNode extends PhetPNode {
         JPanel objectsControlPanel = new VerticalLayoutPanel();
         objectsControlPanel.setBorder( new TitledBorder( "Objects" ) );
         objectsControlPanel.add( graphsCheckBox );
+        objectsControlPanel.add( equationsCheckBox );
         objectsControlPanel.add( pointToolsCheckBox );
         objectsControlPanel.add( smileyFacesCheckBox );
 
