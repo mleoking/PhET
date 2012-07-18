@@ -1,3 +1,4 @@
+Build a Fraction: Numbers: Have the fraction skeleton start smaller in the toolbox, and reduce the toolbox height
 Build a Fraction: Put reset and refresh buttons horizontally next to each other centered below the level title
 # 1.00.08 (65996) Jul 18, 2012
 Fraction Matcher: Animate level selection screen/game screen
