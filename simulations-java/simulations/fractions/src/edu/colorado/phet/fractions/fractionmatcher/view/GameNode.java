@@ -38,6 +38,8 @@ import edu.colorado.phet.fractions.fractionmatcher.view.Controller.Resample;
 import edu.colorado.phet.fractions.fractionsintro.FractionsIntroSimSharing.Components;
 import edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.activities.PActivity;
+import edu.umd.cs.piccolo.activities.PActivity.PActivityDelegate;
 
 import static java.awt.Color.lightGray;
 
@@ -48,12 +50,37 @@ import static java.awt.Color.lightGray;
  */
 public class GameNode extends PNode {
     public GameNode( final boolean dev, final MatchingGameModel model, final PNode emptyBarGraphNode, final PNode rootNode ) {
+
+        //Animation when selected
         final CompositeBooleanProperty notChoosingSettings = new CompositeBooleanProperty( new Function0<Boolean>() {
             public Boolean apply() {
                 return model.state.get().info.mode != Mode.CHOOSING_SETTINGS;
             }
         }, model.state );
-        notChoosingSettings.addObserver( MatchingGameCanvas.setNodeVisible( this ) );
+        notChoosingSettings.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( final Boolean showGameNode ) {
+                if ( showGameNode ) {
+                    setVisible( true );
+                    setOffset( AbstractFractionsCanvas.STAGE_SIZE.getWidth(), 0 );
+                    animateToPositionScaleRotation( 0, 0, 1, 0, 400 );
+                }
+                else {
+                    animateToPositionScaleRotation( AbstractFractionsCanvas.STAGE_SIZE.getWidth(), 0, 1, 0, 400 ).
+                            setDelegate( new PActivityDelegate() {
+                                public void activityStarted( final PActivity activity ) {
+                                }
+
+                                public void activityStepped( final PActivity activity ) {
+                                }
+
+                                public void activityFinished( final PActivity activity ) {
+                                    setVisible( false );
+                                }
+                            } );
+                }
+            }
+        } );
+        setVisible( false );
 
         //Cells at the top of the board
         final PNode scalesNode = new RichPNode( model.state.get().leftScale.toNode(), model.state.get().rightScale.toNode() );
