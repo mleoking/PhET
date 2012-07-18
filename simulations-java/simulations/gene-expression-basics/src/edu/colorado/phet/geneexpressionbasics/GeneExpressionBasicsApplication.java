@@ -39,9 +39,9 @@ public class GeneExpressionBasicsApplication extends PiccoloPhetApplication {
         super( config );
 
         // module(s)
+        addModule( new MultipleCellsModule( TAB__MULTIPLE_CELLS, getPhetFrame() ) );
         addModule( manualGeneExpressionModule );
         addModule( new MessengerRnaProductionModule( TAB__MESSENGER_RNA_PRODUCTION ) );
-        addModule( new MultipleCellsModule( TAB__MULTIPLE_CELLS, getPhetFrame() ) );
 
         initMenuBar();
     }

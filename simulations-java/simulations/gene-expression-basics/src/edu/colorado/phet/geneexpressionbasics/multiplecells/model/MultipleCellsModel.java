@@ -53,7 +53,7 @@ public class MultipleCellsModel implements Resettable {
     // Property that controls the number of cells that are visible and that are
     // being included in the calculation of the average protein level.  This is
     // intended to be set by clients, such as the view.
-    public final Property<Integer> numberOfVisibleCells = new Property<Integer>( 1 );
+    public final Property<Integer> numberOfVisibleCells = new Property<Integer>( MAX_CELLS );
 
     // Properties used to control the rate at which protein is synthesized and
     // degraded in the cells.  These are intended to be set by clients, such as
@@ -187,9 +187,7 @@ public class MultipleCellsModel implements Resettable {
         transcriptionFactorAssociationProbability.reset();
         polymeraseAssociationProbability.reset();
         mRnaDegradationRate.reset();
-
-        // Start with one visible cell.
-        setNumVisibleCells( 1 );
+        setNumVisibleCells( numberOfVisibleCells.get() );
 
         // Step the model a bunch of times in order to allow it to reach a
         // steady state.  The number of times that are needed to reach steady
