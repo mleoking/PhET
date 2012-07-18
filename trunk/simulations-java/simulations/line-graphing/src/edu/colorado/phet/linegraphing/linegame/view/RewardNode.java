@@ -58,8 +58,6 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class RewardNode extends PhetPNode {
 
-    private static final int DEFAULT_CLOCK_DELAY = 60; // ms
-
     private final ConstantDtClock clock; // clock that controls the animation
 
     // types of images
@@ -97,12 +95,9 @@ public class RewardNode extends PhetPNode {
         }
     }
 
-    /**
-     * Zero-args constructor.
-     * The this(...) arguments are not really relevant, just something to get us started.
-     */
+    // Zero-args constructor, with defaults.
     public RewardNode() {
-        this( new PBounds( 0, 0, 1024, 768 ), 100, 5 );
+        this( new PBounds( 0, 0, 1024, 768 ), 150, 10, 40 );
     }
 
     /**
@@ -110,8 +105,9 @@ public class RewardNode extends PhetPNode {
      * @param bounds images are constrained to motion within these bounds
      * @param population how many images in the animation
      * @param motionDelta nominal motion delta, may be randomly adjusted for each specific image
+     * @param clockDelay
      */
-    public RewardNode( PBounds bounds, int population, int motionDelta ) {
+    public RewardNode( PBounds bounds, int population, int motionDelta, int clockDelay ) {
         super();
         setPickable( false );
         setChildrenPickable( false );
@@ -120,7 +116,7 @@ public class RewardNode extends PhetPNode {
         this.motionDelta = motionDelta;
         this.motionStrategy = new FallingMotionStrategy();
 
-        this.clock = new ConstantDtClock( DEFAULT_CLOCK_DELAY, 1 );
+        this.clock = new ConstantDtClock( clockDelay, 1 );
         this.clock.pause();
 
         // images
@@ -208,14 +204,8 @@ public class RewardNode extends PhetPNode {
      *
      */
     public void setLevel( int level ) {
-
-        // all levels share these settings for a perfect score
-        setClockDelay( 40 );
-        setPopulation( 300 );
-        setMotionDelta( 10 );
-
-        setImagesVisible( graphImages, level == 1 );
         setImagesVisible( equationImages, level == 1 );
+        setImagesVisible( graphImages, level == 2 );
         setImagesVisible( pointToolImages, level == 2 );
         setImagesVisible( smileyFaceImages, level == 3 );
     }
@@ -486,12 +476,12 @@ public class RewardNode extends PhetPNode {
     public static void main( String[] args ) {
 
         // parameters that control the animation
-        final IntegerRange clockDelayRange = new IntegerRange( 10, 200, 60 );
         final IntegerRange populationRange = new IntegerRange( 50, 1000, 500 );
         final IntegerRange motionDeltaRange = new IntegerRange( 1, 20, 5 );
+        final IntegerRange clockDelayRange = new IntegerRange( 10, 200, 60 );
 
         PBounds bounds = new PBounds( 0, 0, 100, 100 );
-        final RewardNode rewardNode = new RewardNode( bounds, populationRange.getDefault(), motionDeltaRange.getDefault() );
+        final RewardNode rewardNode = new RewardNode( bounds, populationRange.getDefault(), motionDeltaRange.getDefault(), clockDelayRange.getDefault() );
         rewardNode.setRunning( true );
 
         final PhetPCanvas canvas = new PhetPCanvas() {
@@ -516,14 +506,14 @@ public class RewardNode extends PhetPNode {
             public void actionPerformed( ActionEvent e ) {
                 rewardNode.setMotionStrategy( jitteryMotionStrategy );
             }
-        });
+        } );
 
         final JRadioButton fallingMotionButton = new JRadioButton( "falling" );
         fallingMotionButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 rewardNode.setMotionStrategy( fallingMotionStrategy );
             }
-        });
+        } );
 
         ButtonGroup motionGroup = new ButtonGroup();
         motionGroup.add( jitteryMotionButton );
@@ -576,16 +566,6 @@ public class RewardNode extends PhetPNode {
         objectsControlPanel.add( pointToolsCheckBox );
         objectsControlPanel.add( smileyFacesCheckBox );
 
-        final LinearValueControl clockDelayControl = new LinearValueControl( clockDelayRange.getMin(), clockDelayRange.getMax(), "clock delay:", "##0", "ms" );
-        clockDelayControl.setBorder( BorderFactory.createEtchedBorder() );
-        clockDelayControl.setToolTipText( "how frequently the simulation clock ticks" );
-        clockDelayControl.setValue( rewardNode.getClockDelay() );
-        clockDelayControl.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                rewardNode.setClockDelay( (int) clockDelayControl.getValue() );
-            }
-        } );
-
         final LinearValueControl populationControl = new LinearValueControl( populationRange.getMin(), populationRange.getMax(), "population:", "##0", "" );
         populationControl.setBorder( BorderFactory.createEtchedBorder() );
         populationControl.setValue( populationRange.getDefault() );
@@ -606,12 +586,22 @@ public class RewardNode extends PhetPNode {
             }
         } );
 
+        final LinearValueControl clockDelayControl = new LinearValueControl( clockDelayRange.getMin(), clockDelayRange.getMax(), "clock delay:", "##0", "ms" );
+        clockDelayControl.setBorder( BorderFactory.createEtchedBorder() );
+        clockDelayControl.setToolTipText( "how frequently the simulation clock ticks" );
+        clockDelayControl.setValue( rewardNode.getClockDelay() );
+        clockDelayControl.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                rewardNode.setClockDelay( (int) clockDelayControl.getValue() );
+            }
+        } );
+
         JPanel devControlPanel = new VerticalLayoutPanel();
         devControlPanel.add( motionControlPanel );
         devControlPanel.add( objectsControlPanel );
-        devControlPanel.add( clockDelayControl );
         devControlPanel.add( populationControl );
         devControlPanel.add( motionDeltaControl );
+        devControlPanel.add( clockDelayControl );
 
         JPanel controlPanel = new JPanel();
         controlPanel.setBorder( new EmptyBorder( 10, 10, 10, 10 ) );
