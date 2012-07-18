@@ -19,6 +19,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.fractions.FractionsResources.Images;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
+import edu.colorado.phet.fractions.buildafraction.view.pictures.AnimateToScale;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -58,13 +59,15 @@ public class FractionNode extends RichPNode {
         this.context = context;
         topBox = box( true );
         bottomBox = box( true );
+
+        //Size in the toolbox is smaller to keep the toolbox size good
+        setScale( 0.7 );
         divisorLine = new PhetPPath( new Line2D.Double( 0, 0, 50, 0 ), new BasicStroke( 4, CAP_ROUND, JOIN_MITER ), black );
 
         splitButton = new PImage( Images.SPLIT_BLUE );
         final VBox box = new VBox( topBox, divisorLine, bottomBox );
 
         //Show a background behind it to make the entire shape draggable
-        final Color transparentGray = new Color( 200, 200, 200, 200 );
         final Color transparent = new Color( 0, 0, 0, 0 );
         dragRegion = new RichPNode( new PhetPPath( RectangleUtils.expand( box.getFullBounds(), 5, 5 ), transparent ), box );
         addChild( dragRegion );
@@ -83,6 +86,13 @@ public class FractionNode extends RichPNode {
 
         dragRegion.addInputEventListener( new CursorHandler() );
         dragRegion.addInputEventListener( new SimSharingDragHandler( null, true ) {
+            @Override protected void startDrag( final PInputEvent event ) {
+                super.startDrag( event );
+
+                //Grow as it moves out of the toolbox
+                addActivity( new AnimateToScale( FractionNode.this, 400 ) );
+            }
+
             @Override protected void drag( final PInputEvent event ) {
                 super.drag( event );
                 moveToFront();
