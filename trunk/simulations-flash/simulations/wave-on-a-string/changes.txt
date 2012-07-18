@@ -1,3 +1,5 @@
+# 2.04.00 (65974) Jul 18, 2012
+7/18/12 Minor update to text on control: Reset changed to Restart.
 # 2.03.01 (65973) Jul 18, 2012
 7/18/12 Altered text on control from Restart to Reset
 # 2.03.00 (51205) Apr 26, 2011
