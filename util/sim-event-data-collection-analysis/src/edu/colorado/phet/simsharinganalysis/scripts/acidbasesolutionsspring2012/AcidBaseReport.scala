@@ -247,6 +247,8 @@ class AcidBaseReport(log: Log) {
 
   def used(component: String): Boolean = log.entries.filter(_.messageType == "user").filter(_.component == component).length > 0
 
+  def entryIndicesWhenUsed(component: String) = log.entries.zipWithIndex.filter(_._1.messageType == "user").filter(_._1.component == component).map(_._2).toList
+
   def used(radioButton: String, icon: String): Boolean = used(radioButton) || used(icon)
 
   def used(elm: List[String]): Boolean = elm.find(used).isDefined
@@ -263,4 +265,7 @@ class AcidBaseReport(log: Log) {
   }
   val neverUsedAcidSolutionControls = !everUsedAcidSolutionControl
   val neverUsedBaseSolutionControls = !everUsedBaseSolutionControl
+
+  val baseIndices = entryIndicesWhenUsed("baseRadioButton")
+  val acidIndices = entryIndicesWhenUsed("acidRadioButton")
 }
