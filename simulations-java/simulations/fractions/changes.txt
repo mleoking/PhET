@@ -1,3 +1,4 @@
+# 1.00.09 (66005) Jul 18, 2012
 Build a Fraction: Numbers: Send fraction skeleton to toolbox location when dropped in toolbox
 Build a Fraction: Numbers: Fixed reset for fraction skeletons
 Build a Fraction: Numbers: Made different card size for 1 vs 2 digit numbers
