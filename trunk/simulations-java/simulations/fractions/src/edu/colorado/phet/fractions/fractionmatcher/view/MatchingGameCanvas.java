@@ -140,8 +140,9 @@ public class MatchingGameCanvas extends AbstractFractionsCanvas {
 
             addChild( new PhetPText( Strings.MY_MATCHES, new PhetFont( 18, true ) ) {{
 
-                //Center "my matches" under the top left cell
-                setOffset( scoreCellsLayer.getChild( 0 ).getFullBounds().getCenterX() - getFullWidth() / 2, scoreCellsLayer.getMaxY() );
+                //Show "my matches" under the top left cell
+                final double offsetX = scoreCellsLayer.getChild( 0 ).getFullBounds().getX();
+                setOffset( offsetX, scoreCellsLayer.getMaxY() );
             }} );
 
             addChild( new FNode( model.state.get().startCells.map( new F<Cell, PNode>() {
