@@ -53,7 +53,7 @@ class GameButtonsNode extends PNode {
 
                 addChild( new VBox( new FaceNode( 120 ), new PhetPText( state.getChecks() == 1 ? "+2" : "+1", new PhetFont( 18, true ) ) ) {{
                     final Vector2D pt = buttonLocation.plus( 0, -150 );
-                    centerFullBoundsOnPoint( pt.getX() - getFullBounds().getWidth() / 2, pt.getY() );
+                    centerFullBoundsOnPoint( pt.getX(), pt.getY() );
                 }} );
 
                 addChild( buttonFactory.f( new ButtonArgs( okButton, Strings.OK, Color.green, buttonLocation, new Next() ) ) );
