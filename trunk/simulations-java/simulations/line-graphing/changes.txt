@@ -1,3 +1,5 @@
+7/18/12 make PointToolNode responsible for generation of game reward images
+7/18/12 add point coordinates to point tools in the game reward
 # 0.00.20 (65976) Jul 18, 2012
 7/18/12 dev version to demonstrate top-level flow of game and reward
 7/17/12 use a consistent color for game buttons/instructions
