@@ -1,8 +1,11 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.common.view;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.text.MessageFormat;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -13,9 +16,12 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentType
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.linegraphing.common.LGColors;
+import edu.colorado.phet.linegraphing.common.LGResources.Images;
 import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.ParameterKeys;
 import edu.colorado.phet.linegraphing.common.LGSimSharing.UserComponents;
@@ -24,6 +30,9 @@ import edu.colorado.phet.linegraphing.common.model.PointTool;
 import edu.colorado.phet.linegraphing.common.model.StraightLine;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Tool that displays the (x,y) coordinates of a point on the graph.
@@ -31,18 +40,26 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class PointToolNode extends PointToolGraphicNode {
+public class PointToolNode extends PhetPNode {
+
+    protected static final NumberFormat COORDINATES_FORMAT = new DefaultDecimalFormat( "0" );
+    private static final double COORDINATES_Y_CENTER = 21; // center of the display area, measured from the top of the unscaled image file
+
+    private final PNode bodyNode;
+    private final PText valueNode; // the displayed value
+    private final PPath backgroundNode; // the background behind the displayed value
 
     /**
      * Constructor
-     * @param pointTool the point tool
-     * @param mvt transform between model and view coordinate frames
+     *
+     * @param pointTool    the point tool
+     * @param mvt          transform between model and view coordinate frames
      * @param graph
-     * @param dragBounds drag bounds, in view coordinate frame
+     * @param dragBounds   drag bounds, in view coordinate frame
      * @param linesVisible
      */
     public PointToolNode( final PointTool pointTool, final ModelViewTransform mvt, final Graph graph, Rectangle2D dragBounds, final Property<Boolean> linesVisible ) {
-        super( pointTool.location.get(), LGColors.POINT_TOOL_BACKGROUND_NORMAL_COLOR );
+        this( pointTool.location.get(), LGColors.POINT_TOOL_BACKGROUND_NORMAL_COLOR );
 
         // location and display
         RichSimpleObserver observer = new RichSimpleObserver() {
@@ -78,6 +95,60 @@ public class PointToolNode extends PointToolGraphicNode {
         // dragging
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PointToolDragHandler( this, pointTool.location, mvt, graph, dragBounds ) );
+    }
+
+    /**
+     * This constructor creates a node that is independent of the model.
+     * This was needed so that we could easily generate images of the point tool, for inclusion in the game reward.
+     */
+    public PointToolNode( ImmutableVector2D point, Color background ) {
+
+        // tool body
+        bodyNode = new PImage( Images.POINT_TOOL );
+        bodyNode.setOffset( -bodyNode.getFullBoundsReference().getWidth() / 2, -bodyNode.getFullBoundsReference().getHeight() );
+
+        // displayed value
+        valueNode = new PText();
+        valueNode.setFont( new PhetFont( Font.BOLD, 15 ) );
+
+        // background behind the displayed value, shows through a transparent hole in the display area portion of the body image
+        backgroundNode = new PPath( new Rectangle2D.Double( 5, 5,
+                                                            bodyNode.getFullBoundsReference().getWidth() - 10,
+                                                            0.55 * bodyNode.getFullBoundsReference().getHeight() ) );
+        backgroundNode.setStroke( null );
+        backgroundNode.setOffset( bodyNode.getOffset() );
+
+        // rendering order
+        addChild( backgroundNode );
+        addChild( bodyNode );
+        addChild( valueNode );
+
+        // default state
+        setCoordinates( point );
+        setBackground( background );
+    }
+
+    // Sets the displayed value to a point
+    private void setCoordinates( ImmutableVector2D point ) {
+        setCoordinates( MessageFormat.format( Strings.POINT_XY, COORDINATES_FORMAT.format( point.getX() ), COORDINATES_FORMAT.format( point.getY() ) ) );
+    }
+
+    // Sets the displayed value to an arbitrary string
+    private void setCoordinates( String s ) {
+        valueNode.setText( s );
+        // horizontally centered
+        valueNode.setOffset( bodyNode.getFullBoundsReference().getCenterX() - ( valueNode.getFullBoundsReference().getWidth() / 2 ),
+                                   bodyNode.getFullBoundsReference().getMinY() + COORDINATES_Y_CENTER - ( valueNode.getFullBoundsReference().getHeight() / 2 ) );
+    }
+
+    // Sets the foreground, the color of the displayed value
+    private void setForeground( Color color ) {
+        valueNode.setTextPaint( color );
+    }
+
+    // Sets the background, the color of the display area behind the value
+    private void setBackground( Color color ) {
+        backgroundNode.setPaint( color );
     }
 
     // Drag handler for the point tool, constrained to the range of the graph, snaps to grid.

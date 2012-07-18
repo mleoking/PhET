@@ -1,3 +1,4 @@
+7/18/12 flatten PointToolNode hierarchy
 7/18/12 make PointToolNode responsible for generation of game reward images
 7/18/12 add point coordinates to point tools in the game reward
 # 0.00.20 (65976) Jul 18, 2012
