@@ -1,3 +1,4 @@
+# 1.00.08 (65996) Jul 18, 2012
 Fraction Matcher: Animate level selection screen/game screen
 Fraction Matcher: Added support for RTL languages in the control panel, see #3369
 Fraction Matcher: Moved smiling face to the right so it doesn't overlap with back button
