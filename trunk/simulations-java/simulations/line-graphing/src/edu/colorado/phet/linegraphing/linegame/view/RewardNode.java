@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -29,7 +28,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValueControl;
@@ -40,17 +38,12 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.PadBoundsNode;
 import edu.colorado.phet.linegraphing.common.LGColors;
-import edu.colorado.phet.linegraphing.common.LGResources.Images;
-import edu.colorado.phet.linegraphing.common.LGResources.Strings;
 import edu.colorado.phet.linegraphing.common.view.GraphNode;
-import edu.colorado.phet.linegraphing.common.view.PointToolGraphicNode;
+import edu.colorado.phet.linegraphing.common.view.PointToolNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PDimension;
-import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * The reward that is displayed when the game is completed with a perfect score.
@@ -158,7 +151,7 @@ public class RewardNode extends PhetPNode {
 
     private Image createPointToolImage( Color color ) {
         ImmutableVector2D point = new ImmutableVector2D( Math.random() * 20, Math.random() * 20 );
-        final PointToolGraphicNode pointToolNode = new PointToolGraphicNode( point, color );
+        final PNode pointToolNode = new PointToolNode( point, color );
         pointToolNode.scale( 0.75 );
         return new PadBoundsNode( pointToolNode ).toImage();
     }
