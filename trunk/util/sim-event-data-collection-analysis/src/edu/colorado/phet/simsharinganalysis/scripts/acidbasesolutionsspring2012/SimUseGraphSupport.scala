@@ -50,5 +50,10 @@ object SimUseGraphSupport {
     report("Never used base solution controls (2nd tab)", r => r.neverUsedBaseSolutionControls)
     report("Used phmeter but never dunked it", r => r.used("phMeter") && !r.dunkedPHMeter)
     report("Used phPaper but never dunked it", r => r.used("phPaper") && !r.dunkedPHPaper)
+    report("Clicked on baseRadioButton", r => r.used("baseRadioButton"))
+    report("Clicked on baseRadioButton and then clicked on acidRadioButton", r => {
+      r.baseIndices.length > 0 && r.acidIndices.length > 0 &&
+      r.baseIndices.min < r.acidIndices.max
+    })
   }
 }
