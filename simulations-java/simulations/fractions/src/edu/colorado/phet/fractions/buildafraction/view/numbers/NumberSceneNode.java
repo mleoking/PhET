@@ -188,10 +188,10 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
             }
         } );
 
-        final FractionNode fractionGraphic = new FractionNode( this );
-        fractionGraphic.setScale( 1.0 );
+        final FractionNode fractionNode = new FractionNode( this );
+        fractionNode.setScale( 1.0 );
 
-        final double extentX = leftRightInset * 2 + getStackOffset( stacks.length() ) - singleDigitCardSize.width + spacingBetweenNumbersAndFractionSkeleton + fractionGraphic.getFullBounds().getWidth();
+        final double extentX = leftRightInset * 2 + getStackOffset( stacks.length() ) - singleDigitCardSize.width + spacingBetweenNumbersAndFractionSkeleton + fractionNode.getFullBounds().getWidth();
 
         //Create the toolbox node
         toolboxNode = new RichPNode() {{
@@ -220,8 +220,8 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
             stack.update();
         }
 
-        addChild( fractionGraphic );
-        fractionGraphics.add( fractionGraphic );
+        addChild( fractionNode );
+        fractionGraphics.add( fractionNode );
 
         //Add remaining fraction graphics into the toolbox
         int numRemainingFractionSkeletons = myLevel.targets.length() - 1;
@@ -243,9 +243,9 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
             toolboxFractionGraphic.moveInFrontOf( toolboxNode );
         }
 
-        fractionGraphic.setToolboxPosition( toolboxPositionX, toolboxPositionY );
-        fractionGraphic.setOffset( toolboxNode.getCenterX() - fractionGraphic.getFullBounds().getWidth() / 2, 300 );
-        fractionGraphic.moveInFrontOf( toolboxNode );
+        fractionNode.setToolboxPosition( toolboxPositionX, toolboxPositionY );
+        fractionNode.setOffset( toolboxNode.getCenterX() - fractionNode.getFullBounds().getWidth() / 2, 300 );
+        fractionNode.moveInFrontOf( toolboxNode );
 
         faceNodeDialog = new VBox( new FaceNode( 300 ), new HTMLImageButtonNode( "Next", new PhetFont( 20, true ), Color.orange ) {{
             addActionListener( new ActionListener() {
@@ -320,7 +320,11 @@ public class NumberSceneNode extends SceneNode implements NumberDragContext, Fra
         }
         for ( FractionNode fractionGraphic : fractionGraphics ) {
             fractionGraphic.split();
+            if ( fractionGraphic != fractionGraphics.get( 0 ) ) {
+                fractionGraphic.sendFractionSkeletonToToolbox();
+            }
         }
+        fractionGraphics.get( 0 ).sendFractionSkeletonToCenterOfScreen( toolboxNode.getCenterX(), 300 );
     }
 
     public void endDrag( final FractionNode fractionGraphic, final PInputEvent event ) {
