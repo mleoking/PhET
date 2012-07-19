@@ -12,7 +12,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  */
 public class PlateTectonicsConstants {
 
-    public static final Property<Boolean> DEBUG = new Property<Boolean>( true );
     public static final Property<Integer> framesPerSecondLimit = new Property<Integer>( 60 );
 
     /* Not intended for instantiation. */

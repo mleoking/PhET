@@ -65,35 +65,33 @@ import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.framesPer
 import static org.lwjgl.opengl.GL11.*;
 
 /**
- * General plate tectonics module that consolidates common behavior between the various tabs
- * <p/>
- * TODO: implement different cameras somehow?
+ * Abstract plate tectonics module that consolidates common behavior between the tabs
  */
 public abstract class PlateTectonicsTab extends LWJGLTab {
-    public static final String MAP_LEFT = "CameraLeft";
-    public static final String MAP_RIGHT = "CameraRight";
-    public static final String MAP_UP = "CameraUp";
-    public static final String MAP_DOWN = "CameraDown";
-    public static final String MAP_LMB = "CameraDrag";
 
+    // tool z-coordinates, so that they do not intersect (causes visual artifacts due to the rounding error in the OpenGL depth map)
     private static final float RULER_Z = 0;
     private static final float THERMOMETER_Z = 1;
     private static final float DENSITY_SENSOR_Z = 2;
 
-    // frustum properties
+    // frustum (camera) properties
     public static final float fieldOfViewDegrees = 20;
     public static final float nearPlane = 1;
     public static final float farPlane = 21000;
 
+    // how the cross-section of the earth should be colored
     public final Property<ColorMode> colorMode = new Property<ColorMode>( ColorMode.DENSITY );
 
+    // for interpolation between both zooming extremes. 1 == fully zoomed in, 0 == fully zoomed out
     public final Property<Double> zoomRatio = new Property<Double>( 1.0 );
 
+    // OpenGL standard transformations
     public final LWJGLTransform sceneProjectionTransform = new LWJGLTransform();
     public final LWJGLTransform sceneModelViewTransform = new LWJGLTransform();
 
     private Dimension stageSize;
 
+    // event notifications
     public final VoidNotifier mouseEventNotifier = new VoidNotifier();
     public final VoidNotifier keyboardEventNotifier = new VoidNotifier();
     public final VoidNotifier beforeFrameRender = new VoidNotifier();
@@ -129,6 +127,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     public final Property<Double> framesPerSecond = new Property<Double>( 0.0 );
     private final LinkedList<Long> timeQueue = new LinkedList<Long>();
 
+    // we want to wait until LWJGL has loaded fully before initializing
     private boolean initialized = false;
 
     public PlateTectonicsTab( LWJGLCanvas canvas, String title, float kilometerScale ) {
@@ -138,6 +137,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         modelViewTransform = new LWJGLTransform( ImmutableMatrix4F.scaling( kilometerScale / 1000 ) );
 
         // commented out code made for picking transformation matrices by using in-sim "flying" controls
+        // if we want to slightly change the initial angle of view, this code will be extremely helpful
 //        debugCameraTransform.changed.addListener( new VoidFunction1<LWJGLTransform>() {
 //            public void apply( LWJGLTransform debugTransform ) {
 //                System.out.println( "debug matrix:\n" + debugTransform.getMatrix() );
