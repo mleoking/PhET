@@ -7,10 +7,13 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
-public class PiecewiseLinearFunction implements Function1<Double, Double> {
+/**
+ * An open-ended piecewise linear function for 2D results
+ */
+public class PiecewiseLinearFunction2D implements Function1<Double, Double> {
     private List<ImmutableVector2D> points = new ArrayList<ImmutableVector2D>();
 
-    public PiecewiseLinearFunction( ImmutableVector2D... points ) {
+    public PiecewiseLinearFunction2D( ImmutableVector2D... points ) {
         for ( ImmutableVector2D point : points ) {
             this.points.add( point );
         }

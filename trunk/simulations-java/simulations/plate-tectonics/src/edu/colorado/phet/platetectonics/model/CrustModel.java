@@ -15,7 +15,7 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 import edu.colorado.phet.platetectonics.util.Grid3D;
-import edu.colorado.phet.platetectonics.util.PiecewiseLinearFunction;
+import edu.colorado.phet.platetectonics.util.PiecewiseLinearFunction2D;
 
 import static edu.colorado.phet.platetectonics.util.Side.LEFT;
 import static edu.colorado.phet.platetectonics.util.Side.RIGHT;
@@ -631,7 +631,7 @@ public class CrustModel extends PlateModel {
         }
     }
 
-    private static PiecewiseLinearFunction simplifiedContinentalDifference = new PiecewiseLinearFunction(
+    private static PiecewiseLinearFunction2D simplifiedContinentalDifference = new PiecewiseLinearFunction2D(
             new ImmutableVector2D( 0, 0 ),
             new ImmutableVector2D( 40000, 500 ),
             new ImmutableVector2D( 150000, 1250 ),
@@ -641,7 +641,7 @@ public class CrustModel extends PlateModel {
             new ImmutableVector2D( PlateModel.EARTH_RADIUS, 5778 )
     );
 
-    private static PiecewiseLinearFunction simplifiedOceanicDifference = new PiecewiseLinearFunction(
+    private static PiecewiseLinearFunction2D simplifiedOceanicDifference = new PiecewiseLinearFunction2D(
             new ImmutableVector2D( 0, 0 ),
             new ImmutableVector2D( 50000, 1000 ),
             new ImmutableVector2D( 100000, 1500 ),
