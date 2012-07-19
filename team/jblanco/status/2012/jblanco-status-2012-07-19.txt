@@ -1,0 +1,55 @@
+PhET Progress Report, J. Blanco, 7-19-2012
+
+PhET Weekly Progress Report
+John Blanco
+July 19th, 2012
+
+Time period covered: July 12th through July 18th.
+
+Energy Forms and Changes - 22.5 hrs
+
+o	Reviewed in status meeting.
+o	Implemented animated movement of the selection carousels on the 2nd tab (in collaboration with Sam R).
+o	Changed layout of 2nd tab so that control and legend are at the top.
+o	Integrated artwork supplied by Noah P.
+o	Implemented initial versions of all energy system elements (sources, converters, and users) for the 2nd tab.
+o	Added scaling of model elements based on the relative size of the artwork.
+o	Implemented radio-button selector for the energy system elements in the 2nd tab.
+o	Fixed a race condition that could cause the carousels to appear to get stuck if buttons pressed too quickly.
+o	Added initial infrastructure for the 3rd tab.
+o	Published a snapshot to dev.
+
+Gene Expression Basics - 3.0 hrs
+
+o	Updated documentation, created ticket for code review, see #3381.
+o	Created a custom version for Mike K with "Multiple Cell" tab first and with multiple cells initially showing.
+o	Decided to publish by August 15th, just before school starts.
+
+Balancing Act - 1.5 hrs
+
+o	Investigated, duplicated, and discussed a potential improvement reported by Chris M.  No ticket created yet, will discuss in meeting.
+
+Heat Capacity Lab - 3.0 hrs
+
+o	Reviewed design doc, added notes, discussed some heat capacity concepts with Trish L. and Ariel P.
+
+Fraction Matcher - 0.5 hrs
+
+o	Added thoughts about functional programming to ticket #3357 as part of code review for this sim.
+
+Customer Support - 0.5 hrs
+
+o	Responded to customer who was having issues with digital signature expiration.  Problem resolved.
+
+Meetings, Email, and Other Administrative Overhead - 5.0 hrs
+
+o	Weekly status meeting.
+o	Weekly status report.
+o	Logged May hours in tracking spreadsheet.
+o	Review, prioritization, and updating of Unfuddle issues.
+o	Normal email and administrative overhead.
+
+Vacation and Holidays - 2.0 hrs
+
+o	Two hours of vacation to attend a funeral.
+o	Planning to take vacation on the week of July 30th.
