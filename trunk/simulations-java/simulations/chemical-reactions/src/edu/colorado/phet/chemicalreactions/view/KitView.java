@@ -58,7 +58,6 @@ public class KitView {
     private PNode bottomLayer = new PNode();
 
     private final Kit kit;
-    private final ChemicalReactionsCanvas canvas;
 
     private final Map<MoleculeBucket, MoleculeBucketNode> bucketMap = new HashMap<MoleculeBucket, MoleculeBucketNode>();
     private final Map<Molecule, MoleculeNode> moleculeMap = new HashMap<Molecule, MoleculeNode>();
@@ -66,9 +65,8 @@ public class KitView {
     // store the node-atom relationships
 //    private Map<Atom, LabeledAtomNode> atomNodeMap = new HashMap<Atom, LabeledAtomNode>();
 
-    public KitView( final Kit kit, ChemicalReactionsCanvas canvas ) {
+    public KitView( final Kit kit ) {
         this.kit = kit;
-        this.canvas = canvas;
 
         for ( final MoleculeBucket bucket : kit.getBuckets() ) {
             MoleculeBucketNode bucketView = new MoleculeBucketNode( bucket );
