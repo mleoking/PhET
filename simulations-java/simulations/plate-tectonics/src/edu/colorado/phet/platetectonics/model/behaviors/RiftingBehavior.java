@@ -38,6 +38,7 @@ public class RiftingBehavior extends PlateBehavior {
     public RiftingBehavior( final PlateMotionPlate plate, PlateMotionPlate otherPlate ) {
         super( plate, otherPlate );
 
+        // move all parts of lithosphere in front of the mantle
         getLithosphere().moveToFront();
         getCrust().moveToFront();
         plate.getModel().frontBoundarySideNotifier.updateListeners( plate.getSide() );

@@ -17,7 +17,8 @@ import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.ModelComponents
 /**
  * Our clock is pushed forward by LWJGL by almost arbitrary amounts of time (depending on system performance).
  * Additionally, we need time limits for the tab animations and that is easiest to integrate into the actual clock.
- *
+ * There is also a time multiplier to allow a separate "time rate" control.
+ * <p/>
  * Some aspects of the normal ConstantDtClock and superclasses are copied over for correct general clock behavior
  * TODO: investigate modifying common clock code to remove code duplication
  */

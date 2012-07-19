@@ -1,7 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.platetectonics.control;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -22,7 +22,11 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class ResetPanel extends PNode {
     public ResetPanel( final PlateTectonicsTab tab, final Runnable resetAll ) {
+
+        // maxWidth updated every time something is added, so we can position things nicely at the end
         final Property<Double> maxWidth = new Property<Double>( 0.0 );
+
+        // current y to add things at
         final Property<Double> y = new Property<Double>( 0.0 );
 
         final boolean showRewindButton = tab instanceof PlateMotionTab;

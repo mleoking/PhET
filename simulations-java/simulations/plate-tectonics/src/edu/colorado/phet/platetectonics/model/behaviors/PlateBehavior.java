@@ -8,15 +8,19 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
-import edu.colorado.phet.platetectonics.model.labels.RangeLabel;
 import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
 import edu.colorado.phet.platetectonics.model.Sample;
 import edu.colorado.phet.platetectonics.model.Terrain;
+import edu.colorado.phet.platetectonics.model.labels.RangeLabel;
 import edu.colorado.phet.platetectonics.model.regions.Boundary;
 import edu.colorado.phet.platetectonics.model.regions.MagmaRegion;
 import edu.colorado.phet.platetectonics.model.regions.Region;
 import edu.colorado.phet.platetectonics.util.Side;
 
+/**
+ * Responsible for the model changes of a plate throughout its lifetime. Main behavior is placed in stepInTime( dt ). Many convenience
+ * functions specified in this base class.
+ */
 public abstract class PlateBehavior {
     public final PlateMotionPlate plate;
     public final PlateMotionPlate otherPlate;
@@ -82,7 +86,7 @@ public abstract class PlateBehavior {
     }
 
     public Region[] getLithosphereRegions() {
-        return new Region[] { getCrust(), getLithosphere() };
+        return new Region[]{getCrust(), getLithosphere()};
     }
 
     public Boundary getTopCrustBoundary() {

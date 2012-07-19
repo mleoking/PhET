@@ -8,6 +8,9 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
 
+/**
+ * Interface for a general tool (ruler, density sensor, thermometer)
+ */
 public interface DraggableTool2D {
 
     // whether drags should be allowed to start at the specified screen point
@@ -27,6 +30,7 @@ public interface DraggableTool2D {
 
     // where the tool is making a read-out, if applicable
     public ImmutableVector3F getSensorModelPosition();
+
     public ImmutableVector3F getSensorViewPosition();
 
     // for sim-sharing messages

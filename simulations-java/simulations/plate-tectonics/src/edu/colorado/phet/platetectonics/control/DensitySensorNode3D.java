@@ -41,12 +41,9 @@ import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
 import edu.colorado.phet.platetectonics.modules.PlateMotionTab;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
-import edu.umd.cs.piccolo.PCamera;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolo.util.PPickPath;
 
 /**
  * Displays a speedometer-style draggable readout.
@@ -302,6 +299,7 @@ public class DensitySensorNode3D extends ThreadedPlanarPiccoloNode implements Dr
             PhetPPath ringNode = createRingNode( -bodyNode.speedToAngle( wrappedDensity ) );
             bodyNode.underTicksLayer.addChild( ringNode );
 
+            // rebuild extras whenever updated
             extraHolderNode.removeAllChildren();
             for ( int i = 0; i < overflowQuantity; i++ ) {
                 final int finalI = i;

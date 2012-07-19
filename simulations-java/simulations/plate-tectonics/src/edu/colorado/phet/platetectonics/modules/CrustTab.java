@@ -42,7 +42,9 @@ import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings.O
  */
 public class CrustTab extends PlateTectonicsTab {
 
+    // relative scale multiplier of how large items at the origin appear to be
     private Property<Float> scaleProperty = new Property<Float>( 1f );
+
     private final Property<Boolean> showLabels = new Property<Boolean>( false );
     private OrthoPiccoloNode optionsPiccoloNode;
 
@@ -88,6 +90,10 @@ public class CrustTab extends PlateTectonicsTab {
         }};
         sceneLayer.addChild( layerLabels );
 
+        /*---------------------------------------------------------------------------*
+        * cross-section labels
+        *----------------------------------------------------------------------------*/
+
         // crust label
         layerLabels.addChild( new RangeLabelNode( new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
             beforeFrameRender.addUpdateListener( new UpdateListener() {
@@ -113,6 +119,7 @@ public class CrustTab extends PlateTectonicsTab {
         }};
         final Property<ImmutableVector3F> upperMantleBottom = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 0, CrustModel.UPPER_LOWER_MANTLE_BOUNDARY_Y, 0 ) ) );
 
+        // mantle
         layerLabels.addChild( new RangeLabelNode(
                 upperMantleTop,
                 upperMantleBottom,
@@ -123,6 +130,8 @@ public class CrustTab extends PlateTectonicsTab {
 
         Property<ImmutableVector3F> lowerMantleTop = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 150000, CrustModel.UPPER_LOWER_MANTLE_BOUNDARY_Y, 0 ) ) );
         Property<ImmutableVector3F> lowerMantleBottom = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 150000, CrustModel.MANTLE_CORE_BOUNDARY_Y, 0 ) ) );
+
+        // lower mantle
         layerLabels.addChild( new RangeLabelNode(
                 lowerMantleTop,
                 lowerMantleBottom,
@@ -133,6 +142,8 @@ public class CrustTab extends PlateTectonicsTab {
 
         Property<ImmutableVector3F> outerCoreTop = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( -250000, CrustModel.MANTLE_CORE_BOUNDARY_Y, 0 ) ) );
         Property<ImmutableVector3F> outerCoreBottom = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( -250000, CrustModel.INNER_OUTER_CORE_BOUNDARY_Y, 0 ) ) );
+
+        // outer core
         layerLabels.addChild( new RangeLabelNode(
                 outerCoreTop,
                 outerCoreBottom,
@@ -143,6 +154,8 @@ public class CrustTab extends PlateTectonicsTab {
 
         Property<ImmutableVector3F> innerCoreTop = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 250000, CrustModel.INNER_OUTER_CORE_BOUNDARY_Y, 0 ) ) );
         Property<ImmutableVector3F> innerCoreBottom = new Property<ImmutableVector3F>( flatModelToView.apply( new ImmutableVector3F( 250000, -PlateModel.EARTH_RADIUS, 0 ) ) );
+
+        // inner core
         layerLabels.addChild( new RangeLabelNode(
                 innerCoreTop,
                 innerCoreBottom,
@@ -174,7 +187,7 @@ public class CrustTab extends PlateTectonicsTab {
         }} );
 
         /*---------------------------------------------------------------------------*
-        * temporary zoom control
+        * zoom control
         *----------------------------------------------------------------------------*/
         addGuiNode( new OrthoPiccoloNode( new ControlPanelNode( new ZoomPanel( zoomRatio ) ), CrustTab.this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
             // top right
@@ -215,7 +228,7 @@ public class CrustTab extends PlateTectonicsTab {
         addGuiNode( new LegendPiccoloNode( ColorMode.TEMPERATURE, (float) optionsPiccoloNode.position.get().getX() ) );
 
         /*---------------------------------------------------------------------------*
-        * labels
+        * crust labels labels
         *----------------------------------------------------------------------------*/
 
         // "oceanic crust" label
@@ -250,14 +263,13 @@ public class CrustTab extends PlateTectonicsTab {
 
         guiLayer.addChild( createFPSReadout( Color.BLACK ) );
 
+        // if we zoom in such a way that a tool is not visible, move it into the toolbox
         zoomRatio.addObserver( new SimpleObserver() {
             public void update() {
-                // TODO: make getCameraRay inversible so we can actually compute this better
+                // TODO: make getCameraRay invertible so we can actually compute this better
                 ImmutableVector2F viewBottom = getViewPositionOnZPlane( 0.5f, 0 );
                 ImmutableVector2F viewLeft = getViewPositionOnZPlane( 0, 0.5f );
                 ImmutableVector2F viewRight = getViewPositionOnZPlane( 1, 0.5f );
-
-//                ImmutableVector3F modelBottom = PlateModel.convertToPlanar( getModelViewTransform().inversePosition( new ImmutableVector3F( bottom.x, bottom.y, 0 ) ) );
 
                 for ( GLNode glNode : new ArrayList<GLNode>( toolLayer.getChildren() ) ) {
                     DraggableTool2D tool = (DraggableTool2D) glNode;

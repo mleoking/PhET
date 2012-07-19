@@ -12,7 +12,14 @@ import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_NORMAL_ARRAY;
+import static org.lwjgl.opengl.GL11.GL_TRIANGLE_STRIP;
+import static org.lwjgl.opengl.GL11.GL_VERTEX_ARRAY;
+import static org.lwjgl.opengl.GL11.glDisableClientState;
+import static org.lwjgl.opengl.GL11.glDrawElements;
+import static org.lwjgl.opengl.GL11.glEnableClientState;
+import static org.lwjgl.opengl.GL11.glNormalPointer;
+import static org.lwjgl.opengl.GL11.glVertexPointer;
 
 /**
  * Handles general grids where vertices can be more easily added to each side
@@ -114,7 +121,7 @@ public abstract class GridStripNode extends GLNode {
                 }
 
                 // fill in the buffer while we are at it
-                positionBuffer.put( new float[] { viewVector.x, viewVector.y, viewVector.z } );
+                positionBuffer.put( new float[]{viewVector.x, viewVector.y, viewVector.z} );
             }
         }
 
@@ -125,7 +132,7 @@ public abstract class GridStripNode extends GLNode {
             for ( int zIndex = 0; zIndex < numZSamples; zIndex++ ) {
                 for ( int xIndex = 0; xIndex < numXSamples; xIndex++ ) {
                     ImmutableVector3F normal = getArrayNormal( zIndex, xIndex );
-                    normalBuffer.put( new float[] { normal.x, normal.y, normal.z } );
+                    normalBuffer.put( new float[]{normal.x, normal.y, normal.z} );
                 }
             }
         }

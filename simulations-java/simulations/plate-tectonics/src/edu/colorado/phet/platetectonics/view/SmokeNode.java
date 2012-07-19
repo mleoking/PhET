@@ -20,7 +20,15 @@ import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.SmokePuff;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.GL_TRIANGLE_FAN;
+import static org.lwjgl.opengl.GL11.GL_VERTEX_ARRAY;
+import static org.lwjgl.opengl.GL11.glColor4f;
+import static org.lwjgl.opengl.GL11.glDepthMask;
+import static org.lwjgl.opengl.GL11.glDisableClientState;
+import static org.lwjgl.opengl.GL11.glDrawArrays;
+import static org.lwjgl.opengl.GL11.glEnableClientState;
+import static org.lwjgl.opengl.GL11.glVertexPointer;
 
 public class SmokeNode extends GLNode {
 
@@ -64,12 +72,12 @@ public class SmokeNode extends GLNode {
 
         static {
             // origin
-            positionBuffer.put( new float[] { 0, 2, 0 } );
+            positionBuffer.put( new float[]{0, 2, 0} );
 
             for ( int i = 0; i < NUM_SAMPLES; i++ ) {
                 float theta = (float) ( 2 * Math.PI * i / ( NUM_SAMPLES - 1 ) );
                 ImmutableVector2F position = computeCloudShape( theta );
-                positionBuffer.put( new float[] { position.y, -position.x, 0 } );
+                positionBuffer.put( new float[]{position.y, -position.x, 0} );
             }
         }
 

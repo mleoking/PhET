@@ -11,7 +11,9 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.regions.Region;
 
-import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.*;
+import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.flatten;
+import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.map;
+import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.unique;
 import static edu.colorado.phet.platetectonics.util.Side.RIGHT;
 
 public class Plate {

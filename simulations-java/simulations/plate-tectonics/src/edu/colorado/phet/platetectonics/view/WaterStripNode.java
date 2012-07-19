@@ -18,7 +18,13 @@ import edu.colorado.phet.platetectonics.model.TerrainSample;
 import edu.colorado.phet.platetectonics.modules.PlateTectonicsTab;
 import edu.colorado.phet.platetectonics.util.ColorMaterial;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_BLEND;
+import static org.lwjgl.opengl.GL11.GL_TRIANGLE_STRIP;
+import static org.lwjgl.opengl.GL11.GL_VERTEX_ARRAY;
+import static org.lwjgl.opengl.GL11.glDisableClientState;
+import static org.lwjgl.opengl.GL11.glDrawElements;
+import static org.lwjgl.opengl.GL11.glEnableClientState;
+import static org.lwjgl.opengl.GL11.glVertexPointer;
 
 /**
  * Displays the top and front of the water, according to the plate model.
@@ -42,10 +48,10 @@ public class WaterStripNode extends GLNode {
 
             // TODO: can we narrow down when this needs to update?
             terrain.elevationChanged.addUpdateListener( new UpdateListener() {
-                                                            public void update() {
-                                                                updatePosition();
-                                                            }
-                                                        }, true );
+                public void update() {
+                    updatePosition();
+                }
+            }, true );
         }} );
 
         // render the front of the water. dynamically changes as a strip mesh based on what terrain is above or below sea level
@@ -144,9 +150,9 @@ public class WaterStripNode extends GLNode {
                                 ImmutableVector3F position = module.getModelViewTransform().transformPosition( z == 0
                                                                                                                ? PlateModel.convertToRadial( xIntercept, 0 )
                                                                                                                : PlateModel.convertToRadial( new ImmutableVector3F( xIntercept, 0, z ) ) );
-                                positionBuffer.put( new float[] {
+                                positionBuffer.put( new float[]{
                                         position.x, position.y, position.z,
-                                        position.x, position.y, position.z } );
+                                        position.x, position.y, position.z} );
                                 indexBuffer.put( vertexQuantity++ );
                                 indexBuffer.put( vertexQuantity++ );
                             }
@@ -165,9 +171,9 @@ public class WaterStripNode extends GLNode {
                                 ImmutableVector3F position = module.getModelViewTransform().transformPosition( z == 0
                                                                                                                ? PlateModel.convertToRadial( xIntercept, 0 )
                                                                                                                : PlateModel.convertToRadial( new ImmutableVector3F( xIntercept, 0, z ) ) );
-                                positionBuffer.put( new float[] {
+                                positionBuffer.put( new float[]{
                                         position.x, position.y, position.z,
-                                        position.x, position.y, position.z } );
+                                        position.x, position.y, position.z} );
                                 indexBuffer.put( vertexQuantity++ );
                                 indexBuffer.put( vertexQuantity++ );
                             }
@@ -178,7 +184,7 @@ public class WaterStripNode extends GLNode {
                             ImmutableVector3F bottomPosition = module.getModelViewTransform().transformPosition( z == 0
                                                                                                                  ? PlateModel.convertToRadial( x, y )
                                                                                                                  : PlateModel.convertToRadial( new ImmutableVector3F( x, y, z ) ) );
-                            positionBuffer.put( new float[] {
+                            positionBuffer.put( new float[]{
                                     topPosition.x, topPosition.y, topPosition.z,
                                     bottomPosition.x, bottomPosition.y, bottomPosition.z
                             } );
@@ -198,10 +204,10 @@ public class WaterStripNode extends GLNode {
             setPositions.run();
 
             model.modelChanged.addUpdateListener( new UpdateListener() {
-                                                      public void update() {
-                                                          setPositions.run();
-                                                      }
-                                                  }, false );
+                public void update() {
+                    setPositions.run();
+                }
+            }, false );
         }
 
         private void checkSize() {

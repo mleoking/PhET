@@ -1,18 +1,16 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.dev;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.HeadlessException;
+import java.awt.*;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import edu.colorado.phet.lwjglphet.utils.GLActionListener;
 import edu.colorado.phet.platetectonics.PlateTectonicsConstants;
 
+/**
+ * Developer control that allows setting the frame rate
+ */
 public class PerformanceFrame extends JFrame {
 
     public PerformanceFrame() throws HeadlessException {

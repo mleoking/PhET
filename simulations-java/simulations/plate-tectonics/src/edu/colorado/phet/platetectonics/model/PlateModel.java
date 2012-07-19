@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
-import edu.colorado.phet.lwjglphet.math.PlaneF;
 import edu.colorado.phet.lwjglphet.math.Ray3F;
 import edu.colorado.phet.platetectonics.model.regions.CrossSectionStrip;
 import edu.colorado.phet.platetectonics.model.regions.Region;

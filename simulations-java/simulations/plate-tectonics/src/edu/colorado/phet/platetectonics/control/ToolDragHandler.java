@@ -15,7 +15,7 @@ import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserAction
 import static edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.startDrag;
 
 /**
- * Handles tool dragging, so that we don't clutter the module with this information
+ * Handles tool dragging, so that we don't clutter the module/tab with this state information
  */
 public class ToolDragHandler {
 

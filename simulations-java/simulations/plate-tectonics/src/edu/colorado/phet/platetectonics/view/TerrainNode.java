@@ -38,16 +38,16 @@ public class TerrainNode extends GridStripNode {
         requireEnabled( GL_COLOR_MATERIAL );
 
         terrainStrip.elevationChanged.addUpdateListener( new UpdateListener() {
-                                                             public void update() {
-                                                                 updatePosition();
-                                                             }
-                                                         }, true );
+            public void update() {
+                updatePosition();
+            }
+        }, true );
 
         terrainStrip.columnsModified.addUpdateListener( new UpdateListener() {
-                                                            public void update() {
-                                                                textureRefreshNeeded = true;
-                                                            }
-                                                        }, false );
+            public void update() {
+                textureRefreshNeeded = true;
+            }
+        }, false );
     }
 
     @Override public int getNumberOfVertices() {
@@ -93,7 +93,7 @@ public class TerrainNode extends GridStripNode {
             for ( int zIndex = 0; zIndex < numZSamples; zIndex++ ) {
                 for ( int xIndex = 0; xIndex < numXSamples; xIndex++ ) {
                     TerrainSample point = terrainStrip.getSample( xIndex, zIndex );
-                    textureBuffer.put( new float[] { point.getTextureCoordinates().x, point.getTextureCoordinates().y } );
+                    textureBuffer.put( new float[]{point.getTextureCoordinates().x, point.getTextureCoordinates().y} );
                 }
             }
         }
@@ -116,13 +116,13 @@ public class TerrainNode extends GridStripNode {
                     float value = (float) MathUtil.clamp( 0, ( elevation + 7000 ) / 10000, 1 );
                     if ( elevation < -500 ) {
                         // below this, no blend, and just straight ocean floor coloring based on depth
-                        colorBuffer.put( new float[] { value, value, value, 1 } );
+                        colorBuffer.put( new float[]{value, value, value, 1} );
                     }
                     else {
                         // between 1km and -0.5km, we blend together the land and ocean terrain colors
                         // -0.5km is chosen since this is the elevation of the mid-oceanic ridge
                         float blend = (float) MathUtil.clamp( 0, -( elevation - 1000 ) / 1500, 1 );
-                        colorBuffer.put( new float[] {
+                        colorBuffer.put( new float[]{
                                 value * blend + grassRed * ( 1 - blend ),
                                 value * blend + grassGreen * ( 1 - blend ),
                                 value * blend + grassBlue * ( 1 - blend ),
@@ -133,7 +133,7 @@ public class TerrainNode extends GridStripNode {
                 else {
                     if ( elevation < 3000 ) {
                         // straight grass below 3k
-                        colorBuffer.put( new float[] { grassRed, grassGreen, grassBlue, 1 } );
+                        colorBuffer.put( new float[]{grassRed, grassGreen, grassBlue, 1} );
                     }
                     else {
                         // otherwise, we need to blend to snow (white) at the top
@@ -141,11 +141,11 @@ public class TerrainNode extends GridStripNode {
                         if ( ratioToSnow > 1 ) {
                             ratioToSnow = 1;
                         }
-                        colorBuffer.put( new float[] {
+                        colorBuffer.put( new float[]{
                                 grassRed + ( 0.8f - grassRed ) * ratioToSnow,
                                 grassGreen + ( 0.8f - grassGreen ) * ratioToSnow,
                                 grassBlue + ( 0.8f - grassBlue ) * ratioToSnow,
-                                1 } );
+                                1} );
                     }
                 }
             }

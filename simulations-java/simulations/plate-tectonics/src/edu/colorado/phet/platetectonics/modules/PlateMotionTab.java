@@ -61,18 +61,28 @@ import edu.colorado.phet.platetectonics.view.labels.TextLabelNode;
  */
 public class PlateMotionTab extends PlateTectonicsTab {
 
+    // either auto or manual mode animations
     public final Property<Boolean> isAutoMode = new Property<Boolean>( false );
+
+    // the panel container that is behind the crust pieces.
     private CrustChooserPanel crustChooserPanel;
+
+    // the node that holds the panel
     private OrthoPiccoloNode crustChooserNode;
+
+    // the layer where the crust pieces are added
     private GuiNode crustPieceLayer;
 
+    // display options
     public final Property<Boolean> showLabels = new Property<Boolean>( false );
     public final Property<Boolean> showWater = new Property<Boolean>( false );
 
     private final List<OrthoPiccoloNode> placedPieces = new ArrayList<OrthoPiccoloNode>();
 
+    // in auto mode, the user can choose what type of motion to follow
     private OrthoPiccoloNode motionTypeChooserPanel = null;
 
+    // dragging state for the manual mode
     private boolean draggingPlate = false;
     private HandleNode draggedHandle = null;
     private ImmutableVector2F draggingPlateStartMousePosition = null;
@@ -109,7 +119,10 @@ public class PlateMotionTab extends PlateTectonicsTab {
 //        model = new AnimatedPlateModel( grid );
         setModel( new PlateMotionModel( getClock(), grid.getBounds() ) );
 
+        // add the main view
         sceneLayer.addChild( new PlateView( getModel(), this, showWater ) );
+
+        // add in the handles for manual mode
         leftHandle = new HandleNode( new Property<ImmutableVector3F>( new ImmutableVector3F( -120, 0, -125 / 2 ) ), this, false ) {{
             motionVectorRight.addObserver( new SimpleObserver() {
                 public void update() {
@@ -141,6 +154,9 @@ public class PlateMotionTab extends PlateTectonicsTab {
          *----------------------------------------------------------------------------*/
         getPlateMotionModel().rangeLabels.addElementAddedObserver( new VoidFunction1<RangeLabel>() {
             public void apply( final RangeLabel rangeLabel ) {
+                // when a range label is added, create the view node for it
+
+                // mapped locations
                 final Property<ImmutableVector3F> topProperty = new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
                     beforeFrameRender.addUpdateListener( new UpdateListener() {
                         public void update() {
@@ -155,6 +171,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
                         }
                     }, true );
                 }};
+
                 final RangeLabelNode node = rangeLabel.isLimitToScreen() ? new RangeLabelNode(
                         topProperty,
                         bottomProperty,
@@ -228,6 +245,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
             } );
         }} );
 
+        // handle highlighting of whatever side of the earth we are on (when we are about to drop a crust piece)
         mouseEventNotifier.addUpdateListener( new UpdateListener() {
             public void update() {
                 if ( draggedCrustPiece == null || isMouseOverCrustChooser() ) {
@@ -324,7 +342,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
         canvasSize.addObserver( new SimpleObserver() {
             public void update() {
                 // lays out the toolbox far left, crust chooser far right, and the view and reset panels as evenly in-between as possible
-                final double toolboxRightEdge = toolbox.position.get().getX() + toolbox.getComponentWidth();
+                final double toolboxRightEdge = toolboxNode.position.get().getX() + toolboxNode.getComponentWidth();
                 final double crustChooserLeftEdge = crustChooserNode.position.get().getX();
 
                 final double viewPanelWidth = viewPanelNode.getComponentWidth();

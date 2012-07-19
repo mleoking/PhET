@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.view.materials;
 
-import java.awt.Color;
+import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;

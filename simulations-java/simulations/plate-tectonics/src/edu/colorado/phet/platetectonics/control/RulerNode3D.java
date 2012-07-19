@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.control;
 
-import java.awt.Cursor;
+import java.awt.*;
 import java.util.Collections;
 import java.util.List;
 
@@ -57,9 +57,6 @@ public class RulerNode3D extends ThreadedPlanarPiccoloNode implements DraggableT
                     zoomMultiplier = newZoomMultiplier;
                     final RulerNode2D ruler = (RulerNode2D) getNode();
                     ruler.setMajorTickLabels( getLabels( scaleMultiplier( tab ) * zoomMultiplier ) );
-//                repaint();
-
-                    // TODO: ideally, only repaint() here. why wasn't that working?
                     repaint();
                 }
 
@@ -72,10 +69,6 @@ public class RulerNode3D extends ThreadedPlanarPiccoloNode implements DraggableT
                 transform.set( translation.times( scaling ).times( ImmutableMatrix4F.translation( 0, -(float) getNode().getFullBounds().getHeight(), 0 ) ) );
             }
         } );
-
-        // scale the node to handle the subsampling
-//        scale( getScale() );
-        //scale( ( ( tab instanceof PlateMotionTab ) ? 4 : 1 ) / PICCOLO_PIXELS_TO_VIEW_UNIT );
 
         // since we are using the node in the main scene, mouse events don't get passed in, and we need to set our cursor manually
         setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
