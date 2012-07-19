@@ -27,9 +27,16 @@ public abstract class PlateBehavior {
 
     public static final float PLATE_X_LIMIT = 700000;
 
+    // all magma blobs
     protected final List<MagmaRegion> magmaBlobs = new ArrayList<MagmaRegion>();
+
+    // where the magma blobs are heading towards
     protected ImmutableVector2F magmaTarget;
+
+    // visual region where magma is being stored
     protected MagmaRegion magmaChamber;
+
+    // how fast the magma moves
     protected float magmaSpeed;
 
     // reference to our tab's labels
@@ -224,7 +231,6 @@ public abstract class PlateBehavior {
             }
         }
         else {
-            // TODO: increase alpha!!
             final float alphaSpeed = 0.25f;
             if ( blob.alpha.get() < 1 ) {
                 blob.alpha.set( Math.min( 1, blob.alpha.get() + alphaSpeed * millionsOfYears ) );
@@ -233,6 +239,8 @@ public abstract class PlateBehavior {
         }
     }
 
+    // allows us to somewhat fake timestep independence down to a certain precision by applying a non-analytical operation more
+    // times at less of an amplitude when our timestep is large
     public static void recursiveSplitCall( VoidFunction1<Float> callback, float amount, float cutoff ) {
         if ( amount > cutoff ) {
             recursiveSplitCall( callback, amount / 2, cutoff );
