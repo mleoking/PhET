@@ -5,7 +5,7 @@ import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 
 /**
- * A location with specific temp/density information, that can move over time
+ * A location with specific temp/density information that can move over time.
  */
 public class Sample {
     private ImmutableVector3F position;

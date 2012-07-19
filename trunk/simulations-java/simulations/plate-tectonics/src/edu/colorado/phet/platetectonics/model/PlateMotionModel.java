@@ -35,12 +35,20 @@ import edu.colorado.phet.platetectonics.util.Side;
 
 import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 
+/**
+ * Main model for the Plate Motion tab. Starts with just the mantle, then 2 plates are added. The UI and user decide what type of plate
+ * behaviors (plate types and motion direction decide this) at the start of the animation, and the PlateBehavior for each plate takes care
+ * of the specific type of animation.
+ */
 public class PlateMotionModel extends PlateModel {
 
+    // the two main plates
     private PlateMotionPlate leftPlate;
     private PlateMotionPlate rightPlate;
+
     private final TectonicsClock clock;
 
+    // labels that need to be shown
     public final ObservableList<RangeLabel> rangeLabels = new ObservableList<RangeLabel>();
     public final ObservableList<BoundaryLabel> boundaryLabels = new ObservableList<BoundaryLabel>();
     public final ObservableList<TextLabel> textLabels = new ObservableList<TextLabel>();
@@ -52,8 +60,10 @@ public class PlateMotionModel extends PlateModel {
         TRANSFORM
     }
 
+    // the strip of terrain connecting the left and right terran (perfectly vertical at the start), it's basically just glue
     private TerrainConnectorStrip terrainConnector;
 
+    // model constants
     public static final float SIMPLE_MANTLE_TOP_Y = -10000;
     public static final float SIMPLE_MANTLE_BOTTOM_Y = -600000;
     public static final float SIMPLE_MANTLE_TOP_TEMP = ZERO_CELSIUS + 700;
@@ -67,6 +77,7 @@ public class PlateMotionModel extends PlateModel {
     public static final float SIMPLE_MAGMA_TEMP = ZERO_CELSIUS + 1300; // TODO: should this be warmer the farther down we are?
     public static final float SIMPLE_MAGMA_DENSITY = 2000f;
 
+    // model "resolution" constants
     public static final int MANTLE_VERTICAL_STRIPS = 6;
     public static final int CRUST_VERTICAL_STRIPS = 2;
     public static final int LITHOSPHERE_VERTICAL_STRIPS = 2;
@@ -76,20 +87,24 @@ public class PlateMotionModel extends PlateModel {
 
     private boolean transformMotionCCW = true;
 
+    // boundary label (dotted line) that joines the left and right side
     public BoundaryLabel joiningBoundaryLabel;
 
+    // tracks the stacking order of cross-section strips
     private final StripTracker stripTracker = new StripTracker();
 
     public ObservableList<SmokePuff> smokePuffs = new ObservableList<SmokePuff>();
 
-    // TODO: better handling for this. ugly
+    // plate and motion types (subject to change)
     public final Property<PlateType> leftPlateType = new Property<PlateType>( null );
     public final Property<PlateType> rightPlateType = new Property<PlateType>( null );
     public final Property<MotionType> motionType = new Property<MotionType>( null );
     public final Property<MotionType> motionTypeIfStarted = new Property<MotionType>( MotionType.CONVERGENT );
 
+    // whether animation has started (if so, our behaviors are initialized)
     public final Property<Boolean> animationStarted = new Property<Boolean>( false );
 
+    // whether both plates have been chosen from the "crust chooser". this does NOT mean a motion direction / behavior set has been chosen
     public final Property<Boolean> hasBothPlates = new Property<Boolean>( false ) {{
         SimpleObserver observer = new SimpleObserver() {
             public void update() {
@@ -152,6 +167,7 @@ public class PlateMotionModel extends PlateModel {
         } );
     }
 
+    // adds a mantle label that stays at an appropriate height (in the middle)
     private void addMantleLabel() {
         if ( hasBothPlates.get() ) {
             final float mantleLabelHeight = -180000;
@@ -172,6 +188,7 @@ public class PlateMotionModel extends PlateModel {
         }
     }
 
+    // given a particular choice of motion types (transform/convergent/divergent) and plate types, this initializes the necessary plate behaviors
     private void initializeBehaviors() {
 
         ParameterSet parameters = new ParameterSet( new Parameter[]{
@@ -237,6 +254,7 @@ public class PlateMotionModel extends PlateModel {
         leftPlate.getBehavior().afterConstructionInit();
         rightPlate.getBehavior().afterConstructionInit();
 
+        // reset the labels
         if ( motionType.get() == MotionType.TRANSFORM ) {
             // no labels for the transform motion type
             textLabels.clear();
@@ -373,11 +391,6 @@ public class PlateMotionModel extends PlateModel {
     }
 
     private void updateTerrain() {
-        // behaviors will take care of this terrain update on their own once the animation has started
-//        if ( !animationStarted.get() ) {
-//            leftPlate.fullSyncTerrain();
-//            rightPlate.fullSyncTerrain();
-//        }
         terrainConnector.update();
     }
 
@@ -558,6 +571,7 @@ public class PlateMotionModel extends PlateModel {
         }
     }
 
+    // (x,y) raytracing (ignores z coordinate) to see what part of the cross-section is at the specific (x,y) coordinates
     private HitResult firstStripIntersection( ImmutableVector3F point ) {
         final List<CrossSectionStrip> strips = getStripsInOrder();
         for ( CrossSectionStrip strip : strips ) {

@@ -13,6 +13,14 @@ import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.math.Ray3F;
 import edu.colorado.phet.platetectonics.util.Side;
 
+/**
+ * A rectangular grid of terrain vertices that represents the terrain on top of the earth. Each column has the same X value and each
+ * row has the same Z value for performance needs (simplifies trigonometric calculations for radial transformations from O(rows*cols) to
+ * O(rows+cols))
+ * <p/>
+ * The number of samples in the Z position is fixed, however the number of samples in the X is not (terrain can be added or removed from
+ * the sides)
+ */
 public class Terrain {
 
     public final List<Float> xPositions = new ArrayList<Float>();
@@ -24,8 +32,10 @@ public class Terrain {
     // nothing else besides elevation changed here (at least)
     public final ValueNotifier<Terrain> elevationChanged = new ValueNotifier<Terrain>( this );
 
+    // the x or z values could have changed, so assume the worst (everything changed)
     public final ValueNotifier<Terrain> columnsModified = new ValueNotifier<Terrain>( this );
 
+    // number of samples in the Z direction
     private final int zSamples;
 
     public Terrain( int zSamples, float initialMinZ, float initialMaxZ ) {
@@ -65,6 +75,7 @@ public class Terrain {
         return samples.get( xIndex );
     }
 
+    // add a column of terrain vertices to a side
     public void addColumn( Side side, float x, List<TerrainSample> column ) {
         assert column.size() == zSamples;
         side.addToList( samples, column );
@@ -73,6 +84,7 @@ public class Terrain {
         columnsModified.updateListeners();
     }
 
+    // remove a column of terran vertices
     public void removeColumn( Side side ) {
         side.removeFromList( samples );
         side.removeFromList( xPositions );
@@ -89,6 +101,7 @@ public class Terrain {
         return true;
     }
 
+    // an array of the vertices at z=0
     public ImmutableVector2F[] getFrontVertices() {
         ImmutableVector2F[] result = new ImmutableVector2F[getNumColumns()];
         int zIndex = getFrontZIndex();

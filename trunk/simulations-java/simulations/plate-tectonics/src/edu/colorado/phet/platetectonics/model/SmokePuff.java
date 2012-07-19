@@ -4,6 +4,9 @@ package edu.colorado.phet.platetectonics.model;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 
+/**
+ * Model for a volcano smoke puff (the position is at the bottom of the puff)
+ */
 public class SmokePuff {
     public final Property<ImmutableVector3F> position = new Property<ImmutableVector3F>( new ImmutableVector3F() );
     public final Property<Float> scale = new Property<Float>( 1f );

@@ -34,6 +34,7 @@ public class CrustModel extends PlateModel {
     private static final int LEFT_BOUNDARY = -75000;
     private static final int RIGHT_BOUNDARY = 75000;
 
+    // relevant densities
     private static final float MANTLE_DENSITY = 3300;
     private static final float CORE_BOUNDARY_DENSITY = 10000;
     private static final float INNER_OUTER_CORE_BOUNDARY_DENSITY = 12800;
@@ -108,6 +109,8 @@ public class CrustModel extends PlateModel {
             2871, 5556,
             2891, 5566
     };
+
+    // the middle "My Crust" crust and mantle
     private CrossSectionStrip middleCrustStrip;
     private SimpleObserver middleUpdateObserver;
     private CrossSectionStrip middleMantleStrip;
@@ -596,7 +599,6 @@ public class CrustModel extends PlateModel {
     }
 
     @Override public double getTemperature( double x, double y ) {
-        // TODO: complete redo on this part?
         double elevation = getElevation( x, 0 );
         double surfaceTemperature = getSurfaceTemperature( elevation );
 

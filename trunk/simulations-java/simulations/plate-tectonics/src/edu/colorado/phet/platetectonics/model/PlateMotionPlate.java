@@ -22,6 +22,9 @@ import edu.colorado.phet.platetectonics.util.Side;
 import static edu.colorado.phet.platetectonics.model.PlateMotionModel.*;
 import static edu.colorado.phet.platetectonics.util.Side.LEFT;
 
+/**
+ * Convenience class with functions that deal with plates in the Plate Motion tab
+ */
 public class PlateMotionPlate extends Plate {
     private final PlateMotionModel model;
     private final TextureStrategy textureStrategy;
@@ -58,6 +61,7 @@ public class PlateMotionPlate extends Plate {
                            textureStrategy.mapFront( new ImmutableVector2F( x, y ) ) );
     }
 
+    // called when the user drops a crust piece on this side. initializes the crust and lithosphere, and resets the mantle on this side
     public void droppedCrust( final PlateType type ) {
         plateType = type;
         final float crustTopY = type.getCrustTopY();
@@ -108,52 +112,13 @@ public class PlateMotionPlate extends Plate {
             }
         }
 
+        /*---------------------------------------------------------------------------*
+        * labels
+        *----------------------------------------------------------------------------*/
+
+        // the index of the sample at which we are going to add in our labels
         final int crustLabelIndex = ( getCrust().getTopBoundary().samples.size() * ( getSide() == LEFT ? 5 : 1 ) ) / 6;
         final int lithosphereLabelIndex = ( getCrust().getTopBoundary().samples.size() * ( getSide() == LEFT ? 4 : 2 ) ) / 6;
-
-        final Property<ImmutableVector3F> crustTop = new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
-            final Sample sample = getCrust().getTopBoundary().getSample( crustLabelIndex );
-            assert sample != null;
-            model.modelChanged.addUpdateListener(
-                    new UpdateListener() {
-                        public void update() {
-                            set( sample.getPosition() );
-                        }
-                    }, true );
-        }};
-
-        final Property<ImmutableVector3F> crustBottom = new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
-            final Sample sample = getCrust().getBottomBoundary().getSample( crustLabelIndex );
-            assert sample != null;
-            model.modelChanged.addUpdateListener(
-                    new UpdateListener() {
-                        public void update() {
-                            set( sample.getPosition() );
-                        }
-                    }, true );
-        }};
-
-        final Property<ImmutableVector3F> lithosphereTop = new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
-            final Sample sample = getCrust().getTopBoundary().getSample( lithosphereLabelIndex );
-            assert sample != null;
-            model.modelChanged.addUpdateListener(
-                    new UpdateListener() {
-                        public void update() {
-                            set( sample.getPosition() );
-                        }
-                    }, true );
-        }};
-
-        final Property<ImmutableVector3F> lithosphereBottom = new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
-            final Sample sample = getLithosphere().getBottomBoundary().getSample( lithosphereLabelIndex );
-            assert sample != null;
-            model.modelChanged.addUpdateListener(
-                    new UpdateListener() {
-                        public void update() {
-                            set( sample.getPosition() );
-                        }
-                    }, true );
-        }};
 
         model.rangeLabels.add( new RangeLabel(
                 new BoundaryTrackingProperty( getCrust().getTopBoundary(), crustLabelIndex ),
@@ -180,41 +145,6 @@ public class PlateMotionPlate extends Plate {
             }
         };
         model.boundaryLabels.add( boundaryLabel );
-
-        final float mantleX = lithosphereBottom.get().getX();
-
-        // TODO: remove when we decide we don't need the vertical "mantle" label
-//        model.rangeLabels.add( new RangeLabel(
-//                // calculate the y for a set x value for this
-//                new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
-//                    lithosphereBottom.addObserver( new SimpleObserver() {
-//                        public void update() {
-//                            set( new ImmutableVector3F(
-//                                    mantleX,
-//                                    getLithosphere().getBottomBoundary().getApproximateYFromX( mantleX ),
-//                                    lithosphereBottom.get().z
-//                            ) );
-//                        }
-//                    } );
-//                }},
-//
-//                // and set x/y here, however we need to keep up to date with z for the transform motion
-//                new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
-//                    lithosphereBottom.addObserver( new SimpleObserver() {
-//                        public void update() {
-//                            set( new ImmutableVector3F(
-//                                    mantleX,
-//                                    ( lithosphereBottom.get().y - lithosphereTop.get().y ) * 20,
-//                                    lithosphereBottom.get().z
-//                            ) );
-//                        }
-//                    } );
-//                }},
-//                Strings.MANTLE, this
-//        ) {{
-//            setLimitToScreen( true );
-//        }} );
-
     }
 
     public float getSimpleChunkWidth() {
@@ -222,6 +152,7 @@ public class PlateMotionPlate extends Plate {
         return model.getStartingX( LEFT, 1 ) - model.getStartingX( LEFT, 0 );
     }
 
+    // adds an entire column of crust / lithosphere / terrain on the side indicated
     public void addSection( final Side side, final PlateType type ) {
         final float width = model.getStartingX( side, 1 ) - model.getStartingX( side, 0 );
         final float xOffset = width * side.getSign();
@@ -280,6 +211,7 @@ public class PlateMotionPlate extends Plate {
         getTerrain().removeColumn( side );
     }
 
+    // for each sample at the top crust boundary, set all of the terrain points behind it to the same (x,y).
     public void fullSyncTerrain() {
         for ( int column = 0; column < getTerrain().getNumColumns(); column++ ) {
             // left side
@@ -302,8 +234,10 @@ public class PlateMotionPlate extends Plate {
         return SIMPLE_MANTLE_TOP_TEMP + ( SIMPLE_LITHOSPHERE_BOUNDARY_TEMP - SIMPLE_MANTLE_TOP_TEMP ) * ratioFromTop;
     }
 
-    // only for the transform boundary, so we can simplify a few things here
+    // for the transform case, creates earth cross-section regions that are between the plates (along the plate boundary in the YZ plane)
     public void addMiddleSide( final Plate otherPlate ) {
+        // only for the transform boundary, so we can simplify a few things here
+
         assert getCrust() != null && getMantle() != null;
 
         /*---------------------------------------------------------------------------*

@@ -16,6 +16,11 @@ import edu.colorado.phet.platetectonics.util.Side;
 import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.flatten;
 import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.map;
 
+/**
+ * A region is cross-sectional area of earth made up of strips separated by multiple boundaries (usually top-to-bottom). Given a list of multiple
+ * boundaries (top-to-bottom with the same number of samples in each), the region is made up of strips of earth made from each adjacent pair
+ * of boundaries.
+ */
 public class Region {
     // boundaries from top to bottom
     private List<Boundary> boundaries = new ArrayList<Boundary>();

@@ -11,6 +11,10 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.platetectonics.model.Sample;
 import edu.colorado.phet.platetectonics.util.Side;
 
+/**
+ * Describes a (usually horizontal) strip of earth cross-section delineated by a top and bottom list of points. It is essentially the sum
+ * of quadrilaterals made up by top[i],top[i+1],bottom[i+1],bottom[i] for all applicable i.
+ */
 public class CrossSectionStrip {
     public final List<Sample> topPoints = new LinkedList<Sample>();
     public final List<Sample> bottomPoints = new LinkedList<Sample>();

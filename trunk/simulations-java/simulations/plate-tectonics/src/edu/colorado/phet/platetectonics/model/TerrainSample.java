@@ -3,6 +3,10 @@ package edu.colorado.phet.platetectonics.model;
 
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 
+/**
+ * A location on the surface of the earth with a specific elevation (and texture coordinates). X and Y values will be determined in the
+ * Terrain object.
+ */
 public class TerrainSample {
     private float elevation;
     private ImmutableVector2F textureCoordinates;

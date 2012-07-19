@@ -5,6 +5,9 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
 
+/**
+ * Represents a labeled area that has a top and bottom.
+ */
 public class RangeLabel {
     public final Property<ImmutableVector3F> top;
     public final Property<ImmutableVector3F> bottom;
