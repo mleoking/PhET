@@ -48,6 +48,7 @@ public class MotionDeveloper extends JDialog {
                 setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
 
                 final Property<Boolean> showMolecules = new Property<Boolean>( true );
+                final Property<Boolean> showBoundingSpheres = new Property<Boolean>( false );
                 final Property<Double> linearPredictionTime = new Property<Double>( 0.0 );
                 final double linearPredictionTimeScale = 0.1;
 
@@ -70,6 +71,17 @@ public class MotionDeveloper extends JDialog {
                                                                                         viewPosition.getY() - radius,
                                                                                         2 * radius, 2 * radius ) ) );
                                 }
+                            }
+                        }
+                        if ( showBoundingSpheres.get() ) {
+                            for ( Molecule molecule : kit.moleculesInPlayArea ) {
+                                ImmutableVector2D viewPosition = transform.modelToView( molecule.position.get() );
+                                double radius = transform.modelToViewDeltaX( molecule.shape.getBoundingCircleRadius() );
+
+                                base.addChild( new PhetPPath( new Ellipse2D.Double( viewPosition.getX() - radius,
+                                                                                    viewPosition.getY() - radius,
+                                                                                    2 * radius, 2 * radius ),
+                                                              new BasicStroke( 1 ), new Color( 0, 0, 0, 64 ) ) );
                             }
                         }
                         if ( linearPredictionTime.get() > 0 ) {
@@ -119,6 +131,7 @@ public class MotionDeveloper extends JDialog {
                     }
                 } );
                 showMolecules.addObserver( graphicsObserver );
+                showBoundingSpheres.addObserver( graphicsObserver );
 
                 /*---------------------------------------------------------------------------*
                 * canvas
@@ -144,6 +157,7 @@ public class MotionDeveloper extends JDialog {
                     add( new JPanel() {{
                         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
                         add( new PropertyCheckBox( "Molecules", showMolecules ) );
+                        add( new PropertyCheckBox( "Bounding Spheres", showBoundingSpheres ) );
                         add( new JSlider( 0, 150, 0 ) {{
                             addChangeListener( new ChangeListener() {
                                 public void stateChanged( ChangeEvent e ) {
