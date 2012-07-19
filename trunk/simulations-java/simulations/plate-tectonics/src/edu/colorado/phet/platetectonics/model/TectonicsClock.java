@@ -14,6 +14,13 @@ import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTyp
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.ModelActions;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.ModelComponents;
 
+/**
+ * Our clock is pushed forward by LWJGL by almost arbitrary amounts of time (depending on system performance).
+ * Additionally, we need time limits for the tab animations and that is easiest to integrate into the actual clock.
+ *
+ * Some aspects of the normal ConstantDtClock and superclasses are copied over for correct general clock behavior
+ * TODO: investigate modifying common clock code to remove code duplication
+ */
 public class TectonicsClock implements IClock {
     private double lastSimulationTime = 0.0;
     private double simulationTime = 0.0;

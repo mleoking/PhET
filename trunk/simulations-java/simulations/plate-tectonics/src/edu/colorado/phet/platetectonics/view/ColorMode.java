@@ -11,8 +11,13 @@ import edu.colorado.phet.platetectonics.view.materials.TemperatureMaterial;
  * Enum covering the different ways we can false-color the cross-section of earth
  */
 public enum ColorMode {
+    // darker == more dense
     DENSITY( new DensityMaterial(), Strings.LESS_DENSE, Strings.MORE_DENSE ),
+
+    // redder == warmer
     TEMPERATURE( new TemperatureMaterial(), Strings.COOL, Strings.WARM ),
+
+    // heuristic view that combines both
     COMBINED( new CombinedMaterial(), null, null );
 
     private final EarthMaterial material;
