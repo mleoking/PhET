@@ -88,50 +88,55 @@ public class Reaction {
 
         for ( int i = 0; i < reactants.size(); i++ ) {
             Molecule molecule = reactants.get( i );
-            double accelerationFactor = 2 / ( target.t * target.t );
 
             // how long our acceleration should last
             double effectiveTime = Math.min( simulationTimeChange, target.t );
 
-            /*---------------------------------------------------------------------------*
-            * position
-            *----------------------------------------------------------------------------*/
-            ImmutableVector2D targetPosition = target.transformedTargets.get( i );
-
-            // compute the necessary (constant) acceleration to reach the target precisely on time
-            ImmutableVector2D currentTrajectoryDestination = molecule.getPosition().plus( molecule.getVelocity().times( target.t ) );
-            ImmutableVector2D acceleration = targetPosition.minus( currentTrajectoryDestination ).times( accelerationFactor );
-
-            if ( acceleration.getMagnitude() > MAX_ACCELERATION ) {
-                // TODO: can we prevent this and just 0-fitness this reaction out?
-                acceleration = acceleration.times( MAX_ACCELERATION / acceleration.getMagnitude() );
-            }
-
-            // directly change the velocity TODO: use box2d's applyForce without torque to do this nicely once working
-            molecule.setVelocity( molecule.getVelocity().plus( acceleration.times( effectiveTime ) ) );
-
-            /*---------------------------------------------------------------------------*
-            * rotation
-            *----------------------------------------------------------------------------*/
-            double targetAngle = fixAngle( target.rotation + shape.reactantSpots.get( i ).rotation ); // both the reaction AND molecule rotations
-            double destinationAngle = fixAngle( molecule.getAngle() + molecule.getAngularVelocity() * target.t );
-
-            // find the "closest" angle difference that we can use
-            double closestDelta = Double.POSITIVE_INFINITY;
-            for ( double symmetryAngle : molecule.shape.symmetryAngles ) {
-                double delta = angleDifference( targetAngle + symmetryAngle, destinationAngle );
-                if ( Math.abs( delta ) < Math.abs( closestDelta ) ) {
-                    closestDelta = delta;
-                }
-            }
-
-            double angularAcceleration = closestDelta * accelerationFactor;
-            if ( Math.abs( angularAcceleration ) > MAX_ANGULAR_ACCELERATION ) {
-                // TODO: can we prevent this and just 0-fitness this reaction out?
-                angularAcceleration = angularAcceleration * MAX_ANGULAR_ACCELERATION / Math.abs( angularAcceleration );
-            }
-            molecule.setAngularVelocity( (float) ( molecule.getAngularVelocity() + angularAcceleration * effectiveTime ) );
+            // apply the accelerations
+            molecule.setVelocity( molecule.getVelocity().plus( getTweakAcceleration( i ).times( effectiveTime ) ) );
+            molecule.setAngularVelocity( (float) ( molecule.getAngularVelocity() + getTweakAngularAcceleration( i ) * effectiveTime ) );
         }
+    }
+
+    public ImmutableVector2D getTweakAcceleration( int index ) {
+        Molecule molecule = reactants.get( index );
+        double t = target.t;
+
+        ImmutableVector2D targetPosition = target.transformedTargets.get( index );
+
+        // compute the necessary (constant) acceleration to reach the target precisely on time
+        ImmutableVector2D currentTrajectoryDestination = molecule.getPosition().plus( molecule.getVelocity().times( target.t ) );
+        ImmutableVector2D acceleration = targetPosition.minus( currentTrajectoryDestination ).times( 2 / ( t * t ) );
+
+        if ( acceleration.getMagnitude() > MAX_ACCELERATION ) {
+            // TODO: can we prevent this and just 0-fitness this reaction out?
+            acceleration = acceleration.times( MAX_ACCELERATION / acceleration.getMagnitude() );
+        }
+        return acceleration;
+    }
+
+    public double getTweakAngularAcceleration( int index ) {
+        Molecule molecule = reactants.get( index );
+        double t = target.t;
+
+        double targetAngle = fixAngle( target.rotation + shape.reactantSpots.get( index ).rotation ); // both the reaction AND molecule rotations
+        double destinationAngle = fixAngle( molecule.getAngle() + molecule.getAngularVelocity() * target.t );
+
+        // find the "closest" angle difference that we can use
+        double closestDelta = Double.POSITIVE_INFINITY;
+        for ( double symmetryAngle : molecule.shape.symmetryAngles ) {
+            double delta = angleDifference( targetAngle + symmetryAngle, destinationAngle );
+            if ( Math.abs( delta ) < Math.abs( closestDelta ) ) {
+                closestDelta = delta;
+            }
+        }
+
+        double angularAcceleration = closestDelta * 2 / ( t * t );
+        if ( Math.abs( angularAcceleration ) > MAX_ANGULAR_ACCELERATION ) {
+            // TODO: can we prevent this and just 0-fitness this reaction out?
+            angularAcceleration = angularAcceleration * MAX_ANGULAR_ACCELERATION / Math.abs( angularAcceleration );
+        }
+        return angularAcceleration;
     }
 
     // return angle inclusive in [-pi, pi]

@@ -15,16 +15,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.*;
-
 import edu.colorado.phet.chemicalreactions.ChemicalReactionsApplication;
-import edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants;
 import edu.colorado.phet.chemicalreactions.model.Kit;
 import edu.colorado.phet.chemicalreactions.model.Molecule;
 import edu.colorado.phet.chemicalreactions.model.MoleculeBucket;
 import edu.colorado.phet.chemicalreactions.model.MoleculeShape;
 import edu.colorado.phet.chemicalreactions.model.Reaction;
-import edu.colorado.phet.chemicalreactions.module.ChemicalReactionsCanvas;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -36,16 +32,7 @@ import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.ARROW_VIEW_HEAD_LENGTH;
-import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.ARROW_VIEW_HEAD_WIDTH;
-import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.ARROW_VIEW_PADDING;
-import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.ARROW_VIEW_THICKNESS;
-import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.MODEL_VIEW_TRANSFORM;
-import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.OPERATOR_BORDER_COLOR;
-import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.OPERATOR_COLOR;
-import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.OPERATOR_HIGHLIGHT_COLOR;
-import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.PLUS_VIEW_LENGTH;
-import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.PLUS_VIEW_THICKNESS;
+import static edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants.*;
 
 /**
  * Shows a kit (series of buckets full of different types of atoms), along with the atoms in the play area

@@ -9,7 +9,6 @@ import javax.swing.*;
 
 import edu.colorado.phet.chemicalreactions.dev.MotionDeveloper;
 import edu.colorado.phet.chemicalreactions.module.ChemicalReactionsModule;
-import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
