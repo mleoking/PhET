@@ -1,9 +1,8 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.common.phetcommon.math;
 
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
-import java.io.Serializable;
 
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 
@@ -15,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
  * @author Ron LeMaster
  * @author Sam Reid
  */
-public class ImmutableVector2D implements Serializable {
+public class ImmutableVector2D extends AbstractVector2D {
     private double x;
     private double y;
 
@@ -64,24 +63,6 @@ public class ImmutableVector2D implements Serializable {
         this( v.getWidth(), v.getHeight() );
     }
 
-    @Override
-    public boolean equals( Object obj ) {
-        boolean result = true;
-        if ( this.getClass() != obj.getClass() ) {
-            result = false;
-        }
-        else {
-            ImmutableVector2D that = (ImmutableVector2D) obj;
-            result = this.getX() == that.getX() && this.getY() == that.getY();
-        }
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return getClass().getName().replaceAll( ".*\\.", "" ) + "[" + x + ", " + y + "]";
-    }
-
     public ImmutableVector2D getAddedInstance( ImmutableVector2D v ) {
         return getAddedInstance( v.getX(), v.getY() );
     }
@@ -118,20 +99,12 @@ public class ImmutableVector2D implements Serializable {
         return getSubtractedInstance( v.getX(), v.getY() );
     }
 
-    public double getY() {
+    @Override public double getY() {
         return y;
     }
 
-    public double getX() {
+    @Override public double getX() {
         return x;
-    }
-
-    public double getMagnitudeSq() {
-        return getX() * getX() + getY() * getY();
-    }
-
-    public double getMagnitude() {
-        return Math.sqrt( getMagnitudeSq() );
     }
 
     //The following setter methods are protected so that clients of ImmutableVector2D won't be able to mutate the object
@@ -151,28 +124,8 @@ public class ImmutableVector2D implements Serializable {
         this.y = y;
     }
 
-    public double dot( ImmutableVector2D v ) {
-        double result = 0;
-        result += this.getX() * v.getX();
-        result += this.getY() * v.getY();
-        return result;
-    }
-
-    /**
-     * Returns the angle of the vector. The angle will be between -pi and pi.
-     *
-     * @return the angle of the vector
-     */
-    public double getAngle() {
-        return Math.atan2( y, x );
-    }
-
     public ImmutableVector2D getInstanceOfMagnitude( double magnitude ) {
         return getScaledInstance( magnitude / getMagnitude() );
-    }
-
-    public Point2D.Double toPoint2D() {
-        return new Point2D.Double( x, y );
     }
 
     public double getCrossProductScalar( ImmutableVector2D v ) {
@@ -185,23 +138,6 @@ public class ImmutableVector2D implements Serializable {
 
     public ImmutableVector2D getRotatedInstance( double angle ) {
         return createPolar( getMagnitude(), getAngle() + angle );
-    }
-
-    /**
-     * Gets the distance between the tip of this vector and the specified vector.
-     * Performance is important here since this is in the inner loop in a many-particle calculation in sugar and salt solutions: WaterModel
-     *
-     * @param v the vector to get the distance to
-     * @return the cartesian distance between the vectors
-     */
-    public double getDistance( ImmutableVector2D v ) {
-        double dx = this.x - v.x;
-        double dy = this.y - v.y;
-        return Math.sqrt( dx * dx + dy * dy );
-    }
-
-    public double getDistance( Point2D point ) {
-        return getSubtractedInstance( point.getX(), point.getY() ).getMagnitude();
     }
 
     public static ImmutableVector2D createPolar( double radius, double angle ) {

@@ -1,3 +1,4 @@
+7/19/12 Extracted AbstractVector2D as superclass of ImmutableVector2D, see #3374
 7/19/12 Added Lombok and Functional Java as dependencies, see #3390
 7/17/12 add BufferedImageUtils.toImage(Icon)
 7/11/12 #3375, Load the audio input stream and decorate with a BufferedInputStream to support mark/reset, see #3375
