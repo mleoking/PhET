@@ -46,6 +46,8 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="lombok" exported="" />
+    <orderEntry type="module" module-name="functionaljava" exported="" />
   </component>
 </module>
 
