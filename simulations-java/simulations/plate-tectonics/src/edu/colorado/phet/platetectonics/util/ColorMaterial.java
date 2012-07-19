@@ -9,7 +9,7 @@ import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 
 /**
- * Simple material, useful for JME-related issues
+ * Simple material, useful for LWJGL-related issues
  * NOTE: remember to put "setQueueBucket( Bucket.Transparent );" on geometry that uses this material! Otherwise transparency won't work
  */
 public class ColorMaterial extends GLMaterial {
