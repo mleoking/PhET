@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.jamaphet.RigidMotionLeastSquares;
 import edu.colorado.phet.jamaphet.collision.Collidable2D;
 import edu.colorado.phet.jamaphet.collision.CollisionUtils;
+import edu.umd.cs.piccolo.util.PBounds;
 
 import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.map;
 import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.reduceLeft;
@@ -183,7 +184,7 @@ public class Reaction {
         target = computeForTime( bestT );
 
         // for now. consider in the future penalizing "long distance" and likely to collide before-hand reactions
-        boolean isValidTarget = target.isValidReactionTarget( reactants );
+        boolean isValidTarget = target.isValidReactionTarget( kit, reactants );
         fitness = isValidTarget ? Math.exp( -target.error ) : 0;
     }
 
@@ -308,7 +309,7 @@ public class Reaction {
         }
 
         // ensure that the reaction target will not cause its own molecules to collide before they reach the target area, AND that we don't go over our max accelerations
-        public boolean isValidReactionTarget( List<Molecule> molecules ) {
+        public boolean isValidReactionTarget( Kit kit, List<Molecule> molecules ) {
             final Property<Boolean> isOverAccelerationLimit = new Property<Boolean>( false );
 
             // compute final velocities so we can calculate whether collisions are likely
@@ -358,6 +359,14 @@ public class Reaction {
                 if ( positionDifference.dot( velocityDifference ) > 0 ) {
                     // our molecules would keep "drifting", so they must have had a collision before our planned collision
                     // do not allow this reaction target
+                    return false;
+                }
+            }
+
+            // invalidate the reaction if part of the target is outside of the play area bounds
+            PBounds availablePlayAreaModelBounds = kit.getLayoutBounds().getAvailablePlayAreaModelBounds();
+            for ( ImmutableVector2D transformedTarget : transformedTargets ) {
+                if ( !availablePlayAreaModelBounds.contains( transformedTarget.toPoint2D() ) ) {
                     return false;
                 }
             }
