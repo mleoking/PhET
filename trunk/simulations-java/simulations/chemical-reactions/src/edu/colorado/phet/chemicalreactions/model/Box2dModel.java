@@ -93,7 +93,7 @@ public class Box2dModel {
         }} );
 
         // left wall
-        wallBody.createFixture( new FixtureDef() {{
+        wallBody.createFixture( new WallFixtureDef() {{
             shape = new PolygonShape() {{
                 set( new Vec2[]{
                         new Vec2( left, paddedBottom ),
@@ -102,12 +102,10 @@ public class Box2dModel {
                         new Vec2( paddedLeft, paddedBottom )
                 }, 4 );
             }};
-            density = 0;
-            restitution = 1;
         }} );
 
         // right wall
-        wallBody.createFixture( new FixtureDef() {{
+        wallBody.createFixture( new WallFixtureDef() {{
             shape = new PolygonShape() {{
                 set( new Vec2[]{
                         new Vec2( paddedRight, paddedBottom ),
@@ -116,12 +114,10 @@ public class Box2dModel {
                         new Vec2( right, paddedBottom )
                 }, 4 );
             }};
-            density = 0;
-            restitution = 1;
         }} );
 
         // top wall
-        wallBody.createFixture( new FixtureDef() {{
+        wallBody.createFixture( new WallFixtureDef() {{
             shape = new PolygonShape() {{
                 set( new Vec2[]{
                         new Vec2( paddedRight, top ),
@@ -130,12 +126,10 @@ public class Box2dModel {
                         new Vec2( paddedLeft, top )
                 }, 4 );
             }};
-            density = 0;
-            restitution = 1;
         }} );
 
         // bottom wall
-        wallBody.createFixture( new FixtureDef() {{
+        wallBody.createFixture( new WallFixtureDef() {{
             shape = new PolygonShape() {{
                 set( new Vec2[]{
                         new Vec2( paddedRight, paddedBottom ),
@@ -144,9 +138,20 @@ public class Box2dModel {
                         new Vec2( paddedLeft, paddedBottom )
                 }, 4 );
             }};
-            density = 0;
-            restitution = 1;
         }} );
+    }
+
+    public static class ChemicalReactionFixtureDef extends FixtureDef {
+        public ChemicalReactionFixtureDef() {
+            friction = 0;
+            restitution = 1;
+        }
+    }
+
+    public static class WallFixtureDef extends ChemicalReactionFixtureDef {
+        public WallFixtureDef() {
+            density = 0;
+        }
     }
 
 }

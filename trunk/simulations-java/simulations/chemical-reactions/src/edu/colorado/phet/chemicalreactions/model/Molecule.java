@@ -56,10 +56,8 @@ public class Molecule extends BodyModel {
             addAtom( atom );
             atomMap.put( atom, spot );
 
-            addFixtureDef( new FixtureDef() {{
+            addFixtureDef( new Box2dModel.ChemicalReactionFixtureDef() {{
                 density = BOX2D_DENSITY;
-                restitution = 1;
-                friction = 0;
                 shape = new CircleShape() {{
                     m_radius = (float) BOX2D_MODEL_TRANSFORM.viewToModelDeltaX( atom.getRadius() );
                     ImmutableVector2D box2dPosition = BOX2D_MODEL_TRANSFORM.viewToModelDelta( spot.position );
