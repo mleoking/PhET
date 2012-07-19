@@ -1,3 +1,4 @@
+7/19/12 Moved more methods from ImmutableVector2D to AbstractVector2D, see #3374
 7/19/12 Extracted AbstractVector2D as superclass of ImmutableVector2D, see #3374
 7/19/12 Added Lombok and Functional Java as dependencies, see #3390
 7/17/12 add BufferedImageUtils.toImage(Icon)

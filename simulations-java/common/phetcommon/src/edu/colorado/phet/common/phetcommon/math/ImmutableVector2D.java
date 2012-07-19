@@ -4,8 +4,6 @@ package edu.colorado.phet.common.phetcommon.math;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
-
 /**
  * ImmutableVector2D represents an (x,y) offset in Cartesian coordinates.
  * This class is immutable, which means that it cannot be modified.
@@ -128,14 +126,6 @@ public class ImmutableVector2D extends AbstractVector2D {
         return getScaledInstance( magnitude / getMagnitude() );
     }
 
-    public double getCrossProductScalar( ImmutableVector2D v ) {
-        return ( this.getMagnitude() * v.getMagnitude() * Math.sin( this.getAngle() - v.getAngle() ) );
-    }
-
-    public Point2D.Double getDestination( Point2D startPt ) {
-        return new Point2D.Double( startPt.getX() + getX(), startPt.getY() + getY() );
-    }
-
     public ImmutableVector2D getRotatedInstance( double angle ) {
         return createPolar( getMagnitude(), getAngle() + angle );
     }
@@ -169,6 +159,10 @@ public class ImmutableVector2D extends AbstractVector2D {
         return getScaledInstance( scale );
     }
 
+    public ImmutableVector2D negate() {
+        return getScaledInstance( -1 );
+    }
+
     public static void main( String[] args ) {
         System.out.println( new ImmutableVector2D( 1, 2 ) );
         System.out.println( new Vector2D( 1, 2 ) );
@@ -178,18 +172,5 @@ public class ImmutableVector2D extends AbstractVector2D {
         System.out.println( "0= " + new ImmutableVector2D( 0, 0 ).getDistance( new ImmutableVector2D( 0, 0 ) ) );
         System.out.println( "1= " + new ImmutableVector2D( 1, 0 ).getDistance( new ImmutableVector2D( 0, 0 ) ) );
         System.out.println( "2root2= " + new ImmutableVector2D( 0, 0 ).getDistance( new ImmutableVector2D( 1, 1 ) ) );
-    }
-
-    public ImmutableVector2D negate() {
-        return getScaledInstance( -1 );
-    }
-
-    //Transform this ImmutableVector2D into a Dimension2D
-    public Dimension2D toDimension() {
-        return new Dimension2DDouble( x, y );
-    }
-
-    public double distance( ImmutableVector2D x ) {
-        return this.minus( x ).getMagnitude();
     }
 }
