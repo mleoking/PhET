@@ -6,8 +6,12 @@ import edu.colorado.phet.platetectonics.model.PlateMotionModel;
 import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
 import edu.colorado.phet.platetectonics.model.Sample;
 
+/**
+ * Behavior for the transform motion (one plate goes forward, the other goes back)
+ */
 public class TransformBehavior extends PlateBehavior {
 
+    // whether we move forward or back
     private final boolean towardsFront;
 
     private float timeElapsed = 0;
@@ -30,9 +34,10 @@ public class TransformBehavior extends PlateBehavior {
         timeElapsed += millionsOfYears;
         float timeAfter = timeElapsed;
 
+        // actually move the plate
         getPlate().shiftZ( 30000f / 2 * ( towardsFront ? millionsOfYears : -millionsOfYears ) );
 
-
+        // then add in a timestep-independent rift valley at the border between the two plates
         float riftValleyAmount = (float) ( Math.exp( -timeBefore * FAULT_VALLEY_TIME_FACTOR ) - Math.exp( -timeAfter * FAULT_VALLEY_TIME_FACTOR ) );
 
         // add in the rift valley

@@ -4,7 +4,6 @@ package edu.colorado.phet.platetectonics.model.behaviors;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
@@ -20,26 +19,37 @@ import edu.colorado.phet.platetectonics.model.regions.MagmaRegion;
 import edu.colorado.phet.platetectonics.model.regions.Region;
 import edu.colorado.phet.platetectonics.util.Side;
 
+import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.repeat;
+
+/**
+ * Behavior for a plate that is going over a subducting plate. This plate should be placed behind the subducting plate in the z-order,
+ * and most notably features volcanoes above where the subducting plate's melt forms.
+ */
 public class OverridingBehavior extends PlateBehavior {
 
+    // the x position at the center of where the magma channel (and thus volcanoes) should be
     private float magmaCenterX;
 
+    // vertical model range of where the melt will form
     public static final float TOP_MELT_Y = -100000;
     public static final float BOTTOM_MELT_Y = -150000;
     public static final float MELT_PADDING_Y = 10000;
 
     public static final float MELT_SPEED = 10000f; // pretty slow. like 3mm/year
-    public static final float MELT_CHANCE_FACTOR = 0.0001f;
+    public static final float MELT_CHANCE_FACTOR = 0.0001f; // poisson rate multiplier for individual magma blobs
 
     // melting X positions, determined by commented-out code below. update this if the magma chamber isn't centered properly
+    // TODO: remove these constants. we should be able to calculate the closest vertex in the boundary to the melt center (this needs to be on a vertex boundary for volcanoes to look right)
     public static final float OLD_MELT_X = 103157.875f;
     public static final float YOUNG_MELT_X = 162105.25f;
 
     public static final float MAGMA_TUBE_WIDTH = 1000;
 
+    // mountains behind the initial one are staggered with set x and z offsets (in a modulo-3 pattern for X positions)
     public static final float MOUNTAIN_X_OFFSET = 10000;
     public static final float MOUNTAIN_Z_PERIOD_FACTOR = 10000;
 
+    // track how full the magma chamber is. the chamber needs to fill up (value == 1) before volcanoes start to form
     private float chamberFullness = 0;
 
     private float minElevationInTimestep;
@@ -60,6 +70,7 @@ public class OverridingBehavior extends PlateBehavior {
         getCrust().moveToFront();
         plate.getModel().frontBoundarySideNotifier.updateListeners( plate.getSide() );
 
+        // calculate center x location
         magmaCenterX = getSide().getSign() * ( otherPlate.getPlateType() == PlateType.YOUNG_OCEANIC ? YOUNG_MELT_X : OLD_MELT_X );
 
         magmaTarget = getMagmaChamberTop();
@@ -125,7 +136,7 @@ public class OverridingBehavior extends PlateBehavior {
             animateMountains( millionsOfYears );
         }
 
-        // bring the edge down to the other level fairly quickly
+        // bring the edge down to the other level fairly quickly (match elevation of the subducting plate at the boundary, like erosion of the very edge)
         {
             float boundaryElevation = getSubductingBehavior().getBoundaryElevation();
 
@@ -145,7 +156,7 @@ public class OverridingBehavior extends PlateBehavior {
 
 
         /*---------------------------------------------------------------------------*
-        * smooth out continental crustal corner
+        * smooth out continental crustal corner (our fake "erosion")
         *----------------------------------------------------------------------------*/
 
         // NOTE: somewhat copied code from RiftingBehavior, but only changes the crust
@@ -210,11 +221,15 @@ public class OverridingBehavior extends PlateBehavior {
         * handle melt
         *----------------------------------------------------------------------------*/
 
+        // points along the "melt line" where melt can be generated from
         final ImmutableVector2F lowMeltPoint = getSubductingBehavior().getLowestMeltingLocation();
         final ImmutableVector2F highMeltPoint = getSubductingBehavior().getHighestMeltingLocation();
 
+        // only create magma if we have both points
         if ( lowMeltPoint != null && highMeltPoint != null ) {
-            FunctionalUtils.repeat(
+            // randomly create magma blobs at random offsets (based on timestep). the number of magma blobs is controlled by a poisson
+            // distribution, so that we should emit a consistent number of magma blobs (per time) regardless of how fine our timesteps are.
+            repeat(
                     new Runnable() {
                         public void run() {
                             ImmutableVector2F location = lowMeltPoint.plus( highMeltPoint.minus( lowMeltPoint ).times( (float) Math.random() ) );
@@ -226,7 +241,7 @@ public class OverridingBehavior extends PlateBehavior {
         }
 
         {
-            // min, max elevation computations
+            // min, max elevation computations (mainly used to make sure we don't make mountains too high)
             minElevationInTimestep = Float.MAX_VALUE;
             maxElevationInTimestep = -Float.MAX_VALUE;
             for ( Sample sample : getTopCrustBoundary().samples ) {
@@ -248,7 +263,7 @@ public class OverridingBehavior extends PlateBehavior {
                 agePuff( millionsOfYears, puff );
             }
 
-            // TODO: remove this. copy/paste helped in a jam
+            // TODO: remove this. copy/paste helped in a jam (need to grab positions of volcanoes, not just hack-compute them)
             createSmokeAt( new ImmutableVector3F( magmaCenterX, maxElevationInTimestep, 0 ), millionsOfYears );
             createSmokeAt( new ImmutableVector3F( magmaCenterX - plate.getSign() * MOUNTAIN_X_OFFSET, maxElevationInTimestep - 2000, -zStep ), millionsOfYears );
             createSmokeAt( new ImmutableVector3F( magmaCenterX + plate.getSign() * MOUNTAIN_X_OFFSET, maxElevationInTimestep - 2000, -2 * zStep ), millionsOfYears );
@@ -310,6 +325,7 @@ public class OverridingBehavior extends PlateBehavior {
         fakeUnderSubductionSample.setPosition( getFakeSubductionSamplePosition() );
     }
 
+    // main computation of smoke puff locations, with aging taken into account
     private void agePuff( float millionsOfYears, SmokePuff puff ) {
         puff.age += millionsOfYears;
 
@@ -326,7 +342,7 @@ public class OverridingBehavior extends PlateBehavior {
             final Property<Double> xRandom = new Property<Double>( 0.0 );
             final Property<Double> yRandom = new Property<Double>( 0.0 );
 
-            // TODO: remove this quick hackish method of distributing the randomness
+            // NOTE: this quick hackish method of distributing the randomness of the smoke is not ideal. consider changing in the future if it is an issue
             recursiveSplitCall(
                     new VoidFunction1<Float>() {
                         public void apply( Float millionsOfYears ) {
@@ -389,7 +405,7 @@ public class OverridingBehavior extends PlateBehavior {
             return;
         }
 
-        FunctionalUtils.repeat(
+        repeat(
                 new Runnable() {
                     public void run() {
                         final SmokePuff puff = new SmokePuff() {{
@@ -403,6 +419,7 @@ public class OverridingBehavior extends PlateBehavior {
                 }, samplePoisson( millionsOfYears * 8 ) );
     }
 
+    // animation for the mountains (volcanoes) being created (this affects the entire lithosphere)
     private void animateMountains( float millionsOfYears ) {
         assert getNumCrustXSamples() == getNumTerrainXSamples();
         for ( int columnIndex = 0; columnIndex < getNumTerrainXSamples(); columnIndex++ ) {

@@ -24,15 +24,20 @@ import edu.colorado.phet.platetectonics.util.Side;
 
 import static edu.colorado.phet.platetectonics.PlateTectonicsResources.Strings;
 
+/**
+ * Plate behavior where the plate moves away from the boundary, creating young oceanic crust from the center.
+ */
 public class RiftingBehavior extends PlateBehavior {
 
     private float timeElapsed = 0;
 
+    // how deep the top of the mid-oceanic ridge should be. (not realistic, should be deeper, but Berkeley team said this looked the best)
     public static final float RIDGE_TOP_Y = -500;
-    public static final float SPREAD_START_TIME = 10.0f;
 
+    // how fast the plates move
     public static final float RIFT_PLATE_SPEED = 30000f / 2;
 
+    // how many magma blobs are being animated
     public static final int BLOB_QUANTITY = 50;
 
     public RiftingBehavior( final PlateMotionPlate plate, PlateMotionPlate otherPlate ) {
@@ -100,6 +105,7 @@ public class RiftingBehavior extends PlateBehavior {
         final float oceanLabelX = getSide().getSign() * 120000; // 120km from the edge
         float oceanYBefore = getCrust().getBottomBoundary().getApproximateYFromX( oceanLabelX );
 
+        // main spreading animation
         moveSpreading( millionsOfYears );
 
         float oceanYAfter = getCrust().getBottomBoundary().getApproximateYFromX( oceanLabelX );
@@ -130,6 +136,7 @@ public class RiftingBehavior extends PlateBehavior {
         }
     }
 
+    // main movement of the crust and lithosphere
     private void moveSpreading( float millionsOfYears ) {
         float idealChunkWidth = plate.getSimpleChunkWidth();
 

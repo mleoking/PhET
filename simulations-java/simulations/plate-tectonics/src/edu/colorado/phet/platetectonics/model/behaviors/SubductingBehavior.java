@@ -16,6 +16,9 @@ import static edu.colorado.phet.platetectonics.model.behaviors.OverridingBehavio
 import static edu.colorado.phet.platetectonics.model.behaviors.OverridingBehavior.MELT_PADDING_Y;
 import static edu.colorado.phet.platetectonics.model.behaviors.OverridingBehavior.TOP_MELT_Y;
 
+/**
+ * Behavior for the subducting plate (bends then sinks down)
+ */
 public class SubductingBehavior extends PlateBehavior {
 
     private float timeElapsed = 0;
