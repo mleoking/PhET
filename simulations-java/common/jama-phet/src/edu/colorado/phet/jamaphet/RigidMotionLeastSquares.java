@@ -138,6 +138,12 @@ public class RigidMotionLeastSquares {
         public ImmutableVector3D transformVector3D( ImmutableVector3D v ) {
             return vectorFromMatrix3D( rotation.times( columnVector( v ) ).plus( translation ), 0 );
         }
+
+        public double getRotation2D() {
+            ImmutableVector2D transformedAngle = transformVector2D( new ImmutableVector2D( 1, 0 ) )
+                    .minus( transformVector2D( new ImmutableVector2D( 0, 0 ) ) );
+            return Math.atan2( transformedAngle.getY(), transformedAngle.getX() );
+        }
     }
 
     /*---------------------------------------------------------------------------*
