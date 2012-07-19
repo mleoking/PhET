@@ -142,6 +142,11 @@ public class TrajectoryModel {
         var mass: Number = _projectiles[_pIndex].mass;
         var dragCoefficient: Number = _projectiles[_pIndex].dragCoefficient;
         var area: Number = Math.PI*diameter*diameter/4;
+        if(airResistance){
+            rho = 1.6;
+        } else{    //if no air resistance
+            rho = 0;
+        }
         B = dragCoefficient*rho*area/mass;
     }
 
@@ -177,26 +182,37 @@ public class TrajectoryModel {
     private function singleStep( timeStep: Number ):void{
         _t += timeStep;
         frameCounter += 1;
-        if( !_airResistance ){
-            aX = 0;
-            aY = -g;
-            _xP = xP00 + _vX0*t;
-            _yP = yP00 + _vY0*t + 0.5*aY*t*t;
-            _vX = _vX0;
-            _vY = _vY0 +aY*t;
-        }else{       //if air resistance on
-            aX = - B*_vX*v;
-            aY = -g - B*_vY*v;
-            var dtr: Number = dt*tRate;        //adjusted time increment
-            //if air resistance so large that results are unphysical, then reduce time step
-            if( B*v*dtr > 0.25 ){
-                dtr = dtr/( B*v*dtr/0.25 )
-            }
-            _xP += _vX * dtr + (0.5) * aX * dtr*dtr;
-            _yP += _vY * dtr + (0.5) * aY * dtr*dtr;
-            _vX += aX * dtr;
-            _vY += aY * dtr;
+        aX = - B*_vX*v;
+        aY = -g - B*_vY*v;
+        var dtr: Number = dt*tRate;        //adjusted time increment
+        if( B*v*dtr > 0.25 ){
+            dtr = dtr/( B*v*dtr/0.25 )
         }
+        _xP += _vX * dtr + (0.5) * aX * dtr*dtr;
+        _yP += _vY * dtr + (0.5) * aY * dtr*dtr;
+        _vX += aX * dtr;
+        _vY += aY * dtr;
+
+//        if( !_airResistance ){
+//            aX = 0;
+//            aY = -g;
+//            _xP = xP00 + _vX0*t;
+//            _yP = yP00 + _vY0*t + 0.5*aY*t*t;
+//            _vX = _vX0;
+//            _vY = _vY0 +aY*t;
+//        }else{       //if air resistance on
+//            aX = - B*_vX*v;
+//            aY = -g - B*_vY*v;
+//            var dtr: Number = dt*tRate;        //adjusted time increment
+//            //if air resistance so large that results are unphysical, then reduce time step
+//            if( B*v*dtr > 0.25 ){
+//                dtr = dtr/( B*v*dtr/0.25 )
+//            }
+//            _xP += _vX * dtr + (0.5) * aX * dtr*dtr;
+//            _yP += _vY * dtr + (0.5) * aY * dtr*dtr;
+//            _vX += aX * dtr;
+//            _vY += aY * dtr;
+//        }
 
         v = Math.sqrt( _vX*_vX + _vY*_vY );
         //stop when projectile hits the ground (y = 0)
@@ -348,6 +364,7 @@ public class TrajectoryModel {
 
     public function set airResistance(value:Boolean):void {
         _airResistance = value;
+        setDragFactor();
     }
 
 
