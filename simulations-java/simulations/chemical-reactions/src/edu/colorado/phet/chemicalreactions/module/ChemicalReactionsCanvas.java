@@ -51,7 +51,7 @@ public class ChemicalReactionsCanvas extends PhetPCanvas {
         root.addChild( new TimePanel( clock, layoutBounds ) );
 
         for ( Kit kit : model.getKitCollection().getKits() ) {
-            final KitView kitView = new KitView( kit, this );
+            final KitView kitView = new KitView( kit );
 
             root.addChild( kitView.getBottomLayer() );
             root.addChild( kitView.getAtomLayer() );
