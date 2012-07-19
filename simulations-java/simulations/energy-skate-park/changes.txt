@@ -1,3 +1,4 @@
+7/19/12 deleted interviews flavor from build.properties, this will reduce future deploy times
 # 2.13.00 (66019) Jul 19, 2012
 > minor change to sponsor information
 # 2.12.01 (65850) Jul 16, 2012
