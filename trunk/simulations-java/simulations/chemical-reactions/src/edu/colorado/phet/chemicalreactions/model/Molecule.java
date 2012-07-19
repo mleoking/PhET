@@ -7,15 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.jbox2d.collision.shapes.CircleShape;
-import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
-import org.jbox2d.dynamics.FixtureDef;
 
 import edu.colorado.phet.chemicalreactions.box2d.BodyModel;
 import edu.colorado.phet.chemicalreactions.model.MoleculeShape.AtomSpot;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.IBucketSphere;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -103,14 +100,18 @@ public class Molecule extends BodyModel {
 
     private void updatePositions() {
         for ( Atom atom : atoms ) {
-            AtomSpot spot = atomMap.get( atom );
-            ImmutableVector2D rotatedOffset = spot.position.getRotatedInstance( angle.get() );
-            atom.position.set( Molecule.this.position.get().plus( rotatedOffset ) );
+            atom.position.set( getAtomOffset( atom ) );
         }
     }
 
     public void addAtom( Atom atom ) {
         atoms.add( atom );
+    }
+
+    public ImmutableVector2D getAtomOffset( Atom atom ) {
+        AtomSpot spot = atomMap.get( atom );
+        ImmutableVector2D rotatedOffset = spot.position.getRotatedInstance( angle.get() );
+        return position.get().plus( rotatedOffset );
     }
 
     public List<Atom> getAtoms() {
@@ -143,5 +144,14 @@ public class Molecule extends BodyModel {
 
     public void setDestination( ImmutableVector2D position ) {
         destination.set( position );
+    }
+
+    public ImmutableVector2D predictLinearAtomPosition( Atom atom, double t ) {
+        ImmutableVector2D futureMoleculePosition = position.get().plus( velocity.get().times( t ) );
+        double futureMoleculeAngle = angle.get() + angularVelocity.get() * t;
+
+        AtomSpot spot = atomMap.get( atom );
+        ImmutableVector2D rotatedOffset = spot.position.getRotatedInstance( futureMoleculeAngle );
+        return futureMoleculePosition.plus( rotatedOffset );
     }
 }

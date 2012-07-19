@@ -2,9 +2,12 @@
 package edu.colorado.phet.chemicalreactions;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import edu.colorado.phet.chemicalreactions.dev.MotionDeveloper;
 import edu.colorado.phet.chemicalreactions.module.ChemicalReactionsModule;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -25,6 +28,7 @@ public class ChemicalReactionsApplication extends PiccoloPhetApplication {
     public static final Property<Boolean> SHOW_DEBUG_OVERLAY = new Property<Boolean>( false );
     public static final Property<Boolean> SHOW_DEBUG_REACTION_SHAPES = new Property<Boolean>( false );
     public static final Property<Boolean> ATOM_LABELS_ROTATE = new Property<Boolean>( true );
+    private ChemicalReactionsModule makeMoleculeModule;
 
     /**
      * Sole constructor.
@@ -48,7 +52,7 @@ public class ChemicalReactionsApplication extends PiccoloPhetApplication {
 
         Frame parentFrame = getPhetFrame();
 
-        Module makeMoleculeModule = new ChemicalReactionsModule( parentFrame );
+        makeMoleculeModule = new ChemicalReactionsModule( parentFrame );
         addModule( makeMoleculeModule );
 //        addModule( new ChemicalReactionsModule( parentFrame ) );
     }
@@ -76,6 +80,15 @@ public class ChemicalReactionsApplication extends PiccoloPhetApplication {
         developerMenu.add( new PropertyCheckBoxMenuItem( UserComponents.devToggleDebugOverlay, "Display debugging overlay", SHOW_DEBUG_OVERLAY ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( UserComponents.devToggleDebugReactionShapes, "Display debugging reaction shapes", SHOW_DEBUG_REACTION_SHAPES ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( UserComponents.atomLabelsRotate, "Atom Labels Rotate", ATOM_LABELS_ROTATE ) );
+        developerMenu.add( new JMenuItem( "Open Collision Development Tool" ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    new MotionDeveloper( makeMoleculeModule.getCanvas().getModel().getKitCollection().getCurrentKit(),
+                                         makeMoleculeModule.getClock(),
+                                         frame );
+                }
+            } );
+        }} );
 
     }
 
