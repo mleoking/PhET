@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
@@ -50,6 +51,7 @@ public class Kit {
     private final Map<Molecule, Reaction> reactionMap = new HashMap<Molecule, Reaction>();
 
     public final VoidNotifier stepCompleted = new VoidNotifier();
+    public final Notifier<Double> timestepCompleted = new Notifier<Double>();
 
     public Kit( final LayoutBounds layoutBounds,
                 final List<MoleculeBucket> reactantBuckets,
@@ -268,6 +270,7 @@ public class Kit {
         * notify
         *----------------------------------------------------------------------------*/
         stepCompleted.updateListeners();
+        timestepCompleted.updateListeners( simulationTimeChange );
     }
 
     public void dragStart( Molecule molecule ) {

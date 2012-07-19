@@ -116,4 +116,7 @@ public class ChemicalReactionsCanvas extends PhetPCanvas {
         }
     }
 
+    public ChemicalReactionsModel getModel() {
+        return model;
+    }
 }
