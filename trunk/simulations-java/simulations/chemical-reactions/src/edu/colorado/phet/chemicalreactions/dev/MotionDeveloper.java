@@ -119,30 +119,6 @@ public class MotionDeveloper extends JDialog {
                         }
                         if ( showReactionTargets.get() ) {
                             for ( Reaction reaction : kit.getReactions() ) {
-                                // path (dotted line)
-                                for ( int i = 0; i < reaction.reactants.size(); i++ ) {
-                                    Molecule molecule = reaction.reactants.get( i );
-
-                                    for ( Atom atom : molecule.getAtoms() ) {
-                                        ImmutableVector2D acceleration = reaction.getTweakAcceleration( i );
-                                        double angularAcceleration = reaction.getTweakAngularAcceleration( i );
-
-                                        ImmutableVector2D currentPosition = transform.modelToView( atom.position.get() );
-
-                                        final DoubleGeneralPath path = new DoubleGeneralPath();
-                                        path.moveTo( currentPosition.getX(), currentPosition.getY() );
-                                        for ( double time = 0; time < reaction.getTarget().t; time += 0.05 ) {
-                                            ImmutableVector2D viewPosition = transform.modelToView(
-                                                    molecule.predictConstantAccelerationAtomPosition( atom, time, acceleration, angularAcceleration ) );
-                                            path.lineTo( viewPosition.getX(), viewPosition.getY() );
-                                        }
-                                        base.addChild( new PPath() {{
-                                            setPathTo( path.getGeneralPath() );
-                                            setStroke( new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 10.0f, new float[]{2, 3}, 0.0f ) );
-                                            setStrokePaint( Color.RED );
-                                        }} );
-                                    }
-                                }
 
                                 // target outlines
                                 for ( int i = 0; i < reaction.reactants.size(); i++ ) {
@@ -158,6 +134,37 @@ public class MotionDeveloper extends JDialog {
                                         ImmutableVector2D translatedPosition = rotatedPosition.plus( targetPosition );
                                         Color color = spot.element.getColor();
                                         drawCircle.apply( translatedPosition, spot.element.getRadius(), Color.RED );
+                                    }
+                                }
+
+                                // path (dotted line)
+                                for ( int i = 0; i < reaction.reactants.size(); i++ ) {
+                                    Molecule molecule = reaction.reactants.get( i );
+
+                                    ImmutableVector2D acceleration = reaction.getTweakAcceleration( i );
+                                    double angularAcceleration = reaction.getTweakAngularAcceleration( i );
+
+                                    for ( Atom atom : molecule.getAtoms() ) {
+                                        ImmutableVector2D currentPosition = transform.modelToView( atom.position.get() );
+
+                                        // path (dotted line)
+                                        final DoubleGeneralPath path = new DoubleGeneralPath();
+                                        path.moveTo( currentPosition.getX(), currentPosition.getY() );
+                                        for ( double time = 0; time < reaction.getTarget().t; time += 0.05 ) {
+                                            ImmutableVector2D viewPosition = transform.modelToView(
+                                                    molecule.predictConstantAccelerationAtomPosition( atom, time, acceleration, angularAcceleration ) );
+                                            path.lineTo( viewPosition.getX(), viewPosition.getY() );
+                                        }
+                                        base.addChild( new PPath() {{
+                                            setPathTo( path.getGeneralPath() );
+                                            setStroke( new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 10.0f, new float[]{2, 3}, 0.0f ) );
+                                            setStrokePaint( Color.RED );
+                                        }} );
+
+                                        // position at linear time
+                                        drawCircle.apply( molecule.predictConstantAccelerationAtomPosition( atom, linearPredictionTime.get(),
+                                                                                                            acceleration, angularAcceleration ),
+                                                          atom.getRadius(), Color.BLUE );
                                     }
                                 }
                             }
