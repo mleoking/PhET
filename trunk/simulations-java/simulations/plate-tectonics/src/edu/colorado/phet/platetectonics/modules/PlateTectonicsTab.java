@@ -42,7 +42,6 @@ import edu.colorado.phet.lwjglphet.nodes.GuiNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoComponentNode;
 import edu.colorado.phet.lwjglphet.nodes.OrthoPiccoloNode;
 import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
-import edu.colorado.phet.lwjglphet.shapes.UnitMarker;
 import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.PlateTectonicsApplication;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing;
@@ -54,7 +53,7 @@ import edu.colorado.phet.platetectonics.control.DraggableTool2D;
 import edu.colorado.phet.platetectonics.control.RulerNode3D;
 import edu.colorado.phet.platetectonics.control.ThermometerNode3D;
 import edu.colorado.phet.platetectonics.control.ToolDragHandler;
-import edu.colorado.phet.platetectonics.control.Toolbox;
+import edu.colorado.phet.platetectonics.control.ToolboxNode;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.TectonicsClock;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
@@ -97,28 +96,47 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     public final VoidNotifier beforeFrameRender = new VoidNotifier();
     public final VoidNotifier timeChangeNotifier = new VoidNotifier();
 
+    // stores the additional camera transformation created by using the debugging camera controls
     private LWJGLTransform debugCameraTransform = new LWJGLTransform();
+
+    // transform from the "stage" to the "canvas", that handles the proper centering transform as in other simulations
     protected CanvasTransform canvasTransform;
+
+    // transform from the model to the view "stage" size
     private LWJGLTransform modelViewTransform;
+
+    // timestamp for calculation of elapsed time between frames
     private long lastSeenTime;
 
-    // TODO: why sceneNode and sceneLayer?
+    // the root GL node that underlies everything rendered in 3D
     public final GLNode rootNode = new GLNode();
-    public final GLNode sceneNode = new GLNode();
+
+    // separate layers under the root note that helps us keep things in the correct z-order
     protected GLNode sceneLayer;
     protected GLNode guiLayer;
     protected GLNode toolLayer;
+
+    // whether everything should be displayed as wireframe (we can do this basically globally)
     private boolean showWireframe = false;
 
+    // reference to the model. subclasses of this tab will have references to the specific model subclasses, but this is used for tab-common behavior
     private PlateModel model;
 
+    // list of all orthographic user interfaces (stored here so we can handle mouse events correctly)
     protected final List<OrthoComponentNode> guiNodes = new ArrayList<OrthoComponentNode>();
+
+    // separate "model" state of the toolbox
     protected ToolboxState toolboxState = new ToolboxState();
+
+    // state handling for dragging the tools (sensors / ruler)
     protected ToolDragHandler toolDragHandler = new ToolDragHandler( toolboxState );
-    protected Toolbox toolbox;
+
+    protected ToolboxNode toolboxNode;
+
+    // if we are dragging a crust piece, this will reference it. otherwise, null
     protected OrthoPiccoloNode draggedCrustPiece = null;
 
-    private final TectonicsClock clock = new TectonicsClock( 1 ); // TODO: work on time multiplier
+    private final TectonicsClock clock = new TectonicsClock( 1 );
 
     // in seconds
     private float timeElapsed;
@@ -145,7 +163,10 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
 //        } );
     }
 
+    // main initialization. we want thus run AFTER LWJGL and the canvas have been initialized so we can get the stage size set (and call LWJGL functions)
     public void initialize() {
+
+        // attempt to set the stage size to the canvas size, so we can get 1-to-1 pixel mapping for the UI (without needing to scale) if possible
         stageSize = initialCanvasSize;
         if ( Math.abs( stageSize.getWidth() - 1008 ) > 20 || Math.abs( stageSize.getHeight() - 676 ) > 20 ) {
             // if our stage size is far enough away from pixel-perfect graphics on the initial canvas size, simply set to the default
@@ -153,6 +174,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         }
         canvasTransform = new StageCenteringCanvasTransform( canvasSize, stageSize );
 
+        // forward clock events to the model
         clock.addClockListener( new ClockAdapter() {
             @Override
             public void clockTicked( ClockEvent clockEvent ) {
@@ -163,7 +185,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
             }
         } );
 
-        // show both sides
+        // show both sides of polygons by default
         glPolygonMode( GL_FRONT, GL_FILL );
         glPolygonMode( GL_BACK, GL_FILL );
 
@@ -173,6 +195,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         // layers
         sceneLayer = new GLNode() {
             {
+                // allow shapes to intersect in the scene
                 requireEnabled( GL_DEPTH_TEST );
             }
 
@@ -187,6 +210,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         guiLayer = new GuiNode( this );
         toolLayer = new GLNode() {
             {
+                // allow tools to blend with the background
                 requireEnabled( GL_BLEND );
             }
 
@@ -194,6 +218,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
             protected void preRender( GLOptions options ) {
                 super.preRender( options );
 
+                // don't load lighting, tools use their own colors
                 loadCameraMatrices();
             }
         };
@@ -204,6 +229,9 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         /*---------------------------------------------------------------------------*
         * debug camera controls
         *----------------------------------------------------------------------------*/
+
+        // Q + left mouse button drag = pan
+        // Q + right mouse button drag = yaw
         mouseEventNotifier.addUpdateListener(
                 new UpdateListener() {
                     public void update() {
@@ -220,6 +248,8 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                         }
                     }
                 }, false );
+
+        // show wireframe while F key is pressed
         keyboardEventNotifier.addUpdateListener(
                 new UpdateListener() {
                     public void update() {
@@ -228,6 +258,8 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                         }
                     }
                 }, false );
+
+        // use standard WASD movement within the scene
         beforeFrameRender.addUpdateListener(
                 new UpdateListener() {
                     public void update() {
@@ -247,25 +279,6 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                 }, false );
 
         /*---------------------------------------------------------------------------*
-        * debugging marker on z=0 plane, press "M" and click
-        *----------------------------------------------------------------------------*/
-        mouseEventNotifier.addUpdateListener(
-                new UpdateListener() {
-                    public void update() {
-                        // LMB down
-                        if ( Mouse.getEventButton() == 0 && Mouse.getEventButtonState() && Keyboard.isKeyDown( Keyboard.KEY_M ) ) {
-                            Ray3F cameraRay = getCameraRay( Mouse.getEventX(), Mouse.getEventY() );
-                            final ImmutableVector3F intersection = PlaneF.XY.intersectWithRay( cameraRay );
-
-                            sceneNode.addChild( new UnitMarker() {{
-                                translate( intersection.x, intersection.y, intersection.z );
-                                scale( 10 );
-                            }} );
-                        }
-                    }
-                }, false );
-
-        /*---------------------------------------------------------------------------*
         * mouse motion
         *----------------------------------------------------------------------------*/
         mouseEventNotifier.addUpdateListener(
@@ -274,7 +287,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                         updateCursor();
 
                         if ( Mouse.getEventButton() == -1 ) {
-                            // ok, not a button press event
+                            // ok, not a button press event (== move)
 
                             if ( draggedCrustPiece != null ) {
                                 // scaleX and scaleY should be identical in this case
@@ -316,13 +329,14 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                                 }
                             }
                             else {
+                                // mouse being released
                                 if ( draggedCrustPiece != null ) {
                                     droppedCrustPiece( draggedCrustPiece );
                                     draggedCrustPiece = null;
                                 }
                                 else if ( toolDragHandler.isDragging() ) {
 
-                                    boolean isMouseOverToolbox = guiCollision != null && guiCollision == toolbox;
+                                    boolean isMouseOverToolbox = guiCollision != null && guiCollision == toolboxNode;
                                     toolDragHandler.mouseUp( isMouseOverToolbox );
                                     // TODO: remove the "removed" tool from the guiNodes list
                                 }
@@ -337,7 +351,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         /*---------------------------------------------------------------------------*
         * toolbox
         *----------------------------------------------------------------------------*/
-        toolbox = new Toolbox( this, toolboxState ) {{
+        toolboxNode = new ToolboxNode( this, toolboxState ) {{
             // layout the panel if its size changes (and on startup)
             canvasSize.addObserver( new SimpleObserver() {
                 public void update() {
@@ -348,9 +362,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
             } );
             updateOnEvent( beforeFrameRender );
         }};
-        addGuiNode( toolbox );
-
-        // TODO: handle removal of listeners from
+        addGuiNode( toolboxNode );
 
         //TODO: factor out duplicated code in tools
         toolboxState.rulerInToolbox.addObserver( new SimpleObserver() {
@@ -498,8 +510,6 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
             keyboardEventNotifier.updateListeners();
         }
 
-        // TODO: improve area where the model is updated. Should happen after mouse events (here)
-
         GLOptions options = new GLOptions();
 
         if ( showWireframe ) {
@@ -517,10 +527,6 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         rootNode.render( options );
         options.renderPass = RenderPass.TRANSPARENCY;
         rootNode.render( options );
-
-        // kind of a debugging node
-        loadCameraMatrices();
-        sceneNode.render( new GLOptions() );
 
         Display.update();
     }
@@ -575,6 +581,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
 //                (float) affineCanvasTransform.getScaleY(),
 //                1 );
 
+        // compute our field of view to match zoom
         float fieldOfViewRadians = (float) ( fieldOfViewDegrees / 180f * Math.PI );
         float correctedFieldOfViewRadians = (float) Math.atan( canvasTransform.getFieldOfViewYFactor() * Math.tan( fieldOfViewRadians ) );
 
@@ -584,10 +591,11 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         return perspectiveMatrix;
     }
 
+    // multiplier for how far the camera is to the scene, depending on the zoom
     public float getSceneDistanceZoomFactor() {
         float minDistance = 1;
         float maxDistance = 35;
-        return minDistance + ( getZoomRatio() ) * ( maxDistance - minDistance );
+        return minDistance + ( getEffectiveZoomRatio() ) * ( maxDistance - minDistance );
     }
 
     // compute the camera position, essentially
@@ -595,24 +603,27 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         // min == close up
         // max == far away
 
+        // here we interpolate nonlinearly between the "zoomed in" and "zoomed out" views, keeping the top of the crust in view at all times
         float minAngle = 13;
         float maxAngle = 0;
         float minY = -80;
         float maxY = modelViewTransform.transformDeltaY( -PlateModel.CENTER_OF_EARTH_Y / 2 );
         float minZ = -400;
         float maxZ = -400 * 45;
-        float ratio = getZoomRatio();
+        float ratio = getEffectiveZoomRatio();
         float angle = minAngle + ratio * ( maxAngle - minAngle );
         return debugCameraTransform.getMatrix()
                 .times( ImmutableMatrix4F.rotation( X_UNIT, angle / 180f * (float) Math.PI ) )
                 .times( ImmutableMatrix4F.translation( 0, minY + ratio * ratio * ( maxY - minY ), minZ + ratio * ( maxZ - minZ ) ) );
     }
 
-    private float getZoomRatio() {
+    // nonlinear function for nice zoom effect
+    private float getEffectiveZoomRatio() {
         final float r = 1 - zoomRatio.get().floatValue();
         return r * r;
     }
 
+    // the GLUT perspective function did not allow the proper FOV options that we needed, so here is an equivalent version that is simpler
     public ImmutableMatrix4F getGluPerspective( float fovYRadians, float aspect, float zNear, float zFar ) {
         float cotangent = (float) Math.cos( fovYRadians ) / (float) Math.sin( fovYRadians );
 
@@ -627,7 +638,9 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         return sceneModelViewTransform.getInverse().times( new ImmutableVector3F( 0, 0, 0 ) );
     }
 
+    // given the mouse position by LWJGL, compute a ray from the camera to where
     public Ray3F getCameraRay( int mouseX, int mouseY ) {
+        // the terms in this function should be googleable
         ImmutableVector3F normalizedDeviceCoordinates = new ImmutableVector3F(
                 2 * mouseX / (float) getCanvasWidth() - 1,
                 2 * mouseY / (float) getCanvasHeight() - 1,
@@ -642,6 +655,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         return cameraRay;
     }
 
+    // debugging utility for printing out floatbuffer values
     public static String bufferString( FloatBuffer buffer ) {
         StringBuilder builder = new StringBuilder();
         buffer.rewind();
@@ -664,23 +678,10 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     private FloatBuffer moonDirection = LWJGLUtils.floatBuffer( new float[]{-2, 1, -1, 0} );
 
     public void loadLighting() {
-        /*
-        final DirectionalLight sun = new DirectionalLight();
-        sun.setDirection( new Vector3f( 1, 3f, -2 ).normalizeLocal() );
-        sun.setColor( new ColorRGBA( 1, 1, 1, 1.3f ) );
-        node.addLight( sun );
-
-        final DirectionalLight moon = new DirectionalLight();
-        moon.setDirection( new Vector3f( -2, 1, -1 ).normalizeLocal() );
-        moon.setColor( new ColorRGBA( 1, 1, 1, 0.5f ) );
-        node.addLight( moon );
-         */
-
         glMaterial( GL_FRONT, GL_SPECULAR, specular );
 //            glMaterial( GL_FRONT, GL_SHININESS, shininess );
         glLight( GL_LIGHT0, GL_POSITION, sunDirection );
         glLight( GL_LIGHT1, GL_POSITION, moonDirection );
-//        glEnable( GL_LIGHTING );
         glEnable( GL_LIGHT0 );
         glEnable( GL_LIGHT1 );
     }
@@ -729,6 +730,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         return new ImmutableVector2F( intersection.x, intersection.y );
     }
 
+    // view coordinates for where the bottom center of the screen hits the z=0 plane
     public ImmutableVector2F getBottomCenterPositionOnPlane( PlaneF plane ) {
         Ray3F cameraRay = getCameraRay( canvasSize.get().width / 2, 0 );
         final ImmutableVector3F intersection = plane.intersectWithRay( cameraRay );
@@ -773,7 +775,6 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
             Ray3F cameraRay = getCameraRay( x, y );
             Ray3F localRay = tool.transform.inverseRay( cameraRay );
             if ( tool.doesLocalRayHit( localRay ) ) {
-                // TODO: don't hit on the "transparent" parts, like corners
                 return tool;
             }
         }
@@ -786,6 +787,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         final ThreadedPlanarPiccoloNode toolCollision = getToolUnder( Mouse.getEventX(), Mouse.getEventY() );
         final OrthoComponentNode guiCollision = getGuiUnder( Mouse.getEventX(), Mouse.getEventY() );
 
+        // swing-related calls need to be done in this thread. unfortunately this DOES introduce a delay in the shown cursor.
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 if ( toolCollision != null ) {
@@ -850,7 +852,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         return clock;
     }
 
-    // called when a mouse click is detected that isn't dragging a tool or manipulating a GUI
+    // called when a mouse click is detected that isn't dragging a tool or manipulating a GUI (subclass wants to use mouse behavior in scene)
     protected void uncaughtMouseButton() {
 
     }

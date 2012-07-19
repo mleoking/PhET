@@ -46,7 +46,7 @@ public class EarthTexture {
             buffer.clear();
             buffer.put( data, 0, data.length );
         }
-        catch ( IOException e ) {
+        catch( IOException e ) {
             throw new RuntimeException( "failure to read noise file", e );
         }
         buffer.rewind();

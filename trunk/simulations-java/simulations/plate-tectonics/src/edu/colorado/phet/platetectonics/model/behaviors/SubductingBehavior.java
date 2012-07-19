@@ -8,12 +8,13 @@ import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
 import edu.colorado.phet.platetectonics.model.PlateType;
 import edu.colorado.phet.platetectonics.model.Sample;
 import edu.colorado.phet.platetectonics.model.TerrainSample;
-import edu.colorado.phet.platetectonics.model.labels.BoundaryLabel;
 import edu.colorado.phet.platetectonics.model.regions.Boundary;
 import edu.colorado.phet.platetectonics.model.regions.Region;
 import edu.colorado.phet.platetectonics.util.Side;
 
-import static edu.colorado.phet.platetectonics.model.behaviors.OverridingBehavior.*;
+import static edu.colorado.phet.platetectonics.model.behaviors.OverridingBehavior.BOTTOM_MELT_Y;
+import static edu.colorado.phet.platetectonics.model.behaviors.OverridingBehavior.MELT_PADDING_Y;
+import static edu.colorado.phet.platetectonics.model.behaviors.OverridingBehavior.TOP_MELT_Y;
 
 public class SubductingBehavior extends PlateBehavior {
 

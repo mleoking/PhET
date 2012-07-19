@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.view;
 
-import java.awt.Color;
+import java.awt.*;
 import java.nio.FloatBuffer;
 import java.util.Iterator;
 
@@ -53,10 +53,10 @@ public class CrossSectionStripNode extends GLNode {
         } );
 
         strip.changed.addUpdateListener( new UpdateListener() {
-                                             public void update() {
-                                                 updatePosition();
-                                             }
-                                         }, true );
+            public void update() {
+                updatePosition();
+            }
+        }, true );
 
         colorMode.addObserver( new SimpleObserver() {
             public void update() {
@@ -67,10 +67,10 @@ public class CrossSectionStripNode extends GLNode {
         // TODO: model where this isn't needed?
         // if we are moved to the front, ignore the depth test so we will draw OVER whatever is there
         strip.moveToFrontNotifier.addUpdateListener( new UpdateListener() {
-                                                         public void update() {
-                                                             checkDepth = false;
-                                                         }
-                                                     }, false );
+            public void update() {
+                checkDepth = false;
+            }
+        }, false );
     }
 
     private void checkSize() {
@@ -108,8 +108,8 @@ public class CrossSectionStripNode extends GLNode {
 
         // fill the three necessary buffers
         colorBuffer.put( color.getComponents( new float[4] ) );
-        textureBuffer.put( new float[] { point.getTextureCoordinates().x, point.getTextureCoordinates().y } );
-        positionBuffer.put( new float[] { position.x, position.y, position.z } );
+        textureBuffer.put( new float[]{point.getTextureCoordinates().x, point.getTextureCoordinates().y} );
+        positionBuffer.put( new float[]{position.x, position.y, position.z} );
     }
 
     @Override public void renderSelf( GLOptions options ) {

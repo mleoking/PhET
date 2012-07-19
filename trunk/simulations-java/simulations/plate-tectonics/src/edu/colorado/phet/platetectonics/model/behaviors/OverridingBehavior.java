@@ -16,7 +16,6 @@ import edu.colorado.phet.platetectonics.model.Sample;
 import edu.colorado.phet.platetectonics.model.SmokePuff;
 import edu.colorado.phet.platetectonics.model.TerrainSample;
 import edu.colorado.phet.platetectonics.model.labels.BoundaryLabel;
-import edu.colorado.phet.platetectonics.model.regions.Boundary;
 import edu.colorado.phet.platetectonics.model.regions.MagmaRegion;
 import edu.colorado.phet.platetectonics.model.regions.Region;
 import edu.colorado.phet.platetectonics.util.Side;
@@ -56,6 +55,7 @@ public class OverridingBehavior extends PlateBehavior {
     public OverridingBehavior( PlateMotionPlate plate, PlateMotionPlate otherPlate ) {
         super( plate, otherPlate );
 
+        // move all parts of lithosphere in front of the mantle
         getLithosphere().moveToFront();
         getCrust().moveToFront();
         plate.getModel().frontBoundarySideNotifier.updateListeners( plate.getSide() );

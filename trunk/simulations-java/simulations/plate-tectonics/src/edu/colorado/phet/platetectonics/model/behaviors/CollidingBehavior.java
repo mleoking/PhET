@@ -12,6 +12,9 @@ import edu.colorado.phet.platetectonics.model.regions.Boundary;
 import edu.colorado.phet.platetectonics.model.regions.Region;
 import edu.colorado.phet.platetectonics.util.Side;
 
+/**
+ * Plate behavior for continental collision (plates pushing towards each other and creating mountains)
+ */
 public class CollidingBehavior extends PlateBehavior {
 
     private float timeElapsed = 0;
@@ -19,6 +22,7 @@ public class CollidingBehavior extends PlateBehavior {
     public CollidingBehavior( PlateMotionPlate plate, PlateMotionPlate otherPlate ) {
         super( plate, otherPlate );
 
+        // move all parts of lithosphere in front of the mantle
         getLithosphere().moveToFront();
         getCrust().moveToFront();
         plate.getModel().frontBoundarySideNotifier.updateListeners( plate.getSide() );
@@ -28,18 +32,38 @@ public class CollidingBehavior extends PlateBehavior {
 
     @Override public void stepInTime( float millionsOfYears ) {
         timeElapsed += millionsOfYears;
+
+        // create new earth at the far edge (if there is room)
         createEarthEdges();
 
+        /*---------------------------------------------------------------------------*
+        * Essentially what we do here is use a function (computeNewX) to map from old X values to new X values to determine how
+        * our crust moves and compresses (does not pass x=0 boundary). We shift all x values based on the function's value, but then
+        * we also preserve the area of each quadrant by increasing its height. The mountains grow out of this increased height, and we add
+        * in some randomness to create that peaks and valleys look.
+        *----------------------------------------------------------------------------*/
         float sign = -plate.getSide().getSign();
         final List<Sample> topSamples = getTopCrustBoundary().samples;
         final Boundary lithosphereBottomBoundary = getLithosphere().getBottomBoundary();
         final List<Sample> bottomSamples = lithosphereBottomBoundary.samples;
+
+        // current X values for each column
         float[] oldXes = new float[topSamples.size()];
+
+        // new X values for each column
         float[] newXes = new float[topSamples.size()];
+
+        // current high/low points of the lithosphere
         float[] oldTopYs = new float[topSamples.size()];
         float[] oldBottomYs = new float[bottomSamples.size()];
+
+        // and respective area of this slice (currently)
         float[] oldAreas = new float[topSamples.size() - 1];
+
+        // and how much the X-change scales this current slice
         float[] scales = new float[topSamples.size()];
+
+        // compute the above values
         for ( int i = 0; i < oldXes.length; i++ ) {
             oldXes[i] = topSamples.get( i ).getPosition().x;
             oldTopYs[i] = topSamples.get( i ).getPosition().y;
@@ -57,7 +81,9 @@ public class CollidingBehavior extends PlateBehavior {
             float rightScale = ( newXes[i + 1] - newXes[i] ) / ( oldXes[i + 1] - oldXes[i] );
             scales[i] = ( leftScale + rightScale ) / 2;
         }
-        for ( Region region : new Region[] { getLithosphere(), getPlate().getCrust() } ) {
+
+        // apply the transformations to the lithosphere and crust
+        for ( Region region : new Region[]{getLithosphere(), getCrust()} ) {
             for ( int i = 0; i < getCrust().getTopBoundary().samples.size(); i++ ) {
                 float centerY = ( getCrust().getTopBoundary().samples.get( i ).getPosition().y
                                   + getCrust().getBottomBoundary().samples.get( i ).getPosition().y ) / 2;
@@ -86,11 +112,13 @@ public class CollidingBehavior extends PlateBehavior {
             }
         }
 
-        // create some mountains!
+        // create some mountains! (magnify local terrain variation)
         for ( int col = 0; col < getCrust().getTopBoundary().samples.size(); col++ ) {
             for ( int row = 0; row < getTerrain().getNumRows(); row++ ) {
                 final TerrainSample terrainSample = getPlate().getTerrain().getSample( col, row );
                 float mountainRatio = (float) MathUtil.clamp( 0, ( terrainSample.getElevation() - 6000 ) / ( 13000 - 6000 ), 1 );
+
+                // don't compute randomness each time, instead magnify the initial "random" terrain offsets
                 float elevationOffset = mountainRatio * ( terrainSample.getRandomElevationOffset() );
                 elevationOffset *= millionsOfYears / 5;
                 terrainSample.setElevation( terrainSample.getElevation() + elevationOffset );
@@ -101,7 +129,7 @@ public class CollidingBehavior extends PlateBehavior {
             }
         }
 
-        // copy elevation from left plate to right plate on the center line
+        // copy elevation from left plate to right plate on the center line (center needs to match up)
         if ( getSide() == Side.RIGHT ) {
             for ( int row = 0; row < getPlate().getTerrain().getNumRows(); row++ ) {
                 final float elevation = getOtherPlate().getTerrain().getSample( getOtherPlate().getTerrain().getNumColumns() - 1, row ).getElevation();
@@ -114,11 +142,9 @@ public class CollidingBehavior extends PlateBehavior {
 
         getPlate().getTerrain().elevationChanged.updateListeners();
 
+        // for now, mantle movement has been removed. may be back soon!
 //        glueMantleTopToLithosphere( 750 );
 //        redistributeMantle();
-
-        // TODO: different terrain sync so we can handle height differences
-//        getPlate().fullSyncTerrain();
     }
 
     // we actually slow the continental speed down logarithmically, only starting at 3cm/year
@@ -127,6 +153,7 @@ public class CollidingBehavior extends PlateBehavior {
         return (float) ( howFastToSlow * Math.log( time / howFastToSlow + 1 ) );
     }
 
+    // the difference in our nonlinear time shift
     private float timeModification( float millionsOfYears ) {
         float before = timeElapsed - millionsOfYears;
         float after = timeElapsed;
@@ -134,9 +161,12 @@ public class CollidingBehavior extends PlateBehavior {
         return timeFormula( after ) - timeFormula( before );
     }
 
+    // compute the new x position after millionsOfYears from current position
     private float computeNewX( float millionsOfYears, float sign, float currentX ) {
         millionsOfYears = timeModification( millionsOfYears );
         assert !Float.isNaN( millionsOfYears );
+
+        // exponentials in this case are timestep-independent
         final int exponentialFactor = 30;
         float newX = (float) ( currentX * Math.exp( -millionsOfYears / exponentialFactor ) );
         final float maxXDelta = sign * 30000f / 2 * millionsOfYears;

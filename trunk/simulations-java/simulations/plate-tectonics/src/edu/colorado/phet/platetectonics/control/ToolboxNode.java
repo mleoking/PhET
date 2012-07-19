@@ -21,10 +21,10 @@ import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.PANEL_TIT
 /**
  * Displays a toolbox that contains meters (ruler, thermometer, density meter, composition meter), and display options
  */
-public class Toolbox extends OrthoPiccoloNode {
+public class ToolboxNode extends OrthoPiccoloNode {
     private static final double INSET = 5;
 
-    public Toolbox( final PlateTectonicsTab tab, final ToolboxState toolboxState ) {
+    public ToolboxNode( final PlateTectonicsTab tab, final ToolboxState toolboxState ) {
         super( new ControlPanelNode( new PNode() {{
             final float kmToViewUnit = 0.75f;
             final ZeroOffsetNode rulerNode2D = new ZeroOffsetNode( new RulerNode2D( kmToViewUnit, tab ) {{

@@ -1,14 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.control;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;

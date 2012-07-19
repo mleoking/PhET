@@ -1,13 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.platetectonics.test;
 
-import java.awt.BorderLayout;
-import java.awt.Canvas;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import java.awt.*;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
@@ -43,7 +39,7 @@ public class CanvasExample {
                             GL11.glOrtho( 0, 800, 600, 0, 1, -1 );
                             GL11.glMatrixMode( GL11.GL_MODELVIEW );
                         }
-                        catch ( LWJGLException e ) {
+                        catch( LWJGLException e ) {
                             e.printStackTrace();
                         }
 
@@ -87,7 +83,7 @@ public class CanvasExample {
                 try {
                     gameThread.join();
                 }
-                catch ( InterruptedException e ) {
+                catch( InterruptedException e ) {
                     e.printStackTrace();
                 }
                 super.removeNotify();

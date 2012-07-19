@@ -3,7 +3,7 @@ package edu.colorado.phet.platetectonics.control;
 
 import java.text.DecimalFormat;
 
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -15,6 +15,10 @@ import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
 import edu.colorado.phet.platetectonics.model.TectonicsClock;
 import edu.umd.cs.piccolo.nodes.PText;
 
+/**
+ * Time control for the motion tab. When in manual mode, only displays a time readout. When in auto mode, displays the play/pause button,
+ * step button, and a slider to control speed.
+ */
 public class TectonicsTimeControl extends PiccoloClockControlPanel {
 
     private Property<Double> speedProperty = new Property<Double>( 1.0 );
@@ -23,7 +27,6 @@ public class TectonicsTimeControl extends PiccoloClockControlPanel {
         super( clock );
 
         setRewindButtonVisible( false );
-//        getStepButton().setVisible( false );
         setTimeDisplayVisible( true );
         setUnits( Strings.MILLION_YEARS );
         setTimeFormat( new DecimalFormat( "0" ) );
