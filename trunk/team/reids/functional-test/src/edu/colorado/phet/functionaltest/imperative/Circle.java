@@ -2,7 +2,7 @@
 package edu.colorado.phet.functionaltest.imperative;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.fractions.util.immutable.Vector2D;
+import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 
 /**
  * @author Sam Reid

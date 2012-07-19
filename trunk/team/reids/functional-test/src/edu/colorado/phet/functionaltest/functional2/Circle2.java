@@ -3,7 +3,7 @@ package edu.colorado.phet.functionaltest.functional2;
 
 import lombok.Data;
 
-import edu.colorado.phet.fractions.util.immutable.Vector2D;
+import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 
 /**
  * @author Sam Reid
