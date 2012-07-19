@@ -133,7 +133,7 @@ public class MotionDeveloper extends JDialog {
                                         ImmutableVector2D rotatedPosition = spotLocalPosition.getRotatedInstance( angle );
                                         ImmutableVector2D translatedPosition = rotatedPosition.plus( targetPosition );
                                         Color color = spot.element.getColor();
-                                        drawCircle.apply( translatedPosition, spot.element.getRadius(), Color.RED );
+                                        drawCircle.apply( translatedPosition, spot.element.getRadius(), new Color( 255, 0, 0, 84 ) );
                                     }
                                 }
 
@@ -158,7 +158,7 @@ public class MotionDeveloper extends JDialog {
                                         base.addChild( new PPath() {{
                                             setPathTo( path.getGeneralPath() );
                                             setStroke( new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 10.0f, new float[]{2, 3}, 0.0f ) );
-                                            setStrokePaint( Color.RED );
+                                            setStrokePaint( new Color( 255, 0, 0, 84 ) );
                                         }} );
 
                                         // position at linear time
