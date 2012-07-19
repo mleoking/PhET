@@ -1,3 +1,4 @@
+# 1.12.02 (66020) Jul 19, 2012
 # 1.12.01 (65515) Jun 28, 2012
 > Converted "ground state" label to be html to support multi-line
 # 1.12.00 (52635) Jun 4, 2011
