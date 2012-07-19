@@ -3,6 +3,9 @@ package edu.colorado.phet.platetectonics.model;
 
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 
+/**
+ * Basically a coordinate transform for texture coordinates
+ */
 public class TextureStrategy {
     private final float frontScale;
 

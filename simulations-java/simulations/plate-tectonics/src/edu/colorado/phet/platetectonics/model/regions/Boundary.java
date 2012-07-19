@@ -7,6 +7,12 @@ import java.util.List;
 import edu.colorado.phet.platetectonics.model.Sample;
 import edu.colorado.phet.platetectonics.util.Side;
 
+/**
+ * A boundary is an ordered series of cross-section samples whose x-values are monotonically non-decreasing (almost always horizontal
+ * boundaries).
+ * <p/>
+ * The general rule is the order of samples are left-to-right, NEVER right-to-left
+ */
 public class Boundary {
     public List<Sample> samples = new ArrayList<Sample>();
 
@@ -36,6 +42,7 @@ public class Boundary {
         return side.getFromEnd( samples, offset );
     }
 
+    // calculate a given Y value for an X value that lies within our boundary range. (x,y) will lie on the line segment between two adjacent samples
     public float getApproximateYFromX( float x ) {
         // if we are outside of our normal bounds, just set to nearest endpoint y
         if ( x <= getEdgeSample( Side.LEFT ).getPosition().x ) {

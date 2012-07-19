@@ -17,7 +17,7 @@ import edu.colorado.phet.platetectonics.model.regions.Region;
 import edu.colorado.phet.platetectonics.util.Bounds3D;
 
 /**
- * All units in SI unless otherwise noted
+ * Base class for plate tectonics models. All units in SI unless otherwise noted
  */
 public abstract class PlateModel {
     // event notification
@@ -34,6 +34,7 @@ public abstract class PlateModel {
     // full bounds of the simulated model
     public final Bounds3D bounds;
 
+    // at what scale should our textures be applied
     private final TextureStrategy textureStrategy;
 
     // TODO: if we need, handle dynamic adding of strips from plates and regions
