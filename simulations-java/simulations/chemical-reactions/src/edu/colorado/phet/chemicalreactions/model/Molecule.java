@@ -104,6 +104,10 @@ public class Molecule extends BodyModel {
         }
     }
 
+    public AtomSpot getSpot( Atom atom ) {
+        return atomMap.get( atom );
+    }
+
     public void addAtom( Atom atom ) {
         atoms.add( atom );
     }
@@ -144,6 +148,15 @@ public class Molecule extends BodyModel {
 
     public void setDestination( ImmutableVector2D position ) {
         destination.set( position );
+    }
+
+    public ImmutableVector2D predictConstantAccelerationAtomPosition( Atom atom, double t, ImmutableVector2D acceleration, double angularAcceleration ) {
+        ImmutableVector2D futureMoleculePosition = position.get().plus( velocity.get().times( t ) ).plus( acceleration.times( 0.5 * t * t ) );
+        double futureMoleculeAngle = angle.get() + angularVelocity.get() * t + angularAcceleration * 0.5 * t * t;
+
+        AtomSpot spot = atomMap.get( atom );
+        ImmutableVector2D rotatedOffset = spot.position.getRotatedInstance( futureMoleculeAngle );
+        return futureMoleculePosition.plus( rotatedOffset );
     }
 
     public ImmutableVector2D predictLinearAtomPosition( Atom atom, double t ) {

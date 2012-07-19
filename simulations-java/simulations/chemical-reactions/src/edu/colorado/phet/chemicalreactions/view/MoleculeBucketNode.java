@@ -4,7 +4,6 @@ package edu.colorado.phet.chemicalreactions.view;
 import java.awt.*;
 import java.util.Arrays;
 
-import edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants;
 import edu.colorado.phet.chemicalreactions.model.Molecule;
 import edu.colorado.phet.chemicalreactions.model.MoleculeBucket;
 import edu.colorado.phet.chemistry.utils.ChemUtils;

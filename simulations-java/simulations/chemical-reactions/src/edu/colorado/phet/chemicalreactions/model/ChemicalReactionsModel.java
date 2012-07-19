@@ -8,7 +8,13 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 
-import static edu.colorado.phet.chemicalreactions.model.MoleculeShape.*;
+import static edu.colorado.phet.chemicalreactions.model.MoleculeShape.Cl2;
+import static edu.colorado.phet.chemicalreactions.model.MoleculeShape.H2;
+import static edu.colorado.phet.chemicalreactions.model.MoleculeShape.H2O;
+import static edu.colorado.phet.chemicalreactions.model.MoleculeShape.HCl;
+import static edu.colorado.phet.chemicalreactions.model.MoleculeShape.N2;
+import static edu.colorado.phet.chemicalreactions.model.MoleculeShape.NH3;
+import static edu.colorado.phet.chemicalreactions.model.MoleculeShape.O2;
 
 public class ChemicalReactionsModel {
     public final KitCollection kitCollection;

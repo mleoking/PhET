@@ -3,7 +3,6 @@ package edu.colorado.phet.chemicalreactions.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
 import static edu.colorado.phet.chemicalreactions.model.MoleculeShape.Cl2;

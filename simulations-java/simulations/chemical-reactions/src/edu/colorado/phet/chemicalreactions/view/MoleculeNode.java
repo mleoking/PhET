@@ -1,8 +1,6 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.chemicalreactions.view;
 
-import java.awt.geom.AffineTransform;
-
 import edu.colorado.phet.chemicalreactions.ChemicalReactionsApplication;
 import edu.colorado.phet.chemicalreactions.model.Atom;
 import edu.colorado.phet.chemicalreactions.model.Molecule;
