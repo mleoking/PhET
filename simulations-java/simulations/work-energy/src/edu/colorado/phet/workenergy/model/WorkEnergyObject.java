@@ -48,7 +48,7 @@ public class WorkEnergyObject {
                     netForce.set( new Vector2D() );
                 }
                 else {
-                    netForce.set( appliedForce.get().getAddedInstance( frictionForce.get() ).getAddedInstance( gravityForce.get() ) );
+                    netForce.set( appliedForce.get().plus( frictionForce.get() ).plus( gravityForce.get() ) );
                 }
             }
         };
@@ -109,8 +109,8 @@ public class WorkEnergyObject {
         time.set( time.get() + dt );
         //Assumes driven by applied force, not user setting position manually
         acceleration.set( netForce.times( 1.0 / mass.get() ) );
-        velocity.set( acceleration.times( dt ).getAddedInstance( velocity.get() ) );
-        position.set( velocity.times( dt ).getAddedInstance( position.get() ) );
+        velocity.set( acceleration.times( dt ).plus( velocity.get() ) );
+        position.set( velocity.times( dt ).plus( position.get() ) );
 
         double deltaEnergy = initialEnergy - getTotalEnergy();
         //find a good vertical location for the object so energy is conserved

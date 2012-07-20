@@ -62,7 +62,7 @@ public class SchematicResistorNode extends ComponentNode {
     private Vector2D getVector( double east, double north ) {
         Vector2D e = eastDir.getScaledInstance( east );
         Vector2D n = northDir.getScaledInstance( north );
-        return e.getAddedInstance( n );
+        return e.plus( n );
     }
 
     protected void changed() {

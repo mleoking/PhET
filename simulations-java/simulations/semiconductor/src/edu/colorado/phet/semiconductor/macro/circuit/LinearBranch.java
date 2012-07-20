@@ -29,7 +29,7 @@ public class LinearBranch {
      * Get a location a scalar distance along the branch.
      */
     public Vector2D getLocation( double dist ) {
-        return start.getAddedInstance( dv.getInstanceOfMagnitude( dist ) );
+        return start.plus( dv.getInstanceOfMagnitude( dist ) );
     }
 
     public MutableVector2D getStartPosition() {

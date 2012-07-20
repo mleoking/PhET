@@ -18,8 +18,8 @@ public class ElectricFieldSection {
 
     public ElectricFieldSection( MutableVector2D center ) {
 
-        internalField = new ElectricField( center.getAddedInstance( 0, .3 ) );
-        batteryField = new ElectricField( center.getAddedInstance( 0, -.3 ) );
+        internalField = new ElectricField( center.plus( 0, .3 ) );
+        batteryField = new ElectricField( center.plus( 0, -.3 ) );
     }
 
     public ElectricField getInternalField() {

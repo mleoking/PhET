@@ -86,7 +86,7 @@ public class Thermometer extends UserMovableModelElement {
         private Vector2D offset = new Vector2D( 0, 0 );
         private final VoidFunction1<Vector2D> followerFunction = new VoidFunction1<Vector2D>() {
             public void apply( Vector2D location ) {
-                follower.set( location.getAddedInstance( offset ) );
+                follower.set( location.plus( offset ) );
             }
         };
 

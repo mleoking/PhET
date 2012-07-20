@@ -106,8 +106,8 @@ public class ThermometerNode extends PComposite {
                                                               thermometerBack.getHeight() / 2 - thermometerBack.getWidth() / 2 );
         Vector2D triangleLeftmostPoint = new Vector2D( backLayer.getFullBoundsReference().getCenterX() + triangleTipOffset.getWidth(),
                                                        backLayer.getFullBoundsReference().getCenterY() + triangleTipOffset.getHeight() );
-        final Vector2D triangleUpperRightPoint = triangleLeftmostPoint.getAddedInstance( new Vector2D( TRIANGLE_SIDE_SIZE, 0 ).getRotatedInstance( Math.PI / 5 ) );
-        final Vector2D triangleLowerRightPoint = triangleLeftmostPoint.getAddedInstance( new Vector2D( TRIANGLE_SIDE_SIZE, 0 ).getRotatedInstance( -Math.PI / 5 ) );
+        final Vector2D triangleUpperRightPoint = triangleLeftmostPoint.plus( new Vector2D( TRIANGLE_SIDE_SIZE, 0 ).getRotatedInstance( Math.PI / 5 ) );
+        final Vector2D triangleLowerRightPoint = triangleLeftmostPoint.plus( new Vector2D( TRIANGLE_SIDE_SIZE, 0 ).getRotatedInstance( -Math.PI / 5 ) );
         DoubleGeneralPath trianglePath = new DoubleGeneralPath( triangleLeftmostPoint ) {{
             lineTo( triangleUpperRightPoint );
             lineTo( triangleLowerRightPoint );

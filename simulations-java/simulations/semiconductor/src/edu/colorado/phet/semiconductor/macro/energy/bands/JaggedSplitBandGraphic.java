@@ -36,10 +36,10 @@ public class JaggedSplitBandGraphic extends BandSetGraphic {
         MutableVector2D src = new MutableVector2D( bandRect.getX() + bandRect.getWidth() / 2, bandRect.getY() );
         MutableVector2D dst = new MutableVector2D( bandRect.getX() + bandRect.getWidth() / 2, bandRect.getY() + bandRect.getHeight() );
         double tearDX = bandRect.getWidth() / 35;
-        Vector2D leftSrc = src.getAddedInstance( -tearDX, 0 );
-        Vector2D rightSrc = src.getAddedInstance( tearDX, 0 );
-        Vector2D leftDst = dst.getAddedInstance( -tearDX, 0 );
-        Vector2D rightDst = dst.getAddedInstance( tearDX, 0 );
+        Vector2D leftSrc = src.plus( -tearDX, 0 );
+        Vector2D rightSrc = src.plus( tearDX, 0 );
+        Vector2D leftDst = dst.plus( -tearDX, 0 );
+        Vector2D rightDst = dst.plus( tearDX, 0 );
         int tearCount = 28;
         rightTear = new VerticalTearLine( rightSrc, rightDst, bandRect.getWidth() / 10, tearCount );
         leftTear = new VerticalTearLine( leftSrc, leftDst, bandRect.getWidth() / 10, tearCount );

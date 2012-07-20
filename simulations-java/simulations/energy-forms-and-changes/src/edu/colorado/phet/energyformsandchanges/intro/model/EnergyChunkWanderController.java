@@ -69,7 +69,7 @@ public final class EnergyChunkWanderController {
         }
 
         if ( velocity.getMagnitude() > 0 ) {
-            energyChunk.position.set( energyChunk.position.get().getAddedInstance( velocity.getScaledInstance( dt ) ) );
+            energyChunk.position.set( energyChunk.position.get().plus( velocity.getScaledInstance( dt ) ) );
             countdownTimer -= dt;
             if ( countdownTimer <= 0 ) {
                 changeVelocityVector();

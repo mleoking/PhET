@@ -60,14 +60,14 @@ public class Filament extends PathBranch {
     private Point2D getPoint( double east, double north ) {
         Vector2D e = eastDir.getScaledInstance( east );
         Vector2D n = northDir.getScaledInstance( north );
-        Vector2D sum = e.getAddedInstance( n );
+        Vector2D sum = e.plus( n );
         return sum.getDestination( pin );
     }
 
     private Vector2D getVector( double east, double north ) {
         Vector2D e = eastDir.getScaledInstance( east );
         Vector2D n = northDir.getScaledInstance( north );
-        return e.getAddedInstance( n );
+        return e.plus( n );
     }
 
     public GeneralPath getPath() {

@@ -49,8 +49,8 @@ public class ArrowShape {
     //parallel and normal are from the tip
     private Vector2D getPoint( double parallel, double normal ) {
         Vector2D dv = direction.getScaledInstance( parallel ).
-                getAddedInstance( norm.getScaledInstance( normal ) );
-        Vector2D abs = tipLocation.getAddedInstance( dv );
+                plus( norm.getScaledInstance( normal ) );
+        Vector2D abs = tipLocation.plus( dv );
         return abs;
     }
 

@@ -260,7 +260,7 @@ public class Plank extends ShapeModelElement {
             System.out.println( getClass().getName() + " - Warning: Attempt to add mass at invalid distance from center, ignoring." );
             return;
         }
-        Vector2D vectorToLocation = getPlankSurfaceCenter().getAddedInstance( new Vector2D( distanceFromCenter, 0 ).getRotatedInstance( tiltAngle ) );
+        Vector2D vectorToLocation = getPlankSurfaceCenter().plus( new Vector2D( distanceFromCenter, 0 ).getRotatedInstance( tiltAngle ) );
         // Set the position of the mass to be just above the plank at the
         // appropriate distance so that it will drop to the correct place.
         mass.setPosition( vectorToLocation.getX(), vectorToLocation.getY() + 0.01 );

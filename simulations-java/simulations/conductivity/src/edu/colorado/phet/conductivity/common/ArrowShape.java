@@ -41,8 +41,8 @@ public class ArrowShape {
     }
 
     private Vector2D getPoint( double d, double d1 ) {
-        Vector2D phetvector = direction.getScaledInstance( d ).getAddedInstance( norm.getScaledInstance( d1 ) );
-        return tipLocation.getAddedInstance( phetvector );
+        Vector2D phetvector = direction.getScaledInstance( d ).plus( norm.getScaledInstance( d1 ) );
+        return tipLocation.plus( phetvector );
     }
 
     public GeneralPath getArrowPath() {

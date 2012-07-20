@@ -52,7 +52,7 @@ public class MoveToCell implements BandParticleState {
         }
         else {
             Vector2D dir = dx.getInstanceOfMagnitude( distPerStep );
-            Vector2D newLoc = myLoc.getAddedInstance( dir );
+            Vector2D newLoc = myLoc.plus( dir );
             particle.setPosition( new MutableVector2D( newLoc.getX(), newLoc.getY() ) );
             return false;
         }

@@ -69,7 +69,7 @@ public class ShapeIntersection implements IShape {
 
     public Vector2D getRotationCenter() {
         // average child centroids. NOTE: this is NOT the true centroid!!!
-        return a.getRotationCenter().getAddedInstance( b.getRotationCenter() ).times( 0.5 );
+        return a.getRotationCenter().plus( b.getRotationCenter() ).times( 0.5 );
     }
 
     public Option<Vector2D> getReferencePoint() {

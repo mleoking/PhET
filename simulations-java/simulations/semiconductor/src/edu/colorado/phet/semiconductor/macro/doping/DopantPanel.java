@@ -73,8 +73,8 @@ public class DopantPanel extends CompositeInteractiveGraphic {
         Border bo = BorderFactory.createTitledBorder( init, SemiconductorResources.getString( "DopantPanel.DopantBorder" ), 0, 0, font, Color.black );
         border = new BorderGraphic( bo, apparatusPanel, viewRect );
 
-        Vector2D leftCell = getCenter( modelRect ).getAddedInstance( 0, -modelRect.getHeight() / 5.5 );
-        Vector2D rightCell = getCenter( modelRect ).getAddedInstance( 0, modelRect.getHeight() / 5.5 );
+        Vector2D leftCell = getCenter( modelRect ).plus( 0, -modelRect.getHeight() / 5.5 );
+        Vector2D rightCell = getCenter( modelRect ).plus( 0, modelRect.getHeight() / 5.5 );
 
         Dopant negativeDopant = new Dopant( leftCell, DopantType.N );
         Dopant positiveDopant = new Dopant( rightCell, DopantType.P );

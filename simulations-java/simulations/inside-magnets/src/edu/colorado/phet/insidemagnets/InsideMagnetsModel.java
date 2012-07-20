@@ -60,7 +60,7 @@ public class InsideMagnetsModel {
                 ArrayList<Point> neighborCells = getLattice().getNeighborCells( new Point( x, y ) );
                 Vector2D sum = new Vector2D( 0, 0 );
                 for ( Point neighborCell : neighborCells ) {
-                    sum = getLattice().getValue( neighborCell ).getSpinVector().getAddedInstance( sum );
+                    sum = getLattice().getValue( neighborCell ).getSpinVector().plus( sum );
                 }
 
                 double gx = sum.getX() * J.getX() - externalMagneticField.get().getX() - getLattice().getValue( x, y ).bx;
@@ -217,7 +217,7 @@ The tmp arrays hold positions at t+0.5*dt.          */
         Vector2D sum = new Vector2D( 0, 0 );
         for ( int x = 0; x < getLatticeWidth(); x++ ) {
             for ( int y = 0; y < getLatticeHeight(); y++ ) {
-                sum = sum.getAddedInstance( getLattice().getValue( x, y ).getSpinVector() );
+                sum = sum.plus( getLattice().getValue( x, y ).getSpinVector() );
             }
         }
         sum = sum.getScaledInstance( 1.0 / ( getLatticeWidth() * getLatticeHeight() ) ).getScaledInstance( getLatticeWidth() );

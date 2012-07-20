@@ -349,12 +349,12 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
 
         DoubleGeneralPath path = new DoubleGeneralPath();
         Rectangle2D rect = getRect();
-        path.moveTo( new Vector2D( rect.getX(), rect.getY() ).getAddedInstance( forwardPerspectiveOffset ) );
-        path.lineTo( new Vector2D( rect.getMaxX(), rect.getY() ).getAddedInstance( forwardPerspectiveOffset ) );
-        path.lineTo( new Vector2D( rect.getMaxX(), rect.getY() ).getAddedInstance( backwardPerspectiveOffset ) );
-        path.lineTo( new Vector2D( rect.getMaxX(), rect.getMaxY() ).getAddedInstance( backwardPerspectiveOffset ) );
-        path.lineTo( new Vector2D( rect.getMinX(), rect.getMaxY() ).getAddedInstance( backwardPerspectiveOffset ) );
-        path.lineTo( new Vector2D( rect.getMinX(), rect.getMaxY() ).getAddedInstance( forwardPerspectiveOffset ) );
+        path.moveTo( new Vector2D( rect.getX(), rect.getY() ).plus( forwardPerspectiveOffset ) );
+        path.lineTo( new Vector2D( rect.getMaxX(), rect.getY() ).plus( forwardPerspectiveOffset ) );
+        path.lineTo( new Vector2D( rect.getMaxX(), rect.getY() ).plus( backwardPerspectiveOffset ) );
+        path.lineTo( new Vector2D( rect.getMaxX(), rect.getMaxY() ).plus( backwardPerspectiveOffset ) );
+        path.lineTo( new Vector2D( rect.getMinX(), rect.getMaxY() ).plus( backwardPerspectiveOffset ) );
+        path.lineTo( new Vector2D( rect.getMinX(), rect.getMaxY() ).plus( forwardPerspectiveOffset ) );
         path.closePath();
         return path.getGeneralPath();
     }

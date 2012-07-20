@@ -34,7 +34,7 @@ public class GoToMagnet implements BandParticleState {
     public boolean stepInTime( BandParticle particle, double dt ) {
         MutableVector2D p = magnet.getPlusSide();
 
-        Vector2D dest = p.getAddedInstance( dx, dy );
+        Vector2D dest = p.plus( dx, dy );
 
         MoveToPosition mtp = new MoveToPosition( dest, .2 );
         mtp.stepInTime( particle, dt );

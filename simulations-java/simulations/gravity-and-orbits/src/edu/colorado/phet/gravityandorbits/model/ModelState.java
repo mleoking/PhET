@@ -36,10 +36,10 @@ public class ModelState {
         ArrayList<BodyState> newState = new ArrayList<BodyState>();
         for ( BodyState bodyState : bodyStates ) {
             //Velocity Verlet (see svn history for Euler)
-            Vector2D newPosition = bodyState.position.getAddedInstance( bodyState.velocity.getScaledInstance( dt ) ).getAddedInstance( bodyState.acceleration.getScaledInstance( dt * dt / 2 ) );
-            Vector2D newVelocityHalfStep = bodyState.velocity.getAddedInstance( bodyState.acceleration.getScaledInstance( dt / 2 ) );
+            Vector2D newPosition = bodyState.position.plus( bodyState.velocity.getScaledInstance( dt ) ).plus( bodyState.acceleration.getScaledInstance( dt * dt / 2 ) );
+            Vector2D newVelocityHalfStep = bodyState.velocity.plus( bodyState.acceleration.getScaledInstance( dt / 2 ) );
             Vector2D newAcceleration = getForce( bodyState, newPosition, gravityEnabledProperty ).getScaledInstance( -1.0 / bodyState.mass );
-            Vector2D newVelocity = newVelocityHalfStep.getAddedInstance( newAcceleration.getScaledInstance( dt / 2.0 ) );
+            Vector2D newVelocity = newVelocityHalfStep.plus( newAcceleration.getScaledInstance( dt / 2.0 ) );
             newState.add( new BodyState( newPosition, newVelocity, newAcceleration, bodyState.mass, bodyState.exploded ) );
         }
         return new ModelState( newState );
@@ -69,7 +69,7 @@ public class ModelState {
         if ( gravityEnabledProperty.get() ) {
             for ( BodyState source : bodyStates ) {
                 if ( source != target ) {
-                    sum = sum.getAddedInstance( getForce( source, target, newTargetPosition ) );
+                    sum = sum.plus( getForce( source, target, newTargetPosition ) );
                 }
             }
         }

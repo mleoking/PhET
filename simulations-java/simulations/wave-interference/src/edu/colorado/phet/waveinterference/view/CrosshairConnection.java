@@ -83,7 +83,7 @@ public class CrosshairConnection extends PhetPNode {
         double width = 15;
         Point2D peg1 = path.getCurrentPoint();
         Point2D peg2 = par.getInstanceOfMagnitude( pegDist ).getDestination( peg1 );
-        Point2D dst = par.getInstanceOfMagnitude( pegDist / 2 ).getAddedInstance( perp.getInstanceOfMagnitude( width ) ).getDestination( peg1 );
+        Point2D dst = par.getInstanceOfMagnitude( pegDist / 2 ).plus( perp.getInstanceOfMagnitude( width ) ).getDestination( peg1 );
         path.quadTo( peg2.getX(), peg2.getY(), dst.getX(), dst.getY() );
         path.quadTo( peg1.getX(), peg1.getY(), peg2.getX(), peg2.getY() );
     }

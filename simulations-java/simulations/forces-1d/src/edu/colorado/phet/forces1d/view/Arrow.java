@@ -145,7 +145,7 @@ public class Arrow {
     //parallel and normal are from the tip
     private Vector2D getPoint( double parallel, double normal ) {
         Vector2D dv = direction.getScaledInstance( parallel ).
-                getAddedInstance( norm.getScaledInstance( normal ) );
+                plus( norm.getScaledInstance( normal ) );
         Vector2D abs = new Vector2D( dv.getX() + tipLocation.getX(), dv.getY() + tipLocation.getY() );
         return abs;
     }

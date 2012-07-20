@@ -36,7 +36,7 @@ public class MoveTo
         else {
             Vector2D phetvector3 = phetvector2.getInstanceOfMagnitude( d2 );
             phetvector3 = new Vector2D( -Math.abs( phetvector3.getX() ), phetvector3.getY() );
-            Vector2D phetvector4 = phetvector1.getAddedInstance( phetvector3 );
+            Vector2D phetvector4 = phetvector1.plus( phetvector3 );
             bandparticle.setPosition( new MutableVector2D( phetvector4.getX(), phetvector4.getY() ) );
             return this;
         }

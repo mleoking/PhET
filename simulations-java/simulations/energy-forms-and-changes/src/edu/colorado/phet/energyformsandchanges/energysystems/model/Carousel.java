@@ -77,7 +77,7 @@ public class Carousel<T extends PositionableModelElement> {
             element.setPosition( selectedElementPosition );
         }
         else {
-            element.setPosition( managedElements.get( managedElements.size() - 1 ).getPosition().getAddedInstance( offsetBetweenElements ) );
+            element.setPosition( managedElements.get( managedElements.size() - 1 ).getPosition().plus( offsetBetweenElements ) );
         }
 
         // Add element to the list of managed elements.
@@ -121,7 +121,7 @@ public class Carousel<T extends PositionableModelElement> {
 
     private void updateManagedElementPositions() {
         for ( int i = 0; i < managedElements.size(); i++ ) {
-            managedElements.get( i ).setPosition( selectedElementPosition.getAddedInstance( offsetBetweenElements.getScaledInstance( i ) ).getAddedInstance( currentCarouselOffset ) );
+            managedElements.get( i ).setPosition( selectedElementPosition.plus( offsetBetweenElements.getScaledInstance( i ) ).plus( currentCarouselOffset ) );
         }
     }
 
