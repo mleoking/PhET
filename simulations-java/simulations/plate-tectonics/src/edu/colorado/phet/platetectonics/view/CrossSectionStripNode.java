@@ -22,11 +22,15 @@ import edu.colorado.phet.platetectonics.view.materials.EarthTexture;
 
 import static org.lwjgl.opengl.GL11.*;
 
+/**
+ * Displays a strip of earth cross-section (we use strips both for model convenience and because we can efficiently render these)
+ */
 public class CrossSectionStripNode extends GLNode {
     private LWJGLTransform modelViewTransform;
     private Property<ColorMode> colorMode;
     public final CrossSectionStrip strip;
 
+    // track how full our buffers are. since our strip can increase in size, we need to know this number beforehand
     private int capacity = 0;
 
     private FloatBuffer positionBuffer;
@@ -42,30 +46,32 @@ public class CrossSectionStripNode extends GLNode {
         this.colorMode = colorMode;
         this.strip = strip;
 
+        // enable alpha blending if necessary
         strip.alpha.addObserver( new SimpleObserver() {
             public void update() {
                 if ( !transparencyInitialized && strip.alpha.get() != 1 ) {
                     transparencyInitialized = true;
                     requireEnabled( GL_BLEND );
-//                    setRenderPass( RenderPass.TRANSPARENCY );
                 }
             }
         } );
 
+        // update our buffers when the model strip changes
         strip.changed.addUpdateListener( new UpdateListener() {
             public void update() {
                 updatePosition();
             }
         }, true );
 
+        // because our buffers involve coloring the terrain with the relevant EarthMaterial, we need to update buffers on color mode changes
         colorMode.addObserver( new SimpleObserver() {
             public void update() {
                 updatePosition();
             }
         } );
 
-        // TODO: model where this isn't needed?
         // if we are moved to the front, ignore the depth test so we will draw OVER whatever is there
+        // this allows us to not have to manually cull out the mantle behind subducting strips, etc.
         strip.moveToFrontNotifier.addUpdateListener( new UpdateListener() {
             public void update() {
                 checkDepth = false;
@@ -73,6 +79,7 @@ public class CrossSectionStripNode extends GLNode {
         }, false );
     }
 
+    // recreate buffers if we need more vertices
     private void checkSize() {
         final int neededCount = Math.max( 10, strip.getNumberOfVertices() );
         if ( capacity < neededCount ) {
@@ -93,6 +100,7 @@ public class CrossSectionStripNode extends GLNode {
         Iterator<Sample> topIter = strip.topPoints.listIterator();
         Iterator<Sample> bottomIter = strip.bottomPoints.listIterator();
 
+        // alternate points in the order needed by GL_TRIANGLE_STRIP
         while ( topIter.hasNext() ) {
             addSamplePoint( topIter.next() );
             addSamplePoint( bottomIter.next() );
@@ -136,7 +144,7 @@ public class CrossSectionStripNode extends GLNode {
             glDepthFunc( GL_ALWAYS );
         }
         EarthTexture.begin();
-        glDrawArrays( GL_TRIANGLE_STRIP, 0, strip.getNumberOfVertices() );
+        glDrawArrays( GL_TRIANGLE_STRIP, 0, strip.getNumberOfVertices() ); // actually draws the things
         EarthTexture.end();
         if ( !checkDepth ) {
             glDepthFunc( GL_LESS );

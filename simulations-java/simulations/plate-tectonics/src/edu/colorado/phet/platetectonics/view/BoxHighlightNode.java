@@ -16,7 +16,9 @@ import static edu.colorado.phet.lwjglphet.utils.LWJGLUtils.vertex3f;
 import static org.lwjgl.opengl.GL11.*;
 
 /**
- * Highlights a box where a dropped crust piece will go
+ * Highlights a box with dashed outlines where a dropped crust piece will go.
+ * <p/>
+ * This actually uses a decent chunk of vertices, because the actual on-screen shape is curved.
  */
 public class BoxHighlightNode extends GLNode {
     public final Bounds3D bounds;
@@ -30,6 +32,10 @@ public class BoxHighlightNode extends GLNode {
 
         requireEnabled( GL_BLEND );
     }
+
+    /*---------------------------------------------------------------------------*
+    * convenience methods for mapping from our "planar" box into the "radial" space
+    *----------------------------------------------------------------------------*/
 
     private ImmutableVector3F transformPoint( float x, float y, float z ) {
         return transformPoint( new ImmutableVector3F( x, y, z ) );
@@ -79,8 +85,8 @@ public class BoxHighlightNode extends GLNode {
         glEnable( GL_LINE_STIPPLE );
 //        glDisable( GL_DEPTH_TEST );
 //        glLineWidth( 1.5f );
-        glLineStipple( 1, (short) 0xFF00 );
-        color4f( color.get() );
+        glLineStipple( 1, (short) 0xFF00 ); // this is essentially the dash pattern
+        color4f( color.get() ); // whether it is highlighted or not
 
         // front face
         quadLine( transformedLine( leftTopFront, rightTopFront, xSectionQuantity ),
@@ -96,6 +102,7 @@ public class BoxHighlightNode extends GLNode {
                                        rightTopBack.times( ratioB ).plus( rightTopFront.times( 1 - ratioB ) ), xSectionQuantity ) );
         }
 
+        // outlines along all of the relevant edges
         glColor4f( 0, 0, 0, 1 );
         glBegin( GL_LINE_STRIP );
         drawFromTo( leftBottomBack, leftTopBack, 2 );
