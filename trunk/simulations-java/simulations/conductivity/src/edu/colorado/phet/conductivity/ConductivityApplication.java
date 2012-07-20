@@ -222,7 +222,7 @@ public class ConductivityApplication {
         MutableVector2D phetvector = circuit.getResistor().getStartPosition();
         MutableVector2D phetvector1 = circuit.getResistor().getEndPosition();
         Vector2D phetvector2 = phetvector1.getSubtractedInstance( phetvector ).getScaledInstance( 0.5D );
-        Vector2D phetvector3 = phetvector.getAddedInstance( phetvector2 );
+        Vector2D phetvector3 = phetvector.plus( phetvector2 );
         return phetvector3;
     }
 

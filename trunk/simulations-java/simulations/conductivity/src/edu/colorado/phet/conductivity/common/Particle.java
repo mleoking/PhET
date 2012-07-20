@@ -28,9 +28,9 @@ public class Particle extends SimpleObservable
 
     public void stepInTime( double d ) {
         Vector2D phetvector = acceleration.getScaledInstance( d );
-        velocity = velocity.getAddedInstance( phetvector );
+        velocity = velocity.plus( phetvector );
         Vector2D phetvector1 = velocity.getScaledInstance( d );
-        position = position.getAddedInstance( phetvector1 );
+        position = position.plus( phetvector1 );
         notifyObservers();
     }
 

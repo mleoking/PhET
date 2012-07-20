@@ -361,7 +361,7 @@ public class EFACIntroModel {
         }
 
         // Determine the new position based on the allowed translation.
-        MutableVector2D newPosition = new MutableVector2D( modelElement.position.get().getAddedInstance( translation ) );
+        MutableVector2D newPosition = new MutableVector2D( modelElement.position.get().plus( translation ) );
 
         // Clamp Y position to be positive.
         newPosition.setY( Math.max( newPosition.getY(), 0 ) );

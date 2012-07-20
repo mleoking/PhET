@@ -422,8 +422,8 @@ public class Kit {
                         foundOverlap = true;
 
                         // get perturbed centers. this is so that if two molecules have the exact same centers, we will push them away
-                        Vector2D aCenter = new Vector2D( aBounds.getCenter2D() ).getAddedInstance( Math.random() - 0.5, Math.random() - 0.5 );
-                        Vector2D bCenter = new Vector2D( bBounds.getCenter2D() ).getAddedInstance( Math.random() - 0.5, Math.random() - 0.5 );
+                        Vector2D aCenter = new Vector2D( aBounds.getCenter2D() ).plus( Math.random() - 0.5, Math.random() - 0.5 );
+                        Vector2D bCenter = new Vector2D( bBounds.getCenter2D() ).plus( Math.random() - 0.5, Math.random() - 0.5 );
 
                         // delta from center of A to center of B, scaled to half of our push amount.
                         Vector2D delta = bCenter.getSubtractedInstance( aCenter ).getNormalizedInstance().getScaledInstance( pushAmount );
@@ -568,7 +568,7 @@ public class Kit {
         // cause all atoms in the molecule to move to that location
         Vector2D delta = bestLocation.getIdealLocation().getSubtractedInstance( bestLocation.b.getPosition() );
         for ( Atom2D atomInMolecule : getMolecule( bestLocation.b ).getAtoms() ) {
-            atomInMolecule.setDestination( atomInMolecule.getPosition().getAddedInstance( delta ) );
+            atomInMolecule.setDestination( atomInMolecule.getPosition().plus( delta ) );
         }
 
         // we now will bond the atom
@@ -598,7 +598,7 @@ public class Kit {
          * @return The location the atom should be placed
          */
         public Vector2D getIdealLocation() {
-            return a.getPosition().getAddedInstance( direction.getVector().getScaledInstance( a.getRadius() + b.getRadius() ) );
+            return a.getPosition().plus( direction.getVector().getScaledInstance( a.getRadius() + b.getRadius() ) );
         }
     }
 }

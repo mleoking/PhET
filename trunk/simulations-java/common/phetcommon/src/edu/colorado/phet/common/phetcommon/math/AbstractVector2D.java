@@ -75,11 +75,11 @@ public abstract class AbstractVector2D implements Serializable {
 
     public Vector2D getScaledInstance( double scale ) { return new Vector2D( getX() * scale, getY() * scale ); }
 
-    public Vector2D getAddedInstance( AbstractVector2D v ) { return getAddedInstance( v.getX(), v.getY() ); }
+    public Vector2D plus( AbstractVector2D v ) { return plus( v.getX(), v.getY() ); }
 
-    public Vector2D getAddedInstance( Dimension2D delta ) { return getAddedInstance( delta.getWidth(), delta.getHeight() ); }
+    public Vector2D plus( Dimension2D delta ) { return plus( delta.getWidth(), delta.getHeight() ); }
 
-    public Vector2D getAddedInstance( double x, double y ) { return new Vector2D( getX() + x, getY() + y ); }
+    public Vector2D plus( double x, double y ) { return new Vector2D( getX() + x, getY() + y ); }
 
     public Vector2D getNormalVector() { return new Vector2D( getY(), -getX() ); }
 

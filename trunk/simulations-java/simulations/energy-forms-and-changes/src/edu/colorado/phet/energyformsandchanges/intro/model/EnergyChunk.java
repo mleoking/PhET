@@ -93,7 +93,7 @@ public class EnergyChunk {
     }
 
     public void translate( Vector2D movement ) {
-        position.set( position.get().getAddedInstance( movement ) );
+        position.set( position.get().plus( movement ) );
     }
 
     public ObservableProperty<Double> getExistenceStrength() {

@@ -117,7 +117,7 @@ public class Ribosome extends MobileBiomolecule {
     }
 
     public Vector2D getEntranceOfRnaChannelPos() {
-        return new Vector2D( getPosition() ).getAddedInstance( OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE );
+        return new Vector2D( getPosition() ).plus( OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE );
     }
 
     public double getTranslationChannelLength() {

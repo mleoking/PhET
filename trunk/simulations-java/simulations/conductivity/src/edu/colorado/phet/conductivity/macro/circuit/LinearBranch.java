@@ -18,7 +18,7 @@ public class LinearBranch {
     }
 
     public Vector2D getLocation( double d ) {
-        return start.getAddedInstance( dv.getInstanceOfMagnitude( d ) );
+        return start.plus( dv.getInstanceOfMagnitude( d ) );
     }
 
     public MutableVector2D getStartPosition() {

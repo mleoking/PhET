@@ -75,7 +75,7 @@ public class PointMass {
     }
 
     public void update( double deltaTime ) {
-        velocity.setValue( velocity.getAddedInstance( acceleration.getScaledInstance( deltaTime ) ) );
+        velocity.setValue( velocity.plus( acceleration.getScaledInstance( deltaTime ) ) );
         position.setLocation( position.getX() + velocity.getX() * deltaTime, position.getY() + velocity.getY() * deltaTime );
     }
 

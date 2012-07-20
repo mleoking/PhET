@@ -142,7 +142,7 @@ public class EnergyChunkDistributor {
                         DoubleRange lengthBounds = new DoubleRange( 0, Math.sqrt( boundingRect.getWidth() * boundingRect.getWidth() + boundingRect.getHeight() * boundingRect.getHeight() ) );
                         for ( int edgeDetectStep = 0; edgeDetectStep < edgeDetectSteps; edgeDetectStep++ ) {
                             Vector2D vectorToEdge = new Vector2D( lengthBounds.getCenter(), 0 ).getRotatedInstance( angle );
-                            if ( enclosingShape.contains( p.position.getAddedInstance( vectorToEdge ).toPoint2D() ) ) {
+                            if ( enclosingShape.contains( p.position.plus( vectorToEdge ).toPoint2D() ) ) {
                                 lengthBounds = new DoubleRange( lengthBounds.getCenter(), lengthBounds.getMax() );
                             }
                             else {
@@ -262,7 +262,7 @@ public class EnergyChunkDistributor {
                         DoubleRange lengthBounds = new DoubleRange( 0, maxDistanceToEdge );
                         for ( int edgeDetectStep = 0; edgeDetectStep < edgeDetectSteps; edgeDetectStep++ ) {
                             Vector2D vectorToEdge = new Vector2D( lengthBounds.getCenter(), 0 ).getRotatedInstance( angle );
-                            if ( p.getContainerShape().contains( p.position.getAddedInstance( vectorToEdge ).toPoint2D() ) ) {
+                            if ( p.getContainerShape().contains( p.position.plus( vectorToEdge ).toPoint2D() ) ) {
                                 lengthBounds = new DoubleRange( lengthBounds.getCenter(), lengthBounds.getMax() );
                             }
                             else {
@@ -362,7 +362,7 @@ public class EnergyChunkDistributor {
                 velocity.setMagnitude( maxVelocity * velocity.getMagnitude() / ( velocity.getMagnitude() + maxVelocity ) );
 
                 // Check that the velocity won't move the point outside of the container.
-                if ( containerShape.contains( position.toPoint2D() ) && !containerShape.contains( position.getAddedInstance( velocity.getScaledInstance( dt ) ).toPoint2D() ) ) {
+                if ( containerShape.contains( position.toPoint2D() ) && !containerShape.contains( position.plus( velocity.getScaledInstance( dt ) ).toPoint2D() ) ) {
                     System.out.println( "Limiting the velocity" );
                     velocity.setMagnitude( 0 );
                 }

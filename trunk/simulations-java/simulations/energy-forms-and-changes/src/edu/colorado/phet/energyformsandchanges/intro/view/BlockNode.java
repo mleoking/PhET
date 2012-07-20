@@ -76,18 +76,18 @@ public class BlockNode extends PComposite {
         double perspectiveEdgeSize = mvt.modelToViewDeltaX( block.getRect().getWidth() * PERSPECTIVE_EDGE_PROPORTION );
         Vector2D blockFaceOffset = new Vector2D( -perspectiveEdgeSize / 2, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE );
         Vector2D backCornersOffset = new Vector2D( perspectiveEdgeSize, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE );
-        Vector2D lowerLeftFrontCorner = new Vector2D( blockRectInViewCoords.getMinX(), blockRectInViewCoords.getMaxY() ).getAddedInstance( blockFaceOffset );
-        Vector2D lowerRightFrontCorner = new Vector2D( blockRectInViewCoords.getMaxX(), blockRectInViewCoords.getMaxY() ).getAddedInstance( blockFaceOffset );
-        Vector2D upperRightFrontCorner = new Vector2D( blockRectInViewCoords.getMaxX(), blockRectInViewCoords.getMinY() ).getAddedInstance( blockFaceOffset );
-        Vector2D upperLeftFrontCorner = new Vector2D( blockRectInViewCoords.getMinX(), blockRectInViewCoords.getMinY() ).getAddedInstance( blockFaceOffset );
+        Vector2D lowerLeftFrontCorner = new Vector2D( blockRectInViewCoords.getMinX(), blockRectInViewCoords.getMaxY() ).plus( blockFaceOffset );
+        Vector2D lowerRightFrontCorner = new Vector2D( blockRectInViewCoords.getMaxX(), blockRectInViewCoords.getMaxY() ).plus( blockFaceOffset );
+        Vector2D upperRightFrontCorner = new Vector2D( blockRectInViewCoords.getMaxX(), blockRectInViewCoords.getMinY() ).plus( blockFaceOffset );
+        Vector2D upperLeftFrontCorner = new Vector2D( blockRectInViewCoords.getMinX(), blockRectInViewCoords.getMinY() ).plus( blockFaceOffset );
         Shape blockFaceShape = new Rectangle2D.Double( lowerLeftFrontCorner.getX(),
                                                        upperLeftFrontCorner.getY(),
                                                        blockRectInViewCoords.getWidth(),
                                                        blockRectInViewCoords.getHeight() );
 
         // Create the shape of the top of the block.
-        Vector2D upperLeftBackCorner = upperLeftFrontCorner.getAddedInstance( backCornersOffset );
-        Vector2D upperRightBackCorner = upperRightFrontCorner.getAddedInstance( backCornersOffset );
+        Vector2D upperLeftBackCorner = upperLeftFrontCorner.plus( backCornersOffset );
+        Vector2D upperRightBackCorner = upperRightFrontCorner.plus( backCornersOffset );
         DoubleGeneralPath blockTopPath = new DoubleGeneralPath();
         blockTopPath.moveTo( upperLeftFrontCorner );
         blockTopPath.lineTo( upperRightFrontCorner );
@@ -97,7 +97,7 @@ public class BlockNode extends PComposite {
         Shape blockTopShape = blockTopPath.getGeneralPath();
 
         // Create the shape of the side of the block.
-        Vector2D lowerRightBackCorner = lowerRightFrontCorner.getAddedInstance( backCornersOffset );
+        Vector2D lowerRightBackCorner = lowerRightFrontCorner.plus( backCornersOffset );
         DoubleGeneralPath blockSidePath = new DoubleGeneralPath();
         blockSidePath.moveTo( upperRightFrontCorner );
         blockSidePath.lineTo( lowerRightFrontCorner );
@@ -107,7 +107,7 @@ public class BlockNode extends PComposite {
         Shape blockSideShape = blockSidePath.getGeneralPath();
 
         // Create the shape for the back of the block.
-        Vector2D lowerLeftBackCorner = lowerLeftFrontCorner.getAddedInstance( backCornersOffset );
+        Vector2D lowerLeftBackCorner = lowerLeftFrontCorner.plus( backCornersOffset );
         DoubleGeneralPath blockBackPath = new DoubleGeneralPath();
         blockBackPath.moveTo( lowerLeftBackCorner );
         blockBackPath.lineTo( lowerRightBackCorner );

@@ -212,7 +212,7 @@ public class BioShapeUtils {
     private static Vector2D extrapolateControlPoint( Vector2D x, Vector2D y, Vector2D z ) {
         Vector2D xy = y.getSubtractedInstance( x );
         Vector2D yz = z.getSubtractedInstance( y );
-        return y.getAddedInstance( xy.getScaledInstance( 0.25 ).getAddedInstance( yz.getScaledInstance( 0.25 ) ) );
+        return y.plus( xy.getScaledInstance( 0.25 ).plus( yz.getScaledInstance( 0.25 ) ) );
     }
 
     public static void main( String[] args ) {
@@ -293,7 +293,7 @@ public class BioShapeUtils {
         for ( double angle = 0; angle < 2 * Math.PI; angle += 2 * Math.PI / numPoints ) {
             double alteredAngle = angle + ( 2 * Math.PI / numPoints * ( rand.nextDouble() - 0.5 ) * variationFactor );
             vectorToEdge.setComponents( a * Math.sin( alteredAngle ), b * Math.cos( alteredAngle ) );
-            pointList.add( centerOfEllipse.getAddedInstance( vectorToEdge ).toPoint2D() );
+            pointList.add( centerOfEllipse.plus( vectorToEdge ).toPoint2D() );
         }
 
         return createRoundedShapeFromPoints( pointList );

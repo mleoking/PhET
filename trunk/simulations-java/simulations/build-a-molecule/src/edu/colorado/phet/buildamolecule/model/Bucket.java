@@ -63,7 +63,7 @@ public class Bucket extends SphereBucket<Atom2D> {
         // when we move the bucket, we must also move our contained atoms
         Vector2D delta = new Vector2D( point ).minus( new Vector2D( getPosition() ) );
         for ( Atom2D atom : getAtoms() ) {
-            atom.setPositionAndDestination( atom.getPosition().getAddedInstance( delta ) );
+            atom.setPositionAndDestination( atom.getPosition().plus( delta ) );
         }
         super.setPosition( point );
     }

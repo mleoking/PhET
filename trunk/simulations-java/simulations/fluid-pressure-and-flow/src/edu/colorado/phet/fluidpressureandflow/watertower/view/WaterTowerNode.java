@@ -135,7 +135,7 @@ public class WaterTowerNode extends PNode {
         addChild( new PImage( BufferedImageUtils.multiScaleToHeight( PANEL, 50 ) ) {{
             final SimpleObserver updatePanelLocation = new SimpleObserver() {
                 public void update() {
-                    Vector2D viewPoint = transform.modelToView( waterTower.panelOffset.get().getAddedInstance( waterTower.tankBottomCenter.get() ) );
+                    Vector2D viewPoint = transform.modelToView( waterTower.panelOffset.get().plus( waterTower.tankBottomCenter.get() ) );
                     setOffset( viewPoint.getX(), viewPoint.getY() - getFullBounds().getHeight() );
                 }
             };

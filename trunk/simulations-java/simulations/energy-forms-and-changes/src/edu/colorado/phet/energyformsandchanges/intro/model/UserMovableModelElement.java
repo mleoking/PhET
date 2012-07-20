@@ -93,7 +93,7 @@ public abstract class UserMovableModelElement extends ModelElement {
      * @param modelDelta Vector that describes the desired motion.
      */
     public void translate( Vector2D modelDelta ) {
-        position.set( position.get().getAddedInstance( modelDelta ) );
+        position.set( position.get().plus( modelDelta ) );
     }
 
     public abstract Property<HorizontalSurface> getBottomSurfaceProperty();

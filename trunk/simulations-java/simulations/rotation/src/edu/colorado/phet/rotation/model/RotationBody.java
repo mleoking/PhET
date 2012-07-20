@@ -290,7 +290,7 @@ public class RotationBody {
                     accelVector = new MutableVector2D( 0.1, 0.1 );//todo: remove this dummy test value
                 }
                 accelVector = accelVector.getInstanceOfMagnitude( aMag );
-                accelVector = origAccel.getAddedInstance( accelVector ).getScaledInstance( 0.5 );
+                accelVector = origAccel.plus( accelVector ).getScaledInstance( 0.5 );
                 xBody.addAccelerationData( accelVector.getX(), time );
                 yBody.addAccelerationData( accelVector.getY(), time );
             }
@@ -463,13 +463,13 @@ public class RotationBody {
         if ( offsetVelocityDueToConstantAccel ) {
             //add on the tangential part under constant angular acceleration
             Vector2D tanVector = centripetalVector.getInstanceOfMagnitude( r * rotationPlatform.getAcceleration() ).getNormalVector();
-            newA = newA.getAddedInstance( tanVector );
+            newA = newA.plus( tanVector );
         }
         else if ( offsetVelocityDueToUserControl ) {
             double avgAccel = rotationPlatform.getAccelerationVariable().estimateAverage( 2 );
             Vector2D tanVector = centripetalVector.getInstanceOfMagnitude( r * avgAccel ).getNormalVector();
 //            System.out.println( "avgAccel = " + avgAccel+", tanVector="+tanVector );
-            newA = newA.getAddedInstance( tanVector );
+            newA = newA.plus( tanVector );
 //            newA=new Vector2D.Double(5,5);
         }
 

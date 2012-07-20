@@ -134,7 +134,7 @@ public abstract class WindingBiomolecule extends MobileBiomolecule {
                     double scalarForceDueToNextPoint = ( -springConstant ) * ( currentPoint.getTargetDistanceToPreviousPoint() - currentPoint.distance( nextPoint ) );
                     Vector2D forceDueToNextPoint = vectorToNextPoint.getNormalizedInstance().getScaledInstance( scalarForceDueToNextPoint );
                     Vector2D dampingForce = currentPoint.getVelocity().getScaledInstance( -dampingConstant );
-                    Vector2D totalForce = forceDueToPreviousPoint.getAddedInstance( forceDueToNextPoint ).getAddedInstance( dampingForce );
+                    Vector2D totalForce = forceDueToPreviousPoint.plus( forceDueToNextPoint ).plus( dampingForce );
                     Vector2D acceleration = totalForce.getScaledInstance( 1 / pointMass );
                     currentPoint.setAcceleration( acceleration );
                     currentPoint.update( dt );

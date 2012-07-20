@@ -45,7 +45,7 @@ public class Molecule extends MoleculeStructure<Atom2D> {
 
     public void shiftDestination( Vector2D delta ) {
         for ( Atom2D atom : getAtoms() ) {
-            atom.setDestination( atom.getDestination().getAddedInstance( delta ) );
+            atom.setDestination( atom.getDestination().plus( delta ) );
         }
     }
 }

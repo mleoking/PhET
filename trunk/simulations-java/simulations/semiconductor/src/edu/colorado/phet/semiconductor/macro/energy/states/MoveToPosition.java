@@ -48,7 +48,7 @@ public class MoveToPosition implements BandParticleState {
         else {
             Vector2D dir = dx.getInstanceOfMagnitude( distPerStep );
 //            dir = new AbstractVector2D(-Math.abs(dir.getX()), dir.getEnergy());
-            Vector2D newLoc = myLoc.getAddedInstance( dir );
+            Vector2D newLoc = myLoc.plus( dir );
             particle.setPosition( new MutableVector2D( newLoc.getX(), newLoc.getY() ) );
             return false;
         }

@@ -40,15 +40,15 @@ public class ElectricFieldGraphic extends TransformGraphic {
         int h = 0;
         if ( field.getStrength() != 0 ) {
             try {
-                Vector2D dest = field.getCenter().getAddedInstance( field.getStrength(), 0 );
+                Vector2D dest = field.getCenter().plus( field.getStrength(), 0 );
                 Vector2D start = field.getCenter();
 
                 Vector2D dir = dest.getSubtractedInstance( start );
-                Vector2D mid = start.getAddedInstance( dir.getScaledInstance( .5 ) );
+                Vector2D mid = start.plus( dir.getScaledInstance( .5 ) );
                 Vector2D dx = start.getSubtractedInstance( mid );
 
-                start = start.getAddedInstance( dx );
-                dest = dest.getAddedInstance( dx );
+                start = start.plus( dx );
+                dest = dest.plus( dx );
 
                 double tailWidth = .1;
                 double headWidth = .2;

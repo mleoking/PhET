@@ -85,10 +85,10 @@ public class BurnerNode extends PNode {
         private BurnerStandSide( Point2D topCenter, double height ) {
             // Draw the side as a parallelogram.
             Vector2D topCenterVector = new Vector2D( topCenter );
-            Vector2D upperLeftCorner = topCenterVector.getAddedInstance( new Vector2D( -BURNER_EDGE_LENGTH / 2, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE ) );
-            Vector2D lowerLeftCorner = upperLeftCorner.getAddedInstance( new Vector2D( 0, height ) );
-            Vector2D lowerRightCorner = lowerLeftCorner.getAddedInstance( new Vector2D( BURNER_EDGE_LENGTH, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE ) );
-            Vector2D upperRightCorner = lowerRightCorner.getAddedInstance( new Vector2D( 0, -height ) );
+            Vector2D upperLeftCorner = topCenterVector.plus( new Vector2D( -BURNER_EDGE_LENGTH / 2, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE ) );
+            Vector2D lowerLeftCorner = upperLeftCorner.plus( new Vector2D( 0, height ) );
+            Vector2D lowerRightCorner = lowerLeftCorner.plus( new Vector2D( BURNER_EDGE_LENGTH, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE ) );
+            Vector2D upperRightCorner = lowerRightCorner.plus( new Vector2D( 0, -height ) );
             DoubleGeneralPath path = new DoubleGeneralPath( topCenterVector );
             path.lineTo( upperLeftCorner );
             path.lineTo( lowerLeftCorner );
@@ -106,16 +106,16 @@ public class BurnerNode extends PNode {
             Vector2D leftCenterVector = new Vector2D( leftCenter );
 
             // Create the points for the outline of the perspective rectangle.
-            Vector2D upperLeftCorner = leftCenterVector.getAddedInstance( new Vector2D( BURNER_EDGE_LENGTH / 2, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE ) );
-            Vector2D upperRightCorner = upperLeftCorner.getAddedInstance( new Vector2D( width, 0 ) );
-            Vector2D lowerRightCorner = upperRightCorner.getAddedInstance( new Vector2D( -BURNER_EDGE_LENGTH, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE ) );
-            Vector2D lowerLeftCorner = lowerRightCorner.getAddedInstance( new Vector2D( -width, 0 ) );
+            Vector2D upperLeftCorner = leftCenterVector.plus( new Vector2D( BURNER_EDGE_LENGTH / 2, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE ) );
+            Vector2D upperRightCorner = upperLeftCorner.plus( new Vector2D( width, 0 ) );
+            Vector2D lowerRightCorner = upperRightCorner.plus( new Vector2D( -BURNER_EDGE_LENGTH, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE ) );
+            Vector2D lowerLeftCorner = lowerRightCorner.plus( new Vector2D( -width, 0 ) );
 
             // Create the points for the circular opening in the top.
-            Vector2D upperLeftCircularOpeningCorner = upperLeftCorner.getAddedInstance( new Vector2D( width * 0.25, 0 ) );
-            Vector2D upperRightCircularOpeningCorner = upperLeftCorner.getAddedInstance( new Vector2D( width * 0.75, 0 ) );
-            Vector2D lowerLeftCircularOpeningCorner = lowerLeftCorner.getAddedInstance( new Vector2D( width * 0.25, 0 ) );
-            Vector2D lowerRightCircularOpeningCorner = lowerLeftCorner.getAddedInstance( new Vector2D( width * 0.75, 0 ) );
+            Vector2D upperLeftCircularOpeningCorner = upperLeftCorner.plus( new Vector2D( width * 0.25, 0 ) );
+            Vector2D upperRightCircularOpeningCorner = upperLeftCorner.plus( new Vector2D( width * 0.75, 0 ) );
+            Vector2D lowerLeftCircularOpeningCorner = lowerLeftCorner.plus( new Vector2D( width * 0.25, 0 ) );
+            Vector2D lowerRightCircularOpeningCorner = lowerLeftCorner.plus( new Vector2D( width * 0.75, 0 ) );
 
             // Create the control points for the circular opening in the top.
             Vector2D circularOpeningPerspectiveVector = new Vector2D( BURNER_EDGE_LENGTH * 0.5, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE );
@@ -123,8 +123,8 @@ public class BurnerNode extends PNode {
             DoubleGeneralPath path = new DoubleGeneralPath();
             path.moveTo( upperLeftCorner );
             path.lineTo( upperLeftCircularOpeningCorner );
-            path.curveTo( upperLeftCircularOpeningCorner.getAddedInstance( circularOpeningPerspectiveVector ),
-                          upperRightCircularOpeningCorner.getAddedInstance( circularOpeningPerspectiveVector ),
+            path.curveTo( upperLeftCircularOpeningCorner.plus( circularOpeningPerspectiveVector ),
+                          upperRightCircularOpeningCorner.plus( circularOpeningPerspectiveVector ),
                           upperRightCircularOpeningCorner );
             path.lineTo( upperRightCorner );
             path.lineTo( lowerRightCorner );
