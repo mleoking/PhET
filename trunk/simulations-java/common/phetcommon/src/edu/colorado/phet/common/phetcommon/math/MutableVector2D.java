@@ -1,17 +1,19 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.common.phetcommon.math;
 
+import lombok.Data;
+
 import java.awt.geom.Point2D;
 
 /**
  * Vector2D represents an offset in (x,y) Cartesian coordinates.  This class has all the functionality of the parent
  * class (i.e. functions that do not change the state of this Vector2D and return an ImmutableVector2D) as well as
- * mutator functions.
+ * mutator functions.  Uses Lombok to generate equals/hashcode/toString.
  *
  * @author Sam Reid
  * @author Ron LeMaster
  */
-public class MutableVector2D extends AbstractVector2D {
+public @Data class MutableVector2D extends AbstractVector2D {
     private double x;
     private double y;
 
@@ -113,5 +115,15 @@ public class MutableVector2D extends AbstractVector2D {
 
     public static Vector2D createPolar( final double magnitude, final double angle ) {
         return Vector2D.createPolar( magnitude, angle );
+    }
+
+    public static void main( String[] args ) {
+        MutableVector2D v = new MutableVector2D( 0, 0 );
+        System.out.println( "v = " + v );
+        System.out.println( "v.hashCode() = " + v.hashCode() );
+        MutableVector2D b = new MutableVector2D( 1, 2 );
+        MutableVector2D c = new MutableVector2D( 0, 0 );
+        System.out.println( "v.equals( b ) = " + v.equals( b ) + " (should be false)" );
+        System.out.println( "v.equals( c ) = " + v.equals( c ) + " (should be true)" );
     }
 }

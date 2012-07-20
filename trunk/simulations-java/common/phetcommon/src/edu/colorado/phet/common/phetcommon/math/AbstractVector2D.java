@@ -8,28 +8,12 @@ import java.io.Serializable;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 
 /**
- * Abstract base class for vector2d classes (mutable and immutable), see #3374
+ * Abstract base class for vector2d classes (mutable and immutable), see #3374.
+ * Lombok used to generate equals/hashcode/tostring in the subclasses.
  *
  * @author Sam Reid
  */
 public abstract class AbstractVector2D implements Serializable {
-
-    //Test for equality
-    @Override public boolean equals( Object obj ) {
-        boolean result = true;
-        if ( this.getClass() != obj.getClass() ) {
-            result = false;
-        }
-        else {
-            AbstractVector2D that = (AbstractVector2D) obj;
-            result = this.getX() == that.getX() && this.getY() == that.getY();
-        }
-        return result;
-    }
-
-    @Override public String toString() {
-        return "(" + getX() + ", " + getY() + ")";
-    }
 
     public abstract double getY();
 
