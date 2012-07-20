@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--normal-modes-strings_mk.xml created Mon Jul 16 20:02:03 CEST 2012 using: normal-modes 1.00.00 (64159), translation-utility 2.13.00 (59150) декем. 8, 2011-->
+<SimStrings>
+<string key="start" value="Старт"/>
+<string key="amplitude:" value="амплитуда:"/>
+<string key="translation.credits" value="Зоран Христовски"/>
+<string key="phase:" value="Фаза:"/>
+<string key="showSprings" value="Покажи ги пружините"/>
+<string key="modeSpectrum" value="спектар на нормалниот мод"/>
+<string key="resetPositions" value="Почетни положби"/>
+<string key="frequency:" value="фреквенција:"/>
+<string key="normalMode:" value="нормални модови:"/>
+<string key="modeSpectrumDisplay" value="покажи  спектар"/>
+<string key="normal-modes.simTitle" value="Нормални модови"/>
+<string key="modeNumbersXY" value="мод броеви x, y."/>
+<string key="stop" value="Стоп"/>
+<string key="polarization:" value="Контрола на&lt;br&gt;поларизација:"/>
+<string key="zeroPositions" value="Нулта позиција"/>
+<string key="paused" value="ПАУЗА"/>
+<string key="showPhases" value="Покажи ги фазите"/>
+</SimStrings>
