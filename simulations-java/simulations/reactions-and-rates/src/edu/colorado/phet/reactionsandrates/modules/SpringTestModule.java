@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,9 +10,14 @@
  */
 package edu.colorado.phet.reactionsandrates.modules;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -24,11 +29,6 @@ import edu.colorado.phet.reactionsandrates.util.ModelElementGraphicManager;
 import edu.colorado.phet.reactionsandrates.view.factories.SimpleMoleculeGraphicFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 
 /**
  * SpringTestModule
@@ -70,9 +70,9 @@ public class SpringTestModule extends Module {
                 double prevX;
 
                 public void stepInTime( double dt ) {
-                    Vector2D v0 = new Vector2D( getVelocity() );
+                    MutableVector2D v0 = new MutableVector2D( getVelocity() );
                     super.stepInTime( dt );
-                    Vector2D v1 = new Vector2D( getVelocity() );
+                    MutableVector2D v1 = new MutableVector2D( getVelocity() );
                     prevX = v1.getX();
                 }
             };
@@ -114,9 +114,9 @@ public class SpringTestModule extends Module {
                 double prevX;
 
                 public void stepInTime( double dt ) {
-                    Vector2D v0 = new Vector2D( getVelocity() );
+                    MutableVector2D v0 = new MutableVector2D( getVelocity() );
                     super.stepInTime( dt );
-                    Vector2D v1 = new Vector2D( getVelocity() );
+                    MutableVector2D v1 = new MutableVector2D( getVelocity() );
                     prevX = v1.getX();
                 }
             };

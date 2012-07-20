@@ -1,10 +1,17 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.forces1d.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;
@@ -78,7 +85,7 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
                 return isShowTotalForce();
             }
         } );
-        total.setStroke( new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, new float[]{5, 5}, 0 ) );
+        total.setStroke( new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, new float[] { 5, 5 }, 0 ) );
         wall = new ForceArrowGraphic( force1DPanel, Force1DResources.get( "ArrowSetGraphic.wallForce" ), laf.getWallForceColor(), 60, new ForceComponent() {
             public double getForce() {
                 return model.getWallForce();
@@ -158,7 +165,7 @@ public class ArrowSetGraphic extends CompositePhetGraphic {
             viewCtr.y -= dy;
             viewCtr.y += offsetManager.getOffset();
             Point2D.Double tail = new Point2D.Double( viewCtr.x, viewCtr.y );
-            Point2D tip = new Vector2D( viewLength, 0 ).getDestination( tail );
+            Point2D tip = new MutableVector2D( viewLength, 0 ).getDestination( tail );
             Arrow forceArrow = new Arrow( tail, tip, arrowHeadHeight, arrowHeadHeight, arrowTailWidth, 0.5, false );
 
             Shape forceArrowShape = forceArrow.getShape();

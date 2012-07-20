@@ -1,7 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.semiconductor;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
@@ -10,12 +13,13 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -25,7 +29,11 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.semiconductor.macro.*;
+import edu.colorado.phet.semiconductor.macro.ColumnDebugGraphic;
+import edu.colorado.phet.semiconductor.macro.DiodeControlPanel;
+import edu.colorado.phet.semiconductor.macro.GoToMagnet;
+import edu.colorado.phet.semiconductor.macro.Magnet;
+import edu.colorado.phet.semiconductor.macro.MagnetGraphic;
 import edu.colorado.phet.semiconductor.macro.circuit.CircuitSection;
 import edu.colorado.phet.semiconductor.macro.circuit.MacroCircuitGraphic;
 import edu.colorado.phet.semiconductor.macro.circuit.battery.BatterySpinner;
@@ -250,7 +258,7 @@ public class SemiconductorApplication implements Graphic {
             try {
                 addCable( circuitSection.dopantSlotAt( i ).getModelCenter(), i );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
             }
         }
@@ -263,7 +271,7 @@ public class SemiconductorApplication implements Graphic {
         }
     }
 
-    private void addCable( Vector2D tip, int bandIndex ) throws IOException {
+    private void addCable( MutableVector2D tip, int bandIndex ) throws IOException {
         Lead lead = new Lead( tip );
         BandSetGraphic bsg = energySection.bandSetGraphicAt( bandIndex );
         Cable c = new Cable( lead, bsg.getViewportBottomCenter() );
@@ -363,7 +371,7 @@ public class SemiconductorApplication implements Graphic {
                     }
                 } );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
 

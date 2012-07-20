@@ -19,7 +19,7 @@ import edu.colorado.phet.common.motion.model.MotionBody;
 import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.rotation.RotationDefaults;
 import edu.colorado.phet.rotation.RotationResources;
 import edu.colorado.phet.rotation.tests.CircularRegression;
@@ -128,9 +128,9 @@ public class RotationBody {
                 setPosition( rotationPlatform.getCenter() );
             }
             else {
-                AbstractVector2D vec = new Vector2D( getX() - rotationPlatform.getCenter().getX(), getY() - rotationPlatform.getCenter().getY() );
+                AbstractVector2D vec = new MutableVector2D( getX() - rotationPlatform.getCenter().getX(), getY() - rotationPlatform.getCenter().getY() );
                 if ( vec.getMagnitudeSq() == 0 ) {
-                    vec = Vector2D.createPolar( 1.0, lastNonZeroRadiusAngle );
+                    vec = MutableVector2D.createPolar( 1.0, lastNonZeroRadiusAngle );
                 }
                 ImmutableVector2D m = vec.getInstanceOfMagnitude( f.getValue() );
                 setPosition( m.getX() + rotationPlatform.getCenter().getX(), m.getY() + rotationPlatform.getCenter().getY() );
@@ -218,7 +218,7 @@ public class RotationBody {
     }
 
     public double getAngleOverPlatform() {
-        return new Vector2D( rotationPlatform.getCenter(), getPosition() ).getAngle();
+        return new MutableVector2D( rotationPlatform.getCenter(), getPosition() ).getAngle();
     }
 
     public void stepInTime( double time, double dt ) {
@@ -282,12 +282,12 @@ public class RotationBody {
 //        System.out.println( "linearRegressionMSE = " + linearRegressionMSE );
 //        System.out.println( "MSE=" + circle.getMeanSquaredError( pointHistory ) + ", circle.getRadius() = " + circle.getRadius() );
             if ( circleDiscriminant.isCircularMotion( circle, pointHistory ) ) {
-                AbstractVector2D accelVector = new Vector2D( new Point2D.Double( xBody.getPosition(), yBody.getPosition() ),
-                                                             circle.getCenter2D() );
+                AbstractVector2D accelVector = new MutableVector2D( new Point2D.Double( xBody.getPosition(), yBody.getPosition() ),
+                                                                    circle.getCenter2D() );
                 double aMag = ( vx.getValue() * vx.getValue() + vy.getValue() * vy.getValue() ) / circle.getRadius();
 
                 if ( accelVector.getMagnitude() < 0.1 ) {
-                    accelVector = new Vector2D( 0.1, 0.1 );//todo: remove this dummy test value
+                    accelVector = new MutableVector2D( 0.1, 0.1 );//todo: remove this dummy test value
                 }
                 accelVector = accelVector.getInstanceOfMagnitude( aMag );
                 accelVector = origAccel.getAddedInstance( accelVector ).getScaledInstance( 0.5 );
@@ -343,7 +343,7 @@ public class RotationBody {
         double ang = getAngleNoWindingNumber();
         double lastAngle = getLastAngle();
         //ang * N should be close to lastAngle, unless the body crossed the origin
-        ImmutableVector2D vec = Vector2D.createPolar( 1.0, lastAngle );
+        ImmutableVector2D vec = MutableVector2D.createPolar( 1.0, lastAngle );
         lastAngle = vec.getAngle();
 
         double dt = ang - lastAngle;
@@ -358,7 +358,7 @@ public class RotationBody {
     }
 
     private double getAngleNoWindingNumber() {
-        return new Vector2D( getX(), getY() ).getAngle();
+        return new MutableVector2D( getX(), getY() ).getAngle();
     }
 
     private void updateAccelByDerivative() {
@@ -436,8 +436,8 @@ public class RotationBody {
         double omega = rotationPlatform.getVelocity();
         double r = getPosition().distance( rotationPlatform.getCenter() );
 
-        Point2D newX = Vector2D.createPolar( r, getAngleOverPlatform() ).getDestination( rotationPlatform.getCenter() );
-        Vector2D centripetalVector = new Vector2D( newX, rotationPlatform.getCenter() );
+        Point2D newX = MutableVector2D.createPolar( r, getAngleOverPlatform() ).getDestination( rotationPlatform.getCenter() );
+        MutableVector2D centripetalVector = new MutableVector2D( newX, rotationPlatform.getCenter() );
         ImmutableVector2D newV = centripetalVector.getInstanceOfMagnitude( r * omega ).getNormalVector();
         ImmutableVector2D newA = centripetalVector.getInstanceOfMagnitude( r * omega * omega );
 
@@ -453,8 +453,8 @@ public class RotationBody {
         double r = getPosition().distance( rotationPlatform.getCenter() );//in meters, see #2077
         boolean centered = rotationPlatform.getCenter().equals( getPosition() ) || r < 1E-6;
         Point2D newX = centered ? new Point2D.Double( rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY() )
-                                : Vector2D.createPolar( r, getAngleOverPlatform() ).getDestination( rotationPlatform.getCenter() );
-        Vector2D centripetalVector = new Vector2D( newX, rotationPlatform.getCenter() );
+                                : MutableVector2D.createPolar( r, getAngleOverPlatform() ).getDestination( rotationPlatform.getCenter() );
+        MutableVector2D centripetalVector = new MutableVector2D( newX, rotationPlatform.getCenter() );
         AbstractVector2D newV = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega ).getNormalVector();
         AbstractVector2D newA = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega * omega );
         boolean offsetVelocityDueToConstantAccel = !centered && ( rotationPlatform.isAccelDriven() || rotationPlatform.isForceDriven() );
@@ -510,16 +510,16 @@ public class RotationBody {
         }
     }
 
-    private Vector2D zero() {
-        return new Vector2D( 0, 0 );
+    private MutableVector2D zero() {
+        return new MutableVector2D( 0, 0 );
     }
 
     public void checkCentripetalAccel() {
         if ( rotationPlatform == null ) {
             return;
         }
-        Vector2D cv = new Vector2D( getPosition(), rotationPlatform.getCenter() );
-        Vector2D av = getAcceleration();
+        MutableVector2D cv = new MutableVector2D( getPosition(), rotationPlatform.getCenter() );
+        MutableVector2D av = getAcceleration();
         //these should be colinear
         double angle = cv.getAngle() - av.getAngle();
 
@@ -543,12 +543,12 @@ public class RotationBody {
         yBody.addPositionData( newLocation.getY(), time );
     }
 
-    public Vector2D getAcceleration() {
-        return new Vector2D( xBody.getAcceleration(), yBody.getAcceleration() );
+    public MutableVector2D getAcceleration() {
+        return new MutableVector2D( xBody.getAcceleration(), yBody.getAcceleration() );
     }
 
-    public Vector2D getVelocity() {
-        return new Vector2D( xBody.getVelocity(), yBody.getVelocity() );
+    public MutableVector2D getVelocity() {
+        return new MutableVector2D( xBody.getVelocity(), yBody.getVelocity() );
     }
 
     public String getImageName() {
@@ -643,7 +643,7 @@ public class RotationBody {
     }
 
     private static Point2D rotate( Point2D pt, Point2D center, double angle ) {
-        Vector2D v = new Vector2D( center, pt );
+        MutableVector2D v = new MutableVector2D( center, pt );
         v.rotate( angle );
         return v.getDestination( center );
     }
@@ -673,11 +673,11 @@ public class RotationBody {
         }
 
         private void positionChanged( double dtheta ) {
-            Line2D segment = new Line2D.Double( getPosition(), Vector2D.createPolar( 0.01, getOrientation() ).getDestination( getPosition() ) );
+            Line2D segment = new Line2D.Double( getPosition(), MutableVector2D.createPolar( 0.01, getOrientation() ).getDestination( getPosition() ) );
             setPosition( rotate( getPosition(), rotationPlatform.getCenter(), dtheta ) );
             Line2D rot = rotate( segment, rotationPlatform.getCenter(), dtheta );
 
-            setOrientation( new Vector2D( rot.getP1(), rot.getP2() ).getAngle() );
+            setOrientation( new MutableVector2D( rot.getP1(), rot.getP2() ).getAngle() );
 //            updateVectorsOnPlatform();  //todo: was this necessary when repaints weren't synchronized?
             notifyPositionChanged();
         }
@@ -783,7 +783,7 @@ public class RotationBody {
                 velocity = new ImmutableVector2D( 0, 0 );
                 //scurry back to near the platform if offscreen?
 
-                Vector2D vec = new Vector2D( xBody.getPosition(), yBody.getPosition() );
+                MutableVector2D vec = new MutableVector2D( xBody.getPosition(), yBody.getPosition() );
                 ImmutableVector2D a = vec.getInstanceOfMagnitude( r );
                 xBody.setPosition( a.getX() );
                 yBody.setPosition( a.getY() );

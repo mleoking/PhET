@@ -1,7 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.semiconductor.macro.doping;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -10,12 +13,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
 import javax.swing.border.Border;
 import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -23,7 +26,12 @@ import edu.colorado.phet.semiconductor.SemiconductorResources;
 import edu.colorado.phet.semiconductor.common.BorderGraphic;
 import edu.colorado.phet.semiconductor.common.ModelLocation;
 import edu.colorado.phet.semiconductor.common.TextGraphic;
-import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.*;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.ApparatusPanel;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.CompositeInteractiveGraphic;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.DefaultInteractiveGraphic;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.Graphic;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.InteractiveGraphic;
+import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.ShapeGraphic;
 import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.mousecontrols.DragToCreate;
 import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.mousecontrols.InteractiveGraphicCreator;
 import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.mousecontrols.Translatable;
@@ -175,8 +183,8 @@ public class DopantPanel extends CompositeInteractiveGraphic {
         return igc;
     }
 
-    private Vector2D getCenter( Rectangle2D.Double modelRect ) {
-        return new Vector2D( modelRect.x + modelRect.width / 2, modelRect.y + modelRect.height / 2 );
+    private MutableVector2D getCenter( Rectangle2D.Double modelRect ) {
+        return new MutableVector2D( modelRect.x + modelRect.width / 2, modelRect.y + modelRect.height / 2 );
     }
 
     public void paint( Graphics2D graphics2D ) {

@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,14 +10,14 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.util.EventChannel;
-import edu.colorado.phet.idealgas.collision.Wall;
-
 import java.awt.geom.Rectangle2D;
 import java.util.EventListener;
 import java.util.EventObject;
 import java.util.List;
+
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.idealgas.collision.Wall;
 
 
 /**
@@ -62,27 +62,27 @@ public class PChemModel extends IdealGasModel implements Wall.ChangeListener {
         super.stepInTime( dt );
 
         List bodies = super.getBodies();
-        for( int i = 0; i < bodies.size(); i++ ) {
+        for ( int i = 0; i < bodies.size(); i++ ) {
             Object o = bodies.get( i );
-            if( o instanceof GasMolecule ) {
-                GasMolecule molecule = (GasMolecule)o;
-                if( molecule.getPosition().getX() > centerlineLoc && molecule instanceof HeavySpecies ) {
+            if ( o instanceof GasMolecule ) {
+                GasMolecule molecule = (GasMolecule) o;
+                if ( molecule.getPosition().getX() > centerlineLoc && molecule instanceof HeavySpecies ) {
                     LightSpecies lightMolecule = new LightSpecies( molecule.getPosition(),
                                                                    molecule.getVelocity(),
                                                                    molecule.getAcceleration() );
-                    Vector2D vOld = molecule.getVelocity();
-                    Vector2D vNew = vOld.scale( Math.sqrt( molecule.getMass() / lightMolecule.getMass() ) );
+                    MutableVector2D vOld = molecule.getVelocity();
+                    MutableVector2D vNew = vOld.scale( Math.sqrt( molecule.getMass() / lightMolecule.getMass() ) );
                     lightMolecule.setVelocity( vNew );
                     addModelElement( lightMolecule );
                     removeModelElement( molecule );
                     listenerProxy.moleculeCreated( new MoleculeCreationEvent( this, lightMolecule ) );
                 }
-                if( molecule.getPosition().getX() < centerlineLoc && molecule instanceof LightSpecies ) {
+                if ( molecule.getPosition().getX() < centerlineLoc && molecule instanceof LightSpecies ) {
                     HeavySpecies heavyMolecule = new HeavySpecies( molecule.getPosition(),
                                                                    molecule.getVelocity(),
                                                                    molecule.getAcceleration() );
-                    Vector2D vOld = molecule.getVelocity();
-                    Vector2D vNew = vOld.scale( Math.sqrt( molecule.getMass() / heavyMolecule.getMass() ) );
+                    MutableVector2D vOld = molecule.getVelocity();
+                    MutableVector2D vNew = vOld.scale( Math.sqrt( molecule.getMass() / heavyMolecule.getMass() ) );
                     heavyMolecule.setVelocity( vNew );
                     addModelElement( heavyMolecule );
                     removeModelElement( molecule );
@@ -120,7 +120,7 @@ public class PChemModel extends IdealGasModel implements Wall.ChangeListener {
     }
 
     private EventChannel listenerChannel = new EventChannel( Listener.class );
-    private Listener listenerProxy = (Listener)listenerChannel.getListenerProxy();
+    private Listener listenerProxy = (Listener) listenerChannel.getListenerProxy();
 
     public void addListener( Listener listener ) {
         listenerChannel.addListener( listener );

@@ -1,21 +1,23 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.conductivity.macro.circuit;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.conductivity.oldphetgraphics.Graphic;
-import edu.colorado.phet.conductivity.oldphetgraphics.ShapeGraphic;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.conductivity.common.StretchedBufferedImage;
 import edu.colorado.phet.conductivity.macro.battery.Battery;
+import edu.colorado.phet.conductivity.oldphetgraphics.Graphic;
+import edu.colorado.phet.conductivity.oldphetgraphics.ShapeGraphic;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro.circuit:
 //            Wire, Resistor, MacroCircuit, LinearBranch
@@ -69,8 +71,8 @@ public class MacroCircuitGraphic {
                 transform.addTransformListener( new TransformListener() {
 
                     public void transformChanged( ModelViewTransform2D modelviewtransform2d ) {
-                        Vector2D phetvector = b.getEndPosition();
-                        Vector2D phetvector1 = b.getStartPosition();
+                        MutableVector2D phetvector = b.getEndPosition();
+                        MutableVector2D phetvector1 = b.getStartPosition();
                         int height = (int) ( batteryImage.getHeight() * 0.8 );
                         int x = transform.modelToViewX( phetvector.getX() );
                         int w = transform.modelToViewX( phetvector1.getX() ) - x;

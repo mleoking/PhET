@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * Class: HeavySpecies
@@ -9,10 +9,10 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 
 /**
  *
@@ -51,13 +51,13 @@ public class HeavySpecies extends GasMolecule {
         return s_instances.size();
     }
 
-    public HeavySpecies( Point2D position, Vector2D velocity, Vector2D acceleration ) {
+    public HeavySpecies( Point2D position, MutableVector2D velocity, MutableVector2D acceleration ) {
         super( position, velocity, acceleration, s_mass, s_radius );
         init();
     }
 
     private void init() {
-        synchronized( s_instances ) {
+        synchronized ( s_instances ) {
             s_instances.add( this );
         }
     }

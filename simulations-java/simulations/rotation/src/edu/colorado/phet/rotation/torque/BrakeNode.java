@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.rotation.torque;
 
 import java.awt.geom.AffineTransform;
@@ -8,7 +8,7 @@ import java.io.IOException;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.rotation.RotationResources;
 import edu.colorado.phet.rotation.model.RotationPlatform;
@@ -67,8 +67,8 @@ public class BrakeNode extends PNode {
             public void mouseDragged( PInputEvent event ) {
                 if ( pressPoint != null ) {
                     Point2D dragPoint = getPoint( event );
-                    Vector2D dragVector = new Vector2D( pressPoint, dragPoint );
-                    Vector2D centerVector = new Vector2D( getFullBounds().getCenter2D(), rotationPlatform.getCenter() );
+                    MutableVector2D dragVector = new MutableVector2D( pressPoint, dragPoint );
+                    MutableVector2D centerVector = new MutableVector2D( getFullBounds().getCenter2D(), rotationPlatform.getCenter() );
                     double appliedBrake = dragVector.dot( centerVector ) / 2;
                     if ( appliedBrake < 0 ) {
                         appliedBrake = 0;
@@ -110,7 +110,7 @@ public class BrakeNode extends PNode {
             x = 0.05;
         }
 
-        ImmutableVector2D vec = Vector2D.createPolar( rotationPlatform.getRadius() + x, angle );
+        ImmutableVector2D vec = MutableVector2D.createPolar( rotationPlatform.getRadius() + x, angle );
         setOffset( vec.getDestination( rotationPlatform.getCenter() ) );
         setRotation( angle );
     }

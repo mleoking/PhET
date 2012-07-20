@@ -1,7 +1,7 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.semiconductor.macro.energyprobe;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 
 
 /**
@@ -11,10 +11,10 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
  */
 public class Cable {
     Lead lead;
-    private Vector2D attachmentPoint;
+    private MutableVector2D attachmentPoint;
 
 
-    public Cable( Lead lead, Vector2D attachmentPoint ) {
+    public Cable( Lead lead, MutableVector2D attachmentPoint ) {
         this.lead = lead;
         this.attachmentPoint = attachmentPoint;
     }
@@ -23,7 +23,7 @@ public class Cable {
         return lead;
     }
 
-    public Vector2D getAttachmentPoint() {
+    public MutableVector2D getAttachmentPoint() {
         return attachmentPoint;
     }
 }

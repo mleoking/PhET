@@ -1,10 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.common.photonabsorption.model.molecules;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.photonabsorption.model.Molecule;
 import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionStrategy;
 import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
@@ -84,9 +84,9 @@ public class H2O extends Molecule {
      */
     @Override
     protected void initializeAtomOffsets() {
-        addInitialAtomCogOffset( oxygenAtom, new Vector2D( 0, INITIAL_OXYGEN_VERTICAL_OFFSET ) );
-        addInitialAtomCogOffset( hydrogenAtom1, new Vector2D( INITIAL_HYDROGEN_HORIZONTAL_OFFSET, INITIAL_HYDROGEN_VERTICAL_OFFSET ) );
-        addInitialAtomCogOffset( hydrogenAtom2, new Vector2D( -INITIAL_HYDROGEN_HORIZONTAL_OFFSET, INITIAL_HYDROGEN_VERTICAL_OFFSET ) );
+        addInitialAtomCogOffset( oxygenAtom, new MutableVector2D( 0, INITIAL_OXYGEN_VERTICAL_OFFSET ) );
+        addInitialAtomCogOffset( hydrogenAtom1, new MutableVector2D( INITIAL_HYDROGEN_HORIZONTAL_OFFSET, INITIAL_HYDROGEN_VERTICAL_OFFSET ) );
+        addInitialAtomCogOffset( hydrogenAtom2, new MutableVector2D( -INITIAL_HYDROGEN_HORIZONTAL_OFFSET, INITIAL_HYDROGEN_VERTICAL_OFFSET ) );
 
         updateAtomPositions();
     }
@@ -97,11 +97,11 @@ public class H2O extends Molecule {
         double multFactor = Math.sin( vibrationRadians );
         double maxOxygenDisplacement = 3;
         double maxHydrogenDisplacement = 18;
-        addInitialAtomCogOffset( oxygenAtom, new Vector2D( 0, INITIAL_OXYGEN_VERTICAL_OFFSET - multFactor * maxOxygenDisplacement ) );
-        addInitialAtomCogOffset( hydrogenAtom1, new Vector2D( INITIAL_HYDROGEN_HORIZONTAL_OFFSET + multFactor * maxHydrogenDisplacement,
-                                                              INITIAL_HYDROGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement ) );
-        addInitialAtomCogOffset( hydrogenAtom2, new Vector2D( -INITIAL_HYDROGEN_HORIZONTAL_OFFSET - multFactor * maxHydrogenDisplacement,
-                                                              INITIAL_HYDROGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement ) );
+        addInitialAtomCogOffset( oxygenAtom, new MutableVector2D( 0, INITIAL_OXYGEN_VERTICAL_OFFSET - multFactor * maxOxygenDisplacement ) );
+        addInitialAtomCogOffset( hydrogenAtom1, new MutableVector2D( INITIAL_HYDROGEN_HORIZONTAL_OFFSET + multFactor * maxHydrogenDisplacement,
+                                                                     INITIAL_HYDROGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement ) );
+        addInitialAtomCogOffset( hydrogenAtom2, new MutableVector2D( -INITIAL_HYDROGEN_HORIZONTAL_OFFSET - multFactor * maxHydrogenDisplacement,
+                                                                     INITIAL_HYDROGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement ) );
         updateAtomPositions();
     }
 }

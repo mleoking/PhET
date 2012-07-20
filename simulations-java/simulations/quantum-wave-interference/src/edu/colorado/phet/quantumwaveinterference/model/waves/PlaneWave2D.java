@@ -1,11 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*  */
 package edu.colorado.phet.quantumwaveinterference.model.waves;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.quantumwaveinterference.model.Wave;
 import edu.colorado.phet.quantumwaveinterference.model.math.Complex;
 
@@ -42,7 +41,7 @@ public class PlaneWave2D implements Wave {
     }
 
     public Complex getValue( int i, int j, double simulationTime ) {
-        Vector2D loc = new Vector2D( i, j );
+        MutableVector2D loc = new MutableVector2D( i, j );
         double kDotJ = k.dot( loc );
         double w = 1.0 / k.getMagnitude();
         phase = 0 + dPhase;

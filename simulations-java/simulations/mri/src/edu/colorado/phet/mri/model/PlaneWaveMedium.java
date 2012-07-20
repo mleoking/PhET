@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,14 +10,14 @@
  */
 package edu.colorado.phet.mri.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import java.awt.geom.Point2D;
+import java.util.EventListener;
+
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.mri.util.IScalar;
-
-import java.awt.geom.Point2D;
-import java.util.EventListener;
 
 /**
  * PlaneWaveMedium
@@ -27,7 +27,7 @@ import java.util.EventListener;
  */
 public class PlaneWaveMedium extends SimpleObservable implements ModelElement {
 
-    public static class Direction extends Vector2D {
+    public static class Direction extends MutableVector2D {
         private Direction( double dx, double dy ) {
             super( dx, dy );
         }
@@ -69,7 +69,7 @@ public class PlaneWaveMedium extends SimpleObservable implements ModelElement {
         this.longitudinalExtent = longitudinalExtent;
 
 //        values = new double[ (int)( longitudinalExtent )];
-        values = new double[(int)( longitudinalExtent / speed )];
+        values = new double[(int) ( longitudinalExtent / speed )];
     }
 
     public IScalar getSource() {
@@ -114,7 +114,7 @@ public class PlaneWaveMedium extends SimpleObservable implements ModelElement {
 
     public void stepInTime( double dt ) {
         double newValue = source.getValue();
-        for( int i = values.length - 1; i > 0; i-- ) {
+        for ( int i = values.length - 1; i > 0; i-- ) {
             values[i] = values[i - 1];
         }
         values[0] = newValue;
@@ -122,7 +122,7 @@ public class PlaneWaveMedium extends SimpleObservable implements ModelElement {
     }
 
     public double getAmplitudeAt( double x ) {
-        return values[(int)( x / speed )];
+        return values[(int) ( x / speed )];
     }
 
     public double getSpeed() {
@@ -143,7 +143,7 @@ public class PlaneWaveMedium extends SimpleObservable implements ModelElement {
     }
 
     private EventChannel eventChannel = new EventChannel( Listener.class );
-    private Listener listenerProxy = (Listener)eventChannel.getListenerProxy();
+    private Listener listenerProxy = (Listener) eventChannel.getListenerProxy();
 
     public void addListener( Listener listener ) {
         eventChannel.addListener( listener );

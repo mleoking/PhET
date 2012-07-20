@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*  */
 package edu.colorado.phet.theramp.view;
@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Particle;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
@@ -212,7 +212,7 @@ public class FireDog extends PNode {
             setTransform( new AffineTransform() );
             setOffset( particle.getPosition() );
 
-            Vector2D v = particle.getVelocity();
+            MutableVector2D v = particle.getVelocity();
             double angle = v.getAngle();
 
             rotate( angle - Math.PI / 2 );

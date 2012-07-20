@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.mri.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 
 /**
  * PlaneWaveCycle
@@ -26,7 +26,7 @@ import java.awt.geom.Point2D;
 public class PlaneWaveCycle extends RadiowaveSource {
     private double elapsedTime;
 
-    public PlaneWaveCycle( Point2D location, double length, Vector2D direction ) {
+    public PlaneWaveCycle( Point2D location, double length, MutableVector2D direction ) {
         super( location, length, direction, Math.PI * 3 / 2 );
     }
 
@@ -38,7 +38,7 @@ public class PlaneWaveCycle extends RadiowaveSource {
     public double getValue() {
         double amplitude = 0;
         double period = 100;
-        if( elapsedTime <= period ) {
+        if ( elapsedTime <= period ) {
             amplitude = super.getValue();
         }
         return amplitude;

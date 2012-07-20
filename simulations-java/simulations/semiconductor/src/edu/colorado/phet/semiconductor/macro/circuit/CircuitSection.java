@@ -1,7 +1,12 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.semiconductor.macro.circuit;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
@@ -9,10 +14,11 @@ import java.awt.geom.RoundRectangle2D;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JSpinner;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
@@ -107,7 +113,7 @@ public class CircuitSection implements ModelElement, Graphic, DopantDropListener
             try {
                 ds = new DopantSlot( null, dopantSlotShape, transform, slotColor );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
             }
             dopantSlots.add( ds );
@@ -246,7 +252,7 @@ public class CircuitSection implements ModelElement, Graphic, DopantDropListener
         }
     }
 
-    Vector2D getCenter( Shape s ) {
+    MutableVector2D getCenter( Shape s ) {
         Rectangle2D r = s.getBounds2D();
         return RectangleUtils.getCenter( r );
     }

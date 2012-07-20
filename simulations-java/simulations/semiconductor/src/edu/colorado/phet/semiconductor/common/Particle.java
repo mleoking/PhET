@@ -5,7 +5,7 @@ package edu.colorado.phet.semiconductor.common;
 
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
@@ -17,12 +17,12 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 public class Particle extends SimpleObservable implements ModelElement {
     ImmutableVector2D position;
     ImmutableVector2D velocity;
-    Vector2D acceleration;
+    MutableVector2D acceleration;
 
     public Particle( double x, double y ) {
         this.position = new ImmutableVector2D( x, y );
         this.velocity = new ImmutableVector2D();
-        this.acceleration = new Vector2D();
+        this.acceleration = new MutableVector2D();
     }
 
     public Particle( ImmutableVector2D position ) {

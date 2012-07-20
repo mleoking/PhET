@@ -1,10 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.statesofmatter.model.engine;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.statesofmatter.model.MoleculeForceAndMotionDataSet;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
@@ -85,7 +85,7 @@ public abstract class AbstractVerletAlgorithm implements MoleculeForceAndMotionC
      * @param resultantForce  - Vector in which the resulting force is returned.
      */
     protected void calculateWallForce( Point2D position, double containerWidth, double containerHeight,
-                                       Vector2D resultantForce ) {
+                                       MutableVector2D resultantForce ) {
 
         // Debug stuff - make sure this is being used correctly.
         assert resultantForce != null;
@@ -194,8 +194,8 @@ public abstract class AbstractVerletAlgorithm implements MoleculeForceAndMotionC
         int atomsPerMolecule = moleculeDataSet.getAtomsPerMolecule();
         Point2D[] moleculeCenterOfMassPositions = moleculeDataSet.getMoleculeCenterOfMassPositions();
         Point2D[] atomPositions = moleculeDataSet.getAtomPositions();
-        Vector2D[] moleculeVelocities = moleculeDataSet.getMoleculeVelocities();
-        Vector2D[] moleculeForces = moleculeDataSet.getMoleculeForces();
+        MutableVector2D[] moleculeVelocities = moleculeDataSet.getMoleculeVelocities();
+        MutableVector2D[] moleculeForces = moleculeDataSet.getMoleculeForces();
         double[] moleculeRotationRates = moleculeDataSet.getMoleculeRotationRates();
         double[] moleculeRotationAngles = moleculeDataSet.getMoleculeRotationAngles();
 
@@ -237,12 +237,12 @@ public abstract class AbstractVerletAlgorithm implements MoleculeForceAndMotionC
                     moleculeCenterOfMassPositions[firstUnsafeMoleculeIndex] = moleculeCenterOfMassPositions[i];
                     moleculeCenterOfMassPositions[i] = tempMoleculeCenterOfMassPosition;
 
-                    Vector2D tempMoleculeVelocity;
+                    MutableVector2D tempMoleculeVelocity;
                     tempMoleculeVelocity = moleculeVelocities[firstUnsafeMoleculeIndex];
                     moleculeVelocities[firstUnsafeMoleculeIndex] = moleculeVelocities[i];
                     moleculeVelocities[i] = tempMoleculeVelocity;
 
-                    Vector2D tempMoleculeForce;
+                    MutableVector2D tempMoleculeForce;
                     tempMoleculeForce = moleculeForces[firstUnsafeMoleculeIndex];
                     moleculeForces[firstUnsafeMoleculeIndex] = moleculeForces[i];
                     moleculeForces[i] = tempMoleculeForce;

@@ -1,8 +1,8 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.semiconductor.macro.circuit;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 
 
 /**
@@ -11,11 +11,11 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
  * Time: 1:01:18 PM
  */
 public class LinearBranch {
-    Vector2D start;
-    Vector2D end;
+    MutableVector2D start;
+    MutableVector2D end;
     private ImmutableVector2D dv;
 
-    public LinearBranch( Vector2D start, Vector2D end ) {
+    public LinearBranch( MutableVector2D start, MutableVector2D end ) {
         this.start = start;
         this.end = end;
         this.dv = end.getSubtractedInstance( start );
@@ -32,11 +32,11 @@ public class LinearBranch {
         return start.getAddedInstance( dv.getInstanceOfMagnitude( dist ) );
     }
 
-    public Vector2D getStartPosition() {
+    public MutableVector2D getStartPosition() {
         return start;
     }
 
-    public Vector2D getEndPosition() {
+    public MutableVector2D getEndPosition() {
         return end;
     }
 }

@@ -1,14 +1,15 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.semiconductor.macro.energy;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -23,7 +24,18 @@ import edu.colorado.phet.semiconductor.macro.circuit.battery.Battery;
 import edu.colorado.phet.semiconductor.macro.circuit.battery.BatteryListener;
 import edu.colorado.phet.semiconductor.macro.doping.DopantChangeListener;
 import edu.colorado.phet.semiconductor.macro.doping.DopantType;
-import edu.colorado.phet.semiconductor.macro.energy.bands.*;
+import edu.colorado.phet.semiconductor.macro.energy.bands.Band;
+import edu.colorado.phet.semiconductor.macro.energy.bands.BandDescriptor;
+import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticle;
+import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticleGraphic;
+import edu.colorado.phet.semiconductor.macro.energy.bands.BandSet;
+import edu.colorado.phet.semiconductor.macro.energy.bands.BandSetDescriptor;
+import edu.colorado.phet.semiconductor.macro.energy.bands.BandSetGraphic;
+import edu.colorado.phet.semiconductor.macro.energy.bands.EnergyCell;
+import edu.colorado.phet.semiconductor.macro.energy.bands.EnergyLevel;
+import edu.colorado.phet.semiconductor.macro.energy.bands.EnergyTextGraphic;
+import edu.colorado.phet.semiconductor.macro.energy.bands.JaggedSplitBandGraphic;
+import edu.colorado.phet.semiconductor.macro.energy.bands.SemiconductorBandSet;
 import edu.colorado.phet.semiconductor.macro.energy.statemodels.DefaultCriteria;
 import edu.colorado.phet.semiconductor.macro.energy.statemodels.ExciteForConduction;
 import edu.colorado.phet.semiconductor.macro.energy.statemodels.ModelCriteria;
@@ -74,7 +86,7 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
         this.plusImage = SemiconductorApplication.imageLoader.loadImage( "semiconductor/images/particle-red-plus.gif" );
         particleImage = MacroCircuitGraphic.getParticleImage();
         setupTwoRegions();
-        Vector2D textLocation = new Vector2D( .65, 1 );
+        MutableVector2D textLocation = new MutableVector2D( .65, 1 );
         energyTextGraphic = new EnergyTextGraphic( transform, textLocation );
         bucketSection = new BucketSection( transform, this, particleImage );
 //        stateModelSet = new StateModelSet( this );
@@ -258,7 +270,7 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
     private void add3StateDiagrams() {
         double minVolts = .1;
         double maxVolts = 10;
-        DopantType[] keys = new DopantType[]{null, DopantType.P, DopantType.N};
+        DopantType[] keys = new DopantType[] { null, DopantType.P, DopantType.N };
         ArrayList lists = new ArrayList();
         for ( int i = 0; i < keys.length; i++ ) {
             DopantType a = keys[i];
@@ -397,17 +409,17 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
     }
 
     public void addEField( Rectangle2D.Double bandrect, Rectangle2D.Double bandrect2 ) {
-        Vector2D center = getCenter( bandrect, bandrect2 );
+        MutableVector2D center = getCenter( bandrect, bandrect2 );
         ElectricFieldSection field = new ElectricFieldSection( center );
         ElectricFieldSectionGraphic fieldGraphic = new ElectricFieldSectionGraphic( field, transform );
         electricFields.add( field );
         electricFieldGraphics.add( fieldGraphic );
     }
 
-    public static Vector2D getCenter( Rectangle2D.Double a, Rectangle2D.Double b ) {
+    public static MutableVector2D getCenter( Rectangle2D.Double a, Rectangle2D.Double b ) {
         Rectangle2D.Double ctrRect = new Rectangle2D.Double( a.x, a.y, a.width, a.height );
         ctrRect.add( b );
-        Vector2D center = RectangleUtils.getCenter( ctrRect );
+        MutableVector2D center = RectangleUtils.getCenter( ctrRect );
         return center;
     }
 

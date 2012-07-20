@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.solublesalts.model.ion;
 
@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import java.util.EventListener;
 import java.util.EventObject;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.solublesalts.model.Atom;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
@@ -25,16 +25,16 @@ public class Ion extends Atom {
 
     private IonProperties ionProperties;
     private Crystal bindingCrystal;
-    private Vector2D vSaveUtil = new Vector2D();
+    private MutableVector2D vSaveUtil = new MutableVector2D();
 
     public Ion( IonProperties ionProperties ) {
         this( new Point2D.Double( 1, 1 ),
-              new Vector2D(),
-              new Vector2D(),
+              new MutableVector2D(),
+              new MutableVector2D(),
               ionProperties );
     }
 
-    public Ion( Point2D position, Vector2D velocity, Vector2D acceleration, IonProperties ionProperties ) {
+    public Ion( Point2D position, MutableVector2D velocity, MutableVector2D acceleration, IonProperties ionProperties ) {
         super( position, velocity, acceleration, ionProperties.getMass(), ionProperties.getRadius() );
         this.ionProperties = ionProperties;
     }

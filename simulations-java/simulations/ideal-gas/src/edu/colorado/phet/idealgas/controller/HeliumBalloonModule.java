@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,23 +10,37 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.geom.Point2D;
+import java.util.Random;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.mechanics.Body;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.collision.SphereHollowSphereExpert;
 import edu.colorado.phet.idealgas.controller.command.PumpMoleculeCmd;
-import edu.colorado.phet.idealgas.model.*;
+import edu.colorado.phet.idealgas.model.Balloon;
+import edu.colorado.phet.idealgas.model.BoxMustContainParticle;
+import edu.colorado.phet.idealgas.model.Constraint;
+import edu.colorado.phet.idealgas.model.GasMolecule;
+import edu.colorado.phet.idealgas.model.HeavySpecies;
+import edu.colorado.phet.idealgas.model.HollowSphere;
+import edu.colorado.phet.idealgas.model.IdealGasClock;
+import edu.colorado.phet.idealgas.model.LightSpecies;
+import edu.colorado.phet.idealgas.model.Pump;
 import edu.colorado.phet.idealgas.view.HollowSphereGraphic;
-
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.util.Random;
 
 /**
  *
@@ -50,8 +64,8 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
 
         // Create the balloon
         balloon = new Balloon( new Point2D.Double( 300, 350 ),
-                               new Vector2D( 0, 0 ),
-                               new Vector2D( 0, 0 ),
+                               new MutableVector2D( 0, 0 ),
+                               new MutableVector2D( 0, 0 ),
                                MASS,
                                Balloon.MIN_RADIUS,
                                getIdealGasModel().getBox() );
@@ -113,20 +127,20 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
         // of the system. We must also take care to remove the particle from the
         // balloon or the box, depending on the parameter we got
         Object obj = null;
-        while( obj == null ) {
+        while ( obj == null ) {
             boolean randomB = new Random().nextBoolean();
-            if( randomB ) {
-                for( int i = 0; i < bodies.size(); i++ ) {
+            if ( randomB ) {
+                for ( int i = 0; i < bodies.size(); i++ ) {
                     obj = bodies.get( i );
-                    if( species.isInstance( obj ) && balloon.containsBody( (Body)obj ) == fromBalloon ) {
+                    if ( species.isInstance( obj ) && balloon.containsBody( (Body) obj ) == fromBalloon ) {
                         break;
                     }
                 }
             }
             else {
-                for( int i = bodies.size() - 1; i >= 0; i-- ) {
+                for ( int i = bodies.size() - 1; i >= 0; i-- ) {
                     obj = bodies.get( i );
-                    if( species.isInstance( obj ) && balloon.containsBody( (Body)obj ) == fromBalloon ) {
+                    if ( species.isInstance( obj ) && balloon.containsBody( (Body) obj ) == fromBalloon ) {
                         break;
                     }
                 }
@@ -134,10 +148,10 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
         }
 
         // Remove the molecule from the system. If we are removing it from the balloon, tell the balloon
-        if( obj instanceof GasMolecule ) {
-            GasMolecule molecule = (GasMolecule)obj;
+        if ( obj instanceof GasMolecule ) {
+            GasMolecule molecule = (GasMolecule) obj;
             getIdealGasModel().removeModelElement( molecule );
-            if( fromBalloon ) {
+            if ( fromBalloon ) {
                 balloon.removeContainedBody( molecule );
             }
         }
@@ -196,7 +210,7 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
 
             particleSpinner.addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    setNumParticles( ( (Integer)particleSpinner.getValue() ).intValue() );
+                    setNumParticles( ( (Integer) particleSpinner.getValue() ).intValue() );
                 }
             } );
 
@@ -205,17 +219,17 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
 
         protected void setNumParticles( int numParticles ) {
             int dn = numParticles - currNumMolecules;
-            if( dn > 0 ) {
-                for( int i = 0; i < dn; i++ ) {
+            if ( dn > 0 ) {
+                for ( int i = 0; i < dn; i++ ) {
                     Class species = getCurrentGasSpecies();
                     Point2D location = balloon.getNewMoleculeLocation();
-                    Vector2D velocity = balloon.getNewMoleculeVelocity( species, getIdealGasModel() );
+                    MutableVector2D velocity = balloon.getNewMoleculeVelocity( species, getIdealGasModel() );
                     GasMolecule molecule = null;
-                    if( species == HeavySpecies.class ) {
-                        molecule = new HeavySpecies( location, velocity, new Vector2D() );
+                    if ( species == HeavySpecies.class ) {
+                        molecule = new HeavySpecies( location, velocity, new MutableVector2D() );
                     }
-                    if( species == LightSpecies.class ) {
-                        molecule = new LightSpecies( location, velocity, new Vector2D() );
+                    if ( species == LightSpecies.class ) {
+                        molecule = new LightSpecies( location, velocity, new MutableVector2D() );
                     }
                     PumpMoleculeCmd cmd = new PumpMoleculeCmd( getIdealGasModel(), molecule,
                                                                HeliumBalloonModule.this );
@@ -223,8 +237,8 @@ public class HeliumBalloonModule extends IdealGasModule implements GasSource, Id
                     balloon.addContainedBody( molecule );
                 }
             }
-            else if( dn < 0 ) {
-                for( int i = 0; i < -dn; i++ ) {
+            else if ( dn < 0 ) {
+                for ( int i = 0; i < -dn; i++ ) {
                     removeGasMolecule( LightSpecies.class, true );
                 }
             }

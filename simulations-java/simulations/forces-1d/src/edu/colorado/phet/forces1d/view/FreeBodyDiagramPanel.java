@@ -1,14 +1,18 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.forces1d.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -60,7 +64,7 @@ public class FreeBodyDiagramPanel extends PhetPCanvas {
         fbdWiggleMe.setArrow( 0, 40 );
         fbdWiggleMe.setAmplitude( 10 );
         fbdWiggleMe.setFrequency( 5.0 );
-        fbdWiggleMe.setOscillationAxis( new Vector2D( 1, 0 ) );
+        fbdWiggleMe.setOscillationAxis( new MutableVector2D( 1, 0 ) );
         fbdWiggleMe.setVisible( false );
 
         module.getForceModel().addListener( new Force1DModel.Listener() {

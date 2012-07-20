@@ -1,10 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy.states;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticle;
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticleState;
 import edu.colorado.phet.semiconductor.macro.energy.bands.EnergyCell;
@@ -40,8 +40,8 @@ public class MoveToCell implements BandParticleState {
     public boolean stepInTime( BandParticle particle, double dt ) {
         particle.setEnergyCell( target );
         double distPerStep = speed.getSpeed() * dt;
-        Vector2D targetLoc = target.getPosition();
-        Vector2D myLoc = particle.getPosition();
+        MutableVector2D targetLoc = target.getPosition();
+        MutableVector2D myLoc = particle.getPosition();
         ImmutableVector2D dx = targetLoc.getSubtractedInstance( myLoc );
 //        particle.setVelocity(dx.getScaledInstance(1.0/dt));
         double dist = dx.getMagnitude();
@@ -53,7 +53,7 @@ public class MoveToCell implements BandParticleState {
         else {
             ImmutableVector2D dir = dx.getInstanceOfMagnitude( distPerStep );
             ImmutableVector2D newLoc = myLoc.getAddedInstance( dir );
-            particle.setPosition( new Vector2D( newLoc.getX(), newLoc.getY() ) );
+            particle.setPosition( new MutableVector2D( newLoc.getX(), newLoc.getY() ) );
             return false;
         }
     }

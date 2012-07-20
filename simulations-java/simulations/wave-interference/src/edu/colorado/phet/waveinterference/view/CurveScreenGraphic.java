@@ -1,13 +1,14 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.waveinterference.model.WaveModel;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -51,13 +52,13 @@ public class CurveScreenGraphic extends AbstractScreenGraphic {
             float y = getYValue( j );
 //            double waveValue = getWaveModel().getValue( getWaveModel().getWidth() - 1, j );
             double waveValue = getWaveModel().getAverageValue( getWaveModel().getWidth() - 1, j, 2 );
-            Vector2D vec = new Vector2D( getDx(), -getDy() );
+            MutableVector2D vec = new MutableVector2D( getDx(), -getDy() );
             double mag = vec.getMagnitude();
             vec.normalize();
 
             vec.scale( waveValue * intensityScale );
             if ( vec.getMagnitude() > mag ) {
-                vec = new Vector2D( getDx(), -getDy() );
+                vec = new MutableVector2D( getDx(), -getDy() );
                 if ( waveValue < 0 ) {
                     vec.scale( -1 );
                 }

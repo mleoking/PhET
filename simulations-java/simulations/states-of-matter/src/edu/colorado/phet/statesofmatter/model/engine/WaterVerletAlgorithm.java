@@ -1,10 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.statesofmatter.model.engine;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.statesofmatter.model.MoleculeForceAndMotionDataSet;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
@@ -68,9 +68,9 @@ public class WaterVerletAlgorithm extends AbstractVerletAlgorithm {
         int numberOfMolecules = moleculeDataSet.getNumberOfMolecules();
         Point2D[] moleculeCenterOfMassPositions = moleculeDataSet.getMoleculeCenterOfMassPositions();
         Point2D[] atomPositions = moleculeDataSet.getAtomPositions();
-        Vector2D[] moleculeVelocities = moleculeDataSet.getMoleculeVelocities();
-        Vector2D[] moleculeForces = moleculeDataSet.getMoleculeForces();
-        Vector2D[] nextMoleculeForces = moleculeDataSet.getNextMoleculeForces();
+        MutableVector2D[] moleculeVelocities = moleculeDataSet.getMoleculeVelocities();
+        MutableVector2D[] moleculeForces = moleculeDataSet.getMoleculeForces();
+        MutableVector2D[] nextMoleculeForces = moleculeDataSet.getNextMoleculeForces();
         double[] moleculeRotationAngles = moleculeDataSet.getMoleculeRotationAngles();
         double[] moleculeRotationRates = moleculeDataSet.getMoleculeRotationRates();
         double[] moleculeTorques = moleculeDataSet.getMoleculeTorques();
@@ -172,7 +172,7 @@ public class WaterVerletAlgorithm extends AbstractVerletAlgorithm {
         }
 
         // Calculate the force and torque due to inter-particle interactions.
-        Vector2D force = new Vector2D();
+        MutableVector2D force = new MutableVector2D();
         for ( int i = 0; i < moleculeDataSet.getNumberOfSafeMolecules(); i++ ) {
 
             // Select which charges to use for this molecule.  This is part of

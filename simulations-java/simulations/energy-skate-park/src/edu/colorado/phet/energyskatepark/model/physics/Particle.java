@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ModelComponentTypes;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
@@ -625,8 +625,8 @@ public class Particle implements Serializable {
     }
 
     private boolean isVelocityTowardTrack( SerializablePoint2D origPosition, ParametricFunction2D cubicSpline, double newAlpha ) {
-        Vector2D vel = getVelocity();
-        Vector2D toTrack = new Vector2D( origPosition, cubicSpline.evaluate( newAlpha ) );
+        MutableVector2D vel = getVelocity();
+        MutableVector2D toTrack = new MutableVector2D( origPosition, cubicSpline.evaluate( newAlpha ) );
         return vel.dot( toTrack ) > 0;
     }
 
@@ -642,13 +642,13 @@ public class Particle implements Serializable {
         setVelocity( velocity.getX(), velocity.getY() );
     }
 
-    public Vector2D getVelocity() {
-        return new Vector2D( vx, vy );
+    public MutableVector2D getVelocity() {
+        return new MutableVector2D( vx, vy );
     }
 
     public boolean isAboveSpline( ParametricFunction2D parametricFunction2D, double alpha, SerializablePoint2D loc ) {
         ImmutableVector2D v = parametricFunction2D.getUnitNormalVector( alpha );
-        Vector2D a = new Vector2D( parametricFunction2D.evaluate( alpha ), loc );
+        MutableVector2D a = new MutableVector2D( parametricFunction2D.evaluate( alpha ), loc );
         return a.dot( v ) > 0;
     }
 
@@ -659,7 +659,7 @@ public class Particle implements Serializable {
     public void switchToTrack( ParametricFunction2D spline, double alpha, boolean top ) {
         double origEnergy = getTotalEnergy();
         particle1D.setThermalEnergy( thermalEnergy );
-        Vector2D origVel = getVelocity();
+        MutableVector2D origVel = getVelocity();
         particle1D.setCubicSpline2D( spline, top, alpha );
         double sign = spline.getUnitParallelVector( alpha ).dot( getVelocity() ) > 0 ? 1.0 : -1.0;
 

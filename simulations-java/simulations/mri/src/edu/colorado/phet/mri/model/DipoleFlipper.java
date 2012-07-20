@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,8 +10,7 @@
  */
 package edu.colorado.phet.mri.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.quantum.model.Photon;
@@ -55,13 +54,13 @@ public class DipoleFlipper implements ModelElement {
 
         // If we've time out, flip the dipole
         elapsedTime += dt;
-        if( elapsedTime >= timeout ) {
+        if ( elapsedTime >= timeout ) {
             // Flip the dipole's spine
-            if( dipole.getSpin() != targetSpin ) {
+            if ( dipole.getSpin() != targetSpin ) {
                 dipole.setSpin( targetSpin );
 
                 // Create a photon if appropriate
-                if( emitPhoton && targetSpin == Spin.DOWN ) {
+                if ( emitPhoton && targetSpin == Spin.DOWN ) {
                     emitPhoton();
                 }
             }
@@ -74,7 +73,7 @@ public class DipoleFlipper implements ModelElement {
      * Emit a photon
      */
     private void emitPhoton() {
-        Vector2D velocity = new Vector2D( MriConfig.EMITTED_PHOTON_DIRECTION ).normalize().scale( Photon.DEFAULT_SPEED );
+        MutableVector2D velocity = new MutableVector2D( MriConfig.EMITTED_PHOTON_DIRECTION ).normalize().scale( Photon.DEFAULT_SPEED );
         double wavelength = PhysicsUtil.frequencyToWavelength( model.getLowerMagnet().getFieldStrength() * model.getSampleMaterial().getMu() );
         MriEmittedPhoton photon = new MriEmittedPhoton();
         photon.setWavelength( wavelength );
@@ -84,7 +83,7 @@ public class DipoleFlipper implements ModelElement {
 
         // Create an EM wave and a medium to carry it through the model
         PlaneWaveCycle waveCycle = new PlaneWaveCycle( dipole.getPosition(), 10,
-                                                       new Vector2D( 1, 0 ) );
+                                                       new MutableVector2D( 1, 0 ) );
         waveCycle.setWavelength( PhysicsUtil.frequencyToWavelength( 42E6 ) );
         waveCycle.setPower( MriConfig.MAX_POWER );
         model.addModelElement( waveCycle );

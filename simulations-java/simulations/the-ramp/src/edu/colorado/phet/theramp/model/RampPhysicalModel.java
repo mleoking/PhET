@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*  */
 package edu.colorado.phet.theramp.model;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -427,7 +427,7 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
         }
     }
 
-    public class ForceVector extends Vector2D {
+    public class ForceVector extends MutableVector2D {
 
         public void setParallel( double parallel ) {
             setX( Math.cos( -getSurface().getAngle() ) * parallel );
@@ -436,12 +436,12 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
         }
 
         public double getParallelComponent() {
-            ImmutableVector2D dir = Vector2D.createPolar( 1, -getSurface().getAngle() );
+            ImmutableVector2D dir = MutableVector2D.createPolar( 1, -getSurface().getAngle() );
             return dir.dot( this );
         }
 
         public double getPerpendicularComponent() {
-            ImmutableVector2D dir = Vector2D.createPolar( 1, -getSurface().getAngle() );
+            ImmutableVector2D dir = MutableVector2D.createPolar( 1, -getSurface().getAngle() );
             dir = dir.getNormalVector();
             return dir.dot( this );
         }
@@ -451,24 +451,24 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
             setY( Math.cos( getSurface().getAngle() ) * perpendicularComponent );
         }
 
-        public Vector2D toParallelVector() {
+        public MutableVector2D toParallelVector() {
             ForceVector fv = new ForceVector();
             fv.setParallel( getParallelComponent() );
             return fv;
         }
 
-        public Vector2D toPerpendicularVector() {
+        public MutableVector2D toPerpendicularVector() {
             ForceVector fv = new ForceVector();
             fv.setPerpendicular( -getPerpendicularComponent() );
             return fv;
         }
 
-        public Vector2D toXVector() {
-            return new Vector2D( getX(), 0 );
+        public MutableVector2D toXVector() {
+            return new MutableVector2D( getX(), 0 );
         }
 
-        public Vector2D toYVector() {
-            return new Vector2D( 0, getY() );
+        public MutableVector2D toYVector() {
+            return new MutableVector2D( 0, getY() );
         }
 
         public ForceVector copyState() {

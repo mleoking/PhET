@@ -1,8 +1,8 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.semiconductor.macro.energyprobe;
 
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 /**
@@ -11,19 +11,19 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
  * Time: 8:22:50 PM
  */
 public class Lead extends SimpleObservable {
-    Vector2D tip;
+    MutableVector2D tip;
 
-    public Lead( Vector2D tip ) {
+    public Lead( MutableVector2D tip ) {
         this.tip = tip;
         translate( 0, 0 );
     }
 
-    public Vector2D getTipLocation() {
+    public MutableVector2D getTipLocation() {
         return tip;
     }
 
     public void translate( double x, int y ) {
-        tip = new Vector2D( tip.getX() + x, tip.getY() + y );
+        tip = new MutableVector2D( tip.getX() + x, tip.getY() + y );
         notifyObservers();
     }
 

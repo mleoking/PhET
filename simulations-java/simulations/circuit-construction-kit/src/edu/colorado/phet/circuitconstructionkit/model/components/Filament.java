@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.model.components;
 
 import java.awt.geom.GeneralPath;
@@ -9,7 +9,7 @@ import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
@@ -91,7 +91,7 @@ public class Filament extends PathBranch {
         if ( !connectAtRight ) {
             tilt = -tilt;
         }
-        northDir = new Vector2D( tailJunction.getPosition(), shellJunction.getPosition() ).getNormalizedInstance();
+        northDir = new MutableVector2D( tailJunction.getPosition(), shellJunction.getPosition() ).getNormalizedInstance();
         northDir = northDir.getRotatedInstance( -tilt );
         eastDir = northDir.getNormalVector().getNormalizedInstance();
         if ( !connectAtRight ) {

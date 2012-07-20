@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,15 +10,15 @@
  */
 package edu.colorado.phet.mri.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.model.Particle;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.util.EventChannel;
-
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.EventListener;
 import java.util.EventObject;
+
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.Particle;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
 /**
  * Electromagnet
@@ -50,7 +50,7 @@ public class Electromagnet extends Particle {
      * @param clock
      */
     public Electromagnet( Point2D position, double width, double height, IClock clock ) {
-        super( position, new Vector2D(), new Vector2D() );
+        super( position, new MutableVector2D(), new MutableVector2D() );
         this.bounds = new Rectangle2D.Double( position.getX() - width / 2,
                                               position.getY() - height / 2,
                                               width,
@@ -79,7 +79,7 @@ public class Electromagnet extends Particle {
     // Events and listeners
     //----------------------------------------------------------------
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+    private ChangeListener changeListenerProxy = (ChangeListener) changeEventChannel.getListenerProxy();
 
     public void addChangeListener( ChangeListener listener ) {
         changeEventChannel.addListener( listener );
@@ -96,7 +96,7 @@ public class Electromagnet extends Particle {
         }
 
         public Electromagnet getElectromagnet() {
-            return (Electromagnet)getSource();
+            return (Electromagnet) getSource();
         }
     }
 

@@ -1,18 +1,18 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo.schematic;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Switch;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike.SwitchBodyRectangleNode;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -101,7 +101,7 @@ public class SchematicSwitchNode extends SwitchBodyRectangleNode {
                     Point2D.Double pivotPoint = new Point2D.Double( leverWidth, leverHeight );
                     pathNode.localToGlobal( pivotPoint );
                     SchematicSwitchNode.this.getParent().globalToLocal( pivotPoint );
-                    Vector2D vector = new Vector2D( pivotPoint, event.getPositionRelativeTo( SchematicSwitchNode.this.getParent() ) );
+                    MutableVector2D vector = new MutableVector2D( pivotPoint, event.getPositionRelativeTo( SchematicSwitchNode.this.getParent() ) );
                     return vector.getAngle();
                 }
 

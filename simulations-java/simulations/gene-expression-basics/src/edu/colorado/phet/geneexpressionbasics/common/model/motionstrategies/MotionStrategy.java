@@ -7,8 +7,8 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.geneexpressionbasics.common.model.DnaMolecule;
 
@@ -93,8 +93,8 @@ public abstract class MotionStrategy {
         // safe bet.
         Point2D centerOfMotionBounds = new Point2D.Double( motionBounds.getBounds().getBounds2D().getCenterX(),
                                                            motionBounds.getBounds().getBounds2D().getCenterY() );
-        Vector2D vectorToMotionBoundsCenter = new Vector2D( centerOfMotionBounds.getX() - shape.getBounds2D().getCenterX(),
-                                                            centerOfMotionBounds.getY() - shape.getBounds2D().getCenterY() );
+        MutableVector2D vectorToMotionBoundsCenter = new MutableVector2D( centerOfMotionBounds.getX() - shape.getBounds2D().getCenterX(),
+                                                                          centerOfMotionBounds.getY() - shape.getBounds2D().getCenterY() );
         vectorToMotionBoundsCenter.scale( maxVelocity / vectorToMotionBoundsCenter.getMagnitude() );
         return new ImmutableVector2D( vectorToMotionBoundsCenter );
     }

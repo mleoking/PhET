@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /**
  * Class: FieldLatticeView Package: edu.colorado.phet.emf.view Author: Another
@@ -7,7 +7,12 @@
 
 package edu.colorado.phet.radiowaves.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
@@ -16,8 +21,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -260,7 +264,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
      * @param fieldPt
      */
     private void evaluateFieldPt( FieldPt fieldPt ) {
-        Vector2D tf = null;
+        MutableVector2D tf = null;
         if ( displayStaticField && fieldDisplayType != EmfPanel.NO_FIELD ) {
             tf = sourceElectron.getStaticFieldAt( fieldPt.location );
         }
@@ -335,7 +339,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
     private Point2D getVectorTipLocation( FieldPt fieldPt ) {
         Point2D p = new Point2D.Double();
         p.setLocation( new Point2D.Double( Math.abs( fieldPt.getX() ), transmittingElectronOrigin.getY() ) );
-        Vector2D field = sourceElectron.getDynamicFieldAt( p );
+        MutableVector2D field = sourceElectron.getDynamicFieldAt( p );
         double curveAmplitudeOffset = 1 - EmfConfig.SINGLE_VECTOR_ROW_OFFSET;
         double yTip = transmittingElectronOrigin.getY() + ( field.getMagnitude() * MathUtil.getSign( field.getY() ) * curveAmplitudeOffset );
         p.setLocation( p.getX(), yTip );
@@ -365,7 +369,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
 
             FieldPt fieldPt = (FieldPt) pts.get( i );
             p.setLocation( new Point2D.Double( Math.abs( fieldPt.getX() ), transmittingElectronOrigin.getY() ) );
-            Vector2D field = sourceElectron.getDynamicFieldAt( p );
+            MutableVector2D field = sourceElectron.getDynamicFieldAt( p );
 
             Point2D pPrev = null;
             if ( i > 0 ) {
@@ -431,7 +435,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
         Point2D fieldPt = new Point2D.Double();
         for ( double x = orig.getX(); xSign > 0 ? x < xLimit : x > xLimit; x += 10 * xSign ) {
             fieldPt.setLocation( new Point2D.Double( Math.abs( x ), transmittingElectronOrigin.getY() ) );
-            Vector2D field = sourceElectron.getDynamicFieldAt( fieldPt );
+            MutableVector2D field = sourceElectron.getDynamicFieldAt( fieldPt );
             yCurr = field.getMagnitude() * MathUtil.getSign( field.getY() );
             //            if( yCurr != yLast ) {
             curve.lineTo( x, transmittingElectronOrigin.getY() + yCurr * curveAmplitudeOffset );
@@ -477,16 +481,16 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
     private class FieldPt {
 
         Point2D.Double location;
-        Vector2D field = new Vector2D();
+        MutableVector2D field = new MutableVector2D();
         AffineTransform tx = new AffineTransform();
 
         public FieldPt( double x, double y ) {
-            this( new Point2D.Double( x, y ), new Vector2D() );
+            this( new Point2D.Double( x, y ), new MutableVector2D() );
         }
 
-        public FieldPt( Point2D.Double location, Vector2D field ) {
+        public FieldPt( Point2D.Double location, MutableVector2D field ) {
             this.location = new Point2D.Double( location.getX(), location.getY() );
-            this.field = new Vector2D( field.getX(), field.getY() );
+            this.field = new MutableVector2D( field.getX(), field.getY() );
         }
 
         public double getX() {

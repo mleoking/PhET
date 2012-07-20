@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view;
 
 import java.awt.BasicStroke;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
@@ -95,7 +95,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
     //-------------------------------------------------------------------------
 
     private final ModelViewTransform mvt;
-    private final Vector2D viewportOffset = new Vector2D( 0, 0 );
+    private final MutableVector2D viewportOffset = new MutableVector2D( 0, 0 );
     private final List<BiomoleculeToolBoxNode> biomoleculeToolBoxNodeList = new ArrayList<BiomoleculeToolBoxNode>();
 
     // PNodes that are used as layers and that are involved in the zoom

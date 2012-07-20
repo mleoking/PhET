@@ -1,9 +1,9 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy.transitions;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
 import edu.colorado.phet.semiconductor.macro.energy.StateTransition;
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticle;
@@ -34,7 +34,7 @@ public class ExitRightFrom extends StateTransition {
 
             double targetX = energySection.getRightBand().getX() + energySection.getRightBand().getWidth();
             double targetY = particle.getY();
-            Vector2D dest = new Vector2D( targetX, targetY );
+            MutableVector2D dest = new MutableVector2D( targetX, targetY );
             ExitRightState ers = new ExitRightState( dest, energySection.getSpeed(), energySection );
             particle.setState( ers );
         }

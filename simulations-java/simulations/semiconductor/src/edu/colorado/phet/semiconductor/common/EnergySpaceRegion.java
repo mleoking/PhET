@@ -1,9 +1,9 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.semiconductor.common;
 
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 
 
 /**
@@ -44,7 +44,7 @@ public class EnergySpaceRegion {
         return new Rectangle2D.Double( getMinX(), getMinEnergy(), getSpatialWidth(), getEnergyRange() );
     }
 
-    public boolean contains( Vector2D particlePosition ) {
+    public boolean contains( MutableVector2D particlePosition ) {
         return toRectangle().contains( particlePosition.toPoint2D() );
     }
 }

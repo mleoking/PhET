@@ -1,11 +1,14 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy.bands;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Point;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.semiconductor.SemiconductorResources;
@@ -37,7 +40,7 @@ public class ChargeCountGraphic implements Graphic {
     public void paint( Graphics2D g ) {
         if ( visible ) {
             //TODO fix charge count graphic.
-            Vector2D ctr = RectangleUtils.getCenter( bsg.getViewport() );
+            MutableVector2D ctr = RectangleUtils.getCenter( bsg.getViewport() );
             Point pt = transform.modelToView( ctr );
             g.setFont( font );
             g.setColor( color );

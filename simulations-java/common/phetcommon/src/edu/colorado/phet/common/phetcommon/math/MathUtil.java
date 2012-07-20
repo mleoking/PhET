@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.common.phetcommon.math;
 
@@ -524,10 +524,10 @@ public class MathUtil {
      * @return A vector from the line to the point, along the shortest distance
      *         between the two.
      */
-    public static Vector2D getVectorFromLineToPoint( Line2D line, Point2D point ) {
+    public static MutableVector2D getVectorFromLineToPoint( Line2D line, Point2D point ) {
         Point2D pointOnLine = getPointOnLineClosestToPoint( line, point );
 
-        return new Vector2D( point.getX() - pointOnLine.getX(), point.getY() - pointOnLine.getY() );
+        return new MutableVector2D( point.getX() - pointOnLine.getX(), point.getY() - pointOnLine.getY() );
     }
 
     public static double signum( double v ) {
@@ -682,8 +682,8 @@ public class MathUtil {
      * @param v2
      * @return A vector that is the projection of v1 on v2
      */
-    public static Vector2D getProjection( Vector2D v1, Vector2D v2 ) {
-        Vector2D proj = new Vector2D( v2 ).normalize();
+    public static MutableVector2D getProjection( MutableVector2D v1, MutableVector2D v2 ) {
+        MutableVector2D proj = new MutableVector2D( v2 ).normalize();
         proj = proj.scale( v1.dot( proj ) );
         return proj;
     }
@@ -697,7 +697,7 @@ public class MathUtil {
      * This is nearest-neighbor rounding, the method that most of us were taught in grammar school.
      */
     public static int roundHalfUp( double d ) {
-        return (int)( d + ( ( d >= 0 ) ? 0.5 : -0.5 ) );
+        return (int) ( d + ( ( d >= 0 ) ? 0.5 : -0.5 ) );
     }
 
     /*

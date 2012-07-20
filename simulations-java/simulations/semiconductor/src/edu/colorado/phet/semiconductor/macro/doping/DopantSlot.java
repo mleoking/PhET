@@ -1,10 +1,12 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.semiconductor.macro.doping;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.io.IOException;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.semiconductor.util.RectangleUtils;
@@ -40,8 +42,8 @@ public class DopantSlot implements TransformListener {
         return dopant;
     }
 
-    public Vector2D getModelCenter() {
-        Vector2D center = RectangleUtils.getCenter( modelShape.getBounds2D() );
+    public MutableVector2D getModelCenter() {
+        MutableVector2D center = RectangleUtils.getCenter( modelShape.getBounds2D() );
         return center;
     }
 

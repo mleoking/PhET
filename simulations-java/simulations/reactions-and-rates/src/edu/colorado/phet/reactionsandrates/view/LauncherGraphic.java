@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -14,7 +14,7 @@ import java.awt.Cursor;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
@@ -139,7 +139,7 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
 
         public void mousePressed( PInputEvent event ) {
             mousePressed = true;
-            if( launcher.isEnabled() ) {
+            if ( launcher.isEnabled() ) {
                 temperatureBeingAdjusted = true;
                 originalAngle = launcher.getTheta();
                 originalR = launcher.getExtension();
@@ -153,8 +153,8 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
                 Point2D end = event.getPositionRelativeTo( LauncherGraphic.this.getParent() );
                 // if we're dragging below the tip...
                 if ( end.getY() > launcher.getRestingTipLocation().getY() ) {
-                    Vector2D v1 = new Vector2D( launcher.getRestingTipLocation(), startPoint );
-                    Vector2D v2 = new Vector2D( launcher.getRestingTipLocation(), end );
+                    MutableVector2D v1 = new MutableVector2D( launcher.getRestingTipLocation(), startPoint );
+                    MutableVector2D v2 = new MutableVector2D( launcher.getRestingTipLocation(), end );
 
                     // If the launcher supports 2D motion, compute its angle
                     if ( launcher.getMovementType() == Launcher.TWO_DIMENSIONAL ) {
@@ -164,7 +164,7 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
 
                     double dr = v2.getMagnitude() - v1.getMagnitude();
                     extension = Math.min( MRConfig.LAUNCHER_MAX_EXTENSION, originalR + dr );
-                    
+
                 }
                 launcher.setExtension( extension );
             }
@@ -172,14 +172,14 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
         }
 
         public void mouseReleased( PInputEvent event ) {
-            if( launcher.isEnabled() ) {
+            if ( launcher.isEnabled() ) {
                 temperatureBeingAdjusted = false;
                 launcher.release();
             }
             mousePressed = false;
             updateCursor();
         }
-        
+
         private void updateCursor() {
             if ( mouseInside && launcher.isEnabled() ) {
                 if ( launcher.getMovementType() == Launcher.TWO_DIMENSIONAL ) {
@@ -193,7 +193,7 @@ public class LauncherGraphic extends PNode implements SimpleObserver {
                 setCursor( Cursor.DEFAULT_CURSOR );
             }
         }
-        
+
         private void setCursor( int cursorType ) {
             PhetUtilities.getActiveModule().getSimulationPanel().setCursor( Cursor.getPredefinedCursor( cursorType ) );
         }

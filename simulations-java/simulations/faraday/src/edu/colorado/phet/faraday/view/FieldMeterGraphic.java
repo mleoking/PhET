@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.faraday.view;
 
@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -87,7 +87,7 @@ public class FieldMeterGraphic extends CompositePhetGraphic
     private FieldMeter _fieldMeterModel;
     private PhetTextGraphic _bText, _bxText, _byText, _angleText;
     private NumberFormat _magnitudeFormatter, _angleFormatter;
-    private Vector2D _fieldVector; // reusable vector
+    private MutableVector2D _fieldVector; // reusable vector
     private FaradayMouseHandler _mouseHandler;
 
     //----------------------------------------------------------------------------
@@ -111,7 +111,7 @@ public class FieldMeterGraphic extends CompositePhetGraphic
         _magnitudeFormatter = new DecimalFormat( MAGNITUDE_FORMAT );
         _angleFormatter = new DecimalFormat( ANGLE_FORMAT );
 
-        _fieldVector = new Vector2D();
+        _fieldVector = new MutableVector2D();
 
         // Enable antialiasing for all children.
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );

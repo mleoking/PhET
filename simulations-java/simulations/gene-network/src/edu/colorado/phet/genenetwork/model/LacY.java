@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.genenetwork.model;
 
@@ -13,7 +13,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.umd.cs.piccolo.util.PDimension;
 
 
@@ -132,7 +132,7 @@ public class LacY extends SimpleModelElement {
                     glucoseAttachmentPartner.detach( this );
                     glucoseAttachmentPartner.setMotionStrategy( new InjectionMotionStrategy(
                             MotionBoundsTrimmer.trim( getModel().getInteriorMotionBoundsAboveDna(), glucoseAttachmentPartner ),
-                            new Vector2D( 0, -15 ) ) );
+                            new MutableVector2D( 0, -15 ) ) );
                     glucoseAttachmentPartner.setUpDraggableBounds( PositionWrtCell.INSIDE_CELL );
                     glucoseAttachmentPartner = null;
                     glucoseAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVAILABLE;

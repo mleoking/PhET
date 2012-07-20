@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.statesofmatter.model;
 
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -689,7 +689,7 @@ public class MultipleParticleModel implements Resettable {
             double yVel = Math.sin( angle ) * velocity;
             int atomsPerMolecule = m_moleculeDataSet.getAtomsPerMolecule();
             Point2D moleculeCenterOfMassPosition = new Point2D.Double( injectionPointX, injectionPointY );
-            Vector2D moleculeVelocity = new Vector2D( xVel, yVel );
+            MutableVector2D moleculeVelocity = new MutableVector2D( xVel, yVel );
             double moleculeRotationRate = ( m_rand.nextDouble() - 0.5 ) * ( Math.PI / 2 );
             Point2D[] atomPositions = new Point2D[atomsPerMolecule];
             for ( int i = 0; i < atomsPerMolecule; i++ ) {
@@ -1077,7 +1077,7 @@ public class MultipleParticleModel implements Resettable {
 
             // Create the atom.
             Point2D moleculeCenterOfMassPosition = new Point2D.Double();
-            Vector2D moleculeVelocity = new Vector2D();
+            MutableVector2D moleculeVelocity = new MutableVector2D();
             Point2D[] atomPositions = new Point2D[1];
             atomPositions[0] = new Point2D.Double();
 
@@ -1150,7 +1150,7 @@ public class MultipleParticleModel implements Resettable {
 
             // Create the molecule.
             Point2D moleculeCenterOfMassPosition = new Point2D.Double();
-            Vector2D moleculeVelocity = new Vector2D();
+            MutableVector2D moleculeVelocity = new MutableVector2D();
             Point2D[] atomPositions = new Point2D[2];
             atomPositions[0] = new Point2D.Double();
             atomPositions[1] = new Point2D.Double();
@@ -1207,7 +1207,7 @@ public class MultipleParticleModel implements Resettable {
 
             // Create the molecule.
             Point2D moleculeCenterOfMassPosition = new Point2D.Double();
-            Vector2D moleculeVelocity = new Vector2D();
+            MutableVector2D moleculeVelocity = new MutableVector2D();
             Point2D[] atomPositions = new Point2D[3];
             atomPositions[0] = new Point2D.Double();
             atomPositions[1] = new Point2D.Double();

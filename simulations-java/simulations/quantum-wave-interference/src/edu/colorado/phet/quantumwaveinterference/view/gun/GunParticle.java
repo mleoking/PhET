@@ -1,22 +1,23 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*  */
 package edu.colorado.phet.quantumwaveinterference.view.gun;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.quantumwaveinterference.QWIModule;
 import edu.colorado.phet.quantumwaveinterference.model.QWIModel;
 import edu.colorado.phet.quantumwaveinterference.model.WaveSetup;
 import edu.colorado.phet.quantumwaveinterference.model.Wavefunction;
 import edu.colorado.phet.quantumwaveinterference.model.waves.GaussianWave2D;
 import edu.colorado.phet.quantumwaveinterference.phetcommon.ImageComboBox;
-
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * User: Sam Reid
@@ -49,16 +50,16 @@ public abstract class GunParticle extends ImageComboBox.Item {
         double y = getStartY();
         double px = 0;
         double py = getStartPy();
-        Point phaseLockPoint = new Point( (int)x, (int)( y - 5 ) );
-        if( phaseLockPoint.y >= currentWave.getHeight() ) {
+        Point phaseLockPoint = new Point( (int) x, (int) ( y - 5 ) );
+        if ( phaseLockPoint.y >= currentWave.getHeight() ) {
             phaseLockPoint.y = currentWave.getHeight() - 1;
         }
-        if( phaseLockPoint.y < 0 ) {
+        if ( phaseLockPoint.y < 0 ) {
             phaseLockPoint.y = 0;
         }
         double dxLattice = getStartDxLattice();
-        GaussianWave2D wave2DSetup = new GaussianWave2D( new Point( (int)x, (int)y ),
-                                                         new Vector2D( px, py ), dxLattice, getHBar() );
+        GaussianWave2D wave2DSetup = new GaussianWave2D( new Point( (int) x, (int) y ),
+                                                         new MutableVector2D( px, py ), dxLattice, getHBar() );
         double desiredPhase = currentWave.valueAt( phaseLockPoint.x, phaseLockPoint.y ).getComplexPhase();
         Wavefunction copy = currentWave.createEmptyWavefunction();
         wave2DSetup.initialize( copy );
@@ -160,15 +161,15 @@ public abstract class GunParticle extends ImageComboBox.Item {
         momentumChangeListeners.remove( listener );
 
         ArrayList toRemove = new ArrayList();
-        for( int i = 0; i < changeHandlers.size(); i++ ) {
-            ChangeHandler changeHandler = (ChangeHandler)changeHandlers.get( i );
-            if( changeHandler.momentumChangeListener == listener ) {
+        for ( int i = 0; i < changeHandlers.size(); i++ ) {
+            ChangeHandler changeHandler = (ChangeHandler) changeHandlers.get( i );
+            if ( changeHandler.momentumChangeListener == listener ) {
                 toRemove.add( changeHandler );
             }
         }
 
-        for( int i = 0; i < toRemove.size(); i++ ) {
-            ChangeHandler changeHandler = (ChangeHandler)toRemove.get( i );
+        for ( int i = 0; i < toRemove.size(); i++ ) {
+            ChangeHandler changeHandler = (ChangeHandler) toRemove.get( i );
             changeHandlers.remove( changeHandler );
             detachListener( changeHandler );
         }
@@ -180,8 +181,8 @@ public abstract class GunParticle extends ImageComboBox.Item {
 
     protected void notifyMomentumChanged() {
         double momentum = getStartPy();
-        for( int i = 0; i < momentumChangeListeners.size(); i++ ) {
-            AbstractGunNode.MomentumChangeListener momentumChangeListener = (AbstractGunNode.MomentumChangeListener)momentumChangeListeners.get( i );
+        for ( int i = 0; i < momentumChangeListeners.size(); i++ ) {
+            AbstractGunNode.MomentumChangeListener momentumChangeListener = (AbstractGunNode.MomentumChangeListener) momentumChangeListeners.get( i );
             momentumChangeListener.momentumChanged( momentum );
         }
     }

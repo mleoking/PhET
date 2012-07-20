@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,16 +10,15 @@
  */
 package edu.colorado.phet.reactionsandrates.model.collision;
 
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.mechanics.Body;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.reactionsandrates.model.CompositeBody;
 import edu.colorado.phet.reactionsandrates.model.PotentialEnergySource;
 import edu.colorado.phet.reactionsandrates.model.SimpleMolecule;
-
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 
 /**
  * CompoundSpring
@@ -133,7 +132,7 @@ public class ReactionSpring extends Body implements ModelElement, PotentialEnerg
         extent = new Line2D.Double();
 
         // Create component springs
-        if( isCompressed ) {
+        if ( isCompressed ) {
             componentSprings = createComponentSpringsCompressed( bodies );
         }
         else {
@@ -172,9 +171,9 @@ public class ReactionSpring extends Body implements ModelElement, PotentialEnerg
 //        double rl1 = fixedPt.distance( bodies[1].getPosition() ) - bodies[1].getRadius();
 
         // Make the component springs, with the bodies attached
-        Vector2D vRel0 = new Vector2D( bodies[0].getFullMolecule().getVelocity() ).subtract( cb.getVelocity() );
+        MutableVector2D vRel0 = new MutableVector2D( bodies[0].getFullMolecule().getVelocity() ).subtract( cb.getVelocity() );
         springs[0] = new Spring( k0, rl0, fixedPt, bodies[0].getFullMolecule(), vRel0 );
-        Vector2D vRel1 = new Vector2D( bodies[1].getFullMolecule().getVelocity() ).subtract( cb.getVelocity() );
+        MutableVector2D vRel1 = new MutableVector2D( bodies[1].getFullMolecule().getVelocity() ).subtract( cb.getVelocity() );
         springs[1] = new Spring( k1, rl1, fixedPt, bodies[1].getFullMolecule(), vRel1 );
         return springs;
     }
@@ -224,7 +223,7 @@ public class ReactionSpring extends Body implements ModelElement, PotentialEnerg
         double pe0 = getPotentialEnergy();
         double ke0 = 0;
         double ke1 = 0;
-        for( int i = 0; i < componentSprings.length; i++ ) {
+        for ( int i = 0; i < componentSprings.length; i++ ) {
             ke0 += componentSprings[i].getAttachedBody().getKineticEnergy();
 
             // The spring is moving

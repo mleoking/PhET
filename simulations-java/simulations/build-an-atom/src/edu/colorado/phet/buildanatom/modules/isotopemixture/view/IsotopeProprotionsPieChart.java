@@ -1,8 +1,13 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.buildanatom.modules.isotopemixture.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
@@ -11,7 +16,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MixIsotopesModel;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.PrecisionDecimal;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -134,7 +139,7 @@ class IsotopeProprotionsPieChart extends PNode {
                         // directly out from the edge of the slice, but
                         // may be above or below the edges of the pie
                         // chart.
-                        Vector2D positionVector = new Vector2D( centerEdgeOfPieSlice );
+                        MutableVector2D positionVector = new MutableVector2D( centerEdgeOfPieSlice );
                         positionVector.scale( 1.4 );
                         labelNode.setUnconstrainedPos( positionVector.getX(), positionVector.getY() );
 
@@ -253,24 +258,24 @@ class IsotopeProprotionsPieChart extends PNode {
                 // with a lower unconstrained location, move down.
                 if ( moveUp && !moveDown ) {
                     if ( isLabelOnRight( label ) ) {
-                        Vector2D posVector = new Vector2D( label.getOffset().getX(), label.getOffset().getY() + label.getFullBoundsReference().height / 2 );
+                        MutableVector2D posVector = new MutableVector2D( label.getOffset().getX(), label.getOffset().getY() + label.getFullBoundsReference().height / 2 );
                         posVector.rotate( rotationIncrement );
                         label.setOffset( posVector.getX(), posVector.getY() - label.getFullBoundsReference().height / 2 );
                     }
                     else {
-                        Vector2D posVector = new Vector2D( label.getFullBoundsReference().getMaxX(), label.getOffset().getY() + label.getFullBoundsReference().height / 2 );
+                        MutableVector2D posVector = new MutableVector2D( label.getFullBoundsReference().getMaxX(), label.getOffset().getY() + label.getFullBoundsReference().height / 2 );
                         posVector.rotate( -rotationIncrement );
                         label.setOffset( posVector.getX() - label.getFullBoundsReference().width, posVector.getY() - label.getFullBoundsReference().height / 2 );
                     }
                 }
                 else if ( moveDown && !moveUp ) {
                     if ( isLabelOnRight( label ) ) {
-                        Vector2D posVector = new Vector2D( label.getOffset().getX(), label.getOffset().getY() + label.getFullBoundsReference().height / 2 );
+                        MutableVector2D posVector = new MutableVector2D( label.getOffset().getX(), label.getOffset().getY() + label.getFullBoundsReference().height / 2 );
                         posVector.rotate( -rotationIncrement );
                         label.setOffset( posVector.getX(), posVector.getY() - label.getFullBoundsReference().height / 2 );
                     }
                     else {
-                        Vector2D posVector = new Vector2D( label.getFullBoundsReference().getMaxX(), label.getOffset().getY() + label.getFullBoundsReference().height / 2 );
+                        MutableVector2D posVector = new MutableVector2D( label.getFullBoundsReference().getMaxX(), label.getOffset().getY() + label.getFullBoundsReference().height / 2 );
                         posVector.rotate( rotationIncrement );
                         label.setOffset( posVector.getX() - label.getFullBoundsReference().width, posVector.getY() - label.getFullBoundsReference().height / 2 );
                     }

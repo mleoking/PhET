@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * Class: LightSpecies
@@ -9,10 +9,10 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 
 /**
  *
@@ -36,7 +36,7 @@ public class LightSpecies extends GasMolecule {
     }
 
     public static void setMoleculeMass( double mass ) {
-        s_mass = (float)mass;
+        s_mass = (float) mass;
     }
 
     public static void setMoleculeRadius( double radius ) {
@@ -59,7 +59,7 @@ public class LightSpecies extends GasMolecule {
     /**
      * Constructor
      */
-    public LightSpecies( Point2D position, Vector2D velocity, Vector2D acceleration ) {
+    public LightSpecies( Point2D position, MutableVector2D velocity, MutableVector2D acceleration ) {
         super( position, velocity, acceleration, s_mass, s_radius );
         init();
         super.setRadius( s_radius );

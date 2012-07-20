@@ -1,13 +1,18 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.semiconductor.macro.circuit;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
@@ -85,8 +90,8 @@ public class MacroCircuitGraphic implements Graphic, BatteryListener {
                 transform.addTransformListener( new TransformListener() {
                     public void transformChanged( ModelViewTransform2D modelViewTransform2D ) {
                         //To change body of implemented methods use Options | File Templates.
-                        Vector2D start = b.getEndPosition();
-                        Vector2D end = b.getStartPosition();
+                        MutableVector2D start = b.getEndPosition();
+                        MutableVector2D end = b.getStartPosition();
                         int height = batteryImage.getHeight();
                         int x = transform.modelToViewX( start.getX() );
                         int width = ( transform.modelToViewX( end.getX() ) - x );

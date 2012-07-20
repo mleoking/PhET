@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.solublesalts.model;
 
@@ -6,7 +6,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 
 /**
  * RandomWalk
@@ -34,7 +34,7 @@ public class RandomWalk {
      * @param body
      * @return The body's new velocity
      */
-    public Vector2D apply( Body body ) {
+    public MutableVector2D apply( Body body ) {
         if ( body.getVelocity().getMagnitude() != 0 && vessel.getWater().getBounds().contains( body.getPosition() ) ) {
             double theta = random.nextDouble() * Math.toRadians( this.theta ) * MathUtil.nextRandomSign();
             body.setVelocity( body.getVelocity().rotate( theta ) );

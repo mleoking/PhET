@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -18,12 +18,17 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
 import edu.colorado.phet.common.quantum.QuantumConfig;
-import edu.colorado.phet.common.quantum.model.*;
+import edu.colorado.phet.common.quantum.model.Atom;
+import edu.colorado.phet.common.quantum.model.AtomicState;
+import edu.colorado.phet.common.quantum.model.Beam;
+import edu.colorado.phet.common.quantum.model.ElementProperties;
+import edu.colorado.phet.common.quantum.model.Photon;
+import edu.colorado.phet.common.quantum.model.Tube;
 import edu.colorado.phet.lasers.LasersApplication;
 import edu.colorado.phet.lasers.LasersConfig;
 import edu.colorado.phet.lasers.LasersResources;
@@ -61,7 +66,7 @@ public class MultipleAtomModule extends BaseLaserModule {
         Beam seedBeam = ( (LaserModel) getModel() ).getSeedBeam();
         seedBeam.setPosition( beamOrigin );
         seedBeam.setBeamWidth( s_boxHeight );
-        seedBeam.setDirection( new Vector2D( 1, 0 ) );
+        seedBeam.setDirection( new MutableVector2D( 1, 0 ) );
         seedBeam.setPhotonsPerSecond( 1 );
 
         // Pumping beam

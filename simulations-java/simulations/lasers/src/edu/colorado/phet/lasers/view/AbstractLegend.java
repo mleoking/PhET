@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,7 +10,11 @@
  */
 package edu.colorado.phet.lasers.view;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Insets;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
@@ -20,11 +24,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.quantum.model.Atom;
 import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.Photon;
-import edu.colorado.phet.lasers.LasersResources;
 import edu.colorado.phet.lasers.model.LaserModel;
 
 /*
@@ -51,7 +54,7 @@ public class AbstractLegend extends JPanel {
     }
 
     protected BufferedImage getPhotonImage( double wavelength ) {
-        Photon photon = new Photon( wavelength, new Point2D.Double(), new Vector2D() );
+        Photon photon = new Photon( wavelength, new Point2D.Double(), new MutableVector2D() );
         return PhotonGraphic.getInstance( this, photon ).getImage();
     }
 
@@ -90,7 +93,7 @@ public class AbstractLegend extends JPanel {
     protected BufferedImage getAtomImage() {
         LaserModel quantumModel = new LaserModel( 1 );
         Atom atom = new Atom( quantumModel, 3 );
-        atom.setStates( new AtomicState[]{
+        atom.setStates( new AtomicState[] {
                 quantumModel.getGroundState(),
                 quantumModel.getMiddleEnergyState(),
                 quantumModel.getHighEnergyState()

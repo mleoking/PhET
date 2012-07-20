@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.model.mna;
 
 import java.util.Arrays;
@@ -10,7 +10,7 @@ import edu.colorado.phet.circuitconstructionkit.model.components.Battery;
 import edu.colorado.phet.circuitconstructionkit.model.components.Capacitor;
 import edu.colorado.phet.circuitconstructionkit.model.components.Switch;
 import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 
 public class TestScripts {
     public static class TestMacroCircuit {
@@ -27,7 +27,7 @@ public class TestScripts {
             capacitor.setStartJunction( j[1] );
             capacitor.setEndJunction( j[2] );
 
-            Switch myswitch = new Switch( j[2].getPosition(), new Vector2D( 0, 1 ), 1, 1, new CompositeCircuitChangeListener() );
+            Switch myswitch = new Switch( j[2].getPosition(), new MutableVector2D( 0, 1 ), 1, 1, new CompositeCircuitChangeListener() );
             myswitch.setStartJunction( j[2] );
             myswitch.setEndJunction( j[3] );
 

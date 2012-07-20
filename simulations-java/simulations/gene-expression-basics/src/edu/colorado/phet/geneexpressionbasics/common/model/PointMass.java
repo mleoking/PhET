@@ -1,10 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model;
 
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 
 /**
  * This class defines a point in model space that also has mass.  It is
@@ -14,8 +14,8 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 public class PointMass {
     public static final double MASS = 0.25; // In kg.  Arbitrarily chosen to get the desired behavior.
     private final Point2D position = new Point2D.Double( 0, 0 );
-    private final Vector2D velocity = new Vector2D( 0, 0 );
-    private final Vector2D acceleration = new Vector2D( 0, 0 );
+    private final MutableVector2D velocity = new MutableVector2D( 0, 0 );
+    private final MutableVector2D acceleration = new MutableVector2D( 0, 0 );
     private PointMass previousPointMass = null;
     private PointMass nextPointMass = null;
 

@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,30 +10,45 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.IdealGasResources;
-import edu.colorado.phet.idealgas.collision.*;
+import edu.colorado.phet.idealgas.collision.FloorFixupStrategy;
+import edu.colorado.phet.idealgas.collision.SphereWallExpert;
+import edu.colorado.phet.idealgas.collision.VerticalBarrier;
+import edu.colorado.phet.idealgas.collision.VerticalWallFixupStrategy;
+import edu.colorado.phet.idealgas.collision.Wall;
 import edu.colorado.phet.idealgas.controller.command.PumpMoleculeCmd;
 import edu.colorado.phet.idealgas.instrumentation.Thermometer;
-import edu.colorado.phet.idealgas.model.*;
+import edu.colorado.phet.idealgas.model.Box2D;
+import edu.colorado.phet.idealgas.model.GasMolecule;
+import edu.colorado.phet.idealgas.model.HeavySpecies;
+import edu.colorado.phet.idealgas.model.IdealGasClock;
+import edu.colorado.phet.idealgas.model.IdealGasModel;
+import edu.colorado.phet.idealgas.model.LightSpecies;
+import edu.colorado.phet.idealgas.model.PChemModel;
+import edu.colorado.phet.idealgas.model.Pump;
 import edu.colorado.phet.idealgas.view.GraduatedWallGraphic;
 import edu.colorado.phet.idealgas.view.HeavySpeciesGraphic;
 import edu.colorado.phet.idealgas.view.LightSpeciesGraphic;
 import edu.colorado.phet.idealgas.view.WallGraphic;
 import edu.colorado.phet.idealgas.view.monitors.EnergyHistogramDialog;
 import edu.colorado.phet.idealgas.view.monitors.SpeciesMonitorDialog;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * MovableWallsModule
@@ -58,7 +73,7 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
 
     private Wall leftFloor;
     private Wall rightFloor;
-    private int wallThickness = (int)GasMolecule.s_radius * 8;
+    private int wallThickness = (int) GasMolecule.s_radius * 8;
     private PhetShapeGraphic energyCurveGraphic;
     private Pump reactantsPump;
     private Pump productsPump;
@@ -88,7 +103,7 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         getIdealGasModel().addCollisionExpert( new SphereWallExpert( getIdealGasModel() ) );
 
         // Hook the model up to the vertical wall so it will know when it has moved
-        PChemModel pchemModel = (PChemModel)getModel();
+        PChemModel pchemModel = (PChemModel) getModel();
         pchemModel.setVerticalWall( verticalWall );
         pchemModel.addListener( this );
 
@@ -136,8 +151,8 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
                 HeavySpecies newMolecule = null;
                 newMolecule = new HeavySpecies( new Point2D.Double( rightFloor.getBounds().getMinX() + 95,
                                                                     rightFloor.getBounds().getMinY() - 105 ),
-                                                new Vector2D( -200, 200 ),
-                                                new Vector2D() );
+                                                new MutableVector2D( -200, 200 ),
+                                                new MutableVector2D() );
                 new PumpMoleculeCmd( getIdealGasModel(), newMolecule, MovableWallsModule.this ).doIt();
 
             }
@@ -147,21 +162,21 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
 //        getControlPanel().add( backupButton );
         backupButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                ( (IdealGasModel)getModel() ).stepInTime( -clock.getDt() );
+                ( (IdealGasModel) getModel() ).stepInTime( -clock.getDt() );
             }
         } );
     }
 
     public JDialog setHistogramDlgEnabled( boolean histogramDlgEnabled ) {
-        EnergyHistogramDialog dlg = (EnergyHistogramDialog)super.setHistogramDlgEnabled( histogramDlgEnabled );
-        dlg.setSpeedDetailsLegends( new String[]{"Speed: A", "Speed: B"},
-                                    new Color[]{COLOR_A, COLOR_B} );
+        EnergyHistogramDialog dlg = (EnergyHistogramDialog) super.setHistogramDlgEnabled( histogramDlgEnabled );
+        dlg.setSpeedDetailsLegends( new String[] { "Speed: A", "Speed: B" },
+                                    new Color[] { COLOR_A, COLOR_B } );
         return dlg;
     }
 
     public JDialog setSpeciesMonitorDlgEnabled( boolean isEnabled ) {
-        SpeciesMonitorDialog dlg = (SpeciesMonitorDialog)super.setSpeciesMonitorDlgEnabled( isEnabled );
-        dlg.setSpeciesPanelTitles( new String[]{"A", "B"} );
+        SpeciesMonitorDialog dlg = (SpeciesMonitorDialog) super.setSpeciesMonitorDlgEnabled( isEnabled );
+        dlg.setSpeciesPanelTitles( new String[] { "A", "B" } );
         return dlg;
     }
 
@@ -259,7 +274,7 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
         setBoxSize();
 
         Thermometer thermometer = getThermometer();
-        thermometer.setLocation( (int)( box.getMinX() + box.getWidth() / 2 ), thermometer.getY() );
+        thermometer.setLocation( (int) ( box.getMinX() + box.getWidth() / 2 ), thermometer.getY() );
 
         // Create the lower vertical wall
         double wallHeight = 125;
@@ -386,12 +401,12 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
 
     public void pumpGasMolecules( int numMolecules, Class species ) {
         Point2D location = null;
-        if( species == HeavySpecies.class ) {
+        if ( species == HeavySpecies.class ) {
             location = new Point2D.Double( ( leftFloor.getBounds().getMinX() + leftFloor.getBounds().getMaxX() ) / 2,
                                            leftFloor.getBounds().getMinY() - 15 );
             reactantsPump.pump( numMolecules, species, location );
         }
-        if( species == LightSpecies.class ) {
+        if ( species == LightSpecies.class ) {
             location = new Point2D.Double( ( rightFloor.getBounds().getMinX() + rightFloor.getBounds().getMaxX() ) / 2,
                                            rightFloor.getBounds().getMinY() - 15 );
             productsPump.pump( numMolecules, species, location );
@@ -402,7 +417,7 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
     // Implementation of abstract methods
     //----------------------------------------------------------------
     public Pump[] getPumps() {
-        return new Pump[]{getPump(), reactantsPump, productsPump};
+        return new Pump[] { getPump(), reactantsPump, productsPump };
     }
 
     //-----------------------------------------------------------------
@@ -448,13 +463,13 @@ public class MovableWallsModule extends AdvancedModule implements PChemModel.Lis
     public void moleculeCreated( PChemModel.MoleculeCreationEvent event ) {
         PhetGraphic graphic = null;
         GasMolecule molecule = event.getMolecule();
-        if( molecule instanceof HeavySpecies ) {
+        if ( molecule instanceof HeavySpecies ) {
             graphic = new HeavySpeciesGraphic( this.getApparatusPanel(), molecule );
         }
-        else if( molecule instanceof LightSpecies ) {
+        else if ( molecule instanceof LightSpecies ) {
             graphic = new LightSpeciesGraphic( this.getApparatusPanel(), molecule );
         }
-        if( graphic != null ) {
+        if ( graphic != null ) {
             addGraphic( graphic, IdealGasConfig.MOLECULE_LAYER );
         }
     }

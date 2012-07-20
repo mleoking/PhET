@@ -1,12 +1,17 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.faraday.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 
 
@@ -16,7 +21,7 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 class LightRaysGraphic extends PhetGraphic {
-    
+
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
@@ -24,15 +29,15 @@ class LightRaysGraphic extends PhetGraphic {
     // Number of rays
     private static final int MAX_RAYS = 60;
     private static final int MIN_RAYS = 8;
-    
+
     // Physical dimensions, in pixels
     private static final int MAX_RAY_LENGTH = 350;
     private static final int MIN_RAY_LENGTH = 0;
-    
+
     // Angles
     private static final double RAYS_START_ANGLE = Math.toRadians( 135 );
     private static final double RAYS_ARC_ANGLE = Math.toRadians( 270 );
-    
+
     // Color and strokes
     private static final Color RAY_COLOR = Color.YELLOW;
     private static final BasicStroke RAY_STROKE_BIG = new BasicStroke( 3f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
@@ -42,30 +47,30 @@ class LightRaysGraphic extends PhetGraphic {
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private double _bulbRadius;
     private ArrayList<Line2D> _cacheLines; // reusable lines
     private ArrayList<Line2D> _drawLines; // lines to be drawn
     private Rectangle _bounds;
     private RenderingHints _hints;
     private BasicStroke _stroke;
-    private Vector2D _someVector1, _someVector2;
+    private MutableVector2D _someVector1, _someVector2;
 
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sole constructor.
-     * 
-     * @param component the parent Component
+     *
+     * @param component  the parent Component
      * @param bulbRadius the radius of the lightbulb
      */
     public LightRaysGraphic( Component component, double bulbRadius ) {
         super( component );
 
         _bulbRadius = bulbRadius;
-        
+
         // Pre-populate a set of reusable lines.
         _cacheLines = new ArrayList<Line2D>();
         for ( int i = 0; i < MAX_RAYS; i++ ) {
@@ -76,22 +81,22 @@ class LightRaysGraphic extends PhetGraphic {
         _bounds = new Rectangle();
         _hints = new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
         _stroke = RAY_STROKE_SMALL;
-        
+
         // Reusable objects
-        _someVector1 = new Vector2D();
-        _someVector2 = new Vector2D();    
+        _someVector1 = new MutableVector2D();
+        _someVector2 = new MutableVector2D();
     }
 
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sets the intensity.
      * This generates the stroke and lines needed to represent the intensity.
-     * The algorithm was adapted from 
+     * The algorithm was adapted from
      * edu.colorado.phet.cck3.circuit.components.LightBulbGraphic.setIntensity.
-     * 
+     *
      * @param intensity
      */
     public void setIntensity( double intensity ) {
@@ -134,7 +139,7 @@ class LightRaysGraphic extends PhetGraphic {
             _someVector2.setMagnitudeAndAngle( rayLength + _bulbRadius, angle );
             double x2 = _someVector2.getX();
             double y2 = _someVector2.getY();
-            
+
             // Get a line from the cache.
             Line2D line = null;
             if ( i < _cacheLines.size() ) {
@@ -153,27 +158,27 @@ class LightRaysGraphic extends PhetGraphic {
             // Increment the angle.
             angle += deltaAngle;
         }
-        
+
         // Pre-compute the bounds.
         int radius = (int) ( rayLength + _bulbRadius + _stroke.getLineWidth() /* line caps */ );
         _bounds.setBounds( -radius, -radius, 2 * radius, 2 * radius );
         setBoundsDirty();
     }
-    
+
     //----------------------------------------------------------------------------
     // PhetGraphic implementation
     //----------------------------------------------------------------------------
-    
+
     /**
      * Draws the light rays.
-     * 
+     *
      * @param g2 the graphics context
      */
     public void paint( Graphics2D g2 ) {
         int numberOfRays = _drawLines.size();
         if ( isVisible() && numberOfRays > 0 ) {
             saveGraphicsState( g2 );
-            
+
             g2.setRenderingHints( _hints );
             g2.setStroke( _stroke );
             g2.setPaint( RAY_COLOR );
@@ -185,14 +190,14 @@ class LightRaysGraphic extends PhetGraphic {
                 line = (Line2D) _drawLines.get( i );
                 g2.drawLine( (int) line.getX1(), (int) line.getY1(), (int) line.getX2(), (int) line.getY2() );
             }
-            
+
             restoreGraphicsState();
         }
     }
 
     /**
      * Determines the bounds of the light rays.
-     * 
+     *
      * @return the bounds
      */
     protected Rectangle determineBounds() {

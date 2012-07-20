@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.solublesalts.model;
 
@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 
 /**
@@ -29,7 +29,7 @@ public class Drain extends Spigot implements Vessel.ChangeListener {
     // Distance, in ion radii, between an ion and the drain opening that will cause the ion to be
     // captured by the drain when it's open
     private int ionCaptureDistance = 2;
-    private Vector2D inputToOutputOffset = new Vector2D( -95, 50 );
+    private MutableVector2D inputToOutputOffset = new MutableVector2D( -95, 50 );
 
     public Drain( SolubleSaltsModel model,
                   Point2D location,
@@ -85,7 +85,7 @@ public class Drain extends Spigot implements Vessel.ChangeListener {
                 Ion ion = (Ion) capturedIons.get( i );
                 ion.setPosition( new Point2D.Double( getPosition().getX() + inputToOutputOffset.getX(),
                                                      getPosition().getY() + inputToOutputOffset.getY() ) );
-                ion.setVelocity( new Vector2D( ion.getVelocity().getMagnitude(), 0 ).rotate( Math.PI / 2 ) );
+                ion.setVelocity( new MutableVector2D( ion.getVelocity().getMagnitude(), 0 ).rotate( Math.PI / 2 ) );
             }
         }
     }

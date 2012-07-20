@@ -1,16 +1,17 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo.schematic;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.ACVoltageSource;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 
 /**
@@ -45,10 +46,10 @@ public class SchematicACNode extends SchematicOscillateNode {
             Point2D anoPoint = getAnoPoint();
             double dist = catPoint.distance( anoPoint );
             double radius = dist / 2;
-            Vector2D vec = new Vector2D( catPoint, anoPoint );
+            MutableVector2D vec = new MutableVector2D( catPoint, anoPoint );
             Point2D ctr = vec.getScaledInstance( .5 ).getDestination( catPoint );
             Ellipse2D.Double ellipse = new Ellipse2D.Double();
-            Point2D corner = new Vector2D( radius, radius ).getDestination( ctr );
+            Point2D corner = new MutableVector2D( radius, radius ).getDestination( ctr );
             ellipse.setFrameFromCenter( ctr, corner );
             shapeGraphic.setPathTo( ellipse );
 

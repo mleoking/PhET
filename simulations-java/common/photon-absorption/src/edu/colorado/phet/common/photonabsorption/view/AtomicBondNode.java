@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.common.photonabsorption.view;
 
@@ -8,7 +8,7 @@ import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.photonabsorption.model.atoms.AtomicBond;
@@ -98,7 +98,7 @@ public class AtomicBondNode extends PNode {
                 final double angle = Math.atan2( p1.getX() - p2.getX(), p1.getY() - p2.getY() );
                 // Create a vector that will act as the offset from the center
                 // point to the origin of the bond line.
-                Vector2D offsetVector = new Vector2D() {{
+                MutableVector2D offsetVector = new MutableVector2D() {{
                     setMagnitude( transformedRadius / 3 );
                     setAngle( angle );
                 }};
@@ -125,7 +125,7 @@ public class AtomicBondNode extends PNode {
                 final double angle = Math.atan2( p1.getX() - p2.getX(), p1.getY() - p2.getY() );
                 // Create a vector that will act as the offset from the center
                 // point to the origin of the bond line.
-                Vector2D offsetVector = new Vector2D() {{
+                MutableVector2D offsetVector = new MutableVector2D() {{
                     setMagnitude( transformedRadius * 0.6 );
                     setAngle( angle );
                 }};

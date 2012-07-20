@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,13 +10,12 @@
  */
 package edu.colorado.phet.reactionsandrates.model;
 
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
+
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 
 /**
  * RandomMoleculeParamGenerator
@@ -65,7 +64,7 @@ public class RandomMoleculeParamGenerator implements MoleculeParamGenerator {
         // Generate velocity
         double phi = ( maxTheta - minTheta ) * random.nextDouble() + minTheta;
         double speed = maxSpeed * random.nextDouble();
-        Vector2D v = new Vector2D( speed, 0 ).rotate( phi );
+        MutableVector2D v = new MutableVector2D( speed, 0 ).rotate( phi );
 
         // Generate angular velocity
         double a = maxAlpha * random.nextDouble() * MathUtil.nextRandomSign();

@@ -1,14 +1,13 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.idealgas.collision;
-
-import edu.colorado.phet.common.mechanics.Body;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.idealgas.model.Constraint;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.colorado.phet.common.mechanics.Body;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.idealgas.model.Constraint;
 
 /**
  * This abstract class represents physical bodies. It is abstract so that only
@@ -18,7 +17,7 @@ import java.util.List;
 public abstract class CollidableBody extends Body {
 
     private boolean collidable = true;
-    private Vector2D velocityPrev;
+    private MutableVector2D velocityPrev;
     private Point2D positionPrev;
     ArrayList containedBodies = new ArrayList();
 
@@ -31,8 +30,8 @@ public abstract class CollidableBody extends Body {
     protected CollidableBody() {
     }
 
-    protected CollidableBody( Point2D position, Vector2D velocity,
-                              Vector2D acceleration, double mass, double charge ) {
+    protected CollidableBody( Point2D position, MutableVector2D velocity,
+                              MutableVector2D acceleration, double mass, double charge ) {
         super( position, velocity, acceleration, mass, charge );
     }
 
@@ -43,11 +42,11 @@ public abstract class CollidableBody extends Body {
     public void stepInTime( double dt ) {
         // Save the velocity and position before they are updated. This information
         // is used in collision calculations
-        if( velocityPrev == null ) {
-            velocityPrev = new Vector2D();
+        if ( velocityPrev == null ) {
+            velocityPrev = new MutableVector2D();
         }
         velocityPrev.setComponents( getVelocity().getX(), getVelocity().getY() );
-        if( positionPrev == null ) {
+        if ( positionPrev == null ) {
             positionPrev = new Point2D.Double( getPosition().getX(), getPosition().getY() );
         }
         positionPrev.setLocation( getPosition() );
@@ -60,7 +59,7 @@ public abstract class CollidableBody extends Body {
         this.collidable = collidable;
     }
 
-    public Vector2D getVelocityPrev() {
+    public MutableVector2D getVelocityPrev() {
         return velocityPrev;
     }
 

@@ -1,19 +1,20 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*  */
 package edu.colorado.phet.circuitconstructionkit.view.piccolo.schematic;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 
 /**
@@ -53,7 +54,7 @@ public class SchematicInductorNode extends SchematicOscillateNode {
             //draw a circle around the resistor part.
             Point2D catPoint = super.getCatPoint();
             Point2D anoPoint = getAnoPoint();
-            Vector2D v = new Vector2D( catPoint, anoPoint );
+            MutableVector2D v = new MutableVector2D( catPoint, anoPoint );
             ImmutableVector2D s = v.getScaledInstance( super.getFracDistToStartSine() );
             Point2D dst = s.getDestination( catPoint );
             leftBranch.setPathTo( new Line2D.Double( catPoint, dst ) );

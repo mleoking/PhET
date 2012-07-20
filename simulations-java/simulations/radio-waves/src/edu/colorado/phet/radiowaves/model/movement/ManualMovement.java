@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /**
  * Class: ManualMovement Package: edu.colorado.phet.waves.model Author: Another
@@ -10,8 +10,7 @@ package edu.colorado.phet.radiowaves.model.movement;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.MedianFilter;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.radiowaves.model.Electron;
 
 /**
@@ -29,7 +28,7 @@ public class ManualMovement implements MovementType {
     private double[] yAHistory = new double[s_posHistoryLength - 2];
     private float vAve;
     private float aAve;
-    private Vector2D velocity = new Vector2D();
+    private MutableVector2D velocity = new MutableVector2D();
     private MedianFilter dataFilter = new MedianFilter( yVHistory );
 
     /**
@@ -78,7 +77,7 @@ public class ManualMovement implements MovementType {
         //        aAve = (float)MedianFilter.getMedian( yAHistory );
     }
 
-    public Vector2D getVelocity( Electron electron ) {
+    public MutableVector2D getVelocity( Electron electron ) {
         return velocity;
     }
 

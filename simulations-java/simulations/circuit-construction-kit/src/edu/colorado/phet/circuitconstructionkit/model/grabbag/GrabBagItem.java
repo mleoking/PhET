@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.model.grabbag;
 
 import java.awt.geom.Point2D;
@@ -10,7 +10,7 @@ import java.util.Random;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.components.Resistor;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 
 /**
@@ -73,7 +73,7 @@ public class GrabBagItem {
         double x = random.nextDouble() * mb.getWidth() * 0.9 + mb.getX();
         double y = random.nextDouble() * mb.getHeight() + mb.getY();
         Point2D start = new Point2D.Double( x, y );
-        Vector2D dir = new Vector2D( 1, 0 );
+        MutableVector2D dir = new MutableVector2D( 1, 0 );
         double height = modelLength / image.getWidth() * image.getHeight();
         GrabBagResistor res = new GrabBagResistor( start, dir, modelLength, height, module.getCircuitChangeListener(), this );
         res.setResistance( getResistance() );

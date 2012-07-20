@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,7 +10,13 @@
  */
 package edu.colorado.phet.mri.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.List;
+
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -20,12 +26,6 @@ import edu.colorado.phet.common.quantum.model.Photon;
 import edu.colorado.phet.common.quantum.model.PhotonEmissionListener;
 import edu.colorado.phet.common.quantum.model.PhotonEmittedEvent;
 import edu.colorado.phet.mri.MriConfig;
-
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.EventListener;
-import java.util.List;
 
 /**
  * MriModel
@@ -94,7 +94,7 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
         radiowaveSource = new RadiowaveSource( new Point2D.Double( MriConfig.SAMPLE_CHAMBER_LOCATION.getX() + MriConfig.SAMPLE_CHAMBER_WIDTH / 2,
                                                                    lowerMagnetLocation.getY() + lowerMagnet.getBounds().getHeight() ),
                                                length,
-                                               new Vector2D( 0, -1 ) );
+                                               new MutableVector2D( 0, -1 ) );
         addModelElement( radiowaveSource );
         radiowaveSource.setEnabled( true );
         radiowaveSource.addPhotonEmittedListener( new PhotonEmissionListener() {
@@ -135,11 +135,11 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
     public void addModelElement( ModelElement modelElement ) {
         super.addModelElement( modelElement );
 
-        if( modelElement instanceof Photon ) {
+        if ( modelElement instanceof Photon ) {
             photons.add( modelElement );
         }
-        if( modelElement instanceof Electromagnet ) {
-            Electromagnet magnet = (Electromagnet)modelElement;
+        if ( modelElement instanceof Electromagnet ) {
+            Electromagnet magnet = (Electromagnet) modelElement;
             magnets.add( magnet );
             magnet.addChangeListener( new MagnetListener() );
         }
@@ -148,15 +148,15 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
 
     public void removeModelElement( ModelElement modelElement ) {
         super.removeModelElement( modelElement );
-        if( modelElement instanceof Photon ) {
+        if ( modelElement instanceof Photon ) {
             photons.remove( modelElement );
-            ( (Photon)modelElement ).removeFromSystem();
+            ( (Photon) modelElement ).removeFromSystem();
         }
-        if( modelElement instanceof PlaneWaveMedium ) {
-            ( (PlaneWaveMedium)modelElement ).leaveSystem();
+        if ( modelElement instanceof PlaneWaveMedium ) {
+            ( (PlaneWaveMedium) modelElement ).leaveSystem();
         }
-        if( modelElement instanceof Electromagnet ) {
-            Electromagnet magnet = (Electromagnet)modelElement;
+        if ( modelElement instanceof Electromagnet ) {
+            Electromagnet magnet = (Electromagnet) modelElement;
             magnets.remove( modelElement );
             magnet.removeChangeListener( new MagnetListener() );
         }
@@ -165,7 +165,7 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
 
     public List getModelElements() {
         ArrayList modelElements = new ArrayList();
-        for( int i = 0; i < numModelElements(); i++ ) {
+        for ( int i = 0; i < numModelElements(); i++ ) {
             modelElements.add( modelElementAt( i ) );
         }
         return modelElements;
@@ -243,8 +243,8 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
      */
     public double getTotalFieldStrengthAt( Point2D p ) {
         double b = 0;
-        for( int i = 0; i < magnets.size(); i++ ) {
-            GradientElectromagnet magnet = (GradientElectromagnet)magnets.get( i );
+        for ( int i = 0; i < magnets.size(); i++ ) {
+            GradientElectromagnet magnet = (GradientElectromagnet) magnets.get( i );
             b += magnet.getFieldStrengthAtAbsolute( p );
         }
         return b;
@@ -268,9 +268,9 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
         super.stepInTime( dt );
 
         List photons = getPhotons();
-        for( int i = photons.size() - 1; i >= 0; i-- ) {
-            Photon photon = (Photon)photons.get( i );
-            if( !getBounds().contains( photon.getPosition() ) ) {
+        for ( int i = photons.size() - 1; i >= 0; i-- ) {
+            Photon photon = (Photon) photons.get( i );
+            if ( !getBounds().contains( photon.getPosition() ) ) {
                 removeModelElement( photon );
             }
         }
@@ -314,7 +314,7 @@ public class MriModel extends BaseModel implements IDipoleMonitor {
     // Events and listeners
     //----------------------------------------------------------------
     private EventChannel modelEventChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener listenerProxy = (ChangeListener)modelEventChannel.getListenerProxy();
+    private ChangeListener listenerProxy = (ChangeListener) modelEventChannel.getListenerProxy();
 
     public void addListener( ChangeListener listener ) {
         modelEventChannel.addListener( listener );

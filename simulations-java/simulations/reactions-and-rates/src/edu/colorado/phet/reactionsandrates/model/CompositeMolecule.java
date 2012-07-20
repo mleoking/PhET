@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,19 +10,18 @@
  */
 package edu.colorado.phet.reactionsandrates.model;
 
-import edu.colorado.phet.common.mechanics.Vector3D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.common.phetcommon.util.EventChannel;
-import edu.colorado.phet.reactionsandrates.model.collision.HardBodyCollision;
-
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EventListener;
 import java.util.List;
+
+import edu.colorado.phet.common.mechanics.Vector3D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.reactionsandrates.model.collision.HardBodyCollision;
 
 /**
  * CompositeMolecule
@@ -46,12 +45,12 @@ public abstract class CompositeMolecule extends AbstractMolecule implements Pote
 
     private static int numSimpleMolecules( AbstractMolecule molecule ) {
         int n = 0;
-        if( molecule instanceof SimpleMolecule ) {
+        if ( molecule instanceof SimpleMolecule ) {
             n = 1;
         }
-        else if( molecule instanceof CompositeMolecule ) {
-            AbstractMolecule[] components = ( (CompositeMolecule)molecule ).components;
-            for( int i = 0; i < components.length; i++ ) {
+        else if ( molecule instanceof CompositeMolecule ) {
+            AbstractMolecule[] components = ( (CompositeMolecule) molecule ).components;
+            for ( int i = 0; i < components.length; i++ ) {
                 n += numSimpleMolecules( components[i] );
             }
         }
@@ -69,11 +68,11 @@ public abstract class CompositeMolecule extends AbstractMolecule implements Pote
 
 
     public Object clone() {
-        CompositeMolecule clone = (CompositeMolecule)super.clone();
+        CompositeMolecule clone = (CompositeMolecule) super.clone();
 
-        clone.components = (SimpleMolecule[])components.clone();
+        clone.components = (SimpleMolecule[]) components.clone();
         clone.boundingBox = new Rectangle2D.Double( boundingBox.getX(), boundingBox.getY(), boundingBox.getWidth(), boundingBox.getHeight() );
-        clone.bonds = (Bond[])bonds.clone();
+        clone.bonds = (Bond[]) bonds.clone();
 
         return clone;
     }
@@ -96,8 +95,8 @@ public abstract class CompositeMolecule extends AbstractMolecule implements Pote
     }
 
     public Bond[] getBonds() {
-        if( bonds == null && getComponentMolecules().length >= 1 ) {
-            bonds = new Bond[]{new Bond( getComponentMolecules()[0], getComponentMolecules()[1] )};
+        if ( bonds == null && getComponentMolecules().length >= 1 ) {
+            bonds = new Bond[] { new Bond( getComponentMolecules()[0], getComponentMolecules()[1] ) };
         }
         return bonds;
     }
@@ -110,7 +109,7 @@ public abstract class CompositeMolecule extends AbstractMolecule implements Pote
     protected void setComponents( SimpleMolecule[] components ) {
         this.components = components;
         // Tell each of the components that they are now part of a composite
-        for( int i = 0; i < components.length; i++ ) {
+        for ( int i = 0; i < components.length; i++ ) {
             AbstractMolecule component = components[i];
             component.setParentComposite( this );
         }
@@ -132,7 +131,7 @@ public abstract class CompositeMolecule extends AbstractMolecule implements Pote
         // Remove the simple molecule from the composite
         List componentList = new ArrayList( Arrays.asList( components ) );
         componentList.remove( molecule );
-        components = (SimpleMolecule[])componentList.toArray( new SimpleMolecule[componentList.size()] );
+        components = (SimpleMolecule[]) componentList.toArray( new SimpleMolecule[componentList.size()] );
         molecule.setParentComposite( null );
 
         // Compute composite properties
@@ -157,14 +156,14 @@ public abstract class CompositeMolecule extends AbstractMolecule implements Pote
 
         computeCM();
         double mass = 0;
-        Vector2D compositeMomentum = new Vector2D();
-        Vector2D acceleration = new Vector2D();
+        MutableVector2D compositeMomentum = new MutableVector2D();
+        MutableVector2D acceleration = new MutableVector2D();
         Vector3D angularMomentum = new Vector3D();
-        Vector2D compositeCmToComponentCm = new Vector2D();
-        for( int i = 0; i < components.length; i++ ) {
+        MutableVector2D compositeCmToComponentCm = new MutableVector2D();
+        for ( int i = 0; i < components.length; i++ ) {
             AbstractMolecule component = components[i];
             mass += component.getMass();
-            Vector2D momentum = new Vector2D( component.getVelocity() ).scale( component.getMass() );
+            MutableVector2D momentum = new MutableVector2D( component.getVelocity() ).scale( component.getMass() );
             compositeMomentum.add( momentum );
             acceleration.add( component.getAcceleration() );
             compositeCmToComponentCm.setComponents( component.getPosition().getX() - getCM().getX(),
@@ -176,21 +175,21 @@ public abstract class CompositeMolecule extends AbstractMolecule implements Pote
         setAcceleration( acceleration );
         setOmega( angularMomentum.getZ() / getMomentOfInertia() );
 
-        for( int i = 0; i < components.length; i++ ) {
+        for ( int i = 0; i < components.length; i++ ) {
             components[i].setVelocity( getVelocity() );
         }
     }
 
     protected AbstractMolecule getMoleculeOfType( Class moleculeType ) {
         AbstractMolecule m = null;
-        for( int i = 0; i < components.length && m == null; i++ ) {
-            if( moleculeType.isInstance( components[i] ) ) {
+        for ( int i = 0; i < components.length && m == null; i++ ) {
+            if ( moleculeType.isInstance( components[i] ) ) {
                 m = components[i];
             }
         }
 
         // Check to see if we found something
-        if( m == null ) {
+        if ( m == null ) {
             throw new RuntimeException( "internal error" );
         }
         return m;
@@ -198,7 +197,7 @@ public abstract class CompositeMolecule extends AbstractMolecule implements Pote
 
     public void translate( double dx, double dy ) {
         AbstractMolecule[] components = getComponentMolecules();
-        for( int i = 0; components != null && i < components.length; i++ ) {
+        for ( int i = 0; components != null && i < components.length; i++ ) {
             AbstractMolecule component = components[i];
             component.translate( dx, dy );
         }
@@ -209,9 +208,9 @@ public abstract class CompositeMolecule extends AbstractMolecule implements Pote
     }
 
     public Rectangle2D getBoundingBox() {
-        if( components.length >= 1 ) {
+        if ( components.length >= 1 ) {
             boundingBox.setRect( components[0].getBoundingBox() );
-            for( int i = 1; i < components.length; i++ ) {
+            for ( int i = 1; i < components.length; i++ ) {
                 boundingBox = boundingBox.createUnion( components[i].getBoundingBox() );
             }
         }
@@ -229,7 +228,7 @@ public abstract class CompositeMolecule extends AbstractMolecule implements Pote
         double xSum = 0;
         double ySum = 0;
         double massSum = 0;
-        for( int i = 0; i < components.length; i++ ) {
+        for ( int i = 0; i < components.length; i++ ) {
             AbstractMolecule component = components[i];
             double mass = component.getMass();
             xSum += mass * component.getCM().getX();
@@ -242,7 +241,7 @@ public abstract class CompositeMolecule extends AbstractMolecule implements Pote
     public double getMomentOfInertia() {
         double moi = 0;
         Point2D cm = this.getCM();
-        for( int i = 0; i < components.length; i++ ) {
+        for ( int i = 0; i < components.length; i++ ) {
             AbstractMolecule component = components[i];
             double dist = cm.distance( component.getCM() );
             double mOfIComponent = component.getMomentOfInertia() + component.getMass()
@@ -319,14 +318,14 @@ public abstract class CompositeMolecule extends AbstractMolecule implements Pote
     public void updateComponents( double theta ) {
 
         // Set the position and velocity of the component
-        for( int i = 0; i < components.length; i++ ) {
+        for ( int i = 0; i < components.length; i++ ) {
             SimpleMolecule component = components[i];
-            Vector2D compositeCmToComponentCm = new Vector2D( component.getPosition().getX() - this.getPositionPrev().getX(),
-                                                                     component.getPosition().getY() - this.getPositionPrev().getY() );
+            MutableVector2D compositeCmToComponentCm = new MutableVector2D( component.getPosition().getX() - this.getPositionPrev().getX(),
+                                                                            component.getPosition().getY() - this.getPositionPrev().getY() );
             compositeCmToComponentCm.rotate( theta );
             component.setPosition( this.getPosition().getX() + compositeCmToComponentCm.getX(),
                                    this.getPosition().getY() + compositeCmToComponentCm.getY() );
-            Vector2D v = component.getVelocity();
+            MutableVector2D v = component.getVelocity();
             v.setComponents( this.getVelocity().getX() + getOmega() * -compositeCmToComponentCm.getY(),
                              this.getVelocity().getY() + getOmega() * compositeCmToComponentCm.getX() );
         }
@@ -354,9 +353,9 @@ public abstract class CompositeMolecule extends AbstractMolecule implements Pote
      * @param theta
      */
     public void rotate( double theta ) {
-        for( int i = 0; i < components.length; i++ ) {
+        for ( int i = 0; i < components.length; i++ ) {
             SimpleMolecule component = components[i];
-            Vector2D v = new Vector2D( getCM(), component.getPosition() );
+            MutableVector2D v = new MutableVector2D( getCM(), component.getPosition() );
             v.rotate( theta );
             component.setPosition( getCM().getX() + v.getX(), getCM().getY() + v.getY() );
         }
@@ -372,7 +371,7 @@ public abstract class CompositeMolecule extends AbstractMolecule implements Pote
     }
 
     private EventChannel eventChannel = new EventChannel( Listener.class );
-    Listener listenerProxy = (Listener)eventChannel.getListenerProxy();
+    Listener listenerProxy = (Listener) eventChannel.getListenerProxy();
 
     public void addListener( Listener listener ) {
         eventChannel.addListener( listener );
@@ -398,12 +397,12 @@ public abstract class CompositeMolecule extends AbstractMolecule implements Pote
         }
 
         public void modelElementAdded( ModelElement element ) {
-            if( element instanceof CompositeMolecule ) {
-                CompositeMolecule cm = (CompositeMolecule)element;
+            if ( element instanceof CompositeMolecule ) {
+                CompositeMolecule cm = (CompositeMolecule) element;
                 Bond[] bonds = cm.getBonds();
-                for( int i = 0; i < bonds.length; i++ ) {
+                for ( int i = 0; i < bonds.length; i++ ) {
                     Bond bond = bonds[i];
-                    if( !model.getModelElements().contains( bond ) ) {
+                    if ( !model.getModelElements().contains( bond ) ) {
                         model.addModelElement( bond );
                     }
                 }
@@ -411,12 +410,12 @@ public abstract class CompositeMolecule extends AbstractMolecule implements Pote
         }
 
         public void modelElementRemoved( ModelElement element ) {
-            if( element instanceof CompositeMolecule ) {
-                CompositeMolecule cm = (CompositeMolecule)element;
+            if ( element instanceof CompositeMolecule ) {
+                CompositeMolecule cm = (CompositeMolecule) element;
                 Bond[] bonds = cm.getBonds();
-                for( int i = 0; i < bonds.length; i++ ) {
+                for ( int i = 0; i < bonds.length; i++ ) {
                     Bond bond = bonds[i];
-                    if( model.getModelElements().contains( bond ) ) {
+                    if ( model.getModelElements().contains( bond ) ) {
                         model.removeModelElement( bond );
                     }
                 }

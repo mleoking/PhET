@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -11,8 +11,7 @@
 package edu.colorado.phet.reactionsandrates.model;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 
 /**
  * MRModelUtil
@@ -35,8 +34,8 @@ public class MRModelUtil {
     public static double getCollisionEnergy( SimpleMolecule sm, CompositeMolecule comp ) {
 
         CollisionParams params = new CollisionParams( sm, comp );
-        Vector2D cv = new Vector2D( params.getbMolecule().getPosition(), params.getFreeMolecule().getPosition() );
-        if( params.getFreeMolecule() instanceof MoleculeB ) {
+        MutableVector2D cv = new MutableVector2D( params.getbMolecule().getPosition(), params.getFreeMolecule().getPosition() );
+        if ( params.getFreeMolecule() instanceof MoleculeB ) {
             new CollisionParams( sm, comp );
         }
         cv.normalize();

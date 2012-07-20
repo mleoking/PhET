@@ -1,11 +1,11 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.statesofmatter.model.engine;
 
 import java.awt.geom.Point2D;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.statesofmatter.model.MoleculeForceAndMotionDataSet;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
@@ -75,7 +75,7 @@ public class WaterPhaseStateChanger extends AbstractPhaseStateChanger {
         // Step the model a number of times in order to prevent the particles
         // from looking too organized.  The number of steps was empirically
         // determined.
-        for ( int i = 0; i < 100; i++ ){
+        for ( int i = 0; i < 100; i++ ) {
             m_model.step();
         }
     }
@@ -92,7 +92,7 @@ public class WaterPhaseStateChanger extends AbstractPhaseStateChanger {
         MoleculeForceAndMotionDataSet moleculeDataSet = m_model.getMoleculeDataSetRef();
         int numberOfMolecules = moleculeDataSet.getNumberOfMolecules();
         Point2D[] moleculeCenterOfMassPositions = moleculeDataSet.getMoleculeCenterOfMassPositions();
-        Vector2D[] moleculeVelocities = moleculeDataSet.getMoleculeVelocities();
+        MutableVector2D[] moleculeVelocities = moleculeDataSet.getMoleculeVelocities();
         double[] moleculeRotationAngles = moleculeDataSet.getMoleculeRotationAngles();
         double[] moleculeRotationRates = moleculeDataSet.getMoleculeRotationRates();
 
@@ -150,7 +150,7 @@ public class WaterPhaseStateChanger extends AbstractPhaseStateChanger {
         // Get references to the various elements of the data set.
         MoleculeForceAndMotionDataSet moleculeDataSet = m_model.getMoleculeDataSetRef();
         Point2D[] moleculeCenterOfMassPositions = moleculeDataSet.getMoleculeCenterOfMassPositions();
-        Vector2D[] moleculeVelocities = moleculeDataSet.getMoleculeVelocities();
+        MutableVector2D[] moleculeVelocities = moleculeDataSet.getMoleculeVelocities();
         double[] moleculeRotationAngles = moleculeDataSet.getMoleculeRotationAngles();
         double[] moleculeRotationRates = moleculeDataSet.getMoleculeRotationRates();
 
@@ -230,7 +230,7 @@ public class WaterPhaseStateChanger extends AbstractPhaseStateChanger {
         // Get references to the various elements of the data set.
         MoleculeForceAndMotionDataSet moleculeDataSet = m_model.getMoleculeDataSetRef();
         Point2D[] moleculeCenterOfMassPositions = moleculeDataSet.getMoleculeCenterOfMassPositions();
-        Vector2D[] moleculeVelocities = moleculeDataSet.getMoleculeVelocities();
+        MutableVector2D[] moleculeVelocities = moleculeDataSet.getMoleculeVelocities();
         double[] moleculeRotationAngles = moleculeDataSet.getMoleculeRotationAngles();
         double[] moleculeRotationRates = moleculeDataSet.getMoleculeRotationRates();
 

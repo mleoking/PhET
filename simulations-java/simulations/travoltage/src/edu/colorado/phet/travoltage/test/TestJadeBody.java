@@ -22,7 +22,7 @@ import org.cove.jade.surfaces.LineSurface;
 import org.cove.jade.util.GVector;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.travoltage.MoveElectronsJade;
 
 public class TestJadeBody extends Component implements ActionListener {
@@ -90,15 +90,15 @@ public class TestJadeBody extends Component implements ActionListener {
     public void actionPerformed( ActionEvent e ) {
         for ( int i = 0; i < circles.size(); i++ ) {
             org.cove.jade.primitives.CircleParticle circleParticle = (org.cove.jade.primitives.CircleParticle) circles.get( i );
-            Vector2D force = getForce( circleParticle );
+            MutableVector2D force = getForce( circleParticle );
             circleParticle.setAcceleration( force.getX(), force.getY() );
         }
         engine.timeStep();
         this.repaint();
     }
 
-    private Vector2D getForce( CircleParticle circleParticle ) {
-        Vector2D sum = new Vector2D();
+    private MutableVector2D getForce( CircleParticle circleParticle ) {
+        MutableVector2D sum = new MutableVector2D();
 
         for ( int i = 0; i < circles.size(); i++ ) {
             CircleParticle particle = (CircleParticle) circles.get( i );
@@ -110,11 +110,11 @@ public class TestJadeBody extends Component implements ActionListener {
             return sum;
         }
         else {
-            return new Vector2D();
+            return new MutableVector2D();
         }
     }
 
-    private boolean isLegal( Vector2D sum ) {
+    private boolean isLegal( MutableVector2D sum ) {
         return !Double.isInfinite( sum.getX() ) && !Double.isNaN( sum.getX() ) && !Double.isInfinite( sum.getY() ) && !Double.isNaN( sum.getY() );
     }
 

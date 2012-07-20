@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.genenetwork.model;
 
@@ -13,7 +13,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.umd.cs.piccolo.util.PDimension;
 
 
@@ -108,7 +108,7 @@ public class RnaPolymerase extends SimpleModelElement {
                             // and then detach ourself from the DNA.
                             mRna.setSpawningStrategy( new SpawnLacIStrategy() );
                             freeMessengerRna();
-                            detachFromDna( 0.25, new Vector2D( 2, 2 ) );
+                            detachFromDna( 0.25, new MutableVector2D( 2, 2 ) );
                         }
                         else if ( touchedLacZGene && !touchedLacYGene && !dnaStrand.isOnLacZGeneSpace( getLeftEdgePoint() ) ) {
                             // We have fully traversed the LacZ gene.  See if
@@ -123,7 +123,7 @@ public class RnaPolymerase extends SimpleModelElement {
                                 // detach ourself from the DNA.
                                 mRna.setSpawningStrategy( new SpawnLacZStrategy() );
                                 freeMessengerRna();
-                                detachFromDna( 0.25, new Vector2D( 2, 2 ) );
+                                detachFromDna( 0.25, new MutableVector2D( 2, 2 ) );
                             }
                         }
                         else if ( touchedLacYGene && !dnaStrand.isOnLacYGeneSpace( getPositionRef() ) && !dnaStrand.isOnLacYGeneSpace( getLeftEdgePoint() ) ) {
@@ -137,7 +137,7 @@ public class RnaPolymerase extends SimpleModelElement {
                                 mRna.setSpawningStrategy( new SpawnLacYStrategy() );
                             }
                             freeMessengerRna();
-                            detachFromDna( 0.25, new Vector2D( 2, 2 ) );
+                            detachFromDna( 0.25, new MutableVector2D( 2, 2 ) );
                         }
                         else if ( ( dnaStrand.isOnLacIGeneSpace( getLeftEdgePoint() ) && !dnaStrand.isLacIGeneInPlace() ) ||
                                   ( touchedLacZGene && dnaStrand.isOnLacZGeneSpace( getLeftEdgePoint() ) && !dnaStrand.isLacZGeneInPlace() ) ||
@@ -170,7 +170,7 @@ public class RnaPolymerase extends SimpleModelElement {
                                     promoterAttachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
                                     if ( !previousPromoterAttachmentPartner.requestReattach( this ) ) {
                                         // Can't reattach, so wander off.
-                                        detachFromDna( 0, new Vector2D( -2, 2 ) );
+                                        detachFromDna( 0, new MutableVector2D( -2, 2 ) );
                                         reattachCount = 0;
                                     }
                                     else {
@@ -179,7 +179,7 @@ public class RnaPolymerase extends SimpleModelElement {
                                 }
                                 else {
                                     // Don't even try to reattach - just wander off.
-                                    detachFromDna( 0, new Vector2D( -2, 2 ) );
+                                    detachFromDna( 0, new MutableVector2D( -2, 2 ) );
                                     reattachCount = 0;
                                 }
                             }
@@ -265,7 +265,7 @@ public class RnaPolymerase extends SimpleModelElement {
      */
     private void freeMessengerRna() {
         mRna.setMotionStrategy( new LinearMotionStrategy( getModel().getInteriorMotionBounds(), mRna.getPositionRef(),
-                                                          new Vector2D( 0, 4 ), 20 ) );
+                                                          new MutableVector2D( 0, 4 ), 20 ) );
         mRna.setSpawningEnabled( true );
         mRna = null;
     }
@@ -367,7 +367,7 @@ public class RnaPolymerase extends SimpleModelElement {
             traversing = true;
             traversalStartPt.setLocation( getPositionRef() );
             setMotionStrategy( new LinearMotionStrategy( getModel().getInteriorMotionBounds(), getPositionRef(),
-                                                         new Vector2D( TRAVERSAL_SPEED, 0 ), MAX_TRAVERSAL_TIME ) );
+                                                         new MutableVector2D( TRAVERSAL_SPEED, 0 ), MAX_TRAVERSAL_TIME ) );
             promoterAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVAILABLE;
         }
         else if ( promoterAttachmentState == AttachmentState.MOVING_TOWARDS_ATTACHMENT ) {
@@ -389,7 +389,7 @@ public class RnaPolymerase extends SimpleModelElement {
      *                        will make up a random one that is generally in the up
      *                        direction.
      */
-    private void detachFromDna( double delay, Vector2D initialVelocity ) {
+    private void detachFromDna( double delay, MutableVector2D initialVelocity ) {
 
         // No longer are we transcribing and traversing.
         transcribing = false;

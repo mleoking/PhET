@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -16,8 +16,7 @@ import java.util.EventListener;
 import java.util.EventObject;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
@@ -26,7 +25,12 @@ import edu.colorado.phet.common.quantum.model.AtomicState;
 import edu.colorado.phet.common.quantum.model.ElectromotiveForce;
 import edu.colorado.phet.common.quantum.model.Tube;
 import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.dischargelamps.quantum.model.*;
+import edu.colorado.phet.dischargelamps.quantum.model.Electrode;
+import edu.colorado.phet.dischargelamps.quantum.model.Electron;
+import edu.colorado.phet.dischargelamps.quantum.model.ElectronAtomCollisionExpert;
+import edu.colorado.phet.dischargelamps.quantum.model.ElectronSink;
+import edu.colorado.phet.dischargelamps.quantum.model.ElectronSource;
+import edu.colorado.phet.dischargelamps.quantum.model.Plate;
 import edu.colorado.phet.lasers.model.LaserModel;
 
 /**
@@ -56,7 +60,7 @@ public class DischargeLampModel extends LaserModel implements ElectromotiveForce
     private ArrayList electronSinks = new ArrayList();
     private ElectronAtomCollisionExpert electronAtomCollisionExpert = new ElectronAtomCollisionExpert();
     private Spectrometer spectrometer;
-    private Vector2D electronAcceleration = new Vector2D();
+    private MutableVector2D electronAcceleration = new MutableVector2D();
     private Tube tube;
     private Plate leftHandPlate;
     private Plate rightHandPlate;
@@ -238,7 +242,7 @@ public class DischargeLampModel extends LaserModel implements ElectromotiveForce
         electronAcceleration.setComponents( potentialDiff / plateSeparation, 0 );
     }
 
-    public Vector2D getElectronAcceleration() {
+    public MutableVector2D getElectronAcceleration() {
         return electronAcceleration;
     }
 

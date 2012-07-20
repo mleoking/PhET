@@ -1,12 +1,11 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.conductivity.macro.bands;
 
-import java.awt.*;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.conductivity.common.SimpleBufferedImageGraphic;
@@ -31,7 +30,7 @@ public class BandParticleGraphic extends TransformGraphic {
     }
 
     public void paint( Graphics2D graphics2d ) {
-        Vector2D phetvector = bandParticle.getPosition();
+        MutableVector2D phetvector = bandParticle.getPosition();
         java.awt.Point point = getTransform().modelToView( phetvector );
         graphic.setPosition( point );
         graphic.paint( graphics2d );

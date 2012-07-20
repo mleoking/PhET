@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.balanceandtorque.common.view;
 
 import java.awt.BasicStroke;
@@ -12,7 +12,7 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing;
 import edu.colorado.phet.balanceandtorque.common.model.Plank;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
@@ -190,8 +190,8 @@ public class PlankNode extends ModelObjectNode {
 
         double getMouseToPlankCenterAngle( Point2D mouseCanvasPosition ) {
             Point2D modelStartDragPosition = getModelPosition( mouseCanvasPosition );
-            Vector2D vectorToMouseLocation = new Vector2D( modelStartDragPosition.getX() - plank.getPlankSurfaceCenter().getX(),
-                                                           modelStartDragPosition.getY() - plank.getPlankSurfaceCenter().getY() );
+            MutableVector2D vectorToMouseLocation = new MutableVector2D( modelStartDragPosition.getX() - plank.getPlankSurfaceCenter().getX(),
+                                                                         modelStartDragPosition.getY() - plank.getPlankSurfaceCenter().getY() );
             if ( Math.abs( vectorToMouseLocation.getAngle() ) > Math.PI / 2 ) {
                 // Do a 180 on the vector to avoid problems with getting the
                 // angle from the left side of the rotation point.

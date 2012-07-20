@@ -1,8 +1,8 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 
@@ -36,7 +36,7 @@ public abstract class AttachmentStateMachine {
     // Offset to use when moving towards attachment sites.  This is used when
     // the molecule attaches to an attachment site at some location other than
     // its geometric center.
-    protected final Vector2D destinationOffset = new Vector2D( 0, 0 );
+    protected final MutableVector2D destinationOffset = new MutableVector2D( 0, 0 );
 
     //-------------------------------------------------------------------------
     // Constructor(s)

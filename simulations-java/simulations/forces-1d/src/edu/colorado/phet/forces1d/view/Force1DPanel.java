@@ -1,17 +1,29 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.forces1d.view;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Paint;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.JCheckBox;
+import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -24,7 +36,11 @@ import edu.colorado.phet.common.phetgraphics.view.util.BasicGraphicsSetup;
 import edu.colorado.phet.forces1d.Force1DResources;
 import edu.colorado.phet.forces1d.Force1DUtil;
 import edu.colorado.phet.forces1d.Forces1DModule;
-import edu.colorado.phet.forces1d.common.*;
+import edu.colorado.phet.forces1d.common.HelpItem2;
+import edu.colorado.phet.forces1d.common.LayoutUtil;
+import edu.colorado.phet.forces1d.common.RelativeLocationSetter;
+import edu.colorado.phet.forces1d.common.TitleLayout;
+import edu.colorado.phet.forces1d.common.WiggleMe;
 import edu.colorado.phet.forces1d.common.phetcomponents.PhetButton;
 import edu.colorado.phet.forces1d.common.plotdevice.FloatingControl;
 import edu.colorado.phet.forces1d.common.plotdevice.PlotDevice;
@@ -303,7 +319,7 @@ public class Force1DPanel extends ApparatusPanel2 implements OffsetManager {
         blockGraphic.addMouseInputListener( listener );
 
         wiggleMe = new WiggleMe( this, module.getClock(), Force1DResources.get( "Force1DPanel.applyForce" ), blockGraphic );
-        wiggleMe.setOscillationAxis( new Vector2D( 1, 0 ) );
+        wiggleMe.setOscillationAxis( new MutableVector2D( 1, 0 ) );
         addGraphic( wiggleMe, 10000 );
         model.addListener( new Force1DModel.Listener() {
             public void appliedForceChanged() {
@@ -536,7 +552,7 @@ public class Force1DPanel extends ApparatusPanel2 implements OffsetManager {
     }
 
     private PlotDevice[] getPlotDevices() {
-        return new PlotDevice[]{forcePlotDevice, accelPlotDevice, velPlotDevice, posPlotDevice};
+        return new PlotDevice[] { forcePlotDevice, accelPlotDevice, velPlotDevice, posPlotDevice };
     }
 
     public void repaintBuffer() {

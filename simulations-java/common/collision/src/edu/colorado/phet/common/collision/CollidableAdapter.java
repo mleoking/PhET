@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /**
  * Latest Change:
@@ -11,7 +11,7 @@ package edu.colorado.phet.common.collision;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Particle;
 
 /**
@@ -40,14 +40,14 @@ import edu.colorado.phet.common.phetcommon.model.Particle;
  */
 public class CollidableAdapter implements Collidable {
 
-    private Vector2D velocityPrev;
+    private MutableVector2D velocityPrev;
     private Point2D positionPrev;
     private Particle particle;
     private boolean init;
 
     public CollidableAdapter( Particle particle ) {
         this.particle = particle;
-        velocityPrev = new Vector2D( particle.getVelocity() );
+        velocityPrev = new MutableVector2D( particle.getVelocity() );
         positionPrev = new Point2D.Double( particle.getPosition().getX(), particle.getPosition().getY() );
     }
 
@@ -72,7 +72,7 @@ public class CollidableAdapter implements Collidable {
         velocityPrev.setComponents( particle.getVelocity().getX(), particle.getVelocity().getY() );
     }
 
-    public Vector2D getVelocityPrev() {
+    public MutableVector2D getVelocityPrev() {
         if ( !init ) {
             init();
         }

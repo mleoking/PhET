@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.multiplecells.model;
 
 import java.awt.Shape;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -311,8 +311,8 @@ public class MultipleCellsModel implements Resettable {
         boolean separatingEdgeFound = false;
 
         for ( int i = 0; i < 4; i++ ) {
-            Vector2D edge = new Vector2D( r1.get( i ).getX() - r1.get( ( i + 1 ) % 4 ).getX(),
-                                          r1.get( i ).getY() - r1.get( ( i + 1 ) % 4 ).getY() );
+            MutableVector2D edge = new MutableVector2D( r1.get( i ).getX() - r1.get( ( i + 1 ) % 4 ).getX(),
+                                                        r1.get( i ).getY() - r1.get( ( i + 1 ) % 4 ).getY() );
             // Rotate the vector by 90 degrees.
             edge.setComponents( -edge.getY(), edge.getX() );
 
@@ -344,7 +344,7 @@ public class MultipleCellsModel implements Resettable {
         return !separatingEdgeFound;
     }
 
-    private static double sideSign( Vector2D edge, Point2D pointOnEdge, Point2D testPoint ) {
+    private static double sideSign( MutableVector2D edge, Point2D pointOnEdge, Point2D testPoint ) {
         return Math.signum( edge.getX() * ( testPoint.getX() - pointOnEdge.getX() ) + edge.getY() * ( testPoint.getY() - pointOnEdge.getY() ) );
     }
 

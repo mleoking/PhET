@@ -1,10 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.common.photonabsorption.model.molecules;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.photonabsorption.model.Molecule;
 import edu.colorado.phet.common.photonabsorption.model.atoms.OxygenAtom;
 
@@ -56,7 +56,7 @@ public class O extends Molecule {
      */
     @Override
     protected void initializeAtomOffsets() {
-        addInitialAtomCogOffset( oxygenAtom, new Vector2D( 0, 0 ) );
+        addInitialAtomCogOffset( oxygenAtom, new MutableVector2D( 0, 0 ) );
 
         updateAtomPositions();
     }

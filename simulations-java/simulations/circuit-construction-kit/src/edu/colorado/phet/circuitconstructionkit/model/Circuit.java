@@ -16,7 +16,7 @@ import edu.colorado.phet.circuitconstructionkit.model.components.Switch;
 import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
 import edu.colorado.phet.circuitconstructionkit.model.mna.MNAAdapter;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -597,7 +597,7 @@ public class Circuit {
         fireJunctionsCollapsed( j1, j2, replacement );
     }
 
-    public DragMatch getBestDragMatch( Branch[] sc, Vector2D dx ) {
+    public DragMatch getBestDragMatch( Branch[] sc, MutableVector2D dx ) {
         return getBestDragMatch( Circuit.getJunctions( sc ), dx );
     }
 
@@ -671,12 +671,12 @@ public class Circuit {
             return "match, source=" + source + ", dest=" + target + ", dist=" + getDistance();
         }
 
-        public Vector2D getVector() {
-            return new Vector2D( source.getPosition(), target.getPosition() );
+        public MutableVector2D getVector() {
+            return new MutableVector2D( source.getPosition(), target.getPosition() );
         }
     }
 
-    public DragMatch getBestDragMatch( Junction[] draggedJunctions, Vector2D dx ) {
+    public DragMatch getBestDragMatch( Junction[] draggedJunctions, MutableVector2D dx ) {
         Junction[] all = getJunctions();
         ArrayList<Junction> potentialMatches = new ArrayList<Junction>();
         potentialMatches.addAll( Arrays.asList( all ) );
@@ -743,7 +743,7 @@ public class Circuit {
             //but we want a potentiometer.
             Point2D tipCenterModel = new Point2D.Double( tipShape.getBounds2D().getCenterX(), tipShape.getBounds2D().getCenterY() );
             Point2D.Double branchStartModel = branch.getStartJunction().getPosition();
-            Vector2D vec = new Vector2D( branchStartModel, tipCenterModel );
+            MutableVector2D vec = new MutableVector2D( branchStartModel, tipCenterModel );
             double dist = vec.getMagnitude();
             result = new Connection.BranchConnection( branch, dist );
         }

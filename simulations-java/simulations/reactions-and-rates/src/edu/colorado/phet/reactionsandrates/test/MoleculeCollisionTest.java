@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.reactionsandrates.test;/* Copyright 2003-2004, University of Colorado */
 
 /*
@@ -10,17 +10,25 @@ package edu.colorado.phet.reactionsandrates.test;/* Copyright 2003-2004, Univers
  * Date modified : $Date$
  */
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
-import edu.colorado.phet.reactionsandrates.model.*;
-import edu.colorado.phet.reactionsandrates.model.reactions.A_BC_AB_C_Reaction;
-import edu.colorado.phet.reactionsandrates.model.reactions.Reaction;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.reactionsandrates.model.CompositeMolecule;
+import edu.colorado.phet.reactionsandrates.model.EnergyProfile;
+import edu.colorado.phet.reactionsandrates.model.MRModel;
+import edu.colorado.phet.reactionsandrates.model.MRModelUtil;
+import edu.colorado.phet.reactionsandrates.model.MoleculeA;
+import edu.colorado.phet.reactionsandrates.model.MoleculeB;
+import edu.colorado.phet.reactionsandrates.model.MoleculeBC;
+import edu.colorado.phet.reactionsandrates.model.MoleculeC;
+import edu.colorado.phet.reactionsandrates.model.SimpleMolecule;
+import edu.colorado.phet.reactionsandrates.model.reactions.A_BC_AB_C_Reaction;
+import edu.colorado.phet.reactionsandrates.model.reactions.Reaction;
 
 /**
  * MoleculeCollisionTest
@@ -69,20 +77,20 @@ public class MoleculeCollisionTest {
             MoleculeA mA = new MoleculeA();
             MoleculeB mB = new MoleculeB();
             MoleculeC mC = new MoleculeC();
-            CompositeMolecule mBC = new MoleculeBC( new SimpleMolecule[]{mB, mC} );
+            CompositeMolecule mBC = new MoleculeBC( new SimpleMolecule[] { mB, mC } );
 
             Point2D pA = new Point2D.Double( pCM.getX() - 10, pCM.getY() );
-            Vector2D vA = new Vector2D( 1, 0 );
+            MutableVector2D vA = new MutableVector2D( 1, 0 );
             mA.setVelocity( vA );
             mA.setPosition( pA );
 
             Point2D pB = new Point2D.Double( pCM.getX() + 10, pCM.getY() );
-            Vector2D vB = new Vector2D( -1, 0 );
+            MutableVector2D vB = new MutableVector2D( -1, 0 );
             mB.setVelocity( vB );
             mB.setPosition( pB );
 
             Point2D pC = new Point2D.Double( pB.getX() + mB.getRadius() + mC.getRadius(), pCM.getY() );
-            Vector2D vC = new Vector2D( -1, 0 );
+            MutableVector2D vC = new MutableVector2D( -1, 0 );
             mC.setVelocity( vC );
             mC.setPosition( pC );
 
@@ -103,20 +111,20 @@ public class MoleculeCollisionTest {
             MoleculeA mA = new MoleculeA();
             MoleculeB mB = new MoleculeB();
             MoleculeC mC = new MoleculeC();
-            CompositeMolecule mBC = new MoleculeBC( new SimpleMolecule[]{mB, mC} );
+            CompositeMolecule mBC = new MoleculeBC( new SimpleMolecule[] { mB, mC } );
 
             Point2D pA = new Point2D.Double( pCM.getX() - 10, pCM.getY() );
-            Vector2D vA = new Vector2D( -1, 0 );
+            MutableVector2D vA = new MutableVector2D( -1, 0 );
             mA.setVelocity( vA );
             mA.setPosition( pA );
 
             Point2D pB = new Point2D.Double( pCM.getX() + 10, pCM.getY() );
-            Vector2D vB = new Vector2D( 1, 0 );
+            MutableVector2D vB = new MutableVector2D( 1, 0 );
             mB.setVelocity( vB );
             mB.setPosition( pB );
 
             Point2D pC = new Point2D.Double( pB.getX() + mB.getRadius() + mC.getRadius(), pCM.getY() );
-            Vector2D vC = new Vector2D( 1, 0 );
+            MutableVector2D vC = new MutableVector2D( 1, 0 );
             mC.setVelocity( vC );
             mC.setPosition( pC );
 
@@ -153,20 +161,20 @@ public class MoleculeCollisionTest {
             mA = new MoleculeA();
             mB = new MoleculeB();
             mC = new MoleculeC();
-            mBC = new MoleculeBC( new SimpleMolecule[]{mB, mC} );
+            mBC = new MoleculeBC( new SimpleMolecule[] { mB, mC } );
 
             Point2D pA = new Point2D.Double( pCM.getX() - 10, pCM.getY() );
-            Vector2D vA = new Vector2D( -1, 0 );
+            MutableVector2D vA = new MutableVector2D( -1, 0 );
             mA.setVelocity( vA );
             mA.setPosition( pA );
 
             Point2D pB = new Point2D.Double( pCM.getX() + 10, pCM.getY() );
-            Vector2D vB = new Vector2D( 1, 0 );
+            MutableVector2D vB = new MutableVector2D( 1, 0 );
             mB.setVelocity( vB );
             mB.setPosition( pB );
 
             Point2D pC = new Point2D.Double( pB.getX() + mB.getRadius() + mC.getRadius(), pCM.getY() );
-            Vector2D vC = new Vector2D( 1, 0 );
+            MutableVector2D vC = new MutableVector2D( 1, 0 );
             mC.setVelocity( vC );
             mC.setPosition( pC );
 
@@ -177,7 +185,7 @@ public class MoleculeCollisionTest {
             mBC.stepInTime( 1 );
         }
 
-        private void setVelocitiesAndStepInTime( Vector2D vA, Vector2D vBC ) {
+        private void setVelocitiesAndStepInTime( MutableVector2D vA, MutableVector2D vBC ) {
             mA.setVelocity( vA );
             mB.setVelocity( vBC );
             mC.setVelocity( vBC );
@@ -201,10 +209,10 @@ public class MoleculeCollisionTest {
             assertEquals( "collision distance is not properly computed", 2.0, model.getReaction().getDistanceToCollision( mA, mBC ), 1E-6 );
 
             // Check that the collision distance is properly computed
-            setVelocitiesAndStepInTime( new Vector2D( 1, 0 ), new Vector2D( -1, 0 ) );
+            setVelocitiesAndStepInTime( new MutableVector2D( 1, 0 ), new MutableVector2D( -1, 0 ) );
             assertEquals( "collision distance is not properly computed", 0.0, model.getReaction().getDistanceToCollision( mA, mBC ), 1E-6 );
 
-            setVelocitiesAndStepInTime( new Vector2D( 1, 0 ), new Vector2D( -1, 0 ) );
+            setVelocitiesAndStepInTime( new MutableVector2D( 1, 0 ), new MutableVector2D( -1, 0 ) );
             assertEquals( "collision distance is not properly computed", -2.0, model.getReaction().getDistanceToCollision( mA, mBC ), 1E-6 );
             mB.setParentComposite( pc );
         }
@@ -232,21 +240,21 @@ public class MoleculeCollisionTest {
             }
 
             {
-                setVelocitiesAndStepInTime( new Vector2D( 1, 0 ), new Vector2D( -1, 0 ) );
+                setVelocitiesAndStepInTime( new MutableVector2D( 1, 0 ), new MutableVector2D( -1, 0 ) );
                 double collisionDistance = model.getReaction().getDistanceToCollision( mA, mBC );
                 assertTrue( collisionDistance == 2 );
             }
 
             {
-                setVelocitiesAndStepInTime( new Vector2D( 1, 0 ), new Vector2D( -1, 0 ) );
+                setVelocitiesAndStepInTime( new MutableVector2D( 1, 0 ), new MutableVector2D( -1, 0 ) );
                 double collisionDistance = model.getReaction().getDistanceToCollision( mA, mBC );
                 assertTrue( collisionDistance == 0 );
             }
 
             {
                 boolean outOfEnergy = false;
-                for( int i = 0; i < 100 && !outOfEnergy; i++ ) {
-                    setVelocitiesAndStepInTime( new Vector2D( 1, 0 ), new Vector2D( -1, 0 ) );
+                for ( int i = 0; i < 100 && !outOfEnergy; i++ ) {
+                    setVelocitiesAndStepInTime( new MutableVector2D( 1, 0 ), new MutableVector2D( -1, 0 ) );
                     double collisionDistance = model.getReaction().getDistanceToCollision( mA, mBC );
                     double dE = Math.tan( slope ) * Math.abs( collisionDistance );
                     double dCE = MRModelUtil.getCollisionEnergy( mA, mBC );
@@ -275,12 +283,12 @@ public class MoleculeCollisionTest {
             {
                 boolean outOfEnergy = false;
                 boolean reactionReached = false;
-                for( int i = 0; i < 100 && !outOfEnergy && !reactionReached; i++ ) {
-                    setVelocitiesAndStepInTime( new Vector2D( 1.8476, 0 ), new Vector2D( -1.8476, 0 ) );
+                for ( int i = 0; i < 100 && !outOfEnergy && !reactionReached; i++ ) {
+                    setVelocitiesAndStepInTime( new MutableVector2D( 1.8476, 0 ), new MutableVector2D( -1.8476, 0 ) );
                     double collisionDistance = model.getReaction().getDistanceToCollision( mA, mBC );
                     double dE = Math.tan( slope ) * Math.abs( collisionDistance );
                     double dCE = MRModelUtil.getCollisionEnergy( mA, mBC );
-                    if( dCE <= 0 ) {
+                    if ( dCE <= 0 ) {
                         dCE = MRModelUtil.getCollisionEnergy( mA, mBC );
                     }
                     System.out.println( "dE = " + dE );

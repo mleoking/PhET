@@ -1,18 +1,18 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*  */
 package edu.colorado.phet.quantumwaveinterference.tests;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import java.awt.geom.Point2D;
+import java.text.DecimalFormat;
+
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.quantumwaveinterference.model.WaveDebugger;
 import edu.colorado.phet.quantumwaveinterference.model.WaveSetup;
 import edu.colorado.phet.quantumwaveinterference.model.Wavefunction;
 import edu.colorado.phet.quantumwaveinterference.model.math.Complex;
 import edu.colorado.phet.quantumwaveinterference.model.waves.GaussianWave2D;
 import edu.colorado.phet.quantumwaveinterference.view.complexcolormaps.GrayscaleColorMap;
-
-import java.awt.geom.Point2D;
-import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -27,7 +27,7 @@ public class TestUnits {
         double hbar = 1.0;
         double momentumY = 2 * Math.PI * hbar / desiredWavelengthY;
         System.out.println( "momentumY = " + momentumY );
-        GaussianWave2D gaussianWave2D = new GaussianWave2D( new Point2D.Double( 25, 25 ), new Vector2D( 0, momentumY ), 3.5 * 2, 1.0 );
+        GaussianWave2D gaussianWave2D = new GaussianWave2D( new Point2D.Double( 25, 25 ), new MutableVector2D( 0, momentumY ), 3.5 * 2, 1.0 );
         WaveSetup waveSetup = new WaveSetup( gaussianWave2D );
         waveSetup.initialize( wavefunction );
 
@@ -36,15 +36,15 @@ public class TestUnits {
         waveDebugger.setVisible( true );
 
         DecimalFormat formatter = new DecimalFormat( "0.00" );
-        for( int k = 0; k < wavefunction.getHeight(); k++ ) {
-            for( int i = 0; i < wavefunction.getWidth(); i++ ) {
+        for ( int k = 0; k < wavefunction.getHeight(); k++ ) {
+            for ( int i = 0; i < wavefunction.getWidth(); i++ ) {
                 Complex val = wavefunction.valueAt( i, k );
                 String s = formatter.format( val.getReal() );
-                if( s.equals( formatter.format( -0.000000001 ) ) ) {
+                if ( s.equals( formatter.format( -0.000000001 ) ) ) {
                     s = formatter.format( 0 );
                 }
                 String spaces = "  ";
-                if( s.startsWith( "-" ) ) {
+                if ( s.startsWith( "-" ) ) {
                     spaces = " ";
                 }
                 System.out.print( spaces + s );

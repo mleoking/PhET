@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*  */
 package edu.colorado.phet.theramp.view.arrows;
@@ -12,7 +12,7 @@ import java.awt.Shape;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.piccolophet.nodes.BoundNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -147,7 +147,7 @@ public class ForceArrowGraphic extends PNode {
 
     private Point2D offsetTail( Point2D tail ) {
         double viewAngle = blockGraphic.getCurrentSurfaceGraphic().getViewAngle();
-        ImmutableVector2D v = Vector2D.createPolar( verticalOffset, viewAngle );
+        ImmutableVector2D v = MutableVector2D.createPolar( verticalOffset, viewAngle );
         v = v.getNormalVector();
         return v.getDestination( tail );
     }

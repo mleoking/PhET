@@ -1,10 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.common.photonabsorption.model.molecules;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.photonabsorption.model.Molecule;
 import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionStrategy;
 import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
@@ -80,9 +80,9 @@ public class N2O extends Molecule {
      */
     @Override
     protected void initializeAtomOffsets() {
-        addInitialAtomCogOffset( centerNitrogenAtom, new Vector2D( 0, 0 ) );
-        addInitialAtomCogOffset( sideNitrogenAtom, new Vector2D( -INITIAL_NITROGEN_NITROGEN_DISTANCE, 0 ) );
-        addInitialAtomCogOffset( oxygenAtom, new Vector2D( INITIAL_NITROGEN_OXYGEN_DISTANCE, 0 ) );
+        addInitialAtomCogOffset( centerNitrogenAtom, new MutableVector2D( 0, 0 ) );
+        addInitialAtomCogOffset( sideNitrogenAtom, new MutableVector2D( -INITIAL_NITROGEN_NITROGEN_DISTANCE, 0 ) );
+        addInitialAtomCogOffset( oxygenAtom, new MutableVector2D( INITIAL_NITROGEN_OXYGEN_DISTANCE, 0 ) );
 
         updateAtomPositions();
     }
@@ -91,11 +91,11 @@ public class N2O extends Molecule {
     public void setVibration( double vibrationRadians ) {
         super.setVibration( vibrationRadians );
         double multFactor = Math.sin( vibrationRadians );
-        addInitialAtomCogOffset( centerNitrogenAtom, new Vector2D( 0, multFactor * MAX_CENTER_NITROGEN_DEFLECTION ) );
-        addInitialAtomCogOffset( sideNitrogenAtom, new Vector2D( -INITIAL_NITROGEN_NITROGEN_DISTANCE,
-                                                                 -multFactor * MAX_SIDE_NITROGEN_DEFLECTION ) );
-        addInitialAtomCogOffset( oxygenAtom, new Vector2D( INITIAL_NITROGEN_OXYGEN_DISTANCE,
-                                                           -multFactor * MAX_OXYGEN_DEFLECTION ) );
+        addInitialAtomCogOffset( centerNitrogenAtom, new MutableVector2D( 0, multFactor * MAX_CENTER_NITROGEN_DEFLECTION ) );
+        addInitialAtomCogOffset( sideNitrogenAtom, new MutableVector2D( -INITIAL_NITROGEN_NITROGEN_DISTANCE,
+                                                                        -multFactor * MAX_SIDE_NITROGEN_DEFLECTION ) );
+        addInitialAtomCogOffset( oxygenAtom, new MutableVector2D( INITIAL_NITROGEN_OXYGEN_DISTANCE,
+                                                                  -multFactor * MAX_OXYGEN_DEFLECTION ) );
         updateAtomPositions();
     }
 }

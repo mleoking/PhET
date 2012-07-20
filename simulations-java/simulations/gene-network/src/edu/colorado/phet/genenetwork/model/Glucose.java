@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.genenetwork.model;
 
@@ -7,7 +7,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.umd.cs.piccolo.util.PDimension;
 
 public class Glucose extends SimpleSugar {
@@ -218,7 +218,7 @@ public class Glucose extends SimpleSugar {
         lacZAttachmentPartner = null;
         setMotionStrategy( new LinearThenRandomMotionStrategy(
                 MotionBoundsTrimmer.trim( getModel().getInteriorMotionBoundsAboveDna(), this ),
-                getPositionRef(), new Vector2D( -3, -8 ), 1 ) );
+                getPositionRef(), new MutableVector2D( -3, -8 ), 1 ) );
 
         if ( galactoseAttachmentPartner == null ) {
             // This glucose molecule is not part of a lactose molecule, so it
@@ -246,7 +246,7 @@ public class Glucose extends SimpleSugar {
             // Move up and away, then get random.
             setMotionStrategy( new LinearThenRandomMotionStrategy(
                     MotionBoundsTrimmer.trim( getModel().getInteriorMotionBoundsAboveDna(), this ),
-                    getPositionRef(), new Vector2D( 0, 8 ), 0.5 ) );
+                    getPositionRef(), new MutableVector2D( 0, 8 ), 0.5 ) );
             // Recover for a while before attaching to something else.
             lacIAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVAILABLE;
             postAttachmentRecoveryCountdown = POST_ATTACHMENT_RECOVERY_TIME;
@@ -274,7 +274,7 @@ public class Glucose extends SimpleSugar {
             // Move down and away, then get random.
             setMotionStrategy( new LinearThenRandomMotionStrategy(
                     MotionBoundsTrimmer.trim( getModel().getInteriorMotionBoundsAboveDna(), this ),
-                    getPositionRef(), new Vector2D( 0, -8 ), 0.5 ) );
+                    getPositionRef(), new MutableVector2D( 0, -8 ), 0.5 ) );
             // Recover for a while before attaching to something else.
             lacYAttachmentState = AttachmentState.UNATTACHED_BUT_UNAVAILABLE;
             postAttachmentRecoveryCountdown = POST_ATTACHMENT_RECOVERY_TIME;

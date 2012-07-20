@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,11 +10,11 @@
  */
 package edu.colorado.phet.reactionsandrates.model.collision;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.reactionsandrates.model.CompositeMolecule;
 import edu.colorado.phet.reactionsandrates.model.SimpleMolecule;
-
-import java.awt.geom.Point2D;
 
 /**
  * CollisionSpec
@@ -31,14 +31,14 @@ import java.awt.geom.Point2D;
  */
 public class MoleculeMoleculeCollisionSpec {
 
-    private Vector2D loa;
+    private MutableVector2D loa;
     private Point2D.Double collisionPt;
     private SimpleMolecule moleculeA;
     private SimpleMolecule moleculeB;
     private SimpleMolecule freeMolecule;
     private CompositeMolecule compositeMolecule;
 
-    public MoleculeMoleculeCollisionSpec( Vector2D loa,
+    public MoleculeMoleculeCollisionSpec( MutableVector2D loa,
                                           Point2D.Double collisionPt,
                                           SimpleMolecule moleculeA,
                                           SimpleMolecule moleculeB ) {
@@ -47,19 +47,19 @@ public class MoleculeMoleculeCollisionSpec {
         this.loa = loa;
         this.collisionPt = collisionPt;
 
-        if( !moleculeA.isPartOfComposite() ) {
+        if ( !moleculeA.isPartOfComposite() ) {
             freeMolecule = moleculeA;
-            if( moleculeB.isPartOfComposite() ) {
-                compositeMolecule = (CompositeMolecule)moleculeB.getFullMolecule();
+            if ( moleculeB.isPartOfComposite() ) {
+                compositeMolecule = (CompositeMolecule) moleculeB.getFullMolecule();
             }
             else {
                 compositeMolecule = null;
             }
         }
-        else if( !moleculeB.isPartOfComposite() ) {
+        else if ( !moleculeB.isPartOfComposite() ) {
             freeMolecule = moleculeB;
-            if( moleculeA.isPartOfComposite() ) {
-                compositeMolecule = (CompositeMolecule)moleculeA.getFullMolecule();
+            if ( moleculeA.isPartOfComposite() ) {
+                compositeMolecule = (CompositeMolecule) moleculeA.getFullMolecule();
             }
             else {
                 compositeMolecule = null;
@@ -67,7 +67,7 @@ public class MoleculeMoleculeCollisionSpec {
         }
     }
 
-    public Vector2D getLoa() {
+    public MutableVector2D getLoa() {
         return loa;
     }
 

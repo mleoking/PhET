@@ -1,12 +1,13 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.semiconductor.macro;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.semiconductor.common.SimpleBufferedImageGraphic;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
@@ -48,7 +49,7 @@ public class BucketSection extends TransformGraphic {
 
         EntryPoint[] sources = model.getSources();
         for ( int i = 0; i < sources.length; i++ ) {
-            Vector2D a = sources[i].getSource();
+            MutableVector2D a = sources[i].getSource();
             double startX = sources[i].getSource().getX();
             double endX = sources[i].getCell().getX();
             int dir = (int) ( ( startX - endX ) / ( Math.abs( startX - endX ) ) );

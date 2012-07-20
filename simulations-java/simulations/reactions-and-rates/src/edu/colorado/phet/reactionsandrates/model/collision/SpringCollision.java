@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -11,9 +11,12 @@
 package edu.colorado.phet.reactionsandrates.model.collision;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.reactionsandrates.model.*;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.reactionsandrates.model.AbstractMolecule;
+import edu.colorado.phet.reactionsandrates.model.CompositeMolecule;
+import edu.colorado.phet.reactionsandrates.model.MRModel;
+import edu.colorado.phet.reactionsandrates.model.MoleculeAB;
+import edu.colorado.phet.reactionsandrates.model.SimpleMolecule;
 import edu.colorado.phet.reactionsandrates.model.reactions.A_BC_AB_C_Reaction;
 import edu.colorado.phet.reactionsandrates.model.reactions.Reaction;
 
@@ -60,25 +63,25 @@ public class SpringCollision implements Collision {
         spring.setK( k );
 
         Reaction.ReactionCriteria reactionCriteria = model.getReaction().getReactionCriteria();
-        if( reactionCriteria.moleculesAreProperTypes( mA, mB )
+        if ( reactionCriteria.moleculesAreProperTypes( mA, mB )
 //        && spring.getEnergy( sep ) >= model.getReaction().getThresholdEnergy( mA, mB )) {
-&& spring.getEnergy( separation ) >= model.getReaction().getThresholdEnergy( mA, mB ) ) {
+             && spring.getEnergy( separation ) >= model.getReaction().getThresholdEnergy( mA, mB ) ) {
             doReaction( mA, mB, collisionSpec );
         }
-        if( separation <= 0 && !model.getReaction().areCriteriaMet( mA, mB, collisionSpec )
-            && ( mA instanceof MoleculeAB || mB instanceof MoleculeAB ) ) {
+        if ( separation <= 0 && !model.getReaction().areCriteriaMet( mA, mB, collisionSpec )
+             && ( mA instanceof MoleculeAB || mB instanceof MoleculeAB ) ) {
             System.out.println( "SpringCollision.collide" );
         }
 
         // else, if the separation is less than the resting length, do the spring thing
-        else if( separation <= spring.getRestingLength() ) {
+        else if ( separation <= spring.getRestingLength() ) {
 
             System.out.println( "spring.getEnergy( separation ) = " + spring.getEnergy( separation ) );
 
-            if( true ) {
-                spring.pushOnMolecule( mA, separation, new Vector2D( mA.getPosition(),
+            if ( true ) {
+                spring.pushOnMolecule( mA, separation, new MutableVector2D( mA.getPosition(),
                                                                             mB.getPosition() ) );
-                spring.pushOnMolecule( mB, separation, new Vector2D( mB.getPosition(),
+                spring.pushOnMolecule( mB, separation, new MutableVector2D( mB.getPosition(),
                                                                             mA.getPosition() ) );
                 return;
             }
@@ -90,8 +93,8 @@ public class SpringCollision implements Collision {
 //            if( fMag == Double.POSITIVE_INFINITY ) {
 //                double fMagA =
 //            }
-            Vector2D fA = new Vector2D( collisionSpec.getLoa() ).normalize().scale( fMag );
-            Vector2D fB = new Vector2D( fA ).scale( -1 );
+            MutableVector2D fA = new MutableVector2D( collisionSpec.getLoa() ).normalize().scale( fMag );
+            MutableVector2D fB = new MutableVector2D( fA ).scale( -1 );
 
             // Accelerate each of the bodies with the force
             mA.applyForce( fA, collisionSpec.getCollisionPt() );
@@ -103,19 +106,19 @@ public class SpringCollision implements Collision {
         SimpleMolecule simpleMolecule = null;
         CompositeMolecule compositeMolecule = null;
 
-        if( moleculeA instanceof SimpleMolecule && moleculeB instanceof CompositeMolecule ) {
-            simpleMolecule = (SimpleMolecule)moleculeA;
-            compositeMolecule = (CompositeMolecule)moleculeB;
+        if ( moleculeA instanceof SimpleMolecule && moleculeB instanceof CompositeMolecule ) {
+            simpleMolecule = (SimpleMolecule) moleculeA;
+            compositeMolecule = (CompositeMolecule) moleculeB;
         }
-        else if( moleculeB instanceof SimpleMolecule && moleculeA instanceof CompositeMolecule ) {
-            simpleMolecule = (SimpleMolecule)moleculeB;
-            compositeMolecule = (CompositeMolecule)moleculeA;
+        else if ( moleculeB instanceof SimpleMolecule && moleculeA instanceof CompositeMolecule ) {
+            simpleMolecule = (SimpleMolecule) moleculeB;
+            compositeMolecule = (CompositeMolecule) moleculeA;
         }
         else {
             throw new RuntimeException( "unexpected situation" );
         }
 
-        A_BC_AB_C_Reaction reaction = (A_BC_AB_C_Reaction)model.getReaction();
+        A_BC_AB_C_Reaction reaction = (A_BC_AB_C_Reaction) model.getReaction();
         reaction.doReaction( compositeMolecule, simpleMolecule );
     }
 
@@ -157,7 +160,7 @@ public class SpringCollision implements Collision {
         public double getForce( double length ) {
             int sign = MathUtil.getSign( length - restingLength );
             double f = ( restingLength - length ) * k;
-            if( length == 0 ) {
+            if ( length == 0 ) {
                 System.out.println( "SpringCollision$Spring.getForce" );
             }
             return f;
@@ -171,21 +174,21 @@ public class SpringCollision implements Collision {
          */
         public double getEnergy( double length ) {
             double energy = ( ( getRestingLength() - length ) * getForce( length ) / 2 );
-            if( energy < 0 ) {
+            if ( energy < 0 ) {
                 System.out.println( "SpringCollision$Spring.getEnergy" );
             }
             return energy;
         }
 
 
-        public void pushOnMolecule( AbstractMolecule molecule, double length, Vector2D loa ) {
+        public void pushOnMolecule( AbstractMolecule molecule, double length, MutableVector2D loa ) {
 
             // NOrmalize the line of action vector
             loa.normalize();
 
             // Determine the amount the molecule has moved in the direction of the
             // spring in its last time step
-            Vector2D dl = new Vector2D( molecule.getPositionPrev(), molecule.getPosition() );
+            MutableVector2D dl = new MutableVector2D( molecule.getPositionPrev(), molecule.getPosition() );
             double ds = dl.dot( loa );
 
             // Compute the change in potential energy in the spring during that last
@@ -202,7 +205,7 @@ public class SpringCollision implements Collision {
 //            if( keS > dPe ) {
             keS -= dPe;
 
-            if( keS < 0 ) {
+            if ( keS < 0 ) {
                 System.out.println( "SpringCollision$Spring.pushOnMolecule" );
             }
             int sign = MathUtil.getSign( keS );

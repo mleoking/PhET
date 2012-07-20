@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -11,12 +11,15 @@
 
 package edu.colorado.phet.fourier.module;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 
 import javax.swing.event.MouseInputAdapter;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -503,7 +506,7 @@ public class DiscreteModule extends FourierAbstractModule implements ApparatusPa
             super( component, clock );
 
             setText( FourierResources.getString( "DiscreteModule.wiggleMe" ), WIGGLE_ME_COLOR );
-            addArrow( WiggleMeGraphic.TOP_CENTER, new Vector2D( 0, -30 ), WIGGLE_ME_COLOR );
+            addArrow( WiggleMeGraphic.TOP_CENTER, new MutableVector2D( 0, -30 ), WIGGLE_ME_COLOR );
             setRange( 0, 10 );
             setCycleDuration( 5 );
             setEnabled( true );

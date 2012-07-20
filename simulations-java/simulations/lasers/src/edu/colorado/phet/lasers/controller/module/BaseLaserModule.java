@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -11,17 +11,24 @@
 
 package edu.colorado.phet.lasers.controller.module;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
@@ -30,7 +37,14 @@ import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel3;
 import edu.colorado.phet.common.phetgraphics.view.help.HelpManager;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.quantum.QuantumConfig;
-import edu.colorado.phet.common.quantum.model.*;
+import edu.colorado.phet.common.quantum.model.Atom;
+import edu.colorado.phet.common.quantum.model.AtomicState;
+import edu.colorado.phet.common.quantum.model.Beam;
+import edu.colorado.phet.common.quantum.model.Photon;
+import edu.colorado.phet.common.quantum.model.PhotonEmissionListener;
+import edu.colorado.phet.common.quantum.model.PhotonEmittedEvent;
+import edu.colorado.phet.common.quantum.model.StimulatedPhoton;
+import edu.colorado.phet.common.quantum.model.Tube;
 import edu.colorado.phet.lasers.LasersConfig;
 import edu.colorado.phet.lasers.ShowActualButton;
 import edu.colorado.phet.lasers.controller.Kaboom;
@@ -41,7 +55,17 @@ import edu.colorado.phet.lasers.model.mirror.BandPass;
 import edu.colorado.phet.lasers.model.mirror.LeftReflecting;
 import edu.colorado.phet.lasers.model.mirror.PartialMirror;
 import edu.colorado.phet.lasers.model.mirror.RightReflecting;
-import edu.colorado.phet.lasers.view.*;
+import edu.colorado.phet.lasers.view.AnnotatedAtomGraphic;
+import edu.colorado.phet.lasers.view.AtomGraphic;
+import edu.colorado.phet.lasers.view.BeamCurtainGraphic;
+import edu.colorado.phet.lasers.view.LampGraphic;
+import edu.colorado.phet.lasers.view.LaserCurtainGraphic;
+import edu.colorado.phet.lasers.view.LaserEnergyLevelMonitorPanel;
+import edu.colorado.phet.lasers.view.LaserWaveGraphic;
+import edu.colorado.phet.lasers.view.MatchState;
+import edu.colorado.phet.lasers.view.MirrorGraphic;
+import edu.colorado.phet.lasers.view.PhotonGraphic;
+import edu.colorado.phet.lasers.view.TubeGraphic;
 import edu.colorado.phet.lasers.view.monitors.PowerMeterGraphic;
 
 /**
@@ -196,7 +220,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
                              s_origin,
                              s_boxWidth + s_laserOffsetX * 2,
                              s_boxHeight - Photon.RADIUS,
-                             new Vector2D( 1, 0 ),
+                             new MutableVector2D( 1, 0 ),
                              LasersConfig.MAXIMUM_SEED_PHOTON_RATE,
                              LasersConfig.SEED_BEAM_FANOUT, getPhotonSpeed() );
         seedBeam.addPhotonEmittedListener( new InternalPhotonEmittedListener() );
@@ -207,7 +231,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
                                 new Point2D.Double( s_origin.getX() + s_laserOffsetX, s_origin.getY() - s_laserOffsetX ),
                                 1000,
                                 cavity.getWidth(),
-                                new Vector2D( 0, 1 ),
+                                new MutableVector2D( 0, 1 ),
                                 LasersConfig.MAXIMUM_SEED_PHOTON_RATE,
                                 LasersConfig.PUMPING_BEAM_FANOUT, getPhotonSpeed() );
         pumpingBeam.addPhotonEmittedListener( new InternalPhotonEmittedListener() );
@@ -254,7 +278,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
         JPanel reflectivityControl = new RightMirrorReflectivityControlPanel( rightMirror );
         reflectivityControlPanel = new JPanel();
         Dimension dim = reflectivityControl.getPreferredSize();
-        reflectivityControlPanel.setBounds( (int) rightMirror.getPosition().getX()+10,
+        reflectivityControlPanel.setBounds( (int) rightMirror.getPosition().getX() + 10,
                                             (int) ( rightMirror.getPosition().getY() + rightMirror.getBounds().getHeight() ),
                                             (int) dim.getWidth() + 10, (int) dim.getHeight() + 10 );
         reflectivityControlPanel.add( reflectivityControl );
@@ -280,7 +304,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
         a.add( new Area( mirrorFace ) );
         LaserCurtainGraphic internalLaserCurtainGraphic = new LaserCurtainGraphic( getApparatusPanel(),
                                                                                    a, laserModel,
-                                                                                   new AtomicState[]{
+                                                                                   new AtomicState[] {
                                                                                            getLaserModel().getGroundState(),
                                                                                            getLaserModel().getMiddleEnergyState()
                                                                                    },
@@ -294,7 +318,7 @@ public class BaseLaserModule extends PhetGraphicsModule {
                                                   (int) cavity.getBounds().getHeight() );
         final LaserCurtainGraphic externalLaserCurtainGraphic = new LaserCurtainGraphic( getApparatusPanel(),
                                                                                          externalBounds, laserModel,
-                                                                                         new AtomicState[]{
+                                                                                         new AtomicState[] {
                                                                                                  getLaserModel().getGroundState(),
                                                                                                  getLaserModel().getMiddleEnergyState()
                                                                                          },
@@ -351,8 +375,8 @@ public class BaseLaserModule extends PhetGraphicsModule {
                 }
                 break;
             case PHOTON_WAVE:
-                AtomicState[] states = new AtomicState[]{getLaserModel().getGroundState(),
-                        getLaserModel().getMiddleEnergyState()};
+                AtomicState[] states = new AtomicState[] { getLaserModel().getGroundState(),
+                        getLaserModel().getMiddleEnergyState() };
                 if ( waveGraphic == null ) {
                     waveGraphic = new LaserWaveGraphic( getApparatusPanel(), getCavity(),
                                                         rightMirror, this, states );

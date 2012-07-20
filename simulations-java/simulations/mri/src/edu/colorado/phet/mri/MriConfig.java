@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -13,8 +13,7 @@ package edu.colorado.phet.mri;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.mri.model.DipoleOrientationAgent;
 import edu.colorado.phet.mri.model.SampleMaterial;
@@ -38,7 +37,7 @@ public class MriConfig {
 
     // Images
     public static final String DIPOLE_IMAGE = "dipole-4.gif";
-//    public static final String DIPOLE_ARROW_IMAGE = "dipole-5-arrow.gif";
+    //    public static final String DIPOLE_ARROW_IMAGE = "dipole-5-arrow.gif";
 //    public static final String DIPOLE_DONUT_IMAGE = "dipole-5-donut.gif";
     public static final String HEAD_IMAGE = "head-1A.png";
     public static final String COIL_IMAGE = "coil-1.png";
@@ -69,7 +68,7 @@ public class MriConfig {
     // Mean time between injections of thermal noise
     public static double MEAN_THERMAL_NOISE_INJECTION_TIME = 500;
     // The direction photons come out of the radio wave source
-    public static final Vector2D EMITTED_PHOTON_DIRECTION = new Vector2D( 1, 0 );
+    public static final MutableVector2D EMITTED_PHOTON_DIRECTION = new MutableVector2D( 1, 0 );
 
     // Can photons emitted by dipoles be reabsorbed by another dipole?
     public static final boolean REABSORPTION_ALLOWED = false;

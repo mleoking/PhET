@@ -1,9 +1,9 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.semiconductor.macro.circuit.battery.Battery;
 
 
@@ -16,7 +16,7 @@ public class ElectricFieldSection {
     ElectricField internalField;
     ElectricField batteryField;
 
-    public ElectricFieldSection( Vector2D center ) {
+    public ElectricFieldSection( MutableVector2D center ) {
 
         internalField = new ElectricField( center.getAddedInstance( 0, .3 ) );
         batteryField = new ElectricField( center.getAddedInstance( 0, -.3 ) );

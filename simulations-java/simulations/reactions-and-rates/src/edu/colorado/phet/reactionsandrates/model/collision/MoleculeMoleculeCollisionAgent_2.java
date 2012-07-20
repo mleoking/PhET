@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,15 +10,22 @@
  */
 package edu.colorado.phet.reactionsandrates.model.collision;
 
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.mechanics.Vector3D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.reactionsandrates.model.*;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.reactionsandrates.model.AbstractMolecule;
+import edu.colorado.phet.reactionsandrates.model.CompositeMolecule;
+import edu.colorado.phet.reactionsandrates.model.EnergyProfile;
+import edu.colorado.phet.reactionsandrates.model.MRModel;
+import edu.colorado.phet.reactionsandrates.model.MRModelUtil;
+import edu.colorado.phet.reactionsandrates.model.MoleculeA;
+import edu.colorado.phet.reactionsandrates.model.MoleculeAB;
+import edu.colorado.phet.reactionsandrates.model.MoleculeC;
+import edu.colorado.phet.reactionsandrates.model.SimpleMolecule;
 import edu.colorado.phet.reactionsandrates.model.reactions.A_BC_AB_C_Reaction;
 import edu.colorado.phet.reactionsandrates.model.reactions.Reaction;
-
-import java.awt.geom.Point2D;
 
 /**
  * MoleculeMoleculeCollisionAgent
@@ -28,12 +35,12 @@ import java.awt.geom.Point2D;
  */
 public class MoleculeMoleculeCollisionAgent_2 implements MRCollisionAgent {
 
-    private Vector2D n = new Vector2D();
-    private Vector2D vRel = new Vector2D();
-    private Vector2D vAng1 = new Vector2D();
-    private Vector2D vAng2 = new Vector2D();
-    private Vector2D angRel = new Vector2D();
-    private Vector2D loa = new Vector2D();
+    private MutableVector2D n = new MutableVector2D();
+    private MutableVector2D vRel = new MutableVector2D();
+    private MutableVector2D vAng1 = new MutableVector2D();
+    private MutableVector2D vAng2 = new MutableVector2D();
+    private MutableVector2D angRel = new MutableVector2D();
+    private MutableVector2D loa = new MutableVector2D();
 
     private Reaction.ReactionCriteria reactionCriteria;
 
@@ -54,8 +61,8 @@ public class MoleculeMoleculeCollisionAgent_2 implements MRCollisionAgent {
      */
     public boolean detectAndDoCollision( MRModel model, Body bodyA, Body bodyB ) {
 
-        AbstractMolecule moleculeA = (AbstractMolecule)bodyA;
-        AbstractMolecule moleculeB = (AbstractMolecule)bodyB;
+        AbstractMolecule moleculeA = (AbstractMolecule) bodyA;
+        AbstractMolecule moleculeB = (AbstractMolecule) bodyB;
         MoleculeMoleculeCollisionSpec collisionSpec = null;
 
         // Do bounding box test to avoid more computation for most pairs of molecules
@@ -65,11 +72,11 @@ public class MoleculeMoleculeCollisionAgent_2 implements MRCollisionAgent {
 
         // Don't go farther if the bounding boxes overlap, or either of the molecules is part of A
         // composite
-        if( boundingBoxesOverlap
-            && !moleculeA.isPartOfComposite()
-            && !moleculeB.isPartOfComposite() ) {
+        if ( boundingBoxesOverlap
+             && !moleculeA.isPartOfComposite()
+             && !moleculeB.isPartOfComposite() ) {
             collisionSpec = getCollisionSpec( moleculeA, moleculeB );
-            if( collisionSpec != null ) {
+            if ( collisionSpec != null ) {
                 doCollision( model, moleculeA, moleculeB, collisionSpec );
             }
         }
@@ -88,11 +95,11 @@ public class MoleculeMoleculeCollisionAgent_2 implements MRCollisionAgent {
         MoleculeMoleculeCollisionSpec collisionSpec = null;
 
         // If both the molecules are simple molecules, we can determine if they are colliding
-        if( moleculeA instanceof SimpleMolecule && moleculeB instanceof SimpleMolecule ) {
-            SimpleMolecule rmA = (SimpleMolecule)moleculeA;
-            SimpleMolecule rmB = (SimpleMolecule)moleculeB;
-            if( rmA.getPosition().distanceSq( rmB.getPosition() )
-                <= ( rmA.getRadius() + rmB.getRadius() ) * ( rmA.getRadius() + rmB.getRadius() ) ) {
+        if ( moleculeA instanceof SimpleMolecule && moleculeB instanceof SimpleMolecule ) {
+            SimpleMolecule rmA = (SimpleMolecule) moleculeA;
+            SimpleMolecule rmB = (SimpleMolecule) moleculeB;
+            if ( rmA.getPosition().distanceSq( rmB.getPosition() )
+                 <= ( rmA.getRadius() + rmB.getRadius() ) * ( rmA.getRadius() + rmB.getRadius() ) ) {
 
                 double xDiff = rmA.getCM().getX() - rmB.getCM().getX();
                 double yDiff = rmA.getCM().getY() - rmB.getCM().getY();
@@ -101,26 +108,26 @@ public class MoleculeMoleculeCollisionAgent_2 implements MRCollisionAgent {
                                                                  rmA.getCM().getY() - yDiff * aFrac );
                 loa.setComponents( xDiff, yDiff );
                 collisionSpec = new MoleculeMoleculeCollisionSpec( loa, collisionPt,
-                                                                   (SimpleMolecule)moleculeA,
-                                                                   (SimpleMolecule)moleculeB );
+                                                                   (SimpleMolecule) moleculeA,
+                                                                   (SimpleMolecule) moleculeB );
             }
         }
 
         // If one of the molecules is a componsite molecule, recursively descend through it
         // to get down to the simple molecules before we can determine if there is a collision
-        else if( moleculeA instanceof CompositeMolecule ) {
-            CompositeMolecule cmA = (CompositeMolecule)moleculeA;
+        else if ( moleculeA instanceof CompositeMolecule ) {
+            CompositeMolecule cmA = (CompositeMolecule) moleculeA;
             MoleculeMoleculeCollisionSpec cs = null;
-            for( int j = 0; j < cmA.getComponentMolecules().length && cs == null; j++ ) {
+            for ( int j = 0; j < cmA.getComponentMolecules().length && cs == null; j++ ) {
                 AbstractMolecule moleculeC = cmA.getComponentMolecules()[j];
                 cs = getCollisionSpec( moleculeC, moleculeB );
             }
             return cs;
         }
-        else if( moleculeB instanceof CompositeMolecule ) {
-            CompositeMolecule cmB = (CompositeMolecule)moleculeB;
+        else if ( moleculeB instanceof CompositeMolecule ) {
+            CompositeMolecule cmB = (CompositeMolecule) moleculeB;
             MoleculeMoleculeCollisionSpec cs = null;
-            for( int j = 0; j < cmB.getComponentMolecules().length && cs == null; j++ ) {
+            for ( int j = 0; j < cmB.getComponentMolecules().length && cs == null; j++ ) {
                 AbstractMolecule moleculeC = cmB.getComponentMolecules()[j];
                 cs = getCollisionSpec( moleculeA, moleculeC );
             }
@@ -141,18 +148,18 @@ public class MoleculeMoleculeCollisionAgent_2 implements MRCollisionAgent {
      * @param collisionSpec
      */
     public void doCollision( MRModel model, Body bodyA, Body bodyB, MoleculeMoleculeCollisionSpec collisionSpec ) {
-        Vector2D loa = collisionSpec.getLoa();
+        MutableVector2D loa = collisionSpec.getLoa();
         Point2D.Double collisionPt = collisionSpec.getCollisionPt();
 
         // If the loa vector has zero length, then the two bodies are right on top of each other,
         // and the collision can't be computed
-        if( loa.getMagnitude() == 0 ) {
+        if ( loa.getMagnitude() == 0 ) {
             return;
         }
 
         // If the molecules aren't of a type that could react, simply do a hard sphere collision
-        if( !model.getReaction().moleculesAreProperTypes( (AbstractMolecule)bodyA,
-                                                          (AbstractMolecule)bodyB ) ) {
+        if ( !model.getReaction().moleculesAreProperTypes( (AbstractMolecule) bodyA,
+                                                           (AbstractMolecule) bodyB ) ) {
             doHardSphereCollision( collisionPt, bodyA, bodyB, loa );
         }
         // Otherwise, create a composite molecule if ReactionCriteria are met. This is a pretty
@@ -184,8 +191,8 @@ public class MoleculeMoleculeCollisionAgent_2 implements MRCollisionAgent {
             double dCE = MRModelUtil.getCollisionEnergy( collisionSpec.getFreeMolecule(),
                                                          collisionSpec.getCompositeMolecule() );
             reactionReached = -collisionDistance >= thresholdWidth && dCE > hillHeight;
-            if( reactionReached ) {
-                A_BC_AB_C_Reaction reaction = (A_BC_AB_C_Reaction)model.getReaction();
+            if ( reactionReached ) {
+                A_BC_AB_C_Reaction reaction = (A_BC_AB_C_Reaction) model.getReaction();
                 reaction.doReaction( collisionSpec.getCompositeMolecule(), collisionSpec.getFreeMolecule() );
                 // todo: this is a bad place to exit the method!
                 return;
@@ -199,16 +206,16 @@ public class MoleculeMoleculeCollisionAgent_2 implements MRCollisionAgent {
                 outOfEnergy = dE > dCE;
 
                 // If are out of energy, do a hard sphere collision
-                if( outOfEnergy ) {
+                if ( outOfEnergy ) {
                     doHardSphereCollision( collisionPt, bodyA, bodyB, loa );
                 }
 
                 // If we have a free molecule hitting the non-B component of a composite
                 // molecule, do a hard sphere collision
-                if( ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeA
-                      && collisionSpec.getSimpleMoleculeB() instanceof MoleculeC
-                      || collisionSpec.getSimpleMoleculeA() instanceof MoleculeC
-                         && collisionSpec.getSimpleMoleculeB() instanceof MoleculeA ) ) {
+                if ( ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeA
+                       && collisionSpec.getSimpleMoleculeB() instanceof MoleculeC
+                       || collisionSpec.getSimpleMoleculeA() instanceof MoleculeC
+                          && collisionSpec.getSimpleMoleculeB() instanceof MoleculeA ) ) {
                     doHardSphereCollision( collisionPt, bodyA, bodyB, loa );
 
                 }
@@ -216,16 +223,16 @@ public class MoleculeMoleculeCollisionAgent_2 implements MRCollisionAgent {
         }
     }
 
-    private void doHardSphereCollision( Point2D.Double collisionPt, Body bodyA, Body bodyB, Vector2D loa ) {
+    private void doHardSphereCollision( Point2D.Double collisionPt, Body bodyA, Body bodyB, MutableVector2D loa ) {
         // Get the vectors from the bodies' CMs to the point of contact
-        Vector2D r1 = new Vector2D( collisionPt.getX() - bodyA.getPosition().getX(),
-                                           collisionPt.getY() - bodyA.getPosition().getY() );
-        Vector2D r2 = new Vector2D( collisionPt.getX() - bodyB.getPosition().getX(),
-                                           collisionPt.getY() - bodyB.getPosition().getY() );
+        MutableVector2D r1 = new MutableVector2D( collisionPt.getX() - bodyA.getPosition().getX(),
+                                                  collisionPt.getY() - bodyA.getPosition().getY() );
+        MutableVector2D r2 = new MutableVector2D( collisionPt.getX() - bodyB.getPosition().getX(),
+                                                  collisionPt.getY() - bodyB.getPosition().getY() );
 
         // Get the unit vector along the line of action
         n.setComponents( loa.getX(), loa.getY() );
-        if( n.getMagnitude() == 0 ) {
+        if ( n.getMagnitude() == 0 ) {
             System.out.println( "MoleculeMoleculeCollisionAgent.doCollision" );
         }
         n.normalize();
@@ -234,7 +241,7 @@ public class MoleculeMoleculeCollisionAgent_2 implements MRCollisionAgent {
         // This is A key check to solve otherwise sticky collision problems
         vRel.setComponents( bodyA.getVelocity().getX(), bodyA.getVelocity().getY() );
         vRel.subtract( bodyB.getVelocity() );
-        if( vRel.dot( n ) <= 0 ) {
+        if ( vRel.dot( n ) <= 0 ) {
 
             // Compute the relative velocities of the contact points
             vAng1.setComponents( -bodyA.getOmega() * r1.getY(), bodyA.getOmega() * r1.getX() );
@@ -262,8 +269,8 @@ public class MoleculeMoleculeCollisionAgent_2 implements MRCollisionAgent {
             double j = numerator / denominator;
 
             // Compute the new linear and angular velocities, based on the impulse
-            bodyA.getVelocity().add( new Vector2D( n ).scale( ( j / bodyA.getMass() ) ) );
-            bodyB.getVelocity().add( new Vector2D( n ).scale( ( -j / bodyB.getMass() ) ) );
+            bodyA.getVelocity().add( new MutableVector2D( n ).scale( ( j / bodyA.getMass() ) ) );
+            bodyB.getVelocity().add( new MutableVector2D( n ).scale( ( -j / bodyB.getMass() ) ) );
 
             double dOmegaA = ( r1.getX() * n.getY() - r1.getY() * n.getX() ) * j / ( bodyA.getMomentOfInertia() );
             double dOmegaB = ( r2.getX() * n.getY() - r2.getY() * n.getX() ) * -j / ( bodyB.getMomentOfInertia() );

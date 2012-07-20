@@ -7,8 +7,8 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
 import edu.colorado.phet.common.spline.CubicSpline2D;
 import edu.colorado.phet.common.spline.ParametricFunction2D;
@@ -106,8 +106,8 @@ public class Particle1D implements Serializable {
         }
     }
 
-    private Vector2D getThrust() {
-        return new Vector2D( xThrust, yThrust );
+    private MutableVector2D getThrust() {
+        return new MutableVector2D( xThrust, yThrust );
     }
 
     public void addListener( Particle1DNode particle1DNode ) {
@@ -474,19 +474,19 @@ public class Particle1D implements Serializable {
         if ( Double.isInfinite( radiusOfCurvature ) ) {
 
             radiusOfCurvature = 100000;
-            Vector2D netForceRadial = new Vector2D();
-            netForceRadial.add( new Vector2D( 0, mass * g ) );//gravity
-            netForceRadial.add( new Vector2D( xThrust * mass, yThrust * mass ) );//thrust
+            MutableVector2D netForceRadial = new MutableVector2D();
+            netForceRadial.add( new MutableVector2D( 0, mass * g ) );//gravity
+            netForceRadial.add( new MutableVector2D( xThrust * mass, yThrust * mass ) );//thrust
             double normalForce = mass * velocity * velocity / Math.abs( radiusOfCurvature ) - netForceRadial.dot( getCurvatureDirection() );
 
-            return Vector2D.createPolar( normalForce, getCurvatureDirection().getAngle() );
+            return MutableVector2D.createPolar( normalForce, getCurvatureDirection().getAngle() );
         }
         else {
-            Vector2D netForceRadial = new Vector2D();
-            netForceRadial.add( new Vector2D( 0, mass * g ) );//gravity
-            netForceRadial.add( new Vector2D( xThrust * mass, yThrust * mass ) );//thrust
+            MutableVector2D netForceRadial = new MutableVector2D();
+            netForceRadial.add( new MutableVector2D( 0, mass * g ) );//gravity
+            netForceRadial.add( new MutableVector2D( xThrust * mass, yThrust * mass ) );//thrust
             double normalForce = mass * velocity * velocity / Math.abs( radiusOfCurvature ) - netForceRadial.dot( getCurvatureDirection() );
-            return Vector2D.createPolar( normalForce, getCurvatureDirection().getAngle() );
+            return MutableVector2D.createPolar( normalForce, getCurvatureDirection().getAngle() );
         }
     }
 
@@ -494,16 +494,16 @@ public class Particle1D implements Serializable {
    Returns the net force (discluding normal forces).
     */
     public AbstractVector2D getNetForce() {
-        Vector2D netForce = new Vector2D();
-        netForce.add( new Vector2D( 0, mass * g ) );//gravity
-        netForce.add( new Vector2D( xThrust * mass, yThrust * mass ) );//thrust
+        MutableVector2D netForce = new MutableVector2D();
+        netForce.add( new MutableVector2D( 0, mass * g ) );//gravity
+        netForce.add( new MutableVector2D( xThrust * mass, yThrust * mass ) );//thrust
         netForce.add( getFrictionForce() );
         return netForce;
     }
 
     public AbstractVector2D getFrictionForce() {
         if ( getTotalFriction() == 0 || getVelocity2D().getMagnitude() < 1E-2 ) {
-            return new Vector2D();
+            return new MutableVector2D();
         }
         else {
             ImmutableVector2D f = getVelocity2D().getInstanceOfMagnitude( -getTotalFriction() * getNormalForce().getMagnitude() * 25 );

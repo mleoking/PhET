@@ -1,13 +1,13 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.conductivity.macro.circuit;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 
 public class LinearBranch {
 
-    public LinearBranch( Vector2D phetvector, Vector2D phetvector1 ) {
+    public LinearBranch( MutableVector2D phetvector, MutableVector2D phetvector1 ) {
         start = phetvector;
         end = phetvector1;
         dv = phetvector1.getSubtractedInstance( phetvector );
@@ -21,15 +21,15 @@ public class LinearBranch {
         return start.getAddedInstance( dv.getInstanceOfMagnitude( d ) );
     }
 
-    public Vector2D getStartPosition() {
+    public MutableVector2D getStartPosition() {
         return start;
     }
 
-    public Vector2D getEndPosition() {
+    public MutableVector2D getEndPosition() {
         return end;
     }
 
-    Vector2D start;
-    Vector2D end;
+    MutableVector2D start;
+    MutableVector2D end;
     private ImmutableVector2D dv;
 }

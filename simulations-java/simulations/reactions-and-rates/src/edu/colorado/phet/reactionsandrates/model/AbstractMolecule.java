@@ -1,19 +1,18 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.reactionsandrates.model;
-
-import edu.colorado.phet.common.collision.Collidable;
-import edu.colorado.phet.common.collision.CollidableAdapter;
-import edu.colorado.phet.common.mechanics.Body;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.EventListener;
+
+import edu.colorado.phet.common.collision.Collidable;
+import edu.colorado.phet.common.collision.CollidableAdapter;
+import edu.colorado.phet.common.mechanics.Body;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
 /**
  * AbstractMolecule
@@ -53,61 +52,61 @@ abstract public class AbstractMolecule extends Body implements Collidable, Kinet
 
     private CollidableAdapter collidableAdapter;
     private CompositeMolecule parentComposite;
-    private ClassListener classListenerProxy = (ClassListener)classEventChannel.getListenerProxy();
+    private ClassListener classListenerProxy = (ClassListener) classEventChannel.getListenerProxy();
 
 
     public Object clone() {
-        AbstractMolecule clone = (AbstractMolecule)super.clone();
+        AbstractMolecule clone = (AbstractMolecule) super.clone();
 
         clone.collidableAdapter = new CollidableAdapter( this );
-        clone.parentComposite = parentComposite == null ? null : (CompositeMolecule)parentComposite.clone();
+        clone.parentComposite = parentComposite == null ? null : (CompositeMolecule) parentComposite.clone();
 
         return clone;
     }
 
     protected AbstractMolecule() {
-        this( new Point2D.Double(), new Vector2D(), new Vector2D(), 0, 0 );
+        this( new Point2D.Double(), new MutableVector2D(), new MutableVector2D(), 0, 0 );
         collidableAdapter = new CollidableAdapter( this );
     }
 
-    protected AbstractMolecule( Point2D location, Vector2D velocity, Vector2D acceleration, double mass, double charge ) {
+    protected AbstractMolecule( Point2D location, MutableVector2D velocity, MutableVector2D acceleration, double mass, double charge ) {
         super( location, velocity, acceleration, mass, charge );
         collidableAdapter = new CollidableAdapter( this );
     }
 
     public void setPosition( double x, double y ) {
-        if( collidableAdapter != null ) {
+        if ( collidableAdapter != null ) {
             collidableAdapter.updatePosition();
         }
         super.setPosition( x, y );
     }
 
     public void setPosition( Point2D position ) {
-        if( collidableAdapter != null ) {
+        if ( collidableAdapter != null ) {
             collidableAdapter.updatePosition();
         }
         super.setPosition( position );
     }
 
-    public Vector2D getVelocity() {
+    public MutableVector2D getVelocity() {
         return super.getVelocity();
     }
 
-    public void setVelocity( Vector2D velocity ) {
-        if( collidableAdapter != null ) {
+    public void setVelocity( MutableVector2D velocity ) {
+        if ( collidableAdapter != null ) {
             collidableAdapter.updateVelocity();
         }
         super.setVelocity( velocity );
     }
 
     public void setVelocity( double vx, double vy ) {
-        if( collidableAdapter != null ) {
+        if ( collidableAdapter != null ) {
             collidableAdapter.updateVelocity();
         }
         super.setVelocity( vx, vy );
     }
 
-    public Vector2D getVelocityPrev() {
+    public MutableVector2D getVelocityPrev() {
         return collidableAdapter.getVelocityPrev();
     }
 
@@ -149,7 +148,7 @@ abstract public class AbstractMolecule extends Body implements Collidable, Kinet
      * @return an AbstractMolecule
      */
     public AbstractMolecule getFullMolecule() {
-        if( this.isPartOfComposite() ) {
+        if ( this.isPartOfComposite() ) {
             return getParentComposite().getFullMolecule();
         }
         else {
@@ -164,7 +163,7 @@ abstract public class AbstractMolecule extends Body implements Collidable, Kinet
      * @return the kinetic energy, if it's not part of a composite, 0 if it is
      */
     public double getKineticEnergy() {
-        if( !isPartOfComposite() ) {
+        if ( !isPartOfComposite() ) {
             return super.getKineticEnergy();
         }
         else {
@@ -179,7 +178,7 @@ abstract public class AbstractMolecule extends Body implements Collidable, Kinet
      * @param dt
      */
     public void stepInTime( double dt ) {
-        if( !isPartOfComposite() ) {
+        if ( !isPartOfComposite() ) {
             super.stepInTime( dt );
         }
     }
@@ -200,11 +199,11 @@ abstract public class AbstractMolecule extends Body implements Collidable, Kinet
      * @param force
      * @param ptOfApplication
      */
-    public void applyForce( Vector2D force, Point2D ptOfApplication ) {
+    public void applyForce( MutableVector2D force, Point2D ptOfApplication ) {
 
         // Compute the torque
         // Get the vector from the cm to the point of application
-        Vector2D r = new Vector2D( getCM(), ptOfApplication );
+        MutableVector2D r = new MutableVector2D( getCM(), ptOfApplication );
         // Torque = F x r
         double t = force.getCrossProductScalar( r );
 
@@ -249,7 +248,7 @@ abstract public class AbstractMolecule extends Body implements Collidable, Kinet
     }
 
     private EventChannel listenerChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy = (ChangeListener)listenerChannel.getListenerProxy();
+    private ChangeListener changeListenerProxy = (ChangeListener) listenerChannel.getListenerProxy();
 
     public void addListener( ChangeListener listener ) {
         listenerChannel.addListener( listener );

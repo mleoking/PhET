@@ -1,10 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.common.photonabsorption.model.molecules;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.photonabsorption.model.Molecule;
 import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionStrategy;
 import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
@@ -79,9 +79,9 @@ public class CO2 extends Molecule {
     public void setVibration( double vibrationRadians ) {
         super.setVibration( vibrationRadians );
         double multFactor = Math.sin( vibrationRadians );
-        addInitialAtomCogOffset( carbonAtom, new Vector2D( 0, multFactor * CARBON_MAX_DEFLECTION ) );
-        addInitialAtomCogOffset( oxygenAtom1, new Vector2D( INITIAL_CARBON_OXYGEN_DISTANCE, -multFactor * OXYGEN_MAX_DEFLECTION ) );
-        addInitialAtomCogOffset( oxygenAtom2, new Vector2D( -INITIAL_CARBON_OXYGEN_DISTANCE, -multFactor * OXYGEN_MAX_DEFLECTION ) );
+        addInitialAtomCogOffset( carbonAtom, new MutableVector2D( 0, multFactor * CARBON_MAX_DEFLECTION ) );
+        addInitialAtomCogOffset( oxygenAtom1, new MutableVector2D( INITIAL_CARBON_OXYGEN_DISTANCE, -multFactor * OXYGEN_MAX_DEFLECTION ) );
+        addInitialAtomCogOffset( oxygenAtom2, new MutableVector2D( -INITIAL_CARBON_OXYGEN_DISTANCE, -multFactor * OXYGEN_MAX_DEFLECTION ) );
         updateAtomPositions();
     }
 
@@ -90,9 +90,9 @@ public class CO2 extends Molecule {
      */
     @Override
     protected void initializeAtomOffsets() {
-        addInitialAtomCogOffset( carbonAtom, new Vector2D( 0, 0 ) );
-        addInitialAtomCogOffset( oxygenAtom1, new Vector2D( INITIAL_CARBON_OXYGEN_DISTANCE, 0 ) );
-        addInitialAtomCogOffset( oxygenAtom2, new Vector2D( -INITIAL_CARBON_OXYGEN_DISTANCE, 0 ) );
+        addInitialAtomCogOffset( carbonAtom, new MutableVector2D( 0, 0 ) );
+        addInitialAtomCogOffset( oxygenAtom1, new MutableVector2D( INITIAL_CARBON_OXYGEN_DISTANCE, 0 ) );
+        addInitialAtomCogOffset( oxygenAtom2, new MutableVector2D( -INITIAL_CARBON_OXYGEN_DISTANCE, 0 ) );
 
         updateAtomPositions();
     }

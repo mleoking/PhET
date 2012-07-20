@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * Class: GasMolecule
@@ -9,13 +9,13 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.idealgas.collision.SolidSphere;
-
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
+
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.idealgas.collision.SolidSphere;
 
 /**
  *
@@ -28,7 +28,7 @@ public class GasMolecule extends SolidSphere {
     public static float s_radius = 5.0f;
 
     public static void enableParticleParticleInteractions( boolean interactionsEnabled ) {
-        if( interactionsEnabled ) {
+        if ( interactionsEnabled ) {
             s_radius = 5.0f;
         }
         else {
@@ -38,12 +38,12 @@ public class GasMolecule extends SolidSphere {
 
     public static Point2D getCm( List instances ) {
         Point2D cm = new Point2D.Double();
-        for( int i = 0; i < instances.size(); i++ ) {
-            GasMolecule molecule = (GasMolecule)instances.get( i );
+        for ( int i = 0; i < instances.size(); i++ ) {
+            GasMolecule molecule = (GasMolecule) instances.get( i );
             cm.setLocation( cm.getX() + molecule.getPosition().getX(),
                             cm.getY() + molecule.getPosition().getY() );
         }
-        if( instances.size() != 0 ) {
+        if ( instances.size() != 0 ) {
             cm.setLocation( cm.getX() / instances.size(),
                             cm.getY() / instances.size() );
         }
@@ -59,24 +59,24 @@ public class GasMolecule extends SolidSphere {
         void removedFromSystem();
     }
 
-    public GasMolecule( Point2D position, Vector2D velocity, Vector2D acceleration, float mass, double radius ) {
+    public GasMolecule( Point2D position, MutableVector2D velocity, MutableVector2D acceleration, float mass, double radius ) {
         super( position, velocity, acceleration, mass, radius );
     }
 
-    public Vector2D getVelocity() {
+    public MutableVector2D getVelocity() {
         return super.getVelocity();
     }
 
     public void addObserver( GasMolecule.Observer observer ) {
         observers.add( observer );
-        this.addObserver( (SimpleObserver)observer );
+        this.addObserver( (SimpleObserver) observer );
     }
 
     public void removeObserver( GasMolecule.Observer observer ) {
         observers.remove( observer );
     }
 
-    public void setVelocity( Vector2D velocity ) {
+    public void setVelocity( MutableVector2D velocity ) {
         super.setVelocity( velocity );
     }
 
@@ -108,8 +108,8 @@ public class GasMolecule extends SolidSphere {
         // Work with a copy of the list of observers, in case any of them remove
         // themselves as observers in their implementations of removeFromSystem()
         List observerCopies = new ArrayList( observers );
-        for( int i = 0; i < observerCopies.size(); i++ ) {
-            Observer observer = (Observer)observerCopies.get( i );
+        for ( int i = 0; i < observerCopies.size(); i++ ) {
+            Observer observer = (Observer) observerCopies.get( i );
             observer.removedFromSystem();
         }
     }

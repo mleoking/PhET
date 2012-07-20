@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.selfdrivenparticlemodel.model;
 
 import java.util.ArrayList;
@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 
 public class ParticleModel {
     private ArrayList<Particle> particles = new ArrayList<Particle>();
@@ -294,7 +294,7 @@ public class ParticleModel {
     }
 
     public double getOrderParameter() {
-        Vector2D sum = new Vector2D();
+        MutableVector2D sum = new MutableVector2D();
         for ( int i = 0; i < particles.size(); i++ ) {
             Particle particle = (Particle) particles.get( i );
             ImmutableVector2D velocityVector = getVelocity( particle );
@@ -304,6 +304,6 @@ public class ParticleModel {
     }
 
     private ImmutableVector2D getVelocity( Particle particle ) {
-        return Vector2D.createPolar( speed, particle.getAngle() );
+        return MutableVector2D.createPolar( speed, particle.getAngle() );
     }
 }

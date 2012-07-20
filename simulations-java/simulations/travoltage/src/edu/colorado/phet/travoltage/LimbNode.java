@@ -1,19 +1,19 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*  */
 package edu.colorado.phet.travoltage;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -36,7 +36,7 @@ public class LimbNode extends PNode {
         addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
                 super.mousePressed( event );
-                if( highlight.getVisible() ) {
+                if ( highlight.getVisible() ) {
                     highlight.setVisible( false );
                     removeChild( highlight );
                 }
@@ -64,7 +64,7 @@ public class LimbNode extends PNode {
     public double getAngleGlobal( double x, double y ) {
         Point2D temp = new Point2D.Double( pivot.x, pivot.y );
         localToGlobal( temp );
-        Vector2D vec = new Vector2D( new Point2D.Double( x, y ), temp );
+        MutableVector2D vec = new MutableVector2D( new Point2D.Double( x, y ), temp );
         return vec.getAngle();
     }
 
@@ -95,8 +95,8 @@ public class LimbNode extends PNode {
     }
 
     public void notifyListeners() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.limbRotated();
         }
     }

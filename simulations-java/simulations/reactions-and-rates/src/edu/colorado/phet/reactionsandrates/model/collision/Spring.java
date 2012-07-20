@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,17 +10,16 @@
  */
 package edu.colorado.phet.reactionsandrates.model.collision;
 
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.Particle;
 import edu.colorado.phet.reactionsandrates.model.CompositeMolecule;
 import edu.colorado.phet.reactionsandrates.model.PotentialEnergySource;
-
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 
 /**
  * Spring
@@ -61,7 +60,7 @@ public class Spring extends Particle implements ModelElement, PotentialEnergySou
      * @param body
      * @param vRel          The velocity of the body relative to the fixed point of the spring
      */
-    public Spring( double k, double restingLength, Point2D fixedEnd, Body body, Vector2D vRel ) {
+    public Spring( double k, double restingLength, Point2D fixedEnd, Body body, MutableVector2D vRel ) {
         this( k, restingLength, fixedEnd );
         attachBodyAtRestingLength( body, vRel );
     }
@@ -74,7 +73,7 @@ public class Spring extends Particle implements ModelElement, PotentialEnergySou
      * @param body
      * @param vRel          The velocity of the body relative to the fixed point of the spring
      */
-    public Spring( double pe, double dl, double restingLength, Point2D fixedEnd, Body body, Vector2D vRel ) {
+    public Spring( double pe, double dl, double restingLength, Point2D fixedEnd, Body body, MutableVector2D vRel ) {
         this( 2 * pe / ( dl * dl ), restingLength, fixedEnd );
         attachBodyAtRestingLength( body, vRel );
     }
@@ -135,24 +134,24 @@ public class Spring extends Particle implements ModelElement, PotentialEnergySou
      * @param body
      * @param vRel The velocity of the body relative to the fixed point of the spring
      */
-    private void attachBodyAtRestingLength( Body body, Vector2D vRel ) {
+    private void attachBodyAtRestingLength( Body body, MutableVector2D vRel ) {
         this.attachedBody = body;
 
-        if( body instanceof CompositeMolecule ) {
+        if ( body instanceof CompositeMolecule ) {
 //            System.out.println( "Spring.attachBodyAtRestingLength" );
         }
-        angle = new Vector2D( fixedEnd, body.getPosition() ).getAngle();
+        angle = new MutableVector2D( fixedEnd, body.getPosition() ).getAngle();
         freeEnd.setLocation( fixedEnd.getX() + restingLength * Math.cos( angle ), fixedEnd.getY() + restingLength * Math.sin( angle ) );
         t = 0;
         omega = Math.sqrt( k / body.getMass() );
 
-        if( Double.isNaN( omega ) ) {
+        if ( Double.isNaN( omega ) ) {
 //            System.out.println( "Spring.attachBodyAtRestingLength" );
         }
 
         // A and phi depend on the initial elongation of the spring and the initial
         // velocity of the attached body
-        Vector2D vSpring = new Vector2D( fixedEnd, freeEnd );
+        MutableVector2D vSpring = new MutableVector2D( fixedEnd, freeEnd );
         double v0 = MathUtil.getProjection( vRel, vSpring ).getMagnitude();
 //        double v0 = MathUtil.getProjection( body.getVelocity(), vSpring ).getMagnitude();
         phi = 0;
@@ -168,12 +167,12 @@ public class Spring extends Particle implements ModelElement, PotentialEnergySou
     public void attachBodyAtSpringLength( Body body, double length ) {
         this.attachedBody = body;
 
-        angle = new Vector2D( fixedEnd, body.getPosition() ).getAngle();
+        angle = new MutableVector2D( fixedEnd, body.getPosition() ).getAngle();
         freeEnd.setLocation( fixedEnd.getX() + length * Math.cos( angle ), fixedEnd.getY() + length * Math.sin( angle ) );
         t = 0;
         omega = Math.sqrt( k / body.getMass() );
 
-        if( Double.isNaN( omega ) ) {
+        if ( Double.isNaN( omega ) ) {
             System.out.println( "Spring.attachBodyAtRestingLength" );
         }
 
@@ -182,7 +181,7 @@ public class Spring extends Particle implements ModelElement, PotentialEnergySou
 //        Vector2D.Double vSpring = new Vector2D.Double( fixedEnd, freeEnd );
 
         double v0 = body.getVelocity().getMagnitude();
-        if( v0 != 0 ) {
+        if ( v0 != 0 ) {
             v0 *= Math.cos( body.getVelocity().getAngle() - angle );
         }
         double dl = restingLength - length;
@@ -190,7 +189,7 @@ public class Spring extends Particle implements ModelElement, PotentialEnergySou
         double omSq = omega * omega;
         double g = Math.sqrt( dlSq * omSq / ( v0 * v0 + dlSq * omSq ) );// * -MathUtil.getSign( dl );
         phi = Math.asin( g );
-        if( Math.abs( phi % Math.PI / 2 ) < Math.PI / 4 ) {
+        if ( Math.abs( phi % Math.PI / 2 ) < Math.PI / 4 ) {
             A = v0 / ( omega * Math.cos( phi ) );
         }
         else {
@@ -206,13 +205,13 @@ public class Spring extends Particle implements ModelElement, PotentialEnergySou
     public void attachBody( Body body ) {
         this.attachedBody = body;
         freeEnd.setLocation( body.getCM() );
-        angle = new Vector2D( fixedEnd, freeEnd ).getAngle();
+        angle = new MutableVector2D( fixedEnd, freeEnd ).getAngle();
         t = 0;
         omega = Math.sqrt( k / body.getMass() );
 
         // A and phi depend on the initial elongation of the spring and the initial
         // velocity of the attached body
-        Vector2D vSpring = new Vector2D( fixedEnd, freeEnd );
+        MutableVector2D vSpring = new MutableVector2D( fixedEnd, freeEnd );
         double v0 = MathUtil.getProjection( body.getVelocity(), vSpring ).getMagnitude();
         double x0 = getElongation();
         double rad = ( v0 * v0 ) / ( ( x0 * x0 * omega * omega ) + ( v0 * v0 ) );
@@ -227,16 +226,16 @@ public class Spring extends Particle implements ModelElement, PotentialEnergySou
      *
      * @return the force exerted by the spring
      */
-    public Vector2D getForce() {
+    public MutableVector2D getForce() {
         double fMag = -getElongation() * k;
-        Vector2D f = new Vector2D( fMag, 0 );
+        MutableVector2D f = new MutableVector2D( fMag, 0 );
         f.rotate( angle );
         return f;
     }
 
-    public Vector2D getAcceleration() {
+    public MutableVector2D getAcceleration() {
         double aMag = -( omega * omega ) * A * Math.sin( omega * t + phi );
-        Vector2D a = new Vector2D( aMag, 0 );
+        MutableVector2D a = new MutableVector2D( aMag, 0 );
         a.rotate( angle );
         return a;
     }
@@ -248,11 +247,11 @@ public class Spring extends Particle implements ModelElement, PotentialEnergySou
      * @param dt
      */
     public void stepInTime( double dt ) {
-        Vector2D v0 = getVelocity();
+        MutableVector2D v0 = getVelocity();
         t += dt;
-        if( attachedBody != null ) {
+        if ( attachedBody != null ) {
 
-            if( attachedBody instanceof CompositeMolecule ) {
+            if ( attachedBody instanceof CompositeMolecule ) {
 //                System.out.println( "Spring.stepInTime" );
             }
 
@@ -268,15 +267,15 @@ public class Spring extends Particle implements ModelElement, PotentialEnergySou
             freeEnd.setLocation( fixedEnd.getX() + l * Math.cos( angle ), fixedEnd.getY() + l * Math.sin( angle ) );
 
             // Update the velocity of the attached body
-            Vector2D v = getFreeEndVelocity();
+            MutableVector2D v = getFreeEndVelocity();
             attachedBody.setVelocity( v );
 //            attachedBody.setVelocity( attachedBody.getVelocity().add( v.subtract( v0 ) ) );
         }
         notifyObservers();
     }
 
-    private Vector2D getFreeEndVelocity() {
-        Vector2D v = new Vector2D( -omega * A * Math.cos( omega * t + phi ), 0 );
+    private MutableVector2D getFreeEndVelocity() {
+        MutableVector2D v = new MutableVector2D( -omega * A * Math.cos( omega * t + phi ), 0 );
         v.rotate( angle );
 
 //        v.add( getVelocity() );

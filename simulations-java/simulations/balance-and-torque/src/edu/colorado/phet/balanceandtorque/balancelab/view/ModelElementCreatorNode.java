@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.balanceandtorque.balancelab.view;
 
 import java.awt.Cursor;
@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.common.model.BalanceModel;
 import edu.colorado.phet.balanceandtorque.common.model.UserMovableModelElement;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.Parameter;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
@@ -57,7 +57,7 @@ public abstract class ModelElementCreatorNode extends PComposite {
     private final ModelViewTransform mvt;
     private PNode selectionNode = null;
     private PText caption = null;
-    private final Vector2D positioningOffset = new Vector2D( 0, 0 ); // In view coordinate system.
+    private final MutableVector2D positioningOffset = new MutableVector2D( 0, 0 ); // In view coordinate system.
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -148,7 +148,7 @@ public abstract class ModelElementCreatorNode extends PComposite {
     private Point2D getModelPosition( Point2D canvasPos ) {
         Point2D worldPos = new Point2D.Double( canvasPos.getX(), canvasPos.getY() );
         canvas.getPhetRootNode().screenToWorld( worldPos );
-        worldPos = new Vector2D( worldPos ).add( positioningOffset ).toPoint2D();
+        worldPos = new MutableVector2D( worldPos ).add( positioningOffset ).toPoint2D();
         return mvt.viewToModel( worldPos );
     }
 

@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,7 +11,7 @@ package edu.colorado.phet.idealgas.controller;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.IdealGasResources;
@@ -48,8 +48,8 @@ public class HotAirBalloonModule extends IdealGasModule {
         initX = box.getMinX() + box.getWidth() / 2;
         initY = box.getMaxY() - initRadius - 100;
         balloon = new HotAirBalloon( new Point2D.Double( initX, initY ),
-                                     new Vector2D( 0, 0 ),
-                                     new Vector2D( 0, 0 ),
+                                     new MutableVector2D( 0, 0 ),
+                                     new MutableVector2D( 0, 0 ),
                                      200, initRadius,
                                      60,
                                      getIdealGasModel() );

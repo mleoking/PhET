@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -11,11 +11,24 @@
 package edu.colorado.phet.reactionsandrates.model.reactions;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.reactionsandrates.DebugFlags;
 import edu.colorado.phet.reactionsandrates.MRConfig;
-import edu.colorado.phet.reactionsandrates.model.*;
+import edu.colorado.phet.reactionsandrates.model.AbstractMolecule;
+import edu.colorado.phet.reactionsandrates.model.CollisionParams;
+import edu.colorado.phet.reactionsandrates.model.CompositeBody;
+import edu.colorado.phet.reactionsandrates.model.CompositeMolecule;
+import edu.colorado.phet.reactionsandrates.model.EnergyProfile;
+import edu.colorado.phet.reactionsandrates.model.MRModel;
+import edu.colorado.phet.reactionsandrates.model.MoleculeA;
+import edu.colorado.phet.reactionsandrates.model.MoleculeAB;
+import edu.colorado.phet.reactionsandrates.model.MoleculeB;
+import edu.colorado.phet.reactionsandrates.model.MoleculeBC;
+import edu.colorado.phet.reactionsandrates.model.MoleculeC;
+import edu.colorado.phet.reactionsandrates.model.MoleculeFactory;
+import edu.colorado.phet.reactionsandrates.model.ProvisionalBond;
+import edu.colorado.phet.reactionsandrates.model.ProvisionalBondPostReaction;
+import edu.colorado.phet.reactionsandrates.model.SimpleMolecule;
 import edu.colorado.phet.reactionsandrates.model.collision.HardBodyCollision;
 import edu.colorado.phet.reactionsandrates.model.collision.MoleculeMoleculeCollisionSpec;
 
@@ -27,7 +40,7 @@ import edu.colorado.phet.reactionsandrates.model.collision.MoleculeMoleculeColli
  */
 public class A_BC_AB_C_Reaction extends Reaction {
     private static EnergyProfile energyProfile = MRConfig.DEFAULT_ENERGY_PROFILE;
-//    private static EnergyProfile energyProfile = new EnergyProfile( MRConfig.DEFAULT_ENERGY_PROFILE.getLeftLevel(),
+    //    private static EnergyProfile energyProfile = new EnergyProfile( MRConfig.DEFAULT_ENERGY_PROFILE.getLeftLevel(),
 //                                                                    MRConfig.DEFAULT_ENERGY_PROFILE.getPeakLevel(),
 //                                                                    MRConfig.DEFAULT_ENERGY_PROFILE.getRightLevel(),
     //                                                                    MRConfig.DEFAULT_ENERGY_PROFILE.getThresholdWidth() );
@@ -52,10 +65,10 @@ public class A_BC_AB_C_Reaction extends Reaction {
      */
     public double getPotentialEnergy( AbstractMolecule m1, AbstractMolecule m2 ) {
         double pe = 0;
-        if( m1 instanceof MoleculeAB || m2 instanceof MoleculeAB ) {
+        if ( m1 instanceof MoleculeAB || m2 instanceof MoleculeAB ) {
             pe = getEnergyProfile().getRightLevel();
         }
-        else if( m1 instanceof MoleculeBC || m2 instanceof MoleculeBC ) {
+        else if ( m1 instanceof MoleculeBC || m2 instanceof MoleculeBC ) {
             pe = getEnergyProfile().getLeftLevel();
         }
         else {
@@ -74,16 +87,16 @@ public class A_BC_AB_C_Reaction extends Reaction {
      */
     public double getThresholdEnergy( AbstractMolecule mA, AbstractMolecule mB ) {
         double thresholdEnergy = 0;
-        if( mA instanceof MoleculeA && mB instanceof MoleculeBC ) {
+        if ( mA instanceof MoleculeA && mB instanceof MoleculeBC ) {
             thresholdEnergy = energyProfile.getPeakLevel() - energyProfile.getLeftLevel();
         }
-        else if( mA instanceof MoleculeBC && mB instanceof MoleculeA ) {
+        else if ( mA instanceof MoleculeBC && mB instanceof MoleculeA ) {
             thresholdEnergy = energyProfile.getPeakLevel() - energyProfile.getLeftLevel();
         }
-        else if( mA instanceof MoleculeC && mB instanceof MoleculeAB ) {
+        else if ( mA instanceof MoleculeC && mB instanceof MoleculeAB ) {
             thresholdEnergy = energyProfile.getPeakLevel() - energyProfile.getRightLevel();
         }
-        else if( mA instanceof MoleculeAB && mB instanceof MoleculeC ) {
+        else if ( mA instanceof MoleculeAB && mB instanceof MoleculeC ) {
             thresholdEnergy = energyProfile.getPeakLevel() - energyProfile.getRightLevel();
         }
         else {
@@ -102,15 +115,15 @@ public class A_BC_AB_C_Reaction extends Reaction {
      */
     public void doReaction( CompositeMolecule cm, SimpleMolecule sm ) {
 
-        if( DebugFlags.LINDAS_COLLISIONS ) {
+        if ( DebugFlags.LINDAS_COLLISIONS ) {
 
             double pe0 = getPotentialEnergy( cm, sm );
             double ke0 = cm.getKineticEnergy() + sm.getKineticEnergy();
 
             // Find the B molecule in the composite
             MoleculeB mB = cm.getComponentMolecules()[0] instanceof MoleculeB
-                           ? (MoleculeB)cm.getComponentMolecules()[0]
-                           : (MoleculeB)cm.getComponentMolecules()[1];
+                           ? (MoleculeB) cm.getComponentMolecules()[0]
+                           : (MoleculeB) cm.getComponentMolecules()[1];
 
             // Get a reference to the other molecule in the composite
             SimpleMolecule sm2 = cm.getComponentMolecules()[0] instanceof MoleculeB
@@ -135,11 +148,11 @@ public class A_BC_AB_C_Reaction extends Reaction {
 
             // Make a composite molecule between sm and the B molecule
             CompositeMolecule cm2 = null;
-            if( sm instanceof MoleculeA ) {
-                cm2 = new MoleculeAB( new SimpleMolecule[]{sm, mB} );
+            if ( sm instanceof MoleculeA ) {
+                cm2 = new MoleculeAB( new SimpleMolecule[] { sm, mB } );
             }
-            else if( sm instanceof MoleculeC ) {
-                cm2 = new MoleculeBC( new SimpleMolecule[]{sm, mB} );
+            else if ( sm instanceof MoleculeC ) {
+                cm2 = new MoleculeBC( new SimpleMolecule[] { sm, mB } );
             }
 
             // Give the sm and B molecules the same velocity as their center of mass
@@ -148,8 +161,8 @@ public class A_BC_AB_C_Reaction extends Reaction {
 
             // Move the sm and B molecules next to each other along the line connecting them,
             // with the proper amount of overlap
-            Vector2D vb = new Vector2D( cm2.getCM(), mB.getPosition() );
-            Vector2D vs = new Vector2D( cm2.getCM(), sm.getPosition() );
+            MutableVector2D vb = new MutableVector2D( cm2.getCM(), mB.getPosition() );
+            MutableVector2D vs = new MutableVector2D( cm2.getCM(), sm.getPosition() );
             double d = mB.getPosition().distance( sm.getPosition() );
             double r = MoleculeFactory.getComponentMoleculesOffset( sm, mB ) / d;
             mB.setPosition( cm2.getCM().getX() + vb.getX() * r, cm2.getCM().getY() + vb.getY() * r );
@@ -160,17 +173,17 @@ public class A_BC_AB_C_Reaction extends Reaction {
 
             // Move the simple molecule away from the new composite, so they won't react again on the
             // next time step
-            Vector2D vcs = new Vector2D( mB.getPosition(), sm2.getPosition() ).scale( 1.5 );
+            MutableVector2D vcs = new MutableVector2D( mB.getPosition(), sm2.getPosition() ).scale( 1.5 );
             sm2.setPosition( mB.getPosition().getX() + vcs.getX(), mB.getPosition().getY() + vcs.getY() );
 
             // Add potential energy to the reaction products equal to the difference between the top
             // of the threshold and the floor on the appropriate side of the profile
-            if( DebugFlags.PROVISIONAL_BOND_SPRINGS ) {
+            if ( DebugFlags.PROVISIONAL_BOND_SPRINGS ) {
                 double de = getThresholdEnergy( cm2, sm2 );
                 double sCm2 = Math.sqrt( cm2.getVelocity().getMagnitudeSq() + ( de / cm2.getMass() ) );
                 double sSm2 = Math.sqrt( sm2.getVelocity().getMagnitudeSq() + ( de / sm2.getMass() ) );
-                Vector2D dvCm2 = new Vector2D( sm2.getPosition(), cm2.getPosition() ).normalize().scale( sCm2 - cm2.getVelocity().getMagnitude() );
-                Vector2D dvSm2 = new Vector2D( cm2.getPosition(), sm2.getPosition() ).normalize().scale( sSm2 - sm2.getVelocity().getMagnitude() );
+                MutableVector2D dvCm2 = new MutableVector2D( sm2.getPosition(), cm2.getPosition() ).normalize().scale( sCm2 - cm2.getVelocity().getMagnitude() );
+                MutableVector2D dvSm2 = new MutableVector2D( cm2.getPosition(), sm2.getPosition() ).normalize().scale( sSm2 - sm2.getVelocity().getMagnitude() );
                 cm2.setVelocity( cm2.getVelocity().add( dvCm2 ) );
                 sm2.setVelocity( sm2.getVelocity().add( dvSm2 ) );
             }
@@ -184,11 +197,11 @@ public class A_BC_AB_C_Reaction extends Reaction {
             return;
         }
 
-        if( cm instanceof MoleculeAB && sm instanceof MoleculeC ) {
-            doReaction( (MoleculeAB)cm, (MoleculeC)sm );
+        if ( cm instanceof MoleculeAB && sm instanceof MoleculeC ) {
+            doReaction( (MoleculeAB) cm, (MoleculeC) sm );
         }
-        else if( cm instanceof MoleculeBC && sm instanceof MoleculeA ) {
-            doReaction( (MoleculeBC)cm, (MoleculeA)sm );
+        else if ( cm instanceof MoleculeBC && sm instanceof MoleculeA ) {
+            doReaction( (MoleculeBC) cm, (MoleculeA) sm );
         }
         else {
             throw new RuntimeException( "internal error" );
@@ -205,7 +218,7 @@ public class A_BC_AB_C_Reaction extends Reaction {
         // Delete the old composite molecule and make a new one with the new components
         MoleculeB mB = mAB.getMoleculeB();
         MoleculeA mA = mAB.getMoleculeA();
-        MoleculeBC mBC = new MoleculeBC( new SimpleMolecule[]{mB, mC} );
+        MoleculeBC mBC = new MoleculeBC( new SimpleMolecule[] { mB, mC } );
         double pe = getEnergyProfile().getPeakLevel() - getEnergyProfile().getRightLevel();
         doReactionII( mAB, mBC, mC, mA, pe );
     }
@@ -220,7 +233,7 @@ public class A_BC_AB_C_Reaction extends Reaction {
         // Delete the old composite molecule and make a new one with the new components
         MoleculeB mB = mBC.getMoleculeB();
         MoleculeC mC = mBC.getMoleculeC();
-        MoleculeAB mAB = new MoleculeAB( new SimpleMolecule[]{mB, mA} );
+        MoleculeAB mAB = new MoleculeAB( new SimpleMolecule[] { mB, mA } );
         double pe = getEnergyProfile().getPeakLevel() - getEnergyProfile().getLeftLevel();
         doReactionII( mBC, mAB, mA, mC, pe );
     }
@@ -245,14 +258,14 @@ public class A_BC_AB_C_Reaction extends Reaction {
         newFreeMolecule.setParentComposite( null );
 
         MoleculeB mB = newComposite.getComponentMolecules()[0] instanceof MoleculeB
-                       ? (MoleculeB)newComposite.getComponentMolecules()[0]
-                       : (MoleculeB)newComposite.getComponentMolecules()[1];
+                       ? (MoleculeB) newComposite.getComponentMolecules()[0]
+                       : (MoleculeB) newComposite.getComponentMolecules()[1];
 
 
-        if( !DebugFlags.HARD_COLLISIONS ) {
+        if ( !DebugFlags.HARD_COLLISIONS ) {
             // Move the molecules apart so they won't react on the next time step
-            Vector2D sep = new Vector2D( mB.getPosition(), newFreeMolecule.getPosition() );
-            sep.normalize().scale( mB.getRadius() + ( (SimpleMolecule)newFreeMolecule ).getRadius() + 2 );
+            MutableVector2D sep = new MutableVector2D( mB.getPosition(), newFreeMolecule.getPosition() );
+            sep.normalize().scale( mB.getRadius() + ( (SimpleMolecule) newFreeMolecule ).getRadius() + 2 );
             newFreeMolecule.setPosition( mB.getPosition().getX() + sep.getX(), mB.getPosition().getY() + sep.getY() );
 
             // Get the speeds at which the molecules are moving toward their CM, and add that KE to the PE passed in
@@ -260,15 +273,15 @@ public class A_BC_AB_C_Reaction extends Reaction {
             cb.addBody( newFreeMolecule );
             cb.addBody( newComposite );
 
-            Vector2D vFreeMoleculeRelCM = new Vector2D( newFreeMolecule.getVelocity() ).subtract( cb.getVelocity() );
+            MutableVector2D vFreeMoleculeRelCM = new MutableVector2D( newFreeMolecule.getVelocity() ).subtract( cb.getVelocity() );
             double sFree = MathUtil.getProjection( vFreeMoleculeRelCM, sep ).getMagnitude();
-            Vector2D vCompositeMoleculeRelCM = new Vector2D( newComposite.getVelocity() ).subtract( cb.getVelocity() );
+            MutableVector2D vCompositeMoleculeRelCM = new MutableVector2D( newComposite.getVelocity() ).subtract( cb.getVelocity() );
             double sComposite = MathUtil.getProjection( vCompositeMoleculeRelCM, sep ).getMagnitude();
             double ke = ( newFreeMolecule.getMass() * sFree * sFree + newComposite.getMass() * sComposite * sComposite ) / 2;
 
             pe += ke;
 
-            ProvisionalBond provisionalBond = new ProvisionalBondPostReaction( (SimpleMolecule)newFreeMolecule,
+            ProvisionalBond provisionalBond = new ProvisionalBondPostReaction( (SimpleMolecule) newFreeMolecule,
                                                                                mB,
                                                                                getEnergyProfile().getThresholdWidth() / 2,
                                                                                model,
@@ -289,40 +302,40 @@ public class A_BC_AB_C_Reaction extends Reaction {
         }
 
 
-        if( true ) {
+        if ( true ) {
             return;
         }
 
 
-        SimpleMolecule a = (SimpleMolecule)oldFreeMolecule;
+        SimpleMolecule a = (SimpleMolecule) oldFreeMolecule;
         SimpleMolecule b = oldComposite.getComponentMolecules()[0] instanceof MoleculeB
-                           ? (SimpleMolecule)oldComposite.getComponentMolecules()[0]
-                           : (SimpleMolecule)oldComposite.getComponentMolecules()[1];
-        SimpleMolecule c = (SimpleMolecule)newFreeMolecule;
+                           ? (SimpleMolecule) oldComposite.getComponentMolecules()[0]
+                           : (SimpleMolecule) oldComposite.getComponentMolecules()[1];
+        SimpleMolecule c = (SimpleMolecule) newFreeMolecule;
 
         double vabx = ( b.getMass() * b.getVelocity().getX() + a.getMass() * a.getVelocity().getX() )
                       / ( b.getMass() + a.getMass() );
         double vaby = ( b.getMass() * b.getVelocity().getY() + a.getMass() * a.getVelocity().getY() )
                       / ( b.getMass() + a.getMass() );
-        a.setVelocity( new Vector2D( vabx, vaby ) );
-        b.setVelocity( new Vector2D( vabx, vaby ) );
+        a.setVelocity( new MutableVector2D( vabx, vaby ) );
+        b.setVelocity( new MutableVector2D( vabx, vaby ) );
 
-        SimpleMolecule[] sms = new SimpleMolecule[]{a, b};
-        if( newComposite instanceof MoleculeAB ) {
+        SimpleMolecule[] sms = new SimpleMolecule[] { a, b };
+        if ( newComposite instanceof MoleculeAB ) {
             newComposite = new MoleculeAB( sms );
         }
-        if( newComposite instanceof MoleculeBC ) {
+        if ( newComposite instanceof MoleculeBC ) {
             newComposite = new MoleculeBC( sms );
         }
         model.addModelElement( newComposite );
 
 
-        if( false ) {
+        if ( false ) {
 
             // Add kinetic energy to the molecules equivalent to the difference in potential energy
             // between the peak and the flat
             double floorPE = 0;
-            if( newComposite instanceof MoleculeAB ) {
+            if ( newComposite instanceof MoleculeAB ) {
                 floorPE = getEnergyProfile().getRightLevel();
             }
             else {
@@ -335,7 +348,7 @@ public class A_BC_AB_C_Reaction extends Reaction {
             newComposite.setVelocity( newComposite.getVelocity().scale( r2 ) );
             newFreeMolecule.setVelocity( newFreeMolecule.getVelocity().scale( r2 ) );
 
-            if( true ) {
+            if ( true ) {
                 return;
             }
 
@@ -349,22 +362,22 @@ public class A_BC_AB_C_Reaction extends Reaction {
 
     public SimpleMolecule getMoleculeToRemove( CompositeMolecule compositeMolecule, SimpleMolecule moleculeAdded ) {
         SimpleMolecule sm = null;
-        if( moleculeAdded instanceof MoleculeA ) {
-            if( compositeMolecule.getComponentMolecules()[0] instanceof MoleculeC ) {
+        if ( moleculeAdded instanceof MoleculeA ) {
+            if ( compositeMolecule.getComponentMolecules()[0] instanceof MoleculeC ) {
                 sm = compositeMolecule.getComponentMolecules()[0];
             }
-            else if( compositeMolecule.getComponentMolecules()[1] instanceof MoleculeC ) {
+            else if ( compositeMolecule.getComponentMolecules()[1] instanceof MoleculeC ) {
                 sm = compositeMolecule.getComponentMolecules()[1];
             }
             else {
                 throw new RuntimeException( "internal error" );
             }
         }
-        if( moleculeAdded instanceof MoleculeC ) {
-            if( compositeMolecule.getComponentMolecules()[0] instanceof MoleculeA ) {
+        if ( moleculeAdded instanceof MoleculeC ) {
+            if ( compositeMolecule.getComponentMolecules()[0] instanceof MoleculeA ) {
                 sm = compositeMolecule.getComponentMolecules()[0];
             }
-            else if( compositeMolecule.getComponentMolecules()[1] instanceof MoleculeA ) {
+            else if ( compositeMolecule.getComponentMolecules()[1] instanceof MoleculeA ) {
                 sm = compositeMolecule.getComponentMolecules()[1];
             }
             else {
@@ -377,10 +390,10 @@ public class A_BC_AB_C_Reaction extends Reaction {
     public SimpleMolecule getMoleculeToKeep( CompositeMolecule compositeMolecule, SimpleMolecule moleculeAdded ) {
         SimpleMolecule sm = getMoleculeToRemove( compositeMolecule, moleculeAdded );
         SimpleMolecule moleculeToKeep = null;
-        if( sm == compositeMolecule.getComponentMolecules()[0] ) {
+        if ( sm == compositeMolecule.getComponentMolecules()[0] ) {
             moleculeToKeep = compositeMolecule.getComponentMolecules()[1];
         }
-        else if( sm == compositeMolecule.getComponentMolecules()[1] ) {
+        else if ( sm == compositeMolecule.getComponentMolecules()[1] ) {
             moleculeToKeep = compositeMolecule.getComponentMolecules()[0];
         }
         else {
@@ -398,7 +411,7 @@ public class A_BC_AB_C_Reaction extends Reaction {
      */
     public static double getReactionOffset( AbstractMolecule mA, AbstractMolecule mB ) {
         double result = Double.POSITIVE_INFINITY;
-        if( moleculesAreProperTypes( mA, mB ) ) {
+        if ( moleculesAreProperTypes( mA, mB ) ) {
             CollisionParams params = new CollisionParams( mA, mB );
             result = Math.max( params.getFreeMolecule().getRadius(), params.getbMolecule().getRadius() );
         }
@@ -407,7 +420,7 @@ public class A_BC_AB_C_Reaction extends Reaction {
 
     public static double getDistanceToReaction( AbstractMolecule mA, AbstractMolecule mB ) {
         double result = Double.POSITIVE_INFINITY;
-        if( moleculesAreProperTypes( mA, mB ) ) {
+        if ( moleculesAreProperTypes( mA, mB ) ) {
             CollisionParams params = new CollisionParams( mA, mB );
 
             // Get the distance the molecules would be apart from each other when a reaction occured
@@ -428,22 +441,22 @@ public class A_BC_AB_C_Reaction extends Reaction {
      * @return the distance
      */
     public double getDistanceToCollision( AbstractMolecule mA, AbstractMolecule mB ) {
-        if( moleculesAreProperTypes( mA, mB ) ) {
+        if ( moleculesAreProperTypes( mA, mB ) ) {
             double collisionDist = getCollisionVector( mA, mB ).getMagnitude();
 
             // Determine if the molecules are overlapping
             // One of the molecules must be a composite, and the other a simple one.
             // Get references to them, and get a reference to the B molecule in the composite
             CompositeMolecule cm = mA instanceof CompositeMolecule
-                                   ? (CompositeMolecule)mA
-                                   : (CompositeMolecule)mB;
+                                   ? (CompositeMolecule) mA
+                                   : (CompositeMolecule) mB;
             SimpleMolecule sm = mB instanceof CompositeMolecule
-                                ? (SimpleMolecule)mA
-                                : (SimpleMolecule)mB;
+                                ? (SimpleMolecule) mA
+                                : (SimpleMolecule) mB;
             SimpleMolecule bm = cm.getComponentMolecules()[0] instanceof MoleculeB ?
                                 cm.getComponentMolecules()[0] :
                                 cm.getComponentMolecules()[1];
-            if( sm.getPosition().distanceSq( bm.getPosition() ) < ( sm.getRadius() + bm.getRadius() ) * ( sm.getRadius() + bm.getRadius() ) ) {
+            if ( sm.getPosition().distanceSq( bm.getPosition() ) < ( sm.getRadius() + bm.getRadius() ) * ( sm.getRadius() + bm.getRadius() ) ) {
                 collisionDist = -collisionDist;
             }
 
@@ -462,18 +475,18 @@ public class A_BC_AB_C_Reaction extends Reaction {
      * @param mB
      * @return a vector
      */
-    public Vector2D getCollisionVector( AbstractMolecule mA, AbstractMolecule mB ) {
-        Vector2D v = null;
-        if( moleculesAreProperTypes( mA, mB ) ) {
+    public MutableVector2D getCollisionVector( AbstractMolecule mA, AbstractMolecule mB ) {
+        MutableVector2D v = null;
+        if ( moleculesAreProperTypes( mA, mB ) ) {
 
             // One of the molecules must be a composite, and the other a simple one. Get references to them, and
             // get a reference to the B molecule in the composite
             CompositeMolecule cm = mA instanceof CompositeMolecule
-                                   ? (CompositeMolecule)mA
-                                   : (CompositeMolecule)mB;
+                                   ? (CompositeMolecule) mA
+                                   : (CompositeMolecule) mB;
             SimpleMolecule sm = mB instanceof CompositeMolecule
-                                ? (SimpleMolecule)mA
-                                : (SimpleMolecule)mB;
+                                ? (SimpleMolecule) mA
+                                : (SimpleMolecule) mB;
             SimpleMolecule bm = cm.getComponentMolecules()[0] instanceof MoleculeB ?
                                 cm.getComponentMolecules()[0] :
                                 cm.getComponentMolecules()[1];
@@ -485,7 +498,7 @@ public class A_BC_AB_C_Reaction extends Reaction {
             dy -= Math.sin( theta ) * ( bm.getRadius() + sm.getRadius() );
 
             int sign = ( mA == cm ) ? -1 : 1;
-            v = new Vector2D( sign * dx, sign * dy );
+            v = new MutableVector2D( sign * dx, sign * dy );
         }
         return v;
     }
@@ -507,18 +520,18 @@ public class A_BC_AB_C_Reaction extends Reaction {
             // The simple molecule must have collided with the B simple
             // molecule in the composite molecule
             boolean classificationCriterionMet = false;
-            if( moleculesAreProperTypes( m1, m2 )
-                && ( ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeA
-                       && collisionSpec.getSimpleMoleculeB() instanceof MoleculeB )
-                     || ( ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeB
-                            && collisionSpec.getSimpleMoleculeB() instanceof MoleculeA ) ) ) ) {
+            if ( moleculesAreProperTypes( m1, m2 )
+                 && ( ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeA
+                        && collisionSpec.getSimpleMoleculeB() instanceof MoleculeB )
+                      || ( ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeB
+                             && collisionSpec.getSimpleMoleculeB() instanceof MoleculeA ) ) ) ) {
                 classificationCriterionMet = true;
             }
-            else if( moleculesAreProperTypes( m1, m2 )
-                     && ( ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeC
-                            && collisionSpec.getSimpleMoleculeB() instanceof MoleculeB )
-                          || ( ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeB
-                                 && collisionSpec.getSimpleMoleculeB() instanceof MoleculeC ) ) ) ) {
+            else if ( moleculesAreProperTypes( m1, m2 )
+                      && ( ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeC
+                             && collisionSpec.getSimpleMoleculeB() instanceof MoleculeB )
+                           || ( ( collisionSpec.getSimpleMoleculeA() instanceof MoleculeB
+                                  && collisionSpec.getSimpleMoleculeB() instanceof MoleculeC ) ) ) ) {
                 classificationCriterionMet = true;
             }
 
@@ -526,21 +539,21 @@ public class A_BC_AB_C_Reaction extends Reaction {
             // we have met the criteria, because the spring would have taken all the ke necessary
             // to compress it.
             // Otherwise, we need to consider their kinetic energies.
-            if( DebugFlags.PROVISIONAL_BOND_SPRINGS ) {
+            if ( DebugFlags.PROVISIONAL_BOND_SPRINGS ) {
                 return classificationCriterionMet;
             }
             else {
                 // The relative kinetic energy of the collision must be above the
                 // energy profile threshold
-                if( classificationCriterionMet ) {
+                if ( classificationCriterionMet ) {
                     CompositeMolecule cm = m1 instanceof CompositeMolecule
-                                           ? (CompositeMolecule)m1
-                                           : (CompositeMolecule)m2;
+                                           ? (CompositeMolecule) m1
+                                           : (CompositeMolecule) m2;
                     double de = 0;
-                    if( cm instanceof MoleculeBC ) {
+                    if ( cm instanceof MoleculeBC ) {
                         de = energyProfile.getPeakLevel() - energyProfile.getLeftLevel();
                     }
-                    else if( cm instanceof MoleculeAB ) {
+                    else if ( cm instanceof MoleculeAB ) {
                         de = energyProfile.getPeakLevel() - energyProfile.getRightLevel();
                     }
                     else {
@@ -566,17 +579,17 @@ public class A_BC_AB_C_Reaction extends Reaction {
             boolean firstClassificationCriterionMet = false;
             CompositeMolecule cm = null;
             SimpleMolecule sm = null;
-            if( m1 instanceof CompositeMolecule ) {
-                cm = (CompositeMolecule)m1;
-                if( m2 instanceof SimpleMolecule ) {
-                    sm = (SimpleMolecule)m2;
+            if ( m1 instanceof CompositeMolecule ) {
+                cm = (CompositeMolecule) m1;
+                if ( m2 instanceof SimpleMolecule ) {
+                    sm = (SimpleMolecule) m2;
                     firstClassificationCriterionMet = true;
                 }
             }
             else {
-                sm = (SimpleMolecule)m1;
-                if( m2 instanceof CompositeMolecule ) {
-                    cm = (CompositeMolecule)m2;
+                sm = (SimpleMolecule) m1;
+                if ( m2 instanceof CompositeMolecule ) {
+                    cm = (CompositeMolecule) m2;
                     firstClassificationCriterionMet = true;
                 }
             }
@@ -584,13 +597,13 @@ public class A_BC_AB_C_Reaction extends Reaction {
             // The simple molecule must be of a type not contained in the
             // composite molecule
             boolean secondClassificationCriterionMet = false;
-            if( firstClassificationCriterionMet ) {
-                if( cm instanceof MoleculeAB
-                    && sm instanceof MoleculeC ) {
+            if ( firstClassificationCriterionMet ) {
+                if ( cm instanceof MoleculeAB
+                     && sm instanceof MoleculeC ) {
                     secondClassificationCriterionMet = true;
                 }
-                else if( cm instanceof MoleculeBC
-                         && sm instanceof MoleculeA ) {
+                else if ( cm instanceof MoleculeBC
+                          && sm instanceof MoleculeA ) {
                     secondClassificationCriterionMet = true;
                 }
             }
@@ -602,8 +615,8 @@ public class A_BC_AB_C_Reaction extends Reaction {
             // Determine the kinetic energy in the collision. We consider this to be the
             // sum of the two molecules' kinetic energies along the line connecting their
             // CMs
-            Vector2D loa = new Vector2D( m2.getPosition().getX() - m1.getPosition().getX(),
-                                                m2.getPosition().getY() - m1.getPosition().getY() ).normalize();
+            MutableVector2D loa = new MutableVector2D( m2.getPosition().getX() - m1.getPosition().getX(),
+                                                       m2.getPosition().getY() - m1.getPosition().getY() ).normalize();
             double sRel = Math.max( m1.getVelocity().dot( loa ) - m2.getVelocity().dot( loa ), 0 );
 
             double s1 = m1.getVelocity().dot( loa );

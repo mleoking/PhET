@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.idealgas.controller;
 
@@ -20,7 +20,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.controller.command.PumpMoleculeCmd;
 import edu.colorado.phet.idealgas.model.HeavySpecies;
@@ -82,8 +82,8 @@ public abstract class SpeciesSelectionPanel extends JPanel implements IdealGasMo
                     public void actionPerformed( ActionEvent e ) {
                         HeavySpecies m = new HeavySpecies( new Point2D.Double( module.getBox().getPosition().getX() + 300,
                                                                                module.getBox().getPosition().getY() + 30 ),
-                                                           new Vector2D( -53, -20 ),
-                                                           new Vector2D() );
+                                                           new MutableVector2D( -53, -20 ),
+                                                           new MutableVector2D() );
                         new PumpMoleculeCmd( (IdealGasModel) module.getModel(), m, module ).doIt();
                         heavySpinner.setValue( new Integer( 1 ) );
                         ( (PumpControlPanel) SpeciesSelectionPanel.this ).moleculeAdded( m );

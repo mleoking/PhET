@@ -1,11 +1,11 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.lwjglphet.math;
 
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 
 /**
@@ -245,8 +245,8 @@ public class ImmutableVector2F implements Serializable {
 
     public static void main( String[] args ) {
         System.out.println( new ImmutableVector2F( 1, 2 ) );
-        System.out.println( new Vector2D( 1, 2 ) );
-        System.out.println( new Vector2D( 1, 2 ) {{
+        System.out.println( new MutableVector2D( 1, 2 ) );
+        System.out.println( new MutableVector2D( 1, 2 ) {{
             setX( 3 );
         }} );
         System.out.println( "0= " + new ImmutableVector2F( 0, 0 ).getDistance( new ImmutableVector2F( 0, 0 ) ) );

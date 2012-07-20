@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,19 +10,18 @@
  */
 package edu.colorado.phet.mri.model;
 
-import edu.colorado.phet.common.collision.Collidable;
-import edu.colorado.phet.common.collision.CollidableAdapter;
-import edu.colorado.phet.common.mechanics.Body;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.util.EventChannel;
-import edu.colorado.phet.common.quantum.model.Photon;
-import edu.colorado.phet.mri.MriConfig;
-
 import java.awt.geom.Point2D;
 import java.util.EventListener;
 import java.util.EventObject;
 import java.util.Random;
+
+import edu.colorado.phet.common.collision.Collidable;
+import edu.colorado.phet.common.collision.CollidableAdapter;
+import edu.colorado.phet.common.mechanics.Body;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.common.quantum.model.Photon;
+import edu.colorado.phet.mri.MriConfig;
 
 /**
  * Dipole
@@ -42,7 +41,7 @@ public class Dipole extends Body implements Collidable {
     public static final double RADIUS = 30;
 
     private static EventChannel classEventChannel = new EventChannel( ClassListener.class );
-    private static ClassListener classListenerProxy = (ClassListener)classEventChannel.getListenerProxy();
+    private static ClassListener classListenerProxy = (ClassListener) classEventChannel.getListenerProxy();
 
     public static void addClassListener( ClassListener listener ) {
         classEventChannel.addListener( listener );
@@ -79,11 +78,11 @@ public class Dipole extends Body implements Collidable {
 
     public void stepInTime( double dt ) {
         double baseOrientation = ( spin == Spin.DOWN ? 1 : -1 ) * Math.PI / 2;
-        if( oldOrientation != baseOrientation ) {
+        if ( oldOrientation != baseOrientation ) {
             orientationBehavior.startMovingNow();
             oldOrientation = baseOrientation;
         }
-        Vector2D vect = new Vector2D( 1, 0 ).rotate( baseOrientation );
+        MutableVector2D vect = new MutableVector2D( 1, 0 ).rotate( baseOrientation );
         orientationBehavior.setOrientation( vect, dt );
         notifyObservers();
     }
@@ -137,7 +136,7 @@ public class Dipole extends Body implements Collidable {
         super.setPosition( position );
     }
 
-    public Vector2D getVelocityPrev() {
+    public MutableVector2D getVelocityPrev() {
         return collidableAdapter.getVelocityPrev();
     }
 
@@ -154,7 +153,7 @@ public class Dipole extends Body implements Collidable {
     // Events and listeners
     //----------------------------------------------------------------
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+    private ChangeListener changeListenerProxy = (ChangeListener) changeEventChannel.getListenerProxy();
 
     public void addChangeListener( ChangeListener listener ) {
         changeEventChannel.addListener( listener );
@@ -170,7 +169,7 @@ public class Dipole extends Body implements Collidable {
         }
 
         public Dipole getDipole() {
-            return (Dipole)getSource();
+            return (Dipole) getSource();
         }
     }
 
@@ -192,7 +191,7 @@ public class Dipole extends Body implements Collidable {
          * @param fieldVector the B-field vector at the Dipole location
          * @param dt time step, in simulation clock ticks
          */
-        public void setOrientation( Vector2D fieldVector, double dt );
+        public void setOrientation( MutableVector2D fieldVector, double dt );
 
         /*
          * Starts the Dipole needle moving immediately.
@@ -216,7 +215,7 @@ public class Dipole extends Body implements Collidable {
             return _compassModel;
         }
 
-        public abstract void setOrientation( Vector2D fieldVector, double dt );
+        public abstract void setOrientation( MutableVector2D fieldVector, double dt );
 
         public void startMovingNow() {
         }
@@ -231,7 +230,7 @@ public class Dipole extends Body implements Collidable {
             super( compassModel );
         }
 
-        public void setOrientation( Vector2D fieldVector, double dt ) {
+        public void setOrientation( MutableVector2D fieldVector, double dt ) {
             getCompass().setOrientation( fieldVector.getAngle() );
         }
     }
@@ -263,7 +262,7 @@ public class Dipole extends Body implements Collidable {
             _theta = _omega = _alpha = 0.0;
         }
 
-        public void setOrientation( Vector2D fieldVector, double dt ) {
+        public void setOrientation( MutableVector2D fieldVector, double dt ) {
 
             double magnitude = fieldVector.getMagnitude();
             double angle = fieldVector.getAngle();
@@ -271,7 +270,7 @@ public class Dipole extends Body implements Collidable {
             // Difference between the field angle and the compass angle.
             double phi = ( ( magnitude == 0 ) ? 0.0 : ( angle - _theta ) );
 
-            if( Math.abs( phi ) < THRESHOLD ) {
+            if ( Math.abs( phi ) < THRESHOLD ) {
                 // When the difference between the field angle and the compass angle is insignificant,
                 // simply set the angle and consider the compass to be at rest.
                 _theta = angle;
@@ -286,7 +285,7 @@ public class Dipole extends Body implements Collidable {
                 double thetaOld = _theta;
                 double alphaTemp = ( SENSITIVITY * Math.sin( phi ) * magnitude ) - ( DAMPING * _omega );
                 _theta = _theta + ( _omega * dt ) + ( 0.5 * alphaTemp * dt * dt );
-                if( _theta != thetaOld ) {
+                if ( _theta != thetaOld ) {
                     // Set the compass needle direction.
                     getCompass().setOrientation( _theta );
                 }

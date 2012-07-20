@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /**
  * Class: SphericalBody
@@ -8,10 +8,10 @@
  */
 package edu.colorado.phet.idealgas.collision;
 
-import edu.colorado.phet.common.mechanics.Body;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.mechanics.Body;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 
 /**
  * NOTE: This class is not thread-safe!!!!!
@@ -27,8 +27,8 @@ public class SphericalBody extends CollidableBody {
     }
 
     protected SphericalBody( Point2D center,
-                             Vector2D velocity,
-                             Vector2D acceleration,
+                             MutableVector2D velocity,
+                             MutableVector2D acceleration,
                              double mass,
                              double radius ) {
         super( center, velocity, acceleration, mass, 0 );

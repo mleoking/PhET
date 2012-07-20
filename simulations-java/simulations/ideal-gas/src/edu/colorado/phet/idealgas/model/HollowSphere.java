@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 // edu.colorado.phet.idealgas.physics.body.HollowSphere
 /*
@@ -8,14 +8,17 @@
  */
 package edu.colorado.phet.idealgas.model;
 
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.EventObject;
+import java.util.List;
+import java.util.Random;
+
 import edu.colorado.phet.common.mechanics.Body;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.idealgas.collision.CollidableBody;
 import edu.colorado.phet.idealgas.collision.SphericalBody;
-
-import java.awt.geom.Point2D;
-import java.util.*;
 
 public class HollowSphere extends SphericalBody {
 
@@ -23,8 +26,8 @@ public class HollowSphere extends SphericalBody {
     private ArrayList listeners = new ArrayList();
 
     public HollowSphere( Point2D center,
-                         Vector2D velocity,
-                         Vector2D acceleration,
+                         MutableVector2D velocity,
+                         MutableVector2D acceleration,
                          double mass,
                          double radius ) {
         super( center, velocity, acceleration, mass, radius );
@@ -45,13 +48,13 @@ public class HollowSphere extends SphericalBody {
 
     public void addContainedBody( Body body ) {
         containedBodies.add( body );
-        if( body instanceof GasMolecule ) {
-            GasMolecule molecule = (GasMolecule)body;
+        if ( body instanceof GasMolecule ) {
+            GasMolecule molecule = (GasMolecule) body;
             MoleculeEvent event = new MoleculeEvent( this, molecule );
-            for( int i = 0; i < listeners.size(); i++ ) {
+            for ( int i = 0; i < listeners.size(); i++ ) {
                 Object o = listeners.get( i );
-                if( o instanceof HollowSphereListener ) {
-                    HollowSphereListener hollowSphereListener = (HollowSphereListener)o;
+                if ( o instanceof HollowSphereListener ) {
+                    HollowSphereListener hollowSphereListener = (HollowSphereListener) o;
                     hollowSphereListener.moleculeAdded( event );
                 }
             }
@@ -60,13 +63,13 @@ public class HollowSphere extends SphericalBody {
 
     public void removeContainedBody( Body body ) {
         containedBodies.remove( body );
-        if( body instanceof GasMolecule ) {
-            GasMolecule molecule = (GasMolecule)body;
+        if ( body instanceof GasMolecule ) {
+            GasMolecule molecule = (GasMolecule) body;
             MoleculeEvent event = new MoleculeEvent( this, molecule );
-            for( int i = 0; i < listeners.size(); i++ ) {
+            for ( int i = 0; i < listeners.size(); i++ ) {
                 Object o = listeners.get( i );
-                if( o instanceof HollowSphereListener ) {
-                    HollowSphereListener hollowSphereListener = (HollowSphereListener)o;
+                if ( o instanceof HollowSphereListener ) {
+                    HollowSphereListener hollowSphereListener = (HollowSphereListener) o;
                     hollowSphereListener.moleculeRemoved( event );
                 }
             }
@@ -91,8 +94,8 @@ public class HollowSphere extends SphericalBody {
 
     public void collideWithParticle( CollidableBody particle ) {
         // If the particle isn't supposed to be inside the sphere but it is, get it out
-        if( this.contains( particle ) && !containsBody( particle ) ) {
-            Vector2D d = new Vector2D( particle.getPosition().getX() - this.getPosition().getX(),
+        if ( this.contains( particle ) && !containsBody( particle ) ) {
+            MutableVector2D d = new MutableVector2D( particle.getPosition().getX() - this.getPosition().getX(),
                                                      particle.getPosition().getY() - this.getPosition().getY() );
             d.normalize();
             d.scale( this.getRadius() * 1.2 );
@@ -101,8 +104,8 @@ public class HollowSphere extends SphericalBody {
         }
 
         // If the particle is supposed to be inside the sphere but it isn't, put it inside
-        if( !this.contains( particle ) && containsBody( particle ) ) {
-            Vector2D d = new Vector2D( particle.getPosition().getX() - this.getPosition().getX(),
+        if ( !this.contains( particle ) && containsBody( particle ) ) {
+            MutableVector2D d = new MutableVector2D( particle.getPosition().getX() - this.getPosition().getX(),
                                                      particle.getPosition().getY() - this.getPosition().getY() );
             d.normalize();
             d.scale( this.getRadius() * 0.8 );
@@ -129,22 +132,22 @@ public class HollowSphere extends SphericalBody {
         return p;
     }
 
-    public Vector2D getNewMoleculeVelocity( Class species, IdealGasModel model ) {
+    public MutableVector2D getNewMoleculeVelocity( Class species, IdealGasModel model ) {
         double s = 0;
-        if( species == HeavySpecies.class ) {
+        if ( species == HeavySpecies.class ) {
             s = model.getHeavySpeciesAveSpeed();
-            if( s == 0 ) {
+            if ( s == 0 ) {
                 s = Math.sqrt( 2 * IdealGasModel.DEFAULT_ENERGY / HeavySpecies.getMoleculeMass() );
             }
         }
-        if( species == LightSpecies.class ) {
+        if ( species == LightSpecies.class ) {
             s = model.getLightSpeciesAveSpeed();
-            if( s == 0 ) {
+            if ( s == 0 ) {
                 s = Math.sqrt( 2 * IdealGasModel.DEFAULT_ENERGY / LightSpecies.getMoleculeMass() );
             }
         }
         double theta = random.nextDouble() * Math.PI * 2;
-        return new Vector2D( s * Math.cos( theta ), s * Math.sin( theta ) );
+        return new MutableVector2D( s * Math.cos( theta ), s * Math.sin( theta ) );
     }
 
     public int getHeavySpeciesCnt() {
@@ -157,9 +160,9 @@ public class HollowSphere extends SphericalBody {
 
     private int getSpeciesCnt( Class species ) {
         int cnt = 0;
-        for( int i = 0; i < containedBodies.size(); i++ ) {
-            Body body = (Body)containedBodies.get( i );
-            if( species.isInstance( body ) ) {
+        for ( int i = 0; i < containedBodies.size(); i++ ) {
+            Body body = (Body) containedBodies.get( i );
+            if ( species.isInstance( body ) ) {
                 cnt++;
             }
         }
