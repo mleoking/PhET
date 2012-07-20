@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeBooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
@@ -26,7 +27,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
-import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 import edu.colorado.phet.fractions.common.view.BackButton;
 import edu.colorado.phet.fractions.common.view.FNode;
 import edu.colorado.phet.fractions.fractionmatcher.model.Cell;

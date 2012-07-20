@@ -9,8 +9,8 @@ import java.awt.Shape;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.fractions.common.util.immutable.Dimension2D;
-import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.Slice;
 
 /**

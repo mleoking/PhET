@@ -9,11 +9,11 @@ import fj.data.List;
 import java.awt.geom.Dimension2D;
 import java.util.HashMap;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
-import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 import edu.colorado.phet.fractions.fractionmatcher.model.Cell;
 import edu.colorado.phet.fractions.fractionmatcher.model.MatchingGameState;
 import edu.colorado.phet.fractions.fractionmatcher.model.MovableFraction;

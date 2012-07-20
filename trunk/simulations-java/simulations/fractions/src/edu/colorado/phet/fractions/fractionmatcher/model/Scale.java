@@ -6,9 +6,9 @@ import lombok.Data;
 
 import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.piccolophet.RichPNode;
 import edu.colorado.phet.fractions.common.util.Cache;
-import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
