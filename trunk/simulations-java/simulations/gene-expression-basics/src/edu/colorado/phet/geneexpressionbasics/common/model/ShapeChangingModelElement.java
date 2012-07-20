@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model;
 
 import java.awt.Shape;
@@ -6,7 +6,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
@@ -51,8 +50,8 @@ public abstract class ShapeChangingModelElement {
             // This default implementation assumes that the position indicator
             // is defined by the center of the shape's bounds.  Override if
             // some other behavior is required.
-            translate( new Vector2D( x - shapeProperty.get().getBounds2D().getCenterX(),
-                                     y - shapeProperty.get().getBounds2D().getCenterY() ) );
+            translate( new ImmutableVector2D( x - shapeProperty.get().getBounds2D().getCenterX(),
+                                              y - shapeProperty.get().getBounds2D().getCenterY() ) );
         }
     }
 

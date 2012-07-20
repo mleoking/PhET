@@ -1,7 +1,7 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.model;
 
-import java.awt.*;
+import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -221,7 +221,7 @@ public class Circuit {
         for ( int i = 0; i < adjacentBranches.length; i++ ) {
             Branch branch = adjacentBranches[i];
             Junction opposite = branch.opposite( junction );
-            ImmutableVector2D vec = new Vector2D( opposite.getPosition(), junction.getPosition() );
+            ImmutableVector2D vec = new ImmutableVector2D( opposite.getPosition(), junction.getPosition() );
             double curLength = vec.getMagnitude();
             double newLength = Math.abs( curLength - CCKModel.JUNCTION_RADIUS * 1.5 );
             vec = vec.getInstanceOfMagnitude( newLength );

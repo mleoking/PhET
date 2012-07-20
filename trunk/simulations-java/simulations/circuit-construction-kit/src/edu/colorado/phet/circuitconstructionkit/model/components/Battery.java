@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.model.components;
 
 import java.awt.geom.Point2D;
@@ -6,8 +6,8 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * User: Sam Reid
@@ -20,21 +20,21 @@ public class Battery extends CircuitComponent {
     public static final double DEFAULT_INTERNAL_RESISTANCE = 0.001;
 
     public Battery( double voltage, double internalResistance ) {
-        this( new Point2D.Double(), new Vector2D(), 1, 1, new CircuitChangeListener() {
-                  public void circuitChanged() {
-                  }
-              }, true );
+        this( new Point2D.Double(), new ImmutableVector2D(), 1, 1, new CircuitChangeListener() {
+            public void circuitChanged() {
+            }
+        }, true );
         setKirkhoffEnabled( false );
         this.internalResistance = internalResistance;
         setVoltageDrop( voltage );
         setKirkhoffEnabled( true );
     }
 
-    public Battery( Point2D start, ImmutableVector2D dir, double length, double height, CircuitChangeListener kl, boolean internalResistanceOn ) {
+    public Battery( Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl, boolean internalResistanceOn ) {
         this( start, dir, length, height, kl, CCKModel.MIN_RESISTANCE, internalResistanceOn );
     }
 
-    public Battery( Point2D start, ImmutableVector2D dir, double length, double height, CircuitChangeListener kl, double internalResistance, boolean internalResistanceOn ) {
+    public Battery( Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl, double internalResistance, boolean internalResistanceOn ) {
         super( kl, start, dir, length, height );
         setKirkhoffEnabled( false );
         setVoltageDrop( 9.0 );

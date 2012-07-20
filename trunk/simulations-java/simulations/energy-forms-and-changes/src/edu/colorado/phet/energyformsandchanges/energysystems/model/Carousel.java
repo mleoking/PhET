@@ -6,7 +6,6 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
@@ -45,7 +44,7 @@ public class Carousel<T extends PositionableModelElement> {
     public Property<Integer> targetIndex = new Property<Integer>( 0 );
 
     private double elapsedTransitionTime = 0;
-    private ImmutableVector2D currentCarouselOffset = new Vector2D( 0, 0 );
+    private ImmutableVector2D currentCarouselOffset = new ImmutableVector2D( 0, 0 );
     private ImmutableVector2D carouselOffsetWhenTransitionStarted = new ImmutableVector2D( 0, 0 );
 
     //-------------------------------------------------------------------------

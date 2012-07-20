@@ -1,10 +1,11 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyskatepark.model.physics;
 
 import java.awt.geom.Line2D;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
@@ -637,7 +638,7 @@ public class Particle implements Serializable {
         setPosition( finalPosition );
     }
 
-    public void setVelocity( ImmutableVector2D velocity ) {
+    public void setVelocity( AbstractVector2D velocity ) {
         setVelocity( velocity.getX(), velocity.getY() );
     }
 

@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*  */
 package edu.colorado.phet.quantumwaveinterference.davissongermer;
@@ -13,6 +13,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -140,7 +141,7 @@ public class Protractor extends PhetPNode {
         }
 
         private void update() {
-            Point2D pt = Vector2D.createPolar( LEG_LENGTH, angle ).getDestination( new Point2D.Double() );
+            Point2D pt = ImmutableVector2D.createPolar( LEG_LENGTH, angle ).getDestination( new Point2D.Double() );
             Line2D.Double line = new Line2D.Double( pt, new Point2D.Double() );
             path.setPathTo( line );
             protractorHandleGraphic.setOffset( pt );
@@ -225,8 +226,8 @@ public class Protractor extends PhetPNode {
             double arcDist = 30;
             Arc2D.Double arc = new Arc2D.Double( -arcDist, -arcDist, arcDist * 2, arcDist * 2, toDegrees( 0 ), toDegrees( 0 ), Arc2D.Double.OPEN );
 
-            Point2D p1 = Vector2D.createPolar( 20, leftLeg.getAngle() ).getDestination( new Point2D.Double() );
-            Point2D p2 = Vector2D.createPolar( 20, rightLeg.getAngle() ).getDestination( new Point2D.Double() );
+            Point2D p1 = ImmutableVector2D.createPolar( 20, leftLeg.getAngle() ).getDestination( new Point2D.Double() );
+            Point2D p2 = ImmutableVector2D.createPolar( 20, rightLeg.getAngle() ).getDestination( new Point2D.Double() );
             if ( getDegreesSigned() >= 0 ) {
                 arc.setAngles( p1, p2 );
             }

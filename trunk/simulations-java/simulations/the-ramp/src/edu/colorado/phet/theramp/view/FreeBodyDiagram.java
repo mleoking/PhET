@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*  */
 package edu.colorado.phet.theramp.view;
@@ -16,6 +16,7 @@ import java.awt.geom.Point2D;
 
 import javax.swing.JComponent;
 
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
@@ -147,7 +148,7 @@ public class FreeBodyDiagram extends PNode {
         Vector2D ff = new Vector2D( model.getFrictionForce().getScaledInstance( scale ) );
         frictionForce.setVector( ff );
 
-        ImmutableVector2D net = new Vector2D( model.getTotalForce().getScaledInstance( scale ) );
+        ImmutableVector2D net = new ImmutableVector2D( model.getTotalForce().getScaledInstance( scale ) );
         netForce.setVector( net );
 
         Vector2D wf = new Vector2D( model.getWallForce().getScaledInstance( scale ) );
@@ -215,7 +216,7 @@ public class FreeBodyDiagram extends PNode {
             this.verticalOffset = verticalOffset;
         }
 
-        public void setVector( ImmutableVector2D v ) {
+        public void setVector( AbstractVector2D v ) {
             Point2D origin = fbd.getCenter();
             SurfaceGraphic surfaceGraphic = fbd.getRampPanel().getRampWorld().getBlockGraphic().getCurrentSurfaceGraphic();
             double viewAngle = surfaceGraphic.getViewAngle();

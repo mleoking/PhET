@@ -1,10 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies;
 
 import java.awt.Shape;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
@@ -29,7 +29,7 @@ public class MeanderToDestinationMotionStrategy extends MotionStrategy {
      * @param motionBoundsProperty
      * @param destinationOffset
      */
-    public MeanderToDestinationMotionStrategy( Property<Point2D> destinationProperty, Property<MotionBounds> motionBoundsProperty, ImmutableVector2D destinationOffset ) {
+    public MeanderToDestinationMotionStrategy( Property<Point2D> destinationProperty, Property<MotionBounds> motionBoundsProperty, AbstractVector2D destinationOffset ) {
         randomWalkMotionStrategy = new RandomWalkMotionStrategy( motionBoundsProperty );
         directToDestinationMotionStrategy = new MoveDirectlyToDestinationMotionStrategy( destinationProperty, motionBoundsProperty, destinationOffset, 750 );
         this.destinationProperty = destinationProperty;

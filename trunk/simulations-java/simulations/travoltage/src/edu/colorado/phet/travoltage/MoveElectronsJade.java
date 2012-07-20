@@ -1,21 +1,22 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*  */
 package edu.colorado.phet.travoltage;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
-import org.cove.jade.DynamicsEngine;
-import org.cove.jade.surfaces.LineSurface;
-
-import java.awt.*;
+import java.awt.Dimension;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+
+import org.cove.jade.DynamicsEngine;
+import org.cove.jade.surfaces.LineSurface;
+
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
  * User: Sam Reid
@@ -52,21 +53,21 @@ public class MoveElectronsJade implements ModelElement {
 
         ArrayList list = new ArrayList();
         StringTokenizer st = new StringTokenizer( str, "\n\t" );
-        while( st.hasMoreTokens() ) {
+        while ( st.hasMoreTokens() ) {
             list.add( new Point2D.Double( Double.parseDouble( st.nextToken() ), Double.parseDouble( st.nextToken() ) ) );
         }
-        for( int i = 1; i < list.size(); i++ ) {
-            Point2D.Double prev = (Point2D.Double)list.get( i - 1 );
-            Point2D.Double cur = (Point2D.Double)list.get( i );
+        for ( int i = 1; i < list.size(); i++ ) {
+            Point2D.Double prev = (Point2D.Double) list.get( i - 1 );
+            Point2D.Double cur = (Point2D.Double) list.get( i );
             LineSurface s = new LineSurface( cur.getX(), cur.getY(), prev.getX(), prev.getY() );
             s.setCollisionDepth( 25 );
             engine.addSurface( s );
         }
 
         path = new DoubleGeneralPath();
-        for( int i = 0; i < list.size(); i++ ) {
-            Point2D.Double cur = (Point2D.Double)list.get( i );
-            if( i == 0 ) {
+        for ( int i = 0; i < list.size(); i++ ) {
+            Point2D.Double cur = (Point2D.Double) list.get( i );
+            if ( i == 0 ) {
                 path.moveTo( cur.getX(), cur.getY() );
             }
             else {
@@ -81,15 +82,15 @@ public class MoveElectronsJade implements ModelElement {
         return engine;
     }
 
-    protected ImmutableVector2D getForce( JadeElectron node ) {
+    protected AbstractVector2D getForce( JadeElectron node ) {
         Vector2D sum = new Vector2D();
-        for( int i = 0; i < jadeElectronSet.getNumElectrons(); i++ ) {
+        for ( int i = 0; i < jadeElectronSet.getNumElectrons(); i++ ) {
             JadeElectron particle = jadeElectronSet.getJadeElectron( i );
-            if( particle != node ) {
+            if ( particle != node ) {
                 sum = sum.add( getForce( node, particle ) );
             }
         }
-        if( isLegal( sum ) ) {
+        if ( isLegal( sum ) ) {
             return sum;
         }
         else {
@@ -101,18 +102,18 @@ public class MoveElectronsJade implements ModelElement {
         return !Double.isInfinite( sum.getX() ) && !Double.isNaN( sum.getX() ) && !Double.isInfinite( sum.getY() ) && !Double.isNaN( sum.getY() );
     }
 
-    protected ImmutableVector2D getForce( JadeElectron circleParticle, JadeElectron particle ) {
+    protected AbstractVector2D getForce( JadeElectron circleParticle, JadeElectron particle ) {
         return getForce( circleParticle, particle, 5.0 );
     }
 
-    protected ImmutableVector2D getForce( JadeElectron circleParticle, JadeElectron particle, double k ) {
-        ImmutableVector2D vec = new Vector2D( circleParticle.getPosition(), particle.getPosition() );
-        if( vec.getMagnitude() <= 1 ) {
+    protected AbstractVector2D getForce( JadeElectron circleParticle, JadeElectron particle, double k ) {
+        AbstractVector2D vec = new Vector2D( circleParticle.getPosition(), particle.getPosition() );
+        if ( vec.getMagnitude() <= 1 ) {
             return new Vector2D();
         }
         ImmutableVector2D v = vec.getInstanceOfMagnitude( -k / Math.pow( vec.getMagnitude(), 1.5 ) );
         double max = 0.05;
-        if( v.getMagnitude() > max ) {
+        if ( v.getMagnitude() > max ) {
             v = v.getInstanceOfMagnitude( max );
         }
 //        System.out.println( "v = " + v );
@@ -182,13 +183,13 @@ public class MoveElectronsJade implements ModelElement {
                                      "162\t200";
 
     public void stepInTime( double dt ) {
-        for( int i = 0; i < jadeElectronSet.getNumElectrons(); i++ ) {
+        for ( int i = 0; i < jadeElectronSet.getNumElectrons(); i++ ) {
             JadeElectron circleParticle = jadeElectronSet.getJadeElectron( i );
-            ImmutableVector2D force = getForce( circleParticle );
+            AbstractVector2D force = getForce( circleParticle );
             circleParticle.setAcceleration( force.getX(), force.getY() );
         }
         engine.timeStep();
-        for( int i = 0; i < jadeElectronSet.getNumElectrons(); i++ ) {
+        for ( int i = 0; i < jadeElectronSet.getNumElectrons(); i++ ) {
             jadeElectronSet.getJadeElectron( i ).notifyElectronMoved();
         }
 //        for( int i = 0; i < jadeElectronSet.getNumElectrons(); i++ ) {
@@ -201,12 +202,12 @@ public class MoveElectronsJade implements ModelElement {
 
     private void testRemove() {
         int problemCount = 0;
-        for( int i = 0; i < jadeElectronSet.getNumElectrons(); i++ ) {
-            if( isProblematic( jadeElectronSet.getJadeElectron( i ) ) ) {
+        for ( int i = 0; i < jadeElectronSet.getNumElectrons(); i++ ) {
+            if ( isProblematic( jadeElectronSet.getJadeElectron( i ) ) ) {
                 problemCount++;
 //                System.out.println( "jadeElectronSet.getJadeElectron( i).getPosition() = " + jadeElectronSet.getJadeElectron( i ).getPosition() );
-                if( !contains( jadeElectronSet.getJadeElectron( i ) ) ) {
-                    if( debug ) {
+                if ( !contains( jadeElectronSet.getJadeElectron( i ) ) ) {
+                    if ( debug ) {
                         System.out.println( "Removed bogus electron." );
                     }
                     remove( i );
@@ -214,7 +215,7 @@ public class MoveElectronsJade implements ModelElement {
                 }
             }
         }
-        if( debug && problemCount > 0 ) {
+        if ( debug && problemCount > 0 ) {
             System.out.println( "problemCount total= " + problemCount );
         }
     }

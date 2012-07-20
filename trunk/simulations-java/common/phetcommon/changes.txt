@@ -1,3 +1,4 @@
+7/19/12 Changed the Vector2D hierarchy from "Vector2D extends ImmutableVector2D" to "Vector2D extends AbstractVector2D + ImmutableVector2D extends AbstractVector2D", see #3374
 7/19/12 Moved more methods from ImmutableVector2D to AbstractVector2D, see #3374
 7/19/12 Extracted AbstractVector2D as superclass of ImmutableVector2D, see #3374
 7/19/12 Added Lombok and Functional Java as dependencies, see #3390

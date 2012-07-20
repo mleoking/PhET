@@ -1,17 +1,21 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.conductivity.macro;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Shape;
 import java.awt.font.GlyphVector;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
-
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.conductivity.ConductivityResources;
 import edu.colorado.phet.conductivity.common.ArrowShape;
 import edu.colorado.phet.conductivity.common.TransformGraphic;
@@ -51,7 +55,7 @@ public class EnergyTextGraphic extends TransformGraphic {
         affinetransform.translate( point.x - 15, point.y );
         affinetransform.rotate( -1.5707963267948966D );
         trfShape = affinetransform.createTransformedShape( shape );
-        ImmutableVector2D phetvector = getTopCenter( trfShape.getBounds2D() );
+        AbstractVector2D phetvector = getTopCenter( trfShape.getBounds2D() );
         phetvector = phetvector.getSubtractedInstance( 0.0D, 40D );
         ImmutableVector2D phetvector1 = phetvector.getAddedInstance( 0.0D, -200D );
         arrowShape = ( new ArrowShape( phetvector, phetvector1, 50D, 50D, 20D ) ).getArrowPath();

@@ -1,7 +1,8 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.model.components;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -10,7 +11,6 @@ import edu.colorado.phet.circuitconstructionkit.model.CCKDefaults;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
@@ -62,7 +62,7 @@ public class PathBranch extends Branch {
         }
 
         public Point2D getPoint2D() {
-            ImmutableVector2D vec = new Vector2D( segment.getStart(), segment.getEnd() );
+            ImmutableVector2D vec = new ImmutableVector2D( segment.getStart(), segment.getEnd() );
             vec = vec.getInstanceOfMagnitude( distAlongSegment );
             return vec.getDestination( segment.getStart() );
         }

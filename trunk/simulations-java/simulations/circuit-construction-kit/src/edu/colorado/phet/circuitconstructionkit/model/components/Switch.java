@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.model.components;
 
 import java.awt.geom.Point2D;
@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 
 /**
  * User: Sam Reid
@@ -20,7 +20,7 @@ public class Switch extends CircuitComponent {
     public static final double HANDLE_ANGLE_CLOSED = Math.PI;
     private double handleAngle = DEFAULT_HANDLE_ANGLE_OPEN;
 
-    public Switch( Point2D start, ImmutableVector2D dir, double length, double height, CircuitChangeListener kl ) {
+    public Switch( Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl ) {
         super( kl, start, dir, length, height );
         setKirkhoffEnabled( false );
         super.setResistance( OPEN_RESISTANCE );

@@ -1,7 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.Area;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
@@ -138,7 +141,7 @@ public class Capacitor3DShapeSet {
     }
 
     public Point2D getPlate2EdgePoint() {
-        ImmutableVector2D vector = new Vector2D( inPt, outPt );
+        ImmutableVector2D vector = new ImmutableVector2D( inPt, outPt );
         double a = width * Math.cos( tiltAngle );
         double initDist = new Vector2D( inPt, getPlate2Point() ).getMagnitude();
         vector = vector.getInstanceOfMagnitude( initDist + a / 2.0 );

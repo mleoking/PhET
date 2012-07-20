@@ -1,13 +1,20 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*  */
 package edu.colorado.phet.forces1d.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -99,7 +106,7 @@ public class FreeBodyDiagramNode extends PNode {
         Vector2D ff = new Vector2D( model.getFrictionForce() * xScale, 0 );
         frictionForce.setVector( ff );
 
-        ImmutableVector2D net = new Vector2D( model.getNetForce() * xScale, 0 );
+        Vector2D net = new Vector2D( model.getNetForce() * xScale, 0 );
         netForce.setVector( net );
 
         Vector2D wf = new Vector2D( model.getWallForce() * xScale, 0 );
@@ -170,7 +177,7 @@ public class FreeBodyDiagramNode extends PNode {
             this.dy = y;
         }
 
-        public void setVector( ImmutableVector2D v ) {
+        public void setVector( AbstractVector2D v ) {
             Point2D origin = fbd.getCenter();
             origin = new Point2D.Double( origin.getX() + dx, origin.getY() + dy );
             Arrow arrow = new Arrow( origin, v.getDestination( origin ), 30, 30, 10, 0.5, true );

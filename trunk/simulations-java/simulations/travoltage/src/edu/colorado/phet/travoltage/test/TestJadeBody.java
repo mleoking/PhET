@@ -1,24 +1,29 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*  */
 package edu.colorado.phet.travoltage.test;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.travoltage.MoveElectronsJade;
-import org.cove.jade.DynamicsEngine;
-import org.cove.jade.primitives.CircleParticle;
-import org.cove.jade.surfaces.LineSurface;
-import org.cove.jade.util.GVector;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+
+import javax.swing.JFrame;
+import javax.swing.Timer;
+
+import org.cove.jade.DynamicsEngine;
+import org.cove.jade.primitives.CircleParticle;
+import org.cove.jade.surfaces.LineSurface;
+import org.cove.jade.util.GVector;
+
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.travoltage.MoveElectronsJade;
 
 public class TestJadeBody extends Component implements ActionListener {
     // Display stuff
@@ -42,20 +47,20 @@ public class TestJadeBody extends Component implements ActionListener {
 
         ArrayList list = new ArrayList();
         StringTokenizer st = new StringTokenizer( str, "\n\t" );
-        while( st.hasMoreTokens() ) {
+        while ( st.hasMoreTokens() ) {
             list.add( new Point2D.Double( Double.parseDouble( st.nextToken() ), Double.parseDouble( st.nextToken() ) ) );
         }
         System.out.println( "list = " + list );
-        for( int i = 1; i < list.size(); i++ ) {
-            java.awt.geom.Point2D.Double prev = (java.awt.geom.Point2D.Double)list.get( i - 1 );
-            java.awt.geom.Point2D.Double cur = (java.awt.geom.Point2D.Double)list.get( i );
+        for ( int i = 1; i < list.size(); i++ ) {
+            java.awt.geom.Point2D.Double prev = (java.awt.geom.Point2D.Double) list.get( i - 1 );
+            java.awt.geom.Point2D.Double cur = (java.awt.geom.Point2D.Double) list.get( i );
 //            engine.addSurface( new LineSurface( prev.getX(), prev.getY(), cur.getX(), cur.getY() ) );
             LineSurface s = new LineSurface( cur.getX(), cur.getY(), prev.getX(), prev.getY() );
             s.setCollisionDepth( 20 );
             engine.addSurface( s );
         }
         int numCircles = 60;
-        for( int i = 0; i < numCircles; i++ ) {
+        for ( int i = 0; i < numCircles; i++ ) {
 
             CircleParticle circleParticle = new CircleParticle( 100 + i % 2, 100 + i * 0.5, 10 );
             circles.add( circleParticle );
@@ -83,8 +88,8 @@ public class TestJadeBody extends Component implements ActionListener {
      * ActionListener - steps the simulator and repaints this component
      */
     public void actionPerformed( ActionEvent e ) {
-        for( int i = 0; i < circles.size(); i++ ) {
-            org.cove.jade.primitives.CircleParticle circleParticle = (org.cove.jade.primitives.CircleParticle)circles.get( i );
+        for ( int i = 0; i < circles.size(); i++ ) {
+            org.cove.jade.primitives.CircleParticle circleParticle = (org.cove.jade.primitives.CircleParticle) circles.get( i );
             Vector2D force = getForce( circleParticle );
             circleParticle.setAcceleration( force.getX(), force.getY() );
         }
@@ -95,13 +100,13 @@ public class TestJadeBody extends Component implements ActionListener {
     private Vector2D getForce( CircleParticle circleParticle ) {
         Vector2D sum = new Vector2D();
 
-        for( int i = 0; i < circles.size(); i++ ) {
-            CircleParticle particle = (CircleParticle)circles.get( i );
-            if( particle != circleParticle ) {
+        for ( int i = 0; i < circles.size(); i++ ) {
+            CircleParticle particle = (CircleParticle) circles.get( i );
+            if ( particle != circleParticle ) {
                 sum = sum.add( getForce( circleParticle, particle ) );
             }
         }
-        if( isLegal( sum ) ) {
+        if ( isLegal( sum ) ) {
             return sum;
         }
         else {
@@ -116,11 +121,11 @@ public class TestJadeBody extends Component implements ActionListener {
     private ImmutableVector2D getForce( CircleParticle circleParticle, CircleParticle particle ) {
         Point2D loc = new Point2D.Double( circleParticle.curr.x, circleParticle.curr.y );
         Point2D loc2 = new Point2D.Double( particle.curr.x, particle.curr.y );
-        ImmutableVector2D vec = new Vector2D( loc, loc2 );
+        ImmutableVector2D vec = new ImmutableVector2D( loc, loc2 );
         double k = 1.0;
         ImmutableVector2D v = vec.getInstanceOfMagnitude( -k / Math.pow( vec.getMagnitude(), 1.35 ) );
         double max = 1;
-        if( v.getMagnitude() > max ) {
+        if ( v.getMagnitude() > max ) {
             v = v.getInstanceOfMagnitude( max );
         }
         return v;

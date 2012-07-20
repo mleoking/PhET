@@ -1,13 +1,15 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.model.components;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 
 /**
  * User: Sam Reid
@@ -18,7 +20,7 @@ public abstract class CircuitComponent extends Branch {
     private double length;
     private double height;
 
-    public CircuitComponent( CircuitChangeListener kl, Point2D start, ImmutableVector2D dir, double length, double height ) {
+    public CircuitComponent( CircuitChangeListener kl, Point2D start, AbstractVector2D dir, double length, double height ) {
         super( kl );
         this.length = length;
         this.height = height;

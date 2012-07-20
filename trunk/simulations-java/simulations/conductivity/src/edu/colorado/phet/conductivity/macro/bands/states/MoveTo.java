@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.conductivity.macro.bands.states;
 
@@ -35,7 +35,7 @@ public class MoveTo
         }
         else {
             ImmutableVector2D phetvector3 = phetvector2.getInstanceOfMagnitude( d2 );
-            phetvector3 = new Vector2D( -Math.abs( phetvector3.getX() ), phetvector3.getY() );
+            phetvector3 = new ImmutableVector2D( -Math.abs( phetvector3.getX() ), phetvector3.getY() );
             ImmutableVector2D phetvector4 = phetvector1.getAddedInstance( phetvector3 );
             bandparticle.setPosition( new Vector2D( phetvector4.getX(), phetvector4.getY() ) );
             return this;

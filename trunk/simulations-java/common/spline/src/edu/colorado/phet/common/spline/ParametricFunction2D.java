@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.common.spline;
 
 import java.awt.geom.Line2D;
@@ -66,7 +66,7 @@ public abstract class ParametricFunction2D implements Serializable {
         SerializablePoint2D center = evaluate( alpha );
         SerializablePoint2D avg = new SerializablePoint2D( ( a0.getX() + a1.getX() ) / 2.0, ( a0.getY() + a1.getY() ) / 2.0 );
         Vector2D dir = new Vector2D( center, avg );
-        ImmutableVector2D vec = new Vector2D( getUnitNormalVector( alpha ) );
+        ImmutableVector2D vec = new ImmutableVector2D( getUnitNormalVector( alpha ) );
         if ( dir.dot( vec ) < 0 ) {
             vec = vec.getScaledInstance( -1.0 );
         }

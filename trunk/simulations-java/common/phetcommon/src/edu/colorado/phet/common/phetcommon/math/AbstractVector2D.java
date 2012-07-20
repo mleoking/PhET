@@ -98,4 +98,48 @@ public abstract class AbstractVector2D implements Serializable {
     public double getCrossProductScalar( AbstractVector2D v ) {
         return ( this.getMagnitude() * v.getMagnitude() * Math.sin( this.getAngle() - v.getAngle() ) );
     }
+
+    public ImmutableVector2D getNormalizedInstance() {
+        double magnitude = getMagnitude();
+        if ( magnitude == 0 ) {
+            throw new UnsupportedOperationException( "Cannot normalize a zero-magnitude vector." );
+        }
+        return new ImmutableVector2D( getX() / magnitude, getY() / magnitude );
+    }
+
+    public ImmutableVector2D getInstanceOfMagnitude( double magnitude ) {
+        return getScaledInstance( magnitude / getMagnitude() );
+    }
+
+    public ImmutableVector2D getScaledInstance( double scale ) {
+        return new ImmutableVector2D( getX() * scale, getY() * scale );
+    }
+
+    public ImmutableVector2D getAddedInstance( AbstractVector2D v ) {
+        return getAddedInstance( v.getX(), v.getY() );
+    }
+
+    public ImmutableVector2D getAddedInstance( Dimension2D delta ) {
+        return getAddedInstance( delta.getWidth(), delta.getHeight() );
+    }
+
+    public ImmutableVector2D getAddedInstance( double x, double y ) {
+        return new ImmutableVector2D( getX() + x, getY() + y );
+    }
+
+    public ImmutableVector2D getNormalVector() {
+        return new ImmutableVector2D( getY(), -getX() );
+    }
+
+    public ImmutableVector2D getSubtractedInstance( double x, double y ) {
+        return new ImmutableVector2D( getX() - x, getY() - y );
+    }
+
+    public ImmutableVector2D getSubtractedInstance( AbstractVector2D v ) {
+        return getSubtractedInstance( v.getX(), v.getY() );
+    }
+
+    public ImmutableVector2D getRotatedInstance( double angle ) {
+        return ImmutableVector2D.createPolar( getMagnitude(), getAngle() + angle );
+    }
 }

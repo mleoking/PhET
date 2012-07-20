@@ -1,10 +1,11 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.oldphetgraphics.graphics.shapes;
 
 import java.awt.geom.GeneralPath;
 
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
@@ -16,11 +17,11 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
  */
 public class ArrowShape {
     GeneralPath arrowPath;
-    ImmutableVector2D tipLocation;
+    AbstractVector2D tipLocation;
     private ImmutableVector2D direction;
     private ImmutableVector2D norm;
 
-    public ArrowShape( ImmutableVector2D tailLocation, ImmutableVector2D tipLocation, double headHeight, double headWidth, double tailWidth ) {
+    public ArrowShape( AbstractVector2D tailLocation, AbstractVector2D tipLocation, double headHeight, double headWidth, double tailWidth ) {
         direction = tipLocation.getSubtractedInstance( tailLocation ).getNormalizedInstance();
         double dist = tipLocation.getSubtractedInstance( tailLocation ).getMagnitude();
         if ( dist < headHeight ) {

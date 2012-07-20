@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
 import java.awt.BasicStroke;
@@ -29,7 +29,7 @@ import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
 import edu.colorado.phet.circuitconstructionkit.view.CCKLookAndFeel;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike.BulbComponentNode;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike.BulbNode;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -279,7 +279,7 @@ public class ToolboxNode extends PhetPNode {
         private Bulb createBulb() {
             Bulb dummyBulb = new Bulb( model.getCircuitChangeListener(), new Junction( 0, 0 ), new Junction( 1, 0 ), 1, 1, 0.01, true );
             double tilt = BulbComponentNode.getTiltValue( dummyBulb );
-            Bulb bulb = new Bulb( new Point(), Vector2D.createPolar( 1, -tilt - Math.PI / 2 ), 0.43, 1, 1, model.getCircuitChangeListener() );
+            Bulb bulb = new Bulb( new Point(), ImmutableVector2D.createPolar( 1, -tilt - Math.PI / 2 ), 0.43, 1, 1, model.getCircuitChangeListener() );
             bulb.flip( null );
             return bulb;
         }

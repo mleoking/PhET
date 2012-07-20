@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*  */
 package edu.colorado.phet.quantumwaveinterference.view;
@@ -12,7 +12,7 @@ import java.awt.geom.Point2D;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
 import edu.umd.cs.piccolo.PCanvas;
@@ -59,7 +59,7 @@ public class ClockGraphic extends PNode {
         }
 
         private void update() {
-            Arrow arrow = new Arrow( getTailLocation(), Vector2D.createPolar( length, angle ).getDestination( getTailLocation() ),
+            Arrow arrow = new Arrow( getTailLocation(), ImmutableVector2D.createPolar( length, angle ).getDestination( getTailLocation() ),
                                      headHeight, headWidth, tailWidth );
             shape.setPathTo( arrow.getShape() );
         }

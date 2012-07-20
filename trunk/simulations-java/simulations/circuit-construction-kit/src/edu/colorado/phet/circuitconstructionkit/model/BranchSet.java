@@ -1,10 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.model;
 
 import java.util.ArrayList;
 
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
@@ -39,7 +39,7 @@ public class BranchSet {
     /**
      * This makes sure the right components get the notification event.
      */
-    public void translate( ImmutableVector2D vector ) {
+    public void translate( AbstractVector2D vector ) {
         ArrayList<Junction> junctionSet = new ArrayList<Junction>();
         junctionSet.addAll( junctions );
         for ( int i = 0; i < branches.size(); i++ ) {

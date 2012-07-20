@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies;
 
 import java.awt.Shape;
@@ -6,6 +6,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
 /**
@@ -51,7 +52,7 @@ public class MotionBounds {
      * @param dt           - delta time, i.e. amount of time, in seconds.
      * @return
      */
-    public boolean testIfInMotionBounds( Shape shape, ImmutableVector2D motionVector, double dt ) {
+    public boolean testIfInMotionBounds( Shape shape, AbstractVector2D motionVector, double dt ) {
         AffineTransform motionTransform = AffineTransform.getTranslateInstance( motionVector.getX() * dt, motionVector.getY() * dt );
         return inBounds( motionTransform.createTransformedShape( shape ) );
     }

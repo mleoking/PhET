@@ -1,11 +1,11 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.model.components;
 
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
  */
 public class Resistor extends CircuitComponent {
 
-    public Resistor( Point2D start, ImmutableVector2D dir, double length, double height, CircuitChangeListener kl ) {
+    public Resistor( Point2D start, AbstractVector2D dir, double length, double height, CircuitChangeListener kl ) {
         super( kl, start, dir, length, height );
         setKirkhoffEnabled( false );
         setResistance( 10 );

@@ -1,11 +1,11 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyskatepark.model.physics;
 
 import junit.framework.TestCase;
 
 import java.awt.geom.Line2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.spline.CubicSpline2D;
@@ -61,7 +61,7 @@ public class _TestPassThrough extends TestCase {
         private final ParametricFunction2D parametricFunction2D;
         private final Particle particle;
 
-        public ParticleTestState( SerializablePoint2D[] controlPoints, SerializablePoint2D position, ImmutableVector2D velocity ) {
+        public ParticleTestState( SerializablePoint2D[] controlPoints, SerializablePoint2D position, AbstractVector2D velocity ) {
             parametricFunction2D = new CubicSpline2D( controlPoints );
             particle = new Particle( parametricFunction2D );
             particle.setGravity( 0.0 );
