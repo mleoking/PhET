@@ -1,7 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.common.phetcommon.math;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.awt.geom.Point2D;
 
@@ -13,7 +14,7 @@ import java.awt.geom.Point2D;
  * @author Sam Reid
  * @author Ron LeMaster
  */
-public @Data class MutableVector2D extends AbstractVector2D {
+public @EqualsAndHashCode(callSuper = false) @ToString class MutableVector2D extends AbstractVector2D {
     private double x;
     private double y;
 
