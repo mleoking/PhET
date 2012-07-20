@@ -28,7 +28,8 @@ public class EnergyFormsAndChangesSimSharing {
         // Controls
         showEnergyCheckBox, fastForwardRadioButton, normalMotionRadioButton, faucet, selectFaucetButton,
         selectWaterPoweredGeneratorButton, selectTeapotButton, selectSunButton, selectSolarPanelButton,
-        selectBeakerHeaterButton, selectIncandescentLightBulbButton, selectFluorescentLightBulbButton
+        selectBeakerHeaterButton, selectIncandescentLightBulbButton, selectFluorescentLightBulbButton,
+        heatCapacitySlider
     }
 
     public static enum ModelComponents implements IUserComponent, IModelComponent {

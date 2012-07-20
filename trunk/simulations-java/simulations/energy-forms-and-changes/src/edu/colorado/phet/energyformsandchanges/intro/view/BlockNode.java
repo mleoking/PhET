@@ -145,11 +145,11 @@ public class BlockNode extends PComposite {
         label.setFont( LABEL_FONT );
         if ( label.getFullBoundsReference().width >= mvt.modelToViewDeltaX( Block.SURFACE_WIDTH * 0.9 ) ) {
             // Scale the label to fit on the face of the block.
-            double scale = ( mvt.modelToViewDeltaX( Block.SURFACE_WIDTH * 0.9 ) / getFullBoundsReference().width );
+            double scale = ( mvt.modelToViewDeltaX( Block.SURFACE_WIDTH * 0.9 ) / label.getFullBoundsReference().width );
             label.setScale( scale );
         }
         double labelCenterX = ( upperLeftFrontCorner.getX() + upperRightFrontCorner.getX() ) / 2;
-        double labelCenterY = ( upperLeftFrontCorner.getY() + label.getFullBoundsReference().height );
+        double labelCenterY = ( upperLeftFrontCorner.getY() - mvt.modelToViewDeltaY( Block.SURFACE_WIDTH ) / 2 );
         label.centerFullBoundsOnPoint( labelCenterX, labelCenterY );
         addChild( label );
 
