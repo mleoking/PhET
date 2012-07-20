@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--vector-addition-strings_mk.xml created Wed Jul 18 20:23:04 CEST 2012 using: vector-addition 2.02.00 (52287), translation-utility 2.13.00 (59150) декем. 8, 2011-->
+<SimStrings>
+<string key="showSum" value="Покажи го збирот"/>
+<string key="translation.credits" value="Зоран Христовски"/>
+<string key="simTitle" value="Собирање на вектори"/>
+<string key="grabOne" value="Земи!!!"/>
+<string key="clearAll" value="Исчисти се"/>
+<string key="componentDisplay" value="Покажи ги компонентите"/>
+<string key="y" value="y"/>
+<string key="style3" value="Трет начин"/>
+<string key="none" value="Ништо"/>
+<string key="showGrid" value="Види мрежа"/>
+<string key="style2" value="Втор начин"/>
+<string key="x" value="x"/>
+<string key="style1" value="Прв начин"/>
+</SimStrings>
