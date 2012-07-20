@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--common-strings_tk.xml created Wed Jul 18 16:54:59 UZT 2012 using: flash-common-strings 2.03.00 (48823), translation-utility 2.13.00 (59150) дек 8, 2011-->
+<SimStrings>
+<string key="About..." value="Goşmaça maglumat:"/>
+<string key="SoftwareDevelopment" value="Programmanyň taýýarlanylyşy."/>
+<string key="Cancel" value="Goýbolsun et"/>
+<string key="StatisticsField-host_flash_accessibility" value="Elýeterli bolan abzal ulanylýar?:"/>
+<string key="Privacy" value="Şahsy maglumatlary goramak barada"/>
+<string key="Version" value="Wersiýa"/>
+<string key="NewVersionAvailable" value="Täze wersiýa bar"/>
+<string key="SoftwareAgreement" value="Programma boýunça ylalaşyk."/>
+<string key="PhETInstallation" value="Soňky programmany almak üçin, geçiň &lt;a href='{0}'&gt;PhET Offline Website Installer sahypasyna&lt;/a&gt;."/>
+<string key="StatisticsField-sim_version_timestamp" value="Simulýasiýanyň wersiýasy (wagt belligi):"/>
+<string key="StatisticsField-sim_dev_version" value="Simulýasiýanyň wersiýasy (gyşarma):"/>
+<string key="AskLater" value="Soňrak sora"/>
+<string key="AcceptContinue" value="Ylalaş we dowam et"/>
+<string key="BuildDate" value="Ýasalan wagty"/>
+<string key="TellMore" value="Maňa has köp maglumaty ber..."/>
+<string key="FlashVersion" value="Flash programmanyň wersiýasy"/>
+<string key="PhetSoftwareAgreement" value="PhET programmasy boýunça Ylalaşyk"/>
+<string key="NoUpdatesAvailable" value="Hiç täzelik ýok"/>
+<string key="StatisticsField-message_type" value="Habar görnüşi:"/>
+<string key="InstallationDated" value="Siziň PhET özbaşdak web-saýt programmaňyzyň senesi  {0}."/>
+<string key="CheckUpdates" value="Täze wersiýalaryň barlygyny awtomat barla"/>
+<string key="UpToDate" value="Häzirki zaman"/>
+<string key="StatisticsField-sim_major_version" value="Simulýasiýanyň wersiýasy (esasy):"/>
+<string key="StatisticsField-user_total_sessions" value="Ähli simulýasiýalarynyň jemi näçe gezek işledilendikleriň sany:"/>
+<string key="InstallationNewer" value="Has täze wersiýasy bar, onuň senesi  {0}."/>
+<string key="StatisticsField-sim_sessions_since" value="Simulýasiýanyň online işledilmegiň soňky sany:"/>
+<string key="StatisticsField-sim_distribution_tag" value="Simulýasiýanyň wersiýasy (ýaýradylyşy):"/>
+<string key="Yes!" value="Hawa!"/>
+<string key="StatisticsField-host_flash_domain" value="Simulýasiýa domen:"/>
+<string key="DesignTeam" value="Taýýarlan topar"/>
+<string key="PhETPreferences" value="PhET bilen ileri tutulýan häsiýetleri"/>
+<string key="Preferences" value="Saýlanylan häsiýetler..."/>
+<string key="AllowMessages" value="PhET üçin gerekli maglumatlary ibermäge ylalaşýaryn"/>
+<string key="Updates" value="Täzelenme"/>
+<string key="StatisticsField-sim_revision" value="Simulýasiýanyň wersiýasy (üýtgedilen):"/>
+<string key="StatisticsField-user_preference_file_creation_time" value="Saýlanylan häsiýetler faňlynyň soňky döredilen wagty:"/>
+<string key="Interviews" value="Söhbetdeşlikler"/>
+<string key="StatisticsField-host_flash_time_offset" value="Wagt zonasy:"/>
+<string key="MostCurrentVersion" value="Siziň iň soňky wersiýaňyz bar ({0}) - {1}."/>
+<string key="StatisticsField-sim_deployment" value="Ulanmagyň görnüşi:"/>
+<string key="PrivacyRequirement" value="&lt;a href='{0}'&gt;PhET&lt;/a&gt; mugt berilýän programmadyr, ol grant hasabyna edilýär we onuň üçin bizden iň az möçberde anonim maglumat ýygnalmagy talap edilýär, şeýlelikde PhET ulanylyşy hasaba alnyp ulanyjylaryň täze isleglerini kanagatlandyrmaga ýardam edilýär."/>
+<string key="StatisticsField-sim_type" value="Simulýasiýanyň tipi:"/>
+<string key="Close" value="Ýap"/>
+<string key="StatisticsField-sim_dev" value="Bu taýýarlaýjy wersiýasymy?"/>
+<string key="InstallerAsk" value="PhET özbaşdak web-saýt programmanyň has täze görnüşini almak isleýäňizmi?"/>
+<string key="PrivacyMessage2" value="By clicking &quot;Agree and Continue&quot;, you agree to PhET's Software Agreement, including our privacy policy, for this and every PhET simulation you run. (For details, &lt;a href='{0}'&gt;click here&lt;/a&gt;)."/>
+<string key="StatisticsField-sim_total_sessions" value="Simulýasiýanyň jemi näçe gezek işledilendigiň sany:"/>
+<string key="PrivacyMessage1" value="Ähli PhET simulýasiýalarynda, biz ýygnaýarys iň az möçberde anonim &lt;a href='{0}'&gt;maglumat&lt;/a&gt; her gezek simulýasiýa başlanda (meselem, wersiýa, operasion sistema). Siz islendik pursatda bu maglumatlaryň iberilmegini Saýlanan häsiýetler knopka arkaly kesip bilýäňiz."/>
+<string key="StatisticsField-user_installation_timestamp" value="PhET programmanyň wagt belligi:"/>
+<string key="StatisticsField-sim_name" value="Simulýasiýanyň ady:"/>
+<string key="UpdateOptionsAvailable" value="Täzeleme mümkinçiligi bar şu ýerde &lt;i&gt;Saýlanylan häsiýetler-Preferences&lt;/i&gt;."/>
+<string key="PhetDevelopmentTeam" value="PhET düzen adamlar"/>
+<string key="InstallerInfo2" value="Has täze wersiýany almaklygy saýlasaňyz, PhET web-saýty açylar we ol ýerden siz soňky programmany kompýuteriňize ýükläp bilersiňiz"/>
+<string key="InstallerInfo1" value="PhET özbaşdak web-saýt programmany täzeläp dursaňyz iň soňky simulýasiýalar we goşmaça materiallar eliňizde bolar"/>
+<string key="StatisticsField-sim_minor_version" value="Simulýasiýanyň wersiýasy (goşmaça):"/>
+<string key="translation.credits" value="PICT Turkmenistan"/>
+<string key="Credits" value="Awtorlar"/>
+<string key="StatisticsField-host_flash_version" value="Flash Pleýeriň wersiýasy"/>
+<string key="TryNow" value="Indi synap gör"/>
+<string key="PrivacySkip" value="Böküp geçilýär bu wersiýada"/>
+<string key="CheckInstallationUpdates" value="PhET programmanyň täze neşiriniň barlygyny barla"/>
+<string key="StatisticsField-sim_locale_language" value="Dil:"/>
+<string key="Distribution" value="Ýaýratma"/>
+<string key="LicenseLibraries" value="Ulanylan kitaphana lisenziýasy barada maglumat:"/>
+<string key="PrivacyDetails" value="Şahsy maglumatlary goramak barada maglumat"/>
+<string key="NotUpdateSim" value="Bu simulýasiýany awtomat täzeläp bolmaýar"/>
+<string key="CurrentVersionIs" value="Siziň şu wagtky ulanýan wersiýaňyz {0} - {1}."/>
+<string key="StatisticsField-host_flash_os" value="Operasion sistema we ady:"/>
+<string key="TranslatedBy" value="Terjime edilen"/>
+<string key="OK" value="Bolýar"/>
+<string key="Error" value="Ýalňyşlyk"/>
+<string key="CheckSimUpdates" value="Has täze wersiýany barla"/>
+<string key="NewerVersionIs" value="Täze ({0}) wersiýany alyp bolýar"/>
+<string key="StatisticsField-sim_project" value="Proýektiň ady:"/>
+<string key="SentInformation" value="Aşakdaky maglumat PhET üçin iberiler haçan-da simulýasiýa başlanda."/>
+<string key="OSVersion" value="Operasion sistema"/>
+<string key="Details" value="Aýratynlyklar"/>
+<string key="StatisticsField-message_version" value="Habar wersiýasy:"/>
+<string key="LeadDesign" value="Baş dizaýn"/>
+<string key="StatisticsField-host_locale_language" value="Ýerli dili:"/>
+<string key="AboutSim" value="Bu simulýasiýa barada {0}"/>
+<string key="VersionError2" value="Soňrak ýenede synanş, ýa-da bar  &lt;a href='{0}'&gt;http://phet.colorado.edu&lt;/a&gt;"/>
+<string key="VersionError1" value="Ýalňyşlyk ýüze çykdy wersiýa barada maglumat alynanda"/>
+<string key="StatisticsField-sim_locale_country" value="Ýurt:"/>
+</SimStrings>
