@@ -9,16 +9,19 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
-import edu.colorado.phet.lwjglphet.utils.LWJGLUtils;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.Sample;
 import edu.colorado.phet.platetectonics.model.labels.BoundaryLabel;
 import edu.colorado.phet.platetectonics.util.Side;
 import edu.colorado.phet.platetectonics.view.ColorMode;
 
+import static edu.colorado.phet.lwjglphet.utils.LWJGLUtils.color4f;
 import static edu.colorado.phet.lwjglphet.utils.LWJGLUtils.vertex3f;
 import static org.lwjgl.opengl.GL11.*;
 
+/**
+ * Displays a dotted line along where a BoundaryLabel specifies a boundary. Used for the lithosphere/mantle boundary distinction.
+ */
 public class BoundaryLabelNode extends BaseLabelNode {
 
     private BoundaryLabel boundaryLabel;
@@ -38,7 +41,6 @@ public class BoundaryLabelNode extends BaseLabelNode {
         List<Sample> samples = boundaryLabel.boundary.samples;
 
         // if we are on the left side, reverse the samples, so the line drawing works nicely
-        // TODO: verify that this shouldn't be reversed for certain boundary label motion types!
         if ( ( boundaryLabel.side == Side.LEFT ) != boundaryLabel.isReversed() ) {
             samples = new ArrayList<Sample>( samples );
             Collections.reverse( samples );
@@ -50,7 +52,7 @@ public class BoundaryLabelNode extends BaseLabelNode {
         glLineStipple( 1, (short) 0xFF00 );
 
         glBegin( GL_LINE_STRIP );
-        LWJGLUtils.color4f( getColor() );
+        color4f( getColor() );
         Sample lastSample = null;
         for ( Sample sample : boundaryLabel.boundary.samples ) {
             // TODO: convert to tab-simplified LWJGL transform?

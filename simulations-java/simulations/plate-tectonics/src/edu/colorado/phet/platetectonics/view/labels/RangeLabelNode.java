@@ -26,34 +26,50 @@ import static org.lwjgl.opengl.GL11.glBegin;
 import static org.lwjgl.opengl.GL11.glEnd;
 
 /**
- * A label that shows a range that it is associated with (usually a top and bottom point)
+ * A label that shows a range that it is associated with (usually a top and bottom point) with a textual label. The range is indicated in
+ * the "error bars" style, looking like an extended capital I.
+ * <p/>
+ * However if there is not enough room for the label to show up, it instead puts the label off to the side and has a marking line that goes
+ * from the label to the center of the range (halfway between top and bottom).  This is the "collapsed" style.
  */
 public class RangeLabelNode extends BaseLabelNode {
 
-    public static final float POINT_LENGTH = 10;
-    public static final float POINT_OFFSET = 20;
+    // dimensions for the collapsed view
+    public static final float COLLAPSED_DIAGONAL_SEGMENT_LENGTH = 10;
+    public static final float COLLAPSED_HORIZONTAL_SEGMENT_LENGTH = 20;
 
+    // dimensions for the normal view
     public static final float BAR_WIDTH = 7;
     public static final ImmutableVector3F NORMAL = ImmutableVector3F.Z_UNIT;
-    public static final float PIXEL_SCALE = 3; // pixel up-scaling
-    public static final float TEXT_DISPLAY_SCALE = 0.45f; // factor for scaling the text
 
-    private static final float LABEL_SCALE = TEXT_DISPLAY_SCALE / PIXEL_SCALE;
-
+    // basic properties from the model label
     private final Property<ImmutableVector3F> top;
     private final Property<ImmutableVector3F> bottom;
     private final String label;
+
+    // where the label is positioned (this can be overridden)
     private Property<ImmutableVector3F> labelLocation;
+
     private ThreadedPlanarPiccoloNode labelNode;
     private GLNode labelNodeContainer;
     private Property<Float> scale;
     private PText labelPNode;
 
+    // whether the label itself should be rotated to be orthogonal to the top-bottom line
     private boolean shouldRotate = true;
 
+    /**
+     * @param top       Top of the range (3d point)
+     * @param bottom    Bottom of the range (3d point)
+     * @param label     The label to show at labelLocation
+     * @param scale     General scale parameter, so we can scale it properly
+     * @param colorMode What is the current color mode
+     * @param isDark    Whether we are dark for the Density color mode, or the opposite
+     */
     public RangeLabelNode( final Property<ImmutableVector3F> top, final Property<ImmutableVector3F> bottom, String label, Property<Float> scale, Property<ColorMode> colorMode, boolean isDark ) {
         // label is centered between the top and bottom
         this( top, bottom, label, scale, colorMode, isDark, new Property<ImmutableVector3F>( top.get().plus( bottom.get() ).times( 0.5f ) ) {{
+            // by default, place the label perfectly between the top and bottom
             SimpleObserver recenterLabelPosition = new SimpleObserver() {
                 public void update() {
                     set( top.get().plus( bottom.get() ).times( 0.5f ) );
@@ -71,7 +87,7 @@ public class RangeLabelNode extends BaseLabelNode {
      * @param scale         General scale parameter, so we can scale it properly
      * @param colorMode     What is the current color mode
      * @param isDark        Whether we are dark for the Density color mode, or the opposite
-     * @param labelLocation The position of the label (3d point)
+     * @param labelLocation The position of the label (3d point). This can update over time, and is used so we can change the position from the center
      */
     public RangeLabelNode( final Property<ImmutableVector3F> top, final Property<ImmutableVector3F> bottom, String label, final Property<Float> scale, final Property<ColorMode> colorMode, final boolean isDark, final Property<ImmutableVector3F> labelLocation ) {
         super( colorMode, isDark );
@@ -144,7 +160,6 @@ public class RangeLabelNode extends BaseLabelNode {
         ImmutableVector3F middle = labelLocation.get();
         float labelAllowance = (float) ( labelPNode.getFullBounds().getHeight() / 2 * LABEL_SCALE * 1.3f * scale.get() );
 
-        // TODO: switch to different type of label when this style is not displayable?
         ImmutableVector3F topMiddle = middle.minus( topToBottom.times( labelAllowance ) );
         ImmutableVector3F bottomMiddle = middle.plus( topToBottom.times( labelAllowance ) );
 
@@ -180,15 +195,15 @@ public class RangeLabelNode extends BaseLabelNode {
         }
         else {
             final float labelOffset = (float) ( labelPNode.getFullBounds().getWidth() / 2 ) * LABEL_SCALE * 1.1f * scale.get();
-            labelNodeContainer.transform.set( ImmutableMatrix4F.translation( ( POINT_LENGTH + POINT_OFFSET ) * scale.get() + labelOffset,
-                                                                             POINT_LENGTH * scale.get(), 0 ) );
+            labelNodeContainer.transform.set( ImmutableMatrix4F.translation( ( COLLAPSED_DIAGONAL_SEGMENT_LENGTH + COLLAPSED_HORIZONTAL_SEGMENT_LENGTH ) * scale.get() + labelOffset,
+                                                                             COLLAPSED_DIAGONAL_SEGMENT_LENGTH * scale.get(), 0 ) );
 
             glBegin( GL_LINE_STRIP );
             LWJGLUtils.color4f( getColor() );
             vertex3f( middle );
-            vertex3f( middle.plus( new ImmutableVector3F( POINT_LENGTH, POINT_LENGTH, 0 ).times( scale.get() ) ) );
-            vertex3f( middle.plus( new ImmutableVector3F( POINT_LENGTH + POINT_OFFSET,
-                                                          POINT_LENGTH, 0 ).times( scale.get() ) ) );
+            vertex3f( middle.plus( new ImmutableVector3F( COLLAPSED_DIAGONAL_SEGMENT_LENGTH, COLLAPSED_DIAGONAL_SEGMENT_LENGTH, 0 ).times( scale.get() ) ) );
+            vertex3f( middle.plus( new ImmutableVector3F( COLLAPSED_DIAGONAL_SEGMENT_LENGTH + COLLAPSED_HORIZONTAL_SEGMENT_LENGTH,
+                                                          COLLAPSED_DIAGONAL_SEGMENT_LENGTH, 0 ).times( scale.get() ) ) );
             glEnd();
         }
     }

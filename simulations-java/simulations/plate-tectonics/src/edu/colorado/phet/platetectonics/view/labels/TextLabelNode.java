@@ -17,12 +17,10 @@ import edu.umd.cs.piccolo.nodes.PText;
 import static org.lwjgl.opengl.GL11.GL_BLEND;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_TEST;
 
+/**
+ * The view for a TextLabel, which just displays text
+ */
 public class TextLabelNode extends BaseLabelNode {
-
-    public static final float PIXEL_SCALE = 3; // pixel up-scaling
-    public static final float TEXT_DISPLAY_SCALE = 0.45f; // factor for scaling the text
-
-    private static final float LABEL_SCALE = TEXT_DISPLAY_SCALE / PIXEL_SCALE;
 
     private TextLabel textLabel;
     private LWJGLTransform modelViewTransform;
