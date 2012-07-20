@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxWithIcon;
@@ -25,9 +26,11 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.common.piccolophet.nodes.slider.HSliderNode;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
 import edu.colorado.phet.energyformsandchanges.common.EFACConstants;
+import edu.colorado.phet.energyformsandchanges.intro.model.ConfigurableSpecificHeatBlock;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
 import edu.colorado.phet.energyformsandchanges.intro.model.Thermometer;
 import edu.umd.cs.piccolo.PNode;
@@ -180,7 +183,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
         airLayer.addChild( new AirNode( model.getAir(), mvt ) );
 
         // Add the movable objects.
-        final BlockNode brickNode = new BlockNode( model, model.getBrick(), mvt );
+        final BlockNode brickNode = new BlockNode( model, model.getConfigurableBlock(), mvt );
         brickNode.setApproachingEnergyChunkParentNode( airLayer );
         blockLayer.addChild( brickNode );
         final BlockNode ironBlockNode = new BlockNode( model, model.getIronBlock(), mvt );
@@ -229,22 +232,30 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
             } );
         }
 
+        {
+            PNode heatCapacitySlider = new ControlPanelNode( new HSliderNode( EnergyFormsAndChangesSimSharing.UserComponents.heatCapacitySlider,
+                                                                              ConfigurableSpecificHeatBlock.MIN_SPECIFIC_HEAT,
+                                                                              ConfigurableSpecificHeatBlock.MAX_SPECIFIC_HEAT,
+                                                                              new DoubleProperty( ConfigurableSpecificHeatBlock.MIN_SPECIFIC_HEAT ) ) );
+            backLayer.addChild( new ControlPanelNode( heatCapacitySlider ) );
+        }
+
         // Create an observer that updates the Z-order of the blocks when the
         // user controlled state changes.
         SimpleObserver blockChangeObserver = new SimpleObserver() {
             public void update() {
-                if ( model.getIronBlock().isStackedUpon( model.getBrick() ) ) {
+                if ( model.getIronBlock().isStackedUpon( model.getConfigurableBlock() ) ) {
                     brickNode.moveToBack();
                 }
-                else if ( model.getBrick().isStackedUpon( model.getIronBlock() ) ) {
+                else if ( model.getConfigurableBlock().isStackedUpon( model.getIronBlock() ) ) {
                     ironBlockNode.moveToBack();
                 }
-                else if ( model.getIronBlock().getRect().getMinX() >= model.getBrick().getRect().getMaxX() ||
-                          model.getIronBlock().getRect().getMinY() >= model.getBrick().getRect().getMaxY() ) {
+                else if ( model.getIronBlock().getRect().getMinX() >= model.getConfigurableBlock().getRect().getMaxX() ||
+                          model.getIronBlock().getRect().getMinY() >= model.getConfigurableBlock().getRect().getMaxY() ) {
                     ironBlockNode.moveToFront();
                 }
-                else if ( model.getBrick().getRect().getMinX() >= model.getIronBlock().getRect().getMaxX() ||
-                          model.getBrick().getRect().getMinY() >= model.getIronBlock().getRect().getMaxY() ) {
+                else if ( model.getConfigurableBlock().getRect().getMinX() >= model.getIronBlock().getRect().getMaxX() ||
+                          model.getConfigurableBlock().getRect().getMinY() >= model.getIronBlock().getRect().getMaxY() ) {
                     brickNode.moveToFront();
                 }
             }
@@ -252,7 +263,7 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
 
         // Update the Z-order of the blocks whenever the "userControlled" state
         // of either changes.
-        model.getBrick().position.addObserver( blockChangeObserver );
+        model.getConfigurableBlock().position.addObserver( blockChangeObserver );
         model.getIronBlock().position.addObserver( blockChangeObserver );
     }
 
