@@ -212,7 +212,7 @@ public class BioShapeUtils {
     private static Vector2D extrapolateControlPoint( Vector2D x, Vector2D y, Vector2D z ) {
         Vector2D xy = y.minus( x );
         Vector2D yz = z.minus( y );
-        return y.plus( xy.getScaledInstance( 0.25 ).plus( yz.getScaledInstance( 0.25 ) ) );
+        return y.plus( xy.times( 0.25 ).plus( yz.times( 0.25 ) ) );
     }
 
     public static void main( String[] args ) {

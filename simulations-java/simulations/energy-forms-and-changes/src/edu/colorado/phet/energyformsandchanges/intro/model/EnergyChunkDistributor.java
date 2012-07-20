@@ -342,7 +342,7 @@ public class EnergyChunkDistributor {
         }
 
         public void applyForce( Vector2D force ) {
-            acceleration.add( force.getScaledInstance( force.getMagnitude() / MASS ) );
+            acceleration.add( force.times( force.getMagnitude() / MASS ) );
         }
 
         public void clearAcceleration() {
@@ -352,7 +352,7 @@ public class EnergyChunkDistributor {
         public void updatePosition( double dt ) {
 
             // Update the velocity based on previous velocity and current acceleration.
-            velocity.add( acceleration.getScaledInstance( dt ) );
+            velocity.add( acceleration.times( dt ) );
 
             if ( containerShape.contains( position.toPoint2D() ) ) {
 
@@ -362,14 +362,14 @@ public class EnergyChunkDistributor {
                 velocity.setMagnitude( maxVelocity * velocity.getMagnitude() / ( velocity.getMagnitude() + maxVelocity ) );
 
                 // Check that the velocity won't move the point outside of the container.
-                if ( containerShape.contains( position.toPoint2D() ) && !containerShape.contains( position.plus( velocity.getScaledInstance( dt ) ).toPoint2D() ) ) {
+                if ( containerShape.contains( position.toPoint2D() ) && !containerShape.contains( position.plus( velocity.times( dt ) ).toPoint2D() ) ) {
                     System.out.println( "Limiting the velocity" );
                     velocity.setMagnitude( 0 );
                 }
             }
 
             // Update the position.
-            position.add( velocity.getScaledInstance( dt ) );
+            position.add( velocity.times( dt ) );
         }
 
         public Shape getContainerShape() {

@@ -426,7 +426,7 @@ public class Kit {
                         Vector2D bCenter = new Vector2D( bBounds.getCenter2D() ).plus( Math.random() - 0.5, Math.random() - 0.5 );
 
                         // delta from center of A to center of B, scaled to half of our push amount.
-                        Vector2D delta = bCenter.minus( aCenter ).getNormalizedInstance().getScaledInstance( pushAmount );
+                        Vector2D delta = bCenter.minus( aCenter ).getNormalizedInstance().times( pushAmount );
 
                         // how hard B should be pushed (A will be pushed (1-pushRatio)). Heuristic, power is to make the ratio not too skewed
                         // this is done so that heavier molecules will be pushed less, while lighter ones will be pushed more
@@ -434,10 +434,10 @@ public class Kit {
                         double pushRatio = Math.pow( a.getApproximateMolecularWeight(), pushPower ) / ( Math.pow( a.getApproximateMolecularWeight(), pushPower ) + Math.pow( b.getApproximateMolecularWeight(), pushPower ) );
 
                         // push B by the pushRatio
-                        b.shiftDestination( delta.getScaledInstance( pushRatio ) );
+                        b.shiftDestination( delta.times( pushRatio ) );
 
                         // push A the opposite way, by (1 - pushRatio)
-                        Vector2D delta1 = delta.getScaledInstance( -1 * ( 1 - pushRatio ) );
+                        Vector2D delta1 = delta.times( -1 * ( 1 - pushRatio ) );
                         a.shiftDestination( delta1 );
 
                         aBounds = padMoleculeBounds( a.getDestinationBounds() );
@@ -598,7 +598,7 @@ public class Kit {
          * @return The location the atom should be placed
          */
         public Vector2D getIdealLocation() {
-            return a.getPosition().plus( direction.getVector().getScaledInstance( a.getRadius() + b.getRadius() ) );
+            return a.getPosition().plus( direction.getVector().times( a.getRadius() + b.getRadius() ) );
         }
     }
 }

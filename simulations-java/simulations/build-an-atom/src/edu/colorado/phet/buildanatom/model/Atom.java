@@ -148,7 +148,7 @@ public class Atom implements IDynamicAtom {
      * to Kevin Bacon).
      */
     private void jumpBack() {
-        translateNucleons( unstableNucleusJitterVector.getScaledInstance( -1 ), false );
+        translateNucleons( unstableNucleusJitterVector.times( -1 ), false );
     }
 
     private void translateNucleons( Vector2D motionVector, boolean away ) {

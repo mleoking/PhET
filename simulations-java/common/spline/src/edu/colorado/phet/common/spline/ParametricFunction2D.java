@@ -68,7 +68,7 @@ public abstract class ParametricFunction2D implements Serializable {
         MutableVector2D dir = new MutableVector2D( center, avg );
         Vector2D vec = new Vector2D( getUnitNormalVector( alpha ) );
         if ( dir.dot( vec ) < 0 ) {
-            vec = vec.getScaledInstance( -1.0 );
+            vec = vec.times( -1.0 );
         }
         return vec;
     }

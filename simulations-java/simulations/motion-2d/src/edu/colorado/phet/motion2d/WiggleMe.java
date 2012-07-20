@@ -58,7 +58,7 @@ public class WiggleMe extends CompositePhetGraphic implements ModelElement {
         }
         this.time += dt;
         double value = sine.valueAtTime( time );
-        Point2D at = oscillationVector.getScaledInstance( value ).getDestination( startPt );
+        Point2D at = oscillationVector.times( value ).getDestination( startPt );
         current.setLocation( at );
         if ( textGraphic != null ) {
             Rectangle r1 = textGraphic.getBounds();

@@ -220,7 +220,7 @@ The tmp arrays hold positions at t+0.5*dt.          */
                 sum = sum.plus( getLattice().getValue( x, y ).getSpinVector() );
             }
         }
-        sum = sum.getScaledInstance( 1.0 / ( getLatticeWidth() * getLatticeHeight() ) ).getScaledInstance( getLatticeWidth() );
+        sum = sum.times( 1.0 / ( getLatticeWidth() * getLatticeHeight() ) ).times( getLatticeWidth() );
         return sum;
     }
 

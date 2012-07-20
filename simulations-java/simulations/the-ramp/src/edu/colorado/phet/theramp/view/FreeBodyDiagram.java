@@ -142,23 +142,23 @@ public class FreeBodyDiagram extends PNode {
 
     private void updateXForces() {
 
-        MutableVector2D af = new MutableVector2D( model.getAppliedForce().getScaledInstance( scale ) );
+        MutableVector2D af = new MutableVector2D( model.getAppliedForce().times( scale ) );
         appliedForce.setVector( af );
 
-        MutableVector2D ff = new MutableVector2D( model.getFrictionForce().getScaledInstance( scale ) );
+        MutableVector2D ff = new MutableVector2D( model.getFrictionForce().times( scale ) );
         frictionForce.setVector( ff );
 
-        Vector2D net = new Vector2D( model.getTotalForce().getScaledInstance( scale ) );
+        Vector2D net = new Vector2D( model.getTotalForce().times( scale ) );
         netForce.setVector( net );
 
-        MutableVector2D wf = new MutableVector2D( model.getWallForce().getScaledInstance( scale ) );
+        MutableVector2D wf = new MutableVector2D( model.getWallForce().times( scale ) );
         wallForce.setVector( wf );
     }
 
     private void updateMG() {
         MutableVector2D gravity = model.getGravityForce();
-        mg.setVector( gravity.getScaledInstance( scale ) );
-        normal.setVector( model.getNormalForce().getScaledInstance( scale ) );
+        mg.setVector( gravity.times( scale ) );
+        normal.setVector( model.getNormalForce().times( scale ) );
     }
 
     public void addForceArrow( ForceArrow forceArrow ) {

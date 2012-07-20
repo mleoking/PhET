@@ -45,7 +45,7 @@ public class DriftThenTeleportMotionStrategy extends MotionStrategy {
                 DriftThenTeleportMotionStrategy.this.motionBounds = motionBounds;
             }
         } );
-        velocityXY = wanderDirection.getScaledInstance( PRE_TELEPORT_VELOCITY );
+        velocityXY = wanderDirection.times( PRE_TELEPORT_VELOCITY );
         velocityZ = -1 / FADE_AND_DRIFT_TIME;
     }
 
@@ -66,7 +66,7 @@ public class DriftThenTeleportMotionStrategy extends MotionStrategy {
         // Determine movement for drift.
         final Vector2D xyMovement;
         if ( motionBounds.testIfInMotionBounds( shape, velocityXY, dt ) ) {
-            xyMovement = velocityXY.getScaledInstance( dt );
+            xyMovement = velocityXY.times( dt );
         }
         else {
             xyMovement = new Vector2D( 0, 0 );

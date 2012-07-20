@@ -65,11 +65,11 @@ public final class EnergyChunkWanderController {
         }
         else if ( energyChunk.position.get().distance( destination.get() ) < dt * velocity.getMagnitude() ) {
             // Prevent overshoot.
-            velocity.getScaledInstance( energyChunk.position.get().distance( destination.get() ) * dt );
+            velocity.times( energyChunk.position.get().distance( destination.get() ) * dt );
         }
 
         if ( velocity.getMagnitude() > 0 ) {
-            energyChunk.position.set( energyChunk.position.get().plus( velocity.getScaledInstance( dt ) ) );
+            energyChunk.position.set( energyChunk.position.get().plus( velocity.times( dt ) ) );
             countdownTimer -= dt;
             if ( countdownTimer <= 0 ) {
                 changeVelocityVector();

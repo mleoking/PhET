@@ -58,15 +58,15 @@ public class Filament extends PathBranch {
     }
 
     private Point2D getPoint( double east, double north ) {
-        Vector2D e = eastDir.getScaledInstance( east );
-        Vector2D n = northDir.getScaledInstance( north );
+        Vector2D e = eastDir.times( east );
+        Vector2D n = northDir.times( north );
         Vector2D sum = e.plus( n );
         return sum.getDestination( pin );
     }
 
     private Vector2D getVector( double east, double north ) {
-        Vector2D e = eastDir.getScaledInstance( east );
-        Vector2D n = northDir.getScaledInstance( north );
+        Vector2D e = eastDir.times( east );
+        Vector2D n = northDir.times( north );
         return e.plus( n );
     }
 
@@ -95,7 +95,7 @@ public class Filament extends PathBranch {
         northDir = northDir.getRotatedInstance( -tilt );
         eastDir = northDir.getNormalVector().getNormalizedInstance();
         if ( !connectAtRight ) {
-            eastDir = eastDir.getScaledInstance( -1 );
+            eastDir = eastDir.times( -1 );
         }
         if ( isNaN( northDir ) || isNaN( eastDir ) ) {
             System.out.println( "Bulb basis set is not a number." );

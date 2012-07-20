@@ -56,8 +56,8 @@ public class SchematicOscillateNode extends ComponentNode {
     }
 
     private Vector2D getVector( double east, double north ) {
-        Vector2D e = eastDir.getScaledInstance( east );
-        Vector2D n = northDir.getScaledInstance( north );
+        Vector2D e = eastDir.times( east );
+        Vector2D n = northDir.times( north );
         return e.plus( n );
     }
 
@@ -68,8 +68,8 @@ public class SchematicOscillateNode extends ComponentNode {
         Vector2D vector = new Vector2D( srcpt, dstpt );
         double fracDistToCathode = .1;
         double fracDistToAnode = ( 1 - fracDistToCathode );
-        catPoint = vector.getScaledInstance( fracDistToCathode ).getDestination( srcpt );
-        anoPoint = vector.getScaledInstance( fracDistToAnode ).getDestination( srcpt );
+        catPoint = vector.times( fracDistToCathode ).getDestination( srcpt );
+        anoPoint = vector.times( fracDistToAnode ).getDestination( srcpt );
 
         eastDir = vector.getInstanceOfMagnitude( 1 );
         northDir = eastDir.getNormalVector();

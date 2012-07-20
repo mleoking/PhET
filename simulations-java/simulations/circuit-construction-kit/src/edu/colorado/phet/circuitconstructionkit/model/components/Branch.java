@@ -334,7 +334,7 @@ public abstract class Branch extends SimpleObservableDebug {
     }
 
     public Point2D getCenter() {
-        return new MutableVector2D( getStartJunction().getPosition(), getEndJunction().getPosition() ).getScaledInstance( .5 ).getDestination( getStartJunction().getPosition() );
+        return new MutableVector2D( getStartJunction().getPosition(), getEndJunction().getPosition() ).times( .5 ).getDestination( getStartJunction().getPosition() );
     }
 
     public void delete() {

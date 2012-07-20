@@ -226,7 +226,7 @@ public class FieldLatticeView implements Graphic, SimpleObserver {
             g2.setColor( color );
             g2.setStroke( hollowArrowStroke );
             for ( int i = 0; i < latticePts.length; i++ ) {
-                Vector2D f = latticePts[i].field.getScaledInstance( fieldSense );//see #958
+                Vector2D f = latticePts[i].field.times( fieldSense );//see #958
                 double l = f.getMagnitude();
 
                 if ( l > 3 ) {

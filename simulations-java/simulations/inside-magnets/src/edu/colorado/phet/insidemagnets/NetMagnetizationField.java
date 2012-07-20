@@ -25,7 +25,7 @@ public class NetMagnetizationField extends PNode {
         magnetizationProperty.addObserver( new SimpleObserver() {
             public void update() {
                 Vector2D magnetization = magnetizationProperty.get();
-                magnetization = magnetization.getScaledInstance( -20 );
+                magnetization = magnetization.times( -20 );
                 arrowNode.setTipAndTailLocations( new Point2D.Double( -magnetization.getX() / 2, -magnetization.getY() / 2 ),
                                                   new Point2D.Double( magnetization.getX() / 2, magnetization.getY() / 2 ) );
             }

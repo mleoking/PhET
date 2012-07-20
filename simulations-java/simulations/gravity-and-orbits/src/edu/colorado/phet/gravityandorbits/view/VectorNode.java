@@ -68,7 +68,7 @@ public class VectorNode extends PNode {
 
     private Point2D.Double getTip( Point2D tail ) {
         int minArrowLength = 10;
-        Vector2D force = new Vector2D( modelViewTransform.get().modelToViewDelta( vector.get().getScaledInstance( scale ).toPoint2D() ) );
+        Vector2D force = new Vector2D( modelViewTransform.get().modelToViewDelta( vector.get().times( scale ).toPoint2D() ) );
         if ( force.getMagnitude() < minArrowLength && force.getMagnitude() > 1E-12 ) {
             force = force.getInstanceOfMagnitude( minArrowLength );
         }

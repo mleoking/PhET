@@ -221,7 +221,7 @@ public class ConductivityApplication {
     private Vector2D getResistorCenter() {
         MutableVector2D phetvector = circuit.getResistor().getStartPosition();
         MutableVector2D phetvector1 = circuit.getResistor().getEndPosition();
-        Vector2D phetvector2 = phetvector1.minus( phetvector ).getScaledInstance( 0.5D );
+        Vector2D phetvector2 = phetvector1.minus( phetvector ).times( 0.5D );
         Vector2D phetvector3 = phetvector.plus( phetvector2 );
         return phetvector3;
     }

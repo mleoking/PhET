@@ -66,7 +66,7 @@ public class ParametricFunction2DNode extends PNode {
             for ( double x = 0; x <= parametricFunction2D.getMetricDelta( 0, 1 ); x += 0.1 ) {
                 double alpha = parametricFunction2D.getFractionalDistance( 0, x );
                 SerializablePoint2D pt = parametricFunction2D.evaluate( alpha );
-                Arrow arrow = new Arrow( pt, parametricFunction2D.getUnitNormalVector( alpha ).getScaledInstance( 0.1 ).getDestination( pt ), 0.03f, 0.03f, 0.01f );
+                Arrow arrow = new Arrow( pt, parametricFunction2D.getUnitNormalVector( alpha ).times( 0.1 ).getDestination( pt ), 0.03f, 0.03f, 0.01f );
                 PhetPPath phetPPath = new PhetPPath( arrow.getShape(), Color.black );
                 topLayer.addChild( phetPPath );
             }
@@ -78,7 +78,7 @@ public class ParametricFunction2DNode extends PNode {
                 double alpha = parametricFunction2D.getFractionalDistance( 0, x );
                 SerializablePoint2D at = parametricFunction2D.evaluate( alpha );
                 Vector2D pt = parametricFunction2D.getCurvatureDirection( alpha );
-                Arrow arrow = new Arrow( at, pt.getScaledInstance( 0.1 ).getDestination( at ), 0.03f, 0.03f, 0.01f );
+                Arrow arrow = new Arrow( at, pt.times( 0.1 ).getDestination( at ), 0.03f, 0.03f, 0.01f );
                 PhetPPath phetPPath = new PhetPPath( arrow.getShape(), Color.blue );
                 curvatureLayer.addChild( phetPPath );
             }

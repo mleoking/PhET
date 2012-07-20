@@ -71,9 +71,9 @@ public abstract class AbstractVector2D implements Serializable {
         return new Vector2D( getX() / magnitude, getY() / magnitude );
     }
 
-    public Vector2D getInstanceOfMagnitude( double magnitude ) { return getScaledInstance( magnitude / getMagnitude() ); }
+    public Vector2D getInstanceOfMagnitude( double magnitude ) { return times( magnitude / getMagnitude() ); }
 
-    public Vector2D getScaledInstance( double scale ) { return new Vector2D( getX() * scale, getY() * scale ); }
+    public Vector2D times( double scale ) { return new Vector2D( getX() * scale, getY() * scale ); }
 
     public Vector2D plus( AbstractVector2D v ) { return plus( v.getX(), v.getY() ); }
 

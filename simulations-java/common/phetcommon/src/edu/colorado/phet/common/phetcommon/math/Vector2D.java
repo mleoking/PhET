@@ -54,11 +54,9 @@ public @Data class Vector2D extends AbstractVector2D {
 
     @Override public double getX() { return x; }
 
-    public static Vector2D createPolar( double radius, double angle ) { return new Vector2D( Math.cos( angle ), Math.sin( angle ) ).getScaledInstance( radius ); }
+    public static Vector2D createPolar( double radius, double angle ) { return new Vector2D( Math.cos( angle ), Math.sin( angle ) ).times( radius ); }
 
-    public Vector2D times( double scale ) { return getScaledInstance( scale ); }
-
-    public Vector2D negate() { return getScaledInstance( -1 ); }
+    public Vector2D negate() { return times( -1 ); }
 
     public static void main( String[] args ) {
         Vector2D v = new Vector2D( 0, 0 );

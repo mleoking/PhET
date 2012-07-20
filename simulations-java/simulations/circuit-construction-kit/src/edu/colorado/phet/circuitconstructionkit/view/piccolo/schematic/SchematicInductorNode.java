@@ -55,11 +55,11 @@ public class SchematicInductorNode extends SchematicOscillateNode {
             Point2D catPoint = super.getCatPoint();
             Point2D anoPoint = getAnoPoint();
             MutableVector2D v = new MutableVector2D( catPoint, anoPoint );
-            Vector2D s = v.getScaledInstance( super.getFracDistToStartSine() );
+            Vector2D s = v.times( super.getFracDistToStartSine() );
             Point2D dst = s.getDestination( catPoint );
             leftBranch.setPathTo( new Line2D.Double( catPoint, dst ) );
 
-            Point2D d2 = s.getScaledInstance( -1 ).getDestination( anoPoint );
+            Point2D d2 = s.times( -1 ).getDestination( anoPoint );
             rightBranch.setPathTo( new Line2D.Double( anoPoint, d2 ) );
         }
     }

@@ -213,7 +213,7 @@ public class Body implements IBodyColors {
                 velocityProperty.set( bodyState.velocity );
             }
             accelerationProperty.set( bodyState.acceleration );
-            forceProperty.set( bodyState.acceleration.getScaledInstance( bodyState.mass ) );
+            forceProperty.set( bodyState.acceleration.times( bodyState.mass ) );
         }
     }
 

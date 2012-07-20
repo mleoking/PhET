@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.balanceandtorque.common.model.masses;
 
 import java.awt.Shape;
@@ -137,7 +137,7 @@ public class BrickStack extends ShapeMass {
             // Do a step of the linear animation towards the destination.
             if ( getPosition().distance( animationDestination ) >= animationMotionVector.getMagnitude() * dt ) {
                 // Perform next step of animation.
-                translate( animationMotionVector.getScaledInstance( dt ) );
+                translate( animationMotionVector.times( dt ) );
                 animationScale = Math.max( animationScale - ( dt / expectedAnimationTime ) * 0.9, 0.1 );
             }
             else {

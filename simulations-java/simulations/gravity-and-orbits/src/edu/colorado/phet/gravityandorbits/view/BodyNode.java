@@ -124,8 +124,8 @@ public class BodyNode extends PNode {
         return new PNode() {{
             Point2D viewCenter = new Point2D.Double( 0, 0 );
             Vector2D northEastVector = Vector2D.createPolar( 1, labelAngle );
-            Point2D tip = northEastVector.getScaledInstance( 10 ).getDestination( viewCenter );
-            final Point2D tail = northEastVector.getScaledInstance( 50 ).getDestination( viewCenter );
+            Point2D tip = northEastVector.times( 10 ).getDestination( viewCenter );
+            final Point2D tail = northEastVector.times( 50 ).getDestination( viewCenter );
 
             addChild( new ArrowNode( tail, tip, 0, 0, 3 ) {{
                 setPaint( Color.yellow );

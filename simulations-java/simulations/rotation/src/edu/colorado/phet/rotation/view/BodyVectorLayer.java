@@ -39,14 +39,14 @@ public class BodyVectorLayer extends PNode {
         this.rotationBody = rotationBody;
         accelArrow = new VectorNode( RotationStrings.getString( "variable.a" ), RotationColorScheme.ACCELERATION_COLOR, new VectorFunction() {
             public Vector2D getVector() {
-                return rotationBody.getAcceleration().getScaledInstance( accelScale );
+                return rotationBody.getAcceleration().times( accelScale );
             }
         } );
         addChild( accelArrow );
 
         velocityArrow = new VectorNode( RotationStrings.getString( "variable.v" ), RotationColorScheme.VELOCITY_COLOR, new VectorFunction() {
             public Vector2D getVector() {
-                return rotationBody.getVelocity().getScaledInstance( velScale );
+                return rotationBody.getVelocity().times( velScale );
             }
         } );
         addChild( velocityArrow );

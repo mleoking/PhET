@@ -59,17 +59,17 @@ public class SchematicPlatedNode extends ComponentNode {
         double viewThickness = wireThickness;
 
         Vector2D vector = new Vector2D( src, dst );
-        Point2D cat = vector.getScaledInstance( fracDistToPlate ).getDestination( src );
-        Point2D ano = vector.getScaledInstance( 1 - fracDistToPlate ).getDestination( src );
+        Point2D cat = vector.times( fracDistToPlate ).getDestination( src );
+        Point2D ano = vector.times( 1 - fracDistToPlate ).getDestination( src );
         Vector2D east = vector.getInstanceOfMagnitude( 1 );
         Vector2D north = east.getNormalVector();
         double catHeight = viewThickness * this.scaleHeightLeft;
         double anoHeight = viewThickness * this.scaleHeightRight;
         Point2D catHat = north.getInstanceOfMagnitude( catHeight ).getDestination( cat );
-        Point2D cattail = north.getInstanceOfMagnitude( catHeight ).getScaledInstance( -1 ).getDestination( cat );
+        Point2D cattail = north.getInstanceOfMagnitude( catHeight ).times( -1 ).getDestination( cat );
 
         Point2D anoHat = north.getInstanceOfMagnitude( anoHeight ).getDestination( ano );
-        Point2D anotail = north.getInstanceOfMagnitude( anoHeight ).getScaledInstance( -1 ).getDestination( ano );
+        Point2D anotail = north.getInstanceOfMagnitude( anoHeight ).times( -1 ).getDestination( ano );
 
         double thickness = viewThickness / 2;
         Area area = new Area();

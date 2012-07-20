@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.balanceandtorque.common.model.masses;
 
 import java.awt.geom.Point2D;
@@ -113,7 +113,7 @@ public class ImageMass extends Mass {
             }
             else {
                 // Do a step of the linear animation towards the destination.
-                translate( animationMotionVector.getScaledInstance( dt ) );
+                translate( animationMotionVector.times( dt ) );
                 // Calculate the scaling factor such that the object is about
                 // 10% of its usual size when it reaches the destination.
                 animationScale = Math.max( animationScale - ( dt / expectedAnimationTime ) * 0.5, 0.1 );

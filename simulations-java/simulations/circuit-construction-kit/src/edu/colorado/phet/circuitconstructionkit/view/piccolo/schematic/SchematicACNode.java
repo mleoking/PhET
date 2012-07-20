@@ -47,7 +47,7 @@ public class SchematicACNode extends SchematicOscillateNode {
             double dist = catPoint.distance( anoPoint );
             double radius = dist / 2;
             MutableVector2D vec = new MutableVector2D( catPoint, anoPoint );
-            Point2D ctr = vec.getScaledInstance( .5 ).getDestination( catPoint );
+            Point2D ctr = vec.times( .5 ).getDestination( catPoint );
             Ellipse2D.Double ellipse = new Ellipse2D.Double();
             Point2D corner = new MutableVector2D( radius, radius ).getDestination( ctr );
             ellipse.setFrameFromCenter( ctr, corner );
