@@ -203,7 +203,7 @@ public class ConductivityApplication {
                 for ( int i = 0; i < photons.size(); i++ ) {
                     Photon photon = (Photon) photons.get( i );
                     photon.stepInTime( d );
-                    double distToCenter = photon.getPosition().getSubtractedInstance( resistorCenter ).getMagnitude();
+                    double distToCenter = photon.getPosition().minus( resistorCenter ).getMagnitude();
                     int DIST_FUDGE_FACTOR = 5;//introduced when switched from arrow to image.
                     if ( distToCenter <= photon.getSpeed() * d * DIST_FUDGE_FACTOR ) {
                         photons.remove( i );
@@ -221,14 +221,14 @@ public class ConductivityApplication {
     private Vector2D getResistorCenter() {
         MutableVector2D phetvector = circuit.getResistor().getStartPosition();
         MutableVector2D phetvector1 = circuit.getResistor().getEndPosition();
-        Vector2D phetvector2 = phetvector1.getSubtractedInstance( phetvector ).getScaledInstance( 0.5D );
+        Vector2D phetvector2 = phetvector1.minus( phetvector ).getScaledInstance( 0.5D );
         Vector2D phetvector3 = phetvector.plus( phetvector2 );
         return phetvector3;
     }
 
     public void pointAt( Vector2D phetvector ) {
         MutableVector2D phetvector1 = light.getPosition();
-        Vector2D phetvector2 = phetvector.getSubtractedInstance( phetvector1 ).getNormalizedInstance();
+        Vector2D phetvector2 = phetvector.minus( phetvector1 ).getNormalizedInstance();
         double d = phetvector2.getAngle();
         double d1 = Math.toRadians( 126D );
         double d2 = -d + d1;
@@ -242,7 +242,7 @@ public class ConductivityApplication {
         MacroCircuit macrocircuit = model.getCircuit();
         Vector2D phetvector = macrocircuit.getResistor().getLocation( macrocircuit.getResistor().getLength() / 2D );
         MutableVector2D phetvector1 = new MutableVector2D( double1.getX() + 0.29999999999999999D, double1.getY() - 0.20000000000000001D );
-        Vector2D phetvector2 = phetvector.getSubtractedInstance( 0.0D, 0.10000000000000001D );
+        Vector2D phetvector2 = phetvector.minus( 0.0D, 0.10000000000000001D );
         cablePath.curveTo( (float) phetvector1.getX(), (float) phetvector1.getY(), (float) phetvector2.getX(), (float) phetvector2.getY(), (float) phetvector.getX(), (float) phetvector.getY() );
         final ShapeGraphic curveShape = new ShapeGraphic( cablePath, Color.black, new BasicStroke( 2.0F ) );
         transform.addTransformListener( new TransformListener() {
@@ -355,7 +355,7 @@ public class ConductivityApplication {
         Photon photon = new Photon();
         photon.setPosition( light.getPosition() );
         double d = 0.01D;
-        Vector2D phetvector1 = phetvector.getSubtractedInstance( photon.getPosition() ).getInstanceOfMagnitude( d );
+        Vector2D phetvector1 = phetvector.minus( photon.getPosition() ).getInstanceOfMagnitude( d );
         photon.setVelocity( phetvector1 );
         PhotonArrowGraphic photonarrowgraphic = new PhotonArrowGraphic( photon, transform );
         getApparatusPanel().addGraphic( photonarrowgraphic, 3D );

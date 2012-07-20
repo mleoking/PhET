@@ -79,7 +79,7 @@ public final class EnergyChunkWanderController {
     }
 
     private void changeVelocityVector() {
-        Vector2D vectorToDestination = destination.get().getSubtractedInstance( energyChunk.position.get() );
+        Vector2D vectorToDestination = destination.get().minus( energyChunk.position.get() );
         double angle = vectorToDestination.getAngle();
         if ( vectorToDestination.getMagnitude() > DISTANCE_AT_WHICH_TO_STOP_WANDERING ) {
             // Add some randomness to the direction of travel.

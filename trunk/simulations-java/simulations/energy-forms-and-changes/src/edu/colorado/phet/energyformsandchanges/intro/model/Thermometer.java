@@ -98,7 +98,7 @@ public class Thermometer extends UserMovableModelElement {
             if ( locationBeingFollowed != null ) {
                 locationBeingFollowed.removeObserver( followerFunction );
             }
-            offset = follower.get().getSubtractedInstance( locationToFollow.get() );
+            offset = follower.get().minus( locationToFollow.get() );
             locationToFollow.addObserver( followerFunction );
             locationBeingFollowed = locationToFollow;
         }

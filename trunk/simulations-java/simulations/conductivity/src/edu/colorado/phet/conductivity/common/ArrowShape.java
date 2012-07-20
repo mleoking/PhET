@@ -13,8 +13,8 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 public class ArrowShape {
 
     public ArrowShape( AbstractVector2D phetvector, AbstractVector2D phetvector1, double d, double d1, double d2 ) {
-        direction = phetvector1.getSubtractedInstance( phetvector ).getNormalizedInstance();
-        double d3 = phetvector1.getSubtractedInstance( phetvector ).getMagnitude();
+        direction = phetvector1.minus( phetvector ).getNormalizedInstance();
+        double d3 = phetvector1.minus( phetvector ).getMagnitude();
         if ( d3 < d ) {
             throw new RuntimeException( "Head too big." );
         }

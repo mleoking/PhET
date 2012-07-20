@@ -25,7 +25,7 @@ public class BodyState implements Serializable {
     }
 
     public double distanceSquared( Vector2D position ) {
-        return this.position.getSubtractedInstance( position ).getMagnitudeSq();
+        return this.position.minus( position ).getMagnitudeSq();
     }
 
     @Override

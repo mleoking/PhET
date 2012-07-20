@@ -27,7 +27,7 @@ public class MoveTo
         double d2 = speed.getSpeed() * d;
         MutableVector2D phetvector = target.getPosition();
         MutableVector2D phetvector1 = bandparticle.getPosition();
-        Vector2D phetvector2 = phetvector.getSubtractedInstance( phetvector1 );
+        Vector2D phetvector2 = phetvector.minus( phetvector1 );
         double d3 = phetvector2.getMagnitude();
         if ( d3 <= d2 ) {
             bandparticle.setPosition( phetvector );

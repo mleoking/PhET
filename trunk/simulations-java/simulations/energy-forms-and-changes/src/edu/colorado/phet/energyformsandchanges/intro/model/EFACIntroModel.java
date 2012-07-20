@@ -308,7 +308,7 @@ public class EFACIntroModel {
      */
     public Point2D validatePosition( RectangularThermalMovableModelElement modelElement, Point2D proposedPosition ) {
 
-        Vector2D translation = new Vector2D( proposedPosition ).getSubtractedInstance( modelElement.position.get() );
+        Vector2D translation = new Vector2D( proposedPosition ).minus( modelElement.position.get() );
 
         // Validate against the sides of the beaker.
         if ( modelElement != beaker ) {

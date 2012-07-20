@@ -236,7 +236,7 @@ public class CircuitSection implements ModelElement, Graphic, DopantDropListener
         for ( int i = 0; i < numDopantSlots(); i++ ) {
             DopantSlot ds = dopantSlotAt( i );
             Shape shape = ds.getViewShape();
-            double dist = dopant.getCenter().getSubtractedInstance( getCenter( shape ) ).getMagnitude();
+            double dist = dopant.getCenter().minus( getCenter( shape ) ).getMagnitude();
             boolean ok = dopantSlotAt( i ).getViewShape().intersects( dopantRect.getBounds2D() );
             if ( ok && ( closest == null || dist < closestDist ) ) {
                 closest = ds;

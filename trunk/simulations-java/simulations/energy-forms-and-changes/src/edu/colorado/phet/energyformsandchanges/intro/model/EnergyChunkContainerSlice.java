@@ -30,7 +30,7 @@ public class EnergyChunkContainerSlice {
         // Monitor the anchor position and move the contained energy chunks to match.
         anchorPoint.addObserver( new ChangeObserver<Vector2D>() {
             public void update( Vector2D newPosition, Vector2D oldPosition ) {
-                Vector2D translation = newPosition.getSubtractedInstance( oldPosition );
+                Vector2D translation = newPosition.minus( oldPosition );
                 EnergyChunkContainerSlice.this.shape = AffineTransform.getTranslateInstance( translation.getX(), translation.getY() ).createTransformedShape( EnergyChunkContainerSlice.this.shape );
                 for ( EnergyChunk energyChunk : energyChunkList ) {
                     energyChunk.translate( translation );

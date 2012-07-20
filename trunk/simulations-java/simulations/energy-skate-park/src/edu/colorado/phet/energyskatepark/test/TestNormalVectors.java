@@ -44,7 +44,7 @@ public class TestNormalVectors extends TestCase {
 
         Vector2D normed = a.getNormalVector();
         EnergySkateParkLogging.println( "original vector=" + a + ", rotated vector= " + rotated + ", getNormalVector=" + normed );
-        double error = rotated.getSubtractedInstance( normed ).getMagnitude();
+        double error = rotated.minus( normed ).getMagnitude();
         assertEquals( error, 0.0, 1E-6 );
         return error;
     }

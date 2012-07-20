@@ -47,7 +47,7 @@ public abstract class ShapeSegment {
 
     public void setLowerRightCornerPos( Point2D newLowerRightCornerPos ) {
         Vector2D currentLowerRightCornerPos = new Vector2D( getLowerRightCornerPos() );
-        Vector2D delta = new Vector2D( newLowerRightCornerPos ).getSubtractedInstance( currentLowerRightCornerPos );
+        Vector2D delta = new Vector2D( newLowerRightCornerPos ).minus( currentLowerRightCornerPos );
         Rectangle2D newBounds = AffineTransform.getTranslateInstance( delta.getX(), delta.getY() ).createTransformedShape( bounds.get() ).getBounds2D();
         bounds.set( newBounds );
         updateAttachmentSiteLocation();

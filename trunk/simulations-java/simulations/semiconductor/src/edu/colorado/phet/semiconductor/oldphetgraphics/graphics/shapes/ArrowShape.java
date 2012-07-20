@@ -22,8 +22,8 @@ public class ArrowShape {
     private Vector2D norm;
 
     public ArrowShape( AbstractVector2D tailLocation, AbstractVector2D tipLocation, double headHeight, double headWidth, double tailWidth ) {
-        direction = tipLocation.getSubtractedInstance( tailLocation ).getNormalizedInstance();
-        double dist = tipLocation.getSubtractedInstance( tailLocation ).getMagnitude();
+        direction = tipLocation.minus( tailLocation ).getNormalizedInstance();
+        double dist = tipLocation.minus( tailLocation ).getMagnitude();
         if ( dist < headHeight ) {
             throw new RuntimeException( "Head too big." );
         }

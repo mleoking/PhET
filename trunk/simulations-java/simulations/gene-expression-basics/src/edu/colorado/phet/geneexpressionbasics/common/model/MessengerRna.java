@@ -91,7 +91,7 @@ public class MessengerRna extends WindingBiomolecule {
             public void update() {
                 // This hint always sits at the beginning of the RNA strand.
                 Vector2D currentMRnaFirstPointPosition = new Vector2D( firstShapeDefiningPoint.getPosition() );
-                ribosomePlacementHint.setPosition( currentMRnaFirstPointPosition.getSubtractedInstance( Ribosome.OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE ).toPoint2D() );
+                ribosomePlacementHint.setPosition( currentMRnaFirstPointPosition.minus( Ribosome.OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE ).toPoint2D() );
                 mRnaDestroyerPlacementHint.setPosition( currentMRnaFirstPointPosition.toPoint2D() );
             }
         } );

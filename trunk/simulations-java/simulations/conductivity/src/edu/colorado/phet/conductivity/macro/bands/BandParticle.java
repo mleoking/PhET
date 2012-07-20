@@ -76,7 +76,7 @@ public class BandParticle extends SimpleObservable
 
     public double getDistanceFromOwnedSite() {
         MutableVector2D phetvector = cell.getPosition();
-        return getPosition().getSubtractedInstance( phetvector ).getMagnitude();
+        return getPosition().minus( phetvector ).getMagnitude();
     }
 
     public void detach() {
