@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.solublesalts.model;
 
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Particle;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;
@@ -117,9 +117,9 @@ public class Shaker extends Particle {
         }
     }
 
-    private Vector2D getCrystalVelocity() {
+    private MutableVector2D getCrystalVelocity() {
         double theta = Math.PI / 2 + ( random.nextDouble() * Math.PI / 6 * MathUtil.nextRandomSign() );
-        Vector2D velocity = new Vector2D( SolubleSaltsConfig.DEFAULT_LATTICE_SPEED, 0 );
+        MutableVector2D velocity = new MutableVector2D( SolubleSaltsConfig.DEFAULT_LATTICE_SPEED, 0 );
         velocity.rotate( theta );
         return velocity;
     }
@@ -143,7 +143,7 @@ public class Shaker extends Particle {
 
     public void shakeCrystal() {
         double dist = random.nextDouble() * openingLength * MathUtil.nextRandomSign() - openingLength / 2;
-        Vector2D velocity = getCrystalVelocity();
+        MutableVector2D velocity = getCrystalVelocity();
         int numLatticeUnits = getNumLatticeUnits();
         double y = getPosition().getY() + dist * Math.sin( orientation );
         IonFactory ionFactory = new IonFactory();
@@ -165,7 +165,7 @@ public class Shaker extends Particle {
             for ( int j = 0; j < numLatticeUnits; j++ ) {
                 for ( Component component : currentSalt.getComponents() ) {
                     for ( int i = 0; i < component.getLatticeUnitFraction().intValue(); i++ ) {
-                        ion = ionFactory.create( component.getIonClass(), p, velocity, new Vector2D() );
+                        ion = ionFactory.create( component.getIonClass(), p, velocity, new MutableVector2D() );
                         ions.add( ion );
                     }
                 }

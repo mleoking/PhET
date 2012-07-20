@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /**
  * Class: SinusoidalMovement Package: edu.colorado.phet.emf Author: Another Guy
@@ -10,8 +10,7 @@ package edu.colorado.phet.radiowaves.model.movement;
 import java.awt.geom.Point2D;
 import java.util.Observable;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.radiowaves.RadioWavesApplication;
 import edu.colorado.phet.radiowaves.model.EMFSineFunction;
 import edu.colorado.phet.radiowaves.model.Electron;
@@ -24,7 +23,7 @@ public class SinusoidalMovement extends Observable implements MovementType {
     private Point2D nextPosition = new Point2D.Double();
     private float omega;
     private float runningTime;
-    private Vector2D velocity = new Vector2D();
+    private MutableVector2D velocity = new MutableVector2D();
 
     public SinusoidalMovement( float frequency, float amplitude ) {
         this.frequency = frequency;
@@ -39,7 +38,7 @@ public class SinusoidalMovement extends Observable implements MovementType {
         electron.setCurrentPosition( nextPosition );
     }
 
-    public Vector2D getVelocity( Electron electron ) {
+    public MutableVector2D getVelocity( Electron electron ) {
         velocity.setY( omega * (float) Math.cos( omega * runningTime ) );
         return velocity;
     }

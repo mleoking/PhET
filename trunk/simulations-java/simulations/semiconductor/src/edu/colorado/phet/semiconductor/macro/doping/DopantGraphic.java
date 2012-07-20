@@ -1,12 +1,15 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.semiconductor.macro.doping;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Shape;
+import java.awt.TexturePaint;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.semiconductor.common.SimpleBufferedImageGraphic;
@@ -127,8 +130,8 @@ public class DopantGraphic extends TransformGraphic implements Boundary {
         return dopant.getType();
     }
 
-    public Vector2D getCenter() {
-        return new Vector2D( viewLoc );
+    public MutableVector2D getCenter() {
+        return new MutableVector2D( viewLoc );
     }
 
 

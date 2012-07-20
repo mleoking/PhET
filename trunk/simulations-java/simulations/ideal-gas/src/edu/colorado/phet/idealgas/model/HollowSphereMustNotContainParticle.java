@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /**
  * Created by IntelliJ IDEA.
@@ -9,8 +9,7 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.idealgas.collision.SphericalBody;
 
@@ -32,13 +31,13 @@ public class HollowSphereMustNotContainParticle extends MustNotContain {
     public Object apply( Constraint.Spec spec ) {
 
         MustNotContain.Spec mustNotContainSpec = null;
-        if( spec instanceof MustNotContain.Spec ) {
-            mustNotContainSpec = (MustNotContain.Spec)spec;
+        if ( spec instanceof MustNotContain.Spec ) {
+            mustNotContainSpec = (MustNotContain.Spec) spec;
         }
         ModelElement body = mustNotContainSpec.getContainer();
         HollowSphere hollowSphere = null;
-        if( body instanceof HollowSphere ) {
-            hollowSphere = (HollowSphere)body;
+        if ( body instanceof HollowSphere ) {
+            hollowSphere = (HollowSphere) body;
         }
         else {
             throw new RuntimeException( "Container not instance of HollowSphere " +
@@ -47,8 +46,8 @@ public class HollowSphereMustNotContainParticle extends MustNotContain {
 
         body = mustNotContainSpec.getExcluded();
         SphericalBody particle = null;
-        if( body instanceof SphericalBody ) {
-            particle = (SphericalBody)body;
+        if ( body instanceof SphericalBody ) {
+            particle = (SphericalBody) body;
         }
         else {
             throw new RuntimeException( "Excluded not instance of SphericalBody " +
@@ -57,19 +56,19 @@ public class HollowSphereMustNotContainParticle extends MustNotContain {
 
         // Apply the constraint. The particle must be completely contained in the hollowSphere
         double particleDistFromCenter = hollowSphere.getCenter().distance( particle.getCenter() );
-        if( particleDistFromCenter < hollowSphere.getRadius() + particle.getRadius() ) {
+        if ( particleDistFromCenter < hollowSphere.getRadius() + particle.getRadius() ) {
 
             // get vector from hollow sphere center to particle center, make it unit length,
             // the scale it by the hollow sphere's radius, minus the radius of the particle.
             // The result, added to the center of the hollow sphere, is the location of
             // the particle
             double properSeparation = hollowSphere.getRadius() + particle.getRadius();
-            Vector2D rHat = new Vector2D( particle.getCenter() );
+            MutableVector2D rHat = new MutableVector2D( particle.getCenter() );
 //            rHat = rHat.subtract( hollowSphere.getCenter() );
             rHat.setComponents( rHat.getX() - hollowSphere.getCenter().getX(),
                                 rHat.getY() - hollowSphere.getCenter().getY() );
             rHat.normalize();
-            Vector2D r = rHat.scale( properSeparation );
+            MutableVector2D r = rHat.scale( properSeparation );
 //            r = r.add( hollowSphere.getCenter());
             r.setComponents( r.getX() + hollowSphere.getPosition().getX(),
                              r.getY() + hollowSphere.getPosition().getY() );

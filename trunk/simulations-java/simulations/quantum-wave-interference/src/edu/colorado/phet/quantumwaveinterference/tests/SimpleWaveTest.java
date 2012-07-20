@@ -1,10 +1,16 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*  */
 package edu.colorado.phet.quantumwaveinterference.tests;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.quantumwaveinterference.model.*;
+import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.quantumwaveinterference.model.ParticleUnits;
+import edu.colorado.phet.quantumwaveinterference.model.Propagator;
+import edu.colorado.phet.quantumwaveinterference.model.WaveDebugger;
+import edu.colorado.phet.quantumwaveinterference.model.WaveSetup;
+import edu.colorado.phet.quantumwaveinterference.model.Wavefunction;
 import edu.colorado.phet.quantumwaveinterference.model.potentials.ConstantPotential;
 import edu.colorado.phet.quantumwaveinterference.model.propagators.QWIFFT2D;
 import edu.colorado.phet.quantumwaveinterference.model.propagators.SplitOperatorPropagator;
@@ -12,8 +18,6 @@ import edu.colorado.phet.quantumwaveinterference.model.waves.GaussianWave2D;
 import edu.colorado.phet.quantumwaveinterference.view.complexcolormaps.ComplexColorMapAdapter;
 import edu.colorado.phet.quantumwaveinterference.view.complexcolormaps.VisualColorMap3;
 import edu.colorado.phet.quantumwaveinterference.view.piccolo.SimpleWavefunctionGraphic;
-
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -32,7 +36,7 @@ public class SimpleWaveTest {
         double momentumY = neutronUnits.getAverageVelocity() * neutronUnits.getMass().getValue();
         System.out.println( "momentumY = " + momentumY );
         GaussianWave2D gaussianWave2D = new GaussianWave2D( new Point2D.Double( wavefunction.getWidth() / 2, wavefunction.getHeight() / 2 ),
-                                                            new Vector2D( 0, momentumY ), 3.5 * 2, neutronUnits.getHbar().getValue() );
+                                                            new MutableVector2D( 0, momentumY ), 3.5 * 2, neutronUnits.getHbar().getValue() );
         WaveSetup waveSetup = new WaveSetup( gaussianWave2D );
         waveSetup.initialize( wavefunction );
 
@@ -56,7 +60,7 @@ public class SimpleWaveTest {
 //        testTranslaton();
 //        testFFT();
 
-        for( int i = 0; i < 3; i++ ) {
+        for ( int i = 0; i < 3; i++ ) {
             propagator.propagate( wavefunction );
 ////            wavefunction.normalize();
             show( "[" + i + "]", wavefunction, 2, 2 );

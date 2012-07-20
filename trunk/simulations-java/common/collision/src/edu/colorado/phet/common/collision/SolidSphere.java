@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /**
  * Class: SolidSphere
@@ -10,14 +10,14 @@ package edu.colorado.phet.common.collision;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 
 public class SolidSphere extends SphericalBody {
     public SolidSphere( double radius ) {
         super( radius );
     }
 
-    protected SolidSphere( Point2D center, Vector2D velocity, Vector2D acceleration,
+    protected SolidSphere( Point2D center, MutableVector2D velocity, MutableVector2D acceleration,
                            double mass, double radius ) {
         super( center, velocity, acceleration, mass, radius );
     }

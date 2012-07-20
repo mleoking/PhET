@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -12,7 +12,7 @@ package edu.colorado.phet.common.mechanics;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Particle;
 
 /**
@@ -29,7 +29,7 @@ public abstract class Body extends Particle {
     private double alpha;
     private double prevAlpha;
     private double mass;
-    private Vector2D momentum = new Vector2D();
+    private MutableVector2D momentum = new MutableVector2D();
 
 
     //--------------------------------------------------------------------------------------------------
@@ -44,7 +44,7 @@ public abstract class Body extends Particle {
         Body clone = (Body) super.clone();
 
         clone.lastColidedBody = lastColidedBody == null ? null : (Particle) lastColidedBody.clone();
-        clone.momentum = new Vector2D( momentum );
+        clone.momentum = new MutableVector2D( momentum );
 
         return clone;
     }
@@ -62,8 +62,8 @@ public abstract class Body extends Particle {
      * @param mass
      * @param charge
      */
-    protected Body( Point2D location, Vector2D velocity,
-                    Vector2D acceleration, double mass, double charge ) {
+    protected Body( Point2D location, MutableVector2D velocity,
+                    MutableVector2D acceleration, double mass, double charge ) {
         super( location, velocity, acceleration );
         setMass( mass );
     }
@@ -132,12 +132,12 @@ public abstract class Body extends Particle {
         this.mass = mass;
     }
 
-    public Vector2D getMomentum() {
-        return new Vector2D( getVelocity().getX() * getMass(),
-                             getVelocity().getY() * getMass() );
+    public MutableVector2D getMomentum() {
+        return new MutableVector2D( getVelocity().getX() * getMass(),
+                                    getVelocity().getY() * getMass() );
     }
 
-    public void setMomentum( Vector2D momentum ) {
+    public void setMomentum( MutableVector2D momentum ) {
         setVelocity( momentum.getX() / getMass(), momentum.getY() / getMass() );
     }
 

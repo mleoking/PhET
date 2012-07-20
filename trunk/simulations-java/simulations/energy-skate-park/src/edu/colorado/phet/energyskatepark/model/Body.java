@@ -11,8 +11,8 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
 import edu.colorado.phet.common.spline.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.common.OptionalItemSerializableList;
@@ -159,7 +159,7 @@ public class Body implements Serializable {
     public void updateStateFromParticle() {
         if ( getSpeed() > 0.01 ) {
             if ( !isFreeFallMode() && !isUserControlled() ) {
-                facingRight = getVelocity().dot( Vector2D.createPolar( 1, getAngle() ) ) > 0;
+                facingRight = getVelocity().dot( MutableVector2D.createPolar( 1, getAngle() ) ) > 0;
             }
         }
     }
@@ -379,7 +379,7 @@ public class Body implements Serializable {
     }
 
     public TraversalState getBestTraversalState( TraversalState origState ) {
-        ImmutableVector2D normal = new Vector2D( origState.getParametricFunction2D().getUnitNormalVector( origState.getAlpha() ) ).getScaledInstance( origState.isTop() ? 1.0 : -1.0 );
+        ImmutableVector2D normal = new MutableVector2D( origState.getParametricFunction2D().getUnitNormalVector( origState.getAlpha() ) ).getScaledInstance( origState.isTop() ? 1.0 : -1.0 );
         SerializablePoint2D location = origState.getParametricFunction2D().evaluate( origState.getAlpha() );
         return particle.getBestTraversalState( location, normal );
     }

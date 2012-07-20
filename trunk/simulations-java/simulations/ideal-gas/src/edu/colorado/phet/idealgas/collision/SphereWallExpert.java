@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /**
  * Class: SphereBoxExpert
@@ -8,14 +8,13 @@
  */
 package edu.colorado.phet.idealgas.collision;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.idealgas.model.IdealGasModel;
-
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Map;
+
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.idealgas.model.IdealGasModel;
 
 public class SphereWallExpert implements CollisionExpert, ContactDetector {
 
@@ -34,7 +33,7 @@ public class SphereWallExpert implements CollisionExpert, ContactDetector {
     public boolean detectAndDoCollision( CollidableBody bodyA, CollidableBody bodyB ) {
         boolean haveCollided = false;
         ContactDescriptor contactType = getContactType( bodyA, bodyB );
-        if( contactType != null ) {
+        if ( contactType != null ) {
             new SphereWallCollision( contactType.sphere, contactType.wall, contactType.type, model ).collide();
             haveCollided = true;
         }
@@ -64,19 +63,19 @@ public class SphereWallExpert implements CollisionExpert, ContactDetector {
         SphericalBody sphere;
 
         // Check that the arguments are valid
-        if( bodyA instanceof Wall ) {
-            wall = (Wall)bodyA;
-            if( bodyB instanceof SphericalBody ) {
-                sphere = (SphericalBody)bodyB;
+        if ( bodyA instanceof Wall ) {
+            wall = (Wall) bodyA;
+            if ( bodyB instanceof SphericalBody ) {
+                sphere = (SphericalBody) bodyB;
             }
             else {
                 return null;
             }
         }
-        else if( bodyB instanceof Wall ) {
-            wall = (Wall)bodyB;
-            if( bodyA instanceof SphericalBody ) {
-                sphere = (SphericalBody)bodyA;
+        else if ( bodyB instanceof Wall ) {
+            wall = (Wall) bodyB;
+            if ( bodyA instanceof SphericalBody ) {
+                sphere = (SphericalBody) bodyA;
             }
             else {
                 return null;
@@ -88,7 +87,7 @@ public class SphereWallExpert implements CollisionExpert, ContactDetector {
 
         result = check3( sphere, wall );
         ContactDescriptor contactDescriptor = null;
-        if( result != NO_CONTACT ) {
+        if ( result != NO_CONTACT ) {
             contactDescriptor = new ContactDescriptor( wall, sphere, result );
         }
         return contactDescriptor;
@@ -104,8 +103,8 @@ public class SphereWallExpert implements CollisionExpert, ContactDetector {
     private int check3( SphericalBody sphere, Wall wall ) {
         int result = NO_CONTACT;
 
-        WallDescriptor wallDesc = (WallDescriptor)walls.get( wall );
-        if( wallDesc == null ) {
+        WallDescriptor wallDesc = (WallDescriptor) walls.get( wall );
+        if ( wallDesc == null ) {
             wallDesc = new WallDescriptor( wall, sphere.getRadius() );
             walls.put( wall, wallDesc );
         }
@@ -115,16 +114,16 @@ public class SphereWallExpert implements CollisionExpert, ContactDetector {
         Point2D Q = sphere.getPosition();
         Point2D P = sphere.getPositionPrev();
         Line2D PQ = new Line2D.Double( Q, P );
-        if( PQ.intersectsLine( wallDesc.AB ) && sphere.getVelocity().getY() > 0 ) {
+        if ( PQ.intersectsLine( wallDesc.AB ) && sphere.getVelocity().getY() > 0 ) {
             result = TOP;
         }
-        if( PQ.intersectsLine( wallDesc.BC ) && sphere.getVelocity().getX() < 0 ) {
+        if ( PQ.intersectsLine( wallDesc.BC ) && sphere.getVelocity().getX() < 0 ) {
             result = RIGHT_SIDE;
         }
-        if( PQ.intersectsLine( wallDesc.CD ) && sphere.getVelocity().getY() < 0 ) {
+        if ( PQ.intersectsLine( wallDesc.CD ) && sphere.getVelocity().getY() < 0 ) {
             result = BOTTOM;
         }
-        if( PQ.intersectsLine( wallDesc.AD ) && sphere.getVelocity().getX() > 0 ) {
+        if ( PQ.intersectsLine( wallDesc.AD ) && sphere.getVelocity().getX() > 0 ) {
             result = LEFT_SIDE;
         }
         return result;
@@ -140,26 +139,26 @@ public class SphereWallExpert implements CollisionExpert, ContactDetector {
         WallDescriptor wallDesc = new WallDescriptor( wall, sphere.getRadius() );
 
         // Figure out which boundary of the wall the sphere crossed to get inside
-        Vector2D v = new Vector2D( -sphere.getVelocity().getX(), -sphere.getVelocity().getY() ).normalize().scale( 1000 );
+        MutableVector2D v = new MutableVector2D( -sphere.getVelocity().getX(), -sphere.getVelocity().getY() ).normalize().scale( 1000 );
         Point2D Q = sphere.getPosition();
         Point2D P = new Point2D.Double( Q.getX() + v.getX(), Q.getY() + v.getY() );
         Line2D PQ = new Line2D.Double( Q, P );
-        if( PQ.intersectsLine( wallDesc.AB ) ) {
+        if ( PQ.intersectsLine( wallDesc.AB ) ) {
             sphere.setVelocity( sphere.getVelocity().getX(), -sphere.getVelocity().getY() );
             sphere.setPosition( sphere.getPosition().getX(), wallDesc.AB.getY1() );
             System.out.println( "SphereWallExpert.fixup: AB" );
         }
-        if( PQ.intersectsLine( wallDesc.BC ) ) {
+        if ( PQ.intersectsLine( wallDesc.BC ) ) {
             sphere.setVelocity( -sphere.getVelocity().getX(), sphere.getVelocity().getY() );
             sphere.setPosition( wallDesc.BC.getX1(), sphere.getPosition().getY() );
             System.out.println( "SphereWallExpert.fixup: BC" );
         }
-        if( PQ.intersectsLine( wallDesc.CD ) ) {
+        if ( PQ.intersectsLine( wallDesc.CD ) ) {
             sphere.setVelocity( sphere.getVelocity().getX(), -sphere.getVelocity().getY() );
             sphere.setPosition( sphere.getPosition().getX(), wallDesc.CD.getY1() );
             System.out.println( "SphereWallExpert.fixup: CD" );
         }
-        if( PQ.intersectsLine( wallDesc.AD ) ) {
+        if ( PQ.intersectsLine( wallDesc.AD ) ) {
             sphere.setVelocity( -sphere.getVelocity().getX(), sphere.getVelocity().getY() );
             sphere.setPosition( wallDesc.AD.getX1(), sphere.getPosition().getY() );
             System.out.println( "SphereWallExpert.fixup: AD" );

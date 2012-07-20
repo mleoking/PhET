@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -17,7 +17,7 @@ import java.awt.geom.Point2D;
 import java.util.EventListener;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Particle;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -43,7 +43,7 @@ public class Beam extends Particle implements PhotonSource {
     //-----------------------------------------------------------------
     private double nextTimeToProducePhoton = 0;
     private double wavelength;
-    private Vector2D velocity;
+    private MutableVector2D velocity;
     // The rate at which the beam produces photons
     private double timeSinceLastPhotonProduced = 0;
     // Used to deterimine when photons should be produced
@@ -71,14 +71,14 @@ public class Beam extends Particle implements PhotonSource {
      * @param fanout              spread of beam, in radians
      */
     public Beam( double wavelength, Point2D origin, double length, double beamWidth,
-                 Vector2D direction, double maxPhotonsPerSecond, double fanout, double speed ) {
+                 MutableVector2D direction, double maxPhotonsPerSecond, double fanout, double speed ) {
         this.speed = speed;
         this.fanout = fanout;
         this.wavelength = wavelength;
         this.maxPhotonsPerSecond = maxPhotonsPerSecond;
         this.setPosition( origin );
 //        this.velocity = new Vector2D.Double( direction ).normalize().scale( Photon.DEFAULT_SPEED );
-        this.velocity = new Vector2D( direction ).normalize().scale( speed );
+        this.velocity = new MutableVector2D( direction ).normalize().scale( speed );
         this.length = length;
         this.beamWidth = beamWidth;
     }
@@ -119,8 +119,8 @@ public class Beam extends Particle implements PhotonSource {
         return path.getGeneralPath().createTransformedShape( atx );
     }
 
-    public void setDirection( Vector2D direction ) {
-        this.velocity = new Vector2D( direction ).normalize().scale( speed );
+    public void setDirection( MutableVector2D direction ) {
+        this.velocity = new MutableVector2D( direction ).normalize().scale( speed );
     }
 
     public double getDirection() {
@@ -217,7 +217,7 @@ public class Beam extends Particle implements PhotonSource {
                     if ( alpha > 0 ) {
                         angle *= -1;
                     }
-                    Vector2D photonVelocity = new Vector2D( velocity ).rotate( angle );
+                    MutableVector2D photonVelocity = new MutableVector2D( velocity ).rotate( angle );
                     final Photon newPhoton = new Photon( this.getWavelength(),
                                                          photonLoc,
                                                          photonVelocity );

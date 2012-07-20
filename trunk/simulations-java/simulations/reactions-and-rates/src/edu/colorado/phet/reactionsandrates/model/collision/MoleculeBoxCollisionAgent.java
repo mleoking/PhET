@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,14 +10,17 @@
  */
 package edu.colorado.phet.reactionsandrates.model.collision;
 
-import edu.colorado.phet.common.mechanics.Body;
-import edu.colorado.phet.common.mechanics.Vector3D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.reactionsandrates.model.*;
-
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.mechanics.Body;
+import edu.colorado.phet.common.mechanics.Vector3D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.reactionsandrates.model.AbstractMolecule;
+import edu.colorado.phet.reactionsandrates.model.CompositeMolecule;
+import edu.colorado.phet.reactionsandrates.model.MRBox;
+import edu.colorado.phet.reactionsandrates.model.MRModel;
+import edu.colorado.phet.reactionsandrates.model.SimpleMolecule;
 
 /**
  * MoleculeBoxCollisionAgent
@@ -27,9 +30,9 @@ import java.awt.geom.Point2D;
  */
 public class MoleculeBoxCollisionAgent {
 
-    private Vector2D loa = new Vector2D();
+    private MutableVector2D loa = new MutableVector2D();
     private Point2D.Double collisionPt = new Point2D.Double();
-    private Vector2D n = new Vector2D();
+    private MutableVector2D n = new MutableVector2D();
     private MRModel model;
 
 
@@ -49,19 +52,19 @@ public class MoleculeBoxCollisionAgent {
 
         MRBox box = null;
         AbstractMolecule molecule;
-        if( bodyA instanceof MRBox ) {
-            box = (MRBox)bodyA;
-            if( bodyB instanceof AbstractMolecule ) {
-                molecule = (AbstractMolecule)bodyB;
+        if ( bodyA instanceof MRBox ) {
+            box = (MRBox) bodyA;
+            if ( bodyB instanceof AbstractMolecule ) {
+                molecule = (AbstractMolecule) bodyB;
             }
             else {
                 throw new RuntimeException( "bad args" );
             }
         }
-        else if( bodyB instanceof MRBox ) {
-            box = (MRBox)bodyB;
-            if( bodyA instanceof AbstractMolecule ) {
-                molecule = (AbstractMolecule)bodyA;
+        else if ( bodyB instanceof MRBox ) {
+            box = (MRBox) bodyB;
+            if ( bodyA instanceof AbstractMolecule ) {
+                molecule = (AbstractMolecule) bodyA;
             }
             else {
                 throw new RuntimeException( "bad args" );
@@ -71,7 +74,7 @@ public class MoleculeBoxCollisionAgent {
             throw new RuntimeException( "bad args" );
         }
 
-        if( detectCollision( molecule, box ) ) {
+        if ( detectCollision( molecule, box ) ) {
             doCollision( molecule, loa, collisionPt );
             // Set the temperature of the molecule to be that of the box
 //            double kePre = molecule.getKineticEnergy();
@@ -88,25 +91,25 @@ public class MoleculeBoxCollisionAgent {
     private boolean detectCollision( AbstractMolecule molecule, MRBox box ) {
         boolean collisionDetected = false;
 
-        Vector2D velocity = molecule.getVelocity();
+        MutableVector2D velocity = molecule.getVelocity();
 
-        if( molecule instanceof CompositeMolecule ) {
-            CompositeMolecule compositeMolecule = (CompositeMolecule)molecule;
+        if ( molecule instanceof CompositeMolecule ) {
+            CompositeMolecule compositeMolecule = (CompositeMolecule) molecule;
             AbstractMolecule[] components = compositeMolecule.getComponentMolecules();
-            for( int i = 0; i < components.length && !collisionDetected; i++ ) {
+            for ( int i = 0; i < components.length && !collisionDetected; i++ ) {
                 AbstractMolecule component = components[i];
                 collisionDetected = detectCollision( component, box );
             }
         }
-        else if( molecule instanceof SimpleMolecule ) {
-            SimpleMolecule rm = (SimpleMolecule)molecule;
+        else if ( molecule instanceof SimpleMolecule ) {
+            SimpleMolecule rm = (SimpleMolecule) molecule;
             Line2D wall = new Line2D.Double();
             loa.setComponents( 0, 0 );
 
             // Hitting left wall?
             wall.setLine( box.getMinX(), box.getMinY(), box.getMinX(), box.getMaxY() );
-            if( velocity.getX() < 0 &&
-                rm.getPosition().getX() - rm.getRadius() < wall.getX1() ) {
+            if ( velocity.getX() < 0 &&
+                 rm.getPosition().getX() - rm.getRadius() < wall.getX1() ) {
 //                wall.intersectsLine( rm.getPosition().getX() - rm.getRadius(), rm.getPosition().getY(),
 //                                     rm.getPositionPrev().getX() - rm.getRadius(), rm.getPositionPrev().getY() ) ) {
                 loa.setComponents( loa.getX() - 1, loa.getY() + 0 );
@@ -116,8 +119,8 @@ public class MoleculeBoxCollisionAgent {
 
             // Hitting right wall?
             wall.setLine( box.getMaxX(), box.getMinY(), box.getMaxX(), box.getMaxY() );
-            if( velocity.getX() > 0 &&
-                rm.getPosition().getX() + rm.getRadius() > wall.getX1() ) {
+            if ( velocity.getX() > 0 &&
+                 rm.getPosition().getX() + rm.getRadius() > wall.getX1() ) {
 //                wall.intersectsLine( rm.getPosition().getX() + rm.getRadius(), rm.getPosition().getY(),
 //                                     rm.getPositionPrev().getX() + rm.getRadius(), rm.getPositionPrev().getY() ) ) {
                 loa.setComponents( loa.getX() + 1, loa.getY() + 0 );
@@ -127,8 +130,8 @@ public class MoleculeBoxCollisionAgent {
 
             // Hitting bottom wall?
             wall.setLine( box.getMinX(), box.getMaxY(), box.getMaxX(), box.getMaxY() );
-            if( velocity.getY() > 0 &&
-                rm.getPosition().getY() + rm.getRadius() > wall.getY1() ) {
+            if ( velocity.getY() > 0 &&
+                 rm.getPosition().getY() + rm.getRadius() > wall.getY1() ) {
 //                wall.intersectsLine( rm.getPosition().getX(), rm.getPosition().getY() + rm.getRadius(),
 //                                     rm.getPositionPrev().getX(), rm.getPositionPrev().getY() + rm.getRadius() ) ) {
                 loa.setComponents( loa.getX() + 0, loa.getY() + 1 );
@@ -138,8 +141,8 @@ public class MoleculeBoxCollisionAgent {
 
             // Hitting top wall?
             wall.setLine( box.getMinX(), box.getMinY(), box.getMaxX(), box.getMinY() );
-            if( velocity.getY() < 0 &&
-                rm.getPosition().getY() - rm.getRadius() < wall.getY1() ) {
+            if ( velocity.getY() < 0 &&
+                 rm.getPosition().getY() - rm.getRadius() < wall.getY1() ) {
 //                wall.intersectsLine( rm.getPosition().getX(), rm.getPosition().getY() - rm.getRadius(),
 //                                     rm.getPositionPrev().getX(), rm.getPositionPrev().getY() - rm.getRadius() ) ) {
                 loa.setComponents( loa.getX() + 0, loa.getY() - 1 );
@@ -148,8 +151,8 @@ public class MoleculeBoxCollisionAgent {
             }
 
             // Are we hitting in A corner?
-            if( collisionDetected ) {
-                if( loa.getX() != 0 && loa.getY() != 0 ) {
+            if ( collisionDetected ) {
+                if ( loa.getX() != 0 && loa.getY() != 0 ) {
                     loa.scale( Math.sin( Math.PI / 4 ) );
                     collisionPt.setLocation( rm.getCM().getX() + loa.getX(), rm.getCM().getY() + loa.getY() );
                 }
@@ -159,14 +162,14 @@ public class MoleculeBoxCollisionAgent {
     }
 
 
-    public void doCollision( AbstractMolecule molecule, Vector2D loa, Point2D.Double collisionPt ) {
+    public void doCollision( AbstractMolecule molecule, MutableVector2D loa, Point2D.Double collisionPt ) {
 
         // Get the total energy of the two objects, so we can conserve it
         double totalEnergy0 = molecule.getKineticEnergy() /*+ bodyB.getKineticEnergy()*/;
 
         // Get the vectors from the bodies' CMs to the point of contact
-        Vector2D r1 = new Vector2D( collisionPt.getX() - molecule.getCM().getX(),
-                                           collisionPt.getY() - molecule.getCM().getY() );
+        MutableVector2D r1 = new MutableVector2D( collisionPt.getX() - molecule.getCM().getX(),
+                                                  collisionPt.getY() - molecule.getCM().getY() );
 
         // Get the unit vector along the line of action
         n.setComponents( loa.getX(), loa.getY() );
@@ -174,7 +177,7 @@ public class MoleculeBoxCollisionAgent {
 
         // Get the magnitude along the line of action of the bodies' relative velocities at the
         // point of contact
-        Vector3D omega = new Vector3D( 0, 0, (float)molecule.getOmega() );
+        Vector3D omega = new Vector3D( 0, 0, (float) molecule.getOmega() );
         Vector3D ot = omega.crossProduct( new Vector3D( r1 ) ).add( new Vector3D( molecule.getVelocity() ) );
         double vr = ot.dot( new Vector3D( n ) );
 
@@ -194,7 +197,7 @@ public class MoleculeBoxCollisionAgent {
         double j = numerator / denominator;
 
         // Compute the new linear and angular velocities, based on the impulse
-        molecule.getVelocity().add( new Vector2D( n ).scale( j / molecule.getMass() ) );
+        molecule.getVelocity().add( new MutableVector2D( n ).scale( j / molecule.getMass() ) );
         molecule.setOmega( molecule.getOmega() + ( r1.getX() * n.getY() - r1.getY() * n.getX() ) * j / ( molecule.getMomentOfInertia() ) );
     }
 }

@@ -1,10 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy.bands;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.semiconductor.macro.energy.states.Waiting;
@@ -22,7 +22,7 @@ public class BandParticle extends SimpleObservable implements ModelElement {
     static int static_index = 0;
     private int index;
     private boolean excited;
-    private Vector2D lastPosition = new Vector2D();
+    private MutableVector2D lastPosition = new MutableVector2D();
 
     public BandParticle( double x, double y, EnergyCell cell ) {
 //        if (cell==null){
@@ -45,7 +45,7 @@ public class BandParticle extends SimpleObservable implements ModelElement {
         this( energyCell.getX(), energyCell.getEnergy(), energyCell );
     }
 
-    public BandParticle( Vector2D pos ) {
+    public BandParticle( MutableVector2D pos ) {
         this( pos.getX(), pos.getY() );
     }
 
@@ -57,8 +57,8 @@ public class BandParticle extends SimpleObservable implements ModelElement {
         return getIndex() + "";
     }
 
-    public Vector2D getPosition() {
-        return new Vector2D( x, y );
+    public MutableVector2D getPosition() {
+        return new MutableVector2D( x, y );
     }
 
     public boolean isExcited() {
@@ -94,7 +94,7 @@ public class BandParticle extends SimpleObservable implements ModelElement {
         }
     }
 
-    public void setPosition( Vector2D loc ) {
+    public void setPosition( MutableVector2D loc ) {
         this.x = loc.getX();
         this.y = loc.getY();
         notifyObservers();
@@ -104,7 +104,7 @@ public class BandParticle extends SimpleObservable implements ModelElement {
         if ( cell == null ) {
             return Double.POSITIVE_INFINITY;
         }
-        Vector2D site = cell.getPosition();
+        MutableVector2D site = cell.getPosition();
         return getPosition().getSubtractedInstance( site ).getMagnitude();
     }
 

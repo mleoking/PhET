@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.common.phetcommon.math;
 
 import junit.framework.TestCase;
@@ -16,7 +16,7 @@ public class ZMathUtilTester extends TestCase {
 
         Point2D point = new Point2D.Double( 1.0 / MathUtil.SQRT_2, -1.0 / MathUtil.SQRT_2 );
 
-        Vector2D vector = MathUtil.getVectorFromLineToPoint( line, point );
+        MutableVector2D vector = MathUtil.getVectorFromLineToPoint( line, point );
 
         assertEquals( point.getX(), vector.getX(), EPS );
         assertEquals( point.getY(), vector.getY(), EPS );

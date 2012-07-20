@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.common.piccolophet.help;
 
 import java.awt.event.ActionEvent;
@@ -10,7 +10,7 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JComponent;
 import javax.swing.Timer;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
@@ -181,7 +181,7 @@ public class MotionHelpBalloon extends HelpBalloon {
                 if ( _helpItem.getVisible() ) {
                     Point2D target = _helpItem.mapLocation( super.getComponent() );
                     Point2D source = _helpItem.getOffset();
-                    Vector2D vec = new Vector2D( source, target );
+                    MutableVector2D vec = new MutableVector2D( source, target );
                     if ( source.distance( target ) > speed ) {
                         Point2D newLoc = vec.getInstanceOfMagnitude( speed ).getDestination( source );
                         _helpItem.setOffset( newLoc );

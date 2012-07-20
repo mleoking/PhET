@@ -1,14 +1,23 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*  */
 package edu.colorado.phet.theramp.common;
 
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.Point;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Dimension2D;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.text.DecimalFormat;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -104,7 +113,7 @@ public class MeasuringTape extends PNode {
     private void update() {
         Point viewSrc = modelViewTransform2D.modelToView( modelSrc );
         Point viewDst = modelViewTransform2D.modelToView( modelDst );
-        Vector2D viewVector = new Vector2D( viewSrc, viewDst );
+        MutableVector2D viewVector = new MutableVector2D( viewSrc, viewDst );
 
 //        System.out.println( "bodyGraphic.getTransform() = " + bodyGraphic.getTransform() );
         Line2D.Double line = new Line2D.Double( viewSrc, viewDst );
@@ -117,7 +126,7 @@ public class MeasuringTape extends PNode {
         bodyGraphic.rotateAboutPoint( viewVector.getAngle(), bodyGraphic.getImageGraphic().getWidth(), bodyGraphic.getImageGraphic().getHeight() );
         endGraphic.setOffset( viewDst.getX() - endGraphic.getShapeGraphic().getWidth() / 2, viewDst.getY() - endGraphic.getShapeGraphic().getHeight() / 2 );
 
-        double modelDistance = new Vector2D( modelSrc, modelDst ).getMagnitude();
+        double modelDistance = new MutableVector2D( modelSrc, modelDst ).getMagnitude();
         readoutGraphic.setDistance( modelDistance );
         readoutGraphic.setOffset( viewSrc.x, (int) ( viewSrc.y + readoutGraphic.getHeight() * 1.2 + 7 ) );
     }

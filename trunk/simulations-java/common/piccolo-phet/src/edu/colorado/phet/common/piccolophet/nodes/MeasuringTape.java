@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
@@ -16,7 +16,7 @@ import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.text.DecimalFormat;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -152,7 +152,7 @@ public class MeasuringTape extends PhetPNode {
         Point viewSrc = modelViewTransform2D.modelToView( modelSrc );
 //        System.out.println( "viewSrc = " + viewSrc );
         Point viewDst = modelViewTransform2D.modelToView( modelDst );
-        Vector2D viewVector = new Vector2D( viewSrc, viewDst );
+        MutableVector2D viewVector = new MutableVector2D( viewSrc, viewDst );
 
 //        System.out.println( "bodyGraphic.getTransform() = " + bodyGraphic.getTransform() );
         Line2D.Double line = new Line2D.Double( viewSrc, viewDst );
@@ -165,7 +165,7 @@ public class MeasuringTape extends PhetPNode {
         bodyGraphic.rotateAboutPoint( viewVector.getAngle(), bodyGraphic.getImageGraphic().getWidth(), bodyGraphic.getImageGraphic().getHeight() );
         endGraphic.setOffset( viewDst.getX() - endGraphic.getShapeGraphic().getWidth() / 2, viewDst.getY() - endGraphic.getShapeGraphic().getHeight() / 2 );
 
-        double modelDistance = new Vector2D( modelSrc, modelDst ).getMagnitude();
+        double modelDistance = new MutableVector2D( modelSrc, modelDst ).getMagnitude();
         readoutGraphic.setDistance( modelDistanceToReadoutDistance( modelDistance ) );
         readoutGraphic.setOffset( viewSrc.x, (int) ( viewSrc.y + readoutGraphic.getHeight() * 1.2 + 7 ) );
     }

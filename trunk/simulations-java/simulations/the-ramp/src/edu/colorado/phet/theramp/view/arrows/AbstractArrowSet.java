@@ -1,12 +1,12 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*  */
 package edu.colorado.phet.theramp.view.arrows;
 
-import java.awt.*;
+import java.awt.Component;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.view.BlockGraphic;
 import edu.umd.cs.piccolo.PNode;
@@ -69,7 +69,7 @@ public class AbstractArrowSet extends PNode {
     }
 
     public static interface ForceComponent {
-        Vector2D getForce();
+        MutableVector2D getForce();
     }
 
 }

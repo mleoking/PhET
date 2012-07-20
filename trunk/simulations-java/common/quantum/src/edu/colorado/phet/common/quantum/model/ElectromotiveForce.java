@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.common.quantum.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 
 /**
  * ElectromotiveForce
@@ -19,5 +19,5 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
  * @version $Revision$
  */
 public interface ElectromotiveForce {
-    Vector2D getElectronAcceleration();
+    MutableVector2D getElectronAcceleration();
 }

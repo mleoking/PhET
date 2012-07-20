@@ -12,7 +12,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.semiconductor.SemiconductorResources;
@@ -28,7 +28,7 @@ import edu.colorado.phet.semiconductor.oldphetgraphics.graphics.shapes.ArrowShap
 public class EnergyTextGraphic extends TransformGraphic {
     private Font font;
     private String text;
-    private Vector2D loc;
+    private MutableVector2D loc;
     private Shape trfShape;
     private Shape arrowShape;
     private Graphics2D graphics2D;
@@ -36,7 +36,7 @@ public class EnergyTextGraphic extends TransformGraphic {
     private Shape highShape;
     private Shape lowShape;
 
-    public EnergyTextGraphic( ModelViewTransform2D transform, Vector2D loc ) {
+    public EnergyTextGraphic( ModelViewTransform2D transform, MutableVector2D loc ) {
         super( transform );
         this.loc = loc;
         text = SemiconductorResources.getString( "EnergyTextGraphic.EnergyText" );
@@ -59,8 +59,8 @@ public class EnergyTextGraphic extends TransformGraphic {
 
     }
 
-    private Vector2D getTopCenter( Rectangle2D bounds2D ) {
-        return new Vector2D( bounds2D.getX() + bounds2D.getWidth() / 2, bounds2D.getY() );
+    private MutableVector2D getTopCenter( Rectangle2D bounds2D ) {
+        return new MutableVector2D( bounds2D.getX() + bounds2D.getWidth() / 2, bounds2D.getY() );
     }
 
     public void recompute() {

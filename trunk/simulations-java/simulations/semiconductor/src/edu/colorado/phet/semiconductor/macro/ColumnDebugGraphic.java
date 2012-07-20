@@ -1,10 +1,16 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.semiconductor.macro;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
@@ -39,7 +45,7 @@ public class ColumnDebugGraphic implements Graphic {
                 Shape s = trf.createTransformedShape( r );
 //            g.draw(s );
                 int charge = energySection.getColumnCharge( i );
-                Vector2D ctr = RectangleUtils.getCenter( r );
+                MutableVector2D ctr = RectangleUtils.getCenter( r );
                 Point pt = trf.modelToView( ctr );
                 g.drawString( "ch=" + charge, pt.x, pt.y );
             }

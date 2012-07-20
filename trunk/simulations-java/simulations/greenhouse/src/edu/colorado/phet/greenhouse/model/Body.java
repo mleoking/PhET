@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /**
  * Class: Body
@@ -11,7 +11,7 @@ package edu.colorado.phet.greenhouse.model;
 import java.awt.geom.Point2D;
 import java.util.Observable;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
 public abstract class Body extends Observable implements ModelElement {
@@ -20,15 +20,15 @@ public abstract class Body extends Observable implements ModelElement {
     private double mass;
     private double charge;
     private Point2D.Double location = new Point2D.Double();
-    private Vector2D velocity = new Vector2D();
-    private Vector2D acceleration = new Vector2D();
+    private MutableVector2D velocity = new MutableVector2D();
+    private MutableVector2D acceleration = new MutableVector2D();
     private Body lastColidedBody = null;
 
     protected Body() {
     }
 
-    protected Body( Point2D.Double position, Vector2D velocity,
-                    Vector2D acceleration, float mass, float charge ) {
+    protected Body( Point2D.Double position, MutableVector2D velocity,
+                    MutableVector2D acceleration, float mass, float charge ) {
 //        super( position, velocity, acceleration, mass, charge );
 //        setLocation( position );
         setVelocity( velocity );
@@ -48,9 +48,9 @@ public abstract class Body extends Observable implements ModelElement {
     public void setLocation( double x, double y ) {
         location.setLocation( x, y );
     }
-    
-    public void setLocation( Point2D location ){
-        setLocation(location.getX(), location.getY());
+
+    public void setLocation( Point2D location ) {
+        setLocation( location.getX(), location.getY() );
     }
 
     public double getOmega() {
@@ -69,11 +69,11 @@ public abstract class Body extends Observable implements ModelElement {
         this.alpha = alpha;
     }
 
-    public Vector2D getVelocity() {
+    public MutableVector2D getVelocity() {
         return velocity;
     }
 
-    public void setVelocity( Vector2D velocity ) {
+    public void setVelocity( MutableVector2D velocity ) {
         this.velocity = velocity;
     }
 
@@ -82,11 +82,11 @@ public abstract class Body extends Observable implements ModelElement {
         this.velocity.setY( vy );
     }
 
-    public Vector2D getAcceleration() {
+    public MutableVector2D getAcceleration() {
         return acceleration;
     }
 
-    public void setAcceleration( Vector2D acceleration ) {
+    public void setAcceleration( MutableVector2D acceleration ) {
         this.acceleration = acceleration;
     }
 

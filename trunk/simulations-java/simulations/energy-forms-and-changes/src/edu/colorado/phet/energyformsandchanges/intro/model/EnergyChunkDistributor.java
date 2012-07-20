@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -331,9 +331,9 @@ public class EnergyChunkDistributor {
 
     private static class PointMass {
         private static final double MASS = 1; // In kg.
-        private final Vector2D position = new Vector2D();
-        private final Vector2D velocity = new Vector2D( 0, 0 );
-        private final Vector2D acceleration = new Vector2D( 0, 0 );
+        private final MutableVector2D position = new MutableVector2D();
+        private final MutableVector2D velocity = new MutableVector2D( 0, 0 );
+        private final MutableVector2D acceleration = new MutableVector2D( 0, 0 );
         private final Shape containerShape;
 
         public PointMass( ImmutableVector2D initialPosition, Shape container ) {

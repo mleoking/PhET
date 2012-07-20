@@ -1,15 +1,16 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.PNode;
@@ -57,7 +58,7 @@ public class CrosshairConnection extends PhetPNode {
         double dist = srcLoc.distance( dstLoc );
         if ( dist > 0 ) {
             DoubleGeneralPath path = new DoubleGeneralPath( srcLoc );
-            ImmutableVector2D parallel = new Vector2D( srcLoc, dstLoc ).getNormalizedInstance();
+            ImmutableVector2D parallel = new MutableVector2D( srcLoc, dstLoc ).getNormalizedInstance();
             ImmutableVector2D perp = parallel.getRotatedInstance( Math.PI / 2 ).getNormalizedInstance();
             lineToDst( path, parallel, perp, dist / 5 );
             curveToDst( path, parallel, perp, dist / 5 );

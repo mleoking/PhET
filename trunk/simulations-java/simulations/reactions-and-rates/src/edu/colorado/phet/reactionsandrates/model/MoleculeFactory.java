@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,9 +10,9 @@
  */
 package edu.colorado.phet.reactionsandrates.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 
 /**
  * MoleculeFactory
@@ -36,30 +36,30 @@ public class MoleculeFactory {
         AbstractMolecule molecule = null;
         MoleculeParamGenerator.Params params = moleculeParamGenerator.generate();
         Point2D position = params.getPosition();
-        Vector2D velocity = params.getVelocity();
+        MutableVector2D velocity = params.getVelocity();
         double angularVelocity = params.getAngularVelocity();
-        if( moleculeClass == MoleculeAB.class ) {
+        if ( moleculeClass == MoleculeAB.class ) {
             SimpleMolecule mA = new MoleculeA();
 //            mA.setPosition( position.getX() - mA.getRadius(), position.getY() );
             mA.setVelocity( velocity );
             SimpleMolecule mB = new MoleculeB();
 //            mB.setPosition( position.getX() + mB.getRadius(), position.getY() );
             mB.setVelocity( velocity );
-            molecule = new MoleculeAB( new SimpleMolecule[]{mA, mB} );
+            molecule = new MoleculeAB( new SimpleMolecule[] { mA, mB } );
             molecule.setOmega( angularVelocity );
 
             double d = getComponentMoleculesOffset( mA, mB );
             mA.setPosition( position.getX() - d / 2, position.getY() );
             mB.setPosition( position.getX() + d / 2, position.getY() );
         }
-        else if( moleculeClass == MoleculeBC.class ) {
+        else if ( moleculeClass == MoleculeBC.class ) {
             SimpleMolecule mC = new MoleculeC();
 //            mC.setPosition( position.getX() - mC.getRadius(), position.getY() );
             mC.setVelocity( velocity );
             SimpleMolecule mB = new MoleculeB();
 //            mB.setPosition( position.getX() + mB.getRadius(), position.getY() );
             mB.setVelocity( velocity );
-            molecule = new MoleculeBC( new SimpleMolecule[]{mC, mB} );
+            molecule = new MoleculeBC( new SimpleMolecule[] { mC, mB } );
             molecule.setOmega( angularVelocity );
 
             double d = getComponentMoleculesOffset( mC, mB );
@@ -68,12 +68,12 @@ public class MoleculeFactory {
         }
         else {
             try {
-                molecule = (AbstractMolecule)moleculeClass.newInstance();
+                molecule = (AbstractMolecule) moleculeClass.newInstance();
             }
-            catch( InstantiationException e ) {
+            catch ( InstantiationException e ) {
                 e.printStackTrace();
             }
-            catch( IllegalAccessException e ) {
+            catch ( IllegalAccessException e ) {
                 e.printStackTrace();
             }
         }

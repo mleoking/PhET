@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -16,7 +16,7 @@ import java.util.EventObject;
 
 import edu.colorado.phet.common.collision.Collidable;
 import edu.colorado.phet.common.collision.CollidableAdapter;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Particle;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
@@ -66,13 +66,13 @@ public class Photon extends Particle implements Collidable {
         setVelocity( DEFAULT_SPEED, 0 );
     }
 
-    public Photon( Point2D location, Vector2D velocity ) {
+    public Photon( Point2D location, MutableVector2D velocity ) {
         this();
         setPosition( location );
         setVelocity( velocity );
     }
 
-    public Photon( double wavelength, Point2D location, Vector2D velocity ) {
+    public Photon( double wavelength, Point2D location, MutableVector2D velocity ) {
         this( location, velocity );
         setWavelength( wavelength );
     }
@@ -147,7 +147,7 @@ public class Photon extends Particle implements Collidable {
         super.setPosition( position );
     }
 
-    public Vector2D getVelocityPrev() {
+    public MutableVector2D getVelocityPrev() {
         return collidableAdapter.getVelocityPrev();
     }
 
@@ -199,7 +199,7 @@ public class Photon extends Particle implements Collidable {
             super( Photon.this );
         }
 
-        public Vector2D getVelocity() {
+        public MutableVector2D getVelocity() {
             return Photon.this.getVelocity();
         }
     }

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 
 /**
  * User: Sam Reid
@@ -82,7 +82,7 @@ public class BranchSet {
     }
 
     public void translate( double dx, double dy ) {
-        translate( new Vector2D( dx, dy ) );
+        translate( new MutableVector2D( dx, dy ) );
     }
 
     public Branch[] getBranches() {

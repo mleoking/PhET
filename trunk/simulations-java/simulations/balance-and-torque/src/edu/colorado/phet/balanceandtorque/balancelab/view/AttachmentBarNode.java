@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.balanceandtorque.balancelab.view;
 
 import java.awt.BasicStroke;
@@ -10,7 +10,7 @@ import java.awt.geom.Ellipse2D;
 
 import edu.colorado.phet.balanceandtorque.common.model.AttachmentBar;
 import edu.colorado.phet.balanceandtorque.common.view.ModelObjectNode;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
@@ -43,11 +43,11 @@ public class AttachmentBarNode extends ModelObjectNode {
     }
 
     private static Paint createGradientPaint( ModelViewTransform mvt, AttachmentBar attachmentBar ) {
-        Vector2D gradientAdjustmentVector = new Vector2D( AttachmentBar.WIDTH / 2, 0 ).rotate( attachmentBar.getDeflectionAngle() );
-        Vector2D pivotPointVector = new Vector2D( attachmentBar.getPivotPoint() );
-        return new GradientPaint( mvt.modelToView( new Vector2D( pivotPointVector ).subtract( gradientAdjustmentVector ).toPoint2D() ),
+        MutableVector2D gradientAdjustmentVector = new MutableVector2D( AttachmentBar.WIDTH / 2, 0 ).rotate( attachmentBar.getDeflectionAngle() );
+        MutableVector2D pivotPointVector = new MutableVector2D( attachmentBar.getPivotPoint() );
+        return new GradientPaint( mvt.modelToView( new MutableVector2D( pivotPointVector ).subtract( gradientAdjustmentVector ).toPoint2D() ),
                                   ColorUtils.brighterColor( BASE_COLOR, 0.5 ),
-                                  mvt.modelToView( new Vector2D( pivotPointVector ).add( gradientAdjustmentVector ).toPoint2D() ),
+                                  mvt.modelToView( new MutableVector2D( pivotPointVector ).add( gradientAdjustmentVector ).toPoint2D() ),
                                   ColorUtils.darkerColor( BASE_COLOR, 0.5 ) );
     }
 }

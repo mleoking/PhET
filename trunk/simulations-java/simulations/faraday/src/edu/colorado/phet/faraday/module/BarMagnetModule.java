@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.faraday.module;
 
@@ -9,7 +9,7 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
@@ -297,8 +297,8 @@ public class BarMagnetModule extends FaradayModule {
             compassModel.addObserver( this );
 
             setText( FaradayStrings.WIGGLEME_BAR_MAGNET );
-            addArrow( WiggleMeGraphic.BOTTOM_LEFT, new Vector2D( -40, 50 ) );
-            addArrow( WiggleMeGraphic.BOTTOM_RIGHT, new Vector2D( 40, 50 ) );
+            addArrow( WiggleMeGraphic.BOTTOM_LEFT, new MutableVector2D( -40, 50 ) );
+            addArrow( WiggleMeGraphic.BOTTOM_RIGHT, new MutableVector2D( 40, 50 ) );
             setRange( 20, 10 );
             setEnabled( true );
         }

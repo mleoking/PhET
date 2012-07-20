@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.balanceandtorque.common.model;
 
 import java.awt.Shape;
@@ -15,7 +15,7 @@ import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.PositionedVector;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -393,8 +393,8 @@ public class Plank extends ShapeModelElement {
         setShape( AffineTransform.getRotateInstance( tiltAngle, pivotPoint.getX(), pivotPoint.getY() ).createTransformedShape( unrotatedShape ) );
         // Update the attachment point.
         assert ( pivotPoint.getY() >= unrotatedShape.getBounds2D().getMinY() ); // Doesn't handle pivot point below plank.
-        Vector2D pivotPointVector = new Vector2D( pivotPoint );
-        Vector2D attachmentBarVector = new Vector2D( 0, unrotatedShape.getBounds2D().getY() - pivotPoint.getY() );
+        MutableVector2D pivotPointVector = new MutableVector2D( pivotPoint );
+        MutableVector2D attachmentBarVector = new MutableVector2D( 0, unrotatedShape.getBounds2D().getY() - pivotPoint.getY() );
         attachmentBarVector.rotate( tiltAngle );
         bottomCenterPoint.set( pivotPointVector.add( attachmentBarVector ).toPoint2D() );
     }
@@ -519,7 +519,7 @@ public class Plank extends ShapeModelElement {
         for ( Mass mass : massesOnSurface ) {
             // Compute the vector from the center of the plank's surface to
             // the center of the mass, in meters.
-            ImmutableVector2D vectorFromCenterToMass = new Vector2D( mapMassToDistFromCenter.get( mass ), 0 ).getRotatedInstance( tiltAngle );
+            ImmutableVector2D vectorFromCenterToMass = new MutableVector2D( mapMassToDistFromCenter.get( mass ), 0 ).getRotatedInstance( tiltAngle );
 
             // Now add the location of the center of the plank's surface to
             // find the absolute location of the mass.

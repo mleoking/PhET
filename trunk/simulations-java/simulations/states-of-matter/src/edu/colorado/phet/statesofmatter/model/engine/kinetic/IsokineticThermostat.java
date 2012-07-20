@@ -1,8 +1,8 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.statesofmatter.model.engine.kinetic;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.statesofmatter.model.MoleculeForceAndMotionDataSet;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
@@ -20,7 +20,7 @@ public class IsokineticThermostat implements Thermostat {
     //------------------------------------------------------------------------
 
     final MoleculeForceAndMotionDataSet m_moleculeDataSet;
-    final Vector2D[] m_moleculeVelocities;
+    final MutableVector2D[] m_moleculeVelocities;
     final double[] m_moleculeRotationRates;
 
     double m_targetTemperature;   // Target temperature in normalized model units.

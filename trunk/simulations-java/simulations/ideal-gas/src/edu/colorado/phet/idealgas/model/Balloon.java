@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /**
  * Created by IntelliJ IDEA.
@@ -9,12 +9,11 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.idealgas.collision.CollidableBody;
-
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.idealgas.collision.CollidableBody;
 
 public class Balloon extends HollowSphere {
 
@@ -27,8 +26,8 @@ public class Balloon extends HollowSphere {
     // the internal or external pressure changes
     private double dampingExponent = 0.02;
     // Temporary varaibles, pre-allocated for performance
-    private Vector2D momentumPre = new Vector2D();
-    private Vector2D momentumPost = new Vector2D();
+    private MutableVector2D momentumPre = new MutableVector2D();
+    private MutableVector2D momentumPost = new MutableVector2D();
     private Box2D box;
     private double accumulatedImpact = 0;
 
@@ -41,8 +40,8 @@ public class Balloon extends HollowSphere {
      * @param radius
      */
     public Balloon( Point2D center,
-                    Vector2D velocity,
-                    Vector2D acceleration,
+                    MutableVector2D velocity,
+                    MutableVector2D acceleration,
                     double mass,
                     double radius,
                     Box2D box ) {
@@ -61,7 +60,7 @@ public class Balloon extends HollowSphere {
         momentumPost = momentumPost.scale( this.getMass() );
 
         // Compute the change in momentum and record it as pressure
-        Vector2D momentumChange = momentumPost.subtract( momentumPre );
+        MutableVector2D momentumChange = momentumPost.subtract( momentumPre );
         double impact = momentumChange.getMagnitude();
         // todo: change this to a test that relies on containsBody, when that is correctly implemented
         int sign = this.contains( particle ) ? 1 : -1;
@@ -69,7 +68,7 @@ public class Balloon extends HollowSphere {
         momentumPre.setComponents( momentumPost.getX(), momentumPost.getY() );
 
         // Adjust the size of the balloon
-        if( timeStepsSinceLastRadiusAdjustment >= timeStepsBetweenRadiusAdjustments ) {
+        if ( timeStepsSinceLastRadiusAdjustment >= timeStepsBetweenRadiusAdjustments ) {
             adjustRadius();
             // Reset accumulators
             accumulatedImpact = 0;
@@ -87,7 +86,7 @@ public class Balloon extends HollowSphere {
                                             ( box.getMaxY() - box.getMinY() ) / 2 );
         double dr = Math.pow( Math.abs( accumulatedImpact ), dampingExponent ) * MathUtil.getSign( accumulatedImpact );
         double newRadius = Math.min( this.getRadius() + dr, maxRadius );
-        if( !Double.isNaN( newRadius ) ) {
+        if ( !Double.isNaN( newRadius ) ) {
             newRadius = Math.min( maxRadius, Math.max( newRadius, MIN_RADIUS ) );
             this.setRadius( newRadius );
         }

@@ -1,14 +1,20 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.model.components;
 
-import java.awt.*;
+import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.circuitconstructionkit.model.*;
+import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
+import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
+import edu.colorado.phet.circuitconstructionkit.model.CompositeCircuitChangeListener;
+import edu.colorado.phet.circuitconstructionkit.model.CurrentVoltListener;
+import edu.colorado.phet.circuitconstructionkit.model.Electron;
 import edu.colorado.phet.circuitconstructionkit.model.Electron.Observer;
+import edu.colorado.phet.circuitconstructionkit.model.Junction;
+import edu.colorado.phet.circuitconstructionkit.model.SimpleObservableDebug;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -297,7 +303,7 @@ public abstract class Branch extends SimpleObservableDebug {
         if ( getLength() == 0 ) {
             return getStartJunction().getPosition();
         }
-        ImmutableVector2D vec = new Vector2D( getStartJunction().getPosition(), getEndJunction().getPosition() ).getInstanceOfMagnitude( x );
+        ImmutableVector2D vec = new MutableVector2D( getStartJunction().getPosition(), getEndJunction().getPosition() ).getInstanceOfMagnitude( x );
         return vec.getDestination( getStartJunction().getPosition() );
     }
 
@@ -328,7 +334,7 @@ public abstract class Branch extends SimpleObservableDebug {
     }
 
     public Point2D getCenter() {
-        return new Vector2D( getStartJunction().getPosition(), getEndJunction().getPosition() ).getScaledInstance( .5 ).getDestination( getStartJunction().getPosition() );
+        return new MutableVector2D( getStartJunction().getPosition(), getEndJunction().getPosition() ).getScaledInstance( .5 ).getDestination( getStartJunction().getPosition() );
     }
 
     public void delete() {

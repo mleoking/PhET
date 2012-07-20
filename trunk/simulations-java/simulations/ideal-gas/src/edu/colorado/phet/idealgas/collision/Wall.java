@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,15 +10,14 @@
  */
 package edu.colorado.phet.idealgas.collision;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.util.EventChannel;
-import edu.colorado.phet.idealgas.coreadditions.Translatable;
-
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.EventListener;
 import java.util.EventObject;
+
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.idealgas.coreadditions.Translatable;
 
 /**
  * Wall
@@ -31,7 +30,7 @@ import java.util.EventObject;
  */
 
 public class Wall extends CollidableBody implements Translatable {
-    private Vector2D velocity = new Vector2D();
+    private MutableVector2D velocity = new MutableVector2D();
     private Rectangle2D rep = new Rectangle2D.Double();
     private Rectangle2D movementBounds;
     private Rectangle2D prevRep = new Rectangle2D.Double();
@@ -94,7 +93,7 @@ public class Wall extends CollidableBody implements Translatable {
      */
     public void setBounds( Rectangle2D bounds ) {
 
-        if( bounds.getWidth() < this.minimumWallThickness ) {
+        if ( bounds.getWidth() < this.minimumWallThickness ) {
             return;
         }
 
@@ -126,7 +125,7 @@ public class Wall extends CollidableBody implements Translatable {
         return movementBounds;
     }
 
-    public Vector2D getVelocityPrev() {
+    public MutableVector2D getVelocityPrev() {
         return velocity;
     }
 
@@ -170,7 +169,7 @@ public class Wall extends CollidableBody implements Translatable {
     // Event-related data, classes, and methods
     //----------------------------------------------------------------
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+    private ChangeListener changeListenerProxy = (ChangeListener) changeEventChannel.getListenerProxy();
 
     public void addChangeListener( ChangeListener listener ) {
         changeEventChannel.addListener( listener );
@@ -194,7 +193,7 @@ public class Wall extends CollidableBody implements Translatable {
         }
 
         public Wall getWall() {
-            return (Wall)getSource();
+            return (Wall) getSource();
         }
     }
 }

@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.faraday.view;
 
@@ -11,7 +11,7 @@ import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.components.NonInteractiveEventListener;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.faraday.FaradayConstants;
@@ -63,7 +63,7 @@ public abstract class AbstractBFieldGraphic extends PhetGraphic {
     private final Point _point;
 
     // A reusable vector
-    private final Vector2D _fieldVector;
+    private final MutableVector2D _fieldVector;
 
     // Scaling of the intensity, see setIntensityScale
     private double _intensityScale;
@@ -167,7 +167,7 @@ public abstract class AbstractBFieldGraphic extends PhetGraphic {
 
         _gridBounds = new Rectangle( 0, 0, component.getWidth(), component.getHeight() ); // default to parent size
         _point = new Point();
-        _fieldVector = new Vector2D();
+        _fieldVector = new MutableVector2D();
         _intensityScale = FaradayConstants.GRID_INTENSITY_SCALE;
 
         // sim-sharing message indicating that the field is non-interactive

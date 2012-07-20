@@ -1,15 +1,18 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy.bands;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
@@ -30,8 +33,8 @@ public class JaggedSplitBandGraphic extends BandSetGraphic {
         super( diodeSection, transform, bandSet, viewport );
         Rectangle2D.Double bandRect = bandSet.getBounds();
 //        Rectangle2D.Double bandRect = viewport;
-        Vector2D src = new Vector2D( bandRect.getX() + bandRect.getWidth() / 2, bandRect.getY() );
-        Vector2D dst = new Vector2D( bandRect.getX() + bandRect.getWidth() / 2, bandRect.getY() + bandRect.getHeight() );
+        MutableVector2D src = new MutableVector2D( bandRect.getX() + bandRect.getWidth() / 2, bandRect.getY() );
+        MutableVector2D dst = new MutableVector2D( bandRect.getX() + bandRect.getWidth() / 2, bandRect.getY() + bandRect.getHeight() );
         double tearDX = bandRect.getWidth() / 35;
         ImmutableVector2D leftSrc = src.getAddedInstance( -tearDX, 0 );
         ImmutableVector2D rightSrc = src.getAddedInstance( tearDX, 0 );

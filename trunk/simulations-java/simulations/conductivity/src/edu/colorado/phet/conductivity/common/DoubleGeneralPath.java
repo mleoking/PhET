@@ -1,15 +1,15 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.conductivity.common;
 
 import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 
 public class DoubleGeneralPath {
 
-    public DoubleGeneralPath( Vector2D phetvector ) {
+    public DoubleGeneralPath( MutableVector2D phetvector ) {
         this( phetvector.getX(), phetvector.getY() );
     }
 
@@ -26,7 +26,7 @@ public class DoubleGeneralPath {
         return path;
     }
 
-    public void lineTo( Vector2D phetvector ) {
+    public void lineTo( MutableVector2D phetvector ) {
         lineTo( phetvector.getX(), phetvector.getY() );
     }
 

@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /**
  * Created by IntelliJ IDEA.
@@ -9,15 +9,15 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.common.mechanics.Body;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.util.EventChannel;
-
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.EventListener;
 import java.util.EventObject;
 import java.util.List;
+
+import edu.colorado.phet.common.mechanics.Body;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
 
 public class HotAirBalloon extends HollowSphere {
 
@@ -29,8 +29,8 @@ public class HotAirBalloon extends HollowSphere {
     private double heatSource;
 
     public HotAirBalloon( Point2D center,
-                          Vector2D velocity,
-                          Vector2D acceleration,
+                          MutableVector2D velocity,
+                          MutableVector2D acceleration,
                           double mass,
                           double radius,
                           double openingAngle,
@@ -64,11 +64,11 @@ public class HotAirBalloon extends HollowSphere {
         setOpening();
 
         // Add heat to the bodies contained in the balloon.
-        if( heatSource != 0 ) {
+        if ( heatSource != 0 ) {
             List bodies = model.getBodies();
-            for( int i = 0; i < bodies.size(); i++ ) {
-                Body body = (Body)bodies.get( i );
-                if( body instanceof GasMolecule && this.contains( (GasMolecule)body ) ) {
+            for ( int i = 0; i < bodies.size(); i++ ) {
+                Body body = (Body) bodies.get( i );
+                if ( body instanceof GasMolecule && this.contains( (GasMolecule) body ) ) {
                     body.setVelocity( body.getVelocity().scale( 1 + heatSource / 1000 ) );
                 }
             }
@@ -119,7 +119,7 @@ public class HotAirBalloon extends HollowSphere {
         }
 
         public HotAirBalloon getHotAirBalloon() {
-            return (HotAirBalloon)getSource();
+            return (HotAirBalloon) getSource();
         }
     }
 
@@ -128,7 +128,7 @@ public class HotAirBalloon extends HollowSphere {
     }
 
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+    private ChangeListener changeListenerProxy = (ChangeListener) changeEventChannel.getListenerProxy();
 
     public void addChangeListener( ChangeListener listener ) {
         changeEventChannel.addListener( listener );

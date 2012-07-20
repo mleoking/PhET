@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /**
  * Class: EmfSensingElectron Package: edu.colorado.phet.emf.model Author:
@@ -9,8 +9,7 @@ package edu.colorado.phet.radiowaves.model;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.radiowaves.model.movement.ManualMovement;
 import edu.colorado.phet.radiowaves.model.movement.SinusoidalMovement;
 
@@ -28,11 +27,11 @@ public class EmfSensingElectron extends PositionConstrainedElectron {
         super.setRecordHistory( false );
     }
 
-    private Vector2D aPrev = new Vector2D();
+    private MutableVector2D aPrev = new MutableVector2D();
 
     public synchronized void stepInTime( double dt ) {
         super.stepInTime( dt );
-        Vector2D v = this.getVelocity();
+        MutableVector2D v = this.getVelocity();
 
         // If there is no field, then move the electron back to its original location
         if ( sourceElectron.isFieldOff( this.getCurrentPosition().getX() ) ) {
@@ -55,8 +54,8 @@ public class EmfSensingElectron extends PositionConstrainedElectron {
             else {
                 // The field strength is a force on the electron, so we must compute an
                 // acceleration
-                Vector2D fieldStrength = sourceElectron.getDynamicFieldAt( location );
-                Vector2D a = fieldStrength;
+                MutableVector2D fieldStrength = sourceElectron.getDynamicFieldAt( location );
+                MutableVector2D a = fieldStrength;
                 double x = this.getCurrentPosition().getX();
                 double y = this.getCurrentPosition().getY();
                 location = this.getCurrentPosition();

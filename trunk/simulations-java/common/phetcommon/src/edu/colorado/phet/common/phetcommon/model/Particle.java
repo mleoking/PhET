@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -12,7 +12,7 @@ package edu.colorado.phet.common.phetcommon.model;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 /**
@@ -23,9 +23,9 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
  */
 public class Particle extends SimpleObservable implements ModelElement {
     private Point2D position = new Point2D.Double();
-    private Vector2D velocity = new Vector2D();
-    private Vector2D acceleration = new Vector2D();
-    private Vector2D prevAcceleration = new Vector2D();
+    private MutableVector2D velocity = new MutableVector2D();
+    private MutableVector2D acceleration = new MutableVector2D();
+    private MutableVector2D prevAcceleration = new MutableVector2D();
 
     public Particle() {
     }
@@ -34,15 +34,15 @@ public class Particle extends SimpleObservable implements ModelElement {
         Particle clone = (Particle) super.clone();
 
         clone.position = new Point2D.Double( position.getX(), position.getY() );
-        clone.velocity = new Vector2D( velocity );
-        clone.acceleration = new Vector2D( acceleration );
-        clone.prevAcceleration = new Vector2D( prevAcceleration );
+        clone.velocity = new MutableVector2D( velocity );
+        clone.acceleration = new MutableVector2D( acceleration );
+        clone.prevAcceleration = new MutableVector2D( prevAcceleration );
 
         return clone;
     }
 
-    protected Particle( Point2D position, Vector2D velocity,
-                        Vector2D acceleration ) {
+    protected Particle( Point2D position, MutableVector2D velocity,
+                        MutableVector2D acceleration ) {
         setPosition( position );
         setVelocity( velocity );
         setAcceleration( acceleration );
@@ -61,11 +61,11 @@ public class Particle extends SimpleObservable implements ModelElement {
         setPosition( position.getX(), position.getY() );
     }
 
-    public Vector2D getVelocity() {
+    public MutableVector2D getVelocity() {
         return velocity;
     }
 
-    public void setVelocity( Vector2D velocity ) {
+    public void setVelocity( MutableVector2D velocity ) {
         setVelocity( velocity.getX(), velocity.getY() );
     }
 
@@ -78,11 +78,11 @@ public class Particle extends SimpleObservable implements ModelElement {
         return velocity.getMagnitude();
     }
 
-    public Vector2D getAcceleration() {
+    public MutableVector2D getAcceleration() {
         return acceleration;
     }
 
-    public void setAcceleration( Vector2D acceleration ) {
+    public void setAcceleration( MutableVector2D acceleration ) {
         setAcceleration( acceleration.getX(), acceleration.getY() );
     }
 

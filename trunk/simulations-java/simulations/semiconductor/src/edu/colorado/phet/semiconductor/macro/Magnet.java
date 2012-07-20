@@ -1,10 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.semiconductor.macro;
 
-import java.awt.*;
+import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 
 
 /**
@@ -32,7 +32,7 @@ public class Magnet {
         return new Rectangle2D.Double( bounds.x + x, bounds.y + y, bounds.width, bounds.height );
     }
 
-    public Vector2D getPlusSide() {
-        return new Vector2D( bounds.x, bounds.y );
+    public MutableVector2D getPlusSide() {
+        return new MutableVector2D( bounds.x, bounds.y );
     }
 }

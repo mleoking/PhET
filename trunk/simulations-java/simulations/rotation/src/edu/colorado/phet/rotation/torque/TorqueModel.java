@@ -11,7 +11,7 @@ import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
@@ -188,7 +188,7 @@ public class TorqueModel extends RotationModel {
         else {
             overwhelmingBrake = false;
         }
-        return Vector2D.createPolar( magnitude, Math.PI / 4 + ( clockwise ? Math.PI : 0 ) );
+        return MutableVector2D.createPolar( magnitude, Math.PI / 4 + ( clockwise ? Math.PI : 0 ) );
     }
 
     private void updateBrakeForce() {
@@ -375,9 +375,9 @@ public class TorqueModel extends RotationModel {
     }
 
     private Line2D.Double getTangentialAppliedForce( Line2D.Double appliedForce ) {
-        Vector2D v = new Vector2D( appliedForce.getP1(), getRotationPlatform().getCenter() );
+        MutableVector2D v = new MutableVector2D( appliedForce.getP1(), getRotationPlatform().getCenter() );
         v.rotate( Math.PI / 2 );
-        if ( v.dot( new Vector2D( appliedForce.getP1(), appliedForce.getP2() ) ) < 0 ) {
+        if ( v.dot( new MutableVector2D( appliedForce.getP1(), appliedForce.getP2() ) ) < 0 ) {
             v.rotate( Math.PI );
         }
 
@@ -385,12 +385,12 @@ public class TorqueModel extends RotationModel {
         if ( x.getMagnitude() == 0 ) {
             return new Line2D.Double( appliedForce.getP1(), appliedForce.getP1() );
         }
-        double magnitude = new Vector2D( appliedForce.getP1(), appliedForce.getP2() ).dot( x.getNormalizedInstance() );
+        double magnitude = new MutableVector2D( appliedForce.getP1(), appliedForce.getP2() ).dot( x.getNormalizedInstance() );
         if ( magnitude != 0 ) {
             x = x.getInstanceOfMagnitude( magnitude );
         }
         else {
-            x = new Vector2D( 0, 0 );
+            x = new MutableVector2D( 0, 0 );
         }
         return new Line2D.Double( appliedForce.getP1(), x.getDestination( appliedForce.getP1() ) );
     }

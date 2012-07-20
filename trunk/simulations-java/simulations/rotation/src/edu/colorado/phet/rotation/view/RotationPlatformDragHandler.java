@@ -1,10 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.rotation.view;
 
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.motion.model.IPositionDriven;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -46,8 +46,8 @@ public class RotationPlatformDragHandler extends PBasicInputEventHandler {
     public void mouseDragged( PInputEvent event ) {
         Point2D loc = event.getPositionRelativeTo( rotationPlatformNode );
         Point2D center = rotationPlatform.getCenter();
-        Vector2D a = new Vector2D( center, initLoc );
-        Vector2D b = new Vector2D( center, loc );
+        MutableVector2D a = new MutableVector2D( center, initLoc );
+        MutableVector2D b = new MutableVector2D( center, loc );
         double angleDiff = b.getAngle() - a.getAngle();
 //                System.out.println( "a=" + a + ", b=" + b + ", center=" + center + ", angleDiff = " + angleDiff );
 

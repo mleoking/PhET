@@ -1,19 +1,20 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*  */
 package edu.colorado.phet.quantumwaveinterference.controls;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import java.awt.Point;
+
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.quantumwaveinterference.QWIResources;
 import edu.colorado.phet.quantumwaveinterference.model.QWIModel;
 import edu.colorado.phet.quantumwaveinterference.model.WaveSetup;
 import edu.colorado.phet.quantumwaveinterference.model.waves.GaussianWave2D;
-
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -87,8 +88,8 @@ public class InitialConditionPanel extends VerticalLayoutPanel {
         double px = getStartPx();
         double py = getStartPy();
         double dxLattice = getStartDxLattice();
-        return new GaussianWave2D( new Point( (int)x, (int)y ),
-                                   new Vector2D( px, py ), dxLattice, getHBar() );
+        return new GaussianWave2D( new Point( (int) x, (int) y ),
+                                   new MutableVector2D( px, py ), dxLattice, getHBar() );
     }
 
     private double getHBar() {

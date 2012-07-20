@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,22 +10,30 @@
  */
 package edu.colorado.phet.photoelectric.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.util.EventChannel;
-import edu.colorado.phet.common.phetcommon.util.ModelEventChannel;
-import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
-import edu.colorado.phet.common.quantum.model.*;
-import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
-import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
-import edu.colorado.phet.photoelectric.model.util.BeamIntensityMeter;
-import edu.colorado.phet.dischargelamps.quantum.model.*;
-
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.EventObject;
 import java.util.List;
+
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
+import edu.colorado.phet.common.phetcommon.util.ModelEventChannel;
+import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
+import edu.colorado.phet.common.quantum.model.Beam;
+import edu.colorado.phet.common.quantum.model.Photon;
+import edu.colorado.phet.common.quantum.model.PhotonEmissionListener;
+import edu.colorado.phet.common.quantum.model.PhotonEmittedEvent;
+import edu.colorado.phet.common.quantum.model.PhotonSource;
+import edu.colorado.phet.dischargelamps.DischargeLampsConfig;
+import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
+import edu.colorado.phet.dischargelamps.quantum.model.Electrode;
+import edu.colorado.phet.dischargelamps.quantum.model.Electron;
+import edu.colorado.phet.dischargelamps.quantum.model.ElectronSink;
+import edu.colorado.phet.dischargelamps.quantum.model.ElectronSource;
+import edu.colorado.phet.dischargelamps.quantum.model.Plate;
+import edu.colorado.phet.photoelectric.model.util.BeamIntensityMeter;
 
 /**
  * PhotoelectricModel
@@ -111,9 +119,9 @@ public class PhotoelectricModel extends DischargeLampModel {
                          beamLocation,
                          beamHeight,
                          beamWidth,
-                         new Vector2D( Math.cos( beamAngle ), Math.sin( beamAngle ) ),
+                         new MutableVector2D( Math.cos( beamAngle ), Math.sin( beamAngle ) ),
                          MAX_PHOTONS_PER_SECOND,
-                         beamFanout,Photon.DEFAULT_SPEED );
+                         beamFanout, Photon.DEFAULT_SPEED );
         addModelElement( beam );
         beam.setPhotonsPerSecond( 0 );
         beam.setEnabled( true );
@@ -182,33 +190,33 @@ public class PhotoelectricModel extends DischargeLampModel {
         super.stepInTime( dt );
 
         // Check for photons hitting the cathode
-        for( int i = 0; i < photons.size(); i++ ) {
-            Photon photon = (Photon)photons.get( i );
-            if( target.isHitByPhoton( photon ) ) {
+        for ( int i = 0; i < photons.size(); i++ ) {
+            Photon photon = (Photon) photons.get( i );
+            if ( target.isHitByPhoton( photon ) ) {
                 target.handlePhotonCollision( photon );
                 photon.removeFromSystem();
             }
         }
 
         // Check for changes is state, and notify listeners of changes
-        if( getCurrent() != current ) {
+        if ( getCurrent() != current ) {
             current = getCurrent();
             changeListenerProxy.currentChanged( new ChangeEvent( this ) );
         }
-        if( getVoltage() != voltage ) {
+        if ( getVoltage() != voltage ) {
             voltage = getVoltage();
             changeListenerProxy.voltageChanged( new ChangeEvent( this ) );
         }
-        if( beam.getWavelength() != wavelength ) {
+        if ( beam.getWavelength() != wavelength ) {
             wavelength = beam.getWavelength();
             changeListenerProxy.wavelengthChanged( new ChangeEvent( this ) );
         }
 
         // Check for electrons that get out of the tube (Only matters if the
         // electrons leave the target at an angle)
-        for( int i = 0; i < electrons.size(); i++ ) {
-            Electron electron = (Electron)electrons.get( i );
-            if( !getTube().getBounds().contains( electron.getPosition() ) ) {
+        for ( int i = 0; i < electrons.size(); i++ ) {
+            Electron electron = (Electron) electrons.get( i );
+            if ( !getTube().getBounds().contains( electron.getPosition() ) ) {
                 electron.leaveSystem();
             }
         }
@@ -260,7 +268,7 @@ public class PhotoelectricModel extends DischargeLampModel {
     public double getCurrentForVoltage( double voltage ) {
         double electronsPerSecondFromTarget = 0;
         double electronsPerSecondToAnode = 0;
-        if( target.getMaterial().getEnergyAbsorptionStrategy() instanceof MetalEnergyAbsorptionStrategy ) {
+        if ( target.getMaterial().getEnergyAbsorptionStrategy() instanceof MetalEnergyAbsorptionStrategy ) {
             // The fraction of collisions that will kick off an electron is equal to the amount of energy each
             // photon has that is greater than the work function, divided by the absorption strategy's
             // total energy depth, with a ceiling of 1.
@@ -318,6 +326,7 @@ public class PhotoelectricModel extends DischargeLampModel {
     //----------------------------------------------------------------
     // Listeners for tracking the creation and destruction of
     // certain model elements
+
     /**
      * Tracks the creation and destruction of photons
      */
@@ -364,8 +373,8 @@ public class PhotoelectricModel extends DischargeLampModel {
 
             // Determine the acceleration that electrons will experience
             setElectronAcceleration( potentialDiff );
-            for( int i = 0; i < electrons.size(); i++ ) {
-                Electron electron = (Electron)electrons.get( i );
+            for ( int i = 0; i < electrons.size(); i++ ) {
+                Electron electron = (Electron) electrons.get( i );
                 electron.setAcceleration( getElectronAcceleration() );
             }
 
@@ -378,7 +387,7 @@ public class PhotoelectricModel extends DischargeLampModel {
     // Events and listeners
     //-----------------------------------------------------------------
     private EventChannel changeEventChannel = new ModelEventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+    private ChangeListener changeListenerProxy = (ChangeListener) changeEventChannel.getListenerProxy();
 
     public void addChangeListener( ChangeListener listener ) {
         changeEventChannel.addListener( listener );
@@ -394,7 +403,7 @@ public class PhotoelectricModel extends DischargeLampModel {
         }
 
         public PhotoelectricModel getPhotoelectricModel() {
-            return (PhotoelectricModel)getSource();
+            return (PhotoelectricModel) getSource();
         }
     }
 

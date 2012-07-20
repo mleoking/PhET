@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,12 +10,28 @@
  */
 package edu.colorado.phet.reactionsandrates.modules;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.geom.Point2D;
+
+import javax.swing.SwingUtilities;
+
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.colorado.phet.reactionsandrates.MRConfig;
-import edu.colorado.phet.reactionsandrates.model.*;
+import edu.colorado.phet.reactionsandrates.model.CompositeMolecule;
+import edu.colorado.phet.reactionsandrates.model.Launcher;
+import edu.colorado.phet.reactionsandrates.model.MRModel;
+import edu.colorado.phet.reactionsandrates.model.MoleculeA;
+import edu.colorado.phet.reactionsandrates.model.MoleculeAB;
+import edu.colorado.phet.reactionsandrates.model.MoleculeBC;
+import edu.colorado.phet.reactionsandrates.model.MoleculeC;
+import edu.colorado.phet.reactionsandrates.model.MoleculeFactory;
+import edu.colorado.phet.reactionsandrates.model.Selectable;
+import edu.colorado.phet.reactionsandrates.model.SimpleMolecule;
+import edu.colorado.phet.reactionsandrates.model.TemperatureControl;
 import edu.colorado.phet.reactionsandrates.util.ModelElementGraphicManager;
 import edu.colorado.phet.reactionsandrates.view.LauncherGraphic;
 import edu.colorado.phet.reactionsandrates.view.LauncherLoadPanel;
@@ -23,10 +39,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * SimpleMRModule
@@ -59,7 +71,7 @@ public class SimpleModule extends MRModule {
         getSpatialView().addGraphicFactory( new ModelElementGraphicManager.GraphicFactory( Launcher.class,
                                                                                            getSpatialView().getTopLayer() ) {
             public PNode createGraphic( ModelElement modelElement ) {
-                launcherGraphic = new LauncherGraphic( (Launcher)modelElement );
+                launcherGraphic = new LauncherGraphic( (Launcher) modelElement );
 
                 return launcherGraphic;
             }
@@ -95,7 +107,7 @@ public class SimpleModule extends MRModule {
     public boolean isTemperatureBeingAdjusted() {
         boolean adjusting = super.isTemperatureBeingAdjusted();
 
-        if( !adjusting ) {
+        if ( !adjusting ) {
             adjusting = launcherGraphic.isTemperatureBeingAdjusted();
         }
 
@@ -121,7 +133,7 @@ public class SimpleModule extends MRModule {
         tempCtrl.setPosition( model.getBox().getMaxX() - 50, tempCtrl.getPosition().getY() );
 
         // Add the launcher and its graphic
-        if( launcher == null ) {
+        if ( launcher == null ) {
             launcher = new Launcher( launcherTipLocation );
         }
         launcher.setMovementType( Launcher.ONE_DIMENSIONAL );
@@ -130,7 +142,7 @@ public class SimpleModule extends MRModule {
         launcherMoleculeClass = MoleculeA.class;
         resetMolecules();
     }
-    
+
     public void clearExperiment() {
         super.clearExperiment();
         resetMolecules();
@@ -141,10 +153,10 @@ public class SimpleModule extends MRModule {
 
         // Create the appropriate molecule for the launcher
         SimpleMolecule launcherMolecule = null;
-        if( launcherMoleculeClass == MoleculeC.class ) {
+        if ( launcherMoleculeClass == MoleculeC.class ) {
             launcherMolecule = new MoleculeC();
         }
-        else if( launcherMoleculeClass == MoleculeA.class ) {
+        else if ( launcherMoleculeClass == MoleculeA.class ) {
             launcherMolecule = new MoleculeA();
         }
 
@@ -153,7 +165,7 @@ public class SimpleModule extends MRModule {
     }
 
     public MRModel getThisModel() {
-        return (MRModel)super.getModel();
+        return (MRModel) super.getModel();
     }
 
     /**
@@ -171,14 +183,14 @@ public class SimpleModule extends MRModule {
         // Save the class so we know what to make if we are asked to reload
         launcherMoleculeClass = launcherMolecule.getClass();
 
-        if( this.launcherMolecule != null ) {
+        if ( this.launcherMolecule != null ) {
             launcherMolecule.setSelectionStatus( Selectable.NOT_SELECTED );
 
             model.removeModelElement( this.launcherMolecule );
         }
-        if( cm != null ) {
+        if ( cm != null ) {
             model.removeModelElement( cm );
-            for( int i = 0; i < cm.getComponentMolecules().length; i++ ) {
+            for ( int i = 0; i < cm.getComponentMolecules().length; i++ ) {
                 SimpleMolecule simpleMolecule = cm.getComponentMolecules()[i];
                 model.removeModelElement( simpleMolecule );
             }
@@ -193,19 +205,19 @@ public class SimpleModule extends MRModule {
         cm = null;
         Class compositeMoleculeClass = null;
         MoleculeParamGenerator moleculeParamGenerator = new MoleculeParamGenerator( launcherMolecule, model );
-        if( launcherMolecule instanceof MoleculeC ) {
+        if ( launcherMolecule instanceof MoleculeC ) {
             compositeMoleculeClass = MoleculeAB.class;
         }
         else {
             compositeMoleculeClass = MoleculeBC.class;
         }
-        cm = (CompositeMolecule)MoleculeFactory.createMolecule( compositeMoleculeClass,
-                                                                moleculeParamGenerator );
+        cm = (CompositeMolecule) MoleculeFactory.createMolecule( compositeMoleculeClass,
+                                                                 moleculeParamGenerator );
         cm.rotate( Math.PI / 2 );
         cm.setOmega( 0 );
         cm.setVelocity( 0, 0 );
         model.addModelElement( cm );
-        for( int i = 0; i < cm.getComponentMolecules().length; i++ ) {
+        for ( int i = 0; i < cm.getComponentMolecules().length; i++ ) {
             SimpleMolecule simpleMolecule = cm.getComponentMolecules()[i];
             model.addModelElement( simpleMolecule );
         }
@@ -274,7 +286,7 @@ public class SimpleModule extends MRModule {
         public Params generate() {
             return new Params( new Point2D.Double( launcherMolecule.getPosition().getX(),
                                                    model.getBox().getMinY() + model.getBox().getHeight() / 2 ),
-                               new Vector2D(), 0 );
+                               new MutableVector2D(), 0 );
         }
     }
 

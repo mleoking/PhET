@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.common.mechanics;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 
 /**
  * Vector3D
@@ -20,7 +20,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
  */
 public class Vector3D extends PhysicalVector {
 
-    public static Vector3D createCrossProduct( Vector2D v1, Vector2D v2 ) {
+    public static Vector3D createCrossProduct( MutableVector2D v1, MutableVector2D v2 ) {
         double z = v1.getMagnitude() * v2.getMagnitude() * Math.sin( v2.getAngle() - v1.getAngle() );
         return new Vector3D( 0, 0, z );
     }
@@ -29,7 +29,7 @@ public class Vector3D extends PhysicalVector {
         this( 0, 0, 0 );
     }
 
-    public Vector3D( Vector2D vector ) {
+    public Vector3D( MutableVector2D vector ) {
         this( vector.getX(), vector.getY(), 0 );
     }
 

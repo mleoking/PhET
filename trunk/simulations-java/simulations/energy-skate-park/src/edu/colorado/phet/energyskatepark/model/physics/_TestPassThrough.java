@@ -6,8 +6,8 @@ import junit.framework.TestCase;
 import java.awt.geom.Line2D;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.spline.CubicSpline2D;
 import edu.colorado.phet.common.spline.ParametricFunction2D;
 import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
@@ -20,7 +20,7 @@ public class _TestPassThrough extends TestCase {
 
     public ParticleTestState getDefaultTestState( double lineX, double speedX ) {
         return new ParticleTestState( new SerializablePoint2D[] { new SerializablePoint2D( lineX, -1 ), new SerializablePoint2D( lineX, +1 ) },
-                                      new SerializablePoint2D( 0, 0 ), new Vector2D( speedX, 0.0 ) );
+                                      new SerializablePoint2D( 0, 0 ), new MutableVector2D( speedX, 0.0 ) );
     }
 
     public void runTest( ParticleTestState testState, double dt, int iterations ) {

@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -18,7 +18,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -89,7 +89,7 @@ public class SingleAtomModule extends BaseLaserModule {
         final Beam seedBeam = ( (LaserModel) getModel() ).getSeedBeam();
         seedBeam.setPosition( beamOrigin );
         seedBeam.setBeamWidth( 0.5 );
-        seedBeam.setDirection( new Vector2D( 1, 0 ) );
+        seedBeam.setDirection( new MutableVector2D( 1, 0 ) );
         seedBeam.setFanout( LasersConfig.SEED_BEAM_FANOUT );
 
         // Start the beam with a very slow rate
@@ -99,7 +99,7 @@ public class SingleAtomModule extends BaseLaserModule {
         final Beam pumpingBeam = ( (LaserModel) getModel() ).getPumpingBeam();
         Point2D pumpingBeamOrigin = new Point2D.Double( getCavity().getBounds().getX() + getCavity().getBounds().getWidth() / 2,
                                                         getCavity().getBounds().getY() - 100 );
-        pumpingBeam.setDirection( new Vector2D( 0, 1 ) );
+        pumpingBeam.setDirection( new MutableVector2D( 0, 1 ) );
         pumpingBeam.setPosition( pumpingBeamOrigin );
         pumpingBeam.setFanout( Math.toRadians( LasersConfig.SEED_BEAM_FANOUT * 2 ) * 1000 );
         pumpingBeam.setBeamWidth( seedBeam.getBeamWidth() * 100 );

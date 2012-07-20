@@ -1,12 +1,17 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy.bands;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -82,7 +87,7 @@ public class BandSetGraphic extends TransformGraphic implements BandParticleObse
             while ( it.hasNext() ) {
                 EnergyLevel energyLevel = (EnergyLevel) it.next();
                 Rectangle2D rect = energyLevel.getRegion().toRectangle();
-                Vector2D ctr = RectangleUtils.getCenter( rect );
+                MutableVector2D ctr = RectangleUtils.getCenter( rect );
                 Point viewpt = getTransform().modelToView( ctr );
 
                 graphics2D.drawString( energyLevel.getID() + "", viewpt.x, viewpt.y );
@@ -94,8 +99,8 @@ public class BandSetGraphic extends TransformGraphic implements BandParticleObse
         return viewport;
     }
 
-    public Vector2D getViewportBottomCenter() {
-        return new Vector2D( getViewport().getX() + getViewport().getWidth() / 2, getViewport().getY() );
+    public MutableVector2D getViewportBottomCenter() {
+        return new MutableVector2D( getViewport().getX() + getViewport().getWidth() / 2, getViewport().getY() );
     }
 
 }

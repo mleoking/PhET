@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,12 +10,11 @@
  */
 package edu.colorado.phet.reactionsandrates.model;
 
-import edu.colorado.phet.common.mechanics.Body;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+
+import edu.colorado.phet.common.mechanics.Body;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 
 /**
  * CompositeBody
@@ -27,7 +26,7 @@ public class CompositeBody extends Body {
 
     private ArrayList bodies = new ArrayList();
     private Point2D.Double cm = new Point2D.Double();
-    private Vector2D velocity = new Vector2D();
+    private MutableVector2D velocity = new MutableVector2D();
 
     public void addBody( Body body ) {
         bodies.add( body );
@@ -35,7 +34,7 @@ public class CompositeBody extends Body {
     }
 
     public void removeBody( Body body ) {
-        if( bodies.contains( body ) ) {
+        if ( bodies.contains( body ) ) {
             bodies.remove( body );
             setMass( getMass() - body.getMass() );
         }
@@ -45,8 +44,8 @@ public class CompositeBody extends Body {
         double xSum = 0;
         double ySum = 0;
         double massSum = 0;
-        for( int i = 0; i < bodies.size(); i++ ) {
-            Body body = (Body)bodies.get( i );
+        for ( int i = 0; i < bodies.size(); i++ ) {
+            Body body = (Body) bodies.get( i );
             double mass = body.getMass();
             xSum += mass * body.getCM().getX();
             ySum += mass * body.getCM().getY();
@@ -59,8 +58,8 @@ public class CompositeBody extends Body {
     public double getMomentOfInertia() {
         double mOfI = 0;
         Point2D cm = this.getCM();
-        for( int i = 0; i < bodies.size(); i++ ) {
-            Body body = (Body)bodies.get( i );
+        for ( int i = 0; i < bodies.size(); i++ ) {
+            Body body = (Body) bodies.get( i );
             double dist = cm.distance( body.getCM() );
             double mOfIComponent = body.getMomentOfInertia() + body.getMass()
                                                                * dist * dist;
@@ -69,12 +68,12 @@ public class CompositeBody extends Body {
         return mOfI;
     }
 
-    public Vector2D getVelocity() {
+    public MutableVector2D getVelocity() {
         velocity.setComponents( 0, 0 );
         double vx = 0;
         double vy = 0;
-        for( int i = 0; i < bodies.size(); i++ ) {
-            Body body = (Body)bodies.get( i );
+        for ( int i = 0; i < bodies.size(); i++ ) {
+            Body body = (Body) bodies.get( i );
             vx += body.getVelocity().getX() * body.getMass() / this.getMass();
             vy += body.getVelocity().getY() * body.getMass() / this.getMass();
         }

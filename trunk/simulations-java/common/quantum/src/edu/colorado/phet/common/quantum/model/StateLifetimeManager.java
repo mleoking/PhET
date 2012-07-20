@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -14,7 +14,7 @@ package edu.colorado.phet.common.quantum.model;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 
 /**
@@ -85,12 +85,12 @@ class StateLifetimeManager implements ModelElement {
                 if ( nextState != atom.getCurrState() ) {
                     Photon emittedPhoton = new Photon( state.determineEmittedPhotonWavelength( nextState ),
                                                        new Point2D.Double( atom.getPosition().getX(), atom.getPosition().getY() ),
-                                                       new Vector2D( x, y ) );
+                                                       new MutableVector2D( x, y ) );
 
                     // Place the replacement photon beyond the atom, so it doesn't collide again
                     // right away
-                    Vector2D vHat = new Vector2D( emittedPhoton.getVelocity() ).normalize();
-                    Vector2D position = new Vector2D( atom.getPosition() );
+                    MutableVector2D vHat = new MutableVector2D( emittedPhoton.getVelocity() ).normalize();
+                    MutableVector2D position = new MutableVector2D( atom.getPosition() );
                     position.add( vHat.scale( atom.getRadius() + 10 ) );
                     emittedPhoton.setPosition( position.getX(), position.getY() );
                     atom.emitPhoton( emittedPhoton );

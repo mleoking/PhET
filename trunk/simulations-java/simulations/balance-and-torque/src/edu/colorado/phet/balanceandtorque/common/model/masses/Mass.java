@@ -1,11 +1,11 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.balanceandtorque.common.model.masses;
 
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.common.model.UserMovableModelElement;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -66,7 +66,7 @@ public abstract class Mass implements UserMovableModelElement {
     // Destination of linear animation.
     protected Point2D animationDestination = new Point2D.Double();
     // Vector that describes the amount of linear motion for one time step.
-    final protected Vector2D animationMotionVector = new Vector2D( 0, 0 );
+    final protected MutableVector2D animationMotionVector = new MutableVector2D( 0, 0 );
     // Scale factor, used primarily during animation.
     protected double animationScale = 1;
     // Expected duration of an in-progress animation in sim time, which should

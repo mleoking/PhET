@@ -1,7 +1,9 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.eatingandexercise.control;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
@@ -18,7 +20,7 @@ import edu.colorado.phet.common.motion.graphs.MinimizableControlGraph;
 import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.MotionTimeSeriesModel;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
@@ -301,7 +303,7 @@ public class ChartNode extends PNode {
             PText text = new EatingAndExercisePText( EatingAndExerciseResources.getString( "units.time.yrs" ) );
             axisLabel.addChild( text );
             axisLabel.addChild( new PhetPPath( new Arrow( new Point2D.Double( text.getFullBounds().getMaxX(), text.getFullBounds().getCenterY() ),
-                                                          new Vector2D( 20, 0 ), 6, 6, 2, 0.5, true ).getShape(), Color.black ) );
+                                                          new MutableVector2D( 20, 0 ), 6, 6, 2, 0.5, true ).getShape(), Color.black ) );
             addChild( axisLabel );
 
             NumberAxis numberAxis = (NumberAxis) getJFreeChartNode().getChart().getXYPlot().getDomainAxis();

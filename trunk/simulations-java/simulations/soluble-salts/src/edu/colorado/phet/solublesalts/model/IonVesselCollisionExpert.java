@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.solublesalts.model;
 
@@ -10,7 +10,7 @@ import edu.colorado.phet.common.collision.Collidable;
 import edu.colorado.phet.common.collision.CollisionExpert;
 import edu.colorado.phet.common.collision.ContactDetector;
 import edu.colorado.phet.common.collision.SphereBoxExpert;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.solublesalts.model.ion.Chlorine;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 
@@ -35,8 +35,8 @@ public class IonVesselCollisionExpert implements CollisionExpert, ContactDetecto
 
     static {
         DEFAULT_MIN_DIST_TO_LIKE_ION = new Chlorine( new Point2D.Double(),
-                                                     new Vector2D(),
-                                                     new Vector2D() ).getRadius() * 4;
+                                                     new MutableVector2D(),
+                                                     new MutableVector2D() ).getRadius() * 4;
     }
 
     //----------------------------------------------------------------

@@ -11,38 +11,38 @@ import java.awt.geom.Point2D;
  * @author Sam Reid
  * @author Ron LeMaster
  */
-public class Vector2D extends AbstractVector2D {
+public class MutableVector2D extends AbstractVector2D {
     private double x;
     private double y;
 
-    public Vector2D() {
+    public MutableVector2D() {
     }
 
-    public Vector2D( AbstractVector2D v ) {
+    public MutableVector2D( AbstractVector2D v ) {
         this( v.getX(), v.getY() );
     }
 
-    public Vector2D( double x, double y ) {
+    public MutableVector2D( double x, double y ) {
         this.x = x;
         this.y = y;
     }
 
-    public Vector2D( Point2D p ) {
+    public MutableVector2D( Point2D p ) {
         this( p.getX(), p.getY() );
     }
 
-    public Vector2D( Point2D src, Point2D dst ) {
+    public MutableVector2D( Point2D src, Point2D dst ) {
         this.x = dst.getX() - src.getX();
         this.y = dst.getY() - src.getY();
     }
 
-    public Vector2D add( AbstractVector2D v ) {
+    public MutableVector2D add( AbstractVector2D v ) {
         setX( getX() + v.getX() );
         setY( getY() + v.getY() );
         return this;
     }
 
-    public Vector2D normalize() {
+    public MutableVector2D normalize() {
         double magnitude = getMagnitude();
         if ( magnitude == 0 ) {
             throw new UnsupportedOperationException( "Cannot normalize a zero-magnitude vector." );
@@ -50,7 +50,7 @@ public class Vector2D extends AbstractVector2D {
         return scale( 1.0 / magnitude );
     }
 
-    public Vector2D scale( double scale ) {
+    public MutableVector2D scale( double scale ) {
         setX( getX() * scale );
         setY( getY() * scale );
         return this;
@@ -87,13 +87,13 @@ public class Vector2D extends AbstractVector2D {
         setMagnitudeAndAngle( getMagnitude(), angle );
     }
 
-    public Vector2D subtract( AbstractVector2D v ) {
+    public MutableVector2D subtract( AbstractVector2D v ) {
         setX( getX() - v.getX() );
         setY( getY() - v.getY() );
         return this;
     }
 
-    public Vector2D rotate( double theta ) {
+    public MutableVector2D rotate( double theta ) {
         double r = getMagnitude();
         double alpha = getAngle();
         double gamma = alpha + theta;

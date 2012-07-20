@@ -1,14 +1,18 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.buildanatom.modules.isotopemixture.model;
 
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -332,16 +336,16 @@ public class IsotopeTestChamber {
             double interParticleForceConst = 2000;
             double wallForceConst = interParticleForceConst * 10;
             double minInterParticleDistance = 0.0001;
-            Map<MovableAtom, Vector2D> mapIsotopesToForces = new HashMap<MovableAtom, Vector2D>();
+            Map<MovableAtom, MutableVector2D> mapIsotopesToForces = new HashMap<MovableAtom, MutableVector2D>();
             for ( MovableAtom isotope1 : containedIsotopes ) {
-                Vector2D totalForce = new Vector2D( 0, 0 );
+                MutableVector2D totalForce = new MutableVector2D( 0, 0 );
                 // Calculate the forces due to other isotopes.
                 for ( MovableAtom isotope2 : containedIsotopes ) {
                     if ( isotope1 == isotope2 ) {
                         // Same one, so skip it.
                         continue;
                     }
-                    Vector2D forceFromIsotope = new Vector2D( 0, 0 );
+                    MutableVector2D forceFromIsotope = new MutableVector2D( 0, 0 );
                     double distanceBetweenIsotopes = isotope1.getPosition().getDistance( isotope2.getPosition() );
                     if ( distanceBetweenIsotopes == 0 ) {
                         // These isotopes are sitting right on top of one

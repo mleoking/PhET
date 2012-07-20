@@ -1,8 +1,8 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.conductivity.macro.bands;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro.bands:
 //            EnergyLevel, BandParticle
@@ -45,8 +45,8 @@ public class EnergyCell {
         }
     }
 
-    public Vector2D getPosition() {
-        return new Vector2D( x, y );
+    public MutableVector2D getPosition() {
+        return new MutableVector2D( x, y );
     }
 
     public EnergyLevel getEnergyLevel() {

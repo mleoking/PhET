@@ -1,9 +1,9 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.semiconductor.macro.circuit.battery;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.semiconductor.macro.circuit.LinearBranch;
 
 
@@ -16,7 +16,7 @@ public class Battery extends LinearBranch {
     private double volts = 0;
     ArrayList obs = new ArrayList();
 
-    public Battery( Vector2D start, Vector2D end ) {
+    public Battery( MutableVector2D start, MutableVector2D end ) {
         super( start, end );
     }
 

@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /**
  * Class: PhotonEarthCollisionModel
@@ -8,11 +8,11 @@
  */
 package edu.colorado.phet.greenhouse.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 
 public class PhotonEarthCollisionModel {
 
-    private static Vector2D loa = new Vector2D();
+    private static MutableVector2D loa = new MutableVector2D();
 
     public static void handle( Photon photon, Earth earth ) {
 

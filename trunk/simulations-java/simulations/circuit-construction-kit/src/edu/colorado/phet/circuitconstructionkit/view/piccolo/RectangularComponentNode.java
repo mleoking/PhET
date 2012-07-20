@@ -1,16 +1,16 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -63,7 +63,7 @@ public abstract class RectangularComponentNode extends ComponentNode {
         double imageLength = dimension.getWidth();
         double sx = resistorLength / imageLength;
         double sy = getCircuitComponent().getHeight() / dimension.getHeight();
-        double angle = new Vector2D( getBranch().getStartPoint(), getBranch().getEndPoint() ).getAngle();
+        double angle = new MutableVector2D( getBranch().getStartPoint(), getBranch().getEndPoint() ).getAngle();
         setTransform( new AffineTransform() );
         if ( Math.abs( sx ) > 1E-4 ) {
             setScale( sx );

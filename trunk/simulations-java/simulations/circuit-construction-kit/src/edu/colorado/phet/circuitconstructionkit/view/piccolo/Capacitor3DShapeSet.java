@@ -10,7 +10,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
@@ -66,47 +66,47 @@ public class Capacitor3DShapeSet {
     }
 
     private void moveUV( DoubleGeneralPath path, double u, double v ) {
-        Vector2D x = getVector( u, v );
+        MutableVector2D x = getVector( u, v );
         path.moveToRelative( x );
     }
 
-    private Vector2D getVector( double u, double v ) {
-        Vector2D vector = new Vector2D( u * Math.cos( tiltAngle ), u * Math.sin( tiltAngle ) + v );
+    private MutableVector2D getVector( double u, double v ) {
+        MutableVector2D vector = new MutableVector2D( u * Math.cos( tiltAngle ), u * Math.sin( tiltAngle ) + v );
         vector.rotate( getSegmentAngle() );
         return vector;
     }
 
     public Point2D getPlate1Location( double u, double v ) {
-        Vector2D vec = getVector( u, v );
+        MutableVector2D vec = getVector( u, v );
         return vec.getDestination( getPlate1Point() );
     }
 
     public Point2D getPlate2Location( double u, double v ) {
-        Vector2D vec = getVector( u, v );
+        MutableVector2D vec = getVector( u, v );
         return vec.getDestination( getPlate2Point() );
     }
 
     private double getSegmentAngle() {
-        return new Vector2D( inPt, outPt ).getAngle();
+        return new MutableVector2D( inPt, outPt ).getAngle();
     }
 
     private void lineUV( DoubleGeneralPath path, double u, double v ) {
-        Vector2D x = getVector( u, v );
+        MutableVector2D x = getVector( u, v );
         path.lineToRelative( x );
     }
 
     public Point2D getPlate2Point() {
-        Vector2D vector = new Vector2D( outPt, inPt );
+        MutableVector2D vector = new MutableVector2D( outPt, inPt );
         return vector.getInstanceOfMagnitude( getDistToPlate() ).getDestination( outPt );
     }
 
     public Point2D getPlate1Point() {
-        Vector2D vector = new Vector2D( inPt, outPt );
+        MutableVector2D vector = new MutableVector2D( inPt, outPt );
         return vector.getInstanceOfMagnitude( getDistToPlate() ).getDestination( inPt );
     }
 
     private double getDistToPlate() {
-        return ( new Vector2D( inPt, outPt ).getMagnitude() - distBetweenPlates ) / 2.0;
+        return ( new MutableVector2D( inPt, outPt ).getMagnitude() - distBetweenPlates ) / 2.0;
     }
 
     public Shape getPlate1Shape() {
@@ -143,7 +143,7 @@ public class Capacitor3DShapeSet {
     public Point2D getPlate2EdgePoint() {
         ImmutableVector2D vector = new ImmutableVector2D( inPt, outPt );
         double a = width * Math.cos( tiltAngle );
-        double initDist = new Vector2D( inPt, getPlate2Point() ).getMagnitude();
+        double initDist = new MutableVector2D( inPt, getPlate2Point() ).getMagnitude();
         vector = vector.getInstanceOfMagnitude( initDist + a / 2.0 );
         return vector.getDestination( inPt );
     }

@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,18 +10,7 @@
  */
 package edu.colorado.phet.mri.view;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
-import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
-import edu.colorado.phet.common.quantum.QuantumConfig;
-import edu.colorado.phet.common.quantum.model.Photon;
-import edu.umd.cs.piccolo.nodes.PImage;
-
-import java.awt.*;
+import java.awt.Color;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -30,6 +19,16 @@ import java.awt.image.ColorModel;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
+import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
+import edu.colorado.phet.common.quantum.QuantumConfig;
+import edu.colorado.phet.common.quantum.model.Photon;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 /**
  * Class: AtomGraphic
@@ -45,7 +44,7 @@ public class PhotonGraphic extends PImage implements SimpleObserver,
     // Class
     //----------------------------------------------------------------
 
-    static public final int s_imgHeight = (int)Photon.RADIUS;
+    static public final int s_imgHeight = (int) Photon.RADIUS;
     static public final int s_imgLength = 20;
 
     // List of inactive instances (the free pool)
@@ -62,10 +61,10 @@ public class PhotonGraphic extends PImage implements SimpleObserver,
         try {
             s_baseImage = ImageLoader.loadBufferedImage( s_imageName );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
-        double scale = (double)s_imgHeight / s_baseImage.getHeight();
+        double scale = (double) s_imgHeight / s_baseImage.getHeight();
         AffineTransform sTx = AffineTransform.getScaleInstance( scale, scale );
         AffineTransformOp sTxOp = new AffineTransformOp( sTx, AffineTransformOp.TYPE_BILINEAR );
         s_baseImage = sTxOp.filter( s_baseImage, null );
@@ -79,8 +78,8 @@ public class PhotonGraphic extends PImage implements SimpleObserver,
         s_IRphotonGraphic = new BufferedImage( s_baseImage.getWidth(), s_baseImage.getHeight(),
                                                BufferedImage.TYPE_INT_ARGB );
         ColorModel cm = s_baseImage.getColorModel();
-        for( int x = 0; x < s_baseImage.getWidth(); x++ ) {
-            for( int y = 0; y < s_baseImage.getHeight(); y++ ) {
+        for ( int x = 0; x < s_baseImage.getWidth(); x++ ) {
+            for ( int y = 0; y < s_baseImage.getHeight(); y++ ) {
                 int rgb = s_baseImage.getRGB( x, y );
                 int alpha = cm.getAlpha( rgb );
                 int red = cm.getRed( rgb );
@@ -88,8 +87,8 @@ public class PhotonGraphic extends PImage implements SimpleObserver,
                 int blue = cm.getBlue( rgb );
                 int newRGB = 0;
 
-                if( alpha > 0 ) {
-                    if( red + green + blue > bwThreshold ) {
+                if ( alpha > 0 ) {
+                    if ( red + green + blue > bwThreshold ) {
                         alpha = 0;
                     }
                     else {
@@ -121,10 +120,10 @@ public class PhotonGraphic extends PImage implements SimpleObserver,
 
     static public void setAllVisible( boolean areVisible, double wavelength ) {
         Color color = VisibleColor.wavelengthToColor( wavelength );
-        synchronized( s_instances ) {
-            for( int i = 0; i < s_instances.size(); i++ ) {
-                PhotonGraphic photonGraphic = (PhotonGraphic)s_instances.get( i );
-                if( photonGraphic.color.equals( color ) ) {
+        synchronized ( s_instances ) {
+            for ( int i = 0; i < s_instances.size(); i++ ) {
+                PhotonGraphic photonGraphic = (PhotonGraphic) s_instances.get( i );
+                if ( photonGraphic.color.equals( color ) ) {
                     photonGraphic.setVisible( areVisible );
                 }
             }
@@ -132,20 +131,20 @@ public class PhotonGraphic extends PImage implements SimpleObserver,
     }
 
     static public void removeInstance( PhotonGraphic graphic ) {
-        synchronized( s_instances ) {
+        synchronized ( s_instances ) {
             s_instances.remove( graphic );
         }
-        synchronized( s_inactiveInstances ) {
+        synchronized ( s_inactiveInstances ) {
         }
     }
 
 
     static public PhotonGraphic getInstance( Photon photon ) {
         PhotonGraphic photonGraphic = null;
-        synchronized( s_inactiveInstances ) {
-            if( s_inactiveInstances.size() > 0 ) {
+        synchronized ( s_inactiveInstances ) {
+            if ( s_inactiveInstances.size() > 0 ) {
                 int idx = s_inactiveInstances.size() - 1;
-                photonGraphic = (PhotonGraphic)s_inactiveInstances.get( idx );
+                photonGraphic = (PhotonGraphic) s_inactiveInstances.get( idx );
                 s_inactiveInstances.remove( idx );
                 photonGraphic.init( photon );
             }
@@ -161,7 +160,7 @@ public class PhotonGraphic extends PImage implements SimpleObserver,
     //----------------------------------------------------------------
 
     private double theta;
-    private Vector2D velocity;
+    private MutableVector2D velocity;
     private Photon photon;
     private Color color;
     double baseImageHeight;
@@ -185,11 +184,11 @@ public class PhotonGraphic extends PImage implements SimpleObserver,
         photon.addObserver( this );
         photon.addVelocityChangedListener( this );
 
-        velocity = new Vector2D( photon.getVelocity() );
+        velocity = new MutableVector2D( photon.getVelocity() );
         createImage( photon );
 
         computeOffsets( velocity.getAngle() );
-        setOffset( (int)( photon.getPosition().getX() - xOffset ), (int)( photon.getPosition().getY() - yOffset ) );
+        setOffset( (int) ( photon.getPosition().getX() - xOffset ), (int) ( photon.getPosition().getY() - yOffset ) );
     }
 
     private void createImage( Photon photon ) {
@@ -197,14 +196,14 @@ public class PhotonGraphic extends PImage implements SimpleObserver,
         Double wavelength = new Double( photon.getWavelength() );
         BufferedImage bi = null;
         // If the wavelength is in the IR, use the special graphic
-        if( photon.getWavelength() > QuantumConfig.MAX_WAVELENGTH ) {
+        if ( photon.getWavelength() > QuantumConfig.MAX_WAVELENGTH ) {
             bi = s_IRphotonGraphic;
         }
         // Otherwise, get an image that is the appropriate duotone color
         else {
             // See if we've already got an image for this photon's color. If not, make one and cache it
-            bi = (BufferedImage)s_colorToImage.get( wavelength );
-            if( bi == null ) {
+            bi = (BufferedImage) s_colorToImage.get( wavelength );
+            if ( bi == null ) {
                 BufferedImageOp op = new MakeDuotoneImageOp( VisibleColor.wavelengthToColor( photon.getWavelength() ) );
                 bi = new BufferedImage( s_baseImage.getWidth(), s_baseImage.getHeight(), BufferedImage.TYPE_INT_ARGB );
 //                op.filter( s_baseImage, bi );
@@ -228,13 +227,13 @@ public class PhotonGraphic extends PImage implements SimpleObserver,
      *
      */
     public void update() {
-        setOffset( (int)( photon.getPosition().getX() - xOffset ), (int)( photon.getPosition().getY() - yOffset ) );
+        setOffset( (int) ( photon.getPosition().getX() - xOffset ), (int) ( photon.getPosition().getY() - yOffset ) );
     }
 
     public void velocityChanged( Photon.VelocityChangedEvent event ) {
-        createImage( (Photon)event.getSource() );
+        createImage( (Photon) event.getSource() );
         computeOffsets( photon.getVelocity().getAngle() );
-        setOffset( (int)( photon.getPosition().getX() - xOffset ), (int)( photon.getPosition().getY() - yOffset ) );
+        setOffset( (int) ( photon.getPosition().getX() - xOffset ), (int) ( photon.getPosition().getY() - yOffset ) );
     }
 
     /**
@@ -253,21 +252,21 @@ public class PhotonGraphic extends PImage implements SimpleObserver,
         double alpha = 0;
         double w = baseImageWidth;
         double h = baseImageHeight;
-        if( theta >= 0 && theta <= Math.PI / 2 ) {
+        if ( theta >= 0 && theta <= Math.PI / 2 ) {
             xOffset = w * Math.cos( theta ) + ( h / 2 ) * Math.sin( theta );
             yOffset = w * Math.sin( theta ) + ( h / 2 ) * Math.cos( theta );
         }
-        if( theta > Math.PI / 2 && theta <= Math.PI ) {
+        if ( theta > Math.PI / 2 && theta <= Math.PI ) {
             alpha = theta - Math.PI / 2;
             xOffset = ( h / 2 ) * Math.cos( alpha );
             yOffset = w * Math.cos( alpha ) + ( h / 2 ) * Math.sin( alpha );
         }
-        if( theta > Math.PI && theta <= Math.PI * 3 / 2 ) {
+        if ( theta > Math.PI && theta <= Math.PI * 3 / 2 ) {
             alpha = theta - Math.PI;
             xOffset = ( h / 2 ) * Math.sin( alpha );
             yOffset = ( h / 2 ) * Math.cos( alpha );
         }
-        if( theta > Math.PI * 3 / 2 && theta <= Math.PI * 2 ) {
+        if ( theta > Math.PI * 3 / 2 && theta <= Math.PI * 2 ) {
             alpha = Math.PI * 2 - theta;
             xOffset = w * Math.cos( alpha ) + ( h / 2 ) * Math.sin( alpha );
             yOffset = ( h / 2 ) * Math.cos( alpha );

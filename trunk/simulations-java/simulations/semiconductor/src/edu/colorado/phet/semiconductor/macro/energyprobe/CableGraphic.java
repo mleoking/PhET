@@ -1,11 +1,15 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.semiconductor.macro.energyprobe;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
@@ -33,7 +37,7 @@ public class CableGraphic extends TransformGraphic implements SimpleObserver {
 
     public void update() {
         Point tailView = leadGraphic.getTail();
-        Vector2D attach = cable.getAttachmentPoint();
+        MutableVector2D attach = cable.getAttachmentPoint();
         Point2D plugModel = attach.toPoint2D();
         Point plugView = getTransform().modelToView( plugModel );
 

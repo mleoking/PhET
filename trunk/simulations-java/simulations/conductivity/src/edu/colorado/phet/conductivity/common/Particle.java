@@ -5,7 +5,7 @@ package edu.colorado.phet.conductivity.common;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
@@ -13,9 +13,9 @@ public class Particle extends SimpleObservable
         implements ModelElement {
 
     public Particle( double d, double d1 ) {
-        position = new Vector2D( d, d1 );
-        velocity = new Vector2D();
-        acceleration = new Vector2D();
+        position = new MutableVector2D( d, d1 );
+        velocity = new MutableVector2D();
+        acceleration = new MutableVector2D();
     }
 
     public AbstractVector2D getPosition() {
@@ -35,18 +35,18 @@ public class Particle extends SimpleObservable
     }
 
     public void setAcceleration( double d, double d1 ) {
-        acceleration = new Vector2D( d, d1 );
+        acceleration = new MutableVector2D( d, d1 );
     }
 
     public void setVelocity( double d, double d1 ) {
-        velocity = new Vector2D( d, d1 );
+        velocity = new MutableVector2D( d, d1 );
     }
 
     public void setPosition( double d, double d1 ) {
-        position = new Vector2D( d, d1 );
+        position = new MutableVector2D( d, d1 );
     }
 
     AbstractVector2D position;
     AbstractVector2D velocity;
-    Vector2D acceleration;
+    MutableVector2D acceleration;
 }

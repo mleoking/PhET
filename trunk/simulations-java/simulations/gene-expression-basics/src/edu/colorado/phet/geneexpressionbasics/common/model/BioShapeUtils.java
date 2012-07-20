@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model;
 
 import java.awt.Color;
@@ -15,7 +15,7 @@ import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PCanvas;
@@ -88,7 +88,7 @@ public class BioShapeUtils {
         Random rand = new Random( randomNumberSeed );
         List<Point2D> alteredPoints = new ArrayList<Point2D>();
         for ( Point2D point : points ) {
-            Vector2D pointAsVector = new Vector2D( point );
+            MutableVector2D pointAsVector = new MutableVector2D( point );
             pointAsVector.scale( 1 + ( rand.nextDouble() - 0.5 ) * distortionFactor );
             alteredPoints.add( pointAsVector.toPoint2D() );
         }
@@ -287,7 +287,7 @@ public class BioShapeUtils {
         double b = bounds.getHeight() / 2;
 
         ImmutableVector2D centerOfEllipse = new ImmutableVector2D( bounds.getCenterX(), bounds.getCenterY() );
-        Vector2D vectorToEdge = new Vector2D();
+        MutableVector2D vectorToEdge = new MutableVector2D();
         List<Point2D> pointList = new ArrayList<Point2D>();
         int numPoints = 8;
         for ( double angle = 0; angle < 2 * Math.PI; angle += 2 * Math.PI / numPoints ) {

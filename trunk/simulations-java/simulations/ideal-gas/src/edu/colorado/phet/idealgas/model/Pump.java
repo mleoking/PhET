@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,17 +10,17 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.EventObject;
+
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.controller.GasSource;
 import edu.colorado.phet.idealgas.controller.command.PumpMoleculeCmd;
-
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.EventListener;
-import java.util.EventObject;
 
 /**
  * Pump
@@ -40,8 +40,8 @@ public class Pump extends SimpleObservable implements GasSource {
     // Offset for dithering the initial position of particles pumped into the box
     private static float s_intakePortOffsetY = 1;
 
-    protected static final float PI_OVER_2 = (float)Math.PI / 2;
-    protected static final float PI_OVER_4 = (float)Math.PI / 4;
+    protected static final float PI_OVER_2 = (float) Math.PI / 2;
+    protected static final float PI_OVER_4 = (float) Math.PI / 4;
     protected static final float MAX_V = -30;
 
     private IdealGasModel model;
@@ -64,11 +64,11 @@ public class Pump extends SimpleObservable implements GasSource {
      */
     public Pump( PhetGraphicsModule module, Box2D box, PumpingEnergyStrategy pumpingEnergyStrategy ) {
         this.pumpingEnergyStrategy = pumpingEnergyStrategy;
-        if( box == null ) {
+        if ( box == null ) {
             throw new RuntimeException( "box cannot be null" );
         }
         this.module = module;
-        this.model = (IdealGasModel)module.getModel();
+        this.model = (IdealGasModel) module.getModel();
         this.box = box;
     }
 
@@ -89,16 +89,16 @@ public class Pump extends SimpleObservable implements GasSource {
      * @param species
      */
     public void pump( int numMolecules, Class species ) {
-        for( int i = 0; i < numMolecules; i++ ) {
+        for ( int i = 0; i < numMolecules; i++ ) {
             GasMolecule molecule = this.pumpGasMolecule( species );
-            for( int j = 0; j < listeners.size(); j++ ) {
-                Listener listener = (Listener)listeners.get( j );
+            for ( int j = 0; j < listeners.size(); j++ ) {
+                Listener listener = (Listener) listeners.get( j );
                 listener.moleculeAdded( molecule );
             }
         }
         MoleculeEvent event = new MoleculeEvent( this, species, numMolecules );
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.moleculesAdded( event );
         }
         return;
@@ -113,17 +113,17 @@ public class Pump extends SimpleObservable implements GasSource {
      * @param location
      */
     public void pump( int numMolecules, Class species, Point2D location ) {
-        for( int i = 0; i < numMolecules; i++ ) {
+        for ( int i = 0; i < numMolecules; i++ ) {
             GasMolecule molecule = this.pumpGasMolecule( species );
             molecule.setPosition( location );
-            for( int j = 0; j < listeners.size(); j++ ) {
-                Listener listener = (Listener)listeners.get( j );
+            for ( int j = 0; j < listeners.size(); j++ ) {
+                Listener listener = (Listener) listeners.get( j );
                 listener.moleculeAdded( molecule );
             }
         }
         MoleculeEvent event = new MoleculeEvent( this, species, numMolecules );
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.moleculesAdded( event );
         }
         return;
@@ -200,29 +200,29 @@ public class Pump extends SimpleObservable implements GasSource {
         // Compute the average energy of the gas in the box. It will be used to compute the
         // velocity of the new molecule. Create the new molecule with no velocity. We will
         // compute and assign it next
-        if( species == LightSpecies.class ) {
+        if ( species == LightSpecies.class ) {
             newMolecule = new LightSpecies( new Point2D.Double( s_intakePortX, s_intakePortY + s_intakePortOffsetY * 5 ),
-                                            new Vector2D( 0, 0 ),
-                                            new Vector2D( 0, 0 ) );
+                                            new MutableVector2D( 0, 0 ),
+                                            new MutableVector2D( 0, 0 ) );
         }
-        else if( species == HeavySpecies.class ) {
+        else if ( species == HeavySpecies.class ) {
             newMolecule = new HeavySpecies( new Point2D.Double( s_intakePortX, s_intakePortY + s_intakePortOffsetY * 5 ),
-                                            new Vector2D( 0, 0 ),
-                                            new Vector2D( 0, 0 ) );
+                                            new MutableVector2D( 0, 0 ),
+                                            new MutableVector2D( 0, 0 ) );
         }
         else {
             throw new RuntimeException( "No gas species set in application" );
         }
 
         double vSq = 2 * ( initialEnergy ) / newMolecule.getMass();
-        if( vSq <= 0 ) {
+        if ( vSq <= 0 ) {
             System.out.println( "vSq <= 0 in PumpMoleculeCmd.createMolecule" );
         }
-        float v = vSq > 0 ? (float)Math.sqrt( vSq ) : 10;
+        float v = vSq > 0 ? (float) Math.sqrt( vSq ) : 10;
         double theta = Math.random() * ( maxTheta - minTheta ) + minTheta;
 
-        float xV = v * (float)Math.cos( theta );
-        float yV = v * (float)Math.sin( theta );
+        float xV = v * (float) Math.cos( theta );
+        float yV = v * (float) Math.sin( theta );
         // Set the velocity twice, so the previous velocity is set to be the same
         newMolecule.setVelocity( xV, yV );
         newMolecule.setVelocity( xV, yV );
@@ -292,7 +292,7 @@ public class Pump extends SimpleObservable implements GasSource {
 
         public double getMoleculeEnergy() {
             double energy = 0;
-            if( model.getNumMolecules() > 0 ) {
+            if ( model.getNumMolecules() > 0 ) {
                 energy = model.getAverageGasEnergy();
             }
             else {

@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /**
  * Class: RigidHollowSphereModule
@@ -9,24 +9,32 @@
  */
 package edu.colorado.phet.idealgas.controller;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.geom.Point2D;
+import java.util.LinkedList;
+import java.util.Random;
+
+import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
+
 import edu.colorado.phet.common.mechanics.Body;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.idealgas.IdealGasConfig;
 import edu.colorado.phet.idealgas.IdealGasResources;
 import edu.colorado.phet.idealgas.collision.SphereHollowSphereExpert;
 import edu.colorado.phet.idealgas.controller.command.AddModelElementCmd;
 import edu.colorado.phet.idealgas.controller.command.PumpMoleculeCmd;
 import edu.colorado.phet.idealgas.instrumentation.Thermometer;
-import edu.colorado.phet.idealgas.model.*;
+import edu.colorado.phet.idealgas.model.Box2D;
+import edu.colorado.phet.idealgas.model.GasMolecule;
+import edu.colorado.phet.idealgas.model.HeavySpecies;
+import edu.colorado.phet.idealgas.model.HollowSphere;
+import edu.colorado.phet.idealgas.model.IdealGasClock;
+import edu.colorado.phet.idealgas.model.LightSpecies;
+import edu.colorado.phet.idealgas.model.Pump;
 import edu.colorado.phet.idealgas.view.HollowSphereGraphic;
-
-import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.util.LinkedList;
-import java.util.Random;
 
 public class RigidHollowSphereModule extends IdealGasModule implements GasSource {
 
@@ -57,8 +65,8 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
         //        box.setRegion( 300, 100, box.getMaxX(), box.getMaxY() );
         sphere = new HollowSphere( new Point2D.Double( box.getMinX() + box.getWidth() / 2,
                                                        box.getMinY() + box.getHeight() / 2 ),
-                                   new Vector2D( 0, 0 ),
-                                   new Vector2D( 0, 0 ),
+                                   new MutableVector2D( 0, 0 ),
+                                   new MutableVector2D( 0, 0 ),
                                    100,
                                    50 );
         box.setMinimumWidth( sphere.getRadius() * 3 );
@@ -93,16 +101,16 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
 
     private void addGas( double xDiag, double xOrigin, double yDiag, double yOrigin ) {
         // Put some heavy gas outside the sphere
-        for( int i = 0; i < 0; i++ ) {
+        for ( int i = 0; i < 0; i++ ) {
             //        for( int i = 0; i < 100; i++ ) {
             double x = Math.random() * ( xDiag - xOrigin - 20 ) + xOrigin + 50;
             double y = Math.random() * ( yDiag - yOrigin - 20 ) + yOrigin + 10;
             double theta = Math.random() * Math.PI * 2;
-            double vx = (double)Math.cos( theta ) * initialVelocity;
-            double vy = (double)Math.sin( theta ) * initialVelocity;
+            double vx = (double) Math.cos( theta ) * initialVelocity;
+            double vy = (double) Math.sin( theta ) * initialVelocity;
             GasMolecule p1 = new HeavySpecies( new Point2D.Double( x, y ),
-                                               new Vector2D( vx, vy ),
-                                               new Vector2D( 0, 0 ) );
+                                               new MutableVector2D( vx, vy ),
+                                               new MutableVector2D( 0, 0 ) );
             new PumpMoleculeCmd( getIdealGasModel(), p1, this ).doIt();
         }
 
@@ -111,24 +119,24 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
         int num = 0;
         //        int num = 6;
         //        int num = 4;
-        for( int i = 1; i <= num; i++ ) {
-            for( int j = 0; j < num; j++ ) {
+        for ( int i = 1; i <= num; i++ ) {
+            for ( int j = 0; j < num; j++ ) {
                 double v = initialVelocity;
                 double theta = Math.random() * Math.PI * 2;
                 double vx = Math.cos( theta ) * v;
                 double vy = Math.sin( theta ) * v;
-                if( HeavySpecies.class.isAssignableFrom( gasSpecies ) ) {
+                if ( HeavySpecies.class.isAssignableFrom( gasSpecies ) ) {
                     p1 = new HeavySpecies( new Point2D.Double( 350 + i * 10, 230 + j * 10 ),
                                            //                        new Point2D.Double( 280 + i * 10, 330 + j * 10 ),
-                                           new Vector2D( vx, vy ),
-                                           new Vector2D( 0, 0 ) );
+                                           new MutableVector2D( vx, vy ),
+                                           new MutableVector2D( 0, 0 ) );
                     new PumpMoleculeCmd( getIdealGasModel(), p1, this ).doIt();
                 }
-                if( LightSpecies.class.isAssignableFrom( gasSpecies ) ) {
+                if ( LightSpecies.class.isAssignableFrom( gasSpecies ) ) {
                     p1 = new LightSpecies( new Point2D.Double( 350 + i * 10, 230 + j * 10 ),
                                            //                        new Point2D.Double( 280 + i * 10, 330 + j * 10 ),
-                                           new Vector2D( vx, vy ),
-                                           new Vector2D( 0, 0 ) );
+                                           new MutableVector2D( vx, vy ),
+                                           new MutableVector2D( 0, 0 ) );
                     new PumpMoleculeCmd( getIdealGasModel(), p1, this ).doIt();
                 }
                 sphere.addContainedBody( p1 );
@@ -152,29 +160,29 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
         // Find a molecule of the right species, and remove it
         boolean found = false;
         GasMolecule gasMolecule = null;
-        for( int i = 0; !found && i < moleculesInSphere.size(); i++ ) {
-            gasMolecule = (GasMolecule)moleculesInSphere.get( i );
-            if( gasSpecies.isInstance( gasMolecule ) ) {
+        for ( int i = 0; !found && i < moleculesInSphere.size(); i++ ) {
+            gasMolecule = (GasMolecule) moleculesInSphere.get( i );
+            if ( gasSpecies.isInstance( gasMolecule ) ) {
                 found = true;
                 moleculesInSphere.remove( gasMolecule );
                 this.sphere.removeContainedBody( gasMolecule );
             }
         }
 
-        if( found ) {
+        if ( found ) {
             getIdealGasModel().removeModelElement( gasMolecule );
         }
     }
 
     public void addMoleculeToSphere( Class species ) {
         Point2D location = sphere.getNewMoleculeLocation();
-        Vector2D velocity = sphere.getNewMoleculeVelocity( species, getIdealGasModel() );
+        MutableVector2D velocity = sphere.getNewMoleculeVelocity( species, getIdealGasModel() );
         GasMolecule gm = null;
-        if( species == HeavySpecies.class ) {
-            gm = new HeavySpecies( location, velocity, new Vector2D() );
+        if ( species == HeavySpecies.class ) {
+            gm = new HeavySpecies( location, velocity, new MutableVector2D() );
         }
-        if( species == LightSpecies.class ) {
-            gm = new LightSpecies( location, velocity, new Vector2D() );
+        if ( species == LightSpecies.class ) {
+            gm = new LightSpecies( location, velocity, new MutableVector2D() );
         }
         moleculesInSphere.add( gm );
         PumpMoleculeCmd cmd = new PumpMoleculeCmd( this.getIdealGasModel(), gm,
@@ -199,27 +207,27 @@ public class RigidHollowSphereModule extends IdealGasModule implements GasSource
         // just to make sure there is no non-random effect on the temperature
         // of the system
         Object obj = null;
-        while( obj == null ) {
+        while ( obj == null ) {
             boolean randomB = new Random().nextBoolean();
-            if( randomB ) {
-                for( int i = 0; i < bodies.size(); i++ ) {
+            if ( randomB ) {
+                for ( int i = 0; i < bodies.size(); i++ ) {
                     obj = bodies.get( i );
-                    if( species.isInstance( obj ) && !sphere.containsBody( (Body)obj ) ) {
+                    if ( species.isInstance( obj ) && !sphere.containsBody( (Body) obj ) ) {
                         break;
                     }
                 }
             }
             else {
-                for( int i = bodies.size() - 1; i >= 0; i-- ) {
+                for ( int i = bodies.size() - 1; i >= 0; i-- ) {
                     obj = bodies.get( i );
-                    if( species.isInstance( obj ) && !sphere.containsBody( (Body)obj ) ) {
+                    if ( species.isInstance( obj ) && !sphere.containsBody( (Body) obj ) ) {
                         break;
                     }
                 }
             }
         }
-        if( obj instanceof GasMolecule && !sphere.containsBody( (Body)obj ) ) {
-            GasMolecule molecule = (GasMolecule)obj;
+        if ( obj instanceof GasMolecule && !sphere.containsBody( (Body) obj ) ) {
+            GasMolecule molecule = (GasMolecule) obj;
             getIdealGasModel().removeModelElement( molecule );
         }
     }

@@ -1,16 +1,18 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*  */
 package edu.colorado.phet.circuitconstructionkit.view.chart;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Paint;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -27,7 +29,7 @@ public class CrosshairNode extends PComposite {
     private CrosshairDragHandler listener;
     private AbstractFloatingChart intensityReader;
     private boolean attached = false;
-    private Vector2D originalDisplacement;
+    private MutableVector2D originalDisplacement;
     private PPath background;
     private PPath innerCircle;
 
@@ -78,8 +80,8 @@ public class CrosshairNode extends PComposite {
                    getStripChartJFCNode().getFullBounds().getCenterY() + originalDisplacement.getY() );
     }
 
-    private Vector2D getDisplacement() {
-        return new Vector2D( getStripChartJFCNode().getFullBounds().getCenter2D(), getFullBounds().getCenter2D() );
+    private MutableVector2D getDisplacement() {
+        return new MutableVector2D( getStripChartJFCNode().getFullBounds().getCenter2D(), getFullBounds().getCenter2D() );
     }
 
     private void crosshairDropped() {

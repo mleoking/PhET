@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,14 +10,14 @@
  */
 package edu.colorado.phet.mri.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.PhysicsUtil;
 import edu.colorado.phet.common.quantum.model.Beam;
 import edu.colorado.phet.common.quantum.model.Photon;
 import edu.colorado.phet.mri.MriConfig;
 import edu.colorado.phet.mri.util.IScalar;
-
-import java.awt.geom.Point2D;
 
 /**
  * RadiowaveSource
@@ -61,11 +61,11 @@ public class RadiowaveSource extends Beam implements IScalar {
      * @param length
      * @param direction
      */
-    public RadiowaveSource( Point2D location, double length, Vector2D direction ) {
+    public RadiowaveSource( Point2D location, double length, MutableVector2D direction ) {
         this( location, length, direction, 0 );
     }
 
-    public RadiowaveSource( Point2D location, double length, Vector2D direction, double phaseAngle ) {
+    public RadiowaveSource( Point2D location, double length, MutableVector2D direction, double phaseAngle ) {
         super( DEFAULT_WAVELENGTH, location, length, length, direction, MAX_POWER, 0, Photon.DEFAULT_SPEED );
 
         // Set enabled by default, but with power off
@@ -97,7 +97,7 @@ public class RadiowaveSource extends Beam implements IScalar {
 
     public void stepInTime( double dt ) {
         super.stepInTime( dt );
-        if( isEnabled() ) {
+        if ( isEnabled() ) {
             runningTime += dt;
             // amplitude is always >= 0
             currentAmplitude = power * 0.5 * ( 1 + Math.sin( phaseAngle + ( runningTime % period ) / period * Math.PI * 2 ) );

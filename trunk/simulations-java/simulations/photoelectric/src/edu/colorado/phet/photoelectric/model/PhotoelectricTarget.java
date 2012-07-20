@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,9 +10,15 @@
  */
 package edu.colorado.phet.photoelectric.model;
 
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.EventObject;
+import java.util.Random;
+
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.phetcommon.util.ModelEventChannel;
 import edu.colorado.phet.common.quantum.model.Photon;
@@ -21,13 +27,6 @@ import edu.colorado.phet.dischargelamps.model.DischargeLampModel;
 import edu.colorado.phet.dischargelamps.quantum.model.Electron;
 import edu.colorado.phet.dischargelamps.quantum.model.ElectronSource;
 import edu.colorado.phet.dischargelamps.quantum.model.Plate;
-
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.EventListener;
-import java.util.EventObject;
-import java.util.Random;
 
 /**
  * PhotoelectricTarget
@@ -97,8 +96,8 @@ public class PhotoelectricTarget extends Plate {
     public void handlePhotonCollision( Photon photon ) {
         // Determine if the photon has enough energy to dislodge an electron from the target
         double de = 0;
-        if( targetMaterial.getEnergyAbsorptionStrategy() instanceof MetalEnergyAbsorptionStrategy ) {
-            MetalEnergyAbsorptionStrategy metalEnergyAbsorptionStrategy = (MetalEnergyAbsorptionStrategy)targetMaterial.getEnergyAbsorptionStrategy();
+        if ( targetMaterial.getEnergyAbsorptionStrategy() instanceof MetalEnergyAbsorptionStrategy ) {
+            MetalEnergyAbsorptionStrategy metalEnergyAbsorptionStrategy = (MetalEnergyAbsorptionStrategy) targetMaterial.getEnergyAbsorptionStrategy();
             de = metalEnergyAbsorptionStrategy.energyAfterPhotonCollision( photon );
         }
         else {
@@ -106,7 +105,7 @@ public class PhotoelectricTarget extends Plate {
         }
 
         // If the photon has enough energy to dislodge an electron, then do it
-        if( de > 0 ) {
+        if ( de > 0 ) {
 
             // Determine where the electron will be emitted from
             // The location of the electron is coincident with where the photon hit the plate
@@ -119,7 +118,7 @@ public class PhotoelectricTarget extends Plate {
             electron.setPosition( p.getX() + offset, p.getY() );
 
             // Determine the speed of the new electron
-            Vector2D velocity = determineNewElectronVelocity( de );
+            MutableVector2D velocity = determineNewElectronVelocity( de );
             electron.setVelocity( velocity );
 
             // Tell all the listeners
@@ -133,14 +132,14 @@ public class PhotoelectricTarget extends Plate {
      * @param energy
      * @return
      */
-    private Vector2D determineNewElectronVelocity( double energy ) {
+    private MutableVector2D determineNewElectronVelocity( double energy ) {
 
         double speed = initialElectronSpeedStrategy.determineNewElectronSpeed( energy );
         double dispersionAngle = 0;
         double angle = random.nextDouble() * dispersionAngle - dispersionAngle / 2;
         double vx = speed * Math.cos( angle );
         double vy = speed * Math.sin( angle );
-        return new Vector2D( vx, vy );
+        return new MutableVector2D( vx, vy );
     }
 
     /**
@@ -161,7 +160,7 @@ public class PhotoelectricTarget extends Plate {
 
     public void setTargetMaterial( DischargeLampElementProperties material ) {
         this.targetMaterial = material;
-        if( !TARGET_MATERIALS.contains( material ) ) {
+        if ( !TARGET_MATERIALS.contains( material ) ) {
             throw new RuntimeException( "Invalid parameter" );
         }
         materialChangeListenerProxy.materialChanged( new MaterialChangeEvent( this ) );
@@ -193,7 +192,7 @@ public class PhotoelectricTarget extends Plate {
         }
 
         PhotoelectricTarget getPhotoelectricTarget() {
-            return (PhotoelectricTarget)getSource();
+            return (PhotoelectricTarget) getSource();
         }
 
         Object getMaterial() {
@@ -207,7 +206,7 @@ public class PhotoelectricTarget extends Plate {
 
     private EventChannel materialChangeEventChannel = new ModelEventChannel( MaterialChangeListener.class );
     private MaterialChangeListener materialChangeListenerProxy =
-            (MaterialChangeListener)materialChangeEventChannel.getListenerProxy();
+            (MaterialChangeListener) materialChangeEventChannel.getListenerProxy();
 
     void addMaterialChangeListener( MaterialChangeListener listener ) {
         materialChangeEventChannel.addListener( listener );

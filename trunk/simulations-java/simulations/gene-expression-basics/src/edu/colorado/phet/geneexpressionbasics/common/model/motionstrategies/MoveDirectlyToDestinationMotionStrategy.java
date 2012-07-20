@@ -7,8 +7,8 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
@@ -21,7 +21,7 @@ public class MoveDirectlyToDestinationMotionStrategy extends MotionStrategy {
 
     private static final double MAX_Z_VELOCITY = 10; // Max Z velocity in normalized units.
 
-    private final Vector2D velocityVector2D = new Vector2D( 0, 0 );
+    private final MutableVector2D velocityVector2D = new MutableVector2D( 0, 0 );
 
     // Destination to which this motion strategy moves.  Note that it is
     // potentially a moving target.

@@ -1,13 +1,17 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.forces1d.common;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.Point;
 import java.awt.geom.Point2D;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockListener;
@@ -30,7 +34,7 @@ public class WiggleMe extends CompositePhetGraphic {
     //    private double frequency = 0.0025;//in Hertz.
     private double frequency = 2.5;//in Hertz.
     private double amplitude = 30;//In pixels.
-    private Vector2D oscillationAxis;//axis along which the wiggle me moves.
+    private MutableVector2D oscillationAxis;//axis along which the wiggle me moves.
     private Target target;
     private PhetShapeGraphic phetShapeGraphic;
     private ShadowHTMLGraphic textGraphic;
@@ -49,7 +53,7 @@ public class WiggleMe extends CompositePhetGraphic {
         super( component );
         this.target = t;
         this.clock = clock;
-        this.oscillationAxis = new Vector2D( 0, 1 );
+        this.oscillationAxis = new MutableVector2D( 0, 1 );
         Color foreGroundColor = new Color( 39, 27, 184 );
         Color shadowColor = new Color( 6, 0, 44 );
         textGraphic = new ShadowHTMLGraphic( component, text, font, foreGroundColor, dx, dy, shadowColor );
@@ -74,7 +78,7 @@ public class WiggleMe extends CompositePhetGraphic {
         phetShapeGraphic.setLocation( textGraphic.getWidth() - phetShapeGraphic.getWidth() - 5, textGraphic.getHeight() + 5 );
     }
 
-    public void setOscillationAxis( Vector2D oscillationAxis ) {
+    public void setOscillationAxis( MutableVector2D oscillationAxis ) {
         this.oscillationAxis = oscillationAxis;
     }
 

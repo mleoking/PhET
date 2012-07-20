@@ -6,8 +6,8 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * User: Sam Reid
@@ -65,7 +65,7 @@ public abstract class ParametricFunction2D implements Serializable {
         SerializablePoint2D a1 = evaluate( alpha + epsilon / 2.0 );
         SerializablePoint2D center = evaluate( alpha );
         SerializablePoint2D avg = new SerializablePoint2D( ( a0.getX() + a1.getX() ) / 2.0, ( a0.getY() + a1.getY() ) / 2.0 );
-        Vector2D dir = new Vector2D( center, avg );
+        MutableVector2D dir = new MutableVector2D( center, avg );
         ImmutableVector2D vec = new ImmutableVector2D( getUnitNormalVector( alpha ) );
         if ( dir.dot( vec ) < 0 ) {
             vec = vec.getScaledInstance( -1.0 );
@@ -237,7 +237,7 @@ public abstract class ParametricFunction2D implements Serializable {
         double a1 = alpha + epsilon / 2;
 //        EnergySkateParkLogging.println( "a0 = " + a0 +", a1="+a1);
 
-        Vector2D vector = new Vector2D( evaluate( a0 ), evaluate( a1 ) );
+        MutableVector2D vector = new MutableVector2D( evaluate( a0 ), evaluate( a1 ) );
         if ( vector.getMagnitude() == 0 ) {
             throw new RuntimeException( "unit parallel vector failed: alpha=" + alpha + ", eval=" + evaluate( alpha ) );
         }

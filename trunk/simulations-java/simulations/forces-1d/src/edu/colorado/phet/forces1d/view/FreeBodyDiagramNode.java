@@ -16,7 +16,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -66,23 +66,23 @@ public class FreeBodyDiagramNode extends PNode {
         addChild( axes );
         axes.setVisible( false );
 
-        mg = new ForceArrow( this, laf.getWeightColor(), Force1DResources.get( "FreeBodyDiagram.gravity" ), new Vector2D( 0, 80 ) );
+        mg = new ForceArrow( this, laf.getWeightColor(), Force1DResources.get( "FreeBodyDiagram.gravity" ), new MutableVector2D( 0, 80 ) );
         addForceArrow( mg );
 
-        normal = new ForceArrow( this, laf.getNormalColor(), Force1DResources.get( "FreeBodyDiagram.normal" ), new Vector2D( 0, 80 ) );
+        normal = new ForceArrow( this, laf.getNormalColor(), Force1DResources.get( "FreeBodyDiagram.normal" ), new MutableVector2D( 0, 80 ) );
         addForceArrow( normal );
 
-        appliedForce = new ForceArrow( this, laf.getAppliedForceColor(), Force1DResources.get( "FreeBodyDiagram.applied" ), new Vector2D() );
+        appliedForce = new ForceArrow( this, laf.getAppliedForceColor(), Force1DResources.get( "FreeBodyDiagram.applied" ), new MutableVector2D() );
         addForceArrow( appliedForce );
 
-        frictionForce = new ForceArrow( this, laf.getFrictionForceColor(), Force1DResources.get( "FreeBodyDiagram.friction" ), new Vector2D() );
+        frictionForce = new ForceArrow( this, laf.getFrictionForceColor(), Force1DResources.get( "FreeBodyDiagram.friction" ), new MutableVector2D() );
         addForceArrow( frictionForce );
 
-        netForce = new ForceArrow( this, laf.getNetForceColor(), Force1DResources.get( "FreeBodyDiagram.total" ), new Vector2D() );
+        netForce = new ForceArrow( this, laf.getNetForceColor(), Force1DResources.get( "FreeBodyDiagram.total" ), new MutableVector2D() );
 //        addForceArrow( netForce );//net force not shown in FBD
         netForce.setOrigin( 0, -30 );
 
-        wallForce = new ForceArrow( this, laf.getWallForceColor(), Force1DResources.get( "FreeBodyDiagram.wall" ), new Vector2D() );
+        wallForce = new ForceArrow( this, laf.getWallForceColor(), Force1DResources.get( "FreeBodyDiagram.wall" ), new MutableVector2D() );
         addForceArrow( wallForce );
         wallForce.setOrigin( 0, -30 );
 
@@ -100,16 +100,16 @@ public class FreeBodyDiagramNode extends PNode {
 
     private void updateXForces() {
 
-        Vector2D af = new Vector2D( model.getAppliedForce() * xScale, 0 );
+        MutableVector2D af = new MutableVector2D( model.getAppliedForce() * xScale, 0 );
         appliedForce.setVector( af );
 
-        Vector2D ff = new Vector2D( model.getFrictionForce() * xScale, 0 );
+        MutableVector2D ff = new MutableVector2D( model.getFrictionForce() * xScale, 0 );
         frictionForce.setVector( ff );
 
-        Vector2D net = new Vector2D( model.getNetForce() * xScale, 0 );
+        MutableVector2D net = new MutableVector2D( model.getNetForce() * xScale, 0 );
         netForce.setVector( net );
 
-        Vector2D wf = new Vector2D( model.getWallForce() * xScale, 0 );
+        MutableVector2D wf = new MutableVector2D( model.getWallForce() * xScale, 0 );
         wallForce.setVector( wf );
     }
 
@@ -117,7 +117,7 @@ public class FreeBodyDiagramNode extends PNode {
         double gravity = model.getGravity();
         double mass = model.getBlock().getMass();
 
-        Vector2D m = new Vector2D( 0, gravity * mass * yScale );
+        MutableVector2D m = new MutableVector2D( 0, gravity * mass * yScale );
         ImmutableVector2D n = m.getScaledInstance( -1 );
         mg.setVector( m );
         normal.setVector( n );
@@ -160,7 +160,7 @@ public class FreeBodyDiagramNode extends PNode {
         private double dy;
         private Arrow lastArrow;
 
-        public ForceArrow( FreeBodyDiagramNode fbd, Color color, String name, Vector2D v ) {
+        public ForceArrow( FreeBodyDiagramNode fbd, Color color, String name, MutableVector2D v ) {
             this.fbd = fbd;
             shapeGraphic = new PhetPPath( Force1DUtil.transparify( color, 150 ), new BasicStroke( 2.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND ), Force1DUtil.transparify( Color.black, 128 ) );
             addChild( shapeGraphic );

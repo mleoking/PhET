@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /**
  * Class: MovementType Package: edu.colorado.phet.waves.model Author: Another
@@ -9,14 +9,14 @@ package edu.colorado.phet.radiowaves.model.movement;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.radiowaves.model.Electron;
 
 public interface MovementType {
 
     void stepInTime( Electron electron, double dt );
 
-    Vector2D getVelocity( Electron electron );
+    MutableVector2D getVelocity( Electron electron );
 
     float getAcceleration( Electron electron );
 

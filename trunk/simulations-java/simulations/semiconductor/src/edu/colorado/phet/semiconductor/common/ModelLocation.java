@@ -1,12 +1,12 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.common;
 
-import java.awt.*;
+import java.awt.Point;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.semiconductor.macro.doping.ViewChangeListener;
@@ -18,12 +18,12 @@ import edu.colorado.phet.semiconductor.macro.doping.ViewChangeListener;
  * Time: 2:19:43 PM
  */
 public class ModelLocation {
-    Vector2D modelLocation;
+    MutableVector2D modelLocation;
     private Point viewLocation;
     ArrayList listeners = new ArrayList();
 
     public ModelLocation( double x, double y, final ModelViewTransform2D transform ) {
-        this.modelLocation = new Vector2D( x, y );
+        this.modelLocation = new MutableVector2D( x, y );
         transform.addTransformListener( new TransformListener() {
             public void transformChanged( ModelViewTransform2D mvt ) {
                 viewLocation = transform.modelToView( modelLocation );

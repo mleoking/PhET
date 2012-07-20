@@ -1,13 +1,22 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.Paint;
+import java.awt.Point;
+import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -36,7 +45,7 @@ public class IntensityReader extends PhetPNode {
     private TextReadout textReadout;
     private StripChartJFCNode stripChartJFCNode;
     private boolean detached = true;
-    private Vector2D originalDisplacement;
+    private MutableVector2D originalDisplacement;
     private boolean constrainedToMidline = false;
     private boolean allowAttachment = false;
 
@@ -69,8 +78,8 @@ public class IntensityReader extends PhetPNode {
         update();
     }
 
-    private Vector2D getDisplacement() {
-        return new Vector2D( stripChartJFCNode.getFullBounds().getCenter2D(), crosshairGraphic.getFullBounds().getCenter2D() );
+    private MutableVector2D getDisplacement() {
+        return new MutableVector2D( stripChartJFCNode.getFullBounds().getCenter2D(), crosshairGraphic.getFullBounds().getCenter2D() );
     }
 
     public void setConstrainedToMidline( boolean constrainedToMidline ) {

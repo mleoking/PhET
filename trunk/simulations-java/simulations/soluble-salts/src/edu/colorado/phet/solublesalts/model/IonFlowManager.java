@@ -1,10 +1,14 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.solublesalts.model;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 
 /**
@@ -92,13 +96,13 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
 
                 // Save the velocity of the ion before we change it
                 if ( unadjustedVelocities.get( ion ) == null ) {
-                    unadjustedVelocities.put( ion, new Vector2D( ion.getVelocity() ) );
+                    unadjustedVelocities.put( ion, new MutableVector2D( ion.getVelocity() ) );
                 }
 
                 // Set the ion's velocity toward the drain to be ds
                 double beta2 = Math.atan2( drain.getPosition().getY() - ion.getPosition().getY(),
                                            drain.getPosition().getX() - ion.getPosition().getX() );
-                Vector2D v2 = new Vector2D( ds, 0 );
+                MutableVector2D v2 = new MutableVector2D( ds, 0 );
                 v2.rotate( beta2 );
                 // Adjust the ion's velocity so it will get to the drain before the water's gone 
                 double x = event.isFromFaucet() ? Math.min( v2.getX(), ion.getVelocity().getX() ) : ion.getVelocity().getX();
@@ -123,8 +127,8 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
             Set ionsToRestore = unadjustedVelocities.keySet();
             for ( Iterator iterator = ionsToRestore.iterator(); iterator.hasNext(); ) {
                 Ion ion = (Ion) iterator.next();
-                Vector2D vPrev = (Vector2D) unadjustedVelocities.get( ion );
-                Vector2D vCurr = ion.getVelocity();
+                MutableVector2D vPrev = (MutableVector2D) unadjustedVelocities.get( ion );
+                MutableVector2D vCurr = ion.getVelocity();
                 vCurr.normalize().scale( vPrev.getMagnitude() );
             }
             unadjustedVelocities.clear();

@@ -1,9 +1,13 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*  */
 package edu.colorado.phet.waveinterference.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Point;
+import java.awt.Shape;
 import java.awt.font.FontRenderContext;
 import java.awt.font.GlyphVector;
 import java.awt.geom.AffineTransform;
@@ -15,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -296,7 +300,7 @@ public class PressureWaveGraphic extends PNode {
         private double a;
         private double b;
         private double speed = 4.0;//pixels per time step
-        private Vector2D velocity = new Vector2D();
+        private MutableVector2D velocity = new MutableVector2D();
         private BufferedImage newImage;
 
         public Particle( BufferedImage newImage, int i, int j ) {
@@ -367,7 +371,7 @@ public class PressureWaveGraphic extends PNode {
                 //step towards the peak
                 double prefX = bestPoint.x * spacingBetweenCells;
                 double prefY = bestPoint.y * spacingBetweenCells;
-                Vector2D vec = new Vector2D( new Point2D.Double( a, b ), new Point2D.Double( prefX, prefY ) );
+                MutableVector2D vec = new MutableVector2D( new Point2D.Double( a, b ), new Point2D.Double( prefX, prefY ) );
                 double accelScale = 1.0;
                 double frictionScale = 1.0;
                 if ( Math.abs( searchResult.getPressure() ) < 0.01 ) {
@@ -376,7 +380,7 @@ public class PressureWaveGraphic extends PNode {
                     vec.rotate( random.nextDouble() * Math.PI * 2 );
                     accelScale = 0.5;
                     frictionScale = 1.0 / friction * 0.99;
-                    vec = new Vector2D( new Point2D.Double( a, b ), new Point2D.Double( prefX, prefY ) );
+                    vec = new MutableVector2D( new Point2D.Double( a, b ), new Point2D.Double( prefX, prefY ) );
                 }
 //            stepToTarget( vec );
                 accelerateToTarget( vec, accelScale, frictionScale );
@@ -441,7 +445,7 @@ public class PressureWaveGraphic extends PNode {
 //            return new Vector2D.Double();
 //        }
 
-        private void accelerateToTarget( Vector2D vec, double accelScale, double frictionScale ) {
+        private void accelerateToTarget( MutableVector2D vec, double accelScale, double frictionScale ) {
             if ( vec.getMagnitude() >= 1.2 ) {
                 vec.normalize();
                 double finalAcceleration = acceleration * accelScale;
@@ -480,7 +484,7 @@ public class PressureWaveGraphic extends PNode {
             }
         }
 
-        private void stepToTarget( Vector2D vec ) {
+        private void stepToTarget( MutableVector2D vec ) {
             if ( vec.getMagnitude() >= 1.2 ) {
                 vec.normalize();
                 vec.scale( speed );

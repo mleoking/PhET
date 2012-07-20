@@ -28,7 +28,7 @@ public class ImmutableVector2D extends AbstractVector2D {
         this.y = y;
     }
 
-    public ImmutableVector2D( Vector2D v ) {
+    public ImmutableVector2D( MutableVector2D v ) {
         this( v.getX(), v.getY() );
     }
 
@@ -104,8 +104,8 @@ public class ImmutableVector2D extends AbstractVector2D {
 
     public static void main( String[] args ) {
         System.out.println( new ImmutableVector2D( 1, 2 ) );
-        System.out.println( new Vector2D( 1, 2 ) );
-        System.out.println( new Vector2D( 1, 2 ) {{
+        System.out.println( new MutableVector2D( 1, 2 ) );
+        System.out.println( new MutableVector2D( 1, 2 ) {{
             setX( 3 );
         }} );
         System.out.println( "0= " + new ImmutableVector2D( 0, 0 ).getDistance( new ImmutableVector2D( 0, 0 ) ) );

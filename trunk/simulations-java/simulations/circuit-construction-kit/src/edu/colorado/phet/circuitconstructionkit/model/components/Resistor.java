@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 
 /**
  * User: Sam Reid
@@ -27,7 +27,7 @@ public class Resistor extends CircuitComponent {
     }
 
     public Resistor( double resistance ) {
-        this( new Point2D.Double(), new Vector2D(), 1, 1, new CircuitChangeListener() {
+        this( new Point2D.Double(), new MutableVector2D(), 1, 1, new CircuitChangeListener() {
             public void circuitChanged() {
             }
         } );

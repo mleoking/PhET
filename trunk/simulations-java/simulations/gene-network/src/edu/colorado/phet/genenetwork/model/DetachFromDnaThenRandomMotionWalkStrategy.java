@@ -1,11 +1,11 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.genenetwork.model;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 
 /**
  * This class defines a motion strategy that causes an element to appear as
@@ -23,10 +23,10 @@ public class DetachFromDnaThenRandomMotionWalkStrategy extends RandomWalkMotionS
 
     private double delayCounter;
     private double linearMotionCountdown = MOVE_AWAY_TIME;
-    private Vector2D initialVelocity = new Vector2D();
+    private MutableVector2D initialVelocity = new MutableVector2D();
 
     public DetachFromDnaThenRandomMotionWalkStrategy( Rectangle2D bounds, double preMovementDelay,
-                                                      Vector2D initialVelocity, double linearMotionTime ) {
+                                                      MutableVector2D initialVelocity, double linearMotionTime ) {
 
         super( bounds );
 

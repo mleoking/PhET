@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /**
  * Class: Wall
@@ -13,10 +13,10 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.mechanics.Body;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 
 public class Wall extends Body implements Collidable {
-    private Vector2D velocity = new Vector2D();
+    private MutableVector2D velocity = new MutableVector2D();
     private Rectangle2D rep = new Rectangle2D.Double();
 
     public Wall( Rectangle2D bounds ) {
@@ -27,7 +27,7 @@ public class Wall extends Body implements Collidable {
         return rep;
     }
 
-    public Vector2D getVelocityPrev() {
+    public MutableVector2D getVelocityPrev() {
         return velocity;
     }
 

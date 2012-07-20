@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,15 +10,14 @@
  */
 package edu.colorado.phet.reactionsandrates.model;
 
+import java.awt.geom.Point2D;
+import java.util.EventListener;
+
 import edu.colorado.phet.common.mechanics.DefaultBody;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.reactionsandrates.MRConfig;
-
-import java.awt.geom.Point2D;
-import java.util.EventListener;
 
 /**
  * Launcher
@@ -70,9 +69,9 @@ public class Launcher extends DefaultBody implements ModelElement, PotentialEner
     }
 
     public void release() {
-        if( bodyToLaunch != null && extension > 2 ) {
+        if ( bodyToLaunch != null && extension > 2 ) {
             double s = Math.sqrt( 2 * getPE() / bodyToLaunch.getMass() );
-            Vector2D v = new Vector2D( 0, -s );
+            MutableVector2D v = new MutableVector2D( 0, -s );
             v.rotate( getTheta() );
             bodyToLaunch.setVelocity( v );
             bodyToLaunch = null;
@@ -100,7 +99,7 @@ public class Launcher extends DefaultBody implements ModelElement, PotentialEner
     }
 
     public Point2D getPivotPoint() {
-        if( bodyToLaunch == null ) {
+        if ( bodyToLaunch == null ) {
             return getRestingTipLocation();
         }
         else {
@@ -110,7 +109,7 @@ public class Launcher extends DefaultBody implements ModelElement, PotentialEner
     }
 
     public void setTheta( double theta ) {
-        if( theta >= MRConfig.LAUNCHER_MIN_THETA && theta <= MRConfig.LAUNCHER_MAX_THETA ) {
+        if ( theta >= MRConfig.LAUNCHER_MIN_THETA && theta <= MRConfig.LAUNCHER_MAX_THETA ) {
             super.setTheta( theta );
             notifyObservers();
         }
@@ -125,7 +124,7 @@ public class Launcher extends DefaultBody implements ModelElement, PotentialEner
     }
 
     public void setExtension( double extension ) {
-        if( extension >= 0 && extension <= MRConfig.LAUNCHER_MAX_EXTENSION ) {
+        if ( extension >= 0 && extension <= MRConfig.LAUNCHER_MAX_EXTENSION ) {
             this.extension = extension;
         }
     }
@@ -147,7 +146,7 @@ public class Launcher extends DefaultBody implements ModelElement, PotentialEner
     }
 
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy = (ChangeListener)changeEventChannel.getListenerProxy();
+    private ChangeListener changeListenerProxy = (ChangeListener) changeEventChannel.getListenerProxy();
 
     public void addChangeListener( ChangeListener listener ) {
         changeEventChannel.addListener( listener );

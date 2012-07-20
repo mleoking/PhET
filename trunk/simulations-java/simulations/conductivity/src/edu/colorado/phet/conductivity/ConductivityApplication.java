@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.conductivity;
 
@@ -16,9 +16,13 @@ import java.util.Hashtable;
 
 import javax.swing.JSpinner;
 
-import edu.colorado.phet.common.phetcommon.application.*;
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
+import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
+import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -27,7 +31,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.conductivity.macro.BandSetGraphic;
 import edu.colorado.phet.conductivity.macro.EnergyTextGraphic;
@@ -149,7 +152,7 @@ public class ConductivityApplication {
         addCableGraphic();
         setConductor();
         java.awt.geom.Rectangle2D.Double double2 = model.getBandSet().getBounds();
-        Vector2D phetvector = new Vector2D( double2.x, double2.y );
+        MutableVector2D phetvector = new MutableVector2D( double2.x, double2.y );
         EnergyTextGraphic energytextgraphic = new EnergyTextGraphic( transform, phetvector );
         getApparatusPanel().addGraphic( energytextgraphic, 1000D );
     }
@@ -216,15 +219,15 @@ public class ConductivityApplication {
     }
 
     private ImmutableVector2D getResistorCenter() {
-        Vector2D phetvector = circuit.getResistor().getStartPosition();
-        Vector2D phetvector1 = circuit.getResistor().getEndPosition();
+        MutableVector2D phetvector = circuit.getResistor().getStartPosition();
+        MutableVector2D phetvector1 = circuit.getResistor().getEndPosition();
         ImmutableVector2D phetvector2 = phetvector1.getSubtractedInstance( phetvector ).getScaledInstance( 0.5D );
         ImmutableVector2D phetvector3 = phetvector.getAddedInstance( phetvector2 );
         return phetvector3;
     }
 
     public void pointAt( ImmutableVector2D phetvector ) {
-        Vector2D phetvector1 = light.getPosition();
+        MutableVector2D phetvector1 = light.getPosition();
         ImmutableVector2D phetvector2 = phetvector.getSubtractedInstance( phetvector1 ).getNormalizedInstance();
         double d = phetvector2.getAngle();
         double d1 = Math.toRadians( 126D );
@@ -238,7 +241,7 @@ public class ConductivityApplication {
         cablePath.moveTo( (float) double1.getX() + (float) double1.getWidth() / 2.0F, (float) double1.getY() );
         MacroCircuit macrocircuit = model.getCircuit();
         ImmutableVector2D phetvector = macrocircuit.getResistor().getLocation( macrocircuit.getResistor().getLength() / 2D );
-        Vector2D phetvector1 = new Vector2D( double1.getX() + 0.29999999999999999D, double1.getY() - 0.20000000000000001D );
+        MutableVector2D phetvector1 = new MutableVector2D( double1.getX() + 0.29999999999999999D, double1.getY() - 0.20000000000000001D );
         ImmutableVector2D phetvector2 = phetvector.getSubtractedInstance( 0.0D, 0.10000000000000001D );
         cablePath.curveTo( (float) phetvector1.getX(), (float) phetvector1.getY(), (float) phetvector2.getX(), (float) phetvector2.getY(), (float) phetvector.getX(), (float) phetvector.getY() );
         final ShapeGraphic curveShape = new ShapeGraphic( cablePath, Color.black, new BasicStroke( 2.0F ) );
@@ -398,7 +401,7 @@ public class ConductivityApplication {
                     }
                 } );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
 

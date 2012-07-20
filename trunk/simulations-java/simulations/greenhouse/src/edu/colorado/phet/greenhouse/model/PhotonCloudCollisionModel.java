@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /**
  * Class: PhotonCloudCollisionModel
@@ -13,7 +13,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.mechanics.Vector3D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.greenhouse.filter.BandpassFilter;
 import edu.colorado.phet.greenhouse.filter.Filter1D;
 import edu.colorado.phet.greenhouse.filter.IrFilter;
@@ -21,11 +21,11 @@ import edu.colorado.phet.greenhouse.filter.ProbablisticPassFilter;
 
 public class PhotonCloudCollisionModel {
 
-    private static Vector2D n = new Vector2D();
-    private static Vector2D vRel = new Vector2D();
-    private static Vector2D r1 = new Vector2D();
+    private static MutableVector2D n = new MutableVector2D();
+    private static MutableVector2D vRel = new MutableVector2D();
+    private static MutableVector2D r1 = new MutableVector2D();
     private static Vector3D nj = new Vector3D();
-    private static Vector2D result = new Vector2D();
+    private static MutableVector2D result = new MutableVector2D();
     private static Filter1D filter = new PhotonPassFilter();
     private static Filter1D visibleLightFilter = new BandpassFilter( 300E-9, 700E-9 );
     private static Filter1D irFilter = new IrFilter();
@@ -35,7 +35,7 @@ public class PhotonCloudCollisionModel {
         // Do bounding box check
         boolean boundingBoxesOverlap = cloud.getBounds().contains( photon.getLocation() );
         if ( boundingBoxesOverlap && filter.passes( photon.getWavelength() ) ) {
-            Vector2D loa = getNormalAtPoint( photon.getLocation(), cloud );
+            MutableVector2D loa = getNormalAtPoint( photon.getLocation(), cloud );
             if ( visibleLightFilter.passes( photon.getWavelength() ) ) {
                 doCollision( photon, cloud, loa,
                              photon.getLocation() );
@@ -58,7 +58,7 @@ public class PhotonCloudCollisionModel {
 
     }
 
-    private static void doCollision( Body bodyA, Body bodyB, Vector2D loa, Point2D.Double collisionPt ) {
+    private static void doCollision( Body bodyA, Body bodyB, MutableVector2D loa, Point2D.Double collisionPt ) {
 
         // Check to see that the bodies are moving toward each other. Otherwise, there is no collision
         vRel.setComponents( bodyA.getVelocity().getX(), bodyA.getVelocity().getY() );
@@ -90,11 +90,11 @@ public class PhotonCloudCollisionModel {
             Vector3D t1A = t1.crossProduct( t1 );
             double t1B = n3D.dot( t1A );
             double denominator = ( 1 / bodyA.getMass() ) +
-                          ( n3D.dot( r13D.crossProduct( n3D ).multiply( 1 / (float) bodyA.getMomentOfInertia() ).crossProduct( r13D ) ) );
+                                 ( n3D.dot( r13D.crossProduct( n3D ).multiply( 1 / (float) bodyA.getMomentOfInertia() ).crossProduct( r13D ) ) );
             double j = numerator / denominator;
 
             // Compute the new linear and angular velocities, based on the impulse.
-            bodyA.getVelocity().add( new Vector2D( n.getX(), n.getY() ).scale( (float) ( j / bodyA.getMass() ) ) );
+            bodyA.getVelocity().add( new MutableVector2D( n.getX(), n.getY() ).scale( (float) ( j / bodyA.getMass() ) ) );
 
             nj.setComponents( n.getX(), n.getY(), 0 ).multiply( (float) j );
             double omegaB = bodyA.getOmega() + ( r13D.crossProduct( nj ).getZ() / bodyA.getMomentOfInertia() );
@@ -102,7 +102,7 @@ public class PhotonCloudCollisionModel {
         }
     }
 
-    private static Vector2D getNormalAtPoint( Point2D p, Cloud cloud ) {
+    private static MutableVector2D getNormalAtPoint( Point2D p, Cloud cloud ) {
 
         double x = p.getX();
         double y = p.getY();
@@ -126,7 +126,7 @@ public class PhotonCloudCollisionModel {
         }
 
         result.setComponents( (float) xt, (float) yt );
-        return new Vector2D( result.getY(), -result.getX() );
+        return new MutableVector2D( result.getY(), -result.getX() );
     }
 
 
@@ -157,7 +157,7 @@ public class PhotonCloudCollisionModel {
 
     public static void main( String[] args ) {
         Cloud cloud = new Cloud( new Ellipse2D.Double( -2, -1, 4, 2 ) );
-        Vector2D v = getNormalAtPoint( new Point2D.Double( Math.cos( Math.PI / 4 ), Math.cos( Math.PI / 4 ) ), cloud );
+        MutableVector2D v = getNormalAtPoint( new Point2D.Double( Math.cos( Math.PI / 4 ), Math.cos( Math.PI / 4 ) ), cloud );
         System.out.println( v );
     }
 

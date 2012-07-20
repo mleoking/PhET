@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /**
  * Class: Gravity
@@ -8,19 +8,18 @@
  */
 package edu.colorado.phet.idealgas.model;
 
-import edu.colorado.phet.common.mechanics.Body;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.common.phetcommon.util.EventChannel;
-
 import java.util.EventListener;
 import java.util.EventObject;
 import java.util.List;
 
+import edu.colorado.phet.common.mechanics.Body;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.util.EventChannel;
+
 public class Gravity implements ModelElement {
 
-    private Vector2D acceleration = new Vector2D();
+    private MutableVector2D acceleration = new MutableVector2D();
     private IdealGasModel model;
 
     public Gravity( IdealGasModel model ) {
@@ -30,8 +29,8 @@ public class Gravity implements ModelElement {
 
     public void stepInTime( double dt ) {
         List bodies = model.getBodies();
-        for( int i = 0; i < bodies.size(); i++ ) {
-            Body body = (Body)bodies.get( i );
+        for ( int i = 0; i < bodies.size(); i++ ) {
+            Body body = (Body) bodies.get( i );
             body.setAcceleration( body.getAcceleration().add( acceleration ) );
         }
     }
@@ -42,14 +41,14 @@ public class Gravity implements ModelElement {
 
     public void setAmt( double amt ) {
         double oldAmt = acceleration.getMagnitude();
-        this.acceleration = new Vector2D( 0, amt );
+        this.acceleration = new MutableVector2D( 0, amt );
         double change = acceleration.getMagnitude() - oldAmt;
 //        fireEvent( new ChangeEvent( this, change ) );
 
         try {
             listenerProxy.gravityChanged( new ChangeEvent( this, change ) );
         }
-        catch( java.lang.reflect.UndeclaredThrowableException e ) {
+        catch ( java.lang.reflect.UndeclaredThrowableException e ) {
             System.out.println( "e = " + e );
         }
     }
@@ -58,7 +57,7 @@ public class Gravity implements ModelElement {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
     // Inner classes
     private EventChannel channel = new EventChannel( ChangeListener.class );
-    private ChangeListener listenerProxy = (ChangeListener)channel.getListenerProxy();
+    private ChangeListener listenerProxy = (ChangeListener) channel.getListenerProxy();
 
     public void addListener( ChangeListener listener ) {
         channel.addListener( listener );
@@ -85,7 +84,7 @@ public class Gravity implements ModelElement {
         }
 
         public Gravity getGravity() {
-            return (Gravity)getSource();
+            return (Gravity) getSource();
         }
     }
 

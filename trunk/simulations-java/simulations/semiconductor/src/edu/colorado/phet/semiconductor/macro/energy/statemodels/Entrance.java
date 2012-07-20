@@ -1,7 +1,7 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.semiconductor.macro.energy.statemodels;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.semiconductor.macro.EntryPoint;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
@@ -30,11 +30,11 @@ public class Entrance implements ModelElement {
 
     public void stepInTime( double dt ) {
         if ( cell.getIndex() == 0 ) {
-            EntryPoint ep = new EntryPoint( cell, new Vector2D( -1, 0 ) );
+            EntryPoint ep = new EntryPoint( cell, new MutableVector2D( -1, 0 ) );
             enter( energySection, ep );
         }
         else {
-            EntryPoint ep = new EntryPoint( cell, new Vector2D( 1, 0 ) );
+            EntryPoint ep = new EntryPoint( cell, new MutableVector2D( 1, 0 ) );
             enter( energySection, ep );
         }
     }

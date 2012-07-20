@@ -1,15 +1,21 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.solublesalts.model.crystal;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.EventObject;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Random;
+import java.util.Vector;
 
 import edu.colorado.phet.common.collision.Collidable;
 import edu.colorado.phet.common.collision.CollidableAdapter;
 import edu.colorado.phet.common.mechanics.Body;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.Atom;
@@ -273,8 +279,8 @@ public class Crystal extends Body implements Collidable {
             Ion ion = (Ion) ions.get( i );
             Ion newIon = ionFactory.create( ion.getClass(),
                                             new Point2D.Double( ion.getPosition().getX(), ion.getPosition().getY() ),
-                                            new Vector2D( ion.getVelocity() ),
-                                            new Vector2D( ion.getAcceleration() ) );
+                                            new MutableVector2D( ion.getVelocity() ),
+                                            new MutableVector2D( ion.getAcceleration() ) );
             if ( this.getSeed() == ion ) {
                 newSeed = newIon;
             }
@@ -285,8 +291,8 @@ public class Crystal extends Body implements Collidable {
         Crystal crystal = new Crystal( model, lattice, newIons, newSeed );
         trackExtremities();
 
-        crystal.setVelocity( new Vector2D( this.getVelocity() ) );
-        crystal.setAcceleration( new Vector2D( this.getAcceleration() ) );
+        crystal.setVelocity( new MutableVector2D( this.getVelocity() ) );
+        crystal.setAcceleration( new MutableVector2D( this.getAcceleration() ) );
 
         return crystal;
     }
@@ -539,7 +545,7 @@ public class Crystal extends Body implements Collidable {
         Thread t = new Thread( new NoBindTimer( ionToRelease ) );
         t.start();
 
-        Vector2D v = determineReleaseVelocity( ionToRelease );
+        MutableVector2D v = determineReleaseVelocity( ionToRelease );
         ionToRelease.setVelocity( v );
         ionToRelease.unbindFrom( this );
         removeIon( ionToRelease );
@@ -556,8 +562,8 @@ public class Crystal extends Body implements Collidable {
      * @param ionToRelease
      * @return the release velocity vector
      */
-    private Vector2D determineReleaseVelocity( Ion ionToRelease ) {
-        Vector2D releaseVelocity = null;
+    private MutableVector2D determineReleaseVelocity( Ion ionToRelease ) {
+        MutableVector2D releaseVelocity = null;
 
         // If this is the seed ion, then just send it off with the velocity it had before it seeded the
         // crystal. This prevents odd looking behavior if the ion is released soon after it nucleates.
@@ -570,7 +576,7 @@ public class Crystal extends Body implements Collidable {
 
         if ( openSites.size() == 0 ) {
             double angle = random.nextDouble() * Math.PI * 2;
-            releaseVelocity = new Vector2D( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
+            releaseVelocity = new MutableVector2D( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
             return releaseVelocity;
         }
 
@@ -579,47 +585,47 @@ public class Crystal extends Body implements Collidable {
         if ( openSites.size() > 1 ) {
             for ( int i = 0; i < openSites.size() - 1; i++ ) {
                 Point2D p1 = (Point2D) openSites.get( i );
-                Vector2D v1 = new Vector2D( p1.getX() - ionToRelease.getPosition().getX(),
-                                            p1.getY() - ionToRelease.getPosition().getY() );
+                MutableVector2D v1 = new MutableVector2D( p1.getX() - ionToRelease.getPosition().getX(),
+                                                          p1.getY() - ionToRelease.getPosition().getY() );
                 double angle1 = ( v1.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
                 for ( int j = i + 1; j < openSites.size(); j++ ) {
 
                     // If the two open sites we're now looking at are adjacent, set the velocity to point between them
                     Point2D p2 = (Point2D) openSites.get( j );
-                    Vector2D v2 = new Vector2D( p2.getX() - ionToRelease.getPosition().getX(),
-                                                p2.getY() - ionToRelease.getPosition().getY() );
+                    MutableVector2D v2 = new MutableVector2D( p2.getX() - ionToRelease.getPosition().getX(),
+                                                              p2.getY() - ionToRelease.getPosition().getY() );
                     double angle2 = ( v2.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
                     if ( Math.abs( angle2 - angle1 ) < Math.PI ) {
                         double angle = random.nextDouble() * ( angle2 - angle1 ) + angle1;
-                        releaseVelocity = new Vector2D( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
+                        releaseVelocity = new MutableVector2D( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
                         return releaseVelocity;
                     }
                 }
             }
 
             Point2D p1 = (Point2D) openSites.get( 0 );
-            Vector2D v1 = new Vector2D( p1.getX() - ionToRelease.getPosition().getX(),
-                                        p1.getY() - ionToRelease.getPosition().getY() );
+            MutableVector2D v1 = new MutableVector2D( p1.getX() - ionToRelease.getPosition().getX(),
+                                                      p1.getY() - ionToRelease.getPosition().getY() );
             double angle1 = ( v1.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
             Point2D p2 = (Point2D) openSites.get( 1 );
-            Vector2D v2 = new Vector2D( p2.getX() - ionToRelease.getPosition().getX(),
-                                        p2.getY() - ionToRelease.getPosition().getY() );
+            MutableVector2D v2 = new MutableVector2D( p2.getX() - ionToRelease.getPosition().getX(),
+                                                      p2.getY() - ionToRelease.getPosition().getY() );
             double angle2 = ( v2.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
             double angle = random.nextDouble() * ( angle2 - angle1 ) + angle1;
-            releaseVelocity = new Vector2D( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
+            releaseVelocity = new MutableVector2D( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
             return releaseVelocity;
         }
 
         // If we get here, there is only one open site adjacent to the ion being released
         Point2D point2D = (Point2D) openSites.get( 0 );
-        Vector2D v = new Vector2D( point2D.getX() - ionToRelease.getPosition().getX(),
-                                   point2D.getY() - ionToRelease.getPosition().getY() );
+        MutableVector2D v = new MutableVector2D( point2D.getX() - ionToRelease.getPosition().getX(),
+                                                 point2D.getY() - ionToRelease.getPosition().getY() );
         double angle = ( v.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
         maxAngle = angle > maxAngle ? angle : maxAngle;
         minAngle = angle < minAngle ? angle : minAngle;
 
         angle = random.nextDouble() * ( maxAngle - minAngle ) + minAngle;
-        releaseVelocity = new Vector2D( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
+        releaseVelocity = new MutableVector2D( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
 
         // Sanity check
         if ( releaseVelocity.getMagnitude() < 0.0001 ) {
@@ -651,7 +657,7 @@ public class Crystal extends Body implements Collidable {
     // Collidable implementation
     //----------------------------------------------------------------
 
-    public Vector2D getVelocityPrev() {
+    public MutableVector2D getVelocityPrev() {
         return collidableAdapter.getVelocityPrev();
     }
 

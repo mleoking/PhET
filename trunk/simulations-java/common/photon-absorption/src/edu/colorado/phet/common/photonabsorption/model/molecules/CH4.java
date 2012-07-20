@@ -1,10 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.common.photonabsorption.model.molecules;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.photonabsorption.model.Molecule;
 import edu.colorado.phet.common.photonabsorption.model.PhotonAbsorptionStrategy;
 import edu.colorado.phet.common.photonabsorption.model.WavelengthConstants;
@@ -89,15 +89,15 @@ public class CH4 extends Molecule {
      */
     @Override
     protected void initializeAtomOffsets() {
-        addInitialAtomCogOffset( carbonAtom, new Vector2D( 0, 0 ) );
-        addInitialAtomCogOffset( hydrogenAtom1, new Vector2D( -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
-                                                              ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE ) );
-        addInitialAtomCogOffset( hydrogenAtom2, new Vector2D( ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
-                                                              ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE ) );
-        addInitialAtomCogOffset( hydrogenAtom3, new Vector2D( ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
-                                                              -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE ) );
-        addInitialAtomCogOffset( hydrogenAtom4, new Vector2D( -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
-                                                              -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE ) );
+        addInitialAtomCogOffset( carbonAtom, new MutableVector2D( 0, 0 ) );
+        addInitialAtomCogOffset( hydrogenAtom1, new MutableVector2D( -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
+                                                                     ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE ) );
+        addInitialAtomCogOffset( hydrogenAtom2, new MutableVector2D( ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
+                                                                     ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE ) );
+        addInitialAtomCogOffset( hydrogenAtom3, new MutableVector2D( ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
+                                                                     -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE ) );
+        addInitialAtomCogOffset( hydrogenAtom4, new MutableVector2D( -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE,
+                                                                     -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE ) );
 
         updateAtomPositions();
     }
@@ -108,17 +108,17 @@ public class CH4 extends Molecule {
         if ( vibrationRadians != 0 ) {
             double multFactor = Math.sin( vibrationRadians );
             addInitialAtomCogOffset( hydrogenAtom1,
-                                     new Vector2D( -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_X,
-                                                   ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_Y ) );
+                                     new MutableVector2D( -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_X,
+                                                          ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_Y ) );
             addInitialAtomCogOffset( hydrogenAtom2,
-                                     new Vector2D( ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE - multFactor * HYDROGEN_VIBRATION_DISTANCE_X,
-                                                   ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_Y ) );
+                                     new MutableVector2D( ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE - multFactor * HYDROGEN_VIBRATION_DISTANCE_X,
+                                                          ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_Y ) );
             addInitialAtomCogOffset( hydrogenAtom3,
-                                     new Vector2D( -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE - multFactor * HYDROGEN_VIBRATION_DISTANCE_X,
-                                                   -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_Y ) );
+                                     new MutableVector2D( -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE - multFactor * HYDROGEN_VIBRATION_DISTANCE_X,
+                                                          -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_Y ) );
             addInitialAtomCogOffset( hydrogenAtom4,
-                                     new Vector2D( ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_X,
-                                                   -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_Y ) );
+                                     new MutableVector2D( ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_X,
+                                                          -ROTATED_INITIAL_CARBON_HYDROGEN_DISTANCE + multFactor * HYDROGEN_VIBRATION_DISTANCE_Y ) );
 
             // Position the carbon atom so that the center of mass of the
             // molecule remains the same.
@@ -128,7 +128,7 @@ public class CH4 extends Molecule {
             double carbonYPos = -( HydrogenAtom.MASS / CarbonAtom.MASS ) *
                                 ( getInitialAtomCogOffset( hydrogenAtom1 ).getY() + getInitialAtomCogOffset( hydrogenAtom2 ).getY() +
                                   getInitialAtomCogOffset( hydrogenAtom3 ).getY() + getInitialAtomCogOffset( hydrogenAtom4 ).getY() );
-            addInitialAtomCogOffset( carbonAtom, new Vector2D( carbonXPos, carbonYPos ) );
+            addInitialAtomCogOffset( carbonAtom, new MutableVector2D( carbonXPos, carbonYPos ) );
         }
         else {
             initializeAtomOffsets();

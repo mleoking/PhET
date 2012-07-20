@@ -14,7 +14,7 @@ import org.cove.jade.surfaces.LineSurface;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
@@ -83,7 +83,7 @@ public class MoveElectronsJade implements ModelElement {
     }
 
     protected AbstractVector2D getForce( JadeElectron node ) {
-        Vector2D sum = new Vector2D();
+        MutableVector2D sum = new MutableVector2D();
         for ( int i = 0; i < jadeElectronSet.getNumElectrons(); i++ ) {
             JadeElectron particle = jadeElectronSet.getJadeElectron( i );
             if ( particle != node ) {
@@ -94,11 +94,11 @@ public class MoveElectronsJade implements ModelElement {
             return sum;
         }
         else {
-            return new Vector2D();
+            return new MutableVector2D();
         }
     }
 
-    private boolean isLegal( Vector2D sum ) {
+    private boolean isLegal( MutableVector2D sum ) {
         return !Double.isInfinite( sum.getX() ) && !Double.isNaN( sum.getX() ) && !Double.isInfinite( sum.getY() ) && !Double.isNaN( sum.getY() );
     }
 
@@ -107,9 +107,9 @@ public class MoveElectronsJade implements ModelElement {
     }
 
     protected AbstractVector2D getForce( JadeElectron circleParticle, JadeElectron particle, double k ) {
-        AbstractVector2D vec = new Vector2D( circleParticle.getPosition(), particle.getPosition() );
+        AbstractVector2D vec = new MutableVector2D( circleParticle.getPosition(), particle.getPosition() );
         if ( vec.getMagnitude() <= 1 ) {
-            return new Vector2D();
+            return new MutableVector2D();
         }
         ImmutableVector2D v = vec.getInstanceOfMagnitude( -k / Math.pow( vec.getMagnitude(), 1.5 ) );
         double max = 0.05;

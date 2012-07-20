@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.rotation.torque;
 
 import java.awt.geom.Line2D;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.colorado.phet.rotation.model.RotationTemporalVariable;
 import edu.colorado.phet.rotation.util.RotationUtil;
@@ -111,7 +111,7 @@ public class AppliedForce {
     }
 
     private void updateDependentValues( Line2D.Double appliedForce ) {
-        radius.setValue( new Vector2D( appliedForce.getP1() ).getMagnitude() );
+        radius.setValue( new MutableVector2D( appliedForce.getP1() ).getMagnitude() );
         signedForce.setValue( getForceMagnitude() * MathUtil.getSign( getTorque() ) );//todo: assumes platform center is (0,0)
         torque.setValue( getTorque() );
     }
@@ -135,8 +135,8 @@ public class AppliedForce {
     }
 
     public double getTorque( Point2D center ) {
-        Vector2D r = new Vector2D( center, getP1() );
-        Vector2D f = new Vector2D( getP1(), getP2() );
+        MutableVector2D r = new MutableVector2D( center, getP1() );
+        MutableVector2D f = new MutableVector2D( getP1(), getP2() );
         return -r.getCrossProductScalar( f );
     }
 

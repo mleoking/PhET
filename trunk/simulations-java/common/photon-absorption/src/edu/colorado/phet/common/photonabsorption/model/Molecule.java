@@ -11,7 +11,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.photonabsorption.model.atoms.Atom;
 import edu.colorado.phet.common.photonabsorption.model.atoms.AtomicBond;
@@ -59,17 +59,17 @@ public abstract class Molecule {
     // Structure of the molecule in terms of offsets from the center of
     // gravity.  These indicate the atom's position in the "relaxed" (i.e.
     // non-vibrating), non-rotated state.
-    private final Map<Atom, Vector2D> initialAtomCogOffsets = new HashMap<Atom, Vector2D>();
+    private final Map<Atom, MutableVector2D> initialAtomCogOffsets = new HashMap<Atom, MutableVector2D>();
 
     // Vibration offsets - these represent the amount of deviation from the
     // initial (a.k.a relaxed) configuration for each molecule.
-    private final Map<Atom, Vector2D> vibrationAtomOffsets = new HashMap<Atom, Vector2D>();
+    private final Map<Atom, MutableVector2D> vibrationAtomOffsets = new HashMap<Atom, MutableVector2D>();
 
     // Listeners to events that come from this molecule.
     private final ArrayList<Listener> listeners = new ArrayList<Listener>();
 
     // Velocity for this molecule.
-    private final Vector2D velocity = new Vector2D( 0, 0 );
+    private final MutableVector2D velocity = new MutableVector2D( 0, 0 );
 
     // Map that matches photon wavelengths to photon absorption strategies.
     // The strategies contained in this structure define whether the
@@ -135,7 +135,7 @@ public abstract class Molecule {
      * The offset is "initial" because this is where the atom should be when
      * it is not vibrating or rotating.
      */
-    protected void addInitialAtomCogOffset( Atom atom, Vector2D offset ) {
+    protected void addInitialAtomCogOffset( Atom atom, MutableVector2D offset ) {
         // Check that the specified atom is a part of this molecule.  While it
         // would probably work to add the offsets first and the atoms later,
         // that's not how the sim was designed, so this is some enforcement of
@@ -149,7 +149,7 @@ public abstract class Molecule {
      * Get the initial offset from the molecule's center of gravity (COG) for
      * the specified molecule.
      */
-    protected Vector2D getInitialAtomCogOffset( Atom atom ) {
+    protected MutableVector2D getInitialAtomCogOffset( Atom atom ) {
         if ( !initialAtomCogOffsets.containsKey( atom ) ) {
             System.out.println( getClass().getName() + " - Warning: Attempt to get initial COG offset for atom that is not in molecule." );
         }
@@ -160,7 +160,7 @@ public abstract class Molecule {
      * Get the current vibration offset from the molecule's center of gravity
      * (COG) for the specified molecule.
      */
-    protected Vector2D getVibrationAtomOffset( Atom atom ) {
+    protected MutableVector2D getVibrationAtomOffset( Atom atom ) {
         if ( !vibrationAtomOffsets.containsKey( atom ) ) {
             System.out.println( getClass().getName() + " - Warning: Attempt to get vibrational COG offset for atom that is not in molecule." );
         }
@@ -442,8 +442,8 @@ public abstract class Molecule {
 
     protected void addAtom( Atom atom ) {
         atoms.add( atom );
-        initialAtomCogOffsets.put( atom, new Vector2D( 0, 0 ) );
-        vibrationAtomOffsets.put( atom, new Vector2D( 0, 0 ) );
+        initialAtomCogOffsets.put( atom, new MutableVector2D( 0, 0 ) );
+        vibrationAtomOffsets.put( atom, new MutableVector2D( 0, 0 ) );
     }
 
     protected void addAtomicBond( AtomicBond atomicBond ) {
@@ -492,7 +492,7 @@ public abstract class Molecule {
      */
     protected void updateAtomPositions() {
         for ( Atom atom : initialAtomCogOffsets.keySet() ) {
-            Vector2D atomOffset = new Vector2D( initialAtomCogOffsets.get( atom ) );
+            MutableVector2D atomOffset = new MutableVector2D( initialAtomCogOffsets.get( atom ) );
             // Add the vibration, if any exists.
             atomOffset.add( vibrationAtomOffsets.get( atom ) );
             // Rotate.

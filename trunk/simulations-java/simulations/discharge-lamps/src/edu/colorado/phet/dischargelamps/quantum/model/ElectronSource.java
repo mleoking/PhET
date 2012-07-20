@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -16,8 +16,7 @@ import java.util.EventObject;
 import java.util.HashSet;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.quantum.model.ElectromotiveForce;
@@ -106,7 +105,7 @@ public class ElectronSource implements ModelElement {
             // Determine where the electron will be emitted from
             double x = random.nextDouble() * ( p2.getX() - p1.getX() ) + p1.getX();
             double y = random.nextDouble() * ( p2.getY() - p1.getY() ) + p1.getY();
-            Vector2D direction = new Vector2D( emf.getElectronAcceleration() );
+            MutableVector2D direction = new MutableVector2D( emf.getElectronAcceleration() );
             if ( direction.getMagnitude() > 0 ) {
                 direction.normalize().scale( Electron.ELECTRON_RADIUS );
             }

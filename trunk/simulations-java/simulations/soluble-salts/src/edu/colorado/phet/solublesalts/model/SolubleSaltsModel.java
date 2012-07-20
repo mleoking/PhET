@@ -1,12 +1,16 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.solublesalts.model;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EventListener;
+import java.util.EventObject;
+import java.util.List;
+import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -71,8 +75,8 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
     private boolean nucleationEnabled;
     private Shaker shaker;
     public CrystalTracker crystalTracker;
-    private Vector2D accelerationOutOfWater = new Vector2D( 0, SolubleSaltsConfig.DEFAULT_LATTICE_ACCELERATION );
-    private Vector2D accelerationInWater = new Vector2D();
+    private MutableVector2D accelerationOutOfWater = new MutableVector2D( 0, SolubleSaltsConfig.DEFAULT_LATTICE_ACCELERATION );
+    private MutableVector2D accelerationInWater = new MutableVector2D();
 
     private RandomWalk randomWalkAgent;
 

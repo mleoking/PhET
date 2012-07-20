@@ -14,7 +14,7 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -137,7 +137,7 @@ public class Protractor extends PhetPNode {
 
         private double getAngle( PInputEvent event ) {
             Point2D loc = event.getPositionRelativeTo( getParent() );
-            return new Vector2D( new Point2D.Double(), loc ).getAngle();
+            return new MutableVector2D( new Point2D.Double(), loc ).getAngle();
         }
 
         private void update() {

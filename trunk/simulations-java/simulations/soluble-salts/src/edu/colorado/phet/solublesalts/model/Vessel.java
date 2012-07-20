@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.solublesalts.model;
 
@@ -10,7 +10,7 @@ import java.util.EventObject;
 
 import edu.colorado.phet.common.collision.Box2D;
 import edu.colorado.phet.common.collision.Collidable;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
@@ -198,7 +198,7 @@ public class Vessel implements ModelElement, Collidable {
     //----------------------------------------------------------------
     // Collidable implementation
     //----------------------------------------------------------------
-    public Vector2D getVelocityPrev() {
+    public MutableVector2D getVelocityPrev() {
         return collisionBox.getVelocityPrev();
     }
 

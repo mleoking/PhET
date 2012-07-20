@@ -1,9 +1,9 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy.states;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
 
 
@@ -14,7 +14,7 @@ import edu.colorado.phet.semiconductor.macro.energy.EnergySection;
  */
 public class ExitLeftState extends StateChain {
 
-    public ExitLeftState( Vector2D dest, Speed speed, EnergySection section ) {
+    public ExitLeftState( MutableVector2D dest, Speed speed, EnergySection section ) {
         super();
 
         addState( new MoveToPosition( dest, speed ) );

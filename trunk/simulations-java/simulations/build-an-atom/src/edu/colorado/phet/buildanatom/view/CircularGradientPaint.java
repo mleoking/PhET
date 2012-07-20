@@ -1,8 +1,14 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.buildanatom.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Paint;
+import java.awt.PaintContext;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Point2D;
@@ -11,9 +17,10 @@ import java.awt.image.ColorModel;
 import java.awt.image.Raster;
 import java.awt.image.WritableRaster;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 
 /**
  * Gradient paint in which the color depends on the angle but not the radius from the center.
@@ -98,7 +105,7 @@ public class CircularGradientPaint implements Paint {
             int[] data = new int[w * h * 4];
             for ( int j = 0; j < h; j++ ) {
                 for ( int i = 0; i < w; i++ ) {
-                    double angle = new Vector2D( _point, new Point2D.Double( x + i, y + j ) ).getAngle();
+                    double angle = new MutableVector2D( _point, new Point2D.Double( x + i, y + j ) ).getAngle();
                     double ratio = angle;
                     ratio = Math.abs( ratio / Math.PI ) * 2;
 

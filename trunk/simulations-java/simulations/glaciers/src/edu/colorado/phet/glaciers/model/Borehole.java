@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.glaciers.model;
 
@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 
@@ -24,15 +24,15 @@ public class Borehole extends ClockAdapter {
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     private static final double DZ = 10; // distance between points (meters)
     private static final double FILL_IN_BEGINS = 40; // when the borehole starts to fill in, relative to when it was created (years)
     private static final double FILL_IN_DURATION = 40; // how long it takes for the borehole to completely fill in (years)
-        
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private final Glacier _glacier;
     private ArrayList _points; // points that approximate the borehole
     private double _percentFilledIn; // percentage of the borehole that is filled in (0.0-1.0)
@@ -43,7 +43,7 @@ public class Borehole extends ClockAdapter {
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     public Borehole( Glacier glacier, Point2D position ) {
         super();
         _glacier = glacier;
@@ -52,20 +52,20 @@ public class Borehole extends ClockAdapter {
         _fillInStartTime = _fillInEndTime = -1; // undefined until first clock tick
         _listeners = new ArrayList();
     }
-    
+
     public void cleanup() {
         // do nothing
     }
-    
+
     /*
-     * Creates the points that approximate the borehole.
-     * This is a straight line, with points ordered from the valley floor to the glacier's surface.
-     * NOTE! OTHER PARTS OF THIS MODEL DEPEND ON THIS ORDERING OF POINTS!
-     * 
-     * Returns null if there is no ice at the specified position.
-     */
+    * Creates the points that approximate the borehole.
+    * This is a straight line, with points ordered from the valley floor to the glacier's surface.
+    * NOTE! OTHER PARTS OF THIS MODEL DEPEND ON THIS ORDERING OF POINTS!
+    *
+    * Returns null if there is no ice at the specified position.
+    */
     private static ArrayList createPoints( Point2D position, Glacier glacier ) {
-        
+
         ArrayList points = null;
 
         final double x = position.getX();
@@ -91,7 +91,7 @@ public class Borehole extends ClockAdapter {
 
         return points;
     }
-    
+
     //----------------------------------------------------------------------------
     // Setters and getters
     //----------------------------------------------------------------------------
@@ -99,18 +99,18 @@ public class Borehole extends ClockAdapter {
     /**
      * Gets the points that approximate the borehole.
      * The points are ordered from the valley floor to the glacier surface.
-     * This returns a reference to the points (not a copy), so callers 
+     * This returns a reference to the points (not a copy), so callers
      * should NOT modify the points.
-     * 
+     *
      * @return Point2D[]
      */
     public Point2D[] getPoints() {
         return (Point2D[]) _points.toArray( new Point2D[_points.size()] );
     }
-    
+
     /**
      * Gets the percentage of the borehole that has been filled in.
-     * 
+     *
      * @return 0.0 to 1.0
      */
     public double getPercentFilledIn() {
@@ -129,19 +129,19 @@ public class Borehole extends ClockAdapter {
         if ( _points != null ) {
 
             final double t = clockEvent.getSimulationTime();
-            
+
             // initialize "fill in" model
             if ( _fillInStartTime == -1 ) {
                 _fillInStartTime = t + FILL_IN_BEGINS;
                 _fillInEndTime = _fillInStartTime + FILL_IN_DURATION;
             }
-            
+
             if ( t >= _fillInEndTime ) {
                 // borehole is completely filled in
                 deleteMe();
             }
             else {
-                
+
                 // calculate how much of the borehole is filled in
                 if ( t < _fillInStartTime ) {
                     _percentFilledIn = 0;
@@ -161,7 +161,7 @@ public class Borehole extends ClockAdapter {
                     currentPoint = (Point2D) i.next();
 
                     // distance = velocity * dt
-                    Vector2D velocity = _glacier.getIceVelocity( currentPoint.getX(), currentPoint.getY() );
+                    MutableVector2D velocity = _glacier.getIceVelocity( currentPoint.getX(), currentPoint.getY() );
                     double newX = currentPoint.getX() + ( velocity.getX() * dt );
                     double newY = currentPoint.getY() + ( velocity.getY() * dt );
 
@@ -175,7 +175,7 @@ public class Borehole extends ClockAdapter {
                     if ( newY > newGlacierSurfaceElevation ) {
                         _points.remove( currentPoint );
                     }
-                        
+
                     currentPoint.setLocation( newX, newY );
                 }
 
@@ -190,45 +190,47 @@ public class Borehole extends ClockAdapter {
             }
         }
     }
-    
+
     /*
-     * Borehole deletes itself.
-     */
+    * Borehole deletes itself.
+    */
     private void deleteMe() {
         _percentFilledIn = 1;
         _points = null;
         notifyDeleteMe();
     }
-    
+
     //----------------------------------------------------------------------------
     // Listener
     //----------------------------------------------------------------------------
-    
+
     public interface BoreholeListener {
         public void evolved();
+
         public void deleteMe( Borehole borehole );
     }
-    
+
     public static class BoreholeAdapter implements BoreholeListener {
         public void evolved() {}
+
         public void deleteMe( Borehole borehole ) {}
     }
-    
+
     public void addBoreholeListener( BoreholeListener listener ) {
         _listeners.add( listener );
     }
-    
+
     public void removeBoreholeListener( BoreholeListener listener ) {
         _listeners.remove( listener );
     }
-    
+
     private void notifyEvolved() {
         Iterator i = _listeners.iterator();
         while ( i.hasNext() ) {
             ( (BoreholeListener) i.next() ).evolved();
         }
     }
-    
+
     private void notifyDeleteMe() {
         ArrayList listenersCopy = new ArrayList( _listeners ); // iterate on a copy, deleteMe causes a call to removeBoreholeListener
         Iterator i = listenersCopy.iterator();

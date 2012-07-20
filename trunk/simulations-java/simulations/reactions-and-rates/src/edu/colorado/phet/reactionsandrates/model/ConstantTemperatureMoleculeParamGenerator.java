@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -10,12 +10,11 @@
  */
 package edu.colorado.phet.reactionsandrates.model;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
+
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 
 /**
  * ConstantTemperatureMoleculeParamGenerator
@@ -63,16 +62,16 @@ public class ConstantTemperatureMoleculeParamGenerator implements MoleculeParamG
         this.maxTheta = maxTheta;
         this.maxAlpha = maxAlpha;
 
-        if( moleculeType == MoleculeA.class ) {
+        if ( moleculeType == MoleculeA.class ) {
             mass = prototypeA.getMass();
         }
-        if( moleculeType == MoleculeBC.class ) {
+        if ( moleculeType == MoleculeBC.class ) {
             mass = prototypeB.getMass() + prototypeC.getMass();
         }
-        if( moleculeType == MoleculeAB.class ) {
+        if ( moleculeType == MoleculeAB.class ) {
             mass = prototypeA.getMass() + prototypeB.getMass();
         }
-        if( moleculeType == MoleculeC.class ) {
+        if ( moleculeType == MoleculeC.class ) {
             mass = prototypeC.getMass();
         }
     }
@@ -86,7 +85,7 @@ public class ConstantTemperatureMoleculeParamGenerator implements MoleculeParamG
         // Generate velocity
         double speed = Math.sqrt( 2 * model.getTemperature() / mass );
         double phi = ( maxTheta - minTheta ) * random.nextDouble() + minTheta;
-        Vector2D v = new Vector2D( speed, 0 ).rotate( phi );
+        MutableVector2D v = new MutableVector2D( speed, 0 ).rotate( phi );
 
         // Generate angular velocity
         double a = 0;

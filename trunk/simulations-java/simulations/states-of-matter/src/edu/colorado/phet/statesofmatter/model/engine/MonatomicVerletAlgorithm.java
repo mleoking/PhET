@@ -1,10 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.statesofmatter.model.engine;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.statesofmatter.model.MoleculeForceAndMotionDataSet;
 import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
@@ -71,9 +71,9 @@ public class MonatomicVerletAlgorithm extends AbstractVerletAlgorithm {
         MoleculeForceAndMotionDataSet moleculeDataSet = m_model.getMoleculeDataSetRef();
         int numberOfAtoms = moleculeDataSet.getNumberOfAtoms();
         Point2D[] moleculeCenterOfMassPositions = moleculeDataSet.getMoleculeCenterOfMassPositions();
-        Vector2D[] moleculeVelocities = moleculeDataSet.getMoleculeVelocities();
-        Vector2D[] moleculeForces = moleculeDataSet.getMoleculeForces();
-        Vector2D[] nextMoleculeForces = moleculeDataSet.getNextMoleculeForces();
+        MutableVector2D[] moleculeVelocities = moleculeDataSet.getMoleculeVelocities();
+        MutableVector2D[] moleculeForces = moleculeDataSet.getMoleculeForces();
+        MutableVector2D[] nextMoleculeForces = moleculeDataSet.getNextMoleculeForces();
 
         // Update the positions of all particles based on their current
         // velocities and the forces acting on them.
@@ -138,7 +138,7 @@ if (m_model.getTemperatureSetPoint() < TEMPERATURE_BELOW_WHICH_GRAVITY_INCREASES
 
         // Calculate the forces created through interactions with other
         // particles.
-        Vector2D force = new Vector2D();
+        MutableVector2D force = new MutableVector2D();
         for ( int i = 0; i < numberOfSafeAtoms; i++ ) {
             for ( int j = i + 1; j < numberOfSafeAtoms; j++ ) {
 
@@ -176,7 +176,7 @@ if (m_model.getTemperatureSetPoint() < TEMPERATURE_BELOW_WHICH_GRAVITY_INCREASES
 
         // Calculate the new velocities based on the old ones and the forces
         // that are acting on the particle.
-        Vector2D velocityIncrement = new Vector2D();
+        MutableVector2D velocityIncrement = new MutableVector2D();
         for ( int i = 0; i < numberOfAtoms; i++ ) {
             velocityIncrement.setX( TIME_STEP_HALF * ( moleculeForces[i].getX() + nextMoleculeForces[i].getX() ) );
             velocityIncrement.setY( TIME_STEP_HALF * ( moleculeForces[i].getY() + nextMoleculeForces[i].getY() ) );

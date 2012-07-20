@@ -1,9 +1,9 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy.bands;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 
 
 /**
@@ -37,8 +37,8 @@ public class EnergyCell {
         return energy;
     }
 
-    public Vector2D getPosition() {
-        return new Vector2D( x, energy );
+    public MutableVector2D getPosition() {
+        return new MutableVector2D( x, energy );
     }
 
     public EnergyLevel getEnergyLevel() {

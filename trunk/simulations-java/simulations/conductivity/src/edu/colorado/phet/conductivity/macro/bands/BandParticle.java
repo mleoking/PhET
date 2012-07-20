@@ -1,9 +1,9 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.conductivity.macro.bands;
 
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.conductivity.macro.bands.states.MoveTo;
@@ -30,8 +30,8 @@ public class BandParticle extends SimpleObservable
         }
     }
 
-    public Vector2D getPosition() {
-        return new Vector2D( x, y );
+    public MutableVector2D getPosition() {
+        return new MutableVector2D( x, y );
     }
 
     public double getX() {
@@ -68,14 +68,14 @@ public class BandParticle extends SimpleObservable
         state = state.stepInTime( this, d );
     }
 
-    public void setPosition( Vector2D phetvector ) {
+    public void setPosition( MutableVector2D phetvector ) {
         x = phetvector.getX();
         y = phetvector.getY();
         notifyObservers();
     }
 
     public double getDistanceFromOwnedSite() {
-        Vector2D phetvector = cell.getPosition();
+        MutableVector2D phetvector = cell.getPosition();
         return getPosition().getSubtractedInstance( phetvector ).getMagnitude();
     }
 
@@ -87,7 +87,7 @@ public class BandParticle extends SimpleObservable
     }
 
     public void setX( double d ) {
-        setPosition( new Vector2D( d, getPosition().getY() ) );
+        setPosition( new MutableVector2D( d, getPosition().getY() ) );
     }
 
     public void pairPropagate( BandParticle bandparticle, Speed speed ) {
