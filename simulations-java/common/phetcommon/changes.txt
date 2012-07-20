@@ -1,3 +1,4 @@
+7/19/12 Style change, made single line methods read in a single line for Vector2D classes, see #3374
 7/19/12 Added equals/hashcode/toString using Lombok, see #3374
 7/19/12 Renamed ImmutableVector2D->Vector2D, see #3374
 7/19/12 Renamed Vector2D->MutableVector2D, see #3374

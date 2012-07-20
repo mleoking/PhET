@@ -17,21 +17,16 @@ public @Data class MutableVector2D extends AbstractVector2D {
     private double x;
     private double y;
 
-    public MutableVector2D() {
-    }
+    public MutableVector2D() {}
 
-    public MutableVector2D( AbstractVector2D v ) {
-        this( v.getX(), v.getY() );
-    }
+    public MutableVector2D( AbstractVector2D v ) { this( v.getX(), v.getY() ); }
 
     public MutableVector2D( double x, double y ) {
         this.x = x;
         this.y = y;
     }
 
-    public MutableVector2D( Point2D p ) {
-        this( p.getX(), p.getY() );
-    }
+    public MutableVector2D( Point2D p ) { this( p.getX(), p.getY() ); }
 
     public MutableVector2D( Point2D src, Point2D dst ) {
         this.x = dst.getX() - src.getX();
@@ -58,13 +53,9 @@ public @Data class MutableVector2D extends AbstractVector2D {
         return this;
     }
 
-    public void setX( double x ) {
-        this.x = x;
-    }
+    public void setX( double x ) { this.x = x; }
 
-    public void setY( double y ) {
-        this.y = y;
-    }
+    public void setY( double y ) { this.y = y; }
 
     // The reason that this seemingly redundant override exists is to make
     // this method public.
@@ -73,21 +64,13 @@ public @Data class MutableVector2D extends AbstractVector2D {
         setY( y );
     }
 
-    public void setValue( Vector2D value ) {
-        setComponents( value.getX(), value.getY() );
-    }
+    public void setValue( Vector2D value ) { setComponents( value.getX(), value.getY() ); }
 
-    public void setMagnitudeAndAngle( double magnitude, double angle ) {
-        setComponents( Math.cos( angle ) * magnitude, Math.sin( angle ) * magnitude );
-    }
+    public void setMagnitudeAndAngle( double magnitude, double angle ) { setComponents( Math.cos( angle ) * magnitude, Math.sin( angle ) * magnitude ); }
 
-    public void setMagnitude( double magnitude ) {
-        setMagnitudeAndAngle( magnitude, getAngle() );
-    }
+    public void setMagnitude( double magnitude ) { setMagnitudeAndAngle( magnitude, getAngle() ); }
 
-    public void setAngle( double angle ) {
-        setMagnitudeAndAngle( getMagnitude(), angle );
-    }
+    public void setAngle( double angle ) { setMagnitudeAndAngle( getMagnitude(), angle ); }
 
     public MutableVector2D subtract( AbstractVector2D v ) {
         setX( getX() - v.getX() );
@@ -105,17 +88,11 @@ public @Data class MutableVector2D extends AbstractVector2D {
         return this;
     }
 
-    @Override public double getY() {
-        return y;
-    }
+    @Override public double getY() { return y; }
 
-    @Override public double getX() {
-        return x;
-    }
+    @Override public double getX() { return x; }
 
-    public static Vector2D createPolar( final double magnitude, final double angle ) {
-        return Vector2D.createPolar( magnitude, angle );
-    }
+    public static Vector2D createPolar( final double magnitude, final double angle ) { return Vector2D.createPolar( magnitude, angle ); }
 
     public static void main( String[] args ) {
         MutableVector2D v = new MutableVector2D( 0, 0 );
