@@ -83,6 +83,8 @@ public abstract class AbstractVector2D implements Serializable {
 
     public Vector2D plus( double x, double y ) { return new Vector2D( getX() + x, getY() + y ); }
 
+    public Vector2D plus( Point2D p ) { return new Vector2D( getX() + p.getX(), getY() + p.getY() ); }
+
     public Vector2D getNormalVector() { return new Vector2D( getY(), -getX() ); }
 
     public Vector2D minus( double x, double y ) { return new Vector2D( getX() - x, getY() - y ); }
