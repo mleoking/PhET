@@ -40,8 +40,4 @@ class ThermalElementDragHandler extends RelativeDragHandler {
         super.mouseReleased( event );
         modelElement.userControlled.set( false );
     }
-
-    protected void setControlledModelElement( UserMovableModelElement modelElement ) {
-        this.modelElement = modelElement;
-    }
 }
