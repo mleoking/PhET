@@ -236,8 +236,9 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
             PNode heatCapacitySlider = new ControlPanelNode( new HSliderNode( EnergyFormsAndChangesSimSharing.UserComponents.heatCapacitySlider,
                                                                               ConfigurableSpecificHeatBlock.MIN_SPECIFIC_HEAT,
                                                                               ConfigurableSpecificHeatBlock.MAX_SPECIFIC_HEAT,
-                                                                              new DoubleProperty( ConfigurableSpecificHeatBlock.MIN_SPECIFIC_HEAT ) ) );
-            backLayer.addChild( new ControlPanelNode( heatCapacitySlider ) );
+                                                                              new DoubleProperty( ConfigurableSpecificHeatBlock.MIN_SPECIFIC_HEAT ) ),
+                                                             EFACConstants.CONTROL_PANEL_BACKGROUND_COLOR );
+            backLayer.addChild( heatCapacitySlider );
         }
 
         // Create an observer that updates the Z-order of the blocks when the
