@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.gravityandorbits.model;
 
@@ -117,7 +117,7 @@ public class GravityAndOrbitsModel {
         final Body star = getBody( "star" );
         final Body planet = getBody( "planet" );
         if ( star == null || planet == null ) { return Double.NaN; }
-        return star.getPosition().getDistance( planet.getPosition() );
+        return star.getPosition().distance( planet.getPosition() );
     }
 
     public GravityAndOrbitsClock getClock() {

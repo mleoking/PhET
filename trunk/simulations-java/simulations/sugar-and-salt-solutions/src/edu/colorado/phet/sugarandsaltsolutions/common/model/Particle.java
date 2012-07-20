@@ -87,6 +87,6 @@ public abstract class Particle {
 
     //Gets the distance between the particles
     public double getDistance( Particle b ) {
-        return getPosition().getDistance( b.getPosition() );
+        return getPosition().distance( b.getPosition() );
     }
 }

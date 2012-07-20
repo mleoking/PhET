@@ -374,7 +374,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         if ( sourcePosition.equals( targetPosition ) ) {
             return ZERO;
         }
-        double distance = sourcePosition.getDistance( targetPosition );
+        double distance = sourcePosition.distance( targetPosition );
         if ( distance < MIN_COULOMB_DISTANCE ) {
             distance = MIN_COULOMB_DISTANCE;
         }
@@ -523,7 +523,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
                         for ( SphericalParticle atom : compound ) {
 
                             //add if they are overlapping
-                            if ( waterAtom.getPosition().getDistance( atom.getPosition() ) < waterAtom.radius + atom.radius ) {
+                            if ( waterAtom.getPosition().distance( atom.getPosition() ) < waterAtom.radius + atom.radius ) {
                                 counts.put( waterMolecule, counts.get( waterMolecule ) == null ? 1 : counts.get( waterMolecule ) + 1 );
                             }
                         }

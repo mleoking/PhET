@@ -35,7 +35,7 @@ public class RandomMotionWhileDraining {
     private double getRelativeSpeed( Vector2D drain, Particle particle ) {
 
         //Only use this heuristic when further than 25% of beaker width away from the drain, otherwise particles close to the drain move too fast and end up waiting at the drain
-        double numberBeakerWidthsToDrain = Math.max( 0.25, particle.getPosition().getDistance( drain ) / model.beaker.getWidth() );
+        double numberBeakerWidthsToDrain = Math.max( 0.25, particle.getPosition().distance( drain ) / model.beaker.getWidth() );
 
         return 1 / numberBeakerWidthsToDrain / numberBeakerWidthsToDrain * model.outputFlowRate.get() / 2;
     }

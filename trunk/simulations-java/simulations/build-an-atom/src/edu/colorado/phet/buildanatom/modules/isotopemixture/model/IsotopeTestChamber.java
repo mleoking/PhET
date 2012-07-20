@@ -346,7 +346,7 @@ public class IsotopeTestChamber {
                         continue;
                     }
                     MutableVector2D forceFromIsotope = new MutableVector2D( 0, 0 );
-                    double distanceBetweenIsotopes = isotope1.getPosition().getDistance( isotope2.getPosition() );
+                    double distanceBetweenIsotopes = isotope1.getPosition().distance( isotope2.getPosition() );
                     if ( distanceBetweenIsotopes == 0 ) {
                         // These isotopes are sitting right on top of one
                         // another.  Add the max amount of inter-particle
@@ -405,7 +405,7 @@ public class IsotopeTestChamber {
                     // Same isotope, so skip it.
                     continue;
                 }
-                double distance = isotope1.getPosition().getDistance( isotope2.getPosition() );
+                double distance = isotope1.getPosition().distance( isotope2.getPosition() );
                 if ( distance < isotope1.getRadius() + isotope2.getRadius() ) {
                     return true;
                 }

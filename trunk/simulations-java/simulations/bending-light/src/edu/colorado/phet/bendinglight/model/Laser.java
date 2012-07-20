@@ -72,7 +72,7 @@ public class Laser {
 
     //Rotate about the fixed pivot
     public void setAngle( double angle ) {
-        double distFromPivot = pivot.get().getDistance( emissionPoint.get() );
+        double distFromPivot = pivot.get().distance( emissionPoint.get() );
         emissionPoint.set( Vector2D.createPolar( distFromPivot, angle ).plus( pivot.get() ) );
     }
 

@@ -55,6 +55,6 @@ public class Bond {
 
     // Gets the bond length, the distance between the 2 endpoints.
     public double getLength() {
-        return endpoint1.get().getDistance( endpoint2.get() );
+        return endpoint1.get().distance( endpoint2.get() );
     }
 }

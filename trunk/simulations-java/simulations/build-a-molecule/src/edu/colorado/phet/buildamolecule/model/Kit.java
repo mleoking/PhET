@@ -550,7 +550,7 @@ public class Kit {
                         }
 
                         BondingOption location = new BondingOption( otherAtom, otherDirection, ourAtom );
-                        double distance = ourAtom.getPosition().getDistance( location.getIdealLocation() );
+                        double distance = ourAtom.getPosition().distance( location.getIdealLocation() );
                         if ( distance < bestDistanceFromIdealLocation ) {
                             bestLocation = location;
                             bestDistanceFromIdealLocation = distance;

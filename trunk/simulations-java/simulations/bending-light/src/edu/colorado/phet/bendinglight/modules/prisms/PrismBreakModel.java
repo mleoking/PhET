@@ -269,8 +269,8 @@ public class PrismBreakModel extends BendingLightModel {
         //Get the closest one (which would be hit first)
         Collections.sort( allIntersections, new Comparator<Intersection>() {
             public int compare( Intersection o1, Intersection o2 ) {
-                return Double.compare( o1.getPoint().getDistance( incidentRay.tail ),
-                                       o2.getPoint().getDistance( incidentRay.tail ) );
+                return Double.compare( o1.getPoint().distance( incidentRay.tail ),
+                                       o2.getPoint().distance( incidentRay.tail ) );
             }
         } );
         return allIntersections.size() == 0 ? null : allIntersections.get( 0 );

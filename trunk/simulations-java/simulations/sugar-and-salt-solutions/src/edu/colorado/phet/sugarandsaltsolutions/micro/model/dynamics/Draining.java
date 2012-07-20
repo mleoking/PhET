@@ -96,7 +96,7 @@ public class Draining {
             LOGGER.fine( particle.getClass() + " #" + particle.hashCode() + " x: " + particle.getPosition().getX() );
 
             //Compute the target time, distance, speed and velocity, and apply to the particle so they will reach the drain at evenly spaced temporal intervals
-            double distanceToTarget = particle.getPosition().getDistance( drain );
+            double distanceToTarget = particle.getPosition().distance( drain );
 
             // compute the speed/velocity to make this particle arrive at the drain at the same time as the other particles in the formula unit
             double speed = distanceToTarget / timeToError;
@@ -114,7 +114,7 @@ public class Draining {
             //If the particle reached the drain, change its update strategy and move it into the list of model drained particles
             //Account for the particle width when checking whether it is close enough since wide particles like sucrose won't be able to match their centroid with the
             //center of the drain because they are prevented from leaving the bounds of the water
-            double dist = particle.getPosition().getDistance( model.getDrainFaucetMetrics().getInputPoint() );
+            double dist = particle.getPosition().distance( model.getDrainFaucetMetrics().getInputPoint() );
             if ( dist <= particle.velocity.get().getMagnitude() * dt + particle.getShape().getBounds2D().getWidth() / 2 ) {
 
                 // drain out all of the particles within the formula unit
@@ -172,7 +172,7 @@ public class Draining {
         final Vector2D drain = model.getDrainFaucetMetrics().getInputPoint();
         Collections.sort( list, new Comparator<Particle>() {
             public int compare( Particle o1, Particle o2 ) {
-                return Double.compare( o1.getPosition().getDistance( drain ), o2.getPosition().getDistance( drain ) );
+                return Double.compare( o1.getPosition().distance( drain ), o2.getPosition().distance( drain ) );
             }
         } );
         if ( list.size() > 0 ) {

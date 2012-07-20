@@ -65,10 +65,10 @@ public class Molecule extends BodyModel {
     }
 
     public void outsidePlayAreaAcceleration( double dt ) {
-        if ( getPosition().getDistance( getDestination() ) != 0 ) {
+        if ( getPosition().distance( getDestination() ) != 0 ) {
             // Move towards the current destination.
             double distanceToTravel = 1500 * dt;
-            double distanceToTarget = getPosition().getDistance( getDestination() );
+            double distanceToTarget = getPosition().distance( getDestination() );
 
             double farDistanceMultiple = 10; // if we are this many times away, we speed up
 

@@ -91,7 +91,7 @@ public class MeasuringTape extends PNode {
             modelStart.addObserver( updateOffset );
             final SimpleObserver updateReadout = new SimpleObserver() {
                 public void update() {
-                    double modelDistance = modelStart.get().getDistance( modelEnd.get() );
+                    double modelDistance = modelStart.get().distance( modelEnd.get() );
                     //use a scale that makes sense in all modes
                     double miles = metersToMiles( modelDistance );
                     double thousandMiles = miles / 1E3;

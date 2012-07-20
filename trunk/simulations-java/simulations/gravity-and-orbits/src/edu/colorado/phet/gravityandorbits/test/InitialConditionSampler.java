@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.gravityandorbits.test;
 
 import java.util.ArrayList;
@@ -48,7 +48,7 @@ public class InitialConditionSampler {
                     doLayout();
                     ArrayList<Body> bodies = intro.getModes().get( 1 ).getModel().getBodies();
                     for ( Body body : bodies ) {
-                        if ( body.isCollided() || getBody( bodies, "Planet" ).getPosition().getDistance( getBody( bodies, "Moon" ).getPosition() ) > getBody( bodies, "Star" ).getRadius() * 2 ) {
+                        if ( body.isCollided() || getBody( bodies, "Planet" ).getPosition().distance( getBody( bodies, "Moon" ).getPosition() ) > getBody( bodies, "Star" ).getRadius() * 2 ) {
                             System.out.println( alpha + "\t" + clockEvent.getSimulationTime() );
                             intro.getModes().get( 1 ).p.playButtonPressed.set( false );
                             new Thread( new Runnable() {

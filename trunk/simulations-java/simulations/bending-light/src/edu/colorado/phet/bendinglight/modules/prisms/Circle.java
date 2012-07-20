@@ -87,6 +87,6 @@ public class Circle implements IShape {
     }
 
     public boolean containsPoint( Vector2D point ) {
-        return point.getDistance( center ) <= radius;
+        return point.distance( center ) <= radius;
     }
 }

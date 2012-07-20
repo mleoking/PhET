@@ -48,19 +48,13 @@ public abstract class AbstractVector2D implements Serializable {
      * @param v the vector to get the distance to
      * @return the cartesian distance between the vectors
      */
-    public double getDistance( AbstractVector2D v ) {
-        double dx = this.getX() - v.getX();
-        double dy = this.getY() - v.getY();
-        return sqrt( dx * dx + dy * dy );
-    }
-
     public double distance( AbstractVector2D v ) {
         double dx = this.getX() - v.getX();
         double dy = this.getY() - v.getY();
         return sqrt( dx * dx + dy * dy );
     }
 
-    public double getDistance( Point2D point ) { return getDistance( new Vector2D( point ) ); }
+    public double distance( Point2D point ) { return distance( new Vector2D( point ) ); }
 
     //Transform this ImmutableVector2D into a Dimension2D
     public Dimension2D toDimension() { return new Dimension2DDouble( getX(), getY() ); }
