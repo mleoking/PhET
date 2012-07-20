@@ -4,6 +4,7 @@ package edu.colorado.phet.common.phetcommon.math;
 import lombok.Data;
 
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
 /**
@@ -57,6 +58,15 @@ public @Data class Vector2D extends AbstractVector2D {
     public static Vector2D createPolar( double radius, double angle ) { return new Vector2D( Math.cos( angle ), Math.sin( angle ) ).times( radius ); }
 
     public Vector2D negate() { return times( -1 ); }
+
+    //Convenience creation method for when extreme terseness is desired
+    public static Vector2D v( double x, double y ) {return new Vector2D( x, y );}
+
+    //Creates a line from this point to the specified point
+    public Line2D.Double lineTo( final double x, final double y ) { return new Line2D.Double( this.x, this.y, x, y ); }
+
+    //Creates a line from this point to the specified point
+    public Line2D.Double lineTo( final Vector2D end ) { return lineTo( end.x, end.y ); }
 
     public static void main( String[] args ) {
         Vector2D v = new Vector2D( 0, 0 );

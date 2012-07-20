@@ -6,8 +6,8 @@ import fj.data.List;
 import fj.data.Option;
 import lombok.Data;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.fractions.common.util.FJUtils;
-import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 
 /**
  * Keep track of a stack or pile of cards for purposes of making sure only the top one is grabbable, and if a middle card is taken out, then the top card will fall down one slot.

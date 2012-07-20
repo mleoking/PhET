@@ -5,13 +5,13 @@ import fj.F;
 
 import java.awt.Color;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPText;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.FractionsResources.Strings;
-import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 import edu.colorado.phet.fractions.fractionmatcher.model.MatchingGameState;
 import edu.colorado.phet.fractions.fractionmatcher.view.Controller.CheckAnswer;
 import edu.colorado.phet.fractions.fractionmatcher.view.Controller.Next;

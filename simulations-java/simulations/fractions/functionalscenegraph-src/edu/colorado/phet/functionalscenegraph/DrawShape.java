@@ -7,7 +7,7 @@ import lombok.Data;
 import java.awt.Shape;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
-import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * @author Sam Reid

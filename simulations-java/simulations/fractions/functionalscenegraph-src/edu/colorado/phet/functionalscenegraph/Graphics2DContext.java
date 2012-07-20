@@ -10,7 +10,7 @@ import java.awt.Shape;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 
-import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * @author Sam Reid

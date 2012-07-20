@@ -7,7 +7,7 @@ import lombok.Data;
 import java.awt.Paint;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
-import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * Apply an effect to the graphics2d with the specified paint

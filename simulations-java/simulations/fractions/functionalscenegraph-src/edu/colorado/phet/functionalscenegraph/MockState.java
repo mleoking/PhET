@@ -7,8 +7,8 @@ import java.awt.Font;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 
 /**
  * Terminals need to know certain environment aspects (as is known for graphics2d), they are passed in the MockState.
