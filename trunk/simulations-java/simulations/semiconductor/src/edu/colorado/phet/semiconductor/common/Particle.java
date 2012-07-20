@@ -35,9 +35,9 @@ public class Particle extends SimpleObservable implements ModelElement {
 
     public void stepInTime( double dt ) {
         //acceleration doesn't change here.
-        Vector2D dv = acceleration.getScaledInstance( dt );
+        Vector2D dv = acceleration.times( dt );
         this.velocity = velocity.plus( dv );
-        Vector2D dx = velocity.getScaledInstance( dt );
+        Vector2D dx = velocity.times( dt );
         this.position = position.plus( dx );
         notifyObservers();
     }

@@ -44,7 +44,7 @@ public class ElectricFieldGraphic extends TransformGraphic {
                 Vector2D start = field.getCenter();
 
                 Vector2D dir = dest.minus( start );
-                Vector2D mid = start.plus( dir.getScaledInstance( .5 ) );
+                Vector2D mid = start.plus( dir.times( .5 ) );
                 Vector2D dx = start.minus( mid );
 
                 start = start.plus( dx );

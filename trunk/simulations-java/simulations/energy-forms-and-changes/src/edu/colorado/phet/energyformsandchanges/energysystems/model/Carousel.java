@@ -108,10 +108,10 @@ public class Carousel<T extends PositionableModelElement> {
     public void stepInTime( double dt ) {
         if ( !atTargetPosition() ) {
             elapsedTransitionTime += dt;
-            Vector2D targetCarouselOffset = offsetBetweenElements.getScaledInstance( -targetIndex.get() );
+            Vector2D targetCarouselOffset = offsetBetweenElements.times( -targetIndex.get() );
             Vector2D totalTravelVector = targetCarouselOffset.minus( carouselOffsetWhenTransitionStarted );
             double proportionOfTimeElapsed = MathUtil.clamp( 0, elapsedTransitionTime / TRANSITION_DURATION, 1 );
-            currentCarouselOffset = carouselOffsetWhenTransitionStarted.plus( totalTravelVector.getScaledInstance( computeSlowInSlowOut( proportionOfTimeElapsed ) ) );
+            currentCarouselOffset = carouselOffsetWhenTransitionStarted.plus( totalTravelVector.times( computeSlowInSlowOut( proportionOfTimeElapsed ) ) );
             updateManagedElementPositions();
             if ( proportionOfTimeElapsed == 1 ) {
                 currentCarouselOffset = targetCarouselOffset;
@@ -121,12 +121,12 @@ public class Carousel<T extends PositionableModelElement> {
 
     private void updateManagedElementPositions() {
         for ( int i = 0; i < managedElements.size(); i++ ) {
-            managedElements.get( i ).setPosition( selectedElementPosition.plus( offsetBetweenElements.getScaledInstance( i ) ).plus( currentCarouselOffset ) );
+            managedElements.get( i ).setPosition( selectedElementPosition.plus( offsetBetweenElements.times( i ) ).plus( currentCarouselOffset ) );
         }
     }
 
     private boolean atTargetPosition() {
-        Vector2D targetCarouselOffset = new Vector2D( offsetBetweenElements.getScaledInstance( -targetIndex.get() ) );
+        Vector2D targetCarouselOffset = new Vector2D( offsetBetweenElements.times( -targetIndex.get() ) );
         return currentCarouselOffset.equals( targetCarouselOffset );
     }
 

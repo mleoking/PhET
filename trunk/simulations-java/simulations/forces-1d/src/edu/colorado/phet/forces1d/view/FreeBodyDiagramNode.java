@@ -118,7 +118,7 @@ public class FreeBodyDiagramNode extends PNode {
         double mass = model.getBlock().getMass();
 
         MutableVector2D m = new MutableVector2D( 0, gravity * mass * yScale );
-        Vector2D n = m.getScaledInstance( -1 );
+        Vector2D n = m.times( -1 );
         mg.setVector( m );
         normal.setVector( n );
     }

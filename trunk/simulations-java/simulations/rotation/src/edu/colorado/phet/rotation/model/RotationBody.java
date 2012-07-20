@@ -290,7 +290,7 @@ public class RotationBody {
                     accelVector = new MutableVector2D( 0.1, 0.1 );//todo: remove this dummy test value
                 }
                 accelVector = accelVector.getInstanceOfMagnitude( aMag );
-                accelVector = origAccel.plus( accelVector ).getScaledInstance( 0.5 );
+                accelVector = origAccel.plus( accelVector ).times( 0.5 );
                 xBody.addAccelerationData( accelVector.getX(), time );
                 yBody.addAccelerationData( accelVector.getY(), time );
             }

@@ -22,7 +22,7 @@ public class LatticeView extends PNode {
                 Lattice<Cell> lattice = model.getLattice();
                 for ( Point location : lattice.getLocations() ) {
                     Point viewLocation = modelViewTransform2D.modelToView( location );
-                    final Vector2D displayValue = lattice.getValue( location ).getSpinVector().getScaledInstance( 30 );
+                    final Vector2D displayValue = lattice.getValue( location ).getSpinVector().times( 30 );
 
                     final ArrowNode arrowNode = new ArrowNode( new Point2D.Double(), displayValue.toPoint2D(), 10, 10, 4, 0.5, true );
                     arrowNode.setPaint( Color.white );

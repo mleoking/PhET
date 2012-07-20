@@ -106,7 +106,7 @@ public class ForceArrowGraphic extends PNode {
 
     public void update() {
         Vector2D force = new Vector2D( forceComponent.getForce() );
-        force = force.getScaledInstance( RampModule.FORCE_LENGTH_SCALE );
+        force = force.times( RampModule.FORCE_LENGTH_SCALE );
         if ( force.getMagnitude() <= THRESHOLD ) {
             setVisible( false );
             nonZero = false;

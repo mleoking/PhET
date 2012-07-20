@@ -801,7 +801,7 @@ public class Circuit {
                 if ( branch.getShape().intersects( junction.getShape().getBounds2D() ) ) {
                     Vector2D vec = branch.getDirectionVector();
                     vec = vec.getNormalVector();
-                    vec = vec.getNormalizedInstance().getScaledInstance( junction.getShape().getBounds2D().getWidth() );
+                    vec = vec.getNormalizedInstance().times( junction.getShape().getBounds2D().getWidth() );
                     BranchSet bs = new BranchSet( this, strongConnections );
                     bs.addJunction( junction );
                     bs.translate( vec );

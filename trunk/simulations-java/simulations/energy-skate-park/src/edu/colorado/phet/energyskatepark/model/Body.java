@@ -379,7 +379,7 @@ public class Body implements Serializable {
     }
 
     public TraversalState getBestTraversalState( TraversalState origState ) {
-        Vector2D normal = new MutableVector2D( origState.getParametricFunction2D().getUnitNormalVector( origState.getAlpha() ) ).getScaledInstance( origState.isTop() ? 1.0 : -1.0 );
+        Vector2D normal = new MutableVector2D( origState.getParametricFunction2D().getUnitNormalVector( origState.getAlpha() ) ).times( origState.isTop() ? 1.0 : -1.0 );
         SerializablePoint2D location = origState.getParametricFunction2D().evaluate( origState.getAlpha() );
         return particle.getBestTraversalState( location, normal );
     }

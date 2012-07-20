@@ -127,7 +127,7 @@ public class SeriesAmmeterNode extends ComponentNode {
         double windowWidth = length / ( numWindows + 1.0 );
         double spacingWidth = ( length - windowWidth * numWindows ) / ( numWindows + 1 );
         double x = 0;
-        north = north.getInstanceOfMagnitude( windowHeight / 2 ).getScaledInstance( 1 );
+        north = north.getInstanceOfMagnitude( windowHeight / 2 ).times( 1 );
         for ( int i = 0; i < numWindows; i++ ) {
             x += spacingWidth;
             Point2D a = dir.getInstanceOfMagnitude( x ).getDestination( start );
@@ -147,7 +147,7 @@ public class SeriesAmmeterNode extends ComponentNode {
         areaGraphic.setPaint( new GradientPaint( a, startColor, b, endColor ) );
         areaGraphic.setPathTo( area );
 
-        Point2D textLoc = north.getScaledInstance( -2.9 * SCALE ).getDestination( start );
+        Point2D textLoc = north.times( -2.9 * SCALE ).getDestination( start );
         textLoc = dir.getInstanceOfMagnitude( 2 * SCALE ).getDestination( textLoc );
 
         String msg = text;

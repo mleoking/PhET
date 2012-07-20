@@ -157,7 +157,7 @@ public class HumanNode extends PNode {
         MutableVector2D vector = new MutableVector2D( arm.getP1(), arm.getP2() );
         double distAlongArmToCenter = 0.35;//assumes arm is one segment
         Ellipse2D.Double aDouble = new Ellipse2D.Double();
-        Point2D center = vector.getScaledInstance( distAlongArmToCenter ).getDestination( arm.getP1() );
+        Point2D center = vector.times( distAlongArmToCenter ).getDestination( arm.getP1() );
         aDouble.setFrameFromCenter( center, new Point2D.Double( center.getX() + muscleDiameter / 2, center.getY() + muscleDiameter / 2 ) );
         return aDouble;
     }

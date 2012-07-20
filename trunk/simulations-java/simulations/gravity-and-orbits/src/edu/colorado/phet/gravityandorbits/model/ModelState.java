@@ -36,10 +36,10 @@ public class ModelState {
         ArrayList<BodyState> newState = new ArrayList<BodyState>();
         for ( BodyState bodyState : bodyStates ) {
             //Velocity Verlet (see svn history for Euler)
-            Vector2D newPosition = bodyState.position.plus( bodyState.velocity.getScaledInstance( dt ) ).plus( bodyState.acceleration.getScaledInstance( dt * dt / 2 ) );
-            Vector2D newVelocityHalfStep = bodyState.velocity.plus( bodyState.acceleration.getScaledInstance( dt / 2 ) );
-            Vector2D newAcceleration = getForce( bodyState, newPosition, gravityEnabledProperty ).getScaledInstance( -1.0 / bodyState.mass );
-            Vector2D newVelocity = newVelocityHalfStep.plus( newAcceleration.getScaledInstance( dt / 2.0 ) );
+            Vector2D newPosition = bodyState.position.plus( bodyState.velocity.times( dt ) ).plus( bodyState.acceleration.times( dt * dt / 2 ) );
+            Vector2D newVelocityHalfStep = bodyState.velocity.plus( bodyState.acceleration.times( dt / 2 ) );
+            Vector2D newAcceleration = getForce( bodyState, newPosition, gravityEnabledProperty ).times( -1.0 / bodyState.mass );
+            Vector2D newVelocity = newVelocityHalfStep.plus( newAcceleration.times( dt / 2.0 ) );
             newState.add( new BodyState( newPosition, newVelocity, newAcceleration, bodyState.mass, bodyState.exploded ) );
         }
         return new ModelState( newState );
@@ -55,7 +55,7 @@ public class ModelState {
             return new Vector2D();
         }
         else {
-            return getUnitVector( source, newTargetPosition ).getScaledInstance( GravityAndOrbitsModule.G * source.mass * target.mass / source.distanceSquared( newTargetPosition ) );
+            return getUnitVector( source, newTargetPosition ).times( GravityAndOrbitsModule.G * source.mass * target.mass / source.distanceSquared( newTargetPosition ) );
         }
     }
 

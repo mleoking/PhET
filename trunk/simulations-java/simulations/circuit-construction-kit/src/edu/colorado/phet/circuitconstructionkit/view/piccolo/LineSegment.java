@@ -23,9 +23,9 @@ public class LineSegment {
         DoubleGeneralPath doublePath = new DoubleGeneralPath( x1 + norm.getX(), y1 + norm.getY() );
 
         doublePath.lineToRelative( vec.getX(), vec.getY() );
-        Vector2D n2 = norm.getScaledInstance( -2 );
+        Vector2D n2 = norm.times( -2 );
         doublePath.lineToRelative( n2.getX(), n2.getY() );
-        Vector2D rev = vec.getScaledInstance( -1 );
+        Vector2D rev = vec.times( -1 );
         doublePath.lineToRelative( rev.getX(), rev.getY() );
         doublePath.lineTo( x1 + norm.getX(), y1 + norm.getY() );
         return doublePath.getGeneralPath();

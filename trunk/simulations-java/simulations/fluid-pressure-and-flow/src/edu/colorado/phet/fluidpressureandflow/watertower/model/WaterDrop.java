@@ -63,9 +63,9 @@ public class WaterDrop {
     //Apply gravity force and euler-integrate to update
     public void stepInTime( double simulationTimeChange ) {
         Vector2D force = new Vector2D( 0, -MASS * FluidPressureAndFlowModel.EARTH_GRAVITY );
-        Vector2D acceleration = force.getScaledInstance( 1.0 / MASS );
-        velocity.set( acceleration.getScaledInstance( simulationTimeChange ).plus( velocity.get() ) );
-        position.set( velocity.get().getScaledInstance( simulationTimeChange ).plus( position.get() ) );
+        Vector2D acceleration = force.times( 1.0 / MASS );
+        velocity.set( acceleration.times( simulationTimeChange ).plus( velocity.get() ) );
+        position.set( velocity.get().times( simulationTimeChange ).plus( position.get() ) );
     }
 
     public void addRemovalListener( SimpleObserver simpleObserver ) {
