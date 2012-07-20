@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.lwjglphet.nodes;
 
 import java.awt.Component;
@@ -12,7 +12,7 @@ import javax.swing.JComponent;
 
 import org.lwjgl.input.Mouse;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
@@ -36,7 +36,7 @@ import static org.lwjgl.opengl.GL11.*;
 public class OrthoComponentNode extends GLNode {
 
     public final ValueNotifier<OrthoComponentNode> onResize = new ValueNotifier<OrthoComponentNode>( this );
-    public final Property<ImmutableVector2D> position;
+    public final Property<Vector2D> position;
 
     // whether mouse events will pass through
     private boolean mouseEnabled = true;
@@ -51,7 +51,7 @@ public class OrthoComponentNode extends GLNode {
     private int offsetX;
     private int offsetY;
 
-    public OrthoComponentNode( final JComponent component, final LWJGLTab tab, CanvasTransform canvasTransform, Property<ImmutableVector2D> position, final VoidNotifier mouseEventNotifier ) {
+    public OrthoComponentNode( final JComponent component, final LWJGLTab tab, CanvasTransform canvasTransform, Property<Vector2D> position, final VoidNotifier mouseEventNotifier ) {
         this.component = component;
         this.tab = tab;
         this.canvasTransform = canvasTransform;
@@ -88,10 +88,10 @@ public class OrthoComponentNode extends GLNode {
             }
         } );
         position.addObserver( new SimpleObserver() {
-                                  public void update() {
-                                      rebuildComponentImage();
-                                  }
-                              }, false );
+            public void update() {
+                rebuildComponentImage();
+            }
+        }, false );
         canvasTransform.transform.addObserver( new SimpleObserver() {
             public void update() {
                 rebuildComponentImage();
@@ -137,10 +137,10 @@ public class OrthoComponentNode extends GLNode {
 
     public <T> void updateOnEvent( Notifier<T> notifier ) {
         notifier.addUpdateListener( new UpdateListener() {
-                                        public void update() {
-                                            OrthoComponentNode.this.update();
-                                        }
-                                    }, false );
+            public void update() {
+                OrthoComponentNode.this.update();
+            }
+        }, false );
     }
 
     // should be called every frame

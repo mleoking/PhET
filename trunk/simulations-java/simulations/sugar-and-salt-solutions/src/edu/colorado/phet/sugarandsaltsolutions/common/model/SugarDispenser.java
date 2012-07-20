@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
 import java.awt.geom.Dimension2D;
@@ -6,8 +6,8 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarDispenserNode;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.createPolar;
+import static edu.colorado.phet.common.phetcommon.math.Vector2D.createPolar;
 
 /**
  * Model element for the sugar dispenser, which includes its position and rotation.  Sugar is emitted from the sugar dispenser only
@@ -32,7 +32,7 @@ public abstract class SugarDispenser<T extends SugarAndSaltSolutionModel> extend
     public final Random random = new Random();
 
     private boolean translating = false;
-    private final ArrayList<ImmutableVector2D> positions = new ArrayList<ImmutableVector2D>();
+    private final ArrayList<Vector2D> positions = new ArrayList<Vector2D>();
     public final T model;
 
     public SugarDispenser( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, final String sugarDispenserName, double distanceScale, ObservableProperty<DispenserType> selectedType, DispenserType type, T model ) {
@@ -62,8 +62,8 @@ public abstract class SugarDispenser<T extends SugarAndSaltSolutionModel> extend
         //Keep track of speeds, since we use a nonzero speed to rotate the dispenser
         ArrayList<Double> speeds = new ArrayList<Double>();
         for ( int i = 0; i < positions.size() - 1; i++ ) {
-            ImmutableVector2D a = positions.get( i );
-            ImmutableVector2D b = positions.get( i + 1 );
+            Vector2D a = positions.get( i );
+            Vector2D b = positions.get( i + 1 );
             speeds.add( a.minus( b ).getMagnitude() );
         }
 
@@ -103,14 +103,14 @@ public abstract class SugarDispenser<T extends SugarAndSaltSolutionModel> extend
             int numCrystals = MathUtil.clamp( 1, (int) avgSpeed * 5, 5 );
             for ( int i = 0; i < numCrystals; i++ ) {
                 //Determine where the sugar should come out
-                final ImmutableVector2D outputPoint = center.get().plus( createPolar( dispenserHeight / 2 * 0.85, angle.get() + Math.PI / 2 * 1.23 + Math.PI ) );//Hand tuned to match up with the image, will need to be re-tuned if the image changes
+                final Vector2D outputPoint = center.get().plus( createPolar( dispenserHeight / 2 * 0.85, angle.get() + Math.PI / 2 * 1.23 + Math.PI ) );//Hand tuned to match up with the image, will need to be re-tuned if the image changes
 
                 addSugarToModel( outputPoint );
             }
         }
     }
 
-    protected abstract void addSugarToModel( final ImmutableVector2D position );
+    protected abstract void addSugarToModel( final Vector2D position );
 
     //Create the sugar dispenser node which the user can use to add sugar to the model
     @Override public PNode createNode( ModelViewTransform transform, boolean micro, Function1<Point2D, Point2D> constraint ) {

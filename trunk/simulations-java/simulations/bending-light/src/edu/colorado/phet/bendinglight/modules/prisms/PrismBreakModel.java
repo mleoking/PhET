@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.modules.prisms;
 
 import java.awt.geom.Rectangle2D;
@@ -6,10 +6,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import edu.colorado.phet.bendinglight.model.*;
+import edu.colorado.phet.bendinglight.model.BendingLightModel;
+import edu.colorado.phet.bendinglight.model.LightRay;
+import edu.colorado.phet.bendinglight.model.Medium;
+import edu.colorado.phet.bendinglight.model.MediumColorFactory;
+import edu.colorado.phet.bendinglight.model.ProtractorModel;
 import edu.colorado.phet.bendinglight.view.LaserColor;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -70,47 +74,47 @@ public class PrismBreakModel extends BendingLightModel {
             final double b = a / 4;//characteristic length scale
             //Square
             add( new Prism( 3,//attach at bottom right
-                            new ImmutableVector2D(),
-                            new ImmutableVector2D( 0, a ),
-                            new ImmutableVector2D( a, a ),
-                            new ImmutableVector2D( a, 0 ) ) );
+                            new Vector2D(),
+                            new Vector2D( 0, a ),
+                            new Vector2D( a, a ),
+                            new Vector2D( a, 0 ) ) );
 
             //Triangle
             add( new Prism( 1,//attach at bottom right
-                            new ImmutableVector2D(),
-                            new ImmutableVector2D( a, 0 ),
-                            new ImmutableVector2D( a / 2, a * sqrt( 3 ) / 2.0 ) ) );
+                            new Vector2D(),
+                            new Vector2D( a, 0 ),
+                            new Vector2D( a / 2, a * sqrt( 3 ) / 2.0 ) ) );
 
             //Trapezoid
             add( new Prism( 1,//attach at bottom right
-                            new ImmutableVector2D(),
-                            new ImmutableVector2D( a, 0 ),
-                            new ImmutableVector2D( a / 2 + b, a * sqrt( 3 ) / 2.0 ),
-                            new ImmutableVector2D( a / 2 - b, a * sqrt( 3 ) / 2.0 )
+                            new Vector2D(),
+                            new Vector2D( a, 0 ),
+                            new Vector2D( a / 2 + b, a * sqrt( 3 ) / 2.0 ),
+                            new Vector2D( a / 2 - b, a * sqrt( 3 ) / 2.0 )
             ) );
 
             double radius = a / 2;
 
             //Continuous Circle
-            add( new Prism( new Circle( new ImmutableVector2D(), radius ) ) );
+            add( new Prism( new Circle( new Vector2D(), radius ) ) );
 
             //Continuous Semicircle
-            add( new Prism( new ShapeIntersection( new Circle( new ImmutableVector2D(), radius ), new Polygon( new ImmutableVector2D[] {
-                    new ImmutableVector2D( 0, radius ),
-                    new ImmutableVector2D( 0, -radius ),
-                    new ImmutableVector2D( -radius, -radius ),
-                    new ImmutableVector2D( -radius, radius )
+            add( new Prism( new ShapeIntersection( new Circle( new Vector2D(), radius ), new Polygon( new Vector2D[] {
+                    new Vector2D( 0, radius ),
+                    new Vector2D( 0, -radius ),
+                    new Vector2D( -radius, -radius ),
+                    new Vector2D( -radius, radius )
             }, 1//attach at bottom right
             ) ) ) );
 
             //Continuous Diverging Lens
-            add( new Prism( new ShapeDifference( new Polygon( new ImmutableVector2D[] {
-                    new ImmutableVector2D( 0, -radius ),
-                    new ImmutableVector2D( radius * ( 0.6 / 0.5 ), -radius ),
-                    new ImmutableVector2D( radius * ( 0.6 / 0.5 ), radius ),
-                    new ImmutableVector2D( 0, radius )
+            add( new Prism( new ShapeDifference( new Polygon( new Vector2D[] {
+                    new Vector2D( 0, -radius ),
+                    new Vector2D( radius * ( 0.6 / 0.5 ), -radius ),
+                    new Vector2D( radius * ( 0.6 / 0.5 ), radius ),
+                    new Vector2D( 0, radius )
             }, 1//attach at bottom right
-            ), new Circle( new ImmutableVector2D(), radius ) ) ) );
+            ), new Circle( new Vector2D(), radius ) ) ) );
         }};
     }
 
@@ -132,7 +136,7 @@ public class PrismBreakModel extends BendingLightModel {
         return prisms;
     }
 
-    private void propagate( ImmutableVector2D tail, ImmutableVector2D directionUnitVector, double power, boolean laserInPrism ) {
+    private void propagate( Vector2D tail, Vector2D directionUnitVector, double power, boolean laserInPrism ) {
         //Determines whether to use white light or single color light
         if ( laser.color.get() == LaserColor.WHITE_LIGHT ) {
             final double min = VisibleColor.MIN_WAVELENGTH / 1E9;
@@ -152,9 +156,9 @@ public class PrismBreakModel extends BendingLightModel {
     //Algorithm that computes the trajectories of the rays throughout the system
     @Override protected void propagateRays() {
         if ( laser.on.get() ) {
-            final ImmutableVector2D tail = new ImmutableVector2D( laser.emissionPoint.get() );
+            final Vector2D tail = new Vector2D( laser.emissionPoint.get() );
             final boolean laserInPrism = isLaserInPrism();
-            final ImmutableVector2D directionUnitVector = laser.getDirectionUnitVector();
+            final Vector2D directionUnitVector = laser.getDirectionUnitVector();
             if ( !manyRays.get() ) {
                 //This can be used to show the main central ray
                 propagate( tail, directionUnitVector, 1.0, laserInPrism );
@@ -162,7 +166,7 @@ public class PrismBreakModel extends BendingLightModel {
             else {
                 //Many parallel rays
                 for ( double x = -WAVELENGTH_RED; x <= WAVELENGTH_RED * 1.1; x += WAVELENGTH_RED / 2 ) {
-                    ImmutableVector2D offset = directionUnitVector.getRotatedInstance( Math.PI / 2 ).times( x );
+                    Vector2D offset = directionUnitVector.getRotatedInstance( Math.PI / 2 ).times( x );
                     propagate( tail.plus( offset ), directionUnitVector, 1.0, laserInPrism );
                 }
             }
@@ -188,7 +192,7 @@ public class PrismBreakModel extends BendingLightModel {
 
         //Check for an intersection
         Intersection intersection = getIntersection( incidentRay, prisms );
-        ImmutableVector2D L = incidentRay.directionUnitVector;
+        Vector2D L = incidentRay.directionUnitVector;
         final double n1 = incidentRay.mediumIndexOfRefraction;
         final double wavelengthInN1 = incidentRay.wavelength / n1;
         if ( intersection != null ) {
@@ -197,7 +201,7 @@ public class PrismBreakModel extends BendingLightModel {
             //List the intersection in the model
             addIntersection( intersection );
 
-            ImmutableVector2D pointOnOtherSide = new ImmutableVector2D( intersection.getPoint() ).plus( incidentRay.directionUnitVector.getInstanceOfMagnitude( 1E-12 ) );
+            Vector2D pointOnOtherSide = new Vector2D( intersection.getPoint() ).plus( incidentRay.directionUnitVector.getInstanceOfMagnitude( 1E-12 ) );
             boolean outputInsidePrism = false;
             for ( Prism prism : prisms ) {
                 if ( prism.contains( pointOnOtherSide ) ) {
@@ -208,18 +212,18 @@ public class PrismBreakModel extends BendingLightModel {
             double n2 = outputInsidePrism ? prismMedium.get().getIndexOfRefraction( incidentRay.getBaseWavelength() ) : environment.get().getIndexOfRefraction( incidentRay.getBaseWavelength() );
 
             //Precompute for readability
-            ImmutableVector2D point = intersection.getPoint();
-            ImmutableVector2D n = intersection.getUnitNormal();
+            Vector2D point = intersection.getPoint();
+            Vector2D n = intersection.getUnitNormal();
 
             //Compute the output rays, see http://en.wikipedia.org/wiki/Snell's_law#Vector_form
             double cosTheta1 = n.dot( L.times( -1 ) );
             final double cosTheta2Radicand = 1 - pow( n1 / n2, 2 ) * ( 1 - pow( cosTheta1, 2 ) );
             double cosTheta2 = sqrt( cosTheta2Radicand );
             boolean totalInternalReflection = cosTheta2Radicand < 0;
-            ImmutableVector2D vReflect = L.plus( n.times( 2 * cosTheta1 ) );
-            ImmutableVector2D vRefract = cosTheta1 > 0 ?
-                                         L.times( n1 / n2 ).plus( n.times( n1 / n2 * cosTheta1 - cosTheta2 ) ) :
-                                         L.times( n1 / n2 ).plus( n.times( n1 / n2 * cosTheta1 + cosTheta2 ) );
+            Vector2D vReflect = L.plus( n.times( 2 * cosTheta1 ) );
+            Vector2D vRefract = cosTheta1 > 0 ?
+                                L.times( n1 / n2 ).plus( n.times( n1 / n2 * cosTheta1 - cosTheta2 ) ) :
+                                L.times( n1 / n2 ).plus( n.times( n1 / n2 * cosTheta1 + cosTheta2 ) );
 
             final double reflectedPower = totalInternalReflection ? 1 : MathUtil.clamp( 0, getReflectedPower( n1, n2, cosTheta1, cosTheta2 ), 1 );
             final double transmittedPower = totalInternalReflection ? 0 : MathUtil.clamp( 0, getTransmittedPower( n1, n2, cosTheta1, cosTheta2 ), 1 );

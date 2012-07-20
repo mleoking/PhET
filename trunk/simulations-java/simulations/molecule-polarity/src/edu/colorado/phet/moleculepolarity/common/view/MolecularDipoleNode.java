@@ -1,7 +1,7 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.moleculepolarity.common.view;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.moleculepolarity.MPColors;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule2D;
@@ -23,7 +23,7 @@ public class MolecularDipoleNode extends DipoleNode {
         molecule.dipole.addObserver( new SimpleObserver() {
             public void update() {
                 // offset vector relative to molecule location
-                ImmutableVector2D v = ImmutableVector2D.createPolar( OFFSET, molecule.dipole.get().getAngle() );
+                Vector2D v = Vector2D.createPolar( OFFSET, molecule.dipole.get().getAngle() );
                 // offset in world coordinate frame
                 setOffset( molecule.location.getX() + v.getX(), molecule.location.getY() + v.getY() );
             }

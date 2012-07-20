@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.gravityandorbits.module;
 
@@ -10,7 +10,7 @@ import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
@@ -165,7 +165,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                 readoutInEarthMasses,
                 sunEarth.initialMeasuringTapeLocation,
                 sunEarth.zoom,
-                new ImmutableVector2D( 0, 0 ),
+                new Vector2D( 0, 0 ),
                 sunEarth.earth.x / 2,
                 new Point2D.Double( 0, 0 ),
                 p ) {{
@@ -184,7 +184,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                 readoutInEarthMasses,
                 sunEarthMoon.initialMeasuringTapeLocation,
                 sunEarthMoon.zoom,
-                new ImmutableVector2D( 0, 0 ),
+                new Vector2D( 0, 0 ),
                 sunEarthMoon.earth.x / 2,
                 new Point2D.Double( 0, 0 ),
                 p ) {{
@@ -207,7 +207,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                 readoutInEarthMasses,
                 earthMoon.initialMeasuringTapeLocation,
                 earthMoon.zoom,
-                new ImmutableVector2D( earthMoon.earth.x, 0 ),
+                new Vector2D( earthMoon.earth.x, 0 ),
                 earthMoon.moon.y / 2,
                 new Point2D.Double( earthMoon.earth.x, 0 ),
                 p ) {{
@@ -232,7 +232,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                 spaceStationMassReadoutFactory,
                 earthSpaceStation.initialMeasuringTapeLocation,
                 earthSpaceStation.zoom,
-                new ImmutableVector2D( earthSpaceStation.earth.x, 0 ),
+                new Vector2D( earthSpaceStation.earth.x, 0 ),
                 earthSpaceStation.spaceStation.x - earthSpaceStation.earth.x,
                 new Point2D.Double( earthSpaceStation.earth.x, 0 ),
                 p ) {{
@@ -285,10 +285,10 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
             Body earth = model.getBody( "Planet" );
             //Restore the moon near the earth and with the same relative velocity vector
             if ( earth != null ) {
-                ImmutableVector2D relativePosition = getPositionProperty().getInitialValue().minus( earth.getPositionProperty().getInitialValue() );
+                Vector2D relativePosition = getPositionProperty().getInitialValue().minus( earth.getPositionProperty().getInitialValue() );
                 getPositionProperty().set( earth.getPosition().plus( relativePosition ) );
 
-                ImmutableVector2D relativeVelocity = getVelocityProperty().getInitialValue().minus( earth.getVelocityProperty().getInitialValue() );
+                Vector2D relativeVelocity = getVelocityProperty().getInitialValue().minus( earth.getVelocityProperty().getInitialValue() );
                 getVelocityProperty().set( earth.getVelocity().plus( relativeVelocity ) );
             }
             else {
@@ -316,12 +316,12 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         }
 
         @Override public void updateBodyStateFromModel( BodyState bodyState ) {
-            ImmutableVector2D position = getPosition();//store the original position in case it must be restored
+            Vector2D position = getPosition();//store the original position in case it must be restored
             super.updateBodyStateFromModel( bodyState );
             //Sun shouldn't move in cartoon modes
             if ( body.fixed ) {
                 setPosition( position.getX(), position.getY() );
-                setVelocity( new ImmutableVector2D() );
+                setVelocity( new Vector2D() );
             }
         }
     }

@@ -1,13 +1,13 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.IFormulaUnit;
 
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
+import static edu.colorado.phet.common.phetcommon.math.Vector2D.ZERO;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.UpdateStrategy.FREE_PARTICLE_SPEED;
 
 /**
@@ -36,16 +36,16 @@ public class ThreeParticleFormulaUnit<T extends Particle> implements IFormulaUni
 
     //Move the constituents closer to their centroid so they can form a crystal
     public void moveTogether( double dt ) {
-        ImmutableVector2D centroid = ( a.getPosition().plus( b.getPosition() ).plus( c.getPosition() ) ).times( 1.0 / 3 );
+        Vector2D centroid = ( a.getPosition().plus( b.getPosition() ).plus( c.getPosition() ) ).times( 1.0 / 3 );
         moveToCentroid( a, centroid, dt );
         moveToCentroid( b, centroid, dt );
         moveToCentroid( c, centroid, dt );
     }
 
     //Move a particle to the centroid so the particles can get closer together to form a crystal
-    private void moveToCentroid( Particle particle, ImmutableVector2D centroid, double dt ) {
-        ImmutableVector2D unitVectorToCentroid = new ImmutableVector2D( particle.getPosition(), centroid ).getNormalizedInstance();
-        ImmutableVector2D velocity = unitVectorToCentroid.times( FREE_PARTICLE_SPEED );
+    private void moveToCentroid( Particle particle, Vector2D centroid, double dt ) {
+        Vector2D unitVectorToCentroid = new Vector2D( particle.getPosition(), centroid ).getNormalizedInstance();
+        Vector2D velocity = unitVectorToCentroid.times( FREE_PARTICLE_SPEED );
         particle.velocity.set( velocity );
         particle.stepInTime( ZERO, dt );
     }

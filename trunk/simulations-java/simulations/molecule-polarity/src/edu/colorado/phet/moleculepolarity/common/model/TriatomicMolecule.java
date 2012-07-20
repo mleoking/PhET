@@ -1,8 +1,8 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.moleculepolarity.common.model;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.moleculepolarity.MPColors;
@@ -26,7 +26,7 @@ public class TriatomicMolecule extends Molecule2D {
     public final Property<Double> bondAngleA; // the bond angle of atom A relative to atom B, before applying molecule rotation
     public final Property<Double> bondAngleC; // the bond angle of atom C relative to atom B, before applying molecule rotation
 
-    public TriatomicMolecule( ImmutableVector2D location, double angle ) {
+    public TriatomicMolecule( Vector2D location, double angle ) {
         super( location, angle );
 
         atomA = new Atom( MPStrings.A, ATOM_DIAMETER, MPColors.ATOM_A, MPConstants.ELECTRONEGATIVITY_RANGE.getMin() );
@@ -77,11 +77,11 @@ public class TriatomicMolecule extends Molecule2D {
      * @param location location of the molecule
      * @param angle orientation of the molecule
      */
-    private static void updateAtomLocation( Atom atom, double bondAngle, ImmutableVector2D location, double angle ) {
+    private static void updateAtomLocation( Atom atom, double bondAngle, Vector2D location, double angle ) {
         double thetaA = angle + bondAngle;
         double xA = PolarCartesianConverter.getX( BOND_LENGTH, thetaA ) + location.getX();
         double yA = PolarCartesianConverter.getY( BOND_LENGTH, thetaA ) + location.getY();
-        atom.location.set( new ImmutableVector2D( xA, yA ) );
+        atom.location.set( new Vector2D( xA, yA ) );
     }
 
     // updates partial charges

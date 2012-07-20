@@ -1,11 +1,11 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.jmephet.hud;
 
 import java.awt.FlowLayout;
 
 import javax.swing.JPanel;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.nodes.Piccolo3DCanvas;
 import edu.colorado.phet.jmephet.CanvasTransform;
@@ -27,11 +27,11 @@ public class PiccoloJMENode extends SwingJMENode {
         this( node, inputHandler, tab, canvasTransform, getDefaultPosition() );
     }
 
-    public PiccoloJMENode( final PNode node, final JMEInputHandler inputHandler, final JMETab tab, CanvasTransform canvasTransform, Property<ImmutableVector2D> position ) {
+    public PiccoloJMENode( final PNode node, final JMEInputHandler inputHandler, final JMETab tab, CanvasTransform canvasTransform, Property<Vector2D> position ) {
         // use a wrapper panel that takes up no extra room
         super( new JPanel( new FlowLayout( FlowLayout.LEFT, 0, 0 ) ) {{
-                   add( new Piccolo3DCanvas( node ) );
-               }}, inputHandler, tab, canvasTransform, position );
+            add( new Piccolo3DCanvas( node ) );
+        }}, inputHandler, tab, canvasTransform, position );
         this.node = node;
     }
 

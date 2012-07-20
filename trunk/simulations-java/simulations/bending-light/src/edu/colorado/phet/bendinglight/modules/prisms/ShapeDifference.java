@@ -1,12 +1,12 @@
-//  Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.modules.prisms;
 
-import java.awt.*;
+import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 
 /**
@@ -60,17 +60,17 @@ public class ShapeDifference implements IShape {
         return a.getBounds();
     }
 
-    public IShape getRotatedInstance( double angle, ImmutableVector2D rotationPoint ) {
+    public IShape getRotatedInstance( double angle, Vector2D rotationPoint ) {
         // rotate the children around the same rotation point
         return new ShapeDifference( a.getRotatedInstance( angle, rotationPoint ), b.getRotatedInstance( angle, rotationPoint ) );
     }
 
-    public ImmutableVector2D getRotationCenter() {
+    public Vector2D getRotationCenter() {
         // just grab A's centroid, since it is simplier. NOTE: this is NOT the true centroid!!!
         return a.getRotationCenter();
     }
 
-    public Option<ImmutableVector2D> getReferencePoint() {
+    public Option<Vector2D> getReferencePoint() {
         // return the first viable centroid
         if ( a.getReferencePoint().isSome() ) {
             return a.getReferencePoint();
@@ -80,7 +80,7 @@ public class ShapeDifference implements IShape {
         }
     }
 
-    public boolean containsPoint( ImmutableVector2D point ) {
+    public boolean containsPoint( Vector2D point ) {
         return a.containsPoint( point ) && !b.containsPoint( point );
     }
 }

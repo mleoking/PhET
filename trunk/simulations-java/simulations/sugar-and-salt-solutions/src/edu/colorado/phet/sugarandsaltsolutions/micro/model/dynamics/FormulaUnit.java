@@ -1,13 +1,13 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
 
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
+import static edu.colorado.phet.common.phetcommon.math.Vector2D.ZERO;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.UpdateStrategy.FREE_PARTICLE_SPEED;
 
 /**
@@ -27,8 +27,8 @@ public class FormulaUnit<T extends Particle> extends Pair<T, T> implements IForm
 
     //Move the particles closer together at the free particle speed
     public void moveTogether( double dt ) {
-        ImmutableVector2D unitVectorFromAToB = new ImmutableVector2D( _1.getPosition(), _2.getPosition() ).getNormalizedInstance();
-        ImmutableVector2D velocity = unitVectorFromAToB.times( FREE_PARTICLE_SPEED );
+        Vector2D unitVectorFromAToB = new Vector2D( _1.getPosition(), _2.getPosition() ).getNormalizedInstance();
+        Vector2D velocity = unitVectorFromAToB.times( FREE_PARTICLE_SPEED );
         _1.velocity.set( velocity );
         _2.velocity.set( velocity.times( -1 ) );
         _1.stepInTime( ZERO, dt );

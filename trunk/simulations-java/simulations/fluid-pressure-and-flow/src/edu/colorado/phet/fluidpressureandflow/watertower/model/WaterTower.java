@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.watertower.model;
 
 import java.awt.BasicStroke;
@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
@@ -34,13 +34,13 @@ public class WaterTower {
     public static final double TANK_VOLUME = Math.PI * TANK_RADIUS * TANK_RADIUS * TANK_HEIGHT;
 
     //Location of the bottom center of the water tower
-    public final Property<ImmutableVector2D> tankBottomCenter = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, INITIAL_Y ) );
+    public final Property<Vector2D> tankBottomCenter = new Property<Vector2D>( new Vector2D( 0, INITIAL_Y ) );
 
     //Start the tank partly full so that the "fill" button and faucet slider are initially enabled
     public final DoubleProperty fluidVolume = new DoubleProperty( TANK_VOLUME * 0.8 );//meters cubed
 
     //The movable panel that can cover the hole.
-    public final Property<ImmutableVector2D> panelOffset = new Property<ImmutableVector2D>( new ImmutableVector2D( PANEL_OFFSET, 0 ) );
+    public final Property<Vector2D> panelOffset = new Property<Vector2D>( new Vector2D( PANEL_OFFSET, 0 ) );
 
     //Flag indicating whether the tank is full, for purposes of disabling controls that can be used to fill the tank
     public final ObservableProperty<Boolean> full = fluidVolume.greaterThanOrEqualTo( TANK_VOLUME );

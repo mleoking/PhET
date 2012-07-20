@@ -1,3 +1,4 @@
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.jamaphet;
 
 import Jama.Matrix;
@@ -5,22 +6,18 @@ import Jama.SingularValueDecomposition;
 
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
-import static edu.colorado.phet.jamaphet.JamaUtils.columnVector;
-import static edu.colorado.phet.jamaphet.JamaUtils.matrixFromVectors2D;
-import static edu.colorado.phet.jamaphet.JamaUtils.matrixFromVectors3D;
-import static edu.colorado.phet.jamaphet.JamaUtils.vectorFromMatrix2D;
-import static edu.colorado.phet.jamaphet.JamaUtils.vectorFromMatrix3D;
+import static edu.colorado.phet.jamaphet.JamaUtils.*;
 
 /**
  * Rigid motion best-fit computation using http://igl.ethz.ch/projects/ARAP/svd_rot.pdf
  */
 public class RigidMotionLeastSquares {
 
-    public static RigidMotionTransformation bestFitMotion2D( final List<ImmutableVector2D> points,
-                                                             final List<ImmutableVector2D> targets,
+    public static RigidMotionTransformation bestFitMotion2D( final List<Vector2D> points,
+                                                             final List<Vector2D> targets,
                                                              final boolean allowReflection ) {
         assert points.size() == targets.size();
 
@@ -29,8 +26,8 @@ public class RigidMotionLeastSquares {
                               allowReflection );
     }
 
-    public static RigidMotionTransformation bestFitMotion2D( final List<ImmutableVector2D> points,
-                                                             final List<ImmutableVector2D> targets,
+    public static RigidMotionTransformation bestFitMotion2D( final List<Vector2D> points,
+                                                             final List<Vector2D> targets,
                                                              final boolean allowReflection,
                                                              final List<Double> weights ) {
         assert points.size() == targets.size();
@@ -130,7 +127,7 @@ public class RigidMotionLeastSquares {
         }
 
         // for 2d case only
-        public ImmutableVector2D transformVector2D( ImmutableVector2D v ) {
+        public Vector2D transformVector2D( Vector2D v ) {
             return vectorFromMatrix2D( rotation.times( columnVector( v ) ).plus( translation ), 0 );
         }
 
@@ -140,8 +137,8 @@ public class RigidMotionLeastSquares {
         }
 
         public double getRotation2D() {
-            ImmutableVector2D transformedAngle = transformVector2D( new ImmutableVector2D( 1, 0 ) )
-                    .minus( transformVector2D( new ImmutableVector2D( 0, 0 ) ) );
+            Vector2D transformedAngle = transformVector2D( new Vector2D( 1, 0 ) )
+                    .minus( transformVector2D( new Vector2D( 0, 0 ) ) );
             return Math.atan2( transformedAngle.getY(), transformedAngle.getX() );
         }
     }

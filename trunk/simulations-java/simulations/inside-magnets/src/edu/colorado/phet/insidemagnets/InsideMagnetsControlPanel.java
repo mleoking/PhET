@@ -1,14 +1,14 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.insidemagnets;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JCheckBox;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
  */
 public class InsideMagnetsControlPanel extends VerticalLayoutPanel {
     public InsideMagnetsControlPanel( final InsideMagnetsModule module ) {
-        final Property<ImmutableVector2D> field = module.getInsideMagnetsModel().getExternalMagneticField();
+        final Property<Vector2D> field = module.getInsideMagnetsModel().getExternalMagneticField();
         add( new LinearValueControl( -5, 5, field.get().getX(), "Bx", "0.00", "T" ) {{
             field.addObserver( new SimpleObserver() {
                 public void update() {
@@ -28,7 +28,7 @@ public class InsideMagnetsControlPanel extends VerticalLayoutPanel {
             } );
             addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    field.set( new ImmutableVector2D( getValue(), field.get().getY() ) );
+                    field.set( new Vector2D( getValue(), field.get().getY() ) );
                 }
             } );
         }} );
@@ -40,7 +40,7 @@ public class InsideMagnetsControlPanel extends VerticalLayoutPanel {
             } );
             addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
-                    field.set( new ImmutableVector2D( field.get().getX(), getValue() ) );
+                    field.set( new Vector2D( field.get().getX(), getValue() ) );
                 }
             } );
         }} );

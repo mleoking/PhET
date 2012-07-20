@@ -3,7 +3,7 @@ package edu.colorado.phet.energyformsandchanges.energysystems.model;
 
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * Class that provides information about an image that is used in the view
@@ -17,9 +17,9 @@ public class ModelElementImage {
 
     // Offset in model units (meters) from the center of the posiion of the
     // model element that owns this image to the center of the image.
-    private final ImmutableVector2D centerToCenterOffset;
+    private final Vector2D centerToCenterOffset;
 
-    public ModelElementImage( BufferedImage image, double width, ImmutableVector2D centerToCenterOffset ) {
+    public ModelElementImage( BufferedImage image, double width, Vector2D centerToCenterOffset ) {
         this.image = image;
         this.width = width;
         this.centerToCenterOffset = centerToCenterOffset;
@@ -33,7 +33,7 @@ public class ModelElementImage {
         return width;
     }
 
-    public ImmutableVector2D getCenterToCenterOffset() {
+    public Vector2D getCenterToCenterOffset() {
         return centerToCenterOffset;
     }
 }

@@ -13,8 +13,8 @@ import edu.colorado.phet.circuitconstructionkit.model.Electron;
 import edu.colorado.phet.circuitconstructionkit.model.Electron.Observer;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.SimpleObservableDebug;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -121,8 +121,8 @@ public abstract class Branch extends SimpleObservableDebug {
         return "Branch_" + name + "[" + startJunction.getLabel() + "," + endJunction.getLabel() + "] <" + getClass() + ">";
     }
 
-    public ImmutableVector2D getDirectionVector() {
-        return new ImmutableVector2D( startJunction.getPosition(), endJunction.getPosition() );
+    public Vector2D getDirectionVector() {
+        return new Vector2D( startJunction.getPosition(), endJunction.getPosition() );
     }
 
     public double getResistance() {
@@ -303,7 +303,7 @@ public abstract class Branch extends SimpleObservableDebug {
         if ( getLength() == 0 ) {
             return getStartJunction().getPosition();
         }
-        ImmutableVector2D vec = new MutableVector2D( getStartJunction().getPosition(), getEndJunction().getPosition() ).getInstanceOfMagnitude( x );
+        Vector2D vec = new MutableVector2D( getStartJunction().getPosition(), getEndJunction().getPosition() ).getInstanceOfMagnitude( x );
         return vec.getDestination( getStartJunction().getPosition() );
     }
 
@@ -330,7 +330,7 @@ public abstract class Branch extends SimpleObservableDebug {
     }
 
     public double getAngle() {
-        return new ImmutableVector2D( getStartJunction().getPosition(), getEndJunction().getPosition() ).getAngle();
+        return new Vector2D( getStartJunction().getPosition(), getEndJunction().getPosition() ).getAngle();
     }
 
     public Point2D getCenter() {

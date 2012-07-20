@@ -11,7 +11,7 @@ import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.FixtureDef;
 
 import edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -25,16 +25,16 @@ public class BodyModel implements Collidable2D {
 
     public final Property<Boolean> userControlled = new Property<Boolean>( false );
 
-    private final Property<ImmutableVector2D> _position = new Property<ImmutableVector2D>( new ImmutableVector2D() );
-    private final Property<ImmutableVector2D> _velocity = new Property<ImmutableVector2D>( new ImmutableVector2D() );
+    private final Property<Vector2D> _position = new Property<Vector2D>( new Vector2D() );
+    private final Property<Vector2D> _velocity = new Property<Vector2D>( new Vector2D() );
     private final Property<Float> _angle = new Property<Float>( 0f );
     private final Property<Float> _angularVelocity = new Property<Float>( 0f ); // may have issues based on shears or scales
 
     private final List<FixtureDef> fixtureDefs = new ArrayList<FixtureDef>();
 
     // public read-only copies
-    public final ObservableProperty<ImmutableVector2D> position = _position;
-    public final ObservableProperty<ImmutableVector2D> velocity = _velocity;
+    public final ObservableProperty<Vector2D> position = _position;
+    public final ObservableProperty<Vector2D> velocity = _velocity;
     public final ObservableProperty<Float> angle = _angle;
     public final ObservableProperty<Float> angularVelocity = _angularVelocity;
 
@@ -90,25 +90,25 @@ public class BodyModel implements Collidable2D {
         return body != null;
     }
 
-    public void setPosition( ImmutableVector2D p ) {
+    public void setPosition( Vector2D p ) {
         // TODO: consider not changing this until postStep()? (rounding issues from double->float?)
         if ( !p.equals( _position.get() ) ) { // check required since Property only checks for equality with "="
             _position.set( p );
         }
         if ( hasBody() ) {
-            ImmutableVector2D boxPosition = bodyToModelTransform.viewToModel( p );
+            Vector2D boxPosition = bodyToModelTransform.viewToModel( p );
             body.setTransform( new Vec2( (float) boxPosition.getX(), (float) boxPosition.getY() ), body.getAngle() );
             body.setAwake( true );
         }
     }
 
-    public void setVelocity( ImmutableVector2D v ) {
+    public void setVelocity( Vector2D v ) {
         // TODO: consider not changing this until postStep()? (rounding issues from double->float?)
         if ( !v.equals( _velocity.get() ) ) { // check required since Property only checks for equality with "="
             _velocity.set( v );
         }
         if ( hasBody() ) {
-            ImmutableVector2D boxVelocity = bodyToModelTransform.viewToModelDelta( v );
+            Vector2D boxVelocity = bodyToModelTransform.viewToModelDelta( v );
             body.setLinearVelocity( new Vec2( (float) boxVelocity.getX(), (float) boxVelocity.getY() ) );
             body.setAwake( true );
         }
@@ -144,8 +144,8 @@ public class BodyModel implements Collidable2D {
             updateUserControlledBox2d();
         }
         else {
-            _position.set( bodyToModelTransform.modelToView( new ImmutableVector2D( body.getPosition().x, body.getPosition().y ) ) );
-            _velocity.set( bodyToModelTransform.modelToViewDelta( new ImmutableVector2D( body.getLinearVelocity().x, body.getLinearVelocity().y ) ) );
+            _position.set( bodyToModelTransform.modelToView( new Vector2D( body.getPosition().x, body.getPosition().y ) ) );
+            _velocity.set( bodyToModelTransform.modelToViewDelta( new Vector2D( body.getLinearVelocity().x, body.getLinearVelocity().y ) ) );
             _angle.set( transformAngle( body.getAngle() ) );
             _angularVelocity.set( body.getAngularVelocity() * ( isTransformReflected() ? -1 : 1 ) ); // reverse angular velocity in reflection case
         }
@@ -153,7 +153,7 @@ public class BodyModel implements Collidable2D {
 
     private void updateUserControlledBox2d() {
         setPosition( position.get() );
-        setVelocity( new ImmutableVector2D( 0, 0 ) );
+        setVelocity( new Vector2D( 0, 0 ) );
         setAngle( angle.get() );
         setAngularVelocity( 0 );
     }
@@ -163,20 +163,20 @@ public class BodyModel implements Collidable2D {
     }
 
     private float transformAngle( float angle ) {
-        ImmutableVector2D newVector = bodyToModelTransform.modelToViewDelta( new ImmutableVector2D( Math.cos( angle ), Math.sin( angle ) ) ).getNormalizedInstance();
+        Vector2D newVector = bodyToModelTransform.modelToViewDelta( new Vector2D( Math.cos( angle ), Math.sin( angle ) ) ).getNormalizedInstance();
         return (float) Math.atan2( newVector.getY(), newVector.getX() );
     }
 
     private float inverseTransformAngle( float angle ) {
-        ImmutableVector2D newVector = bodyToModelTransform.viewToModelDelta( new ImmutableVector2D( Math.cos( angle ), Math.sin( angle ) ) ).getNormalizedInstance();
+        Vector2D newVector = bodyToModelTransform.viewToModelDelta( new Vector2D( Math.cos( angle ), Math.sin( angle ) ) ).getNormalizedInstance();
         return (float) Math.atan2( newVector.getY(), newVector.getX() );
     }
 
-    public ImmutableVector2D getPosition() {
+    public Vector2D getPosition() {
         return position.get();
     }
 
-    public ImmutableVector2D getVelocity() {
+    public Vector2D getVelocity() {
         return velocity.get();
     }
 

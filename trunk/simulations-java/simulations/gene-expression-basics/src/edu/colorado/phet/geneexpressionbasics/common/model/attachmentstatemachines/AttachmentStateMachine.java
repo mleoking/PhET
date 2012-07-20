@@ -1,8 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 
@@ -116,7 +116,7 @@ public abstract class AttachmentStateMachine {
         destinationOffset.setComponents( x, y );
     }
 
-    protected void setDestinationOffset( ImmutableVector2D offset ) {
+    protected void setDestinationOffset( Vector2D offset ) {
         setDestinationOffset( offset.getX(), offset.getY() );
     }
 }

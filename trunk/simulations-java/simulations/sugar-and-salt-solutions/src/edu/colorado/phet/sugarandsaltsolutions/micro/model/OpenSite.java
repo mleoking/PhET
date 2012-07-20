@@ -1,9 +1,9 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
 import java.awt.Shape;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
@@ -16,17 +16,17 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
 public class OpenSite<T extends Particle> {
 
     //Position relative to the origin of the crystal
-    public final ImmutableVector2D relativePosition;
+    public final Vector2D relativePosition;
 
     //Absolute location for checking bounds against water bounds
     public final Shape shape;
 
     //Absolute position in the model
-    public final ImmutableVector2D absolutePosition;
+    public final Vector2D absolutePosition;
 
     private final Function0<T> newInstance;
 
-    public OpenSite( ImmutableVector2D relativePosition, Shape shape, Function0<T> newInstance, ImmutableVector2D absolutePosition ) {
+    public OpenSite( Vector2D relativePosition, Shape shape, Function0<T> newInstance, Vector2D absolutePosition ) {
         this.relativePosition = relativePosition;
         this.shape = shape;
         this.newInstance = newInstance;

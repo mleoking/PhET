@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model;
 
 import java.awt.Shape;
@@ -10,8 +10,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.geneexpressionbasics.common.model.TranscriptionFactor.TranscriptionFactorConfig;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.StubGeneExpressionModel;
@@ -536,7 +536,7 @@ public class DnaMolecule {
      */
     private void eliminateOverlappedAttachmentSites( MobileBiomolecule biomolecule, List<AttachmentSite> potentialAttachmentSites ) {
         for ( AttachmentSite potentialAttachmentSite : new ArrayList<AttachmentSite>( potentialAttachmentSites ) ) {
-            ImmutableVector2D translationVector = new ImmutableVector2D( biomolecule.getPosition(), potentialAttachmentSite.locationProperty.get() );
+            Vector2D translationVector = new Vector2D( biomolecule.getPosition(), potentialAttachmentSite.locationProperty.get() );
             AffineTransform transform = AffineTransform.getTranslateInstance( translationVector.getX(), translationVector.getY() );
             Shape translatedShape = transform.createTransformedShape( biomolecule.getShape() );
             for ( MobileBiomolecule mobileBiomolecule : model.getOverlappingBiomolecules( translatedShape ) ) {
@@ -562,7 +562,7 @@ public class DnaMolecule {
      */
     private void eliminateOutOfBoundsAttachmentSites( MobileBiomolecule biomolecule, List<AttachmentSite> potentialAttachmentSites ) {
         for ( AttachmentSite potentialAttachmentSite : new ArrayList<AttachmentSite>( potentialAttachmentSites ) ) {
-            ImmutableVector2D translationVector = new ImmutableVector2D( biomolecule.getPosition(), potentialAttachmentSite.locationProperty.get() );
+            Vector2D translationVector = new Vector2D( biomolecule.getPosition(), potentialAttachmentSite.locationProperty.get() );
             AffineTransform transform = AffineTransform.getTranslateInstance( translationVector.getX(), translationVector.getY() );
             Shape translatedShape = transform.createTransformedShape( biomolecule.getShape() );
             if ( !biomolecule.motionBoundsProperty.get().inBounds( translatedShape ) ) {

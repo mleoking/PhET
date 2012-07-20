@@ -1,15 +1,15 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.water.model;
 
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Compound;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle;
 
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.createPolar;
+import static edu.colorado.phet.common.phetcommon.math.Vector2D.ZERO;
+import static edu.colorado.phet.common.phetcommon.math.Vector2D.createPolar;
 
 /**
  * Water molecule: H2O for use in the water model.  Units of this compound are in meters, and the values can get updated by Box2D update steps by Box2DAdapter
@@ -25,7 +25,7 @@ public class WaterMolecule extends Compound<SphericalParticle> {
         this( ZERO, 0 );
     }
 
-    public WaterMolecule( ImmutableVector2D position, double angle ) {
+    public WaterMolecule( Vector2D position, double angle ) {
         super( position, angle );
 
         //Spacing should be given by the water model: http://en.wikipedia.org/wiki/Water_model, but we just pick one that looks good

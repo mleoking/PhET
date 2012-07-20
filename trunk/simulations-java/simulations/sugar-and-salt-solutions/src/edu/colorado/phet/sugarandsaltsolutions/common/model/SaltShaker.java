@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
 import java.awt.geom.Dimension2D;
@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SaltShakerNode;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.createPolar;
+import static edu.colorado.phet.common.phetcommon.math.Vector2D.createPolar;
 import static edu.colorado.phet.sugarandsaltsolutions.macro.model.SoluteModel.VOLUME_PER_SOLID_MOLE_SALT;
 
 /**
@@ -32,7 +32,7 @@ public abstract class SaltShaker<T extends SugarAndSaltSolutionModel> extends Di
     private double shakeAmount;
 
     //Keep track of recorded positions when the shaker is translated so we can compute accelerations, which are responsible for shaking out the salt
-    private final ArrayList<ImmutableVector2D> positions = new ArrayList<ImmutableVector2D>();
+    private final ArrayList<Vector2D> positions = new ArrayList<Vector2D>();
 
     public SaltShaker( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale, ObservableProperty<DispenserType> selectedType, DispenserType type, T model ) {
         super( x, y, Math.PI * 3 / 4, beaker, moreAllowed, name, distanceScale, selectedType, type, model );
@@ -64,7 +64,7 @@ public abstract class SaltShaker<T extends SugarAndSaltSolutionModel> extends Di
             if ( positions.size() >= 20 ) {
 
                 //Average the second derivatives
-                ImmutableVector2D sum = new ImmutableVector2D();
+                Vector2D sum = new Vector2D();
                 int numIterations = 10;
                 for ( int i = 0; i < numIterations; i++ ) {
                     sum = sum.plus( getSecondDerivative( i ) );
@@ -96,7 +96,7 @@ public abstract class SaltShaker<T extends SugarAndSaltSolutionModel> extends Di
                 //Determine where the salt should come out
                 //Hand tuned to match up with the image, will need to be re-tuned if the image changes
                 double randUniform = ( random.nextDouble() - 0.5 ) * 2;
-                final ImmutableVector2D outputPoint = center.get().plus( createPolar( dispenserHeight / 2 * 0.8, angle.get() - Math.PI / 2 + randUniform * Math.PI / 32 * 1.2 ) );
+                final Vector2D outputPoint = center.get().plus( createPolar( dispenserHeight / 2 * 0.8, angle.get() - Math.PI / 2 + randUniform * Math.PI / 32 * 1.2 ) );
 
                 //Add the salt to the model
                 addSalt( model, outputPoint, VOLUME_PER_SOLID_MOLE_SALT, getCrystalVelocity( outputPoint ) );
@@ -107,7 +107,7 @@ public abstract class SaltShaker<T extends SugarAndSaltSolutionModel> extends Di
     }
 
     //Adds the salt to the model
-    protected abstract void addSalt( T model, final ImmutableVector2D outputPoint, double volumePerSolidMole, final ImmutableVector2D crystalVelocity );
+    protected abstract void addSalt( T model, final Vector2D outputPoint, double volumePerSolidMole, final Vector2D crystalVelocity );
 
     //Create a SaltShakerNode for display and interaction with this model element
     @Override public PNode createNode( ModelViewTransform transform, boolean micro, Function1<Point2D, Point2D> constraint ) {
@@ -122,10 +122,10 @@ public abstract class SaltShaker<T extends SugarAndSaltSolutionModel> extends Di
     }
 
     //Estimate the acceleration at the specified point in the time series using centered difference approximation
-    private ImmutableVector2D getSecondDerivative( int i ) {
-        ImmutableVector2D x0 = positions.get( positions.size() - 1 - i );
-        ImmutableVector2D x1 = positions.get( positions.size() - 2 - i );
-        ImmutableVector2D x2 = positions.get( positions.size() - 3 - i );
+    private Vector2D getSecondDerivative( int i ) {
+        Vector2D x0 = positions.get( positions.size() - 1 - i );
+        Vector2D x1 = positions.get( positions.size() - 2 - i );
+        Vector2D x2 = positions.get( positions.size() - 3 - i );
 
         return x0.minus( x1.times( 2 ) ).plus( x2 );
     }

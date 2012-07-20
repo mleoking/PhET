@@ -1,8 +1,8 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.modules.moretools;
 
 import edu.colorado.phet.bendinglight.modules.intro.IntroModel;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -16,8 +16,8 @@ import edu.colorado.phet.common.piccolophet.nodes.VelocitySensor;
  */
 public class MoreToolsModel extends IntroModel {
     public final VelocitySensor velocitySensor = new VelocitySensor();
-    public final Function1<ImmutableVector2D, Option<Double>> waveValueGetter = new Function1<ImmutableVector2D, Option<Double>>() {
-        public Option<Double> apply( ImmutableVector2D position ) {
+    public final Function1<Vector2D, Option<Double>> waveValueGetter = new Function1<Vector2D, Option<Double>>() {
+        public Option<Double> apply( Vector2D position ) {
             return getWaveValue( position );
         }
     };

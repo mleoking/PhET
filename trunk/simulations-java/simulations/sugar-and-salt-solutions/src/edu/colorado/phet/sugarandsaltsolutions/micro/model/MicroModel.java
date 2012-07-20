@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
 import java.awt.Color;
@@ -8,7 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
@@ -524,8 +524,8 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     }
 
     //Get the external force acting on the particle, gravity if the particle is in free fall or zero otherwise (e.g., in solution)
-    public ImmutableVector2D getExternalForce( final boolean anyPartUnderwater ) {
-        return new ImmutableVector2D( 0, anyPartUnderwater ? 0 : -9.8 );
+    public Vector2D getExternalForce( final boolean anyPartUnderwater ) {
+        return new Vector2D( 0, anyPartUnderwater ? 0 : -9.8 );
     }
 
     //Determine whether the object is underwater--when it touches the water it should slow down
@@ -534,7 +534,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     }
 
     public void collideWithWater( Particle particle ) {
-        particle.velocity.set( new ImmutableVector2D( 0, -1 ).times( 0.25E-9 ) );
+        particle.velocity.set( new Vector2D( 0, -1 ).times( 0.25E-9 ) );
     }
 
     public void reset() {

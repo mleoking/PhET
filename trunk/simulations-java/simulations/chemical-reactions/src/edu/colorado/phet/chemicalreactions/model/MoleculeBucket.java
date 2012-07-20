@@ -1,14 +1,14 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.chemicalreactions.model;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Bucket;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
@@ -75,8 +75,8 @@ public class MoleculeBucket extends Bucket {
         calculateDestinations();
     }
 
-    private List<ImmutableVector2D> calculateSpots() {
-        List<ImmutableVector2D> result = new ArrayList<ImmutableVector2D>();
+    private List<Vector2D> calculateSpots() {
+        List<Vector2D> result = new ArrayList<Vector2D>();
 
         int d = bottomDimension( maxQuantity );
         int row = 0;
@@ -88,7 +88,7 @@ public class MoleculeBucket extends Bucket {
         double diameter = radius * 2;
 
         for ( Molecule molecule : molecules ) {
-            result.add( new ImmutableVector2D(
+            result.add( new Vector2D(
                     centerX - diameter * ( (double) d ) / 2 + radius + diameter * col,
                     baseY + row * radius * 0.4
             ) );
@@ -109,7 +109,7 @@ public class MoleculeBucket extends Bucket {
         List<Molecule> remainingMolecules = new ArrayList<Molecule>( molecules );
 
         // fill spots in order
-        for ( ImmutableVector2D spot : calculateSpots() ) {
+        for ( Vector2D spot : calculateSpots() ) {
             if ( !remainingMolecules.isEmpty() ) {
                 // first check to see if a molecule is in that spot
                 Molecule filledMolecule = null;

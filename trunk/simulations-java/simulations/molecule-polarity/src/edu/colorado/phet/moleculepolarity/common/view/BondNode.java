@@ -1,10 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.moleculepolarity.common.view;
 
 import java.awt.BasicStroke;
 import java.awt.geom.Line2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.moleculepolarity.MPColors;
 import edu.colorado.phet.moleculepolarity.common.model.Bond;
@@ -22,8 +22,8 @@ public class BondNode extends PPath {
     public BondNode( final Bond bond ) {
         setStrokePaint( MPColors.BOND );
         setStroke( new BasicStroke( 12f ) );
-        VoidFunction1<ImmutableVector2D> updater = new VoidFunction1<ImmutableVector2D>() {
-            public void apply( ImmutableVector2D immutableVector2D ) {
+        VoidFunction1<Vector2D> updater = new VoidFunction1<Vector2D>() {
+            public void apply( Vector2D immutableVector2D ) {
                 setPathTo( new Line2D.Double( bond.endpoint1.get().toPoint2D(), bond.endpoint2.get().toPoint2D() ) );
             }
         };

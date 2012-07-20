@@ -1,11 +1,11 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.beerslawlab.beerslaw.view;
 
 import edu.colorado.phet.beerslawlab.beerslaw.model.Ruler;
 import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
 import edu.colorado.phet.beerslawlab.common.view.MovableDragHandler;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -22,13 +22,14 @@ class BLLRulerNode extends PNode {
 
     /**
      * Constructor.
+     *
      * @param ruler model element
-     * @param mvt transform between model and view coordinate frames
+     * @param mvt   transform between model and view coordinate frames
      */
     public BLLRulerNode( final Ruler ruler, final ModelViewTransform mvt ) {
 
         // Compute tick labels, 1 major tick for every 0.5 unit of length, labels on the ticks that correspond to integer values.
-        String[] majorTicks = new String[ ( 2 * ruler.length ) + 1];
+        String[] majorTicks = new String[( 2 * ruler.length ) + 1];
         for ( int i = 0; i < majorTicks.length; i++ ) {
             majorTicks[i] = ( i % 2 == 0 ) ? String.valueOf( i / 2 ) : "";
         }
@@ -47,10 +48,10 @@ class BLLRulerNode extends PNode {
         addInputEventListener( new MovableDragHandler( UserComponents.ruler, ruler, this, mvt ) );
 
         // sync view with model
-        ruler.location.addObserver( new VoidFunction1<ImmutableVector2D>() {
-            public void apply( ImmutableVector2D location ) {
+        ruler.location.addObserver( new VoidFunction1<Vector2D>() {
+            public void apply( Vector2D location ) {
                 setOffset( mvt.modelToView( ruler.location.get().toPoint2D() ) );
             }
-        });
+        } );
     }
 }

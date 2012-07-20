@@ -1,10 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy.bands;
 
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 
@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 public class VerticalTearLine {
     DoubleGeneralPath path;
 
-    public VerticalTearLine( ImmutableVector2D src, ImmutableVector2D dst, double width, int numJags ) {
+    public VerticalTearLine( Vector2D src, Vector2D dst, double width, int numJags ) {
         path = new DoubleGeneralPath( src.getX(), src.getY() );
         double totalHeight = dst.getY() - src.getY();
         //first one, move left and down half the specified amount.

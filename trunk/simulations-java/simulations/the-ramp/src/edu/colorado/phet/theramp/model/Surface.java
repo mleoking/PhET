@@ -6,8 +6,8 @@ package edu.colorado.phet.theramp.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
 /**
@@ -45,7 +45,7 @@ public abstract class Surface extends SimpleObservable {
     }
 
     public Point2D getLocation( double distAlongRamp ) {
-        ImmutableVector2D vector = MutableVector2D.createPolar( distAlongRamp, angle );
+        Vector2D vector = MutableVector2D.createPolar( distAlongRamp, angle );
         return vector.getDestination( getOrigin() );
     }
 

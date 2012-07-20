@@ -27,7 +27,7 @@ import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * User: Sam Reid
@@ -108,7 +108,7 @@ public class TestSplitRendering {
         double t = System.currentTimeMillis() / 1000.0 - startTime;
         double r = Math.cos( t / 6 );
         double theta = Math.cos( t / 5 ) * 2 * Math.PI;
-        ImmutableVector2D v = ImmutableVector2D.createPolar( r, theta );
+        Vector2D v = Vector2D.createPolar( r, theta );
         series.clear();
         series.add( v.getX(), v.getY() );
     }

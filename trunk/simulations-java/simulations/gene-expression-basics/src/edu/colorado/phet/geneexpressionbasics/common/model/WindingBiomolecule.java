@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 
@@ -117,25 +117,25 @@ public abstract class WindingBiomolecule extends MobileBiomolecule {
                     PointMass nextPoint = currentPoint.getNextPointMass();
                     // This is not the last point on the list, so go ahead and
                     // run the spring algorithm on it.
-                    ImmutableVector2D vectorToPreviousPoint = new ImmutableVector2D( previousPoint.getPosition() ).getSubtractedInstance( new ImmutableVector2D( currentPoint.getPosition() ) );
+                    Vector2D vectorToPreviousPoint = new Vector2D( previousPoint.getPosition() ).getSubtractedInstance( new Vector2D( currentPoint.getPosition() ) );
                     if ( vectorToPreviousPoint.getMagnitude() == 0 ) {
                         // This point is sitting on top of the previous point,
                         // so create an arbitrary vector away from it.
-                        vectorToPreviousPoint = new ImmutableVector2D( 1, 1 );
+                        vectorToPreviousPoint = new Vector2D( 1, 1 );
                     }
                     double scalarForceDueToPreviousPoint = ( -springConstant ) * ( currentPoint.getTargetDistanceToPreviousPoint() - currentPoint.distance( previousPoint ) );
-                    ImmutableVector2D forceDueToPreviousPoint = vectorToPreviousPoint.getNormalizedInstance().getScaledInstance( scalarForceDueToPreviousPoint );
-                    ImmutableVector2D vectorToNextPoint = new ImmutableVector2D( nextPoint.getPosition() ).getSubtractedInstance( new ImmutableVector2D( currentPoint.getPosition() ) );
+                    Vector2D forceDueToPreviousPoint = vectorToPreviousPoint.getNormalizedInstance().getScaledInstance( scalarForceDueToPreviousPoint );
+                    Vector2D vectorToNextPoint = new Vector2D( nextPoint.getPosition() ).getSubtractedInstance( new Vector2D( currentPoint.getPosition() ) );
                     if ( vectorToNextPoint.getMagnitude() == 0 ) {
                         // This point is sitting on top of the next point,
                         // so create an arbitrary vector away from it.
-                        vectorToNextPoint = new ImmutableVector2D( -1, -1 );
+                        vectorToNextPoint = new Vector2D( -1, -1 );
                     }
                     double scalarForceDueToNextPoint = ( -springConstant ) * ( currentPoint.getTargetDistanceToPreviousPoint() - currentPoint.distance( nextPoint ) );
-                    ImmutableVector2D forceDueToNextPoint = vectorToNextPoint.getNormalizedInstance().getScaledInstance( scalarForceDueToNextPoint );
-                    ImmutableVector2D dampingForce = currentPoint.getVelocity().getScaledInstance( -dampingConstant );
-                    ImmutableVector2D totalForce = forceDueToPreviousPoint.getAddedInstance( forceDueToNextPoint ).getAddedInstance( dampingForce );
-                    ImmutableVector2D acceleration = totalForce.getScaledInstance( 1 / pointMass );
+                    Vector2D forceDueToNextPoint = vectorToNextPoint.getNormalizedInstance().getScaledInstance( scalarForceDueToNextPoint );
+                    Vector2D dampingForce = currentPoint.getVelocity().getScaledInstance( -dampingConstant );
+                    Vector2D totalForce = forceDueToPreviousPoint.getAddedInstance( forceDueToNextPoint ).getAddedInstance( dampingForce );
+                    Vector2D acceleration = totalForce.getScaledInstance( 1 / pointMass );
                     currentPoint.setAcceleration( acceleration );
                     currentPoint.update( dt );
                 }

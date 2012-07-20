@@ -1,12 +1,14 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.model;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
 import static edu.colorado.phet.bendinglight.model.BendingLightModel.SPEED_OF_LIGHT;
@@ -18,8 +20,8 @@ import static edu.colorado.phet.bendinglight.model.BendingLightModel.SPEED_OF_LI
  */
 public class LightRay {
     //Directionality is important for propagation
-    public final ImmutableVector2D tip;
-    public final ImmutableVector2D tail;
+    public final Vector2D tip;
+    public final Vector2D tail;
     public final double indexOfRefraction;//The index of refraction of the medium the lightray inhabits
     public final double wavelength; // wavelength in meters
     private final double powerFraction;//amount of power this light has (full strength is 1.0)
@@ -37,7 +39,7 @@ public class LightRay {
     private double time;
     private ArrayList<VoidFunction0> stepListeners = new ArrayList<VoidFunction0>();
 
-    public LightRay( ImmutableVector2D tail, ImmutableVector2D tip, double indexOfRefraction, double wavelength,
+    public LightRay( Vector2D tail, Vector2D tip, double indexOfRefraction, double wavelength,
                      double powerFraction, Color color, double waveWidth, double numWavelengthsPhaseOffset, Shape oppositeMedium,
                      boolean extend, boolean extendBackwards ) {
         this.oppositeMedium = oppositeMedium;
@@ -93,8 +95,8 @@ public class LightRay {
         return tip.minus( tail ).getMagnitude();
     }
 
-    public ImmutableVector2D toVector2D() {
-        return new ImmutableVector2D( tail.toPoint2D(), tip.toPoint2D() );
+    public Vector2D toVector2D() {
+        return new Vector2D( tail.toPoint2D(), tip.toPoint2D() );
     }
 
     public Color getColor() {
@@ -146,8 +148,8 @@ public class LightRay {
         return new Line2D.Double( tail.plus( getUnitVector().times( -getExtensionFactor() ) ).toPoint2D(), tip.toPoint2D() );
     }
 
-    public ImmutableVector2D getUnitVector() {
-        return new ImmutableVector2D( tail.toPoint2D(), tip.toPoint2D() ).getNormalizedInstance();
+    public Vector2D getUnitVector() {
+        return new Vector2D( tail.toPoint2D(), tip.toPoint2D() ).getNormalizedInstance();
     }
 
     public double getAngle() {
@@ -184,7 +186,7 @@ public class LightRay {
     }
 
     //Determine if the light ray contains the specified position, accounting for whether it is shown as a thin light ray or wide wave
-    public boolean contains( ImmutableVector2D position, boolean waveMode ) {
+    public boolean contains( Vector2D position, boolean waveMode ) {
         if ( waveMode ) {
             return getWaveShape().contains( position.getX(), position.getY() );
         }
@@ -197,7 +199,7 @@ public class LightRay {
         return 1.5992063492063494E-7;//At the default transform, this yields a 4 pixel wide stroke
     }
 
-    public ImmutableVector2D getVelocityVector() {
+    public Vector2D getVelocityVector() {
         return tip.minus( tail ).getNormalizedInstance().times( getSpeed() );
     }
 

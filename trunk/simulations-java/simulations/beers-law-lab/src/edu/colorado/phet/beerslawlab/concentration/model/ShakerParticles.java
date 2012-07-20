@@ -1,10 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.beerslawlab.concentration.model;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -82,23 +82,23 @@ public class ShakerParticles {
     }
 
     // Computes an initial velocity for the particle.
-    protected ImmutableVector2D getInitialVelocity() {
-        return ImmutableVector2D.createPolar( INITIAL_SPEED, shaker.orientation ); // in the direction the shaker is pointing
+    protected Vector2D getInitialVelocity() {
+        return Vector2D.createPolar( INITIAL_SPEED, shaker.orientation ); // in the direction the shaker is pointing
     }
 
     // Gravitational acceleration is in the downward direction.
-    private ImmutableVector2D getGravitationalAcceleration() {
-        return new ImmutableVector2D( 0, GRAVITATIONAL_ACCELERATION_MAGNITUDE );
+    private Vector2D getGravitationalAcceleration() {
+        return new Vector2D( 0, GRAVITATIONAL_ACCELERATION_MAGNITUDE );
     }
 
     private double getRandomOrientation() {
         return Math.random() * Math.PI;
     }
 
-    private ImmutableVector2D getRandomLocation() {
+    private Vector2D getRandomLocation() {
         double xOffset = randomLocation.nextInt( MAX_X_OFFSET + MAX_X_OFFSET ) - MAX_X_OFFSET; // positive or negative
         double yOffset = randomLocation.nextInt( MAX_Y_OFFSET ); // positive only
-        return new ImmutableVector2D( shaker.getX() + xOffset, shaker.getY() + yOffset );
+        return new Vector2D( shaker.getX() + xOffset, shaker.getY() + yOffset );
     }
 
     public void addParticlesChangeListener( ParticlesChangeListener listener ) {

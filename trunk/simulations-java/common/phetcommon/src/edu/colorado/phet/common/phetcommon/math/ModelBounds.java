@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.common.phetcommon.math;
 
 import java.awt.geom.Point2D;
@@ -28,7 +28,7 @@ public class ModelBounds extends Property<Option<ImmutableRectangle2D>> {
 
     //Check whether the specified point is within the defined region of this model bounds.  If the model bound is still not yet set, then the point is contained,
     //since all points should be legal before we have the bounds definition
-    public boolean contains( ImmutableVector2D value ) {
+    public boolean contains( Vector2D value ) {
         if ( get().isNone() ) {
             return true;//any point legal if no bounds defined yet
         }

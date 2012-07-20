@@ -1,7 +1,7 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.water.model;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Crystal;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Formula;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
@@ -22,7 +22,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResou
  */
 public class SodiumChlorideCrystal extends Crystal<SaltIon> {
 
-    public SodiumChlorideCrystal( ImmutableVector2D position, double angle ) {
+    public SodiumChlorideCrystal( Vector2D position, double angle ) {
         super( new Formula( SaltIon.SodiumIon.class, SaltIon.ChlorideIon.class ), position, new Chloride().radius + new SphericalParticle.Sodium().radius, angle );
     }
 

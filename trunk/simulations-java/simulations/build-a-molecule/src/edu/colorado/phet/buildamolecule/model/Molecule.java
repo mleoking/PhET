@@ -1,7 +1,7 @@
-//  Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.buildamolecule.model;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
@@ -43,7 +43,7 @@ public class Molecule extends MoleculeStructure<Atom2D> {
         return bounds;
     }
 
-    public void shiftDestination( ImmutableVector2D delta ) {
+    public void shiftDestination( Vector2D delta ) {
         for ( Atom2D atom : getAtoms() ) {
             atom.setDestination( atom.getDestination().getAddedInstance( delta ) );
         }

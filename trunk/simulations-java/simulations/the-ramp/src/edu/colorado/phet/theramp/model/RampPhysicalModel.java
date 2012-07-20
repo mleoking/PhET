@@ -5,9 +5,9 @@ package edu.colorado.phet.theramp.model;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -436,12 +436,12 @@ public class RampPhysicalModel implements ModelElement, Surface.CollisionListene
         }
 
         public double getParallelComponent() {
-            ImmutableVector2D dir = MutableVector2D.createPolar( 1, -getSurface().getAngle() );
+            Vector2D dir = MutableVector2D.createPolar( 1, -getSurface().getAngle() );
             return dir.dot( this );
         }
 
         public double getPerpendicularComponent() {
-            ImmutableVector2D dir = MutableVector2D.createPolar( 1, -getSurface().getAngle() );
+            Vector2D dir = MutableVector2D.createPolar( 1, -getSurface().getAngle() );
             dir = dir.getNormalVector();
             return dir.dot( this );
         }

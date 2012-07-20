@@ -1,9 +1,9 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.ItemList;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.Sodium;
@@ -29,7 +29,7 @@ public class SodiumNitrateCrystalGrowth extends CrystalGrowth<Particle, SodiumNi
         return new AllPairs( model.freeParticles, Sodium.class, Nitrate.class );
     }
 
-    @Override protected SodiumNitrateCrystal newCrystal( ImmutableVector2D position ) {
+    @Override protected SodiumNitrateCrystal newCrystal( Vector2D position ) {
         return new SodiumNitrateCrystal( position, randomAngle() ) {{setUpdateStrategy( new CrystalStrategy( model, model.sodiumNitrateCrystals, model.sodiumNitrateSaturated ) );}};
     }
 

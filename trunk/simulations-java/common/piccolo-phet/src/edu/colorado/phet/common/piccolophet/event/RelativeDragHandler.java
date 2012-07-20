@@ -1,9 +1,9 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.common.piccolophet.event;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -19,19 +19,19 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 public class RelativeDragHandler extends PBasicInputEventHandler {
     private final ModelViewTransform transform;//Transform from model coordinates to stage
-    private final Property<ImmutableVector2D> modelLocation;//Way to read and write the property in model coordinates
+    private final Property<Vector2D> modelLocation;//Way to read and write the property in model coordinates
     private final Function1<Point2D, Point2D> constraint;////maps a proposed model location to an allowed model location
     private final PNode node;//The node this handler is applied to
 
     private Point2D.Double relativeGrabPoint;//Coordinates inside the node where it was grabbed
 
     //Constructs a RelativeDragHandler without a constraint, so that drag behavior is unbounded.
-    public RelativeDragHandler( PNode node, ModelViewTransform transform, Property<ImmutableVector2D> modelLocation ) {
+    public RelativeDragHandler( PNode node, ModelViewTransform transform, Property<Vector2D> modelLocation ) {
         this( node, transform, modelLocation, new Function1.Identity<Point2D>() );
     }
 
     //Constructs a RelativeDragHandler with the specified constraint which maps from a proposed model point to an allowed model point
-    public RelativeDragHandler( PNode node, ModelViewTransform transform, Property<ImmutableVector2D> modelLocation,
+    public RelativeDragHandler( PNode node, ModelViewTransform transform, Property<Vector2D> modelLocation,
                                 Function1<Point2D, Point2D> constraint ) {
         this.node = node;
         this.transform = transform;
@@ -46,7 +46,7 @@ public class RelativeDragHandler extends PBasicInputEventHandler {
     //Update the relative grabbed point within the PNode
     private void updateGrabPoint( PInputEvent event ) {
         Point2D viewStartingPoint = event.getPositionRelativeTo( node.getParent() );
-        ImmutableVector2D viewCoordinateOfObject = transform.modelToView( modelLocation.get() );
+        Vector2D viewCoordinateOfObject = transform.modelToView( modelLocation.get() );
         relativeGrabPoint = new Point2D.Double( viewStartingPoint.getX() - viewCoordinateOfObject.getX(), viewStartingPoint.getY() - viewCoordinateOfObject.getY() );
     }
 
@@ -78,7 +78,7 @@ public class RelativeDragHandler extends PBasicInputEventHandler {
     //This might be rewritten so that clients observer the change in position to detect translations, but right now fluid-pressure-and-flow relies on explicit calls to setTranslating(boolean)
     //To keep track of crystal emission state
     protected void setModelPosition( Point2D constrained ) {
-        modelLocation.set( new ImmutableVector2D( constrained ) );
+        modelLocation.set( new Vector2D( constrained ) );
     }
 
     //Forget the relative grab point to reset for next drag sequence

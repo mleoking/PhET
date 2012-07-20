@@ -1,10 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.conductivity.macro.circuit;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro.circuit:
 //            LinearBranch
@@ -29,7 +29,7 @@ public class CompositeLinearBranch {
         return d;
     }
 
-    public ImmutableVector2D getPosition( double d ) {
+    public Vector2D getPosition( double d ) {
         double d1 = 0.0D;
         for ( int i = 0; i < branches.size(); i++ ) {
             LinearBranch linearbranch = (LinearBranch) branches.get( i );

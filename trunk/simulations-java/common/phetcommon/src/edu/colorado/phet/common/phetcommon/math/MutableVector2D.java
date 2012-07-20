@@ -71,7 +71,7 @@ public class MutableVector2D extends AbstractVector2D {
         setY( y );
     }
 
-    public void setValue( ImmutableVector2D value ) {
+    public void setValue( Vector2D value ) {
         setComponents( value.getX(), value.getY() );
     }
 
@@ -111,7 +111,7 @@ public class MutableVector2D extends AbstractVector2D {
         return x;
     }
 
-    public static ImmutableVector2D createPolar( final double magnitude, final double angle ) {
-        return ImmutableVector2D.createPolar( magnitude, angle );
+    public static Vector2D createPolar( final double magnitude, final double angle ) {
+        return Vector2D.createPolar( magnitude, angle );
     }
 }

@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.beerslawlab.concentration.model;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import edu.colorado.phet.beerslawlab.concentration.model.Solute.PotassiumChromat
 import edu.colorado.phet.beerslawlab.concentration.model.Solute.PotassiumDichromate;
 import edu.colorado.phet.beerslawlab.concentration.model.Solute.PotassiumPermanganate;
 import edu.colorado.phet.beerslawlab.concentration.model.Solute.SoluteForm;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -83,17 +83,17 @@ public class ConcentrationModel implements Resettable {
 
         this.solute = new Property<Solute>( solutes.get( 0 ) );
         this.solution = new ConcentrationSolution( solute, DEFAULT_SOLUTE_AMOUNT, SOLUTION_VOLUME_RANGE.getDefault() );
-        this.beaker = new Beaker( new ImmutableVector2D( 400, 550 ), new PDimension( 600, 300 ), SOLUTION_VOLUME_RANGE.getMax() );
+        this.beaker = new Beaker( new Vector2D( 400, 550 ), new PDimension( 600, 300 ), SOLUTION_VOLUME_RANGE.getMax() );
         this.precipitate = new Precipitate( solution, beaker );
-        this.shaker = new Shaker( new ImmutableVector2D( 340, 170 ), 0.75 * Math.PI, new PBounds( 225, 50, 400, 160 ), solute, SHAKER_MAX_DISPENSING_RATE );
+        this.shaker = new Shaker( new Vector2D( 340, 170 ), 0.75 * Math.PI, new PBounds( 225, 50, 400, 160 ), solute, SHAKER_MAX_DISPENSING_RATE );
         this.shakerParticles = new ShakerParticles( shaker, solution, beaker );
-        this.dropper = new Dropper( new ImmutableVector2D( 375, 210 ), new PBounds( 230, 205, 400, 30 ), solute, DROPPER_FLOW_RATE );
+        this.dropper = new Dropper( new Vector2D( 375, 210 ), new PBounds( 230, 205, 400, 30 ), solute, DROPPER_FLOW_RATE );
         this.evaporator = new Evaporator( MAX_EVAPORATION_RATE, solution );
-        this.solventFaucet = new Faucet( new ImmutableVector2D( 150, 190 ), 1000, MAX_INPUT_FLOW_RATE );
-        this.drainFaucet = new Faucet( new ImmutableVector2D( 825, 618 ), 20, MAX_OUTPUT_FLOW_RATE );
+        this.solventFaucet = new Faucet( new Vector2D( 150, 190 ), 1000, MAX_INPUT_FLOW_RATE );
+        this.drainFaucet = new Faucet( new Vector2D( 825, 618 ), 20, MAX_OUTPUT_FLOW_RATE );
         //  meter drag bounds chosen so that meter and probe can't go behind control panel */
-        this.concentrationMeter = new ConcentrationMeter( new ImmutableVector2D( 785, 210 ), new PBounds( 10, 150, 825, 530 ),
-                                                          new ImmutableVector2D( 775, 390 ), new PBounds( 30, 150, 935, 530 ) );
+        this.concentrationMeter = new ConcentrationMeter( new Vector2D( 785, 210 ), new PBounds( 10, 150, 825, 530 ),
+                                                          new Vector2D( 775, 390 ), new PBounds( 30, 150, 935, 530 ) );
 
         // Things to do when the solute is changed.
         solute.addObserver( new SimpleObserver() {

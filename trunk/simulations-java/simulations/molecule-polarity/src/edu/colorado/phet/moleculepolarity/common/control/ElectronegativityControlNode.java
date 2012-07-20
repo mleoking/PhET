@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.moleculepolarity.common.control;
 
 import java.awt.BasicStroke;
@@ -17,7 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponent;
@@ -359,7 +359,7 @@ public class ElectronegativityControlNode extends PhetPNode {
 
     public static void main( String[] args ) {
 
-        DiatomicMolecule molecule = new DiatomicMolecule( new ImmutableVector2D(), 0 );
+        DiatomicMolecule molecule = new DiatomicMolecule( new Vector2D(), 0 );
         Atom atom = molecule.atomA;
         atom.electronegativity.addObserver( new VoidFunction1<Double>() {
             public void apply( Double value ) {

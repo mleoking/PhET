@@ -7,7 +7,7 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.beerslawlab.concentration.model.PrecipitateParticle;
 import edu.colorado.phet.beerslawlab.concentration.model.ShakerParticle;
 import edu.colorado.phet.beerslawlab.concentration.model.SoluteParticle;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -46,7 +46,7 @@ abstract class ParticleNode extends PPath {
     static class ShakerParticleNode extends ParticleNode {
 
         private final ShakerParticle particle;
-        private final VoidFunction1<ImmutableVector2D> locationObserver;
+        private final VoidFunction1<Vector2D> locationObserver;
 
         public ShakerParticleNode( ShakerParticle particle ) {
             super( particle );
@@ -54,8 +54,8 @@ abstract class ParticleNode extends PPath {
             this.particle = particle;
 
             // move to particle's location
-            locationObserver = new VoidFunction1<ImmutableVector2D>() {
-                public void apply( ImmutableVector2D location ) {
+            locationObserver = new VoidFunction1<Vector2D>() {
+                public void apply( Vector2D location ) {
                     setOffset( location.toPoint2D() );
                 }
             };

@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.common.piccolophet.nodes.slider;
 
 import java.awt.BasicStroke;
@@ -12,8 +12,8 @@ import java.awt.geom.RoundRectangle2D;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Or;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -167,10 +167,10 @@ public class KnobNode extends PNode {
             // Subtract off two triangles in order to create the point.
             double pointerAngle = Math.PI / 2;     // Adjust if necessary to change appearance of knob.
             DoubleGeneralPath pointerSubtractionPath = new DoubleGeneralPath( width / 2, height );
-            pointerSubtractionPath.lineToRelative( new ImmutableVector2D( 0, -height ).getRotatedInstance( pointerAngle / 2 ) );
+            pointerSubtractionPath.lineToRelative( new Vector2D( 0, -height ).getRotatedInstance( pointerAngle / 2 ) );
             pointerSubtractionPath.lineToRelative( 0, height );
             pointerSubtractionPath.moveTo( width / 2, height );
-            pointerSubtractionPath.lineToRelative( new ImmutableVector2D( 0, -height ).getRotatedInstance( -pointerAngle / 2 ) );
+            pointerSubtractionPath.lineToRelative( new Vector2D( 0, -height ).getRotatedInstance( -pointerAngle / 2 ) );
             pointerSubtractionPath.lineToRelative( 0, height );
             knobShape.subtract( new Area( pointerSubtractionPath.getGeneralPath() ) );
         }

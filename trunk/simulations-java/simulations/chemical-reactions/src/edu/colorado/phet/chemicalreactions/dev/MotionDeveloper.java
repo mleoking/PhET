@@ -1,10 +1,16 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.chemicalreactions.dev;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.geom.Ellipse2D;
 
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -14,7 +20,7 @@ import edu.colorado.phet.chemicalreactions.model.Kit;
 import edu.colorado.phet.chemicalreactions.model.Molecule;
 import edu.colorado.phet.chemicalreactions.model.MoleculeShape;
 import edu.colorado.phet.chemicalreactions.model.Reaction;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -59,9 +65,9 @@ public class MotionDeveloper extends JDialog {
                 final double linearPredictionTimeScale = 0.1;
 
                 // draw a circle in model coordinates
-                final Function3<ImmutableVector2D, Double, Color, Void> drawCircle = new Function3<ImmutableVector2D, Double, Color, Void>() {
-                    public Void apply( ImmutableVector2D modelPoint, Double modelRadius, Color color ) {
-                        ImmutableVector2D viewPoint = MODEL_VIEW_TRANSFORM.modelToView( modelPoint );
+                final Function3<Vector2D, Double, Color, Void> drawCircle = new Function3<Vector2D, Double, Color, Void>() {
+                    public Void apply( Vector2D modelPoint, Double modelRadius, Color color ) {
+                        Vector2D viewPoint = MODEL_VIEW_TRANSFORM.modelToView( modelPoint );
                         double viewRadius = Math.abs( MODEL_VIEW_TRANSFORM.modelToViewDeltaX( modelRadius ) );
 
                         base.addChild( new PhetPPath( new Ellipse2D.Double( viewPoint.getX() - viewRadius, viewPoint.getY() - viewRadius,
@@ -94,18 +100,18 @@ public class MotionDeveloper extends JDialog {
                         if ( linearPredictionTime.get() > 0 ) {
                             for ( Molecule molecule : kit.moleculesInPlayArea ) {
                                 for ( Atom atom : molecule.getAtoms() ) {
-                                    ImmutableVector2D currentPosition = transform.modelToView( atom.position.get() );
+                                    Vector2D currentPosition = transform.modelToView( atom.position.get() );
 
                                     // dotted line
                                     final DoubleGeneralPath path = new DoubleGeneralPath();
                                     path.moveTo( currentPosition.getX(), currentPosition.getY() );
                                     for ( double time = 0; time < linearPredictionTime.get(); time += 0.05 ) {
-                                        ImmutableVector2D viewPosition = transform.modelToView( molecule.predictLinearAtomPosition( atom, time ) );
+                                        Vector2D viewPosition = transform.modelToView( molecule.predictLinearAtomPosition( atom, time ) );
                                         path.lineTo( viewPosition.getX(), viewPosition.getY() );
                                     }
                                     base.addChild( new PPath() {{
                                         setPathTo( path.getGeneralPath() );
-                                        setStroke( new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 10.0f, new float[]{2, 3}, 0.0f ) );
+                                        setStroke( new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 10.0f, new float[] { 2, 3 }, 0.0f ) );
                                         setStrokePaint( new Color( 0, 255, 0, 84 ) );
                                     }} );
 
@@ -123,15 +129,15 @@ public class MotionDeveloper extends JDialog {
                                 // target outlines
                                 for ( int i = 0; i < reaction.reactants.size(); i++ ) {
                                     Molecule molecule = reaction.reactants.get( i );
-                                    ImmutableVector2D targetPosition = reaction.getTarget().transformedTargets.get( i );
+                                    Vector2D targetPosition = reaction.getTarget().transformedTargets.get( i );
                                     double angle = reaction.getTarget().rotation + reaction.getShape().reactantSpots.get( i ).rotation;
 
                                     MoleculeShape moleculeShape = molecule.shape;
 
                                     for ( MoleculeShape.AtomSpot spot : moleculeShape.spots ) {
-                                        ImmutableVector2D spotLocalPosition = spot.position;
-                                        ImmutableVector2D rotatedPosition = spotLocalPosition.getRotatedInstance( angle );
-                                        ImmutableVector2D translatedPosition = rotatedPosition.plus( targetPosition );
+                                        Vector2D spotLocalPosition = spot.position;
+                                        Vector2D rotatedPosition = spotLocalPosition.getRotatedInstance( angle );
+                                        Vector2D translatedPosition = rotatedPosition.plus( targetPosition );
                                         Color color = spot.element.getColor();
                                         drawCircle.apply( translatedPosition, spot.element.getRadius(), new Color( 255, 0, 0, 84 ) );
                                     }
@@ -141,23 +147,23 @@ public class MotionDeveloper extends JDialog {
                                 for ( int i = 0; i < reaction.reactants.size(); i++ ) {
                                     Molecule molecule = reaction.reactants.get( i );
 
-                                    ImmutableVector2D acceleration = reaction.getTweakAcceleration( i );
+                                    Vector2D acceleration = reaction.getTweakAcceleration( i );
                                     double angularAcceleration = reaction.getTweakAngularAcceleration( i );
 
                                     for ( Atom atom : molecule.getAtoms() ) {
-                                        ImmutableVector2D currentPosition = transform.modelToView( atom.position.get() );
+                                        Vector2D currentPosition = transform.modelToView( atom.position.get() );
 
                                         // path (dotted line)
                                         final DoubleGeneralPath path = new DoubleGeneralPath();
                                         path.moveTo( currentPosition.getX(), currentPosition.getY() );
                                         for ( double time = 0; time < reaction.getTarget().t; time += 0.05 ) {
-                                            ImmutableVector2D viewPosition = transform.modelToView(
+                                            Vector2D viewPosition = transform.modelToView(
                                                     molecule.predictConstantAccelerationAtomPosition( atom, time, acceleration, angularAcceleration ) );
                                             path.lineTo( viewPosition.getX(), viewPosition.getY() );
                                         }
                                         base.addChild( new PPath() {{
                                             setPathTo( path.getGeneralPath() );
-                                            setStroke( new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 10.0f, new float[]{2, 3}, 0.0f ) );
+                                            setStroke( new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 10.0f, new float[] { 2, 3 }, 0.0f ) );
                                             setStrokePaint( new Color( 255, 0, 0, 84 ) );
                                         }} );
 

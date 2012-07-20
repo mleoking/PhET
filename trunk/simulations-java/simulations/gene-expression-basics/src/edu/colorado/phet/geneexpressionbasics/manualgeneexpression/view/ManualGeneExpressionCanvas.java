@@ -16,8 +16,8 @@ import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
@@ -529,8 +529,8 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
                modelRootNode.getScale() >= MAX_ZOOM - SCALE_COMPARISON_FACTOR;
     }
 
-    public ImmutableVector2D getViewportOffset() {
-        return new ImmutableVector2D( viewportOffset );
+    public Vector2D getViewportOffset() {
+        return new Vector2D( viewportOffset );
     }
 
     public ObservableProperty<Boolean> getZoomedInProperty() {

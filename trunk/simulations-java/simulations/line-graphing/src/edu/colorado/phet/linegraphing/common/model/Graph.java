@@ -1,7 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.linegraphing.common.model;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
 /**
@@ -26,7 +26,7 @@ public class Graph {
         return yRange.getLength();
     }
 
-    public boolean contains( ImmutableVector2D point ) {
+    public boolean contains( Vector2D point ) {
         return xRange.contains( point.getX() ) && yRange.contains( point.getY() );
     }
 }

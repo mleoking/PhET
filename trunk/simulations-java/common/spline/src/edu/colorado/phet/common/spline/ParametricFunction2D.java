@@ -5,9 +5,9 @@ import java.awt.geom.Line2D;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * User: Sam Reid
@@ -59,14 +59,14 @@ public abstract class ParametricFunction2D implements Serializable {
         return ( low.alpha + high.alpha ) / 2.0;
     }
 
-    public ImmutableVector2D getCurvatureDirection( double alpha ) {
+    public Vector2D getCurvatureDirection( double alpha ) {
         double epsilon = 0.001;
         SerializablePoint2D a0 = evaluate( alpha - epsilon / 2.0 );
         SerializablePoint2D a1 = evaluate( alpha + epsilon / 2.0 );
         SerializablePoint2D center = evaluate( alpha );
         SerializablePoint2D avg = new SerializablePoint2D( ( a0.getX() + a1.getX() ) / 2.0, ( a0.getY() + a1.getY() ) / 2.0 );
         MutableVector2D dir = new MutableVector2D( center, avg );
-        ImmutableVector2D vec = new ImmutableVector2D( getUnitNormalVector( alpha ) );
+        Vector2D vec = new Vector2D( getUnitNormalVector( alpha ) );
         if ( dir.dot( vec ) < 0 ) {
             vec = vec.getScaledInstance( -1.0 );
         }
@@ -229,7 +229,7 @@ public abstract class ParametricFunction2D implements Serializable {
         return guess - alpha0;
     }
 
-    public ImmutableVector2D getUnitParallelVector( double alpha ) {
+    public Vector2D getUnitParallelVector( double alpha ) {
 //        double epsilon = 1E-4;
         double epsilon = 1E-8;
 //        double epsilon = 1E-6;
@@ -244,7 +244,7 @@ public abstract class ParametricFunction2D implements Serializable {
         return vector.getNormalizedInstance();
     }
 
-    public ImmutableVector2D getUnitNormalVector( double alpha ) {
+    public Vector2D getUnitNormalVector( double alpha ) {
         return getUnitParallelVector( alpha ).getNormalVector();
     }
 

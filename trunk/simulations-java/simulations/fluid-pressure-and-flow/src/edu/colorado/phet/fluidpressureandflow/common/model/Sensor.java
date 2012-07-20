@@ -1,7 +1,7 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.common.model;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.Option;
@@ -15,13 +15,13 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public abstract class Sensor<T> {
 
-    public final Property<ImmutableVector2D> location;
+    public final Property<Vector2D> location;
     protected final Property<Option<T>> value;
     public final IUserComponent userComponent;
 
     public Sensor( double x, double y, Option<T> value, final IUserComponent userComponent ) {
         this.userComponent = userComponent;
-        location = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
+        location = new Property<Vector2D>( new Vector2D( x, y ) );
         this.value = new Property<Option<T>>( value );
     }
 

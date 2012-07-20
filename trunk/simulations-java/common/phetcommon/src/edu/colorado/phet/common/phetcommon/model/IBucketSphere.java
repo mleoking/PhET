@@ -1,7 +1,7 @@
-//  Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.common.phetcommon.model;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -17,19 +17,19 @@ public interface IBucketSphere<U extends IBucketSphere> {
     * current position
     *----------------------------------------------------------------------------*/
 
-    ImmutableVector2D getPosition();
+    Vector2D getPosition();
 
-    void setPosition( ImmutableVector2D position );
+    void setPosition( Vector2D position );
 
     /*---------------------------------------------------------------------------*
     * destination (where the IBucketSphere will end up)
     *----------------------------------------------------------------------------*/
 
-    ImmutableVector2D getDestination();
+    Vector2D getDestination();
 
-    void setDestination( ImmutableVector2D destination );
+    void setDestination( Vector2D destination );
 
-    void setPositionAndDestination( ImmutableVector2D position );
+    void setPositionAndDestination( Vector2D position );
 
     /*---------------------------------------------------------------------------*
     * position events. should fire if the IBucketSphere moves

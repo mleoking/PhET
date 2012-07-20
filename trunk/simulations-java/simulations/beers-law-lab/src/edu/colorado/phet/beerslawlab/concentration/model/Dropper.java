@@ -1,8 +1,8 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.beerslawlab.concentration.model;
 
 import edu.colorado.phet.beerslawlab.common.model.Movable;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -23,7 +23,7 @@ public class Dropper extends Movable {
     public final Property<Boolean> empty;
     public final CompositeProperty<Double> flowRate; // L/sec
 
-    public Dropper( ImmutableVector2D location, PBounds dragBounds, Property<Solute> solute, final double maxFlowRate ) {
+    public Dropper( Vector2D location, PBounds dragBounds, Property<Solute> solute, final double maxFlowRate ) {
         super( location, dragBounds );
         assert ( dragBounds.contains( location.toPoint2D() ) );
 

@@ -1,9 +1,9 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.ItemList;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.Chloride;
@@ -30,7 +30,7 @@ public class SodiumChlorideCrystalGrowth extends CrystalGrowth<SphericalParticle
         return new AllPairs( model.freeParticles, Sodium.class, Chloride.class );
     }
 
-    @Override protected SodiumChlorideCrystal newCrystal( ImmutableVector2D position ) {
+    @Override protected SodiumChlorideCrystal newCrystal( Vector2D position ) {
         return new SodiumChlorideCrystal( position, randomAngle() ) {{setUpdateStrategy( new CrystalStrategy( model, model.sodiumChlorideCrystals, model.sodiumChlorideSaturated ) );}};
     }
 

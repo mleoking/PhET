@@ -1,13 +1,18 @@
-//  Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.buildamolecule.model;
 
 import java.awt.geom.Point2D;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 import edu.colorado.phet.buildamolecule.model.LewisDotModel.Direction;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.chemistry.model.Element;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -186,7 +191,7 @@ public class Kit {
      * @param atom  Atom that was dragged
      * @param delta How far it was dragged (the delta)
      */
-    public void atomDragged( Atom2D atom, ImmutableVector2D delta ) {
+    public void atomDragged( Atom2D atom, Vector2D delta ) {
         // move our atom
         atom.translatePositionAndDestination( delta );
 
@@ -391,19 +396,19 @@ public class Kit {
 
                 // push it away from the outsides
                 if ( aBounds.getMinX() < getAvailablePlayAreaBounds().getMinX() ) {
-                    a.shiftDestination( new ImmutableVector2D( getAvailablePlayAreaBounds().getMinX() - aBounds.getMinX(), 0 ) );
+                    a.shiftDestination( new Vector2D( getAvailablePlayAreaBounds().getMinX() - aBounds.getMinX(), 0 ) );
                     aBounds = padMoleculeBounds( a.getDestinationBounds() );
                 }
                 if ( aBounds.getMaxX() > getAvailablePlayAreaBounds().getMaxX() ) {
-                    a.shiftDestination( new ImmutableVector2D( getAvailablePlayAreaBounds().getMaxX() - aBounds.getMaxX(), 0 ) );
+                    a.shiftDestination( new Vector2D( getAvailablePlayAreaBounds().getMaxX() - aBounds.getMaxX(), 0 ) );
                     aBounds = padMoleculeBounds( a.getDestinationBounds() );
                 }
                 if ( aBounds.getMinY() < getAvailablePlayAreaBounds().getMinY() ) {
-                    a.shiftDestination( new ImmutableVector2D( 0, getAvailablePlayAreaBounds().getMinY() - aBounds.getMinY() ) );
+                    a.shiftDestination( new Vector2D( 0, getAvailablePlayAreaBounds().getMinY() - aBounds.getMinY() ) );
                     aBounds = padMoleculeBounds( a.getDestinationBounds() );
                 }
                 if ( aBounds.getMaxY() > getAvailablePlayAreaBounds().getMaxY() ) {
-                    a.shiftDestination( new ImmutableVector2D( 0, getAvailablePlayAreaBounds().getMaxY() - aBounds.getMaxY() ) );
+                    a.shiftDestination( new Vector2D( 0, getAvailablePlayAreaBounds().getMaxY() - aBounds.getMaxY() ) );
                 }
 
                 // then separate it from other molecules
@@ -417,11 +422,11 @@ public class Kit {
                         foundOverlap = true;
 
                         // get perturbed centers. this is so that if two molecules have the exact same centers, we will push them away
-                        ImmutableVector2D aCenter = new ImmutableVector2D( aBounds.getCenter2D() ).getAddedInstance( Math.random() - 0.5, Math.random() - 0.5 );
-                        ImmutableVector2D bCenter = new ImmutableVector2D( bBounds.getCenter2D() ).getAddedInstance( Math.random() - 0.5, Math.random() - 0.5 );
+                        Vector2D aCenter = new Vector2D( aBounds.getCenter2D() ).getAddedInstance( Math.random() - 0.5, Math.random() - 0.5 );
+                        Vector2D bCenter = new Vector2D( bBounds.getCenter2D() ).getAddedInstance( Math.random() - 0.5, Math.random() - 0.5 );
 
                         // delta from center of A to center of B, scaled to half of our push amount.
-                        ImmutableVector2D delta = bCenter.getSubtractedInstance( aCenter ).getNormalizedInstance().getScaledInstance( pushAmount );
+                        Vector2D delta = bCenter.getSubtractedInstance( aCenter ).getNormalizedInstance().getScaledInstance( pushAmount );
 
                         // how hard B should be pushed (A will be pushed (1-pushRatio)). Heuristic, power is to make the ratio not too skewed
                         // this is done so that heavier molecules will be pushed less, while lighter ones will be pushed more
@@ -432,7 +437,7 @@ public class Kit {
                         b.shiftDestination( delta.getScaledInstance( pushRatio ) );
 
                         // push A the opposite way, by (1 - pushRatio)
-                        ImmutableVector2D delta1 = delta.getScaledInstance( -1 * ( 1 - pushRatio ) );
+                        Vector2D delta1 = delta.getScaledInstance( -1 * ( 1 - pushRatio ) );
                         a.shiftDestination( delta1 );
 
                         aBounds = padMoleculeBounds( a.getDestinationBounds() );
@@ -561,7 +566,7 @@ public class Kit {
         }
 
         // cause all atoms in the molecule to move to that location
-        ImmutableVector2D delta = bestLocation.getIdealLocation().getSubtractedInstance( bestLocation.b.getPosition() );
+        Vector2D delta = bestLocation.getIdealLocation().getSubtractedInstance( bestLocation.b.getPosition() );
         for ( Atom2D atomInMolecule : getMolecule( bestLocation.b ).getAtoms() ) {
             atomInMolecule.setDestination( atomInMolecule.getPosition().getAddedInstance( delta ) );
         }
@@ -592,7 +597,7 @@ public class Kit {
         /**
          * @return The location the atom should be placed
          */
-        public ImmutableVector2D getIdealLocation() {
+        public Vector2D getIdealLocation() {
             return a.getPosition().getAddedInstance( direction.getVector().getScaledInstance( a.getRadius() + b.getRadius() ) );
         }
     }

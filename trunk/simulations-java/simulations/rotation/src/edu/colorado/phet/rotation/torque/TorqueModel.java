@@ -10,8 +10,8 @@ import edu.colorado.phet.common.motion.model.IMotionBody;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.rotation.model.RotationModel;
 import edu.colorado.phet.rotation.model.RotationPlatform;
@@ -159,7 +159,7 @@ public class TorqueModel extends RotationModel {
 
     private Line2D.Double computeBrakeForce() {
         Point2D.Double src = new Point2D.Double( getRotationPlatform().getRadius() * Math.sqrt( 2 ) / 2, -getRotationPlatform().getRadius() * Math.sqrt( 2 ) / 2 );
-        ImmutableVector2D vec = getBrakeForceVector();
+        Vector2D vec = getBrakeForceVector();
         if ( vec == null ) {
             return new Line2D.Double( src, src );
         }
@@ -168,7 +168,7 @@ public class TorqueModel extends RotationModel {
         return new Line2D.Double( src, dst );
     }
 
-    private ImmutableVector2D getBrakeForceVector() {
+    private Vector2D getBrakeForceVector() {
         boolean clockwise = getRotationPlatform().getVelocity() > 0;
         if ( getRotationPlatform().getVelocity() == 0 ) {
             if ( Math.abs( appliedForceObject.getTorque() ) == 0 ) {

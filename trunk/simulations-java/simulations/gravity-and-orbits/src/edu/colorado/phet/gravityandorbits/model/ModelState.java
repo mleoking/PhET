@@ -1,10 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.gravityandorbits.model;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
 
@@ -36,10 +36,10 @@ public class ModelState {
         ArrayList<BodyState> newState = new ArrayList<BodyState>();
         for ( BodyState bodyState : bodyStates ) {
             //Velocity Verlet (see svn history for Euler)
-            ImmutableVector2D newPosition = bodyState.position.getAddedInstance( bodyState.velocity.getScaledInstance( dt ) ).getAddedInstance( bodyState.acceleration.getScaledInstance( dt * dt / 2 ) );
-            ImmutableVector2D newVelocityHalfStep = bodyState.velocity.getAddedInstance( bodyState.acceleration.getScaledInstance( dt / 2 ) );
-            ImmutableVector2D newAcceleration = getForce( bodyState, newPosition, gravityEnabledProperty ).getScaledInstance( -1.0 / bodyState.mass );
-            ImmutableVector2D newVelocity = newVelocityHalfStep.getAddedInstance( newAcceleration.getScaledInstance( dt / 2.0 ) );
+            Vector2D newPosition = bodyState.position.getAddedInstance( bodyState.velocity.getScaledInstance( dt ) ).getAddedInstance( bodyState.acceleration.getScaledInstance( dt * dt / 2 ) );
+            Vector2D newVelocityHalfStep = bodyState.velocity.getAddedInstance( bodyState.acceleration.getScaledInstance( dt / 2 ) );
+            Vector2D newAcceleration = getForce( bodyState, newPosition, gravityEnabledProperty ).getScaledInstance( -1.0 / bodyState.mass );
+            Vector2D newVelocity = newVelocityHalfStep.getAddedInstance( newAcceleration.getScaledInstance( dt / 2.0 ) );
             newState.add( new BodyState( newPosition, newVelocity, newAcceleration, bodyState.mass, bodyState.exploded ) );
         }
         return new ModelState( newState );
@@ -47,25 +47,25 @@ public class ModelState {
 
     //TODO: limit distance so forces don't become infinite
 
-    private ImmutableVector2D getForce( BodyState source, BodyState target, ImmutableVector2D newTargetPosition ) {
+    private Vector2D getForce( BodyState source, BodyState target, Vector2D newTargetPosition ) {
         if ( source.position.equals( newTargetPosition ) ) {//If they are on top of each other, force should be infinite, but ignore it since we want to have semi-realistic behavior
-            return new ImmutableVector2D();
+            return new Vector2D();
         }
         else if ( source.exploded ) { //ignore in the computation if that body has exploded
-            return new ImmutableVector2D();
+            return new Vector2D();
         }
         else {
             return getUnitVector( source, newTargetPosition ).getScaledInstance( GravityAndOrbitsModule.G * source.mass * target.mass / source.distanceSquared( newTargetPosition ) );
         }
     }
 
-    private ImmutableVector2D getUnitVector( BodyState source, ImmutableVector2D newPosition ) {
+    private Vector2D getUnitVector( BodyState source, Vector2D newPosition ) {
         return newPosition.getSubtractedInstance( source.position ).getNormalizedInstance();
     }
 
     //Get the force on body at its proposed new position, unconventional but necessary for velocity verlet.
-    private ImmutableVector2D getForce( BodyState target, ImmutableVector2D newTargetPosition, Property<Boolean> gravityEnabledProperty ) {
-        ImmutableVector2D sum = new ImmutableVector2D(); //zero vector, for no gravity
+    private Vector2D getForce( BodyState target, Vector2D newTargetPosition, Property<Boolean> gravityEnabledProperty ) {
+        Vector2D sum = new Vector2D(); //zero vector, for no gravity
         if ( gravityEnabledProperty.get() ) {
             for ( BodyState source : bodyStates ) {
                 if ( source != target ) {

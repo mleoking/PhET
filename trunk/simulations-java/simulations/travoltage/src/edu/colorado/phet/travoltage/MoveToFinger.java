@@ -8,7 +8,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * User: Sam Reid
@@ -64,11 +64,11 @@ public class MoveToFinger extends MoveElectronsJade {
                  "160, 155, 231, 155\n" +
                  "231, 155, 295, 133";
 
-    protected ImmutableVector2D getForce( JadeElectron node ) {
+    protected Vector2D getForce( JadeElectron node ) {
         Line2D.Double closest = getClosestSegment( node.getPosition().getX(), node.getPosition().getY() );
-        ImmutableVector2D vec = new ImmutableVector2D( node.getPosition(), closest.getP2() );
+        Vector2D vec = new Vector2D( node.getPosition(), closest.getP2() );
         double k = 30;
-        ImmutableVector2D v = vec.getInstanceOfMagnitude( k / Math.pow( vec.getMagnitude(), 1 ) );
+        Vector2D v = vec.getInstanceOfMagnitude( k / Math.pow( vec.getMagnitude(), 1 ) );
         double max = 10;
         if ( v.getMagnitude() > max ) {
             v = v.getInstanceOfMagnitude( max );

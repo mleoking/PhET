@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.common.phetcommon.math;
 
 import java.awt.Shape;
@@ -34,8 +34,8 @@ public class ImmutableRectangle2D {
         this( shape.getBounds2D().getX(), shape.getBounds2D().getY(), shape.getBounds2D().getWidth(), shape.getBounds2D().getHeight() );
     }
 
-    public ImmutableVector2D getCenter() {
-        return new ImmutableVector2D( x + width / 2, y + height / 2 );
+    public Vector2D getCenter() {
+        return new Vector2D( x + width / 2, y + height / 2 );
     }
 
     /**
@@ -54,7 +54,7 @@ public class ImmutableRectangle2D {
      * @param position the position to check
      * @return true if this rectangle contains the specified position
      */
-    public boolean contains( ImmutableVector2D position ) {
+    public boolean contains( Vector2D position ) {
         return contains( position.toPoint2D() );
     }
 

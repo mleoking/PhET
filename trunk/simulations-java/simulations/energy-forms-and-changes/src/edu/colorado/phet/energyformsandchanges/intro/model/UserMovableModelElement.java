@@ -1,7 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
@@ -19,7 +19,7 @@ public abstract class UserMovableModelElement extends ModelElement {
     public final BooleanProperty userControlled = new BooleanProperty( false );
 
     // Position of the center of the bottom of the block.
-    public final Property<ImmutableVector2D> position;
+    public final Property<Vector2D> position;
 
     // Velocity in the up/down direction.
     public final Property<Double> verticalVelocity = new Property<Double>( 0.0 );
@@ -28,7 +28,7 @@ public abstract class UserMovableModelElement extends ModelElement {
     // supporting it moves.
     private final VoidFunction1<HorizontalSurface> surfaceMotionObserver = new VoidFunction1<HorizontalSurface>() {
         public void apply( final HorizontalSurface horizontalSurface ) {
-            final ImmutableVector2D value = new ImmutableVector2D( horizontalSurface.getCenterX(), horizontalSurface.yPos );
+            final Vector2D value = new Vector2D( horizontalSurface.getCenterX(), horizontalSurface.yPos );
             position.set( value );
         }
     };
@@ -36,8 +36,8 @@ public abstract class UserMovableModelElement extends ModelElement {
     /**
      * Constructor.
      */
-    public UserMovableModelElement( ImmutableVector2D initialPosition ) {
-        position = new Property<ImmutableVector2D>( initialPosition );
+    public UserMovableModelElement( Vector2D initialPosition ) {
+        position = new Property<Vector2D>( initialPosition );
         userControlled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean userControlled ) {
                 if ( userControlled ) {
@@ -92,13 +92,13 @@ public abstract class UserMovableModelElement extends ModelElement {
      *
      * @param modelDelta Vector that describes the desired motion.
      */
-    public void translate( ImmutableVector2D modelDelta ) {
+    public void translate( Vector2D modelDelta ) {
         position.set( position.get().getAddedInstance( modelDelta ) );
     }
 
     public abstract Property<HorizontalSurface> getBottomSurfaceProperty();
 
     public void setX( final double x ) {
-        position.set( new ImmutableVector2D( x, position.get().getY() ) );
+        position.set( new Vector2D( x, position.get().getY() ) );
     }
 }

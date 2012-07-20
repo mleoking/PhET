@@ -20,7 +20,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * ModelViewTransform2D
@@ -212,7 +212,7 @@ public class ModelViewTransform2D {
         return modelToViewDouble( new Point2D.Double( x, y ) );
     }
 
-    public Point2D modelToViewDouble( ImmutableVector2D v ) {
+    public Point2D modelToViewDouble( Vector2D v ) {
         return modelToViewDouble( v.toPoint2D() );
     }
 

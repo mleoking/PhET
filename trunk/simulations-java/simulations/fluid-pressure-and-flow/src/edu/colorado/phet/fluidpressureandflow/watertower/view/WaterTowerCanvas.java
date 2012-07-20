@@ -1,11 +1,11 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.watertower.view;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Not;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -49,7 +49,7 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel
     public static final int FLOATING_BUTTON_FONT_SIZE = (int) ( FluidPressureCanvas.CONTROL_FONT.getSize() * 1.3 );
 
     public WaterTowerCanvas( final WaterTowerModule module ) {
-        super( createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.225, STAGE_SIZE.height * 0.75 ), SCALE ), new ImmutableVector2D( 20, 20 ) );
+        super( createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.225, STAGE_SIZE.height * 0.75 ), SCALE ), new Vector2D( 20, 20 ) );
 
         addChild( new SkyNode( transform, new Rectangle2D.Double( -1000, 0, 2000, 2000 ), 20 ) );
 
@@ -69,8 +69,8 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel
 
         //Add a button that will fill the tank
         addChild( new FillTankButton( module.model.waterTower.full, module.model.waterTower.fill, module.model.waterTower.panelOffset ) {{
-            module.model.waterTower.tankBottomCenter.addObserver( new VoidFunction1<ImmutableVector2D>() {
-                public void apply( ImmutableVector2D bottomCenter ) {
+            module.model.waterTower.tankBottomCenter.addObserver( new VoidFunction1<Vector2D>() {
+                public void apply( Vector2D bottomCenter ) {
 
                     //Show the button to the left center of the tank, and move when the tank moves
                     final Point2D leftCenterOfWaterTower = transform.modelToView( module.model.waterTower.getTankShape().getX(),

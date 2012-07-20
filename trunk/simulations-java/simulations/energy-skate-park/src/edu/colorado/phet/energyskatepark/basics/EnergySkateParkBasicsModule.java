@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyskatepark.basics;
 
 import java.awt.Color;
@@ -6,7 +6,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
@@ -55,9 +55,9 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     public final Property<Double> frictionAmount = new Property<Double>( 0.0 );
 
     //Shift the tracks so they have a good location with respect to origin and control panels
-    public static final ImmutableVector2D PARABOLA_OFFSET = new ImmutableVector2D( -0.5, 0 );
-    public static final ImmutableVector2D DOUBLE_WELL_OFFSET = new ImmutableVector2D( 6.0 - 5.88033509545687 - 1.0, 0.02 );
-    public static final ImmutableVector2D RAMP_TO_FLOOR_OFFSET = ImmutableVector2D.ZERO;
+    public static final Vector2D PARABOLA_OFFSET = new Vector2D( -0.5, 0 );
+    public static final Vector2D DOUBLE_WELL_OFFSET = new Vector2D( 6.0 - 5.88033509545687 - 1.0, 0.02 );
+    public static final Vector2D RAMP_TO_FLOOR_OFFSET = Vector2D.ZERO;
 
     //Developer flag to help create good initial conditions for the skater.
     private static final boolean SAMPLE_POSITIONS_FOR_INITIAL_CONDITIONS = false;
@@ -118,7 +118,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     }
 
     //Load the specified track and set its roller coaster mode, used when the user presses different track selection buttons
-    public void loadTrack( String trackName, ImmutableVector2D offset ) {
+    public void loadTrack( String trackName, Vector2D offset ) {
         EnergySkateParkIO.open( "energy-skate-park/tracks/basics/" + trackName + ".esp", this );
         currentTrackFileName.set( trackName );
         getEnergySkateParkModel().setRollerCoasterMode( stickToTrack.get() );
@@ -159,7 +159,7 @@ public class EnergySkateParkBasicsModule extends AbstractEnergySkateParkModule {
     }
 
     //Move splines so they sit on the ground with y=0 and move by the specified x amount
-    private void adjustSplines( ImmutableVector2D offset ) {
+    private void adjustSplines( Vector2D offset ) {
         for ( int i = 0; i < getEnergySkateParkModel().getNumSplines(); i++ ) {
             EnergySkateParkSpline spline = getEnergySkateParkModel().getSpline( i );
             spline.translate( offset.getX(), -spline.getMinControlPointY() + offset.getY() );

@@ -4,8 +4,8 @@ package edu.colorado.phet.conductivity.common;
 
 import java.awt.geom.GeneralPath;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 public class DoubleGeneralPath {
 
@@ -32,7 +32,7 @@ public class DoubleGeneralPath {
 
     GeneralPath path;
 
-    public void lineTo( ImmutableVector2D phetvector2 ) {
+    public void lineTo( Vector2D phetvector2 ) {
         lineTo( phetvector2.getX(), phetvector2.getY() );
     }
 }

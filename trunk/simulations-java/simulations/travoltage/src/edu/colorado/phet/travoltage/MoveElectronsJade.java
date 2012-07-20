@@ -13,8 +13,8 @@ import org.cove.jade.DynamicsEngine;
 import org.cove.jade.surfaces.LineSurface;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
@@ -111,7 +111,7 @@ public class MoveElectronsJade implements ModelElement {
         if ( vec.getMagnitude() <= 1 ) {
             return new MutableVector2D();
         }
-        ImmutableVector2D v = vec.getInstanceOfMagnitude( -k / Math.pow( vec.getMagnitude(), 1.5 ) );
+        Vector2D v = vec.getInstanceOfMagnitude( -k / Math.pow( vec.getMagnitude(), 1.5 ) );
         double max = 0.05;
         if ( v.getMagnitude() > max ) {
             v = v.getInstanceOfMagnitude( max );

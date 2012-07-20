@@ -4,8 +4,8 @@ package edu.colorado.phet.conductivity.common;
 
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 
@@ -27,9 +27,9 @@ public class Particle extends SimpleObservable
     }
 
     public void stepInTime( double d ) {
-        ImmutableVector2D phetvector = acceleration.getScaledInstance( d );
+        Vector2D phetvector = acceleration.getScaledInstance( d );
         velocity = velocity.getAddedInstance( phetvector );
-        ImmutableVector2D phetvector1 = velocity.getScaledInstance( d );
+        Vector2D phetvector1 = velocity.getScaledInstance( d );
         position = position.getAddedInstance( phetvector1 );
         notifyObservers();
     }

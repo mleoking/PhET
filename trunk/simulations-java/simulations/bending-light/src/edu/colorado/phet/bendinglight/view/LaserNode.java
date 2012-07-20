@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.view;
 
 import java.awt.Color;
@@ -11,8 +11,8 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.bendinglight.BendingLightApplication;
 import edu.colorado.phet.bendinglight.model.Laser;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.ModelBounds;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.And;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Not;
@@ -150,8 +150,8 @@ public class LaserNode extends PNode {
         //Add the drag region for rotating the laser
         addChild( new DragRegion( rotationRegion.apply( fullRectangle, backRectangle ), rotationRegionColor, new VoidFunction1<DragEvent>() {
             public void apply( DragEvent event ) {
-                ImmutableVector2D modelPoint = new ImmutableVector2D( transform.viewToModel( event.event.getPositionRelativeTo( getParent().getParent() ) ) );
-                ImmutableVector2D vector = modelPoint.minus( laser.pivot.get() );
+                Vector2D modelPoint = new Vector2D( transform.viewToModel( event.event.getPositionRelativeTo( getParent().getParent() ) ) );
+                Vector2D vector = modelPoint.minus( laser.pivot.get() );
                 final double angle = vector.getAngle();
                 double after = clampDragAngle.apply( angle );
                 laser.setAngle( after );
@@ -170,7 +170,7 @@ public class LaserNode extends PNode {
         new RichSimpleObserver() {
             public void update() {
                 Point2D emissionPoint = transform.modelToView( laser.emissionPoint.get() ).toPoint2D();
-                final double angle = transform.modelToView( ImmutableVector2D.createPolar( 1, laser.getAngle() ) ).getAngle();
+                final double angle = transform.modelToView( Vector2D.createPolar( 1, laser.getAngle() ) ).getAngle();
 
                 final AffineTransform t = new AffineTransform();
                 t.translate( emissionPoint.getX(), emissionPoint.getY() );

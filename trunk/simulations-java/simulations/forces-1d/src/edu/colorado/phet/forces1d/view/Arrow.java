@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -13,8 +13,7 @@ package edu.colorado.phet.forces1d.view;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * This version of Arrow is incompatible with the Arrow in phetcommon trunk HEAD, since it has
@@ -34,8 +33,8 @@ public class Arrow {
     private double headHeight;
     private double headWidth;
     private double tailWidth;
-    private ImmutableVector2D direction;
-    private ImmutableVector2D norm;
+    private Vector2D direction;
+    private Vector2D norm;
     boolean isHeadDynamic = false;
     private double fractionalHeadHeight;
     private boolean scaleTailToo;
@@ -89,8 +88,8 @@ public class Arrow {
             return;
         }
 
-        ImmutableVector2D tailPt = new ImmutableVector2D( tailLocation );
-        ImmutableVector2D tipPt = new ImmutableVector2D( tipLocation );
+        Vector2D tailPt = new Vector2D( tailLocation );
+        Vector2D tipPt = new Vector2D( tipLocation );
         direction = tipPt.getSubtractedInstance( tailPt ).getNormalizedInstance();
         double dist = tipLocation.distance( tailLocation );
         double tempHeadHeight = headHeight;
@@ -108,12 +107,12 @@ public class Arrow {
         }
         norm = direction.getNormalVector();
 
-        ImmutableVector2D rightFlap = getPoint( -1 * tempHeadHeight, -tempHeadWidth / 2 );
-        ImmutableVector2D leftFlap = getPoint( -1 * tempHeadHeight, tempHeadWidth / 2 );
-        ImmutableVector2D rightPin = getPoint( -1 * tempHeadHeight, -tempTailWidth / 2 );
-        ImmutableVector2D leftPin = getPoint( -1 * tempHeadHeight, tempTailWidth / 2 );
-        ImmutableVector2D rightTail = getPoint( -1 * dist, -tempTailWidth / 2 );
-        ImmutableVector2D leftTail = getPoint( -1 * dist, tempTailWidth / 2 );
+        Vector2D rightFlap = getPoint( -1 * tempHeadHeight, -tempHeadWidth / 2 );
+        Vector2D leftFlap = getPoint( -1 * tempHeadHeight, tempHeadWidth / 2 );
+        Vector2D rightPin = getPoint( -1 * tempHeadHeight, -tempTailWidth / 2 );
+        Vector2D leftPin = getPoint( -1 * tempHeadHeight, tempTailWidth / 2 );
+        Vector2D rightTail = getPoint( -1 * dist, -tempTailWidth / 2 );
+        Vector2D leftTail = getPoint( -1 * dist, tempTailWidth / 2 );
 
         this.arrowPath.reset();
         arrowPath.moveTo( (float) tipPt.getX(), (float) tipPt.getY() );
@@ -139,15 +138,15 @@ public class Arrow {
         lineTo( tailShape, rightPin );
     }
 
-    private void lineTo( GeneralPath path, ImmutableVector2D loc ) {
+    private void lineTo( GeneralPath path, Vector2D loc ) {
         path.lineTo( (float) loc.getX(), (float) loc.getY() );
     }
 
     //parallel and normal are from the tip
-    private ImmutableVector2D getPoint( double parallel, double normal ) {
-        ImmutableVector2D dv = direction.getScaledInstance( parallel ).
+    private Vector2D getPoint( double parallel, double normal ) {
+        Vector2D dv = direction.getScaledInstance( parallel ).
                 getAddedInstance( norm.getScaledInstance( normal ) );
-        ImmutableVector2D abs = new ImmutableVector2D( dv.getX() + tipLocation.getX(), dv.getY() + tipLocation.getY() );
+        Vector2D abs = new Vector2D( dv.getX() + tipLocation.getX(), dv.getY() + tipLocation.getY() );
         return abs;
     }
 

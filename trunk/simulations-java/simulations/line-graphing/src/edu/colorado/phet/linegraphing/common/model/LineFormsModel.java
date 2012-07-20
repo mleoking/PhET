@@ -3,7 +3,7 @@ package edu.colorado.phet.linegraphing.common.model;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
@@ -27,8 +27,9 @@ public class LineFormsModel implements Resettable {
 
     /**
      * Constructor.
-     * @param xRange range of the x axis
-     * @param yRange range of the y axis
+     *
+     * @param xRange          range of the x axis
+     * @param yRange          range of the y axis
      * @param interactiveLine line that the user can manipulate
      */
     public LineFormsModel( IntegerRange xRange, IntegerRange yRange, WellDefinedLineProperty interactiveLine ) {
@@ -42,8 +43,8 @@ public class LineFormsModel implements Resettable {
 
         this.graph = new Graph( xRange, yRange );
 
-        this.pointTool1 = new PointTool( new ImmutableVector2D( xRange.getMin() + ( 0.75 * xRange.getLength() ), yRange.getMin() - 3 ), interactiveLine, savedLines, standardLines );
-        this.pointTool2 = new PointTool( new ImmutableVector2D( xRange.getMin() + ( 0.25 * xRange.getLength() ), pointTool1.location.get().getY() ), interactiveLine, savedLines, standardLines );
+        this.pointTool1 = new PointTool( new Vector2D( xRange.getMin() + ( 0.75 * xRange.getLength() ), yRange.getMin() - 3 ), interactiveLine, savedLines, standardLines );
+        this.pointTool2 = new PointTool( new Vector2D( xRange.getMin() + ( 0.25 * xRange.getLength() ), pointTool1.location.get().getY() ), interactiveLine, savedLines, standardLines );
     }
 
     public void reset() {

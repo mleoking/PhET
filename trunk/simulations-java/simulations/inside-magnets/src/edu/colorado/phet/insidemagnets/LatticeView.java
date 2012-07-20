@@ -1,10 +1,11 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.insidemagnets;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Point;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
@@ -21,7 +22,7 @@ public class LatticeView extends PNode {
                 Lattice<Cell> lattice = model.getLattice();
                 for ( Point location : lattice.getLocations() ) {
                     Point viewLocation = modelViewTransform2D.modelToView( location );
-                    final ImmutableVector2D displayValue = lattice.getValue( location ).getSpinVector().getScaledInstance( 30 );
+                    final Vector2D displayValue = lattice.getValue( location ).getSpinVector().getScaledInstance( 30 );
 
                     final ArrowNode arrowNode = new ArrowNode( new Point2D.Double(), displayValue.toPoint2D(), 10, 10, 4, 0.5, true );
                     arrowNode.setPaint( Color.white );

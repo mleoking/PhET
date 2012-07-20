@@ -1,7 +1,7 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.moleculepolarity.common.model;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
@@ -12,16 +12,16 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public abstract class Molecule2D {
 
-    public final ImmutableVector2D location; // the point about which the molecule rotates, in world coordinates
+    public final Vector2D location; // the point about which the molecule rotates, in world coordinates
     public final Property<Double> angle; // angle of rotation of the entire molecule about the location, in radians
-    public final Property<ImmutableVector2D> dipole; // the molecular dipole
+    public final Property<Vector2D> dipole; // the molecular dipole
 
     private boolean dragging; // true when the user is dragging the molecule
 
-    protected Molecule2D( ImmutableVector2D location, double angle ) {
+    protected Molecule2D( Vector2D location, double angle ) {
         this.location = location;
         this.angle = new Property<Double>( angle );
-        this.dipole = new Property<ImmutableVector2D>( new ImmutableVector2D() );
+        this.dipole = new Property<Vector2D>( new Vector2D() );
         this.dragging = false;
     }
 
@@ -56,7 +56,7 @@ public abstract class Molecule2D {
 
     // molecular dipole is the vector sum of the bond dipoles
     protected void updateMolecularDipole() {
-        ImmutableVector2D sum = new ImmutableVector2D();
+        Vector2D sum = new Vector2D();
         for ( Bond bond : getBonds() ) {
             sum = sum.plus( bond.dipole.get() );
         }

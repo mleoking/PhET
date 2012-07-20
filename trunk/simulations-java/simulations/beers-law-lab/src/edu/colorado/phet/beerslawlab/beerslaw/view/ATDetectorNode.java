@@ -21,7 +21,7 @@ import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
 import edu.colorado.phet.beerslawlab.common.view.DebugOriginNode;
 import edu.colorado.phet.beerslawlab.common.view.MovableDragHandler;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
@@ -107,8 +107,8 @@ class ATDetectorNode extends PhetPNode {
             valueNode.setOffset( VALUE_X_MARGIN, VALUE_Y_OFFSET );
 
             // body location
-            detector.body.location.addObserver( new VoidFunction1<ImmutableVector2D>() {
-                public void apply( ImmutableVector2D location ) {
+            detector.body.location.addObserver( new VoidFunction1<Vector2D>() {
+                public void apply( Vector2D location ) {
                     setOffset( mvt.modelToView( location.toPoint2D() ) );
                 }
             } );
@@ -169,8 +169,8 @@ class ATDetectorNode extends PhetPNode {
             }
 
             // probe location
-            detector.probe.location.addObserver( new VoidFunction1<ImmutableVector2D>() {
-                public void apply( ImmutableVector2D location ) {
+            detector.probe.location.addObserver( new VoidFunction1<Vector2D>() {
+                public void apply( Vector2D location ) {
                     setOffset( mvt.modelToView( location.toPoint2D() ) );
                 }
             } );

@@ -1,9 +1,9 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Constituent;
@@ -73,7 +73,7 @@ public class CrystalDissolve<T extends Particle> {
         //If the particle is above the water when dissolved off the crystal, then make sure it starts moving downward, otherwise it will "jump" into the air above the beaker
         boolean particleAboveWater = constituent.particle.getShape().getBounds2D().getMaxY() > model.solution.shape.get().getBounds2D().getMaxY();
         double velocityAngle = particleAboveWater ? 0 : random() * PI * 2;
-        ImmutableVector2D velocity = new ImmutableVector2D( 0, -1 ).times( FREE_PARTICLE_SPEED ).getRotatedInstance( velocityAngle );
+        Vector2D velocity = new Vector2D( 0, -1 ).times( FREE_PARTICLE_SPEED ).getRotatedInstance( velocityAngle );
         constituent.particle.velocity.set( velocity );
 
         //Remove the constituent from the crystal and instead make it move under a random walk

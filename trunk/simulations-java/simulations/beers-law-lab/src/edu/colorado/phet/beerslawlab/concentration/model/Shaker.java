@@ -1,8 +1,8 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.beerslawlab.concentration.model;
 
 import edu.colorado.phet.beerslawlab.common.model.Movable;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -21,9 +21,9 @@ public class Shaker extends Movable {
     public final Property<Boolean> empty;
     private final double maxDispensingRate; // mol/sec
     private final Property<Double> dispensingRate; // mol/sec
-    private ImmutableVector2D previousLocation;
+    private Vector2D previousLocation;
 
-    public Shaker( ImmutableVector2D location, double orientation, PBounds dragBounds, Property<Solute> solute, double maxDispensingRate ) {
+    public Shaker( Vector2D location, double orientation, PBounds dragBounds, Property<Solute> solute, double maxDispensingRate ) {
         super( location, dragBounds );
         assert ( dragBounds.contains( location.toPoint2D() ) );
 
@@ -67,12 +67,12 @@ public class Shaker extends Movable {
                 this.dispensingRate.set( maxDispensingRate ); // this seems to work fine
             }
         }
-        previousLocation = new ImmutableVector2D( getX(), getY() );
+        previousLocation = new Vector2D( getX(), getY() );
     }
 
     @Override public void reset() {
         super.reset();
         dispensingRate.reset();
-        previousLocation = new ImmutableVector2D( getX(), getY() ); // to prevent shaker from dispensing solute when its location is reset
+        previousLocation = new Vector2D( getX(), getY() ); // to prevent shaker from dispensing solute when its location is reset
     }
 }

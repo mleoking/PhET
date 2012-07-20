@@ -1,20 +1,26 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.platetectonics.modules;
 
-import java.awt.*;
+import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
@@ -293,7 +299,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                                 // scaleX and scaleY should be identical in this case
                                 float s = (float) getCanvasTransform().transform.get().getScaleX();
                                 draggedCrustPiece.position.set( draggedCrustPiece.position.get().plus(
-                                        new ImmutableVector2D( Mouse.getEventDX() / s, -Mouse.getEventDY() / s ) ) );
+                                        new Vector2D( Mouse.getEventDX() / s, -Mouse.getEventDY() / s ) ) );
                                 movedCrustPiece( draggedCrustPiece );
                             }
                             else {
@@ -355,7 +361,7 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
             // layout the panel if its size changes (and on startup)
             canvasSize.addObserver( new SimpleObserver() {
                 public void update() {
-                    position.set( new ImmutableVector2D(
+                    position.set( new Vector2D(
                             10, // left side
                             getStageSize().height - getComponentHeight() - 10 ) ); // offset from bottom
                 }
@@ -672,10 +678,10 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                                       2 * screenCoordinates.z - 1 );
     }
 
-    private FloatBuffer specular = LWJGLUtils.floatBuffer( new float[]{0, 0, 0, 0} );
-    private FloatBuffer shininess = LWJGLUtils.floatBuffer( new float[]{50} );
-    private FloatBuffer sunDirection = LWJGLUtils.floatBuffer( new float[]{1, 3, 2, 0} );
-    private FloatBuffer moonDirection = LWJGLUtils.floatBuffer( new float[]{-2, 1, -1, 0} );
+    private FloatBuffer specular = LWJGLUtils.floatBuffer( new float[] { 0, 0, 0, 0 } );
+    private FloatBuffer shininess = LWJGLUtils.floatBuffer( new float[] { 50 } );
+    private FloatBuffer sunDirection = LWJGLUtils.floatBuffer( new float[] { 1, 3, 2, 0 } );
+    private FloatBuffer moonDirection = LWJGLUtils.floatBuffer( new float[] { -2, 1, -1, 0 } );
 
     public void loadLighting() {
         glMaterial( GL_FRONT, GL_SPECULAR, specular );
@@ -705,9 +711,9 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
             }} );
         }};
         return new OrthoComponentNode( fpsPanel, this, canvasTransform,
-                                       new Property<ImmutableVector2D>(
-                                               new ImmutableVector2D( stageSize.getWidth() - fpsPanel.getPreferredSize().getWidth() - 200,
-                                                                      10 ) ), mouseEventNotifier ) {{
+                                       new Property<Vector2D>(
+                                               new Vector2D( stageSize.getWidth() - fpsPanel.getPreferredSize().getWidth() - 200,
+                                                             10 ) ), mouseEventNotifier ) {{
             PlateTectonicsApplication.showFPSMeter.addObserver( new SimpleObserver() {
                 public void update() {
                     setVisible( PlateTectonicsApplication.showFPSMeter.get() );

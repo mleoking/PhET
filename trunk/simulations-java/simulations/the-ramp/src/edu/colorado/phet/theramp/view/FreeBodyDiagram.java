@@ -17,8 +17,8 @@ import java.awt.geom.Point2D;
 import javax.swing.JComponent;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -148,7 +148,7 @@ public class FreeBodyDiagram extends PNode {
         MutableVector2D ff = new MutableVector2D( model.getFrictionForce().getScaledInstance( scale ) );
         frictionForce.setVector( ff );
 
-        ImmutableVector2D net = new ImmutableVector2D( model.getTotalForce().getScaledInstance( scale ) );
+        Vector2D net = new Vector2D( model.getTotalForce().getScaledInstance( scale ) );
         netForce.setVector( net );
 
         MutableVector2D wf = new MutableVector2D( model.getWallForce().getScaledInstance( scale ) );

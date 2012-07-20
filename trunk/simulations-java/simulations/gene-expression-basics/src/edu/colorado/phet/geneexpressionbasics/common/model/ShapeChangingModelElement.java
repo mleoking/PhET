@@ -5,7 +5,7 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
@@ -36,7 +36,7 @@ public abstract class ShapeChangingModelElement {
         shapeProperty.removeObserver( shapeChangeObserver );
     }
 
-    public void translate( ImmutableVector2D translationVector ) {
+    public void translate( Vector2D translationVector ) {
         AffineTransform translationTransform = AffineTransform.getTranslateInstance( translationVector.getX(), translationVector.getY() );
         shapeProperty.set( translationTransform.createTransformedShape( shapeProperty.get() ) );
     }
@@ -50,8 +50,8 @@ public abstract class ShapeChangingModelElement {
             // This default implementation assumes that the position indicator
             // is defined by the center of the shape's bounds.  Override if
             // some other behavior is required.
-            translate( new ImmutableVector2D( x - shapeProperty.get().getBounds2D().getCenterX(),
-                                              y - shapeProperty.get().getBounds2D().getCenterY() ) );
+            translate( new Vector2D( x - shapeProperty.get().getBounds2D().getCenterX(),
+                                     y - shapeProperty.get().getBounds2D().getCenterY() ) );
         }
     }
 

@@ -6,9 +6,9 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.geneexpressionbasics.common.model.DnaMolecule;
 
@@ -62,25 +62,25 @@ public abstract class MotionStrategy {
      * such vector can be found, a vector to the center of the motion bounds is
      * returned.
      */
-    protected ImmutableVector2D getMotionVectorForBounce( Shape shape, ImmutableVector2D originalMotionVector, double dt, double maxVelocity ) {
+    protected Vector2D getMotionVectorForBounce( Shape shape, Vector2D originalMotionVector, double dt, double maxVelocity ) {
         // Check that this isn't being called inappropriately.
         AffineTransform currentMotionTransform = getMotionTransform( originalMotionVector, dt );
         assert ( !motionBounds.inBounds( currentMotionTransform.createTransformedShape( shape ) ) );
 
         // Try reversing X direction.
-        ImmutableVector2D reversedXMotionVector = new ImmutableVector2D( -originalMotionVector.getX(), originalMotionVector.getY() );
+        Vector2D reversedXMotionVector = new Vector2D( -originalMotionVector.getX(), originalMotionVector.getY() );
         AffineTransform reverseXMotionTransform = getMotionTransform( reversedXMotionVector, dt );
         if ( motionBounds.inBounds( reverseXMotionTransform.createTransformedShape( shape ) ) ) {
             return reversedXMotionVector;
         }
         // Try reversing Y direction.
-        ImmutableVector2D reversedYMotionVector = new ImmutableVector2D( originalMotionVector.getX(), -originalMotionVector.getY() );
+        Vector2D reversedYMotionVector = new Vector2D( originalMotionVector.getX(), -originalMotionVector.getY() );
         AffineTransform reverseYMotionTransform = getMotionTransform( reversedYMotionVector, dt );
         if ( motionBounds.inBounds( reverseYMotionTransform.createTransformedShape( shape ) ) ) {
             return reversedYMotionVector;
         }
         // Try reversing both X and Y directions.
-        ImmutableVector2D reversedXYMotionVector = new ImmutableVector2D( -originalMotionVector.getX(), -originalMotionVector.getY() );
+        Vector2D reversedXYMotionVector = new Vector2D( -originalMotionVector.getX(), -originalMotionVector.getY() );
         AffineTransform reverseXYMotionTransform = getMotionTransform( reversedXYMotionVector, dt );
         if ( motionBounds.inBounds( reverseXYMotionTransform.createTransformedShape( shape ) ) ) {
             return reversedXYMotionVector;
@@ -96,7 +96,7 @@ public abstract class MotionStrategy {
         MutableVector2D vectorToMotionBoundsCenter = new MutableVector2D( centerOfMotionBounds.getX() - shape.getBounds2D().getCenterX(),
                                                                           centerOfMotionBounds.getY() - shape.getBounds2D().getCenterY() );
         vectorToMotionBoundsCenter.scale( maxVelocity / vectorToMotionBoundsCenter.getMagnitude() );
-        return new ImmutableVector2D( vectorToMotionBoundsCenter );
+        return new Vector2D( vectorToMotionBoundsCenter );
     }
 
     private AffineTransform getMotionTransform( AbstractVector2D motionVector, double dt ) {

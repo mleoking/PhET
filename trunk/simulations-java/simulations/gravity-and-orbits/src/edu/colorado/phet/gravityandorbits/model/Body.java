@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.gravityandorbits.model;
 
@@ -9,7 +9,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -26,10 +26,10 @@ import edu.colorado.phet.gravityandorbits.view.MultiwayOr;
  * @author Sam Reid
  */
 public class Body implements IBodyColors {
-    private final RewindableProperty<ImmutableVector2D> positionProperty;
-    private final RewindableProperty<ImmutableVector2D> velocityProperty;
-    private final Property<ImmutableVector2D> accelerationProperty;
-    private final Property<ImmutableVector2D> forceProperty;
+    private final RewindableProperty<Vector2D> positionProperty;
+    private final RewindableProperty<Vector2D> velocityProperty;
+    private final Property<Vector2D> accelerationProperty;
+    private final Property<Vector2D> forceProperty;
     private final RewindableProperty<Double> massProperty;
     private final Property<Double> diameterProperty;
     private final String name;
@@ -39,7 +39,7 @@ public class Body implements IBodyColors {
     private boolean userControlled;//True if the user is currently controlling the position of the body with the mouse
 
     private final ArrayList<PathListener> pathListeners = new ArrayList<PathListener>();
-    private final ArrayList<ImmutableVector2D> path = new ArrayList<ImmutableVector2D>();
+    private final ArrayList<Vector2D> path = new ArrayList<Vector2D>();
     private final int maxPathLength; //Number of samples in the path before it starts erasing (fading out from the back)
 
     private final boolean massSettable;
@@ -75,10 +75,10 @@ public class Body implements IBodyColors {
         this.highlight = highlight;
         this.renderer = renderer;
         this.labelAngle = labelAngle;
-        positionProperty = new RewindableProperty<ImmutableVector2D>( playButtonPressed, stepping, rewinding, new ImmutableVector2D( x, y ) );
-        velocityProperty = new RewindableProperty<ImmutableVector2D>( playButtonPressed, stepping, rewinding, new ImmutableVector2D( vx, vy ) );
-        accelerationProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
-        forceProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
+        positionProperty = new RewindableProperty<Vector2D>( playButtonPressed, stepping, rewinding, new Vector2D( x, y ) );
+        velocityProperty = new RewindableProperty<Vector2D>( playButtonPressed, stepping, rewinding, new Vector2D( vx, vy ) );
+        accelerationProperty = new Property<Vector2D>( new Vector2D( 0, 0 ) );
+        forceProperty = new Property<Vector2D>( new Vector2D( 0, 0 ) );
         massProperty = new RewindableProperty<Double>( playButtonPressed, stepping, rewinding, mass );
         diameterProperty = new Property<Double>( diameter );
         collidedProperty = new RewindableProperty<Boolean>( playButtonPressed, stepping, rewinding, false );
@@ -135,11 +135,11 @@ public class Body implements IBodyColors {
         return highlight;
     }
 
-    public RewindableProperty<ImmutableVector2D> getPositionProperty() {
+    public RewindableProperty<Vector2D> getPositionProperty() {
         return positionProperty;
     }
 
-    public ImmutableVector2D getPosition() {
+    public Vector2D getPosition() {
         return positionProperty.get();
     }
 
@@ -166,7 +166,7 @@ public class Body implements IBodyColors {
     }
 
     public void translate( double dx, double dy ) {
-        positionProperty.set( new ImmutableVector2D( getX() + dx, getY() + dy ) );
+        positionProperty.set( new Vector2D( getX() + dx, getY() + dy ) );
     }
 
     public double getY() {
@@ -194,11 +194,11 @@ public class Body implements IBodyColors {
         return massProperty.get();
     }
 
-    public ImmutableVector2D getAcceleration() {
+    public Vector2D getAcceleration() {
         return accelerationProperty.get();
     }
 
-    public ImmutableVector2D getVelocity() {
+    public Vector2D getVelocity() {
         return velocityProperty.get();
     }
 
@@ -234,7 +234,7 @@ public class Body implements IBodyColors {
                 listener.pointRemoved();
             }
         }
-        ImmutableVector2D pathPoint = getPosition();
+        Vector2D pathPoint = getPosition();
         path.add( pathPoint );
         for ( PathListener listener : pathListeners ) {
             listener.pointAdded( pathPoint );
@@ -248,7 +248,7 @@ public class Body implements IBodyColors {
         }
     }
 
-    public Property<ImmutableVector2D> getForceProperty() {
+    public Property<Vector2D> getForceProperty() {
         return forceProperty;
     }
 
@@ -271,7 +271,7 @@ public class Body implements IBodyColors {
         //TODO: anything else to reset here?
     }
 
-    public RewindableProperty<ImmutableVector2D> getVelocityProperty() {
+    public RewindableProperty<Vector2D> getVelocityProperty() {
         return velocityProperty;
     }
 
@@ -291,19 +291,19 @@ public class Body implements IBodyColors {
         pathListeners.add( listener );
     }
 
-    public void setVelocity( ImmutableVector2D velocity ) {
+    public void setVelocity( Vector2D velocity ) {
         velocityProperty.set( velocity );
     }
 
     public void setPosition( double x, double y ) {
-        positionProperty.set( new ImmutableVector2D( x, y ) );
+        positionProperty.set( new Vector2D( x, y ) );
     }
 
-    public void setAcceleration( ImmutableVector2D acceleration ) {
+    public void setAcceleration( Vector2D acceleration ) {
         this.accelerationProperty.set( acceleration );
     }
 
-    public void setForce( ImmutableVector2D force ) {
+    public void setForce( Vector2D force ) {
         this.forceProperty.set( force );
     }
 
@@ -408,7 +408,7 @@ public class Body implements IBodyColors {
 
     //Listener interface for getting callbacks when the path has changed, for displaying the path with picclo
     public static interface PathListener {
-        public void pointAdded( ImmutableVector2D point );
+        public void pointAdded( Vector2D point );
 
         public void pointRemoved();
 

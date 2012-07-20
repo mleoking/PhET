@@ -7,7 +7,7 @@ import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * User: Sam Reid
@@ -20,7 +20,7 @@ public class Battery extends CircuitComponent {
     public static final double DEFAULT_INTERNAL_RESISTANCE = 0.001;
 
     public Battery( double voltage, double internalResistance ) {
-        this( new Point2D.Double(), new ImmutableVector2D(), 1, 1, new CircuitChangeListener() {
+        this( new Point2D.Double(), new Vector2D(), 1, 1, new CircuitChangeListener() {
             public void circuitChanged() {
             }
         }, true );

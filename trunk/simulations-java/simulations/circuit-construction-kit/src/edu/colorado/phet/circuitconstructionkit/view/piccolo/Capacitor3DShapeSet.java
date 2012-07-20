@@ -9,8 +9,8 @@ import java.awt.geom.Area;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
@@ -141,7 +141,7 @@ public class Capacitor3DShapeSet {
     }
 
     public Point2D getPlate2EdgePoint() {
-        ImmutableVector2D vector = new ImmutableVector2D( inPt, outPt );
+        Vector2D vector = new Vector2D( inPt, outPt );
         double a = width * Math.cos( tiltAngle );
         double initDist = new MutableVector2D( inPt, getPlate2Point() ).getMagnitude();
         vector = vector.getInstanceOfMagnitude( initDist + a / 2.0 );

@@ -17,8 +17,8 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JSpinner;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
@@ -136,7 +136,7 @@ public class CircuitSection implements ModelElement, Graphic, DopantDropListener
         double maxDist = numDopantSlots * 2;
         double myfrac = dist / maxDist;
         double segmentWidth = resLen / numDopantSlots;
-        ImmutableVector2D center = circuit.getResistor().getLocation( myfrac * resLen );
+        Vector2D center = circuit.getResistor().getLocation( myfrac * resLen );
         double height = circuit.getResistor().getHeight();
 
         RoundRectangle2D.Double rect = createCenteredRect( center, segmentWidth, height, .3, .3 );
@@ -144,7 +144,7 @@ public class CircuitSection implements ModelElement, Graphic, DopantDropListener
         return rect;
     }
 
-    private RoundRectangle2D.Double createCenteredRect( ImmutableVector2D center, double width, double height, double dx, double dy ) {
+    private RoundRectangle2D.Double createCenteredRect( Vector2D center, double width, double height, double dx, double dy ) {
         return new RoundRectangle2D.Double( center.getX() - width / 2, center.getY() - height / 2, width, height, dx, dy );
     }
 

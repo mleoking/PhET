@@ -1,12 +1,13 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.modules.moretools;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.bendinglight.view.WireNode;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -92,7 +93,7 @@ public class WaveSensorNode extends ToolNode {
 
     //Called when dragged out of the toolbox, drags all parts together (including body and probes)
     @Override public void dragAll( PDimension delta ) {
-        waveSensor.translateAll( new ImmutableVector2D( transform.viewToModelDelta( delta ) ) );
+        waveSensor.translateAll( new Vector2D( transform.viewToModelDelta( delta ) ) );
     }
 
     //When any probe or body is dropped in the toolbox, the whole WaveSensor goes back in the toolbox

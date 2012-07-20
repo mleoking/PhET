@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.common.phetcommon.view.graphics.transforms;
 
 import java.awt.Shape;
@@ -10,7 +10,7 @@ import java.awt.geom.Point2D.Double;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 
 /**
@@ -183,8 +183,8 @@ public class ModelViewTransform {
      * @param vector2D the model vector2D to transform to view coordinates
      * @return a new ImmutableVector2D instance with coordinates corresponding to the mapping of the specified model coordinates.
      */
-    public ImmutableVector2D modelToView( ImmutableVector2D vector2D ) {
-        return new ImmutableVector2D( transform.transform( vector2D.toPoint2D(), null ) );
+    public Vector2D modelToView( Vector2D vector2D ) {
+        return new Vector2D( transform.transform( vector2D.toPoint2D(), null ) );
     }
 
     /**
@@ -203,8 +203,8 @@ public class ModelViewTransform {
      * @param delta the difference in model coordinates to be transformed into view coordinates
      * @return a new ImmutableVector2D instance corresponding to the delta in view coordinates
      */
-    public ImmutableVector2D modelToViewDelta( ImmutableVector2D delta ) {
-        return new ImmutableVector2D( modelToViewDelta( delta.toPoint2D() ) );
+    public Vector2D modelToViewDelta( Vector2D delta ) {
+        return new Vector2D( modelToViewDelta( delta.toPoint2D() ) );
     }
 
     /**
@@ -290,16 +290,16 @@ public class ModelViewTransform {
         return getInverseTransform().transform( pt, null );
     }
 
-    public ImmutableVector2D viewToModel( ImmutableVector2D vector2D ) {
-        return new ImmutableVector2D( viewToModel( vector2D.toPoint2D() ) );
+    public Vector2D viewToModel( Vector2D vector2D ) {
+        return new Vector2D( viewToModel( vector2D.toPoint2D() ) );
     }
 
     public Point2D viewToModelDelta( Point2D delta ) {
         return getInverseTransform().deltaTransform( delta, null );
     }
 
-    public ImmutableVector2D viewToModelDelta( ImmutableVector2D delta ) {
-        return new ImmutableVector2D( viewToModelDelta( delta.toPoint2D() ) );
+    public Vector2D viewToModelDelta( Vector2D delta ) {
+        return new Vector2D( viewToModelDelta( delta.toPoint2D() ) );
     }
 
     public double viewToModelX( double x ) {

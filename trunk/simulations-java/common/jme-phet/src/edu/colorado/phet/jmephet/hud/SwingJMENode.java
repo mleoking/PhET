@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.jmephet.hud;
 
 import java.awt.Dimension;
@@ -9,7 +9,7 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JComponent;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -29,7 +29,7 @@ import com.jme3.scene.Node;
 public class SwingJMENode extends Node {
 
     // position property (offset from the lower-left, x to the right, y up. Modify on the Swing EDT!!!
-    public final Property<ImmutableVector2D> position;
+    public final Property<Vector2D> position;
 
     // TODO: remove this?
     public final VoidNotifier onResize = new VoidNotifier(); // notifier that fires when this node is resized
@@ -59,7 +59,7 @@ public class SwingJMENode extends Node {
         this( component, inputHandler, tab, canvasTransform, getDefaultPosition() );
     }
 
-    public SwingJMENode( final JComponent component, final JMEInputHandler inputHandler, final JMETab tab, CanvasTransform canvasTransform, Property<ImmutableVector2D> position ) {
+    public SwingJMENode( final JComponent component, final JMEInputHandler inputHandler, final JMETab tab, CanvasTransform canvasTransform, Property<Vector2D> position ) {
         this.component = component;
         this.inputHandler = inputHandler;
         this.tab = tab;
@@ -97,10 +97,10 @@ public class SwingJMENode extends Node {
             }
         } );
         position.addObserver( new SimpleObserver() {
-                                  public void update() {
-                                      rebuildHUD();
-                                  }
-                              }, false );
+            public void update() {
+                rebuildHUD();
+            }
+        }, false );
         canvasTransform.transform.addObserver( new SimpleObserver() {
             public void update() {
                 rebuildHUD();
@@ -131,8 +131,8 @@ public class SwingJMENode extends Node {
         return new IdentityCanvasTransform();
     }
 
-    public static Property<ImmutableVector2D> getDefaultPosition() {
-        return new Property<ImmutableVector2D>( new ImmutableVector2D() );
+    public static Property<Vector2D> getDefaultPosition() {
+        return new Property<Vector2D>( new Vector2D() );
     }
 
     // flags the HUD node as needing a full repaint

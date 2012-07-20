@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.modules.moretools;
 
 import java.awt.Color;
@@ -15,7 +15,7 @@ import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
 import edu.colorado.phet.bendinglight.view.BendingLightWavelengthControl;
 import edu.colorado.phet.bendinglight.view.LaserView;
 import edu.colorado.phet.bendinglight.view.ProtractorNode;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ResetModel;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -71,7 +71,7 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
 
     private ToolIconNode<BendingLightCanvas<MoreToolsModel>> createWaveSensorTool( ResetModel resetModel ) {
         //Create a model for depicting with the WaveSensorNode
-        final Function1.Constant<ImmutableVector2D, Option<Double>> value = new Function1.Constant<ImmutableVector2D, Option<Double>>( new Option.None<Double>() );//Dummy function that always returns None
+        final Function1.Constant<Vector2D, Option<Double>> value = new Function1.Constant<Vector2D, Option<Double>>( new Option.None<Double>() );//Dummy function that always returns None
         final WaveSensor waveSensor = new WaveSensor( new ConstantDtClock(), value, value );
 
         //Create the WaveSensorNode
@@ -114,8 +114,8 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
 
     private ToolIconNode createVelocitySensorTool( ResetModel resetModel ) {
         //Create the VelocitySensorNode to depict in the toolbox
-        final Function1<ImmutableVector2D, String> formatter = new Function1<ImmutableVector2D, String>() {
-            public String apply( ImmutableVector2D velocity ) {
+        final Function1<Vector2D, String> formatter = new Function1<Vector2D, String>() {
+            public String apply( Vector2D velocity ) {
                 final String value = new DecimalFormat( "0.00" ).format( velocity.getMagnitude() / 2.99792458E8 );
                 return MessageFormat.format( BendingLightStrings.PATTERN_SPEED_OF_LIGHT_READOUT_VALUE_C, value );
             }
@@ -132,8 +132,8 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
         //Create the NodeFactory which creates the VelocitySensorNode when dragged out of the toolbox
         final NodeFactory velocityNodeFactory = new NodeFactory() {
             public VelocitySensorNode createNode( final ModelViewTransform transform, final Property<Boolean> showTool, final Point2D modelPt ) {
-                model.velocitySensor.position.set( new ImmutableVector2D( modelPt ) );
-                return new VelocitySensorNode( transform, model.velocitySensor, arrowScale, new Property<Function1<ImmutableVector2D, String>>( formatter ), getBoundedConstraint(), PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN, new ImmutableVector2D( 1.00, 0 ) ) {{
+                model.velocitySensor.position.set( new Vector2D( modelPt ) );
+                return new VelocitySensorNode( transform, model.velocitySensor, arrowScale, new Property<Function1<Vector2D, String>>( formatter ), getBoundedConstraint(), PICCOLO_PHET_VELOCITY_SENSOR_NODE_UNKNOWN, new Vector2D( 1.00, 0 ) ) {{
                     showTool.addObserver( new VoidFunction1<Boolean>() {
                         public void apply( Boolean visible ) {
                             setVisible( visible );
@@ -144,7 +144,7 @@ public class MoreToolsCanvas extends IntroCanvas<MoreToolsModel> {
         };
 
         //Create and return the tool for dragging out of the toolbox
-        final VelocitySensorNode thumbnailSensorNode = new VelocitySensorNode( transform, new VelocitySensor(), arrowScale, new Property<Function1<ImmutableVector2D, String>>( formatter ), new ImmutableVector2D( 1.00, 0 ) );
+        final VelocitySensorNode thumbnailSensorNode = new VelocitySensorNode( transform, new VelocitySensor(), arrowScale, new Property<Function1<Vector2D, String>>( formatter ), new Vector2D( 1.00, 0 ) );
         final int velocityToolHeight = (int) ( thumbnailSensorNode.getFullBounds().getHeight() / thumbnailSensorNode.getFullBounds().getWidth() * ICON_WIDTH );
         return new ToolIconNode<BendingLightCanvas<MoreToolsModel>>( thumbnailSensorNode.toImage( ICON_WIDTH, velocityToolHeight, new Color( 0, 0, 0, 0 ) ), showVelocitySensor, transform, this, velocityNodeFactory, resetModel, getToolboxBounds() );
     }

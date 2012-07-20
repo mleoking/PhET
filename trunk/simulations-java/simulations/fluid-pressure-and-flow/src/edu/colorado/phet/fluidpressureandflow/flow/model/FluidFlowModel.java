@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.flow.model;
 
 import java.awt.Color;
@@ -6,7 +6,7 @@ import java.awt.Paint;
 import java.util.ArrayList;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
@@ -95,7 +95,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
 
     //Gets the pressure at the specified location
     @Override public Option<Double> getPressure( double x, double y ) {
-        Option<ImmutableVector2D> velocity = getVelocity( x, y );
+        Option<Vector2D> velocity = getVelocity( x, y );
 
         double vSquared = velocity.isSome() ? velocity.get().getMagnitudeSq() : 0.0;
         double K = 101325;//choose a base value for pipe internal pressure, also ensure that pressure is never negative in the pipe in a narrow region
@@ -130,12 +130,12 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
         particleAddedObservers.add( listener );
     }
 
-    public Option<ImmutableVector2D> getVelocity( double x, double y ) {
+    public Option<Vector2D> getVelocity( double x, double y ) {
         if ( pipe.contains( x, y ) ) {
-            return new Option.Some<ImmutableVector2D>( pipe.getTweakedVelocity( x, y ) );//assumes velocity same at all y along a specified x
+            return new Option.Some<Vector2D>( pipe.getTweakedVelocity( x, y ) );//assumes velocity same at all y along a specified x
         }
         else {
-            return new Option.None<ImmutableVector2D>();
+            return new Option.None<Vector2D>();
         }
     }
 

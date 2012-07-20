@@ -5,8 +5,8 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -44,7 +44,7 @@ public class Burner extends ModelElement {
     // Instance Data
     //-------------------------------------------------------------------------
 
-    private final ImmutableVector2D position;
+    private final Vector2D position;
 
     // Property that is used to control the amount of heating or cooling that
     // is being done.
@@ -70,9 +70,9 @@ public class Burner extends ModelElement {
      * @param position The position in model space where this burner exists.
      *                 By convention for this simulation, the position is
      */
-    public Burner( ConstantDtClock clock, ImmutableVector2D position, BooleanProperty energyChunksVisible ) {
+    public Burner( ConstantDtClock clock, Vector2D position, BooleanProperty energyChunksVisible ) {
         this.clock = clock;
-        this.position = new ImmutableVector2D( position );
+        this.position = new Vector2D( position );
         this.energyChunksVisible = energyChunksVisible;
         topSurface = new Property<HorizontalSurface>( new HorizontalSurface( new DoubleRange( getOutlineRect().getMinX(), getOutlineRect().getMaxX() ), getOutlineRect().getMaxY(), this ) );
 
@@ -142,8 +142,8 @@ public class Burner extends ModelElement {
         energyExchangedWithAirSinceLastChunkTransfer = 0;
     }
 
-    private ImmutableVector2D getEnergyChunkStartEndPoint() {
-        return new ImmutableVector2D( getCenterPoint().getX(), getCenterPoint().getY() + HEIGHT * 0.1 );
+    private Vector2D getEnergyChunkStartEndPoint() {
+        return new Vector2D( getCenterPoint().getX(), getCenterPoint().getY() + HEIGHT * 0.1 );
     }
 
     /**
@@ -152,7 +152,7 @@ public class Burner extends ModelElement {
      * @param point
      * @return
      */
-    public EnergyChunk extractClosestEnergyChunk( ImmutableVector2D point ) {
+    public EnergyChunk extractClosestEnergyChunk( Vector2D point ) {
         EnergyChunk closestEnergyChunk = null;
         if ( energyChunkList.size() > 0 ) {
             for ( EnergyChunk energyChunk : energyChunkList ) {
@@ -183,8 +183,8 @@ public class Burner extends ModelElement {
         return closestEnergyChunk;
     }
 
-    public ImmutableVector2D getCenterPoint() {
-        return new ImmutableVector2D( position.getX(), position.getY() + HEIGHT / 2 );
+    public Vector2D getCenterPoint() {
+        return new Vector2D( position.getX(), position.getY() + HEIGHT / 2 );
     }
 
     @Override public void reset() {

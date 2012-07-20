@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
 import java.awt.Shape;
@@ -6,7 +6,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
@@ -31,7 +31,7 @@ public class Compound<T extends Particle> extends Particle implements Iterable<T
     //Put the vectors at the same random angle so all compounds don't come out at the same angle
     private double angle;
 
-    public Compound( ImmutableVector2D position, double angle ) {
+    public Compound( Vector2D position, double angle ) {
         super( position );
         this.angle = angle;
     }
@@ -41,7 +41,7 @@ public class Compound<T extends Particle> extends Particle implements Iterable<T
     }
 
     //Set the position of the compound, and update the location of all constituents
-    @Override public void setPosition( ImmutableVector2D location ) {
+    @Override public void setPosition( Vector2D location ) {
         super.setPosition( location );
         updateConstituentLocations();
     }
@@ -145,7 +145,7 @@ public class Compound<T extends Particle> extends Particle implements Iterable<T
     }
 
     //Sets the position and angle of the compound, and updates the location of all constituents
-    public void setPositionAndAngle( ImmutableVector2D modelPosition, float angle ) {
+    public void setPositionAndAngle( Vector2D modelPosition, float angle ) {
         super.setPosition( modelPosition );
         this.angle = angle;
         updateConstituentLocations();

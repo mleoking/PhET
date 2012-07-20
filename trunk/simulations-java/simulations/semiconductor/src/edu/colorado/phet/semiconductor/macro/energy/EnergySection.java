@@ -8,8 +8,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -865,7 +865,7 @@ public class EnergySection implements ModelElement, Graphic, DopantChangeListene
         double sum = 0;
         for ( int i = 0; i < particles.size(); i++ ) {
             BandParticle bandParticle = (BandParticle) particles.get( i );
-            ImmutableVector2D vel = bandParticle.getDX();
+            Vector2D vel = bandParticle.getDX();
             double x = vel.getX();
             sum += x;
         }

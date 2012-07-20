@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.common.phetcommon.model;
 
 import java.awt.Color;
@@ -7,7 +7,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -55,7 +55,7 @@ public class SphereBucket<T extends IBucketSphere> extends Bucket {
             containedParticles.remove( particle );
             particle.removeListener( this );
 
-            final ImmutableVector2D initialPosition = particle.getDestination();
+            final Vector2D initialPosition = particle.getDestination();
             particle.addPositionListener( new SimpleObserver() {
                 public void update() {
                     if ( initialPosition.getDistance( particle.getDestination() ) > particle.getRadius() * 1.5 ) {
@@ -129,11 +129,11 @@ public class SphereBucket<T extends IBucketSphere> extends Bucket {
         // Move the particle.
         if ( moveImmediately ) {
             // Move the particle instantaneously to the destination.
-            particle.setPositionAndDestination( new ImmutableVector2D( locationInBucket ) );
+            particle.setPositionAndDestination( new Vector2D( locationInBucket ) );
         }
         else {
             // Set the destination and let the particle find its own way.
-            particle.setDestination( new ImmutableVector2D( locationInBucket ) );
+            particle.setDestination( new Vector2D( locationInBucket ) );
         }
 
         // Listen for when the user removes this particle from the bucket.
@@ -202,7 +202,7 @@ public class SphereBucket<T extends IBucketSphere> extends Bucket {
      * @param location
      * @return
      */
-    private Point2D getNearestOpenLocation( ImmutableVector2D currentLocation ) {
+    private Point2D getNearestOpenLocation( Vector2D currentLocation ) {
         // Determine the highest occupied layer.  The bottom layer is 0.
         int highestOccupiedLayer = 0;
         for ( T particle : containedParticles ) {
@@ -342,7 +342,7 @@ public class SphereBucket<T extends IBucketSphere> extends Bucket {
     private boolean isPositionOpen( double x, double y ) {
         boolean positionOpen = true;
         for ( T particle : containedParticles ) {
-            ImmutableVector2D position = particle.getDestination();
+            Vector2D position = particle.getDestination();
             if ( position.getX() == x && position.getY() == y ) {
                 positionOpen = false;
                 break;

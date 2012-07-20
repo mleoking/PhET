@@ -1,21 +1,13 @@
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.chemicalreactions.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
-import static edu.colorado.phet.chemicalreactions.model.MoleculeShape.Cl2;
-import static edu.colorado.phet.chemicalreactions.model.MoleculeShape.H2;
-import static edu.colorado.phet.chemicalreactions.model.MoleculeShape.H2O;
-import static edu.colorado.phet.chemicalreactions.model.MoleculeShape.HCl;
-import static edu.colorado.phet.chemicalreactions.model.MoleculeShape.N2;
-import static edu.colorado.phet.chemicalreactions.model.MoleculeShape.NH3;
-import static edu.colorado.phet.chemicalreactions.model.MoleculeShape.O2;
-import static edu.colorado.phet.chemistry.model.Element.Cl;
-import static edu.colorado.phet.chemistry.model.Element.H;
-import static edu.colorado.phet.chemistry.model.Element.N;
-import static edu.colorado.phet.chemistry.model.Element.O;
+import static edu.colorado.phet.chemicalreactions.model.MoleculeShape.*;
+import static edu.colorado.phet.chemistry.model.Element.*;
 
 public class ReactionShape {
 
@@ -30,10 +22,10 @@ public class ReactionShape {
 
     public static class MoleculeSpot {
         public final MoleculeShape shape;
-        public final ImmutableVector2D position;
+        public final Vector2D position;
         public final double rotation; // radians
 
-        public MoleculeSpot( MoleculeShape shape, ImmutableVector2D position, double rotation ) {
+        public MoleculeSpot( MoleculeShape shape, Vector2D position, double rotation ) {
             this.shape = shape;
             this.position = position;
             this.rotation = rotation;
@@ -58,13 +50,13 @@ public class ReactionShape {
         // computed X offset for the molecules to be flush. just use the pythagorean theorem
         double xOffset = 2 * Math.sqrt( O.getRadius() * H.getRadius() );
 
-        addReactantSpot( new MoleculeSpot( O2, new ImmutableVector2D(), Math.PI / 2 ) );
-        addReactantSpot( new MoleculeSpot( H2, new ImmutableVector2D( -xOffset, 0 ), Math.PI / 2 ) );
-        addReactantSpot( new MoleculeSpot( H2, new ImmutableVector2D( xOffset, 0 ), Math.PI / 2 ) );
+        addReactantSpot( new MoleculeSpot( O2, new Vector2D(), Math.PI / 2 ) );
+        addReactantSpot( new MoleculeSpot( H2, new Vector2D( -xOffset, 0 ), Math.PI / 2 ) );
+        addReactantSpot( new MoleculeSpot( H2, new Vector2D( xOffset, 0 ), Math.PI / 2 ) );
 
         // essentially stacked on top
-        addProductSpot( new MoleculeSpot( H2O, new ImmutableVector2D( 0, O.getRadius() ), 0 ) );
-        addProductSpot( new MoleculeSpot( H2O, new ImmutableVector2D( 0, -O.getRadius() ), 0 ) );
+        addProductSpot( new MoleculeSpot( H2O, new Vector2D( 0, O.getRadius() ), 0 ) );
+        addProductSpot( new MoleculeSpot( H2O, new Vector2D( 0, -O.getRadius() ), 0 ) );
     }};
 
     public static final ReactionShape H2_N2_TO_NH3 = new ReactionShape() {{
@@ -83,14 +75,14 @@ public class ReactionShape {
         // computed Y offset for the bottom (central) H2 to be flush. just use the pythagorean theorem
         double yOffset = 2 * Math.sqrt( N.getRadius() * H.getRadius() );
 
-        addReactantSpot( new MoleculeSpot( N2, new ImmutableVector2D(), 0 ) );
-        addReactantSpot( new MoleculeSpot( H2, new ImmutableVector2D( 0, -yOffset ), 0 ) );
-        addReactantSpot( new MoleculeSpot( H2, new ImmutableVector2D( distalPairDistance, 0 ).getRotatedInstance( rotationA ).plus( N.getRadius(), 0 ), rotationA - Math.PI / 2 ) );
-        addReactantSpot( new MoleculeSpot( H2, new ImmutableVector2D( distalPairDistance, 0 ).getRotatedInstance( rotationB ).plus( -N.getRadius(), 0 ), rotationB - Math.PI / 2 ) );
+        addReactantSpot( new MoleculeSpot( N2, new Vector2D(), 0 ) );
+        addReactantSpot( new MoleculeSpot( H2, new Vector2D( 0, -yOffset ), 0 ) );
+        addReactantSpot( new MoleculeSpot( H2, new Vector2D( distalPairDistance, 0 ).getRotatedInstance( rotationA ).plus( N.getRadius(), 0 ), rotationA - Math.PI / 2 ) );
+        addReactantSpot( new MoleculeSpot( H2, new Vector2D( distalPairDistance, 0 ).getRotatedInstance( rotationB ).plus( -N.getRadius(), 0 ), rotationB - Math.PI / 2 ) );
 
         // essentially stacked on top
-        addProductSpot( new MoleculeSpot( NH3, new ImmutableVector2D( N.getRadius(), 0 ), magicAngle - Math.PI ) );
-        addProductSpot( new MoleculeSpot( NH3, new ImmutableVector2D( -N.getRadius(), 0 ), Math.PI - magicAngle ) );
+        addProductSpot( new MoleculeSpot( NH3, new Vector2D( N.getRadius(), 0 ), magicAngle - Math.PI ) );
+        addProductSpot( new MoleculeSpot( NH3, new Vector2D( -N.getRadius(), 0 ), Math.PI - magicAngle ) );
     }};
 
     public static final ReactionShape H2_Cl2_TO_HCl = new ReactionShape() {{
@@ -101,25 +93,25 @@ public class ReactionShape {
 
         double totalWidth = H.getRadius() + xOffset + Cl.getRadius();
 
-        addReactantSpot( new MoleculeSpot( Cl2, new ImmutableVector2D( totalWidth / 2 - Cl.getRadius(), 0 ), Math.PI / 2 ) );
-        addReactantSpot( new MoleculeSpot( H2, new ImmutableVector2D( -totalWidth / 2 + H.getRadius(), 0 ), Math.PI / 2 ) );
+        addReactantSpot( new MoleculeSpot( Cl2, new Vector2D( totalWidth / 2 - Cl.getRadius(), 0 ), Math.PI / 2 ) );
+        addReactantSpot( new MoleculeSpot( H2, new Vector2D( -totalWidth / 2 + H.getRadius(), 0 ), Math.PI / 2 ) );
 
         double theta = Math.acos( ( Cl.getRadius() - H.getRadius() ) / ( Cl.getRadius() + H.getRadius() ) );
         double phi = Math.PI / 2 - theta;
-        ImmutableVector2D centerOffset = new ImmutableVector2D(
+        Vector2D centerOffset = new Vector2D(
                 H.getRadius() + Math.cos( phi ) * Cl.getRadius(),
                 H.getRadius() + Math.sin( phi ) * Cl.getRadius()
         );
-        ImmutableVector2D baseOffset = new ImmutableVector2D(
+        Vector2D baseOffset = new Vector2D(
                 H.getRadius() + Cl.getRadius(),
                 0
         );
-        ImmutableVector2D diff = centerOffset.minus( baseOffset );
+        Vector2D diff = centerOffset.minus( baseOffset );
 
         // top
-        addProductSpot( new MoleculeSpot( HCl, new ImmutableVector2D( diff.getX() / 2, diff.getY() ), phi ) );
+        addProductSpot( new MoleculeSpot( HCl, new Vector2D( diff.getX() / 2, diff.getY() ), phi ) );
 
         // bottom
-        addProductSpot( new MoleculeSpot( HCl, new ImmutableVector2D( diff.getX() / 2, -diff.getY() ), -phi ) );
+        addProductSpot( new MoleculeSpot( HCl, new Vector2D( diff.getX() / 2, -diff.getY() ), -phi ) );
     }};
 }

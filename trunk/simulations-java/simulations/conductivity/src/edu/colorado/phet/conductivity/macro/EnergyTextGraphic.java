@@ -12,8 +12,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.conductivity.ConductivityResources;
@@ -57,7 +57,7 @@ public class EnergyTextGraphic extends TransformGraphic {
         trfShape = affinetransform.createTransformedShape( shape );
         AbstractVector2D phetvector = getTopCenter( trfShape.getBounds2D() );
         phetvector = phetvector.getSubtractedInstance( 0.0D, 40D );
-        ImmutableVector2D phetvector1 = phetvector.getAddedInstance( 0.0D, -200D );
+        Vector2D phetvector1 = phetvector.getAddedInstance( 0.0D, -200D );
         arrowShape = ( new ArrowShape( phetvector, phetvector1, 50D, 50D, 20D ) ).getArrowPath();
         highShape = smallFont.createGlyphVector( graphics2D.getFontRenderContext(),
                                                  ConductivityResources.getString( "EnergyTextGraphic.HighText" ) ).getOutline( (float) phetvector1.getX() - 20F,

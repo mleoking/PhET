@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics;
 
 import java.util.ArrayList;
@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.logging.Logger;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Formula;
@@ -88,7 +88,7 @@ public class Draining {
         //Time it so the group gets there exactly at the right time to make the concentration value exact again.
 
         //Pre-compute the drain faucet input point since it is used throughout this method, and many times in the sort method
-        final ImmutableVector2D drain = model.getDrainFaucetMetrics().getInputPoint();
+        final Vector2D drain = model.getDrainFaucetMetrics().getInputPoint();
 
         //Find the closest particles and move them toward the drain at a rate so they will reach at the same time
         ItemList<Particle> closestFormulaUnit = getParticlesToDrain( drainData.formula );
@@ -100,7 +100,7 @@ public class Draining {
 
             // compute the speed/velocity to make this particle arrive at the drain at the same time as the other particles in the formula unit
             double speed = distanceToTarget / timeToError;
-            ImmutableVector2D velocity = new ImmutableVector2D( particle.getPosition(), drain ).getInstanceOfMagnitude( speed );
+            Vector2D velocity = new Vector2D( particle.getPosition(), drain ).getInstanceOfMagnitude( speed );
 
             //Set the update strategy of the particle, it will be updated when the strategies are invoked in MicroModel
             particle.setUpdateStrategy( new FlowToDrainStrategy( model, velocity, false ) );
@@ -127,7 +127,7 @@ public class Draining {
 
                     //Okay to reschedule now since one particle just left, so there will be no phase problem
                     unitParticle.setPosition( model.getDrainFaucetMetrics().outputPoint );
-                    unitParticle.velocity.set( new ImmutableVector2D( 0, -UpdateStrategy.FREE_PARTICLE_SPEED / 2 ) );
+                    unitParticle.velocity.set( new Vector2D( 0, -UpdateStrategy.FREE_PARTICLE_SPEED / 2 ) );
                 }
             }
         }
@@ -169,7 +169,7 @@ public class Draining {
                 return !usedParticles.contains( particle );
             }
         } ).toList();
-        final ImmutableVector2D drain = model.getDrainFaucetMetrics().getInputPoint();
+        final Vector2D drain = model.getDrainFaucetMetrics().getInputPoint();
         Collections.sort( list, new Comparator<Particle>() {
             public int compare( Particle o1, Particle o2 ) {
                 return Double.compare( o1.getPosition().getDistance( drain ), o2.getPosition().getDistance( drain ) );

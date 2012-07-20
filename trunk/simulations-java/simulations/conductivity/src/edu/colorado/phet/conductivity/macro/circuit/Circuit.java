@@ -2,8 +2,8 @@
 
 package edu.colorado.phet.conductivity.macro.circuit;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.conductivity.macro.battery.Battery;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.macro.circuit:
@@ -52,7 +52,7 @@ public class Circuit {
         return circuit.numBranches();
     }
 
-    public ImmutableVector2D getPosition( double d ) {
+    public Vector2D getPosition( double d ) {
         return circuit.getPosition( d );
     }
 

@@ -1,7 +1,7 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.flow.model;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
@@ -52,11 +52,11 @@ public class FluxMeter {
         }, pipe.flowRate, area );
     }
 
-    public ImmutableVector2D getTop() {
+    public Vector2D getTop() {
         return pipe.getPoint( x.get(), 1 );
     }
 
-    public ImmutableVector2D getBottom() {
+    public Vector2D getBottom() {
         return pipe.getPoint( x.get(), 0 );
     }
 

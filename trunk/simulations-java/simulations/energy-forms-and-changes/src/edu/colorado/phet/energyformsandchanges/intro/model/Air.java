@@ -6,7 +6,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -145,16 +145,16 @@ public class Air implements ThermalEnergyContainer {
     public void addEnergyChunk( EnergyChunk ec ) {
         ec.zPosition.set( 0.0 );
         energyChunkList.add( ec );
-        energyChunkWanderControllers.add( new EnergyChunkWanderController( ec, new ImmutableVector2D( ec.position.get().getX(), SIZE.getHeight() ) ) );
+        energyChunkWanderControllers.add( new EnergyChunkWanderController( ec, new Vector2D( ec.position.get().getX(), SIZE.getHeight() ) ) );
     }
 
-    public EnergyChunk requestEnergyChunk( ImmutableVector2D point ) {
+    public EnergyChunk requestEnergyChunk( Vector2D point ) {
         // Create a new chunk at the top of the air above the specified point.
         return new EnergyChunk( clock, point.getX(), SIZE.getHeight(), energyChunksVisible, false );
     }
 
-    public ImmutableVector2D getCenterPoint() {
-        return new ImmutableVector2D( 0, SIZE.getHeight() / 2 );
+    public Vector2D getCenterPoint() {
+        return new Vector2D( 0, SIZE.getHeight() / 2 );
     }
 
     public ThermalContactArea getThermalContactArea() {

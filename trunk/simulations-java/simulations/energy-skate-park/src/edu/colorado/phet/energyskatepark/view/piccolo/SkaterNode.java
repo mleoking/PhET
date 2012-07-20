@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyskatepark.view.piccolo;
 
 import java.awt.Cursor;
@@ -8,8 +8,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
@@ -139,9 +139,9 @@ public class SkaterNode extends PNode {
 
         //Point at the track so the skater will have the right orientation for a smooth landing
         if ( state != null ) {
-            ImmutableVector2D vector = state.getParametricFunction2D().getUnitNormalVector( state.getAlpha() );//todo: this code is highly similar to code in Particle.updateStateFrom1D
+            Vector2D vector = state.getParametricFunction2D().getUnitNormalVector( state.getAlpha() );//todo: this code is highly similar to code in Particle.updateStateFrom1D
             double sign = state.isTop() ? 1.0 : -1.0;
-            ImmutableVector2D v = vector.getInstanceOfMagnitude( sign );
+            Vector2D v = vector.getInstanceOfMagnitude( sign );
             getBody().setAngle( v.getAngle() - Math.PI / 2 );
 
             //Don't attach to the floor--it's more important that the skater "picks up" immediately instead of sticking to the floor until the user passes a vertical threshold, and

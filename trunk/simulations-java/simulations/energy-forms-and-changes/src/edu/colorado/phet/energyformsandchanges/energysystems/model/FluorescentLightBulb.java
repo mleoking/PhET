@@ -4,7 +4,7 @@ package edu.colorado.phet.energyformsandchanges.energysystems.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesSimSharing;
@@ -19,8 +19,8 @@ import static edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResou
 public class FluorescentLightBulb extends EnergyUser {
 
     private static final List<ModelElementImage> IMAGE_LIST = new ArrayList<ModelElementImage>() {{
-        add( new ModelElementImage( ELEMENT_BASE, ELEMENT_BASE.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR, new ImmutableVector2D( 0, -0.022 ) ) );
-        add( new ModelElementImage( FLUORESCENT, FLUORESCENT.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR, new ImmutableVector2D( 0, 0.02 ) ) );
+        add( new ModelElementImage( ELEMENT_BASE, ELEMENT_BASE.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR, new Vector2D( 0, -0.022 ) ) );
+        add( new ModelElementImage( FLUORESCENT, FLUORESCENT.getWidth() / EFACConstants.ENERGY_SYSTEMS_MVT_SCALE_FACTOR, new Vector2D( 0, 0.02 ) ) );
     }};
 
 

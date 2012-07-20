@@ -15,8 +15,8 @@ import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponen
 import edu.colorado.phet.circuitconstructionkit.model.components.Switch;
 import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
 import edu.colorado.phet.circuitconstructionkit.model.mna.MNAAdapter;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -221,7 +221,7 @@ public class Circuit {
         for ( int i = 0; i < adjacentBranches.length; i++ ) {
             Branch branch = adjacentBranches[i];
             Junction opposite = branch.opposite( junction );
-            ImmutableVector2D vec = new ImmutableVector2D( opposite.getPosition(), junction.getPosition() );
+            Vector2D vec = new Vector2D( opposite.getPosition(), junction.getPosition() );
             double curLength = vec.getMagnitude();
             double newLength = Math.abs( curLength - CCKModel.JUNCTION_RADIUS * 1.5 );
             vec = vec.getInstanceOfMagnitude( newLength );
@@ -237,7 +237,7 @@ public class Circuit {
             newJunctions[i] = newJunction;
 
             if ( branch instanceof CircuitComponent ) {
-                ImmutableVector2D tx = new ImmutableVector2D( junction.getPosition(), desiredDst );
+                Vector2D tx = new Vector2D( junction.getPosition(), desiredDst );
                 Branch[] stronglyConnected = getStrongConnections( newJunction );
                 BranchSet bs = new BranchSet( this, stronglyConnected );
                 bs.translate( tx );
@@ -370,13 +370,13 @@ public class Circuit {
         return branches.toArray( new Branch[branches.size()] );
     }
 
-    private void translate( Junction[] j, ImmutableVector2D vec ) {
+    private void translate( Junction[] j, Vector2D vec ) {
         for ( Junction junction : j ) {
             junction.translate( vec.getX(), vec.getY() );
         }
     }
 
-    public void translate( Branch[] branchs, ImmutableVector2D vec ) {
+    public void translate( Branch[] branchs, Vector2D vec ) {
         Junction[] j = getJunctions( branchs );
         translate( j, vec );
         for ( Branch b : branchs ) {
@@ -799,7 +799,7 @@ public class Circuit {
         for ( Branch branch : branches ) {
             if ( !branch.hasJunction( junction ) ) {
                 if ( branch.getShape().intersects( junction.getShape().getBounds2D() ) ) {
-                    ImmutableVector2D vec = branch.getDirectionVector();
+                    Vector2D vec = branch.getDirectionVector();
                     vec = vec.getNormalVector();
                     vec = vec.getNormalizedInstance().getScaledInstance( junction.getShape().getBounds2D().getWidth() );
                     BranchSet bs = new BranchSet( this, strongConnections );

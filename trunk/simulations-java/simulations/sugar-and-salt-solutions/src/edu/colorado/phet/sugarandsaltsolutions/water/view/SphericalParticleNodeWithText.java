@@ -1,7 +1,7 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.water.view;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -46,8 +46,8 @@ public class SphericalParticleNodeWithText extends SphericalParticleNode {
             setFont( new PhetFont( particle instanceof WaterMolecule.Hydrogen ? 10 : 18 ) );
 
             //Center on the particle
-            particle.addPositionObserver( new VoidFunction1<ImmutableVector2D>() {
-                public void apply( ImmutableVector2D immutableVector2D ) {
+            particle.addPositionObserver( new VoidFunction1<Vector2D>() {
+                public void apply( Vector2D immutableVector2D ) {
                     setOffset( transform.modelToView( particle.getPosition() ).minus( getFullBounds().getWidth() / 2, getFullBounds().getHeight() / 2 ).toPoint2D() );
                 }
             } );

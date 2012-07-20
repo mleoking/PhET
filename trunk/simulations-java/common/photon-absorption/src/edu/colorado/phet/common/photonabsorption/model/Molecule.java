@@ -10,8 +10,8 @@ import java.util.Map;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.photonabsorption.model.atoms.Atom;
 import edu.colorado.phet.common.photonabsorption.model.atoms.AtomicBond;
@@ -504,10 +504,10 @@ public abstract class Molecule {
     }
 
     public void setVelocity( double vx, double vy ) {
-        setVelocity( new ImmutableVector2D( vx, vy ) );
+        setVelocity( new Vector2D( vx, vy ) );
     }
 
-    public void setVelocity( ImmutableVector2D newVelocity ) {
+    public void setVelocity( Vector2D newVelocity ) {
         this.velocity.setValue( newVelocity );
     }
 

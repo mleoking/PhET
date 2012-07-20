@@ -1,10 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.Carbon;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.Hydrogen;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.NeutralOxygen;
@@ -32,9 +32,9 @@ public class ProjectedPositions {
     //Data structure that has the type of the atom, its element identifier and the position in model space
     public static abstract class AtomPosition {
         public final String type;
-        public final ImmutableVector2D position;
+        public final Vector2D position;
 
-        AtomPosition( String type, ImmutableVector2D position ) {
+        AtomPosition( String type, Vector2D position ) {
             this.type = type;
             this.position = position;
         }
@@ -73,7 +73,7 @@ public class ProjectedPositions {
 
         //Add an atom instance based on the type, location and partial charge (if any)
         final String finalCharge = charge;
-        return new AtomPosition( type, toModel( new ImmutableVector2D( x, y ) ) ) {
+        return new AtomPosition( type, toModel( new Vector2D( x, y ) ) ) {
             @Override public SphericalParticle createConstituent() {
                 if ( type.equals( "H" ) ) {
                     return new Hydrogen() {
@@ -107,17 +107,17 @@ public class ProjectedPositions {
     }
 
     //Use the position of the first atom as the origin, which other positions will be based on.  Origin is in pixel coordinates and converted to model coordinates in toModel
-    public ImmutableVector2D getOrigin() {
+    public Vector2D getOrigin() {
         StringTokenizer st = new StringTokenizer( text.substring( 0, text.indexOf( '\n' ) ), ", " );
 
         //Throw away the type
         st.nextToken();
 
         //Read the position
-        return new ImmutableVector2D( Double.parseDouble( st.nextToken() ), Double.parseDouble( st.nextToken() ) );
+        return new Vector2D( Double.parseDouble( st.nextToken() ), Double.parseDouble( st.nextToken() ) );
     }
 
-    private ImmutableVector2D toModel( ImmutableVector2D position ) {
+    private Vector2D toModel( Vector2D position ) {
         return position.minus( getOrigin() ).times( scale );
     }
 }

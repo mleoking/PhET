@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.common.view;
 
 import java.awt.Font;
@@ -10,7 +10,7 @@ import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
@@ -59,7 +59,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
 
     //Transform from model to view
     protected final ModelViewTransform transform;
-    private final ImmutableVector2D maxVelocityVectorForSensorSize;
+    private final Vector2D maxVelocityVectorForSensorSize;
 
     //Stage where nodes are added and scaled up and down
     private final PNode rootNode;
@@ -83,7 +83,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         }
     };
 
-    public FluidPressureAndFlowCanvas( final ModelViewTransform transform, ImmutableVector2D maxVelocityVectorForSensorSize ) {
+    public FluidPressureAndFlowCanvas( final ModelViewTransform transform, Vector2D maxVelocityVectorForSensorSize ) {
         this.transform = transform;
         this.maxVelocityVectorForSensorSize = maxVelocityVectorForSensorSize;
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
@@ -194,7 +194,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
 
                 @Override protected void sendMessage( final Point2D modelPoint ) {
                     super.sendMessage( modelPoint );
-                    final Option<ImmutableVector2D> velocity = velocitySensor.context.getVelocity( modelPoint.getX(), modelPoint.getY() );
+                    final Option<Vector2D> velocity = velocitySensor.context.getVelocity( modelPoint.getX(), modelPoint.getY() );
                     SimSharingManager.sendUserMessage( velocitySensor.component, ComponentTypes.velocitySensor, UserActions.drag,
                                                        parameterSet( ParameterKeys.x, modelPoint.getX() ).
                                                                with( ParameterKeys.y, modelPoint.getY() ).
@@ -206,8 +206,8 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         }
     }
 
-    public Property<Function1<ImmutableVector2D, String>> getVelocityFormatter( final FluidPressureAndFlowModel model ) {
-        return new Property<Function1<ImmutableVector2D, String>>( createVelocityFormatter( model ) ) {{
+    public Property<Function1<Vector2D, String>> getVelocityFormatter( final FluidPressureAndFlowModel model ) {
+        return new Property<Function1<Vector2D, String>>( createVelocityFormatter( model ) ) {{
             model.units.addObserver( new SimpleObserver() {
                 public void update() {
                     set( createVelocityFormatter( model ) );
@@ -216,9 +216,9 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         }};
     }
 
-    private Function1<ImmutableVector2D, String> createVelocityFormatter( final FluidPressureAndFlowModel model ) {
-        return new Function1<ImmutableVector2D, String>() {
-            public String apply( ImmutableVector2D aDouble ) {
+    private Function1<Vector2D, String> createVelocityFormatter( final FluidPressureAndFlowModel model ) {
+        return new Function1<Vector2D, String>() {
+            public String apply( Vector2D aDouble ) {
                 final Unit unit = model.units.get().velocity;
                 return MessageFormat.format( VALUE_WITH_UNITS_PATTERN, unit.getDecimalFormat().format( unit.siToUnit( aDouble.getMagnitude() ) ), unit.getAbbreviation() );
             }
@@ -278,17 +278,17 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
     }
 
     //Determine where to place the velocity sensor in the model (meters) so it will show up in the right place in the toolbox
-    private ImmutableVector2D getModelLocationForVelocitySensor( EmptyNode velocitySensorNodeArea ) {
+    private Vector2D getModelLocationForVelocitySensor( EmptyNode velocitySensorNodeArea ) {
         Point2D globalCenter = new Point2D.Double( velocitySensorNodeArea.getGlobalFullBounds().getCenter2D().getX(), velocitySensorNodeArea.getGlobalFullBounds().getMaxY() );
         Point2D sceneCenter = rootNode.globalToLocal( globalCenter );
-        return transform.viewToModel( new ImmutableVector2D( sceneCenter ) );
+        return transform.viewToModel( new Vector2D( sceneCenter ) );
     }
 
     //Determine where to place the pressure sensor in the model (meters) so it will show up in the right place in the toolbox
-    private ImmutableVector2D getModelLocationForPressureSensor( EmptyNode pressureSensorArea ) {
+    private Vector2D getModelLocationForPressureSensor( EmptyNode pressureSensorArea ) {
         Point2D globalCenter = new Point2D.Double( pressureSensorArea.getGlobalFullBounds().getCenterX(), pressureSensorArea.getGlobalFullBounds().getMaxY() );
         Point2D sceneCenter = rootNode.globalToLocal( globalCenter );
-        return transform.viewToModel( new ImmutableVector2D( sceneCenter ) );
+        return transform.viewToModel( new Vector2D( sceneCenter ) );
     }
 
     public PNode getRootNode() {

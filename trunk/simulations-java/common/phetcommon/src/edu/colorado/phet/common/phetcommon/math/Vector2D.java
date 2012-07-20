@@ -12,35 +12,35 @@ import java.awt.geom.Point2D;
  * @author Ron LeMaster
  * @author Sam Reid
  */
-public class ImmutableVector2D extends AbstractVector2D {
+public class Vector2D extends AbstractVector2D {
     public final double x;
     public final double y;
 
     //Immutable instance for zero so it doesn't need to be duplicated/re-instantiated in multiple places
-    public static final ImmutableVector2D ZERO = new ImmutableVector2D();
+    public static final Vector2D ZERO = new Vector2D();
 
-    public ImmutableVector2D() {
+    public Vector2D() {
         this( 0, 0 );
     }
 
-    public ImmutableVector2D( double x, double y ) {
+    public Vector2D( double x, double y ) {
         this.x = x;
         this.y = y;
     }
 
-    public ImmutableVector2D( MutableVector2D v ) {
+    public Vector2D( MutableVector2D v ) {
         this( v.getX(), v.getY() );
     }
 
-    public ImmutableVector2D( ImmutableVector2D v ) {
+    public Vector2D( Vector2D v ) {
         this( v.getX(), v.getY() );
     }
 
-    public ImmutableVector2D( Point2D p ) {
+    public Vector2D( Point2D p ) {
         this( p.getX(), p.getY() );
     }
 
-    public ImmutableVector2D( Point2D initialPt, Point2D finalPt ) {
+    public Vector2D( Point2D initialPt, Point2D finalPt ) {
         this( finalPt.getX() - initialPt.getX(), finalPt.getY() - initialPt.getY() );
     }
 
@@ -53,11 +53,11 @@ public class ImmutableVector2D extends AbstractVector2D {
      * @param initialPt starting point for the (final-initial) difference
      * @param finalPt   ending point for the (final-initial) difference
      */
-    public ImmutableVector2D( ImmutableVector2D initialPt, ImmutableVector2D finalPt ) {
+    public Vector2D( Vector2D initialPt, Vector2D finalPt ) {
         this( finalPt.getX() - initialPt.getX(), finalPt.getY() - initialPt.getY() );
     }
 
-    public ImmutableVector2D( Dimension2D v ) {
+    public Vector2D( Dimension2D v ) {
         this( v.getWidth(), v.getHeight() );
     }
 
@@ -69,47 +69,47 @@ public class ImmutableVector2D extends AbstractVector2D {
         return x;
     }
 
-    public static ImmutableVector2D createPolar( double radius, double angle ) {
-        ImmutableVector2D vector = new ImmutableVector2D( Math.cos( angle ), Math.sin( angle ) );
+    public static Vector2D createPolar( double radius, double angle ) {
+        Vector2D vector = new Vector2D( Math.cos( angle ), Math.sin( angle ) );
         return vector.getScaledInstance( radius );
     }
 
-    public ImmutableVector2D plus( double x, double y ) {
+    public Vector2D plus( double x, double y ) {
         return getAddedInstance( x, y );
     }
 
-    public ImmutableVector2D plus( ImmutableVector2D v ) {
+    public Vector2D plus( Vector2D v ) {
         return getAddedInstance( v );
     }
 
-    public ImmutableVector2D plus( Dimension2D v ) {
+    public Vector2D plus( Dimension2D v ) {
         return getAddedInstance( v );
     }
 
-    public ImmutableVector2D minus( ImmutableVector2D v ) {
+    public Vector2D minus( Vector2D v ) {
         return getSubtractedInstance( v );
     }
 
-    public ImmutableVector2D minus( double x, double y ) {
+    public Vector2D minus( double x, double y ) {
         return getSubtractedInstance( x, y );
     }
 
-    public ImmutableVector2D times( double scale ) {
+    public Vector2D times( double scale ) {
         return getScaledInstance( scale );
     }
 
-    public ImmutableVector2D negate() {
+    public Vector2D negate() {
         return getScaledInstance( -1 );
     }
 
     public static void main( String[] args ) {
-        System.out.println( new ImmutableVector2D( 1, 2 ) );
+        System.out.println( new Vector2D( 1, 2 ) );
         System.out.println( new MutableVector2D( 1, 2 ) );
         System.out.println( new MutableVector2D( 1, 2 ) {{
             setX( 3 );
         }} );
-        System.out.println( "0= " + new ImmutableVector2D( 0, 0 ).getDistance( new ImmutableVector2D( 0, 0 ) ) );
-        System.out.println( "1= " + new ImmutableVector2D( 1, 0 ).getDistance( new ImmutableVector2D( 0, 0 ) ) );
-        System.out.println( "2root2= " + new ImmutableVector2D( 0, 0 ).getDistance( new ImmutableVector2D( 1, 1 ) ) );
+        System.out.println( "0= " + new Vector2D( 0, 0 ).getDistance( new Vector2D( 0, 0 ) ) );
+        System.out.println( "1= " + new Vector2D( 1, 0 ).getDistance( new Vector2D( 0, 0 ) ) );
+        System.out.println( "2root2= " + new Vector2D( 0, 0 ).getDistance( new Vector2D( 1, 1 ) ) );
     }
 }

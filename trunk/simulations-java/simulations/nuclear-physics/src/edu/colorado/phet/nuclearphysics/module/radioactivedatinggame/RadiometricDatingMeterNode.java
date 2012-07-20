@@ -23,8 +23,8 @@ import javax.swing.Timer;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.TitledBorder;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -567,8 +567,8 @@ public class RadiometricDatingMeterNode extends PNode {
             double dist = srcLoc.distance( dstLoc );
             if ( dist > 0 ) {
                 DoubleGeneralPath path = new DoubleGeneralPath( srcLoc );
-                ImmutableVector2D parallel = new MutableVector2D( srcLoc, dstLoc ).getNormalizedInstance();
-                ImmutableVector2D perp = parallel.getRotatedInstance( Math.PI / 2 ).getNormalizedInstance();
+                Vector2D parallel = new MutableVector2D( srcLoc, dstLoc ).getNormalizedInstance();
+                Vector2D perp = parallel.getRotatedInstance( Math.PI / 2 ).getNormalizedInstance();
                 lineToDst( path, parallel, perp, dist / 5 );
                 curveToDst( path, parallel, perp, dist / 5 );
                 lineToDst( path, parallel, perp, dist / 5 );
@@ -581,7 +581,7 @@ public class RadiometricDatingMeterNode extends PNode {
             }
         }
 
-        private void curveToDst( DoubleGeneralPath path, ImmutableVector2D par, ImmutableVector2D perp, double segmentLength ) {
+        private void curveToDst( DoubleGeneralPath path, Vector2D par, Vector2D perp, double segmentLength ) {
             double pegDist = segmentLength;
             if ( pegDist < 7 ) {
                 pegDist = 7;
@@ -597,7 +597,7 @@ public class RadiometricDatingMeterNode extends PNode {
             path.quadTo( peg1.getX(), peg1.getY(), peg2.getX(), peg2.getY() );
         }
 
-        private void lineToDst( DoubleGeneralPath path, ImmutableVector2D a, ImmutableVector2D b, double segmentLength ) {
+        private void lineToDst( DoubleGeneralPath path, Vector2D a, Vector2D b, double segmentLength ) {
             path.lineToRelative( a.getInstanceOfMagnitude( segmentLength ) );
         }
     }

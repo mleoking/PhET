@@ -6,7 +6,7 @@ package edu.colorado.phet.semiconductor.oldphetgraphics.graphics.shapes;
 import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 
@@ -18,8 +18,8 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 public class ArrowShape {
     GeneralPath arrowPath;
     AbstractVector2D tipLocation;
-    private ImmutableVector2D direction;
-    private ImmutableVector2D norm;
+    private Vector2D direction;
+    private Vector2D norm;
 
     public ArrowShape( AbstractVector2D tailLocation, AbstractVector2D tipLocation, double headHeight, double headWidth, double tailWidth ) {
         direction = tipLocation.getSubtractedInstance( tailLocation ).getNormalizedInstance();
@@ -29,12 +29,12 @@ public class ArrowShape {
         }
         norm = direction.getNormalVector();
         this.tipLocation = tipLocation;
-        ImmutableVector2D rightFlap = getPoint( -1 * headHeight, -headWidth / 2 );
-        ImmutableVector2D leftFlap = getPoint( -1 * headHeight, headWidth / 2 );
-        ImmutableVector2D rightPin = getPoint( -1 * headHeight, -tailWidth / 2 );
-        ImmutableVector2D leftPin = getPoint( -1 * headHeight, tailWidth / 2 );
-        ImmutableVector2D rightTail = getPoint( -1 * dist, -tailWidth / 2 );
-        ImmutableVector2D leftTail = getPoint( -1 * dist, tailWidth / 2 );
+        Vector2D rightFlap = getPoint( -1 * headHeight, -headWidth / 2 );
+        Vector2D leftFlap = getPoint( -1 * headHeight, headWidth / 2 );
+        Vector2D rightPin = getPoint( -1 * headHeight, -tailWidth / 2 );
+        Vector2D leftPin = getPoint( -1 * headHeight, tailWidth / 2 );
+        Vector2D rightTail = getPoint( -1 * dist, -tailWidth / 2 );
+        Vector2D leftTail = getPoint( -1 * dist, tailWidth / 2 );
         DoubleGeneralPath path = new DoubleGeneralPath( tipLocation.getX(), tipLocation.getY() );
         path.lineTo( rightFlap );
         path.lineTo( rightPin );
@@ -47,10 +47,10 @@ public class ArrowShape {
     }
 
     //parallel and normal are from the tip
-    private ImmutableVector2D getPoint( double parallel, double normal ) {
-        ImmutableVector2D dv = direction.getScaledInstance( parallel ).
+    private Vector2D getPoint( double parallel, double normal ) {
+        Vector2D dv = direction.getScaledInstance( parallel ).
                 getAddedInstance( norm.getScaledInstance( normal ) );
-        ImmutableVector2D abs = tipLocation.getAddedInstance( dv );
+        Vector2D abs = tipLocation.getAddedInstance( dv );
         return abs;
     }
 

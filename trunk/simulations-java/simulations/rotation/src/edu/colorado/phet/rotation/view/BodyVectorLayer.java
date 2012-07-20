@@ -1,11 +1,15 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.rotation.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Paint;
+import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -25,8 +29,8 @@ public class BodyVectorLayer extends PNode {
     private RotationBody rotationBody;
     private VectorNode accelArrow;
     private VectorNode velocityArrow;
-    private double accelScale = 0.09 ;//in m/sec/sec, see #2077
-    private double velScale = 0.24 ;//in m/sec, see #2077
+    private double accelScale = 0.09;//in m/sec/sec, see #2077
+    private double velScale = 0.24;//in m/sec, see #2077
 
     //todo: factor out required interface to rotationmodel
 
@@ -34,14 +38,14 @@ public class BodyVectorLayer extends PNode {
         this.rotationModel = rotationModel;
         this.rotationBody = rotationBody;
         accelArrow = new VectorNode( RotationStrings.getString( "variable.a" ), RotationColorScheme.ACCELERATION_COLOR, new VectorFunction() {
-            public ImmutableVector2D getVector() {
+            public Vector2D getVector() {
                 return rotationBody.getAcceleration().getScaledInstance( accelScale );
             }
         } );
         addChild( accelArrow );
 
         velocityArrow = new VectorNode( RotationStrings.getString( "variable.v" ), RotationColorScheme.VELOCITY_COLOR, new VectorFunction() {
-            public ImmutableVector2D getVector() {
+            public Vector2D getVector() {
                 return rotationBody.getVelocity().getScaledInstance( velScale );
             }
         } );
@@ -92,7 +96,7 @@ public class BodyVectorLayer extends PNode {
 
         public void update() {
             Point2D position = rotationBody.getPosition();
-            ImmutableVector2D vector = vectorFunction.getVector();
+            Vector2D vector = vectorFunction.getVector();
             arrowNode.setPathTo( new Arrow( position, vector, 20 * RotationPlayAreaNode.SCALE, 20 * RotationPlayAreaNode.SCALE, 3 * RotationPlayAreaNode.SCALE, 0.75, true ).getShape() );
             labelNode.setVisible( vector.getMagnitude() > VISIBLE_THRESHOLD );
             if ( labelNode.getVisible() ) {
@@ -102,13 +106,13 @@ public class BodyVectorLayer extends PNode {
             }
         }
 
-        private ImmutableVector2D increase( ImmutableVector2D orig, double dx ) {
+        private Vector2D increase( Vector2D orig, double dx ) {
             return Math.abs( orig.getMagnitude() ) < VISIBLE_THRESHOLD ? orig : orig.getInstanceOfMagnitude( orig.getMagnitude() + dx );
         }
     }
 
     static interface VectorFunction {
-        ImmutableVector2D getVector();
+        Vector2D getVector();
     }
 
     private static Paint getStrokePaint() {

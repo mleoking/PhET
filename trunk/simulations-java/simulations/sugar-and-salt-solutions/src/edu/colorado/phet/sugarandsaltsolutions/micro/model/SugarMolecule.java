@@ -1,14 +1,14 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Compound;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.ProjectedPositions;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.ProjectedPositions.AtomPosition;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle;
 
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
+import static edu.colorado.phet.common.phetcommon.math.Vector2D.ZERO;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication.sizeScale;
 
 /**
@@ -18,7 +18,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsAppli
  */
 public class SugarMolecule extends Compound<SphericalParticle> {
 
-    public SugarMolecule( ImmutableVector2D relativePosition, double angle,
+    public SugarMolecule( Vector2D relativePosition, double angle,
 
                           //Positions for the atoms within the molecule
                           ProjectedPositions positions ) {

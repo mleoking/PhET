@@ -3,7 +3,7 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 
 import java.awt.Color;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -25,7 +25,7 @@ public class Thermometer extends UserMovableModelElement {
     public final Property<Color> sensedElementColor = new Property<Color>( PhetColorScheme.RED_COLORBLIND );
     private ElementFollower elementFollower = new ElementFollower( this.position );
 
-    public Thermometer( final EFACIntroModel model, ImmutableVector2D initialPosition ) {
+    public Thermometer( final EFACIntroModel model, Vector2D initialPosition ) {
         super( initialPosition );
 
         // Update the sensed temperature at each clock tick.
@@ -81,20 +81,20 @@ public class Thermometer extends UserMovableModelElement {
 
     // Convenience class for sticking to model elements.
     private static class ElementFollower {
-        private final Property<ImmutableVector2D> follower;
-        private Property<ImmutableVector2D> locationBeingFollowed = null;
-        private ImmutableVector2D offset = new ImmutableVector2D( 0, 0 );
-        private final VoidFunction1<ImmutableVector2D> followerFunction = new VoidFunction1<ImmutableVector2D>() {
-            public void apply( ImmutableVector2D location ) {
+        private final Property<Vector2D> follower;
+        private Property<Vector2D> locationBeingFollowed = null;
+        private Vector2D offset = new Vector2D( 0, 0 );
+        private final VoidFunction1<Vector2D> followerFunction = new VoidFunction1<Vector2D>() {
+            public void apply( Vector2D location ) {
                 follower.set( location.getAddedInstance( offset ) );
             }
         };
 
-        private ElementFollower( Property<ImmutableVector2D> follower ) {
+        private ElementFollower( Property<Vector2D> follower ) {
             this.follower = follower;
         }
 
-        public void follow( Property<ImmutableVector2D> locationToFollow ) {
+        public void follow( Property<Vector2D> locationToFollow ) {
             if ( locationBeingFollowed != null ) {
                 locationBeingFollowed.removeObserver( followerFunction );
             }

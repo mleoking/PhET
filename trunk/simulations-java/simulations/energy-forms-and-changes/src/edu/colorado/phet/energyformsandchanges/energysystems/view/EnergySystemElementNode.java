@@ -6,7 +6,7 @@ import java.awt.Color;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -39,8 +39,8 @@ public class EnergySystemElementNode extends PNode {
         }
 
         // Monitor the model element position and update this node's position accordingly.
-        energySystemElement.getObservablePosition().addObserver( new VoidFunction1<ImmutableVector2D>() {
-            public void apply( ImmutableVector2D immutableVector2D ) {
+        energySystemElement.getObservablePosition().addObserver( new VoidFunction1<Vector2D>() {
+            public void apply( Vector2D immutableVector2D ) {
                 setOffset( mvt.modelToView( immutableVector2D ).toPoint2D() );
             }
         } );

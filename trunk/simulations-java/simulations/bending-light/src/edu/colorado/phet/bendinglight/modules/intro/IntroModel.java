@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.modules.intro;
 
 import java.awt.Color;
@@ -13,14 +13,14 @@ import edu.colorado.phet.bendinglight.model.Medium;
 import edu.colorado.phet.bendinglight.model.MediumColorFactory;
 import edu.colorado.phet.bendinglight.model.MediumState;
 import edu.colorado.phet.bendinglight.view.LaserView;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 
 import static edu.colorado.phet.bendinglight.model.IntensityMeter.Reading.MISS;
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.createPolar;
 import static edu.colorado.phet.common.phetcommon.math.MathUtil.getLineCircleIntersection;
+import static edu.colorado.phet.common.phetcommon.math.Vector2D.createPolar;
 import static java.lang.Math.*;
 
 /**
@@ -51,7 +51,7 @@ public class IntroModel extends BendingLightModel {
         final Rectangle bottom = new Rectangle( -10, -10, 20, 10 );
         final Rectangle top = new Rectangle( -10, 0, 20, 10 );
         if ( laser.on.get() ) {
-            final ImmutableVector2D tail = new ImmutableVector2D( laser.emissionPoint.get() );
+            final Vector2D tail = new Vector2D( laser.emissionPoint.get() );
 
             //Snell's law, see http://en.wikipedia.org/wiki/Snell's_law for definition of n1, n2, theta1, theta2
             final double n1 = getN1();//index in top medium
@@ -70,7 +70,7 @@ public class IntroModel extends BendingLightModel {
             final double wavelengthInTopMedium = laser.color.get().getWavelength() / n1;
 
             //Since the n1 depends on the wavelength, when you change the wavelength, the wavelengthInTopMedium also changes (seemingly in the opposite direction)
-            final LightRay incidentRay = new LightRay( tail, new ImmutableVector2D(), n1, wavelengthInTopMedium, sourcePower, color, sourceWaveWidth, 0.0, bottom, true, false );
+            final LightRay incidentRay = new LightRay( tail, new Vector2D(), n1, wavelengthInTopMedium, sourcePower, color, sourceWaveWidth, 0.0, bottom, true, false );
             final boolean rayAbsorbed = addAndAbsorb( incidentRay );
             if ( !rayAbsorbed ) {
                 double thetaOfTotalInternalReflection = asin( n2 / n1 );
@@ -86,7 +86,7 @@ public class IntroModel extends BendingLightModel {
                     reflectedPowerRatio = 1.0;
                 }
                 double reflectedWaveWidth = sourceWaveWidth;
-                addAndAbsorb( new LightRay( new ImmutableVector2D(), createPolar( 1, Math.PI - laser.getAngle() ),
+                addAndAbsorb( new LightRay( new Vector2D(), createPolar( 1, Math.PI - laser.getAngle() ),
                                             n1, wavelengthInTopMedium, reflectedPowerRatio * sourcePower, color, reflectedWaveWidth, incidentRay.getNumberOfWavelengths(), bottom, true, false ) );
 
                 // Fire a transmitted ray if there wasn't total internal reflection
@@ -104,7 +104,7 @@ public class IntroModel extends BendingLightModel {
                         double transmittedBeamHalfWidth = cos( theta2 ) * extentInterceptedHalfWidth;
                         double transmittedWaveWidth = transmittedBeamHalfWidth * 2;
 
-                        final LightRay transmittedRay = new LightRay( new ImmutableVector2D(),
+                        final LightRay transmittedRay = new LightRay( new Vector2D(),
                                                                       createPolar( 1, theta2 - Math.PI / 2 ), n2, transmittedWavelength,
                                                                       transmittedPowerRatio * sourcePower, color, transmittedWaveWidth, incidentRay.getNumberOfWavelengths(), top, true, true );
                         addAndAbsorb( transmittedRay );
@@ -139,7 +139,7 @@ public class IntroModel extends BendingLightModel {
             if ( intersects != null && intersects[0] != null && intersects[1] != null ) {
                 double x = intersects[0].getX() + intersects[1].getX();
                 double y = intersects[0].getY() + intersects[1].getY();
-                LightRay interrupted = new LightRay( ray.tail, new ImmutableVector2D( x / 2, y / 2 ), ray.indexOfRefraction, ray.getWavelength(), ray.getPowerFraction(), laser.color.get().getColor(),
+                LightRay interrupted = new LightRay( ray.tail, new Vector2D( x / 2, y / 2 ), ray.indexOfRefraction, ray.getWavelength(), ray.getPowerFraction(), laser.color.get().getColor(),
                                                      ray.getWaveWidth(), ray.getNumWavelengthsPhaseOffset(), ray.getOppositeMedium(), false, ray.extendBackwards );
 
                 //don't let the wave intersect the intensity meter if it is behind the laser emission point
@@ -172,24 +172,24 @@ public class IntroModel extends BendingLightModel {
     }
 
     //Determine the velocity of the topmost light ray at the specified position, if one exists, otherwise None
-    protected Option<ImmutableVector2D> getVelocity( ImmutableVector2D position ) {
+    protected Option<Vector2D> getVelocity( Vector2D position ) {
         for ( LightRay ray : rays ) {
             if ( ray.contains( position, laserView.get() == LaserView.WAVE ) ) {
-                return new Option.Some<ImmutableVector2D>( ray.getVelocityVector() );
+                return new Option.Some<Vector2D>( ray.getVelocityVector() );
             }
         }
-        return new Option.None<ImmutableVector2D>();
+        return new Option.None<Vector2D>();
     }
 
     //Determine the wave value of the topmost light ray at the specified position, or None if none exists
-    protected Option<Double> getWaveValue( ImmutableVector2D position ) {
+    protected Option<Double> getWaveValue( Vector2D position ) {
         for ( LightRay ray : rays ) {
             if ( ray.contains( position, laserView.get() == LaserView.WAVE ) ) {
                 //Map power to displayed amplitude
                 final double amplitude = Math.sqrt( ray.getPowerFraction() );
 
                 //Find out how far the light has come, so we can compute the remainder of phases
-                final double distanceAlongRay = ray.getUnitVector().dot( new ImmutableVector2D( ray.tail.toPoint2D(), position.toPoint2D() ) );
+                final double distanceAlongRay = ray.getUnitVector().dot( new Vector2D( ray.tail.toPoint2D(), position.toPoint2D() ) );
                 final double phase = ray.getCosArg( distanceAlongRay );
 
                 //Wave is a*cos(theta)

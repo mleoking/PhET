@@ -1,13 +1,14 @@
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
 import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
+import static edu.colorado.phet.common.phetcommon.math.Vector2D.ZERO;
 import static edu.colorado.phet.common.phetcommon.view.PhetColorScheme.RED_COLORBLIND;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.Units.picometersToMeters;
 import static java.awt.Color.*;
@@ -39,11 +40,11 @@ public class SphericalParticle extends Particle {
         this( picometersToMeters( radiusInPM ) * SugarAndSaltSolutionsApplication.sizeScale.get(), ZERO, atomColor, charge, chargeColor );
     }
 
-    public SphericalParticle( double radius, ImmutableVector2D position, Color color, double charge ) {
+    public SphericalParticle( double radius, Vector2D position, Color color, double charge ) {
         this( radius, position, color, charge, null );
     }
 
-    private SphericalParticle( double radius, ImmutableVector2D position, Color color, double charge, Color chargeColor ) {
+    private SphericalParticle( double radius, Vector2D position, Color color, double charge, Color chargeColor ) {
         super( position );
         this.radius = radius;
         this.color = color;

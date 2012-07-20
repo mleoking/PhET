@@ -1,10 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.watertower.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -23,7 +23,7 @@ import static edu.colorado.phet.fluidpressureandflow.watertower.view.WaterTowerC
  * @author Sam Reid
  */
 public class FillTankButton extends TextButtonNode {
-    public FillTankButton( ObservableProperty<Boolean> full, final VoidFunction0 fill, final Property<ImmutableVector2D> panelOffset ) {
+    public FillTankButton( ObservableProperty<Boolean> full, final VoidFunction0 fill, final Property<Vector2D> panelOffset ) {
         super( FILL, new PhetFont( FLOATING_BUTTON_FONT_SIZE ), FluidPressureControlPanel.BACKGROUND );
         setUserComponent( UserComponents.fillButton );
         addActionListener( new ActionListener() {

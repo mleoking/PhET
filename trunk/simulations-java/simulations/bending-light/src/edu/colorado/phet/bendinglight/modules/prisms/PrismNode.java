@@ -1,13 +1,14 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.modules.prisms;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.bendinglight.model.Medium;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -50,8 +51,8 @@ public class PrismNode extends PNode {
                             setTransform( new AffineTransform() );
 
                             //Compute the angle in view coordinates (otherwise inverted y in model gives wrong angle)
-                            double angle = new ImmutableVector2D( transform.modelToView( prism.shape.get().getReferencePoint().get().toPoint2D() ),
-                                                                  transform.modelToView( prism.shape.get().getRotationCenter().toPoint2D() ) ).getAngle();
+                            double angle = new Vector2D( transform.modelToView( prism.shape.get().getReferencePoint().get().toPoint2D() ),
+                                                         transform.modelToView( prism.shape.get().getRotationCenter().toPoint2D() ) ).getAngle();
 
                             //Move the knob so its attachment point (at the right middle of the image) attaches to the corner of the prism (its reference point)
                             Point2D.Double offset = new Point2D.Double( -getFullBounds().getWidth()
@@ -82,8 +83,8 @@ public class PrismNode extends PNode {
 
                     //Find the angle about the center of the prism
                     private double getAngle( PInputEvent event ) {
-                        return new ImmutableVector2D( prism.shape.get().getRotationCenter().toPoint2D(),
-                                                      transform.viewToModel( event.getPositionRelativeTo( getParent() ) ) ).getAngle();
+                        return new Vector2D( prism.shape.get().getRotationCenter().toPoint2D(),
+                                             transform.viewToModel( event.getPositionRelativeTo( getParent() ) ) ).getAngle();
                     }
 
                     //Drag the prism to rotate it

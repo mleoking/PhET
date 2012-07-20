@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.beerslawlab.concentration.view;
 
 import java.awt.BasicStroke;
@@ -15,13 +15,12 @@ import edu.colorado.phet.beerslawlab.common.BLLResources.Strings;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.ParameterKeys;
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.UserComponents;
 import edu.colorado.phet.beerslawlab.common.view.MovableDragHandler;
-import edu.colorado.phet.common.piccolophet.nodes.HorizontalTiledNode;
 import edu.colorado.phet.beerslawlab.concentration.model.ConcentrationMeter;
 import edu.colorado.phet.beerslawlab.concentration.model.ConcentrationSolution;
 import edu.colorado.phet.beerslawlab.concentration.model.Dropper;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -29,6 +28,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.HorizontalTiledNode;
 import edu.colorado.phet.common.piccolophet.simsharing.NonInteractiveEventHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -166,8 +166,8 @@ class ConcentrationMeterNode extends PhetPNode {
             valueNode.setOffset( 0, VALUE_Y_OFFSET ); //NOTE: x offset will be adjusted when value is set, to maintain right justification
 
             // body location
-            meter.body.location.addObserver( new VoidFunction1<ImmutableVector2D>() {
-                public void apply( ImmutableVector2D location ) {
+            meter.body.location.addObserver( new VoidFunction1<Vector2D>() {
+                public void apply( Vector2D location ) {
                     setOffset( location.toPoint2D() );
                 }
             } );
@@ -218,8 +218,8 @@ class ConcentrationMeterNode extends PhetPNode {
             imageNode.setOffset( -radius, -radius );
 
             // probe location
-            meter.probe.location.addObserver( new VoidFunction1<ImmutableVector2D>() {
-                public void apply( ImmutableVector2D location ) {
+            meter.probe.location.addObserver( new VoidFunction1<Vector2D>() {
+                public void apply( Vector2D location ) {
                     setOffset( location.toPoint2D() );
                 }
             } );
@@ -268,14 +268,14 @@ class ConcentrationMeterNode extends PhetPNode {
                 public void propertyChange( PropertyChangeEvent evt ) {
 
                     // Connect bottom-center of body to right-center of probe.
-                    ImmutableVector2D bodyConnectionPoint = new ImmutableVector2D( bodyNode.getFullBoundsReference().getCenterX(), bodyNode.getFullBoundsReference().getMaxY() - 10 );
-                    ImmutableVector2D probeConnectionPoint = new ImmutableVector2D( probeNode.getFullBoundsReference().getMaxX(), probeNode.getFullBoundsReference().getCenterY() );
+                    Vector2D bodyConnectionPoint = new Vector2D( bodyNode.getFullBoundsReference().getCenterX(), bodyNode.getFullBoundsReference().getMaxY() - 10 );
+                    Vector2D probeConnectionPoint = new Vector2D( probeNode.getFullBoundsReference().getMaxX(), probeNode.getFullBoundsReference().getCenterY() );
 
                     // control points
-                    ImmutableVector2D c1Offset = new ImmutableVector2D( 0, BODY_CTRL_Y.evaluate( bodyNode.getFullBoundsReference().getCenterX() - probeNode.getFullBoundsReference().getX() ) );
-                    ImmutableVector2D c2Offset = new ImmutableVector2D( 50, 0 );
-                    ImmutableVector2D c1 = new ImmutableVector2D( bodyConnectionPoint.getX() + c1Offset.getX(), bodyConnectionPoint.getY() + c1Offset.getY() );
-                    ImmutableVector2D c2 = new ImmutableVector2D( probeConnectionPoint.getX() + c2Offset.getX(), probeConnectionPoint.getY() + c2Offset.getY() );
+                    Vector2D c1Offset = new Vector2D( 0, BODY_CTRL_Y.evaluate( bodyNode.getFullBoundsReference().getCenterX() - probeNode.getFullBoundsReference().getX() ) );
+                    Vector2D c2Offset = new Vector2D( 50, 0 );
+                    Vector2D c1 = new Vector2D( bodyConnectionPoint.getX() + c1Offset.getX(), bodyConnectionPoint.getY() + c1Offset.getY() );
+                    Vector2D c2 = new Vector2D( probeConnectionPoint.getX() + c2Offset.getX(), probeConnectionPoint.getY() + c2Offset.getY() );
 
                     // cubic curve
                     setPathTo( new CubicCurve2D.Double( bodyConnectionPoint.getX(), bodyConnectionPoint.getY(),

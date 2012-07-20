@@ -1,7 +1,7 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.geneexpressionbasics.common.model.MessengerRna;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.RandomWalkMotionStrategy;
 import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.StillnessMotionStrategy;
@@ -97,7 +97,7 @@ public class MessengerRnaAttachmentStateMachine extends AttachmentStateMachine {
 
         @Override public void entered( AttachmentStateMachine enclosingStateMachine ) {
             // Move upwards, away from the DNA and polymerase.
-            enclosingStateMachine.biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( -0.5, 1 ),
+            enclosingStateMachine.biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new Vector2D( -0.5, 1 ),
                                                                                                              enclosingStateMachine.biomolecule.motionBoundsProperty ) );
             // Update externally visible state.
             messengerRna.beingSynthesized.set( false );
@@ -150,7 +150,7 @@ public class MessengerRnaAttachmentStateMachine extends AttachmentStateMachine {
             assert biomolecule.existenceStrength.get() == 1.0; // State checking - should be at full strength.
             preFadeCountdown = PRE_FADE_TIME;
             // Move upwards, away from the DNA and polymerase.
-            asm.biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new ImmutableVector2D( 0, 0.75 ),
+            asm.biomolecule.setMotionStrategy( new WanderInGeneralDirectionMotionStrategy( new Vector2D( 0, 0.75 ),
                                                                                            asm.biomolecule.motionBoundsProperty ) );
         }
     }

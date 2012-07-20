@@ -4,7 +4,7 @@ package edu.colorado.phet.fluidpressureandflow.pressure.model;
 import java.awt.Shape;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Pair;
@@ -36,11 +36,11 @@ public interface IPool {
     void addPressureChangeObserver( SimpleObserver updatePressure );
 
     //Use abbreviated units when submerged in some of the scenes
-    boolean isAbbreviatedUnits( ImmutableVector2D sensorPosition, double value );
+    boolean isAbbreviatedUnits( Vector2D sensorPosition, double value );
 
     //Get the list of grass segments (x dimension) to show on the ground
     ArrayList<Pair<Double, Double>> getGrassSegments();
 
     //Get the points making up each continuous edge segment for drawing the cement boundaries of the pool
-    ArrayList<ArrayList<ImmutableVector2D>> getEdges();
+    ArrayList<ArrayList<Vector2D>> getEdges();
 }

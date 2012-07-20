@@ -1,7 +1,7 @@
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.scalacommon.math
 
 import java.awt.geom.{Point2D, Line2D}
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D
 
 /**
  * Immutable Vector class for simplified vector arithmetic.
@@ -9,19 +9,19 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D
  */
 class Vector2D(val x: Double, val y: Double) {
 
-  def this() = this (0, 0)
+  def this() = this(0, 0)
 
   /**
    * Creates a vector in the direction of the given line segment
    */
-  def this(line: Line2D) = this (
+  def this(line: Line2D) = this(
     line.getP2.getX - line.getP1.getX,
     line.getP2.getY - line.getP1.getY)
 
   /**
    * Returns a unit vector in the specified direction
    */
-  def this(angle: Double) = this (Math.cos(angle), Math.sin(angle))
+  def this(angle: Double) = this(Math.cos(angle), Math.sin(angle))
 
   def +(vector: Vector2D) = new Vector2D(vector.x + x, vector.y + y)
 
@@ -41,7 +41,7 @@ class Vector2D(val x: Double, val y: Double) {
   override lazy val toString = "x=" + x + ", y=" + y
   override lazy val hashCode = new Point2D.Double(x, y).hashCode
 
-  def toImmutableVector2D = new ImmutableVector2D(x, y)
+  def toImmutableVector2D = new edu.colorado.phet.common.phetcommon.math.Vector2D(x, y)
 
   override def equals(obj: Any) = {
     obj match {

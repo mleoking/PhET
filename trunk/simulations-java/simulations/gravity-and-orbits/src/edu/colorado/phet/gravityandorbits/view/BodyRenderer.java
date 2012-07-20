@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.gravityandorbits.view;
 
@@ -7,7 +7,7 @@ import java.awt.Paint;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -78,14 +78,14 @@ public abstract class BodyRenderer extends PNode {
 
         public SphereRenderer( final Color color, final Color highlight, double viewDiameter ) {
             this( new IBodyColors() {
-                      public Color getHighlight() {
-                          return highlight;
-                      }
+                public Color getHighlight() {
+                    return highlight;
+                }
 
-                      public Color getColor() {
-                          return color;
-                      }
-                  }, viewDiameter );
+                public Color getColor() {
+                    return color;
+                }
+            }, viewDiameter );
         }
 
         public SphereRenderer( IBodyColors body, double viewDiameter ) {
@@ -144,7 +144,7 @@ public abstract class BodyRenderer extends PNode {
             path.moveTo( 0, 0 );
             for ( int i = 0; i < numSegments + 1; i++ ) {
                 double myRadius = i % 2 == 0 ? twinkleRadius.apply( radius ) : radius;
-                ImmutableVector2D target = ImmutableVector2D.createPolar( myRadius, angle );
+                Vector2D target = Vector2D.createPolar( myRadius, angle );
                 path.lineTo( target );
                 angle += deltaAngle;
             }

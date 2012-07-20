@@ -1,8 +1,8 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.moleculepolarity.common.model;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.moleculepolarity.MPColors;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPStrings;
@@ -21,7 +21,7 @@ public class DiatomicMolecule extends Molecule2D {
     public final Atom atomA, atomB; // the atoms labeled A and B
     public final Bond bond; // the bond connecting atoms A and B
 
-    public DiatomicMolecule( ImmutableVector2D location, double angle ) {
+    public DiatomicMolecule( Vector2D location, double angle ) {
         super( location, angle );
         atomA = new Atom( MPStrings.A, ATOM_DIAMETER, MPColors.ATOM_A, MPConstants.ELECTRONEGATIVITY_RANGE.getMin() );
         atomB = new Atom( MPStrings.B, ATOM_DIAMETER, MPColors.ATOM_B, MPConstants.ELECTRONEGATIVITY_RANGE.getMin() + ( MPConstants.ELECTRONEGATIVITY_RANGE.getLength() / 2 ) );
@@ -48,11 +48,11 @@ public class DiatomicMolecule extends Molecule2D {
         // atom A
         double xA = PolarCartesianConverter.getX( radius, angle.get() + Math.PI ) + location.getX();
         double yA = PolarCartesianConverter.getY( radius, angle.get() + Math.PI ) + location.getY();
-        atomA.location.set( new ImmutableVector2D( xA, yA ) );
+        atomA.location.set( new Vector2D( xA, yA ) );
         // atom B
         double xB = PolarCartesianConverter.getX( radius, angle.get() ) + location.getX();
         double yB = PolarCartesianConverter.getY( radius, angle.get() ) + location.getY();
-        atomB.location.set( new ImmutableVector2D( xB, yB ) );
+        atomB.location.set( new Vector2D( xB, yB ) );
     }
 
     // updates partial charges

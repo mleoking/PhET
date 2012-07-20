@@ -1,8 +1,8 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.beerslawlab.beerslaw.model;
 
 import edu.colorado.phet.beerslawlab.common.model.Movable;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
@@ -31,14 +31,14 @@ public class ATDetector {
 
         public final double sensorDiameter; // diameter of the probe's sensor area, in cm
 
-        public Probe( ImmutableVector2D probeLocation, PBounds probeDragBounds, double sensorDiameter ) {
+        public Probe( Vector2D probeLocation, PBounds probeDragBounds, double sensorDiameter ) {
             super( probeLocation, probeDragBounds );
             this.sensorDiameter = sensorDiameter;
         }
     }
 
-    public ATDetector( ImmutableVector2D bodyLocation, PBounds bodyDragBounds,
-                       ImmutableVector2D probeLocation, PBounds probeDragBounds,
+    public ATDetector( Vector2D bodyLocation, PBounds bodyDragBounds,
+                       Vector2D probeLocation, PBounds probeDragBounds,
                        Light light, Cuvette cuvette, Absorbance absorbance ) {
 
         this.light = light;

@@ -1,3 +1,4 @@
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.chemicalreactions.model;
 
 import Jama.Matrix;
@@ -5,9 +6,9 @@ import Jama.Matrix;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Optimization1D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.FunctionalUtils;
 import edu.colorado.phet.common.phetcommon.util.Pair;
@@ -18,9 +19,7 @@ import edu.colorado.phet.jamaphet.collision.Collidable2D;
 import edu.colorado.phet.jamaphet.collision.CollisionUtils;
 import edu.umd.cs.piccolo.util.PBounds;
 
-import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.map;
-import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.reduceLeft;
-import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.zip;
+import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.*;
 import static edu.colorado.phet.jamaphet.RigidMotionLeastSquares.RigidMotionTransformation;
 
 public class Reaction {
@@ -34,7 +33,7 @@ public class Reaction {
     public final List<Molecule> reactants;
 
     // list of positions we need to target, for easy computational reference
-    private final List<ImmutableVector2D> reactantMoleculeShapePositions = new ArrayList<ImmutableVector2D>();
+    private final List<Vector2D> reactantMoleculeShapePositions = new ArrayList<Vector2D>();
     private final Kit kit;
 
     private double fitness;
@@ -72,8 +71,8 @@ public class Reaction {
             kit.completeReaction( this, map( shape.productSpots, new Function1<ReactionShape.MoleculeSpot, Molecule>() {
                 public Molecule apply( final ReactionShape.MoleculeSpot spot ) {
                     return new Molecule( spot.shape ) {{
-                        ImmutableVector2D transformedPosition = target.transformation.transformVector2D( spot.position );
-                        ImmutableVector2D transformedOrigin = target.transformation.transformVector2D( new ImmutableVector2D() );
+                        Vector2D transformedPosition = target.transformation.transformVector2D( spot.position );
+                        Vector2D transformedOrigin = target.transformation.transformVector2D( new Vector2D() );
                         setPosition( transformedPosition );
                         setAngle( (float) target.rotation );
 
@@ -98,15 +97,15 @@ public class Reaction {
         }
     }
 
-    public ImmutableVector2D getTweakAcceleration( int index ) {
+    public Vector2D getTweakAcceleration( int index ) {
         Molecule molecule = reactants.get( index );
         double t = target.t;
 
-        ImmutableVector2D targetPosition = target.transformedTargets.get( index );
+        Vector2D targetPosition = target.transformedTargets.get( index );
 
         // compute the necessary (constant) acceleration to reach the target precisely on time
-        ImmutableVector2D currentTrajectoryDestination = molecule.getPosition().plus( molecule.getVelocity().times( target.t ) );
-        ImmutableVector2D acceleration = targetPosition.minus( currentTrajectoryDestination ).times( 2 / ( t * t ) );
+        Vector2D currentTrajectoryDestination = molecule.getPosition().plus( molecule.getVelocity().times( target.t ) );
+        Vector2D acceleration = targetPosition.minus( currentTrajectoryDestination ).times( 2 / ( t * t ) );
 
         if ( acceleration.getMagnitude() > MAX_ACCELERATION ) {
             // TODO: can we prevent this and just 0-fitness this reaction out?
@@ -193,17 +192,17 @@ public class Reaction {
         fitness = isValidTarget ? Math.exp( -target.error ) : 0;
     }
 
-    private double errorFunction( List<ImmutableVector2D> currentDestinations, List<ImmutableVector2D> targetDestinations ) {
+    private double errorFunction( List<Vector2D> currentDestinations, List<Vector2D> targetDestinations ) {
         // compute a list of differences between the result of the current trajectory and the target destinations
-        List<ImmutableVector2D> differences = zip( currentDestinations, targetDestinations, new Function2<ImmutableVector2D, ImmutableVector2D, ImmutableVector2D>() {
-            public ImmutableVector2D apply( ImmutableVector2D position, ImmutableVector2D target ) {
+        List<Vector2D> differences = zip( currentDestinations, targetDestinations, new Function2<Vector2D, Vector2D, Vector2D>() {
+            public Vector2D apply( Vector2D position, Vector2D target ) {
                 return position.minus( target );
             }
         } );
 
         // return the mean square of the differences (equivalent to the RMS for our minimization case, and faster)
-        return reduceLeft( map( differences, new Function1<ImmutableVector2D, Double>() {
-            public Double apply( ImmutableVector2D v ) {
+        return reduceLeft( map( differences, new Function1<Vector2D, Double>() {
+            public Double apply( Vector2D v ) {
                 return v.getMagnitude();
             }
         } ), new Function2<Double, Double, Double>() {
@@ -213,9 +212,9 @@ public class Reaction {
         } ) / differences.size();
     }
 
-    private List<ImmutableVector2D> getReactantPositionsAfterTime( final double t ) {
-        return map( reactants, new Function1<Collidable2D, ImmutableVector2D>() {
-            public ImmutableVector2D apply( Collidable2D object ) {
+    private List<Vector2D> getReactantPositionsAfterTime( final double t ) {
+        return map( reactants, new Function1<Collidable2D, Vector2D>() {
+            public Vector2D apply( Collidable2D object ) {
                 return object.getPosition().plus( object.getVelocity().times( t ) );
             }
         } );
@@ -227,15 +226,15 @@ public class Reaction {
 
     private ReactionTarget computeForTime( final double t ) {
         // positions after time T
-        List<ImmutableVector2D> positions = getReactantPositionsAfterTime( t );
+        List<Vector2D> positions = getReactantPositionsAfterTime( t );
 
         // rigid motion transformation
         // don't allow reflections for now, since not all molecules can be reflected along their current axis
         final RigidMotionLeastSquares.RigidMotionTransformation transformation = RigidMotionLeastSquares.bestFitMotion2D( reactantMoleculeShapePositions, positions, false );
 
         // and closest targets at time T, based on the computed positions
-        List<ImmutableVector2D> transformedTargets = map( reactantMoleculeShapePositions, new Function1<ImmutableVector2D, ImmutableVector2D>() {
-            public ImmutableVector2D apply( ImmutableVector2D v ) {
+        List<Vector2D> transformedTargets = map( reactantMoleculeShapePositions, new Function1<Vector2D, Vector2D>() {
+            public Vector2D apply( Vector2D v ) {
                 return transformation.transformVector2D( v );
             }
         } );
@@ -248,7 +247,7 @@ public class Reaction {
 
     private ReactionTarget computeForTimeWithRotation( final double t, final double rotation ) {
         // positions after time T
-        List<ImmutableVector2D> destinations = getReactantPositionsAfterTime( t );
+        List<Vector2D> destinations = getReactantPositionsAfterTime( t );
 
         // rigid motion transformation
         // don't allow reflections for now, since not all molecules can be reflected along their current axis
@@ -267,8 +266,8 @@ public class Reaction {
         );
 
         // and closest targets at time T, based on the computed positions
-        List<ImmutableVector2D> transformedTargets = map( reactantMoleculeShapePositions, new Function1<ImmutableVector2D, ImmutableVector2D>() {
-            public ImmutableVector2D apply( ImmutableVector2D v ) {
+        List<Vector2D> transformedTargets = map( reactantMoleculeShapePositions, new Function1<Vector2D, Vector2D>() {
+            public Vector2D apply( Vector2D v ) {
                 return transformation.transformVector2D( v );
             }
         } );
@@ -286,7 +285,7 @@ public class Reaction {
         return reactants;
     }
 
-    public List<ImmutableVector2D> getReactantMoleculeShapePositions() {
+    public List<Vector2D> getReactantMoleculeShapePositions() {
         return reactantMoleculeShapePositions;
     }
 
@@ -301,11 +300,11 @@ public class Reaction {
     public static class ReactionTarget {
         public final double t;
         public final RigidMotionTransformation transformation;
-        public final List<ImmutableVector2D> transformedTargets;
+        public final List<Vector2D> transformedTargets;
         public final double error;
         public final double rotation;
 
-        public ReactionTarget( double t, RigidMotionTransformation transformation, List<ImmutableVector2D> transformedTargets, double error, double rotation ) {
+        public ReactionTarget( double t, RigidMotionTransformation transformation, List<Vector2D> transformedTargets, double error, double rotation ) {
             this.t = t;
             this.transformation = transformation;
             this.transformedTargets = transformedTargets;
@@ -318,15 +317,15 @@ public class Reaction {
             final Property<Boolean> isOverAccelerationLimit = new Property<Boolean>( false );
 
             // compute final velocities so we can calculate whether collisions are likely
-            List<ImmutableVector2D> finalVelocities = FunctionalUtils.mapWithIndex( molecules, new Function2<Molecule, Integer, ImmutableVector2D>() {
-                public ImmutableVector2D apply( Molecule molecule, Integer i ) {
+            List<Vector2D> finalVelocities = FunctionalUtils.mapWithIndex( molecules, new Function2<Molecule, Integer, Vector2D>() {
+                public Vector2D apply( Molecule molecule, Integer i ) {
                     // where the molecule would end up with no changes to its velocity
-                    ImmutableVector2D destinationAfterTime = molecule.getPosition().plus( molecule.getVelocity().times( t ) );
+                    Vector2D destinationAfterTime = molecule.getPosition().plus( molecule.getVelocity().times( t ) );
 
                     // the distance we need to push the molecule extra over time t
-                    ImmutableVector2D delta = transformedTargets.get( i ).minus( destinationAfterTime );
+                    Vector2D delta = transformedTargets.get( i ).minus( destinationAfterTime );
 
-                    ImmutableVector2D acceleration = delta.times( 2 / ( t * t ) );
+                    Vector2D acceleration = delta.times( 2 / ( t * t ) );
 
                     if ( acceleration.getMagnitude() > MAX_ACCELERATION ) {
                         isOverAccelerationLimit.set( true );
@@ -347,13 +346,13 @@ public class Reaction {
             for ( Pair<Integer, Integer> indexPair : FunctionalUtils.pairs( FunctionalUtils.rangeInclusive( 0, molecules.size() - 1 ) ) ) {
                 Molecule moleculeA = molecules.get( indexPair._1 );
                 Molecule moleculeB = molecules.get( indexPair._2 );
-                ImmutableVector2D finalPositionA = transformedTargets.get( indexPair._1 );
-                ImmutableVector2D finalPositionB = transformedTargets.get( indexPair._2 );
-                ImmutableVector2D finalVelocityA = finalVelocities.get( indexPair._1 );
-                ImmutableVector2D finalVelocityB = finalVelocities.get( indexPair._2 );
+                Vector2D finalPositionA = transformedTargets.get( indexPair._1 );
+                Vector2D finalPositionB = transformedTargets.get( indexPair._2 );
+                Vector2D finalVelocityA = finalVelocities.get( indexPair._1 );
+                Vector2D finalVelocityB = finalVelocities.get( indexPair._2 );
 
-                ImmutableVector2D positionDifference = finalPositionB.minus( finalPositionA );
-                ImmutableVector2D velocityDifference = finalVelocityB.minus( finalVelocityA );
+                Vector2D positionDifference = finalPositionB.minus( finalPositionA );
+                Vector2D velocityDifference = finalVelocityB.minus( finalVelocityA );
 
                 if ( positionDifference.getMagnitude() > 1.05 * moleculeA.shape.getBoundingCircleRadius() + moleculeB.shape.getBoundingCircleRadius() ) {
                     // if the molecules aren't touching in their collision positions (and we approximate this by checking the bounding circles),
@@ -370,7 +369,7 @@ public class Reaction {
 
             // invalidate the reaction if part of the target is outside of the play area bounds
             PBounds availablePlayAreaModelBounds = kit.getLayoutBounds().getAvailablePlayAreaModelBounds();
-            for ( ImmutableVector2D transformedTarget : transformedTargets ) {
+            for ( Vector2D transformedTarget : transformedTargets ) {
                 if ( !availablePlayAreaModelBounds.contains( transformedTarget.toPoint2D() ) ) {
                     return false;
                 }

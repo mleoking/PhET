@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.beerslawlab.beerslaw.view;
 
 import java.awt.Color;
@@ -9,7 +9,7 @@ import edu.colorado.phet.beerslawlab.common.BLLConstants;
 import edu.colorado.phet.beerslawlab.common.view.BLLCanvas;
 import edu.colorado.phet.beerslawlab.common.view.DebugLocationNode;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.umd.cs.piccolo.PNode;
@@ -60,7 +60,7 @@ public class BeersLawCanvas extends BLLCanvas implements Resettable {
             final double yMargin = 20;
             // below the light
             wavelengthControlNode.setOffset( lightNode.getFullBoundsReference().getMinX(),
-                                     lightNode.getFullBoundsReference().getMaxY() + 20 );
+                                             lightNode.getFullBoundsReference().getMaxY() + 20 );
             // solution combo box at top center
             solutionControlsNode.setOffset( ( getStageSize().getWidth() - solutionControlsNode.getFullBoundsReference().getWidth() ) / 2,
                                             yMargin );
@@ -76,7 +76,7 @@ public class BeersLawCanvas extends BLLCanvas implements Resettable {
         if ( bodyNode.getFullBoundsReference().getMaxX() > getStageSize().getWidth() ) {
             final double x = model.mvt.viewToModelDeltaX( getStageSize().getWidth() - bodyNode.getFullBoundsReference().getWidth() - 4 );
             final double y = model.detector.body.location.get().getY();
-            model.detector.body.location.set( new ImmutableVector2D( x, y ) );
+            model.detector.body.location.set( new Vector2D( x, y ) );
         }
     }
 

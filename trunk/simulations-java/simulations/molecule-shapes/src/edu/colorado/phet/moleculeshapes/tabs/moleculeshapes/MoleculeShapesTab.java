@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.moleculeshapes.tabs.moleculeshapes;
 
 import java.awt.Canvas;
@@ -8,8 +8,8 @@ import java.awt.Dimension;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
@@ -36,7 +36,6 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesSimSharing;
 import edu.colorado.phet.moleculeshapes.control.BondTypeOverlayNode;
 import edu.colorado.phet.moleculeshapes.control.GeometryNameNode;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
-import edu.colorado.phet.moleculeshapes.control.OptionsNode;
 import edu.colorado.phet.moleculeshapes.model.Bond;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.model.VSEPRMolecule;
@@ -359,7 +358,7 @@ public class MoleculeShapesTab extends MoleculeViewTab {
         /*---------------------------------------------------------------------------*
         * main control panel
         *----------------------------------------------------------------------------*/
-        Property<ImmutableVector2D> controlPanelPosition = new Property<ImmutableVector2D>( new ImmutableVector2D() );
+        Property<Vector2D> controlPanelPosition = new Property<Vector2D>( new Vector2D() );
         controlPanelNode = new MoleculeShapesControlPanel( this );
         controlPanel = new PiccoloJMENode( controlPanelNode, inputHandler, this, canvasTransform, controlPanelPosition );
         guiView.getScene().attachChild( controlPanel );
@@ -367,7 +366,7 @@ public class MoleculeShapesTab extends MoleculeViewTab {
                 new UpdateListener() {
                     public void update() {
                         if ( controlPanel != null ) {
-                            controlPanel.position.set( new ImmutableVector2D(
+                            controlPanel.position.set( new Vector2D(
                                     getStageSize().width - controlPanel.getComponentWidth() - OUTSIDE_PADDING,
                                     getStageSize().height - controlPanel.getComponentHeight() - OUTSIDE_PADDING ) );
                         }
@@ -402,7 +401,7 @@ public class MoleculeShapesTab extends MoleculeViewTab {
             setOffset( 0, 10 );
         }}, inputHandler, this, canvasTransform );
         guiView.getScene().attachChild( namePanel );
-        namePanel.position.set( new ImmutableVector2D( OUTSIDE_PADDING, OUTSIDE_PADDING ) );
+        namePanel.position.set( new Vector2D( OUTSIDE_PADDING, OUTSIDE_PADDING ) );
     }
 
     @Override public void updateState( final float tpf ) {

@@ -1,3 +1,4 @@
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.common.phetcommon.math;
 
 /**
@@ -5,12 +6,12 @@ package edu.colorado.phet.common.phetcommon.math;
  */
 public class Ray2D {
     // the position where the ray is pointed from
-    public final ImmutableVector2D pos;
+    public final Vector2D pos;
 
     // the unit vector direction in which the ray is pointed
-    public final ImmutableVector2D dir;
+    public final Vector2D dir;
 
-    public Ray2D( ImmutableVector2D pos, ImmutableVector2D dir ) {
+    public Ray2D( Vector2D pos, Vector2D dir ) {
         this.pos = pos;
 
         // normalize dir if needed
@@ -22,7 +23,7 @@ public class Ray2D {
         return new Ray2D( pointAtDistance( distance ), dir );
     }
 
-    public ImmutableVector2D pointAtDistance( double distance ) {
+    public Vector2D pointAtDistance( double distance ) {
         return pos.plus( dir.times( distance ) );
     }
 

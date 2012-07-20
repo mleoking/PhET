@@ -1,4 +1,4 @@
-//  Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.buildamolecule.model;
 
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.HashSet;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.chemistry.model.Element;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.IBucketSphere;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -36,10 +36,10 @@ public class Atom2D extends Atom implements IBucketSphere<Atom2D> {
     // ------------------------------------------------------------------------
 
     private final String name;
-    public final Property<ImmutableVector2D> position;
+    public final Property<Vector2D> position;
     private final Property<Boolean> userControlled = new Property<Boolean>( false );//True if the particle is being dragged by the user
     private final HashSet<IBucketSphere.Listener<Atom2D>> listeners = new HashSet<IBucketSphere.Listener<Atom2D>>();
-    private ImmutableVector2D destination = new ImmutableVector2D();
+    private Vector2D destination = new Vector2D();
 
     public final Property<Boolean> visible = new Property<Boolean>( true ); // invisible for instance when in a collection box
 
@@ -58,7 +58,7 @@ public class Atom2D extends Atom implements IBucketSphere<Atom2D> {
         super( element );
         this.clock = clock;
         this.name = BuildAMoleculeStrings.getAtomName( element );
-        position = new Property<ImmutableVector2D>( new ImmutableVector2D() );
+        position = new Property<Vector2D>( new Vector2D() );
         destination = position.get();
         addedToModel(); // Assume that this is initially an active part of the model.
         userControlled.addObserver( new SimpleObserver() {
@@ -125,32 +125,32 @@ public class Atom2D extends Atom implements IBucketSphere<Atom2D> {
         }
     }
 
-    public ImmutableVector2D getPosition() {
+    public Vector2D getPosition() {
         return position.get();
     }
 
-    public ImmutableVector2D getDestination() {
+    public Vector2D getDestination() {
         return destination;
     }
 
-    public void setPosition( ImmutableVector2D point ) {
+    public void setPosition( Vector2D point ) {
         position.set( point );
     }
 
     public void setPosition( double x, double y ) {
-        position.set( new ImmutableVector2D( x, y ) );
+        position.set( new Vector2D( x, y ) );
     }
 
-    public void setDestination( ImmutableVector2D point ) {
+    public void setDestination( Vector2D point ) {
         destination = point;
     }
 
-    public void translatePositionAndDestination( ImmutableVector2D delta ) {
+    public void translatePositionAndDestination( Vector2D delta ) {
         setPosition( getPosition().plus( delta ) );
         setDestination( getDestination().plus( delta ) );
     }
 
-    public void setPositionAndDestination( ImmutableVector2D point ) {
+    public void setPositionAndDestination( Vector2D point ) {
         setPosition( point );
         setDestination( point );
     }
@@ -171,7 +171,7 @@ public class Atom2D extends Atom implements IBucketSphere<Atom2D> {
         setPosition( position.get().getX() + dx, position.get().getY() + dy );
     }
 
-    public void translate( ImmutableVector2D vector2D ) {
+    public void translate( Vector2D vector2D ) {
         translate( vector2D.getX(), vector2D.getY() );
     }
 

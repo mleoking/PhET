@@ -4,8 +4,8 @@
 package edu.colorado.phet.semiconductor.macro.energy.states;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticle;
 import edu.colorado.phet.semiconductor.macro.energy.bands.BandParticleState;
 
@@ -37,7 +37,7 @@ public class MoveToPosition implements BandParticleState {
         double distPerStep = speed.getSpeed() * dt;
         AbstractVector2D targetLoc = target;
         AbstractVector2D myLoc = particle.getPosition();
-        ImmutableVector2D dx = targetLoc.getSubtractedInstance( myLoc );
+        Vector2D dx = targetLoc.getSubtractedInstance( myLoc );
 //        particle.setVelocity(dx.getScaledInstance(1.0/dt));
         double dist = dx.getMagnitude();
         if ( dist <= distPerStep ) {
@@ -46,9 +46,9 @@ public class MoveToPosition implements BandParticleState {
             return true;
         }
         else {
-            ImmutableVector2D dir = dx.getInstanceOfMagnitude( distPerStep );
+            Vector2D dir = dx.getInstanceOfMagnitude( distPerStep );
 //            dir = new AbstractVector2D(-Math.abs(dir.getX()), dir.getEnergy());
-            ImmutableVector2D newLoc = myLoc.getAddedInstance( dir );
+            Vector2D newLoc = myLoc.getAddedInstance( dir );
             particle.setPosition( new MutableVector2D( newLoc.getX(), newLoc.getY() ) );
             return false;
         }

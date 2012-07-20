@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines;
 
 import java.util.ArrayList;
@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.TranscriptionFactor;
@@ -97,7 +97,7 @@ public class TranscriptionFactorAttachmentStateMachine extends GenericAttachment
                         setState( movingTowardsAttachmentState );
                         biomolecule.setMotionStrategy( new MoveDirectlyToDestinationMotionStrategy( attachmentSite.locationProperty,
                                                                                                     biomolecule.motionBoundsProperty,
-                                                                                                    new ImmutableVector2D( 0, 0 ),
+                                                                                                    new Vector2D( 0, 0 ),
                                                                                                     VELOCITY_ON_DNA ) );
                         // Update the detachment threshold.  It gets lower over
                         // time to increase the probability of detachment.

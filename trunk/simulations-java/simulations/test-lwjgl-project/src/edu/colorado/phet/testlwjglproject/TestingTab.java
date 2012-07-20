@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.testlwjglproject;
 
 import java.awt.Color;
@@ -21,7 +21,7 @@ import javax.swing.SwingUtilities;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
@@ -107,7 +107,7 @@ public class TestingTab extends LWJGLTab {
                     }
                 } );
             }} );
-        }}, this, canvasTransform, new Property<ImmutableVector2D>( new ImmutableVector2D( 20, 20 ) ), mouseEventNotifier );
+        }}, this, canvasTransform, new Property<Vector2D>( new Vector2D( 20, 20 ) ), mouseEventNotifier );
         testPiccoloNode = new OrthoPiccoloNode( new PNode() {{
             final PNode button = new TextButtonNode( "Piccolo Button", new PhetFont( 14 ), Color.ORANGE ) {{
                 addActionListener( new ActionListener() {
@@ -124,7 +124,7 @@ public class TestingTab extends LWJGLTab {
             addChild( new PhetPPath( new RoundRectangle2D.Double( 0, 0, 150, 30, 10, 10 ), Color.YELLOW ) {{
                 setOffset( 20.5, button.getFullBounds().getMaxY() + 50 );
             }} );
-        }}, this, canvasTransform, new Property<ImmutableVector2D>( new ImmutableVector2D( 20, 100 ) ), mouseEventNotifier );
+        }}, this, canvasTransform, new Property<Vector2D>( new Vector2D( 20, 100 ) ), mouseEventNotifier );
         JPanel fpsPanel = new JPanel() {{
             setPreferredSize( new Dimension( 100, 30 ) );
             setOpaque( true );
@@ -143,7 +143,7 @@ public class TestingTab extends LWJGLTab {
             }} );
         }};
         fpsNode = new OrthoComponentNode( fpsPanel, this, canvasTransform,
-                                          new Property<ImmutableVector2D>( new ImmutableVector2D( 0, stageSize.getHeight() - fpsPanel.getPreferredSize().getHeight() ) ), mouseEventNotifier );
+                                          new Property<Vector2D>( new Vector2D( 0, stageSize.getHeight() - fpsPanel.getPreferredSize().getHeight() ) ), mouseEventNotifier );
 
         {
             int terrainRows = 20;

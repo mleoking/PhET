@@ -1,11 +1,15 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.motion2d;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -24,12 +28,12 @@ public class WiggleMe extends CompositePhetGraphic implements ModelElement {
     private double time = 0;
     private Point2D.Double current;
     private Font font = new PhetFont( 16, true );
-    private ImmutableVector2D oscillationVector;
+    private Vector2D oscillationVector;
     private Point2D startPt;
     private PhetShadowTextGraphic textGraphic;
     private PhetShapeGraphic arrowGraphic;
 
-    public WiggleMe( Component parent, Point2D startPt, ImmutableVector2D oscillationDir, double amplitude, double frequency, String text ) {
+    public WiggleMe( Component parent, Point2D startPt, Vector2D oscillationDir, double amplitude, double frequency, String text ) {
         super( parent );
         setVisible( false );
         this.startPt = startPt;

@@ -1,7 +1,7 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.common.view;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -19,10 +19,10 @@ public class SnapToToolbox extends PBasicInputEventHandler {
     private final Function0<PBounds> getDragNodeGlobalFullBounds;
 
     private final FluidPressureAndFlowControlPanelNode sensorToolBoxNode;
-    private final SettableProperty<ImmutableVector2D> modelPosition;
-    private final ImmutableVector2D controlPanelModelPosition;
+    private final SettableProperty<Vector2D> modelPosition;
+    private final Vector2D controlPanelModelPosition;
 
-    public SnapToToolbox( FluidPressureAndFlowControlPanelNode sensorToolBoxNode, SettableProperty<ImmutableVector2D> modelPosition, ImmutableVector2D controlPanelModelPosition, Function0<PBounds> getDragNodeGlobalFullBounds ) {
+    public SnapToToolbox( FluidPressureAndFlowControlPanelNode sensorToolBoxNode, SettableProperty<Vector2D> modelPosition, Vector2D controlPanelModelPosition, Function0<PBounds> getDragNodeGlobalFullBounds ) {
         this.getDragNodeGlobalFullBounds = getDragNodeGlobalFullBounds;
         this.sensorToolBoxNode = sensorToolBoxNode;
         this.modelPosition = modelPosition;

@@ -1,9 +1,9 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.flow.model;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -18,14 +18,14 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 public class PipeCrossSection {
 
     //Top and bottom end points on the cross section
-    public final Property<ImmutableVector2D> top;
-    public final Property<ImmutableVector2D> bottom;
+    public final Property<Vector2D> top;
+    public final Property<Vector2D> bottom;
     public final IUserComponent component;
 
     public PipeCrossSection( IUserComponent component, double x, double yBottom, double yTop ) {
         this.component = component;
-        top = new Property<ImmutableVector2D>( new ImmutableVector2D( x, yTop ) );
-        bottom = new Property<ImmutableVector2D>( new ImmutableVector2D( x, yBottom ) );
+        top = new Property<Vector2D>( new Vector2D( x, yTop ) );
+        bottom = new Property<Vector2D>( new Vector2D( x, yBottom ) );
     }
 
     public Point2D getTop() {
@@ -43,11 +43,11 @@ public class PipeCrossSection {
     }
 
     public void translateTop( double dx, double dy ) {
-        top.set( new ImmutableVector2D( getTop().getX() + dx, getTop().getY() + dy ) );
+        top.set( new Vector2D( getTop().getX() + dx, getTop().getY() + dy ) );
     }
 
     public void translateBottom( double dx, double dy ) {
-        bottom.set( new ImmutableVector2D( getBottom().getX() + dx, getBottom().getY() + dy ) );
+        bottom.set( new Vector2D( getBottom().getX() + dx, getBottom().getY() + dy ) );
     }
 
     public double getX() {

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -71,13 +71,13 @@ public class Beaker extends RectangularThermalMovableModelElement {
      * @param clock
      * @param initialPosition The initial position in model space.  This is
      */
-    public Beaker( ConstantDtClock clock, ImmutableVector2D initialPosition, List<RectangularThermalMovableModelElement> potentiallyContainedElements, BooleanProperty energyChunksVisible ) {
+    public Beaker( ConstantDtClock clock, Vector2D initialPosition, List<RectangularThermalMovableModelElement> potentiallyContainedElements, BooleanProperty energyChunksVisible ) {
         super( clock, initialPosition, WIDTH, HEIGHT * NON_DISPLACED_FLUID_LEVEL, FLUID_MASS, FLUID_SPECIFIC_HEAT, energyChunksVisible );
         this.potentiallyContainedElements = potentiallyContainedElements;
 
         // Update the top and bottom surfaces whenever the position changes.
-        position.addObserver( new VoidFunction1<ImmutableVector2D>() {
-            public void apply( final ImmutableVector2D immutableVector2D ) {
+        position.addObserver( new VoidFunction1<Vector2D>() {
+            public void apply( final Vector2D immutableVector2D ) {
                 updateSurfaces();
             }
         } );
@@ -255,7 +255,7 @@ public class Beaker extends RectangularThermalMovableModelElement {
                 // This chunk is being transferred from a container in the
                 // beaker to the fluid, so move it sideways.
                 double xVel = 0.05 * dt * ( getCenterPoint().getX() > ec.position.get().getX() ? -1 : 1 );
-                ImmutableVector2D motionVector = new ImmutableVector2D( xVel, 0 );
+                Vector2D motionVector = new Vector2D( xVel, 0 );
                 ec.translate( motionVector );
             }
             else {

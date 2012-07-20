@@ -1,10 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.workenergy.model;
 
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
@@ -45,7 +45,7 @@ public class WorkEnergyObject {
         final SimpleObserver updateNetForce = new SimpleObserver() {
             public void update() {
                 if ( position.get().getY() <= 0 || isUserControlled() ) {
-                    netForce.set( new ImmutableVector2D() );
+                    netForce.set( new Vector2D() );
                 }
                 else {
                     netForce.set( appliedForce.get().getAddedInstance( frictionForce.get() ).getAddedInstance( gravityForce.get() ) );
@@ -89,7 +89,7 @@ public class WorkEnergyObject {
 
         final SimpleObserver updateGravityForce = new SimpleObserver() {
             public void update() {
-                gravityForce.set( new ImmutableVector2D( 0, gravity.get() * mass.get() ) );
+                gravityForce.set( new Vector2D( 0, gravity.get() * mass.get() ) );
             }
         };
         gravity.addObserver( updateGravityForce );
@@ -115,18 +115,18 @@ public class WorkEnergyObject {
         double deltaEnergy = initialEnergy - getTotalEnergy();
         //find a good vertical location for the object so energy is conserved
         double deltaH = -deltaEnergy / mass.get() / gravity.get();
-        position.set( new ImmutableVector2D( position.get().getX(), position.get().getY() + deltaH ) );
+        position.set( new Vector2D( position.get().getX(), position.get().getY() + deltaH ) );
 
         if ( getY() <= 0 ) {
-            position.set( new ImmutableVector2D( getX(), 0 ) );
-            velocity.set( new ImmutableVector2D() );
+            position.set( new Vector2D( getX(), 0 ) );
+            velocity.set( new Vector2D() );
             thermalEnergy.set( initialEnergy - getKineticEnergyProperty().get() - getPotentialEnergyProperty().get() );
         }
 //        System.out.println( time.getValue() + "\t" + position.getValue().getY() + "\t" + velocity.getValue().getY() + "\t" + acceleration.getValue().getY() + "\t" + potentialEnergy.getValue() + "\t" + kineticEnergy.getValue() );
     }
 
     public void setAppliedForce( double fx, double fy ) {
-        appliedForce.set( new ImmutableVector2D( fx, fy ) );
+        appliedForce.set( new Vector2D( fx, fy ) );
     }
 
     public MutableVector2D getPositionProperty() {
@@ -164,7 +164,7 @@ public class WorkEnergyObject {
     }
 
     public void translate( double dx, double dy ) {
-        position.set( new ImmutableVector2D( getX() + dx, getY() + dy ) );
+        position.set( new Vector2D( getX() + dx, getY() + dy ) );
     }
 
     public double getY() {
@@ -189,7 +189,7 @@ public class WorkEnergyObject {
 
     public void setUserControlled( boolean b ) {
         userControlled.set( b );
-        velocity.set( new ImmutableVector2D() );
+        velocity.set( new Vector2D() );
     }
 
     public Point2D getTopCenter() {
@@ -236,6 +236,6 @@ public class WorkEnergyObject {
     }
 
     public void setPosition( double x, double y ) {
-        position.set( new ImmutableVector2D( x, y ) );
+        position.set( new Vector2D( x, y ) );
     }
 }
