@@ -1,8 +1,8 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.buildanatom.model;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -96,7 +96,7 @@ public class BuildAnAtomModel implements Resettable {
                     // The user just released this electron.  If it is close
                     // enough to the shell, and there is room, send it there.
                     // Otherwise send it to its bucket.
-                    if ( atom.getRemainingElectronCapacity() > 0 && electron.getPosition().getDistance( atom.getPosition() ) < ELECTRON_CAPTURE_DISTANCE ) {
+                    if ( atom.getRemainingElectronCapacity() > 0 && electron.getPosition().distance( atom.getPosition() ) < ELECTRON_CAPTURE_DISTANCE ) {
                         atom.addElectron( electron, false );
                     }
                     else {
@@ -115,7 +115,7 @@ public class BuildAnAtomModel implements Resettable {
                     // The user just released this proton.  If it is close
                     // enough to the nucleus, send it there, otherwise
                     // send it to its bucket.
-                    if ( proton.getPosition().getDistance( atom.getPosition() ) < NUCLEUS_CAPTURE_DISTANCE ) {
+                    if ( proton.getPosition().distance( atom.getPosition() ) < NUCLEUS_CAPTURE_DISTANCE ) {
                         atom.addProton( proton, false );
                     }
                     else {
@@ -134,7 +134,7 @@ public class BuildAnAtomModel implements Resettable {
                     // The user just released this neutron.  If it is close
                     // enough to the nucleus, send it there, otherwise
                     // send it to its bucket.
-                    if ( neutron.getPosition().getDistance( atom.getPosition() ) < NUCLEUS_CAPTURE_DISTANCE ) {
+                    if ( neutron.getPosition().distance( atom.getPosition() ) < NUCLEUS_CAPTURE_DISTANCE ) {
                         atom.addNeutron( neutron, false );
                     }
                     else {

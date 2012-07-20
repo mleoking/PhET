@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.buildanatom.model;
 
 import java.awt.geom.Point2D;
@@ -80,7 +80,7 @@ public class ElectronShell extends SimpleObservable {
                 if ( closestElectron == null ) {
                     closestElectron = candidateElectron;
                 }
-                else if ( candidateElectron.getPosition().getDistance( point2d ) < closestElectron.getPosition().getDistance( point2d ) ) {
+                else if ( candidateElectron.getPosition().distance( point2d ) < closestElectron.getPosition().distance( point2d ) ) {
                     // This electron is closer.
                     closestElectron = candidateElectron;
                 }

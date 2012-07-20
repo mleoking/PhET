@@ -78,6 +78,6 @@ public @Data class Vector2D extends AbstractVector2D {
         Vector2D c = new Vector2D( 0, 0 );
         System.out.println( "v.equals( b ) = " + v.equals( b ) + " (should be false)" );
         System.out.println( "v.equals( c ) = " + v.equals( c ) + " (should be true)" );
-        System.out.println( "2root2= " + new Vector2D( 0, 0 ).getDistance( new Vector2D( 1, 1 ) ) );
+        System.out.println( "2root2= " + new Vector2D( 0, 0 ).distance( new Vector2D( 1, 1 ) ) );
     }
 }

@@ -22,7 +22,7 @@ public class FormulaUnit<T extends Particle> extends Pair<T, T> implements IForm
 
     //Get the distance between the particles
     public double getDistance() {
-        return _1.getPosition().getDistance( _2.getPosition() );
+        return _1.getPosition().distance( _2.getPosition() );
     }
 
     //Move the particles closer together at the free particle speed

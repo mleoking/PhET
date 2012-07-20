@@ -1,12 +1,25 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.buildanatom.modules.game.view;
 
 
 import java.util.ArrayList;
 import java.util.Collections;
 
-import edu.colorado.phet.buildanatom.model.*;
-import edu.colorado.phet.buildanatom.view.*;
+import edu.colorado.phet.buildanatom.model.Atom;
+import edu.colorado.phet.buildanatom.model.AtomListener;
+import edu.colorado.phet.buildanatom.model.Electron;
+import edu.colorado.phet.buildanatom.model.ElectronShell;
+import edu.colorado.phet.buildanatom.model.Neutron;
+import edu.colorado.phet.buildanatom.model.Proton;
+import edu.colorado.phet.buildanatom.model.SphericalParticle;
+import edu.colorado.phet.buildanatom.view.ElectronNode;
+import edu.colorado.phet.buildanatom.view.ElectronOrbitalNode;
+import edu.colorado.phet.buildanatom.view.IsotopeElectronCloudNode;
+import edu.colorado.phet.buildanatom.view.NeutronNode;
+import edu.colorado.phet.buildanatom.view.OrbitalView;
+import edu.colorado.phet.buildanatom.view.ProtonNode;
+import edu.colorado.phet.buildanatom.view.ResizingElectronCloudNode;
+import edu.colorado.phet.buildanatom.view.SubatomicParticleNode;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -146,7 +159,7 @@ public class SchematicAtomNode extends PNode {
         // Note: This algorithm for layering was made up to look reasonable,
         // and can be modified as needed to produce better looking nuclei.
         double maxNucleusRadius = Neutron.RADIUS * 6;
-        double distanceFromCenter = nucleon.getPosition().getDistance( atom.getPosition() );
+        double distanceFromCenter = nucleon.getPosition().distance( atom.getPosition() );
         return Math.min( (int) Math.floor( distanceFromCenter / ( maxNucleusRadius / NUM_NUCLEUS_LAYERS ) ), NUM_NUCLEUS_LAYERS - 1 );
     }
 

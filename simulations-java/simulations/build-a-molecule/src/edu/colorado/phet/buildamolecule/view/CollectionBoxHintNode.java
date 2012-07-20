@@ -104,7 +104,7 @@ public class CollectionBoxHintNode extends PNode {
             double t = ( borderY - tail.getY() ) / unitDirection.getY();
 
             Vector2D otherHitLocation = tail.plus( unitDirection.times( t ) );
-            if ( hitLocation == null || hitLocation.getDistance( center ) > otherHitLocation.getDistance( center ) ) {
+            if ( hitLocation == null || hitLocation.distance( center ) > otherHitLocation.distance( center ) ) {
                 hitLocation = otherHitLocation;
             }
         }

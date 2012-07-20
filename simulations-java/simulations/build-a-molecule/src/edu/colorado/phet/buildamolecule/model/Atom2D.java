@@ -99,10 +99,10 @@ public class Atom2D extends Atom implements IBucketSphere<Atom2D> {
     }
 
     private void stepInTime( double dt ) {
-        if ( getPosition().getDistance( destination ) != 0 ) {
+        if ( getPosition().distance( destination ) != 0 ) {
             // Move towards the current destination.
             double distanceToTravel = MOTION_VELOCITY * dt;
-            double distanceToTarget = getPosition().getDistance( destination );
+            double distanceToTarget = getPosition().distance( destination );
 
             double farDistanceMultiple = 10; // if we are this many times away, we speed up
 

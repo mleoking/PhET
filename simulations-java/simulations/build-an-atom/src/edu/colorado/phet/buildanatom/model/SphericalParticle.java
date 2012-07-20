@@ -94,10 +94,10 @@ public abstract class SphericalParticle implements IBucketSphere<SphericalPartic
      * @param dt
      */
     private void stepInTime( double dt ) {
-        if ( getPosition().getDistance( destination ) != 0 ) {
+        if ( getPosition().distance( destination ) != 0 ) {
             // Move towards the current destination.
             double distanceToTravel = motionVelocity * dt;
-            if ( distanceToTravel >= getPosition().getDistance( destination ) ) {
+            if ( distanceToTravel >= getPosition().distance( destination ) ) {
                 // Closer than one step, so just go there.
                 setPosition( destination );
             }

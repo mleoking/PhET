@@ -58,7 +58,7 @@ public class SphereBucket<T extends IBucketSphere> extends Bucket {
             final Vector2D initialPosition = particle.getDestination();
             particle.addPositionListener( new SimpleObserver() {
                 public void update() {
-                    if ( initialPosition.getDistance( particle.getDestination() ) > particle.getRadius() * 1.5 ) {
+                    if ( initialPosition.distance( particle.getDestination() ) > particle.getRadius() * 1.5 ) {
                         relayoutBucketParticles();
                         particle.removePositionListener( this );
                     }
@@ -312,7 +312,7 @@ public class SphereBucket<T extends IBucketSphere> extends Bucket {
         for ( T particle : containedParticles ) {
             if ( particle != p &&//not ourself
                  particle.getDestination().getY() < p.getDestination().getY() && //must be in a lower layer
-                 particle.getDestination().getDistance( p.getDestination() ) < p.getRadius() * 3 ) {
+                 particle.getDestination().distance( p.getDestination() ) < p.getRadius() * 3 ) {
                 count++;
             }
         }
@@ -324,7 +324,7 @@ public class SphereBucket<T extends IBucketSphere> extends Bucket {
         for ( T particle : containedParticles ) {
             if ( !particle.getPosition().equals( particle ) && //not ourself
                  particle.getDestination().getY() < particleLocation.getY() && //must be in a lower layer
-                 particle.getDestination().getDistance( particleLocation ) < particle.getRadius() * 3 ) {
+                 particle.getDestination().distance( particleLocation ) < particle.getRadius() * 3 ) {
                 count++;
             }
         }
