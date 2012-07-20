@@ -12,6 +12,8 @@ import static java.lang.Math.sqrt;
 /**
  * Abstract base class for vector2d classes (mutable and immutable), see #3374.
  * Lombok used to generate equals/hashcode/tostring in the subclasses.
+ * Methods that return the immutable subclass (such as "plus") are declared here.  This is a vestigial by-product of our previous architecture
+ * and means that MutableVector2D will have mutator methods as well as the immutable methods like "plus".
  *
  * @author Sam Reid
  */
