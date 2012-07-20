@@ -332,7 +332,7 @@ public class Body implements IBodyColors {
     }
 
     public boolean collidesWidth( Body body ) {
-        double distance = getPosition().getSubtractedInstance( body.getPosition() ).getMagnitude();
+        double distance = getPosition().minus( body.getPosition() ).getMagnitude();
         double radiiSum = getDiameter() / 2 + body.getDiameter() / 2;
         return distance < radiiSum;
     }

@@ -43,9 +43,9 @@ public class ElectricFieldGraphic extends TransformGraphic {
                 Vector2D dest = field.getCenter().plus( field.getStrength(), 0 );
                 Vector2D start = field.getCenter();
 
-                Vector2D dir = dest.getSubtractedInstance( start );
+                Vector2D dir = dest.minus( start );
                 Vector2D mid = start.plus( dir.getScaledInstance( .5 ) );
-                Vector2D dx = start.getSubtractedInstance( mid );
+                Vector2D dx = start.minus( mid );
 
                 start = start.plus( dx );
                 dest = dest.plus( dx );
@@ -53,7 +53,7 @@ public class ElectricFieldGraphic extends TransformGraphic {
                 double tailWidth = .1;
                 double headWidth = .2;
                 double headHeight = .1;
-                double dist = start.getSubtractedInstance( dest ).getMagnitude();
+                double dist = start.minus( dest ).getMagnitude();
                 if ( dist < headHeight ) {
                     headHeight = dist * .9;
 //                    headWidth=headHeight;

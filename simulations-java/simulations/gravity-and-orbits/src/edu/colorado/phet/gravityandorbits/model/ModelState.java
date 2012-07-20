@@ -60,7 +60,7 @@ public class ModelState {
     }
 
     private Vector2D getUnitVector( BodyState source, Vector2D newPosition ) {
-        return newPosition.getSubtractedInstance( source.position ).getNormalizedInstance();
+        return newPosition.minus( source.position ).getNormalizedInstance();
     }
 
     //Get the force on body at its proposed new position, unconventional but necessary for velocity verlet.

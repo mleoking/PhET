@@ -56,7 +56,7 @@ public class EnergyTextGraphic extends TransformGraphic {
         affinetransform.rotate( -1.5707963267948966D );
         trfShape = affinetransform.createTransformedShape( shape );
         AbstractVector2D phetvector = getTopCenter( trfShape.getBounds2D() );
-        phetvector = phetvector.getSubtractedInstance( 0.0D, 40D );
+        phetvector = phetvector.minus( 0.0D, 40D );
         Vector2D phetvector1 = phetvector.plus( 0.0D, -200D );
         arrowShape = ( new ArrowShape( phetvector, phetvector1, 50D, 50D, 20D ) ).getArrowPath();
         highShape = smallFont.createGlyphVector( graphics2D.getFontRenderContext(),

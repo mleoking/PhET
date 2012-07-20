@@ -129,8 +129,8 @@ public class BurnerNode extends PNode {
             path.lineTo( upperRightCorner );
             path.lineTo( lowerRightCorner );
             path.lineTo( lowerRightCircularOpeningCorner );
-            path.curveTo( lowerRightCircularOpeningCorner.getSubtractedInstance( circularOpeningPerspectiveVector ),
-                          lowerLeftCircularOpeningCorner.getSubtractedInstance( circularOpeningPerspectiveVector ),
+            path.curveTo( lowerRightCircularOpeningCorner.minus( circularOpeningPerspectiveVector ),
+                          lowerLeftCircularOpeningCorner.minus( circularOpeningPerspectiveVector ),
                           lowerLeftCircularOpeningCorner );
             path.lineTo( lowerLeftCorner );
             path.closePath();

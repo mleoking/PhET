@@ -196,7 +196,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
             for ( EnergyChunk ec : slice.energyChunkList ) {
                 // Compensate for the Z offset.  Otherwise front chunk will
                 // almost always be chosen.
-                Vector2D compensatedEcPosition = ec.position.get().getSubtractedInstance( 0, EFACConstants.Z_TO_Y_OFFSET_MULTIPLIER * ec.zPosition.get() );
+                Vector2D compensatedEcPosition = ec.position.get().minus( 0, EFACConstants.Z_TO_Y_OFFSET_MULTIPLIER * ec.zPosition.get() );
                 double compensatedDistance = compensatedEcPosition.distance( point );
                 if ( compensatedDistance < closestCompensatedDistance ) {
                     closestEnergyChunk = ec;

@@ -74,7 +74,7 @@ public class EnergyTextGraphic extends TransformGraphic {
         trfShape = trf.createTransformedShape( outline );
 
         AbstractVector2D topPoint = getTopCenter( trfShape.getBounds2D() );
-        topPoint = topPoint.getSubtractedInstance( 0, 40 );
+        topPoint = topPoint.minus( 0, 40 );
         Vector2D tipLocation = topPoint.plus( 0, -200 );
         arrowShape = new ArrowShape( topPoint, tipLocation, 50, 50, 20 ).getArrowShape();
 

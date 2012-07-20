@@ -96,7 +96,7 @@ public class Arrow {
         if ( tailLocation.distance( tipLocation ) != 0 ) {
             Vector2D tailPt = new Vector2D( tailLocation );
             Vector2D tipPt = new Vector2D( tipLocation );
-            Vector2D distanceVector = tipPt.getSubtractedInstance( tailPt );
+            Vector2D distanceVector = tipPt.minus( tailPt );
             direction = distanceVector.getNormalizedInstance();
             double length = tipLocation.distance( tailLocation );
             double tempHeadHeight = headHeight;

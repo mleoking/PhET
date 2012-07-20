@@ -210,8 +210,8 @@ public class BioShapeUtils {
     // is used to "go around the corner" at y, starting from x, and heading
     // towards z.  The control point is for the y-to-z segment.
     private static Vector2D extrapolateControlPoint( Vector2D x, Vector2D y, Vector2D z ) {
-        Vector2D xy = y.getSubtractedInstance( x );
-        Vector2D yz = z.getSubtractedInstance( y );
+        Vector2D xy = y.minus( x );
+        Vector2D yz = z.minus( y );
         return y.plus( xy.getScaledInstance( 0.25 ).plus( yz.getScaledInstance( 0.25 ) ) );
     }
 

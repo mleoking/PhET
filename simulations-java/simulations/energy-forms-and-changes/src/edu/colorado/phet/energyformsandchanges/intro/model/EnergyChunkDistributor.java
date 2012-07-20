@@ -66,7 +66,7 @@ public class EnergyChunkDistributor {
                     for ( PointMass otherP : map.values() ) {
                         if ( p != otherP ) {
                             // Calculate force vector, but handle cases where too close.
-                            Vector2D vectorToOther = p.position.getSubtractedInstance( otherP.position );
+                            Vector2D vectorToOther = p.position.minus( otherP.position );
                             if ( vectorToOther.getMagnitude() < minDistance ) {
                                 if ( vectorToOther.getMagnitude() == 0 ) {
                                     // Create a random vector of min distance.
@@ -84,7 +84,7 @@ public class EnergyChunkDistributor {
                 }
                 else {
                     // Point is outside container, move it towards center of rectangle.
-                    Vector2D vectorToCenter = new Vector2D( enclosingRect.getCenterX(), enclosingRect.getCenterY() ).getSubtractedInstance( p.position );
+                    Vector2D vectorToCenter = new Vector2D( enclosingRect.getCenterX(), enclosingRect.getCenterY() ).minus( p.position );
                     p.applyForce( vectorToCenter.getInstanceOfMagnitude( OUTSIDE_CONTAINER_FORCE ) );
                 }
             }
@@ -165,7 +165,7 @@ public class EnergyChunkDistributor {
                     for ( PointMass otherP : map.values() ) {
                         if ( p != otherP ) {
                             // Calculate force vector, but handle cases where too close.
-                            Vector2D vectorToOther = p.position.getSubtractedInstance( otherP.position );
+                            Vector2D vectorToOther = p.position.minus( otherP.position );
                             if ( vectorToOther.getMagnitude() < minDistance ) {
                                 if ( vectorToOther.getMagnitude() == 0 ) {
                                     // Create a random vector of min distance.
@@ -183,7 +183,7 @@ public class EnergyChunkDistributor {
                 }
                 else {
                     // Point is outside container, move it towards center of shape.
-                    Vector2D vectorToCenter = new Vector2D( boundingRect.getCenterX(), boundingRect.getCenterY() ).getSubtractedInstance( p.position );
+                    Vector2D vectorToCenter = new Vector2D( boundingRect.getCenterX(), boundingRect.getCenterY() ).minus( p.position );
                     p.applyForce( vectorToCenter.getInstanceOfMagnitude( OUTSIDE_CONTAINER_FORCE ) );
                 }
             }
@@ -285,7 +285,7 @@ public class EnergyChunkDistributor {
                     for ( PointMass otherP : map.values() ) {
                         if ( p != otherP ) {
                             // Calculate force vector, but handle cases where too close.
-                            Vector2D vectorToOther = p.position.getSubtractedInstance( otherP.position );
+                            Vector2D vectorToOther = p.position.minus( otherP.position );
                             if ( vectorToOther.getMagnitude() < minDistance ) {
                                 if ( vectorToOther.getMagnitude() == 0 ) {
                                     // Create a random vector of min distance.
@@ -303,7 +303,7 @@ public class EnergyChunkDistributor {
                 }
                 else {
                     // Point is outside container, move it towards center of shape.
-                    Vector2D vectorToCenter = new Vector2D( boundingRect.getCenterX(), boundingRect.getCenterY() ).getSubtractedInstance( p.position );
+                    Vector2D vectorToCenter = new Vector2D( boundingRect.getCenterX(), boundingRect.getCenterY() ).minus( p.position );
                     p.applyForce( vectorToCenter.getInstanceOfMagnitude( OUTSIDE_CONTAINER_FORCE ) );
                 }
             }

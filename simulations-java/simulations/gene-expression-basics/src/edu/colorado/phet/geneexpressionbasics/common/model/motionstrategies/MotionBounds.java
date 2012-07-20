@@ -67,7 +67,7 @@ public class MotionBounds {
      */
     public boolean testIfInMotionBounds( Shape shape, Point2D proposedLocation ) {
         Vector2D shapeCenter = new Vector2D( shape.getBounds2D().getCenterX(), shape.getBounds2D().getCenterY() );
-        Vector2D translationVector = new Vector2D( proposedLocation ).getSubtractedInstance( shapeCenter );
+        Vector2D translationVector = new Vector2D( proposedLocation ).minus( shapeCenter );
         Shape translatedBounds = AffineTransform.getTranslateInstance( translationVector.getX(), translationVector.getY() ).createTransformedShape( shape );
         return inBounds( translatedBounds );
     }

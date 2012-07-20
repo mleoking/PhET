@@ -10,7 +10,7 @@ public class LinearBranch {
     public LinearBranch( MutableVector2D phetvector, MutableVector2D phetvector1 ) {
         start = phetvector;
         end = phetvector1;
-        dv = phetvector1.getSubtractedInstance( phetvector );
+        dv = phetvector1.minus( phetvector );
     }
 
     public double getLength() {

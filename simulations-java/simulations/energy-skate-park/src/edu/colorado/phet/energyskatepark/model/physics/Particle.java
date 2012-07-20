@@ -526,7 +526,7 @@ public class Particle implements Serializable {
             Vector2D parallelVelocity = parallel.getInstanceOfMagnitude( parallel.dot( getVelocity() ) );
 
             Vector2D newNormalVelocity = norm.getInstanceOfMagnitude( norm.dot( getVelocity() ) ).getScaledInstance( elasticity );
-            Vector2D newVelocity = parallelVelocity.getSubtractedInstance( newNormalVelocity );
+            Vector2D newVelocity = parallelVelocity.minus( newNormalVelocity );
 
             double testVal = Math.abs( newNormalVelocity.getMagnitude() / newVelocity.getMagnitude() );
 

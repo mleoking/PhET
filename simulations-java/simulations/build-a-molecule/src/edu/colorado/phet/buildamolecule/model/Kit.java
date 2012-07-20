@@ -426,7 +426,7 @@ public class Kit {
                         Vector2D bCenter = new Vector2D( bBounds.getCenter2D() ).plus( Math.random() - 0.5, Math.random() - 0.5 );
 
                         // delta from center of A to center of B, scaled to half of our push amount.
-                        Vector2D delta = bCenter.getSubtractedInstance( aCenter ).getNormalizedInstance().getScaledInstance( pushAmount );
+                        Vector2D delta = bCenter.minus( aCenter ).getNormalizedInstance().getScaledInstance( pushAmount );
 
                         // how hard B should be pushed (A will be pushed (1-pushRatio)). Heuristic, power is to make the ratio not too skewed
                         // this is done so that heavier molecules will be pushed less, while lighter ones will be pushed more
@@ -566,7 +566,7 @@ public class Kit {
         }
 
         // cause all atoms in the molecule to move to that location
-        Vector2D delta = bestLocation.getIdealLocation().getSubtractedInstance( bestLocation.b.getPosition() );
+        Vector2D delta = bestLocation.getIdealLocation().minus( bestLocation.b.getPosition() );
         for ( Atom2D atomInMolecule : getMolecule( bestLocation.b ).getAtoms() ) {
             atomInMolecule.setDestination( atomInMolecule.getPosition().plus( delta ) );
         }

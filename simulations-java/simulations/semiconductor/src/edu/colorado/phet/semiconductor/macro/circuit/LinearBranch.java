@@ -18,7 +18,7 @@ public class LinearBranch {
     public LinearBranch( MutableVector2D start, MutableVector2D end ) {
         this.start = start;
         this.end = end;
-        this.dv = end.getSubtractedInstance( start );
+        this.dv = end.minus( start );
     }
 
     public double getLength() {
