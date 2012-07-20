@@ -1,3 +1,5 @@
+<!-- Copyright 2002-2012, University of Colorado -->
+
 <!--
 ================================================================================
 
@@ -62,6 +64,8 @@
     <property name="junit.jar" location="${dir.contrib}/junit/junit.jar"/>
     <property name="jnlp.jar" location="${dir.contrib}/javaws/jnlp.jar"/>
     <property name="mongo.jar" location="${dir.contrib}/mongodb/mongo-2.7.2.jar"/>
+    <property name="lombok.jar" location="${dir.contrib}/lombok/lombok.jar"/>
+    <property name="functionaljava.jar" location="${dir.contrib}/functionaljava/functionaljava-3.1.jar"/>
 
     <!-- build tools dependencies -->
     <property name="dir.build-contrib" value="${dir.build-tools}/contrib"/>
@@ -104,7 +108,7 @@
     <property name="phet-build-gui-classname" value="edu.colorado.phet.buildtools.gui.PhetBuildGUITask"/>
     <property name="phet-build-all-classname" value="edu.colorado.phet.buildtools.BuildAll"/>
     <property name="phetbuild-classpath-jars"
-              value="${proguard.jar}:${apache.commons.lang.jar}:${jsch.jar}:${scala-compiler.jar}:${scala-library.jar}:${yuicompressor.jar}:${junit.jar}:${jnlp.jar}:${jgit.jar}:${mongo.jar}"/>
+              value="${proguard.jar}:${apache.commons.lang.jar}:${jsch.jar}:${scala-compiler.jar}:${scala-library.jar}:${yuicompressor.jar}:${junit.jar}:${jnlp.jar}:${jgit.jar}:${mongo.jar}:${lombok.jar}:${functionaljava.jar}"/>
     <property name="phetbuild-classpath" value="${phetbuild-classes-dir}:${phetbuild-classpath-jars}"/>
 
     <!-- =================================================================== -->
