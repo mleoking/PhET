@@ -3,7 +3,7 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 
 import java.awt.Color;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -41,7 +41,7 @@ public class ConfigurableSpecificHeatBlock extends Block {
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    protected ConfigurableSpecificHeatBlock( ConstantDtClock clock, ImmutableVector2D initialPosition, BooleanProperty energyChunksVisible ) {
+    protected ConfigurableSpecificHeatBlock( ConstantDtClock clock, Vector2D initialPosition, BooleanProperty energyChunksVisible ) {
         super( clock, initialPosition, DENSITY, INITIAL_SPECIFIC_HEAT, energyChunksVisible );
     }
 
