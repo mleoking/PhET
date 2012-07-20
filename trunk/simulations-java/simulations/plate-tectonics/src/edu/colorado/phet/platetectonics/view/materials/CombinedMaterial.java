@@ -5,10 +5,11 @@ import java.awt.*;
 
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 
+/**
+ * Heuristic material that is somewhat of a combination of the temperature and density views. It tries to keep the lightness/darkness
+ * for temperature, and hue for temperature.
+ */
 public class CombinedMaterial implements EarthMaterial {
-    private static final int width = 256;
-    private static final int height = 256;
-
     private static final Color min = new Color( 64, 64, 64 );
     private static final Color max = new Color( 255, 64, 64 );
 
@@ -26,8 +27,6 @@ public class CombinedMaterial implements EarthMaterial {
         float m = value - c;
 
         return new Color( c + m, m, m, alpha );
-
-//        return new Color( 0.25f + 0.75f * value, 0.25f, 0.25f, 1f );
     }
 
     public Color getMinColor() {

@@ -4,7 +4,6 @@ package edu.colorado.phet.platetectonics.view.materials;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -14,11 +13,13 @@ import org.lwjgl.util.glu.GLU;
 import static edu.colorado.phet.platetectonics.PlateTectonicsResources.RESOURCES;
 import static org.lwjgl.opengl.GL11.*;
 
+/**
+ * Actual speckled "texture" for the cross-section of the earth. Uses a tiled "noise" PNG as a main source. This texture is then colored
+ * with the relevant EarthMaterial to create the appearance for the Earth cross-sections
+ */
 public class EarthTexture {
     private static final int WIDTH = 512;
     private static final int HEIGHT = 512;
-
-    private static final Random random = new Random( 250134503L );
 
     private static int textureId;
     private static boolean textureInitialized = false;
@@ -52,8 +53,11 @@ public class EarthTexture {
         buffer.rewind();
     }
 
+    // call this before drawing things with this texture
     public static void begin() {
         glEnable( GL_TEXTURE_2D );
+
+        // one-time only we bind the texture, create mip-maps so it can be nicely viewed at any distance, etc.
         if ( !textureInitialized ) {
             textureInitialized = true;
             textureId = glGenTextures();
@@ -71,9 +75,11 @@ public class EarthTexture {
             GLU.gluBuild2DMipmaps( GL_TEXTURE_2D, 4, WIDTH, HEIGHT, GL_RGBA, GL_UNSIGNED_BYTE, buffer );
         }
 
+        // from then on, we always use the bound texture ID to efficiently show the stored texture
         glBindTexture( GL_TEXTURE_2D, textureId );
     }
 
+    // call this afterwards
     public static void end() {
         glDisable( GL_TEXTURE_2D );
     }

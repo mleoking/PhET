@@ -7,6 +7,9 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 import edu.colorado.phet.platetectonics.model.CrustModel;
 
+/**
+ * Displays dark texture for more dense earth, and lighter texture for less dense earth
+ */
 public class DensityMaterial implements EarthMaterial {
     private static final Color min = new Color( 255, 255, 255 );
     private static final Color max = new Color( 0, 0, 0 );
@@ -29,11 +32,6 @@ public class DensityMaterial implements EarthMaterial {
         }
         x = (float) MathUtil.clamp( 0.0, x / 220, 1.0 ); // clamp it in the normal range
         return new ImmutableVector2F( x, 0.5f );
-
-//        float minDensityToShow = 2500;
-//        float maxDensityToShow = CrustModel.CENTER_DENSITY;
-//        float v = 1 - ( density - minDensityToShow ) / ( maxDensityToShow - minDensityToShow );
-//        return new ImmutableVector2F( v, 0.5f );
     }
 
     public Color getColor( float density, float temperature, ImmutableVector2F position, float alpha ) {
