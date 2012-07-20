@@ -19,30 +19,20 @@ public class Vector2D extends AbstractVector2D {
     //Immutable instance for zero so it doesn't need to be duplicated/re-instantiated in multiple places
     public static final Vector2D ZERO = new Vector2D();
 
-    public Vector2D() {
-        this( 0, 0 );
-    }
+    public Vector2D() { this( 0, 0 ); }
 
     public Vector2D( double x, double y ) {
         this.x = x;
         this.y = y;
     }
 
-    public Vector2D( MutableVector2D v ) {
-        this( v.getX(), v.getY() );
-    }
+    public Vector2D( MutableVector2D v ) { this( v.getX(), v.getY() ); }
 
-    public Vector2D( Vector2D v ) {
-        this( v.getX(), v.getY() );
-    }
+    public Vector2D( Vector2D v ) { this( v.getX(), v.getY() ); }
 
-    public Vector2D( Point2D p ) {
-        this( p.getX(), p.getY() );
-    }
+    public Vector2D( Point2D p ) { this( p.getX(), p.getY() ); }
 
-    public Vector2D( Point2D initialPt, Point2D finalPt ) {
-        this( finalPt.getX() - initialPt.getX(), finalPt.getY() - initialPt.getY() );
-    }
+    public Vector2D( Point2D initialPt, Point2D finalPt ) { this( finalPt.getX() - initialPt.getX(), finalPt.getY() - initialPt.getY() ); }
 
     /**
      * Create a new ImmutableVector2D based on the difference (final - initial) of the passed in vectors.
@@ -53,54 +43,29 @@ public class Vector2D extends AbstractVector2D {
      * @param initialPt starting point for the (final-initial) difference
      * @param finalPt   ending point for the (final-initial) difference
      */
-    public Vector2D( Vector2D initialPt, Vector2D finalPt ) {
-        this( finalPt.getX() - initialPt.getX(), finalPt.getY() - initialPt.getY() );
-    }
+    public Vector2D( Vector2D initialPt, Vector2D finalPt ) { this( finalPt.getX() - initialPt.getX(), finalPt.getY() - initialPt.getY() ); }
 
-    public Vector2D( Dimension2D v ) {
-        this( v.getWidth(), v.getHeight() );
-    }
+    public Vector2D( Dimension2D v ) { this( v.getWidth(), v.getHeight() ); }
 
-    @Override public double getY() {
-        return y;
-    }
+    @Override public double getY() { return y; }
 
-    @Override public double getX() {
-        return x;
-    }
+    @Override public double getX() { return x; }
 
-    public static Vector2D createPolar( double radius, double angle ) {
-        Vector2D vector = new Vector2D( Math.cos( angle ), Math.sin( angle ) );
-        return vector.getScaledInstance( radius );
-    }
+    public static Vector2D createPolar( double radius, double angle ) { return new Vector2D( Math.cos( angle ), Math.sin( angle ) ).getScaledInstance( radius ); }
 
-    public Vector2D plus( double x, double y ) {
-        return getAddedInstance( x, y );
-    }
+    public Vector2D plus( double x, double y ) { return getAddedInstance( x, y ); }
 
-    public Vector2D plus( Vector2D v ) {
-        return getAddedInstance( v );
-    }
+    public Vector2D plus( Vector2D v ) { return getAddedInstance( v ); }
 
-    public Vector2D plus( Dimension2D v ) {
-        return getAddedInstance( v );
-    }
+    public Vector2D plus( Dimension2D v ) { return getAddedInstance( v ); }
 
-    public Vector2D minus( Vector2D v ) {
-        return getSubtractedInstance( v );
-    }
+    public Vector2D minus( Vector2D v ) { return getSubtractedInstance( v ); }
 
-    public Vector2D minus( double x, double y ) {
-        return getSubtractedInstance( x, y );
-    }
+    public Vector2D minus( double x, double y ) { return getSubtractedInstance( x, y ); }
 
-    public Vector2D times( double scale ) {
-        return getScaledInstance( scale );
-    }
+    public Vector2D times( double scale ) { return getScaledInstance( scale ); }
 
-    public Vector2D negate() {
-        return getScaledInstance( -1 );
-    }
+    public Vector2D negate() { return getScaledInstance( -1 ); }
 
     public static void main( String[] args ) {
         System.out.println( new Vector2D( 1, 2 ) );
