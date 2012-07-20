@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.common;
@@ -20,8 +20,8 @@ public class Particle extends SimpleObservable implements ModelElement {
     Vector2D acceleration;
 
     public Particle( double x, double y ) {
-        this.position = new Vector2D( x, y );
-        this.velocity = new Vector2D();
+        this.position = new ImmutableVector2D( x, y );
+        this.velocity = new ImmutableVector2D();
         this.acceleration = new Vector2D();
     }
 
@@ -51,7 +51,7 @@ public class Particle extends SimpleObservable implements ModelElement {
     }
 
     public void setPosition( double x, double y ) {
-        this.position = new Vector2D( x, y );
+        this.position = new ImmutableVector2D( x, y );
     }
 
     public void translate( double dx, double dy ) {

@@ -1,8 +1,9 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.conductivity.common;
 
 
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
@@ -17,11 +18,11 @@ public class Particle extends SimpleObservable
         acceleration = new Vector2D();
     }
 
-    public ImmutableVector2D getPosition() {
+    public AbstractVector2D getPosition() {
         return position;
     }
 
-    public ImmutableVector2D getVelocity() {
+    public AbstractVector2D getVelocity() {
         return velocity;
     }
 
@@ -45,7 +46,7 @@ public class Particle extends SimpleObservable
         position = new Vector2D( d, d1 );
     }
 
-    ImmutableVector2D position;
-    ImmutableVector2D velocity;
+    AbstractVector2D position;
+    AbstractVector2D velocity;
     Vector2D acceleration;
 }

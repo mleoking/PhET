@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.rotation.torque;
 
 import java.awt.geom.Line2D;
@@ -9,6 +9,7 @@ import edu.colorado.phet.common.motion.model.DefaultTemporalVariable;
 import edu.colorado.phet.common.motion.model.IMotionBody;
 import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.UpdateStrategy;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -380,7 +381,7 @@ public class TorqueModel extends RotationModel {
             v.rotate( Math.PI );
         }
 
-        ImmutableVector2D x = v;
+        AbstractVector2D x = v;
         if ( x.getMagnitude() == 0 ) {
             return new Line2D.Double( appliedForce.getP1(), appliedForce.getP1() );
         }

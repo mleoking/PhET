@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.common.photonabsorption.model;
 
@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
@@ -510,7 +511,7 @@ public abstract class Molecule {
         this.velocity.setValue( newVelocity );
     }
 
-    public ImmutableVector2D getVelocity() {
+    public AbstractVector2D getVelocity() {
         return velocity;
     }
 

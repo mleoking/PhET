@@ -1,11 +1,16 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.semiconductor.macro.energy.bands;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Shape;
 import java.awt.font.GlyphVector;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
@@ -68,7 +73,7 @@ public class EnergyTextGraphic extends TransformGraphic {
         trf.rotate( -Math.PI / 2 );
         trfShape = trf.createTransformedShape( outline );
 
-        ImmutableVector2D topPoint = getTopCenter( trfShape.getBounds2D() );
+        AbstractVector2D topPoint = getTopCenter( trfShape.getBounds2D() );
         topPoint = topPoint.getSubtractedInstance( 0, 40 );
         ImmutableVector2D tipLocation = topPoint.getAddedInstance( 0, -200 );
         arrowShape = new ArrowShape( topPoint, tipLocation, 50, 50, 20 ).getArrowShape();

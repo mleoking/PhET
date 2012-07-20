@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model;
 
 import java.awt.Color;
@@ -6,7 +6,6 @@ import java.awt.Shape;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -186,7 +185,7 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
      * @return Vector indicated the direction.
      */
     public ImmutableVector2D getDetachDirection() {
-        return new Vector2D( 0, 1 );
+        return new ImmutableVector2D( 0, 1 );
     }
 
     public GeneExpressionModel getModel() {

@@ -100,7 +100,7 @@ public class EnergyChunkDistributor {
 
         // Update the positions of the energy chunks.
         for ( EnergyChunk energyChunk : energyChunkList ) {
-            energyChunk.position.set( map.get( energyChunk ).position );
+            energyChunk.position.set( new ImmutableVector2D( map.get( energyChunk ).position ) );
         }
     }
 
@@ -199,7 +199,7 @@ public class EnergyChunkDistributor {
 
         // Update the positions of the energy chunks.
         for ( EnergyChunk energyChunk : energyChunkList ) {
-            energyChunk.position.set( map.get( energyChunk ).position );
+            energyChunk.position.set( new ImmutableVector2D( map.get( energyChunk ).position ) );
         }
     }
 
@@ -320,7 +320,7 @@ public class EnergyChunkDistributor {
         // Update the positions of the energy chunks.
         for ( EnergyChunkContainerSlice slice : energyChunkContainerSlices ) {
             for ( EnergyChunk energyChunk : slice.energyChunkList ) {
-                energyChunk.position.set( map.get( energyChunk ).position );
+                energyChunk.position.set( new ImmutableVector2D( map.get( energyChunk ).position ) );
             }
         }
     }

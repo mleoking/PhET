@@ -1,15 +1,14 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*  */
 package edu.colorado.phet.travoltage;
-
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
+
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
 /**
  * User: Sam Reid
@@ -36,14 +35,14 @@ public class MoveToFinger extends MoveElectronsJade {
     private Line2D.Double[] getSegments() {
         StringTokenizer st = new StringTokenizer( str, "\n, " );
         ArrayList list = new ArrayList();
-        while( st.hasMoreTokens() ) {
+        while ( st.hasMoreTokens() ) {
             int x1 = Integer.parseInt( st.nextToken() );
             int y1 = Integer.parseInt( st.nextToken() );
             int x2 = Integer.parseInt( st.nextToken() );
             int y2 = Integer.parseInt( st.nextToken() );
             list.add( new Line2D.Double( x1, y1, x2, y2 ) );
         }
-        return (Line2D.Double[])list.toArray( new Line2D.Double[0] );
+        return (Line2D.Double[]) list.toArray( new Line2D.Double[0] );
     }
 
     String str = "265, 348, 220, 377\n" +
@@ -67,11 +66,11 @@ public class MoveToFinger extends MoveElectronsJade {
 
     protected ImmutableVector2D getForce( JadeElectron node ) {
         Line2D.Double closest = getClosestSegment( node.getPosition().getX(), node.getPosition().getY() );
-        ImmutableVector2D vec = new Vector2D( node.getPosition(), closest.getP2() );
+        ImmutableVector2D vec = new ImmutableVector2D( node.getPosition(), closest.getP2() );
         double k = 30;
         ImmutableVector2D v = vec.getInstanceOfMagnitude( k / Math.pow( vec.getMagnitude(), 1 ) );
         double max = 10;
-        if( v.getMagnitude() > max ) {
+        if ( v.getMagnitude() > max ) {
             v = v.getInstanceOfMagnitude( max );
         }
         return v;
@@ -80,9 +79,9 @@ public class MoveToFinger extends MoveElectronsJade {
     private Line2D.Double getClosestSegment( double x, double y ) {
         Line2D.Double closest = null;
         double closestDist = Double.POSITIVE_INFINITY;
-        for( int i = 0; i < segments.length; i++ ) {
+        for ( int i = 0; i < segments.length; i++ ) {
             double dist = new Point2D.Double( segments[i].getX1(), segments[i].getY1() ).distance( x, y );
-            if( dist < closestDist ) {
+            if ( dist < closestDist ) {
                 closest = segments[i];
                 closestDist = dist;
             }
@@ -94,11 +93,11 @@ public class MoveToFinger extends MoveElectronsJade {
         super.stepInTime( dt );
         super.stepInTime( dt );
         super.stepInTime( dt );
-        for( int i = 0; i < jadeElectronSet.getNumElectrons(); i++ ) {
+        for ( int i = 0; i < jadeElectronSet.getNumElectrons(); i++ ) {
             JadeElectron electron = jadeElectronSet.getJadeElectron( i );
             double threshold = 30;
             double dist = electron.getPosition().distance( getFingerLocation() );
-            if( dist < threshold ) {
+            if ( dist < threshold ) {
                 jadeElectronSet.removeElectron( i );
                 module.getTravoltageModel().notifyElectronsExiting();
                 i--;
@@ -107,7 +106,7 @@ public class MoveToFinger extends MoveElectronsJade {
 //                System.out.println( "dist = " + dist );
             }
         }
-        if( jadeElectronSet.getNumElectrons() == 0 ) {
+        if ( jadeElectronSet.getNumElectrons() == 0 ) {
             module.getTravoltageModel().finishSpark();
         }
     }

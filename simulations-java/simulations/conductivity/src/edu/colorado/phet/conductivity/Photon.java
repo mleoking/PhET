@@ -1,8 +1,9 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.conductivity;
 
 
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
@@ -26,7 +27,7 @@ public class Photon extends SimpleObservable
         notifyObservers();
     }
 
-    public ImmutableVector2D getPosition() {
+    public AbstractVector2D getPosition() {
         return particle.getPosition();
     }
 
@@ -40,7 +41,7 @@ public class Photon extends SimpleObservable
         setPosition( phetvector.getX(), phetvector.getY() );
     }
 
-    public ImmutableVector2D getVelocity() {
+    public AbstractVector2D getVelocity() {
         return particle.getVelocity();
     }
 

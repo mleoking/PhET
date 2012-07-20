@@ -1,9 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies;
 
 import java.awt.Shape;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
@@ -30,12 +31,12 @@ public class MoveDirectlyToDestinationMotionStrategy extends MotionStrategy {
     // the actual target destination.  This is useful in cases where something
     // needs to move such that some point that is not its center is positioned
     // at the destination.
-    private final ImmutableVector2D offsetFromDestinationProperty;
+    private final AbstractVector2D offsetFromDestinationProperty;
 
     // Scalar velocity with which the controlled item travels.
     private final double scalarVelocity2D;
 
-    public MoveDirectlyToDestinationMotionStrategy( Property<Point2D> destinationProperty, Property<MotionBounds> motionBoundsProperty, ImmutableVector2D destinationOffset, double velocity ) {
+    public MoveDirectlyToDestinationMotionStrategy( Property<Point2D> destinationProperty, Property<MotionBounds> motionBoundsProperty, AbstractVector2D destinationOffset, double velocity ) {
         this.destinationProperty = destinationProperty;
         this.scalarVelocity2D = velocity;
         this.offsetFromDestinationProperty = destinationOffset;

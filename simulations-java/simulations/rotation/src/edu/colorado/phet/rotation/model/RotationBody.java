@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.rotation.model;
 
 import JSci.maths.LinearMath;
@@ -17,6 +17,7 @@ import edu.colorado.phet.common.motion.model.ITemporalVariable;
 import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.motion.model.MotionBody;
 import edu.colorado.phet.common.motion.model.TimeData;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.rotation.RotationDefaults;
@@ -127,7 +128,7 @@ public class RotationBody {
                 setPosition( rotationPlatform.getCenter() );
             }
             else {
-                ImmutableVector2D vec = new Vector2D( getX() - rotationPlatform.getCenter().getX(), getY() - rotationPlatform.getCenter().getY() );
+                AbstractVector2D vec = new Vector2D( getX() - rotationPlatform.getCenter().getX(), getY() - rotationPlatform.getCenter().getY() );
                 if ( vec.getMagnitudeSq() == 0 ) {
                     vec = Vector2D.createPolar( 1.0, lastNonZeroRadiusAngle );
                 }
@@ -143,10 +144,10 @@ public class RotationBody {
                                           return a < b;
                                       }
                                   }, new DoubleNumber() {
-            public double getValue() {
-                return rotationPlatform.getInnerRadius();
-            }
-        }
+                                      public double getValue() {
+                                          return rotationPlatform.getInnerRadius();
+                                      }
+                                  }
         );
     }
 
@@ -156,10 +157,10 @@ public class RotationBody {
                                           return a > b;
                                       }
                                   }, new DoubleNumber() {
-            public double getValue() {
-                return rotationPlatform.getRadius();
-            }
-        }
+                                      public double getValue() {
+                                          return rotationPlatform.getRadius();
+                                      }
+                                  }
         );
     }
 
@@ -250,7 +251,7 @@ public class RotationBody {
     }
 
     private void updateOffPlatform( double time ) {
-        ImmutableVector2D origAccel = getAcceleration();
+        AbstractVector2D origAccel = getAcceleration();
         xBody.addPositionData( xBody.getPosition(), time );
         yBody.addPositionData( yBody.getPosition(), time );
 
@@ -281,8 +282,8 @@ public class RotationBody {
 //        System.out.println( "linearRegressionMSE = " + linearRegressionMSE );
 //        System.out.println( "MSE=" + circle.getMeanSquaredError( pointHistory ) + ", circle.getRadius() = " + circle.getRadius() );
             if ( circleDiscriminant.isCircularMotion( circle, pointHistory ) ) {
-                ImmutableVector2D accelVector = new Vector2D( new Point2D.Double( xBody.getPosition(), yBody.getPosition() ),
-                                                              circle.getCenter2D() );
+                AbstractVector2D accelVector = new Vector2D( new Point2D.Double( xBody.getPosition(), yBody.getPosition() ),
+                                                             circle.getCenter2D() );
                 double aMag = ( vx.getValue() * vx.getValue() + vy.getValue() * vy.getValue() ) / circle.getRadius();
 
                 if ( accelVector.getMagnitude() < 0.1 ) {
@@ -454,8 +455,8 @@ public class RotationBody {
         Point2D newX = centered ? new Point2D.Double( rotationPlatform.getCenter().getX(), rotationPlatform.getCenter().getY() )
                                 : Vector2D.createPolar( r, getAngleOverPlatform() ).getDestination( rotationPlatform.getCenter() );
         Vector2D centripetalVector = new Vector2D( newX, rotationPlatform.getCenter() );
-        ImmutableVector2D newV = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega ).getNormalVector();
-        ImmutableVector2D newA = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega * omega );
+        AbstractVector2D newV = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega ).getNormalVector();
+        AbstractVector2D newA = centered ? zero() : centripetalVector.getInstanceOfMagnitude( r * omega * omega );
         boolean offsetVelocityDueToConstantAccel = !centered && ( rotationPlatform.isAccelDriven() || rotationPlatform.isForceDriven() );
         boolean offsetVelocityDueToUserControl = !centered && ( rotationPlatform.isPositionDriven() );// && Math.abs( rotationPlatform.getVelocity() ) > 1E-2;
 //        System.out.println( "offsetVelocityDueToUserControl = " + offsetVelocityDueToUserControl );
@@ -527,12 +528,12 @@ public class RotationBody {
         }
     }
 
-    private void addAccelerationData( ImmutableVector2D newAccel, double time ) {
+    private void addAccelerationData( AbstractVector2D newAccel, double time ) {
         xBody.addAccelerationData( newAccel.getX(), time );
         yBody.addAccelerationData( newAccel.getY(), time );
     }
 
-    private void addVelocityData( ImmutableVector2D newVelocity, double time ) {
+    private void addVelocityData( AbstractVector2D newVelocity, double time ) {
         xBody.addVelocityData( newVelocity.getX(), time );
         yBody.addVelocityData( newVelocity.getY(), time );
     }
@@ -767,9 +768,9 @@ public class RotationBody {
     }
 
     private class FlyingOff extends UpdateStrategy {
-        private ImmutableVector2D velocity;
+        private AbstractVector2D velocity;
 
-        public FlyingOff( ImmutableVector2D velocity ) {
+        public FlyingOff( AbstractVector2D velocity ) {
             this.velocity = velocity;
         }
 
@@ -779,7 +780,7 @@ public class RotationBody {
         public void stepInTime( double time, double dt ) {
             double r = 4.5;
             if ( getPosition().distance( 0, 0 ) > r ) {
-                velocity = new Vector2D( 0, 0 );
+                velocity = new ImmutableVector2D( 0, 0 );
                 //scurry back to near the platform if offscreen?
 
                 Vector2D vec = new Vector2D( xBody.getPosition(), yBody.getPosition() );

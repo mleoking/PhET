@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyskatepark.model.physics;
 
 import java.awt.Color;
@@ -19,8 +19,8 @@ import javax.swing.JScrollPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -334,7 +334,7 @@ public class TestPhysics1D extends JFrame {
                 SerializablePoint2D coords = new SerializablePoint2D( event.getPositionRelativeTo( phetPPath ) );
                 EnergySkateParkLogging.println( "coords = " + coords );
 //                TraversalState traversalState=new TraversalState( cubicSpline, true,);
-                TraversalState traversalState = particle.getBestTraversalState( coords, new Vector2D( 1, 0 ) );
+                TraversalState traversalState = particle.getBestTraversalState( coords, new ImmutableVector2D( 1, 0 ) );
                 closestPoint.setOffset( traversalState.getPosition() );
             }
         } );

@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.common.phetcommon.math;
 
 import java.awt.geom.Point2D;
@@ -11,27 +11,32 @@ import java.awt.geom.Point2D;
  * @author Sam Reid
  * @author Ron LeMaster
  */
-public class Vector2D extends ImmutableVector2D {
+public class Vector2D extends AbstractVector2D {
+    private double x;
+    private double y;
+
     public Vector2D() {
     }
 
-    public Vector2D( ImmutableVector2D v ) {
+    public Vector2D( AbstractVector2D v ) {
         this( v.getX(), v.getY() );
     }
 
     public Vector2D( double x, double y ) {
-        super( x, y );
+        this.x = x;
+        this.y = y;
     }
 
     public Vector2D( Point2D p ) {
-        super( p );
+        this( p.getX(), p.getY() );
     }
 
     public Vector2D( Point2D src, Point2D dst ) {
-        super( src, dst );
+        this.x = dst.getX() - src.getX();
+        this.y = dst.getY() - src.getY();
     }
 
-    public Vector2D add( ImmutableVector2D v ) {
+    public Vector2D add( AbstractVector2D v ) {
         setX( getX() + v.getX() );
         setY( getY() + v.getY() );
         return this;
@@ -51,21 +56,19 @@ public class Vector2D extends ImmutableVector2D {
         return this;
     }
 
-    @Override
     public void setX( double x ) {
-        super.setX( x );
+        this.x = x;
     }
 
-    @Override
     public void setY( double y ) {
-        super.setY( y );
+        this.y = y;
     }
 
     // The reason that this seemingly redundant override exists is to make
     // this method public.
-    @Override
     public void setComponents( double x, double y ) {
-        super.setComponents( x, y );
+        setX( x );
+        setY( y );
     }
 
     public void setValue( ImmutableVector2D value ) {
@@ -84,7 +87,7 @@ public class Vector2D extends ImmutableVector2D {
         setMagnitudeAndAngle( getMagnitude(), angle );
     }
 
-    public Vector2D subtract( ImmutableVector2D v ) {
+    public Vector2D subtract( AbstractVector2D v ) {
         setX( getX() - v.getX() );
         setY( getY() - v.getY() );
         return this;
@@ -98,5 +101,17 @@ public class Vector2D extends ImmutableVector2D {
         double yPrime = r * Math.sin( gamma );
         this.setComponents( xPrime, yPrime );
         return this;
+    }
+
+    @Override public double getY() {
+        return y;
+    }
+
+    @Override public double getX() {
+        return x;
+    }
+
+    public static ImmutableVector2D createPolar( final double magnitude, final double angle ) {
+        return ImmutableVector2D.createPolar( magnitude, angle );
     }
 }

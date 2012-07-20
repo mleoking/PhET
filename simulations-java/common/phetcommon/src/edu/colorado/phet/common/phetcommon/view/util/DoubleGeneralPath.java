@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -15,6 +15,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
 /**
@@ -57,11 +58,11 @@ public class DoubleGeneralPath {
         moveTo( pt.getX(), pt.getY() );
     }
 
-    public void moveTo( ImmutableVector2D vec ) {
+    public void moveTo( AbstractVector2D vec ) {
         moveTo( vec.getX(), vec.getY() );
     }
 
-    public void moveToRelative( ImmutableVector2D delta ) {
+    public void moveToRelative( AbstractVector2D delta ) {
         moveToRelative( delta.getX(), delta.getY() );
     }
 
@@ -109,7 +110,7 @@ public class DoubleGeneralPath {
         return path.getCurrentPoint();
     }
 
-    public void lineToRelative( ImmutableVector2D vec ) {
+    public void lineToRelative( AbstractVector2D vec ) {
         Point2D cur = path.getCurrentPoint();
         lineTo( cur.getX() + vec.getX(), cur.getY() + vec.getY() );
     }
@@ -118,7 +119,7 @@ public class DoubleGeneralPath {
         return path;
     }
 
-    public void lineTo( ImmutableVector2D loc ) {
+    public void lineTo( AbstractVector2D loc ) {
         lineTo( loc.getX(), loc.getY() );
     }
 

@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies;
 
 import java.awt.Shape;
@@ -8,7 +8,6 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
@@ -30,7 +29,7 @@ public class RandomWalkMotionStrategy extends MotionStrategy {
     private static final Random RAND = new Random();
 
     private double directionChangeCountdown = 0;
-    private ImmutableVector2D currentMotionVector2D = new Vector2D( 0, 0 );
+    private ImmutableVector2D currentMotionVector2D = new ImmutableVector2D( 0, 0 );
     private double currentZVelocity = 0;
 
     public RandomWalkMotionStrategy( Property<MotionBounds> motionBoundsProperty ) {

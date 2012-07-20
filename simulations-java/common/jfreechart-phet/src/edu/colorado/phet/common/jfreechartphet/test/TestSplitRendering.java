@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.common.jfreechartphet.test;
 
 import java.awt.event.ActionEvent;
@@ -28,7 +28,6 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * User: Sam Reid
@@ -109,7 +108,7 @@ public class TestSplitRendering {
         double t = System.currentTimeMillis() / 1000.0 - startTime;
         double r = Math.cos( t / 6 );
         double theta = Math.cos( t / 5 ) * 2 * Math.PI;
-        ImmutableVector2D v = Vector2D.createPolar( r, theta );
+        ImmutableVector2D v = ImmutableVector2D.createPolar( r, theta );
         series.clear();
         series.add( v.getX(), v.getY() );
     }

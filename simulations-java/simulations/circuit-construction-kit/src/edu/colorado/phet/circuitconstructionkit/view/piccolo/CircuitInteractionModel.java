@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
 import java.awt.geom.Point2D;
@@ -196,7 +196,7 @@ public class CircuitInteractionModel {
             }
             else {
                 BranchSet bs = new BranchSet( circuit, sc );
-                ImmutableVector2D vec = match.getVector();
+                Vector2D vec = match.getVector();
                 bs.addJunction( junction );
                 bs.translate( vec );
             }

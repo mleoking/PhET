@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.model.components;
 
 import java.awt.geom.Point2D;
@@ -9,7 +9,6 @@ import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.DynamicBranch;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * User: Sam Reid
@@ -33,7 +32,7 @@ public class Capacitor extends CircuitComponent implements DynamicBranch {
     }
 
     public Capacitor( double resistance ) {
-        this( new Point2D.Double(), new Vector2D(), 1, 1, new CircuitChangeListener() {
+        this( new Point2D.Double(), new ImmutableVector2D(), 1, 1, new CircuitChangeListener() {
             public void circuitChanged() {
             }
         } );

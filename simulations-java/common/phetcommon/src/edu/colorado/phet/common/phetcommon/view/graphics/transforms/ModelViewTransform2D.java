@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*
  * CVS Info -
@@ -19,6 +19,7 @@ import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
 /**
@@ -160,7 +161,7 @@ public class ModelViewTransform2D {
         return modelToView( new Point2D.Double( x, y ) );
     }
 
-    public Point modelToView( ImmutableVector2D v ) {
+    public Point modelToView( AbstractVector2D v ) {
         return modelToView( v.toPoint2D() );
     }
 

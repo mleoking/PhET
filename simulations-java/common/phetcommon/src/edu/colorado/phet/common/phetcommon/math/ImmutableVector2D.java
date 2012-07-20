@@ -13,8 +13,8 @@ import java.awt.geom.Point2D;
  * @author Sam Reid
  */
 public class ImmutableVector2D extends AbstractVector2D {
-    private double x;
-    private double y;
+    public final double x;
+    public final double y;
 
     //Immutable instance for zero so it doesn't need to be duplicated/re-instantiated in multiple places
     public static final ImmutableVector2D ZERO = new ImmutableVector2D();
@@ -61,73 +61,12 @@ public class ImmutableVector2D extends AbstractVector2D {
         this( v.getWidth(), v.getHeight() );
     }
 
-    public ImmutableVector2D getAddedInstance( ImmutableVector2D v ) {
-        return getAddedInstance( v.getX(), v.getY() );
-    }
-
-    public ImmutableVector2D getAddedInstance( Dimension2D delta ) {
-        return getAddedInstance( delta.getWidth(), delta.getHeight() );
-    }
-
-    public ImmutableVector2D getAddedInstance( double x, double y ) {
-        return new ImmutableVector2D( getX() + x, getY() + y );
-    }
-
-    public ImmutableVector2D getScaledInstance( double scale ) {
-        return new ImmutableVector2D( getX() * scale, getY() * scale );
-    }
-
-    public ImmutableVector2D getNormalVector() {
-        return new ImmutableVector2D( y, -x );
-    }
-
-    public ImmutableVector2D getNormalizedInstance() {
-        double magnitude = getMagnitude();
-        if ( magnitude == 0 ) {
-            throw new UnsupportedOperationException( "Cannot normalize a zero-magnitude vector." );
-        }
-        return new ImmutableVector2D( getX() / magnitude, getY() / magnitude );
-    }
-
-    public ImmutableVector2D getSubtractedInstance( double x, double y ) {
-        return new ImmutableVector2D( getX() - x, getY() - y );
-    }
-
-    public ImmutableVector2D getSubtractedInstance( ImmutableVector2D v ) {
-        return getSubtractedInstance( v.getX(), v.getY() );
-    }
-
     @Override public double getY() {
         return y;
     }
 
     @Override public double getX() {
         return x;
-    }
-
-    //The following setter methods are protected so that clients of ImmutableVector2D won't be able to mutate the object
-    //But so that subclasses such as Vector2D (which is mutable) will be able to change the data without reallocating objects, while
-    //sharing code.
-
-    protected void setComponents( double x, double y ) {
-        this.x = x;
-        this.y = y;
-    }
-
-    protected void setX( double x ) {
-        this.x = x;
-    }
-
-    protected void setY( double y ) {
-        this.y = y;
-    }
-
-    public ImmutableVector2D getInstanceOfMagnitude( double magnitude ) {
-        return getScaledInstance( magnitude / getMagnitude() );
-    }
-
-    public ImmutableVector2D getRotatedInstance( double angle ) {
-        return createPolar( getMagnitude(), getAngle() + angle );
     }
 
     public static ImmutableVector2D createPolar( double radius, double angle ) {

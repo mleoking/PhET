@@ -1,9 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.conductivity.common;
 
 import java.awt.geom.GeneralPath;
 
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.common:
@@ -11,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
 public class ArrowShape {
 
-    public ArrowShape( ImmutableVector2D phetvector, ImmutableVector2D phetvector1, double d, double d1, double d2 ) {
+    public ArrowShape( AbstractVector2D phetvector, AbstractVector2D phetvector1, double d, double d1, double d2 ) {
         direction = phetvector1.getSubtractedInstance( phetvector ).getNormalizedInstance();
         double d3 = phetvector1.getSubtractedInstance( phetvector ).getMagnitude();
         if ( d3 < d ) {
@@ -49,7 +50,7 @@ public class ArrowShape {
     }
 
     GeneralPath arrowPath;
-    ImmutableVector2D tipLocation;
+    AbstractVector2D tipLocation;
     private ImmutableVector2D direction;
     private ImmutableVector2D norm;
 }

@@ -1,9 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyskatepark.model.physics;
 
 import java.io.Serializable;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
@@ -492,7 +493,7 @@ public class Particle1D implements Serializable {
     /*
    Returns the net force (discluding normal forces).
     */
-    public ImmutableVector2D getNetForce() {
+    public AbstractVector2D getNetForce() {
         Vector2D netForce = new Vector2D();
         netForce.add( new Vector2D( 0, mass * g ) );//gravity
         netForce.add( new Vector2D( xThrust * mass, yThrust * mass ) );//thrust
@@ -500,7 +501,7 @@ public class Particle1D implements Serializable {
         return netForce;
     }
 
-    public ImmutableVector2D getFrictionForce() {
+    public AbstractVector2D getFrictionForce() {
         if ( getTotalFriction() == 0 || getVelocity2D().getMagnitude() < 1E-2 ) {
             return new Vector2D();
         }
@@ -520,12 +521,12 @@ public class Particle1D implements Serializable {
         public void stepInTime( double dt ) {
             double origEnergy = getEnergy();
             SerializablePoint2D origLoc = getLocation();
-            ImmutableVector2D netForce = getNetForce();
+            AbstractVector2D netForce = getNetForce();
             double a = track.getUnitParallelVector( alpha ).dot( netForce ) / mass;
             velocity += a * dt;
             alpha += track.getFractionalDistance( alpha, velocity * dt + 1 / 2 * a * dt * dt );
             if ( getTotalFriction() > 0 ) {
-                ImmutableVector2D frictionForce = getFrictionForce();
+                AbstractVector2D frictionForce = getFrictionForce();
                 if ( ( Double.isNaN( frictionForce.getMagnitude() ) ) ) { throw new IllegalArgumentException();}
                 double therm = frictionForce.getMagnitude() * getLocation().distance( origLoc );
                 thermalEnergy += therm;

@@ -1,22 +1,20 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.conductivity;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.geom.AffineTransform;
 import java.io.IOException;
 
-
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.conductivity.oldphetgraphics.ImageGraphic;
-import edu.colorado.phet.conductivity.oldphetgraphics.Graphic;
-
-
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.conductivity.oldphetgraphics.Graphic;
+import edu.colorado.phet.conductivity.oldphetgraphics.ImageGraphic;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.photons:
 //            Photon
@@ -31,7 +29,7 @@ public class PhotonArrowGraphic
         try {
             shapeGraphic = new ImageGraphic( ImageLoader.loadBufferedImage( "conductivity/images/photon-comet-42.png" ) );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         modelviewtransform2d.addTransformListener( new TransformListener() {
@@ -53,7 +51,7 @@ public class PhotonArrowGraphic
 
     private void doUpdate() {
         Vector2D position = new Vector2D( photon.getPosition() );
-        ImmutableVector2D velocity = photon.getVelocity();
+        AbstractVector2D velocity = photon.getVelocity();
         Point viewVelocity = transform.modelToViewDifferential( velocity.getX(), velocity.getY() );
         Vector2D viewVelocityVector = new Vector2D( viewVelocity );
         Vector2D positionViewVector = new Vector2D( transform.modelToView( position ) );
