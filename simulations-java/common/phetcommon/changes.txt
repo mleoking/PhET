@@ -1,3 +1,4 @@
+7/19/12 Added equals/hashcode/toString using Lombok, see #3374
 7/19/12 Renamed ImmutableVector2D->Vector2D, see #3374
 7/19/12 Renamed Vector2D->MutableVector2D, see #3374
 7/19/12 Changed the Vector2D hierarchy from "Vector2D extends ImmutableVector2D" to "Vector2D extends AbstractVector2D + ImmutableVector2D extends AbstractVector2D", see #3374

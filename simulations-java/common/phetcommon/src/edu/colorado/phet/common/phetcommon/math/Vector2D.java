@@ -1,6 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.common.phetcommon.math;
 
+import lombok.Data;
+
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
@@ -8,11 +10,12 @@ import java.awt.geom.Point2D;
  * ImmutableVector2D represents an (x,y) offset in Cartesian coordinates.
  * This class is immutable, which means that it cannot be modified.
  * There is a subclass Vector2D that adds mutable functionality.
+ * Uses Lombok to generate equals/hashcode/toString.
  *
  * @author Ron LeMaster
  * @author Sam Reid
  */
-public class Vector2D extends AbstractVector2D {
+public @Data class Vector2D extends AbstractVector2D {
     public final double x;
     public final double y;
 
@@ -68,13 +71,13 @@ public class Vector2D extends AbstractVector2D {
     public Vector2D negate() { return getScaledInstance( -1 ); }
 
     public static void main( String[] args ) {
-        System.out.println( new Vector2D( 1, 2 ) );
-        System.out.println( new MutableVector2D( 1, 2 ) );
-        System.out.println( new MutableVector2D( 1, 2 ) {{
-            setX( 3 );
-        }} );
-        System.out.println( "0= " + new Vector2D( 0, 0 ).getDistance( new Vector2D( 0, 0 ) ) );
-        System.out.println( "1= " + new Vector2D( 1, 0 ).getDistance( new Vector2D( 0, 0 ) ) );
+        Vector2D v = new Vector2D( 0, 0 );
+        System.out.println( "v = " + v );
+        System.out.println( "v.hashCode() = " + v.hashCode() );
+        Vector2D b = new Vector2D( 1, 2 );
+        Vector2D c = new Vector2D( 0, 0 );
+        System.out.println( "v.equals( b ) = " + v.equals( b ) + " (should be false)" );
+        System.out.println( "v.equals( c ) = " + v.equals( c ) + " (should be true)" );
         System.out.println( "2root2= " + new Vector2D( 0, 0 ).getDistance( new Vector2D( 1, 1 ) ) );
     }
 }
