@@ -5,10 +5,8 @@ import fj.F;
 import fj.data.Option;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
 import edu.colorado.phet.fractions.buildafraction.view.Stackable;
@@ -23,12 +21,12 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class RectangularPiece extends Stackable {
     private final Integer pieceSize;
     private double initialScale = Double.NaN;
-    private final PhetPPath pathNode;
-    private final BasicStroke stroke = new BasicStroke( 2 );
+    private final PNode pathNode;
+    public static final BasicStroke stroke = new BasicStroke( 2 );
 
-    public RectangularPiece( final Integer pieceSize, final PieceContext context, Color color ) {
+    public RectangularPiece( final Integer pieceSize, final PieceContext context, PNode shape ) {
         this.pieceSize = pieceSize;
-        pathNode = new PhetPPath( SimpleContainerNode.createRect( pieceSize ), color, stroke, Color.black );
+        pathNode = shape;
         PNode piece = new ZeroOffsetNode( pathNode );
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new SimSharingDragHandler( null, true ) {

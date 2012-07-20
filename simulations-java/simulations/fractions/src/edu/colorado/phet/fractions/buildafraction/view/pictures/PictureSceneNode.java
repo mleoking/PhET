@@ -168,7 +168,8 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
             ArrayList<RectangularPiece> pieces = new ArrayList<RectangularPiece>();
             for ( final Integer pieceDenominator : group ) {
                 final double delta = toDelta( numInGroup, pieceIndex );
-                final RectangularPiece piece = new RectangularPiece( pieceDenominator, PictureSceneNode.this, level.color );
+                final PhetPPath shape = new PhetPPath( SimpleContainerNode.createRect( pieceDenominator ), level.color, RectangularPiece.stroke, Color.black );
+                final RectangularPiece piece = new RectangularPiece( pieceDenominator, PictureSceneNode.this, shape );
                 piece.setOffset( layoutXOffset + INSET + 20 + delta + stackIndex * spacing, STAGE_SIZE.height - INSET - 127 + 20 + delta );
                 piece.setInitialScale( TINY_SCALE );
 
