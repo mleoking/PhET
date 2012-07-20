@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--my-solar-system-strings_mk.xml created Mon Jul 16 19:42:43 CEST 2012 using: my-solar-system 2.03.00 (52285), translation-utility 2.13.00 (59150) декем. 8, 2011-->
+<SimStrings>
+<string key="slingshot" value="Гравитациона прачка"/>
+<string key="binaryStarPlanet" value="Двојна ѕвезда, планета"/>
+<string key="sunAndPlanet" value="Сонце и планета"/>
+<string key="body4" value="тело 4"/>
+<string key="numberOfBodies" value="Број\n на тела"/>
+<string key="body3" value="тело 3"/>
+<string key="body2" value="тело 2"/>
+<string key="body1" value="тело 1"/>
+<string key="velocity" value="брзина"/>
+<string key="doubleDouble" value="Двојна двојна"/>
+<string key="translation.credits" value="Зоран Христовски"/>
+<string key="massEquals" value="маса="/>
+<string key="hyperbolics" value="Хипербола"/>
+<string key="help8" value="За разликуа од Рунге-Кута, Верлетовиот алгоритам ја одржува енергију во осцилаторните системи и им дава стабилни орбити. Ваков алгоритам може да даде нефизички резултати во случају да се телата поставени преблизу- поради преголемото забрзување"/>
+<string key="help6" value="Оваа симулација го користи фиксниот временско-брзински Верлетов алгоритам за исцртување на патеки"/>
+<string key="stop" value="Запри"/>
+<string key="help5" value="Ако е чекирано Систем центриран,  се исклучува движењето на центарот на маса на системот."/>
+<string key="help4" value="За отчитување на точните вредности положба и брзина, притисни  Стоп а глувчето  постави го над телото."/>
+<string key="help3" value="Пожелно е да ги држите масите памали за неколку илјада бидејки во спротивно симулацијата може да кочи"/>
+<string key="help2" value="Растојанијата, масите и времињата се во  произволни единици. Можете да поставите свои вредности. "/>
+<string key="help1" value="Направете свој соларен систем со поставување на тела и V симболот (V за брзина) \nили со пишување во Почетната табела со сетинзи"/>
+<string key="help0" value="Симулатор на орбитата на Соларниот  систем"/>
+<string key="doubleSlingshot" value="Двојна и прачка"/>
+<string key="systemCentered" value="Системот центриран"/>
+<string key="start" value="Почни"/>
+<string key="showTraces" value="Патеки"/>
+<string key="back" value="назад"/>
+<string key="tapeMeasure" value="Мерна трака"/>
+<string key="accurate" value="точно"/>
+<string key="help" value="Помош"/>
+<string key="selectPreset" value="Зададено"/>
+<string key="showGrid" value="Мрежа"/>
+<string key="timeEquals" value="време="/>
+<string key="ellipses" value="Елипси"/>
+<string key="trojanAsteroids" value="астероиди"/>
+<string key="fourStarBallet" value="Балет четири ѕвезде"/>
+<string key="position" value="Положба"/>
+<string key="reset" value="Почеток"/>
+<string key="mass" value="маса"/>
+<string key="fast" value="брзо"/>
+<string key="simTitle" value="Мој Соларен систем"/>
+<string key="sunPlanetMoon" value="Сонце, планета, месец"/>
+<string key="initialSettings" value="Почетни:"/>
+<string key="sunPlanetComet" value="Сонце, планета и комета"/>
+</SimStrings>
