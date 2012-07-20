@@ -1,7 +1,7 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.glucose;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Crystal;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Formula;
@@ -16,7 +16,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.model.Units.nanomet
  */
 public class GlucoseCrystal extends Crystal<Glucose> {
 
-    public GlucoseCrystal( ImmutableVector2D position, double angle ) {
+    public GlucoseCrystal( Vector2D position, double angle ) {
 
         //Glucose is about half as big as sucrose and hence should be half as far away on the lattice
         super( Formula.GLUCOSE, position,

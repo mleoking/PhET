@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.common.view;
 
 import java.awt.Color;
@@ -6,7 +6,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -84,9 +84,9 @@ public class DispenserNode<U extends SugarAndSaltSolutionModel, T extends Dispen
 
             //Override the setModelPosition to use a call to translate, since that is the call used to shake out crystals
             @Override protected void setModelPosition( Point2D constrained ) {
-                ImmutableVector2D initialPoint = model.center.get();
-                ImmutableVector2D finalPoint = new ImmutableVector2D( constrained );
-                ImmutableVector2D delta = finalPoint.minus( initialPoint );
+                Vector2D initialPoint = model.center.get();
+                Vector2D finalPoint = new Vector2D( constrained );
+                Vector2D delta = finalPoint.minus( initialPoint );
                 model.translate( delta.toDimension() );
             }
         } );

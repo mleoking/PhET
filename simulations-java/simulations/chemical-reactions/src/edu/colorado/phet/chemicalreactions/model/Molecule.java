@@ -12,7 +12,7 @@ import org.jbox2d.dynamics.BodyType;
 
 import edu.colorado.phet.chemicalreactions.box2d.BodyModel;
 import edu.colorado.phet.chemicalreactions.model.MoleculeShape.AtomSpot;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -32,7 +32,7 @@ public class Molecule extends BodyModel {
 
     public final VoidNotifier disposeNotifier = new VoidNotifier();
 
-    public final Property<ImmutableVector2D> destination = new Property<ImmutableVector2D>( new ImmutableVector2D() );
+    public final Property<Vector2D> destination = new Property<Vector2D>( new Vector2D() );
 
     public Molecule( MoleculeShape shape ) {
         super( new BodyDef() {{
@@ -49,7 +49,7 @@ public class Molecule extends BodyModel {
         angle.addObserver( updateObserver, false );
 
         for ( final AtomSpot spot : shape.spots ) {
-            final Atom atom = new Atom( spot.element, new Property<ImmutableVector2D>( spot.position ) );
+            final Atom atom = new Atom( spot.element, new Property<Vector2D>( spot.position ) );
             addAtom( atom );
             atomMap.put( atom, spot );
 
@@ -57,7 +57,7 @@ public class Molecule extends BodyModel {
                 density = BOX2D_DENSITY;
                 shape = new CircleShape() {{
                     m_radius = (float) BOX2D_MODEL_TRANSFORM.viewToModelDeltaX( atom.getRadius() );
-                    ImmutableVector2D box2dPosition = BOX2D_MODEL_TRANSFORM.viewToModelDelta( spot.position );
+                    Vector2D box2dPosition = BOX2D_MODEL_TRANSFORM.viewToModelDelta( spot.position );
                     m_p.set( (float) box2dPosition.getX(), (float) box2dPosition.getY() );
                 }};
             }} );
@@ -87,7 +87,7 @@ public class Molecule extends BodyModel {
                 // Move towards the destination.
                 double angle = Math.atan2( getDestination().getY() - getPosition().getY(),
                                            getDestination().getX() - getPosition().getX() );
-                setPosition( getPosition().plus( new ImmutableVector2D(
+                setPosition( getPosition().plus( new Vector2D(
                         distanceToTravel * Math.cos( angle ),
                         distanceToTravel * Math.sin( angle )
                 ) ) );
@@ -112,9 +112,9 @@ public class Molecule extends BodyModel {
         atoms.add( atom );
     }
 
-    public ImmutableVector2D getAtomOffset( Atom atom ) {
+    public Vector2D getAtomOffset( Atom atom ) {
         AtomSpot spot = atomMap.get( atom );
-        ImmutableVector2D rotatedOffset = spot.position.getRotatedInstance( angle.get() );
+        Vector2D rotatedOffset = spot.position.getRotatedInstance( angle.get() );
         return position.get().plus( rotatedOffset );
     }
 
@@ -142,29 +142,29 @@ public class Molecule extends BodyModel {
         return ( getPosition().minus( other.getPosition() ) ).dot( getVelocity().minus( other.getVelocity() ) ) < 0;
     }
 
-    public ImmutableVector2D getDestination() {
+    public Vector2D getDestination() {
         return destination.get();
     }
 
-    public void setDestination( ImmutableVector2D position ) {
+    public void setDestination( Vector2D position ) {
         destination.set( position );
     }
 
-    public ImmutableVector2D predictConstantAccelerationAtomPosition( Atom atom, double t, ImmutableVector2D acceleration, double angularAcceleration ) {
-        ImmutableVector2D futureMoleculePosition = position.get().plus( velocity.get().times( t ) ).plus( acceleration.times( 0.5 * t * t ) );
+    public Vector2D predictConstantAccelerationAtomPosition( Atom atom, double t, Vector2D acceleration, double angularAcceleration ) {
+        Vector2D futureMoleculePosition = position.get().plus( velocity.get().times( t ) ).plus( acceleration.times( 0.5 * t * t ) );
         double futureMoleculeAngle = angle.get() + angularVelocity.get() * t + angularAcceleration * 0.5 * t * t;
 
         AtomSpot spot = atomMap.get( atom );
-        ImmutableVector2D rotatedOffset = spot.position.getRotatedInstance( futureMoleculeAngle );
+        Vector2D rotatedOffset = spot.position.getRotatedInstance( futureMoleculeAngle );
         return futureMoleculePosition.plus( rotatedOffset );
     }
 
-    public ImmutableVector2D predictLinearAtomPosition( Atom atom, double t ) {
-        ImmutableVector2D futureMoleculePosition = position.get().plus( velocity.get().times( t ) );
+    public Vector2D predictLinearAtomPosition( Atom atom, double t ) {
+        Vector2D futureMoleculePosition = position.get().plus( velocity.get().times( t ) );
         double futureMoleculeAngle = angle.get() + angularVelocity.get() * t;
 
         AtomSpot spot = atomMap.get( atom );
-        ImmutableVector2D rotatedOffset = spot.position.getRotatedInstance( futureMoleculeAngle );
+        Vector2D rotatedOffset = spot.position.getRotatedInstance( futureMoleculeAngle );
         return futureMoleculePosition.plus( rotatedOffset );
     }
 }

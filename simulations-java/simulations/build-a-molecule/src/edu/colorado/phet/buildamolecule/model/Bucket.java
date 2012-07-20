@@ -1,4 +1,4 @@
-//  Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.buildamolecule.model;
 
 import java.awt.geom.Dimension2D;
@@ -7,7 +7,7 @@ import java.util.List;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.chemistry.model.Element;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.SphereBucket;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -61,7 +61,7 @@ public class Bucket extends SphereBucket<Atom2D> {
 
     @Override public void setPosition( Point2D point ) {
         // when we move the bucket, we must also move our contained atoms
-        ImmutableVector2D delta = new ImmutableVector2D( point ).minus( new ImmutableVector2D( getPosition() ) );
+        Vector2D delta = new Vector2D( point ).minus( new Vector2D( getPosition() ) );
         for ( Atom2D atom : getAtoms() ) {
             atom.setPositionAndDestination( atom.getPosition().getAddedInstance( delta ) );
         }

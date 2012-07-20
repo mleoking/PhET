@@ -17,8 +17,8 @@ import javax.swing.BorderFactory;
 import javax.swing.border.Border;
 import javax.swing.event.MouseInputAdapter;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -73,8 +73,8 @@ public class DopantPanel extends CompositeInteractiveGraphic {
         Border bo = BorderFactory.createTitledBorder( init, SemiconductorResources.getString( "DopantPanel.DopantBorder" ), 0, 0, font, Color.black );
         border = new BorderGraphic( bo, apparatusPanel, viewRect );
 
-        ImmutableVector2D leftCell = getCenter( modelRect ).getAddedInstance( 0, -modelRect.getHeight() / 5.5 );
-        ImmutableVector2D rightCell = getCenter( modelRect ).getAddedInstance( 0, modelRect.getHeight() / 5.5 );
+        Vector2D leftCell = getCenter( modelRect ).getAddedInstance( 0, -modelRect.getHeight() / 5.5 );
+        Vector2D rightCell = getCenter( modelRect ).getAddedInstance( 0, modelRect.getHeight() / 5.5 );
 
         Dopant negativeDopant = new Dopant( leftCell, DopantType.N );
         Dopant positiveDopant = new Dopant( rightCell, DopantType.P );
@@ -108,7 +108,7 @@ public class DopantPanel extends CompositeInteractiveGraphic {
         addGraphic( createP, 0 );
     }
 
-    private void addText( String s, CompositeInteractiveGraphic graphic, ImmutableVector2D cell, ModelViewTransform2D transform ) {
+    private void addText( String s, CompositeInteractiveGraphic graphic, Vector2D cell, ModelViewTransform2D transform ) {
         final TextGraphic pText = new TextGraphic( 100, 100, new PhetFont( Font.PLAIN, 14 ), Color.black, s );
         ViewChangeListener vcl = new ViewChangeListener() {
             public void viewCoordinateChanged( int x, int y ) {

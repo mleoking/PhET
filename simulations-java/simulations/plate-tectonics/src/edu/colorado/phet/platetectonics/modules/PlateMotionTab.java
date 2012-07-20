@@ -1,7 +1,8 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.platetectonics.modules;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Cursor;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.Map;
 
 import org.lwjgl.input.Mouse;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -263,7 +264,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
         /*---------------------------------------------------------------------------*
          * manual / automatic switch
          *----------------------------------------------------------------------------*/
-        final OrthoPiccoloNode modeSwitchPanel = new OrthoPiccoloNode( new ControlPanelNode( new PlayModePanel( isAutoMode ) ), this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D( 10, 10 ) ), mouseEventNotifier ) {{
+        final OrthoPiccoloNode modeSwitchPanel = new OrthoPiccoloNode( new ControlPanelNode( new PlayModePanel( isAutoMode ) ), this, getCanvasTransform(), new Property<Vector2D>( new Vector2D( 10, 10 ) ), mouseEventNotifier ) {{
             updateOnEvent( beforeFrameRender );
         }};
         addGuiNode( modeSwitchPanel );
@@ -273,10 +274,10 @@ public class PlateMotionTab extends PlateTectonicsTab {
          *----------------------------------------------------------------------------*/
         crustChooserPanel = new CrustChooserPanel();
         crustChooserNode = new OrthoPiccoloNode( new ControlPanelNode( crustChooserPanel ), this, getCanvasTransform(),
-                                                 new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
+                                                 new Property<Vector2D>( new Vector2D() ), mouseEventNotifier ) {{
             canvasSize.addObserver( new SimpleObserver() {
                 public void update() {
-                    position.set( new ImmutableVector2D(
+                    position.set( new Vector2D(
                             getStageSize().width - getComponentWidth() - 10, // right side
                             getStageSize().height - getComponentHeight() - 10 ) ); // offset from bottom
                 }
@@ -322,7 +323,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
         final OrthoPiccoloNode viewPanelNode = new OrthoPiccoloNode(
                 new ControlPanelNode( new ViewOptionsPanel( PlateMotionTab.this, showLabels, true, showWater, getPlateMotionModel().hasBothPlates, colorMode ) ),
                 this, getCanvasTransform(),
-                new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
+                new Property<Vector2D>( new Vector2D() ), mouseEventNotifier ) {{
             // NOTE: positioning code for this is below
             updateOnEvent( beforeFrameRender );
         }};
@@ -332,7 +333,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
             public void run() {
                 resetAll();
             }
-        } ), this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
+        } ), this, getCanvasTransform(), new Property<Vector2D>( new Vector2D() ), mouseEventNotifier ) {{
             // NOTE: positioning code for this is below
             updateOnEvent( beforeFrameRender );
         }};
@@ -354,11 +355,11 @@ public class PlateMotionTab extends PlateTectonicsTab {
                 final double padding = freeWidth / 3;
 
                 // int casts so that we are aligned on a pixel boundary
-                viewPanelNode.position.set( new ImmutableVector2D(
+                viewPanelNode.position.set( new Vector2D(
                         (int) ( toolboxRightEdge + padding ),
                         getStageSize().height - viewPanelNode.getComponentHeight() - 10 ) );
 
-                resetPanelNode.position.set( new ImmutableVector2D(
+                resetPanelNode.position.set( new Vector2D(
                         (int) ( toolboxRightEdge + padding + viewPanelWidth + padding ),
                         getStageSize().height - resetPanelNode.getComponentHeight() - 40 ) ); // extra padding
             }
@@ -369,12 +370,12 @@ public class PlateMotionTab extends PlateTectonicsTab {
         *----------------------------------------------------------------------------*/
         tectonicsTimeControl = new TectonicsTimeControl( getClock(), isAutoMode );
         final OrthoComponentNode timeControlPanelNode = new OrthoComponentNode( tectonicsTimeControl,
-                                                                                this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ),
+                                                                                this, getCanvasTransform(), new Property<Vector2D>( new Vector2D() ),
                                                                                 mouseEventNotifier ) {{
             onResize.addUpdateListener( new UpdateListener() {
                 public void update() {
-                    position.set( new ImmutableVector2D( getStageSize().width - getComponentWidth(),
-                                                         0 ) );
+                    position.set( new Vector2D( getStageSize().width - getComponentWidth(),
+                                                0 ) );
                 }
             }, true );
 
@@ -405,11 +406,11 @@ public class PlateMotionTab extends PlateTectonicsTab {
                     // show the chooser panel
                     motionTypeChooserPanel = new OrthoPiccoloNode( new ControlPanelNode( new MotionTypeChooserPanel( getPlateMotionModel() ) ),
                                                                    PlateMotionTab.this, getCanvasTransform(),
-                                                                   new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
+                                                                   new Property<Vector2D>( new Vector2D() ), mouseEventNotifier ) {{
                         double left = modeSwitchPanel.position.get().getX() + modeSwitchPanel.getComponentWidth();
                         double right = timeControlPanelNode.position.get().getX();
-                        position.set( new ImmutableVector2D( ( ( left + right ) - getComponentWidth() ) * 0.5,
-                                                             10 ) );
+                        position.set( new Vector2D( ( ( left + right ) - getComponentWidth() ) * 0.5,
+                                                    10 ) );
                         updateOnEvent( beforeFrameRender );
                     }};
                     addGuiNode( motionTypeChooserPanel );
@@ -476,7 +477,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
     private void manualHandleDragTimeChange( float timeChange ) {
         if ( !Float.isNaN( timeChange ) ) {
             SimSharingManager.sendUserMessage( UserComponents.handle, UserComponentTypes.sprite, edu.colorado.phet.common.phetcommon.simsharing.messages.UserActions.drag,
-                                               new ParameterSet( new Parameter[]{
+                                               new ParameterSet( new Parameter[] {
                                                        new Parameter( ParameterKeys.timeChangeMillionsOfYears, timeChange ),
                                                        new Parameter( ParameterKeys.motionType, getPlateMotionModel().motionType.get().toString() )
                                                } ) );
@@ -489,7 +490,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
     }
 
     private ImmutableVector2F getCrustOffset( ImmutableVector2F pieceOffset ) {
-        ImmutableVector2D nodeOffset = crustChooserNode.position.get();
+        Vector2D nodeOffset = crustChooserNode.position.get();
         return new ImmutableVector2F( (float) nodeOffset.getX() + pieceOffset.x,
                                       (float) nodeOffset.getY() + pieceOffset.y );
     }
@@ -621,8 +622,8 @@ public class PlateMotionTab extends PlateTectonicsTab {
     private class CrustPieceGLNode extends OrthoPiccoloNode {
         private CrustPieceGLNode( CrustPieceNode crustPiece, final ImmutableVector2F offset ) {
             super( crustPiece, PlateMotionTab.this, getCanvasTransform(),
-                   new Property<ImmutableVector2D>(
-                           new ImmutableVector2D(
+                   new Property<Vector2D>(
+                           new Vector2D(
                                    offset.x - crustPiece.getFullBounds().getWidth() / 2,
                                    offset.y - crustPiece.getFullBounds().getHeight() / 2 ) ),
                    mouseEventNotifier );

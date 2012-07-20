@@ -1,11 +1,14 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo.schematic;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
@@ -14,7 +17,7 @@ import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponen
 import edu.colorado.phet.circuitconstructionkit.model.components.Resistor;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.ComponentNode;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.LineSegment;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -27,8 +30,8 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 public class SchematicResistorNode extends ComponentNode {
     private CircuitComponent component;
     private double wireThickness;
-    private ImmutableVector2D eastDir;
-    private ImmutableVector2D northDir;
+    private Vector2D eastDir;
+    private Vector2D northDir;
     private Point2D anoPoint;
     private Point2D catPoint;
     private Area mouseArea;
@@ -56,9 +59,9 @@ public class SchematicResistorNode extends ComponentNode {
         super.setVisible( visible );
     }
 
-    private ImmutableVector2D getVector( double east, double north ) {
-        ImmutableVector2D e = eastDir.getScaledInstance( east );
-        ImmutableVector2D n = northDir.getScaledInstance( north );
+    private Vector2D getVector( double east, double north ) {
+        Vector2D e = eastDir.getScaledInstance( east );
+        Vector2D n = northDir.getScaledInstance( north );
         return e.getAddedInstance( n );
     }
 
@@ -66,7 +69,7 @@ public class SchematicResistorNode extends ComponentNode {
         super.update();
         Point2D srcpt = component.getStartJunction().getPosition();
         Point2D dstpt = component.getEndJunction().getPosition();
-        ImmutableVector2D vector = new ImmutableVector2D( srcpt, dstpt );
+        Vector2D vector = new Vector2D( srcpt, dstpt );
         double fracDistToCathode = .1;
         double fracDistToAnode = ( 1 - fracDistToCathode );
         catPoint = vector.getScaledInstance( fracDistToCathode ).getDestination( srcpt );

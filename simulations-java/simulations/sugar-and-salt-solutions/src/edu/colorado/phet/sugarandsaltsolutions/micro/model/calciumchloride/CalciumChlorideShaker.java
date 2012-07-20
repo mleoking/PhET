@@ -1,7 +1,7 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Beaker;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
@@ -20,7 +20,7 @@ public class CalciumChlorideShaker extends MicroShaker {
         super( x, y, beaker, moreAllowed, name, distanceScale, selectedType, type, model );
     }
 
-    @Override protected void addCrystal( MicroModel model, ImmutableVector2D outputPoint ) {
+    @Override protected void addCrystal( MicroModel model, Vector2D outputPoint ) {
         model.addCalciumChlorideCrystal( new CalciumChlorideCrystal( outputPoint, randomAngle() ) {{ grow( 6 ); }} );
     }
 
@@ -29,7 +29,7 @@ public class CalciumChlorideShaker extends MicroShaker {
         for ( int i = 0; i < 10000; i++ ) {
             System.out.println( "creating " + i );
             final int finalI = i;
-            new CalciumChlorideCrystal( ImmutableVector2D.ZERO, randomAngle() ) {{
+            new CalciumChlorideCrystal( Vector2D.ZERO, randomAngle() ) {{
                 boolean success = grow( 6 );
                 if ( !success ) {
                     System.out.println( "Failed to grow at i=" + finalI );

@@ -1,10 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.flow.view;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -24,7 +24,7 @@ import static edu.colorado.phet.fluidpressureandflow.flow.view.PipeCrossSectionC
 public class PipeOffsetControl extends PNode {
     public PipeOffsetControl( final IUserComponent component, final ModelViewTransform transform, final PipeCrossSection pipePosition, final double offsetX ) {
         final double x = pipePosition.getX() + offsetX;
-        final Property<ImmutableVector2D> point = new Property<ImmutableVector2D>( new ImmutableVector2D( x, pipePosition.getCenterY() ) );
+        final Property<Vector2D> point = new Property<Vector2D>( new Vector2D( x, pipePosition.getCenterY() ) );
         point.addObserver( new SimpleObserver() {
             public void update() {
                 double pipeCenter = pipePosition.getCenterY();
@@ -35,7 +35,7 @@ public class PipeOffsetControl extends PNode {
         } );
         final SimpleObserver updateCenter = new SimpleObserver() {
             public void update() {
-                point.set( new ImmutableVector2D( x, pipePosition.getCenterY() ) );
+                point.set( new Vector2D( x, pipePosition.getCenterY() ) );
             }
         };
         pipePosition.top.addObserver( updateCenter );

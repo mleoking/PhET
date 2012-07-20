@@ -1,7 +1,7 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.balanceandtorque.common.model.masses;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * A convenience class that combines a standard vector with a second vector
@@ -10,11 +10,11 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
  * @author John Blanco
  */
 public class PositionedVector {
-    public final ImmutableVector2D origin;
-    public final ImmutableVector2D vector;
+    public final Vector2D origin;
+    public final Vector2D vector;
 
-    public PositionedVector( ImmutableVector2D origin, ImmutableVector2D vector ) {
-        this.origin = new ImmutableVector2D( origin );
-        this.vector = new ImmutableVector2D( vector );
+    public PositionedVector( Vector2D origin, Vector2D vector ) {
+        this.origin = new Vector2D( origin );
+        this.vector = new Vector2D( vector );
     }
 }

@@ -10,7 +10,7 @@ import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -74,20 +74,20 @@ public class BlockNode extends PComposite {
         // Create the shape for the front of the block.
         Rectangle2D blockRectInViewCoords = scaleTransform.createTransformedShape( Block.getRawShape() ).getBounds2D();
         double perspectiveEdgeSize = mvt.modelToViewDeltaX( block.getRect().getWidth() * PERSPECTIVE_EDGE_PROPORTION );
-        ImmutableVector2D blockFaceOffset = new ImmutableVector2D( -perspectiveEdgeSize / 2, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE );
-        ImmutableVector2D backCornersOffset = new ImmutableVector2D( perspectiveEdgeSize, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE );
-        ImmutableVector2D lowerLeftFrontCorner = new ImmutableVector2D( blockRectInViewCoords.getMinX(), blockRectInViewCoords.getMaxY() ).getAddedInstance( blockFaceOffset );
-        ImmutableVector2D lowerRightFrontCorner = new ImmutableVector2D( blockRectInViewCoords.getMaxX(), blockRectInViewCoords.getMaxY() ).getAddedInstance( blockFaceOffset );
-        ImmutableVector2D upperRightFrontCorner = new ImmutableVector2D( blockRectInViewCoords.getMaxX(), blockRectInViewCoords.getMinY() ).getAddedInstance( blockFaceOffset );
-        ImmutableVector2D upperLeftFrontCorner = new ImmutableVector2D( blockRectInViewCoords.getMinX(), blockRectInViewCoords.getMinY() ).getAddedInstance( blockFaceOffset );
+        Vector2D blockFaceOffset = new Vector2D( -perspectiveEdgeSize / 2, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE );
+        Vector2D backCornersOffset = new Vector2D( perspectiveEdgeSize, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE );
+        Vector2D lowerLeftFrontCorner = new Vector2D( blockRectInViewCoords.getMinX(), blockRectInViewCoords.getMaxY() ).getAddedInstance( blockFaceOffset );
+        Vector2D lowerRightFrontCorner = new Vector2D( blockRectInViewCoords.getMaxX(), blockRectInViewCoords.getMaxY() ).getAddedInstance( blockFaceOffset );
+        Vector2D upperRightFrontCorner = new Vector2D( blockRectInViewCoords.getMaxX(), blockRectInViewCoords.getMinY() ).getAddedInstance( blockFaceOffset );
+        Vector2D upperLeftFrontCorner = new Vector2D( blockRectInViewCoords.getMinX(), blockRectInViewCoords.getMinY() ).getAddedInstance( blockFaceOffset );
         Shape blockFaceShape = new Rectangle2D.Double( lowerLeftFrontCorner.getX(),
                                                        upperLeftFrontCorner.getY(),
                                                        blockRectInViewCoords.getWidth(),
                                                        blockRectInViewCoords.getHeight() );
 
         // Create the shape of the top of the block.
-        ImmutableVector2D upperLeftBackCorner = upperLeftFrontCorner.getAddedInstance( backCornersOffset );
-        ImmutableVector2D upperRightBackCorner = upperRightFrontCorner.getAddedInstance( backCornersOffset );
+        Vector2D upperLeftBackCorner = upperLeftFrontCorner.getAddedInstance( backCornersOffset );
+        Vector2D upperRightBackCorner = upperRightFrontCorner.getAddedInstance( backCornersOffset );
         DoubleGeneralPath blockTopPath = new DoubleGeneralPath();
         blockTopPath.moveTo( upperLeftFrontCorner );
         blockTopPath.lineTo( upperRightFrontCorner );
@@ -97,7 +97,7 @@ public class BlockNode extends PComposite {
         Shape blockTopShape = blockTopPath.getGeneralPath();
 
         // Create the shape of the side of the block.
-        ImmutableVector2D lowerRightBackCorner = lowerRightFrontCorner.getAddedInstance( backCornersOffset );
+        Vector2D lowerRightBackCorner = lowerRightFrontCorner.getAddedInstance( backCornersOffset );
         DoubleGeneralPath blockSidePath = new DoubleGeneralPath();
         blockSidePath.moveTo( upperRightFrontCorner );
         blockSidePath.lineTo( lowerRightFrontCorner );
@@ -107,7 +107,7 @@ public class BlockNode extends PComposite {
         Shape blockSideShape = blockSidePath.getGeneralPath();
 
         // Create the shape for the back of the block.
-        ImmutableVector2D lowerLeftBackCorner = lowerLeftFrontCorner.getAddedInstance( backCornersOffset );
+        Vector2D lowerLeftBackCorner = lowerLeftFrontCorner.getAddedInstance( backCornersOffset );
         DoubleGeneralPath blockBackPath = new DoubleGeneralPath();
         blockBackPath.moveTo( lowerLeftBackCorner );
         blockBackPath.lineTo( lowerRightBackCorner );
@@ -184,8 +184,8 @@ public class BlockNode extends PComposite {
         } );
 
         // Update the offset if and when the model position changes.
-        block.position.addObserver( new VoidFunction1<ImmutableVector2D>() {
-            public void apply( ImmutableVector2D newPosition ) {
+        block.position.addObserver( new VoidFunction1<Vector2D>() {
+            public void apply( Vector2D newPosition ) {
 
                 setOffset( mvt.modelToView( newPosition ).toPoint2D() );
 
@@ -199,8 +199,8 @@ public class BlockNode extends PComposite {
         addInputEventListener( new CursorHandler( CursorHandler.HAND ) );
 
         // Add the drag handler.
-        ImmutableVector2D offsetPosToCenter = new ImmutableVector2D( getFullBoundsReference().getCenterX() - mvt.modelToViewX( block.position.get().getX() ),
-                                                                     getFullBoundsReference().getCenterY() - mvt.modelToViewY( block.position.get().getY() ) );
+        Vector2D offsetPosToCenter = new Vector2D( getFullBoundsReference().getCenterX() - mvt.modelToViewX( block.position.get().getX() ),
+                                                   getFullBoundsReference().getCenterY() - mvt.modelToViewY( block.position.get().getY() ) );
         addInputEventListener( new ThermalElementDragHandler( block, this, mvt, new ThermalItemMotionConstraint( model, block, this, mvt, offsetPosToCenter ) ) );
     }
 

@@ -6,8 +6,8 @@ import java.awt.geom.Area;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeBooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
@@ -114,7 +114,7 @@ public class SquarePool implements FaucetPool {
 
     public void addPressureChangeObserver( final SimpleObserver updatePressure ) { waterVolume.addObserver( updatePressure ); }
 
-    public boolean isAbbreviatedUnits( final ImmutableVector2D sensorPosition, final double value ) {
+    public boolean isAbbreviatedUnits( final Vector2D sensorPosition, final double value ) {
         return getWaterShape().get().contains( sensorPosition.getX(), sensorPosition.getY() );
     }
 
@@ -125,13 +125,13 @@ public class SquarePool implements FaucetPool {
         }};
     }
 
-    public ArrayList<ArrayList<ImmutableVector2D>> getEdges() {
-        return new ArrayList<ArrayList<ImmutableVector2D>>() {{
-            add( new ArrayList<ImmutableVector2D>() {{
-                add( new ImmutableVector2D( getContainerShape().getBounds2D().getMinX(), getContainerShape().getBounds2D().getMaxY() ) );
-                add( new ImmutableVector2D( getContainerShape().getBounds2D().getMinX(), getContainerShape().getBounds2D().getMinY() ) );
-                add( new ImmutableVector2D( getContainerShape().getBounds2D().getMaxX(), getContainerShape().getBounds2D().getMinY() ) );
-                add( new ImmutableVector2D( getContainerShape().getBounds2D().getMaxX(), getContainerShape().getBounds2D().getMaxY() ) );
+    public ArrayList<ArrayList<Vector2D>> getEdges() {
+        return new ArrayList<ArrayList<Vector2D>>() {{
+            add( new ArrayList<Vector2D>() {{
+                add( new Vector2D( getContainerShape().getBounds2D().getMinX(), getContainerShape().getBounds2D().getMaxY() ) );
+                add( new Vector2D( getContainerShape().getBounds2D().getMinX(), getContainerShape().getBounds2D().getMinY() ) );
+                add( new Vector2D( getContainerShape().getBounds2D().getMaxX(), getContainerShape().getBounds2D().getMinY() ) );
+                add( new Vector2D( getContainerShape().getBounds2D().getMaxX(), getContainerShape().getBounds2D().getMaxY() ) );
             }} );
         }};
     }

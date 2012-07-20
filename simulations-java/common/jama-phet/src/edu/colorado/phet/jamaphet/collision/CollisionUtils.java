@@ -1,24 +1,21 @@
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.jamaphet.collision;
 
 import Jama.Matrix;
 
-import java.awt.*;
+import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Optimization1D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.jamaphet.LinearLeastSquares;
 import edu.colorado.phet.jamaphet.RigidMotionLeastSquares;
 
-import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.filter;
-import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.map;
-import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.rangeInclusive;
-import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.reduceLeft;
-import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.zip;
+import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.*;
 
 /**
  * Collision-related matrix methods, mainly for collision prediction and fitting of multiple objects.
@@ -45,7 +42,7 @@ public class CollisionUtils {
 
         Matrix a = new Matrix( 2 * n, 3 ) {{
             for ( int i = 0; i < n; i++ ) {
-                ImmutableVector2D velocity = objects.get( i ).getVelocity();
+                Vector2D velocity = objects.get( i ).getVelocity();
 
                 set( 2 * i, 0, 1 );
                 set( 2 * i, 1, 0 );
@@ -58,7 +55,7 @@ public class CollisionUtils {
         }};
         Matrix b = new Matrix( 2 * n, 1 ) {{
             for ( int i = 0; i < n; i++ ) {
-                ImmutableVector2D position = objects.get( i ).getPosition();
+                Vector2D position = objects.get( i ).getPosition();
                 set( 2 * i, 0, position.getX() );
                 set( 2 * i + 1, 0, position.getY() );
             }
@@ -67,7 +64,7 @@ public class CollisionUtils {
         Matrix x = LinearLeastSquares.solveLinearLeastSquares( a, b );
 
         return new CollisionFit2D(
-                new ImmutableVector2D(
+                new Vector2D(
                         x.get( 0, 0 ),
                         x.get( 1, 0 ) ),
                 x.get( 2, 0 ) );
@@ -76,12 +73,12 @@ public class CollisionUtils {
     // result class for best fitting
     public static class CollisionFit2D {
         // best fit position
-        public final ImmutableVector2D position;
+        public final Vector2D position;
 
         // time elapsed
         public final double t;
 
-        public CollisionFit2D( ImmutableVector2D position, double t ) {
+        public CollisionFit2D( Vector2D position, double t ) {
             this.position = position;
             this.t = t;
         }
@@ -92,19 +89,19 @@ public class CollisionUtils {
     *----------------------------------------------------------------------------*/
 
     private static class ImmutableCollidable2D implements Collidable2D {
-        public final ImmutableVector2D position;
-        public final ImmutableVector2D velocity;
+        public final Vector2D position;
+        public final Vector2D velocity;
 
-        private ImmutableCollidable2D( ImmutableVector2D position, ImmutableVector2D velocity ) {
+        private ImmutableCollidable2D( Vector2D position, Vector2D velocity ) {
             this.position = position;
             this.velocity = velocity;
         }
 
-        public ImmutableVector2D getPosition() {
+        public Vector2D getPosition() {
             return position;
         }
 
-        public ImmutableVector2D getVelocity() {
+        public Vector2D getVelocity() {
             return velocity;
         }
 
@@ -152,23 +149,23 @@ public class CollisionUtils {
     private static List<Double> getErrors() {
         final ArrayList<Collidable2D> objects = new ArrayList<Collidable2D>() {{
             add( new ImmutableCollidable2D(
-                    new ImmutableVector2D( Math.random() - 0.5, Math.random() - 0.5 ),
-                    new ImmutableVector2D( Math.random() - 0.5, Math.random() - 0.5 )
+                    new Vector2D( Math.random() - 0.5, Math.random() - 0.5 ),
+                    new Vector2D( Math.random() - 0.5, Math.random() - 0.5 )
             ) );
             add( new ImmutableCollidable2D(
-                    new ImmutableVector2D( Math.random() - 0.5, Math.random() - 0.5 ),
-                    new ImmutableVector2D( Math.random() - 0.5, Math.random() - 0.5 )
+                    new Vector2D( Math.random() - 0.5, Math.random() - 0.5 ),
+                    new Vector2D( Math.random() - 0.5, Math.random() - 0.5 )
             ) );
             add( new ImmutableCollidable2D(
-                    new ImmutableVector2D( Math.random() - 0.5, Math.random() - 0.5 ),
-                    new ImmutableVector2D( Math.random() - 0.5, Math.random() - 0.5 )
+                    new Vector2D( Math.random() - 0.5, Math.random() - 0.5 ),
+                    new Vector2D( Math.random() - 0.5, Math.random() - 0.5 )
             ) );
         }};
 //        System.out.println( mkString( objects, ", " ) );
-        final ArrayList<ImmutableVector2D> targets = new ArrayList<ImmutableVector2D>() {{
-            add( new ImmutableVector2D( 0, 0 ) );
-            add( new ImmutableVector2D( 0.2, 0 ) );
-            add( new ImmutableVector2D( 0, 0.2 ) );
+        final ArrayList<Vector2D> targets = new ArrayList<Vector2D>() {{
+            add( new Vector2D( 0, 0 ) );
+            add( new Vector2D( 0.2, 0 ) );
+            add( new Vector2D( 0, 0.2 ) );
         }};
 
         CollisionFit2D result = bestFitIntersection2D( objects );
@@ -203,10 +200,10 @@ public class CollisionUtils {
         return errors;
     }
 
-    private static double getError( ArrayList<Collidable2D> objects, ArrayList<ImmutableVector2D> targets, final double t ) {
+    private static double getError( ArrayList<Collidable2D> objects, ArrayList<Vector2D> targets, final double t ) {
         // positions after time T
-        List<ImmutableVector2D> positions = map( objects, new Function1<Collidable2D, ImmutableVector2D>() {
-            public ImmutableVector2D apply( Collidable2D object ) {
+        List<Vector2D> positions = map( objects, new Function1<Collidable2D, Vector2D>() {
+            public Vector2D apply( Collidable2D object ) {
                 return object.getPosition().plus( object.getVelocity().times( t ) );
             }
         } );
@@ -215,20 +212,20 @@ public class CollisionUtils {
         final RigidMotionLeastSquares.RigidMotionTransformation transformation = RigidMotionLeastSquares.bestFitMotion2D( targets, positions, true );
 
         // and closest targets at time T, based on the computed positions
-        List<ImmutableVector2D> transformedTargets = map( targets, new Function1<ImmutableVector2D, ImmutableVector2D>() {
-            public ImmutableVector2D apply( ImmutableVector2D v ) {
+        List<Vector2D> transformedTargets = map( targets, new Function1<Vector2D, Vector2D>() {
+            public Vector2D apply( Vector2D v ) {
                 return transformation.transformVector2D( v );
             }
         } );
 
-        List<ImmutableVector2D> differences = zip( positions, transformedTargets, new Function2<ImmutableVector2D, ImmutableVector2D, ImmutableVector2D>() {
-            public ImmutableVector2D apply( ImmutableVector2D position, ImmutableVector2D target ) {
+        List<Vector2D> differences = zip( positions, transformedTargets, new Function2<Vector2D, Vector2D, Vector2D>() {
+            public Vector2D apply( Vector2D position, Vector2D target ) {
                 return position.minus( target );
             }
         } );
 
-        return reduceLeft( map( differences, new Function1<ImmutableVector2D, Double>() {
-            public Double apply( ImmutableVector2D v ) {
+        return reduceLeft( map( differences, new Function1<Vector2D, Double>() {
+            public Double apply( Vector2D v ) {
                 return v.getMagnitude();
             }
         } ), new Function2<Double, Double, Double>() {

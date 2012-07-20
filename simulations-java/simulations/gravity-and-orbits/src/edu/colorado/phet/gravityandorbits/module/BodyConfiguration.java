@@ -1,7 +1,7 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.gravityandorbits.module;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * Class that facilitates configuration of body instances for a GravityAndOrbitsMode; a data structure that describes a body's parameters.
@@ -26,7 +26,7 @@ public class BodyConfiguration {
         this.vy = vy;
     }
 
-    public ImmutableVector2D getMomentum() {
-        return new ImmutableVector2D( vx * mass, vy * mass );
+    public Vector2D getMomentum() {
+        return new Vector2D( vx * mass, vy * mass );
     }
 }

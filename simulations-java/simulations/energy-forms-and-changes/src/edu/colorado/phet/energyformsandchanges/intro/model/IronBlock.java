@@ -3,7 +3,7 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 
 import java.awt.Color;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
@@ -20,7 +20,7 @@ public class IronBlock extends Block {
     //    private static final double SPECIFIC_HEAT = 275; // In J/kg-K
     private static final double DENSITY = 7800; // In kg/m^3, source = design document.
 
-    protected IronBlock( ConstantDtClock clock, ImmutableVector2D initialPosition, BooleanProperty energyChunksVisible ) {
+    protected IronBlock( ConstantDtClock clock, Vector2D initialPosition, BooleanProperty energyChunksVisible ) {
         super( clock, initialPosition, DENSITY, SPECIFIC_HEAT, energyChunksVisible );
     }
 

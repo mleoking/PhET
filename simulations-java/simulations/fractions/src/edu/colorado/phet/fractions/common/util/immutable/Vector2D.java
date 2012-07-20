@@ -7,7 +7,6 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static java.lang.Math.cos;
@@ -48,7 +47,7 @@ import static java.lang.Math.sin;
 
     public Vector2D( Point2D p ) { this( p.getX(), p.getY() ); }
 
-    public Vector2D( ImmutableVector2D p ) { this( p.getX(), p.getY() ); }
+    public Vector2D( edu.colorado.phet.common.phetcommon.math.Vector2D p ) { this( p.getX(), p.getY() ); }
 
     public Vector2D( Point2D end, Point2D start ) { this( end.getX() - start.getX(), end.getY() - start.getY() ); }
 
@@ -56,7 +55,7 @@ import static java.lang.Math.sin;
 
     public Vector2D times( double s ) { return new Vector2D( x * s, y * s ); }
 
-    public ImmutableVector2D toImmutableVector2D() { return new ImmutableVector2D( x, y ); }
+    public edu.colorado.phet.common.phetcommon.math.Vector2D toImmutableVector2D() { return new edu.colorado.phet.common.phetcommon.math.Vector2D( x, y ); }
 
     public Vector2D plus( double dx, double dy ) { return new Vector2D( x + dx, y + dy ); }
 

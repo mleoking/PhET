@@ -1,7 +1,7 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.moleculeshapes.tabs;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.jmephet.JMETab;
 import edu.colorado.phet.jmephet.JMEUtils;
@@ -30,13 +30,13 @@ public abstract class MoleculeViewTab extends JMETab {
     /**
      * @return Our relative screen display scale compared to the stage scale
      */
-    public ImmutableVector2D getScale() {
-        return new ImmutableVector2D( getCanvasSize().getWidth() / getStageSize().getWidth(),
-                                      getCanvasSize().getHeight() / getStageSize().getHeight() );
+    public Vector2D getScale() {
+        return new Vector2D( getCanvasSize().getWidth() / getStageSize().getWidth(),
+                             getCanvasSize().getHeight() / getStageSize().getHeight() );
     }
 
     public float getApproximateScale() {
-        ImmutableVector2D scale = getScale();
+        Vector2D scale = getScale();
         return (float) ( ( scale.getX() + scale.getY() ) / 2 );
     }
 

@@ -1,4 +1,4 @@
-//  Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.buildamolecule.view;
 
 import java.awt.Color;
@@ -11,7 +11,7 @@ import edu.colorado.phet.buildamolecule.model.Bucket;
 import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.Molecule;
 import edu.colorado.phet.chemistry.model.Atom;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.umd.cs.piccolo.PNode;
@@ -77,7 +77,7 @@ public class KitView {
                     @Override
                     public void mouseDragged( PInputEvent event ) {
                         PDimension delta = event.getDeltaRelativeTo( atomNode.getParent() );
-                        ImmutableVector2D modelDelta = MODEL_VIEW_TRANSFORM.viewToModelDelta( new ImmutableVector2D( delta.width, delta.height ) );
+                        Vector2D modelDelta = MODEL_VIEW_TRANSFORM.viewToModelDelta( new Vector2D( delta.width, delta.height ) );
                         kit.atomDragged( atom, modelDelta );
                     }
 

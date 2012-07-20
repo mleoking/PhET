@@ -1,10 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.platetectonics.modules;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
@@ -167,11 +167,11 @@ public class CrustTab extends PlateTectonicsTab {
         /*---------------------------------------------------------------------------*
         * my crust
         *----------------------------------------------------------------------------*/
-        addGuiNode( new OrthoPiccoloNode( new ControlPanelNode( new MyCrustPanel( getCrustModel() ) ), CrustTab.this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
+        addGuiNode( new OrthoPiccoloNode( new ControlPanelNode( new MyCrustPanel( getCrustModel() ) ), CrustTab.this, getCanvasTransform(), new Property<Vector2D>( new Vector2D() ), mouseEventNotifier ) {{
             // layout the panel if its size changes (and on startup)
             canvasSize.addObserver( new SimpleObserver() {
                 public void update() {
-                    position.set( new ImmutableVector2D(
+                    position.set( new Vector2D(
                             Math.ceil( ( getStageSize().width - getComponentWidth() ) / 2 ), // center horizontally
                             10 ) ); // offset from top
                 }
@@ -189,11 +189,11 @@ public class CrustTab extends PlateTectonicsTab {
         /*---------------------------------------------------------------------------*
         * zoom control
         *----------------------------------------------------------------------------*/
-        addGuiNode( new OrthoPiccoloNode( new ControlPanelNode( new ZoomPanel( zoomRatio ) ), CrustTab.this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
+        addGuiNode( new OrthoPiccoloNode( new ControlPanelNode( new ZoomPanel( zoomRatio ) ), CrustTab.this, getCanvasTransform(), new Property<Vector2D>( new Vector2D() ), mouseEventNotifier ) {{
             // top right
             canvasSize.addObserver( new SimpleObserver() {
                 public void update() {
-                    position.set( new ImmutableVector2D(
+                    position.set( new Vector2D(
                             getStageSize().width - getComponentWidth() - 10,
                             10
                     ) );
@@ -209,11 +209,11 @@ public class CrustTab extends PlateTectonicsTab {
         optionsPiccoloNode = new OrthoPiccoloNode(
                 new ControlPanelNode( new ViewOptionsPanel( this, showLabels, colorMode ) ),
                 CrustTab.this, getCanvasTransform(),
-                new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
+                new Property<Vector2D>( new Vector2D() ), mouseEventNotifier ) {{
             canvasSize.addObserver( new SimpleObserver() {
                 public void update() {
-                    position.set( new ImmutableVector2D( getStageSize().width - getComponentWidth() - 10,
-                                                         getStageSize().height - getComponentHeight() - 10 ) );
+                    position.set( new Vector2D( getStageSize().width - getComponentWidth() - 10,
+                                                getStageSize().height - getComponentHeight() - 10 ) );
                 }
             } );
             updateOnEvent( beforeFrameRender );
@@ -238,7 +238,7 @@ public class CrustTab extends PlateTectonicsTab {
                 }},
                                       this,
                                       getCanvasTransform(),
-                                      new Property<ImmutableVector2D>( new ImmutableVector2D( 30, getStageSize().getHeight() * 0.38 ) ),
+                                      new Property<Vector2D>( new Vector2D( 30, getStageSize().getHeight() * 0.38 ) ),
                                       mouseEventNotifier ) {{
                     zoomRatio.addObserver( new SimpleObserver() {
                         public void update() {
@@ -250,10 +250,10 @@ public class CrustTab extends PlateTectonicsTab {
         // "continental crust" label
         guiLayer.addChild( new OrthoPiccoloNode( new PText( CONTINENTAL_CRUST ) {{
             setFont( new PhetFont( 16, true ) );
-        }}, this, getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ), mouseEventNotifier ) {{
+        }}, this, getCanvasTransform(), new Property<Vector2D>( new Vector2D() ), mouseEventNotifier ) {{
             // TODO: improve positioning to handle i18n?
-            position.set( new ImmutableVector2D( getStageSize().getWidth() - getComponentWidth() - 30,
-                                                 getStageSize().getHeight() * 0.38 ) );
+            position.set( new Vector2D( getStageSize().getWidth() - getComponentWidth() - 30,
+                                        getStageSize().getHeight() * 0.38 ) );
             zoomRatio.addObserver( new SimpleObserver() {
                 public void update() {
                     setVisible( zoomRatio.get() == 1 );
@@ -300,13 +300,13 @@ public class CrustTab extends PlateTectonicsTab {
 
     private class LegendPiccoloNode extends OrthoPiccoloNode {
         public LegendPiccoloNode( final ColorMode myColorMode, final float optionsRightX ) {
-            super( new ControlPanelNode( new LegendPanel( myColorMode ) ), CrustTab.this, CrustTab.this.getCanvasTransform(), new Property<ImmutableVector2D>( new ImmutableVector2D() ), CrustTab.this.mouseEventNotifier );
+            super( new ControlPanelNode( new LegendPanel( myColorMode ) ), CrustTab.this, CrustTab.this.getCanvasTransform(), new Property<Vector2D>( new Vector2D() ), CrustTab.this.mouseEventNotifier );
 
             // NOTE: no updating is required on this node, since it doesn't change
             canvasSize.addObserver( new SimpleObserver() {
                 public void update() {
-                    position.set( new ImmutableVector2D( optionsRightX - getComponentWidth() - 20,
-                                                         getStageSize().height - getComponentHeight() - 10 ) );
+                    position.set( new Vector2D( optionsRightX - getComponentWidth() - 20,
+                                                getStageSize().height - getComponentHeight() - 10 ) );
                 }
             } );
             colorMode.addObserver( new SimpleObserver() {

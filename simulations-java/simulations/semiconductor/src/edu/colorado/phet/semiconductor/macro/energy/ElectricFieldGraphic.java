@@ -1,12 +1,16 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.semiconductor.common.TransformGraphic;
@@ -36,12 +40,12 @@ public class ElectricFieldGraphic extends TransformGraphic {
         int h = 0;
         if ( field.getStrength() != 0 ) {
             try {
-                ImmutableVector2D dest = field.getCenter().getAddedInstance( field.getStrength(), 0 );
-                ImmutableVector2D start = field.getCenter();
+                Vector2D dest = field.getCenter().getAddedInstance( field.getStrength(), 0 );
+                Vector2D start = field.getCenter();
 
-                ImmutableVector2D dir = dest.getSubtractedInstance( start );
-                ImmutableVector2D mid = start.getAddedInstance( dir.getScaledInstance( .5 ) );
-                ImmutableVector2D dx = start.getSubtractedInstance( mid );
+                Vector2D dir = dest.getSubtractedInstance( start );
+                Vector2D mid = start.getAddedInstance( dir.getScaledInstance( .5 ) );
+                Vector2D dx = start.getSubtractedInstance( mid );
 
                 start = start.getAddedInstance( dx );
                 dest = dest.getAddedInstance( dx );
@@ -64,7 +68,7 @@ public class ElectricFieldGraphic extends TransformGraphic {
 //        double strength = field.getStrength();
 //        int viewdx = super.getTransform().modelToViewDifferentialX(strength);
             }
-            catch( RuntimeException re ) {
+            catch ( RuntimeException re ) {
                 re.printStackTrace();
             }
         }

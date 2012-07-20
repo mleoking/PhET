@@ -1,7 +1,7 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.modules.intro;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -9,7 +9,7 @@ import edu.colorado.phet.bendinglight.model.IntensityMeter;
 import edu.colorado.phet.bendinglight.view.BendingLightCanvas;
 import edu.colorado.phet.bendinglight.view.IntensityMeterNode;
 import edu.colorado.phet.bendinglight.view.ToolboxNode;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -41,11 +41,11 @@ public class IntensitySensorTool extends ToolIconNode<BendingLightCanvas> {
                    public IntensityMeterNode createNode( ModelViewTransform transform, Property<Boolean> visible, final Point2D location ) {
                        return new IntensityMeterNode( transform, intensityMeter ) {{
                            //Set the correct relative locations
-                           intensityMeter.sensorPosition.set( new ImmutableVector2D( modelWidth * 0.3, -modelHeight * 0.3 ) );
-                           intensityMeter.bodyPosition.set( new ImmutableVector2D( modelWidth * 0.4, -modelHeight * 0.3 ) );
+                           intensityMeter.sensorPosition.set( new Vector2D( modelWidth * 0.3, -modelHeight * 0.3 ) );
+                           intensityMeter.bodyPosition.set( new Vector2D( modelWidth * 0.4, -modelHeight * 0.3 ) );
 
                            //Move everything so the mouse is at the middle of the sensor probe
-                           final ImmutableVector2D delta = new ImmutableVector2D( location ).minus( intensityMeter.sensorPosition.get() );
+                           final Vector2D delta = new Vector2D( location ).minus( intensityMeter.sensorPosition.get() );
                            intensityMeter.translateAll( new PDimension( delta.getX(), delta.getY() ) );
                        }};
                    }

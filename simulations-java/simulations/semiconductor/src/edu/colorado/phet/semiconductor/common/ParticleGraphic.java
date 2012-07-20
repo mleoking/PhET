@@ -1,12 +1,13 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.common;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 
 
@@ -37,7 +38,7 @@ public class ParticleGraphic extends TransformGraphic {
     }
 
     public void update() {
-        ImmutableVector2D modelLoc = particle.getPosition();
+        Vector2D modelLoc = particle.getPosition();
         Point pt = getTransform().modelToView( modelLoc );
         graphic.setPosition( pt );
     }

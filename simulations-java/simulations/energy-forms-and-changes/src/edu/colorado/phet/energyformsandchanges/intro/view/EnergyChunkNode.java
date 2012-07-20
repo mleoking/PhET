@@ -3,7 +3,7 @@ package edu.colorado.phet.energyformsandchanges.intro.view;
 
 import java.awt.Image;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.energyformsandchanges.EnergyFormsAndChangesResources;
@@ -53,8 +53,8 @@ public class EnergyChunkNode extends PNode {
         addChild( image );
 
         // Set this node's position when the corresponding model element moves.
-        energyChunk.position.addObserver( new VoidFunction1<ImmutableVector2D>() {
-            public void apply( ImmutableVector2D immutableVector2D ) {
+        energyChunk.position.addObserver( new VoidFunction1<Vector2D>() {
+            public void apply( Vector2D immutableVector2D ) {
                 setOffset( mvt.modelToView( immutableVector2D ).toPoint2D() );
             }
         } );

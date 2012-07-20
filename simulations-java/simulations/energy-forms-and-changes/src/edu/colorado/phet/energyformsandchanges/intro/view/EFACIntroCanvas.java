@@ -10,7 +10,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -217,8 +217,8 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
 
             // Monitor the thermometer's position and move it to the back of
             // the z-order when over the tool box.
-            thermometer.position.addObserver( new VoidFunction1<ImmutableVector2D>() {
-                public void apply( ImmutableVector2D position ) {
+            thermometer.position.addObserver( new VoidFunction1<Vector2D>() {
+                public void apply( Vector2D position ) {
                     if ( mvt.viewToModel( thermometerToolBox.getFullBoundsReference() ).contains( position.toPoint2D() ) && frontThermometerNode.getTransparency() > 0 ) {
                         frontThermometerNode.setTransparency( 0 );
                     }
@@ -293,13 +293,13 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
                 xPos = getFullBoundsReference().width / NUM_THERMOMETERS_SUPPORTED * i + 20;
                 openLocationFound = true;
                 for ( Thermometer modelThermometer : model.getThermometers() ) {
-                    if ( modelThermometer.position.get().distance( new ImmutableVector2D( mvt.viewToModel( xPos, yPos ) ) ) < 1E-3 ) {
+                    if ( modelThermometer.position.get().distance( new Vector2D( mvt.viewToModel( xPos, yPos ) ) ) < 1E-3 ) {
                         openLocationFound = false;
                         break;
                     }
                 }
             }
-            thermometer.position.set( new ImmutableVector2D( mvt.viewToModel( xPos, yPos ) ) );
+            thermometer.position.set( new Vector2D( mvt.viewToModel( xPos, yPos ) ) );
         }
     }
 }

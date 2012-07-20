@@ -1,11 +1,11 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
@@ -22,7 +22,7 @@ import edu.umd.cs.piccolo.PNode;
 public abstract class Dispenser<T extends SugarAndSaltSolutionModel> {
 
     //Start centered above the fluid
-    public final Property<ImmutableVector2D> center;
+    public final Property<Vector2D> center;
 
     //Model the angle of rotation, 0 degrees is straight up (not tilted)
     public final DoubleProperty angle;
@@ -55,7 +55,7 @@ public abstract class Dispenser<T extends SugarAndSaltSolutionModel> {
         this.name = name;
         this.model = model;
         this.angle = new DoubleProperty( angle );
-        center = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
+        center = new Property<Vector2D>( new Vector2D( x, y ) );
         this.distanceScale = distanceScale;
 
         //Wire up the Dispenser so it is enabled when the model has the right type dispenser selected
@@ -70,9 +70,9 @@ public abstract class Dispenser<T extends SugarAndSaltSolutionModel> {
     public void translate( Dimension2D delta ) {
 
         //Translate the center, but make sure it doesn't go out of bounds
-        ImmutableVector2D proposedPoint = center.get().plus( delta );
+        Vector2D proposedPoint = center.get().plus( delta );
         double y = MathUtil.clamp( beaker.getTopY(), proposedPoint.getY(), Double.POSITIVE_INFINITY );
-        center.set( new ImmutableVector2D( proposedPoint.getX(), y ) );
+        center.set( new Vector2D( proposedPoint.getX(), y ) );
     }
 
     //Reset the dispenser's position and orientation
@@ -84,8 +84,8 @@ public abstract class Dispenser<T extends SugarAndSaltSolutionModel> {
     }
 
     //Give the crystal an appropriate velocity when it comes out so it arcs.  This method is used by subclasses when creating crystals
-    protected ImmutableVector2D getCrystalVelocity( ImmutableVector2D outputPoint ) {
-        ImmutableVector2D directionVector = outputPoint.minus( center.get() );
+    protected Vector2D getCrystalVelocity( Vector2D outputPoint ) {
+        Vector2D directionVector = outputPoint.minus( center.get() );
         double anglePastTheHorizontal = angle.get() - Math.PI / 2;
         return directionVector.getInstanceOfMagnitude( 0.2 + 0.3 * Math.sin( anglePastTheHorizontal ) );
     }

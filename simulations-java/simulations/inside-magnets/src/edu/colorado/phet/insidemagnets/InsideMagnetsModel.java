@@ -1,19 +1,19 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.insidemagnets;
 
-import java.awt.*;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
 /**
  * @author Sam Reid
@@ -24,10 +24,10 @@ public class InsideMagnetsModel {
     private Lattice<Cell> lattice;
     private IClock clock = new ConstantDtClock( 30 );
     private double time = 0;
-    private ImmutableVector2D J = new ImmutableVector2D( -1, -1 );
-    private Property<ImmutableVector2D> externalMagneticField = new Property<ImmutableVector2D>( new ImmutableVector2D( 2.1, 0 ) );//Externally applied magnetic field
+    private Vector2D J = new Vector2D( -1, -1 );
+    private Property<Vector2D> externalMagneticField = new Property<Vector2D>( new Vector2D( 2.1, 0 ) );//Externally applied magnetic field
     private Property<Double> temperature = new Property<Double>( 0.01 );//Beta = 1/temperature
-    private Property<ImmutableVector2D> netMagnetizationProperty = new Property<ImmutableVector2D>( new ImmutableVector2D() );
+    private Property<Vector2D> netMagnetizationProperty = new Property<Vector2D>( new Vector2D() );
     private SimpleObservable stepListeners = new SimpleObservable();
 
     public InsideMagnetsModel() {
@@ -58,7 +58,7 @@ public class InsideMagnetsModel {
         for ( int x = 0; x < getLatticeWidth(); x++ ) {
             for ( int y = 0; y < getLatticeHeight(); y++ ) {
                 ArrayList<Point> neighborCells = getLattice().getNeighborCells( new Point( x, y ) );
-                ImmutableVector2D sum = new ImmutableVector2D( 0, 0 );
+                Vector2D sum = new Vector2D( 0, 0 );
                 for ( Point neighborCell : neighborCells ) {
                     sum = getLattice().getValue( neighborCell ).getSpinVector().getAddedInstance( sum );
                 }
@@ -128,7 +128,7 @@ The tmp arrays hold positions at t+0.5*dt.          */
             //Normalize the spin vectors
             for ( int x = 0; x < getLatticeWidth(); x++ ) {
                 for ( int y = 0; y < getLatticeHeight(); y++ ) {
-                    ImmutableVector2D spinVector = getLattice().getValue( x, y ).getSpinVector().getNormalizedInstance();
+                    Vector2D spinVector = getLattice().getValue( x, y ).getSpinVector().getNormalizedInstance();
                     getLattice().getValue( x, y ).sx = spinVector.getX();
                     getLattice().getValue( x, y ).sy = spinVector.getY();
                 }
@@ -143,10 +143,10 @@ The tmp arrays hold positions at t+0.5*dt.          */
         return getLattice().getValue( new Point( x, y ) ).omega;
     }
 
-    private ImmutableVector2D getSpin( int x, int y ) {
+    private Vector2D getSpin( int x, int y ) {
         if ( !getLattice().containsPoint( new Point( x, y ) ) ) {
             System.out.println( "off the lattice: x = " + x + ", y = " + y );
-            return new ImmutableVector2D();
+            return new Vector2D();
         }
         else {
             return getLattice().getValue( new Point( x, y ) ).getSpinVector();
@@ -169,7 +169,7 @@ The tmp arrays hold positions at t+0.5*dt.          */
         return lattice;
     }
 
-    public Property<ImmutableVector2D> getExternalMagneticField() {
+    public Property<Vector2D> getExternalMagneticField() {
         return externalMagneticField;
     }
 
@@ -213,8 +213,8 @@ The tmp arrays hold positions at t+0.5*dt.          */
         return;
     }
 
-    private ImmutableVector2D getNetMagnetization() {
-        ImmutableVector2D sum = new ImmutableVector2D( 0, 0 );
+    private Vector2D getNetMagnetization() {
+        Vector2D sum = new Vector2D( 0, 0 );
         for ( int x = 0; x < getLatticeWidth(); x++ ) {
             for ( int y = 0; y < getLatticeHeight(); y++ ) {
                 sum = sum.getAddedInstance( getLattice().getValue( x, y ).getSpinVector() );
@@ -224,7 +224,7 @@ The tmp arrays hold positions at t+0.5*dt.          */
         return sum;
     }
 
-    public Property<ImmutableVector2D> getNetMagnetizationProperty() {
+    public Property<Vector2D> getNetMagnetizationProperty() {
         return netMagnetizationProperty;
     }
 

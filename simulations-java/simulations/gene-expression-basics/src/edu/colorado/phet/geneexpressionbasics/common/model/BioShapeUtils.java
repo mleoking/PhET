@@ -13,9 +13,9 @@ import java.util.Random;
 
 import javax.swing.JFrame;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PCanvas;
@@ -56,12 +56,12 @@ public class BioShapeUtils {
         DoubleGeneralPath path = new DoubleGeneralPath();
         path.moveTo( points.get( 0 ) );
         for ( int i = 0; i < points.size(); i++ ) {
-            ImmutableVector2D segmentStartPoint = new ImmutableVector2D( points.get( i ) );
-            ImmutableVector2D segmentEndPoint = new ImmutableVector2D( points.get( ( i + 1 ) % points.size() ) );
-            ImmutableVector2D previousPoint = new ImmutableVector2D( points.get( i - 1 >= 0 ? i - 1 : points.size() - 1 ) );
-            ImmutableVector2D nextPoint = new ImmutableVector2D( points.get( ( i + 2 ) % points.size() ) );
-            ImmutableVector2D controlPoint1 = extrapolateControlPoint( previousPoint, segmentStartPoint, segmentEndPoint );
-            ImmutableVector2D controlPoint2 = extrapolateControlPoint( nextPoint, segmentEndPoint, segmentStartPoint );
+            Vector2D segmentStartPoint = new Vector2D( points.get( i ) );
+            Vector2D segmentEndPoint = new Vector2D( points.get( ( i + 1 ) % points.size() ) );
+            Vector2D previousPoint = new Vector2D( points.get( i - 1 >= 0 ? i - 1 : points.size() - 1 ) );
+            Vector2D nextPoint = new Vector2D( points.get( ( i + 2 ) % points.size() ) );
+            Vector2D controlPoint1 = extrapolateControlPoint( previousPoint, segmentStartPoint, segmentEndPoint );
+            Vector2D controlPoint2 = extrapolateControlPoint( nextPoint, segmentEndPoint, segmentStartPoint );
             path.curveTo( controlPoint1.getX(), controlPoint1.getY(), controlPoint2.getX(), controlPoint2.getY(), segmentEndPoint.getX(), segmentEndPoint.getY() );
         }
         return path.getGeneralPath();
@@ -118,12 +118,12 @@ public class BioShapeUtils {
         DoubleGeneralPath path = new DoubleGeneralPath();
         path.moveTo( points.get( 0 ) );
         for ( int i = 0; i < points.size(); i++ ) {
-            ImmutableVector2D segmentStartPoint = new ImmutableVector2D( points.get( i ) );
-            ImmutableVector2D segmentEndPoint = new ImmutableVector2D( points.get( ( i + 1 ) % points.size() ) );
-            ImmutableVector2D previousPoint = new ImmutableVector2D( points.get( i - 1 >= 0 ? i - 1 : points.size() - 1 ) );
-            ImmutableVector2D nextPoint = new ImmutableVector2D( points.get( ( i + 2 ) % points.size() ) );
-            ImmutableVector2D controlPoint1 = extrapolateControlPoint( previousPoint, segmentStartPoint, segmentEndPoint );
-            ImmutableVector2D controlPoint2 = extrapolateControlPoint( nextPoint, segmentEndPoint, segmentStartPoint );
+            Vector2D segmentStartPoint = new Vector2D( points.get( i ) );
+            Vector2D segmentEndPoint = new Vector2D( points.get( ( i + 1 ) % points.size() ) );
+            Vector2D previousPoint = new Vector2D( points.get( i - 1 >= 0 ? i - 1 : points.size() - 1 ) );
+            Vector2D nextPoint = new Vector2D( points.get( ( i + 2 ) % points.size() ) );
+            Vector2D controlPoint1 = extrapolateControlPoint( previousPoint, segmentStartPoint, segmentEndPoint );
+            Vector2D controlPoint2 = extrapolateControlPoint( nextPoint, segmentEndPoint, segmentStartPoint );
             if ( rand.nextBoolean() ) {
                 // Curved segment.
                 path.curveTo( controlPoint1.getX(), controlPoint1.getY(), controlPoint2.getX(), controlPoint2.getY(), segmentEndPoint.getX(), segmentEndPoint.getY() );
@@ -141,7 +141,7 @@ public class BioShapeUtils {
         List<Point2D> pointList = new ArrayList<Point2D>();
         // Create a series of points that will enclose a space.
         for ( double angle = 0; angle < 1.9 * Math.PI; angle += Math.PI / 10 + rand.nextDouble() * Math.PI / 10 ) {
-            pointList.add( ImmutableVector2D.createPolar( 0.5 + rand.nextDouble(), angle ).toPoint2D() );
+            pointList.add( Vector2D.createPolar( 0.5 + rand.nextDouble(), angle ).toPoint2D() );
         }
 
         Shape unscaledShape = createRandomShapeFromPoints( pointList, seed );
@@ -163,7 +163,7 @@ public class BioShapeUtils {
         assert points.size() > 0;
 
         // Control points, used throughout the code below for curving the line.
-        ImmutableVector2D cp1;
+        Vector2D cp1;
 
         DoubleGeneralPath path = new DoubleGeneralPath();
         path.moveTo( points.get( 0 ) );
@@ -174,24 +174,24 @@ public class BioShapeUtils {
             return path.getGeneralPath();
         }
         // Create the first curved segment.
-        cp1 = extrapolateControlPoint( new ImmutableVector2D( points.get( 2 ) ),
-                                       new ImmutableVector2D( points.get( 1 ) ),
-                                       new ImmutableVector2D( points.get( 0 ) ) );
+        cp1 = extrapolateControlPoint( new Vector2D( points.get( 2 ) ),
+                                       new Vector2D( points.get( 1 ) ),
+                                       new Vector2D( points.get( 0 ) ) );
         path.quadTo( cp1.getX(), cp1.getY(), points.get( 1 ).getX(), points.get( 1 ).getY() );
         // Create the middle segments.
         for ( int i = 1; i < points.size() - 2; i++ ) {
-            ImmutableVector2D segmentStartPoint = new ImmutableVector2D( points.get( i ) );
-            ImmutableVector2D segmentEndPoint = new ImmutableVector2D( points.get( ( i + 1 ) ) );
-            ImmutableVector2D previousPoint = new ImmutableVector2D( points.get( i - 1 ) );
-            ImmutableVector2D nextPoint = new ImmutableVector2D( points.get( ( i + 2 ) ) );
-            ImmutableVector2D controlPoint1 = extrapolateControlPoint( previousPoint, segmentStartPoint, segmentEndPoint );
-            ImmutableVector2D controlPoint2 = extrapolateControlPoint( nextPoint, segmentEndPoint, segmentStartPoint );
+            Vector2D segmentStartPoint = new Vector2D( points.get( i ) );
+            Vector2D segmentEndPoint = new Vector2D( points.get( ( i + 1 ) ) );
+            Vector2D previousPoint = new Vector2D( points.get( i - 1 ) );
+            Vector2D nextPoint = new Vector2D( points.get( ( i + 2 ) ) );
+            Vector2D controlPoint1 = extrapolateControlPoint( previousPoint, segmentStartPoint, segmentEndPoint );
+            Vector2D controlPoint2 = extrapolateControlPoint( nextPoint, segmentEndPoint, segmentStartPoint );
             path.curveTo( controlPoint1.getX(), controlPoint1.getY(), controlPoint2.getX(), controlPoint2.getY(), segmentEndPoint.getX(), segmentEndPoint.getY() );
         }
         // Create the final curved segment.
-        cp1 = extrapolateControlPoint( new ImmutableVector2D( points.get( points.size() - 3 ) ),
-                                       new ImmutableVector2D( points.get( points.size() - 2 ) ),
-                                       new ImmutableVector2D( points.get( points.size() - 1 ) ) );
+        cp1 = extrapolateControlPoint( new Vector2D( points.get( points.size() - 3 ) ),
+                                       new Vector2D( points.get( points.size() - 2 ) ),
+                                       new Vector2D( points.get( points.size() - 1 ) ) );
         path.quadTo( cp1.getX(), cp1.getY(), points.get( points.size() - 1 ).getX(), points.get( points.size() - 1 ).getY() );
         return path.getGeneralPath();
     }
@@ -209,9 +209,9 @@ public class BioShapeUtils {
     // Extrapolate a control point for a curve based on three points.  This
     // is used to "go around the corner" at y, starting from x, and heading
     // towards z.  The control point is for the y-to-z segment.
-    private static ImmutableVector2D extrapolateControlPoint( ImmutableVector2D x, ImmutableVector2D y, ImmutableVector2D z ) {
-        ImmutableVector2D xy = y.getSubtractedInstance( x );
-        ImmutableVector2D yz = z.getSubtractedInstance( y );
+    private static Vector2D extrapolateControlPoint( Vector2D x, Vector2D y, Vector2D z ) {
+        Vector2D xy = y.getSubtractedInstance( x );
+        Vector2D yz = z.getSubtractedInstance( y );
         return y.getAddedInstance( xy.getScaledInstance( 0.25 ).getAddedInstance( yz.getScaledInstance( 0.25 ) ) );
     }
 
@@ -286,7 +286,7 @@ public class BioShapeUtils {
         double a = bounds.getWidth() / 2;
         double b = bounds.getHeight() / 2;
 
-        ImmutableVector2D centerOfEllipse = new ImmutableVector2D( bounds.getCenterX(), bounds.getCenterY() );
+        Vector2D centerOfEllipse = new Vector2D( bounds.getCenterX(), bounds.getCenterY() );
         MutableVector2D vectorToEdge = new MutableVector2D();
         List<Point2D> pointList = new ArrayList<Point2D>();
         int numPoints = 8;

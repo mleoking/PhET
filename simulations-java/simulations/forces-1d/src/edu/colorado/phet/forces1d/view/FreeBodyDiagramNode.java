@@ -15,8 +15,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -118,7 +118,7 @@ public class FreeBodyDiagramNode extends PNode {
         double mass = model.getBlock().getMass();
 
         MutableVector2D m = new MutableVector2D( 0, gravity * mass * yScale );
-        ImmutableVector2D n = m.getScaledInstance( -1 );
+        Vector2D n = m.getScaledInstance( -1 );
         mg.setVector( m );
         normal.setVector( n );
     }

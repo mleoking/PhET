@@ -21,8 +21,8 @@ import org.cove.jade.primitives.CircleParticle;
 import org.cove.jade.surfaces.LineSurface;
 import org.cove.jade.util.GVector;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.travoltage.MoveElectronsJade;
 
 public class TestJadeBody extends Component implements ActionListener {
@@ -118,12 +118,12 @@ public class TestJadeBody extends Component implements ActionListener {
         return !Double.isInfinite( sum.getX() ) && !Double.isNaN( sum.getX() ) && !Double.isInfinite( sum.getY() ) && !Double.isNaN( sum.getY() );
     }
 
-    private ImmutableVector2D getForce( CircleParticle circleParticle, CircleParticle particle ) {
+    private Vector2D getForce( CircleParticle circleParticle, CircleParticle particle ) {
         Point2D loc = new Point2D.Double( circleParticle.curr.x, circleParticle.curr.y );
         Point2D loc2 = new Point2D.Double( particle.curr.x, particle.curr.y );
-        ImmutableVector2D vec = new ImmutableVector2D( loc, loc2 );
+        Vector2D vec = new Vector2D( loc, loc2 );
         double k = 1.0;
-        ImmutableVector2D v = vec.getInstanceOfMagnitude( -k / Math.pow( vec.getMagnitude(), 1.35 ) );
+        Vector2D v = vec.getInstanceOfMagnitude( -k / Math.pow( vec.getMagnitude(), 1.35 ) );
         double max = 1;
         if ( v.getMagnitude() > max ) {
             v = v.getInstanceOfMagnitude( max );

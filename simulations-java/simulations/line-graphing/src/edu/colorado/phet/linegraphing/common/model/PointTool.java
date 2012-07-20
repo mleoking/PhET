@@ -3,13 +3,12 @@ package edu.colorado.phet.linegraphing.common.model;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.linegraphing.common.model.StraightLine;
 
 /**
  * Model of the point tool. Highlights when it is placed on one of the lines.
@@ -18,7 +17,7 @@ import edu.colorado.phet.linegraphing.common.model.StraightLine;
  */
 public class PointTool implements Resettable {
 
-    public final Property<ImmutableVector2D> location;
+    public final Property<Vector2D> location;
     public final Property<StraightLine> onLine; // line that the tool is on, possibly null
 
     private final Property<StraightLine> interactiveLine;
@@ -27,14 +26,15 @@ public class PointTool implements Resettable {
 
     /**
      * Constructor
-     * @param location location of the tool, in model coordinate frame
+     *
+     * @param location        location of the tool, in model coordinate frame
      * @param interactiveLine the line that can be manipulated by the user
-     * @param savedLines lines that have been saved by the user
-     * @param standardLines standard lines (eg, y=x) that are available for viewing
+     * @param savedLines      lines that have been saved by the user
+     * @param standardLines   standard lines (eg, y=x) that are available for viewing
      */
-    public PointTool( ImmutableVector2D location, Property<StraightLine> interactiveLine, ObservableList<StraightLine> savedLines, ObservableList<StraightLine> standardLines ) {
+    public PointTool( Vector2D location, Property<StraightLine> interactiveLine, ObservableList<StraightLine> savedLines, ObservableList<StraightLine> standardLines ) {
 
-        this.location = new Property<ImmutableVector2D>( location );
+        this.location = new Property<Vector2D>( location );
         this.onLine = new Property<StraightLine>( null );
 
         this.interactiveLine = interactiveLine;

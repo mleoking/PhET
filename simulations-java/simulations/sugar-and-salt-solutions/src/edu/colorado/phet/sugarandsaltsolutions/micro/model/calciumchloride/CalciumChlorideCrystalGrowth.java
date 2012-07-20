@@ -1,9 +1,9 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.ItemList;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle;
@@ -43,7 +43,7 @@ public class CalciumChlorideCrystalGrowth extends CrystalGrowth<SphericalParticl
 
     }
 
-    @Override protected CalciumChlorideCrystal newCrystal( ImmutableVector2D position ) {
+    @Override protected CalciumChlorideCrystal newCrystal( Vector2D position ) {
         return new CalciumChlorideCrystal( position, randomAngle() ) {{setUpdateStrategy( new CrystalStrategy( model, model.calciumChlorideCrystals, model.calciumChlorideSaturated ) );}};
     }
 }

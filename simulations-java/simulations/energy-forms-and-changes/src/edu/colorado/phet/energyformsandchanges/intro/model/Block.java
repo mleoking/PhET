@@ -7,7 +7,7 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -42,12 +42,12 @@ public abstract class Block extends RectangularThermalMovableModelElement {
      * @param specificHeat        in J/kg-K
      * @param energyChunksVisible
      */
-    protected Block( ConstantDtClock clock, ImmutableVector2D initialPosition, double density, double specificHeat, BooleanProperty energyChunksVisible ) {
+    protected Block( ConstantDtClock clock, Vector2D initialPosition, double density, double specificHeat, BooleanProperty energyChunksVisible ) {
         super( clock, initialPosition, SURFACE_WIDTH, SURFACE_WIDTH, Math.pow( SURFACE_WIDTH, 3 ) * density, specificHeat, energyChunksVisible );
 
         // Update the top and bottom surfaces whenever the position changes.
-        position.addObserver( new VoidFunction1<ImmutableVector2D>() {
-            public void apply( final ImmutableVector2D immutableVector2D ) {
+        position.addObserver( new VoidFunction1<Vector2D>() {
+            public void apply( final Vector2D immutableVector2D ) {
                 updateTopSurfaceProperty();
                 updateBottomSurfaceProperty();
             }
@@ -105,9 +105,9 @@ public abstract class Block extends RectangularThermalMovableModelElement {
 
     @Override protected void addEnergyChunkSlices() {
         // The slices for the block are intended to match the projection used in the view.
-        ImmutableVector2D projectionToFront = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( SURFACE_WIDTH / 2 );
+        Vector2D projectionToFront = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( SURFACE_WIDTH / 2 );
         for ( int i = 0; i < NUM_ENERGY_CHUNK_SLICES; i++ ) {
-            ImmutableVector2D projectionOffsetVector = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( i * ( -SURFACE_WIDTH / ( NUM_ENERGY_CHUNK_SLICES - 1 ) ) );
+            Vector2D projectionOffsetVector = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( i * ( -SURFACE_WIDTH / ( NUM_ENERGY_CHUNK_SLICES - 1 ) ) );
             AffineTransform transform = AffineTransform.getTranslateInstance( projectionToFront.getX() + projectionOffsetVector.getX(),
                                                                               projectionToFront.getY() + projectionOffsetVector.getY() );
             slices.add( new EnergyChunkContainerSlice( transform.createTransformedShape( getRect() ), -i * ( SURFACE_WIDTH / NUM_ENERGY_CHUNK_SLICES ), position ) );

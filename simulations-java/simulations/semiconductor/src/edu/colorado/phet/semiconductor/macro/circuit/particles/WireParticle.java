@@ -1,7 +1,7 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.semiconductor.macro.circuit.particles;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 import edu.colorado.phet.semiconductor.macro.circuit.Circuit;
@@ -28,7 +28,7 @@ public class WireParticle extends SimpleObservable implements ModelElement {
         notifyObservers();
     }
 
-    public ImmutableVector2D getPosition() {
+    public Vector2D getPosition() {
         return circuit.getPosition( dist );
     }
 

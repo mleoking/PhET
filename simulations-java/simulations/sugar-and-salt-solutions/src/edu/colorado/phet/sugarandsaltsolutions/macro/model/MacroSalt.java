@@ -1,7 +1,7 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.macro.model;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * Salt crystal
@@ -19,7 +19,7 @@ public class MacroSalt extends MacroCrystal {
 
     private static final double molesIn5Grams = gramsPerGrain / molarMass;
 
-    public MacroSalt( ImmutableVector2D position, double volumePerMole ) {
+    public MacroSalt( Vector2D position, double volumePerMole ) {
         super( position, molesIn5Grams, volumePerMole );
     }
 }

@@ -5,8 +5,8 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.energyformsandchanges.intro.model.EFACIntroModel;
@@ -28,7 +28,7 @@ public class ThermalItemMotionConstraint implements Function1<Point2D, Point2D> 
     private final RectangularThermalMovableModelElement modelElement;
 
     public ThermalItemMotionConstraint( EFACIntroModel model, RectangularThermalMovableModelElement modelElement, PNode node,
-                                        ModelViewTransform mvt, ImmutableVector2D offsetPosToNodeCenter ) {
+                                        ModelViewTransform mvt, Vector2D offsetPosToNodeCenter ) {
 
         this.model = model;
         this.modelElement = modelElement;

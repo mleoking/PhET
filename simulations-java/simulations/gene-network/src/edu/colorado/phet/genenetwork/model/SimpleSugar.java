@@ -7,7 +7,7 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 
@@ -51,7 +51,7 @@ public abstract class SimpleSugar extends SimpleModelElement {
     }
 
     private static double lineToRelative( DoubleGeneralPath path, double length, double angle ) {
-        path.lineToRelative( ImmutableVector2D.createPolar( length, angle ) );
+        path.lineToRelative( Vector2D.createPolar( length, angle ) );
         return angle + Math.PI / 3;
     }
 }

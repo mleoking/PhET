@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 public class ParticleModel {
     private ArrayList<Particle> particles = new ArrayList<Particle>();
@@ -297,13 +297,13 @@ public class ParticleModel {
         MutableVector2D sum = new MutableVector2D();
         for ( int i = 0; i < particles.size(); i++ ) {
             Particle particle = (Particle) particles.get( i );
-            ImmutableVector2D velocityVector = getVelocity( particle );
+            Vector2D velocityVector = getVelocity( particle );
             sum.add( velocityVector );
         }
         return sum.getMagnitude() / numParticles() / speed;
     }
 
-    private ImmutableVector2D getVelocity( Particle particle ) {
+    private Vector2D getVelocity( Particle particle ) {
         return MutableVector2D.createPolar( speed, particle.getAngle() );
     }
 }

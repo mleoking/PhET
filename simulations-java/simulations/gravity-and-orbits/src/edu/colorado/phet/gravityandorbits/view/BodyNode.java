@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.gravityandorbits.view;
 
@@ -9,7 +9,7 @@ import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -39,7 +39,7 @@ public class BodyNode extends PNode {
 
     public BodyNode( final Body body,
                      final Property<ModelViewTransform> modelViewTransform,
-                     final Property<ImmutableVector2D> mousePosition,//Keep track of the mouse position in case a body moves underneath a stationary mouse (in which case the mouse should become a hand cursor)
+                     final Property<Vector2D> mousePosition,//Keep track of the mouse position in case a body moves underneath a stationary mouse (in which case the mouse should become a hand cursor)
                      final PComponent parentComponent,
                      final double labelAngle,//Angle at which to show the name label, different for different BodyNodes so they don't overlap too much
                      final Property<Boolean> whiteBackgroundProperty ) {
@@ -123,7 +123,7 @@ public class BodyNode extends PNode {
     private PNode createArrowIndicator( final Body body, final double labelAngle ) {
         return new PNode() {{
             Point2D viewCenter = new Point2D.Double( 0, 0 );
-            ImmutableVector2D northEastVector = ImmutableVector2D.createPolar( 1, labelAngle );
+            Vector2D northEastVector = Vector2D.createPolar( 1, labelAngle );
             Point2D tip = northEastVector.getScaledInstance( 10 ).getDestination( viewCenter );
             final Point2D tail = northEastVector.getScaledInstance( 50 ).getDestination( viewCenter );
 
@@ -149,7 +149,7 @@ public class BodyNode extends PNode {
         }};
     }
 
-    private ImmutableVector2D getPosition( Property<ModelViewTransform> modelViewTransform, Body body ) {
+    private Vector2D getPosition( Property<ModelViewTransform> modelViewTransform, Body body ) {
         return modelViewTransform.get().modelToView( body.getPosition() );
     }
 

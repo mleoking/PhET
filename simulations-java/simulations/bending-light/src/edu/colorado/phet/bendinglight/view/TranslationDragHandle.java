@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.view;
 
 import java.awt.BasicStroke;
@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.bendinglight.BendingLightApplication;
 import edu.colorado.phet.bendinglight.model.Laser;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -41,9 +41,9 @@ public class TranslationDragHandle extends PNode {
                 removeAllChildren();
                 final PNode counterClockwiseDragArrow = new PNode() {{
                     Point2D laserEmissionViewPoint = transform.modelToView( laser.emissionPoint.get().toPoint2D() );
-                    ImmutableVector2D viewDelta = ImmutableVector2D.createPolar( image.getWidth() / 2, -laser.getAngle() );
+                    Vector2D viewDelta = Vector2D.createPolar( image.getWidth() / 2, -laser.getAngle() );
                     addChild( new PhetPPath( new Arrow( new Point2D.Double( laserEmissionViewPoint.getX() + viewDelta.getX(), laserEmissionViewPoint.getY() + viewDelta.getY() ),
-                                                        new ImmutableVector2D( dx, dy ), 20, 20, 10, 2, true ).getShape(), Color.green, new BasicStroke( 1 ), Color.black ) );
+                                                        new Vector2D( dx, dy ), 20, 20, 10, 2, true ).getShape(), Color.green, new BasicStroke( 1 ), Color.black ) );
                     setPickable( false );
                     setChildrenPickable( false );
                 }};

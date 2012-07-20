@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.forcelawlab.view
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform
@@ -6,7 +6,6 @@ import edu.umd.cs.piccolo.PNode
 import edu.umd.cs.piccolo.event.{PInputEvent, PBasicInputEventHandler}
 import edu.umd.cs.piccolo.util.PDimension
 import java.awt.geom.Point2D
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.forcelawlab.model.Mass
 
@@ -19,7 +18,7 @@ class DragHandler(mass: Mass,
   override def mouseDragged(event: PInputEvent) {
     implicit def toPoint2D(dim: PDimension) = new Point2D.Double(dim.width, dim.height)
     val delta = event.getDeltaRelativeTo(node.getParent)
-    val x: Double = transform.viewToModelDelta(new ImmutableVector2D(delta.width, delta.height)).getX
+    val x: Double = transform.viewToModelDelta(new Vector2D(delta.width, delta.height).toImmutableVector2D).getX
     mass.position = mass.position + new Vector2D(x, 0)
     if ( mass.position.x < minDragX() ) {
       mass.position = new Vector2D(minDragX(), 0)

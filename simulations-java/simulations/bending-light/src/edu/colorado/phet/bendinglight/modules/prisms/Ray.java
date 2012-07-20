@@ -1,7 +1,7 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.modules.prisms;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 import static edu.colorado.phet.bendinglight.model.BendingLightModel.SPEED_OF_LIGHT;
 
@@ -11,14 +11,14 @@ import static edu.colorado.phet.bendinglight.model.BendingLightModel.SPEED_OF_LI
  * @author Sam Reid
  */
 public class Ray {
-    public final ImmutableVector2D tail;
-    public final ImmutableVector2D directionUnitVector;
+    public final Vector2D tail;
+    public final Vector2D directionUnitVector;
     public final double power;//power of the ray (1 is full power of the laser), will be reduced if partial reflection/refraction
     public final double wavelength;//Wavelength inside the medium (depends on index of refraction)
     public final double mediumIndexOfRefraction;
     public final double frequency;
 
-    public Ray( ImmutableVector2D tail, ImmutableVector2D directionUnitVector, double power, double wavelength, double mediumIndexOfRefraction, double frequency ) {
+    public Ray( Vector2D tail, Vector2D directionUnitVector, double power, double wavelength, double mediumIndexOfRefraction, double frequency ) {
         this.tail = tail;
         this.power = power;
         this.wavelength = wavelength;

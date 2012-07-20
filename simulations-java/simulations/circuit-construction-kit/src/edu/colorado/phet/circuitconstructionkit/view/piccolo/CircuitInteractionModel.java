@@ -12,8 +12,8 @@ import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;
 import edu.colorado.phet.circuitconstructionkit.model.components.Wire;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * User: Sam Reid
@@ -61,8 +61,8 @@ public class CircuitInteractionModel {
 
     class BranchInteractionModel {
 
-        private ImmutableVector2D toStart;
-        private ImmutableVector2D toEnd;
+        private Vector2D toStart;
+        private Vector2D toEnd;
 
         private boolean draggingBranch = false;
         private Circuit.DragMatch branchDragMatch;
@@ -73,8 +73,8 @@ public class CircuitInteractionModel {
         public void translate( Branch branch, Point2D dragPt ) {
             if ( !draggingBranch ) {
                 draggingBranch = true;
-                toStart = new ImmutableVector2D( dragPt, branch.getStartJunction().getPosition() );
-                toEnd = new ImmutableVector2D( dragPt, branch.getEndJunction().getPosition() );
+                toStart = new Vector2D( dragPt, branch.getStartJunction().getPosition() );
+                toEnd = new Vector2D( dragPt, branch.getEndJunction().getPosition() );
             }
             else {
                 if ( branch instanceof CircuitComponent ) {
@@ -143,7 +143,7 @@ public class CircuitInteractionModel {
             if ( !draggingBranch ) {
                 draggingBranch = true;
                 Point2D startJ = cc.getStartJunction().getPosition();
-                toStart = new ImmutableVector2D( dragPt, startJ );
+                toStart = new Vector2D( dragPt, startJ );
             }
             Point2D newStartPosition = toStart.getDestination( dragPt );
             MutableVector2D dx = new MutableVector2D( cc.getStartJunction().getPosition(), newStartPosition );
@@ -254,7 +254,7 @@ public class CircuitInteractionModel {
         private void rotateComponent( Junction junction, Point2D target ) {
             CircuitComponent branch = getSoleComponent( junction );
             Junction opposite = branch.opposite( junction );
-            ImmutableVector2D vec = new ImmutableVector2D( opposite.getPosition(), target );
+            Vector2D vec = new Vector2D( opposite.getPosition(), target );
             vec = vec.getInstanceOfMagnitude( branch.getComponentLength() );
             Point2D dst = vec.getDestination( opposite.getPosition() );
             junction.setPosition( dst.getX(), dst.getY() );

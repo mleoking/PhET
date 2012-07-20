@@ -5,7 +5,7 @@ import edu.colorado.phet.chemicalreactions.ChemicalReactionsApplication;
 import edu.colorado.phet.chemicalreactions.model.Atom;
 import edu.colorado.phet.chemicalreactions.model.Molecule;
 import edu.colorado.phet.chemistry.nodes.LabeledAtomNode;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -20,8 +20,8 @@ public class MoleculeNode extends PNode {
                 scale( MODEL_VIEW_TRANSFORM.modelToViewDeltaX( 1 ) );
                 atom.position.addObserver( new SimpleObserver() {
                     public void update() {
-                        final ImmutableVector2D modelPosition = atom.position.get();
-                        final ImmutableVector2D viewPosition = MODEL_VIEW_TRANSFORM.modelToView( modelPosition );
+                        final Vector2D modelPosition = atom.position.get();
+                        final Vector2D viewPosition = MODEL_VIEW_TRANSFORM.modelToView( modelPosition );
                         setOffset( viewPosition.getX(), viewPosition.getY() );
 
                         if ( ChemicalReactionsApplication.ATOM_LABELS_ROTATE.get() ) {

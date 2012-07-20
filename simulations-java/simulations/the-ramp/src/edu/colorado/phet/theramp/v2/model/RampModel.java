@@ -1,16 +1,16 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.theramp.v2.model;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 public class RampModel {
     private ArrayList tracks = new ArrayList();
     private ArrayList objects = new ArrayList();
 
     public RampModel() {
-        objects.add( new RampObject( 0, new ImmutableVector2D(), new ImmutableVector2D(), new ImmutableVector2D(), 0, 0, 0 ) );
+        objects.add( new RampObject( 0, new Vector2D(), new Vector2D(), new Vector2D(), 0, 0, 0 ) );
     }
 
     public String toString() {

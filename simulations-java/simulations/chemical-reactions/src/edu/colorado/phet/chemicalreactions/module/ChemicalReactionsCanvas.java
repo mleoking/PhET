@@ -1,7 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.chemicalreactions.module;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
 
 import edu.colorado.phet.chemicalreactions.ChemicalReactionsApplication;
 import edu.colorado.phet.chemicalreactions.ChemicalReactionsConstants;
@@ -14,7 +15,7 @@ import edu.colorado.phet.chemicalreactions.model.Molecule;
 import edu.colorado.phet.chemicalreactions.model.ReactionShape;
 import edu.colorado.phet.chemicalreactions.view.KitView;
 import edu.colorado.phet.chemicalreactions.view.MoleculeNode;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -72,12 +73,12 @@ public class ChemicalReactionsCanvas extends PhetPCanvas {
             }
         } );
 
-        ReactionShape[] reactions = new ReactionShape[]{ReactionShape.H2_O2_TO_H2O, ReactionShape.H2_N2_TO_NH3, ReactionShape.H2_Cl2_TO_HCl};
+        ReactionShape[] reactions = new ReactionShape[] { ReactionShape.H2_O2_TO_H2O, ReactionShape.H2_N2_TO_NH3, ReactionShape.H2_Cl2_TO_HCl };
 
 //        final double xOffset = 600;
         final double xOffset = 600;
         final double yOffset = 400;
-        final ImmutableVector2D offset = new ImmutableVector2D( -800, -800 );
+        final Vector2D offset = new Vector2D( -800, -800 );
         for ( int i = 0; i < reactions.length; i++ ) {
             final double y = i * yOffset;
             ReactionShape reactionShape = reactions[i];
@@ -94,7 +95,7 @@ public class ChemicalReactionsCanvas extends PhetPCanvas {
             for ( final ReactionShape.MoleculeSpot spot : reactionShape.productSpots ) {
                 reactionShapeDebuggingNode.addChild( new MoleculeNode( new Molecule( spot.shape ) {{
                     setAngle( (float) spot.rotation );
-                    setPosition( spot.position.plus( new ImmutableVector2D( xOffset, y ).plus( offset ) ) );
+                    setPosition( spot.position.plus( new Vector2D( xOffset, y ).plus( offset ) ) );
                 }} ) );
             }
 
@@ -108,7 +109,7 @@ public class ChemicalReactionsCanvas extends PhetPCanvas {
             for ( final ReactionShape.MoleculeSpot spot : reactionShape.productSpots ) {
                 reactionShapeDebuggingNode.addChild( new MoleculeNode( new Molecule( spot.shape ) {{
                     setAngle( (float) spot.rotation );
-                    setPosition( spot.position.plus( new ImmutableVector2D( xOffset * 2, y ).plus( offset ) ) );
+                    setPosition( spot.position.plus( new Vector2D( xOffset * 2, y ).plus( offset ) ) );
                 }} ) {{
                     setTransparency( 0.5f );
                 }} );

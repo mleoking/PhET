@@ -1,11 +1,11 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.gravityandorbits.view;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
@@ -27,11 +27,11 @@ public class VectorNode extends PNode {
     private final Body body;
     private final Property<ModelViewTransform> modelViewTransform;
     private final double scale;
-    private Property<ImmutableVector2D> vector;
+    private Property<Vector2D> vector;
     private ArrowNode arrowNode;
 
     public VectorNode( final Body body, final Property<ModelViewTransform> modelViewTransform, final BooleanProperty visible,
-                       final Property<ImmutableVector2D> vector, final double scale, final Color fill, final Color outline ) {
+                       final Property<Vector2D> vector, final double scale, final Color fill, final Color outline ) {
         this.vector = vector;
         this.body = body;
         this.modelViewTransform = modelViewTransform;
@@ -68,7 +68,7 @@ public class VectorNode extends PNode {
 
     private Point2D.Double getTip( Point2D tail ) {
         int minArrowLength = 10;
-        ImmutableVector2D force = new ImmutableVector2D( modelViewTransform.get().modelToViewDelta( vector.get().getScaledInstance( scale ).toPoint2D() ) );
+        Vector2D force = new Vector2D( modelViewTransform.get().modelToViewDelta( vector.get().getScaledInstance( scale ).toPoint2D() ) );
         if ( force.getMagnitude() < minArrowLength && force.getMagnitude() > 1E-12 ) {
             force = force.getInstanceOfMagnitude( minArrowLength );
         }

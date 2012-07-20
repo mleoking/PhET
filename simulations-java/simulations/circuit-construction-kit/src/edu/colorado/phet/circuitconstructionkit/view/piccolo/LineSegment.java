@@ -1,10 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
-import java.awt.*;
+import java.awt.Shape;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
@@ -18,14 +18,14 @@ public class LineSegment {
     }
 
     public static Shape getSegment( double x1, double y1, double x2, double y2, double thickness ) {
-        ImmutableVector2D vec = new ImmutableVector2D( x2 - x1, y2 - y1 );
-        ImmutableVector2D norm = vec.getNormalVector().getInstanceOfMagnitude( thickness / 2 );
+        Vector2D vec = new Vector2D( x2 - x1, y2 - y1 );
+        Vector2D norm = vec.getNormalVector().getInstanceOfMagnitude( thickness / 2 );
         DoubleGeneralPath doublePath = new DoubleGeneralPath( x1 + norm.getX(), y1 + norm.getY() );
 
         doublePath.lineToRelative( vec.getX(), vec.getY() );
-        ImmutableVector2D n2 = norm.getScaledInstance( -2 );
+        Vector2D n2 = norm.getScaledInstance( -2 );
         doublePath.lineToRelative( n2.getX(), n2.getY() );
-        ImmutableVector2D rev = vec.getScaledInstance( -1 );
+        Vector2D rev = vec.getScaledInstance( -1 );
         doublePath.lineToRelative( rev.getX(), rev.getY() );
         doublePath.lineTo( x1 + norm.getX(), y1 + norm.getY() );
         return doublePath.getGeneralPath();

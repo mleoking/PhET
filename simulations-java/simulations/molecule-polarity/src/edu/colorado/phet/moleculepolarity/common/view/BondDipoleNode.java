@@ -1,8 +1,8 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.moleculepolarity.common.view;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.moleculepolarity.MPColors;
 import edu.colorado.phet.moleculepolarity.common.model.Bond;
@@ -41,7 +41,7 @@ public class BondDipoleNode extends DipoleNode {
 
     // True if the dipole points in the same direction as a vector from bond.endpoint1 to bond.endpoint2.
     // Direction will never be precisely the same due to round-off error, so test with a coarse angle.
-    private static boolean isInPhase( Bond bond, ImmutableVector2D dipole ) {
+    private static boolean isInPhase( Bond bond, Vector2D dipole ) {
         return Math.abs( bond.getAngle() - dipole.getAngle() ) < ( Math.PI / 4 );
     }
 }

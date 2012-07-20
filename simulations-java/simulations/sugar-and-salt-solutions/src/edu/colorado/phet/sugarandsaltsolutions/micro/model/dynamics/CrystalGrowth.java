@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics;
 
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.Comparator;
 import java.util.Random;
 import java.util.logging.Logger;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
@@ -18,7 +18,7 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.OpenSite;
 
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
+import static edu.colorado.phet.common.phetcommon.math.Vector2D.ZERO;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.UpdateStrategy.FREE_PARTICLE_SPEED;
 import static java.util.Collections.sort;
 
@@ -126,7 +126,7 @@ public abstract class CrystalGrowth<T extends Particle, U extends Crystal<T>> {
         ArrayList<Particle> usedParticles = new ArrayList<Particle>();
 
         //Keep track of which locations have already been used, in CaCl2 this prevents two Cls from taking the same spot
-        ArrayList<ImmutableVector2D> usedLocations = new ArrayList<ImmutableVector2D>();
+        ArrayList<Vector2D> usedLocations = new ArrayList<Vector2D>();
 
         //Iterate over all members of the formula
         for ( Class<? extends Particle> type : crystal.formula.getFormulaUnit() ) {
@@ -150,7 +150,7 @@ public abstract class CrystalGrowth<T extends Particle, U extends Crystal<T>> {
 
     //Find the best match for this member of the formula ratio, but ignoring the previously used particles
     private CrystallizationMatch<T> findBestMatch( Crystal<T> crystal, final Class<? extends Particle> type,
-                                                   final ArrayList<Particle> usedParticles, final ArrayList<ImmutableVector2D> usedLocations ) {
+                                                   final ArrayList<Particle> usedParticles, final ArrayList<Vector2D> usedLocations ) {
         ArrayList<CrystallizationMatch<T>> matches = new ArrayList<CrystallizationMatch<T>>();
 
         //find a particle that will move to this site, make sure the particle matches the desired type and the particle hasn't already been used
@@ -263,5 +263,5 @@ public abstract class CrystalGrowth<T extends Particle, U extends Crystal<T>> {
     }
 
     //Create the right subtype of crystal at the specified location.  It will be populated by the convertToCrystal method
-    protected abstract U newCrystal( ImmutableVector2D position );
+    protected abstract U newCrystal( Vector2D position );
 }

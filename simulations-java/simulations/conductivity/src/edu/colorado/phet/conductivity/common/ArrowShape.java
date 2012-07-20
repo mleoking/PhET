@@ -5,7 +5,7 @@ package edu.colorado.phet.conductivity.common;
 import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 // Referenced classes of package edu.colorado.phet.semiconductor.common:
 //            DoubleGeneralPath
@@ -21,12 +21,12 @@ public class ArrowShape {
         else {
             norm = direction.getNormalVector();
             tipLocation = phetvector1;
-            ImmutableVector2D phetvector2 = getPoint( -1D * d, -d1 / 2D );
-            ImmutableVector2D phetvector3 = getPoint( -1D * d, d1 / 2D );
-            ImmutableVector2D phetvector4 = getPoint( -1D * d, -d2 / 2D );
-            ImmutableVector2D phetvector5 = getPoint( -1D * d, d2 / 2D );
-            ImmutableVector2D phetvector6 = getPoint( -1D * d3, -d2 / 2D );
-            ImmutableVector2D phetvector7 = getPoint( -1D * d3, d2 / 2D );
+            Vector2D phetvector2 = getPoint( -1D * d, -d1 / 2D );
+            Vector2D phetvector3 = getPoint( -1D * d, d1 / 2D );
+            Vector2D phetvector4 = getPoint( -1D * d, -d2 / 2D );
+            Vector2D phetvector5 = getPoint( -1D * d, d2 / 2D );
+            Vector2D phetvector6 = getPoint( -1D * d3, -d2 / 2D );
+            Vector2D phetvector7 = getPoint( -1D * d3, d2 / 2D );
             DoubleGeneralPath doublegeneralpath = new DoubleGeneralPath( phetvector1.getX(), phetvector1.getY() );
             doublegeneralpath.lineTo( phetvector2 );
             doublegeneralpath.lineTo( phetvector4 );
@@ -40,8 +40,8 @@ public class ArrowShape {
         }
     }
 
-    private ImmutableVector2D getPoint( double d, double d1 ) {
-        ImmutableVector2D phetvector = direction.getScaledInstance( d ).getAddedInstance( norm.getScaledInstance( d1 ) );
+    private Vector2D getPoint( double d, double d1 ) {
+        Vector2D phetvector = direction.getScaledInstance( d ).getAddedInstance( norm.getScaledInstance( d1 ) );
         return tipLocation.getAddedInstance( phetvector );
     }
 
@@ -51,6 +51,6 @@ public class ArrowShape {
 
     GeneralPath arrowPath;
     AbstractVector2D tipLocation;
-    private ImmutableVector2D direction;
-    private ImmutableVector2D norm;
+    private Vector2D direction;
+    private Vector2D norm;
 }

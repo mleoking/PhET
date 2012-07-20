@@ -11,8 +11,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -87,12 +87,12 @@ public class EFACIntroModel {
         air = new Air( clock, energyChunksVisible );
 
         // Add the burners.
-        rightBurner = new Burner( clock, new ImmutableVector2D( 0.18, 0 ), energyChunksVisible );
-        leftBurner = new Burner( clock, new ImmutableVector2D( 0.08, 0 ), energyChunksVisible );
+        rightBurner = new Burner( clock, new Vector2D( 0.18, 0 ), energyChunksVisible );
+        leftBurner = new Burner( clock, new Vector2D( 0.08, 0 ), energyChunksVisible );
 
         // Add and position the blocks
-        brick = new Brick( clock, new ImmutableVector2D( -0.1, 0 ), energyChunksVisible );
-        ironBlock = new IronBlock( clock, new ImmutableVector2D( -0.175, 0 ), energyChunksVisible );
+        brick = new Brick( clock, new Vector2D( -0.1, 0 ), energyChunksVisible );
+        ironBlock = new IronBlock( clock, new Vector2D( -0.175, 0 ), energyChunksVisible );
 
         // Add and position the beaker.
         {
@@ -100,7 +100,7 @@ public class EFACIntroModel {
                 add( brick );
                 add( ironBlock );
             }};
-            beaker = new Beaker( clock, new ImmutableVector2D( -0.015, 0 ), listOfThingsThatCanGoInBeaker, energyChunksVisible );
+            beaker = new Beaker( clock, new Vector2D( -0.015, 0 ), listOfThingsThatCanGoInBeaker, energyChunksVisible );
         }
 
         // Put all the thermal containers on a list for easy iteration.
@@ -115,8 +115,8 @@ public class EFACIntroModel {
 
         // Add the thermometers.  Set initial position to be off screen.
         // Subsequent initialization will put them into the thermometer box.
-        thermometer1 = new Thermometer( this, new ImmutableVector2D( 100, 100 ) );
-        thermometer2 = new Thermometer( this, new ImmutableVector2D( 100, 100 ) );
+        thermometer1 = new Thermometer( this, new Vector2D( 100, 100 ) );
+        thermometer2 = new Thermometer( this, new Vector2D( 100, 100 ) );
     }
 
     //-------------------------------------------------------------------------
@@ -178,7 +178,7 @@ public class EFACIntroModel {
                 else {
                     movableModelElement.verticalVelocity.set( velocity );
                 }
-                movableModelElement.position.set( new ImmutableVector2D( movableModelElement.position.get().getX(), proposedYPos ) );
+                movableModelElement.position.set( new Vector2D( movableModelElement.position.get().getX(), proposedYPos ) );
             }
         }
 
@@ -274,7 +274,7 @@ public class EFACIntroModel {
             if ( !contactWithOtherMovableElement || ( !immersedInBeaker && maxTemperatureDifference < MIN_TEMPERATURE_DIFF_FOR_MULTI_BODY_AIR_ENERGY_EXCHANGE ) ) {
                 air.exchangeEnergyWith( movableEnergyContainer, dt );
                 if ( movableEnergyContainer.getEnergyChunkBalance() > 0 && air.canAcceptEnergyChunk() ) {
-                    ImmutableVector2D pointAbove = new ImmutableVector2D( movableEnergyContainer.getCenterPoint().getX(), movableEnergyContainer.getRect().getMaxY() );
+                    Vector2D pointAbove = new Vector2D( movableEnergyContainer.getCenterPoint().getX(), movableEnergyContainer.getRect().getMaxY() );
                     air.addEnergyChunk( movableEnergyContainer.extractClosestEnergyChunk( pointAbove ) );
                 }
                 else if ( movableEnergyContainer.getEnergyChunkBalance() < 0 && movableEnergyContainer.getTemperature() < air.getTemperature() && air.canSupplyEnergyChunk() ) {
@@ -308,7 +308,7 @@ public class EFACIntroModel {
      */
     public Point2D validatePosition( RectangularThermalMovableModelElement modelElement, Point2D proposedPosition ) {
 
-        ImmutableVector2D translation = new ImmutableVector2D( proposedPosition ).getSubtractedInstance( modelElement.position.get() );
+        Vector2D translation = new Vector2D( proposedPosition ).getSubtractedInstance( modelElement.position.get() );
 
         // Validate against the sides of the beaker.
         if ( modelElement != beaker ) {
@@ -389,12 +389,12 @@ public class EFACIntroModel {
      *                            top of the one being tested.
      * @return
      */
-    private ImmutableVector2D determineAllowedTranslation( Rectangle2D movingRect, Rectangle2D stationaryRect, ImmutableVector2D proposedTranslation, boolean restrictPosY ) {
+    private Vector2D determineAllowedTranslation( Rectangle2D movingRect, Rectangle2D stationaryRect, Vector2D proposedTranslation, boolean restrictPosY ) {
 
         // Parameter checking.
         if ( movingRect.intersects( stationaryRect ) ) {
             System.out.println( getClass().getName() + " - Warning: Can't test blocking if rectangles already overlap, method is being misused." );
-            return new ImmutableVector2D( proposedTranslation );
+            return new Vector2D( proposedTranslation );
         }
 
         double xTranslation = proposedTranslation.getX();
@@ -448,14 +448,14 @@ public class EFACIntroModel {
             }
         }
 
-        return new ImmutableVector2D( xTranslation, yTranslation );
+        return new Vector2D( xTranslation, yTranslation );
     }
 
     /* Project a line into a 2D shape based on the provided projection vector.
      * This is a convenience function used by the code that detects potential
      * collisions between the 2D objects in model space.
      */
-    private Shape projectShapeFromLine( Line2D edge, ImmutableVector2D projection ) {
+    private Shape projectShapeFromLine( Line2D edge, Vector2D projection ) {
         DoubleGeneralPath path = new DoubleGeneralPath();
         path.moveTo( edge.getP1() );
         path.lineTo( edge.getX1() + projection.getX(), edge.getY1() + projection.getY() );
@@ -556,7 +556,7 @@ public class EFACIntroModel {
      * @return Composite object with temperature and color at the provided
      *         location.
      */
-    public TemperatureAndColor getTemperatureAndColorAtLocation( ImmutableVector2D location ) {
+    public TemperatureAndColor getTemperatureAndColorAtLocation( Vector2D location ) {
         Point2D locationAsPoint = location.toPoint2D();
 
         // Test blocks first.  This is a little complicated since the z-order

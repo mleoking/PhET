@@ -5,10 +5,10 @@ import java.io.Serializable;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.persistence.PersistenceUtil;
 import edu.colorado.phet.common.spline.CubicSpline2D;
 import edu.colorado.phet.common.spline.ParametricFunction2D;
@@ -79,8 +79,8 @@ public class Particle1D implements Serializable {
         this.alpha = alpha;
     }
 
-    public ImmutableVector2D getSideVector() {
-        ImmutableVector2D vector = getCubicSpline2D().getUnitNormalVector( alpha );
+    public Vector2D getSideVector() {
+        Vector2D vector = getCubicSpline2D().getUnitNormalVector( alpha );
         double sign = isSplineTop() ? 1.0 : -1.0;
         return vector.getInstanceOfMagnitude( sign );
     }
@@ -166,7 +166,7 @@ public class Particle1D implements Serializable {
         return alpha;
     }
 
-    public ImmutableVector2D getVelocity2D() {
+    public Vector2D getVelocity2D() {
         return track.getUnitParallelVector( alpha ).getInstanceOfMagnitude( velocity );
     }
 
@@ -188,7 +188,7 @@ public class Particle1D implements Serializable {
         return mass;
     }
 
-    public ImmutableVector2D getCurvatureDirection() {
+    public Vector2D getCurvatureDirection() {
         return track.getCurvatureDirection( alpha );
     }
 
@@ -412,11 +412,11 @@ public class Particle1D implements Serializable {
         return cachedRC;
     }
 
-    public ImmutableVector2D getUnitParallelVector() {
+    public Vector2D getUnitParallelVector() {
         return track.getUnitParallelVector( alpha );
     }
 
-    public ImmutableVector2D getUnitNormalVector() {
+    public Vector2D getUnitNormalVector() {
         return track.getUnitNormalVector( alpha );
     }
 
@@ -469,7 +469,7 @@ public class Particle1D implements Serializable {
         }
     }
 
-    public ImmutableVector2D getNormalForce() {//todo some code duplication in Particle.Particle1DUpdate
+    public Vector2D getNormalForce() {//todo some code duplication in Particle.Particle1DUpdate
         double radiusOfCurvature = getRadiusOfCurvature();
         if ( Double.isInfinite( radiusOfCurvature ) ) {
 
@@ -506,7 +506,7 @@ public class Particle1D implements Serializable {
             return new MutableVector2D();
         }
         else {
-            ImmutableVector2D f = getVelocity2D().getInstanceOfMagnitude( -getTotalFriction() * getNormalForce().getMagnitude() * 25 );
+            Vector2D f = getVelocity2D().getInstanceOfMagnitude( -getTotalFriction() * getNormalForce().getMagnitude() * 25 );
             if ( ( Double.isNaN( f.getMagnitude() ) ) ) { throw new IllegalArgumentException();}
             return f;//todo factor out heuristic
         }

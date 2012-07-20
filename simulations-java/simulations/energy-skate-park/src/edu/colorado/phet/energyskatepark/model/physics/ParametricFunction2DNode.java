@@ -1,11 +1,11 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyskatepark.model.physics;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -77,7 +77,7 @@ public class ParametricFunction2DNode extends PNode {
             for ( double x = 0; x <= parametricFunction2D.getMetricDelta( 0, 1 ); x += 0.1 ) {
                 double alpha = parametricFunction2D.getFractionalDistance( 0, x );
                 SerializablePoint2D at = parametricFunction2D.evaluate( alpha );
-                ImmutableVector2D pt = parametricFunction2D.getCurvatureDirection( alpha );
+                Vector2D pt = parametricFunction2D.getCurvatureDirection( alpha );
                 Arrow arrow = new Arrow( at, pt.getScaledInstance( 0.1 ).getDestination( at ), 0.03f, 0.03f, 0.01f );
                 PhetPPath phetPPath = new PhetPPath( arrow.getShape(), Color.blue );
                 curvatureLayer.addChild( phetPPath );

@@ -1,10 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.watertower.model;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
@@ -15,7 +15,7 @@ import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowM
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.VelocitySensorContext;
 
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.createPolar;
+import static edu.colorado.phet.common.phetcommon.math.Vector2D.createPolar;
 import static edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents.*;
 import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.METRIC;
 import static java.lang.Math.sqrt;
@@ -66,9 +66,9 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
             }
         } );
 
-        hose = new Hose( new CompositeProperty<ImmutableVector2D>( new Function0<ImmutableVector2D>() {
-            public ImmutableVector2D apply() {
-                return new ImmutableVector2D( waterTower.getHoleLocation() );
+        hose = new Hose( new CompositeProperty<Vector2D>( new Function0<Vector2D>() {
+            public Vector2D apply() {
+                return new Vector2D( waterTower.getHoleLocation() );
             }
         }, waterTower.tankBottomCenter ), WaterTower.HOLE_SIZE );
     }
@@ -141,8 +141,8 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
 
                 //Create a water drop either at the water tower opening or at the opening of the hose
                 final WaterDrop drop = !hose.enabled.get() ?
-                                       new WaterDrop( new ImmutableVector2D( waterTower.getHoleLocation().getX() + random.nextGaussian() * 0.04, waterDropY ), new ImmutableVector2D( velocity, 0 ), dropVolume, true ) :
-                                       new WaterDrop( new ImmutableVector2D( hose.outputPoint.get().getX() + random.nextGaussian() * 0.04, hose.outputPoint.get().getY() ), createPolar( velocity, hose.angle.get() ), dropVolume, false );
+                                       new WaterDrop( new Vector2D( waterTower.getHoleLocation().getX() + random.nextGaussian() * 0.04, waterDropY ), new Vector2D( velocity, 0 ), dropVolume, true ) :
+                                       new WaterDrop( new Vector2D( hose.outputPoint.get().getX() + random.nextGaussian() * 0.04, hose.outputPoint.get().getY() ), createPolar( velocity, hose.angle.get() ), dropVolume, false );
 
                 //Add the drop to the list and notify listeners
                 waterTowerDrops.add( drop );
@@ -178,9 +178,9 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
             double spreadY = 0.0;
             double velocitySpreadX = 0.00;
             double velocitySpreadY = 0.00;
-            WaterDrop faucetDrop = new WaterDrop( new ImmutableVector2D( -3 + random.nextGaussian() * spreadX,//magic number picked based on graphics
-                                                                         WaterTower.MAX_Y + WaterTower.TANK_HEIGHT + 2 + random.nextGaussian() * spreadY ),
-                                                  new ImmutableVector2D( random.nextGaussian() * velocitySpreadX, random.nextGaussian() * velocitySpreadY ), faucetDropVolume, true );
+            WaterDrop faucetDrop = new WaterDrop( new Vector2D( -3 + random.nextGaussian() * spreadX,//magic number picked based on graphics
+                                                                WaterTower.MAX_Y + WaterTower.TANK_HEIGHT + 2 + random.nextGaussian() * spreadY ),
+                                                  new Vector2D( random.nextGaussian() * velocitySpreadX, random.nextGaussian() * velocitySpreadY ), faucetDropVolume, true );
             faucetDrops.add( faucetDrop );
             for ( VoidFunction1<WaterDrop> listener : faucetDropAddedListeners ) {
                 listener.apply( faucetDrop );
@@ -228,13 +228,13 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
     }
 
     //Find the velocity at the specified point
-    public Option<ImmutableVector2D> getVelocity( double x, double y ) {
+    public Option<Vector2D> getVelocity( double x, double y ) {
         for ( WaterDrop waterTowerDrop : waterTowerDrops ) {
             if ( waterTowerDrop.contains( x, y ) ) {
-                return new Option.Some<ImmutableVector2D>( waterTowerDrop.velocity.get() );
+                return new Option.Some<Vector2D>( waterTowerDrop.velocity.get() );
             }
         }
-        return new Option.None<ImmutableVector2D>();
+        return new Option.None<Vector2D>();
     }
 
     public void addVelocityUpdateListener( SimpleObserver observer ) {

@@ -16,7 +16,7 @@ import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * This adapter class for GeneralPath allows provides an interface in double coordinates.
@@ -37,7 +37,7 @@ public class DoubleGeneralPath {
         path = new GeneralPath( shape );
     }
 
-    public DoubleGeneralPath( ImmutableVector2D pt ) {
+    public DoubleGeneralPath( Vector2D pt ) {
         this( pt.getX(), pt.getY() );
     }
 
@@ -76,7 +76,7 @@ public class DoubleGeneralPath {
     }
 
     //Quad through the control point to the target point, convenience method
-    public void quadTo( ImmutableVector2D controlPoint, ImmutableVector2D target ) {
+    public void quadTo( Vector2D controlPoint, Vector2D target ) {
         quadTo( controlPoint.getX(), controlPoint.getY(), target.getX(), target.getY() );
     }
 
@@ -89,7 +89,7 @@ public class DoubleGeneralPath {
     }
 
     //Bezier curve through the 2 control points to the target point, convenience method
-    public void curveTo( ImmutableVector2D controlPoint1, ImmutableVector2D controlPoint2, ImmutableVector2D targetPoint ) {
+    public void curveTo( Vector2D controlPoint1, Vector2D controlPoint2, Vector2D targetPoint ) {
         curveTo( controlPoint1.getX(), controlPoint1.getY(), controlPoint2.getX(), controlPoint2.getY(), targetPoint.getX(), targetPoint.getY() );
     }
 

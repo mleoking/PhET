@@ -1,7 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -27,7 +27,7 @@ public class EnergyChunk {
     //-------------------------------------------------------------------------
 
     // Position in model space.
-    public final Property<ImmutableVector2D> position;
+    public final Property<Vector2D> position;
     public final Property<Double> zPosition = new Property<Double>( 0.0 ); // Used for some simple 3D layering effects.
 
     // Property that controls visibility in view.
@@ -44,11 +44,11 @@ public class EnergyChunk {
     //-------------------------------------------------------------------------
 
     public EnergyChunk( ConstantDtClock clock, double x, double y, BooleanProperty visibilityControl, boolean fadeIn ) {
-        this( clock, new ImmutableVector2D( x, y ), visibilityControl, fadeIn );
+        this( clock, new Vector2D( x, y ), visibilityControl, fadeIn );
     }
 
-    public EnergyChunk( ConstantDtClock clock, ImmutableVector2D initialPosition, BooleanProperty visibilityControl, boolean fadeIn ) {
-        this.position = new Property<ImmutableVector2D>( initialPosition );
+    public EnergyChunk( ConstantDtClock clock, Vector2D initialPosition, BooleanProperty visibilityControl, boolean fadeIn ) {
+        this.position = new Property<Vector2D>( initialPosition );
         this.visible = visibilityControl;
         if ( fadeIn ) {
             fadeState = FadeState.FADING_IN;
@@ -92,7 +92,7 @@ public class EnergyChunk {
         }
     }
 
-    public void translate( ImmutableVector2D movement ) {
+    public void translate( Vector2D movement ) {
         position.set( position.get().getAddedInstance( movement ) );
     }
 

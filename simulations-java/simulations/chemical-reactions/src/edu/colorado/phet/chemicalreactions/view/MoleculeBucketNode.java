@@ -1,13 +1,13 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.chemicalreactions.view;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Arrays;
 
 import edu.colorado.phet.chemicalreactions.model.Molecule;
 import edu.colorado.phet.chemicalreactions.model.MoleculeBucket;
 import edu.colorado.phet.chemistry.utils.ChemUtils;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -31,7 +31,7 @@ public class MoleculeBucketNode extends BucketView {
             }};
             final MoleculeNode exampleMoleculeNode = new MoleculeNode( new Molecule( bucket.getShape() ) );
             MoleculeNode icon = new MoleculeNode( new Molecule( bucket.getShape() ) {{
-                setPosition( MODEL_VIEW_TRANSFORM.viewToModel( new ImmutableVector2D( 0, 0 ) ) );
+                setPosition( MODEL_VIEW_TRANSFORM.viewToModel( new Vector2D( 0, 0 ) ) );
             }} ) {{
                 setOffset( -getFullBounds().getWidth() / 3, 0 );
                 scale( 0.4 );

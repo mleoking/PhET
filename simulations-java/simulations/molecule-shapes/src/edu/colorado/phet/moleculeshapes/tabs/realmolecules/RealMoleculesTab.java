@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.moleculeshapes.tabs.realmolecules;
 
 import java.awt.Canvas;
@@ -8,9 +8,9 @@ import java.awt.Dimension;
 import java.util.List;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
 import edu.colorado.phet.common.phetcommon.math.Permutation;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
@@ -298,15 +298,15 @@ public class RealMoleculesTab extends MoleculeViewTab {
         moleculeView.getScene().attachChild( moleculeNode );
 
         showRealView.addObserver( new SimpleObserver() {
-                                      public void update() {
-                                          rebuildMolecule( false );
-                                      }
-                                  }, false );
+            public void update() {
+                rebuildMolecule( false );
+            }
+        }, false );
 
         /*---------------------------------------------------------------------------*
         * main control panel
         *----------------------------------------------------------------------------*/
-        Property<ImmutableVector2D> controlPanelPosition = new Property<ImmutableVector2D>( new ImmutableVector2D() );
+        Property<Vector2D> controlPanelPosition = new Property<Vector2D>( new Vector2D() );
         final Function0<Double> getControlPanelXPosition = new Function0<Double>() {
             public Double apply() {
                 return controlPanel.position.get().getX();
@@ -319,7 +319,7 @@ public class RealMoleculesTab extends MoleculeViewTab {
                 new UpdateListener() {
                     public void update() {
                         if ( controlPanel != null ) {
-                            controlPanel.position.set( new ImmutableVector2D(
+                            controlPanel.position.set( new Vector2D(
                                     getStageSize().width - controlPanel.getComponentWidth() - OUTSIDE_PADDING,
                                     getStageSize().height - controlPanel.getComponentHeight() - OUTSIDE_PADDING ) );
                         }
@@ -386,7 +386,7 @@ public class RealMoleculesTab extends MoleculeViewTab {
             }};
 
             guiView.getScene().attachChild( new PiccoloJMENode( realModelSelectionNode, inputHandler, this, canvasTransform,
-                                                                new Property<ImmutableVector2D>( new ImmutableVector2D(
+                                                                new Property<Vector2D>( new Vector2D(
                                                                         ( (int) ( getStageSize().width - realModelSelectionNode.getFullBounds().getWidth() - controlPanelNode.getFullBounds().getWidth() ) / 2 ),
                                                                         ( (int) ( getStageSize().height - OUTSIDE_PADDING - realModelSelectionNode.getFullBounds().getHeight() ) )
                                                                 ) ) ) );
@@ -400,7 +400,7 @@ public class RealMoleculesTab extends MoleculeViewTab {
             setOffset( 0, 10 );
         }}, inputHandler, this, canvasTransform );
         guiView.getScene().attachChild( namePanel );
-        namePanel.position.set( new ImmutableVector2D( OUTSIDE_PADDING, OUTSIDE_PADDING ) );
+        namePanel.position.set( new Vector2D( OUTSIDE_PADDING, OUTSIDE_PADDING ) );
     }
 
     public void switchToMolecule( RealMoleculeShape selectedRealMolecule ) {

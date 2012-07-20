@@ -1,9 +1,9 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.insidemagnets;
 
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * @author Sam Reid
@@ -23,12 +23,12 @@ public class Cell {
 
     public Cell() {
 //        ImmutableVector2D vector = new ImmutableVector2D( random.nextDouble()*2-1,random.nextDouble()*2-1 ).getNormalizedInstance();
-        ImmutableVector2D vector = new ImmutableVector2D( 1, 0 ).getNormalizedInstance();
+        Vector2D vector = new Vector2D( 1, 0 ).getNormalizedInstance();
         sx = vector.getX();
         sy = vector.getY();
     }
 
-    public ImmutableVector2D getSpinVector() {
-        return new ImmutableVector2D( sx, sy );
+    public Vector2D getSpinVector() {
+        return new Vector2D( sx, sy );
     }
 }

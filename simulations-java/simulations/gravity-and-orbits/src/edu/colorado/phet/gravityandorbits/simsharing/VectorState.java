@@ -1,7 +1,7 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.gravityandorbits.simsharing;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
 
 /**
@@ -19,12 +19,12 @@ public class VectorState implements IProguardKeepClass {
         this.y = y;
     }
 
-    public VectorState( ImmutableVector2D value ) {
+    public VectorState( Vector2D value ) {
         this( value.getX(), value.getY() );
     }
 
-    public ImmutableVector2D toImmutableVector2D() {
-        return new ImmutableVector2D( x, y );
+    public Vector2D toImmutableVector2D() {
+        return new Vector2D( x, y );
     }
 
     @Override public String toString() {

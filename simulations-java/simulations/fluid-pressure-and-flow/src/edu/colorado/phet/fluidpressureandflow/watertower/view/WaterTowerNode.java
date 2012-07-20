@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.watertower.view;
 
 import java.awt.BasicStroke;
@@ -8,8 +8,8 @@ import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
@@ -135,7 +135,7 @@ public class WaterTowerNode extends PNode {
         addChild( new PImage( BufferedImageUtils.multiScaleToHeight( PANEL, 50 ) ) {{
             final SimpleObserver updatePanelLocation = new SimpleObserver() {
                 public void update() {
-                    ImmutableVector2D viewPoint = transform.modelToView( waterTower.panelOffset.get().getAddedInstance( waterTower.tankBottomCenter.get() ) );
+                    Vector2D viewPoint = transform.modelToView( waterTower.panelOffset.get().getAddedInstance( waterTower.tankBottomCenter.get() ) );
                     setOffset( viewPoint.getX(), viewPoint.getY() - getFullBounds().getHeight() );
                 }
             };
@@ -146,10 +146,10 @@ public class WaterTowerNode extends PNode {
                 @Override protected void drag( final PInputEvent event ) {
                     super.drag( event );
                     if ( event.getDeltaRelativeTo( getParent() ).getHeight() > 0 ) {
-                        waterTower.panelOffset.set( new ImmutableVector2D( WaterTower.PANEL_OFFSET, 0 ) );
+                        waterTower.panelOffset.set( new Vector2D( WaterTower.PANEL_OFFSET, 0 ) );
                     }
                     else if ( event.getDeltaRelativeTo( getParent() ).getHeight() < 0 ) {
-                        waterTower.panelOffset.set( new ImmutableVector2D( WaterTower.PANEL_OFFSET, 2 ) );
+                        waterTower.panelOffset.set( new Vector2D( WaterTower.PANEL_OFFSET, 2 ) );
                     }
                 }
 

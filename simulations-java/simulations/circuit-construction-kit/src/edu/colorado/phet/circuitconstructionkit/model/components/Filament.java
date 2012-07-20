@@ -8,8 +8,8 @@ import edu.colorado.phet.circuitconstructionkit.model.CCKDefaults;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
@@ -22,8 +22,8 @@ public class Filament extends PathBranch {
     private Junction tailJunction;
     private double resistorDY;//the pin is the assumed origin.
     private double resistorWidth;
-    private ImmutableVector2D northDir;
-    private ImmutableVector2D eastDir;
+    private Vector2D northDir;
+    private Vector2D eastDir;
     private Point2D pin;
     private boolean connectAtRight = true;
 
@@ -58,15 +58,15 @@ public class Filament extends PathBranch {
     }
 
     private Point2D getPoint( double east, double north ) {
-        ImmutableVector2D e = eastDir.getScaledInstance( east );
-        ImmutableVector2D n = northDir.getScaledInstance( north );
-        ImmutableVector2D sum = e.getAddedInstance( n );
+        Vector2D e = eastDir.getScaledInstance( east );
+        Vector2D n = northDir.getScaledInstance( north );
+        Vector2D sum = e.getAddedInstance( n );
         return sum.getDestination( pin );
     }
 
-    private ImmutableVector2D getVector( double east, double north ) {
-        ImmutableVector2D e = eastDir.getScaledInstance( east );
-        ImmutableVector2D n = northDir.getScaledInstance( north );
+    private Vector2D getVector( double east, double north ) {
+        Vector2D e = eastDir.getScaledInstance( east );
+        Vector2D n = northDir.getScaledInstance( north );
         return e.getAddedInstance( n );
     }
 
@@ -79,7 +79,7 @@ public class Filament extends PathBranch {
         return path.getGeneralPath();
     }
 
-    boolean isNaN( ImmutableVector2D vector ) {
+    boolean isNaN( Vector2D vector ) {
         return Double.isNaN( vector.getX() ) || Double.isNaN( vector.getY() );
     }
 

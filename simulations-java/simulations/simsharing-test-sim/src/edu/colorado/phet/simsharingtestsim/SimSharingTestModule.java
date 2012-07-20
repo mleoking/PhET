@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.simsharingtestsim;
 
 import java.awt.BasicStroke;
@@ -6,7 +6,7 @@ import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * @author Sam Reid
  */
 public class SimSharingTestModule extends Module {
-    public final Property<ImmutableVector2D> position = new Property<ImmutableVector2D>( new ImmutableVector2D() );
+    public final Property<Vector2D> position = new Property<Vector2D>( new Vector2D() );
 
     public SimSharingTestModule() {
         super( "Test", new ConstantDtClock( 30 ) );
@@ -32,8 +32,8 @@ public class SimSharingTestModule extends Module {
                         position.set( position.get().plus( event.getDeltaRelativeTo( getParent() ) ) );
                     }
                 } );
-                position.addObserver( new VoidFunction1<ImmutableVector2D>() {
-                    public void apply( ImmutableVector2D immutableVector2D ) {
+                position.addObserver( new VoidFunction1<Vector2D>() {
+                    public void apply( Vector2D immutableVector2D ) {
                         setOffset( immutableVector2D.toPoint2D() );
                     }
                 } );

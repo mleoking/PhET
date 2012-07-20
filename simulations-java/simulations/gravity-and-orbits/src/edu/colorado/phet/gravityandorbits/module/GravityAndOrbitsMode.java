@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.gravityandorbits.module;
 
@@ -14,7 +14,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -75,15 +75,15 @@ public abstract class GravityAndOrbitsMode {
     public final Property<ModelViewTransform> transform;
     public final Property<Boolean> rewinding;
     public final Property<Double> timeSpeedScaleProperty;
-    public final Property<ImmutableVector2D> measuringTapeStartPoint;
-    public final Property<ImmutableVector2D> measuringTapeEndPoint;
+    public final Property<Vector2D> measuringTapeStartPoint;
+    public final Property<Vector2D> measuringTapeEndPoint;
     public final Property<Double> zoomLevel = new Property<Double>( 1.0 );//additional scale factor on top of defaultZoomScale
     public final ModeListParameterList p;
 
     //Create a new GravityAndOrbitsMode that shares ModeListParameterList values with other modes
     public GravityAndOrbitsMode( IUserComponent userComponent, double forceScale, boolean active, double dt, Function1<Double, String> timeFormatter, Image iconImage, double defaultOrbitalPeriod, double velocityVectorScale,
                                  Function2<BodyNode, Property<Boolean>, PNode> massReadoutFactory, Line2D.Double initialMeasuringTapeLocation, final double defaultZoomScale,
-                                 final ImmutableVector2D zoomOffset, double gridSpacing, Point2D.Double gridCenter, final ModeListParameterList p ) {
+                                 final Vector2D zoomOffset, double gridSpacing, Point2D.Double gridCenter, final ModeListParameterList p ) {
         this.userComponent = userComponent;
         this.dt = dt;
         this.p = p;
@@ -121,12 +121,12 @@ public abstract class GravityAndOrbitsMode {
                 model.getClock().setRunning( p.playButtonPressed.get() && GravityAndOrbitsMode.this.active.get() );
             }
         }.observe( p.playButtonPressed, this.active );
-        measuringTapeStartPoint = new Property<ImmutableVector2D>( new ImmutableVector2D( initialMeasuringTapeLocation.getP1() ) );
-        measuringTapeEndPoint = new Property<ImmutableVector2D>( new ImmutableVector2D( initialMeasuringTapeLocation.getP2() ) );
+        measuringTapeStartPoint = new Property<Vector2D>( new Vector2D( initialMeasuringTapeLocation.getP1() ) );
+        measuringTapeEndPoint = new Property<Vector2D>( new Vector2D( initialMeasuringTapeLocation.getP2() ) );
     }
 
     //Create the transform from model coordinates to stage coordinates
-    private ModelViewTransform createTransform( double defaultZoomScale, ImmutableVector2D zoomOffset ) {
+    private ModelViewTransform createTransform( double defaultZoomScale, Vector2D zoomOffset ) {
         Rectangle2D.Double targetRectangle = getTargetRectangle( defaultZoomScale * zoomLevel.get(), zoomOffset );
         final double x = targetRectangle.getMinX();
         final double y = targetRectangle.getMinY();
@@ -136,7 +136,7 @@ public abstract class GravityAndOrbitsMode {
     }
 
     //Find the rectangle that should be viewed in the model
-    public static Rectangle2D.Double getTargetRectangle( double targetScale, ImmutableVector2D targetCenterModelPoint ) {
+    public static Rectangle2D.Double getTargetRectangle( double targetScale, Vector2D targetCenterModelPoint ) {
         double z = targetScale * 1.5E-9;
         double modelWidth = PLAY_AREA_WIDTH / z;
         double modelHeight = PLAY_AREA_HEIGHT / z;

@@ -1,11 +1,11 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model;
 
 import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -90,7 +90,7 @@ public class MessengerRna extends WindingBiomolecule {
         shapeProperty.addObserver( new SimpleObserver() {
             public void update() {
                 // This hint always sits at the beginning of the RNA strand.
-                ImmutableVector2D currentMRnaFirstPointPosition = new ImmutableVector2D( firstShapeDefiningPoint.getPosition() );
+                Vector2D currentMRnaFirstPointPosition = new Vector2D( firstShapeDefiningPoint.getPosition() );
                 ribosomePlacementHint.setPosition( currentMRnaFirstPointPosition.getSubtractedInstance( Ribosome.OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE ).toPoint2D() );
                 mRnaDestroyerPlacementHint.setPosition( currentMRnaFirstPointPosition.toPoint2D() );
             }
@@ -101,7 +101,7 @@ public class MessengerRna extends WindingBiomolecule {
     // Methods
     //-------------------------------------------------------------------------
 
-    @Override public void translate( ImmutableVector2D translationVector ) {
+    @Override public void translate( Vector2D translationVector ) {
         // Translate the current shape user the superclass facility.
         super.translate( translationVector );
         // Translate each of the shape segments that define the outline shape.

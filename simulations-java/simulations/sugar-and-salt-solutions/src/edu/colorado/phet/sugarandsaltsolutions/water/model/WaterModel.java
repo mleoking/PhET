@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.water.model;
 
 import java.awt.Graphics;
@@ -20,7 +20,7 @@ import org.jbox2d.testbed.framework.TestPanel;
 import org.jbox2d.testbed.framework.TestbedSettings;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -35,7 +35,7 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.ItemList;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.sucrose.Sucrose;
 
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
+import static edu.colorado.phet.common.phetcommon.math.Vector2D.ZERO;
 
 /**
  * Model for "water" tab for sugar and salt solutions.
@@ -94,7 +94,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     //Determine the length from one corner to the center of the rectangle, this is used to determine how far to move the periodic boundary condition from the visible model rectangle
     //So that particles don't disappear when they wrap from one side to the other
     private static double getHalfDiagonal( Rectangle2D bounds2D ) {
-        return new ImmutableVector2D( new Point2D.Double( bounds2D.getX(), bounds2D.getY() ), new Point2D.Double( bounds2D.getCenterX(), bounds2D.getCenterY() ) ).getMagnitude();
+        return new Vector2D( new Point2D.Double( bounds2D.getX(), bounds2D.getY() ), new Point2D.Double( bounds2D.getCenterX(), bounds2D.getCenterY() ) ).getMagnitude();
     }
 
     //Width of the box2D model.  Box2D is a physics engine used to drive the dynamics for this tab, see implementation-notes.txt and Box2DAdapter
@@ -219,7 +219,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
     //Adds a single water molecule
     public void addWaterMolecule( double x, double y, double angle ) {
-        final WaterMolecule molecule = new WaterMolecule( new ImmutableVector2D( x, y ), angle );
+        final WaterMolecule molecule = new WaterMolecule( new Vector2D( x, y ), angle );
         waterList.add( molecule );
 
         //Add the adapter for box2D
@@ -234,7 +234,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
                 for ( SphericalParticle target : box2DAdapter.compound ) {
                     for ( SphericalParticle source : getAllParticles() ) {
                         if ( !box2DAdapter.compound.containsParticle( source ) ) {
-                            final ImmutableVector2D coulombForce = getCoulombForce( source, target ).times( COULOMB_FORCE_SCALE_FACTOR );
+                            final Vector2D coulombForce = getCoulombForce( source, target ).times( COULOMB_FORCE_SCALE_FACTOR );
                             box2DAdapter.applyModelForce( coulombForce, target.getPosition() );
                         }
                     }
@@ -267,15 +267,15 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
                 for ( Pair<? extends Compound<SphericalParticle>, ? extends Compound<SphericalParticle>> pair : all ) {
 
                     //Find the centroid
-                    ImmutableVector2D p1 = pair._1.getPosition();
-                    ImmutableVector2D p2 = pair._2.getPosition();
-                    ImmutableVector2D center = p1.plus( p2 ).times( 0.5 );
+                    Vector2D p1 = pair._1.getPosition();
+                    Vector2D p2 = pair._2.getPosition();
+                    Vector2D center = p1.plus( p2 ).times( 0.5 );
 
                     //Compute and apply an attractive coulomb force from the water molecules to the centroids
                     //The scale has to be strong enough to overcome other forces and dissolve the salt, but if it is too high then the water system will be too volatile
-                    final ImmutableVector2D modelPosition = box2DAdapter.getModelPosition();
+                    final Vector2D modelPosition = box2DAdapter.getModelPosition();
                     double scale = 1;
-                    ImmutableVector2D coulombForce = getCoulombForce( center, modelPosition, scale, -scale ).times( COULOMB_FORCE_SCALE_FACTOR );
+                    Vector2D coulombForce = getCoulombForce( center, modelPosition, scale, -scale ).times( COULOMB_FORCE_SCALE_FACTOR );
                     box2DAdapter.applyModelForce( coulombForce, modelPosition );
                 }
             }
@@ -365,12 +365,12 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
     //Get the coulomb force between two particles
     //The particles should be from different compounds since compounds shouldn't have intra-molecular forces
-    private ImmutableVector2D getCoulombForce( SphericalParticle source, SphericalParticle target ) {
+    private Vector2D getCoulombForce( SphericalParticle source, SphericalParticle target ) {
         return getCoulombForce( source.getPosition(), target.getPosition(), source.getCharge(), target.getCharge() );
     }
 
     //Get the coulomb force between two points with the specified charges
-    private ImmutableVector2D getCoulombForce( ImmutableVector2D sourcePosition, ImmutableVector2D targetPosition, double q1, double q2 ) {
+    private Vector2D getCoulombForce( Vector2D sourcePosition, Vector2D targetPosition, double q1, double q2 ) {
         if ( sourcePosition.equals( targetPosition ) ) {
             return ZERO;
         }
@@ -379,7 +379,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
             distance = MIN_COULOMB_DISTANCE;
         }
         double scale = k * q1 * q2 / Math.pow( distance, pow.get() ) / distance * coulombStrengthMultiplier.get();
-        return new ImmutableVector2D( ( targetPosition.getX() - sourcePosition.getX() ) * scale, ( targetPosition.getY() - sourcePosition.getY() ) * scale );
+        return new Vector2D( ( targetPosition.getX() - sourcePosition.getX() ) * scale, ( targetPosition.getY() - sourcePosition.getY() ) * scale );
     }
 
     //Factor out center of mass motion so no large scale drifts can occur
@@ -639,7 +639,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
     public static void main( String[] args ) {
         final WaterModel model = new WaterModel();
-        ImmutableVector2D force = model.getCoulombForce( ZERO, new ImmutableVector2D( 1, 0 ), 1, 1 );
+        Vector2D force = model.getCoulombForce( ZERO, new Vector2D( 1, 0 ), 1, 1 );
         System.out.println( "force = " + force );
         System.out.println( "5E-36 / 10 * 2 = " + 5E-36 / 10 * 2 );
     }

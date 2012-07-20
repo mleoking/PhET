@@ -5,8 +5,8 @@ import junit.framework.TestCase;
 
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.energyskatepark.util.EnergySkateParkLogging;
 
 /**
@@ -40,9 +40,9 @@ public class TestNormalVectors extends TestCase {
 
     private static double testNormalVectors( double x, double y ) {
         MutableVector2D a = new MutableVector2D( x, y );
-        ImmutableVector2D rotated = a.getRotatedInstance( -Math.PI / 2.0 );
+        Vector2D rotated = a.getRotatedInstance( -Math.PI / 2.0 );
 
-        ImmutableVector2D normed = a.getNormalVector();
+        Vector2D normed = a.getNormalVector();
         EnergySkateParkLogging.println( "original vector=" + a + ", rotated vector= " + rotated + ", getNormalVector=" + normed );
         double error = rotated.getSubtractedInstance( normed ).getMagnitude();
         assertEquals( error, 0.0, 1E-6 );

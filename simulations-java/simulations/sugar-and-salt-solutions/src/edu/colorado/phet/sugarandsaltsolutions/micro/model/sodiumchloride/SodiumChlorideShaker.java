@@ -1,7 +1,7 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Beaker;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
@@ -22,7 +22,7 @@ public class SodiumChlorideShaker extends MicroShaker {
     }
 
     //Create a random salt crystal and add it to the model
-    @Override protected void addCrystal( MicroModel model, ImmutableVector2D outputPoint ) {
+    @Override protected void addCrystal( MicroModel model, Vector2D outputPoint ) {
 
         //Attempt to randomly create a crystal with a correct balance of components
         model.addSodiumChlorideCrystal( new SodiumChlorideCrystal( outputPoint, randomAngle() ) {{ grow( 6 ); }} );

@@ -1,6 +1,7 @@
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Crystal;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Formula;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
@@ -15,7 +16,7 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.So
  */
 public class SodiumChlorideCrystal extends Crystal<SphericalParticle> {
 
-    public SodiumChlorideCrystal( ImmutableVector2D position, double angle ) {
+    public SodiumChlorideCrystal( Vector2D position, double angle ) {
         super( Formula.SODIUM_CHLORIDE, position, new Chloride().radius + new Sodium().radius, angle );
     }
 

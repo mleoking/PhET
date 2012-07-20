@@ -1,9 +1,9 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.gravityandorbits.module;
 
 import java.awt.geom.Line2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 import static edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock.DEFAULT_DT;
 
@@ -23,7 +23,7 @@ public abstract class ModeConfig {
     }
 
     public void center() {
-        ImmutableVector2D deltaVelocity = getTotalMomentum().times( -1.0 / getTotalMass() );
+        Vector2D deltaVelocity = getTotalMomentum().times( -1.0 / getTotalMass() );
         for ( BodyConfiguration prototype : getBodies() ) {
             prototype.vx += deltaVelocity.getX();
             prototype.vy += deltaVelocity.getY();
@@ -31,8 +31,8 @@ public abstract class ModeConfig {
     }
 
     //Compute the total momentum for purposes of centering the camera on the center of momentum frame
-    private ImmutableVector2D getTotalMomentum() {
-        ImmutableVector2D totalMomentum = new ImmutableVector2D();
+    private Vector2D getTotalMomentum() {
+        Vector2D totalMomentum = new Vector2D();
         for ( BodyConfiguration body : getBodies() ) {
             totalMomentum = totalMomentum.plus( body.getMomentum() );
         }

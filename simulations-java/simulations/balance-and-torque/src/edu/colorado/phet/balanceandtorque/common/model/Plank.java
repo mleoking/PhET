@@ -13,9 +13,9 @@ import java.util.Map;
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueSimSharing;
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
 import edu.colorado.phet.balanceandtorque.common.model.masses.PositionedVector;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -260,7 +260,7 @@ public class Plank extends ShapeModelElement {
             System.out.println( getClass().getName() + " - Warning: Attempt to add mass at invalid distance from center, ignoring." );
             return;
         }
-        ImmutableVector2D vectorToLocation = getPlankSurfaceCenter().getAddedInstance( new ImmutableVector2D( distanceFromCenter, 0 ).getRotatedInstance( tiltAngle ) );
+        Vector2D vectorToLocation = getPlankSurfaceCenter().getAddedInstance( new Vector2D( distanceFromCenter, 0 ).getRotatedInstance( tiltAngle ) );
         // Set the position of the mass to be just above the plank at the
         // appropriate distance so that it will drop to the correct place.
         mass.setPosition( vectorToLocation.getX(), vectorToLocation.getY() + 0.01 );
@@ -519,11 +519,11 @@ public class Plank extends ShapeModelElement {
         for ( Mass mass : massesOnSurface ) {
             // Compute the vector from the center of the plank's surface to
             // the center of the mass, in meters.
-            ImmutableVector2D vectorFromCenterToMass = new MutableVector2D( mapMassToDistFromCenter.get( mass ), 0 ).getRotatedInstance( tiltAngle );
+            Vector2D vectorFromCenterToMass = new MutableVector2D( mapMassToDistFromCenter.get( mass ), 0 ).getRotatedInstance( tiltAngle );
 
             // Now add the location of the center of the plank's surface to
             // find the absolute location of the mass.
-            ImmutableVector2D massPosition = getPlankSurfaceCenter().plus( vectorFromCenterToMass );
+            Vector2D massPosition = getPlankSurfaceCenter().plus( vectorFromCenterToMass );
 
             // Set the position and rotation of the mass.
             mass.setPosition( massPosition.toPoint2D() );
@@ -539,13 +539,13 @@ public class Plank extends ShapeModelElement {
 
     //Determine the absolute position (in meters) of the center surface (top)
     // of the plank
-    public ImmutableVector2D getPlankSurfaceCenter() {
+    public Vector2D getPlankSurfaceCenter() {
         //Start at the absolute location of the attachment point, and add the relative location of the top of the plank, accounting for its rotation angle
-        return new ImmutableVector2D( bottomCenterPoint.get() ).plus( new ImmutableVector2D( 0, THICKNESS ).getRotatedInstance( tiltAngle ) );
+        return new Vector2D( bottomCenterPoint.get() ).plus( new Vector2D( 0, THICKNESS ).getRotatedInstance( tiltAngle ) );
     }
 
-    private ImmutableVector2D getPivotPointVector() {
-        return new ImmutableVector2D( pivotPoint );
+    private Vector2D getPivotPointVector() {
+        return new Vector2D( pivotPoint );
     }
 
     /**
@@ -668,8 +668,8 @@ public class Plank extends ShapeModelElement {
         }
 
         private PositionedVector generateVector( Mass mass ) {
-            return new PositionedVector( new ImmutableVector2D( mass.getPosition() ),
-                                         new ImmutableVector2D( 0, mass.getMass() * ACCELERATION_DUE_TO_GRAVITY ) );
+            return new PositionedVector( new Vector2D( mass.getPosition() ),
+                                         new Vector2D( 0, mass.getMass() * ACCELERATION_DUE_TO_GRAVITY ) );
         }
     }
 

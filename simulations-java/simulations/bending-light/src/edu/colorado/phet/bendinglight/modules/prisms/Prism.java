@@ -1,11 +1,11 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.modules.prisms;
 
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
@@ -17,7 +17,7 @@ public class Prism {
     public final Property<IShape> shape;
 
     //Create a prism with the specified corner points
-    public Prism( int referencePointIndex, ImmutableVector2D... points ) {
+    public Prism( int referencePointIndex, Vector2D... points ) {
         this( new Polygon( points, referencePointIndex ) );
     }
 
@@ -34,7 +34,7 @@ public class Prism {
         return shape.get().getIntersections( incidentRay );
     }
 
-    public boolean contains( ImmutableVector2D point ) {
+    public boolean contains( Vector2D point ) {
         return shape.get().containsPoint( point );
     }
 

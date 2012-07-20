@@ -1,7 +1,7 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyformsandchanges.intro.model;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * Interface for model elements that contain energy.
@@ -46,7 +46,7 @@ public interface ThermalEnergyContainer {
      *
      * @return
      */
-    ImmutableVector2D getCenterPoint();
+    Vector2D getCenterPoint();
 
     /**
      * Get the area that can be used to test whether one energy container is in

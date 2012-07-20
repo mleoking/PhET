@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Random;
 
 import edu.colorado.phet.buildanatom.developer.DeveloperConfiguration;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -51,7 +51,7 @@ public class Atom implements IDynamicAtom {
     private final Point2D position = new Point2D.Double( DEFAULT_POSITION.getX(), DEFAULT_POSITION.getY() );
 
     //The total translation of all nucleons, used for animating instability
-    private ImmutableVector2D unstableNucleusJitterVector = new ImmutableVector2D( 0, 0 );
+    private Vector2D unstableNucleusJitterVector = new Vector2D( 0, 0 );
 
     // List of the subatomic particles that are currently in the nucleus.
     // Note that the electrons are maintained in the shells.
@@ -127,7 +127,7 @@ public class Atom implements IDynamicAtom {
                                  animationCount % 2 == 0; // only jump away every other animation step
         if ( jumpAway ) {
             // Jump away from the current location.
-            unstableNucleusJitterVector = ImmutableVector2D.createPolar( RAND.nextDouble() * 5, RAND.nextDouble() * Math.PI * 2 );
+            unstableNucleusJitterVector = Vector2D.createPolar( RAND.nextDouble() * 5, RAND.nextDouble() * Math.PI * 2 );
             jumpAway();
         }
         else if ( ( animationCount % 2 == 0 && isAway ) || ( isStable() && isAway ) ) {
@@ -151,7 +151,7 @@ public class Atom implements IDynamicAtom {
         translateNucleons( unstableNucleusJitterVector.getScaledInstance( -1 ), false );
     }
 
-    private void translateNucleons( ImmutableVector2D motionVector, boolean away ) {
+    private void translateNucleons( Vector2D motionVector, boolean away ) {
         for ( SphericalParticle nucleon : getNucleons() ) {
             nucleon.setPositionAndDestination( motionVector.getDestination( nucleon.getDestination().toPoint2D() ) );
         }

@@ -1,7 +1,7 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.view;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.umd.cs.piccolo.PNode;
@@ -32,7 +32,7 @@ class BiomoleculeDragHandler extends PDragEventHandler {
     @Override
     public void mouseDragged( PInputEvent event ) {
         PDimension viewDelta = event.getDeltaRelativeTo( pNode.getParent() );
-        ImmutableVector2D modelDelta = mvt.viewToModelDelta( new ImmutableVector2D( viewDelta ) );
+        Vector2D modelDelta = mvt.viewToModelDelta( new Vector2D( viewDelta ) );
         biomolecule.translate( modelDelta );
     }
 

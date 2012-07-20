@@ -20,17 +20,16 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
-import edu.colorado.phet.fractions.common.util.immutable.Vector2D;
 import edu.colorado.phet.fractions.common.util.immutable.Vector2D.UnitVector2D;
 import edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern;
 import edu.colorado.phet.fractions.fractionmatcher.view.PatternNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.PFrame;
 
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.createPolar;
+import static edu.colorado.phet.common.phetcommon.math.Vector2D.ZERO;
+import static edu.colorado.phet.common.phetcommon.math.Vector2D.createPolar;
 import static edu.colorado.phet.fractions.common.util.immutable.Vector2D.v;
 import static edu.colorado.phet.fractions.fractionmatcher.model.Pattern.Direction.*;
 import static fj.data.List.*;
@@ -119,9 +118,9 @@ public class Pattern {
         ) );
     }
 
-    private static Shape pointsToShape( final double length, final List<Vector2D> v ) {
+    private static Shape pointsToShape( final double length, final List<edu.colorado.phet.fractions.common.util.immutable.Vector2D> v ) {
         return new DoubleGeneralPath( v.head().toImmutableVector2D().times( length ) ) {{
-            for ( Vector2D vector2D : v.tail() ) {
+            for ( edu.colorado.phet.fractions.common.util.immutable.Vector2D vector2D : v.tail() ) {
                 lineTo( vector2D.toImmutableVector2D().times( length ) );
             }
             lineTo( v.head().toImmutableVector2D().times( length ) );
@@ -196,7 +195,7 @@ public class Pattern {
         } );
 
         //Create an explicit outline to avoid creating kinks in the outline stroke
-        final ImmutableVector2D startPoint = createPolar( radius, Math.PI / 2 - triAngle / 2 );
+        final Vector2D startPoint = createPolar( radius, Math.PI / 2 - triAngle / 2 );
         DoubleGeneralPath outlinePath = new DoubleGeneralPath( startPoint );
         for ( int i = 0; i < numSides; i++ ) {
             outlinePath.lineTo( createPolar( radius, Math.PI / 2 - triAngle / 2 + i * triAngle ) );
@@ -210,10 +209,10 @@ public class Pattern {
         public static final Direction LEFT = new Direction( -1, 0 );
         public static final Direction DOWN = new Direction( 0, 1 );
         public static final Direction UP = new Direction( 0, -1 );
-        public final Vector2D vector;
+        public final edu.colorado.phet.fractions.common.util.immutable.Vector2D vector;
 
         public Direction( double x, double y ) {
-            this.vector = new Vector2D( x, y );
+            this.vector = new edu.colorado.phet.fractions.common.util.immutable.Vector2D( x, y );
         }
     }
 
@@ -268,7 +267,7 @@ public class Pattern {
     }
 
     //Equilateral triangle
-    private static Shape triangle( final double length, final Vector2D tip, final UnitVector2D direction ) {
+    private static Shape triangle( final double length, final edu.colorado.phet.fractions.common.util.immutable.Vector2D tip, final UnitVector2D direction ) {
         return new DoubleGeneralPath() {{
             moveTo( tip.toPoint2D() );
             lineTo( tip.plus( direction.rotate( toRadians( 90 + 60 ) ).times( length ) ).toPoint2D() );
@@ -299,23 +298,23 @@ public class Pattern {
         public static Pattern nine() { return nine( DEFAULT_SIZE / 3 ); }
 
         public static Pattern single( double length ) {
-            return new Pattern( List.single( triangle( length, new Vector2D( 0, 0 ), UP ) ) );
+            return new Pattern( List.single( triangle( length, new edu.colorado.phet.fractions.common.util.immutable.Vector2D( 0, 0 ), UP ) ) );
         }
 
         public static Pattern four( double length ) {
             final double h = getHeight( length );
-            return new Pattern( single( length * 2 ).outline, single( length ).shapes.append( list( triangle( length, new Vector2D( -length / 2, h ), UP ),
-                                                                                                    triangle( length, new Vector2D( 0, h * 2 ), DOWN ),
-                                                                                                    triangle( length, new Vector2D( length / 2, h ), UP ) ) ) );
+            return new Pattern( single( length * 2 ).outline, single( length ).shapes.append( list( triangle( length, new edu.colorado.phet.fractions.common.util.immutable.Vector2D( -length / 2, h ), UP ),
+                                                                                                    triangle( length, new edu.colorado.phet.fractions.common.util.immutable.Vector2D( 0, h * 2 ), DOWN ),
+                                                                                                    triangle( length, new edu.colorado.phet.fractions.common.util.immutable.Vector2D( length / 2, h ), UP ) ) ) );
         }
 
         public static Pattern nine( double length ) {
             final double h = getHeight( length );
-            return new Pattern( single( length * 3 ).outline, four( length ).shapes.append( list( triangle( length, new Vector2D( -length, h * 2 ), UP ),
-                                                                                                  triangle( length, new Vector2D( -length / 2, h * 3 ), DOWN ),
-                                                                                                  triangle( length, new Vector2D( 0, h * 2 ), UP ),
-                                                                                                  triangle( length, new Vector2D( length / 2, h * 3 ), DOWN ),
-                                                                                                  triangle( length, new Vector2D( length, h * 2 ), UP ) ) ) );
+            return new Pattern( single( length * 3 ).outline, four( length ).shapes.append( list( triangle( length, new edu.colorado.phet.fractions.common.util.immutable.Vector2D( -length, h * 2 ), UP ),
+                                                                                                  triangle( length, new edu.colorado.phet.fractions.common.util.immutable.Vector2D( -length / 2, h * 3 ), DOWN ),
+                                                                                                  triangle( length, new edu.colorado.phet.fractions.common.util.immutable.Vector2D( 0, h * 2 ), UP ),
+                                                                                                  triangle( length, new edu.colorado.phet.fractions.common.util.immutable.Vector2D( length / 2, h * 3 ), DOWN ),
+                                                                                                  triangle( length, new edu.colorado.phet.fractions.common.util.immutable.Vector2D( length, h * 2 ), UP ) ) ) );
         }
     }
 
@@ -340,14 +339,14 @@ public class Pattern {
         double r1 = 100 * s;
         double r2 = 65 * s;
         double cos = Math.abs( Math.cos( toDegrees( 45 ) ) );
-        final List<Vector2D> points = list( v( 0, -r1 ),
-                                            v( r2 * cos, -r2 * cos ),
-                                            v( r1, 0 ),
-                                            v( r2 * cos, r2 * cos ),
-                                            v( 0, r1 ),
-                                            v( -r2 * cos, r2 * cos ),
-                                            v( -r1, 0 ),
-                                            v( -r2 * cos, -r2 * cos ) );
+        final List<edu.colorado.phet.fractions.common.util.immutable.Vector2D> points = list( v( 0, -r1 ),
+                                                                                              v( r2 * cos, -r2 * cos ),
+                                                                                              v( r1, 0 ),
+                                                                                              v( r2 * cos, r2 * cos ),
+                                                                                              v( 0, r1 ),
+                                                                                              v( -r2 * cos, r2 * cos ),
+                                                                                              v( -r1, 0 ),
+                                                                                              v( -r2 * cos, -r2 * cos ) );
         final F<Integer, Shape> tinyTriangle = new F<Integer, Shape>() {
             @Override public Shape f( final Integer index ) {
                 return new DoubleGeneralPath( 0, 0 ) {{

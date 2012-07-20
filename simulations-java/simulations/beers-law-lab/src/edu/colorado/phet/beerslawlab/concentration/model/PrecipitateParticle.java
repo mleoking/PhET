@@ -1,7 +1,7 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.beerslawlab.concentration.model;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * One particle that makes up the precipitate that forms on the bottom of the beaker.
@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PrecipitateParticle extends SoluteParticle {
-    public PrecipitateParticle( Solute solute, ImmutableVector2D location, double orientation ) {
+    public PrecipitateParticle( Solute solute, Vector2D location, double orientation ) {
         super( solute.getParticleColor(), solute.particleSize, location, orientation );
     }
 }

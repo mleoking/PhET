@@ -1,12 +1,13 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.buildanatom.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Paint;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.buildanatom.model.SphericalParticle;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -66,7 +67,7 @@ public class SubatomicParticleNode extends PNode {
             @Override
             public void mouseDragged( PInputEvent event ) {
                 PDimension viewDelta = event.getDeltaRelativeTo( getParent() );
-                ImmutableVector2D modelDelta = mvt.viewToModelDelta( new ImmutableVector2D( viewDelta ) );
+                Vector2D modelDelta = mvt.viewToModelDelta( new Vector2D( viewDelta ) );
                 subatomicParticle.setPositionAndDestination(
                         subatomicParticle.getPosition().getX() + modelDelta.getX(),
                         subatomicParticle.getPosition().getY() + modelDelta.getY() );

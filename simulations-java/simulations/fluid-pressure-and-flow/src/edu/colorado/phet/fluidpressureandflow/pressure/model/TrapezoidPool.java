@@ -9,8 +9,8 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeBooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
@@ -87,7 +87,7 @@ public class TrapezoidPool implements FaucetPool {
         }};
     }
 
-    public Shape fromLines( final ImmutableVector2D... pts ) {
+    public Shape fromLines( final Vector2D... pts ) {
         if ( pts.length == 0 ) { return new Rectangle2D.Double( 0, 0, 0, 0 ); }
         return new DoubleGeneralPath( pts[0] ) {{
             for ( int i = 1; i < pts.length; i++ ) {
@@ -102,26 +102,26 @@ public class TrapezoidPool implements FaucetPool {
     }
 
     private Shape leftChamber() {
-        final ImmutableVector2D topLeft = topLeftOfLeftChamber();
-        final ImmutableVector2D topRight = topLeft.plus( widthAtTop, 0 );
-        final ImmutableVector2D bottomLeft = new ImmutableVector2D( centerAtLeftChamberOpening - widthAtBottom / 2, yAtTop - height );
-        final ImmutableVector2D bottomRight = bottomLeft.plus( widthAtBottom, 0 );
+        final Vector2D topLeft = topLeftOfLeftChamber();
+        final Vector2D topRight = topLeft.plus( widthAtTop, 0 );
+        final Vector2D bottomLeft = new Vector2D( centerAtLeftChamberOpening - widthAtBottom / 2, yAtTop - height );
+        final Vector2D bottomRight = bottomLeft.plus( widthAtBottom, 0 );
 
         return fromLines( topLeft, bottomLeft, bottomRight, topRight );
     }
 
-    private ImmutableVector2D topLeftOfLeftChamber() {return new ImmutableVector2D( centerAtLeftChamberOpening - widthAtTop / 2, yAtTop );}
+    private Vector2D topLeftOfLeftChamber() {return new Vector2D( centerAtLeftChamberOpening - widthAtTop / 2, yAtTop );}
 
     private Shape rightChamber() {
-        final ImmutableVector2D topLeft = getTopLeftOfRightChamber();
-        final ImmutableVector2D topRight = topLeft.plus( widthAtBottom, 0 );
-        final ImmutableVector2D bottomLeft = new ImmutableVector2D( centerAtLeftChamberOpening + separation - widthAtTop / 2, yAtTop - height );
-        final ImmutableVector2D bottomRight = bottomLeft.plus( widthAtTop, 0 );
+        final Vector2D topLeft = getTopLeftOfRightChamber();
+        final Vector2D topRight = topLeft.plus( widthAtBottom, 0 );
+        final Vector2D bottomLeft = new Vector2D( centerAtLeftChamberOpening + separation - widthAtTop / 2, yAtTop - height );
+        final Vector2D bottomRight = bottomLeft.plus( widthAtTop, 0 );
 
         return fromLines( topLeft, bottomLeft, bottomRight, topRight );
     }
 
-    private ImmutableVector2D getTopLeftOfRightChamber() {return new ImmutableVector2D( centerAtLeftChamberOpening + separation - widthAtBottom / 2, yAtTop );}
+    private Vector2D getTopLeftOfRightChamber() {return new Vector2D( centerAtLeftChamberOpening + separation - widthAtBottom / 2, yAtTop );}
 
     public double getHeight() {
         return getContainerShape().getBounds2D().getHeight();
@@ -171,7 +171,7 @@ public class TrapezoidPool implements FaucetPool {
         waterVolume.addObserver( updatePressure );
     }
 
-    public boolean isAbbreviatedUnits( final ImmutableVector2D sensorPosition, final double value ) {
+    public boolean isAbbreviatedUnits( final Vector2D sensorPosition, final double value ) {
         return getWaterShape().get().contains( sensorPosition.getX(), sensorPosition.getY() );
     }
 
@@ -183,34 +183,34 @@ public class TrapezoidPool implements FaucetPool {
         }};
     }
 
-    public ArrayList<ArrayList<ImmutableVector2D>> getEdges() {
+    public ArrayList<ArrayList<Vector2D>> getEdges() {
 
         //Left chamber
-        final ImmutableVector2D topLeftA = topLeftOfLeftChamber();
-        final ImmutableVector2D topRightA = topLeftA.plus( widthAtTop, 0 );
-        final ImmutableVector2D bottomLeftA = new ImmutableVector2D( centerAtLeftChamberOpening - widthAtBottom / 2, yAtTop - height );
-        final ImmutableVector2D bottomRightA = bottomLeftA.plus( widthAtBottom, 0 );
+        final Vector2D topLeftA = topLeftOfLeftChamber();
+        final Vector2D topRightA = topLeftA.plus( widthAtTop, 0 );
+        final Vector2D bottomLeftA = new Vector2D( centerAtLeftChamberOpening - widthAtBottom / 2, yAtTop - height );
+        final Vector2D bottomRightA = bottomLeftA.plus( widthAtBottom, 0 );
 
-        final ImmutableVector2D topLeftB = getTopLeftOfRightChamber();
-        final ImmutableVector2D topRightB = topLeftB.plus( widthAtBottom, 0 );
-        final ImmutableVector2D bottomLeftB = new ImmutableVector2D( centerAtLeftChamberOpening + separation - widthAtTop / 2, yAtTop - height );
-        final ImmutableVector2D bottomRightB = bottomLeftB.plus( widthAtTop, 0 );
+        final Vector2D topLeftB = getTopLeftOfRightChamber();
+        final Vector2D topRightB = topLeftB.plus( widthAtBottom, 0 );
+        final Vector2D bottomLeftB = new Vector2D( centerAtLeftChamberOpening + separation - widthAtTop / 2, yAtTop - height );
+        final Vector2D bottomRightB = bottomLeftB.plus( widthAtTop, 0 );
 
         final Point2D.Double leftIntersection = MathUtil.getLineSegmentsIntersection( new Line2D.Double( topRightA.toPoint2D(), bottomRightA.toPoint2D() ),
                                                                                       new Line2D.Double( new Point2D.Double( passage().getX(), passage().getMaxY() ), new Point2D.Double( passage().getMaxX(), passage().getMaxY() ) ) );
         final Point2D.Double rightIntersection = MathUtil.getLineSegmentsIntersection( new Line2D.Double( topLeftB.toPoint2D(), bottomLeftB.toPoint2D() ),
                                                                                        new Line2D.Double( new Point2D.Double( passage().getX(), passage().getMaxY() ), new Point2D.Double( passage().getMaxX(), passage().getMaxY() ) ) );
-        return new ArrayList<ArrayList<ImmutableVector2D>>() {{
-            add( new ArrayList<ImmutableVector2D>() {{
+        return new ArrayList<ArrayList<Vector2D>>() {{
+            add( new ArrayList<Vector2D>() {{
                 addAll( Arrays.asList( topLeftA,
                                        bottomLeftA,
                                        bottomRightB,
                                        topRightB ) );
             }} );
-            add( new ArrayList<ImmutableVector2D>() {{
+            add( new ArrayList<Vector2D>() {{
                 addAll( Arrays.asList( topRightA,
-                                       new ImmutableVector2D( leftIntersection ),
-                                       new ImmutableVector2D( rightIntersection ),
+                                       new Vector2D( leftIntersection ),
+                                       new Vector2D( rightIntersection ),
                                        topLeftB ) );
             }} );
         }};

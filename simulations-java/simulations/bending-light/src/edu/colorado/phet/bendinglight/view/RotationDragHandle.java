@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.view;
 
 import java.awt.BasicStroke;
@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.bendinglight.BendingLightApplication;
 import edu.colorado.phet.bendinglight.model.Laser;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.And;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
@@ -23,7 +23,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.createPolar;
+import static edu.colorado.phet.common.phetcommon.math.Vector2D.createPolar;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.flipX;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.flipY;
 import static java.lang.Math.toDegrees;
@@ -69,8 +69,8 @@ public class RotationDragHandle extends PNode {
 
                     //Curve to the tail and tip
                     double EPSILON = 0.1;
-                    ImmutableVector2D arrowTail = new ImmutableVector2D( viewOrigin ).plus( createPolar( distance, toRadians( -laserAngleInDegrees - deltaAngleDegrees * ( 1 - EPSILON ) ) ) );
-                    ImmutableVector2D arrowTip = new ImmutableVector2D( viewOrigin ).plus( createPolar( distance, toRadians( -laserAngleInDegrees - deltaAngleDegrees * 1.1 ) ) );
+                    Vector2D arrowTail = new Vector2D( viewOrigin ).plus( createPolar( distance, toRadians( -laserAngleInDegrees - deltaAngleDegrees * ( 1 - EPSILON ) ) ) );
+                    Vector2D arrowTip = new Vector2D( viewOrigin ).plus( createPolar( distance, toRadians( -laserAngleInDegrees - deltaAngleDegrees * 1.1 ) ) );
 
                     //Draw the arrowhead
                     final Shape arrowHead = new Arrow( arrowTail.toPoint2D(), arrowTip.toPoint2D(), 20, 20, 0, 1.0, false ).getShape();

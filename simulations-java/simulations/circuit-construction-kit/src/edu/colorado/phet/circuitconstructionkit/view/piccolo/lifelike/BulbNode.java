@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike;
 
 import java.awt.BasicStroke;
@@ -13,7 +13,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.circuitconstructionkit.model.components.Bulb;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
@@ -229,8 +229,8 @@ public class BulbNode extends PhetPNode {
         double minStrokeWidth = .5;
         double strokeWidth = minStrokeWidth + intensity * maxStrokeWidth;
         for ( int i = 0; i < numBrighties; i++ ) {
-            ImmutableVector2D vec = ImmutableVector2D.createPolar( distance0, angle );
-            ImmutableVector2D vec1 = ImmutableVector2D.createPolar( distance + distance0, angle );
+            Vector2D vec = Vector2D.createPolar( distance0, angle );
+            Vector2D vec1 = Vector2D.createPolar( distance + distance0, angle );
 
             Point2D end = vec.getDestination( origin );
             Point2D end2 = vec1.getDestination( origin );

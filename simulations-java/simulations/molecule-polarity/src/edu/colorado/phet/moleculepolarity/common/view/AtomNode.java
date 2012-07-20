@@ -1,9 +1,9 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.moleculepolarity.common.view;
 
 import java.awt.Font;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ShadedSphereNode;
@@ -36,8 +36,8 @@ public class AtomNode extends PComposite {
         }} );
 
         // change offset when atom moves
-        atom.location.addObserver( new VoidFunction1<ImmutableVector2D>() {
-            public void apply( ImmutableVector2D location ) {
+        atom.location.addObserver( new VoidFunction1<Vector2D>() {
+            public void apply( Vector2D location ) {
                 setOffset( location.toPoint2D() );
             }
         } );

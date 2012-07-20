@@ -11,8 +11,8 @@ import java.awt.Point;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.piccolophet.nodes.BoundNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -105,7 +105,7 @@ public class ForceArrowGraphic extends PNode {
     }
 
     public void update() {
-        ImmutableVector2D force = new ImmutableVector2D( forceComponent.getForce() );
+        Vector2D force = new Vector2D( forceComponent.getForce() );
         force = force.getScaledInstance( RampModule.FORCE_LENGTH_SCALE );
         if ( force.getMagnitude() <= THRESHOLD ) {
             setVisible( false );
@@ -138,7 +138,7 @@ public class ForceArrowGraphic extends PNode {
         if ( this.lastArrow == null || !this.lastArrow.equals( forceArrow ) ) {
             shapeGraphic.setPathTo( forceArrowShape );
 
-            ImmutableVector2D dstVector = force.getInstanceOfMagnitude( force.getMagnitude() + textOffset );
+            Vector2D dstVector = force.getInstanceOfMagnitude( force.getMagnitude() + textOffset );
             Point2D dest = dstVector.getDestination( arrowTail );
             textGraphic.setOffset( dest.getX() - textGraphic.getFullBounds().getWidth() / 2, dest.getY() - textGraphic.getFullBounds().getHeight() / 2 );
         }
@@ -147,7 +147,7 @@ public class ForceArrowGraphic extends PNode {
 
     private Point2D offsetTail( Point2D tail ) {
         double viewAngle = blockGraphic.getCurrentSurfaceGraphic().getViewAngle();
-        ImmutableVector2D v = MutableVector2D.createPolar( verticalOffset, viewAngle );
+        Vector2D v = MutableVector2D.createPolar( verticalOffset, viewAngle );
         v = v.getNormalVector();
         return v.getDestination( tail );
     }

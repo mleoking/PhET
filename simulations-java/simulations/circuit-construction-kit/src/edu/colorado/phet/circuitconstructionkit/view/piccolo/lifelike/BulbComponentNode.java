@@ -1,11 +1,12 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike;
 
-import java.awt.*;
+import java.awt.BasicStroke;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -14,7 +15,7 @@ import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.analysis.CircuitSolutionListener;
 import edu.colorado.phet.circuitconstructionkit.model.components.Bulb;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.ComponentNode;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 
@@ -114,7 +115,7 @@ public class BulbComponentNode extends ComponentNode {
         Point2D endpt = bulb.getEndPoint();
         AffineTransform transform = new AffineTransform();
 
-        double angle = new ImmutableVector2D( srcpt, endpt ).getAngle() + 0.3 + theta;
+        double angle = new Vector2D( srcpt, endpt ).getAngle() + 0.3 + theta;
         transform.rotate( angle, srcpt.getX(), srcpt.getY() );
         transform.translate( srcpt.getX(), srcpt.getY() );
         transform.scale( 0.74 * SCALE, 0.79 * SCALE * 1.15 );

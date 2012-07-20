@@ -1,7 +1,7 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Crystal;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Formula;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
@@ -20,7 +20,7 @@ public class SodiumNitrateCrystal extends Crystal<Particle> {
     //Therefore we bring the outer O's closer to the N so there is some overlap.
     public static final double NITROGEN_OXYGEN_SPACING = ( new Nitrogen().radius + new FreeOxygen().radius ) * 0.85;
 
-    public SodiumNitrateCrystal( ImmutableVector2D position, double angle ) {
+    public SodiumNitrateCrystal( Vector2D position, double angle ) {
         super( Formula.SODIUM_NITRATE, position, new Sodium().radius * 2 + NITROGEN_OXYGEN_SPACING, angle );
     }
 

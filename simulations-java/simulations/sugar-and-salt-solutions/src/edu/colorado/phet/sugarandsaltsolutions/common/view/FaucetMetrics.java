@@ -1,9 +1,9 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.common.view;
 
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.faucet.FaucetNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
@@ -17,10 +17,10 @@ import edu.umd.cs.piccolo.PNode;
 public class FaucetMetrics {
 
     //Location where particles enter the drain faucet
-    private final ImmutableVector2D inputPoint;
+    private final Vector2D inputPoint;
 
     //Location where particles leave the drain faucet
-    public final ImmutableVector2D outputPoint;
+    public final Vector2D outputPoint;
 
     //The main model is used to obtain the bounds for the solution
     private final SugarAndSaltSolutionModel model;
@@ -31,13 +31,13 @@ public class FaucetMetrics {
     //Creates a FaucetMetrics given the faucet node and root node
     public FaucetMetrics( ModelViewTransform transform, SugarAndSaltSolutionModel model, PNode rootNode, FaucetNode faucetNode ) {
         this( model,
-              transform.viewToModel( new ImmutableVector2D( rootNode.globalToLocal( faucetNode.getGlobalInputCenter() ) ) ),
-              transform.viewToModel( new ImmutableVector2D( rootNode.globalToLocal( faucetNode.getGlobalOutputCenter() ) ) ),
+              transform.viewToModel( new Vector2D( rootNode.globalToLocal( faucetNode.getGlobalInputCenter() ) ) ),
+              transform.viewToModel( new Vector2D( rootNode.globalToLocal( faucetNode.getGlobalOutputCenter() ) ) ),
               transform.viewToModelDeltaX( rootNode.globalToLocal( faucetNode.getGlobalOutputSize() ).getWidth() ) );
     }
 
     //Creates a FaucetMetrics with the previously computed positions
-    public FaucetMetrics( SugarAndSaltSolutionModel model, ImmutableVector2D inputPoint, ImmutableVector2D outputPoint, double faucetWidth ) {
+    public FaucetMetrics( SugarAndSaltSolutionModel model, Vector2D inputPoint, Vector2D outputPoint, double faucetWidth ) {
         this.inputPoint = inputPoint;
         this.outputPoint = outputPoint;
         this.model = model;
@@ -46,18 +46,18 @@ public class FaucetMetrics {
 
     //If the center of the drain pipe input is above the water, move the target input point to be within the drain pipe, but at the surface of the water
     //This is so that solutes can continue flowing out as long as water is flowing out
-    public ImmutableVector2D getInputPoint() {
+    public Vector2D getInputPoint() {
         Rectangle2D solutionShapeBounds = model.solution.shape.get().getBounds2D();
         if ( solutionShapeBounds.getBounds2D().getMinY() < inputPoint.toPoint2D().getY() && inputPoint.toPoint2D().getY() < solutionShapeBounds.getBounds2D().getMaxY() ) {
             return inputPoint;
         }
         else {
-            return new ImmutableVector2D( inputPoint.getX(), solutionShapeBounds.getMaxY() );
+            return new Vector2D( inputPoint.getX(), solutionShapeBounds.getMaxY() );
         }
     }
 
     //Copies this FaucetMetrics but with the substituted inputX value to ensure output drain input point is within the fluid so particles can reach it
     public FaucetMetrics clampInputWithinFluid( double inputX ) {
-        return new FaucetMetrics( model, new ImmutableVector2D( inputX, inputPoint.getY() ), outputPoint, faucetWidth );
+        return new FaucetMetrics( model, new Vector2D( inputX, inputPoint.getY() ), outputPoint, faucetWidth );
     }
 }

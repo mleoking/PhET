@@ -7,7 +7,7 @@ import java.awt.Rectangle;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
@@ -50,7 +50,7 @@ public class OffscreenPointerGraphic extends GraphicLayerSet {
 
                     Point2D.Double source = new Point2D.Double( textGraphic.getWidth() / 2, yRel );
                     Point2D.Double dst = new Point2D.Double( source.getX() + x, yRel );
-                    ImmutableVector2D arrowVector = new ImmutableVector2D( source, dst );
+                    Vector2D arrowVector = new Vector2D( source, dst );
                     int maxArrowLength = textGraphic.getWidth() / 2;
                     if ( arrowVector.getMagnitude() > maxArrowLength ) {
                         arrowVector = arrowVector.getInstanceOfMagnitude( maxArrowLength );

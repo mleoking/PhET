@@ -4,8 +4,8 @@ package edu.colorado.phet.energyformsandchanges.energysystems.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
@@ -31,10 +31,10 @@ public class Carousel<T extends PositionableModelElement> {
     //-------------------------------------------------------------------------
 
     // The position in model space where the currently selected element should be.
-    private final ImmutableVector2D selectedElementPosition;
+    private final Vector2D selectedElementPosition;
 
     // Offset between elements in the carousel.
-    private final ImmutableVector2D offsetBetweenElements;
+    private final Vector2D offsetBetweenElements;
 
     // List of the elements whose position is managed by this carousel.
     private final List<T> managedElements = new ArrayList<T>();
@@ -44,14 +44,14 @@ public class Carousel<T extends PositionableModelElement> {
     public Property<Integer> targetIndex = new Property<Integer>( 0 );
 
     private double elapsedTransitionTime = 0;
-    private ImmutableVector2D currentCarouselOffset = new ImmutableVector2D( 0, 0 );
-    private ImmutableVector2D carouselOffsetWhenTransitionStarted = new ImmutableVector2D( 0, 0 );
+    private Vector2D currentCarouselOffset = new Vector2D( 0, 0 );
+    private Vector2D carouselOffsetWhenTransitionStarted = new Vector2D( 0, 0 );
 
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    public Carousel( ImmutableVector2D selectedElementPosition, ImmutableVector2D offsetBetweenElements ) {
+    public Carousel( Vector2D selectedElementPosition, Vector2D offsetBetweenElements ) {
         this.selectedElementPosition = selectedElementPosition;
         this.offsetBetweenElements = offsetBetweenElements;
 
@@ -98,7 +98,7 @@ public class Carousel<T extends PositionableModelElement> {
         }
     }
 
-    public ImmutableVector2D getSelectedElementPosition() {
+    public Vector2D getSelectedElementPosition() {
         return selectedElementPosition;
     }
 
@@ -108,8 +108,8 @@ public class Carousel<T extends PositionableModelElement> {
     public void stepInTime( double dt ) {
         if ( !atTargetPosition() ) {
             elapsedTransitionTime += dt;
-            ImmutableVector2D targetCarouselOffset = offsetBetweenElements.getScaledInstance( -targetIndex.get() );
-            ImmutableVector2D totalTravelVector = targetCarouselOffset.minus( carouselOffsetWhenTransitionStarted );
+            Vector2D targetCarouselOffset = offsetBetweenElements.getScaledInstance( -targetIndex.get() );
+            Vector2D totalTravelVector = targetCarouselOffset.minus( carouselOffsetWhenTransitionStarted );
             double proportionOfTimeElapsed = MathUtil.clamp( 0, elapsedTransitionTime / TRANSITION_DURATION, 1 );
             currentCarouselOffset = carouselOffsetWhenTransitionStarted.plus( totalTravelVector.getScaledInstance( computeSlowInSlowOut( proportionOfTimeElapsed ) ) );
             updateManagedElementPositions();
@@ -126,7 +126,7 @@ public class Carousel<T extends PositionableModelElement> {
     }
 
     private boolean atTargetPosition() {
-        ImmutableVector2D targetCarouselOffset = new ImmutableVector2D( offsetBetweenElements.getScaledInstance( -targetIndex.get() ) );
+        Vector2D targetCarouselOffset = new Vector2D( offsetBetweenElements.getScaledInstance( -targetIndex.get() ) );
         return currentCarouselOffset.equals( targetCarouselOffset );
     }
 

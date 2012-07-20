@@ -3,8 +3,8 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
@@ -33,7 +33,7 @@ public final class EnergyChunkWanderController {
     //-------------------------------------------------------------------------
 
     private final EnergyChunk energyChunk;
-    private final Property<ImmutableVector2D> destination;
+    private final Property<Vector2D> destination;
     private final MutableVector2D velocity = new MutableVector2D( 0, MAX_VELOCITY );
     private double countdownTimer = 0;
 
@@ -41,11 +41,11 @@ public final class EnergyChunkWanderController {
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    public EnergyChunkWanderController( EnergyChunk energyChunk, ImmutableVector2D destination ) {
-        this( energyChunk, new Property<ImmutableVector2D>( destination ) );
+    public EnergyChunkWanderController( EnergyChunk energyChunk, Vector2D destination ) {
+        this( energyChunk, new Property<Vector2D>( destination ) );
     }
 
-    public EnergyChunkWanderController( EnergyChunk energyChunk, Property<ImmutableVector2D> destination ) {
+    public EnergyChunkWanderController( EnergyChunk energyChunk, Property<Vector2D> destination ) {
         this.energyChunk = energyChunk;
         this.destination = destination;
         resetCountdownTimer();
@@ -79,7 +79,7 @@ public final class EnergyChunkWanderController {
     }
 
     private void changeVelocityVector() {
-        ImmutableVector2D vectorToDestination = destination.get().getSubtractedInstance( energyChunk.position.get() );
+        Vector2D vectorToDestination = destination.get().getSubtractedInstance( energyChunk.position.get() );
         double angle = vectorToDestination.getAngle();
         if ( vectorToDestination.getMagnitude() > DISTANCE_AT_WHICH_TO_STOP_WANDERING ) {
             // Add some randomness to the direction of travel.
@@ -97,7 +97,7 @@ public final class EnergyChunkWanderController {
         return energyChunk;
     }
 
-    public ImmutableVector2D getDestination() {
+    public Vector2D getDestination() {
         return destination.get();
     }
 }

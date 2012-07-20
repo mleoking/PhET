@@ -6,7 +6,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -48,7 +48,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
      *
      * @param clock
      */
-    public RectangularThermalMovableModelElement( ConstantDtClock clock, ImmutableVector2D initialPosition, double width, double height, double mass, double specificHeat, BooleanProperty energyChunksVisible ) {
+    public RectangularThermalMovableModelElement( ConstantDtClock clock, Vector2D initialPosition, double width, double height, double mass, double specificHeat, BooleanProperty energyChunksVisible ) {
         super( initialPosition );
         this.clock = clock;
         this.mass = mass;
@@ -187,7 +187,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
      * @param point
      * @return
      */
-    public EnergyChunk extractClosestEnergyChunk( ImmutableVector2D point ) {
+    public EnergyChunk extractClosestEnergyChunk( Vector2D point ) {
         EnergyChunk closestEnergyChunk = null;
         double closestCompensatedDistance = Double.POSITIVE_INFINITY;
 
@@ -196,7 +196,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
             for ( EnergyChunk ec : slice.energyChunkList ) {
                 // Compensate for the Z offset.  Otherwise front chunk will
                 // almost always be chosen.
-                ImmutableVector2D compensatedEcPosition = ec.position.get().getSubtractedInstance( 0, EFACConstants.Z_TO_Y_OFFSET_MULTIPLIER * ec.zPosition.get() );
+                Vector2D compensatedEcPosition = ec.position.get().getSubtractedInstance( 0, EFACConstants.Z_TO_Y_OFFSET_MULTIPLIER * ec.zPosition.get() );
                 double compensatedDistance = compensatedEcPosition.distance( point );
                 if ( compensatedDistance < closestCompensatedDistance ) {
                     closestEnergyChunk = ec;
@@ -253,7 +253,7 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
         }
         else {
             // There is no or limited overlap, so use center points.
-            chunkToExtract = extractClosestEnergyChunk( new ImmutableVector2D( destinationShape.getBounds2D().getCenterX(), destinationShape.getBounds2D().getCenterY() ) );
+            chunkToExtract = extractClosestEnergyChunk( new Vector2D( destinationShape.getBounds2D().getCenterX(), destinationShape.getBounds2D().getCenterY() ) );
         }
 
         // Fail safe - If nothing found, get the first chunk.
@@ -344,23 +344,23 @@ public abstract class RectangularThermalMovableModelElement extends UserMovableM
     public Shape getProjectedShape() {
         // TODO: Do I need the internal lines?  Assuming not for now, but this may change.
         // This projects a rectangle, override for other behavior.
-        ImmutableVector2D forwardPerspectiveOffset = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( Block.SURFACE_WIDTH / 2 );
-        ImmutableVector2D backwardPerspectiveOffset = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( -Block.SURFACE_WIDTH / 2 );
+        Vector2D forwardPerspectiveOffset = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( Block.SURFACE_WIDTH / 2 );
+        Vector2D backwardPerspectiveOffset = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( -Block.SURFACE_WIDTH / 2 );
 
         DoubleGeneralPath path = new DoubleGeneralPath();
         Rectangle2D rect = getRect();
-        path.moveTo( new ImmutableVector2D( rect.getX(), rect.getY() ).getAddedInstance( forwardPerspectiveOffset ) );
-        path.lineTo( new ImmutableVector2D( rect.getMaxX(), rect.getY() ).getAddedInstance( forwardPerspectiveOffset ) );
-        path.lineTo( new ImmutableVector2D( rect.getMaxX(), rect.getY() ).getAddedInstance( backwardPerspectiveOffset ) );
-        path.lineTo( new ImmutableVector2D( rect.getMaxX(), rect.getMaxY() ).getAddedInstance( backwardPerspectiveOffset ) );
-        path.lineTo( new ImmutableVector2D( rect.getMinX(), rect.getMaxY() ).getAddedInstance( backwardPerspectiveOffset ) );
-        path.lineTo( new ImmutableVector2D( rect.getMinX(), rect.getMaxY() ).getAddedInstance( forwardPerspectiveOffset ) );
+        path.moveTo( new Vector2D( rect.getX(), rect.getY() ).getAddedInstance( forwardPerspectiveOffset ) );
+        path.lineTo( new Vector2D( rect.getMaxX(), rect.getY() ).getAddedInstance( forwardPerspectiveOffset ) );
+        path.lineTo( new Vector2D( rect.getMaxX(), rect.getY() ).getAddedInstance( backwardPerspectiveOffset ) );
+        path.lineTo( new Vector2D( rect.getMaxX(), rect.getMaxY() ).getAddedInstance( backwardPerspectiveOffset ) );
+        path.lineTo( new Vector2D( rect.getMinX(), rect.getMaxY() ).getAddedInstance( backwardPerspectiveOffset ) );
+        path.lineTo( new Vector2D( rect.getMinX(), rect.getMaxY() ).getAddedInstance( forwardPerspectiveOffset ) );
         path.closePath();
         return path.getGeneralPath();
     }
 
-    public ImmutableVector2D getCenterPoint() {
-        return new ImmutableVector2D( position.get().getX(), position.get().getY() + height / 2 );
+    public Vector2D getCenterPoint() {
+        return new Vector2D( position.get().getX(), position.get().getY() + height / 2 );
     }
 
     /**

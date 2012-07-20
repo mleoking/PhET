@@ -8,8 +8,8 @@ import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
@@ -66,7 +66,7 @@ public class PointToolNode extends PhetPNode {
             @Override public void update() {
 
                 // move to location
-                ImmutableVector2D location = pointTool.location.get();
+                Vector2D location = pointTool.location.get();
                 setOffset( mvt.modelToView( location ).toPoint2D() );
 
                 // display value and highlighting
@@ -101,7 +101,7 @@ public class PointToolNode extends PhetPNode {
      * This constructor creates a node that is independent of the model.
      * This was needed so that we could easily generate images of the point tool, for inclusion in the game reward.
      */
-    public PointToolNode( ImmutableVector2D point, Color background ) {
+    public PointToolNode( Vector2D point, Color background ) {
 
         // tool body
         bodyNode = new PImage( Images.POINT_TOOL );
@@ -129,7 +129,7 @@ public class PointToolNode extends PhetPNode {
     }
 
     // Sets the displayed value to a point
-    private void setCoordinates( ImmutableVector2D point ) {
+    private void setCoordinates( Vector2D point ) {
         setCoordinates( MessageFormat.format( Strings.POINT_XY, COORDINATES_FORMAT.format( point.getX() ), COORDINATES_FORMAT.format( point.getY() ) ) );
     }
 
@@ -138,7 +138,7 @@ public class PointToolNode extends PhetPNode {
         valueNode.setText( s );
         // horizontally centered
         valueNode.setOffset( bodyNode.getFullBoundsReference().getCenterX() - ( valueNode.getFullBoundsReference().getWidth() / 2 ),
-                                   bodyNode.getFullBoundsReference().getMinY() + COORDINATES_Y_CENTER - ( valueNode.getFullBoundsReference().getHeight() / 2 ) );
+                             bodyNode.getFullBoundsReference().getMinY() + COORDINATES_Y_CENTER - ( valueNode.getFullBoundsReference().getHeight() / 2 ) );
     }
 
     // Sets the foreground, the color of the displayed value
@@ -155,13 +155,13 @@ public class PointToolNode extends PhetPNode {
     private static class PointToolDragHandler extends SimSharingDragHandler {
 
         private final PNode dragNode;
-        private final Property<ImmutableVector2D> point;
+        private final Property<Vector2D> point;
         private final ModelViewTransform mvt;
         private final Graph graph;
         private final Rectangle2D dragBounds; // drag bounds, in view coordinate frame
         private double clickXOffset, clickYOffset; // offset of mouse click from dragNode's origin, in parent's coordinate frame
 
-        public PointToolDragHandler( PNode dragNode, Property<ImmutableVector2D> point, ModelViewTransform mvt, Graph graph, Rectangle2D dragBounds ) {
+        public PointToolDragHandler( PNode dragNode, Property<Vector2D> point, ModelViewTransform mvt, Graph graph, Rectangle2D dragBounds ) {
             super( UserComponents.pointTool, UserComponentTypes.sprite, true );
             this.dragNode = dragNode;
             this.point = point;
@@ -184,12 +184,12 @@ public class PointToolNode extends PhetPNode {
             Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
             final double viewX = pMouse.getX() - clickXOffset;
             final double viewY = pMouse.getY() - clickYOffset;
-            ImmutableVector2D pView = constrainToBounds( viewX, viewY );
+            Vector2D pView = constrainToBounds( viewX, viewY );
             point.set( mvt.viewToModel( pView ) );
-            ImmutableVector2D pModel = mvt.viewToModel( pView );
+            Vector2D pModel = mvt.viewToModel( pView );
             if ( graph.contains( point.get() ) ) {
                 // snap to the grid
-                point.set( new ImmutableVector2D( MathUtil.roundHalfUp( pModel.getX() ), MathUtil.roundHalfUp( pModel.getY() ) ) );
+                point.set( new Vector2D( MathUtil.roundHalfUp( pModel.getX() ), MathUtil.roundHalfUp( pModel.getY() ) ) );
             }
             else {
                 point.set( pModel );
@@ -208,9 +208,9 @@ public class PointToolNode extends PhetPNode {
          * Constrains xy view coordinates to be within some view bounds.
          * Assumes the origin is at the bottom center of the drag node.
          */
-        private ImmutableVector2D constrainToBounds( double x, double y ) {
-            return new ImmutableVector2D( Math.max( dragBounds.getMinX() + ( dragNode.getFullBoundsReference().getWidth() / 2 ), Math.min( dragBounds.getMaxX() - ( dragNode.getFullBoundsReference().getWidth() / 2 ), x ) ),
-                                          Math.max( dragBounds.getMinY() + dragNode.getFullBoundsReference().getHeight(), Math.min( dragBounds.getMaxY(), y ) ) );
+        private Vector2D constrainToBounds( double x, double y ) {
+            return new Vector2D( Math.max( dragBounds.getMinX() + ( dragNode.getFullBoundsReference().getWidth() / 2 ), Math.min( dragBounds.getMaxX() - ( dragNode.getFullBoundsReference().getWidth() / 2 ), x ) ),
+                                 Math.max( dragBounds.getMinY() + dragNode.getFullBoundsReference().getHeight(), Math.min( dragBounds.getMaxY(), y ) ) );
         }
     }
 }

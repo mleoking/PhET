@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.flow.model;
 
 import java.awt.Shape;
@@ -8,8 +8,8 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -308,7 +308,7 @@ public class Pipe {
     }
 
     //Get the velocity at the specified point, does not account for vertical effects or friction.
-    private ImmutableVector2D getVelocity( double x, double y ) {
+    private Vector2D getVelocity( double x, double y ) {
         double fraction = getFractionToTop( x, y );
         double speed = getSpeed( x );
 
@@ -321,15 +321,15 @@ public class Pipe {
         double x1 = post.getX();
         double y1 = new Function.LinearFunction( 0, 1, post.getBottom().getY(), post.getTop().getY() ).evaluate( fraction );
 
-        ImmutableVector2D vector2D = new ImmutableVector2D( new Point2D.Double( x0, y0 ), new Point2D.Double( x1, y1 ) );
+        Vector2D vector2D = new Vector2D( new Point2D.Double( x0, y0 ), new Point2D.Double( x1, y1 ) );
         return vector2D.getInstanceOfMagnitude( speed );
     }
 
     //Gets the x-velocity of a particle, incorporating vertical effects.
     //If this effect is ignored, then when there is a large slope in the pipe, particles closer to the edge move much faster (which is physically incorrect).
     public double getTweakedVx( double x, double y ) {
-        ImmutableVector2D velocity = getVelocity( x, y );
-        ImmutableVector2D xVelocity = new ImmutableVector2D( velocity.getX(), 0 );
+        Vector2D velocity = getVelocity( x, y );
+        Vector2D xVelocity = new Vector2D( velocity.getX(), 0 );
         double vx = getSpeed( x ) / ( velocity.getMagnitude() / xVelocity.getMagnitude() );
 
         //If friction is enabled, then scale down quadratically (like a parabola) as you get further from the center of the pipe.
@@ -346,13 +346,13 @@ public class Pipe {
         }
     }
 
-    public ImmutableVector2D getTweakedVelocity( double x, double y ) {
-        return new ImmutableVector2D( getTweakedVx( x, y ), getVelocity( x, y ).getY() );
+    public Vector2D getTweakedVelocity( double x, double y ) {
+        return new Vector2D( getTweakedVx( x, y ), getVelocity( x, y ).getY() );
     }
 
     //Get the point at the specified location, where x is in meters and fractionToTop is in (0,1)
-    public ImmutableVector2D getPoint( double x, double fractionToTop ) {
-        return new ImmutableVector2D( x, fractionToLocation( x, fractionToTop ) );
+    public Vector2D getPoint( double x, double fractionToTop ) {
+        return new Vector2D( x, fractionToLocation( x, fractionToTop ) );
     }
 
     //Compute the circular cross sectional area (in meters squared) at the specified location

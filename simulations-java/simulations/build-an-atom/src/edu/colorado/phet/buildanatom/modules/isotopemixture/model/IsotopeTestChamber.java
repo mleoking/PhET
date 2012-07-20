@@ -11,8 +11,8 @@ import java.util.Map;
 import java.util.Random;
 
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -370,19 +370,19 @@ public class IsotopeTestChamber {
                 // chamber.
                 if ( isotope1.getPosition().getX() + isotope1.getRadius() >= TEST_CHAMBER_RECT.getMaxX() ) {
                     double distanceFromRightWall = TEST_CHAMBER_RECT.getMaxX() - isotope1.getPosition().getX();
-                    totalForce.add( new ImmutableVector2D( -wallForceConst / ( distanceFromRightWall * distanceFromRightWall ), 0 ) );
+                    totalForce.add( new Vector2D( -wallForceConst / ( distanceFromRightWall * distanceFromRightWall ), 0 ) );
                 }
                 else if ( isotope1.getPosition().getX() - isotope1.getRadius() <= TEST_CHAMBER_RECT.getMinX() ) {
                     double distanceFromLeftWall = isotope1.getPosition().getX() - TEST_CHAMBER_RECT.getMinX();
-                    totalForce.add( new ImmutableVector2D( wallForceConst / ( distanceFromLeftWall * distanceFromLeftWall ), 0 ) );
+                    totalForce.add( new Vector2D( wallForceConst / ( distanceFromLeftWall * distanceFromLeftWall ), 0 ) );
                 }
                 if ( isotope1.getPosition().getY() + isotope1.getRadius() >= TEST_CHAMBER_RECT.getMaxY() ) {
                     double distanceFromTopWall = TEST_CHAMBER_RECT.getMaxY() - isotope1.getPosition().getY();
-                    totalForce.add( new ImmutableVector2D( 0, -wallForceConst / ( distanceFromTopWall * distanceFromTopWall ) ) );
+                    totalForce.add( new Vector2D( 0, -wallForceConst / ( distanceFromTopWall * distanceFromTopWall ) ) );
                 }
                 else if ( isotope1.getPosition().getY() - isotope1.getRadius() <= TEST_CHAMBER_RECT.getMinY() ) {
                     double distanceFromBottomWall = isotope1.getPosition().getY() - TEST_CHAMBER_RECT.getMinY();
-                    totalForce.add( new ImmutableVector2D( 0, wallForceConst / ( distanceFromBottomWall * distanceFromBottomWall ) ) );
+                    totalForce.add( new Vector2D( 0, wallForceConst / ( distanceFromBottomWall * distanceFromBottomWall ) ) );
                 }
 
                 // Put the calculated repulsive force into the map.

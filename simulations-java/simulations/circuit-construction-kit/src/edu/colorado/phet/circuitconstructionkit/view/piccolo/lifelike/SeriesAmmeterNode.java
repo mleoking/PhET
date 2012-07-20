@@ -23,8 +23,8 @@ import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponen
 import edu.colorado.phet.circuitconstructionkit.model.components.SeriesAmmeter;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.ComponentNode;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.LineSegment;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -115,7 +115,7 @@ public class SeriesAmmeterNode extends ComponentNode {
         blackGraphic.setPathTo( shape );
 
         MutableVector2D dir = new MutableVector2D( start, end ).normalize();
-        ImmutableVector2D north = dir.getNormalVector();
+        Vector2D north = dir.getNormalVector();
 
         double angle = new MutableVector2D( start, end ).getAngle();
         Rectangle r = shape.getBounds();

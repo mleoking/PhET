@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.macro.model;
 
 import java.awt.geom.Line2D;
@@ -6,8 +6,8 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
@@ -63,7 +63,7 @@ public class MacroModel extends SugarAndSaltSolutionModel {
     protected final CompositeDoubleProperty airborneSugarGrams;
 
     //Force due to gravity near the surface of the earth in m/s^2
-    private final ImmutableVector2D gravity = new ImmutableVector2D( 0, -9.8 );
+    private final Vector2D gravity = new Vector2D( 0, -9.8 );
 
     //Flag to indicate if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
     public final ObservableProperty<Boolean> anySolutes;
@@ -181,7 +181,7 @@ public class MacroModel extends SugarAndSaltSolutionModel {
         ArrayList<MacroCrystal> hitTheWater = new ArrayList<MacroCrystal>();
         for ( MacroCrystal crystal : crystalList ) {
             //Store the initial location so we can use the (final - start) line to check for collision with water, so it can't jump over the water rectangle
-            ImmutableVector2D initialLocation = crystal.position.get();
+            Vector2D initialLocation = crystal.position.get();
 
             //slow the motion down a little bit or it moves too fast since the camera is zoomed in so much
             crystal.stepInTime( gravity.times( crystal.mass ), dt / 10, beaker.getLeftWall(), beaker.getRightWall(), beaker.getFloor(),

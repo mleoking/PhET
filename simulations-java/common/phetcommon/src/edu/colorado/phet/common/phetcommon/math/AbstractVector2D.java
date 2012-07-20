@@ -83,7 +83,7 @@ public abstract class AbstractVector2D implements Serializable {
     }
 
     public double getDistance( Point2D point ) {
-        return getDistance( new ImmutableVector2D( point ) );
+        return getDistance( new Vector2D( point ) );
     }
 
     //Transform this ImmutableVector2D into a Dimension2D
@@ -99,47 +99,47 @@ public abstract class AbstractVector2D implements Serializable {
         return ( this.getMagnitude() * v.getMagnitude() * Math.sin( this.getAngle() - v.getAngle() ) );
     }
 
-    public ImmutableVector2D getNormalizedInstance() {
+    public Vector2D getNormalizedInstance() {
         double magnitude = getMagnitude();
         if ( magnitude == 0 ) {
             throw new UnsupportedOperationException( "Cannot normalize a zero-magnitude vector." );
         }
-        return new ImmutableVector2D( getX() / magnitude, getY() / magnitude );
+        return new Vector2D( getX() / magnitude, getY() / magnitude );
     }
 
-    public ImmutableVector2D getInstanceOfMagnitude( double magnitude ) {
+    public Vector2D getInstanceOfMagnitude( double magnitude ) {
         return getScaledInstance( magnitude / getMagnitude() );
     }
 
-    public ImmutableVector2D getScaledInstance( double scale ) {
-        return new ImmutableVector2D( getX() * scale, getY() * scale );
+    public Vector2D getScaledInstance( double scale ) {
+        return new Vector2D( getX() * scale, getY() * scale );
     }
 
-    public ImmutableVector2D getAddedInstance( AbstractVector2D v ) {
+    public Vector2D getAddedInstance( AbstractVector2D v ) {
         return getAddedInstance( v.getX(), v.getY() );
     }
 
-    public ImmutableVector2D getAddedInstance( Dimension2D delta ) {
+    public Vector2D getAddedInstance( Dimension2D delta ) {
         return getAddedInstance( delta.getWidth(), delta.getHeight() );
     }
 
-    public ImmutableVector2D getAddedInstance( double x, double y ) {
-        return new ImmutableVector2D( getX() + x, getY() + y );
+    public Vector2D getAddedInstance( double x, double y ) {
+        return new Vector2D( getX() + x, getY() + y );
     }
 
-    public ImmutableVector2D getNormalVector() {
-        return new ImmutableVector2D( getY(), -getX() );
+    public Vector2D getNormalVector() {
+        return new Vector2D( getY(), -getX() );
     }
 
-    public ImmutableVector2D getSubtractedInstance( double x, double y ) {
-        return new ImmutableVector2D( getX() - x, getY() - y );
+    public Vector2D getSubtractedInstance( double x, double y ) {
+        return new Vector2D( getX() - x, getY() - y );
     }
 
-    public ImmutableVector2D getSubtractedInstance( AbstractVector2D v ) {
+    public Vector2D getSubtractedInstance( AbstractVector2D v ) {
         return getSubtractedInstance( v.getX(), v.getY() );
     }
 
-    public ImmutableVector2D getRotatedInstance( double angle ) {
-        return ImmutableVector2D.createPolar( getMagnitude(), getAngle() + angle );
+    public Vector2D getRotatedInstance( double angle ) {
+        return Vector2D.createPolar( getMagnitude(), getAngle() + angle );
     }
 }

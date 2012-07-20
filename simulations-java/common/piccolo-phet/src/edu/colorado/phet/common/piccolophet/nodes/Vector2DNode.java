@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
@@ -12,8 +12,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -135,7 +135,7 @@ public class Vector2DNode extends PhetPNode {
         update();
     }
 
-    public Vector2DNode( ImmutableVector2D v, double referenceMagnitude, double referenceLength ) {
+    public Vector2DNode( Vector2D v, double referenceMagnitude, double referenceLength ) {
         this( v.getX(), v.getY(), referenceMagnitude, referenceLength );
     }
 
@@ -162,7 +162,7 @@ public class Vector2DNode extends PhetPNode {
      *
      * @param v
      */
-    public void setVector( ImmutableVector2D v ) {
+    public void setVector( Vector2D v ) {
         setXY( v.getX(), v.getY() );
     }
 
@@ -172,8 +172,8 @@ public class Vector2DNode extends PhetPNode {
      *
      * @return
      */
-    public ImmutableVector2D getVector() {
-        return new ImmutableVector2D( _x, _y );
+    public Vector2D getVector() {
+        return new Vector2D( _x, _y );
     }
 
     /**

@@ -11,7 +11,7 @@ import java.awt.geom.Rectangle2D;
 
 import javax.swing.JFrame;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -84,11 +84,11 @@ public class BurnerNode extends PNode {
 
         private BurnerStandSide( Point2D topCenter, double height ) {
             // Draw the side as a parallelogram.
-            ImmutableVector2D topCenterVector = new ImmutableVector2D( topCenter );
-            ImmutableVector2D upperLeftCorner = topCenterVector.getAddedInstance( new ImmutableVector2D( -BURNER_EDGE_LENGTH / 2, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE ) );
-            ImmutableVector2D lowerLeftCorner = upperLeftCorner.getAddedInstance( new ImmutableVector2D( 0, height ) );
-            ImmutableVector2D lowerRightCorner = lowerLeftCorner.getAddedInstance( new ImmutableVector2D( BURNER_EDGE_LENGTH, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE ) );
-            ImmutableVector2D upperRightCorner = lowerRightCorner.getAddedInstance( new ImmutableVector2D( 0, -height ) );
+            Vector2D topCenterVector = new Vector2D( topCenter );
+            Vector2D upperLeftCorner = topCenterVector.getAddedInstance( new Vector2D( -BURNER_EDGE_LENGTH / 2, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE ) );
+            Vector2D lowerLeftCorner = upperLeftCorner.getAddedInstance( new Vector2D( 0, height ) );
+            Vector2D lowerRightCorner = lowerLeftCorner.getAddedInstance( new Vector2D( BURNER_EDGE_LENGTH, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE ) );
+            Vector2D upperRightCorner = lowerRightCorner.getAddedInstance( new Vector2D( 0, -height ) );
             DoubleGeneralPath path = new DoubleGeneralPath( topCenterVector );
             path.lineTo( upperLeftCorner );
             path.lineTo( lowerLeftCorner );
@@ -103,22 +103,22 @@ public class BurnerNode extends PNode {
 
         private BurnerStandTop( Point2D leftCenter, double width ) {
 
-            ImmutableVector2D leftCenterVector = new ImmutableVector2D( leftCenter );
+            Vector2D leftCenterVector = new Vector2D( leftCenter );
 
             // Create the points for the outline of the perspective rectangle.
-            ImmutableVector2D upperLeftCorner = leftCenterVector.getAddedInstance( new ImmutableVector2D( BURNER_EDGE_LENGTH / 2, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE ) );
-            ImmutableVector2D upperRightCorner = upperLeftCorner.getAddedInstance( new ImmutableVector2D( width, 0 ) );
-            ImmutableVector2D lowerRightCorner = upperRightCorner.getAddedInstance( new ImmutableVector2D( -BURNER_EDGE_LENGTH, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE ) );
-            ImmutableVector2D lowerLeftCorner = lowerRightCorner.getAddedInstance( new ImmutableVector2D( -width, 0 ) );
+            Vector2D upperLeftCorner = leftCenterVector.getAddedInstance( new Vector2D( BURNER_EDGE_LENGTH / 2, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE ) );
+            Vector2D upperRightCorner = upperLeftCorner.getAddedInstance( new Vector2D( width, 0 ) );
+            Vector2D lowerRightCorner = upperRightCorner.getAddedInstance( new Vector2D( -BURNER_EDGE_LENGTH, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE ) );
+            Vector2D lowerLeftCorner = lowerRightCorner.getAddedInstance( new Vector2D( -width, 0 ) );
 
             // Create the points for the circular opening in the top.
-            ImmutableVector2D upperLeftCircularOpeningCorner = upperLeftCorner.getAddedInstance( new ImmutableVector2D( width * 0.25, 0 ) );
-            ImmutableVector2D upperRightCircularOpeningCorner = upperLeftCorner.getAddedInstance( new ImmutableVector2D( width * 0.75, 0 ) );
-            ImmutableVector2D lowerLeftCircularOpeningCorner = lowerLeftCorner.getAddedInstance( new ImmutableVector2D( width * 0.25, 0 ) );
-            ImmutableVector2D lowerRightCircularOpeningCorner = lowerLeftCorner.getAddedInstance( new ImmutableVector2D( width * 0.75, 0 ) );
+            Vector2D upperLeftCircularOpeningCorner = upperLeftCorner.getAddedInstance( new Vector2D( width * 0.25, 0 ) );
+            Vector2D upperRightCircularOpeningCorner = upperLeftCorner.getAddedInstance( new Vector2D( width * 0.75, 0 ) );
+            Vector2D lowerLeftCircularOpeningCorner = lowerLeftCorner.getAddedInstance( new Vector2D( width * 0.25, 0 ) );
+            Vector2D lowerRightCircularOpeningCorner = lowerLeftCorner.getAddedInstance( new Vector2D( width * 0.75, 0 ) );
 
             // Create the control points for the circular opening in the top.
-            ImmutableVector2D circularOpeningPerspectiveVector = new ImmutableVector2D( BURNER_EDGE_LENGTH * 0.5, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE );
+            Vector2D circularOpeningPerspectiveVector = new Vector2D( BURNER_EDGE_LENGTH * 0.5, 0 ).getRotatedInstance( -PERSPECTIVE_ANGLE );
 
             DoubleGeneralPath path = new DoubleGeneralPath();
             path.moveTo( upperLeftCorner );

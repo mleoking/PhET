@@ -1,7 +1,7 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.beerslawlab.concentration.model;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
@@ -12,13 +12,13 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  */
 public class Faucet implements Resettable {
 
-    public final ImmutableVector2D location; // center of output pipe
+    public final Vector2D location; // center of output pipe
     public final double inputPipeLength;
     public final double maxFlowRate; // L/sec
     public final Property<Double> flowRate; // L/sec
     public final Property<Boolean> enabled;
 
-    public Faucet( ImmutableVector2D location, double inputPipeLength, double maxFlowRate ) {
+    public Faucet( Vector2D location, double inputPipeLength, double maxFlowRate ) {
         assert ( maxFlowRate > 0 );
         this.location = location;
         this.inputPipeLength = inputPipeLength;

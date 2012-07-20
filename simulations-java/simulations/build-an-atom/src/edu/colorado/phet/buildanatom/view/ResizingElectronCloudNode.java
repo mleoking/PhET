@@ -1,8 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.buildanatom.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Paint;
+import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -11,7 +13,7 @@ import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.Electron;
 import edu.colorado.phet.buildanatom.model.ElectronShell;
 import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
@@ -119,7 +121,7 @@ public class ResizingElectronCloudNode extends PNode {
                     @Override
                     public void mouseDragged( PInputEvent event ) {
                         PDimension delta = event.getDeltaRelativeTo( getParent() );
-                        grabbedElectron.translate( mvt.viewToModelDelta( new ImmutableVector2D( delta ) ) );
+                        grabbedElectron.translate( mvt.viewToModelDelta( new Vector2D( delta ) ) );
                         grabbedElectron.setDestination( grabbedElectron.getPosition() ); //So it doesn't run away
                     }
 

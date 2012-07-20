@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.gravityandorbits.view;
 
@@ -21,7 +21,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.IfElse;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -82,13 +82,13 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         addWorldChild( rootNode );
 
         // stores the current position of the mouse so we can change to cursor hand when an object moves under the mouse
-        final Property<ImmutableVector2D> mousePositionProperty = new Property<ImmutableVector2D>( new ImmutableVector2D() );
+        final Property<Vector2D> mousePositionProperty = new Property<Vector2D>( new Vector2D() );
         addMouseMotionListener( new MouseMotionListener() {
             public void mouseDragged( MouseEvent mouseEvent ) {
             }
 
             public void mouseMoved( MouseEvent mouseEvent ) {
-                mousePositionProperty.set( new ImmutableVector2D( mouseEvent.getPoint().x, mouseEvent.getPoint().y ) );
+                mousePositionProperty.set( new Vector2D( mouseEvent.getPoint().x, mouseEvent.getPoint().y ) );
             }
         } );
 

@@ -1,13 +1,12 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.conductivity.macro.particles;
 
-import java.awt.*;
+import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
-
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.conductivity.common.SimpleBufferedImageGraphic;
@@ -32,7 +31,7 @@ public class WireParticleGraphic extends TransformGraphic {
     }
 
     public void paint( Graphics2D graphics2d ) {
-        ImmutableVector2D phetvector = particle.getPosition();
+        Vector2D phetvector = particle.getPosition();
         java.awt.Point point = getTransform().modelToView( new Point2D.Double( phetvector.getX(), phetvector.getY() ) );
         imageGraphic.setPosition( point );
         imageGraphic.paint( graphics2d );

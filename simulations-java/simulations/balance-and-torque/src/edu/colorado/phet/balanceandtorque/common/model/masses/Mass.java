@@ -4,8 +4,8 @@ package edu.colorado.phet.balanceandtorque.common.model.masses;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.common.model.UserMovableModelElement;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -133,7 +133,7 @@ public abstract class Mass implements UserMovableModelElement {
         positionProperty.set( new Point2D.Double( positionProperty.get().getX() + x, positionProperty.get().getY() + y ) );
     }
 
-    public void translate( ImmutableVector2D delta ) {
+    public void translate( Vector2D delta ) {
         translate( delta.getX(), delta.getY() );
     }
 

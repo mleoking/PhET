@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.moleculepolarity.common.view;
 
@@ -12,7 +12,7 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
@@ -37,9 +37,9 @@ public abstract class DipoleNode extends PPath {
     private static final double TAIL_WIDTH = 4; // similar to Jmol
     private static final double FRACTIONAL_HEAD_HEIGHT = 0.5; // when the head size is less than fractionalHeadHeight * arrow length, the head will be scaled.
 
-    private final Property<ImmutableVector2D> dipole;
+    private final Property<Vector2D> dipole;
 
-    protected DipoleNode( Property<ImmutableVector2D> dipole, Color color ) {
+    protected DipoleNode( Property<Vector2D> dipole, Color color ) {
         super();
         setPaint( color );
         this.dipole = dipole;
@@ -105,7 +105,7 @@ public abstract class DipoleNode extends PPath {
 
     // Creates a dipole icon, with arrow pointing to the right.
     public static Icon createIcon( Color color ) {
-        PNode node = new DipoleNode( new Property<ImmutableVector2D>( new ImmutableVector2D( 0.5, 0 ) ), color ) {
+        PNode node = new DipoleNode( new Property<Vector2D>( new Vector2D( 0.5, 0 ) ), color ) {
         };
         return new ImageIcon( node.toImage() );
     }

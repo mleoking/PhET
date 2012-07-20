@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.flow.view;
 
 import java.awt.BasicStroke;
@@ -10,7 +10,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
@@ -81,7 +81,7 @@ public class FluxMeterPanelNode extends PNode {
                 public void update() {
 
                     //Move when the sensor moves
-                    final ImmutableVector2D bottom = fluxMeter.getBottom();
+                    final Vector2D bottom = fluxMeter.getBottom();
                     final Point2D viewPoint = transform.modelToView( bottom.toPoint2D() );
                     setOffset( viewPoint.getX() - getFullBounds().getWidth() / 2, viewPoint.getY() );
                 }

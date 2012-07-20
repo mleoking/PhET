@@ -10,8 +10,8 @@ import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -28,7 +28,7 @@ public class Bulb extends CircuitComponent {
 
     private static double filamentHeightScale = 1.0;
 
-    public Bulb( Point2D start, ImmutableVector2D dir,
+    public Bulb( Point2D start, Vector2D dir,
                  double distBetweenJunctions,
                  double width, double height, CircuitChangeListener kl ) {
         super( kl, start, dir, distBetweenJunctions, height );
@@ -133,7 +133,7 @@ public class Bulb extends CircuitComponent {
 
     private MutableVector2D collaspeToLifelike( Bulb bulb, Circuit circuit ) {
         double distBetweenJ = CCKModel.BULB_DIMENSION.getDistBetweenJunctions();
-        ImmutableVector2D vector = bulb.getDirectionVector().getInstanceOfMagnitude( distBetweenJ );
+        Vector2D vector = bulb.getDirectionVector().getInstanceOfMagnitude( distBetweenJ );
         Point2D dst = vector.getDestination( bulb.getStartJunction().getPosition() );
         MutableVector2D delta = new MutableVector2D( bulb.getEndJunction().getPosition(), dst );
         if ( circuit != null ) {
@@ -184,7 +184,7 @@ public class Bulb extends CircuitComponent {
             sign = 1;
         }
         double tilt = CCKDefaults.determineTilt();
-        ImmutableVector2D vector = getDirectionVector();
+        Vector2D vector = getDirectionVector();
         vector = vector.getRotatedInstance( tilt * 2 * sign );
         Point2D target = vector.getDestination( getStartJunction().getPosition() );
         MutableVector2D delta = new MutableVector2D( getEndJunction().getPosition(), target );

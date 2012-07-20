@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.energyskatepark.basics;
 
 import java.awt.BasicStroke;
@@ -6,7 +6,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
@@ -35,7 +35,7 @@ public class TrackButton extends PNode {
 
     private static final Color INVISIBLE_COLOR = new Color( 0, 0, 0, 0 );
 
-    public TrackButton( final EnergySkateParkBasicsModule module, final String trackName, final ImmutableVector2D offset ) {
+    public TrackButton( final EnergySkateParkBasicsModule module, final String trackName, final Vector2D offset ) {
         PImage image = new PImage( createIcon( module, trackName, offset ) );
         addChild( image );
         final PPath selectedIndicator = new PhetPPath( image.getFullBoundsReference().getBounds2D(), new BasicStroke( 3 ), INVISIBLE_COLOR );
@@ -60,7 +60,7 @@ public class TrackButton extends PNode {
     }
 
     //Creates an icon that displays the track.
-    private BufferedImage createIcon( EnergySkateParkBasicsModule module, String location, ImmutableVector2D offset ) {
+    private BufferedImage createIcon( EnergySkateParkBasicsModule module, String location, Vector2D offset ) {
 
         //To create the icon, load the module and render it to an image
         module.loadTrack( location, offset );

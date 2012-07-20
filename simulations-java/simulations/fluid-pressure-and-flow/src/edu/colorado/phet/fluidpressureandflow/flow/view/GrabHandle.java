@@ -1,10 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.flow.view;
 
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.SimSharingManager;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
@@ -43,7 +43,7 @@ public class GrabHandle extends PNode {
 
                     //Update the location on initialization and when the model changes
                     //Move by one edge stroke width away so it will sit on the very edge of the pipe
-                    final ImmutableVector2D modelPoint = transform.modelToView( controlPoint.point.get() );
+                    final Vector2D modelPoint = transform.modelToView( controlPoint.point.get() );
                     double dy = top ?
                                 -getFullBounds().getHeight() - EDGE_STROKE.getLineWidth() :
                                 EDGE_STROKE.getLineWidth();

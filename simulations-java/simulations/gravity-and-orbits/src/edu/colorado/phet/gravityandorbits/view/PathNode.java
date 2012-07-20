@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.gravityandorbits.view;
 
@@ -10,7 +10,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -28,7 +28,7 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  */
 public class PathNode extends PNode {
     private final PNode pathNode;
-    private ArrayList<ImmutableVector2D> points = new ArrayList<ImmutableVector2D>();//points in view space
+    private ArrayList<Vector2D> points = new ArrayList<Vector2D>();//points in view space
     public final int STROKE_WIDTH = 3;
 
     public PathNode( final Body body, final Property<ModelViewTransform> transform, final Property<Boolean> visible, final Color color ) {
@@ -81,8 +81,8 @@ public class PathNode extends PNode {
 
         //Update when the Body path changes
         final Body.PathListener listener = new Body.PathListener() {
-            public void pointAdded( ImmutableVector2D point ) {
-                ImmutableVector2D pt = transform.get().modelToView( point );
+            public void pointAdded( Vector2D point ) {
+                Vector2D pt = transform.get().modelToView( point );
                 points.add( pt );
                 if ( getVisible() ) {
                     pathNode.setBounds( getBounds( points ) );
@@ -116,14 +116,14 @@ public class PathNode extends PNode {
     }
 
     //Compute the bounds that contains the path, for repainting
-    private Rectangle2D getBounds( ArrayList<ImmutableVector2D> points ) {
+    private Rectangle2D getBounds( ArrayList<Vector2D> points ) {
         if ( points.size() == 0 ) {
             return new Rectangle();
         }
         else {
 //            long start = System.currentTimeMillis();
             Rectangle2D rect = new Rectangle2D.Double( points.get( 0 ).getX(), points.get( 0 ).getY(), 0, 0 );
-            for ( ImmutableVector2D point : points ) {
+            for ( Vector2D point : points ) {
                 rect.add( point.getX(), point.getY() );
             }
 //            long end = System.currentTimeMillis();

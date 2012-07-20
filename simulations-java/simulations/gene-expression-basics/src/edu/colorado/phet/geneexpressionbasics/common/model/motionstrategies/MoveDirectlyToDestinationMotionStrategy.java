@@ -5,10 +5,10 @@ import java.awt.Shape;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
@@ -103,7 +103,7 @@ public class MoveDirectlyToDestinationMotionStrategy extends MotionStrategy {
             velocityVector2D.setComponents( 0, 0 );
         }
         else {
-            velocityVector2D.setValue( new ImmutableVector2D( currentLocation, destination ).getInstanceOfMagnitude( velocity ) );
+            velocityVector2D.setValue( new Vector2D( currentLocation, destination ).getInstanceOfMagnitude( velocity ) );
         }
     }
 }

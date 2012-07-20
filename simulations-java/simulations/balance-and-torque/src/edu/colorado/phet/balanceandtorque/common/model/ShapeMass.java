@@ -5,8 +5,8 @@ import java.awt.Shape;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 
@@ -32,7 +32,7 @@ public abstract class ShapeMass extends Mass {
         // Rotate.
         middlePoint.rotate( getRotationAngle() );
         // Translate to the correct position.
-        middlePoint.add( new ImmutableVector2D( getPosition() ) );
+        middlePoint.add( new Vector2D( getPosition() ) );
         return middlePoint.toPoint2D();
     }
 }

@@ -1,10 +1,10 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.balanceandtorque.common.view;
 
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.common.model.masses.Mass;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -48,7 +48,7 @@ public class MassDragHandler extends SimSharingDragHandler {
     public void mouseDragged( PInputEvent event ) {
         super.mouseDragged( event );
         PDimension viewDelta = event.getDeltaRelativeTo( node.getParent() );
-        ImmutableVector2D modelDelta = mvt.viewToModelDelta( new ImmutableVector2D( viewDelta ) );
+        Vector2D modelDelta = mvt.viewToModelDelta( new Vector2D( viewDelta ) );
         mass.translate( modelDelta );
     }
 

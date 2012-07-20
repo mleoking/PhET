@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.model;
 
 import java.awt.geom.Dimension2D;
@@ -7,7 +7,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import edu.colorado.phet.bendinglight.BendingLightStrings;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
@@ -17,15 +17,15 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  * @author Sam Reid
  */
 public class IntensityMeter {
-    public final Property<ImmutableVector2D> sensorPosition;
-    public final Property<ImmutableVector2D> bodyPosition;
+    public final Property<Vector2D> sensorPosition;
+    public final Property<Vector2D> bodyPosition;
     public final Property<Boolean> enabled = new Property<Boolean>( false );//True if it is in the play area and gathering data
     public final Property<Reading> reading = new Property<Reading>( Reading.MISS );//Value to show on the body
     private final ArrayList<Reading> rayReadings = new ArrayList<Reading>();//Accumulation of readings
 
     public IntensityMeter( double sensorX, double sensorY, double bodyX, double bodyY ) {
-        sensorPosition = new Property<ImmutableVector2D>( new ImmutableVector2D( sensorX, sensorY ) );
-        bodyPosition = new Property<ImmutableVector2D>( new ImmutableVector2D( bodyX, bodyY ) );
+        sensorPosition = new Property<Vector2D>( new Vector2D( sensorX, sensorY ) );
+        bodyPosition = new Property<Vector2D>( new Vector2D( bodyX, bodyY ) );
     }
 
     public void translateSensor( Dimension2D delta ) {

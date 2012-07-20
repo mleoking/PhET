@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -18,10 +18,7 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
-import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.combinations;
-import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.filter;
-import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.map;
-import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.unique;
+import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.*;
 
 /**
  * A kit is basically a collection of buckets (some hold reactants, some hold products), and all of the molecules and reactions that are
@@ -97,7 +94,7 @@ public class Kit {
                 box2dModel.addBody( molecule );
                 double angle = Math.random() * 2 * Math.PI;
                 double magnitude = Math.random() * 500; // TODO: make initial velocity proportional to the heat?
-                molecule.setVelocity( new ImmutableVector2D(
+                molecule.setVelocity( new Vector2D(
                         Math.cos( angle ) * magnitude,
                         Math.sin( angle ) * magnitude
                 ) );
@@ -289,7 +286,7 @@ public class Kit {
     }
 
     public void dragEnd( Molecule molecule ) {
-        ImmutableVector2D position = molecule.position.get();
+        Vector2D position = molecule.position.get();
         if ( layoutBounds.getAvailablePlayAreaModelBounds().contains( position.getX(), position.getY() ) ) {
             // dropped in the play area, so re-enable physics on it
             moleculesInPlayArea.add( molecule );

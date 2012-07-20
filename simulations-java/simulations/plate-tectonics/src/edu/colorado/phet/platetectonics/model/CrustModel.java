@@ -1,11 +1,11 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.platetectonics.model;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
@@ -71,7 +71,7 @@ public class CrustModel extends PlateModel {
     private double crustVelocity = 0;
 
     // km, kg/m^3
-    private static final int[] mantleDepthDensity = new int[]{
+    private static final int[] mantleDepthDensity = new int[] {
             0, 1020,
             3, 2600,
             15, 2900,
@@ -632,24 +632,24 @@ public class CrustModel extends PlateModel {
     }
 
     private static PiecewiseLinearFunction2D simplifiedContinentalDifference = new PiecewiseLinearFunction2D(
-            new ImmutableVector2D( 0, 0 ),
-            new ImmutableVector2D( 40000, 500 ),
-            new ImmutableVector2D( 150000, 1250 ),
-            new ImmutableVector2D( 250000, 2000 ),
-            new ImmutableVector2D( 2700000, 3400 ),
-            new ImmutableVector2D( 2890000, 4000 ),
-            new ImmutableVector2D( PlateModel.EARTH_RADIUS, 5778 )
+            new Vector2D( 0, 0 ),
+            new Vector2D( 40000, 500 ),
+            new Vector2D( 150000, 1250 ),
+            new Vector2D( 250000, 2000 ),
+            new Vector2D( 2700000, 3400 ),
+            new Vector2D( 2890000, 4000 ),
+            new Vector2D( PlateModel.EARTH_RADIUS, 5778 )
     );
 
     private static PiecewiseLinearFunction2D simplifiedOceanicDifference = new PiecewiseLinearFunction2D(
-            new ImmutableVector2D( 0, 0 ),
-            new ImmutableVector2D( 50000, 1000 ),
-            new ImmutableVector2D( 100000, 1500 ),
-            new ImmutableVector2D( 150000, 1600 ),
-            new ImmutableVector2D( 250000, 2000 ),
-            new ImmutableVector2D( 2700000, 3400 ),
-            new ImmutableVector2D( 2890000, 4000 ),
-            new ImmutableVector2D( PlateModel.EARTH_RADIUS, 5778 )
+            new Vector2D( 0, 0 ),
+            new Vector2D( 50000, 1000 ),
+            new Vector2D( 100000, 1500 ),
+            new Vector2D( 150000, 1600 ),
+            new Vector2D( 250000, 2000 ),
+            new Vector2D( 2700000, 3400 ),
+            new Vector2D( 2890000, 4000 ),
+            new Vector2D( PlateModel.EARTH_RADIUS, 5778 )
     );
 
     public static double getSimplifiedContinentalTemperature( double depth, double surfaceTemperature ) {

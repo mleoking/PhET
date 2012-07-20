@@ -1,9 +1,9 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.moleculepolarity.common.view;
 
 import java.awt.Color;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -34,7 +34,7 @@ public abstract class PartialChargeNode extends PComposite {
      * @param atom               the atom whose partial charge is displayed
      * @param unitVectorFunction a function that determines where the charge is placed along the outside edge of the atom
      */
-    public PartialChargeNode( final Atom atom, final Function0<ImmutableVector2D> unitVectorFunction ) {
+    public PartialChargeNode( final Atom atom, final Function0<Vector2D> unitVectorFunction ) {
 
         final PText textNode = new PText() {{
             setFont( new PhetFont( 32 ) );
@@ -67,11 +67,11 @@ public abstract class PartialChargeNode extends PComposite {
                     }
 
                     // A vector that points in the direction we will need to move the charge node.
-                    ImmutableVector2D unitVector = unitVectorFunction.apply();
+                    Vector2D unitVector = unitVectorFunction.apply();
 
                     // Compute the amount to move the partial charge node
                     double multiplier = ( atom.getDiameter() / 2 ) + ( Math.max( getFullBoundsReference().getWidth(), getFullBoundsReference().getHeight() ) / 2 ) + 3;
-                    ImmutableVector2D relativeOffset = unitVector.times( multiplier );
+                    Vector2D relativeOffset = unitVector.times( multiplier );
                     setOffset( atom.location.get().plus( relativeOffset ).toPoint2D() );
                 }
             }
@@ -86,10 +86,10 @@ public abstract class PartialChargeNode extends PComposite {
      */
     public static class OppositePartialChargeNode extends PartialChargeNode {
         public OppositePartialChargeNode( final Atom atom, final Bond bond ) {
-            super( atom, new Function0<ImmutableVector2D>() {
-                public ImmutableVector2D apply() {
+            super( atom, new Function0<Vector2D>() {
+                public Vector2D apply() {
                     // along the bond axis, in the direction of the atom
-                    ImmutableVector2D v = new ImmutableVector2D( bond.getCenter(), atom.location.get() );
+                    Vector2D v = new Vector2D( bond.getCenter(), atom.location.get() );
                     /*
                      * Avoid the case where pressing Reset All causes the atoms to swap locations, temporarily
                      * resulting in a zero-magnitude vector when the first atom has moved but the second atom
@@ -111,15 +111,15 @@ public abstract class PartialChargeNode extends PComposite {
      */
     public static class CompositePartialChargeNode extends PartialChargeNode {
         public CompositePartialChargeNode( final Atom atom, final Molecule2D molecule ) {
-            super( atom, new Function0<ImmutableVector2D>() {
-                public ImmutableVector2D apply() {
-                    ImmutableVector2D normalVector;
+            super( atom, new Function0<Vector2D>() {
+                public Vector2D apply() {
+                    Vector2D normalVector;
                     if ( molecule.dipole.get().getMagnitude() > 0 ) {
                         normalVector = molecule.dipole.get().getRotatedInstance( Math.PI ).getNormalizedInstance();
                     }
                     else {
                         // can't normalize a zero-magnitude vector, so create our own with the proper angle
-                        normalVector = new ImmutableVector2D( 1, molecule.dipole.get().getAngle() );
+                        normalVector = new Vector2D( 1, molecule.dipole.get().getAngle() );
                     }
                     return normalVector;
                 }

@@ -1,6 +1,7 @@
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.view;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Beaker;
@@ -23,7 +24,7 @@ public abstract class MicroSugarDispenser extends SugarDispenser<MicroModel> {
     }
 
     //Checks to see if a sugar should be emitted, and if so, adds it to the model
-    @Override protected void addSugarToModel( ImmutableVector2D outputPoint ) {
+    @Override protected void addSugarToModel( Vector2D outputPoint ) {
 
         //Only add a crystal every N steps, otherwise there are too many
         stepsOfAddingSugar.set( stepsOfAddingSugar.get() + 1 );
@@ -35,5 +36,5 @@ public abstract class MicroSugarDispenser extends SugarDispenser<MicroModel> {
     }
 
     //Adds a single sugar model item to the model at the specified point
-    protected abstract void doAddSugar( ImmutableVector2D outputPoint );
+    protected abstract void doAddSugar( Vector2D outputPoint );
 }

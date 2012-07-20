@@ -1,9 +1,9 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.glucose;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.ItemList;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.AllPairs;
@@ -27,7 +27,7 @@ public class GlucoseCrystalGrowth extends CrystalGrowth<Glucose, GlucoseCrystal>
         return new AllPairs( model.freeParticles, Glucose.class, Glucose.class );
     }
 
-    @Override protected GlucoseCrystal newCrystal( ImmutableVector2D position ) {
+    @Override protected GlucoseCrystal newCrystal( Vector2D position ) {
         return new GlucoseCrystal( position, randomAngle() ) {{setUpdateStrategy( new CrystalStrategy( model, model.glucoseCrystals, model.glucoseSaturated ) );}};
     }
 }

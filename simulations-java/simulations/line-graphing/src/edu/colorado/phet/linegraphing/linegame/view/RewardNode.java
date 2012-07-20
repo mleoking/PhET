@@ -25,7 +25,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -102,8 +102,9 @@ public class RewardNode extends PhetPNode {
 
     /**
      * Constructor.
-     * @param bounds images are constrained to motion within these bounds
-     * @param population how many images in the animation
+     *
+     * @param bounds      images are constrained to motion within these bounds
+     * @param population  how many images in the animation
      * @param motionDelta nominal motion delta, may be randomly adjusted for each specific image
      * @param clockDelay
      */
@@ -180,7 +181,7 @@ public class RewardNode extends PhetPNode {
     }
 
     private static int getRandomNonZeroInteger( int min, int max ) {
-        int i = (int)( min + ( Math.random() * ( max - min ) ) );
+        int i = (int) ( min + ( Math.random() * ( max - min ) ) );
         if ( i == 0 ) {
             i = 1;
         }
@@ -188,7 +189,7 @@ public class RewardNode extends PhetPNode {
     }
 
     private Image createPointToolImage( Color color ) {
-        ImmutableVector2D point = new ImmutableVector2D( Math.random() * 20, Math.random() * 20 );
+        Vector2D point = new Vector2D( Math.random() * 20, Math.random() * 20 );
         final PNode pointToolNode = new PointToolNode( point, color );
         pointToolNode.scale( 0.75 );
         return new PadBoundsNode( pointToolNode ).toImage();
@@ -200,8 +201,8 @@ public class RewardNode extends PhetPNode {
 
     /**
      * Sets the animation parameters based on game difficulty level.
-     * @param level
      *
+     * @param level
      */
     public void setLevel( int level ) {
         setImagesVisible( equationImages, level == 1 );
@@ -213,6 +214,7 @@ public class RewardNode extends PhetPNode {
     /**
      * When this node's bounds are changes, all images are repopulated
      * so that the images are distributed randomly throughout the entire bounds.
+     *
      * @param bounds
      */
     @Override public boolean setBounds( Rectangle2D bounds ) {
@@ -222,7 +224,7 @@ public class RewardNode extends PhetPNode {
         boolean boundsChanged = false;
         if ( !bounds.equals( getBounds() ) ) {
             boundsChanged = super.setBounds( bounds );
-            updateImages( true /* removeImages */);
+            updateImages( true /* removeImages */ );
         }
         return boundsChanged;
     }
@@ -241,7 +243,7 @@ public class RewardNode extends PhetPNode {
         }
         if ( population != getPopulation() ) {
             this.population = population;
-            updateImages( false /* removeImages */);
+            updateImages( false /* removeImages */ );
         }
     }
 
@@ -376,6 +378,7 @@ public class RewardNode extends PhetPNode {
 
     /**
      * This node plays when it's visible, pauses when it's invisible.
+     *
      * @param visible
      */
     @Override
@@ -430,6 +433,7 @@ public class RewardNode extends PhetPNode {
     public interface IMotionStrategy {
         /**
          * Moves a node within the specified bounds.
+         *
          * @param node
          * @param bounds
          */

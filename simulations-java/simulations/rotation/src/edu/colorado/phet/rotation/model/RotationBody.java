@@ -18,8 +18,8 @@ import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.motion.model.MotionBody;
 import edu.colorado.phet.common.motion.model.TimeData;
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.rotation.RotationDefaults;
 import edu.colorado.phet.rotation.RotationResources;
 import edu.colorado.phet.rotation.tests.CircularRegression;
@@ -132,7 +132,7 @@ public class RotationBody {
                 if ( vec.getMagnitudeSq() == 0 ) {
                     vec = MutableVector2D.createPolar( 1.0, lastNonZeroRadiusAngle );
                 }
-                ImmutableVector2D m = vec.getInstanceOfMagnitude( f.getValue() );
+                Vector2D m = vec.getInstanceOfMagnitude( f.getValue() );
                 setPosition( m.getX() + rotationPlatform.getCenter().getX(), m.getY() + rotationPlatform.getCenter().getY() );
             }
         }
@@ -343,7 +343,7 @@ public class RotationBody {
         double ang = getAngleNoWindingNumber();
         double lastAngle = getLastAngle();
         //ang * N should be close to lastAngle, unless the body crossed the origin
-        ImmutableVector2D vec = MutableVector2D.createPolar( 1.0, lastAngle );
+        Vector2D vec = MutableVector2D.createPolar( 1.0, lastAngle );
         lastAngle = vec.getAngle();
 
         double dt = ang - lastAngle;
@@ -438,8 +438,8 @@ public class RotationBody {
 
         Point2D newX = MutableVector2D.createPolar( r, getAngleOverPlatform() ).getDestination( rotationPlatform.getCenter() );
         MutableVector2D centripetalVector = new MutableVector2D( newX, rotationPlatform.getCenter() );
-        ImmutableVector2D newV = centripetalVector.getInstanceOfMagnitude( r * omega ).getNormalVector();
-        ImmutableVector2D newA = centripetalVector.getInstanceOfMagnitude( r * omega * omega );
+        Vector2D newV = centripetalVector.getInstanceOfMagnitude( r * omega ).getNormalVector();
+        Vector2D newA = centripetalVector.getInstanceOfMagnitude( r * omega * omega );
 
         xBody.getVelocityVariable().setValue( newV.getX() );
         yBody.getVelocityVariable().setValue( newV.getY() );
@@ -462,12 +462,12 @@ public class RotationBody {
 //        System.out.println( "offsetVelocityDueToUserControl = " + offsetVelocityDueToUserControl );
         if ( offsetVelocityDueToConstantAccel ) {
             //add on the tangential part under constant angular acceleration
-            ImmutableVector2D tanVector = centripetalVector.getInstanceOfMagnitude( r * rotationPlatform.getAcceleration() ).getNormalVector();
+            Vector2D tanVector = centripetalVector.getInstanceOfMagnitude( r * rotationPlatform.getAcceleration() ).getNormalVector();
             newA = newA.getAddedInstance( tanVector );
         }
         else if ( offsetVelocityDueToUserControl ) {
             double avgAccel = rotationPlatform.getAccelerationVariable().estimateAverage( 2 );
-            ImmutableVector2D tanVector = centripetalVector.getInstanceOfMagnitude( r * avgAccel ).getNormalVector();
+            Vector2D tanVector = centripetalVector.getInstanceOfMagnitude( r * avgAccel ).getNormalVector();
 //            System.out.println( "avgAccel = " + avgAccel+", tanVector="+tanVector );
             newA = newA.getAddedInstance( tanVector );
 //            newA=new Vector2D.Double(5,5);
@@ -780,11 +780,11 @@ public class RotationBody {
         public void stepInTime( double time, double dt ) {
             double r = 4.5;
             if ( getPosition().distance( 0, 0 ) > r ) {
-                velocity = new ImmutableVector2D( 0, 0 );
+                velocity = new Vector2D( 0, 0 );
                 //scurry back to near the platform if offscreen?
 
                 MutableVector2D vec = new MutableVector2D( xBody.getPosition(), yBody.getPosition() );
-                ImmutableVector2D a = vec.getInstanceOfMagnitude( r );
+                Vector2D a = vec.getInstanceOfMagnitude( r );
                 xBody.setPosition( a.getX() );
                 yBody.setPosition( a.getY() );
             }

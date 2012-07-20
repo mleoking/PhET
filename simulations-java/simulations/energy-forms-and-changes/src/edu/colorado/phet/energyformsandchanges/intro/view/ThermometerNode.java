@@ -7,8 +7,8 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -104,10 +104,10 @@ public class ThermometerNode extends PComposite {
         // on the left side of this triangle.
         final Dimension2D triangleTipOffset = new PDimension( -thermometerBack.getWidth() / 2 - TRIANGLE_SIDE_SIZE * Math.cos( Math.PI / 6 ) - 2,
                                                               thermometerBack.getHeight() / 2 - thermometerBack.getWidth() / 2 );
-        ImmutableVector2D triangleLeftmostPoint = new ImmutableVector2D( backLayer.getFullBoundsReference().getCenterX() + triangleTipOffset.getWidth(),
-                                                                         backLayer.getFullBoundsReference().getCenterY() + triangleTipOffset.getHeight() );
-        final ImmutableVector2D triangleUpperRightPoint = triangleLeftmostPoint.getAddedInstance( new ImmutableVector2D( TRIANGLE_SIDE_SIZE, 0 ).getRotatedInstance( Math.PI / 5 ) );
-        final ImmutableVector2D triangleLowerRightPoint = triangleLeftmostPoint.getAddedInstance( new ImmutableVector2D( TRIANGLE_SIDE_SIZE, 0 ).getRotatedInstance( -Math.PI / 5 ) );
+        Vector2D triangleLeftmostPoint = new Vector2D( backLayer.getFullBoundsReference().getCenterX() + triangleTipOffset.getWidth(),
+                                                       backLayer.getFullBoundsReference().getCenterY() + triangleTipOffset.getHeight() );
+        final Vector2D triangleUpperRightPoint = triangleLeftmostPoint.getAddedInstance( new Vector2D( TRIANGLE_SIDE_SIZE, 0 ).getRotatedInstance( Math.PI / 5 ) );
+        final Vector2D triangleLowerRightPoint = triangleLeftmostPoint.getAddedInstance( new Vector2D( TRIANGLE_SIDE_SIZE, 0 ).getRotatedInstance( -Math.PI / 5 ) );
         DoubleGeneralPath trianglePath = new DoubleGeneralPath( triangleLeftmostPoint ) {{
             lineTo( triangleUpperRightPoint );
             lineTo( triangleLowerRightPoint );
@@ -129,8 +129,8 @@ public class ThermometerNode extends PComposite {
         addChild( new ZeroOffsetNode( rootNode ) );
 
         // Update the offset if and when the model position changes.
-        thermometer.position.addObserver( new VoidFunction1<ImmutableVector2D>() {
-            public void apply( ImmutableVector2D position ) {
+        thermometer.position.addObserver( new VoidFunction1<Vector2D>() {
+            public void apply( Vector2D position ) {
                 setOffset( mvt.modelToViewX( position.getX() ),
                            mvt.modelToViewY( position.getY() ) - ( getFullBoundsReference().height / 2 + triangleTipOffset.getHeight() ) );
             }
@@ -141,8 +141,8 @@ public class ThermometerNode extends PComposite {
 
         // Add the drag handler.
         {
-            ImmutableVector2D offsetPosToCenter = new ImmutableVector2D( getFullBoundsReference().getCenterX() - mvt.modelToViewX( thermometer.position.get().getX() ),
-                                                                         getFullBoundsReference().getCenterY() - mvt.modelToViewY( thermometer.position.get().getY() ) );
+            Vector2D offsetPosToCenter = new Vector2D( getFullBoundsReference().getCenterX() - mvt.modelToViewX( thermometer.position.get().getX() ),
+                                                       getFullBoundsReference().getCenterY() - mvt.modelToViewY( thermometer.position.get().getY() ) );
             addInputEventListener( new ThermalElementDragHandler( thermometer, this, mvt, new ThermometerLocationConstraint( mvt, this, offsetPosToCenter ) ) );
         }
     }
@@ -156,7 +156,7 @@ public class ThermometerNode extends PComposite {
 
         private final Rectangle2D modelBounds;
 
-        private ThermometerLocationConstraint( ModelViewTransform mvt, PNode node, ImmutableVector2D offsetPosToNodeCenter ) {
+        private ThermometerLocationConstraint( ModelViewTransform mvt, PNode node, Vector2D offsetPosToNodeCenter ) {
 
             Dimension2D nodeSize = new PDimension( node.getFullBoundsReference().width, node.getFullBoundsReference().height );
 

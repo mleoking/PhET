@@ -7,7 +7,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * Class that defines the bounds within which some shape or point is allowed to
@@ -66,8 +66,8 @@ public class MotionBounds {
      * @return - True is in bounds, false if not.
      */
     public boolean testIfInMotionBounds( Shape shape, Point2D proposedLocation ) {
-        ImmutableVector2D shapeCenter = new ImmutableVector2D( shape.getBounds2D().getCenterX(), shape.getBounds2D().getCenterY() );
-        ImmutableVector2D translationVector = new ImmutableVector2D( proposedLocation ).getSubtractedInstance( shapeCenter );
+        Vector2D shapeCenter = new Vector2D( shape.getBounds2D().getCenterX(), shape.getBounds2D().getCenterY() );
+        Vector2D translationVector = new Vector2D( proposedLocation ).getSubtractedInstance( shapeCenter );
         Shape translatedBounds = AffineTransform.getTranslateInstance( translationVector.getX(), translationVector.getY() ).createTransformedShape( shape );
         return inBounds( translatedBounds );
     }

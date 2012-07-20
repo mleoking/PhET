@@ -1,8 +1,9 @@
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
 import java.awt.Shape;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.IUpdateStrategy;
@@ -16,10 +17,10 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.Motionless;
 public abstract class Particle {
 
     //Interface for setting and observing the position
-    private final Property<ImmutableVector2D> position;
+    private final Property<Vector2D> position;
 
     //Interface for setting and observing the velocity
-    public final Property<ImmutableVector2D> velocity;
+    public final Property<Vector2D> velocity;
 
     //Strategy instance for updating the model when time passes
     private IUpdateStrategy updateStrategy = new Motionless();
@@ -29,23 +30,23 @@ public abstract class Particle {
     //In this case it should still be prevented from leaving the water area
     private boolean hasSubmerged = false;
 
-    public Particle( ImmutableVector2D position ) {
-        this.position = new Property<ImmutableVector2D>( position );
-        this.velocity = new Property<ImmutableVector2D>( new ImmutableVector2D() );
+    public Particle( Vector2D position ) {
+        this.position = new Property<Vector2D>( position );
+        this.velocity = new Property<Vector2D>( new Vector2D() );
     }
 
     //Given the specified acceleration from external forces (such as gravity), perform an Euler integration step to move the particle forward in time
-    public void stepInTime( ImmutableVector2D acceleration, double dt ) {
+    public void stepInTime( Vector2D acceleration, double dt ) {
         velocity.set( velocity.get().plus( acceleration.times( dt ) ) );
         setPosition( position.get().plus( velocity.get().times( dt ) ) );
     }
 
-    public void setPosition( ImmutableVector2D location ) {
+    public void setPosition( Vector2D location ) {
         position.set( location );
     }
 
     //Convenience method to translate a particle by the specified model delta (in meters)
-    public void translate( ImmutableVector2D delta ) {
+    public void translate( Vector2D delta ) {
         translate( delta.getX(), delta.getY() );
     }
 
@@ -56,11 +57,11 @@ public abstract class Particle {
     //Get a shape for the particle for purposes of collision detection with beaker solution and beaker walls
     public abstract Shape getShape();
 
-    public ImmutableVector2D getPosition() {
+    public Vector2D getPosition() {
         return position.get();
     }
 
-    public void addPositionObserver( VoidFunction1<ImmutableVector2D> listener ) {
+    public void addPositionObserver( VoidFunction1<Vector2D> listener ) {
         position.addObserver( listener );
     }
 

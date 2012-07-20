@@ -1,14 +1,17 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.buildanatom.modules.isotopemixture.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Paint;
 import java.awt.geom.Point2D;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MovableAtom;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
@@ -93,7 +96,7 @@ public class LabeledIsotopeNode extends PNode {
             @Override
             public void mouseDragged( PInputEvent event ) {
                 PDimension delta = event.getDeltaRelativeTo( getParent() );
-                ImmutableVector2D modelDelta = mvt.viewToModelDelta( new ImmutableVector2D( delta.width, delta.height ) );
+                Vector2D modelDelta = mvt.viewToModelDelta( new Vector2D( delta.width, delta.height ) );
                 isotope.setPositionAndDestination( isotope.getPosition().getX() + modelDelta.getX(),
                                                    isotope.getPosition().getY() + modelDelta.getY() );
             }

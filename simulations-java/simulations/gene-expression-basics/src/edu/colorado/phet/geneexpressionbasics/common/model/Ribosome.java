@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model;
 
 import java.awt.Color;
@@ -9,7 +9,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentStateMachine;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.RibosomeAttachmentStateMachine;
 
@@ -28,11 +28,11 @@ public class Ribosome extends MobileBiomolecule {
 
     // Offset from the center position to the entrance of the translation
     // channel.  May require some tweaking if the shape changes.
-    public static final ImmutableVector2D OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE = new ImmutableVector2D( WIDTH / 2, -OVERALL_HEIGHT * 0.20 );
+    public static final Vector2D OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE = new Vector2D( WIDTH / 2, -OVERALL_HEIGHT * 0.20 );
 
     // Offset from the center position to the point from which the protein
     // emerges.  May require some tweaking if the overall shape changes.
-    private static final ImmutableVector2D OFFSET_TO_PROTEIN_OUTPUT_CHANNEL = new ImmutableVector2D( WIDTH * 0.4, OVERALL_HEIGHT * 0.55 );
+    private static final Vector2D OFFSET_TO_PROTEIN_OUTPUT_CHANNEL = new Vector2D( WIDTH * 0.4, OVERALL_HEIGHT * 0.55 );
 
     // Messenger RNA being translated, null if no translation is in progress.
     private MessengerRna messengerRnaBeingTranslated;
@@ -116,8 +116,8 @@ public class Ribosome extends MobileBiomolecule {
         return combinedShape;
     }
 
-    public ImmutableVector2D getEntranceOfRnaChannelPos() {
-        return new ImmutableVector2D( getPosition() ).getAddedInstance( OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE );
+    public Vector2D getEntranceOfRnaChannelPos() {
+        return new Vector2D( getPosition() ).getAddedInstance( OFFSET_TO_TRANSLATION_CHANNEL_ENTRANCE );
     }
 
     public double getTranslationChannelLength() {

@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -203,7 +203,7 @@ public class ChamberPool implements IPool {
         rightWaterHeight.addObserver( updatePressure );
     }
 
-    public boolean isAbbreviatedUnits( final ImmutableVector2D sensorPosition, final double value ) {
+    public boolean isAbbreviatedUnits( final Vector2D sensorPosition, final double value ) {
         return getWaterShape().get().contains( sensorPosition.getX(), sensorPosition.getY() );
     }
 
@@ -215,38 +215,38 @@ public class ChamberPool implements IPool {
         }};
     }
 
-    public ArrayList<ArrayList<ImmutableVector2D>> getEdges() {
-        return new ArrayList<ArrayList<ImmutableVector2D>>() {{
-            add( new ArrayList<ImmutableVector2D>( Arrays.asList( topLeft( leftOpening() ),
-                                                                  bottomLeft( leftOpening() ),
-                                                                  topLeft( leftChamber() ),
-                                                                  bottomLeft( leftChamber() ),
-                                                                  bottomRight( leftChamber() ),
-                                                                  bottomLeft( horizontalPassage() ),
-                                                                  bottomRight( horizontalPassage() ),
-                                                                  bottomLeft( rightChamber() ),
-                                                                  bottomRight( rightChamber() ),
-                                                                  topRight( rightChamber() ),
-                                                                  bottomRight( rightOpening() ),
-                                                                  topRight( rightOpening() ) ) ) );
-            add( new ArrayList<ImmutableVector2D>( Arrays.asList( topRight( leftOpening() ),
-                                                                  bottomRight( leftOpening() ),
-                                                                  topRight( leftChamber() ),
-                                                                  topLeft( horizontalPassage() ),
-                                                                  topRight( horizontalPassage() ),
-                                                                  topLeft( rightChamber() ),
-                                                                  bottomLeft( rightOpening() ),
-                                                                  topLeft( rightOpening() ) ) ) );
+    public ArrayList<ArrayList<Vector2D>> getEdges() {
+        return new ArrayList<ArrayList<Vector2D>>() {{
+            add( new ArrayList<Vector2D>( Arrays.asList( topLeft( leftOpening() ),
+                                                         bottomLeft( leftOpening() ),
+                                                         topLeft( leftChamber() ),
+                                                         bottomLeft( leftChamber() ),
+                                                         bottomRight( leftChamber() ),
+                                                         bottomLeft( horizontalPassage() ),
+                                                         bottomRight( horizontalPassage() ),
+                                                         bottomLeft( rightChamber() ),
+                                                         bottomRight( rightChamber() ),
+                                                         topRight( rightChamber() ),
+                                                         bottomRight( rightOpening() ),
+                                                         topRight( rightOpening() ) ) ) );
+            add( new ArrayList<Vector2D>( Arrays.asList( topRight( leftOpening() ),
+                                                         bottomRight( leftOpening() ),
+                                                         topRight( leftChamber() ),
+                                                         topLeft( horizontalPassage() ),
+                                                         topRight( horizontalPassage() ),
+                                                         topLeft( rightChamber() ),
+                                                         bottomLeft( rightOpening() ),
+                                                         topLeft( rightOpening() ) ) ) );
         }};
     }
 
-    private ImmutableVector2D topLeft( final Rectangle2D rectangle2D ) { return new ImmutableVector2D( rectangle2D.getMinX(), rectangle2D.getMaxY() ); }
+    private Vector2D topLeft( final Rectangle2D rectangle2D ) { return new Vector2D( rectangle2D.getMinX(), rectangle2D.getMaxY() ); }
 
-    private ImmutableVector2D bottomLeft( final Rectangle2D rectangle2D ) { return new ImmutableVector2D( rectangle2D.getMinX(), rectangle2D.getMinY() ); }
+    private Vector2D bottomLeft( final Rectangle2D rectangle2D ) { return new Vector2D( rectangle2D.getMinX(), rectangle2D.getMinY() ); }
 
-    private ImmutableVector2D topRight( final Rectangle2D rectangle2D ) { return new ImmutableVector2D( rectangle2D.getMaxX(), rectangle2D.getMaxY() ); }
+    private Vector2D topRight( final Rectangle2D rectangle2D ) { return new Vector2D( rectangle2D.getMaxX(), rectangle2D.getMaxY() ); }
 
-    private ImmutableVector2D bottomRight( final Rectangle2D rectangle2D ) { return new ImmutableVector2D( rectangle2D.getMaxX(), rectangle2D.getMinY() ); }
+    private Vector2D bottomRight( final Rectangle2D rectangle2D ) { return new Vector2D( rectangle2D.getMaxX(), rectangle2D.getMinY() ); }
 
     private ObservableList<Mass> updateMasses( final ObservableList<Mass> masses, final double dt ) {
         ObservableList<Mass> newList = new ObservableList<Mass>();

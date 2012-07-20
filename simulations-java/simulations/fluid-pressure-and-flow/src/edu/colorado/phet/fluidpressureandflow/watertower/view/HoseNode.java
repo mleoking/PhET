@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.watertower.view;
 
 import java.awt.BasicStroke;
@@ -8,8 +8,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterKeys;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
@@ -56,7 +56,7 @@ public class HoseNode extends PNode {
             //When the hose angle or output point change, update the location and orientation of the nozzle image
             new RichSimpleObserver() {
                 @Override public void update() {
-                    final ImmutableVector2D origin = new ImmutableVector2D( transform.modelToView( hose.outputPoint.get().toPoint2D() ) );
+                    final Vector2D origin = new Vector2D( transform.modelToView( hose.outputPoint.get().toPoint2D() ) );
                     setTransform( new AffineTransform() );
                     setOffset( origin.toPoint2D().getX() - getFullBounds().getWidth() / 2, origin.toPoint2D().getY() );
                     rotateAboutPoint( PI / 2 - hose.angle.get(), getFullBounds().getWidth() / 2, 0 );
@@ -97,7 +97,7 @@ public class HoseNode extends PNode {
             addChild( new PImage( BufferedImageUtils.flipX( KNOB ) ) );
             new RichSimpleObserver() {
                 @Override public void update() {
-                    final ImmutableVector2D tail = transform.modelToView( hose.getNozzleInputPoint().plus( hose.getUnitDirectionVector() ) );
+                    final Vector2D tail = transform.modelToView( hose.getNozzleInputPoint().plus( hose.getUnitDirectionVector() ) );
                     double angle = -hose.angle.get() + Math.PI / 2;
                     setOffset( tail.getX(), tail.getY() );
                     setRotation( angle );
@@ -141,7 +141,7 @@ public class HoseNode extends PNode {
 
                 //Find the angle about the center of rotation
                 private double getAngle( PInputEvent event ) {
-                    return new ImmutableVector2D( hose.outputPoint.get().toPoint2D(), transform.viewToModel( event.getPositionRelativeTo( getParent() ) ) ).getAngle();
+                    return new Vector2D( hose.outputPoint.get().toPoint2D(), transform.viewToModel( event.getPositionRelativeTo( getParent() ) ) ).getAngle();
                 }
 
                 @Override protected ParameterSet getParametersForAllEvents( final PInputEvent event ) {

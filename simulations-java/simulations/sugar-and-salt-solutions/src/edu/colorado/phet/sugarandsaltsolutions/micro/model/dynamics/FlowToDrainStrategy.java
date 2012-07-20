@@ -1,11 +1,11 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
+import static edu.colorado.phet.common.phetcommon.math.Vector2D.ZERO;
 
 /**
  * This strategy moves particles toward the drain at the indicated velocity.  When they reach the drain, they flow out through the drain faucet.
@@ -15,13 +15,13 @@ import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 public class FlowToDrainStrategy extends UpdateStrategy {
 
     //The velocity at which the particle should flow toward the drain
-    private final ImmutableVector2D velocity;
+    private final Vector2D velocity;
 
     //Flag to indicate whether the particle should also use some randomness as it moves toward the drain.  Particles that are closest to the drain should move directly toward the drain
     //So they can reach it in the desired amount of time to keep the concentration as steady as possible
     private final boolean randomWalk;
 
-    public FlowToDrainStrategy( MicroModel model, ImmutableVector2D velocity, boolean randomWalk ) {
+    public FlowToDrainStrategy( MicroModel model, Vector2D velocity, boolean randomWalk ) {
         super( model );
         this.velocity = velocity;
         this.randomWalk = randomWalk;
@@ -43,7 +43,7 @@ public class FlowToDrainStrategy extends UpdateStrategy {
                 double initVelocity = particle.velocity.get().getMagnitude();
 
                 //Mix in more of the original velocity to keep more of the random walk component
-                ImmutableVector2D newVelocity = particle.velocity.get().times( 3 ).plus( velocity ).getInstanceOfMagnitude( initVelocity );
+                Vector2D newVelocity = particle.velocity.get().times( 3 ).plus( velocity ).getInstanceOfMagnitude( initVelocity );
                 particle.velocity.set( newVelocity );
                 new FreeParticleStrategy( model ).randomWalk( particle, dt );
             }

@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.moleculepolarity.common.view;
 
 import java.awt.BasicStroke;
@@ -9,7 +9,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.simsharing.NonInteractiveEventHandler;
@@ -92,8 +92,8 @@ public class BondCharacterNode extends PComposite {
                                               POINTER_X_INSET, TRACK_WIDTH - pointerNode.getFullBoundsReference().getWidth() - POINTER_X_INSET );
 
         // when difference in electronegativity changes, move the thumb
-        molecule.bond.dipole.addObserver( new VoidFunction1<ImmutableVector2D>() {
-            public void apply( ImmutableVector2D dipole ) {
+        molecule.bond.dipole.addObserver( new VoidFunction1<Vector2D>() {
+            public void apply( Vector2D dipole ) {
                 pointerNode.setOffset( xOffsetFunction.evaluate( dipole.getMagnitude() ), pointerNode.getYOffset() );
             }
         } );

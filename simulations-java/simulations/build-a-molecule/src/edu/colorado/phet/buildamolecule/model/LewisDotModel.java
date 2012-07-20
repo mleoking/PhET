@@ -1,4 +1,4 @@
-//  Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.buildamolecule.model;
 
 import java.awt.geom.Point2D;
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import edu.colorado.phet.chemistry.model.Atom;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 
 /**
@@ -26,18 +26,18 @@ public class LewisDotModel {
      * Represents a cardinal direction for use in our model. Also includes unit vector version
      */
     public static enum Direction {
-        North( new ImmutableVector2D( 0, 1 ) ),
-        East( new ImmutableVector2D( 1, 0 ) ),
-        South( new ImmutableVector2D( 0, -1 ) ),
-        West( new ImmutableVector2D( -1, 0 ) );
+        North( new Vector2D( 0, 1 ) ),
+        East( new Vector2D( 1, 0 ) ),
+        South( new Vector2D( 0, -1 ) ),
+        West( new Vector2D( -1, 0 ) );
 
-        private ImmutableVector2D vector;
+        private Vector2D vector;
 
-        Direction( ImmutableVector2D vector ) {
+        Direction( Vector2D vector ) {
             this.vector = vector;
         }
 
-        public ImmutableVector2D getVector() {
+        public Vector2D getVector() {
             return vector;
         }
 
@@ -157,7 +157,7 @@ public class LewisDotModel {
         Map<Point2D, Atom> coordinateMap = new HashMap<Point2D, Atom>();
 
         // map the molecule on the A side, from the origin
-        boolean success = mapMolecule( new ImmutableVector2D(), a, null, coordinateMap );
+        boolean success = mapMolecule( new Vector2D(), a, null, coordinateMap );
 
         // map the molecule on the B side, with the offset from direction
         success = success && mapMolecule( direction.getVector(), b, null, coordinateMap );
@@ -180,7 +180,7 @@ public class LewisDotModel {
      * @param coordinateMap Coordinate map to which we add the atoms to
      * @return Success. Will return false if any heavy atom overlaps on another atom. If it returns false, the coordinate map may be inconsistent
      */
-    private boolean mapMolecule( ImmutableVector2D coordinates, Atom atom, Atom excludedAtom, Map<Point2D, Atom> coordinateMap ) {
+    private boolean mapMolecule( Vector2D coordinates, Atom atom, Atom excludedAtom, Map<Point2D, Atom> coordinateMap ) {
         LewisDotAtom dotAtom = getLewisDotAtom( atom );
 
         // for sanity and equality (negative zero equals zero, so don't worry about that)

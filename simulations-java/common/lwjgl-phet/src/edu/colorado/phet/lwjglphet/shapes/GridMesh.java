@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.lwjglphet.shapes;
 
 import java.nio.FloatBuffer;
@@ -6,7 +6,7 @@ import java.nio.IntBuffer;
 
 import org.lwjgl.BufferUtils;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.lwjglphet.GLOptions;
 import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
@@ -210,9 +210,9 @@ public class GridMesh extends GLNode {
         return positions[row * columns + col];
     }
 
-    public ImmutableVector2D getTextureCoordinate( int row, int col ) {
+    public Vector2D getTextureCoordinate( int row, int col ) {
         // return a default mapping that covers the entire texture
-        return new ImmutableVector2D( ( (float) row ) / ( (float) ( rows - 1 ) ),
-                                      ( (float) col ) / ( (float) ( columns - 1 ) ) );
+        return new Vector2D( ( (float) row ) / ( (float) ( rows - 1 ) ),
+                             ( (float) col ) / ( (float) ( columns - 1 ) ) );
     }
 }

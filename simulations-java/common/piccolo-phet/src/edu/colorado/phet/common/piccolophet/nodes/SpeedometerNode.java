@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.BasicStroke;
@@ -8,7 +8,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -46,10 +46,10 @@ public class SpeedometerNode extends PNode {
                 public void apply( Option<Double> speed ) {
                     if ( speed.isSome() ) {
                         double angle = speedToAngle( speed.get() );
-                        ImmutableVector2D center = new ImmutableVector2D( width / 2, width / 2 );
-                        ImmutableVector2D delta = ImmutableVector2D.createPolar( 1.0, angle );
-                        ImmutableVector2D tail = center.minus( delta.times( width / 10 ) );
-                        ImmutableVector2D tip = center.plus( delta.times( width / 2 ) );
+                        Vector2D center = new Vector2D( width / 2, width / 2 );
+                        Vector2D delta = Vector2D.createPolar( 1.0, angle );
+                        Vector2D tail = center.minus( delta.times( width / 10 ) );
+                        Vector2D tip = center.plus( delta.times( width / 2 ) );
                         if ( Double.isNaN( angle ) || Double.isInfinite( angle ) ) {
                             setPathTo( new Rectangle2D.Double( 0, 0, 0, 0 ) );
                         }
@@ -69,10 +69,10 @@ public class SpeedometerNode extends PNode {
         double ds = maxSpeed / numTicks;
         for ( int i = 0; i < numTicks + 1; i++ ) {
             double angle = speedToAngle( i * ds );
-            ImmutableVector2D center = new ImmutableVector2D( width / 2, width / 2 );
-            ImmutableVector2D delta = ImmutableVector2D.createPolar( 1.0, angle );
-            ImmutableVector2D tail = center.plus( delta.times( width / 2 * ( i % 2 == 0 ? 0.9 : 0.93 ) ) );
-            ImmutableVector2D tip = center.plus( delta.times( width / 2 ) );
+            Vector2D center = new Vector2D( width / 2, width / 2 );
+            Vector2D delta = Vector2D.createPolar( 1.0, angle );
+            Vector2D tail = center.plus( delta.times( width / 2 * ( i % 2 == 0 ? 0.9 : 0.93 ) ) );
+            Vector2D tip = center.plus( delta.times( width / 2 ) );
             final PhetPPath tick = new PhetPPath( new Line2D.Double( tail.toPoint2D(), tip.toPoint2D() ), new BasicStroke( i % 2 == 0 ? 1 : 0.5f ), Color.black );
             addChild( tick );
         }

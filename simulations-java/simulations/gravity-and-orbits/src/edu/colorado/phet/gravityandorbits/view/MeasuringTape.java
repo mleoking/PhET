@@ -1,14 +1,19 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 package edu.colorado.phet.gravityandorbits.view;
 
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Dimension2D;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
@@ -38,8 +43,8 @@ public class MeasuringTape extends PNode {
     public static double METERS_PER_MILE = 0.000621371192;
 
     public MeasuringTape( final ObservableProperty<Boolean> visible,
-                          final Property<ImmutableVector2D> modelStart,
-                          final Property<ImmutableVector2D> modelEnd,
+                          final Property<Vector2D> modelStart,
+                          final Property<Vector2D> modelEnd,
                           final Property<ModelViewTransform> transform ) {
         //The line that represents the "tape" part of the measuring tape
         addChild( new PhetPPath( new BasicStroke( 3 ), Color.gray ) {{
@@ -71,7 +76,7 @@ public class MeasuringTape extends PNode {
         } );
     }
 
-    private PText createTextReadout( final Property<ImmutableVector2D> modelStart, final Property<ImmutableVector2D> modelEnd, final Property<ModelViewTransform> transform ) {
+    private PText createTextReadout( final Property<Vector2D> modelStart, final Property<Vector2D> modelEnd, final Property<ModelViewTransform> transform ) {
         return new PText( "Hello" ) {{  //Dummy string to get the layout right
             setFont( new PhetFont( 18, true ) );
             setTextPaint( Color.white );
@@ -106,15 +111,15 @@ public class MeasuringTape extends PNode {
         }};
     }
 
-    private PImage createMeasuringTapeBody( final Property<ImmutableVector2D> modelStart, final Property<ImmutableVector2D> modelEnd, final Property<ModelViewTransform> transform ) throws IOException {
+    private PImage createMeasuringTapeBody( final Property<Vector2D> modelStart, final Property<Vector2D> modelEnd, final Property<ModelViewTransform> transform ) throws IOException {
         return new PImage( ImageLoader.loadBufferedImage( "piccolo-phet/images/measuringTape.png" ) ) {{
             final SimpleObserver updateBody = new SimpleObserver() {
                 public void update() {
                     setTransform( new AffineTransform() );
                     Point2D.Double offset = transform.get().modelToView( modelStart.get() ).toPoint2D();
                     translate( offset.getX() - getFullBounds().getWidth(), offset.getY() - getFullBounds().getHeight() + CROSS_HAIR_RADIUS );
-                    final ImmutableVector2D delta = new ImmutableVector2D( modelStart.get().toPoint2D(), modelEnd.get().toPoint2D() );
-                    double angle = new ImmutableVector2D( delta.getX(), -delta.getY() ).getAngle();//invert coordinate frame
+                    final Vector2D delta = new Vector2D( modelStart.get().toPoint2D(), modelEnd.get().toPoint2D() );
+                    double angle = new Vector2D( delta.getX(), -delta.getY() ).getAngle();//invert coordinate frame
                     rotateAboutPoint( angle, getFullBounds().getWidth(), getFullBounds().getHeight() - CROSS_HAIR_RADIUS );
                 }
             };
@@ -135,7 +140,7 @@ public class MeasuringTape extends PNode {
     }
 
     private static class CrossHairGraphic extends PNode {
-        public CrossHairGraphic( final Property<ImmutableVector2D> point, final Property<ModelViewTransform> transform ) {
+        public CrossHairGraphic( final Property<Vector2D> point, final Property<ModelViewTransform> transform ) {
             addChild( new PhetPPath( new Ellipse2D.Double( -CROSS_HAIR_RADIUS, -CROSS_HAIR_RADIUS, CROSS_HAIR_RADIUS * 2, CROSS_HAIR_RADIUS * 2 ), new Color( 0, 0, 0, 0 ) ) );
             addChild( new PhetPPath( new Line2D.Double( -CROSS_HAIR_RADIUS, 0, CROSS_HAIR_RADIUS, 0 ), new BasicStroke( 2 ), PhetColorScheme.RED_COLORBLIND ) );
             addChild( new PhetPPath( new Line2D.Double( 0, -CROSS_HAIR_RADIUS, 0, CROSS_HAIR_RADIUS ), new BasicStroke( 2 ), PhetColorScheme.RED_COLORBLIND ) );
@@ -155,9 +160,9 @@ public class MeasuringTape extends PNode {
     private static class DragHandler extends PBasicInputEventHandler {
         private final PNode node;
         private final Property<ModelViewTransform> transform;
-        private final Property<ImmutableVector2D>[] points;
+        private final Property<Vector2D>[] points;
 
-        private DragHandler( PNode node, Property<ModelViewTransform> transform, Property<ImmutableVector2D>... points ) {
+        private DragHandler( PNode node, Property<ModelViewTransform> transform, Property<Vector2D>... points ) {
             this.node = node;
             this.transform = transform;
             this.points = points;
@@ -165,8 +170,8 @@ public class MeasuringTape extends PNode {
 
         public void mouseDragged( PInputEvent event ) {
             Dimension2D delta = transform.get().viewToModelDelta( event.getDeltaRelativeTo( node.getParent() ) );
-            for ( Property<ImmutableVector2D> point : points ) {
-                point.set( new ImmutableVector2D( point.get().getX() + delta.getWidth(), point.get().getY() + delta.getHeight() ) );
+            for ( Property<Vector2D> point : points ) {
+                point.set( new Vector2D( point.get().getX() + delta.getWidth(), point.get().getY() + delta.getHeight() ) );
             }
         }
     }

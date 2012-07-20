@@ -12,7 +12,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -48,7 +48,7 @@ public class BeakerView {
     private static final Font LABEL_FONT = new PhetFont( 32, false );
     private static final boolean SHOW_MODEL_RECT = false;
     private static final Color BEAKER_COLOR = new Color( 250, 250, 250, 100 );
-    private static final ImmutableVector2D BLOCK_OFFSET_POST_TO_CENTER = new ImmutableVector2D( 0, Block.SURFACE_WIDTH / 2 );
+    private static final Vector2D BLOCK_OFFSET_POST_TO_CENTER = new Vector2D( 0, Block.SURFACE_WIDTH / 2 );
 
     private final PhetPCanvas canvas;
     private final ModelViewTransform mvt;
@@ -162,8 +162,8 @@ public class BeakerView {
         }
 
         // Update the offset if and when the model position changes.
-        beaker.position.addObserver( new VoidFunction1<ImmutableVector2D>() {
-            public void apply( ImmutableVector2D position ) {
+        beaker.position.addObserver( new VoidFunction1<Vector2D>() {
+            public void apply( Vector2D position ) {
                 frontNode.setOffset( mvt.modelToView( position ).toPoint2D() );
                 backNode.setOffset( mvt.modelToView( position ).toPoint2D() );
                 // Compensate the energy chunk layer so that the energy chunk
@@ -177,8 +177,8 @@ public class BeakerView {
         backNode.addInputEventListener( new CursorHandler( CursorHandler.HAND ) );
 
         // Add the drag handler.
-        final ImmutableVector2D offsetPosToCenter = new ImmutableVector2D( backNode.getFullBoundsReference().getCenterX() - mvt.modelToViewX( beaker.position.get().getX() ),
-                                                                           backNode.getFullBoundsReference().getCenterY() - mvt.modelToViewY( beaker.position.get().getY() ) );
+        final Vector2D offsetPosToCenter = new Vector2D( backNode.getFullBoundsReference().getCenterX() - mvt.modelToViewX( beaker.position.get().getX() ),
+                                                         backNode.getFullBoundsReference().getCenterY() - mvt.modelToViewY( beaker.position.get().getY() ) );
 
         backNode.addInputEventListener( new ThermalElementDragHandler( beaker,
                                                                        backNode,
@@ -192,20 +192,20 @@ public class BeakerView {
 
     // Update the clipping mask that hides energy chunks behind blocks that are in the beaker.
     private void updateEnergyChunkClipMask( EFACIntroModel model, PClip clip ) {
-        ImmutableVector2D forwardPerspectiveOffset = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( Block.SURFACE_WIDTH / 2 );
-        ImmutableVector2D backwardPerspectiveOffset = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( -Block.SURFACE_WIDTH / 2 );
+        Vector2D forwardPerspectiveOffset = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( Block.SURFACE_WIDTH / 2 );
+        Vector2D backwardPerspectiveOffset = EFACConstants.MAP_Z_TO_XY_OFFSET.apply( -Block.SURFACE_WIDTH / 2 );
 
         Area clippingMask = new Area( frontNode.getFullBoundsReference() );
         for ( Block block : model.getBlockList() ) {
             if ( model.getBeaker().getRect().contains( block.getRect() ) ) {
                 DoubleGeneralPath path = new DoubleGeneralPath();
                 Rectangle2D rect = block.getRect();
-                path.moveTo( new ImmutableVector2D( rect.getX(), rect.getY() ).getAddedInstance( forwardPerspectiveOffset ) );
-                path.lineTo( new ImmutableVector2D( rect.getMaxX(), rect.getY() ).getAddedInstance( forwardPerspectiveOffset ) );
-                path.lineTo( new ImmutableVector2D( rect.getMaxX(), rect.getY() ).getAddedInstance( backwardPerspectiveOffset ) );
-                path.lineTo( new ImmutableVector2D( rect.getMaxX(), rect.getMaxY() ).getAddedInstance( backwardPerspectiveOffset ) );
-                path.lineTo( new ImmutableVector2D( rect.getMinX(), rect.getMaxY() ).getAddedInstance( backwardPerspectiveOffset ) );
-                path.lineTo( new ImmutableVector2D( rect.getMinX(), rect.getMaxY() ).getAddedInstance( forwardPerspectiveOffset ) );
+                path.moveTo( new Vector2D( rect.getX(), rect.getY() ).getAddedInstance( forwardPerspectiveOffset ) );
+                path.lineTo( new Vector2D( rect.getMaxX(), rect.getY() ).getAddedInstance( forwardPerspectiveOffset ) );
+                path.lineTo( new Vector2D( rect.getMaxX(), rect.getY() ).getAddedInstance( backwardPerspectiveOffset ) );
+                path.lineTo( new Vector2D( rect.getMaxX(), rect.getMaxY() ).getAddedInstance( backwardPerspectiveOffset ) );
+                path.lineTo( new Vector2D( rect.getMinX(), rect.getMaxY() ).getAddedInstance( backwardPerspectiveOffset ) );
+                path.lineTo( new Vector2D( rect.getMinX(), rect.getMaxY() ).getAddedInstance( forwardPerspectiveOffset ) );
                 path.closePath();
                 clippingMask.subtract( new Area( mvt.modelToView( path.getGeneralPath() ) ) );
             }

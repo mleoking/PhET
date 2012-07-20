@@ -1,12 +1,17 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.view;
 
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.Color;
+import java.awt.Shape;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Area;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.bendinglight.model.ProtractorModel;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -102,8 +107,8 @@ public class ProtractorNode extends ToolNode {
                 public void mouseDragged( PInputEvent event ) {
                     //Compute the change in angle based on the new drag event
                     Point2D end = event.getPositionRelativeTo( getParent() );
-                    double startAngle = new ImmutableVector2D( getFullBounds().getCenter2D(), start ).getAngle();
-                    double angle = new ImmutableVector2D( getFullBounds().getCenter2D(), end ).getAngle();
+                    double startAngle = new Vector2D( getFullBounds().getCenter2D(), start ).getAngle();
+                    double angle = new Vector2D( getFullBounds().getCenter2D(), end ).getAngle();
                     double deltaAngle = angle - startAngle;
 
                     //Rotate the protractor model
@@ -142,7 +147,7 @@ public class ProtractorNode extends ToolNode {
 
     //Translate the protractor, this method is called when dragging out of the toolbox
     public void dragAll( PDimension delta ) {
-        protractorModel.translate( transform.viewToModelDelta( new ImmutableVector2D( delta.width, delta.height ) ) );
+        protractorModel.translate( transform.viewToModelDelta( new Vector2D( delta.width, delta.height ) ) );
     }
 
     //Change the visibility and pickability of this ProtractorNode

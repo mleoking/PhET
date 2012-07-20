@@ -7,9 +7,9 @@ import java.awt.geom.Rectangle2D;
 import java.util.List;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
@@ -35,10 +35,10 @@ public class DriftThenTeleportMotionStrategy extends MotionStrategy {
     private final List<Rectangle2D> destinationZones;
 
     private double preFadeCountdown = PRE_FADE_DRIFT_TIME;
-    private final ImmutableVector2D velocityXY;
+    private final Vector2D velocityXY;
     private double velocityZ = 0;
 
-    public DriftThenTeleportMotionStrategy( ImmutableVector2D wanderDirection, List<Rectangle2D> destinationZones, Property<MotionBounds> motionBoundsProperty ) {
+    public DriftThenTeleportMotionStrategy( Vector2D wanderDirection, List<Rectangle2D> destinationZones, Property<MotionBounds> motionBoundsProperty ) {
         this.destinationZones = destinationZones;
         motionBoundsProperty.addObserver( new VoidFunction1<MotionBounds>() {
             public void apply( MotionBounds motionBounds ) {
@@ -64,12 +64,12 @@ public class DriftThenTeleportMotionStrategy extends MotionStrategy {
         }
 
         // Determine movement for drift.
-        final ImmutableVector2D xyMovement;
+        final Vector2D xyMovement;
         if ( motionBounds.testIfInMotionBounds( shape, velocityXY, dt ) ) {
             xyMovement = velocityXY.getScaledInstance( dt );
         }
         else {
-            xyMovement = new ImmutableVector2D( 0, 0 );
+            xyMovement = new Vector2D( 0, 0 );
         }
         double zMovement = 0;
         if ( preFadeCountdown > 0 ) {

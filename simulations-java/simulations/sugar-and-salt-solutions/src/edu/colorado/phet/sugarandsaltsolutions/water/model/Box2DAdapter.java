@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.water.model;
 
 import org.jbox2d.collision.shapes.CircleShape;
@@ -9,7 +9,7 @@ import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.World;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Compound;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Constituent;
@@ -43,7 +43,7 @@ public class Box2DAdapter {
 
         //First create the body def at the right location
         BodyDef bodyDef = new BodyDef() {{
-            ImmutableVector2D box2DPosition = transform.modelToView( compound.getPosition() );
+            Vector2D box2DPosition = transform.modelToView( compound.getPosition() );
             position = new Vec2( (float) box2DPosition.getX(), (float) box2DPosition.getY() );
             angle = (float) compound.getAngle();
 
@@ -65,7 +65,7 @@ public class Box2DAdapter {
                 m_radius = (float) transform.modelToViewDeltaX( constituent.particle.radius );
 
                 //Set the position within the molecule
-                ImmutableVector2D boxOffset = transform.modelToViewDelta( constituent.relativePosition );
+                Vector2D boxOffset = transform.modelToViewDelta( constituent.relativePosition );
                 m_p.set( (float) boxOffset.getX(), (float) boxOffset.getY() );
             }};
 
@@ -79,35 +79,35 @@ public class Box2DAdapter {
 
     //After the physics has been applied, update the true model position based on the box2D position
     public void worldStepped() {
-        compound.setPositionAndAngle( transform.viewToModel( new ImmutableVector2D( body.getPosition().x, body.getPosition().y ) ), body.getAngle() );
+        compound.setPositionAndAngle( transform.viewToModel( new Vector2D( body.getPosition().x, body.getPosition().y ) ), body.getAngle() );
     }
 
     //Apply a force in Newtons by converting it to box2d coordinates and applying it to the body
-    public void applyModelForce( ImmutableVector2D force, ImmutableVector2D position ) {
-        ImmutableVector2D box2DForce = transform.modelToViewDelta( force );
-        final ImmutableVector2D box2DPosition = transform.modelToView( position );
+    public void applyModelForce( Vector2D force, Vector2D position ) {
+        Vector2D box2DForce = transform.modelToViewDelta( force );
+        final Vector2D box2DPosition = transform.modelToView( position );
         applyBox2DForce( box2DForce.getX(), box2DForce.getY(), box2DPosition );
     }
 
     //Apply a force to the body at the specified location
-    public void applyBox2DForce( double fx, double fy, ImmutableVector2D box2DPosition ) {
+    public void applyBox2DForce( double fx, double fy, Vector2D box2DPosition ) {
         body.applyForce( new Vec2( (float) fx, (float) fy ), new Vec2( (float) box2DPosition.getX(), (float) box2DPosition.getY() ) );
     }
 
     //Convenience method to set the model position from double,double
     public void setModelPosition( double x, double y ) {
-        setModelPosition( new ImmutableVector2D( x, y ) );
+        setModelPosition( new Vector2D( x, y ) );
     }
 
     //Set the model position (in meters) of this compound, and update the box2D body to reflect the new coordinates so that it will be at the right place at the beginning of the next physics step
-    public void setModelPosition( ImmutableVector2D immutableVector2D ) {
+    public void setModelPosition( Vector2D immutableVector2D ) {
         compound.setPosition( immutableVector2D );
-        final ImmutableVector2D box2D = transform.modelToView( immutableVector2D );
+        final Vector2D box2D = transform.modelToView( immutableVector2D );
         body.setTransform( new Vec2( (float) box2D.getX(), (float) box2D.getY() ), (float) compound.getAngle() );
     }
 
     //Get the true model position (meters) of the compound
-    public ImmutableVector2D getModelPosition() {
+    public Vector2D getModelPosition() {
         return compound.getPosition();
     }
 }

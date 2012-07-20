@@ -3,8 +3,8 @@
 /*  */
 package edu.colorado.phet.quantumwaveinterference.model.waves;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.quantumwaveinterference.model.Wave;
 import edu.colorado.phet.quantumwaveinterference.model.math.Complex;
 
@@ -16,19 +16,19 @@ import edu.colorado.phet.quantumwaveinterference.model.math.Complex;
  */
 
 public class PlaneWave2D implements Wave {
-    private ImmutableVector2D k;
+    private Vector2D k;
     private double gridDim;
 
     private double scale = 1.0;
     private double phase = 0.0;
     private double dPhase;
 
-    public PlaneWave2D( ImmutableVector2D k, double gridDim ) {
+    public PlaneWave2D( Vector2D k, double gridDim ) {
         this.k = k;
         this.gridDim = gridDim;
     }
 
-    public void setWaveVector( ImmutableVector2D k ) {
+    public void setWaveVector( Vector2D k ) {
         this.k = k;
     }
 

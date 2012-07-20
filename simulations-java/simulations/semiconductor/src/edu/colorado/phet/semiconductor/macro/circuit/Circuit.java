@@ -1,8 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.semiconductor.macro.circuit;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.semiconductor.macro.circuit.battery.Battery;
 
 
@@ -57,7 +57,7 @@ public class Circuit {
         return circuit.numBranches();
     }
 
-    public ImmutableVector2D getPosition( double dist ) {
+    public Vector2D getPosition( double dist ) {
         return circuit.getPosition( dist );
     }
 

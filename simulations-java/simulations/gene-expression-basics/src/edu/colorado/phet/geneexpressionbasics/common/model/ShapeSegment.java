@@ -1,11 +1,11 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
@@ -46,8 +46,8 @@ public abstract class ShapeSegment {
     }
 
     public void setLowerRightCornerPos( Point2D newLowerRightCornerPos ) {
-        ImmutableVector2D currentLowerRightCornerPos = new ImmutableVector2D( getLowerRightCornerPos() );
-        ImmutableVector2D delta = new ImmutableVector2D( newLowerRightCornerPos ).getSubtractedInstance( currentLowerRightCornerPos );
+        Vector2D currentLowerRightCornerPos = new Vector2D( getLowerRightCornerPos() );
+        Vector2D delta = new Vector2D( newLowerRightCornerPos ).getSubtractedInstance( currentLowerRightCornerPos );
         Rectangle2D newBounds = AffineTransform.getTranslateInstance( delta.getX(), delta.getY() ).createTransformedShape( bounds.get() ).getBounds2D();
         bounds.set( newBounds );
         updateAttachmentSiteLocation();
@@ -65,7 +65,7 @@ public abstract class ShapeSegment {
         updateAttachmentSiteLocation();
     }
 
-    public void translate( ImmutableVector2D translationVector ) {
+    public void translate( Vector2D translationVector ) {
         bounds.set( new Rectangle2D.Double( bounds.get().getX() + translationVector.getX(),
                                             bounds.get().getY() + translationVector.getY(),
                                             bounds.get().getWidth(),

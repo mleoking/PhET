@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentStateMachine;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.RnaPolymeraseAttachmentStateMachine;
@@ -34,7 +34,7 @@ public class RnaPolymerase extends MobileBiomolecule {
     // Offset from the center of the molecule to the location where mRNA
     // should emerge when transcription is occurring.  This is determined
     // empirically, and may need to change if the shape is changed.
-    public static final ImmutableVector2D MESSENGER_RNA_GENERATION_OFFSET = new ImmutableVector2D( -WIDTH * 0.4, HEIGHT * 0.4 );
+    public static final Vector2D MESSENGER_RNA_GENERATION_OFFSET = new Vector2D( -WIDTH * 0.4, HEIGHT * 0.4 );
 
     // Set of points that outline the basic, non-distorted shape of this
     // molecule.  The shape is meant to look like illustrations in "The
@@ -102,9 +102,9 @@ public class RnaPolymerase extends MobileBiomolecule {
         return model.getDnaMolecule().considerProposalFrom( this );
     }
 
-    @Override public ImmutableVector2D getDetachDirection() {
+    @Override public Vector2D getDetachDirection() {
         // Randomly either up or down when detaching from DNA.
-        return RAND.nextBoolean() ? new ImmutableVector2D( 0, 1 ) : new ImmutableVector2D( 0, -1 );
+        return RAND.nextBoolean() ? new Vector2D( 0, 1 ) : new Vector2D( 0, -1 );
     }
 
     public void setRecycleMode( boolean recycleMode ) {

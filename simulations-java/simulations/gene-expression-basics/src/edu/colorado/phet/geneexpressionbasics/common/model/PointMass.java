@@ -3,8 +3,8 @@ package edu.colorado.phet.geneexpressionbasics.common.model;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * This class defines a point in model space that also has mass.  It is
@@ -42,11 +42,11 @@ public class PointMass {
         return new Point2D.Double( position.getX(), position.getY() );
     }
 
-    public ImmutableVector2D getVelocity() {
-        return new ImmutableVector2D( velocity.getX(), velocity.getY() );
+    public Vector2D getVelocity() {
+        return new Vector2D( velocity.getX(), velocity.getY() );
     }
 
-    public void setAcceleration( ImmutableVector2D acceleration ) {
+    public void setAcceleration( Vector2D acceleration ) {
         this.acceleration.setValue( acceleration );
     }
 
@@ -79,7 +79,7 @@ public class PointMass {
         position.setLocation( position.getX() + velocity.getX() * deltaTime, position.getY() + velocity.getY() * deltaTime );
     }
 
-    public void translate( ImmutableVector2D translationVector ) {
+    public void translate( Vector2D translationVector ) {
         setPosition( position.getX() + translationVector.getX(), position.getY() + translationVector.getY() );
     }
 

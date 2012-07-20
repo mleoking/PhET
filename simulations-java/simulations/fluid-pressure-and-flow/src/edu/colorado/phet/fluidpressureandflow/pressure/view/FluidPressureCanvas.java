@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.pressure.view;
 
 import java.awt.BasicStroke;
@@ -8,7 +8,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ValueEquals;
 import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
@@ -56,7 +56,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
     private static final int VIEW_OFFSET_Y = 10;
 
     public FluidPressureCanvas( final FluidPressureModule module ) {
-        super( ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width / 2, STAGE_SIZE.height / 2 - VIEW_OFFSET_Y ), STAGE_SIZE.height / MODEL_HEIGHT ), new ImmutableVector2D( 0, 0 ) );
+        super( ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width / 2, STAGE_SIZE.height / 2 - VIEW_OFFSET_Y ), STAGE_SIZE.height / MODEL_HEIGHT ), new Vector2D( 0, 0 ) );
 
         //Show the sky, ground and grass
         addChild( new PNode() {{
@@ -89,8 +89,8 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
                             addChild( GrassNode.GrassNode( transform, segment._1, segment._2 ) );
                         }
 
-                        ArrayList<ArrayList<ImmutableVector2D>> lineSets = pool.getEdges();
-                        for ( ArrayList<ImmutableVector2D> lines : lineSets ) {
+                        ArrayList<ArrayList<Vector2D>> lineSets = pool.getEdges();
+                        for ( ArrayList<Vector2D> lines : lineSets ) {
                             DoubleGeneralPath path = new DoubleGeneralPath( lines.get( 0 ) );
                             for ( int i = 1; i < lines.size(); i++ ) {
                                 path.lineTo( lines.get( i ) );

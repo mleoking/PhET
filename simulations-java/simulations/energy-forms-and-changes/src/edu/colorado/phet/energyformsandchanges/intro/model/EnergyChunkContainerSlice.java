@@ -4,7 +4,7 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
@@ -23,14 +23,14 @@ public class EnergyChunkContainerSlice {
 
     private Shape shape;
 
-    public EnergyChunkContainerSlice( Shape shape, double zPosition, ObservableProperty<ImmutableVector2D> anchorPoint ) {
+    public EnergyChunkContainerSlice( Shape shape, double zPosition, ObservableProperty<Vector2D> anchorPoint ) {
         this.shape = shape;
         this.zPosition = zPosition;
 
         // Monitor the anchor position and move the contained energy chunks to match.
-        anchorPoint.addObserver( new ChangeObserver<ImmutableVector2D>() {
-            public void update( ImmutableVector2D newPosition, ImmutableVector2D oldPosition ) {
-                ImmutableVector2D translation = newPosition.getSubtractedInstance( oldPosition );
+        anchorPoint.addObserver( new ChangeObserver<Vector2D>() {
+            public void update( Vector2D newPosition, Vector2D oldPosition ) {
+                Vector2D translation = newPosition.getSubtractedInstance( oldPosition );
                 EnergyChunkContainerSlice.this.shape = AffineTransform.getTranslateInstance( translation.getX(), translation.getY() ).createTransformedShape( EnergyChunkContainerSlice.this.shape );
                 for ( EnergyChunk energyChunk : energyChunkList ) {
                     energyChunk.translate( translation );

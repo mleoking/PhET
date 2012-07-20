@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.flow.view;
 
 import java.awt.BasicStroke;
@@ -8,7 +8,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.dialogs.ColorChooserFactory;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -48,8 +48,8 @@ public class FluxMeterHoopNode extends PNode {
                         double ellipseWidth = 0.45;
 
                         //Create a hoop to catch the water flux, have to flip the y-values going from model to view
-                        final ImmutableVector2D top = fluxMeter.getTop();
-                        final ImmutableVector2D bottom = fluxMeter.getBottom();
+                        final Vector2D top = fluxMeter.getTop();
+                        final Vector2D bottom = fluxMeter.getBottom();
                         final Ellipse2D.Double modelShape = new Ellipse2D.Double( top.getX() - ellipseWidth / 2, bottom.getY(), ellipseWidth, -1 * ( bottom.getY() - top.getY() ) );
                         final Shape viewShape = transform.modelToView( modelShape );
                         setPathTo( viewShape );

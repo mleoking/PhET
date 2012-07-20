@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.common.piccolophet.nodes.slider;
 
 import java.awt.BasicStroke;
@@ -9,8 +9,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
@@ -103,11 +103,11 @@ public class VSliderNode extends SliderNode {
                         super.drag( event );
                         dragged();
                         Point2D point = event.getPositionRelativeTo( VSliderNode.this );
-                        final ImmutableVector2D vector = new ImmutableVector2D( startPoint, point );
+                        final Vector2D vector = new Vector2D( startPoint, point );
 
                         Point2D minGlobal = trackNode.localToGlobal( new Point2D.Double( 0, 0 ) );
                         Point2D maxGlobal = trackNode.localToGlobal( createEndPoint() );
-                        final ImmutableVector2D unitVector = new ImmutableVector2D( minGlobal, maxGlobal ).getNormalizedInstance();
+                        final Vector2D unitVector = new Vector2D( minGlobal, maxGlobal ).getNormalizedInstance();
                         double viewDelta = vector.dot( unitVector );
 
                         double modelDelta = ( min - max ) / trackNode.getFullBounds().getHeight() * viewDelta;

@@ -1,11 +1,11 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package org.reid.scenic.model;
 
 import java.util.Random;
 
 import org.reid.scenic.TestScenicPanel;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.ImmutableList;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -81,7 +81,7 @@ public class Model {
         Random random = new Random();
         Atom[] a = new Atom[500];
         for ( int i = 0; i < a.length; i++ ) {
-            a[i] = new Atom( new ImmutableVector2D( random.nextDouble() * 800, random.nextDouble() * TestScenicPanel.MAX_Y ), new ImmutableVector2D( random.nextDouble() * 10 - 5, random.nextDouble() * 10 - 5 ), random.nextDouble() + 1 );
+            a[i] = new Atom( new Vector2D( random.nextDouble() * 800, random.nextDouble() * TestScenicPanel.MAX_Y ), new Vector2D( random.nextDouble() * 10 - 5, random.nextDouble() * 10 - 5 ), random.nextDouble() + 1 );
         }
         return a;
     }

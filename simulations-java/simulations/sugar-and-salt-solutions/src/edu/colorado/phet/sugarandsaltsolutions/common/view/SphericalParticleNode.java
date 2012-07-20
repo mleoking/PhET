@@ -1,9 +1,10 @@
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.common.view;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -36,8 +37,8 @@ public class SphericalParticleNode extends PNode {
 
                 //Use a cached image to improve performance for large molecules such as sucrose
                 super( getAtomImage( transform.modelToViewDeltaX( particle.radius * 2 ), color ) );
-                particle.addPositionObserver( new VoidFunction1<ImmutableVector2D>() {
-                    public void apply( ImmutableVector2D position ) {
+                particle.addPositionObserver( new VoidFunction1<Vector2D>() {
+                    public void apply( Vector2D position ) {
                         Point2D.Double viewPoint = transform.modelToView( position ).toPoint2D();
                         setOffset( viewPoint.x - getFullBounds().getWidth() / 2, viewPoint.y - getFullBounds().getHeight() / 2 );
                     }
@@ -67,7 +68,7 @@ public class SphericalParticleNode extends PNode {
     //Test application that draws a particle
     public static void main( String[] args ) {
         new PFrame( SphericalParticleNode.class.getName(), false, new PCanvas() {{
-            SphericalParticle p = new SphericalParticle( 100.0, new ImmutableVector2D( 0, 0 ), RED_COLORBLIND, +1 );
+            SphericalParticle p = new SphericalParticle( 100.0, new Vector2D( 0, 0 ), RED_COLORBLIND, +1 );
             getLayer().addChild( new SphericalParticleNode( ModelViewTransform.createIdentity(), p, new BooleanProperty( false ) ) {{
                 setOffset( 100, 100 );
             }} );

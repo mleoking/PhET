@@ -1,11 +1,11 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.bendinglight.modules.prisms;
 
-import java.awt.*;
+import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 
 /**
@@ -24,13 +24,13 @@ public interface IShape {
     Rectangle2D getBounds();
 
     //Gets a rotated copy of this polygon about the rotationPoint
-    IShape getRotatedInstance( double angle, ImmutableVector2D rotationPoint );
+    IShape getRotatedInstance( double angle, Vector2D rotationPoint );
 
     //Determines the point about which the shape should be rotated
-    ImmutableVector2D getRotationCenter();
+    Vector2D getRotationCenter();
 
     //Gets a point that will be used to place the rotation drag handle (or None if not rotatable, like for circles)
-    Option<ImmutableVector2D> getReferencePoint();
+    Option<Vector2D> getReferencePoint();
 
-    boolean containsPoint( ImmutableVector2D point );
+    boolean containsPoint( Vector2D point );
 }

@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.multiplecells.model;
 
 import java.awt.Shape;
@@ -8,7 +8,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.geneexpressionbasics.common.model.BioShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.ShapeChangingModelElement;
@@ -100,7 +100,7 @@ public class Cell extends ShapeChangingModelElement {
         return enclosingRectVertices;
     }
 
-    @Override public void translate( ImmutableVector2D translationVector ) {
+    @Override public void translate( Vector2D translationVector ) {
         super.translate( translationVector );
         for ( Point2D enclosingRectVertex : enclosingRectVertices ) {
             enclosingRectVertex.setLocation( enclosingRectVertex.getX() + translationVector.getX(), enclosingRectVertex.getY() + translationVector.getY() );

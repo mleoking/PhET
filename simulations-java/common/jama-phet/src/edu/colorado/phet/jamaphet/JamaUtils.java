@@ -1,11 +1,12 @@
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.jamaphet;
 
 import Jama.Matrix;
 
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * Useful functions and utilities for use with Jama
@@ -16,7 +17,7 @@ public class JamaUtils {
     * conversion from phetcommon vectors to matrices
     *----------------------------------------------------------------------------*/
 
-    public static Matrix rowVector( final ImmutableVector2D vector ) {
+    public static Matrix rowVector( final Vector2D vector ) {
         return new Matrix( 2, 1 ) {{
             set( 0, 0, vector.getX() );
             set( 0, 1, vector.getY() );
@@ -31,7 +32,7 @@ public class JamaUtils {
         }};
     }
 
-    public static Matrix columnVector( final ImmutableVector2D vector ) {
+    public static Matrix columnVector( final Vector2D vector ) {
         return new Matrix( 2, 1 ) {{
             set( 0, 0, vector.getX() );
             set( 1, 0, vector.getY() );
@@ -49,12 +50,12 @@ public class JamaUtils {
     /**
      * Create a Matrix where each column is a 2D vector
      */
-    public static Matrix matrixFromVectors2D( final List<ImmutableVector2D> vectors ) {
+    public static Matrix matrixFromVectors2D( final List<Vector2D> vectors ) {
         final int n = vectors.size();
         return new Matrix( 2, n ) {{
             for ( int i = 0; i < n; i++ ) {
                 // fill the vector into the matrix as a column
-                ImmutableVector2D v = vectors.get( i );
+                Vector2D v = vectors.get( i );
                 set( 0, i, v.getX() );
                 set( 1, i, v.getY() );
             }
@@ -81,8 +82,8 @@ public class JamaUtils {
     * conversions from matrices to phetcommon vectors
     *----------------------------------------------------------------------------*/
 
-    public static ImmutableVector2D vectorFromMatrix2D( Matrix matrix, int column ) {
-        return new ImmutableVector2D( matrix.get( 0, column ), matrix.get( 1, column ) );
+    public static Vector2D vectorFromMatrix2D( Matrix matrix, int column ) {
+        return new Vector2D( matrix.get( 0, column ), matrix.get( 1, column ) );
     }
 
     public static ImmutableVector3D vectorFromMatrix3D( Matrix matrix, int column ) {

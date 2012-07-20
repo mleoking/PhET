@@ -1,14 +1,14 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics;
 
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.createPolar;
+import static edu.colorado.phet.common.phetcommon.math.Vector2D.createPolar;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.randomAngle;
 
 /**
@@ -31,7 +31,7 @@ public class FreeParticleStrategy extends UpdateStrategy {
         //Switch strategies if necessary
         //Note, this check prevents random motion during draining since the strategy is switched before random walk can take place
         if ( model.outputFlowRate.get() > 0 ) {
-            particle.setUpdateStrategy( new FlowToDrainStrategy( model, new ImmutableVector2D(), false ) );
+            particle.setUpdateStrategy( new FlowToDrainStrategy( model, new Vector2D(), false ) );
             particle.stepInTime( dt );
         }
         else {
@@ -48,8 +48,8 @@ public class FreeParticleStrategy extends UpdateStrategy {
             particle.setSubmerged();
         }
 
-        ImmutableVector2D initialPosition = particle.getPosition();
-        ImmutableVector2D initialVelocity = particle.velocity.get();
+        Vector2D initialPosition = particle.getPosition();
+        Vector2D initialVelocity = particle.velocity.get();
 
         //If the particle is underwater and there is any water, move the particle about at the free particle speed
         if ( particle.hasSubmerged() && waterVolume.get() > 0 ) {
@@ -106,7 +106,7 @@ public class FreeParticleStrategy extends UpdateStrategy {
 
         //Stop the particle completely if there is no water to move within, though it should probably find another particle to crystallize with (if partner is required)
         if ( waterVolume.get() <= 0 ) {
-            particle.velocity.set( new ImmutableVector2D( 0, 0 ) );
+            particle.velocity.set( new Vector2D( 0, 0 ) );
         }
     }
 }

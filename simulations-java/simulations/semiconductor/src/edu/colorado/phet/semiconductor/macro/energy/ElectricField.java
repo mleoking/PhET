@@ -1,9 +1,9 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 
 /*, 2003.*/
 package edu.colorado.phet.semiconductor.macro.energy;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 
 /**
@@ -12,10 +12,10 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
  * Time: 9:59:15 AM
  */
 public class ElectricField {
-    private ImmutableVector2D center;
+    private Vector2D center;
     double strength = 0;
 
-    public ElectricField( ImmutableVector2D center ) {
+    public ElectricField( Vector2D center ) {
         this.center = center;
     }
 
@@ -23,7 +23,7 @@ public class ElectricField {
         return strength;
     }
 
-    public ImmutableVector2D getCenter() {
+    public Vector2D getCenter() {
         return center;
     }
 

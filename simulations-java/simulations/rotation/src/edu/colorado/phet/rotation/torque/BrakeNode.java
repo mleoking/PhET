@@ -6,9 +6,9 @@ import java.awt.geom.Point2D;
 import java.io.IOException;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.rotation.RotationResources;
 import edu.colorado.phet.rotation.model.RotationPlatform;
@@ -110,7 +110,7 @@ public class BrakeNode extends PNode {
             x = 0.05;
         }
 
-        ImmutableVector2D vec = MutableVector2D.createPolar( rotationPlatform.getRadius() + x, angle );
+        Vector2D vec = MutableVector2D.createPolar( rotationPlatform.getRadius() + x, angle );
         setOffset( vec.getDestination( rotationPlatform.getCenter() ) );
         setRotation( angle );
     }

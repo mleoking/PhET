@@ -1,4 +1,4 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.water.view;
 
 import java.awt.geom.Dimension2D;
@@ -7,7 +7,7 @@ import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
@@ -241,13 +241,13 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
         //Find out how far to translate the compounds to center on the top middle of the bucket hole
         Point2D crystalCenter = atomLayer.getGlobalFullBounds().getCenter2D();
         Point2D topCenterOfBucketHole = new Point2D.Double( bucketView.getHoleNode().getGlobalFullBounds().getCenterX(), bucketView.getHoleNode().getGlobalFullBounds().getMinY() );
-        ImmutableVector2D globalDelta = new ImmutableVector2D( crystalCenter, topCenterOfBucketHole );
+        Vector2D globalDelta = new Vector2D( crystalCenter, topCenterOfBucketHole );
 
         //Convert to canvas coordinate frame (stage) to account for different frame sizes
         Dimension2D canvasDelta = canvas.getRootNode().globalToLocal( new PDimension( globalDelta.getX(), globalDelta.getY() ) );
 
         //Convert to model and update the compound model positions
-        final ImmutableVector2D modelDelta = transform.viewToModelDelta( new ImmutableVector2D( canvasDelta.getWidth(), canvasDelta.getHeight() ).times( 1.0 / atomLayer.getScale() ) );
+        final Vector2D modelDelta = transform.viewToModelDelta( new Vector2D( canvasDelta.getWidth(), canvasDelta.getHeight() ).times( 1.0 / atomLayer.getScale() ) );
         for ( T compound : compounds ) {
             compound.translate( modelDelta );
         }

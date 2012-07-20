@@ -1,13 +1,13 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.theramp.v2.model;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 public class RampObject {
     private double mass;
-    private ImmutableVector2D position = new ImmutableVector2D();
-    private ImmutableVector2D v = new ImmutableVector2D();
-    private ImmutableVector2D a = new ImmutableVector2D();
+    private Vector2D position = new Vector2D();
+    private Vector2D v = new Vector2D();
+    private Vector2D a = new Vector2D();
     private double staticFrictionCoefficient;
     private double kineticFrictionCoefficient;
     private double angle;
@@ -16,11 +16,11 @@ public class RampObject {
 
     private static boolean started = false;
 
-    public RampObject( double mass, ImmutableVector2D position, ImmutableVector2D v, ImmutableVector2D a, double staticFrictionCoefficient, double kineticFrictionCoefficient, double angle ) {
+    public RampObject( double mass, Vector2D position, Vector2D v, Vector2D a, double staticFrictionCoefficient, double kineticFrictionCoefficient, double angle ) {
         this( mass, position, v, a, staticFrictionCoefficient, kineticFrictionCoefficient, angle, false );
     }
 
-    public RampObject( double mass, ImmutableVector2D position, ImmutableVector2D v, ImmutableVector2D a, double staticFrictionCoefficient, double kineticFrictionCoefficient, double angle, boolean interacting ) {
+    public RampObject( double mass, Vector2D position, Vector2D v, Vector2D a, double staticFrictionCoefficient, double kineticFrictionCoefficient, double angle, boolean interacting ) {
         if ( position.getMagnitude() > 0 ) {
             started = true;
         }
@@ -41,15 +41,15 @@ public class RampObject {
         return setPosition( position.getX() + dx, position.getY() + dy );
     }
 
-    public ImmutableVector2D getPosition() {
+    public Vector2D getPosition() {
         return position;
     }
 
     public RampObject setPosition( double x, double y ) {
         return new RampObject( mass,
-                               new ImmutableVector2D( x, y ),
-                               new ImmutableVector2D( v.getX(), v.getY() ),
-                               new ImmutableVector2D( a.getX(), a.getY() ),
+                               new Vector2D( x, y ),
+                               new Vector2D( v.getX(), v.getY() ),
+                               new Vector2D( a.getX(), a.getY() ),
                                staticFrictionCoefficient, kineticFrictionCoefficient, angle, interacting );
     }
 
@@ -67,9 +67,9 @@ public class RampObject {
 
     public RampObject setInteracting( boolean interacting ) {
         return new RampObject( mass,
-                               new ImmutableVector2D( position.getX(), position.getY() ),
-                               new ImmutableVector2D( v.getX(), v.getY() ),
-                               new ImmutableVector2D( a.getX(), a.getY() ),
+                               new Vector2D( position.getX(), position.getY() ),
+                               new Vector2D( v.getX(), v.getY() ),
+                               new Vector2D( a.getX(), a.getY() ),
                                staticFrictionCoefficient, kineticFrictionCoefficient, angle, interacting );
     }
 

@@ -1,7 +1,7 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.simsharingtestsim;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.state.SerializableBufferedImage;
 import edu.colorado.phet.common.phetcommon.simsharing.state.SimState;
 
@@ -11,12 +11,12 @@ import edu.colorado.phet.common.phetcommon.simsharing.state.SimState;
 public class SimSharingTestSimState implements SimState {
     private long time;
     private SerializableBufferedImage image;
-    public final ImmutableVector2D position;
+    public final Vector2D position;
     private int index;
 
     public SimSharingTestSimState( long time,
                                    SerializableBufferedImage image,
-                                   ImmutableVector2D position,
+                                   Vector2D position,
                                    int index ) {
         this.time = time;
         this.image = image;

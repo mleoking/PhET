@@ -1,7 +1,8 @@
 // Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.chemicalreactions.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.geom.Area;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
@@ -21,7 +22,7 @@ import edu.colorado.phet.chemicalreactions.model.Molecule;
 import edu.colorado.phet.chemicalreactions.model.MoleculeBucket;
 import edu.colorado.phet.chemicalreactions.model.MoleculeShape;
 import edu.colorado.phet.chemicalreactions.model.Reaction;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -124,15 +125,15 @@ public class KitView {
                 for ( Reaction reaction : kit.getReactions() ) {
                     for ( int i = 0; i < reaction.reactants.size(); i++ ) {
                         Molecule molecule = reaction.reactants.get( i );
-                        ImmutableVector2D targetPosition = reaction.getTarget().transformedTargets.get( i );
+                        Vector2D targetPosition = reaction.getTarget().transformedTargets.get( i );
                         double angle = reaction.getTarget().rotation + reaction.getShape().reactantSpots.get( i ).rotation;
 
                         debugOverlayLayer.addChild( createDebugCircle( molecule.getPosition(),
                                                                        molecule.shape.getBoundingCircleRadius(),
                                                                        new Color( 0xAAAAFF ) ) );
 
-                        ImmutableVector2D currentViewCenter = MODEL_VIEW_TRANSFORM.modelToView( molecule.getPosition() );
-                        ImmutableVector2D targetViewCenter = MODEL_VIEW_TRANSFORM.modelToView( targetPosition );
+                        Vector2D currentViewCenter = MODEL_VIEW_TRANSFORM.modelToView( molecule.getPosition() );
+                        Vector2D targetViewCenter = MODEL_VIEW_TRANSFORM.modelToView( targetPosition );
                         debugOverlayLayer.addChild( new PhetPPath( new Line2D.Double( currentViewCenter.getX(), currentViewCenter.getY(),
                                                                                       targetViewCenter.getX(), targetViewCenter.getY() ),
                                                                    null, new BasicStroke( 1 ), Color.BLACK ) );
@@ -140,9 +141,9 @@ public class KitView {
                         MoleculeShape moleculeShape = molecule.shape;
 
                         for ( MoleculeShape.AtomSpot spot : moleculeShape.spots ) {
-                            ImmutableVector2D spotLocalPosition = spot.position;
-                            ImmutableVector2D rotatedPosition = spotLocalPosition.getRotatedInstance( angle );
-                            ImmutableVector2D translatedPosition = rotatedPosition.plus( targetPosition );
+                            Vector2D spotLocalPosition = spot.position;
+                            Vector2D rotatedPosition = spotLocalPosition.getRotatedInstance( angle );
+                            Vector2D translatedPosition = rotatedPosition.plus( targetPosition );
                             Color color = spot.element.getColor();
                             debugOverlayLayer.addChild( createDebugCircle( translatedPosition,
                                                                            spot.element.getRadius(),
@@ -191,8 +192,8 @@ public class KitView {
         moleculeMap.remove( molecule );
     }
 
-    private PhetPPath createDebugCircle( ImmutableVector2D modelPoint, double modelRadius, Color color ) {
-        ImmutableVector2D viewPoint = MODEL_VIEW_TRANSFORM.modelToView( modelPoint );
+    private PhetPPath createDebugCircle( Vector2D modelPoint, double modelRadius, Color color ) {
+        Vector2D viewPoint = MODEL_VIEW_TRANSFORM.modelToView( modelPoint );
         double viewRadius = Math.abs( MODEL_VIEW_TRANSFORM.modelToViewDeltaX( modelRadius ) );
 
         return new PhetPPath( new Ellipse2D.Double( viewPoint.getX() - viewRadius, viewPoint.getY() - viewRadius,

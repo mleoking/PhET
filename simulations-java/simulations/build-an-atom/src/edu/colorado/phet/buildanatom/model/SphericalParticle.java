@@ -1,11 +1,11 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.buildanatom.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.IBucketSphere;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -33,10 +33,10 @@ public abstract class SphericalParticle implements IBucketSphere<SphericalPartic
     // ------------------------------------------------------------------------
 
     private final double radius;
-    private final Property<ImmutableVector2D> position;
+    private final Property<Vector2D> position;
     private final Property<Boolean> userControlled = new Property<Boolean>( false );//True if the particle is being dragged by the user
     private final HashSet<IBucketSphere.Listener<SphericalParticle>> listeners = new HashSet<IBucketSphere.Listener<SphericalParticle>>();
-    private ImmutableVector2D destination = new ImmutableVector2D();
+    private Vector2D destination = new Vector2D();
 
     // Listener to the clock, used for motion.
     private final ClockAdapter clockListener = new ClockAdapter() {
@@ -58,8 +58,8 @@ public abstract class SphericalParticle implements IBucketSphere<SphericalPartic
     public SphericalParticle( double radius, double x, double y, ConstantDtClock clock ) {
         this.clock = clock;
         this.radius = radius;
-        position = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
-        destination = new ImmutableVector2D( x, y );
+        position = new Property<Vector2D>( new Vector2D( x, y ) );
+        destination = new Vector2D( x, y );
         addedToModel(); // Assume that this is initially an active part of the model.
         userControlled.addObserver( new SimpleObserver() {
             public void update() {
@@ -110,15 +110,15 @@ public abstract class SphericalParticle implements IBucketSphere<SphericalPartic
         }
     }
 
-    public ImmutableVector2D getPosition() {
+    public Vector2D getPosition() {
         return position.get();
     }
 
-    public ImmutableVector2D getDestination() {
-        return new ImmutableVector2D( destination.getX(), destination.getY() );
+    public Vector2D getDestination() {
+        return new Vector2D( destination.getX(), destination.getY() );
     }
 
-    public void setPosition( ImmutableVector2D position ) {
+    public void setPosition( Vector2D position ) {
         setPosition( position.getX(), position.getY() );
     }
 
@@ -127,10 +127,10 @@ public abstract class SphericalParticle implements IBucketSphere<SphericalPartic
     }
 
     public void setPosition( double x, double y ) {
-        position.set( new ImmutableVector2D( x, y ) );
+        position.set( new Vector2D( x, y ) );
     }
 
-    public void setDestination( ImmutableVector2D position ) {
+    public void setDestination( Vector2D position ) {
         setDestination( position.getX(), position.getY() );
     }
 
@@ -139,7 +139,7 @@ public abstract class SphericalParticle implements IBucketSphere<SphericalPartic
     }
 
     public void setDestination( double x, double y ) {
-        destination = new ImmutableVector2D( x, y );
+        destination = new Vector2D( x, y );
     }
 
     public void setPositionAndDestination( double x, double y ) {
@@ -147,7 +147,7 @@ public abstract class SphericalParticle implements IBucketSphere<SphericalPartic
         setDestination( x, y );
     }
 
-    public void setPositionAndDestination( ImmutableVector2D p ) {
+    public void setPositionAndDestination( Vector2D p ) {
         setPosition( p );
         setDestination( p );
     }
@@ -177,7 +177,7 @@ public abstract class SphericalParticle implements IBucketSphere<SphericalPartic
         setPosition( position.get().getX() + dx, position.get().getY() + dy );
     }
 
-    public void translate( ImmutableVector2D vector2D ) {
+    public void translate( Vector2D vector2D ) {
         translate( vector2D.getX(), vector2D.getY() );
     }
 

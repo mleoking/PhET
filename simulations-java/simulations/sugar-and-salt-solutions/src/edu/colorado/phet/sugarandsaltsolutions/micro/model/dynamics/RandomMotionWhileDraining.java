@@ -1,8 +1,8 @@
-// Copyright 2002-2011, University of Colorado
+// Copyright 2002-2012, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics;
 
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 
@@ -21,18 +21,18 @@ public class RandomMotionWhileDraining {
     }
 
     public void apply() {
-        final ImmutableVector2D drain = model.getDrainFaucetMetrics().getInputPoint();
+        final Vector2D drain = model.getDrainFaucetMetrics().getInputPoint();
         for ( Particle particle : model.freeParticles ) {
 
             //Get the velocity for the particle
-            ImmutableVector2D velocity = new ImmutableVector2D( particle.getPosition(), drain ).getInstanceOfMagnitude( FREE_PARTICLE_SPEED ).times( getRelativeSpeed( drain, particle ) );
+            Vector2D velocity = new Vector2D( particle.getPosition(), drain ).getInstanceOfMagnitude( FREE_PARTICLE_SPEED ).times( getRelativeSpeed( drain, particle ) );
 
             particle.setUpdateStrategy( new FlowToDrainStrategy( model, velocity, true ) );
         }
     }
 
     //Gets the relative speed at which a particle should move toward the drain.  This is a function that moves nearby particles closer to the drain faster
-    private double getRelativeSpeed( ImmutableVector2D drain, Particle particle ) {
+    private double getRelativeSpeed( Vector2D drain, Particle particle ) {
 
         //Only use this heuristic when further than 25% of beaker width away from the drain, otherwise particles close to the drain move too fast and end up waiting at the drain
         double numberBeakerWidthsToDrain = Math.max( 0.25, particle.getPosition().getDistance( drain ) / model.beaker.getWidth() );

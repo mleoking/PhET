@@ -7,7 +7,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.AttachmentStateMachine;
 import edu.colorado.phet.geneexpressionbasics.common.model.attachmentstatemachines.TranscriptionFactorAttachmentStateMachine;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.StubGeneExpressionModel;
@@ -126,9 +126,9 @@ public class TranscriptionFactor extends MobileBiomolecule {
         }
     }
 
-    @Override public ImmutableVector2D getDetachDirection() {
+    @Override public Vector2D getDetachDirection() {
         // Randomly either up or down when detaching from DNA.
-        return RAND.nextBoolean() ? new ImmutableVector2D( 0, 1 ) : new ImmutableVector2D( 0, -1 );
+        return RAND.nextBoolean() ? new Vector2D( 0, 1 ) : new Vector2D( 0, -1 );
     }
 
     @Override public AttachmentSite proposeAttachments() {
