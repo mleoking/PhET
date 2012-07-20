@@ -39,9 +39,7 @@ public abstract class AbstractVector2D implements Serializable {
      */
     public double getAngle() { return Math.atan2( getY(), getX() ); }
 
-    public Point2D.Double toPoint2D() {
-        return new Point2D.Double( getX(), getY() );
-    }
+    public Point2D.Double toPoint2D() { return new Point2D.Double( getX(), getY() ); }
 
     /**
      * Gets the distance between the tip of this vector and the specified vector.
