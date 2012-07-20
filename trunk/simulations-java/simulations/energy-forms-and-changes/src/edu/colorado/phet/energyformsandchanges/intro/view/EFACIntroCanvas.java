@@ -232,13 +232,16 @@ public class EFACIntroCanvas extends PhetPCanvas implements Resettable {
             } );
         }
 
+        // Add the control for setting the specific heat of the configurable block.
+        PNode heatCapacitySliderNode;
         {
-            PNode heatCapacitySlider = new ControlPanelNode( new HSliderNode( EnergyFormsAndChangesSimSharing.UserComponents.heatCapacitySlider,
-                                                                              ConfigurableSpecificHeatBlock.MIN_SPECIFIC_HEAT,
-                                                                              ConfigurableSpecificHeatBlock.MAX_SPECIFIC_HEAT,
-                                                                              new DoubleProperty( ConfigurableSpecificHeatBlock.MIN_SPECIFIC_HEAT ) ),
-                                                             EFACConstants.CONTROL_PANEL_BACKGROUND_COLOR );
-            backLayer.addChild( heatCapacitySlider );
+            heatCapacitySliderNode = new ControlPanelNode( new HSliderNode( EnergyFormsAndChangesSimSharing.UserComponents.heatCapacitySlider,
+                                                                            ConfigurableSpecificHeatBlock.MIN_SPECIFIC_HEAT,
+                                                                            ConfigurableSpecificHeatBlock.MAX_SPECIFIC_HEAT,
+                                                                            new DoubleProperty( ConfigurableSpecificHeatBlock.MIN_SPECIFIC_HEAT ) ),
+                                                           EFACConstants.CONTROL_PANEL_BACKGROUND_COLOR );
+            heatCapacitySliderNode.setOffset( thermometerToolBox.getFullBoundsReference().getMaxX() + EDGE_INSET, EDGE_INSET );
+            backLayer.addChild( heatCapacitySliderNode );
         }
 
         // Create an observer that updates the Z-order of the blocks when the
