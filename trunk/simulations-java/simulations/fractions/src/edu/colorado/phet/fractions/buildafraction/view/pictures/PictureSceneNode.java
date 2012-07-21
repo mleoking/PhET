@@ -6,6 +6,7 @@ import fj.F;
 import fj.P2;
 import fj.data.List;
 import fj.data.Option;
+import lombok.Data;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -410,13 +411,19 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         }
     }
 
+    public @Data static class DropLocation {
+        public final Vector2D position;
+        public final double angle;
+    }
+
     //Piece dropped into container
     private void dropInto( final PieceNode piece, final SingleContainerNode container ) {
         Point2D translation = container.getGlobalTranslation();
         piece.globalToLocal( translation );
         piece.localToParent( translation );
-        PTransformActivity activity = piece.animateToPositionScaleRotation( translation.getX() + container.getPiecesWidth(),
-                                                                            translation.getY(), 1, 0, 200 );
+        DropLocation dropLocation = container.getDropLocation( piece, level.shapeType );
+        final Vector2D a = dropLocation.position.plus( translation );
+        PTransformActivity activity = piece.animateToPositionScaleRotation( a.x, a.y, 1, dropLocation.angle, 200 );
         piece.setPickable( false );
         piece.setChildrenPickable( false );
         activity.setDelegate( new PActivityDelegate() {
