@@ -4,10 +4,12 @@ package edu.colorado.phet.fractions.buildafraction.view.pictures;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.fractions.buildafraction.model.pictures.ShapeType;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.factories.CircularShapeFunction;
 import edu.umd.cs.piccolo.PNode;
 
@@ -19,34 +21,34 @@ import edu.umd.cs.piccolo.PNode;
 public class SimpleContainerNode extends PNode {
 
     static final double scale = 1.7;
-    public static final double width = 130 * scale;
-    public static final double height = 55 * scale;
+    public static final double rectangleWidth = 130 * scale;
+    public static final double rectangleHeight = 55 * scale;
 
-    public SimpleContainerNode( final int number, final Color fill ) {
+    public static final double circleDiameter = 100 * scale;
+
+    public SimpleContainerNode( final int number, final Color fill, final ShapeType shapeType ) {
         final PNode content = new PNode() {{
             for ( int i = 0; i < number; i++ ) {
-                final double pieceWidth = width / number;
-                if ( fill != null ) {
-                    addChild( new PhetPPath( new Rectangle2D.Double( pieceWidth * i, 0, pieceWidth, height ), fill, new BasicStroke( 1 ), Color.black ) );
-                }
-                else {
-                    addChild( new PhetPPath( new Rectangle2D.Double( pieceWidth * i, 0, pieceWidth, height ), new BasicStroke( 1 ), Color.black ) );
+                if ( shapeType == ShapeType.HORIZONTAL_BAR ) {
+                    final double pieceWidth = rectangleWidth / number;
+                    addChild( new PhetPPath( new Rectangle2D.Double( pieceWidth * i, 0, pieceWidth, rectangleHeight ), fill, new BasicStroke( 1 ), Color.black ) );
                 }
             }
             //Thicker outer stroke
-            addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, width, height ), new BasicStroke( 2 ), Color.black ) );
+            addChild( new PhetPPath( shapeType == ShapeType.HORIZONTAL_BAR ? new Rectangle2D.Double( 0, 0, rectangleWidth, rectangleHeight ) :
+                                     new Ellipse2D.Double( 0, 0, circleDiameter, circleDiameter ), new BasicStroke( 2 ), Color.black ) );
         }};
 
         addChild( content );
     }
 
-    public static Rectangle2D.Double createRect( int number ) {
-        final double pieceWidth = width / number;
-        return new Rectangle2D.Double( pieceWidth * number, 0, pieceWidth, height );
+    public static Shape createRect( int number ) {
+        final double pieceWidth = rectangleWidth / number;
+        return new Rectangle2D.Double( pieceWidth * number, 0, pieceWidth, rectangleHeight );
     }
 
     public static Shape createPieSlice( int number ) {
         final double extent = Math.PI * 2.0 / number;
-        return new CircularShapeFunction( extent, 100 ).createShape( Vector2D.ZERO, 0.0 );
+        return new CircularShapeFunction( extent, circleDiameter / 2 ).createShape( Vector2D.ZERO, 0.0 );
     }
 }

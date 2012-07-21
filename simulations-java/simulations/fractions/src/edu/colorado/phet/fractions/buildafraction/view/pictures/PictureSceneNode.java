@@ -148,7 +148,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
             offsetY += Math.max( maxHeight, targetCellBounds.getHeight() ) + insetY;
         }
 
-        ContainerNode firstContainerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne() ) {{
+        ContainerNode firstContainerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne(), level.shapeType ) {{
             setInitialPosition( 285, 200 );
         }};
         addChild( firstContainerNode );
@@ -209,7 +209,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
         final int numInGroup = level.targets.length() - 1;
         for ( int i = 0; i < numInGroup; i++ ) {
             final double delta = toDelta( numInGroup, i );
-            final ContainerNode containerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne() ) {{
+            final ContainerNode containerNode = new ContainerNode( this, this, level.hasValuesGreaterThanOne(), level.shapeType ) {{
                 this.setInitialState( layoutXOffset + INSET + 20 + delta + finalGroupIndex * spacing,
                                       STAGE_SIZE.height - INSET - 127 + 20 + delta, TINY_SCALE );
             }};
