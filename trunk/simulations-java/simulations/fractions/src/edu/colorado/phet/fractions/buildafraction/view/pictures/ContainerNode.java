@@ -2,7 +2,6 @@
 package edu.colorado.phet.fractions.buildafraction.view.pictures;
 
 import fj.F;
-import fj.Ord;
 import fj.data.List;
 
 import java.awt.Cursor;
@@ -35,6 +34,7 @@ import static edu.colorado.phet.fractions.buildafraction.view.pictures.SingleCon
 import static edu.colorado.phet.fractions.common.view.FNode.getChildren;
 import static edu.colorado.phet.fractions.fractionsintro.common.view.AbstractFractionsCanvas.INSET;
 import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction.sum;
+import static fj.Ord.doubleOrd;
 
 /**
  * Container that can be subdivided into different divisions
@@ -276,10 +276,10 @@ public class ContainerNode extends PNode {
     }
 
     public double getPiecesHeight() {
-        return getSingleContainerNodes().map( FNode.<SingleContainerNode>_fullHeight() ).maximum( Ord.doubleOrd );
+        return getSingleContainerNodes().map( FNode.<SingleContainerNode>_fullHeight() ).maximum( doubleOrd );
     }
 
     public double getPiecesWidth() {
-        return getSingleContainerNodes().map( FNode.<SingleContainerNode>_fullWidth() ).maximum( Ord.doubleOrd );
+        return getSingleContainerNodes().map( FNode.<SingleContainerNode>_fullWidth() ).maximum( doubleOrd );
     }
 }
