@@ -3,9 +3,12 @@ package edu.colorado.phet.fractions.buildafraction.view.pictures;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.fractions.fractionsintro.intro.model.pieset.factories.CircularShapeFunction;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -40,5 +43,10 @@ public class SimpleContainerNode extends PNode {
     public static Rectangle2D.Double createRect( int number ) {
         final double pieceWidth = width / number;
         return new Rectangle2D.Double( pieceWidth * number, 0, pieceWidth, height );
+    }
+
+    public static Shape createPieSlice( int number ) {
+        final double extent = Math.PI * 2.0 / number;
+        return new CircularShapeFunction( extent, 100 ).createShape( Vector2D.ZERO, 0.0 );
     }
 }

@@ -25,19 +25,22 @@ public class PictureLevel {
 
     public final Color color;
 
+    public final ShapeType shapeType;
+
     //Cannot be a constructor because has same erasure
-    public static PictureLevel pictureLevel( final List<Integer> pieces, final List<Fraction> targets, Color color ) {
+    public static PictureLevel pictureLevel( final List<Integer> pieces, final List<Fraction> targets, Color color, ShapeType shapeType ) {
         return new PictureLevel( pieces, targets.map( new F<Fraction, PictureTarget>() {
             @Override public PictureTarget f( final Fraction fraction ) {
                 return new PictureTarget( fraction );
             }
-        } ), color );
+        } ), color, shapeType );
     }
 
-    public PictureLevel( final List<Integer> pieces, final List<PictureTarget> targets, Color color ) {
+    public PictureLevel( final List<Integer> pieces, final List<PictureTarget> targets, Color color, ShapeType shapeType ) {
         this.targets = targets;
         this.pieces = pieces.sort( Ord.intOrd );
         this.color = color;
+        this.shapeType = shapeType;
     }
 
     public PictureTarget getTarget( final int i ) { return targets.index( i ); }

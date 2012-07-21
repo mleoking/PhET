@@ -42,7 +42,7 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
         return new PictureLevel( list( 1, 1, 2, 2, 3, 3 ),
                                  shuffle( list( new PictureTarget( fraction( 1, 1 ) ),
                                                 new PictureTarget( fraction( 1, 2 ) ),
-                                                new PictureTarget( fraction( 2, 3 ) ) ) ), LevelSelectionNode.colors[0] );
+                                                new PictureTarget( fraction( 2, 3 ) ) ) ), LevelSelectionNode.colors[0], ShapeType.PIE );
     }
 
     /* Level 2:
@@ -57,7 +57,7 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
                                        fraction( 2, 5 ) );
 
         List<Fraction> selected = choose( 3, targets );
-        return pictureLevel( list( 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6 ), selected, LevelSelectionNode.colors[1] );
+        return pictureLevel( list( 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6 ), selected, LevelSelectionNode.colors[1], ShapeType.PIE );
     }
 
     /*Level 3:
@@ -71,7 +71,7 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
                                        fraction( 1, 2 ) );
 
         List<Fraction> selected = choose( 3, targets );
-        return pictureLevel( pad( list( 2, 4, 4, 6, 6, 6, 6 ) ), selected, LevelSelectionNode.colors[2] );
+        return pictureLevel( pad( list( 2, 4, 4, 6, 6, 6, 6 ) ), selected, LevelSelectionNode.colors[2], ShapeType.HORIZONTAL_BAR );
     }
 
     /* Level 4:
@@ -91,7 +91,7 @@ public class PictureLevelList extends ArrayList<PictureLevel> {
 
         List<Fraction> selected = shuffle( choose( 3, largeList ).snoc( chooseOne( smallList ) ) );
         return pictureLevel(
-                pad( list( 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6 ) ), selected, LevelSelectionNode.colors[3] );
+                pad( list( 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6 ) ), selected, LevelSelectionNode.colors[3], ShapeType.PIE );
     }
 
     /* Level 5:
@@ -107,7 +107,7 @@ Pieces: 6 each of (1/3, 1/4, 1/5, 1/6}*/
 
         List<Fraction> selected = choose( 4, list );
         return pictureLevel(
-                pad( list( 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6 ) ), selected, LevelSelectionNode.colors[4] );
+                pad( list( 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6 ) ), selected, LevelSelectionNode.colors[4], ShapeType.HORIZONTAL_BAR );
     }
 
     private List<Integer> pad( List<Integer> list ) {
