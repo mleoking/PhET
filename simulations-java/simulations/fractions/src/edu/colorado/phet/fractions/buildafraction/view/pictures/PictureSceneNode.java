@@ -197,7 +197,7 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
             stack.update();
             stackList.add( stack );
 
-            final PieceIconNode child = new PieceIconNode( group.head() );
+            final PieceIconNode child = new PieceIconNode( group.head(), level.shapeType );
             child.setOffset( pieces.get( 0 ).getOffset() );
             addChild( child );
             child.moveToBack();
