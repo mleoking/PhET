@@ -32,6 +32,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.buildafraction.model.BuildAFractionModel;
 import edu.colorado.phet.fractions.buildafraction.model.pictures.PictureLevel;
 import edu.colorado.phet.fractions.buildafraction.model.pictures.PictureTarget;
+import edu.colorado.phet.fractions.buildafraction.model.pictures.ShapeType;
 import edu.colorado.phet.fractions.buildafraction.view.BuildAFractionCanvas;
 import edu.colorado.phet.fractions.buildafraction.view.SceneNode;
 import edu.colorado.phet.fractions.buildafraction.view.Stack;
@@ -168,7 +169,10 @@ public class PictureSceneNode extends SceneNode implements ContainerContext, Pie
             ArrayList<PieceNode> pieces = new ArrayList<PieceNode>();
             for ( final Integer pieceDenominator : group ) {
                 final double delta = toDelta( numInGroup, pieceIndex );
-                final PhetPPath shape = new PhetPPath( SimpleContainerNode.createRect( pieceDenominator ), level.color, PieceNode.stroke, Color.black );
+
+                //Choose the shape for the level, pies or horizontal bars
+                final PhetPPath shape = level.shapeType == ShapeType.HORIZONTAL_BAR ? new PhetPPath( SimpleContainerNode.createRect( pieceDenominator ), level.color, PieceNode.stroke, Color.black ) :
+                                        new PhetPPath( SimpleContainerNode.createPieSlice( pieceDenominator ), level.color, PieceNode.stroke, Color.black );
                 final PieceNode piece = new PieceNode( pieceDenominator, PictureSceneNode.this, shape );
                 piece.setOffset( layoutXOffset + INSET + 20 + delta + stackIndex * spacing, STAGE_SIZE.height - INSET - 127 + 20 + delta );
                 piece.setInitialScale( TINY_SCALE );
