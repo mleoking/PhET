@@ -124,13 +124,9 @@ public class SingleContainerNode extends PNode {
         piece.setAllPickable( false );
     }
 
-    //TODO: have cards separate for a minute before animating home?  Maybe unnecessary now that we are showing individual cards in the container.
     public void splitAll() {
         int numPieces = getPieces().length();
         double separationBetweenPieces = 4;
-        double totalDeltaSpacing = separationBetweenPieces * ( numPieces - 1 );
-//        int index = 0;
-//        LinearFunction f = new LinearFunction( 0, numPieces - 1, -totalDeltaSpacing / 2, totalDeltaSpacing / 2 );
         for ( PieceNode child : getPieces() ) {
             parent.parent.splitPieceFromContainer( child );
         }
