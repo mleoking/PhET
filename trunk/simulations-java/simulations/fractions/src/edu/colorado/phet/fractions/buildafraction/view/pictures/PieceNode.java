@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  */
 public class PieceNode extends Stackable {
-    private final Integer pieceSize;
+    public final Integer pieceSize;
     private double initialScale = Double.NaN;
     private final PNode pathNode;
     public static final BasicStroke stroke = new BasicStroke( 2 );
