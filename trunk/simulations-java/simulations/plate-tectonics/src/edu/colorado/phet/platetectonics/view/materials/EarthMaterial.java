@@ -3,14 +3,14 @@ package edu.colorado.phet.platetectonics.view.materials;
 
 import java.awt.*;
 
-import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 
 /**
  * Base for a material (texture) for the cross-section of the Earth.
  */
 public interface EarthMaterial {
     // main color based on density, temperature, etc.
-    public Color getColor( float density, float temperature, ImmutableVector2F position, float alpha );
+    public Color getColor( float density, float temperature, Vector2F position, float alpha );
 
     // min/max colors used for the legend
     public Color getMinColor();

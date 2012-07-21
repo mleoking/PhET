@@ -5,7 +5,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.components.Resistor;
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.AbstractVector2D;
 
 /**
  * Marker class.

@@ -13,7 +13,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.mechanics.Body;
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 
 public class Wall extends Body implements Collidable {
     private MutableVector2D velocity = new MutableVector2D();

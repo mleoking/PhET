@@ -3,9 +3,9 @@ package edu.colorado.phet.platetectonics.view;
 
 import java.awt.*;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.lwjglphet.GLOptions;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.platetectonics.model.PlateModel;
@@ -37,16 +37,16 @@ public class BoxHighlightNode extends GLNode {
     * convenience methods for mapping from our "planar" box into the "radial" space
     *----------------------------------------------------------------------------*/
 
-    private ImmutableVector3F transformPoint( float x, float y, float z ) {
-        return transformPoint( new ImmutableVector3F( x, y, z ) );
+    private Vector3F transformPoint( float x, float y, float z ) {
+        return transformPoint( new Vector3F( x, y, z ) );
     }
 
-    private ImmutableVector3F transformPoint( ImmutableVector3F planarPoint ) {
+    private Vector3F transformPoint( Vector3F planarPoint ) {
         return modelViewTransform.transformPosition( PlateModel.convertToRadial( planarPoint ) );
     }
 
-    private ImmutableVector3F[] transformedLine( ImmutableVector3F start, ImmutableVector3F end, int samples ) {
-        ImmutableVector3F[] result = new ImmutableVector3F[samples];
+    private Vector3F[] transformedLine( Vector3F start, Vector3F end, int samples ) {
+        Vector3F[] result = new Vector3F[samples];
         for ( int i = 0; i < samples; i++ ) {
             float ratio = (float) i / ( (float) ( samples - 1 ) );
             result[i] = transformPoint( start.times( 1 - ratio ).plus( end.times( ratio ) ) );
@@ -54,13 +54,13 @@ public class BoxHighlightNode extends GLNode {
         return result;
     }
 
-    private void drawFromTo( ImmutableVector3F start, ImmutableVector3F end, int samples ) {
-        for ( ImmutableVector3F v : transformedLine( start, end, samples ) ) {
+    private void drawFromTo( Vector3F start, Vector3F end, int samples ) {
+        for ( Vector3F v : transformedLine( start, end, samples ) ) {
             vertex3f( v );
         }
     }
 
-    private void quadLine( ImmutableVector3F[] top, ImmutableVector3F[] bottom ) {
+    private void quadLine( Vector3F[] top, Vector3F[] bottom ) {
         glBegin( GL_TRIANGLE_STRIP );
         for ( int i = 0; i < top.length; i++ ) {
             vertex3f( top[i] );
@@ -70,14 +70,14 @@ public class BoxHighlightNode extends GLNode {
     }
 
     @Override public void renderSelf( GLOptions options ) {
-        ImmutableVector3F leftBottomBack = new ImmutableVector3F( bounds.getMinX(), bounds.getMinY(), bounds.getMinZ() );
-        ImmutableVector3F leftBottomFront = new ImmutableVector3F( bounds.getMinX(), bounds.getMinY(), bounds.getMaxZ() );
-        ImmutableVector3F leftTopBack = new ImmutableVector3F( bounds.getMinX(), bounds.getMaxY(), bounds.getMinZ() );
-        ImmutableVector3F leftTopFront = new ImmutableVector3F( bounds.getMinX(), bounds.getMaxY(), bounds.getMaxZ() );
-        ImmutableVector3F rightBottomBack = new ImmutableVector3F( bounds.getMaxX(), bounds.getMinY(), bounds.getMinZ() );
-        ImmutableVector3F rightBottomFront = new ImmutableVector3F( bounds.getMaxX(), bounds.getMinY(), bounds.getMaxZ() );
-        ImmutableVector3F rightTopBack = new ImmutableVector3F( bounds.getMaxX(), bounds.getMaxY(), bounds.getMinZ() );
-        ImmutableVector3F rightTopFront = new ImmutableVector3F( bounds.getMaxX(), bounds.getMaxY(), bounds.getMaxZ() );
+        Vector3F leftBottomBack = new Vector3F( bounds.getMinX(), bounds.getMinY(), bounds.getMinZ() );
+        Vector3F leftBottomFront = new Vector3F( bounds.getMinX(), bounds.getMinY(), bounds.getMaxZ() );
+        Vector3F leftTopBack = new Vector3F( bounds.getMinX(), bounds.getMaxY(), bounds.getMinZ() );
+        Vector3F leftTopFront = new Vector3F( bounds.getMinX(), bounds.getMaxY(), bounds.getMaxZ() );
+        Vector3F rightBottomBack = new Vector3F( bounds.getMaxX(), bounds.getMinY(), bounds.getMinZ() );
+        Vector3F rightBottomFront = new Vector3F( bounds.getMaxX(), bounds.getMinY(), bounds.getMaxZ() );
+        Vector3F rightTopBack = new Vector3F( bounds.getMaxX(), bounds.getMaxY(), bounds.getMinZ() );
+        Vector3F rightTopFront = new Vector3F( bounds.getMaxX(), bounds.getMaxY(), bounds.getMaxZ() );
 
         int zSectionQuantity = 10;
         int xSectionQuantity = 20;

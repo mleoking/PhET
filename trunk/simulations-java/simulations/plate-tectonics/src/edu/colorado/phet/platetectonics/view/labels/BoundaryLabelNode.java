@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.lwjglphet.GLOptions;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.platetectonics.model.PlateModel;
 import edu.colorado.phet.platetectonics.model.Sample;
@@ -56,7 +56,7 @@ public class BoundaryLabelNode extends BaseLabelNode {
         Sample lastSample = null;
         for ( Sample sample : boundaryLabel.boundary.samples ) {
             // TODO: convert to tab-simplified LWJGL transform?
-            ImmutableVector3F position = sample.getPosition();
+            Vector3F position = sample.getPosition();
 
             // important not to draw points outside of the minX / maxX bounds
             if ( position.getX() < boundaryLabel.minX.get() ) {

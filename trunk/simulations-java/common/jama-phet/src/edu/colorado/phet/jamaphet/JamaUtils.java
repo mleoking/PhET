@@ -5,8 +5,8 @@ import Jama.Matrix;
 
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 
 /**
  * Useful functions and utilities for use with Jama
@@ -24,7 +24,7 @@ public class JamaUtils {
         }};
     }
 
-    public static Matrix rowVector( final ImmutableVector3D vector ) {
+    public static Matrix rowVector( final Vector3D vector ) {
         return new Matrix( 3, 1 ) {{
             set( 0, 0, vector.getX() );
             set( 0, 1, vector.getY() );
@@ -39,7 +39,7 @@ public class JamaUtils {
         }};
     }
 
-    public static Matrix columnVector( final ImmutableVector3D vector ) {
+    public static Matrix columnVector( final Vector3D vector ) {
         return new Matrix( 3, 1 ) {{
             set( 0, 0, vector.getX() );
             set( 1, 0, vector.getY() );
@@ -65,12 +65,12 @@ public class JamaUtils {
     /**
      * Create a Matrix where each column is a 3D vector
      */
-    public static Matrix matrixFromVectors3D( final List<ImmutableVector3D> vectors ) {
+    public static Matrix matrixFromVectors3D( final List<Vector3D> vectors ) {
         final int n = vectors.size();
         return new Matrix( 3, n ) {{
             for ( int i = 0; i < n; i++ ) {
                 // fill the vector into the matrix as a column
-                ImmutableVector3D v = vectors.get( i );
+                Vector3D v = vectors.get( i );
                 set( 0, i, v.getX() );
                 set( 1, i, v.getY() );
                 set( 2, i, v.getZ() );
@@ -86,8 +86,8 @@ public class JamaUtils {
         return new Vector2D( matrix.get( 0, column ), matrix.get( 1, column ) );
     }
 
-    public static ImmutableVector3D vectorFromMatrix3D( Matrix matrix, int column ) {
-        return new ImmutableVector3D( matrix.get( 0, column ), matrix.get( 1, column ), matrix.get( 2, column ) );
+    public static Vector3D vectorFromMatrix3D( Matrix matrix, int column ) {
+        return new Vector3D( matrix.get( 0, column ), matrix.get( 1, column ), matrix.get( 2, column ) );
     }
 
     /*---------------------------------------------------------------------------*

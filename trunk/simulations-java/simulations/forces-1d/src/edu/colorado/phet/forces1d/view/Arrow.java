@@ -13,7 +13,7 @@ package edu.colorado.phet.forces1d.view;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 
 /**
  * This version of Arrow is incompatible with the Arrow in phetcommon trunk HEAD, since it has

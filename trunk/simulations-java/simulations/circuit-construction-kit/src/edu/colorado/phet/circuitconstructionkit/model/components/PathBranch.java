@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.circuitconstructionkit.model.CCKDefaults;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**

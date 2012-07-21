@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Permutation;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -36,15 +36,15 @@ public class AttractorModel {
      * @param center                The point that the groups should be rotated around. Usually a central atom that all of the groups connect to
      * @return A measure of total error (least squares-style)
      */
-    public static double applyAttractorForces( List<PairGroup> groups, final float timeElapsed, List<ImmutableVector3D> idealOrientations, List<Permutation> allowablePermutations, final ImmutableVector3D center, boolean angleRepulsion ) {
-        List<ImmutableVector3D> currentOrientations = map( groups, new Function1<PairGroup, ImmutableVector3D>() {
-            public ImmutableVector3D apply( PairGroup group ) {
-                return group.position.get().minus( center ).normalized();
+    public static double applyAttractorForces( List<PairGroup> groups, final float timeElapsed, List<Vector3D> idealOrientations, List<Permutation> allowablePermutations, final Vector3D center, boolean angleRepulsion ) {
+        List<Vector3D> currentOrientations = map( groups, new Function1<PairGroup, Vector3D>() {
+            public Vector3D apply( PairGroup group ) {
+                return group.position.get().minus( center ).getNormalizedInstance();
             }
         } );
         final ResultMapping mapping = findClosestMatchingConfiguration( currentOrientations, idealOrientations, allowablePermutations );
 
-        boolean aroundCenterAtom = center.equals( new ImmutableVector3D() );
+        boolean aroundCenterAtom = center.equals( new Vector3D() );
 
         double totalDeltaMagnitude = 0;
 
@@ -52,12 +52,12 @@ public class AttractorModel {
         for ( int i = 0; i < groups.size(); i++ ) {
             PairGroup pair = groups.get( i );
 
-            ImmutableVector3D targetOrientation = JamaUtils.vectorFromMatrix3D( mapping.target, i );
-            double currentMagnitude = ( pair.position.get().minus( center ) ).magnitude();
-            ImmutableVector3D targetLocation = targetOrientation.times( currentMagnitude ).plus( center );
+            Vector3D targetOrientation = JamaUtils.vectorFromMatrix3D( mapping.target, i );
+            double currentMagnitude = ( pair.position.get().minus( center ) ).getMagnitude();
+            Vector3D targetLocation = targetOrientation.times( currentMagnitude ).plus( center );
 
-            ImmutableVector3D delta = targetLocation.minus( pair.position.get() );
-            totalDeltaMagnitude += delta.magnitude() * delta.magnitude();
+            Vector3D delta = targetLocation.minus( pair.position.get() );
+            totalDeltaMagnitude += delta.getMagnitude() * delta.getMagnitude();
 
             /*
              * NOTE: adding delta here effectively is squaring the distance, thus more force when far from the target,
@@ -65,7 +65,7 @@ public class AttractorModel {
              * otherwise-stable position, and less force where our coulomb-like repulsion will settle it into a stable
              * position
              */
-            double strength = timeElapsed * 3 * delta.magnitude();
+            double strength = timeElapsed * 3 * delta.getMagnitude();
 
             // change the velocity of all of the pairs, unless it is an atom at the origin!
             if ( pair.isLonePair || !pair.isCentralAtom() ) {
@@ -97,22 +97,22 @@ public class AttractorModel {
                 PairGroup b = groups.get( bIndex );
 
                 // current orientations w.r.t. the center
-                ImmutableVector3D aOrientation = a.position.get().minus( center ).normalized();
-                ImmutableVector3D bOrientation = b.position.get().minus( center ).normalized();
+                Vector3D aOrientation = a.position.get().minus( center ).getNormalizedInstance();
+                Vector3D bOrientation = b.position.get().minus( center ).getNormalizedInstance();
 
                 // desired orientations
-                ImmutableVector3D aTarget = JamaUtils.vectorFromMatrix3D( mapping.target, aIndex ).normalized();
-                ImmutableVector3D bTarget = JamaUtils.vectorFromMatrix3D( mapping.target, bIndex ).normalized();
+                Vector3D aTarget = JamaUtils.vectorFromMatrix3D( mapping.target, aIndex ).getNormalizedInstance();
+                Vector3D bTarget = JamaUtils.vectorFromMatrix3D( mapping.target, bIndex ).getNormalizedInstance();
                 double targetAngle = Math.acos( MathUtil.clamp( -1, aTarget.dot( bTarget ), 1 ) );
                 double currentAngle = Math.acos( MathUtil.clamp( -1, aOrientation.dot( bOrientation ), 1 ) );
                 double angleDifference = ( targetAngle - currentAngle );
 
-                ImmutableVector3D dirTowardsA = a.position.get().minus( b.position.get() ).normalized();
+                Vector3D dirTowardsA = a.position.get().minus( b.position.get() ).getNormalizedInstance();
                 double timeFactor = PairGroup.getTimescaleImpulseFactor( timeElapsed );
 
                 double extraClosePushFactor = MathUtil.clamp( 1, 3 * Math.pow( Math.PI - currentAngle, 2 ) / ( Math.PI * Math.PI ), 3 );
 
-                ImmutableVector3D push = dirTowardsA.times( timeFactor
+                Vector3D push = dirTowardsA.times( timeFactor
                                                             * angleDifference
                                                             * PairGroup.ANGLE_REPULSION_SCALE
                                                             * ( currentAngle < targetAngle ? 2.0 : 0.5 )
@@ -146,7 +146,7 @@ public class AttractorModel {
      * @param allowablePermutations A list of permutations that map stable positions to pair groups in order.
      * @return Result mapping (see docs there)
      */
-    public static ResultMapping findClosestMatchingConfiguration( final List<ImmutableVector3D> currentOrientations, final List<ImmutableVector3D> idealOrientations, List<Permutation> allowablePermutations ) {
+    public static ResultMapping findClosestMatchingConfiguration( final List<Vector3D> currentOrientations, final List<Vector3D> idealOrientations, List<Permutation> allowablePermutations ) {
         final int n = currentOrientations.size(); // number of total pairs
 
         // y == electron pair positions
@@ -181,10 +181,10 @@ public class AttractorModel {
         return bestResult.get();
     }
 
-    public static List<ImmutableVector3D> getOrientationsFromOrigin( List<PairGroup> groups ) {
-        return map( groups, new Function1<PairGroup, ImmutableVector3D>() {
-            public ImmutableVector3D apply( PairGroup group ) {
-                return group.position.get().normalized();
+    public static List<Vector3D> getOrientationsFromOrigin( List<PairGroup> groups ) {
+        return map( groups, new Function1<PairGroup, Vector3D>() {
+            public Vector3D apply( PairGroup group ) {
+                return group.position.get().getNormalizedInstance();
             }
         } );
     }
@@ -229,10 +229,10 @@ public class AttractorModel {
             this.rotation = rotation;
         }
 
-        public ImmutableVector3D rotateVector( ImmutableVector3D v ) {
+        public Vector3D rotateVector( Vector3D v ) {
             Matrix x = JamaUtils.matrixFromVectors3D( Arrays.asList( v ) );
             Matrix rotated = rotation.times( x );
-            return new ImmutableVector3D( rotated.get( 0, 0 ), rotated.get( 1, 0 ), rotated.get( 2, 0 ) );
+            return new Vector3D( rotated.get( 0, 0 ), rotated.get( 1, 0 ), rotated.get( 2, 0 ) );
         }
     }
 

@@ -4,7 +4,7 @@ package edu.colorado.phet.energyformsandchanges.common;
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
 /**

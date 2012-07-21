@@ -7,7 +7,7 @@ import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.DynamicBranch;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 
 /**
  * Inductor model for CCK.

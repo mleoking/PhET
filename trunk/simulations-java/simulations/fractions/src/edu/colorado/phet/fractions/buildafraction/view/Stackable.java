@@ -6,7 +6,7 @@ import fj.data.Option;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.umd.cs.piccolo.PNode;
 
 /**

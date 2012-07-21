@@ -13,7 +13,7 @@ import java.awt.geom.Point2D;
 import java.util.HashMap;
 import java.util.Map;
 
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.idealgas.model.IdealGasModel;
 
 public class SphereWallExpert implements CollisionExpert, ContactDetector {

@@ -4,8 +4,8 @@ package edu.colorado.phet.conductivity.common;
 
 import java.awt.geom.GeneralPath;
 
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 
 public class DoubleGeneralPath {
 

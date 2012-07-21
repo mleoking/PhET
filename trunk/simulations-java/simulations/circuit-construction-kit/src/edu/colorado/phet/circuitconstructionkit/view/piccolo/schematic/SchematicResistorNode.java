@@ -17,7 +17,7 @@ import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponen
 import edu.colorado.phet.circuitconstructionkit.model.components.Resistor;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.ComponentNode;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.LineSegment;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;

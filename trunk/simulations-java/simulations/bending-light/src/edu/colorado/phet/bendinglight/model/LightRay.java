@@ -8,7 +8,7 @@ import java.awt.geom.Area;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
 import static edu.colorado.phet.bendinglight.model.BendingLightModel.SPEED_OF_LIGHT;

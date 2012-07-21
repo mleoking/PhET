@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.common.phetcommon.math;
+package edu.colorado.phet.common.phetcommon.math.vector;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -23,6 +23,8 @@ public @EqualsAndHashCode(callSuper = false) @ToString class Vector2D extends Ab
 
     //Immutable instance for zero so it doesn't need to be duplicated/re-instantiated in multiple places
     public static final Vector2D ZERO = new Vector2D();
+    public static final Vector2D X_UNIT = new Vector2D( 1, 0 );
+    public static final Vector2D Y_UNIT = new Vector2D( 0, 1 );
 
     public Vector2D() { this( 0, 0 ); }
 
@@ -31,9 +33,7 @@ public @EqualsAndHashCode(callSuper = false) @ToString class Vector2D extends Ab
         this.y = y;
     }
 
-    public Vector2D( MutableVector2D v ) { this( v.getX(), v.getY() ); }
-
-    public Vector2D( Vector2D v ) { this( v.getX(), v.getY() ); }
+    public Vector2D( AbstractVector2D v ) { this( v.getX(), v.getY() ); }
 
     public Vector2D( Point2D p ) { this( p.getX(), p.getY() ); }
 

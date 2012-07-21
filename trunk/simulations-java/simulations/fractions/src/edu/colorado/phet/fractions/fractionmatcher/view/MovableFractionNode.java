@@ -9,7 +9,7 @@ import fj.data.List;
 import java.awt.geom.Dimension2D;
 import java.util.HashMap;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;

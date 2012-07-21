@@ -12,7 +12,7 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -26,7 +26,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import static edu.colorado.phet.common.phetcommon.math.Vector2D.v;
+import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.v;
 import static edu.colorado.phet.fractions.buildafraction.view.pictures.PieceNode._toFraction;
 import static edu.colorado.phet.fractions.common.view.FNode.getChildren;
 import static edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction.sum;

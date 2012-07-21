@@ -6,9 +6,9 @@ import java.nio.IntBuffer;
 
 import org.lwjgl.BufferUtils;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.lwjglphet.GLOptions;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -28,14 +28,14 @@ public class GridMesh extends GLNode {
 
     private int rows;
     private int columns;
-    protected ImmutableVector3F[] positions;
+    protected Vector3F[] positions;
 
     /**
      * @param rows      How many rows of vertices there are in positions
      * @param columns   How many columns of vertices  there are in positions
      * @param positions Vertices. Should be rows*columns of them
      */
-    public GridMesh( int rows, int columns, ImmutableVector3F[] positions ) {
+    public GridMesh( int rows, int columns, Vector3F[] positions ) {
         this.rows = rows;
         this.columns = columns;
         this.positions = positions;
@@ -97,11 +97,11 @@ public class GridMesh extends GLNode {
      *
      * @param positions See docs on constructor
      */
-    public void updateGeometry( ImmutableVector3F[] positions ) {
+    public void updateGeometry( Vector3F[] positions ) {
         setPositions( positions );
     }
 
-    private void setPositions( ImmutableVector3F[] positions ) {
+    private void setPositions( Vector3F[] positions ) {
         this.positions = positions;
         // reset the buffers
         positionBuffer.clear();
@@ -117,7 +117,7 @@ public class GridMesh extends GLNode {
                 /*---------------------------------------------------------------------------*
                 * position
                 *----------------------------------------------------------------------------*/
-                ImmutableVector3F position = positions[rowOffset + col];
+                Vector3F position = positions[rowOffset + col];
                 positionBuffer.put( new float[] { position.x, position.y, position.z } );
 
 
@@ -125,17 +125,17 @@ public class GridMesh extends GLNode {
                 * normal
                 *----------------------------------------------------------------------------*/
                 if ( updateNormals ) {
-                    ImmutableVector3F normal = getNormal( row, col );
+                    Vector3F normal = getNormal( row, col );
                     normalBuffer.put( new float[] { normal.x, normal.y, normal.z } );
                 }
             }
         }
     }
 
-    public ImmutableVector3F getNormal( int row, int col ) {
+    public Vector3F getNormal( int row, int col ) {
         // basic approximation based on neighbors.
-        ImmutableVector3F position = getPosition( row, col );
-        ImmutableVector3F up, down, left, right;
+        Vector3F position = getPosition( row, col );
+        Vector3F up, down, left, right;
 
         // calculate up/down vectors
         if ( row > 0 ) {
@@ -157,13 +157,13 @@ public class GridMesh extends GLNode {
             left = right.negated();
         }
 
-        ImmutableVector3F normal = new ImmutableVector3F();
+        Vector3F normal = new Vector3F();
         // basically, sum up the normals of each quad this vertex is part of, and take the average
-        normal = normal.plus( right.cross( up ).normalized() );
-        normal = normal.plus( up.cross( left ).normalized() );
-        normal = normal.plus( left.cross( down ).normalized() );
-        normal = normal.plus( down.cross( right ).normalized() );
-        return normal.normalized();
+        normal = normal.plus( right.cross( up ).getNormalizedInstance() );
+        normal = normal.plus( up.cross( left ).getNormalizedInstance() );
+        normal = normal.plus( left.cross( down ).getNormalizedInstance() );
+        normal = normal.plus( down.cross( right ).getNormalizedInstance() );
+        return normal.getNormalizedInstance();
     }
 
     public void setUpdateNormals( boolean updateNormals ) {
@@ -206,7 +206,7 @@ public class GridMesh extends GLNode {
         glDrawElements( GL_TRIANGLE_STRIP, indexBuffer );
     }
 
-    public ImmutableVector3F getPosition( int row, int col ) {
+    public Vector3F getPosition( int row, int col ) {
         return positions[row * columns + col];
     }
 

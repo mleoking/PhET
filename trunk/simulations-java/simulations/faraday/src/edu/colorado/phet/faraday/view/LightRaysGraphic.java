@@ -11,7 +11,7 @@ import java.awt.RenderingHints;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 
 

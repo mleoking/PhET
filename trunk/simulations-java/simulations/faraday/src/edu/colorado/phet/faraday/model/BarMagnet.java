@@ -12,7 +12,7 @@ import java.text.MessageFormat;
 import java.util.StringTokenizer;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.faraday.FaradayResources;
 import edu.colorado.phet.faraday.FaradayStrings;

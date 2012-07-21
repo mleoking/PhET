@@ -15,7 +15,7 @@ import edu.colorado.phet.chemicalreactions.model.Molecule;
 import edu.colorado.phet.chemicalreactions.model.ReactionShape;
 import edu.colorado.phet.chemicalreactions.view.KitView;
 import edu.colorado.phet.chemicalreactions.view.MoleculeNode;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;

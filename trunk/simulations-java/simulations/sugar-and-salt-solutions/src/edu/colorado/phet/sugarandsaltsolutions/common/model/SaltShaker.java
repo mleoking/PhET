@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SaltShakerNode;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.common.phetcommon.math.Vector2D.createPolar;
+import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.createPolar;
 import static edu.colorado.phet.sugarandsaltsolutions.macro.model.SoluteModel.VOLUME_PER_SOLID_MOLE_SALT;
 
 /**

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import edu.colorado.phet.chemistry.model.Atom;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 
 /**

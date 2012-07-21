@@ -3,7 +3,7 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.ItemList;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle.Chloride;

@@ -20,7 +20,7 @@ import org.jbox2d.testbed.framework.TestPanel;
 import org.jbox2d.testbed.framework.TestbedSettings;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -35,7 +35,7 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.ItemList;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.sucrose.Sucrose;
 
-import static edu.colorado.phet.common.phetcommon.math.Vector2D.ZERO;
+import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.ZERO;
 
 /**
  * Model for "water" tab for sugar and salt solutions.

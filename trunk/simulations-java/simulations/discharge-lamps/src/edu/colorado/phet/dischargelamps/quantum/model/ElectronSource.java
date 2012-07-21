@@ -16,7 +16,7 @@ import java.util.EventObject;
 import java.util.HashSet;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.quantum.model.ElectromotiveForce;

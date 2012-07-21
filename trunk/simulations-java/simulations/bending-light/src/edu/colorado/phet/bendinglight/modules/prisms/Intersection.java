@@ -3,7 +3,7 @@ package edu.colorado.phet.bendinglight.modules.prisms;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
 /**

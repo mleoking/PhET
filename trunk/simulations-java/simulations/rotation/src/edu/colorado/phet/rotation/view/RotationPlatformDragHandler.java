@@ -4,7 +4,7 @@ package edu.colorado.phet.rotation.view;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.motion.model.IPositionDriven;
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.rotation.model.RotationPlatform;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;

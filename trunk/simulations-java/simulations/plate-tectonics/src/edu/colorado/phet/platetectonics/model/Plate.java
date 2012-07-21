@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.platetectonics.model.regions.Region;
 
 import static edu.colorado.phet.common.phetcommon.util.FunctionalUtils.flatten;
@@ -57,7 +57,7 @@ public class Plate {
                     for ( int zIndex = 0; zIndex < depthSamples; zIndex++ ) {
                         final float z = zPositions.get( zIndex );
                         // elevation to be fixed later
-                        add( new TerrainSample( currentTopRegion.getTopBoundary().samples.get( finalXIndex ).getPosition().y, textureStrategy.mapTop( new ImmutableVector2F( x, z ) ) ) );
+                        add( new TerrainSample( currentTopRegion.getTopBoundary().samples.get( finalXIndex ).getPosition().y, textureStrategy.mapTop( new Vector2F( x, z ) ) ) );
                     }
                 }} );
             }
@@ -66,7 +66,7 @@ public class Plate {
 
     public void shiftZ( float zOffset ) {
         for ( Sample sample : getSamples() ) {
-            sample.setPosition( sample.getPosition().plus( new ImmutableVector3F( 0, 0, zOffset ) ) );
+            sample.setPosition( sample.getPosition().plus( new Vector3F( 0, 0, zOffset ) ) );
         }
         getTerrain().shiftZ( zOffset );
     }

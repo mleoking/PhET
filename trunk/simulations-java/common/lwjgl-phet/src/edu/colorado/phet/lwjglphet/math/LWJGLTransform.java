@@ -5,6 +5,7 @@ import java.nio.FloatBuffer;
 
 import org.lwjgl.BufferUtils;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.event.ValueNotifier;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F.MatrixType;
@@ -91,30 +92,30 @@ public class LWJGLTransform {
     *----------------------------------------------------------------------------*/
 
     // transform a position (includes translation)
-    public ImmutableVector3F transformPosition( ImmutableVector3F position ) {
+    public Vector3F transformPosition( Vector3F position ) {
         return matrix.times( position );
     }
 
     // transform a vector (excludes translation, so positional offsets are maintained). use this for transform(B-A)
-    public ImmutableVector3F transformDelta( ImmutableVector3F vector ) {
+    public Vector3F transformDelta( Vector3F vector ) {
         return matrix.timesVector( vector );
     }
 
     // transform a normal vector (different from the others)
-    public ImmutableVector3F transformNormal( ImmutableVector3F normal ) {
+    public Vector3F transformNormal( Vector3F normal ) {
         return inverse.timesTranspose( normal );
     }
 
     public float transformDeltaX( float x ) {
-        return transformDelta( new ImmutableVector3F( x, 0, 0 ) ).x;
+        return transformDelta( new Vector3F( x, 0, 0 ) ).x;
     }
 
     public float transformDeltaY( float y ) {
-        return transformDelta( new ImmutableVector3F( 0, y, 0 ) ).y;
+        return transformDelta( new Vector3F( 0, y, 0 ) ).y;
     }
 
     public float transformDeltaZ( float z ) {
-        return transformDelta( new ImmutableVector3F( 0, 0, z ) ).z;
+        return transformDelta( new Vector3F( 0, 0, z ) ).z;
     }
 
     public Ray3F transformRay( Ray3F ray ) {
@@ -126,30 +127,30 @@ public class LWJGLTransform {
     *----------------------------------------------------------------------------*/
 
     // inverse transform a position (includes translation)
-    public ImmutableVector3F inversePosition( ImmutableVector3F position ) {
+    public Vector3F inversePosition( Vector3F position ) {
         return inverse.times( position );
     }
 
     // inverse transform a vector (excludes translation, so positional offsets are maintained). use this for transform(B-A)
-    public ImmutableVector3F inverseDelta( ImmutableVector3F vector ) {
+    public Vector3F inverseDelta( Vector3F vector ) {
         return inverse.timesVector( vector );
     }
 
     // inverse transform a normal vector (different from the others)
-    public ImmutableVector3F inverseNormal( ImmutableVector3F normal ) {
+    public Vector3F inverseNormal( Vector3F normal ) {
         return matrix.timesTranspose( normal );
     }
 
     public float inverseDeltaX( float x ) {
-        return inverseDelta( new ImmutableVector3F( x, 0, 0 ) ).x;
+        return inverseDelta( new Vector3F( x, 0, 0 ) ).x;
     }
 
     public float inverseDeltaY( float y ) {
-        return inverseDelta( new ImmutableVector3F( 0, y, 0 ) ).y;
+        return inverseDelta( new Vector3F( 0, y, 0 ) ).y;
     }
 
     public float inverseDeltaZ( float z ) {
-        return inverseDelta( new ImmutableVector3F( 0, 0, z ) ).z;
+        return inverseDelta( new Vector3F( 0, 0, z ) ).z;
     }
 
     public Ray3F inverseRay( Ray3F ray ) {

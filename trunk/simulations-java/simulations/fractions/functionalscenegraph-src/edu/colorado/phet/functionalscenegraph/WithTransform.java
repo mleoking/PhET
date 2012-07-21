@@ -8,7 +8,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 
 /**
  * Apply an effect to the graphics2d with the specified paint

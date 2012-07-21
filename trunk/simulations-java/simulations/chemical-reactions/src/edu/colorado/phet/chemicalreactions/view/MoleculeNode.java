@@ -5,7 +5,7 @@ import edu.colorado.phet.chemicalreactions.ChemicalReactionsApplication;
 import edu.colorado.phet.chemicalreactions.model.Atom;
 import edu.colorado.phet.chemicalreactions.model.Molecule;
 import edu.colorado.phet.chemistry.nodes.LabeledAtomNode;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;

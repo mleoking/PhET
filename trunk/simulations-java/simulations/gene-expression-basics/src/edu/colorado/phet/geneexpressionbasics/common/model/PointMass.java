@@ -3,8 +3,8 @@ package edu.colorado.phet.geneexpressionbasics.common.model;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 
 /**
  * This class defines a point in model space that also has mass.  It is

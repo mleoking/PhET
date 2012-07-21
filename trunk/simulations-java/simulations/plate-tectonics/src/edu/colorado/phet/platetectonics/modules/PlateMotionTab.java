@@ -10,7 +10,9 @@ import java.util.Map;
 
 import org.lwjgl.input.Mouse;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -24,8 +26,6 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.Ray3F;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.lwjglphet.nodes.GuiNode;
@@ -86,10 +86,10 @@ public class PlateMotionTab extends PlateTectonicsTab {
     // dragging state for the manual mode
     private boolean draggingPlate = false;
     private HandleNode draggedHandle = null;
-    private ImmutableVector2F draggingPlateStartMousePosition = null;
+    private Vector2F draggingPlateStartMousePosition = null;
 
     // now this actually contains angles!!!!
-    public final Property<ImmutableVector2F> motionVectorRight = new Property<ImmutableVector2F>( new ImmutableVector2F() );
+    public final Property<Vector2F> motionVectorRight = new Property<Vector2F>( new Vector2F() );
     private HandleNode leftHandle;
     private HandleNode rightHandle;
     private TectonicsTimeControl tectonicsTimeControl;
@@ -124,7 +124,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
         sceneLayer.addChild( new PlateView( getModel(), this, showWater ) );
 
         // add in the handles for manual mode
-        leftHandle = new HandleNode( new Property<ImmutableVector3F>( new ImmutableVector3F( -120, 0, -125 / 2 ) ), this, false ) {{
+        leftHandle = new HandleNode( new Property<Vector3F>( new Vector3F( -120, 0, -125 / 2 ) ), this, false ) {{
             motionVectorRight.addObserver( new SimpleObserver() {
                 public void update() {
                     updateTransform( -motionVectorRight.get().getX(), -motionVectorRight.get().getY() );
@@ -132,7 +132,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
             } );
         }};
         sceneLayer.addChild( leftHandle );
-        rightHandle = new HandleNode( new Property<ImmutableVector3F>( new ImmutableVector3F( 120, 0, -125 / 2 ) ), this, true ) {{
+        rightHandle = new HandleNode( new Property<Vector3F>( new Vector3F( 120, 0, -125 / 2 ) ), this, true ) {{
             motionVectorRight.addObserver( new SimpleObserver() {
                 public void update() {
                     updateTransform( motionVectorRight.get().getX(), motionVectorRight.get().getY() );
@@ -158,14 +158,14 @@ public class PlateMotionTab extends PlateTectonicsTab {
                 // when a range label is added, create the view node for it
 
                 // mapped locations
-                final Property<ImmutableVector3F> topProperty = new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+                final Property<Vector3F> topProperty = new Property<Vector3F>( new Vector3F() ) {{
                     beforeFrameRender.addUpdateListener( new UpdateListener() {
                         public void update() {
                             set( convertRadial( rangeLabel.top.get() ) );
                         }
                     }, true );
                 }};
-                final Property<ImmutableVector3F> bottomProperty = new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+                final Property<Vector3F> bottomProperty = new Property<Vector3F>( new Vector3F() ) {{
                     beforeFrameRender.addUpdateListener( new UpdateListener() {
                         public void update() {
                             set( convertRadial( rangeLabel.bottom.get() ) );
@@ -489,21 +489,21 @@ public class PlateMotionTab extends PlateTectonicsTab {
         return mag * mag * 2.5f;
     }
 
-    private ImmutableVector2F getCrustOffset( ImmutableVector2F pieceOffset ) {
+    private Vector2F getCrustOffset( Vector2F pieceOffset ) {
         Vector2D nodeOffset = crustChooserNode.position.get();
-        return new ImmutableVector2F( (float) nodeOffset.getX() + pieceOffset.x,
+        return new Vector2F( (float) nodeOffset.getX() + pieceOffset.x,
                                       (float) nodeOffset.getY() + pieceOffset.y );
     }
 
-    private ImmutableVector2F getContinentalOffset() {
+    private Vector2F getContinentalOffset() {
         return getCrustOffset( crustChooserPanel.getContinentalCenter() );
     }
 
-    private ImmutableVector2F getYoungOceanicOffset() {
+    private Vector2F getYoungOceanicOffset() {
         return getCrustOffset( crustChooserPanel.getYoungOceanicCenter() );
     }
 
-    private ImmutableVector2F getOldOceanicOffset() {
+    private Vector2F getOldOceanicOffset() {
         return getCrustOffset( crustChooserPanel.getOldOceanicCenter() );
     }
 
@@ -620,7 +620,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
 
     // 3D GLNode responsible for showing the CrustPiece
     private class CrustPieceGLNode extends OrthoPiccoloNode {
-        private CrustPieceGLNode( CrustPieceNode crustPiece, final ImmutableVector2F offset ) {
+        private CrustPieceGLNode( CrustPieceNode crustPiece, final Vector2F offset ) {
             super( crustPiece, PlateMotionTab.this, getCanvasTransform(),
                    new Property<Vector2D>(
                            new Vector2D(
@@ -693,7 +693,7 @@ public class PlateMotionTab extends PlateTectonicsTab {
         }
     }
 
-    private ImmutableVector3F convertRadial( ImmutableVector3F v ) {
+    private Vector3F convertRadial( Vector3F v ) {
         return getModelViewTransform().transformPosition( PlateModel.convertToRadial( v ) );
     }
 

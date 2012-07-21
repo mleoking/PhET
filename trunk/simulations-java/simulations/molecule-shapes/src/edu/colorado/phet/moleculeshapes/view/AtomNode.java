@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.view;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
@@ -27,7 +27,7 @@ import com.jme3.util.TangentBinormalGenerator;
 public class AtomNode extends Geometry {
 
     public final PairGroup pair; // referenced pair (or null)
-    public final Property<ImmutableVector3D> position; // position property
+    public final Property<Vector3D> position; // position property
     private final float radius;
 
     /**
@@ -39,7 +39,7 @@ public class AtomNode extends Geometry {
     public AtomNode( Option<PairGroup> pairOption, AssetManager assetManager ) {
         this(
                 // if position exists, use it. Otherwise, assume the origin
-                pairOption.isSome() ? pairOption.get().position : new Property<ImmutableVector3D>( new ImmutableVector3D() ),
+                pairOption.isSome() ? pairOption.get().position : new Property<Vector3D>( new Vector3D() ),
                 pairOption,
 
                 // change color based on whether we have an assocated pair group
@@ -69,11 +69,11 @@ public class AtomNode extends Geometry {
                 assetManager );
     }
 
-    public AtomNode( final Property<ImmutableVector3D> position, Option<PairGroup> pairOption, final ColorRGBA color, final float radius, AssetManager assetManager ) {
+    public AtomNode( final Property<Vector3D> position, Option<PairGroup> pairOption, final ColorRGBA color, final float radius, AssetManager assetManager ) {
         this( position, pairOption, new Property<ColorRGBA>( color ), radius, assetManager );
     }
 
-    public AtomNode( final Property<ImmutableVector3D> position, Option<PairGroup> pairOption, final Property<ColorRGBA> color, final float radius, AssetManager assetManager ) {
+    public AtomNode( final Property<Vector3D> position, Option<PairGroup> pairOption, final Property<ColorRGBA> color, final float radius, AssetManager assetManager ) {
         super( "Atom", new Sphere( MoleculeShapesProperties.sphereSamples.get(), MoleculeShapesProperties.sphereSamples.get(), radius ) {{
             setTextureMode( Sphere.TextureMode.Projected ); // better quality on spheres
             TangentBinormalGenerator.generate( this );           // for lighting effect

@@ -7,7 +7,7 @@ import java.awt.Shape;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Ellipse2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 
 /**
  * @author Sam Reid

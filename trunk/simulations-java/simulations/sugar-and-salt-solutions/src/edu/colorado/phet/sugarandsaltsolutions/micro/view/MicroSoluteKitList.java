@@ -20,7 +20,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.glucose.Glucose;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.Nitrate;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.common.phetcommon.math.Vector2D.ZERO;
+import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.ZERO;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.*;
 
 /**

@@ -6,7 +6,7 @@ import java.awt.geom.Point2D;
 import java.util.EventListener;
 import java.util.EventObject;
 
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.solublesalts.model.Atom;
 import edu.colorado.phet.solublesalts.model.crystal.Crystal;

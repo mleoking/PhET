@@ -18,7 +18,7 @@ import java.util.EventListener;
 import java.util.List;
 
 import edu.colorado.phet.common.mechanics.Vector3D;
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.reactionsandrates.model.collision.HardBodyCollision;

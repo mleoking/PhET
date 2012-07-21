@@ -5,8 +5,8 @@ import junit.framework.TestCase;
 
 import java.awt.geom.Line2D;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.spline.CubicSpline2D;
 import edu.colorado.phet.common.spline.ParametricFunction2D;

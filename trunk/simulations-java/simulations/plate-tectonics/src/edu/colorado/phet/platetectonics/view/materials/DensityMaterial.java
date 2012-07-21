@@ -4,7 +4,7 @@ package edu.colorado.phet.platetectonics.view.materials;
 import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.platetectonics.model.CrustModel;
 
 /**
@@ -14,7 +14,7 @@ public class DensityMaterial implements EarthMaterial {
     private static final Color min = new Color( 255, 255, 255 );
     private static final Color max = new Color( 0, 0, 0 );
 
-    public static ImmutableVector2F densityMap( float density ) {
+    public static Vector2F densityMap( float density ) {
         float minDensityToShow = 2500;
         float maxDensityToShow = 3500;
         float maxMaxDensityToShow = CrustModel.CENTER_DENSITY;
@@ -31,10 +31,10 @@ public class DensityMaterial implements EarthMaterial {
             x = start + ( end - start ) * ratio;
         }
         x = (float) MathUtil.clamp( 0.0, x / 220, 1.0 ); // clamp it in the normal range
-        return new ImmutableVector2F( x, 0.5f );
+        return new Vector2F( x, 0.5f );
     }
 
-    public Color getColor( float density, float temperature, ImmutableVector2F position, float alpha ) {
+    public Color getColor( float density, float temperature, Vector2F position, float alpha ) {
         float value = densityMap( density ).x;
         return new Color( value, value, value, alpha );
     }

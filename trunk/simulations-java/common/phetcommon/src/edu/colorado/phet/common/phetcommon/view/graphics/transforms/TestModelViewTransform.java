@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 
 public class TestModelViewTransform extends TestCase {
     public static double EPSILON = 0.000001;

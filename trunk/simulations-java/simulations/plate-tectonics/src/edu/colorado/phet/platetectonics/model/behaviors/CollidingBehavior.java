@@ -4,7 +4,7 @@ package edu.colorado.phet.platetectonics.model.behaviors;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
 import edu.colorado.phet.platetectonics.model.Sample;
 import edu.colorado.phet.platetectonics.model.TerrainSample;
@@ -91,13 +91,13 @@ public class CollidingBehavior extends PlateBehavior {
 
                     Sample sample = boundary.samples.get( i );
 
-                    final ImmutableVector3F currentPosition = sample.getPosition();
+                    final Vector3F currentPosition = sample.getPosition();
                     final float currentX = currentPosition.x;
                     final float currentY = currentPosition.y;
                     float newX = currentX == 0 ? 0 : computeNewX( millionsOfYears, sign, currentX );
                     float newY = ( currentY - centerY ) / scales[i] + centerY;
                     final float yOffset = newY - currentY;
-                    final ImmutableVector3F offset3d = new ImmutableVector3F( newX - currentX, yOffset, 0 );
+                    final Vector3F offset3d = new Vector3F( newX - currentX, yOffset, 0 );
                     sample.setPosition( currentPosition.plus( offset3d ) );
 
                     // kind of a weird hack, but it helps us store less amounts of massive information
@@ -124,7 +124,7 @@ public class CollidingBehavior extends PlateBehavior {
                 terrainSample.setElevation( terrainSample.getElevation() + elevationOffset );
                 if ( row == getPlate().getTerrain().getFrontZIndex() ) {
                     final Sample sample = getCrust().getTopBoundary().samples.get( col );
-                    sample.setPosition( sample.getPosition().plus( new ImmutableVector3F( 0, elevationOffset, 0 ) ) );
+                    sample.setPosition( sample.getPosition().plus( new Vector3F( 0, elevationOffset, 0 ) ) );
                 }
             }
         }
@@ -136,7 +136,7 @@ public class CollidingBehavior extends PlateBehavior {
                 getTerrain().getSample( 0, row ).setElevation(
                         elevation );
                 final Sample sample = getPlate().getCrust().getTopBoundary().samples.get( 0 );
-                sample.setPosition( new ImmutableVector3F( sample.getPosition().x, elevation, sample.getPosition().z ) );
+                sample.setPosition( new Vector3F( sample.getPosition().x, elevation, sample.getPosition().z ) );
             }
         }
 

@@ -5,8 +5,8 @@ package edu.colorado.phet.semiconductor.oldphetgraphics.graphics.shapes;
 
 import java.awt.geom.GeneralPath;
 
-import edu.colorado.phet.common.phetcommon.math.AbstractVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.AbstractVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 

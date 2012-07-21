@@ -6,6 +6,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+
 /**
  * Immutable Rectangle2D class, suitable for usage in <code>Property<ImmutableRectangle2D></code> pattern, which also adds convenience methods missing from awt's Rectangle2D.
  *

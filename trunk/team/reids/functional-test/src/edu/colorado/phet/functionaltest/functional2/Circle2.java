@@ -3,7 +3,7 @@ package edu.colorado.phet.functionaltest.functional2;
 
 import lombok.Data;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 
 /**
  * @author Sam Reid

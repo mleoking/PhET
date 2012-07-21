@@ -2,7 +2,7 @@
 package edu.colorado.phet.bendinglight.modules.moretools;
 
 import edu.colorado.phet.bendinglight.modules.intro.IntroModel;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;

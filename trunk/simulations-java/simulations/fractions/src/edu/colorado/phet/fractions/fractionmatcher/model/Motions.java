@@ -3,7 +3,7 @@ package edu.colorado.phet.fractions.fractionmatcher.model;
 
 import fj.F;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 
 /**
  * Motion strategies for moving to various locations (or holding still).

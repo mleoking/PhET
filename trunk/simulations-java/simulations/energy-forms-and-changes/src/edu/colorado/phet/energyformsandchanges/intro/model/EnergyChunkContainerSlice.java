@@ -4,7 +4,7 @@ package edu.colorado.phet.energyformsandchanges.intro.model;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;

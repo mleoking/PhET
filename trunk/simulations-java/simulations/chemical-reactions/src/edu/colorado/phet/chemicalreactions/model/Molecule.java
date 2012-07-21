@@ -12,7 +12,7 @@ import org.jbox2d.dynamics.BodyType;
 
 import edu.colorado.phet.chemicalreactions.box2d.BodyModel;
 import edu.colorado.phet.chemicalreactions.model.MoleculeShape.AtomSpot;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.event.VoidNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;

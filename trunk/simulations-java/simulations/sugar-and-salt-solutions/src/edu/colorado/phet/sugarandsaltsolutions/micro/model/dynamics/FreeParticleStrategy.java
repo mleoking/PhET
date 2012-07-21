@@ -4,11 +4,11 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 
-import static edu.colorado.phet.common.phetcommon.math.Vector2D.createPolar;
+import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.createPolar;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.randomAngle;
 
 /**

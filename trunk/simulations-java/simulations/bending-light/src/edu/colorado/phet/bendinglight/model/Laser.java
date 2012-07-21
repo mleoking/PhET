@@ -4,12 +4,12 @@ package edu.colorado.phet.bendinglight.model;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.bendinglight.view.LaserColor;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 import static edu.colorado.phet.bendinglight.model.BendingLightModel.WAVELENGTH_RED;
-import static edu.colorado.phet.common.phetcommon.math.Vector2D.createPolar;
+import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.createPolar;
 
 /**
  * Model for the laser, which emits LightRays.

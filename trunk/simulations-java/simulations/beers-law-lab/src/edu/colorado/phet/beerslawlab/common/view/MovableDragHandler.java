@@ -6,7 +6,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.beerslawlab.common.BLLSimSharing.ParameterKeys;
 import edu.colorado.phet.beerslawlab.common.model.Movable;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.IUserComponent;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.ParameterSet;
 import edu.colorado.phet.common.phetcommon.simsharing.messages.UserComponentTypes;

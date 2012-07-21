@@ -20,7 +20,9 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
@@ -38,8 +40,6 @@ import edu.colorado.phet.lwjglphet.GLOptions.RenderPass;
 import edu.colorado.phet.lwjglphet.LWJGLCanvas;
 import edu.colorado.phet.lwjglphet.LWJGLTab;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.math.PlaneF;
 import edu.colorado.phet.lwjglphet.math.Ray3F;
@@ -65,7 +65,7 @@ import edu.colorado.phet.platetectonics.model.TectonicsClock;
 import edu.colorado.phet.platetectonics.model.ToolboxState;
 import edu.colorado.phet.platetectonics.view.ColorMode;
 
-import static edu.colorado.phet.lwjglphet.math.ImmutableVector3F.X_UNIT;
+import static edu.colorado.phet.common.phetcommon.math.vector.Vector3F.X_UNIT;
 import static edu.colorado.phet.platetectonics.PlateTectonicsConstants.framesPerSecondLimit;
 import static org.lwjgl.opengl.GL11.*;
 
@@ -382,11 +382,11 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                     toolLayer.addChild( ruler );
 
                     // offset the ruler slightly from the mouse, and start the drag
-                    ImmutableVector2F mousePosition = getMouseViewPositionOnZPlane();
-                    ImmutableVector2F initialMouseOffset = ruler.getInitialMouseOffset();
+                    Vector2F mousePosition = getMouseViewPositionOnZPlane();
+                    Vector2F initialMouseOffset = ruler.getInitialMouseOffset();
                     final float initialX = mousePosition.x - initialMouseOffset.x;
                     final float initialY = mousePosition.y - initialMouseOffset.y;
-                    ruler.draggedPosition = new ImmutableVector2F( initialX, initialY );
+                    ruler.draggedPosition = new Vector2F( initialX, initialY );
                     ruler.transform.prepend( ImmutableMatrix4F.translation( initialX,
                                                                             initialY,
                                                                             RULER_Z ) );
@@ -406,11 +406,11 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                     toolLayer.addChild( thermometer );
 
                     // offset the ruler slightly from the mouse, and start the drag
-                    ImmutableVector2F mousePosition = getMouseViewPositionOnZPlane();
-                    ImmutableVector2F initialMouseOffset = thermometer.getInitialMouseOffset();
+                    Vector2F mousePosition = getMouseViewPositionOnZPlane();
+                    Vector2F initialMouseOffset = thermometer.getInitialMouseOffset();
                     final float initialX = mousePosition.x - initialMouseOffset.x;
                     final float initialY = mousePosition.y - initialMouseOffset.y;
-                    thermometer.draggedPosition = new ImmutableVector2F( initialX, initialY );
+                    thermometer.draggedPosition = new Vector2F( initialX, initialY );
                     thermometer.transform.prepend( ImmutableMatrix4F.translation( initialX,
                                                                                   initialY,
                                                                                   THERMOMETER_Z ) );
@@ -431,11 +431,11 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
                     toolLayer.addChild( sensorNode );
 
                     // offset the ruler slightly from the mouse, and start the drag
-                    ImmutableVector2F mousePosition = getMouseViewPositionOnZPlane();
-                    ImmutableVector2F initialMouseOffset = sensorNode.getInitialMouseOffset();
+                    Vector2F mousePosition = getMouseViewPositionOnZPlane();
+                    Vector2F initialMouseOffset = sensorNode.getInitialMouseOffset();
                     final float initialX = mousePosition.x - initialMouseOffset.x;
                     final float initialY = mousePosition.y - initialMouseOffset.y;
-                    sensorNode.draggedPosition = new ImmutableVector2F( initialX, initialY );
+                    sensorNode.draggedPosition = new Vector2F( initialX, initialY );
                     sensorNode.transform.prepend( ImmutableMatrix4F.translation( initialX,
                                                                                  initialY,
                                                                                  DENSITY_SENSOR_Z ) );
@@ -549,12 +549,12 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         return canvasTransform;
     }
 
-    public ImmutableVector3F viewToPlanarModel( ImmutableVector3F position ) {
+    public Vector3F viewToPlanarModel( Vector3F position ) {
         // TODO: turn these into a sub-class of LWJGLTransform that applies the planar/radial transform
         return PlateModel.convertToPlanar( modelViewTransform.inversePosition( position ) );
     }
 
-    public ImmutableVector3F planarModelToView( ImmutableVector3F position ) {
+    public Vector3F planarModelToView( Vector3F position ) {
         return getModelViewTransform().transformPosition( PlateModel.convertToRadial( position ) );
     }
 
@@ -640,22 +640,22 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     }
 
     // in view coordinates
-    public ImmutableVector3F getCameraPosition() {
-        return sceneModelViewTransform.getInverse().times( new ImmutableVector3F( 0, 0, 0 ) );
+    public Vector3F getCameraPosition() {
+        return sceneModelViewTransform.getInverse().times( new Vector3F( 0, 0, 0 ) );
     }
 
     // given the mouse position by LWJGL, compute a ray from the camera to where
     public Ray3F getCameraRay( int mouseX, int mouseY ) {
         // the terms in this function should be googleable
-        ImmutableVector3F normalizedDeviceCoordinates = new ImmutableVector3F(
+        Vector3F normalizedDeviceCoordinates = new Vector3F(
                 2 * mouseX / (float) getCanvasWidth() - 1,
                 2 * mouseY / (float) getCanvasHeight() - 1,
                 1 );
 
-        ImmutableVector3F eyeCoordinates = sceneProjectionTransform.getInverse().times( normalizedDeviceCoordinates );
+        Vector3F eyeCoordinates = sceneProjectionTransform.getInverse().times( normalizedDeviceCoordinates );
 
-        ImmutableVector3F objectCoordinatesA = sceneModelViewTransform.getInverse().times( eyeCoordinates );
-        ImmutableVector3F objectCoordinatesB = sceneModelViewTransform.getInverse().times( eyeCoordinates.times( 2 ) );
+        Vector3F objectCoordinatesA = sceneModelViewTransform.getInverse().times( eyeCoordinates );
+        Vector3F objectCoordinatesB = sceneModelViewTransform.getInverse().times( eyeCoordinates.times( 2 ) );
 
         Ray3F cameraRay = new Ray3F( objectCoordinatesA, objectCoordinatesB.minus( objectCoordinatesA ) );
         return cameraRay;
@@ -672,8 +672,8 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     }
 
     // similar to gluUnProject
-    public ImmutableVector3F getNormalizedDeviceCoordinates( ImmutableVector3F screenCoordinates ) {
-        return new ImmutableVector3F( 2 * screenCoordinates.x / (float) getCanvasWidth() - 1,
+    public Vector3F getNormalizedDeviceCoordinates( Vector3F screenCoordinates ) {
+        return new Vector3F( 2 * screenCoordinates.x / (float) getCanvasWidth() - 1,
                                       2 * screenCoordinates.y / (float) getCanvasHeight() - 1,
                                       2 * screenCoordinates.z - 1 );
     }
@@ -723,24 +723,24 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
         }};
     }
 
-    public ImmutableVector2F getMouseViewPositionOnZPlane() {
+    public Vector2F getMouseViewPositionOnZPlane() {
         Ray3F cameraRay = getCameraRay( Mouse.getEventX(), Mouse.getEventY() );
-        final ImmutableVector3F intersection = PlaneF.XY.intersectWithRay( cameraRay );
-        return new ImmutableVector2F( intersection.x, intersection.y );
+        final Vector3F intersection = PlaneF.XY.intersectWithRay( cameraRay );
+        return new Vector2F( intersection.x, intersection.y );
     }
 
     // x and y [0,1] with 0,0 bottom left
-    public ImmutableVector2F getViewPositionOnZPlane( float x, float y ) {
+    public Vector2F getViewPositionOnZPlane( float x, float y ) {
         Ray3F cameraRay = getCameraRay( (int) ( canvasSize.get().width * x ), (int) ( canvasSize.get().height * y ) );
-        final ImmutableVector3F intersection = PlaneF.XY.intersectWithRay( cameraRay );
-        return new ImmutableVector2F( intersection.x, intersection.y );
+        final Vector3F intersection = PlaneF.XY.intersectWithRay( cameraRay );
+        return new Vector2F( intersection.x, intersection.y );
     }
 
     // view coordinates for where the bottom center of the screen hits the z=0 plane
-    public ImmutableVector2F getBottomCenterPositionOnPlane( PlaneF plane ) {
+    public Vector2F getBottomCenterPositionOnPlane( PlaneF plane ) {
         Ray3F cameraRay = getCameraRay( canvasSize.get().width / 2, 0 );
-        final ImmutableVector3F intersection = plane.intersectWithRay( cameraRay );
-        return new ImmutableVector2F( intersection.x, intersection.y );
+        final Vector3F intersection = plane.intersectWithRay( cameraRay );
+        return new Vector2F( intersection.x, intersection.y );
     }
 
     public void addGuiNode( OrthoComponentNode node ) {
@@ -758,9 +758,9 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     }
 
     public boolean isGuiUnder( OrthoComponentNode guiNode, int screenX, int screenY ) {
-        ImmutableVector2F screenPosition = new ImmutableVector2F( screenX, screenY );
+        Vector2F screenPosition = new Vector2F( screenX, screenY );
         if ( guiNode.isReady() ) {
-            ImmutableVector2F componentPoint = guiNode.screentoComponentCoordinates( screenPosition );
+            Vector2F componentPoint = guiNode.screentoComponentCoordinates( screenPosition );
             if ( guiNode.getComponent().contains( (int) componentPoint.x, (int) componentPoint.y ) ) {
                 return true;
             }
@@ -864,14 +864,14 @@ public abstract class PlateTectonicsTab extends LWJGLTab {
     }
 
     // if the range of a label goes off of the screen, we center it within the on-screen portion
-    public Property<ImmutableVector3F> getLabelPosition( final Property<ImmutableVector3F> aProp,
-                                                         final Property<ImmutableVector3F> bProp,
+    public Property<Vector3F> getLabelPosition( final Property<Vector3F> aProp,
+                                                         final Property<Vector3F> bProp,
                                                          final Property<Float> scaleProperty ) {
-        return new Property<ImmutableVector3F>( new ImmutableVector3F() ) {{
+        return new Property<Vector3F>( new Vector3F() ) {{
             final SimpleObserver observer = new SimpleObserver() {
                 public void update() {
-                    final PlaneF plane = new PlaneF( new ImmutableVector3F( 0, 0, 1 ), aProp.get().getZ() );
-                    ImmutableVector2F screenBottom = getBottomCenterPositionOnPlane( plane );
+                    final PlaneF plane = new PlaneF( new Vector3F( 0, 0, 1 ), aProp.get().getZ() );
+                    Vector2F screenBottom = getBottomCenterPositionOnPlane( plane );
                     if ( bProp.get().y < screenBottom.y ) {
                         // use the screen bottom, the actual bottom is too low
                         float averageY = ( screenBottom.y + aProp.get().y ) / 2;

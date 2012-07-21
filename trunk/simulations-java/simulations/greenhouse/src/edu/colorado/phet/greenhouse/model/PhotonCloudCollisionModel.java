@@ -13,7 +13,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.mechanics.Vector3D;
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.greenhouse.filter.BandpassFilter;
 import edu.colorado.phet.greenhouse.filter.Filter1D;
 import edu.colorado.phet.greenhouse.filter.IrFilter;

@@ -12,7 +12,7 @@ import edu.colorado.phet.beerslawlab.concentration.view.BeakerNode.TicksLocation
 import edu.colorado.phet.beerslawlab.concentration.view.ColorSchemeEditorDialog.ColorSchemeEditorButton;
 import edu.colorado.phet.beerslawlab.concentration.view.ConcentrationModelDialog.ConcentrationModelButton;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;

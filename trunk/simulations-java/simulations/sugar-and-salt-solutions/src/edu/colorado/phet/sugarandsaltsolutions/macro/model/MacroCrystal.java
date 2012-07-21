@@ -4,7 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions.macro.model;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 

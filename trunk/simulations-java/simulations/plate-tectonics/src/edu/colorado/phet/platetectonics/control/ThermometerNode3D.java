@@ -18,8 +18,8 @@ import edu.colorado.phet.common.piccolophet.nodes.LiquidExpansionThermometerNode
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.lwjglphet.LWJGLCursorHandler;
 import edu.colorado.phet.lwjglphet.math.ImmutableMatrix4F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.ThreadedPlanarPiccoloNode;
 import edu.colorado.phet.platetectonics.PlateTectonicsSimSharing.UserComponents;
@@ -56,7 +56,7 @@ public class ThermometerNode3D extends ThreadedPlanarPiccoloNode implements Drag
 
     private final float sensorVerticalOffset;
 
-    public ImmutableVector2F draggedPosition = new ImmutableVector2F();
+    public Vector2F draggedPosition = new Vector2F();
 
     public ThermometerNode3D( final LWJGLTransform modelViewTransform, final PlateTectonicsTab tab, PlateModel model ) {
 
@@ -106,11 +106,11 @@ public class ThermometerNode3D extends ThreadedPlanarPiccoloNode implements Drag
         return tab.getSceneDistanceZoomFactor() / PICCOLO_PIXELS_TO_VIEW_UNIT;
     }
 
-    public boolean allowsDrag( ImmutableVector2F initialPosition ) {
+    public boolean allowsDrag( Vector2F initialPosition ) {
         return true; // if this node is picked, always allow a drag anywhere on it
     }
 
-    public void dragDelta( ImmutableVector2F delta ) {
+    public void dragDelta( Vector2F delta ) {
         this.transform.prepend( ImmutableMatrix4F.translation( delta.x, delta.y, 0 ) );
         draggedPosition = draggedPosition.plus( delta );
         final double temp = getTemperatureValue();
@@ -125,23 +125,23 @@ public class ThermometerNode3D extends ThreadedPlanarPiccoloNode implements Drag
     }
 
     private Double getTemperatureValue() {
-        ImmutableVector3F modelSensorPosition = getSensorModelPosition();
+        Vector3F modelSensorPosition = getSensorModelPosition();
         return model.getTemperature( modelSensorPosition.getX(), modelSensorPosition.getY() );
     }
 
-    public ImmutableVector3F getSensorModelPosition() {
+    public Vector3F getSensorModelPosition() {
         return PlateModel.convertToPlanar(
                 modelViewTransform.inversePosition(
                         getSensorViewPosition() ) );
     }
 
-    public ImmutableVector3F getSensorViewPosition() {
-        return new ImmutableVector3F( draggedPosition.x, draggedPosition.y, 0 );
+    public Vector3F getSensorViewPosition() {
+        return new Vector3F( draggedPosition.x, draggedPosition.y, 0 );
     }
 
-    public Option<ImmutableVector3F> getSensorTerrainPosition() {
+    public Option<Vector3F> getSensorTerrainPosition() {
         // TODO: actually do this!
-//        return new None<ImmutableVector3F>();
+//        return new None<Vector3F>();
         throw new RuntimeException( "not implemented" );
     }
 
@@ -153,10 +153,10 @@ public class ThermometerNode3D extends ThreadedPlanarPiccoloNode implements Drag
         return toolboxState.thermometerInToolbox;
     }
 
-    public ImmutableVector2F getInitialMouseOffset() {
+    public Vector2F getInitialMouseOffset() {
         final double s = getScale();
 
-        return new ImmutableVector2F( getNode().getFullBounds().getWidth() / 2 * s, 0 );
+        return new Vector2F( getNode().getFullBounds().getWidth() / 2 * s, 0 );
     }
 
     public IUserComponent getUserComponent() {

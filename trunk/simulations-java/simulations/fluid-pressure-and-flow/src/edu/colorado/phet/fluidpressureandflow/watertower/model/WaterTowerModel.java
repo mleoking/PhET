@@ -4,7 +4,7 @@ package edu.colorado.phet.fluidpressureandflow.watertower.model;
 import java.util.ArrayList;
 import java.util.Random;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
@@ -15,7 +15,7 @@ import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowM
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.VelocitySensorContext;
 
-import static edu.colorado.phet.common.phetcommon.math.Vector2D.createPolar;
+import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.createPolar;
 import static edu.colorado.phet.fluidpressureandflow.FPAFSimSharing.UserComponents.*;
 import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.METRIC;
 import static java.lang.Math.sqrt;

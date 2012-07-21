@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.common.quantum.model;
 
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 
 /**
  * ElectromotiveForce

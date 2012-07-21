@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.model;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3D;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
@@ -26,8 +26,8 @@ public class PairGroup {
     /*---------------------------------------------------------------------------*
     * instance data
     *----------------------------------------------------------------------------*/
-    public final Property<ImmutableVector3D> position;
-    public final Property<ImmutableVector3D> velocity = new Property<ImmutableVector3D>( new ImmutableVector3D() );
+    public final Property<Vector3D> position;
+    public final Property<Vector3D> velocity = new Property<Vector3D>( new Vector3D() );
 
     public final boolean isLonePair;
 
@@ -38,23 +38,23 @@ public class PairGroup {
      * @param startDragged Whether it is starting as a dragged object
      *                     TODO: simplify this constructor. most of it not needed. Consider a "LonePair" class?
      */
-    public PairGroup( ImmutableVector3D position, boolean isLonePair, boolean startDragged ) {
-        this.position = new Property<ImmutableVector3D>( position );
+    public PairGroup( Vector3D position, boolean isLonePair, boolean startDragged ) {
+        this.position = new Property<Vector3D>( position );
         this.isLonePair = isLonePair;
         userControlled = new Property<Boolean>( startDragged );
 
-        this.position.addObserver( new ChangeObserver<ImmutableVector3D>() {
-            public void update( ImmutableVector3D newValue, ImmutableVector3D oldValue ) {
+        this.position.addObserver( new ChangeObserver<Vector3D>() {
+            public void update( Vector3D newValue, Vector3D oldValue ) {
                 if ( Double.isNaN( newValue.getX() ) ) {
                     throw new RuntimeException( "NaN detected in position!" );
                 }
-                if ( oldValue.equals( new ImmutableVector3D() ) ) {
+                if ( oldValue.equals( new Vector3D() ) ) {
                     throw new RuntimeException( "central molecule position change?" );
                 }
             }
         } );
-        this.velocity.addObserver( new ChangeObserver<ImmutableVector3D>() {
-            public void update( ImmutableVector3D newValue, ImmutableVector3D oldValue ) {
+        this.velocity.addObserver( new ChangeObserver<Vector3D>() {
+            public void update( Vector3D newValue, Vector3D oldValue ) {
                 if ( Double.isNaN( newValue.getX() ) ) {
                     throw new RuntimeException( "NaN detected in velocity!" );
                 }
@@ -67,30 +67,30 @@ public class PairGroup {
             // don't process if being dragged
             return;
         }
-        ImmutableVector3D origin = bond.getOtherAtom( this ).position.get();
+        Vector3D origin = bond.getOtherAtom( this ).position.get();
 
-        boolean isTerminalLonePair = !origin.equals( new ImmutableVector3D() );
+        boolean isTerminalLonePair = !origin.equals( new Vector3D() );
 
         double idealDistanceFromCenter = bond.length * REAL_TMP_SCALE;
 
         /*---------------------------------------------------------------------------*
         * prevent movement away from our ideal distance
         *----------------------------------------------------------------------------*/
-        double currentError = Math.abs( ( position.get().minus( origin ) ).magnitude() - idealDistanceFromCenter );
+        double currentError = Math.abs( ( position.get().minus( origin ) ).getMagnitude() - idealDistanceFromCenter );
         double oldError = Math.abs( oldDistance - idealDistanceFromCenter );
         if ( currentError > oldError ) {
             // our error is getting worse! for now, don't let us slide AWAY from the ideal distance ever
             // set our distance to the old one, so it is easier to process
-            position.set( position.get().normalized().times( oldDistance ).plus( origin ) );
+            position.set( position.get().getNormalizedInstance().times( oldDistance ).plus( origin ) );
         }
 
         /*---------------------------------------------------------------------------*
         * use damped movement towards our ideal distance
         *----------------------------------------------------------------------------*/
-        ImmutableVector3D toCenter = position.get().minus( origin );
+        Vector3D toCenter = position.get().minus( origin );
 
-        double distance = toCenter.magnitude();
-        ImmutableVector3D directionToCenter = toCenter.normalized();
+        double distance = toCenter.getMagnitude();
+        Vector3D directionToCenter = toCenter.getNormalizedInstance();
 
         double offset = idealDistanceFromCenter - distance;
 
@@ -112,7 +112,7 @@ public class PairGroup {
      * @param trueLengthsRatioOverride From 0 to 1. If 0, lone pairs will behave the same as bonds. If 1, lone pair distance will be taken into account
      * @return Repulsion force on this pair group, from the other pair group
      */
-    public ImmutableVector3D getRepulsionImpulse( PairGroup other, double timeElapsed, double trueLengthsRatioOverride ) {
+    public Vector3D getRepulsionImpulse( PairGroup other, double timeElapsed, double trueLengthsRatioOverride ) {
         // only handle the force on this object for now
 
         /*---------------------------------------------------------------------------*
@@ -125,15 +125,15 @@ public class PairGroup {
         *----------------------------------------------------------------------------*/
 
         // adjusted distances from the center atom
-        double adjustedMagnitude = interpolate( BONDED_PAIR_DISTANCE, position.get().magnitude(), trueLengthsRatioOverride );
-        double adjustedOtherMagnitude = interpolate( BONDED_PAIR_DISTANCE, other.position.get().magnitude(), trueLengthsRatioOverride );
+        double adjustedMagnitude = interpolate( BONDED_PAIR_DISTANCE, position.get().getMagnitude(), trueLengthsRatioOverride );
+        double adjustedOtherMagnitude = interpolate( BONDED_PAIR_DISTANCE, other.position.get().getMagnitude(), trueLengthsRatioOverride );
 
         // adjusted positions
-        ImmutableVector3D adjustedPosition = position.get().normalized().times( adjustedMagnitude );
-        ImmutableVector3D adjustedOtherPosition = other.position.get().normalized().times( adjustedOtherMagnitude );
+        Vector3D adjustedPosition = position.get().getNormalizedInstance().times( adjustedMagnitude );
+        Vector3D adjustedOtherPosition = other.position.get().getMagnitude() == 0 ? new Vector3D() : other.position.get().getNormalizedInstance().times( adjustedOtherMagnitude );
 
         // from other => this (adjusted)
-        ImmutableVector3D delta = adjustedPosition.minus( adjustedOtherPosition );
+        Vector3D delta = adjustedPosition.minus( adjustedOtherPosition );
 
         /*---------------------------------------------------------------------------*
         * coulomb repulsion
@@ -142,7 +142,7 @@ public class PairGroup {
         double repulsionFactor = 1;
 
         // mimic Coulomb's Law
-        ImmutableVector3D coulombVelocityDelta = delta.normalized().times( timeElapsed * ELECTRON_PAIR_REPULSION_SCALE * repulsionFactor / ( delta.magnitude() * delta.magnitude() ) );
+        Vector3D coulombVelocityDelta = delta.getNormalizedInstance().times( timeElapsed * ELECTRON_PAIR_REPULSION_SCALE * repulsionFactor / ( delta.getMagnitude() * delta.getMagnitude() ) );
 
         // apply a nonphysical reduction on coulomb's law when the frame-rate is low, so we can avoid oscillation
         double coulombDowngrade = getTimescaleImpulseFactor( timeElapsed ); // TODO: isolate the "standard" tpf?
@@ -158,7 +158,7 @@ public class PairGroup {
         addVelocity( getRepulsionImpulse( other, timeElapsed, trueLengthsRatioOverride ) );
     }
 
-    public void addVelocity( ImmutableVector3D velocityChange ) {
+    public void addVelocity( Vector3D velocityChange ) {
         // don't allow velocity changes if we are dragging it, OR if it is an atom at the origin
         if ( !userControlled.get() && !isCentralAtom() ) {
             velocity.set( velocity.get().plus( velocityChange ) );
@@ -179,9 +179,9 @@ public class PairGroup {
 
     public void stepForward( double timeElapsed ) {
         // velocity changes so that it doesn't point at all towards or away from the origin
-        double velocityMagnitudeOutwards = velocity.get().dot( position.get().normalized() );
-        if ( position.get().magnitude() > 0 ) {
-            velocity.set( velocity.get().minus( position.get().normalized().times( velocityMagnitudeOutwards ) ) ); // subtract the outwards-component out
+        double velocityMagnitudeOutwards = velocity.get().dot( position.get().getNormalizedInstance() );
+        if ( position.get().getMagnitude() > 0 ) {
+            velocity.set( velocity.get().minus( position.get().getNormalizedInstance().times( velocityMagnitudeOutwards ) ) ); // subtract the outwards-component out
         }
 
         // move position forward by scaled velocity
@@ -196,19 +196,19 @@ public class PairGroup {
     /**
      * Returns a unit vector that is the component of "vector" that is perpendicular to the "position" vector
      */
-    public static ImmutableVector3D getTangentDirection( ImmutableVector3D position, ImmutableVector3D vector ) {
-        ImmutableVector3D normalizedPosition = position.normalized();
+    public static Vector3D getTangentDirection( Vector3D position, Vector3D vector ) {
+        Vector3D normalizedPosition = position.getNormalizedInstance();
         return vector.minus( normalizedPosition.times( vector.dot( normalizedPosition ) ) );
     }
 
-    public void dragToPosition( ImmutableVector3D immutableVector3D ) {
-        position.set( immutableVector3D );
+    public void dragToPosition( Vector3D vector3D ) {
+        position.set( vector3D );
 
         // stop any velocity that was moving the pair
-        velocity.set( new ImmutableVector3D() );
+        velocity.set( new Vector3D() );
     }
 
     public boolean isCentralAtom() {
-        return !isLonePair && position.get().equals( new ImmutableVector3D() );
+        return !isLonePair && position.get().equals( new Vector3D() );
     }
 }

@@ -1,5 +1,5 @@
 // Copyright 2002-2012, University of Colorado
-package edu.colorado.phet.common.phetcommon.math;
+package edu.colorado.phet.common.phetcommon.math.vector;
 
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
@@ -19,9 +19,9 @@ import static java.lang.Math.sqrt;
  */
 public abstract class AbstractVector2D implements Serializable {
 
-    public abstract double getY();
-
     public abstract double getX();
+
+    public abstract double getY();
 
     public double getMagnitudeSq() { return getX() * getX() + getY() * getY(); }
 
@@ -63,7 +63,9 @@ public abstract class AbstractVector2D implements Serializable {
 
     public Point2D.Double getDestination( Point2D startPt ) { return new Point2D.Double( startPt.getX() + getX(), startPt.getY() + getY() ); }
 
-    public double getCrossProductScalar( AbstractVector2D v ) { return ( this.getMagnitude() * v.getMagnitude() * Math.sin( this.getAngle() - v.getAngle() ) ); }
+    public double getCrossProductScalar( AbstractVector2D v ) {
+        return ( this.getMagnitude() * v.getMagnitude() * Math.sin( this.getAngle() - v.getAngle() ) );
+    }
 
     public Vector2D getNormalizedInstance() {
         double magnitude = getMagnitude();

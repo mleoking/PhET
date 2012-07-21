@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.view;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector3D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -28,8 +28,8 @@ import com.jme3.scene.shape.Cylinder;
 public class BondNode extends Node {
 
     // position properties
-    private final Property<ImmutableVector3D> a;
-    private final Property<ImmutableVector3D> b;
+    private final Property<Vector3D> a;
+    private final Property<Vector3D> b;
 
     private final int bondOrder;
     private final float bondRadius;
@@ -39,12 +39,12 @@ public class BondNode extends Node {
     private final SingleBondNode[] aBonds;
     private final SingleBondNode[] bBonds;
 
-    public BondNode( final Property<ImmutableVector3D> a, final Property<ImmutableVector3D> b, int bondOrder, float bondRadius,
+    public BondNode( final Property<Vector3D> a, final Property<Vector3D> b, int bondOrder, float bondRadius,
                      Option<Float> maxLength, final JMETab tab, Camera camera ) {
         this( a, b, bondOrder, bondRadius, maxLength, tab, camera, ColorRGBA.White, ColorRGBA.White );
     }
 
-    public BondNode( final Property<ImmutableVector3D> a, final Property<ImmutableVector3D> b, int bondOrder, float bondRadius,
+    public BondNode( final Property<Vector3D> a, final Property<Vector3D> b, int bondOrder, float bondRadius,
                      Option<Float> maxLength, final JMETab tab, Camera camera, ColorRGBA aColor, ColorRGBA bColor ) {
         super( "Bond" );
         this.a = a;

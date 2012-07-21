@@ -4,7 +4,7 @@
 package edu.colorado.phet.semiconductor.macro.energy.bands;
 
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 

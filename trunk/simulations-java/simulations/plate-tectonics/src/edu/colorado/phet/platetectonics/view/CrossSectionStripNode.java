@@ -7,12 +7,12 @@ import java.util.Iterator;
 
 import org.lwjgl.BufferUtils;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.model.event.UpdateListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.lwjglphet.GLOptions;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.lwjglphet.math.LWJGLTransform;
 import edu.colorado.phet.lwjglphet.nodes.GLNode;
 import edu.colorado.phet.platetectonics.model.PlateModel;
@@ -110,9 +110,9 @@ public class CrossSectionStripNode extends GLNode {
     private void addSamplePoint( Sample point ) {
         // calculate point properties
         final Color color = colorMode.get().getMaterial().getColor( point.getDensity(), point.getTemperature(),
-                                                                    new ImmutableVector2F( point.getPosition().x, point.getPosition().y ),
+                                                                    new Vector2F( point.getPosition().x, point.getPosition().y ),
                                                                     strip.alpha.get() );
-        final ImmutableVector3F position = modelViewTransform.transformPosition( PlateModel.convertToRadial( point.getPosition() ) );
+        final Vector3F position = modelViewTransform.transformPosition( PlateModel.convertToRadial( point.getPosition() ) );
 
         // fill the three necessary buffers
         colorBuffer.put( color.getComponents( new float[4] ) );

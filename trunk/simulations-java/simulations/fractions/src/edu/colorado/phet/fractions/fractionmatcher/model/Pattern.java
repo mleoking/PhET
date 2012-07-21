@@ -20,14 +20,14 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.fractions.fractionmatcher.view.FilledPattern;
 import edu.colorado.phet.fractions.fractionmatcher.view.PatternNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.PFrame;
 
-import static edu.colorado.phet.common.phetcommon.math.Vector2D.*;
+import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.*;
 import static edu.colorado.phet.fractions.fractionmatcher.model.Pattern.Direction.*;
 import static fj.data.List.*;
 import static java.lang.Math.*;

@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector3F;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector3F;
 import edu.colorado.phet.platetectonics.model.PlateMotionPlate;
 import edu.colorado.phet.platetectonics.model.Sample;
 import edu.colorado.phet.platetectonics.model.Terrain;
@@ -31,7 +31,7 @@ public abstract class PlateBehavior {
     protected final List<MagmaRegion> magmaBlobs = new ArrayList<MagmaRegion>();
 
     // where the magma blobs are heading towards
-    protected ImmutableVector2F magmaTarget;
+    protected Vector2F magmaTarget;
 
     // visual region where magma is being stored
     protected MagmaRegion magmaChamber;
@@ -118,7 +118,7 @@ public abstract class PlateBehavior {
 
     protected void moveMantleTopTo( float y ) {
         for ( Sample sample : getPlate().getMantle().getTopBoundary().samples ) {
-            sample.shiftWithTexture( new ImmutableVector3F( 0, y - sample.getPosition().y, 0 ), plate.getTextureStrategy() );
+            sample.shiftWithTexture( new Vector3F( 0, y - sample.getPosition().y, 0 ), plate.getTextureStrategy() );
         }
         redistributeMantle();
     }
@@ -159,7 +159,7 @@ public abstract class PlateBehavior {
             float ratio = ( mantleSample.getPosition().x - leftSample.getPosition().x ) / ( rightSample.getPosition().x - leftSample.getPosition().x );
             assert ratio >= 0;
             assert ratio <= 1;
-            mantleSample.setPosition( new ImmutableVector3F( mantleSample.getPosition().x,
+            mantleSample.setPosition( new Vector3F( mantleSample.getPosition().x,
                                                              verticalPadding + leftSample.getPosition().y * ( 1 - ratio ) + rightSample.getPosition().y * ratio,
                                                              mantleSample.getPosition().z ) );
         }
@@ -180,7 +180,7 @@ public abstract class PlateBehavior {
                 // interpolate Y between top and bottom
                 final float newY = topY * ( 1 - ratioToBottom ) + bottomY * ratioToBottom;
 
-                sample.shiftWithTexture( new ImmutableVector3F( 0, sample.getPosition().y - newY, 0 ), plate.getTextureStrategy() );
+                sample.shiftWithTexture( new Vector3F( 0, sample.getPosition().y - newY, 0 ), plate.getTextureStrategy() );
             }
         }
     }
@@ -190,8 +190,8 @@ public abstract class PlateBehavior {
 
     }
 
-    public MagmaRegion addMagma( ImmutableVector2F position, float initialAlpha ) {
-        ImmutableVector2F dirToTarget = magmaTarget.minus( position ).normalized();
+    public MagmaRegion addMagma( Vector2F position, float initialAlpha ) {
+        Vector2F dirToTarget = magmaTarget.minus( position ).getNormalizedInstance();
         float angle = (float) Math.atan2( dirToTarget.y, dirToTarget.x );
 
         MagmaRegion magmaBlob = new MagmaRegion( plate.getTextureStrategy(), 1000, angle, 6, position );
@@ -203,7 +203,7 @@ public abstract class PlateBehavior {
         return magmaBlob;
     }
 
-    public void addMagma( ImmutableVector2F position ) {
+    public void addMagma( Vector2F position ) {
         addMagma( position, 0 );
     }
 
@@ -215,9 +215,9 @@ public abstract class PlateBehavior {
     }
 
     protected void animateMagmaBlob( MagmaRegion blob, float millionsOfYears, boolean reAdd ) {
-        final ImmutableVector2F currentPosition = blob.position.get();
-        final ImmutableVector2F directionToTarget = magmaTarget.minus( currentPosition ).normalized();
-        final ImmutableVector2F newPosition = currentPosition.plus( directionToTarget.times( magmaSpeed * millionsOfYears ) );
+        final Vector2F currentPosition = blob.position.get();
+        final Vector2F directionToTarget = magmaTarget.minus( currentPosition ).getNormalizedInstance();
+        final Vector2F newPosition = currentPosition.plus( directionToTarget.times( magmaSpeed * millionsOfYears ) );
         if ( newPosition.y > magmaTarget.y ) {
             // get rid of blob and create a new one
             assert plate.regions.contains( blob );

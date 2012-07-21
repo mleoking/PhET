@@ -17,7 +17,7 @@ import edu.colorado.phet.sugarandsaltsolutions.common.view.SphericalParticleNode
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.PFrame;
 
-import static edu.colorado.phet.common.phetcommon.math.Vector2D.ZERO;
+import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.ZERO;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createOffsetScaleMapping;
 
 /**

@@ -4,7 +4,7 @@ package edu.colorado.phet.chemicalreactions.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 
 import static edu.colorado.phet.chemicalreactions.model.MoleculeShape.*;
 import static edu.colorado.phet.chemistry.model.Element.*;

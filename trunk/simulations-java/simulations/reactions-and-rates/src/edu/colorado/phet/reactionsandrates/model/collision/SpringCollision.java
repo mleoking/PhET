@@ -11,7 +11,7 @@
 package edu.colorado.phet.reactionsandrates.model.collision;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.reactionsandrates.model.AbstractMolecule;
 import edu.colorado.phet.reactionsandrates.model.CompositeMolecule;
 import edu.colorado.phet.reactionsandrates.model.MRModel;

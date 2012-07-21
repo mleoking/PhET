@@ -7,7 +7,7 @@ import java.util.List;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.chemistry.model.Element;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.SphereBucket;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.umd.cs.piccolo.util.PDimension;

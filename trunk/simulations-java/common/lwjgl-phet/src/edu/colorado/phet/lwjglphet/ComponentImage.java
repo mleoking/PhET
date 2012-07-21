@@ -10,8 +10,6 @@ import java.awt.Point;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
-import java.awt.geom.Point2D;
 
 import javax.swing.JComponent;
 import javax.swing.JRootPane;
@@ -22,8 +20,8 @@ import javax.swing.SwingUtilities;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2F;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.lwjglphet.math.ImmutableVector2F;
 
 // TODO: event handling (listen to events). use similar to HUDNode model
 public class ComponentImage extends TextureImage {
@@ -62,7 +60,7 @@ public class ComponentImage extends TextureImage {
     }
 
     public void handleMouseEvent( int rawX, int rawY ) {
-        ImmutableVector2F swingPoint = localToComponentCoordinates( new ImmutableVector2F( rawX, rawY ) );
+        Vector2F swingPoint = localToComponentCoordinates( new Vector2F( rawX, rawY ) );
         final double x = swingPoint.x;
         final double y = swingPoint.y;
 

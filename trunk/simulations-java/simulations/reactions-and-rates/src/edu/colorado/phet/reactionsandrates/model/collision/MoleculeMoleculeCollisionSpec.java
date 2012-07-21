@@ -12,7 +12,7 @@ package edu.colorado.phet.reactionsandrates.model.collision;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
 import edu.colorado.phet.reactionsandrates.model.CompositeMolecule;
 import edu.colorado.phet.reactionsandrates.model.SimpleMolecule;
 

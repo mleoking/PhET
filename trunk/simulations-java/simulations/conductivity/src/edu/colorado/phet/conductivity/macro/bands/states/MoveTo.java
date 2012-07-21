@@ -2,8 +2,8 @@
 
 package edu.colorado.phet.conductivity.macro.bands.states;
 
-import edu.colorado.phet.common.phetcommon.math.MutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.conductivity.macro.bands.BandParticle;
 import edu.colorado.phet.conductivity.macro.bands.BandParticleState;
 import edu.colorado.phet.conductivity.macro.bands.EnergyCell;

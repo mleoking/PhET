@@ -7,7 +7,7 @@ import java.util.Comparator;
 import java.util.Random;
 import java.util.logging.Logger;
 
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
@@ -18,7 +18,7 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.Particle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.OpenSite;
 
-import static edu.colorado.phet.common.phetcommon.math.Vector2D.ZERO;
+import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.ZERO;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.UpdateStrategy.FREE_PARTICLE_SPEED;
 import static java.util.Collections.sort;
 

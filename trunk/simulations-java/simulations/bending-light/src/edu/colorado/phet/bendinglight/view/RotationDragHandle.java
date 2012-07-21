@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.bendinglight.BendingLightApplication;
 import edu.colorado.phet.bendinglight.model.Laser;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.math.vector.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.And;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
@@ -23,7 +23,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.common.phetcommon.math.Vector2D.createPolar;
+import static edu.colorado.phet.common.phetcommon.math.vector.Vector2D.createPolar;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.flipX;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.flipY;
 import static java.lang.Math.toDegrees;

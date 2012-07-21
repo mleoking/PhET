@@ -6,6 +6,8 @@ import junit.framework.TestCase;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.vector.MutableVector2D;
+
 public class ZMathUtilTester extends TestCase {
     private static final Line2D.Double HORIZONTAL_LINE = new Line2D.Double( 0, 0, 1, 0 );
     private static final Line2D.Double VERTICAL_LINE = new Line2D.Double( 0, 0, 0, 1 );
