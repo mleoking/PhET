@@ -125,8 +125,6 @@ public class SingleContainerNode extends PNode {
     }
 
     public void splitAll() {
-        int numPieces = getPieces().length();
-        double separationBetweenPieces = 4;
         for ( PieceNode child : getPieces() ) {
             parent.parent.splitPieceFromContainer( child );
         }
