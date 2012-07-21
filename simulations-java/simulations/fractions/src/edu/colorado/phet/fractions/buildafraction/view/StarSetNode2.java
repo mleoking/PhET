@@ -43,19 +43,4 @@ public class StarSetNode2 extends PNode {
         final Collection<PImage> collection = pImages.toCollection();
         addChild( new ControlPanelNode( new HBox( 4, collection.toArray( new PNode[collection.size()] ) ), Color.white, new BasicStroke( 1 ), Color.darkGray ) );
     }
-
-    //Find the best score the user attained for a level.
-//    private int getBestScore( final List<GameResult> gameResults ) {
-//        final List<GameResult> scoresForThisLevel = gameResults.filter( new F<GameResult, Boolean>() {
-//            @Override public Boolean f( final GameResult g ) {
-//                return g.level == levelName;
-//            }
-//        } );
-//        return scoresForThisLevel.length() == 0 ? 0 :
-//               scoresForThisLevel.map( new F<GameResult, Integer>() {
-//                   @Override public Integer f( final GameResult g ) {
-//                       return g.score;
-//                   }
-//               } ).maximum( intOrd );
-//    }
 }
