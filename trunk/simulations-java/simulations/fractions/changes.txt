@@ -1,3 +1,4 @@
+Build a Fraction: Initial support for pie shapes
 Fraction Matcher: Switched to use common Vector2D implementation, see #3374
 Fraction Matcher: Moved smiling face down a little bit
 # 1.00.09 (66005) Jul 18, 2012

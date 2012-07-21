@@ -17,6 +17,7 @@ import edu.colorado.phet.common.piccolophet.event.DynamicCursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.fractions.FractionsResources.Images;
+import edu.colorado.phet.fractions.buildafraction.model.pictures.ShapeType;
 import edu.colorado.phet.fractions.common.view.FNode;
 import edu.colorado.phet.fractions.common.view.SpinnerButtonNode;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
@@ -46,6 +47,7 @@ public class ContainerNode extends PNode {
     public final DynamicCursorHandler dynamicCursorHandler;
     public final PictureSceneNode parent;
     public final ContainerContext context;
+    private final ShapeType shapeType;
     private boolean inTargetCell = false;
     public final PNode containerLayer;
     private double initialX;
@@ -56,9 +58,10 @@ public class ContainerNode extends PNode {
     private final SpinnerButtonNode rightSpinner;
     private final IncreaseDecreaseButton increaseDecreaseButton;
 
-    public ContainerNode( PictureSceneNode parent, final ContainerContext context, boolean showIncreaseButton ) {
+    public ContainerNode( PictureSceneNode parent, final ContainerContext context, boolean showIncreaseButton, final ShapeType shapeType ) {
         this.parent = parent;
         this.context = context;
+        this.shapeType = shapeType;
 
         splitButton = new PImage( Images.SPLIT_BLUE );
         addChild( splitButton );
@@ -97,7 +100,7 @@ public class ContainerNode extends PNode {
             }
         };
         containerLayer = new PNode() {{
-            addChild( new SingleContainerNode( ContainerNode.this, selectedPieceSize ) );
+            addChild( new SingleContainerNode( shapeType, ContainerNode.this, selectedPieceSize ) );
         }};
         leftSpinner = new SpinnerButtonNode( spinnerImage( LEFT_BUTTON_UP ), spinnerImage( LEFT_BUTTON_PRESSED ), spinnerImage( LEFT_BUTTON_GRAY ), decrement, selectedPieceSize.greaterThan( 1 ) );
         rightSpinner = new SpinnerButtonNode( spinnerImage( RIGHT_BUTTON_UP ), spinnerImage( RIGHT_BUTTON_PRESSED ), spinnerImage( RIGHT_BUTTON_GRAY ), increment, selectedPieceSize.lessThan( 6 ) );
@@ -119,7 +122,7 @@ public class ContainerNode extends PNode {
     };
 
     private void addContainer() {
-        final SingleContainerNode child = new SingleContainerNode( this, selectedPieceSize );
+        final SingleContainerNode child = new SingleContainerNode( shapeType, this, selectedPieceSize );
         child.setOffset( containerLayer.getFullBounds().getMaxX() + INSET, containerLayer.getFullBounds().getY() );
         child.setTransparency( 0 );
         containerLayer.addChild( child );

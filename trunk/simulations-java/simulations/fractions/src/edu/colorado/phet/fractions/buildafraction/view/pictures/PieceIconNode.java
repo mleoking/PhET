@@ -8,6 +8,9 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
+import static edu.colorado.phet.fractions.buildafraction.view.pictures.SimpleContainerNode.rectangleHeight;
+import static edu.colorado.phet.fractions.buildafraction.view.pictures.SimpleContainerNode.rectangleWidth;
+
 /**
  * Shows an icon on the bucket with a single slice in the context of its container.
  *
@@ -19,11 +22,11 @@ public class PieceIconNode extends PNode {
 
     public PieceIconNode( int divisions ) {
         for ( int i = 0; i < divisions; i++ ) {
-            final double pieceWidth = SimpleContainerNode.width / divisions;
-            addChild( new PhetPPath( new Rectangle2D.Double( pieceWidth * i, 0, pieceWidth, SimpleContainerNode.height ), Color.white, new BasicStroke( 1 ), Color.black ) );
+            final double pieceWidth = rectangleWidth / divisions;
+            addChild( new PhetPPath( new Rectangle2D.Double( pieceWidth * i, 0, pieceWidth, rectangleHeight ), Color.white, new BasicStroke( 1 ), Color.black ) );
         }
         //Thicker outer stroke
-        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, SimpleContainerNode.width, SimpleContainerNode.height ), new BasicStroke( 2 ), Color.black ) );
+        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, rectangleWidth, rectangleHeight ), new BasicStroke( 2 ), Color.black ) );
 
         scale( TINY_SCALE );
     }

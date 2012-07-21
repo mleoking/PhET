@@ -7,6 +7,7 @@ import fj.data.List;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -16,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.simsharing.SimSharingDragHandler;
+import edu.colorado.phet.fractions.buildafraction.model.pictures.ShapeType;
 import edu.colorado.phet.fractions.common.util.FJUtils;
 import edu.colorado.phet.fractions.fractionsintro.intro.model.Fraction;
 import edu.umd.cs.piccolo.PNode;
@@ -33,24 +35,25 @@ public class SingleContainerNode extends PNode {
     public final ContainerNode parent;
     private final PNode dottedLineLayer;
 
-    public SingleContainerNode( final ContainerNode parent, final ObservableProperty<Integer> number ) {
+    public SingleContainerNode( final ShapeType shapeType, final ContainerNode parent, final ObservableProperty<Integer> number ) {
         this.parent = parent;
         dottedLineLayer = new PNode() {{
             number.addObserver( new VoidFunction1<Integer>() {
                 public void apply( final Integer number ) {
                     removeAllChildren();
-                    final double pieceWidth = SimpleContainerNode.width / number;
+                    final double pieceWidth = SimpleContainerNode.rectangleWidth / number;
                     double x = pieceWidth;
                     for ( int i = 0; i < number - 1; i++ ) {
-                        addChild( new PhetPPath( new Line2D.Double( x, 0, x, SimpleContainerNode.height ), new BasicStroke( 1.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 10, 10 }, 0 ), Color.lightGray ) );
+                        addChild( new PhetPPath( new Line2D.Double( x, 0, x, SimpleContainerNode.rectangleHeight ), new BasicStroke( 1.5f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 10, 10 }, 0 ), Color.lightGray ) );
                         x += pieceWidth;
                     }
                 }
             } );
         }};
-        SimpleContainerNode node = new SimpleContainerNode( number.get(), Color.white ) {{
+        SimpleContainerNode node = new SimpleContainerNode( number.get(), Color.white, shapeType ) {{
             //Thicker outer stroke
-            addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, width, height ), Color.white, new BasicStroke( 2 ), Color.black ) );
+            addChild( new PhetPPath( shapeType == ShapeType.HORIZONTAL_BAR ? new Rectangle2D.Double( 0, 0, rectangleWidth, rectangleHeight ) :
+                                     new Ellipse2D.Double( 0, 0, circleDiameter, circleDiameter ), Color.white, new BasicStroke( 2 ), Color.black ) );
 
             addInputEventListener( new SimSharingDragHandler( null, true ) {
                 @Override protected void startDrag( final PInputEvent event ) {
