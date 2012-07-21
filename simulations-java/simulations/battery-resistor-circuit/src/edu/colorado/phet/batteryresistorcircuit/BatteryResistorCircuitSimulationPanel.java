@@ -16,6 +16,7 @@ import edu.colorado.phet.batteryresistorcircuit.collisions.Collider;
 import edu.colorado.phet.batteryresistorcircuit.collisions.DefaultCollisionEvent;
 import edu.colorado.phet.batteryresistorcircuit.common.math.functions.Transform;
 import edu.colorado.phet.batteryresistorcircuit.common.paint.*;
+import edu.colorado.phet.batteryresistorcircuit.common.paint.Painter;
 import edu.colorado.phet.batteryresistorcircuit.common.paint.gauges.GaugeScaling;
 import edu.colorado.phet.batteryresistorcircuit.common.paint.gauges.IGauge;
 import edu.colorado.phet.batteryresistorcircuit.common.paint.gauges.ImageGauge;

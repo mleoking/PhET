@@ -20,6 +20,7 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.balloons.common.paint.*;
+import edu.colorado.phet.balloons.common.paint.Painter;
 import edu.colorado.phet.balloons.common.phys2d.DoublePoint;
 import edu.colorado.phet.balloons.common.phys2d.ParticleLaw;
 import edu.colorado.phet.balloons.common.phys2d.Repaint;
